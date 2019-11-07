@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16122F34BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:39:32 +0100 (CET)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B71F34CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 17:42:22 +0100 (CET)
+Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSkok-0004Ti-FT
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42345)
+	id 1iSkrU-0008TW-I1
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 11:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSkmc-0002bk-TT
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:20 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iSkmh-0002ix-L1
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSkmb-0005Ub-PY
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36964
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iSkmf-0005X7-BA
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:23 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47297
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSkmb-0005U6-MQ
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:17 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSkmf-0005Wp-7M
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 11:37:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573144637;
+ s=mimecast20190719; t=1573144640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7dRBzfBQxUAhYJYoXEx7iWdmwjUTQb38o9BmlDFqgLQ=;
- b=OjZWw8WVflzRWVXoj6y/tW86jrxF+b9nTtwc3h/cNWVZirf8VAJA8bJFCd0RweT5TTMqL0
- EKr/5RnYUN+gAaUyM852THP4sNqjRq7i1Z4JQxboXGiZGBr8atmUuhbDwe8y92FjZ5Pqbr
- 2MKxIGgAJN2PBuaRlHF6epXUrXRKSQ0=
+ bh=WMQpPz7acIMRk/+Qe+JYFUkRhwIJ+diAC6Lf8HqkrxM=;
+ b=AyyU1kNRd/Kaudi/XU5vYhXkio85z1AZZs/T+467vw29Hu2xMnLGgpTDu0gOkLOZ6w5HLB
+ AepCWgDLO7vpnr1s5LtveKO5TrmYsiDQVYBqCbSDJaaLapyne/OOOS2dqxpdQKRI9z85G4
+ 8emZDBtEoaE0q+aSqjN2t9q1iIJrh2s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-83cRNAtWPO-evYCTBeNbgQ-1; Thu, 07 Nov 2019 11:37:15 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-97-vrkpPZSBMm-aV_fsHwCP-A-1; Thu, 07 Nov 2019 11:37:17 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A9BE1005500;
- Thu,  7 Nov 2019 16:37:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAE0B1800D6B;
+ Thu,  7 Nov 2019 16:37:16 +0000 (UTC)
 Received: from localhost (ovpn-117-149.ams2.redhat.com [10.36.117.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED8D3608B2;
- Thu,  7 Nov 2019 16:37:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1669B60BFB;
+ Thu,  7 Nov 2019 16:37:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 02/22] iotests/qcow2.py: Add dump-header-exts
-Date: Thu,  7 Nov 2019 17:36:48 +0100
-Message-Id: <20191107163708.833192-3-mreitz@redhat.com>
+Subject: [PATCH v3 03/22] iotests/qcow2.py: Split feature fields into bits
+Date: Thu,  7 Nov 2019 17:36:49 +0100
+Message-Id: <20191107163708.833192-4-mreitz@redhat.com>
 In-Reply-To: <20191107163708.833192-1-mreitz@redhat.com>
 References: <20191107163708.833192-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 83cRNAtWPO-evYCTBeNbgQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: vrkpPZSBMm-aV_fsHwCP-A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +75,539 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful for tests that want to whitelist fields from dump-header
-(with grep) but still print all header extensions.
+Print the feature fields as a set of bits so that filtering is easier.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- tests/qemu-iotests/qcow2.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/qemu-iotests/031.out  | 36 +++++++++----------
+ tests/qemu-iotests/036.out  | 18 +++++-----
+ tests/qemu-iotests/039.out  | 22 ++++++------
+ tests/qemu-iotests/060.out  | 20 +++++------
+ tests/qemu-iotests/061.out  | 72 ++++++++++++++++++-------------------
+ tests/qemu-iotests/137.out  |  2 +-
+ tests/qemu-iotests/qcow2.py | 18 +++++++---
+ 7 files changed, 99 insertions(+), 89 deletions(-)
 
+diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
+index 68a74d03b9..d535e407bc 100644
+--- a/tests/qemu-iotests/031.out
++++ b/tests/qemu-iotests/031.out
+@@ -18,9 +18,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -46,9 +46,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -74,9 +74,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -109,9 +109,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -142,9 +142,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -175,9 +175,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
+index e489b44386..15229a9604 100644
+--- a/tests/qemu-iotests/036.out
++++ b/tests/qemu-iotests/036.out
+@@ -16,9 +16,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x8000000000000000
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     [63]
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -50,9 +50,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x8000000000000000
++incompatible_features     []
++compatible_features       []
++autoclear_features        [63]
+ refcount_order            4
+ header_length             104
+=20
+@@ -78,9 +78,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+diff --git a/tests/qemu-iotests/039.out b/tests/qemu-iotests/039.out
+index 2e356d51b6..bdafa3ace3 100644
+--- a/tests/qemu-iotests/039.out
++++ b/tests/qemu-iotests/039.out
+@@ -4,7 +4,7 @@ QA output created by 039
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-incompatible_features     0x0
++incompatible_features     []
+ No errors were found on the image.
+=20
+ =3D=3D Creating a dirty image file =3D=3D
+@@ -12,7 +12,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D13421=
+7728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x1
++incompatible_features     [0]
+ ERROR cluster 5 refcount=3D0 reference=3D1
+ ERROR OFLAG_COPIED data cluster: l2_entry=3D8000000000050000 refcount=3D0
+=20
+@@ -22,7 +22,7 @@ Data may be corrupted, or further writes to the image may=
+ corrupt it.
+ =3D=3D Read-only access must still work =3D=3D
+ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-incompatible_features     0x1
++incompatible_features     [0]
+=20
+ =3D=3D Repairing the image file must succeed =3D=3D
+ ERROR cluster 5 refcount=3D0 reference=3D1
+@@ -36,7 +36,7 @@ The following inconsistencies were found and repaired:
+=20
+ Double checking the fixed image now...
+ No errors were found on the image.
+-incompatible_features     0x0
++incompatible_features     []
+=20
+ =3D=3D Data should still be accessible after repair =3D=3D
+ read 512/512 bytes at offset 0
+@@ -47,21 +47,21 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134=
+217728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x1
++incompatible_features     [0]
+ ERROR cluster 5 refcount=3D0 reference=3D1
+ Rebuilding refcount structure
+ Repairing cluster 1 refcount=3D1 reference=3D0
+ Repairing cluster 2 refcount=3D1 reference=3D0
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-incompatible_features     0x0
++incompatible_features     []
+=20
+ =3D=3D Creating an image file with lazy_refcounts=3Doff =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x0
++incompatible_features     []
+ No errors were found on the image.
+=20
+ =3D=3D Committing to a backing file with lazy_refcounts=3Don =3D=3D
+@@ -70,8 +70,8 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D13421=
+7728 backing_file=3DTEST_DIR/
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ Image committed.
+-incompatible_features     0x0
+-incompatible_features     0x0
++incompatible_features     []
++incompatible_features     []
+ No errors were found on the image.
+ No errors were found on the image.
+=20
+@@ -80,7 +80,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D13421=
+7728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x1
++incompatible_features     [0]
+ ERROR cluster 5 refcount=3D0 reference=3D1
+ ERROR OFLAG_COPIED data cluster: l2_entry=3D8000000000050000 refcount=3D0
+=20
+@@ -90,6 +90,6 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D13421=
+7728
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x0
++incompatible_features     []
+ No errors were found on the image.
+ *** done
+diff --git a/tests/qemu-iotests/060.out b/tests/qemu-iotests/060.out
+index 0f6b0658a1..d27692a33c 100644
+--- a/tests/qemu-iotests/060.out
++++ b/tests/qemu-iotests/060.out
+@@ -7,10 +7,10 @@ ERROR cluster 3 refcount=3D1 reference=3D3
+=20
+ 1 errors were found on the image.
+ Data may be corrupted, or further writes to the image may corrupt it.
+-incompatible_features     0x0
++incompatible_features     []
+ qcow2: Marking image as corrupt: Preventing invalid write on metadata (ove=
+rlaps with active L1 table); further corruption events will be suppressed
+ write failed: Input/output error
+-incompatible_features     0x2
++incompatible_features     [1]
+ image: TEST_DIR/t.IMGFMT
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+@@ -33,10 +33,10 @@ ERROR cluster 2 refcount=3D1 reference=3D2
+=20
+ 2 errors were found on the image.
+ Data may be corrupted, or further writes to the image may corrupt it.
+-incompatible_features     0x0
++incompatible_features     []
+ qcow2: Marking image as corrupt: Preventing invalid write on metadata (ove=
+rlaps with refcount block); further corruption events will be suppressed
+ write failed: Input/output error
+-incompatible_features     0x2
++incompatible_features     [1]
+ ERROR refcount block 0 refcount=3D2
+ ERROR cluster 2 refcount=3D1 reference=3D2
+ Rebuilding refcount structure
+@@ -49,10 +49,10 @@ The following inconsistencies were found and repaired:
+=20
+ Double checking the fixed image now...
+ No errors were found on the image.
+-incompatible_features     0x0
++incompatible_features     []
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-incompatible_features     0x0
++incompatible_features     []
+=20
+ =3D=3D=3D Testing cluster data reference into inactive L2 table =3D=3D=3D
+=20
+@@ -69,10 +69,10 @@ Data may be corrupted, or further writes to the image m=
+ay corrupt it.
+=20
+ 1 leaked clusters were found on the image.
+ This means waste of disk space, but no harm to data.
+-incompatible_features     0x0
++incompatible_features     []
+ qcow2: Marking image as corrupt: Preventing invalid write on metadata (ove=
+rlaps with inactive L2 table); further corruption events will be suppressed
+ write failed: Input/output error
+-incompatible_features     0x2
++incompatible_features     [1]
+ ERROR cluster 4 refcount=3D1 reference=3D2
+ Leaked cluster 9 refcount=3D1 reference=3D0
+ Repairing cluster 4 refcount=3D1 reference=3D2
+@@ -85,10 +85,10 @@ The following inconsistencies were found and repaired:
+=20
+ Double checking the fixed image now...
+ No errors were found on the image.
+-incompatible_features     0x0
++incompatible_features     []
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-incompatible_features     0x0
++incompatible_features     []
+ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ No errors were found on the image.
+diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+index d6a7c2af95..8b3091a412 100644
+--- a/tests/qemu-iotests/061.out
++++ b/tests/qemu-iotests/061.out
+@@ -18,9 +18,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x1
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       [0]
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -42,9 +42,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -76,9 +76,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x1
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       [0]
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -100,9 +100,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -132,9 +132,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x1
+-compatible_features       0x1
+-autoclear_features        0x0
++incompatible_features     [0]
++compatible_features       [0]
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -161,9 +161,9 @@ refcount_table_offset     0x80000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -187,9 +187,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x40000000000
+-autoclear_features        0x40000000000
++incompatible_features     []
++compatible_features       [42]
++autoclear_features        [42]
+ refcount_order            4
+ header_length             104
+=20
+@@ -211,9 +211,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -237,9 +237,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             72
+=20
+@@ -256,9 +256,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x1
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       [0]
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -290,9 +290,9 @@ refcount_table_offset     0x10000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x1
+-compatible_features       0x1
+-autoclear_features        0x0
++incompatible_features     [0]
++compatible_features       [0]
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+@@ -319,9 +319,9 @@ refcount_table_offset     0x80000
+ refcount_table_clusters   1
+ nb_snapshots              0
+ snapshot_offset           0x0
+-incompatible_features     0x0
+-compatible_features       0x0
+-autoclear_features        0x0
++incompatible_features     []
++compatible_features       []
++autoclear_features        []
+ refcount_order            4
+ header_length             104
+=20
+diff --git a/tests/qemu-iotests/137.out b/tests/qemu-iotests/137.out
+index 1c6569eb2c..bd4523a853 100644
+--- a/tests/qemu-iotests/137.out
++++ b/tests/qemu-iotests/137.out
+@@ -36,7 +36,7 @@ qemu-io: Unsupported value 'blubb' for qcow2 option 'over=
+lap-check'. Allowed are
+ wrote 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ ./common.rc: Killed                  ( VALGRIND_QEMU=3D"${VALGRIND_QEMU_IO=
+}" _qemu_proc_exec "${VALGRIND_LOGFILE}" "$QEMU_IO_PROG" $QEMU_IO_ARGS "$@"=
+ )
+-incompatible_features     0x0
++incompatible_features     []
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-index b392972d1b..d813b4fc81 100755
+index d813b4fc81..91e4420b9f 100755
 --- a/tests/qemu-iotests/qcow2.py
 +++ b/tests/qemu-iotests/qcow2.py
-@@ -154,6 +154,10 @@ def cmd_dump_header(fd):
-     h.dump()
-     h.dump_extensions()
+@@ -42,9 +42,9 @@ class QcowHeader:
+         [ uint64_t, '%#x',  'snapshot_offset' ],
 =20
-+def cmd_dump_header_exts(fd):
-+    h =3D QcowHeader(fd)
-+    h.dump_extensions()
+         # Version 3 header fields
+-        [ uint64_t, '%#x',  'incompatible_features' ],
+-        [ uint64_t, '%#x',  'compatible_features' ],
+-        [ uint64_t, '%#x',  'autoclear_features' ],
++        [ uint64_t, 'mask', 'incompatible_features' ],
++        [ uint64_t, 'mask', 'compatible_features' ],
++        [ uint64_t, 'mask', 'autoclear_features' ],
+         [ uint32_t, '%d',   'refcount_order' ],
+         [ uint32_t, '%d',   'header_length' ],
+     ];
+@@ -130,7 +130,17 @@ class QcowHeader:
+=20
+     def dump(self):
+         for f in QcowHeader.fields:
+-            print("%-25s" % f[2], f[1] % self.__dict__[f[2]])
++            value =3D self.__dict__[f[2]]
++            if f[1] =3D=3D 'mask':
++                bits =3D []
++                for bit in range(64):
++                    if value & (1 << bit):
++                        bits.append(bit)
++                value_str =3D str(bits)
++            else:
++                value_str =3D f[1] % value
 +
- def cmd_set_header(fd, name, value):
-     try:
-         value =3D int(value, 0)
-@@ -230,6 +234,7 @@ def cmd_set_feature_bit(fd, group, bit):
++            print("%-25s" % f[2], value_str)
+         print("")
 =20
- cmds =3D [
-     [ 'dump-header',          cmd_dump_header,          0, 'Dump image hea=
-der and header extensions' ],
-+    [ 'dump-header-exts',     cmd_dump_header_exts,     0, 'Dump image hea=
-der extensions' ],
-     [ 'set-header',           cmd_set_header,           2, 'Set a field in=
- the header'],
-     [ 'add-header-ext',       cmd_add_header_ext,       2, 'Add a header e=
-xtension' ],
-     [ 'add-header-ext-stdio', cmd_add_header_ext_stdio, 1, 'Add a header e=
-xtension, data from stdin' ],
+     def dump_extensions(self):
 --=20
 2.23.0
 
