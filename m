@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95BE3F319E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:37:01 +0100 (CET)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CD4F31AC
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:39:24 +0100 (CET)
+Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSiuB-0004Rv-OH
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48794)
+	id 1iSiwU-0007ll-TP
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:39:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iSirG-0002XR-K6
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:33:59 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iSirN-0002hT-Ca
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iSirF-0004Z0-52
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:33:57 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:58400)
+ (envelope-from <mreitz@redhat.com>) id 1iSirM-0004bj-4v
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58918
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSirE-0004Xa-Vl
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:33:57 -0500
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSirM-0004bU-1A
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573137243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BU5CTWObR/gc1QtVCNsoEt3My/ik3tUTSZr9Wb8faKA=;
+ b=GsZEWlB0cu/AnaVTPb0Y3YvPmCFNFxRdOfketay4uiXbtrVYhVbmVMyyAlToH/jTPYIA3A
+ vut8zGTIWb6IIxD9l7V8GxEOim0QyeKZNWO0Ktv6EpotMYl91v0ZDvcWitglwVyU2A3Bfd
+ FEfVLphj8FA22Hb2iDvopI8P2Teo5u4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-5SOoTcD0Pg2JpSwwzghKjQ-1; Thu, 07 Nov 2019 09:34:00 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7C82D83F51
- for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 14:33:54 +0000 (UTC)
-Received: by mail-qt1-f197.google.com with SMTP id n34so2798691qta.12
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 06:33:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9HSE5ZuAXC5YiDXu6y1UbCk6sQ/94YLKVuqTAkvyQ6c=;
- b=T8x0+sQbm7tmfRvZzEqAuixpuF4RsRvWFJPpKIjekIUDkTmUVEct3lDqvPk1ycOv82
- /4GccjcF8ICHI9Er+CC6uJkffvRAqZMVKEVtX/uP9Ag6xYP7j+7Qba1mr/pop3TtyMpw
- 77cMnvvTytII4s9vvEKFkO3keSJzO+522KBK4zjo0GEE4KEqxZh5DMndirSYrkmYT0Et
- OVYtge8OzE2ijX6hLaeWMd+QN9pTgJLDmywZMRZ10nq0w/BpV1tU9wv0qUdIIseomEdv
- Iky9hXQt1Q/WyS2v7uVDKav9B3kLPuElnK6XHeZAy5QJH8gn2Xsgqur35pBwfsN89ARf
- U5Rw==
-X-Gm-Message-State: APjAAAXoI64SryniL+/Y5Xc5uaVjAcNtnaFM8CFi3Rktybi6boJUerL2
- 4/ZKJXzwf+HfTo9M2l7AbXRW07C3gs7gN1fgczDrHHtIOwh0Nip1x23yB5PZ5/tsbvfbG7+i4RJ
- 1XhRwlW2dd32FzpM=
-X-Received: by 2002:a37:6891:: with SMTP id d139mr3030813qkc.213.1573137233717; 
- Thu, 07 Nov 2019 06:33:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzfsw04CApFbnOvlS4xHZ5T/zK3j3K/3BzYoxg9I5FboHAT8hcghTuZUER2XKRDFEqdlkFPRA==
-X-Received: by 2002:a37:6891:: with SMTP id d139mr3030766qkc.213.1573137233425; 
- Thu, 07 Nov 2019 06:33:53 -0800 (PST)
-Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
- by smtp.gmail.com with ESMTPSA id t127sm1293370qkf.43.2019.11.07.06.33.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 06:33:52 -0800 (PST)
-Date: Thu, 7 Nov 2019 09:33:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: [RFC v4 PATCH 49/49] multi-process: add configure and usage
- information
-Message-ID: <20191107093059-mutt-send-email-mst@kernel.org>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <2736d12f29d2c9051966864b5d865ab0f392b8d1.1571905346.git.jag.raman@oracle.com>
- <20191107140220.GI365089@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47751800D6B;
+ Thu,  7 Nov 2019 14:33:58 +0000 (UTC)
+Received: from localhost (ovpn-117-149.ams2.redhat.com [10.36.117.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83C2660BFB;
+ Thu,  7 Nov 2019 14:33:57 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/3] Block patches for 4.2.0-rc0/4.1.1
+Date: Thu,  7 Nov 2019 15:33:53 +0100
+Message-Id: <20191107143356.579334-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191107140220.GI365089@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 5SOoTcD0Pg2JpSwwzghKjQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,31 +67,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
- qemu-devel@nongnu.org, kraxel@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 07, 2019 at 03:02:20PM +0100, Stefan Hajnoczi wrote:
-> This documentation suggests that QEMU spawns the remote processes.  How
-> do this work with unprivileged QEMU?  Is there an additional step where
-> QEMU drops privileges after having spawned remote processes?
-> 
-> Remote processes require accesses to resources that the main QEMU
-> process does not need access to, so I'm wondering how this process model
-> ensures that each process has only the privileges it needs.
+The following changes since commit d0f90e1423b4f412adc620eee93e8bfef8af4117=
+:
 
-I guess you have something like capabilities in mind?
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191106-pull-req=
+uest' into staging (2019-11-07 09:21:52 +0000)
 
-When using something like selinux, priviledges are per binary
-so the order of startup doesn't matter.
+are available in the Git repository at:
 
--- 
-MST
+  https://github.com/XanClic/qemu.git tags/pull-block-2019-11-07
+
+for you to fetch changes up to b7cd2c11f76d27930f53d3cf26d7b695c78d613b:
+
+  iotests: Add test for 4G+ compressed qcow2 write (2019-11-07 14:37:46 +01=
+00)
+
+----------------------------------------------------------------
+Block patches for 4.2.0-rc0/4.1.1:
+- Fix writing to compressed qcow2 images > 4 GB
+- Fix size sanity check for qcow2 bitmaps
+
+----------------------------------------------------------------
+Max Reitz (2):
+  qcow2: Fix QCOW2_COMPRESSED_SECTOR_MASK
+  iotests: Add test for 4G+ compressed qcow2 write
+
+Tuguoyi (1):
+  qcow2-bitmap: Fix uint64_t left-shift overflow
+
+ block/qcow2-bitmap.c       | 14 +++++--
+ block/qcow2.h              |  2 +-
+ tests/qemu-iotests/272     | 79 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/272.out | 10 +++++
+ tests/qemu-iotests/group   |  1 +
+ 5 files changed, 102 insertions(+), 4 deletions(-)
+ create mode 100755 tests/qemu-iotests/272
+ create mode 100644 tests/qemu-iotests/272.out
+
+--=20
+2.23.0
+
 
