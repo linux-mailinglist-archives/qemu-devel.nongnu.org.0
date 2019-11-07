@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E0CF2A1A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 10:05:26 +0100 (CET)
-Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84B5F2A4B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 10:11:34 +0100 (CET)
+Received: from localhost ([::1]:40012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSdjK-0008Fp-0K
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 04:05:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53905)
+	id 1iSdpE-0003kT-UF
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 04:11:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSddd-0005qZ-7q
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:59:34 -0500
+ (envelope-from <mst@redhat.com>) id 1iSdho-0008Uk-7J
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:03:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSddb-00021s-5P
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:59:32 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58138
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iSdhi-0002KM-Tz
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:03:48 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:50980)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSddb-0001jI-1J
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 03:59:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573117168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qte9HWBii3JLBhBSPQn/ui821bxtUgrJgSt8lfToRW4=;
- b=Ckc7fTx8pJqgxMgAy1qoiQJt+FozPnDEWSLVRc5nEMaAX4Q4/T4taW0MdzXtW98U0VlPSE
- A4fUwFuPywjSLgJDMK/3toGdRkHRmMt7lC8liMUcNK7SJl37BDiIHEicDXwhVkFruCXXiZ
- I9oqNZB76uTAWDPFd793t1YW0kupMoo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-ud_UvMjyNFSFH5N-HPmpkA-1; Thu, 07 Nov 2019 03:59:24 -0500
-X-MC-Unique: ud_UvMjyNFSFH5N-HPmpkA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iSdhh-00020I-2A
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 04:03:45 -0500
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A50C88017E0;
- Thu,  7 Nov 2019 08:59:23 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-202.ams2.redhat.com
- [10.36.117.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B84C15C290;
- Thu,  7 Nov 2019 08:59:22 +0000 (UTC)
-Subject: Re: [PATCH v2 03/21] iotests: Add _filter_json_filename
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org
-References: <20191015142729.18123-1-mreitz@redhat.com>
- <20191015142729.18123-4-mreitz@redhat.com>
- <f3822494defad291fa70000487c339f3f73317ca.camel@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5defb1b6-7e1d-8be1-ec4c-ed8378d3ed9b@redhat.com>
-Date: Thu, 7 Nov 2019 09:59:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mx1.redhat.com (Postfix) with ESMTPS id AA0FFC05683F
+ for <qemu-devel@nongnu.org>; Thu,  7 Nov 2019 09:03:43 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id a186so1454903qkb.18
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 01:03:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ylRFjLVDCY8fqTOJCIQ7bWHs0QLr1Wa84LlSoCgYUjE=;
+ b=Ehbv3KoFnOehNxUfH3D+VADDxsUEg6ryFaj2kHRHctrzSTDfg9Zvu/hqVCUt/Xv7kF
+ R3lEEdFV8he9TDIOEACrrtpBXkXTmSj4aKt3abaM2xR1WTGhXiC+ZKOGDBqnqK9h1N7u
+ 5uBisi2y9j4cL0FI69JKoj9wZY+Wk5WOunHJhs2tqitiBF0fi2LMtXh9zWv/IllqahNQ
+ OtOKTgLmV09Y6+U+B0DFdO15F+Ui++4WilCxWaegOcoD4InfS8DMirmXJEK5qMCCx27U
+ sKMMYo41QQVkLqlOhk8QdX+xYX8keIgDV6S6XB8oXwOHE6jjoQQZH2+Z9/7eALw2bCf4
+ V8pw==
+X-Gm-Message-State: APjAAAXMpH+wMFmEHCGO+FNnVzNsdKt9RIPZ4s5iYrw1jie8Z2CQ4aX6
+ h7mVcTq4/5XX/g3UAIHKrhz+xkkSnmf4dXR5HJF32HPyXOpAFvZYkQd4JCSX7XyzQNtp/dWVLte
+ FGHcuN8Omf8nn9Dg=
+X-Received: by 2002:a37:4e44:: with SMTP id c65mr1731634qkb.357.1573117422864; 
+ Thu, 07 Nov 2019 01:03:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzIspZ6NQJKN8TvrSZBar1JTbI9yZkqMPuSkHFE1nc9lzYmsAujHYr0hCo1hjqITY/Y6AKR3A==
+X-Received: by 2002:a37:4e44:: with SMTP id c65mr1731605qkb.357.1573117422586; 
+ Thu, 07 Nov 2019 01:03:42 -0800 (PST)
+Received: from redhat.com (bzq-79-178-12-128.red.bezeqint.net. [79.178.12.128])
+ by smtp.gmail.com with ESMTPSA id m25sm1016606qtc.0.2019.11.07.01.03.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Nov 2019 01:03:41 -0800 (PST)
+Date: Thu, 7 Nov 2019 04:03:36 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v15 00/12] Build ACPI Heterogeneous Memory Attribute
+ Table (HMAT)
+Message-ID: <20191107040314-mutt-send-email-mst@kernel.org>
+References: <20191107074511.14304-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <f3822494defad291fa70000487c339f3f73317ca.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="41VfJPPorrKeBgl2EnNhVCVjW0gDiskK1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191107074511.14304-1-tao3.xu@intel.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,72 +76,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, jingqi.liu@intel.com, fan.du@intel.com,
+ mdroth@linux.vnet.ibm.com, armbru@redhat.com, jonathan.cameron@huawei.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---41VfJPPorrKeBgl2EnNhVCVjW0gDiskK1
-Content-Type: multipart/mixed; boundary="r869Y1L9hg3Vww1gAXPGZkeicmGczbwjn"
-
---r869Y1L9hg3Vww1gAXPGZkeicmGczbwjn
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.11.19 16:44, Maxim Levitsky wrote:
-> On Tue, 2019-10-15 at 16:27 +0200, Max Reitz wrote:
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>  tests/qemu-iotests/common.filter | 24 ++++++++++++++++++++++++
->>  1 file changed, 24 insertions(+)
->>
->> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/commo=
-n.filter
->> index 9f418b4881..63bc6f6f26 100644
->> --- a/tests/qemu-iotests/common.filter
->> +++ b/tests/qemu-iotests/common.filter
->> @@ -227,5 +227,29 @@ _filter_qmp_empty_return()
->>      grep -v '{"return": {}}'
->>  }
->> =20
->> +_filter_json_filename()
->> +{
->> +    $PYTHON -c 'import sys
->> +result, *fnames =3D sys.stdin.read().split("json:{")
->=20
-> Very minor nitpick, maybe I would give 'fnames' a more generic name,
-> since its is just result of a split, thus not really a list of filenames.
-> Feel free to ignore that though.
-
-Hm...  It is a list of filenames, namely of all nested json:{}
-filenames.  I could call it fname_split, but I actually think fnames is
-not too wrong.
-
-In any case, thanks for reviewing again!
-
-Max
+On Thu, Nov 07, 2019 at 03:44:59PM +0800, Tao Xu wrote:
+> This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+> according to the command line. The ACPI HMAT describes the memory attributes,
+> such as memory side cache attributes and bandwidth and latency details,
+> related to the Memory Proximity Domain.
+> The software is expected to use HMAT information as hint for optimization.
+> 
+> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+> the platform's HMAT tables.
 
 
---r869Y1L9hg3Vww1gAXPGZkeicmGczbwjn--
+ok this looks good to me.
+Given we are in freeze, please ping me after the release to merge this.
 
---41VfJPPorrKeBgl2EnNhVCVjW0gDiskK1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3D3OgACgkQ9AfbAGHV
-z0CT+Af/RZS6kgeOAWMwXqm/nOXQgApzc5MATkp/Lvx2aGZTuDuHOHDQwI1uTMx+
-oUzd1twFtFYMOokFRCRPxrjwfENTtr6OecYQyD+KU+QkA8yTIN5k2muv1/B63Bkd
-ADMdaeq2YkPHwsC+FnL42vPeGEYlrfHQY+azmi976R8tSqdOi1nNZNhF1BA6hvmB
-EAfv4WkBRxKRf3TP2SKi/8Ua3YyztpMGuQ9+hG9IoS/xTWQ5f4g4pJh3mx6Y0tPV
-KPJ7S2GeC1JUtGgmSIg1RP8s6WqDfkg+ejtsq5KrW9ixgKrdG3u6qymr88iP3oeP
-XVlEwbfde2XYwXJHxB2gtvsq1alWWg==
-=ekBz
------END PGP SIGNATURE-----
-
---41VfJPPorrKeBgl2EnNhVCVjW0gDiskK1--
-
+> The V14 patches link:
+> https://patchwork.kernel.org/cover/11214887/
+> 
+> Changelog:
+> v15:
+>     - Add a new patch to refactor do_strtosz() (Eduardo)
+>     - Make tests without breaking CI (Michael)
+> v14:
+>     - Reuse the codes of do_strtosz to build qemu_strtotime_ns
+>       (Eduardo)
+>     - Squash patch v13 01/12 and 02/12 together (Daniel and Eduardo)
+>     - Drop time unit picosecond (Eric)
+>     - Use qemu ctz64 and clz64 instead of builtin function
+> v13:
+>     - Modify some text description
+>     - Drop "initiator_valid" field in struct NodeInfo
+>     - Reuse Garray to store the raw bandwidth and bandwidth data
+>     - Calculate common base unit using range bitmap
+>     - Add a patch to alculate hmat latency and bandwidth entry list
+>     - Drop the total_levels option and use readable cache size
+>     - Remove the unnecessary head file
+>     - Use decimal notation with appropriate suffix for cache size
+> v12:
+>     - Fix a bug that a memory-only node without initiator setting
+>       doesn't report error. (reported by Danmei Wei)
+>     - Fix a bug that if HMAT is enabled and without hmat-lb setting,
+>       QEMU will crash. (reported by Danmei Wei)
+> v11:
+>     - Move numa option patches forward.
+>     - Add num_initiator in Numa_state to record the number of
+>     initiators.
+>     - Simplify struct HMAT_LB_Info, use uint64_t array to store data.
+>     - Drop hmat_get_base().
+>     - Calculate base in build_hmat_lb().
+> v10:
+>     - Add qemu_strtotime_ps() to convert strings with time suffixes
+>     to numbers, and add some tests for it.
+>     - Add qapi buildin type time, and add some tests for it.
+>     - Add machine oprion properties "-machine hmat=on|off" for enabling
+>     or disabling HMAT in QEMU.
+> 
+> Liu Jingqi (5):
+>   numa: Extend CLI to provide memory latency and bandwidth information
+>   numa: Extend CLI to provide memory side cache information
+>   hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+>   hmat acpi: Build System Locality Latency and Bandwidth Information
+>     Structure(s)
+>   hmat acpi: Build Memory Side Cache Information Structure(s)
+> 
+> Tao Xu (7):
+>   util/cutils: refactor do_strtosz() to support suffixes list
+>   util/cutils: Add qemu_strtotime_ns()
+>   qapi: Add builtin type time
+>   tests: Add test for QAPI builtin type time
+>   numa: Extend CLI to provide initiator information for numa nodes
+>   numa: Calculate hmat latency and bandwidth entry list
+>   tests/bios-tables-test: add test cases for ACPI HMAT
+> 
+>  hw/acpi/Kconfig                       |   7 +-
+>  hw/acpi/Makefile.objs                 |   1 +
+>  hw/acpi/hmat.c                        | 263 ++++++++++++++++++++++++
+>  hw/acpi/hmat.h                        |  42 ++++
+>  hw/core/machine.c                     |  64 ++++++
+>  hw/core/numa.c                        | 284 +++++++++++++++++++++++++-
+>  hw/i386/acpi-build.c                  |   5 +
+>  include/qapi/visitor-impl.h           |   4 +
+>  include/qapi/visitor.h                |   8 +
+>  include/qemu/cutils.h                 |   1 +
+>  include/sysemu/numa.h                 | 104 ++++++++++
+>  qapi/machine.json                     | 178 +++++++++++++++-
+>  qapi/opts-visitor.c                   |  22 ++
+>  qapi/qapi-visit-core.c                |  12 ++
+>  qapi/qobject-input-visitor.c          |  18 ++
+>  qapi/trace-events                     |   1 +
+>  qemu-options.hx                       |  96 ++++++++-
+>  scripts/qapi/schema.py                |   1 +
+>  tests/bios-tables-test-allowed-diff.h |   8 +
+>  tests/bios-tables-test.c              |  44 ++++
+>  tests/data/acpi/pc/APIC.acpihmat      |   0
+>  tests/data/acpi/pc/DSDT.acpihmat      |   0
+>  tests/data/acpi/pc/HMAT.acpihmat      |   0
+>  tests/data/acpi/pc/SRAT.acpihmat      |   0
+>  tests/data/acpi/q35/APIC.acpihmat     |   0
+>  tests/data/acpi/q35/DSDT.acpihmat     |   0
+>  tests/data/acpi/q35/HMAT.acpihmat     |   0
+>  tests/data/acpi/q35/SRAT.acpihmat     |   0
+>  tests/test-cutils.c                   | 204 ++++++++++++++++++
+>  tests/test-keyval.c                   | 122 +++++++++++
+>  tests/test-qobject-input-visitor.c    |  29 +++
+>  util/cutils.c                         |  86 +++++---
+>  32 files changed, 1562 insertions(+), 42 deletions(-)
+>  create mode 100644 hw/acpi/hmat.c
+>  create mode 100644 hw/acpi/hmat.h
+>  create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+>  create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+>  create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+>  create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+>  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+> 
+> -- 
+> 2.20.1
 
