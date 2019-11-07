@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6594EF31B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:43:04 +0100 (CET)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CE5F31C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:51:28 +0100 (CET)
+Received: from localhost ([::1]:43704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSj02-0004SJ-24
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:43:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48966)
+	id 1iSj8A-0003YY-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:51:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSirZ-0002tT-IM
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:21 -0500
+ (envelope-from <berrange@redhat.com>) id 1iSiwn-00010W-OJ
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSirX-0004jC-1B
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34977
+ (envelope-from <berrange@redhat.com>) id 1iSiwl-0008Ib-1M
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44830
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSirW-0004is-5Y
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:14 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iSiwk-0008I3-RG
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573137253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1573137577;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jwdFC7oQTGsEL9kJ3nbZjPDNCd3b12TNmsXjvR8S1OU=;
- b=gYU2BNVYxC5TI8qrY3Z6MhK9sCYZMLPIvYDIfzp5vsM/htBBJC7XqB8PoD7zf89jGiIuOt
- UPdDKz34380zcGqEe1RgV0zsgL9S+V9yTCPxBY4/9qmBf3K4a5HnstQ71sTJuObvwzQKS6
- vOlManMyDtd2x407GLTol/ZcnmQm8PU=
+ bh=98NucmLNVdE7K89wW7h4kCCTtbZHUQUe91gonbU6ShA=;
+ b=P66FU0yJRQgP5Dbu19QtwIor26nljLbrThLA5t5LOeT8u6Ilg8H+h6AtPtzObfR7BHjvKA
+ BlBN919xUxgJ3bBl4/c6xY+buviZ/h/tKgq+9TaxxkWZ/Y+iSm0fi+uIla6lygJJ1IdCKV
+ 81nzxiZhptTZ+kIia4GjiMCKOaZh+FY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-q9lEkRTKP3O69NoxKSEjiw-1; Thu, 07 Nov 2019 09:34:10 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-316-FPMXKYvmPmqT4-V9N4Zpyg-1; Thu, 07 Nov 2019 09:39:33 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BD561800D6B;
- Thu,  7 Nov 2019 14:34:09 +0000 (UTC)
-Received: from localhost (ovpn-117-149.ams2.redhat.com [10.36.117.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E58660BFB;
- Thu,  7 Nov 2019 14:34:07 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 3/3] iotests: Add test for 4G+ compressed qcow2 write
-Date: Thu,  7 Nov 2019 15:33:56 +0100
-Message-Id: <20191107143356.579334-4-mreitz@redhat.com>
-In-Reply-To: <20191107143356.579334-1-mreitz@redhat.com>
-References: <20191107143356.579334-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 843F7800C61;
+ Thu,  7 Nov 2019 14:39:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 812575D6D8;
+ Thu,  7 Nov 2019 14:39:02 +0000 (UTC)
+Date: Thu, 7 Nov 2019 14:39:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC v4 PATCH 49/49] multi-process: add configure and usage
+ information
+Message-ID: <20191107143900.GG120292@redhat.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <2736d12f29d2c9051966864b5d865ab0f392b8d1.1571905346.git.jag.raman@oracle.com>
+ <20191107140220.GI365089@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: q9lEkRTKP3O69NoxKSEjiw-1
+In-Reply-To: <20191107140220.GI365089@stefanha-x1.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: FPMXKYvmPmqT4-V9N4Zpyg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,137 +76,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, john.g.johnson@oracle.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com,
+ Jagannathan Raman <jag.raman@oracle.com>, quintela@redhat.com, mst@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, rth@twiddle.net, kwolf@redhat.com,
+ mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test what qemu-img check says about an image after one has written
-compressed data to an offset above 4 GB.
+On Thu, Nov 07, 2019 at 03:02:20PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Oct 24, 2019 at 05:09:30AM -0400, Jagannathan Raman wrote:
+> > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >=20
+> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> > ---
+> >  docs/qemu-multiprocess.txt | 86 ++++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  1 file changed, 86 insertions(+)
+> >  create mode 100644 docs/qemu-multiprocess.txt
+> >=20
+> > diff --git a/docs/qemu-multiprocess.txt b/docs/qemu-multiprocess.txt
+> > new file mode 100644
+> > index 0000000..c29f4df
+> > --- /dev/null
+> > +++ b/docs/qemu-multiprocess.txt
+> > @@ -0,0 +1,86 @@
+> > +Multi-process QEMU
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +This document describes how to configure and use multi-process qemu.
+> > +For the design document refer to docs/devel/qemu-multiprocess.
+> > +
+> > +1) Configuration
+> > +----------------
+> > +
+> > +To enable support for multi-process add --enable-mpqemu
+> > +to the list of options for the "configure" script.
+> > +
+> > +
+> > +2) Usage
+> > +--------
+> > +
+> > +To start qemu with devices intended to run in a separate emulation
+> > +process without libvirtd support, the following should be used on QEMU
+> > +command line. As of now, we only support the emulation of lsi53c895a
+> > +in a separate process
+> > +
+> > +* Since parts of the RAM are shared between QEMU & remote process, a
+> > +  memory-backend-file is required to facilitate this, as follows:
+> > +
+> > +  -object memory-backend-file,id=3Dmem,mem-path=3D/dev/shm/,size=3D409=
+6M,share=3Don
+> > +
+> > +* The devices to be emulated in the separate process are defined as
+> > +  before with addition of "rid" suboption that serves as a remote grou=
+p
+> > +  identificator.
+> > +
+> > +  -device <device options>,rid=3D"remote process id"
+> > +
+> > +  For exmaple, for non multi-process qemu:
+>=20
+> s/exmaple/example/
+>=20
+> > +    -device lsi53c895a,id=3Dscsi0 device
+> > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0
+> > +    -drive id=3Ddrive0,file=3Ddata-disk.img
+> > +
+> > +  and for multi-process qemu and no libvirt
+> > +  support (i.e. QEMU forks child processes):
+> > +    -device lsi53c895a,id=3Dscsi0,rid=3D0
+> > +    -device scsi-hd,drive=3Ddrive0,bus=3Dscsi0.0,scsi-id=3D0,rid=3D"0"
+> > +
+> > +* The command-line options for the remote process is added to the "com=
+mand"
+>=20
+> s/is added/are added/
+>=20
+> > +  suboption of the newly added "-remote" option.=20
+> > +
+> > +   -remote [socket],rid=3D,command=3D"..."
+> > +
+> > +  The drives to be emulated by the remote process are specified as par=
+t of
+> > +  this command sub-option. The device to be used to connect to the mon=
+itor
+> > +  is also specified as part of this suboption.
+> > +
+> > +  For example, the following option adds a drive and monitor to the re=
+mote
+> > +  process:
+> > +  -remote rid=3D0,command=3D"-drive id=3Ddrive0,,file=3Ddata-disk.img =
+-monitor unix:/home/qmp-sock,,server,,nowait"
+> > +
+> > +  Note: There's an issue with this "command" subtion which we are in t=
+he
+>=20
+> s/subtion/sub-option/
+>=20
+> > +  process of fixing. To work around this issue, it requires additional
+> > +  "comma" characters as illustrated above, and in the example below.
+> > +
+> > +* Example QEMU command-line to launch lsi53c895a in a remote process
+> > +
+> > +  #/bin/sh
+> > +  qemu-system-x86_64 \
+> > +  -name "OL7.4" \
+> > +  -machine q35,accel=3Dkvm \
+> > +  -smp sockets=3D1,cores=3D1,threads=3D1 \
+> > +  -cpu host \
+> > +  -m 2048 \
+> > +  -object memory-backend-file,id=3Dmem,mem-path=3D/dev/shm/,size=3D2G,=
+share=3Don \
+> > +  -numa node,memdev=3Dmem \
+> > +  -device virtio-scsi-pci,id=3Dvirtio_scsi_pci0 \
+> > +  -drive id=3Ddrive_image1,if=3Dnone,format=3Draw,file=3D/root/ol7.qco=
+w2 \
+> > +  -device scsi-hd,id=3Dimage1,drive=3Ddrive_image1,bus=3Dvirtio_scsi_p=
+ci0.0 \
+> > +  -boot d \
+> > +  -monitor stdio \
+> > +  -vnc :0 \
+> > +  -device lsi53c895a,id=3Dlsi0,remote,rid=3D8,command=3D"qemu-scsi-dev=
+" \
+> > +  -device scsi-hd,id=3Ddrive2,drive=3Ddrive_image2,bus=3Dlsi0.0,scsi-i=
+d=3D0,remote,rid=3D8,command=3D"qemu-scsi-dev"\
+> > +  -remote rid=3D8,command=3D"-drive id=3Ddrive_image2,,file=3D/root/re=
+mote-process-disk.img -monitor unix:/home/qmp-sock,,server,,nowait"
+> > +
+> > +  We could connect to the monitor using the following command:
+> > +  socat /home/qmp-sock stdio
+> > +
+> > +  After hotplugging disks to the remote process, please execute the
+> > +  following command in the guest to refresh the list of storage device=
+s:
+> > +  rescan_scsi_bus.sh -a
+>=20
+> This documentation suggests that QEMU spawns the remote processes.  How
+> do this work with unprivileged QEMU?  Is there an additional step where
+> QEMU drops privileges after having spawned remote processes?
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20191028161841.1198-3-mreitz@redhat.com
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/272     | 79 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/272.out | 10 +++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 90 insertions(+)
- create mode 100755 tests/qemu-iotests/272
- create mode 100644 tests/qemu-iotests/272.out
+This syntax is for the simple case without privilege separation.
+If differing privilege levels are needed, then whatever spawns QEMU
+should spawn the remote helper process ahead of time, and then just
+pass the UNIX socket path to the -remote arg, instead of using
+the 'command' parameter.
 
-diff --git a/tests/qemu-iotests/272 b/tests/qemu-iotests/272
-new file mode 100755
-index 0000000000..c2f782d47b
---- /dev/null
-+++ b/tests/qemu-iotests/272
-@@ -0,0 +1,79 @@
-+#!/usr/bin/env bash
-+#
-+# Test compressed write to a qcow2 image at an offset above 4 GB
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename "$0")
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+# This is a qcow2 regression test
-+_supported_fmt qcow2
-+_supported_proto file
-+
-+# External data files do not support compression;
-+# We need an exact cluster size (2M) and refcount width (2) so we can
-+# get this test quickly over with; and this in turn require
-+# compat=3D1.1
-+_unsupported_imgopts data_file cluster_size refcount_bits 'compat=3D0.10'
-+
-+# The idea is: Create an empty file, mark the first 4 GB as used, then
-+# do a compressed write that thus must be put beyond 4 GB.
-+# (This used to fail because the compressed sector mask was just a
-+# 32 bit mask, so qemu-img check will count a cluster before 4 GB as
-+# referenced twice.)
-+
-+# We would like to use refcount_bits=3D1 here, but then qemu-img check
-+# will throw an error when trying to count a cluster as referenced
-+# twice.
-+_make_test_img -o cluster_size=3D2M,refcount_bits=3D2 64M
-+
-+reft_offs=3D$(peek_file_be "$TEST_IMG" 48 8)
-+refb_offs=3D$(peek_file_be "$TEST_IMG" $reft_offs 8)
-+
-+# We want to cover 4 GB, those are 2048 clusters, equivalent to
-+# 4096 bit =3D 512 B.
-+truncate -s 4G "$TEST_IMG"
-+for ((in_refb_offs =3D 0; in_refb_offs < 512; in_refb_offs +=3D 8)); do
-+    poke_file "$TEST_IMG" $((refb_offs + in_refb_offs)) \
-+        '\x55\x55\x55\x55\x55\x55\x55\x55'
-+done
-+
-+$QEMU_IO -c 'write -c -P 42 0 2M' "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo '--- Check ---'
-+
-+# This should only print the leaked clusters in the first 4 GB
-+_check_test_img | grep -v '^Leaked cluster '
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/272.out b/tests/qemu-iotests/272.out
-new file mode 100644
-index 0000000000..35698b0e73
---- /dev/null
-+++ b/tests/qemu-iotests/272.out
-@@ -0,0 +1,10 @@
-+QA output created by 272
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+--- Check ---
-+
-+2044 leaked clusters were found on the image.
-+This means waste of disk space, but no harm to data.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 095ed1b880..065040398d 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -283,3 +283,4 @@
- 267 rw auto quick snapshot
- 268 rw auto quick
- 270 rw backing quick
-+272 rw
+Regards,
+Daniel
 --=20
-2.23.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
