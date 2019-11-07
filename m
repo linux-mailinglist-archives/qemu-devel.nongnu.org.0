@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3035EF36A0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:08:06 +0100 (CET)
-Received: from localhost ([::1]:46812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8214F36E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 19:20:20 +0100 (CET)
+Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSmCS-0001Fy-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:08:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57896)
+	id 1iSmOI-0008EA-BG
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 13:20:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iSm8k-0005zl-Dn
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:04:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iSmLJ-0006kT-6p
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:17:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iSm8j-0007hp-4E
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:04:14 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36750
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iSm8h-0007gC-Sk
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:04:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573149851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8cA5Nj2lSy6a+kfwgiAcW5Spxg2tRNKg1j960jZLS/c=;
- b=DlzYEKp3NRtpTqx7wsOBYvlZLmSVY2w1EOWb6ec9mBwJOxZj2VQbkyFTR46JqaRqrxQeyh
- YhUED4slPesZUa2do4LrlYqZ6HOTocrBPJhTCm2W+GJYrx8D35r2c0UI7Yuf0Fz1LhPtIv
- cLJgAOyoFRYx78ibXcXjVt+UE9NyR14=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-mleqxHSAOgKi4-VJRB01Nw-1; Thu, 07 Nov 2019 13:04:09 -0500
-Received: by mail-wr1-f69.google.com with SMTP id m17so1493390wrb.20
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 10:04:08 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iSmLH-0000TA-S6
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:17:12 -0500
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:35423)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iSmLH-0000Se-MD
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 13:17:11 -0500
+Received: by mail-ot1-x329.google.com with SMTP id z6so2863017otb.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 10:17:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RaapY5XQlNgmG2EtBxjEq8/30wwpYxNKsBz/jnFWk1g=;
+ b=phknA85ZOBn5kEwnA4URCPyNTUCia4qq+9kvhNlDRImSat5EtarY+j8jw9dVaP3Sa7
+ zV8dvNntwwSBEHSXmHW+vOIhxlglW/cWnLoaWqI9tUuNnWOb3k7qxAyumknzxQ6BANl1
+ L8uUD+IQ4DNlBKfpJHWYdwvDHshzTZ5n1V5zu9BbmpEZ5N3UWCEukH5inAkWJIFpoe66
+ p+8c2aOikx0obb6yHJB66fkuKnUga3drhOIILgJqHalkP1ptNM4kPm0uJNpMdcAd86nG
+ GX9L5aC77nD5zTISuKr6QiEm05eDdVA4ipvtA2f0OYApTYmaPC2aADky4ARynuWdLPTY
+ hljQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9EKh4v8U/tcnBfisjslFQQy7nTkPVB+gqAlqojhWRuA=;
- b=SoNfxjKDbeVGMGwA7UJf8t0nLsH+SplZ0ghjvqzJvjg/u2e5RkVc5scKExm2DNTyDd
- n+tmYkH7mU2TSPZ/jLNHAQoyk5XszGlgx5eY6+KgBytEsqo9+fjEg7b1FRfxnAxRqOZr
- 2zreUiNVl6V4OOwEbPrH27vsor64W8NAhVkaM51VPHu/c49eSeus0lcRQcuJdWdonq4v
- AEj9c1O+8hGGtvRxPkUEm1OzDyyWSs9nG53yua82lkXtqvJuwh8g+AC3cLJQ71XSyQno
- fWDW85oJLi59kSpfh3I84u60S4FMs3/+AO8XrE+EEnJOn3E6ViOfPxXEsJvbWE0wHvBt
- hvpw==
-X-Gm-Message-State: APjAAAWaf5fHX8ErPiahGjXKPGzmrH2AOP74x13mpi/7m9iM+CKQlJBo
- u9HoKFgbARzwixxZ6XFGBPiBoWhYVe+pyuc8ABj/6j9jSErtRk6MWrnKHg0Ng7KJ+pcgPiNfht9
- 4CKq21dXftpvQ6fk=
-X-Received: by 2002:a1c:200f:: with SMTP id g15mr4302274wmg.96.1573149847911; 
- Thu, 07 Nov 2019 10:04:07 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxZasOske5uA1TgXXaJKnYor89xB+6otSL4aKv4o7wbQt5FBwVdWfGIL6wQ4ZuNwPBWyrS10A==
-X-Received: by 2002:a1c:200f:: with SMTP id g15mr4302247wmg.96.1573149847669; 
- Thu, 07 Nov 2019 10:04:07 -0800 (PST)
-Received: from [10.101.1.81] ([176.12.107.132])
- by smtp.gmail.com with ESMTPSA id f188sm2627625wmf.3.2019.11.07.10.04.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Nov 2019 10:04:07 -0800 (PST)
-Subject: Re: [PATCH v8 0/3] RTC support for QEMU RISC-V virt machine
-To: Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <Anup.Patel@wdc.com>
-References: <mhng-fceb5aa2-7610-421a-b350-d939ace5fee2@palmer-si-x1c4>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ac999ff0-3c47-7e79-a339-5b0cd1c2dc5c@redhat.com>
-Date: Thu, 7 Nov 2019 19:04:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RaapY5XQlNgmG2EtBxjEq8/30wwpYxNKsBz/jnFWk1g=;
+ b=PoTYFcP/KS/lULErMCXVjeFzLQ3topF1ojAwd3C7S2l1giRer+rfpftQ5WKrTZAiMo
+ 5zCL1DcqQklk41yOo7Ev6YikMmxFpB+RAWzQ/vAlpaqvrzgKWwksa3RVOfcmVAwEZXeI
+ AubqLSJHEuC90oSsh3lZSLJsgo+5oj3C8569/QCevlP/xmx9c1e98dGijgtG+3g/sCJr
+ /3hR6+NsDVgcnPMEPiZ7ZyZQTkQLTJcYWij1aSbAAg+fh8pl/sF309V2/3jcrAuFQ6fU
+ zpVDvwmHVigYVnIfZnBVQLE8Wv11Fj87zL1Qqv2tKg/GU2vv8VXQdRVyEzDMz+JR54uS
+ Y7hA==
+X-Gm-Message-State: APjAAAWlo+LIEjjh0YnpjkeRa0QWfKcxjbzzpaqVFq+VnROMT1nfiwjr
+ pzFSWIFYA6tWbb2flPx+r9ny0igtxY4uUtl0jhxUSc5qbCs=
+X-Google-Smtp-Source: APXvYqw2/6ayWEno7V1htJrHQNWarLkw3CuSSIXjleC/W+XZWnrzNA3o8u4o2EXDAE09ICtQf4jRAxXoJEVAzKoeiWY=
+X-Received: by 2002:a05:6830:1386:: with SMTP id
+ d6mr4127040otq.135.1573150630780; 
+ Thu, 07 Nov 2019 10:17:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <mhng-fceb5aa2-7610-421a-b350-d939ace5fee2@palmer-si-x1c4>
-Content-Language: en-US
-X-MC-Unique: mleqxHSAOgKi4-VJRB01Nw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20191107143356.579334-1-mreitz@redhat.com>
+In-Reply-To: <20191107143356.579334-1-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Nov 2019 18:16:57 +0000
+Message-ID: <CAFEAcA9QQ6=rJuPZ+-smow6F68WSyXY0muZSkeozB8s3J-1FxA@mail.gmail.com>
+Subject: Re: [PULL 0/3] Block patches for 4.2.0-rc0/4.1.1
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,84 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- sagark@eecs.berkeley.edu, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- palmer@sifive.com, qemu-devel@nongnu.org, Atish Patra <Atish.Patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, anup@brainfault.org
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/7/19 5:52 PM, Palmer Dabbelt wrote:
-> On Wed, 06 Nov 2019 03:56:29 PST (-0800), Anup Patel wrote:
->> This series adds RTC device to QEMU RISC-V virt machine. We have
->> selected Goldfish RTC device model for this. It's a pretty simple
->> synthetic device with few MMIO registers and no dependency external
->> clock. The driver for Goldfish RTC is already available in Linux so
->> we just need to enable it in Kconfig for RISCV and also update Linux
->> defconfigs.
->>
->> We have tested this series with Linux-5.4-rc4 plus defconfig changes
->> available in 'goldfish_rtc_v2' branch of:
->> https://github.com/avpatel/linux.git
->>
->> Changes since v7:
->> =C2=A0- Fix broken "stdout-path" in "/chosen" DT node of virt machine
->>
->> Changes since v6:
->> =C2=A0- Rebased on latest QEMU master
->> =C2=A0- Addressed all nit comments from Philippe Mathieu-Daude
->>
->> Changes since v5:
->> =C2=A0- Rebased on latest QEMU master
->> =C2=A0- Added maintainer entry for Goldfish RTC
->>
->> Changes since v4:
->> =C2=A0- Fixed typo in trace event usage
->> =C2=A0- Moved goldfish_rtc.h to correct location
->>
->> Changes since v3:
->> =C2=A0- Address all nit comments from Alistair
->>
->> Changes since v2:
->> =C2=A0- Rebased on RTC code refactoring
->>
->> Changes since v1:
->> =C2=A0- Implemented VMState save/restore callbacks
->>
->> Anup Patel (3):
->> =C2=A0 hw: rtc: Add Goldfish RTC device
->> =C2=A0 riscv: virt: Use Goldfish RTC device
->> =C2=A0 MAINTAINERS: Add maintainer entry for Goldfish RTC
->>
->> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +
->> =C2=A0hw/riscv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0hw/riscv/virt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++
->> =C2=A0hw/rtc/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
->> =C2=A0hw/rtc/Makefile.objs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0hw/rtc/goldfish_rtc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 285 ++++++++++++++++++++++++++++++++++
->> =C2=A0hw/rtc/trace-events=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
->> =C2=A0include/hw/riscv/virt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 2 +
->> =C2=A0include/hw/rtc/goldfish_rtc.h |=C2=A0 46 ++++++
->> =C2=A09 files changed, 366 insertions(+)
->> =C2=A0create mode 100644 hw/rtc/goldfish_rtc.c
->> =C2=A0create mode 100644 include/hw/rtc/goldfish_rtc.h
->=20
-> Thanks.=C2=A0 I've updated the patches on my queue, LMK if there are any =
-more=20
-> changes!
+On Thu, 7 Nov 2019 at 14:34, Max Reitz <mreitz@redhat.com> wrote:
+>
+> The following changes since commit d0f90e1423b4f412adc620eee93e8bfef8af4117:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191106-pull-request' into staging (2019-11-07 09:21:52 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2019-11-07
+>
+> for you to fetch changes up to b7cd2c11f76d27930f53d3cf26d7b695c78d613b:
+>
+>   iotests: Add test for 4G+ compressed qcow2 write (2019-11-07 14:37:46 +0100)
+>
+> ----------------------------------------------------------------
+> Block patches for 4.2.0-rc0/4.1.1:
+> - Fix writing to compressed qcow2 images > 4 GB
+> - Fix size sanity check for qcow2 bitmaps
+>
 
-I'm happy with the series, thanks Anup for addressing all the comments.
 
-Regards,
+Applied, thanks.
 
-Phil.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
+-- PMM
 
