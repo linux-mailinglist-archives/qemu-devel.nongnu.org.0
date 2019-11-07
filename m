@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CD4F31AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:39:24 +0100 (CET)
-Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C99F31B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 15:41:01 +0100 (CET)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSiwU-0007ll-TP
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:39:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48824)
+	id 1iSiy4-000116-Jh
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 09:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iSirN-0002hT-Ca
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:06 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iSirP-0002kH-KH
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iSirM-0004bj-4v
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:05 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58918
+ (envelope-from <mreitz@redhat.com>) id 1iSirO-0004dI-C9
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45578
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSirM-0004bU-1A
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:04 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iSirO-0004cy-8F
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 09:34:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573137243;
+ s=mimecast20190719; t=1573137245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BU5CTWObR/gc1QtVCNsoEt3My/ik3tUTSZr9Wb8faKA=;
- b=GsZEWlB0cu/AnaVTPb0Y3YvPmCFNFxRdOfketay4uiXbtrVYhVbmVMyyAlToH/jTPYIA3A
- vut8zGTIWb6IIxD9l7V8GxEOim0QyeKZNWO0Ktv6EpotMYl91v0ZDvcWitglwVyU2A3Bfd
- FEfVLphj8FA22Hb2iDvopI8P2Teo5u4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QQoys9Fp0rlvDcgt58MGNDgLRHS46GURBKcm4JuCSHU=;
+ b=VdWxdVYtrPHkKT9pfmCa29jGilQAeHBObswFwvzLCfxe6vdgSsc6mYX1zQAOgoPJxZm+Sj
+ +bKUP114EY5SAUN76aiU7/AlXEuWuCSeABh46XCG7euegSV1Y3JGR0jjdHGyE1dLzulmDX
+ jzFrz7TIZBBg7EsANVOjn28KGM6Aqf0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-5SOoTcD0Pg2JpSwwzghKjQ-1; Thu, 07 Nov 2019 09:34:00 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-233-zzj2RgM_OkmHGktzGrPFyg-1; Thu, 07 Nov 2019 09:34:02 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47751800D6B;
- Thu,  7 Nov 2019 14:33:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01017800EB3;
+ Thu,  7 Nov 2019 14:34:01 +0000 (UTC)
 Received: from localhost (ovpn-117-149.ams2.redhat.com [10.36.117.149])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83C2660BFB;
- Thu,  7 Nov 2019 14:33:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96BB45DA7C;
+ Thu,  7 Nov 2019 14:34:00 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/3] Block patches for 4.2.0-rc0/4.1.1
-Date: Thu,  7 Nov 2019 15:33:53 +0100
-Message-Id: <20191107143356.579334-1-mreitz@redhat.com>
+Subject: [PULL 1/3] qcow2-bitmap: Fix uint64_t left-shift overflow
+Date: Thu,  7 Nov 2019 15:33:54 +0100
+Message-Id: <20191107143356.579334-2-mreitz@redhat.com>
+In-Reply-To: <20191107143356.579334-1-mreitz@redhat.com>
+References: <20191107143356.579334-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 5SOoTcD0Pg2JpSwwzghKjQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: zzj2RgM_OkmHGktzGrPFyg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +75,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d0f90e1423b4f412adc620eee93e8bfef8af4117=
-:
+From: Tuguoyi <tu.guoyi@h3c.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20191106-pull-req=
-uest' into staging (2019-11-07 09:21:52 +0000)
+There are two issues in In check_constraints_on_bitmap(),
+1) The sanity check on the granularity will cause uint64_t
+integer left-shift overflow when cluster_size is 2M and the
+granularity is BIGGER than 32K.
+2) The way to calculate image size that the maximum bitmap
+supported can map to is a bit incorrect.
+This patch fix it by add a helper function to calculate the
+number of bytes needed by a normal bitmap in image and compare
+it to the maximum bitmap bytes supported by qemu.
 
-are available in the Git repository at:
+Fixes: 5f72826e7fc62167cf3a
+Signed-off-by: Guoyi Tu <tu.guoyi@h3c.com>
+Message-id: 4ba40cd1e7ee4a708b40899952e49f22@h3c.com
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2-bitmap.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2019-11-07
-
-for you to fetch changes up to b7cd2c11f76d27930f53d3cf26d7b695c78d613b:
-
-  iotests: Add test for 4G+ compressed qcow2 write (2019-11-07 14:37:46 +01=
-00)
-
-----------------------------------------------------------------
-Block patches for 4.2.0-rc0/4.1.1:
-- Fix writing to compressed qcow2 images > 4 GB
-- Fix size sanity check for qcow2 bitmaps
-
-----------------------------------------------------------------
-Max Reitz (2):
-  qcow2: Fix QCOW2_COMPRESSED_SECTOR_MASK
-  iotests: Add test for 4G+ compressed qcow2 write
-
-Tuguoyi (1):
-  qcow2-bitmap: Fix uint64_t left-shift overflow
-
- block/qcow2-bitmap.c       | 14 +++++--
- block/qcow2.h              |  2 +-
- tests/qemu-iotests/272     | 79 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/272.out | 10 +++++
- tests/qemu-iotests/group   |  1 +
- 5 files changed, 102 insertions(+), 4 deletions(-)
- create mode 100755 tests/qemu-iotests/272
- create mode 100644 tests/qemu-iotests/272.out
-
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 98294a7696..ef9ef628a0 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -142,6 +142,13 @@ static int check_table_entry(uint64_t entry, int clust=
+er_size)
+     return 0;
+ }
+=20
++static int64_t get_bitmap_bytes_needed(int64_t len, uint32_t granularity)
++{
++    int64_t num_bits =3D DIV_ROUND_UP(len, granularity);
++
++    return DIV_ROUND_UP(num_bits, 8);
++}
++
+ static int check_constraints_on_bitmap(BlockDriverState *bs,
+                                        const char *name,
+                                        uint32_t granularity,
+@@ -150,6 +157,7 @@ static int check_constraints_on_bitmap(BlockDriverState=
+ *bs,
+     BDRVQcow2State *s =3D bs->opaque;
+     int granularity_bits =3D ctz32(granularity);
+     int64_t len =3D bdrv_getlength(bs);
++    int64_t bitmap_bytes;
+=20
+     assert(granularity > 0);
+     assert((granularity & (granularity - 1)) =3D=3D 0);
+@@ -171,9 +179,9 @@ static int check_constraints_on_bitmap(BlockDriverState=
+ *bs,
+         return -EINVAL;
+     }
+=20
+-    if ((len > (uint64_t)BME_MAX_PHYS_SIZE << granularity_bits) ||
+-        (len > (uint64_t)BME_MAX_TABLE_SIZE * s->cluster_size <<
+-               granularity_bits))
++    bitmap_bytes =3D get_bitmap_bytes_needed(len, granularity);
++    if ((bitmap_bytes > (uint64_t)BME_MAX_PHYS_SIZE) ||
++        (bitmap_bytes > (uint64_t)BME_MAX_TABLE_SIZE * s->cluster_size))
+     {
+         error_setg(errp, "Too much space will be occupied by the bitmap. "
+                    "Use larger granularity");
 --=20
 2.23.0
 
