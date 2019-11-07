@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005CFF3623
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:48:32 +0100 (CET)
-Received: from localhost ([::1]:46582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B56F3642
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Nov 2019 18:53:29 +0100 (CET)
+Received: from localhost ([::1]:46626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iSltW-0003t5-Cy
-	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:48:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
+	id 1iSlyK-0006Gb-5C
+	for lists+qemu-devel@lfdr.de; Thu, 07 Nov 2019 12:53:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iSlsF-0003Ls-9V
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:47:12 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iSlxU-0005pU-Ed
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:52:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iSlsD-0007Ok-Tp
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:47:10 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45437)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iSlsD-0007ON-Nw
- for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:47:09 -0500
-Received: by mail-ot1-x344.google.com with SMTP id r24so2723786otk.12
- for <qemu-devel@nongnu.org>; Thu, 07 Nov 2019 09:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wWAEfbrY3X+B0yS2rN8R3NTVzMbR7n+8m3cG0suIljc=;
- b=ZdwaEiM0TbQpfOP8dDSO6AyAlnv1IJXQZA49Joc4of7o0loZa8j4eshRDPN9v8lZYT
- w1XbTVkgqbgQqWrXXO5qBX+5YVv+UuEX5YvwSgaw5M84nMZFe6GxQMYLEm80e9IMyDMD
- rfLHqmK4O1Iz0EyXMlhqVzjbjvNNP7lkwM+2TWdPohMTRghBzv8dxjkc5eH9KveAfv3j
- xao/6/Ek3IxU6beNACDO964Qo/kFBJnOcf5zvAHY4FNF11VOadVuHM1ZgGL65Yn56t+q
- S3/JP+ZnFdRccZ1vqvpHup8YfeF0oQZ9evPROcoHdm6W3pbChws0Dcbln5QIMkCLiqR3
- FQYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wWAEfbrY3X+B0yS2rN8R3NTVzMbR7n+8m3cG0suIljc=;
- b=UnYTkBs55hKR3F1/gaVWrt/2xSYtuW1uUg8K2J4hUrhvxqWpkMkDsturUZCmRWUlxd
- 1KapcC+0+HYhW6tOEDfo5juJKcNQIGLfPMk4HyI51W50FUMiZ+HgkyF0ZBAmso9EcITG
- YXlovtEnQl4rie5tChot/P/id6HvKcTrl0lez9jOFyYkGnYANrmzydbMVerGaNZ519Tl
- coIm9rRkZJ43bqQVAwWrNNLihMGpxEEbVCPGBltfG0ehIdh0l2FUboCcWDD+Lffw19W+
- tkNzDRm8uanEcvW1KcK+PyruUITBgxdCO3tIysgl6r7ou2WL30WR3oMevB5+V9nxSuPJ
- Onhg==
-X-Gm-Message-State: APjAAAV/yKPIcPPd/PVtFPk53DERPauAymDo0ISGxekPo6VLzCEzKmWh
- lLr6PWGuh/kmWp7ZJuL3HMDApREAlR+EuicI7D14Lg==
-X-Google-Smtp-Source: APXvYqyFsg6LxibE8FSkxHwFV+lBaRdr+OezcCZZpqOu5f8AXVSVi2WQUBTclE8rmR9z80ZFBcrf99hzVVsfHTLKzYk=
-X-Received: by 2002:a9d:68cc:: with SMTP id i12mr665232oto.97.1573148828504;
- Thu, 07 Nov 2019 09:47:08 -0800 (PST)
+ (envelope-from <ehabkost@redhat.com>) id 1iSlxS-00016d-3M
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:52:35 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29382
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iSlxR-00016J-Vi
+ for qemu-devel@nongnu.org; Thu, 07 Nov 2019 12:52:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573149153;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oK7uou1VT6fXA+Xij2yR1yNE9dApPyM38eHe5oJPLJ0=;
+ b=RgIHI9SOZlrFlwJCLyF2Aqn6w84BgBFzrkWfrOHRI6DT88jo8NYQgp5Wqf5BatfAYY9gwv
+ 7keJsaFG+P5tJwsefv8slsK7PG4P5a1CfgUGgL8dm+Ci/WLLeHEXE65m3rwO7T0n/VMH+J
+ CGsFsj8J2Q77o14idBh/xXGIgu3IElk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-yHvZug4DOASIK6nKJKfClA-1; Thu, 07 Nov 2019 12:52:30 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A50F107ACC3;
+ Thu,  7 Nov 2019 17:52:28 +0000 (UTC)
+Received: from localhost (ovpn-116-57.gru2.redhat.com [10.97.116.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 933155DF2A;
+ Thu,  7 Nov 2019 17:52:27 +0000 (UTC)
+Date: Thu, 7 Nov 2019 14:52:25 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v15 01/12] util/cutils: refactor do_strtosz() to support
+ suffixes list
+Message-ID: <20191107175225.GT3812@habkost.net>
+References: <20191107074511.14304-1-tao3.xu@intel.com>
+ <20191107074511.14304-2-tao3.xu@intel.com>
 MIME-Version: 1.0
-References: <20191104173654.30125-1-alex.bennee@linaro.org>
-In-Reply-To: <20191104173654.30125-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Nov 2019 17:46:55 +0000
-Message-ID: <CAFEAcA9SOok49C8NS-+kEZyk7EYS10R+RNmhprk2J=KB3bJQFw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/6] testing/next (netbsd stuff)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191107074511.14304-2-tao3.xu@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: yHvZug4DOASIK6nKJKfClA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +73,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Kamil Rytarowski <kamil@netbsd.org>,
- "Emilio G. Cota" <cota@braap.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: lvivier@redhat.com, thuth@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ jingqi.liu@intel.com, fan.du@intel.com, mdroth@linux.vnet.ibm.com,
+ armbru@redhat.com, jonathan.cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Nov 2019 at 17:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> Hi,
->
-> As we approach hard-freeze I'm trying to temper what comes in through
-> the testing/next tree. However it would be nice to get the NetBSD upto
-> speed with the other NetBSDs. Although the serial install is working
-> well for me this has had a rocky road so if others could also give it
-> a good testing that would be great. I've also disabled one of the
-> regular failing tests for non-Linux targets. There are other tests
-> that still fail however including the tests/test-aio-multithread which
-> asserts in the async utils around about 20% of the time:
->
->   assertion "QSLIST_EMPTY(&ctx->scheduled_coroutines)" failed: file
->     "/home/qemu/qemu-test.nS1czd/src/util/async.c", line 279, function
->     "aio_ctx_finalize"
+On Thu, Nov 07, 2019 at 03:45:00PM +0800, Tao Xu wrote:
+> Add do_strtomul() to convert string according to different suffixes.
+>=20
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 
-This is unrelated to your NetBSD update in this series -- it's
-one of the persistent intermittents I see on the BSDs:
-https://lore.kernel.org/qemu-devel/20190916153312.GD25552@stefanha-x1.local=
-domain/t/
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-(though the failure rate I see is I think <20%, but I haven't
-really carefully measured it.)
+--=20
+Eduardo
 
-thanks
--- PMM
 
