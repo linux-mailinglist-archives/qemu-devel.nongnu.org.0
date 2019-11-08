@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D2BF4D5C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 14:39:51 +0100 (CET)
-Received: from localhost ([::1]:54502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3F1F4D6C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 14:44:50 +0100 (CET)
+Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT4UQ-0007dA-5M
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 08:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57265)
+	id 1iT4ZE-00038G-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 08:44:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iT4Sf-0006Gs-Vu
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:38:03 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1iT4Uh-0000Oz-Ck
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:40:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iT4Se-0005ZR-Oo
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:38:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51966
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <luc.michel@greensocs.com>) id 1iT4Ug-0007oy-1b
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:40:07 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:57290)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iT4Se-0005Z6-LU
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:38:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573220280;
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1iT4Uf-0007n5-FG
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:40:05 -0500
+Received: from [192.168.61.102] (lfbn-1-8165-82.w90-112.abo.wanadoo.fr
+ [90.112.74.82])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id BAC9F96EF0;
+ Fri,  8 Nov 2019 13:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1573220403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fEbHBaKxRysmwWfoSuGJbl0+dCktqKqYedZW0yR+66A=;
- b=ZzNn7np0Ot6L4K6VQHvi9sdSG/ESUQ8n4XcmiW4Mnmz+TOIb85SqothBTNZ4Lj3FP4CbWm
- Z7nwW1Nnh3XhYnK8Nmx5W7/GCPAzCVEkoasV4Ez5WIf68lMaK/rPaynWv/LanRFsGxrAmV
- UdkTUXTix0EbBRYAQLT3FMwKGqAM/aI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-jBxXjZrpN5eBFDVOpnnMrA-1; Fri, 08 Nov 2019 08:37:56 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E62B8477;
- Fri,  8 Nov 2019 13:37:55 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 674676084E;
- Fri,  8 Nov 2019 13:37:51 +0000 (UTC)
-Message-ID: <10cac06a4e11b3002d476ba38c40097476136119.camel@redhat.com>
-Subject: Re: [PATCH v2 07/11] block: add x-blockdev-amend qmp command
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Date: Fri, 08 Nov 2019 15:37:50 +0200
-In-Reply-To: <4bcbb15d-4566-77a4-de0a-c9c3833543cc@redhat.com>
-References: <20190912223028.18496-1-mlevitsk@redhat.com>
- <20190912223028.18496-8-mlevitsk@redhat.com>
- <931af700-bb9a-ae84-bd01-215560f66494@redhat.com>
- <268fd0b724a685b69e2d41067e34e403b68e244e.camel@redhat.com>
- <4bcbb15d-4566-77a4-de0a-c9c3833543cc@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: jBxXjZrpN5eBFDVOpnnMrA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ bh=O2toLd2TEwZcXSaypVMmHYEAHrK1ah4cuRlP4WOqdn4=;
+ b=c55o6ZaoYUrZidniSgmQlmbnhyxl4M/PjKjj8Ux1bOESDpuCYEd6frEoMQs3JcHYDzc0h3
+ gd44zjm1KAyNqPpplCe5SHlGoDM8UYfHeuf6r71Mgqc89hUIzHmPpyOZVxHfeb5VX4lrGa
+ oKFNR/LTi/LCRtRZjwO/UKpLlp9GZuw=
+Subject: Re: [PATCH] gdbstub: Fix buffer overflow in handle_read_all_regs
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20191108125534.114474-1-damien.hedde@greensocs.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <e6ed119e-233c-a9a2-cd9e-e6c79d6d34ce@greensocs.com>
+Date: Fri, 8 Nov 2019 14:40:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20191108125534.114474-1-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-PH
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1573220403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O2toLd2TEwZcXSaypVMmHYEAHrK1ah4cuRlP4WOqdn4=;
+ b=6cvMUNiT2tLUi3p/vjMfIRW9RGIXIUTUStnfb92avuOY1o2Q2WdqUb8RvjqLQ0GATtUl0s
+ TETutvzfLGl4QUHxIKuooHAIGqQ2FYh04748y8sCul2FEI3N+0uKkC240QS6LpLns94/aN
+ ZNToHBrl9qg+Ks6oMFL+NlyGP1dkml8=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1573220403; a=rsa-sha256; cv=none;
+ b=tCNTmnicPToZz0X/5vDn4+nb4OTVkx0RWAcS0I6uokLSDiGwnTeG+BJ25xidwRuQ6h/L2W
+ dNPLUuFb+D950xd4IYO5kh3wYX4tLOGI7oXV5//513AZSdqdOx6Yl3RF/IkQCK+Zdn2XaI
+ Jhk4Bz2ZU9tcLPE2827zHe+YDmlOP9A=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,97 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel
- P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: alex.bennee@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-11-08 at 11:36 +0100, Max Reitz wrote:
-> On 08.11.19 10:26, Maxim Levitsky wrote:
-> > On Fri, 2019-10-04 at 20:53 +0200, Max Reitz wrote:
-> > > On 13.09.19 00:30, Maxim Levitsky wrote:
-> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > > ---
-> > > >  block/Makefile.objs       |   2 +-
-> > > >  block/amend.c             | 116 ++++++++++++++++++++++++++++++++++=
-++++
-> > > >  include/block/block_int.h |  23 ++++++--
-> > > >  qapi/block-core.json      |  26 +++++++++
-> > > >  qapi/job.json             |   4 +-
-> > > >  5 files changed, 163 insertions(+), 8 deletions(-)
-> > > >  create mode 100644 block/amend.c
->=20
-> [...]
->=20
-> > > > +static int coroutine_fn blockdev_amend_run(Job *job, Error **errp)
-> > > > +{
-> > > > +    BlockdevAmendJob *s =3D container_of(job, BlockdevAmendJob, co=
-mmon);
-> > > > +    int ret;
-> > > > +
-> > > > +    job_progress_set_remaining(&s->common, 1);
-> > > > +    ret =3D s->bs->drv->bdrv_co_amend(s->bs, s->opts, s->force, er=
-rp);
-> > > > +    job_progress_update(&s->common, 1);
-> > >=20
-> > > It would be nice if the amend job could make use of the progress
-> > > reporting that we have in place for amend.
-> >=20
-> > I also thought about it, but is it worth it?
-> >=20
-> > I looked through the status reporting of the qcow2 amend
-> > code (which doesn't really allowed to be run through
-> > qmp blockdev-amend, due to complexity of changing=20
-> > the qcow2 format on the fly).
->=20
-> True, and we could always add it later.
->=20
-> I suppose I was mostly wondering because bdrv_amend_options already has
-> all of that infrastructure and I was assuming that qcow2's bdrv_co_amend
-> implementation would make some use of the existing function.  Well, it
-> doesn=E2=80=99t, so *shrug*
->=20
-> [...]
->=20
-> > > > +    /*
-> > > > +     * Create the block job
-> > > > +     * TODO Running in the main context. Block drivers need to err=
-or out or add
-> > > > +     * locking when they use a BDS in a different AioContext.
-> > >=20
-> > > Why shouldn=E2=80=99t the job just run in the node=E2=80=99s context?
-> >=20
-> > This is shameless copy&pasta from the blockdev-create code
-> > (which I did note in the copyright of the file)
->=20
-> Well, you noted that it=E2=80=99s heavily based on it, not that it=E2=80=
-=99s just C&P.
+On 11/8/19 1:55 PM, Damien Hedde wrote:
+> Ensure we don't put too much register data in buffers. This avoids
+> a buffer overflow (and stack corruption) when a target has lots
+> of registers.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+> 
+> Hi all,
+> 
+> While working on a target with many registers. I found out the gdbstub
+> may do buffer overflows when receiving a 'g' query (to read general
+> registers). This patch prevents that.
+> 
+> Gdb is pretty happy with a partial set of registers and queries
+> remaining registers one by one when needed.
+> 
+> Regards,
+> Damien
+> ---
+>  gdbstub.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 4cf8af365e..dde0cfe0fe 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -1810,8 +1810,17 @@ static void handle_read_all_regs(GdbCmdContext *gdb_ctx, void *user_ctx)
+>      cpu_synchronize_state(gdb_ctx->s->g_cpu);
+>      len = 0;
+>      for (addr = 0; addr < gdb_ctx->s->g_cpu->gdb_num_g_regs; addr++) {
+> -        len += gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf + len,
+> -                                 addr);
+> +        int size = gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf + len,
+> +                                     addr);
+> +        if (len + size > MAX_PACKET_LENGTH / 2) {
+> +            /*
+> +             * Prevent gdb_ctx->str_buf overflow in memtohex() below.
+> +             * As a consequence, send only the first registers content.
+> +             * Gdb will query remaining ones if/when needed.
+> +             */
+I could not find this behaviour documented in the GDB remote protocol
+documentation. However in the GDB source code (in process_g_packet() in
+remote.c) :
 
-'heavily based' is a polite way to say that file is copied and then changed
-to fit new purpose, isn't it :-)
+  /* If this is smaller than we guessed the 'g' packet would be,
+     update our records.  A 'g' reply that doesn't include a register's
+     value implies either that the register is not available, or that
+     the 'p' packet must be used.  */
 
 
->=20
-> So I suppose the comment is just wrong here?
-Yes, I absolutely missed this part since I don't know the block layer well =
-enough.
-Thanks for explaining this on IRC, that blockdev_create job is special
-in a sense that block device state doesn't exit yet for it (I also was alre=
-ady bitten
-by this in luks block driver), thus the job runs in main AIO context.
-No need to do so in amend, and thus I'll remove that wrongly copy&pasta'ed =
-comment.
+So:
 
-Thanks a lot!!
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
-Best regards,
-=09Maxim Levitsky
-
-
->=20
-> Max
->=20
-
-
+> +            break;
+> +        }
+> +        len += size;
+>      }
+>  
+>      memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, len);
+> 
 
