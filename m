@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F43F504D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:56:38 +0100 (CET)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C1FF5052
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:57:47 +0100 (CET)
+Received: from localhost ([::1]:56724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT6cn-0006wX-0m
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:56:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54981)
+	id 1iT6du-0008BH-N0
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iT6bw-0006Vl-TH
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:55:45 -0500
+ (envelope-from <eblake@redhat.com>) id 1iT6cy-0007Tm-AB
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:56:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iT6bv-0007Dj-RE
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:55:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57176)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iT6bv-0007DL-LW
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:55:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iT6bu-00031B-7D
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 15:55:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 33CF62E8075
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:55:42 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1iT6cw-0007is-5g
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:56:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32494
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iT6cw-0007i4-1M
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:56:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573228605;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FHqr1TVF3ufbo38zQakdQOBdWxqZfUmbI3vsj5ZzLbM=;
+ b=EeEjITWLOm3MU/4IbI/zAgRlee4HngVTSXesRCLm2SatBZ4y6uw4CHRsOddeYfFZEy5sEU
+ 2Mxk8YUWG+Pcy1LLz4qkF+NCvbfIX6+NoFzPc1xAMjp3mSRo4w79R0Kafd2IygffiaFu/m
+ yirBbJnQoww06Tcl0QaS3UtkNWeV+Pc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-EbmLw8BONo6piafnQq-V3w-1; Fri, 08 Nov 2019 10:56:41 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD891800D7B;
+ Fri,  8 Nov 2019 15:56:40 +0000 (UTC)
+Received: from [10.3.117.38] (ovpn-117-38.phx2.redhat.com [10.3.117.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A41A60856;
+ Fri,  8 Nov 2019 15:56:36 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] hw/block/pflash: Remove dynamic field width from
+ trace events
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191108144042.30245-1-philmd@redhat.com>
+ <20191108144042.30245-2-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9e7990b7-87ed-84d4-5256-8397bc25a1f4@redhat.com>
+Date: Fri, 8 Nov 2019 09:56:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191108144042.30245-2-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: EbmLw8BONo6piafnQq-V3w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 08 Nov 2019 15:48:37 -0000
-From: IndrasenaReddy Gali <1851664@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson gisena th-huth
-X-Launchpad-Bug-Reporter: IndrasenaReddy Gali (gisena)
-X-Launchpad-Bug-Modifier: IndrasenaReddy Gali (gisena)
-References: <157313838504.19702.7205622932379991141.malonedeb@wampee.canonical.com>
-Message-Id: <157322811767.22614.16776107102766472302.malone@chaenomeles.canonical.com>
-Subject: [Bug 1851664] Re: qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when
- we attache 6 VF's to guest machine
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5c12686b9d9099cba4ac987acba0dfa25f374ab9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,35 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1851664 <1851664@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After increasing dma_entry_limit limit no issue observed.
+On 11/8/19 8:40 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since not all trace backends support dynamic field width in
+> format (dtrace via stap does not), replace by a static field
+> width instead.
+>=20
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   hw/block/pflash_cfi01.c | 8 ++++----
+>   hw/block/pflash_cfi02.c | 8 ++++----
+>   hw/block/trace-events   | 8 ++++----
+>   3 files changed, 12 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 566c0acb77..787d1196f2 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -276,7 +276,7 @@ static uint32_t pflash_data_read(PFlashCFI01 *pfl, hw=
+addr offset,
+>           DPRINTF("BUG in %s\n", __func__);
+>           abort();
+>       }
+> -    trace_pflash_data_read(offset, width << 1, ret);
+> +    trace_pflash_data_read(offset, width << 3, ret);
 
-But ideal senario device is getting hung and recovery happening only
-with host hard rebooting.
+Umm, why is width changing?  That's not mentioned in the commit message.
 
--- =
+> @@ -389,7 +389,7 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>  =20
+>           break;
+>       }
+> -    trace_pflash_io_read(offset, width, width << 1, ret, pfl->cmd, pfl->=
+wcycle);
+> +    trace_pflash_io_read(offset, width << 3, ret, pfl->cmd, pfl->wcycle)=
+;
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1851664
+And even this one is odd.  Matching up to the trace messages:
 
-Title:
-  qemu-system-x86_64: "VFIO_MAP_DMA : -28" error when we attache 6 VF's
-  to guest machine
 
-Status in QEMU:
-  Incomplete
+> -pflash_io_read(uint64_t offset, int width, int fmt_width, uint32_t value=
+, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x =
+cmd:0x%02x wcycle:%u"
 
-Bug description:
-  We are trying to attach 6 VF's to the guest machine on 4.1.1 qemu emulato=
-r.
-  We are observing "VFIO_MAP_DMA : -28" error.
+> +pflash_io_read(uint64_t offset, int width, uint32_t value, uint8_t cmd, =
+uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%04x cmd:0x%02x wcyc=
+le:%u"
 
-  We are using w-bits=3D48 bits while lunching VM.
+you are changing from:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1851664/+subscriptions
+"%04"PRIx64" %d %0*x...", offset, width, width << 1, ret,...
+
+(where width<<1, ret matches *x)
+
+into
+
+"%04"PRIx64" %d %04x...", offset, width << 3, ret,...
+
+where you are now printing a different value for width.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
