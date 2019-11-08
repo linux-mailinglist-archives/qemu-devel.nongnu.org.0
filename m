@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6800F4298
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 09:54:54 +0100 (CET)
-Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191B0F429B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 09:56:12 +0100 (CET)
+Received: from localhost ([::1]:50730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT02f-0006fr-LD
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 03:54:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58831)
+	id 1iT03v-0008Ko-22
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 03:56:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58857)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iT01Y-0005kU-Ag
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:45 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iT01a-0005oE-SJ
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iT01X-0007cL-9a
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29237
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iT01Z-0007dH-0c
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32505
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iT01X-0007cB-6T
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:43 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iT01Y-0007ct-Sr
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 03:53:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573203222;
+ s=mimecast20190719; t=1573203224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GzxLFzL+9LXuE6dWeSgWf1dukfXzVPj1WHJ1jYgYL1E=;
- b=Vi6PtecY3/WcGH6Wi4r7sORkgOKd6eiIhaEt78tQwOvIbJxgMnuoC8yw7vdM3bGK9vcRqv
- 5cgPQ3T5z2f6oOWfixgglRwlUjyeZGP4I9FhzLfYjfNoA1mTdjOhw2Dec3C7isxGBanmvU
- sse35jV/Bh5auEbY0DoOwazicUWDsLI=
+ bh=dTHmPZ0tmXQAFQRegihNXrukHcIoHkQbxivSZDEwY/g=;
+ b=KeYTzusuB2hVthJTz3QAoZtWcSt1vXqy0giNcjG2aYGmxxWvbEZlKnDX/PhhKnqa0ZdCPx
+ jj60gsU8DpvsivmPFkotr1oWm+9eJRrDgXxXoBucSlQLsC8e3yd1+xRE3YqQWj5oOSeKRc
+ WgQiT/AKsquYHRce6OMi+J/l7oLzrRg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-bq8Gi9NINium1zIHimzYyQ-1; Fri, 08 Nov 2019 03:53:39 -0500
+ us-mta-267-EP0RvKKIPqObzGP4mW0jZQ-1; Fri, 08 Nov 2019 03:53:40 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57A58107ACC3;
- Fri,  8 Nov 2019 08:53:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 119C2107ACC5;
+ Fri,  8 Nov 2019 08:53:40 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-227.ams2.redhat.com
  [10.36.116.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE85600C9;
- Fri,  8 Nov 2019 08:53:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4C9F600C9;
+ Fri,  8 Nov 2019 08:53:38 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] block: Remove 'backing': null from bs->{explicit_,
- }options
-Date: Fri,  8 Nov 2019 09:53:11 +0100
-Message-Id: <20191108085312.27049-2-kwolf@redhat.com>
+Subject: [PATCH 2/2] iotests: Test multiple blockdev-snapshot calls
+Date: Fri,  8 Nov 2019 09:53:12 +0100
+Message-Id: <20191108085312.27049-3-kwolf@redhat.com>
 In-Reply-To: <20191108085312.27049-1-kwolf@redhat.com>
 References: <20191108085312.27049-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bq8Gi9NINium1zIHimzYyQ-1
+X-MC-Unique: EP0RvKKIPqObzGP4mW0jZQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,49 +76,462 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bs->options and bs->explicit_options shouldn't contain any options for
-child nodes. bdrv_open_inherited() takes care to remove any options that
-match a child name after opening the image and the same is done when
-reopening.
+Test that doing a second blockdev-snapshot doesn't make the first
+overlay's backing file go away.
 
-However, we miss the case of 'backing': null, which is a child option,
-but results in no child being created. This means that a 'backing': null
-remains in bs->options and bs->explicit_options.
-
-A typical use for 'backing': null is in live snapshots: blockdev-add for
-the qcow2 overlay makes sure not to open the backing file (because it is
-already opened and blockdev-snapshot will attach it). After doing a
-blockdev-snapshot, bs->options and bs->explicit_options become
-inconsistent with the actual state (bs has a backing file now, but the
-options still say null). On the next occasion that the image is
-reopened, e.g. switching it from read-write to read-only when another
-snapshot is taken, the option will take effect again and the node
-incorrectly loses its backing file.
-
-Fix bdrv_open_inherited() to remove the 'backing' option from
-bs->options and bs->explicit_options even for the case where it
-specifies that no backing file is wanted.
-
-Reported-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/qemu-iotests/273     |  76 +++++++++
+ tests/qemu-iotests/273.out | 337 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 414 insertions(+)
+ create mode 100755 tests/qemu-iotests/273
+ create mode 100644 tests/qemu-iotests/273.out
 
-diff --git a/block.c b/block.c
-index dad5a3d8e0..74ba9acb08 100644
---- a/block.c
-+++ b/block.c
-@@ -3019,6 +3019,8 @@ static BlockDriverState *bdrv_open_inherit(const char=
- *filename,
-                         "use \"backing\": null instead");
-         }
-         flags |=3D BDRV_O_NO_BACKING;
-+        qdict_del(bs->explicit_options, "backing");
-+        qdict_del(bs->options, "backing");
-         qdict_del(options, "backing");
-     }
-=20
+diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
+new file mode 100755
+index 0000000000..60076de7ce
+--- /dev/null
++++ b/tests/qemu-iotests/273
+@@ -0,0 +1,76 @@
++#!/usr/bin/env bash
++#
++# Test large write to a qcow2 image
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq=3D$(basename "$0")
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++# This is a qcow2 regression test
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++
++do_run_qemu()
++{
++    echo Testing: "$@"
++    $QEMU -nographic -qmp-pretty stdio -nodefaults "$@"
++    echo
++}
++
++run_qemu()
++{
++    do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp |
++        _filter_generated_node_ids | _filter_imgfmt | _filter_actual_image=
+_size
++}
++
++TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
++TEST_IMG=3D"$TEST_IMG.mid" _make_test_img -b "$TEST_IMG.base"
++_make_test_img -b "$TEST_IMG.mid"
++
++run_qemu \
++    -blockdev file,node-name=3Dbase,filename=3D"$TEST_IMG.base" \
++     -blockdev file,node-name=3Dmidf,filename=3D"$TEST_IMG.mid" \
++     -blockdev '{"driver":"qcow2","node-name":"mid","file":"midf","backing=
+":null}' \
++     -blockdev file,node-name=3Dtopf,filename=3D"$TEST_IMG" \
++     -blockdev '{"driver":"qcow2","file":"topf","node-name":"top","backing=
+":null}' \
++<<EOF
++{"execute":"qmp_capabilities"}
++{"execute":"blockdev-snapshot","arguments":{"node":"base","overlay":"mid"}=
+}
++{"execute":"blockdev-snapshot","arguments":{"node":"mid","overlay":"top"}}
++{"execute":"query-named-block-nodes"}
++{"execute":"x-debug-query-block-graph"}
++{"execute":"quit"}
++EOF
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
+new file mode 100644
+index 0000000000..c410fee5c4
+--- /dev/null
++++ b/tests/qemu-iotests/273.out
+@@ -0,0 +1,337 @@
++QA output created by 273
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
++Formatting 'TEST_DIR/t.IMGFMT.mid', fmt=3DIMGFMT size=3D67108864 backing_f=
+ile=3DTEST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
+=3DTEST_DIR/t.IMGFMT.mid
++Testing: -blockdev file,node-name=3Dbase,filename=3DTEST_DIR/t.IMGFMT.base=
+ -blockdev file,node-name=3Dmidf,filename=3DTEST_DIR/t.IMGFMT.mid -blockdev=
+ {"driver":"IMGFMT","node-name":"mid","file":"midf","backing":null} -blockd=
+ev file,node-name=3Dtopf,filename=3DTEST_DIR/t.IMGFMT -blockdev {"driver":"=
+IMGFMT","file":"topf","node-name":"top","backing":null}
++{
++    QMP_VERSION
++}
++{
++    "return": {
++    }
++}
++{
++    "return": {
++    }
++}
++{
++    "return": {
++    }
++}
++{
++    "return": [
++        {
++            "iops_rd": 0,
++            "detect_zeroes": "off",
++            "image": {
++                "backing-image": {
++                    "backing-image": {
++                        "virtual-size": 197120,
++                        "filename": "TEST_DIR/t.IMGFMT.base",
++                        "format": "file",
++                        "actual-size": SIZE,
++                        "dirty-flag": false
++                    },
++                    "backing-filename-format": "file",
++                    "virtual-size": 67108864,
++                    "filename": "TEST_DIR/t.IMGFMT.mid",
++                    "cluster-size": 65536,
++                    "format": "IMGFMT",
++                    "actual-size": SIZE,
++                    "format-specific": {
++                        "type": "IMGFMT",
++                        "data": {
++                            "compat": "1.1",
++                            "lazy-refcounts": false,
++                            "refcount-bits": 16,
++                            "corrupt": false
++                        }
++                    },
++                    "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
++                    "backing-filename": "TEST_DIR/t.IMGFMT.base",
++                    "dirty-flag": false
++                },
++                "backing-filename-format": "IMGFMT",
++                "virtual-size": 67108864,
++                "filename": "TEST_DIR/t.IMGFMT",
++                "cluster-size": 65536,
++                "format": "IMGFMT",
++                "actual-size": SIZE,
++                "format-specific": {
++                    "type": "IMGFMT",
++                    "data": {
++                        "compat": "1.1",
++                        "lazy-refcounts": false,
++                        "refcount-bits": 16,
++                        "corrupt": false
++                    }
++                },
++                "full-backing-filename": "TEST_DIR/t.IMGFMT.mid",
++                "backing-filename": "TEST_DIR/t.IMGFMT.mid",
++                "dirty-flag": false
++            },
++            "iops_wr": 0,
++            "ro": false,
++            "node-name": "top",
++            "backing_file_depth": 2,
++            "drv": "IMGFMT",
++            "iops": 0,
++            "bps_wr": 0,
++            "write_threshold": 0,
++            "backing_file": "TEST_DIR/t.IMGFMT.mid",
++            "encrypted": false,
++            "bps": 0,
++            "bps_rd": 0,
++            "cache": {
++                "no-flush": false,
++                "direct": false,
++                "writeback": true
++            },
++            "file": "TEST_DIR/t.IMGFMT",
++            "encryption_key_missing": false
++        },
++        {
++            "iops_rd": 0,
++            "detect_zeroes": "off",
++            "image": {
++                "virtual-size": 197120,
++                "filename": "TEST_DIR/t.IMGFMT",
++                "format": "file",
++                "actual-size": SIZE,
++                "dirty-flag": false
++            },
++            "iops_wr": 0,
++            "ro": false,
++            "node-name": "topf",
++            "backing_file_depth": 0,
++            "drv": "file",
++            "iops": 0,
++            "bps_wr": 0,
++            "write_threshold": 0,
++            "encrypted": false,
++            "bps": 0,
++            "bps_rd": 0,
++            "cache": {
++                "no-flush": false,
++                "direct": false,
++                "writeback": true
++            },
++            "file": "TEST_DIR/t.IMGFMT",
++            "encryption_key_missing": false
++        },
++        {
++            "iops_rd": 0,
++            "detect_zeroes": "off",
++            "image": {
++                "backing-image": {
++                    "virtual-size": 197120,
++                    "filename": "TEST_DIR/t.IMGFMT.base",
++                    "format": "file",
++                    "actual-size": SIZE,
++                    "dirty-flag": false
++                },
++                "backing-filename-format": "file",
++                "virtual-size": 67108864,
++                "filename": "TEST_DIR/t.IMGFMT.mid",
++                "cluster-size": 65536,
++                "format": "IMGFMT",
++                "actual-size": SIZE,
++                "format-specific": {
++                    "type": "IMGFMT",
++                    "data": {
++                        "compat": "1.1",
++                        "lazy-refcounts": false,
++                        "refcount-bits": 16,
++                        "corrupt": false
++                    }
++                },
++                "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
++                "backing-filename": "TEST_DIR/t.IMGFMT.base",
++                "dirty-flag": false
++            },
++            "iops_wr": 0,
++            "ro": true,
++            "node-name": "mid",
++            "backing_file_depth": 1,
++            "drv": "IMGFMT",
++            "iops": 0,
++            "bps_wr": 0,
++            "write_threshold": 0,
++            "backing_file": "TEST_DIR/t.IMGFMT.base",
++            "encrypted": false,
++            "bps": 0,
++            "bps_rd": 0,
++            "cache": {
++                "no-flush": false,
++                "direct": false,
++                "writeback": true
++            },
++            "file": "TEST_DIR/t.IMGFMT.mid",
++            "encryption_key_missing": false
++        },
++        {
++            "iops_rd": 0,
++            "detect_zeroes": "off",
++            "image": {
++                "virtual-size": 197120,
++                "filename": "TEST_DIR/t.IMGFMT.mid",
++                "format": "file",
++                "actual-size": SIZE,
++                "dirty-flag": false
++            },
++            "iops_wr": 0,
++            "ro": false,
++            "node-name": "midf",
++            "backing_file_depth": 0,
++            "drv": "file",
++            "iops": 0,
++            "bps_wr": 0,
++            "write_threshold": 0,
++            "encrypted": false,
++            "bps": 0,
++            "bps_rd": 0,
++            "cache": {
++                "no-flush": false,
++                "direct": false,
++                "writeback": true
++            },
++            "file": "TEST_DIR/t.IMGFMT.mid",
++            "encryption_key_missing": false
++        },
++        {
++            "iops_rd": 0,
++            "detect_zeroes": "off",
++            "image": {
++                "virtual-size": 197120,
++                "filename": "TEST_DIR/t.IMGFMT.base",
++                "format": "file",
++                "actual-size": SIZE,
++                "dirty-flag": false
++            },
++            "iops_wr": 0,
++            "ro": true,
++            "node-name": "base",
++            "backing_file_depth": 0,
++            "drv": "file",
++            "iops": 0,
++            "bps_wr": 0,
++            "write_threshold": 0,
++            "encrypted": false,
++            "bps": 0,
++            "bps_rd": 0,
++            "cache": {
++                "no-flush": false,
++                "direct": false,
++                "writeback": true
++            },
++            "file": "TEST_DIR/t.IMGFMT.base",
++            "encryption_key_missing": false
++        }
++    ]
++}
++{
++    "return": {
++        "edges": [
++            {
++                "name": "file",
++                "parent": 5,
++                "shared-perm": [
++                    "graph-mod",
++                    "write-unchanged",
++                    "consistent-read"
++                ],
++                "perm": [
++                    "resize",
++                    "write",
++                    "consistent-read"
++                ],
++                "child": 4
++            },
++            {
++                "name": "backing",
++                "parent": 5,
++                "shared-perm": [
++                    "graph-mod",
++                    "resize",
++                    "write-unchanged",
++                    "write",
++                    "consistent-read"
++                ],
++                "perm": [
++                ],
++                "child": 3
++            },
++            {
++                "name": "file",
++                "parent": 3,
++                "shared-perm": [
++                    "graph-mod",
++                    "write-unchanged",
++                    "consistent-read"
++                ],
++                "perm": [
++                    "consistent-read"
++                ],
++                "child": 2
++            },
++            {
++                "name": "backing",
++                "parent": 3,
++                "shared-perm": [
++                    "graph-mod",
++                    "resize",
++                    "write-unchanged",
++                    "write",
++                    "consistent-read"
++                ],
++                "perm": [
++                ],
++                "child": 1
++            }
++        ],
++        "nodes": [
++            {
++                "name": "top",
++                "type": "block-driver",
++                "id": 5
++            },
++            {
++                "name": "topf",
++                "type": "block-driver",
++                "id": 4
++            },
++            {
++                "name": "mid",
++                "type": "block-driver",
++                "id": 3
++            },
++            {
++                "name": "midf",
++                "type": "block-driver",
++                "id": 2
++            },
++            {
++                "name": "base",
++                "type": "block-driver",
++                "id": 1
++            }
++        ]
++    }
++}
++{
++    "return": {
++    }
++}
++{
++    "timestamp": {
++        "seconds":  TIMESTAMP,
++        "microseconds":  TIMESTAMP
++    },
++    "event": "SHUTDOWN",
++    "data": {
++        "guest": false,
++        "reason": "host-qmp-quit"
++    }
++}
++
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index af322af756..5aabdfefde 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -282,3 +282,4 @@
+ 267 rw auto quick snapshot
+ 268 rw auto quick
+ 270 rw backing quick
++273 backing quick
 --=20
 2.20.1
 
