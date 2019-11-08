@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00330F548A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 20:17:41 +0100 (CET)
-Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FC0F5485
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 20:15:07 +0100 (CET)
+Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT9lN-0003Bv-09
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 14:17:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58640)
+	id 1iT9iC-0007sc-SL
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 14:14:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iT9fy-0006DM-86
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:12:07 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iT9fw-0004Gz-9h
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iT9fx-0006C4-HR
  for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:12:06 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:46714 helo=mail.rt-rk.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iT9fw-0004Gb-8i
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:12:05 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:46723 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iT9fw-0002nh-03
+ id 1iT9fv-0002ni-Tp
  for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:12:04 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 2A7581A2138;
+ by mail.rt-rk.com (Postfix) with ESMTP id 393361A21B4;
  Fri,  8 Nov 2019 20:10:59 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id F199F1A21B4;
- Fri,  8 Nov 2019 20:10:58 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 0A1BD1A21B7;
+ Fri,  8 Nov 2019 20:10:59 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] MAINTAINERS: Adjust maintainership for Fulong 2E board
-Date: Fri,  8 Nov 2019 20:10:47 +0100
-Message-Id: <1573240249-6966-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH 4/5] MAINTAINERS: Adjust maintainership for Malta board
+Date: Fri,  8 Nov 2019 20:10:48 +0100
+Message-Id: <1573240249-6966-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573240249-6966-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1573240249-6966-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -61,31 +61,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Change the maintainership for Fulong 2E board to improve its quality.
+Change the maintainership for Malta board to improve its quality.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- MAINTAINERS | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 69cdc13..4a478f8 100644
+index 4a478f8..1a49381 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -962,9 +962,10 @@ S: Maintained
- F: hw/mips/mips_r4k.c
+@@ -941,8 +941,9 @@ F: hw/display/jazz_led.c
+ F: hw/dma/rc4030.c
 =20
- Fulong 2E
--M: Aleksandar Markovic <amarkovic@wavecomp.com>
+ Malta
+-M: Aurelien Jarno <aurelien@aurel32.net>
 -R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
--S: Odd Fixes
 +M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 +R: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-+R: Aleksandar Markovic <amarkovic@wavecomp.com>
-+S: Maintained
- F: hw/mips/mips_fulong2e.c
- F: hw/isa/vt82c686.c
- F: hw/pci-host/bonito.c
++R: Aurelien Jarno <aurelien@aurel32.net>
+ S: Maintained
+ F: hw/mips/mips_malta.c
+ F: hw/mips/gt64xxx_pci.c
 --=20
 2.7.4
 
