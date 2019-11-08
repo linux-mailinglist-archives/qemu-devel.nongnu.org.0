@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68377F4524
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:58:43 +0100 (CET)
-Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919C4F4537
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 12:00:38 +0100 (CET)
+Received: from localhost ([::1]:52318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT1yU-0002Q0-Az
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55909)
+	id 1iT20L-0004EA-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 06:00:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iT1xC-0001Nr-KM
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:57:26 -0500
+ (envelope-from <berrange@redhat.com>) id 1iT1xE-0001Pi-CU
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:57:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iT1x8-0001mK-D9
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:57:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54751
+ (envelope-from <berrange@redhat.com>) id 1iT1x8-0001nY-NJ
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:57:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37252
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iT1wa-0001P2-2b
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iT1wq-0001fm-Hk
  for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:57:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573210603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1573210620;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8CORNQ/Z/aRDcCrajii0EyWBb0MNU3yCo+4dGU3e3DY=;
- b=OFtXXCp5h1N23kZWkkqdsHtPaYVCXhTonp2Zu105OpR8cpeVRjroalGOerTK2A2QwO0Eoj
- D45LQa8O/qphYWWfIZr10ubCWKsmTJ4ED/q9wWnw4ceuxfyIZqAxiMC6tmB+cfemf5NIuU
- /IiyfisHo8CzjyUMqjhO3VbxlL2e3Ik=
+ bh=bkBLH3nEOBS2VigPxe5xSX04LZYJbsJLTzWcJrNHoZk=;
+ b=YAk2+BQ94Nc2HkouGRCbtlF0d0koMlPeLE2/tjOo8T1KZRofz8abI/UoY6oPVLM/By1ivN
+ pKvI/7qRpqIFukKZK15JRujVKChVqGSbMKj2T6xp9LLPDZVh0puwhfLe06juQcGIbteCT+
+ OtA8HmVSuA3sX2r3dRNnZW803+W2nk4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-eYg-wAI_PluTPIa4jV_aUw-1; Fri, 08 Nov 2019 05:56:42 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-229-33fUGljMMTmWp9vDzIywtg-1; Fri, 08 Nov 2019 05:56:58 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F72A800C72
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:56:41 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-167.ams2.redhat.com
- [10.36.116.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 129D36084E;
- Fri,  8 Nov 2019 10:56:29 +0000 (UTC)
-Subject: Re: [PATCH 3/3] cpu-plug-test: fix leaks
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191107192731.17330-1-marcandre.lureau@redhat.com>
- <20191107192731.17330-4-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <50882b6f-8270-2bb9-18f2-4a9ec49facaa@redhat.com>
-Date: Fri, 8 Nov 2019 11:56:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DF08017DD
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:56:57 +0000 (UTC)
+Received: from redhat.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A34C75D70E;
+ Fri,  8 Nov 2019 10:56:51 +0000 (UTC)
+Date: Fri, 8 Nov 2019 10:56:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [qemu-web PATCH v3] documentation: link to nightly documentation
+Message-ID: <20191108105648.GE182396@redhat.com>
+References: <20191108105435.403161-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191107192731.17330-4-marcandre.lureau@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: eYg-wAI_PluTPIa4jV_aUw-1
+In-Reply-To: <20191108105435.403161-1-stefanha@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 33fUGljMMTmWp9vDzIywtg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,46 +73,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/11/2019 20.27, Marc-Andr=C3=A9 Lureau wrote:
-> Spotted by ASAN.
+On Fri, Nov 08, 2019 at 11:54:35AM +0100, Stefan Hajnoczi wrote:
+> Link to the documentation built from qemu.git/master once a day.
 >=20
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   tests/cpu-plug-test.c | 2 ++
->   1 file changed, 2 insertions(+)
->=20
-> diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
-> index 058cef5ac1..30e514bbfb 100644
-> --- a/tests/cpu-plug-test.c
-> +++ b/tests/cpu-plug-test.c
-> @@ -99,6 +99,7 @@ static void test_plug_with_device_add(gconstpointer dat=
-a)
->  =20
->           cpu =3D qobject_to(QDict, e);
->           if (qdict_haskey(cpu, "qom-path")) {
-> +            qobject_unref(e);
->               continue;
->           }
->  =20
-> @@ -107,6 +108,7 @@ static void test_plug_with_device_add(gconstpointer d=
-ata)
->  =20
->           qtest_qmp_device_add_qdict(qts, td->device_model, props);
->           hotplugged++;
-> +        qobject_unref(e);
->       }
->  =20
->       /* make sure that there were hotplugged CPUs */
->=20
+> v3:
+>  * Use a qemu.org URL, not a wiki.qemu.org URL [danpb]
+> v2:
+>  * This revision was broken - please ignore! :)
+> ---
+>  documentation.md | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Fixes: 021a007efc3 ("cpu-plug-test: fix device_add for pc/q35 machines")
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+(depends on the corresponding patch to qemu.git to generate the main
+ index.html to be merged before this can be pushed I presume)
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
