@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28DC6F441E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:02:00 +0100 (CET)
-Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC488F4420
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:02:14 +0100 (CET)
+Received: from localhost ([::1]:51351 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT15a-0004J7-Oy
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:01:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41803)
+	id 1iT15p-0004X6-N5
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:02:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iT13Y-0002z1-Pn
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:54 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iT13d-00033h-SG
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iT13X-0002nb-Rr
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44165
+ (envelope-from <stefanha@redhat.com>) id 1iT13c-0002p0-Ju
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:57 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28264
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iT13X-0002nG-Mc
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:51 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iT13c-0002oq-GK
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:59:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573207191;
+ s=mimecast20190719; t=1573207196;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RDnIzMakipXmM6yrMZUxTwS4buarpmiPqaoxhNKeFnQ=;
- b=dqZf7dsSHvCb3pKjZrSwO2taseTCY1trIIQ/+NmQz8M9FzQ6iU/Y4q9ym/DlMs9pAdAwbv
- R26vxqYUwB1cvuMmi99EcADheUUVEu7A9NHgkzAD01hhl5KZ+BOC4W2j/bywltiiy1I892
- VJCGyQ+FKSK8tVQWJLnGfvEXSSUHNTg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=umIrZIG9AS0Nt7/2OGXULYv8N+vCjN5xNv+pE94xXYg=;
+ b=AKHT7HULugOaY0d8YMF0Iob5vCPdAMpPpnTntux9PpgrOYCt3SbPlvpp+7OSwS0flscz/H
+ AX6pBTYsrIQqw/N0o7tJZdA8MdHCmP9YjazR+wmroAUJRKArL+/oArcdMUHIrncnBoT/xT
+ 7vOykH15LHvUfx3Qf9jGqwxMrdFDkIo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-W26l6iZuO2SfuDN3POf1_w-1; Fri, 08 Nov 2019 04:59:47 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-17-QBP403k_O-qjUhYV1Nc_vw-1; Fri, 08 Nov 2019 04:59:52 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D941800D7B;
- Fri,  8 Nov 2019 09:59:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A5FA800A1A;
+ Fri,  8 Nov 2019 09:59:51 +0000 (UTC)
 Received: from localhost (ovpn-116-74.ams2.redhat.com [10.36.116.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3401600C9;
- Fri,  8 Nov 2019 09:59:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75B3E271B2;
+ Fri,  8 Nov 2019 09:59:48 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] docs: build an index page for the HTML docs
-Date: Fri,  8 Nov 2019 10:59:39 +0100
-Message-Id: <20191108095942.401225-1-stefanha@redhat.com>
+Subject: [PATCH 1/3] docs: fix rst syntax errors in unbuilt docs
+Date: Fri,  8 Nov 2019 10:59:40 +0100
+Message-Id: <20191108095942.401225-2-stefanha@redhat.com>
+In-Reply-To: <20191108095942.401225-1-stefanha@redhat.com>
+References: <20191108095942.401225-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: W26l6iZuO2SfuDN3POf1_w-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: QBP403k_O-qjUhYV1Nc_vw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,26 +75,99 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series switches to a single invocation of sphinx that builds
-docs/index.rst.  This global index page links to all HTML documentation
-produced by "make html", even the non-rST manuals.
+The .rst files outside docs/{devel,interop,specs} aren't built yet and
+therefore a few syntax errors have slipped through.  Fix them.
 
-This index page will be used as the entrypoint for documentation published =
-on
-the qemu.org website.
-
-Stefan Hajnoczi (3):
-  docs: fix rst syntax errors in unbuilt docs
-  docs: build a global index page
-  docs: install CSS and Javascript files for HTML docs
-
- Makefile                     | 14 +++++---------
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
  docs/arm-cpu-features.rst    |  6 +++---
- docs/index.rst               | 27 ++++++++++++++++++++++++++-
  docs/virtio-net-failover.rst |  4 ++--
  docs/virtio-pmem.rst         | 19 ++++++++++---------
- 5 files changed, 46 insertions(+), 24 deletions(-)
+ 3 files changed, 15 insertions(+), 14 deletions(-)
 
+diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
+index 1b367e22e1..9b537a75e6 100644
+--- a/docs/arm-cpu-features.rst
++++ b/docs/arm-cpu-features.rst
+@@ -41,9 +41,9 @@ CPU type is possible with the `query-cpu-model-expansion`=
+ QMP command.
+ Below are some examples where `scripts/qmp/qmp-shell` (see the top comment
+ block in the script for usage) is used to issue the QMP commands.
+=20
+-(1) Determine which CPU features are available for the `max` CPU type
+-    (Note, we started QEMU with qemu-system-aarch64, so `max` is
+-     implementing the ARMv8-A reference manual in this case)::
++1. Determine which CPU features are available for the `max` CPU type
++   (Note, we started QEMU with qemu-system-aarch64, so `max` is
++   implementing the ARMv8-A reference manual in this case)::
+=20
+       (QEMU) query-cpu-model-expansion type=3Dfull model=3D{"name":"max"}
+       { "return": {
+diff --git a/docs/virtio-net-failover.rst b/docs/virtio-net-failover.rst
+index 22f64c7bc8..6002dc5d96 100644
+--- a/docs/virtio-net-failover.rst
++++ b/docs/virtio-net-failover.rst
+@@ -1,6 +1,6 @@
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ QEMU virtio-net standby (net_failover)
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ This document explains the setup and usage of virtio-net standby feature w=
+hich
+ is used to create a net_failover pair of devices.
+diff --git a/docs/virtio-pmem.rst b/docs/virtio-pmem.rst
+index e77881b26f..4bf5d00443 100644
+--- a/docs/virtio-pmem.rst
++++ b/docs/virtio-pmem.rst
+@@ -27,17 +27,18 @@ virtio pmem usage
+ -----------------
+=20
+   A virtio pmem device backed by a memory-backend-file can be created on
+-  the QEMU command line as in the following example:
++  the QEMU command line as in the following example::
+=20
+-  -object memory-backend-file,id=3Dmem1,share,mem-path=3D./virtio_pmem.img=
+,size=3D4G
+-  -device virtio-pmem-pci,memdev=3Dmem1,id=3Dnv1
++    -object memory-backend-file,id=3Dmem1,share,mem-path=3D./virtio_pmem.i=
+mg,size=3D4G
++    -device virtio-pmem-pci,memdev=3Dmem1,id=3Dnv1
+=20
+-   where:
+-   - "object memory-backend-file,id=3Dmem1,share,mem-path=3D<image>, size=
+=3D<image size>"
+-     creates a backend file with the specified size.
++  where:
+=20
+-   - "device virtio-pmem-pci,id=3Dnvdimm1,memdev=3Dmem1" creates a virtio =
+pmem
+-     pci device whose storage is provided by above memory backend device.
++  - "object memory-backend-file,id=3Dmem1,share,mem-path=3D<image>, size=
+=3D<image size>"
++    creates a backend file with the specified size.
++
++  - "device virtio-pmem-pci,id=3Dnvdimm1,memdev=3Dmem1" creates a virtio p=
+mem
++    pci device whose storage is provided by above memory backend device.
+=20
+   Multiple virtio pmem devices can be created if multiple pairs of "-objec=
+t"
+   and "-device" are provided.
+@@ -50,7 +51,7 @@ memory backing has to be added via 'object_add'; afterwar=
+ds, the virtio
+ pmem device can be added via 'device_add'.
+=20
+ For example, the following commands add another 4GB virtio pmem device to
+-the guest:
++the guest::
+=20
+  (qemu) object_add memory-backend-file,id=3Dmem2,share=3Don,mem-path=3Dvir=
+tio_pmem2.img,size=3D4G
+  (qemu) device_add virtio-pmem-pci,id=3Dvirtio_pmem2,memdev=3Dmem2
 --=20
 2.23.0
 
