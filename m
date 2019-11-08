@@ -2,107 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA09DF4DB7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:06:50 +0100 (CET)
-Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA55F4DD5
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:10:27 +0100 (CET)
+Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT4uX-0001iA-5D
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:06:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34174)
+	id 1iT4y1-0005oe-UG
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:10:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rkagan@virtuozzo.com>) id 1iT4tN-0000jU-If
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:05:39 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iT4ti-0001AO-Eq
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:05:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rkagan@virtuozzo.com>) id 1iT4tL-0002Zc-RE
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:05:37 -0500
-Received: from mail-bgr052101133092.outbound.protection.outlook.com
- ([52.101.133.92]:38628 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iT4th-0002jS-7t
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:05:58 -0500
+Received: from mail-eopbgr00131.outbound.protection.outlook.com
+ ([40.107.0.131]:2334 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
- id 1iT4tL-0002Z8-3m; Fri, 08 Nov 2019 09:05:35 -0500
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iT4th-0002jE-2F; Fri, 08 Nov 2019 09:05:57 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gQXOA7ci4sbOhfPf/OO9uC2q8QNVX4G52yPLw1hi5r2Dknzt1M6tHS88KKb8O+92fE70Js7rFEQK9nuCsbzKyXg+xsLZwCjolN6Rd+sKT1VOg8AFEgatYUGqV5dtItkWutdRMoCsIUDrHcwrym61/wpZo0NsvqKxKLi/hjbpM3OVqOwcxQ97IR2mhxoCFvevoH2RPZQUgF2EY2c5hGWn/M2XT+dAg5rtSfUFMp0jLcirTz6i/AhF857buswXpLdtjH2sVKYYWLQAi1YjFMtXrfflGvz1K/TS9+AbNoyd6MohEcga24WPoq7m4l+EuHe/t6yWRoiwmR79Oy034hyNig==
+ b=HPZYna7mFrbMivHeLrKYMi3Mjv8TvHCAr7mb6whmKjbKhBvKb9TrzGIOj0UQrKlWyA2FdxRvO7bGva20d2RlIm7ETjEtWYxAeYJ6mweoq8FVpAbRmL/Xg+8L27/BBAz7R46ZMB6vbzAtXYN15iAKy4HWYpvLprMWGWzIwXnAYXqhKJQ9jS4d45wOjy2XylTJcKT9TlUU9aVfV6ijPhuIhKJnQarS5B96b6XHl2JXxDwPElej05S8Xjjixi1czDJFD1oofhdTGKm9aO3fmXY+eGsCcyutCj34cXZStY7arnyaddEnscLyRFCFUYZMltdPPOAYSkDqhJwjwjAGTFVhAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WW0nAHRQHf5ev0Fs/KqNwu75pi1r1PpbojcJNzqpTGM=;
- b=i2ylqCHgBXtj0Yn9dwc+pV0Ju333u2ufDnNKzLebeyN3ZQ+NPg0IVch6fCG0Fm1GQHCUAQsbWg9XWC34nlA1AlE2e6dNYPf/ZBq5w+BWTgGA6M0LBVUFJTAFdM/KIti/PnfjSydAXSkEwChvO7XYfdW2Epl5cYEO7+rCarWOsK91z+033Gt8eBSmUpH8eqM6ddNc+0UXHoVBqnHl1R09/QUYcg7qx6wuRaEVQRGVSSnRlIBawLymAwHGce8LqpfyFNv/v+fevkDlA4Ziv7xdUEV0++avHSa2ZN4poD+EDAO84uoHaldwkFDfLXGvGnN45dk82weR623jUzDLd2jfTg==
+ bh=dxLsAAY44g0C42N3WxNE8DSwj5qHpLlDqtkipkeuURw=;
+ b=B8VVn7GaWYmxBuTB8XfDqS9HEXuNNIZPviUN0vupBrm/DBSc+C06caBHe8gLW+ZaRXVcNZYX0o3Y13dtZfkp6ULc6yy+VsFP2N5XUvnYFKqL1M1eiClxvjCVIY4dI2qn8L6ccZgoJdfS3H7O9guAAB/jE2szBSHtVgiHcfMGpaJUef108+6YOMmOZZ1LjWte+jGl7/MYoqJf2yuj7WKLpBl7kU8a9BhMBtYxK14WUfwEPsP0VClwRSwHJUNquzSsUzhPJhtpVxtXEINvBwwXnG6AF1hGJsTIYymUiRV2LTBw2Sdge1YL16htH21bWWe531JavU9g71c4SsULrwfv7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WW0nAHRQHf5ev0Fs/KqNwu75pi1r1PpbojcJNzqpTGM=;
- b=iFfB0w6ZhP/iyrV2gAMysDZ8IqOcx4xVo8e7AV1fCGE+Cp0Zdaz/SMyjSs9HW2laSL6fOoocesCBrEUXy0nEpqf2C+NxxTb9zKog1TPYJUFY0JOS8ypKLeCooT6yGyAwGt1R+OX6tQfSPlTnzB7PwYXcJKlyAsUIbd/5bU/6NCo=
-Received: from VI1PR08MB4608.eurprd08.prod.outlook.com (20.178.80.22) by
- VI1PR08MB3790.eurprd08.prod.outlook.com (20.178.15.16) with Microsoft SMTP
+ bh=dxLsAAY44g0C42N3WxNE8DSwj5qHpLlDqtkipkeuURw=;
+ b=KlKgKEar9QSDD4NVyXWZEEg5ZpM8CVsWxIFR7Gv5JN6vID+lrQHWHfpRGYobMS/fhmmAVWKQeh+8OWrU4H17ZIfeIIZkcDtFG4RFdcpMtFhWNz8YjaLIprmDqFARr8QYnR3mv3MAerC1vPHJ5sqeT7PHk+IUb5mA71i4gddz+yM=
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
+ AM0PR08MB3761.eurprd08.prod.outlook.com (20.178.23.30) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Fri, 8 Nov 2019 14:05:31 +0000
-Received: from VI1PR08MB4608.eurprd08.prod.outlook.com
- ([fe80::9465:ec66:befb:e8b5]) by VI1PR08MB4608.eurprd08.prod.outlook.com
- ([fe80::9465:ec66:befb:e8b5%3]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
- 14:05:31 +0000
-From: Roman Kagan <rkagan@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3] iotests: Test NBD client reconnection
-Thread-Topic: [PATCH v3] iotests: Test NBD client reconnection
-Thread-Index: AQHVkNUYkueRQi37cke6mp6VF9z0xKeBVR0AgAAEXYA=
-Date: Fri, 8 Nov 2019 14:05:31 +0000
-Message-ID: <20191108140527.GA63895@rkaganb.sw.ru>
-References: <1572627272-23359-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <feb2b810-3436-6550-43b2-a07ec1fc5280@virtuozzo.com>
-In-Reply-To: <feb2b810-3436-6550-43b2-a07ec1fc5280@virtuozzo.com>
-Accept-Language: en-US, ru-RU
+ 15.20.2430.20; Fri, 8 Nov 2019 14:05:54 +0000
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::41f0:981:fd75:9946]) by AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::41f0:981:fd75:9946%3]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
+ 14:05:54 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v4 1/5] block: Add bdrv_qapi_perm_to_blk_perm()
+Thread-Topic: [PATCH for-5.0 v4 1/5] block: Add bdrv_qapi_perm_to_blk_perm()
+Thread-Index: AQHVljDxgCMEQd4wGU2ON230PseUU6eBTuAA
+Date: Fri, 8 Nov 2019 14:05:54 +0000
+Message-ID: <d77d0a3e-6466-88fa-f169-98293babdf22@virtuozzo.com>
+References: <20191108123455.39445-1-mreitz@redhat.com>
+ <20191108123455.39445-2-mreitz@redhat.com>
+In-Reply-To: <20191108123455.39445-2-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.12.1 (2019-06-15)
-mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>,	Vladimir
- Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,	Andrey Shinkevich
- <andrey.shinkevich@virtuozzo.com>,	"qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>,	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "kwolf@redhat.com" <kwolf@redhat.com>,	Denis Lunev <den@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
-x-originating-ip: [185.231.240.5]
-x-clientproxiedby: HE1PR0701CA0064.eurprd07.prod.outlook.com
- (2603:10a6:3:9e::32) To VI1PR08MB4608.eurprd08.prod.outlook.com
- (2603:10a6:803:c0::22)
+x-clientproxiedby: HE1PR05CA0134.eurprd05.prod.outlook.com
+ (2603:10a6:7:28::21) To AM0PR08MB4097.eurprd08.prod.outlook.com
+ (2603:10a6:208:132::25)
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rkagan@virtuozzo.com; 
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191108170552201
+x-originating-ip: [185.231.240.5]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 61adef6b-bdac-426e-ac63-08d76454b75b
-x-ms-traffictypediagnostic: VI1PR08MB3790:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <VI1PR08MB3790CA5E410ACD7A977340A6C97B0@VI1PR08MB3790.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-ms-office365-filtering-correlation-id: aa4ddb78-2b8a-4601-f4bd-08d76454c4e2
+x-ms-traffictypediagnostic: AM0PR08MB3761:
+x-microsoft-antispam-prvs: <AM0PR08MB3761F291D0ACC7AD69AA40FDC17B0@AM0PR08MB3761.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0215D7173F
-x-forefront-antispam-report: SFV:SPM;
- SFS:(10019020)(979002)(376002)(396003)(39840400004)(346002)(366004)(136003)(199004)(189003)(81166006)(8936002)(6486002)(7736002)(305945005)(6862004)(5660300002)(66446008)(64756008)(66556008)(66476007)(6306002)(14444005)(186003)(6636002)(54906003)(33656002)(3846002)(66946007)(11346002)(476003)(6116002)(4326008)(76176011)(486006)(66066001)(256004)(52116002)(2906002)(99286004)(8676002)(446003)(229853002)(14454004)(386003)(6506007)(1076003)(25786009)(966005)(478600001)(81156014)(316002)(58126008)(102836004)(71190400001)(6436002)(6246003)(36756003)(9686003)(26005)(86362001)(6512007)(71200400001)(30126002)(969003)(989001)(999001)(1009001)(1019001);
- DIR:OUT; SFP:1501; SCL:5; SRVR:VI1PR08MB3790;
- H:VI1PR08MB4608.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(136003)(376002)(39840400004)(366004)(346002)(199004)(189003)(4326008)(2616005)(446003)(99286004)(26005)(8936002)(256004)(186003)(36756003)(86362001)(8676002)(25786009)(14444005)(31686004)(31696002)(6116002)(81166006)(81156014)(71200400001)(66066001)(71190400001)(3846002)(476003)(386003)(52116002)(14454004)(64756008)(102836004)(66446008)(66556008)(66476007)(478600001)(2501003)(486006)(316002)(110136005)(76176011)(6486002)(7736002)(11346002)(66946007)(5660300002)(6512007)(6506007)(6246003)(54906003)(229853002)(305945005)(6436002)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3761;
+ H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rF7L1pgZM57f8gvxKd5kYMN8CXVQdyrOP/x4Lvj805xN6WrI2LbcLdxb8tmKPOtGy7gamF6jsi1r4jgs6Vb/SM2tnsLda29KSjMMxl16bagPX8hQWyhz7TWwf6Vja9GJ2Q56vByLcmb3wCptIdpDRNRJ67kboI8RF6xluA93NUXrwUCiyBopgx2z8yngIRhWQrRhHttDkQHLAHl9+NRrGdb3lIDVzy1TrdvWoTcfe6jvbRBokcUvxlLXGcME7GNg7W6OQSl5ebi5Xoja8D0yK0UTExhqGQX0Ekvh+E/gAnudvkI7qlldHNDzADNPD5YYlJcjdt2vFjcf5dm/aoNKPS2YCtYUffO1m/YQUXAkcDSHxuk2afPtzFf9acYJxutnXAJA7vRDALpScSB62ye5h30KyuYQV0CGJlHm+jGKBf8=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <091B2B1EEF049840B5F50F1157F6FE6E@eurprd08.prod.outlook.com>
+x-microsoft-antispam-message-info: lWGYjG3I05kTxRwv9h4HXGDo9I8fxqDLjQsfKMOCmKlXUQ2Bs3V5Eg0abPbhHo5S42IgBIKKkQ7eDYnu0n/kHhJpWjbZR26gzVsOjmPz2t2UzNNRj44IFxNjQtkpypDHfp5NLCzhnZWl66Fjjlw5UsqqOHVvPTZ5Mf6sa6GCFEkgqmKgpspKjzJE2/bKPHnn35R91Ngmhr9hxB435e3ZNaxHPNGJCPV/H8XIZEbt8WnBSMrg2rwoMp+LlIX6AqIHTIabQUfqX10eoFjCtk0cqqG4Luvuh2mAROP1rRbPm+pSJqFs8EVnLmTfRC+J11+/C1fsmcYW9qreOg2oR6GZVYdmOZ9JD36qM1/sPYHxkwnh9zeDmQwoDFYlwfrGaOfA/kKM6NrC/E6z4ZITxdNFJ/dF4zTr+NiXgXMw7asyRrHm1j9nFJhxt4LjlOp7GxMU
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <667ED9260BB42F499A31D72A2A4386AC@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61adef6b-bdac-426e-ac63-08d76454b75b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 14:05:31.6121 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa4ddb78-2b8a-4601-f4bd-08d76454c4e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 14:05:54.1461 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HOCZJmpDNiZU6/H/uW5CiOixx3GF+5JR0hnmlL9N1RhyuNgb2YA9q3ZrtSXgyh7snR4F6L6SYOv+RrTkTMTNHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3790
+X-MS-Exchange-CrossTenant-userprincipalname: CK4i/xWxrGnzQWu4rF8V5m/py/YfyXp55dxtUbtomKV3XjsEIn+6VKHjGBlrt5Q/g/qrSrJcyg8IO3vlG4o2oigFs9h9EM4fFGnMth7DS7o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3761
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 52.101.133.92
+X-Received-From: 40.107.0.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,46 +109,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 01:49:50PM +0000, Vladimir Sementsov-Ogievskiy wrote:
-> 01.11.2019 19:54, Andrey Shinkevich wrote:
-> > +def check_proc_NBD(proc, connector):
-> > +    try:
-> > +        exitcode = proc.wait(timeout=10)
-> > +
-> > +        if exitcode < 0:
-> > +            log('NBD {}: EXIT SIGNAL {}\n'.format(connector, -exitcode))
-> > +            log(proc.communicate()[0])
-> > +        else:
-> > +            line = proc.stdout.readline()
-> 
-> 
-> could we use proc.communicate() for both cases, what is the difference?
-
-In fact if proc produces any non-trivial amount of output you are better
-off using .communicate() otherwise your child may block on output and
-never exit.  See
-https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
-for how to express the above logic correctly.  The exit code *after*
-.communicate is available in .returncode.
-
-> 
-> > +            log('NBD {}: {}'.format(connector, line.rstrip()))
-> > +
-> > +    except subprocess.TimeoutExpired:
-> > +        proc.kill()
-> > +        log('NBD {}: ERROR timeout expired'.format(connector))
-> > +    finally:
-> > +        if connector == 'server':
-> > +            os.remove(nbd_sock)
-> > +            os.remove(conf_file)
-
-Roman.
+MDguMTEuMjAxOSAxNTozNCwgTWF4IFJlaXR6IHdyb3RlOg0KPiBXZSBuZWVkIHNvbWUgd2F5IHRv
+IGNvcnJlbGF0ZSBRQVBJIEJsb2NrUGVybWlzc2lvbiB2YWx1ZXMgd2l0aA0KPiBCTEtfUEVSTV8q
+IGZsYWdzLiAgV2UgY291bGQ6DQo+IA0KPiAoMSkgaGF2ZSB0aGUgc2FtZSBvcmRlciBpbiB0aGUg
+UUFQSSBkZWZpbml0aW9uIGFzIHRoZSB0aGUgQkxLX1BFUk1fKg0KPiAgICAgIGZsYWdzIGFyZSBp
+biBMU2ItZmlyc3Qgb3JkZXIuICBIb3dldmVyLCB0aGVuIHRoZXJlIGlzIG5vIGd1YXJhbnRlZQ0K
+PiAgICAgIHRoYXQgdGhleSBhY3R1YWxseSBtYXRjaCAoZS5nLiB3aGVuIHNvbWVvbmUgbW9kaWZp
+ZXMgdGhlIFFBUEkgc2NoZW1hDQo+ICAgICAgd2l0aG91dCB0aGlua2luZyBvZiB0aGUgQkxLX1BF
+Uk1fKiBkZWZpbml0aW9ucykuDQo+ICAgICAgV2UgY291bGQgYWRkIHN0YXRpYyBhc3NlcnRpb25z
+LCBidXQgdGhlc2Ugd291bGQgYnJlYWsgd2hhdOKAmXMgZ29vZA0KPiAgICAgIGFib3V0IHRoaXMg
+c29sdXRpb24sIG5hbWVseSBpdHMgc2ltcGxpY2l0eS4NCj4gDQo+ICgyKSBkZWZpbmUgdGhlIEJM
+S19QRVJNXyogZmxhZ3MgYmFzZWQgb24gdGhlIEJsb2NrUGVybWlzc2lvbiB2YWx1ZXMuDQo+ICAg
+ICAgQnV0IHRoaXMgd2F5IHdoZW5ldmVyIHNvbWVvbmUgd2VyZSB0byBtb2RpZnkgdGhlIFFBUEkg
+b3JkZXINCj4gICAgICAocGVyZmVjdGx5IHNlbnNpYmxlIGluIHRoZW9yeSksIHRoZSBCTEtfUEVS
+TV8qIHZhbHVlcyB3b3VsZCBjaGFuZ2UuDQo+ICAgICAgQmVjYXVzZSB0aGVzZSB2YWx1ZXMgYXJl
+IHVzZWQgZm9yIGZpbGUgbG9ja2luZywgdGhpcyBtaWdodCBicmVhaw0KPiAgICAgIGZpbGUgbG9j
+a2luZyBiZXR3ZWVuIGRpZmZlcmVudCBxZW11IHZlcnNpb25zLg0KPiANCj4gVGhlcmVmb3JlLCBn
+byB0aGUgc2xpZ2h0bHkgbW9yZSBjdW1iZXJzb21lIHdheTogQWRkIGEgZnVuY3Rpb24gdG8NCj4g
+dHJhbnNsYXRlIGZyb20gdGhlIFFBUEkgY29uc3RhbnRzIHRvIHRoZSBCTEtfUEVSTV8qIGZsYWdz
+Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCg0K
+UmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmly
+dHVvenpvLmNvbT4NCg0KPiAtLS0NCj4gICBibG9jay5jICAgICAgICAgICAgICAgfCAxOCArKysr
+KysrKysrKysrKysrKysNCj4gICBpbmNsdWRlL2Jsb2NrL2Jsb2NrLmggfCAgMSArDQo+ICAgMiBm
+aWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvYmxvY2su
+YyBiL2Jsb2NrLmMNCj4gaW5kZXggNGNmZmMyYmMzNS4uMDY2NDMzZjNlMiAxMDA2NDQNCj4gLS0t
+IGEvYmxvY2suYw0KPiArKysgYi9ibG9jay5jDQo+IEBAIC0yMjI3LDYgKzIyMjcsMjQgQEAgdm9p
+ZCBiZHJ2X2Zvcm1hdF9kZWZhdWx0X3Blcm1zKEJsb2NrRHJpdmVyU3RhdGUgKmJzLCBCZHJ2Q2hp
+bGQgKmMsDQo+ICAgICAgICpuc2hhcmVkID0gc2hhcmVkOw0KPiAgIH0NCj4gICANCj4gK3VpbnQ2
+NF90IGJkcnZfcWFwaV9wZXJtX3RvX2Jsa19wZXJtKEJsb2NrUGVybWlzc2lvbiBxYXBpX3Blcm0p
+DQo+ICt7DQo+ICsgICAgc3RhdGljIGNvbnN0IHVpbnQ2NF90IHBlcm1pc3Npb25zW10gPSB7DQo+
+ICsgICAgICAgIFtCTE9DS19QRVJNSVNTSU9OX0NPTlNJU1RFTlRfUkVBRF0gID0gQkxLX1BFUk1f
+Q09OU0lTVEVOVF9SRUFELA0KPiArICAgICAgICBbQkxPQ0tfUEVSTUlTU0lPTl9XUklURV0gICAg
+ICAgICAgICA9IEJMS19QRVJNX1dSSVRFLA0KPiArICAgICAgICBbQkxPQ0tfUEVSTUlTU0lPTl9X
+UklURV9VTkNIQU5HRURdICA9IEJMS19QRVJNX1dSSVRFX1VOQ0hBTkdFRCwNCj4gKyAgICAgICAg
+W0JMT0NLX1BFUk1JU1NJT05fUkVTSVpFXSAgICAgICAgICAgPSBCTEtfUEVSTV9SRVNJWkUsDQo+
+ICsgICAgICAgIFtCTE9DS19QRVJNSVNTSU9OX0dSQVBIX01PRF0gICAgICAgID0gQkxLX1BFUk1f
+R1JBUEhfTU9ELA0KPiArICAgIH07DQo+ICsNCj4gKyAgICBRRU1VX0JVSUxEX0JVR19PTihBUlJB
+WV9TSVpFKHBlcm1pc3Npb25zKSAhPSBCTE9DS19QRVJNSVNTSU9OX19NQVgpOw0KPiArICAgIFFF
+TVVfQlVJTERfQlVHX09OKDFVTCA8PCBBUlJBWV9TSVpFKHBlcm1pc3Npb25zKSAhPSBCTEtfUEVS
+TV9BTEwgKyAxKTsNCg0Kc2FmZSBlbm91Z2gpDQoNCj4gKw0KPiArICAgIGFzc2VydChxYXBpX3Bl
+cm0gPCBCTE9DS19QRVJNSVNTSU9OX19NQVgpOw0KPiArDQo+ICsgICAgcmV0dXJuIHBlcm1pc3Np
+b25zW3FhcGlfcGVybV07DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgdm9pZCBiZHJ2X3JlcGxhY2Vf
+Y2hpbGRfbm9wZXJtKEJkcnZDaGlsZCAqY2hpbGQsDQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBCbG9ja0RyaXZlclN0YXRlICpuZXdfYnMpDQo+ICAgew0KPiBkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS9ibG9jay9ibG9jay5oIGIvaW5jbHVkZS9ibG9jay9ibG9jay5oDQo+
+IGluZGV4IDFkZjk4NDhlNzQuLmU5ZGNmZWY3ZmEgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvYmxv
+Y2svYmxvY2suaA0KPiArKysgYi9pbmNsdWRlL2Jsb2NrL2Jsb2NrLmgNCj4gQEAgLTI4MCw2ICsy
+ODAsNyBAQCBlbnVtIHsNCj4gICB9Ow0KPiAgIA0KPiAgIGNoYXIgKmJkcnZfcGVybV9uYW1lcyh1
+aW50NjRfdCBwZXJtKTsNCj4gK3VpbnQ2NF90IGJkcnZfcWFwaV9wZXJtX3RvX2Jsa19wZXJtKEJs
+b2NrUGVybWlzc2lvbiBxYXBpX3Blcm0pOw0KPiAgIA0KPiAgIC8qIGRpc2sgSS9PIHRocm90dGxp
+bmcgKi8NCj4gICB2b2lkIGJkcnZfaW5pdCh2b2lkKTsNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2Fy
+ZHMsDQpWbGFkaW1pcg0K
 
