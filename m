@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4593F4EE1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:05:00 +0100 (CET)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40710F4EE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:07:04 +0100 (CET)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5op-0003pM-4K
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:04:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45819)
+	id 1iT5qo-00079x-RW
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:07:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5lc-0002Ra-6S
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:41 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5lo-0002jZ-BT
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5la-0003Bs-Db
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41603
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5lm-0003Ku-TF
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:52 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39597
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iT5la-0003BM-3q
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:38 -0500
+ id 1iT5lm-0003K3-PW
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:01:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573225297;
+ s=mimecast20190719; t=1573225309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4Kg4YoKWk8215DGBZ61EfFtdBmhVEjwNz3VE/HN4tPw=;
- b=BwRm17Sj4V2Vm+3bEgkQydILWkEPoc0HTRd7qHuvTNQBUkOHZ+Yww9D3SG4rHwDrBihqA9
- Gx8kWap/MwffeQkW92naXfN63yB9MemWrxSLF/Mwmx+C7eC/yZrEtjf89cppbkalZqrhAD
- QRkgdZOjfOLBGeWS1AoWs8QGTjhjoSw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IKOvT4fY+hDgHdgpyHo2Rg2+75O/6kQXp/lWkffMxxI=;
+ b=bOgk6x2+x0Ci3bnbDEtKgvOoY9hntGXk7a34w0k8u1Bl+2q9s9RRK/6vSEwRRwYsEIJ3kz
+ +5/KV2y5VWVtTob5QfvLEtlh53bhuSQLCwEGLTM2F9+vJCvvxSZcizs6mEDDAanInbVfKD
+ RM1M0ojp7iI1GAunyQHbwxwV+tBbIkQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-tYoS62LwNwq00DeH-06rFg-1; Fri, 08 Nov 2019 10:01:35 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-187-1fHarxj5MTSKzaWVESllyg-1; Fri, 08 Nov 2019 10:01:48 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC158017DD
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:01:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAF101005502
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:01:47 +0000 (UTC)
 Received: from localhost (ovpn-112-25.ams2.redhat.com [10.36.112.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 216575C1BB;
- Fri,  8 Nov 2019 15:01:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F98A5D6B7;
+ Fri,  8 Nov 2019 15:01:39 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/25] monitor: add asynchronous command type
-Date: Fri,  8 Nov 2019 19:00:58 +0400
-Message-Id: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v6 01/25] qmp: constify QmpCommand and list
+Date: Fri,  8 Nov 2019 19:00:59 +0400
+Message-Id: <20191108150123.12213-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: tYoS62LwNwq00DeH-06rFg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 1fHarxj5MTSKzaWVESllyg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,142 +76,189 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Since 0b69f6f72ce47a37a749b056b6d5ec64c61f11e8 "qapi: remove
+qmp_unregister_command()", the command list can be declared const.
 
-HMP and QMP commands are handled synchronously in qemu today. But
-there are benefits allowing the command handler to re-enter the main
-loop if the command cannot be handled synchronously, or if it is
-long-lasting. Some bugs such as rhbz#1230527 are difficult to solve
-without it.
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ include/qapi/qmp/dispatch.h | 9 +++++----
+ monitor/misc.c              | 2 +-
+ monitor/monitor-internal.h  | 2 +-
+ qapi/qmp-dispatch.c         | 6 +++---
+ qapi/qmp-registry.c         | 6 +++---
+ qga/commands.c              | 2 +-
+ qga/main.c                  | 6 +++---
+ 7 files changed, 17 insertions(+), 16 deletions(-)
 
-The common solution is to use a pair of command+event in this case.
-But this approach has a number of issues:
-- you can't "fix" an existing command: you need a new API, and ad-hoc
-  documentation for that command+signal association, and old/broken
-  command deprecation
-- since the reply event is broadcasted and 'id' is used for matching the
-  request, it may conflict with other clients request 'id' space
-- it is arguably less efficient and elegant (weird API, useless return
-  in most cases, broadcast reply, no cancelling on disconnect etc)
-
-The following series implements an internal async command solution
-instead. By introducing a session context and a command return
-handler, QMP handlers can:
-- defer the return, allowing the mainloop to reenter
-- return only to the caller (instead of the broadcast event reply)
-- optionnally allow cancellation when the client is gone
-- track on-going qapi command(s) per session
-
-This does not introduce new QMP APIs or client visible changes, the
-command are handled in order, and the reply still come in order (even
-when handlers finish out of order).
-
-Existing qemu commands can be gradually replaced by async:true
-variants when needed, while carefully reviewing the concurrency
-aspects. The async:true commands marshaller helpers are splitted in
-half, the calling and return functions. The command is called with a
-QmpReturn context, that can return immediately or later, using the
-generated return helper.
-
-The screendump command is converted to an async:true version to solve
-rhbz#1230527. The command shows basic cancellation (this could be
-extended if needed). It could be further improved to do asynchronous
-IO writes as well.
-
-v6:
-- includes PPM save code improvements (will be sent seperatly,
-  included for convenience for now)
-- remove qmp_return_get_monitor() need, which is problematic with the
-  QMP session over HMP monitor ("monitor: teach HMP about asynchronous
-  commands")
-- rebased
-
-v5:
-- rebased
-
-v4:
-- rebased, mostly adapting to new OOB code
-  (there was not much feedback in v3 for the async command part,
-   but preliminary patches got merged!)
-- drop the RFC status
-
-v3:
-- complete rework, dropping the asynchronous commands visibility from
-  the protocol side entirely (until there is a real need for it)
-- rebased, with a few preliminary cleanup patches
-- teach asynchronous commands to HMP
-
-v2:
-- documentation fixes and improvements
-- fix calling async commands sync without id
-- fix bad hmp monitor assert
-- add a few extra asserts
-- add async with no-id failure and screendump test
-
-Marc-Andr=C3=A9 Lureau (25):
-  qmp: constify QmpCommand and list
-  json-lexer: make it safe to call destroy multiple times
-  qmp: add QmpSession
-  QmpSession: add a return callback
-  QmpSession: add json parser and use it in qga
-  monitor: use qmp session to parse json feed
-  qga: simplify dispatch_return_cb
-  QmpSession: introduce QmpReturn
-  qmp: simplify qmp_return_error()
-  QmpSession: keep a queue of pending commands
-  QmpSession: return orderly
-  qmp: introduce asynchronous command type
-  scripts: learn 'async' qapi commands
-  qmp: add qmp_return_is_cancelled()
-  console: add graphic_hw_update_done()
-  ppm-save: pass opened fd
-  ui: add pixman image g_autoptr support
-  object: add g_autoptr support
-  screendump: replace FILE with QIOChannel and fix close()/qemu_close()
-  osdep: add qemu_unlink()
-  screendump: use qemu_unlink()
-  console: make screendump asynchronous
-  monitor: start making qmp_human_monitor_command() asynchronous
-  monitor: teach HMP about asynchronous commands
-  hmp: call the asynchronous QMP screendump to fix outdated/glitches
-
- hmp-commands.hx                         |   3 +-
- hw/display/qxl-render.c                 |   9 +-
- hw/display/qxl.c                        |   1 +
- include/qapi/qmp/dispatch.h             |  89 +++++++++-
- include/qapi/qmp/json-parser.h          |   7 +-
- include/qemu/osdep.h                    |   1 +
- include/qom/object.h                    |   3 +
- include/ui/console.h                    |   4 +
- include/ui/qemu-pixman.h                |   2 +
- monitor/hmp-cmds.c                      |   6 +-
- monitor/hmp.c                           | 110 +++++++++++-
- monitor/misc.c                          |  46 +----
- monitor/monitor-internal.h              |  12 +-
- monitor/monitor.c                       |   2 +-
- monitor/qmp.c                           |  64 +++----
- qapi/misc.json                          |   3 +-
- qapi/qmp-dispatch.c                     | 214 +++++++++++++++++++-----
- qapi/qmp-registry.c                     |  33 +++-
- qapi/ui.json                            |   3 +-
- qga/commands.c                          |   2 +-
- qga/main.c                              |  51 ++----
- qobject/json-lexer.c                    |   5 +-
- qobject/json-streamer.c                 |   3 +-
- scripts/qapi/commands.py                | 149 ++++++++++++++---
- scripts/qapi/doc.py                     |   2 +-
- scripts/qapi/expr.py                    |   4 +-
- scripts/qapi/introspect.py              |   2 +-
- scripts/qapi/schema.py                  |  11 +-
- tests/qapi-schema/qapi-schema-test.json |   5 +
- tests/qapi-schema/qapi-schema-test.out  |   8 +
- tests/qapi-schema/test-qapi.py          |   7 +-
- tests/test-qmp-cmds.c                   | 206 +++++++++++++++++++----
- ui/console.c                            | 165 ++++++++++++------
- ui/trace-events                         |   2 +-
- util/osdep.c                            |  15 ++
- 35 files changed, 937 insertions(+), 312 deletions(-)
-
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 9aa426a398..5a9cf82472 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -39,7 +39,8 @@ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpComman=
+dList;
+=20
+ void qmp_register_command(QmpCommandList *cmds, const char *name,
+                           QmpCommandFunc *fn, QmpCommandOptions options);
+-QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name);
++const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
++                                   const char *name);
+ void qmp_disable_command(QmpCommandList *cmds, const char *name);
+ void qmp_enable_command(QmpCommandList *cmds, const char *name);
+=20
+@@ -47,13 +48,13 @@ bool qmp_command_is_enabled(const QmpCommand *cmd);
+ const char *qmp_command_name(const QmpCommand *cmd);
+ bool qmp_has_success_response(const QmpCommand *cmd);
+ QDict *qmp_error_response(Error *err);
+-QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
++QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+                     bool allow_oob);
+ bool qmp_is_oob(const QDict *dict);
+=20
+-typedef void (*qmp_cmd_callback_fn)(QmpCommand *cmd, void *opaque);
++typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
+=20
+-void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn,
++void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback_fn =
+fn,
+                           void *opaque);
+=20
+ #endif
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3baa15f3bf..3052bfe8f1 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -230,7 +230,7 @@ static void hmp_info_help(Monitor *mon, const QDict *qd=
+ict)
+     help_cmd(mon, "info");
+ }
+=20
+-static void query_commands_cb(QmpCommand *cmd, void *opaque)
++static void query_commands_cb(const QmpCommand *cmd, void *opaque)
+ {
+     CommandInfoList *info, **list =3D opaque;
+=20
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index d78f5ca190..3e7dac5910 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -132,7 +132,7 @@ typedef struct {
+      * qmp_capabilities succeeds, we go into command mode, and
+      * @command becomes &qmp_commands.
+      */
+-    QmpCommandList *commands;
++    const QmpCommandList *commands;
+     bool capab_offered[QMP_CAPABILITY__MAX]; /* capabilities offered */
+     bool capab[QMP_CAPABILITY__MAX];         /* offered and accepted */
+     /*
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index bc264b3c9b..857399c5fe 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -75,14 +75,14 @@ static QDict *qmp_dispatch_check_obj(const QObject *req=
+uest, bool allow_oob,
+     return dict;
+ }
+=20
+-static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request,
++static QObject *do_qmp_dispatch(const QmpCommandList *cmds, QObject *reque=
+st,
+                                 bool allow_oob, Error **errp)
+ {
+     Error *local_err =3D NULL;
+     bool oob;
+     const char *command;
+     QDict *args, *dict;
+-    QmpCommand *cmd;
++    const QmpCommand *cmd;
+     QObject *ret =3D NULL;
+=20
+     dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
+@@ -164,7 +164,7 @@ bool qmp_is_oob(const QDict *dict)
+         && !qdict_haskey(dict, "execute");
+ }
+=20
+-QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
++QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+                     bool allow_oob)
+ {
+     Error *err =3D NULL;
+diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
+index ca00f74795..d0f9a1d3e3 100644
+--- a/qapi/qmp-registry.c
++++ b/qapi/qmp-registry.c
+@@ -27,7 +27,7 @@ void qmp_register_command(QmpCommandList *cmds, const cha=
+r *name,
+     QTAILQ_INSERT_TAIL(cmds, cmd, node);
+ }
+=20
+-QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name)
++const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const char =
+*name)
+ {
+     QmpCommand *cmd;
+=20
+@@ -77,10 +77,10 @@ bool qmp_has_success_response(const QmpCommand *cmd)
+     return !(cmd->options & QCO_NO_SUCCESS_RESP);
+ }
+=20
+-void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn,
++void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback_fn =
+fn,
+                           void *opaque)
+ {
+-    QmpCommand *cmd;
++    const QmpCommand *cmd;
+=20
+     QTAILQ_FOREACH(cmd, cmds, node) {
+         fn(cmd, opaque);
+diff --git a/qga/commands.c b/qga/commands.c
+index 0c7d1385c2..05e9ab6c3d 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -54,7 +54,7 @@ void qmp_guest_ping(Error **errp)
+     slog("guest-ping called");
+ }
+=20
+-static void qmp_command_info(QmpCommand *cmd, void *opaque)
++static void qmp_command_info(const QmpCommand *cmd, void *opaque)
+ {
+     GuestAgentInfo *info =3D opaque;
+     GuestAgentCommandInfo *cmd_info;
+diff --git a/qga/main.c b/qga/main.c
+index c35c2a2120..f23614528e 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -359,7 +359,7 @@ static gint ga_strcmp(gconstpointer str1, gconstpointer=
+ str2)
+ }
+=20
+ /* disable commands that aren't safe for fsfreeze */
+-static void ga_disable_non_whitelisted(QmpCommand *cmd, void *opaque)
++static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque=
+)
+ {
+     bool whitelisted =3D false;
+     int i =3D 0;
+@@ -378,7 +378,7 @@ static void ga_disable_non_whitelisted(QmpCommand *cmd,=
+ void *opaque)
+ }
+=20
+ /* [re-]enable all commands, except those explicitly blacklisted by user *=
+/
+-static void ga_enable_non_blacklisted(QmpCommand *cmd, void *opaque)
++static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opaque)
+ {
+     GList *blacklist =3D opaque;
+     const char *name =3D qmp_command_name(cmd);
+@@ -918,7 +918,7 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
+     return handle;
+ }
+=20
+-static void ga_print_cmd(QmpCommand *cmd, void *opaque)
++static void ga_print_cmd(const QmpCommand *cmd, void *opaque)
+ {
+     printf("%s\n", qmp_command_name(cmd));
+ }
 --=20
 2.24.0
 
