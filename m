@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BF9F44DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:43:49 +0100 (CET)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB47F44DE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:44:26 +0100 (CET)
+Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT1k4-0001ny-RH
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:43:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52791)
+	id 1iT1kf-0002ex-5d
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:44:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52880)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iT1j9-0001Et-T9
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:42:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iT1jb-0001gO-GM
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:43:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iT1j8-0005WH-Ka
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:42:51 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:44206)
+ (envelope-from <dgilbert@redhat.com>) id 1iT1jZ-0005fD-GU
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:43:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25294
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT1j8-0005Vz-BM
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:42:50 -0500
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iT1jZ-0005dM-8W
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:43:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573209795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kMyqVRM3UWErEQticxD6dIm7dGL9ogW9+QW/bxZfxTI=;
+ b=X5XVukSi2GMpSR+UIIKwYghXhjncJOzxPS9+LqrK3h7gJ6PpQy3f8VPTlsyGOP89yaKE2k
+ 52uPSmLJZj7wrd31uRBOVoTXx1lQQqWnDPkaxvx9y6i+5OAQOXCJteCtxCB8uqgSB1jV6V
+ 88Ejr4ET0iah8zt4sY/SeyY+FX1tyGU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-yWXY-qO4MOeQV8vME1RcyQ-1; Fri, 08 Nov 2019 05:43:13 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EF7F383F3B
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:42:48 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id l3so2954088wrx.21
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 02:42:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bF9XiTb3l7F/4Vr4HJRGCu1lBZTzU09e/cNUwj1ZvhY=;
- b=owKhNvjU2MLxqwFBv6WJSEZg9IaexaY9EcsaJLhX+QnNu4TFcQ2Jzwsfkj206q6O41
- 3UMaO+zV56YuTDGiXIfZyIgN4FaNsQZcucP5hB1aJvt8MMCo7AKIIBQ2iTBMO7NTk4Ks
- /eB//MKg8sRKktMe0xAFDUqaf93ylWa0KH/IFuJgrnORSsae0r7zLvuSXqlhUJbKVNBq
- qzBiavOEj3nd8pxvQJZtmefu2hrHt+NZ8bkJ6D89z2Y1mnsxYSeAnVPOLDHrkkG9iv5Q
- NnClv1VCsCAx7n15XTxkOs6oayw5YYaueWRmvM9j+SlGq58slT5dY5v+k0FNO0OzDbB7
- FwsA==
-X-Gm-Message-State: APjAAAVTLrTE/mmbgjj9pDWc3dPMRoQXdWoEjFARAXqOke8NkIltj4lm
- J2uQ1reaI7AyF5wE3e9/wbRTy7rm1MMeQrgMlJ7hb2uci3J1MpTkn7JTSJ+TQd9fnrByuWQ7g1C
- pSr0P5+MEmUng4YE=
-X-Received: by 2002:a1c:9646:: with SMTP id y67mr7381851wmd.79.1573209767683; 
- Fri, 08 Nov 2019 02:42:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx1YVfR/38o6ndI33XJOc9yyAz5auD6RlMMfsP1b4YJa6/oFkUplT7vTvOJ/q9sbVcsdABTmg==
-X-Received: by 2002:a1c:9646:: with SMTP id y67mr7381828wmd.79.1573209767466; 
- Fri, 08 Nov 2019 02:42:47 -0800 (PST)
-Received: from [192.168.1.33] (62.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.62])
- by smtp.gmail.com with ESMTPSA id a11sm5863253wmh.40.2019.11.08.02.42.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2019 02:42:46 -0800 (PST)
-Subject: Re: [PATCH] configure: Check bzip2 is available
-To: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191108102805.8258-1-philmd@redhat.com>
- <b6005d59-c5d2-1844-db94-a67e258c2867@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d0cf0f78-a0c9-e0fa-7959-ecdebf27f912@redhat.com>
-Date: Fri, 8 Nov 2019 11:42:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89359107ACC3;
+ Fri,  8 Nov 2019 10:43:12 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 841301001DF2;
+ Fri,  8 Nov 2019 10:43:11 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, alex.bennee@linaro.org,
+ thuth@redhat.com
+Subject: [PATCH] tests/migration: Print some debug on bad status
+Date: Fri,  8 Nov 2019 10:43:07 +0000
+Message-Id: <20191108104307.125020-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b6005d59-c5d2-1844-db94-a67e258c2867@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: yWXY-qO4MOeQV8vME1RcyQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,54 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/19 11:34 AM, Thomas Huth wrote:
-> On 08/11/2019 11.28, Philippe Mathieu-Daud=C3=A9 wrote:
->> The bzip2 tool is not included in default installations.
->> On freshly installed systems, ./configure succeeds but 'make'
->> might fail later:
->>
->> =C2=A0=C2=A0=C2=A0=C2=A0 BUNZIP2 pc-bios/edk2-i386-secure-code.fd.bz2
->> =C2=A0=C2=A0 /bin/sh: bzip2: command not found
->> =C2=A0=C2=A0 make: *** [Makefile:305: pc-bios/edk2-i386-secure-code.fd=
-] Error 127
->> =C2=A0=C2=A0 make: *** Deleting file 'pc-bios/edk2-i386-secure-code.fd=
-'
->> =C2=A0=C2=A0 make: *** Waiting for unfinished jobs....
->>
->> Add a check in ./configure to warn the user if bzip2 is missing.
->>
->> Fixes: 536d2173b2b
->> Reported-by: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> =C2=A0 configure | 7 +++++++
->> =C2=A0 1 file changed, 7 insertions(+)
->>
->> diff --git a/configure b/configure
->> index efe165edf9..9957e913e8 100755
->> --- a/configure
->> +++ b/configure
->> @@ -1851,6 +1851,13 @@ python_version=3D$($python -c 'import sys;=20
->> print("%d.%d.%d" % (sys.version_info[0]
->> =C2=A0 # Suppress writing compiled files
->> =C2=A0 python=3D"$python -B"
->> +# Some firmware binaries are compressed with bzip2
->> +if has bzip2; then
->> +=C2=A0 :
->> +else
->> +=C2=A0 error_exit "bzip2 program not found. Please install it"
->> +fi
->=20
-> It's only required for the edk2 binaries, isn't it? So should this mayb=
-e=20
-> also check whether we build any of the i386-softmmu, x86_64-softmmu=20
-> arm-softmmu or aarch64-softmmu targets and pass otherwise?
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-I have this on my TODO somewhere, because we extract the edk2 firmwares=20
-even if we only build MIPS/PowerPC.
+We're seeing occasional asserts in 'wait_for_migraiton_fail', that
+I can't reliably reproduce, and where the cores don't have any useful
+state.  Print the 'status' out, so we can see which unexpected state
+we're ending up in.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ tests/migration-test.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index 59f291c654..ac780dffda 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -899,8 +899,13 @@ static void wait_for_migration_fail(QTestState *from, =
+bool allow_active)
+=20
+     do {
+         status =3D migrate_query_status(from);
+-        g_assert(!strcmp(status, "setup") || !strcmp(status, "failed") ||
+-                 (allow_active && !strcmp(status, "active")));
++        bool result =3D !strcmp(status, "setup") || !strcmp(status, "faile=
+d") ||
++                 (allow_active && !strcmp(status, "active"));
++        if (!result) {
++            fprintf(stderr, "%s: unexpected status status=3D%s allow_activ=
+e=3D%d\n",
++                    __func__, status, allow_active);
++        }
++        g_assert(result);
+         failed =3D !strcmp(status, "failed");
+         g_free(status);
+     } while (!failed);
+--=20
+2.23.0
+
 
