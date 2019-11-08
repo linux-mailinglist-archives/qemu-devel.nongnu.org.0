@@ -2,122 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A45F4462
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:22:28 +0100 (CET)
-Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70DCF446A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:24:41 +0100 (CET)
+Received: from localhost ([::1]:51732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT1PO-0002SJ-MZ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:22:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1iT1RY-0005nu-Ds
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:24:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1iT1L1-0006nm-6n
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:17:56 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iT1LS-0007BJ-Nn
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:18:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1iT1Kz-0005AO-BD
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:17:55 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25427
+ (envelope-from <kraxel@redhat.com>) id 1iT1LR-0005Rl-K9
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:18:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28473
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iT1Kz-0005A4-6a
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:17:53 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iT1LR-0005RV-Go
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:18:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573208272;
+ s=mimecast20190719; t=1573208301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qOeWMVnWELFcXvR6bgWKUD72gOda8SNS+tcltj1Cv+k=;
- b=LbDF5rq340tR8fNIi/2Ci7VYKDi+O7lP7p67ZmvGNOyBUfzzUVCgtjo8stq/gVFUG4M5eH
- M0RrdtnFjp/QCTwEbFRPH2B7do4z4Cv8mQlz3tEY7Y91tJ6XvaNdcO78dQ+idmGRWgKfT1
- z4reuSMqJAwR2at0r36mNoDmt/o48eU=
+ in-reply-to:in-reply-to:references:references;
+ bh=wFFCMFb69xArsIJgd6BH01swnt9YNo2N3r/jDMc3QbI=;
+ b=AYFbWGdDLYwna8v9ExwmGDwD7fc+krN9q3ENwsZwYa+/UqAKKJc6flC4KA0sAbkK3wol4y
+ kI4rrvXCVaaDFq2oqwLToVBAqoGKYGKTymsIpYEat26A6oNY1veFduPa3FV0UdoLXKvXxb
+ dvlf5lJ1BAbLAu7T8eG62vgZ0xO6ccA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-h9U9eJBFP7eC71twFvvFrw-1; Fri, 08 Nov 2019 05:17:49 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-391-1DZh-D_5NgWEmIyOvltyvQ-1; Fri, 08 Nov 2019 05:18:17 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D96001005500
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:17:48 +0000 (UTC)
-Received: from [10.36.117.0] (unknown [10.36.117.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2240E5C548;
- Fri,  8 Nov 2019 10:17:46 +0000 (UTC)
-Subject: Re: [PATCH 0/3] Some memory leak fixes
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
-References: <157316385831.31898.8575258200533586465@37313f22b938>
- <0d0e067f-4354-1486-8910-35a2ff1bb5d0@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <16a3c7f1-6b51-4e82-5372-f7e13cd5014f@redhat.com>
-Date: Fri, 8 Nov 2019 11:17:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A46A477;
+ Fri,  8 Nov 2019 10:18:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
+ [10.36.116.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F98E272A3;
+ Fri,  8 Nov 2019 10:18:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7875C11AAA; Fri,  8 Nov 2019 11:18:15 +0100 (CET)
+Date: Fri, 8 Nov 2019 11:18:15 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/1] Seabios 20191106 patches
+Message-ID: <20191108101815.mmk53hibwxdmajrv@sirius.home.kraxel.org>
+References: <20191106122524.5537-1-kraxel@redhat.com>
+ <CAFEAcA8uHQUvWm2H_=Y46qtdpNLBtcYRHWsvvWf+CyjYdFdLag@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <0d0e067f-4354-1486-8910-35a2ff1bb5d0@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: h9U9eJBFP7eC71twFvvFrw-1
+In-Reply-To: <CAFEAcA8uHQUvWm2H_=Y46qtdpNLBtcYRHWsvvWf+CyjYdFdLag@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 1DZh-D_5NgWEmIyOvltyvQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -129,51 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, kraxel@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, mst@redhat.com
+Cc: seabios@seabios.org, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/11/2019 10:57, Thomas Huth wrote:
-> On 07/11/2019 22.57, no-reply@patchew.org wrote:
->> Patchew URL:
->> https://patchew.org/QEMU/20191107192731.17330-1-marcandre.lureau@redhat.=
-com/
->>
->>
->> Hi,
->>
->> This series failed the docker-quick@centos7 build test. Please find
->> the testing commands and
->> their output below. If you have Docker installed, you can probably
->> reproduce it
->> locally.
->>
->> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
->> #!/bin/bash
->> make docker-image-centos7 V=3D1 NETWORK=3D1
->> time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
->> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->>
->> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 check-unit: tests/test-thread-pool
->> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 check-unit: tests/test-hbitmap
->> **
->> ERROR:/tmp/qemu-test/src/tests/migration-test.c:903:wait_for_migration_f=
-ail:
->> assertion failed: (!strcmp(status, "setup") || !strcmp(status,
->> "failed") || (allow_active && !strcmp(status, "active")))
->> ERROR - Bail out!
->> ERROR:/tmp/qemu-test/src/tests/migration-test.c:903:wait_for_migration_f=
-ail:
->> assertion failed: (!strcmp(status, "setup") || !strcmp(status,
->> "failed") || (allow_active && !strcmp(status, "active")))
+On Thu, Nov 07, 2019 at 11:56:03AM +0000, Peter Maydell wrote:
+> On Wed, 6 Nov 2019 at 12:26, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > The following changes since commit 36609b4fa36f0ac934874371874416f7533a=
+5408:
+> >
+> >   Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4=
+.2-sf1' into staging (2019-11-02 17:59:03 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kraxel.org/qemu tags/seabios-20191106-pull-request
+> >
+> > for you to fetch changes up to 58b16e57ded751e2e8be626124aad1d46a408a33=
+:
+> >
+> >   seabios: update to pre-1.13 snapshot (2019-11-06 13:23:02 +0100)
+> >
+> > ----------------------------------------------------------------
+> > seabios: update to pre-1.13 snapshot
+> >
+> > ----------------------------------------------------------------
+> >
+> > Gerd Hoffmann (1):
+> >   seabios: update to pre-1.13 snapshot
 >=20
-> I assume this is unrelated to your patches and a generic Patchew problem
-> instead?
+> Hi; this fails 'make check' on at least
+> aarch64, aarch32, FreeBSD, NetBSD, s390:
+>=20
+> ERROR:/home/linux1/qemu/tests/boot-sector.c:161:boot_sector_test:
+> assertion failed (signature =3D=3D SIGNATURE): (0x00000000 =3D=3D 0x0000d=
+ead)
+> ERROR - Bail out!
+> ERROR:/home/linux1/qemu/tests/boot-sector.c:161:boot_sector_test:
+> assertion failed (signature =3D=3D SIGNATURE): (0x00000000 =3D=3D 0x0000d=
+ead)
+> PASS 9 bios-tables-test /x86_64/acpi/q35/bridge
+> Aborted (core dumped)
+> /home/linux1/qemu/tests/Makefile.include:916: recipe for target
+> 'check-qtest-i386' failed
+> make: *** [check-qtest-i386] Error 1
+>=20
+> the x86-64 bootsector tests seem to fail similarly.
 
-Unrelated to patchew too, but the problem has already been reported. I
-think dgilbert is looking at this.
+[ full quote for seabios list ]
 
-Thanks,
+Re-ran test on x86-64 box -> works.
+Tried on aarch64 machine -> fails.
+
+Given the arch list above this pretty much looks like it is tcg-related,
+even though a quick check with "qemu -accel tcg -cdrom /some/live/iso"
+(on x86_64) doesn't show any obvious problems.
+
+Recompiled seabios with gcc 4.8 instead of gcc 8
+  -> Works on both x86-64 and aarch64.
+  -> I'll redo the pull request with that.
+
+I'll go try find the root cause next week.  On a quick glance this
+looks like a bug in tcg or gcc.  In case anyone has hints what might
+have caused this drop me a note.
+
+thanks,
+  Gerd
 
 
