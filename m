@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B753F4C3B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:59:30 +0100 (CET)
-Received: from localhost ([::1]:53366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69DCF4C3C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:59:35 +0100 (CET)
+Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT3rM-0000nX-RG
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:59:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
+	id 1iT3rS-0001jV-Md
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:59:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iT3ng-0000Ax-Tx
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:55:42 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iT3qB-00018V-MH
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:58:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iT3nf-0003Mw-IW
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:55:40 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:55632)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iT3nf-0003JI-4I
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:55:39 -0500
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 45B8B96EF0;
- Fri,  8 Nov 2019 12:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1573217736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=uBAIGING6GHSPD3RtNAZAtENTduFCSOlXmknrLi40VU=;
- b=LDqbLWwoTOYgreCMXH7TOnLr6OqBTG3NxAjXCLrJTpd6CGnrFE5T/hmlj+3B7V5iYtvNe4
- +2ZXUXnrFQThPuJa5kar/mSU0KEqSpNo1H02U6W1VqWfTRrzsYvuypw5OT4i8YyBKMdHLk
- siVN7i2e+nNh8mlBNlZLU4icV1uFo4c=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gdbstub: Fix buffer overflow in handle_read_all_regs
-Date: Fri,  8 Nov 2019 13:55:34 +0100
-Message-Id: <20191108125534.114474-1-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.24.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iT3qA-0006Ua-Da
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:58:15 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45202)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iT3qA-0006U3-7s
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:58:14 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id k2so5108046oij.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 04:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=THuG9nggnh0rx3KcM2odNLOdtJmca35rT84ozzmT4zc=;
+ b=msGtWbH1cH4N6SCA9hW+sEFYSXkVHbUJi87x5Ci4Drt03NbxOsaWwK4/CpWXHhGm21
+ GojVCgW5zE+U9GkXBEp+gCDMhIoJ1mjlmLchD3y48MHRpqZuxyfUfWab6d4rLn7XygwJ
+ z+BMF792qFkzdG1v1a+9tEYgE4l+vUZpA+3qGHeE+CxOiuQqwNPWNhO0vmdzAC04ME0M
+ hVC3esreBYTvUOPLQ+kZ8nTFQcBhrWm39/JNU3pwnEMqehfHSbPt6nE01YSr1AlPiOhI
+ Dry88+JtQWxcQOTDyup7ax6eVZh7ChIOz8ZYCJgGE4zLxVIE0vb1mSoFjiARYp5zDRIa
+ rtTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=THuG9nggnh0rx3KcM2odNLOdtJmca35rT84ozzmT4zc=;
+ b=BCscbregX0nG8Wz7kmThFyw13swcOE0ZHqED4a2iVJUNt7U0+kr+Khe96FIvIcMtNK
+ vhJw31K1R1kFARL0Xmf1DywEV8sDh/PEXlcVTtCOgUEu1yGDT0MI8SZMg1fwA/M+dSaK
+ 9cKwW563EpvsWDtszE0MhqgyWszL4cr5q+3qZ5nKtfhQGmV+Dtu+WYr7drIf/XXNtBZV
+ Tx2Y8/2BsARyeW0TQCqoA+3eqyHVohEEjBntPMgqP9wIPSxBPbNMegyJXCJIK3VZlIpj
+ FMF8xmxeyVfmvfg6++KXYu5/06OexanJPLBk4jBeFLxMbWD7fNIUvMsJYitOq4MrAvPO
+ zZ5w==
+X-Gm-Message-State: APjAAAUx1I5CH1qzeDGb7h1v7TQAK/IHnVGupBNBuqAxrqSw69hwoWav
+ kxrRVw6n5WJ8C0ghIxSINnmmd7FclacXKEOZncRyiw==
+X-Google-Smtp-Source: APXvYqyWlfhZ0cfMJNNA1bL0flzQ67Mmn3iwGd2HQ1Xrw0UHR9N6CrVujax7Y+TvDM0wxU0d4CpqYk97o+U0xuPi2L4=
+X-Received: by 2002:a05:6808:7d1:: with SMTP id
+ f17mr9769676oij.163.1573217893324; 
+ Fri, 08 Nov 2019 04:58:13 -0800 (PST)
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1573217736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=uBAIGING6GHSPD3RtNAZAtENTduFCSOlXmknrLi40VU=;
- b=5F/GFt3Jjx7+NUCvkPlCfHlp9UwggQ+ZrEODrRcnzqeoXyhxcb21BXy7NUeghLR1+SXqKK
- vE4j7baxZiidt+//Z5EceEhkiujEJhXcq5a3H5BgIJ1VlM1L/Jyr7S4lo4xseDUMOXhJPl
- Yf6StHW1ODL6rNNQ30XjmRYiaVIzaZk=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1573217736; a=rsa-sha256; cv=none;
- b=Wu6wBDbIwAjC3G8Uo0NtH+4CJ8ST5lVIYxYG/zLRXN1vyTFKy1eYH7jQXceKkc5hZjtkpd
- +O0PXjk5ruo8zHMDMtmqN4D4+ZDfMdTld+brWI77dc6O+i++v9j/b3SpD54rijP8tXQ+S5
- EJD70DwHj2FX7bafyUZ2kJwpzlEou3c=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+References: <20191107085525.30902-1-kraxel@redhat.com>
+In-Reply-To: <20191107085525.30902-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Nov 2019 12:58:02 +0000
+Message-ID: <CAFEAcA_1kyJNMps+ZfPYoAf3W0zb+oy944jeo=6ZbU6fDkUnAA@mail.gmail.com>
+Subject: Re: [PULL 0/1] Usb 20191107 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,61 +72,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, philmd@redhat.com,
- alex.bennee@linaro.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure we don't put too much register data in buffers. This avoids
-a buffer overflow (and stack corruption) when a target has lots
-of registers.
+On Thu, 7 Nov 2019 at 08:58, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 412fbef3d076c43e56451bacb28c4544858c66a3:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/fw_cfg-next-pull-request' into staging (2019-11-05 20:17:11 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/usb-20191107-pull-request
+>
+> for you to fetch changes up to 1dfe2b91dcb1633d0ba450a8139d53006e700a9b:
+>
+>   usb-host: add option to allow all resets. (2019-11-06 13:26:04 +0100)
+>
+> ----------------------------------------------------------------
+> usb: fix for usb-host
+>
+> ----------------------------------------------------------------
+>
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
----
 
-Hi all,
+Applied, thanks.
 
-While working on a target with many registers. I found out the gdbstub
-may do buffer overflows when receiving a 'g' query (to read general
-registers). This patch prevents that.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Gdb is pretty happy with a partial set of registers and queries
-remaining registers one by one when needed.
-
-Regards,
-Damien
----
- gdbstub.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/gdbstub.c b/gdbstub.c
-index 4cf8af365e..dde0cfe0fe 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1810,8 +1810,17 @@ static void handle_read_all_regs(GdbCmdContext *gd=
-b_ctx, void *user_ctx)
-     cpu_synchronize_state(gdb_ctx->s->g_cpu);
-     len =3D 0;
-     for (addr =3D 0; addr < gdb_ctx->s->g_cpu->gdb_num_g_regs; addr++) {
--        len +=3D gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf +=
- len,
--                                 addr);
-+        int size =3D gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_b=
-uf + len,
-+                                     addr);
-+        if (len + size > MAX_PACKET_LENGTH / 2) {
-+            /*
-+             * Prevent gdb_ctx->str_buf overflow in memtohex() below.
-+             * As a consequence, send only the first registers content.
-+             * Gdb will query remaining ones if/when needed.
-+             */
-+            break;
-+        }
-+        len +=3D size;
-     }
-=20
-     memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, len);
---=20
-2.24.0
-
+-- PMM
 
