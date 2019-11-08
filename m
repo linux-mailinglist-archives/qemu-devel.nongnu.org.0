@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C03EF4C07
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:45:49 +0100 (CET)
-Received: from localhost ([::1]:53242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233D4F4C11
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:48:40 +0100 (CET)
+Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT3e8-0003NE-0E
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:45:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
+	id 1iT3gt-0006lM-0J
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:48:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iT3bM-0001eR-A5
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:42:57 -0500
+ (envelope-from <david@redhat.com>) id 1iT3eY-0005KL-3v
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:46:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iT3bK-0000Uu-A0
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:42:55 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33483)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1iT3bJ-0000U6-BB
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:42:54 -0500
-Received: by mail-wr1-x443.google.com with SMTP id w9so103974wrr.0
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 04:42:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=O+7oqTj35SxpOp+OUToP9NWOXc7v9VZvqQg34DnV5Ds=;
- b=Rlqgxq+M3G5kUDVU+FeUVLZznllzB9pffc+eViEeqPtm+9mu5sfblkggk1waBq03BT
- z/8CSPkONIGn0BqHooX5aUOBAR9YxqAsC4gagQlevPt2OtM2NFfpHKK0k/rmV45NDpp6
- GWkp2Fsn7WxT2Fb7aiPDkSLdBqMFb2lXkFVoQ8puDhdO03vp6xPkRnR5Fa7Vzf3upFIy
- ZR/rHuzIThuwZswcItF9qn38SukPs886cTIBn2qsmS1lTCaIwuwQZBtkpNB0+RGMf7Z+
- OoYu3y9u3r1oHN/KNFrBzHZWRojgNDOzmXX0r1blc7pNBTE1NqSknriMYzJFer7Ga+nt
- tVCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O+7oqTj35SxpOp+OUToP9NWOXc7v9VZvqQg34DnV5Ds=;
- b=BWcFq3F/EHEOxruVrqhHxcm8UgIccabQ1fOV3gJEJlHX7GMzWxcdwZRw6Q0bTGwBQo
- Npmr13zMJX4JLsqkKN+ClvUDAQDBiFvOtU0mOllKW6zFBaFInPnuLBDSUm7L+kdcAiRO
- LUnNS5FXrS5I/hvF9fnngtAGKXcTAlBWF9T5hDh6t6SHawumZjk8RfJtfl6rIi5SOvWO
- uxcX2bCkP7eISWa6AzDcHElUiRH5BjJ6sca16H26VyVQWRIMTEUpj8ipZY3M1AxSNjzC
- GL2rb0zIGX8Pf+tEum0HAQLJ/70csLLYga6UQfiUzEknheUg4Of5WdaEPRCxGdl8jNRV
- zs6A==
-X-Gm-Message-State: APjAAAVPG5HRDgsn+zT0dGlsbfJiAuLX1n6zWrf2StpnB3l58nlWnhCD
- jQcV1PJrw9zBVw/wH/f2aiYyFFN5RSA=
-X-Google-Smtp-Source: APXvYqxzRllVgQgIHOmx0PAmgeo+eQVh4kC2FW0ZuCWYbghhdgXmdZL6+5xthcNuOPkmxwxyrzLJ/A==
-X-Received: by 2002:a5d:4946:: with SMTP id r6mr7442094wrs.155.1573216972047; 
- Fri, 08 Nov 2019 04:42:52 -0800 (PST)
-Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
- [34.244.242.0])
- by smtp.gmail.com with ESMTPSA id m15sm5866397wrq.97.2019.11.08.04.42.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2019 04:42:51 -0800 (PST)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target/microblaze: Plug temp leak around
- eval_cond_jmp()
-Date: Fri,  8 Nov 2019 13:42:19 +0100
-Message-Id: <20191108124219.31348-4-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191108124219.31348-1-edgar.iglesias@gmail.com>
-References: <20191108124219.31348-1-edgar.iglesias@gmail.com>
+ (envelope-from <david@redhat.com>) id 1iT3eV-0003EF-UP
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:46:13 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59539
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iT3eV-0003Dt-QF
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:46:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573217170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SUo1SvmRW1T9BAStRLEJxmsliYF+9UWqSz6o0sDmKsg=;
+ b=emwCxC1dc8yZmKE04eJUjd6mZBE5jw/DrPMGVDSh/KGgMPh0FgQxzsICed9bYqQk8kQBwP
+ X05TEEhbimtkyfX67AxnpJg+ETfhGtLzXCoGe7XTq6+TUH/WXsvz6Cjdgn/dqG/HqqNHKW
+ uUbyEOQsSmMqoCGf/ZznFSacrSfZ3nI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-y3ixSvJYPX6lHnb20KvhaA-1; Fri, 08 Nov 2019 07:46:09 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14D58017DD;
+ Fri,  8 Nov 2019 12:46:07 +0000 (UTC)
+Received: from [10.36.117.63] (ovpn-117-63.ams2.redhat.com [10.36.117.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02AC060BE1;
+ Fri,  8 Nov 2019 12:46:01 +0000 (UTC)
+Subject: Re: [PATCH v1 0/2] s390x/cpumodel: Introduce "best" model variants
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191108110714.7475-1-david@redhat.com>
+ <CAFEAcA-mD3-Zg2JunGpMqbcaT1qboCenhqEFytZD0FmFcL2i9Q@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <5dd613c0-6d9e-b943-b64d-7ba1791cbefe@redhat.com>
+Date: Fri, 8 Nov 2019 13:46:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <CAFEAcA-mD3-Zg2JunGpMqbcaT1qboCenhqEFytZD0FmFcL2i9Q@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: y3ixSvJYPX6lHnb20KvhaA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,44 +75,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, philmd@redhat.com,
- luc.michel@greensocs.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Michael Mueller <mimu@linux.ibm.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+On 08.11.19 12:10, Peter Maydell wrote:
+> On Fri, 8 Nov 2019 at 11:08, David Hildenbrand <david@redhat.com> wrote:
+>>
+>> There was recently a discussion regarding CPU model versions. That conce=
+pt
+>> does not fit s390x where we have a lot of feature variability. I
+>> proposed an alternative approach in [1], which might work for x86 as wel=
+l
+>> (but I am not sure if x86 still can or wants to switch to that), and
+>> requires no real changes in upper layers.
+>>
+>> [1] and patch #2 contains more information on the motivation for this.
+>>
+>> E.g., specifying/expanding "z14-best" will result in the "best feature
+>> set possible on this accelerator, hw and, firmware". While a "z13" does
+>> not work under TCG and some z/VM versions, "z13-best" will work.
+>=20
+> I think other architectures call this concept "max", not "best".
+> If we can manage some cross-architecture consistency that would
+> be helpful, but is s390x using 'max' already for something else?
 
-Plug temp leak around eval_cond_jmp().
+We have the "max" model just like other architectures
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- target/microblaze/translate.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+s390 max             Enables all features supported by the accelerator=20
+in the current host
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 7b4b66a622..bdc7d5326a 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1681,7 +1681,10 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-                 dc->tb_flags &= ~D_FLAG;
-                 /* If it is a direct jump, try direct chaining.  */
-                 if (dc->jmp == JMP_INDIRECT) {
--                    eval_cond_jmp(dc, env_btarget, tcg_const_i64(dc->pc));
-+                    TCGv_i64 tmp_pc = tcg_const_i64(dc->pc);
-+                    eval_cond_jmp(dc, env_btarget, tmp_pc);
-+                    tcg_temp_free_i64(tmp_pc);
-+
-                     dc->is_jmp = DISAS_JUMP;
-                 } else if (dc->jmp == JMP_DIRECT) {
-                     t_sync_flags(dc);
--- 
-2.20.1
+It is basically the "host" model under KVM, and the "qemu" model under=20
+TCG (with minor differences for the latter).
+
+
+This series introduces e.g.,
+
+s390 z900-best       IBM zSeries 900 GA1 with best features supported by=20
+the accelerator in the current host
+
+s390 z14-best        IBM z14 GA1 with best features supported by the=20
+accelerator in the current host
+
+s390 z14ZR1-best     IBM z14 Model ZR1 GA1 with best features supported=20
+by the accelerator in the current host
+
+s390 gen15a-best     IBM z15 GA1 with best features supported by the=20
+accelerator in the current host
+
+s390 gen15b-best     IBM 8562 GA1 with best features supported by the=20
+accelerator in the current host
+
+
+There is a small but important difference between "max"/"host" and=20
+"best". Max really means "all features", including deprecated ones.=20
+"best", however, can disable experimental or deprecated features. Or any=20
+other features we don't want to be enabled when somebody selects a model=20
+manually.
+
+On s390x, the feature "csske" is deprecated. New HW still has it, but we=20
+want new guests to run without this facility. Dropping it from "max"=20
+would affect existing setups. We already changed the default model=20
+(e.g., -cpu z13) to disable it with never QEMU machines.
+
+E.g., nested virtualization features on some architectures could be a=20
+feature set you want to disable, although contained in the "max" model.=20
+(e.g., no migration support yet).
+
+
+I am not completely against calling these "max" models instead of "best"=20
+models, but I think this makes it clearer that there is indeed a difference=
+.
+
+Maybe, we even want a "-cpu best" that would not map to "-cpu=20
+host"/"-cpu max", but to a cleaned up "-cpu host"/"-cpu max" (e.g.,=20
+disable deprecated features). Long term, we might even want to change=20
+the default when no "-cpu" is specified to "-cpu best" - which should=20
+now be possible with the latest QEMU changes to query the default model=20
+for a specific QEMU machine.
+
+--=20
+
+Thanks,
+
+David / dhildenb
 
 
