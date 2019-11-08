@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1425F52D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 18:48:47 +0100 (CET)
-Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB968F5337
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 19:06:00 +0100 (CET)
+Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT8NK-0001qB-LX
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 12:48:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46317)
+	id 1iT8dz-0008Oq-BZ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 13:05:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iT8Lp-0000yB-Ic
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:47:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iT8d3-0007ug-6R
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 13:05:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iT8Lo-0003SF-FT
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:47:13 -0500
-Resent-Date: Fri, 08 Nov 2019 12:47:13 -0500
-Resent-Message-Id: <E1iT8Lo-0003SF-FT@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21430)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iT8Lo-0003RI-7W
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:47:12 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1573235226; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Av8tlbgGRXSlP33GjWfaJ2Yc3AGkwcsmonsy8o3EvKSDHLNSPjZ8erLRMLEntKZakjE+SFao1bqa2A5SLNJAbo9y3L2jPTRcN80A+61CWrRxy9Pa2P+XIdfm7oTKyLyF7Dnz+8IfUMtTBlKfLZkVoBBkMacZq6R45FYgGAi+a8k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1573235226;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=KWu3j7k/QPO+SoQrmb5DZN0vXhFsit5YcjAvXR3JQKQ=; 
- b=DhONT4Bcc7j1fBDV0KdusDU6cfYqkmvYmYP11IjuXhrroy4S+46npQF4OuvpqRY8YK7juMIcyv4khlSSDdN/0GsiuDdGwNjvattXNd/XG51ZGQAGqzlDJEjz8ygtCHkPxVLrOfz1L3tJiT3z5uzBB3sKFfxAcNxZN66ly1OdUIA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1573235225084769.9289301518943;
- Fri, 8 Nov 2019 09:47:05 -0800 (PST)
-In-Reply-To: <20191108104307.125020-1-dgilbert@redhat.com>
-Subject: Re: [PATCH] tests/migration: Print some debug on bad status
-Message-ID: <157323522392.7743.17041423273148629916@37313f22b938>
+ (envelope-from <peter.maydell@linaro.org>) id 1iT8d1-0007hH-RE
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 13:05:00 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40325)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iT8d1-0007gw-Ku
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 13:04:59 -0500
+Received: by mail-oi1-x243.google.com with SMTP id 22so6022872oip.7
+ for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 10:04:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+btYeezsgOnOT7C71hvkNCIKMyaN8hXI9UchP5S6TrE=;
+ b=t6geXBixrM1+hz6a0SiRfQHXdKVJz9ZmT1MMRjw8ORk7cMxO7zFp0DKwMPJt3JEu09
+ pSOC/COObEVOeiUy5jhiD3ijc+Tza9ApkWfwWq8nznCjygHae/pfnCviiiP8rpP3all6
+ UzHN90hg0ialoJpmn9CrD3XWfbZsU/iJZHycEl0/oSZgHF96V4MhGPNsEQqTI4+TdnXf
+ 2VlxRx77ccibDIYsmd/FrsRprLeDPjFnppIazq2rK7HUSo4G98nq7Gz+/ZOXaCf8DcCK
+ J9C1Z2GmA3KwmqHATDxSErxo5Mu1+ksp/CETrunFwMSlOq5Vz2w9jD64iXo3prmplEaU
+ LEBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+btYeezsgOnOT7C71hvkNCIKMyaN8hXI9UchP5S6TrE=;
+ b=lI8f6qKWMPt+oWex/6IsoKnAaUJsaJI51om2b//XZWJds3M8MhG6UIKDe6xphZesbf
+ nOOTsI15X/rDeNd4Wwde4ZBlrQbkEBiIpTf0Sy+4snd17Md6XGDdU8DV0ogxbrbPLjfk
+ hFgIU1vW7kC/Rkeft83ScpM8U+S6f5v/72ZKG5yJq+5R56pnKo5q5TYtvG1yYE73sRy3
+ 4v1iGCAUS3RTgs0r4Lk05rtSn2BSSPYUomf+m1OTugX/zeb4k7Mo33vipI2avSlP/rs8
+ iBxilUSLN6fVZ+6QLAs8XZ6LLnFBQ7WGCVl1HUadINgipyuWbnV47O1+fY+c1UqZ1i07
+ rhYQ==
+X-Gm-Message-State: APjAAAXc4BJWnzoZe3jDJAAwT3KMnv7I+a/vb2XuNe+ZRlndllxNqt9w
+ rdi2QLJey/klbYJw+f9zpJIqkzUKcYXaEeb2Ro71fg==
+X-Google-Smtp-Source: APXvYqyqbLgpcGi3STe0bKGYeLaylt5z7R9OwK8yWbmWHqIDjoAoZv9xzAz7awXGUJE6KMK+qkdRCCgNsr9wzctjdSs=
+X-Received: by 2002:a05:6808:7d1:: with SMTP id
+ f17mr11186584oij.163.1573236298435; 
+ Fri, 08 Nov 2019 10:04:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: dgilbert@redhat.com
-Date: Fri, 8 Nov 2019 09:47:05 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+References: <20191107222500.8018-1-palmer@sifive.com>
+ <CAKmqyKOodh3tPUGBM92ZRWFLoeo9E=kcaqO9F9dHz1wBMP9ywA@mail.gmail.com>
+In-Reply-To: <CAKmqyKOodh3tPUGBM92ZRWFLoeo9E=kcaqO9F9dHz1wBMP9ywA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Nov 2019 18:04:47 +0000
+Message-ID: <CAFEAcA8k+t2qKCSvMjENitvCXyc-qwiG2qbg6gQFKR_+v_zihg@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: virt: This is a "sifive,test1" test finisher
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,24 +73,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Christoph Hellwig <hch@infradead.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwODEwNDMwNy4xMjUw
-MjAtMS1kZ2lsYmVydEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2Vy
-LWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0Bm
-ZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMDgxMDQz
-MDcuMTI1MDIwLTEtZGdpbGJlcnRAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRv
-cmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Fri, 8 Nov 2019 at 17:15, Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Fri, Nov 8, 2019 at 9:05 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+> >
+> > The test finisher implements the reset command, which means it's a
+> > "sifive,test1" device.  This is a backwards compatible change, so it's
+> > also a "sifive,test0" device.  I copied the odd idiom for adding a
+> > two-string compatible field from the ARM virt board.
+> >
+> > Fixes: 9a2551ed6f ("riscv: sifive_test: Add reset functionality")
+> > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> > Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
+> > ---
+> >  hw/riscv/virt.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index 23f340df19..74f2dce81c 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -359,7 +359,10 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+> >      nodename = g_strdup_printf("/test@%lx",
+> >          (long)memmap[VIRT_TEST].base);
+> >      qemu_fdt_add_subnode(fdt, nodename);
+> > -    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,test0");
+> > +    {
+> > +        const char compat[] = "sifive,test1\0sifive,test0";
+>
+> Does this really work? Why not use qemu_fdt_setprop_cells()?
+>
+> Alistair
+>
+> > +        qemu_fdt_setprop(fdt, nodename, "compatible", compat, sizeof(compat));
+> > +    }
 
+qemu_fdt_setprop_cells() is for "set this property to
+contain this list of 32-bit integers" (and it does a byteswap
+of each 32-bit value from host to BE). That's not what
+you want for a string (or a string list, which is what
+we have here).
+
+Cc'ing David Gibson who's our device tree expert to see if there's
+a nicer way to write this. Oddly, given that it's used in the
+ubiquitous 'compatible' prop, the dtc Documentation/manual.txt
+doesn't say anything about properties being able to be
+'string lists', only 'strings', '32 bit numbers', 'lists of
+32-bit numbers' and 'byte sequences'. You have to dig through
+the header file comments to deduce that a string list is
+represented by a string with embedded NULs separating
+each list item.
+
+thanks
+-- PMM
 
