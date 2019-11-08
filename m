@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F1F5481
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 20:13:02 +0100 (CET)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB56F5499
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 20:32:51 +0100 (CET)
+Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT9gq-0006WK-LP
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 14:13:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
+	id 1iTA02-0000Rv-7A
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 14:32:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iT9f7-0005JR-7i
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:11:14 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iT9zC-0008PM-IC
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:31:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iT9f4-0002pu-4Q
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:11:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32054
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iT9f3-0002p2-6j
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:11:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573240267;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VAa9gWFuK2b6rapyozx1lzxnVzmieI134Z7tXTfEt0E=;
- b=O0Mwosk7ERpbdwgC3EIcl/uFWVgkSmbrVPcWcirxarcAteYvTHcTaeDgsG4RqILGYv7smz
- 9lHvHoIu9oVkNFHgtzuOh2PXlINJHk89EUAqU8THQ73NaVzi2Yiyopt8OzWb5TR0HX7GtP
- 7naT+fzWViturFhOfGXLmO6KWB9KGj0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-jYn5YO5GNYSzFk-KaLJkrA-1; Fri, 08 Nov 2019 14:11:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A1A1005500;
- Fri,  8 Nov 2019 19:11:02 +0000 (UTC)
-Received: from localhost (ovpn-116-57.gru2.redhat.com [10.97.116.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7C9C600C9;
- Fri,  8 Nov 2019 19:10:58 +0000 (UTC)
-Date: Fri, 8 Nov 2019 16:10:57 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v1 0/2] s390x/cpumodel: Introduce "best" model variants
-Message-ID: <20191108191057.GZ3812@habkost.net>
-References: <20191108110714.7475-1-david@redhat.com>
- <CAFEAcA-mD3-Zg2JunGpMqbcaT1qboCenhqEFytZD0FmFcL2i9Q@mail.gmail.com>
- <5dd613c0-6d9e-b943-b64d-7ba1791cbefe@redhat.com>
- <CAFEAcA-4r53vM-K24WYr1OFSOufhZ7hDHeZBhnywyaJ0gpMO1g@mail.gmail.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iT9zB-00045f-Kv
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:31:58 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:34203)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iT9zB-00045S-GI
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 14:31:57 -0500
+Received: by mail-oi1-x232.google.com with SMTP id l202so6280305oig.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 11:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EZnzvejeNJrnfK1eBiO4cFlK5C3AABtLn2gBZGdpMIc=;
+ b=u5BaDPJidxqFYk9YfMfMp1YZ7YFdftHFJRjd7fytCliN4QK0yug956EF+ISZ1c3iHL
+ XTnwi/DHvbmRUwNlpsvSvEaLPkn5tHkwUoXjDjXxqhExeSlrtB5nWlc456WjHXsj+zT2
+ y80eFgHW3z2cyH5kzP+L+nhNAInc5VQiM/Jn/uAs4ItTs73m1FzFB793lTFdFE7xYDQT
+ gpQArkgECBVyus0ECBcGsYp9k50NJ32iwSI8vNIakO+5PHQZZ7Yu1oMjoDzmZMjDWigm
+ cE7O2bd8VtosAkY2yOlxNHgIv7+MW7ZhndoAIWcAS2ZnXui90k7lfefFgcG2Qjr2MrMQ
+ PXuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EZnzvejeNJrnfK1eBiO4cFlK5C3AABtLn2gBZGdpMIc=;
+ b=VMkSCbF/akGDmmO0zbFVY/zbQ2XV0nvArklmB8SMd+YgLYvVCzFU44qdPjVb8vaYbO
+ xjoa63NbfYSoFbsXXHSOZRHxggu/dERMfS1VjlVqrUDV4bq8ie/tEtiW0CkXqZxXBpN4
+ FBXqVJMFr75xinLQR+QQ2szpsISwCF8FE/hVnRKyd3GyYqBAB1VN26n24PvFQ3Qa4KkE
+ CYW5dB1DrvADgZNNTdA8v1hZb9095o1pWSuaHH/hyArEBYSYZ86Vdiz6SrPBFCv1QNt/
+ ZTMtOWgCYYcWKcTcWFcMRpkiRmKV67nVz3uu9dHygA5eLdBKR3QycnWQHudTbKq2VR3M
+ oeWQ==
+X-Gm-Message-State: APjAAAXQRXBEenSyrl0+HmKNAlNLFFNh31QN6vDbW+vmJQH5TDA/PMLw
+ pP6Rb8K/islgsU8mdahV5mQEn6rL6VetBPOY6Ps=
+X-Google-Smtp-Source: APXvYqwnA8cpTkQ+7MdLf5oadCTYjwnSO+9V9a92q/dm6FakWYU1hFVCIlS69Lp798QdrtXIk8JRez2pMW+vmaiebTE=
+X-Received: by 2002:aca:d17:: with SMTP id 23mr3787452oin.136.1573241516430;
+ Fri, 08 Nov 2019 11:31:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-4r53vM-K24WYr1OFSOufhZ7hDHeZBhnywyaJ0gpMO1g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jYn5YO5GNYSzFk-KaLJkrA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <f5a16b3c-2c17-60e4-e80b-dd20b3c088cc@cs.utexas.edu>
+ <CAL1e-=g8c=QJiMm1AvBCNmsTyVWoUAjL0na2HWodHCQPiLdWJw@mail.gmail.com>
+ <CAL1e-=j8K+FKj=4pTd8HKkL-D=F+9hY+5bF4ibM8WE+Sp+pk=Q@mail.gmail.com>
+ <f300806f-ced2-5926-40ff-4cdd29c5078e@cs.utexas.edu>
+In-Reply-To: <f300806f-ced2-5926-40ff-4cdd29c5078e@cs.utexas.edu>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 8 Nov 2019 20:31:45 +0100
+Message-ID: <CAL1e-=hcS8_2Y1YJS01GTwFbMYBJmWopYkSDi_aw6yzOHk=3Lg@mail.gmail.com>
+Subject: Re: Looking for issues/features for my first contribution
+To: Rajath Shashidhara <rajaths@cs.utexas.edu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,71 +74,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Michael Mueller <mimu@linux.ibm.com>,
- Jiri Denemark <jdenemar@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 01:02:28PM +0000, Peter Maydell wrote:
-> On Fri, 8 Nov 2019 at 12:46, David Hildenbrand <david@redhat.com> wrote:
-> > There is a small but important difference between "max"/"host" and
-> > "best". Max really means "all features", including deprecated ones.
-> > "best", however, can disable experimental or deprecated features. Or an=
-y
-> > other features we don't want to be enabled when somebody selects a mode=
-l
-> > manually.
+> [a] Is there any particular reason that you picked DS3231 ? Linux kernel
+> has drivers for DS3232/34 only [1]. I did read the datasheets of both
+> 3232 & 3231 and found that they are quite similar except for the 236
+> bytes of SRAM support found only in 3232.
+>
 
-On x86, this is implemented by "host".  "max" gives you the full
-set of features that can be enabled by the user.  "host" gives
-you a reasonable set of features you will want to see enabled by
-default when the user says "use the host CPU".
+Yes, DS3231 is a part of a board we want to support in future.
 
-> >
-> > On s390x, the feature "csske" is deprecated. New HW still has it, but w=
-e
-> > want new guests to run without this facility. Dropping it from "max"
-> > would affect existing setups. We already changed the default model
-> > (e.g., -cpu z13) to disable it with never QEMU machines.
-> >
-> > E.g., nested virtualization features on some architectures could be a
-> > feature set you want to disable, although contained in the "max" model.
-> > (e.g., no migration support yet).
-> >
-> >
-> > I am not completely against calling these "max" models instead of "best=
-"
-> > models, but I think this makes it clearer that there is indeed a differ=
-ence.
->=20
-> Hmm. I see the distinction, but is it one that's sufficiently
-> worth making that we want to expose it to our users, possibly
-> try to add it to the other architectures, etc ? How bad is it
-> if the CPU provides some legacy deprecated feature that the
-> guest just doesn't use ?
->=20
+I think you could make your QEMU emulation cover both DS3231 and
+DS3232 (and call your file ds323x.c, or similar). If you do it right, this may
+be the model for handling similar cases, and I am sure there are plenty of
+them in the whole QEMU tree. (for example, DS1307 and DS1306)
 
-"max" isn't something we want to expose to end users.  It is
-something we need to expose to other software components.
+But, if this sound too complicated for you, please just cover DS3231.
 
-> 'max' already shouldn't include experimental features, at least
-> for Arm -- those should be off by default, because they're
-> experimental and you only want users to get them if they
-> explicitly opt in via '-cpu something,+x-my-feature'.
+Also, you can contact kernel DSxxxx drivers authors for more info.
 
-The whole point of "max" is to tell management software which
-features are valid to be enabled in a host.  If "+x-my-feature"
-works, "x-my-feature" must be included in "max".
+I suspect their DS3232 driver works with DS3231 too.
 
---=20
-Eduardo
-
+Yours,
+Aleksandar
 
