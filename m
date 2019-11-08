@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5920FF437E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 10:38:01 +0100 (CET)
-Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE750F43D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 10:47:51 +0100 (CET)
+Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT0iO-00049s-3A
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 04:38:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37614)
+	id 1iT0ru-0002Hd-G2
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 04:47:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iT0gf-0002mO-0u
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:14 -0500
+ (envelope-from <berrange@redhat.com>) id 1iT0pv-0001gy-NT
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:45:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iT0gd-00025M-Rr
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:12 -0500
-Received: from mail-eopbgr10132.outbound.protection.outlook.com
- ([40.107.1.132]:13184 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iT0ga-000223-0X; Fri, 08 Nov 2019 04:36:08 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U7UmRaFbw8LlGA24Dhx3SRORqOeNICXMMX/QqTDdxE58+kuGisRr9YcpPXGqs6vChSxpItSdn9c5OjSDmf7Mp53Uy1jMsAlroLn9JhXURXWwcMmLgGykxJ2j4jTtULYANsehANaOrDsA6woRYDeabem6OzupL5yJG02Mfp8Cn9CZg2TzDue/AOlQ13MwlQ+usMhvfqeJDXZk7xpZ/JFttuEq45on9iEO9qNnSxZH3+B6dKxFE4rDf52NzBZQK09VqzG1zJmZOw8QOibTNmDegzQ8a08jQyzo3RWVpNMmX4vTWHsyHjytBUYGpOcTs20qRn1fBD9R/7dpXtLuJYPHGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+6XGH127g4WdoT8eFmoN/HOmbwWCPMcAHlMRFKARTOc=;
- b=nWpuiUZlAk+lcsXKowzEmlX6CK5e0+puYkHjSrOZoAxHCjFZ1/A0mzarFriQFs+syukceH+j6XqFyxzYz6CZF+xhRhHvREjZrsByDLVOYnteNgSO+ARL1Pi4J6DxAPG5c7L5u9wq9lZElhABiyXVDwJSsGjQnGl9NlKPkJIo1pkd1w7Yk/BoGT1fQe+7lQphN5K78OrN7O3KoNuieddrdCEXTWtAIF42QbQTJwMdJd+hZ8y9uJiTjoh9HpK7jK8bp/eZfhw9iP3TUkvQzcv2mBmtaMSGmoJ7+XcbTFTfghrROywouFQjcE9NiGZF1edio0QkVmW2ag7XIyvRQJNVNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+6XGH127g4WdoT8eFmoN/HOmbwWCPMcAHlMRFKARTOc=;
- b=l/jEKfEeJzeAQU6XWA8ktldogU7Groto36Z+a4+JFWcA95aE67Ph7t/C0B1gefXh6FwldgUI5Liah+Vhjr4DbQI6YQwmB7BcL8sHSGIjJqFmWTUjpUbaHGCwpQd40OOgqHBw5glZn6Kb2Cv3nPeZ3xYq7Q+2V1zddivN0e011ZE=
-Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
- AM0PR08MB3938.eurprd08.prod.outlook.com (20.178.117.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.22; Fri, 8 Nov 2019 09:36:05 +0000
-Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
- ([fe80::41f0:981:fd75:9946]) by AM0PR08MB4097.eurprd08.prod.outlook.com
- ([fe80::41f0:981:fd75:9946%3]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
- 09:36:05 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: Deprecating stuff for 4.2
-Thread-Topic: Deprecating stuff for 4.2
-Thread-Index: AQHVlhfwxOi67UczFkKHW09T0UvzTg==
-Date: Fri, 8 Nov 2019 09:36:04 +0000
-Message-ID: <26371ed9-79ce-4d2a-e052-dca1310062b2@virtuozzo.com>
-References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
- <20190814100735.24234-3-vsementsov@virtuozzo.com>
- <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
- <8736i2zf8e.fsf_-_@dusky.pond.sub.org>
- <423f2f82-9111-9c19-85b6-2645f66ab641@redhat.com>
- <ee0c3bf0-cb5b-835c-3981-d6f2b8af86e1@redhat.com>
- <e0448126-3371-fcf7-20ed-0d682dd8ca97@virtuozzo.com>
- <87eeyirht2.fsf_-_@dusky.pond.sub.org>
-In-Reply-To: <87eeyirht2.fsf_-_@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0281.eurprd05.prod.outlook.com
- (2603:10a6:3:fc::33) To AM0PR08MB4097.eurprd08.prod.outlook.com
- (2603:10a6:208:132::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191108123602481
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f26e005f-c13c-45d4-8655-08d7642f133d
-x-ms-traffictypediagnostic: AM0PR08MB3938:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB393816A5D080873F02966512C17B0@AM0PR08MB3938.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4125;
-x-forefront-prvs: 0215D7173F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(346002)(396003)(136003)(39840400004)(376002)(199004)(189003)(6506007)(66446008)(5660300002)(66556008)(102836004)(66476007)(386003)(446003)(81156014)(86362001)(76176011)(2616005)(486006)(6486002)(81166006)(66946007)(6246003)(6436002)(476003)(8676002)(71200400001)(71190400001)(6512007)(305945005)(7416002)(6916009)(8936002)(186003)(52116002)(4326008)(6116002)(3846002)(64756008)(36756003)(31686004)(478600001)(11346002)(14454004)(7736002)(99286004)(26005)(256004)(54906003)(14444005)(25786009)(2906002)(316002)(31696002)(66066001)(7116003)(229853002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3938;
- H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I2v6HbNkUunvl3uDBQVxSOeHbKfK9WF0O7PaKXLOocIiL1+X9n9Xv/5WdtofdzdADchLwKDbAVhumLZqZuISo78p+bHLOfcoY2nyfhzrCGWYfIhAYakQwlpV8q/U4nn72WEE0HG6Ic29HhTgR+07KS4Kh+uBc+YGkOo7dUQlsXbkccZx/ZHYXPTpjcqp1vxaK4OEztvrLHs7F3aAI4Ad6m2hr+NN48TmsL7RayqWqbe2tq5BLfM6YlYBL3kedkfsS/ufsDvr3rFksWLuQMCzR/4iE5PQdLSQ/s+HuSjPK9rkhNMqRShWlv3PydGo6DIDzAavKLFsCPMtGb1+QV6jYNFGkMxn8xxjdl6TwBswPs0iXEJHq+sx2c1DCNztyBmXFJXOzwIA2TmM1qp9RsQSTUmArxY1jfhC7SxedfZ78GAXtyD1gfy4pl0I5zvyWn/x
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6C8FCE8D78F54E49AA49A3E0DEF29DFB@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <berrange@redhat.com>) id 1iT0ps-0000s8-Ot
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:45:46 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59436
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iT0ps-0000qs-Bn
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:45:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573206341;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SdEnFjV552MIuPtWbgRwFpqgN8b40ao1Lq+/YZzu5q4=;
+ b=OzaNbULW0VdL5M78NG7mB02uKyZ/0svjRjvnQUMsraMOj/9ESP38KkMtO/VOubhqW8D6Rq
+ l/M6zSczuxZE/MH7cfcIgdow1vtO1mOS2gxquBN+mN9wq2gxyFWS2muDwChppfg/+YyD3B
+ GWKyjb2yFvH9PZDwODl5EwE6UyC+zq4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-Ok-VLQpbPAmN8Km88kPumQ-1; Fri, 08 Nov 2019 04:45:37 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 646F61800D7B;
+ Fri,  8 Nov 2019 09:45:36 +0000 (UTC)
+Received: from redhat.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BE8E5DA70;
+ Fri,  8 Nov 2019 09:45:28 +0000 (UTC)
+Date: Fri, 8 Nov 2019 09:45:25 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: QEMU HTML documentation now on qemu.org
+Message-ID: <20191108094525.GC182396@redhat.com>
+References: <20191106161928.GA353373@stefanha-x1.localdomain>
+ <20191107100606.GA120292@redhat.com>
+ <CAJSP0QX6awKBSx_idYfXB85e09Tp6gKLRvO+zrk-+zrOiySC-w@mail.gmail.com>
+ <20191107160142.GH120292@redhat.com>
+ <20191108084130.GA375005@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f26e005f-c13c-45d4-8655-08d7642f133d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 09:36:04.8122 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZgDxkjA41ezG1Or4FhETj5kjnLcdeSp057vP3C2ozD5YP5OjmUPJlP1X3W3U45rmtLnx7YArmW/EvHI5ztOmwAen56mOvyt3k6nvoEHpIro=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3938
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.132
+In-Reply-To: <20191108084130.GA375005@stefanha-x1.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: Ok-VLQpbPAmN8Km88kPumQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,64 +77,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDguMTEuMjAxOSA5OjQxLCBNYXJrdXMgQXJtYnJ1c3RlciB3cm90ZToNCj4gVmxhZGltaXIgU2Vt
-ZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPiB3cml0ZXM6DQo+IA0K
-Pj4gMDcuMTEuMjAxOSAyMTo1MiwgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgd3JvdGU6DQo+IFsu
-Li5dDQo+Pj4gUHJlLXJlbGVhc2UgcGVyaW9kLCB0aW1lIHRvIGRlcHJlY2F0ZSBzb21lIHN0dWZm
-cyA6KQ0KPj4+DQo+Pj4gSG93IHNob3VsZCB3ZSBwcm9jZWVkPyBEbyB5b3UgaGF2ZSBzb21ldGhp
-bmcgaW4gbWluZD8NCj4+Pg0KPj4+IFRoZXJlIGFyZSBvbGRlciB0aHJlYWRzIGFib3V0IHRoaXMu
-IFNob3VsZCB3ZSBzdGFydCBhIG5ldyB0aHJlYWQ/IEdhdGhlciB0aGUgZGlmZmVyZW50IGlkZWFz
-IG9uIHRoZSBXaWtpPw0KPj4+DQo+Pj4gKE9idmlvdXNseSB5b3UgYXJlIG5vdCB0aGUgb25lIHJl
-c3BvbnNpYmxlIG9mIHRoaXMgdG9waWMsIHlvdSBqdXN0IGhhcHBlbiB0byBiZSB0aGUgbGFzdCBv
-bmUgd29ycmllZCBhYm91dCBpdCBvbiB0aGUgbGlzdCkuDQo+Pj4NCj4+PiBSZWdhcmRzLA0KPj4+
-DQo+Pj4gUGhpbC4NCj4gDQo+IDQuMi4wLXJjMCBoYXMgYmVlbiB0YWdnZWQsIGkuZS4gd2UncmUg
-aW4gaGFyZCBmcmVlemUgYWxyZWFkeS4gIE9ubHkgYnVnDQo+IGZpeGVzIGFyZSBhY2NlcHRlZCBk
-dXJpbmcgaGFyZCBmcmVlemUuICBXZSd2ZSBvY2Nhc2lvbmFsbHkgYmVudCB0aGlzDQo+IHJ1bGUg
-YWZ0ZXIgLXJjMCBmb3IgYm9yZGVybGluZSBjYXNlcywgZS5nLiB0byB0d2VhayBhIG5ldyBleHRl
-cm5hbA0KPiBpbnRlcmZhY2UgYmVmb3JlIHRoZSByZWxlYXNlIGNhbGNpZmllcyBpdC4gIE1ha2lu
-ZyBhIGNhc2UgZm9yIGJlbmRpbmcNCj4gdGhlIHJ1bGVzIGJlY29tZXMgaGFyZGVyIHdpdGggZWFj
-aCAtcmMuDQo+IA0KPiBJZGVhbGx5LCB3ZSdkIGRvdWJsZS1jaGVjayBuZXcgaW50ZXJmYWNlcyBm
-b3IgZ2FmZmVzIGJlZm9yZSBhIHJlbGVhc2UsDQo+IGFuZCB3aGV0aGVyIG9sZCBpbnRlcmZhY2Vz
-IHRoYXQgaGF2ZSBiZWVuIHJlcGxhY2VkIG5vdyBzaG91bGQgYmUNCj4gZGVwcmVjYXRlZC4gIFRo
-ZXJlJ3MgcmFyZWx5IHRpbWUgZm9yIHRoYXQsIGFuZCBwcmV0dHkgbXVjaCBuZXZlciBmb3INCj4g
-cmVsZWFzZXMgcmlnaHQgYWZ0ZXIgS1ZNIEZvcnVtLg0KPiANCj4gU28gbm8sIEkgZG9uJ3QgaGF2
-ZSBhbnl0aGluZyBpbiBtaW5kIGZvciA0LjIuDQo+IA0KPiBXZSBpbnRlbmQgdG8gdGFnIC1yYzEg
-bmV4dCBUdWVzZGF5LiAgVG8gbWFrZSB0aGF0IGRlYWRsaW5lLCB3ZSdkIG5lZWQNCj4gcGF0Y2hl
-cywgbm90IGp1c3QgaWRlYXMuDQo+IA0KPj4gSGkhDQo+Pg0KPj4gSSB3YW50ZWQgdG8gcmVzZW5k
-LCBidXQgZmFjZWQgc29tZSBwcm9ibGVtcywgYW5kIHVuZGVyc3RhbmQgdGhhdCBJIGNhbid0IGRv
-IGl0IGluIHRpbWUgYmVmb3JlIHNvZnQtZnJlZXplLi4NCj4+IEJ1dCB5b3Ugc2F5LCB0aGF0IHdl
-IGNhbiBkZXByZWNhdGUgc29tZXRoaW5nIGV2ZW4gYWZ0ZXIgaGFyZC1mcmVlemU/DQo+IA0KPiBT
-ZWUgYWJvdmUuDQo+IA0KPj4gT2ssIHRoZSBwcm9ibGVtIHRoYXQgSSBmYWNlZCwgaXMgdGhhdCBk
-ZXByZWNhdGlvbiB3YXJuaW5ncyBicmVha3Mgc29tZSBpb3Rlc3RzLi4gV2hhdCBjYW4gd2UgZG8/
-DQo+Pg0KPj4gMS4gVXBkYXRlIGlvdGVzdHMuLi4NCj4+ICAgICAxLjEgSnVzdCB1cGRhdGUgaW90
-ZXN0cyBvdXRwdXRzIHRvIHNob3cgd2FybmluZ3MuIFRoZW4sIGluIG5leHQgcmVsZWFzZSBjeWNs
-ZSwgdXBkYXRlIGlvdGVzdHMsIHRvIG5vdCB1c2UgZGVwcmVjYXRlZCB0aGluZ3MNCj4gDQo+IFNv
-dW5kcyB3b3JrYWJsZSB0byBtZSwgYnV0IEknbSBub3QgdGhlIG1haW50YWluZXIuDQo+IA0KPj4g
-ICAgIG9yDQo+PiAgICAgMS4yIFVwZGF0ZSBpb3Rlc3RzIHRvIG5vdCB1c2UgZGVwcmVjYXRlZCB0
-aGluZ3MuLiBOb3QgYXBwcm9wcmlhdGUgZm9yIGhhcmQgZnJlZXplLg0KPiANCj4gVW5uZWNlc3Nh
-cmlseSByaXNreSBjb21wYXJlZCB0byAxLjEuDQo+IA0KPj4gb3INCj4+IDIuIENvbW1pdCBkZXBy
-ZWNhdGlvbnMgd2l0aG91dCB3YXJuaW5ncy4uIEJ1dCBob3cgZG8gcGVvcGxlIGZpbmQgb3V0IGFi
-b3V0IHRoaXM/DQo+IA0KPiBOb3QgbmljZS4NCj4gDQo+IFdlIGRvIGl0IGZvciBRTVAsIGJ1dCBv
-bmx5IGJlY2F1c2Ugd2Ugc3RpbGwgbGFjayB0aGUgbWVhbnMgdG8gd2Fybg0KPiB0aGVyZS4NCj4g
-DQo+PiBOZXh0LCB3aGF0IGV4YWN0bHkgdG8gZGVwcmVjYXRlPyBBcyBJIHVuZGVyc3RhbmQsIHdl
-IGNhbid0IGRlcHJlY2F0ZSBkcml2ZS1taXJyb3Igbm93Pw0KPj4gU28gSSBwcm9wb3NlIHRvOg0K
-Pj4NCj4+IDEuIGRlcHJlY2F0ZSBkcml2ZS1iYWNrdXANCj4+IDIuIGFkZCBvcHRpb25hbCBmaWx0
-ZXItbm9kZS1uYW1lIHBhcmFtZXRlciB0byBkcml2ZS1taXJyb3IsIHRvIGNvcnJlc3BvbmQgdG8g
-Y29tbWl0IGFuZCBtaXJyb3INCj4+IDMuIGRlcHJlY2F0ZSB0aGF0IGZpbHRlci1ub2RlLW5hbWUg
-aXMgb3B0aW9uYWwgZm9yIGNvbW1pdCBhbmQgbWlycm9yLg0KPiANCj4gVG8gaGF2ZSBhIGNoYW5j
-ZSB0aGVyZSwgd2UgbmVlZCBwYXRjaGVzIGEucy5hLnAuDQo+IA0KDQpPSywgSSdsbCBzZW5kIHRv
-ZGF5IGFuZCB3ZSdsbCBzZWUsIHdoYXQgdG8gZG8gd2l0aCBpdC4NCg0KLS0gDQpCZXN0IHJlZ2Fy
-ZHMsDQpWbGFkaW1pcg0K
+On Fri, Nov 08, 2019 at 09:41:30AM +0100, Stefan Hajnoczi wrote:
+> On Thu, Nov 07, 2019 at 04:01:42PM +0000, Daniel P. Berrang=C3=A9 wrote:
+> > On Thu, Nov 07, 2019 at 04:44:34PM +0100, Stefan Hajnoczi wrote:
+> > > On Thu, Nov 7, 2019 at 11:07 AM Daniel P. Berrang=C3=A9 <berrange@red=
+hat.com> wrote:
+> > > >
+> > > > On Wed, Nov 06, 2019 at 05:19:28PM +0100, Stefan Hajnoczi wrote:
+> > > > > Hi,
+> > > > > You can now access the latest QEMU HTML documentation built from
+> > > > > qemu.git/master nightly at:
+> > > > >
+> > > > >   https://wiki.qemu.org/docs/qemu-doc.html
+> > > > >   https://wiki.qemu.org/docs/qemu-qmp-ref.html
+> > > > >   https://wiki.qemu.org/docs/qemu-ga-ref.html
+> > > > >   ...as well as interop/ and specs/
+> > > > >
+> > > > > Feel free to link to the documentation from the QEMU website and/=
+or
+> > > > > wiki!
+> > > >
+> > > > What's the reason for putting on wiki.qemu.org URL ? It feels like
+> > > > having it under www.qemu.org would be a more natural home, especial=
+ly
+> > > > if we can then make it pick up the jekyll theme around the pages.
+> > > >
+> > > > Ideally we should publish the docs under versioned URL when we
+> > > > make a release. eg  /docs/latest/....  for current GIT master
+> > > > which I presume the above is tracking, and then a /docs/$VERSION/..=
+.
+> > > > for each major release we cut.
+> > > >
+> > > > That way users can get an accurate view of features in the QEMU
+> > > > they are actually using.
+> > >=20
+> > > Versioned release docs should be generated during the release process=
+.
+> > > I have CCed Mike Roth.  That way the docs are available as soon as th=
+e
+> > > release drops.  This container image only runs once a day and would
+> > > leave a window when users cannot access the docs yet.
+> > >=20
+> > > Moving from wiki.qemu.org should be possible.  How does the jekyll
+> > > theme you mentioned work?
+> >=20
+> > IIUC, when there's a push to the qemu-web.git repo, some git hook (?)
+> > runs on the server which invokes jekyll to build the content, and
+> > then publish it to the webroot.
+> >=20
+> > To integrate these docs into that we need something along the lines
+> > of:
+> >=20
+> >   1. Generate the HTML files as you do now
+> >   2. Copy them into the qemu-web.git in a /docs/ subdir
+> >   3. Prepend a magic header to make jeykll process the file
+> >=20
+> >      ---
+> >      permalink: /docs/qemu-doc
+> >      ---
+> >=20
+> >   4. Trigger the jekyll builder to refresh the generated docs
+> >   5. Publish the docs to the webroot
+> >=20
+> > You can see what I did here  as an example where I simply committed
+> > the generated docs to qemu-web.git:
+> >=20
+> >   https://www.mail-archive.com/qemu-devel@nongnu.org/msg578110.html
+> >=20
+> > If we're not storing the generated docs in git, then when
+> > pushing to qemu-web.git we need to ensure we preserve the
+> > extra /docs dir content in some manner.
+>=20
+> For qemu.git/master the built docs might change every day.  Committing
+> them to qemu-web.git seems like overkill.  I'll send a documentation.md
+> patch for qemu-web.git instead that simply links to
+> wiki.qemu.org/docs/.
+
+Yeah, to be clear I wasn't suggesting committing them to qemu-web.git.
+Really we just need to put the generated .html files into some scratch
+directory on the web server where there qemu-web.git jekyll build can
+automatically find them & process them in the same way it does for
+content that is committed.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
