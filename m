@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F5BF4F66
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:23:59 +0100 (CET)
-Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C923EF4F73
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:26:04 +0100 (CET)
+Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT67B-00015t-VC
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:23:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
+	id 1iT69D-0003qH-GK
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:26:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5om-0005BY-U7
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:58 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5p6-0005dX-3Q
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5ol-0005JN-HE
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36409
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5p3-0005Wc-Of
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:15 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33575
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iT5ol-0005J8-DR
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:55 -0500
+ id 1iT5p3-0005VT-Kh
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573225495;
+ s=mimecast20190719; t=1573225510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wc4ftlDRX01CUchMOTZsiibJ9hNVG/BrpUrzGO6rXso=;
- b=FJj2794XmAFpA7z4k6wgK8hDIKmmeKaeZ0e86mBQwcNdEZM10uoniG056tHhRVKx5gDl/Z
- gZ//M2EnWz5zLVEggo3gwX8wCTpv6W1Cl5O6VZkTJlCwxYUB+dATJiL3FFk+xhJbyAwoUV
- aUrMCVdWHS6gii4VrICl5EElDg04ig0=
+ bh=K6atlegt2pHhl2BHFOIZn9sIb4MIPYLA7+KTpFuvx0s=;
+ b=LiERhUNpgbhsIzkKg6NiTZp5sApI/i8leO+DWdAeLBqJ6wpWDsYxnGqDvFqt6vo5nGWCq3
+ 42i5crvNLMdJ/wIfEIX6LXTuTefqKj7PS/1Ga95V4M5gfbqdHRmoZ98+CjoT2Mm7R21oOU
+ ugwTEbcoEPEqz3xd2GRnc/hsgW688CQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-VLkaUK2BN22tSY0L_cdEWg-1; Fri, 08 Nov 2019 10:04:53 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-24-bUcHVWTCMxmOc7_-1CU6-g-1; Fri, 08 Nov 2019 10:05:09 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2DB7477
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:04:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45D0107ACC4
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:05:08 +0000 (UTC)
 Received: from localhost (ovpn-112-25.ams2.redhat.com [10.36.112.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69CE15C1BB;
- Fri,  8 Nov 2019 15:04:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A538277B6;
+ Fri,  8 Nov 2019 15:04:57 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 15/25] console: add graphic_hw_update_done()
-Date: Fri,  8 Nov 2019 19:01:13 +0400
-Message-Id: <20191108150123.12213-16-marcandre.lureau@redhat.com>
+Subject: [PATCH v6 16/25] ppm-save: pass opened fd
+Date: Fri,  8 Nov 2019 19:01:14 +0400
+Message-Id: <20191108150123.12213-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: VLkaUK2BN22tSY0L_cdEWg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: bUcHVWTCMxmOc7_-1CU6-g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,119 +76,137 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a function to be called when a graphic update is done.
-
-Declare the QXL renderer as async: render_update_cookie_num counts the
-number of outstanding updates, and graphic_hw_update_done() is called
-when it reaches none.
+This will allow to pre-open the file before running the async finish
+handler and avoid potential monitor fdset races.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/qxl-render.c | 9 +++++++--
- hw/display/qxl.c        | 1 +
- include/ui/console.h    | 2 ++
- ui/console.c            | 9 +++++++++
- 4 files changed, 19 insertions(+), 2 deletions(-)
+ ui/console.c    | 45 ++++++++++++++++++++++-----------------------
+ ui/trace-events |  2 +-
+ 2 files changed, 23 insertions(+), 24 deletions(-)
 
-diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
-index f7fdc4901e..3ce2e57b8f 100644
---- a/hw/display/qxl-render.c
-+++ b/hw/display/qxl-render.c
-@@ -109,7 +109,7 @@ static void qxl_render_update_area_unlocked(PCIQXLDevic=
-e *qxl)
-                                                 qxl->guest_primary.surface=
-.mem,
-                                                 MEMSLOT_GROUP_GUEST);
-         if (!qxl->guest_primary.data) {
--            return;
-+            goto end;
-         }
-         qxl_set_rect_to_surface(qxl, &qxl->dirty[0]);
-         qxl->num_dirty_rects =3D 1;
-@@ -137,7 +137,7 @@ static void qxl_render_update_area_unlocked(PCIQXLDevic=
-e *qxl)
-     }
-=20
-     if (!qxl->guest_primary.data) {
--        return;
-+        goto end;
-     }
-     for (i =3D 0; i < qxl->num_dirty_rects; i++) {
-         if (qemu_spice_rect_is_empty(qxl->dirty+i)) {
-@@ -158,6 +158,11 @@ static void qxl_render_update_area_unlocked(PCIQXLDevi=
-ce *qxl)
-                        qxl->dirty[i].bottom - qxl->dirty[i].top);
-     }
-     qxl->num_dirty_rects =3D 0;
-+
-+end:
-+    if (qxl->render_update_cookie_num =3D=3D 0) {
-+        graphic_hw_update_done(qxl->ssd.dcl.con);
-+    }
- }
-=20
- /*
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index cd7eb39d20..6d43b7433c 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -1181,6 +1181,7 @@ static const QXLInterface qxl_interface =3D {
-=20
- static const GraphicHwOps qxl_ops =3D {
-     .gfx_update  =3D qxl_hw_update,
-+    .gfx_update_async =3D true,
- };
-=20
- static void qxl_enter_vga_mode(PCIQXLDevice *d)
-diff --git a/include/ui/console.h b/include/ui/console.h
-index f981696848..281f9c145b 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -365,6 +365,7 @@ static inline void console_write_ch(console_ch_t *dest,=
- uint32_t ch)
- typedef struct GraphicHwOps {
-     void (*invalidate)(void *opaque);
-     void (*gfx_update)(void *opaque);
-+    bool gfx_update_async; /* if true, calls graphic_hw_update_done() */
-     void (*text_update)(void *opaque, console_ch_t *text);
-     void (*update_interval)(void *opaque, uint64_t interval);
-     int (*ui_info)(void *opaque, uint32_t head, QemuUIInfo *info);
-@@ -380,6 +381,7 @@ void graphic_console_set_hwops(QemuConsole *con,
- void graphic_console_close(QemuConsole *con);
-=20
- void graphic_hw_update(QemuConsole *con);
-+void graphic_hw_update_done(QemuConsole *con);
- void graphic_hw_invalidate(QemuConsole *con);
- void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata);
- void graphic_hw_gl_block(QemuConsole *con, bool block);
 diff --git a/ui/console.c b/ui/console.c
-index 82d1ddac9c..3c941528d2 100644
+index 3c941528d2..77d62fe76d 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -259,13 +259,22 @@ static void gui_setup_refresh(DisplayState *ds)
-     ds->have_text =3D have_text;
- }
+@@ -193,6 +193,7 @@ static void dpy_refresh(DisplayState *s);
+ static DisplayState *get_alloc_displaystate(void);
+ static void text_console_update_cursor_timer(void);
+ static void text_console_update_cursor(void *opaque);
++static bool ppm_save(int fd, DisplaySurface *ds, Error **errp);
 =20
-+void graphic_hw_update_done(QemuConsole *con)
-+{
-+}
-+
- void graphic_hw_update(QemuConsole *con)
+ static void gui_update(void *opaque)
  {
-+    bool async =3D false;
-     if (!con) {
-         con =3D active_console;
-     }
-     if (con && con->hw_ops->gfx_update) {
-         con->hw_ops->gfx_update(con->hw);
-+        async =3D con->hw_ops->gfx_update_async;
-+    }
-+    if (!async) {
-+        graphic_hw_update_done(con);
+@@ -308,29 +309,22 @@ void graphic_hw_invalidate(QemuConsole *con)
      }
  }
 =20
+-static void ppm_save(const char *filename, DisplaySurface *ds,
+-                     Error **errp)
++static bool ppm_save(int fd, DisplaySurface *ds, Error **errp)
+ {
+     int width =3D pixman_image_get_width(ds->image);
+     int height =3D pixman_image_get_height(ds->image);
+-    int fd;
+     FILE *f;
+     int y;
+     int ret;
+     pixman_image_t *linebuf;
++    bool success =3D false;
+=20
+-    trace_ppm_save(filename, ds);
+-    fd =3D qemu_open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 06=
+66);
+-    if (fd =3D=3D -1) {
+-        error_setg(errp, "failed to open file '%s': %s", filename,
+-                   strerror(errno));
+-        return;
+-    }
++    trace_ppm_save(fd, ds);
+     f =3D fdopen(fd, "wb");
+     ret =3D fprintf(f, "P6\n%d %d\n%d\n", width, height, 255);
+     if (ret < 0) {
+         linebuf =3D NULL;
+-        goto write_err;
++        goto end;
+     }
+     linebuf =3D qemu_pixman_linebuf_create(PIXMAN_BE_r8g8b8, width);
+     for (y =3D 0; y < height; y++) {
+@@ -339,21 +333,16 @@ static void ppm_save(const char *filename, DisplaySur=
+face *ds,
+         ret =3D fwrite(pixman_image_get_data(linebuf), 1,
+                      pixman_image_get_stride(linebuf), f);
+         (void)ret;
+-        if (ferror(f)) {
+-            goto write_err;
+-        }
++        success =3D !ferror(f);
+     }
+=20
+-out:
++end:
++    if (!success) {
++        error_setg(errp, "failed to write to PPM file: %s", strerror(errno=
+));
++    }
+     qemu_pixman_image_unref(linebuf);
+     fclose(f);
+-    return;
+-
+-write_err:
+-    error_setg(errp, "failed to write to file '%s': %s", filename,
+-               strerror(errno));
+-    unlink(filename);
+-    goto out;
++    return success;
+ }
+=20
+ void qmp_screendump(const char *filename, bool has_device, const char *dev=
+ice,
+@@ -361,6 +350,7 @@ void qmp_screendump(const char *filename, bool has_devi=
+ce, const char *device,
+ {
+     QemuConsole *con;
+     DisplaySurface *surface;
++    int fd;
+=20
+     if (has_device) {
+         con =3D qemu_console_lookup_by_device_name(device, has_head ? head=
+ : 0,
+@@ -387,7 +377,16 @@ void qmp_screendump(const char *filename, bool has_dev=
+ice, const char *device,
+         return;
+     }
+=20
+-    ppm_save(filename, surface, errp);
++    fd =3D qemu_open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 06=
+66);
++    if (fd =3D=3D -1) {
++        error_setg(errp, "failed to open file '%s': %s", filename,
++                   strerror(errno));
++        return;
++    }
++
++    if (!ppm_save(fd, surface, errp)) {
++        unlink(filename);
++    }
+ }
+=20
+ void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata)
+diff --git a/ui/trace-events b/ui/trace-events
+index 63de72a798..0dcda393c1 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -15,7 +15,7 @@ displaysurface_create_pixman(void *display_surface) "surf=
+ace=3D%p"
+ displaysurface_free(void *display_surface) "surface=3D%p"
+ displaychangelistener_register(void *dcl, const char *name) "%p [ %s ]"
+ displaychangelistener_unregister(void *dcl, const char *name) "%p [ %s ]"
+-ppm_save(const char *filename, void *display_surface) "%s surface=3D%p"
++ppm_save(int fd, void *display_surface) "fd=3D%d surface=3D%p"
+=20
+ # gtk.c
+ # gtk-gl-area.c
 --=20
 2.24.0
 
