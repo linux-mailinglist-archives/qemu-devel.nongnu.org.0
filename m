@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3885AF4E18
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:28:23 +0100 (CET)
-Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44937F4E24
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:32:02 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5FN-0008Hf-Re
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:28:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38049)
+	id 1iT5It-0004Hx-VK
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:32:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iT5Da-0006kU-H6
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:31 -0500
+ (envelope-from <philmd@redhat.com>) id 1iT5F0-0000Ac-Na
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:28:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iT5DZ-0007C2-1S
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:30 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:51692)
+ (envelope-from <philmd@redhat.com>) id 1iT5Ez-0000b2-2K
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:27:58 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35378
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iT5DY-0007BY-P1
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:28 -0500
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT5Ey-0000aX-UV
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:27:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573223276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3+LGeTEi1/ybmzvAWogQzi1swRDkl4lqqo1txwkGk8A=;
+ b=FVEEH0xwxOgf472metfw998ze/Lq25xwlH8uK/Gh8l8y+X8NXatLEf9haGHBe4nSacGuzA
+ VS/M1P/+Na6jp0euTG03043yPUs3hpXoG17JM6jikgiYkvmS5IAXIJU/30WLO7rR9P9cR4
+ eXVMoZebZICBl9pYe3rFS6NczhE7+RM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-liEGjmKnOZmJABZ5k_ffgQ-1; Fri, 08 Nov 2019 09:27:52 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A12E85D615
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 14:26:27 +0000 (UTC)
-Received: by mail-qk1-f198.google.com with SMTP id a16so6905744qka.10
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 06:26:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=igyz/t7JL0SuEcqvyOjr4JStX+7L3TSXEICdD7eCZBk=;
- b=UNf7KOTLfWrqoN07M2weTwgT0NZw/lbBLHM8g7nZZG4rtPDgoNqX4JrJ0kXsezRvl5
- fRB3+R/SXY2L0wnHTOgZ/bRSFZkR0NFFmpbZYDkn6vTNlCfuxkZRB4XlP15Sbu0mIdN1
- hy/NorOJQPH8dW0Dv29SMY+LvzWeiVKCdkyLicalDrS4qCrDTWQMsHOmuxZuzhDpTWlf
- sSXOK92yxqWqIv7jnQVje0iYJ1C0JOper5ySR+778kAMeABhnFdWaEDPP6wQ73bFuure
- iNp33JV8oIsVH2N4VrdXDbPjKi0PYu3BqApLIUYq94aYXOjws6WGlX12tvE91W+zbjC5
- bOqw==
-X-Gm-Message-State: APjAAAWClME/xBUTcw85caA8u8CK2mB8v+e+iKrLDpuT1wCav5EmsmIc
- qlzuE3ZiD7AI9XRzrfaORg1z+TuMdjnO06aeSBE5lz5feXnn2of9MI1F4eSc+XqK4affb9kZxWA
- H27ETwLIXFe7hA80=
-X-Received: by 2002:ac8:2a42:: with SMTP id l2mr10980587qtl.64.1573223187001; 
- Fri, 08 Nov 2019 06:26:27 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwanKxIOklgQpbI35zE1lAuOvCo78pnZU5E6TR560Zcp+CjUPOsZ+BMfZC2V8slUu0+Yej9Ig==
-X-Received: by 2002:ac8:2a42:: with SMTP id l2mr10980574qtl.64.1573223186843; 
- Fri, 08 Nov 2019 06:26:26 -0800 (PST)
-Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id e17sm3482239qtk.65.2019.11.08.06.26.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Nov 2019 06:26:26 -0800 (PST)
-Date: Fri, 8 Nov 2019 09:26:21 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v2 1/1] virtio: make seg_max virtqueue size dependent
-Message-ID: <20191108092457-mutt-send-email-mst@kernel.org>
-References: <20191108134249.19004-1-dplotnikov@virtuozzo.com>
- <20191108134249.19004-2-dplotnikov@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77B76477;
+ Fri,  8 Nov 2019 14:27:51 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28CE710027B0;
+ Fri,  8 Nov 2019 14:27:17 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Eric Blake <eblake@redhat.com>
+Subject: [PATCH 2/3] hw/mips/gt64xxx: Remove dynamic field width from trace
+ event
+Date: Fri,  8 Nov 2019 15:26:12 +0100
+Message-Id: <20191108142613.26649-3-philmd@redhat.com>
+In-Reply-To: <20191108142613.26649-1-philmd@redhat.com>
+References: <20191108142613.26649-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191108134249.19004-2-dplotnikov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: liEGjmKnOZmJABZ5k_ffgQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,53 +72,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- den@virtuozzo.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 04:42:49PM +0300, Denis Plotnikov wrote:
-> seg_max has a restriction to be less or equal to virtqueue size
-> according to Virtio 1.0 specification
-> 
-> Although seg_max can't be set directly, it's worth to express this
-> dependancy directly in the code for sanity purpose.
-> 
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Since not all trace backends support dynamic field width in
+format (dtrace via stap does not), replace by a static field
+width instead.
 
-Guest visible so please make this depend on machine type.
+Reported-by: Eric Blake <eblake@redhat.com>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/mips/gt64xxx_pci.c | 34 +++++++++++++++++-----------------
+ hw/mips/trace-events  |  4 ++--
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
-> ---
->  hw/block/virtio-blk.c | 2 +-
->  hw/scsi/virtio-scsi.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index 06e57a4d39..21530304cf 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -903,7 +903,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
->      blk_get_geometry(s->blk, &capacity);
->      memset(&blkcfg, 0, sizeof(blkcfg));
->      virtio_stq_p(vdev, &blkcfg.capacity, capacity);
-> -    virtio_stl_p(vdev, &blkcfg.seg_max, 128 - 2);
-> +    virtio_stl_p(vdev, &blkcfg.seg_max, s->conf.queue_size - 2);
->      virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
->      virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
->      virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
-> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-> index 839f120256..f7e5533cd5 100644
-> --- a/hw/scsi/virtio-scsi.c
-> +++ b/hw/scsi/virtio-scsi.c
-> @@ -650,7 +650,7 @@ static void virtio_scsi_get_config(VirtIODevice *vdev,
->      VirtIOSCSICommon *s = VIRTIO_SCSI_COMMON(vdev);
->  
->      virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
-> -    virtio_stl_p(vdev, &scsiconf->seg_max, 128 - 2);
-> +    virtio_stl_p(vdev, &scsiconf->seg_max, s->conf.virtqueue_size - 2);
->      virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
->      virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
->      virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEvent));
-> -- 
-> 2.17.0
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index 5cab9c1ee1..f427793360 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -464,7 +464,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gt64120: Read-only register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* CPU Sync Barrier */
+@@ -474,7 +474,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gt64120: Read-only register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* SDRAM and Device Address Decode */
+@@ -516,7 +516,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_UNIMP,
+                       "gt64120: Unimplemented device register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* ECC */
+@@ -529,7 +529,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gt64120: Read-only register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* DMA Record */
+@@ -566,7 +566,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_UNIMP,
+                       "gt64120: Unimplemented DMA register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* Timer/Counter */
+@@ -579,7 +579,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_UNIMP,
+                       "gt64120: Unimplemented timer register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+=20
+     /* PCI Internal */
+@@ -623,7 +623,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_UNIMP,
+                       "gt64120: Unimplemented timer register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+     case GT_PCI0_CFGADDR:
+         phb->config_reg =3D val & 0x80fffffc;
+@@ -642,19 +642,19 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         /* not really implemented */
+         s->regs[saddr] =3D ~(~(s->regs[saddr]) | ~(val & 0xfffffffe));
+         s->regs[saddr] |=3D !!(s->regs[saddr] & 0xfffffffe);
+-        trace_gt64120_write("INTRCAUSE", size << 1, val);
++        trace_gt64120_write("INTRCAUSE", size << 3, val);
+         break;
+     case GT_INTRMASK:
+         s->regs[saddr] =3D val & 0x3c3ffffe;
+-        trace_gt64120_write("INTRMASK", size << 1, val);
++        trace_gt64120_write("INTRMASK", size << 3, val);
+         break;
+     case GT_PCI0_ICMASK:
+         s->regs[saddr] =3D val & 0x03fffffe;
+-        trace_gt64120_write("ICMASK", size << 1, val);
++        trace_gt64120_write("ICMASK", size << 3, val);
+         break;
+     case GT_PCI0_SERR0MASK:
+         s->regs[saddr] =3D val & 0x0000003f;
+-        trace_gt64120_write("SERR0MASK", size << 1, val);
++        trace_gt64120_write("SERR0MASK", size << 3, val);
+         break;
+=20
+     /* Reserved when only PCI_0 is configured. */
+@@ -683,7 +683,7 @@ static void gt64120_writel(void *opaque, hwaddr addr,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gt64120: Illegal register write "
+                       "reg:0x03%x size:%u value:0x%0*" PRIx64 "\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+     }
+ }
+@@ -930,19 +930,19 @@ static uint64_t gt64120_readl(void *opaque,
+     /* Interrupts */
+     case GT_INTRCAUSE:
+         val =3D s->regs[saddr];
+-        trace_gt64120_read("INTRCAUSE", size << 1, val);
++        trace_gt64120_read("INTRCAUSE", size << 3, val);
+         break;
+     case GT_INTRMASK:
+         val =3D s->regs[saddr];
+-        trace_gt64120_read("INTRMASK", size << 1, val);
++        trace_gt64120_read("INTRMASK", size << 3, val);
+         break;
+     case GT_PCI0_ICMASK:
+         val =3D s->regs[saddr];
+-        trace_gt64120_read("ICMASK", size << 1, val);
++        trace_gt64120_read("ICMASK", size << 3, val);
+         break;
+     case GT_PCI0_SERR0MASK:
+         val =3D s->regs[saddr];
+-        trace_gt64120_read("SERR0MASK", size << 1, val);
++        trace_gt64120_read("SERR0MASK", size << 3, val);
+         break;
+=20
+     /* Reserved when only PCI_0 is configured. */
+@@ -960,7 +960,7 @@ static uint64_t gt64120_readl(void *opaque,
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "gt64120: Illegal register read "
+                       "reg:0x03%x size:%u value:0x%0*x\n",
+-                      saddr << 2, size, size << 1, val);
++                      saddr << 2, size, size << 3, val);
+         break;
+     }
+=20
+diff --git a/hw/mips/trace-events b/hw/mips/trace-events
+index 75d4c73f2e..86a0213c77 100644
+--- a/hw/mips/trace-events
++++ b/hw/mips/trace-events
+@@ -1,4 +1,4 @@
+ # gt64xxx.c
+-gt64120_read(const char *regname, int width, uint64_t value) "gt64120 read=
+ %s value:0x%0*" PRIx64
+-gt64120_write(const char *regname, int width, uint64_t value) "gt64120 wri=
+te %s value:0x%0*" PRIx64
++gt64120_read(const char *regname, int width, uint64_t value) "gt64120 read=
+ %s width:%d value:0x%08" PRIx64
++gt64120_write(const char *regname, int width, uint64_t value) "gt64120 wri=
+te %s width:%d value:0x%08" PRIx64
+ gt64120_isd_remap(uint64_t from_length, uint64_t from_addr, uint64_t to_le=
+ngth, uint64_t to_addr) "ISD: 0x%08" PRIx64 "@0x%08" PRIx64 " -> 0x%08" PRI=
+x64 "@0x%08" PRIx64
+--=20
+2.21.0
+
 
