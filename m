@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8062CF4DF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:20:15 +0100 (CET)
-Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6593F4E1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:30:20 +0100 (CET)
+Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT57W-0003zi-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:20:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36827)
+	id 1iT5HH-0002tV-Ap
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:30:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1iT56U-0003RB-6s
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:19:11 -0500
+ (envelope-from <philmd@redhat.com>) id 1iT5Dt-0007AA-7Z
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1iT56S-0002IV-KM
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:19:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45093
+ (envelope-from <philmd@redhat.com>) id 1iT5Ds-0007IF-07
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53923
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1iT56R-0002Gs-Bf
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:19:07 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT5Dr-0007Ht-T7
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:26:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573222746;
+ s=mimecast20190719; t=1573223207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hCjCXQUhnMP26PHu8bjzNLTBBJ9pwChDafOnIZYum9w=;
- b=Iqmy1/Zy19Dqxnmg43IkiFOBG1J0/1UwhJHtMc3AI66hAG/kmaZEWZcbiL4aieii33ANTk
- 9ROt05wkfLcWgHstD3BM9XGknkOkIWD86D096DB+dN2ThLogYAE9EcG6WE8tMgMrn8JWgu
- 3/I63P6lfzD9z4ZvA+WtpOl0/kvUm54=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8W3VjnwZihgA8y5clORFGnv7BxO2RxkGBcMPeB2hj7w=;
+ b=T6WijnFeov5XAtMGTRDQloWV2kXOJcNU8a6jNG1aB45jvgOzMrUq6cY+h90Nvxqkn/F7kZ
+ 54j5etof7hh3LEdt/s61UrnsEst0TLbTSMVi0kOgNpn26XCE3bATI1TlPoIzGU7YxYjh6g
+ reCIpM7p8isjDO0ZLqFPpMM6y8akYAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-PWCeP0PoM_2bCF2O4zgELw-1; Fri, 08 Nov 2019 09:19:03 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-175-J-7Go_AUMnOQBseuoZ3l1Q-1; Fri, 08 Nov 2019 09:26:43 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16F20800C72;
- Fri,  8 Nov 2019 14:19:02 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.43.2.229])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B747C6084E;
- Fri,  8 Nov 2019 14:18:59 +0000 (UTC)
-Date: Fri, 8 Nov 2019 15:18:57 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 2/2] qapi: deprecate implicit filters
-Message-ID: <20191108141857.GJ9577@angien.pipo.sk>
-References: <20191108101655.10611-1-vsementsov@virtuozzo.com>
- <20191108101655.10611-3-vsementsov@virtuozzo.com>
- <20191108132725.GH9577@angien.pipo.sk>
- <f0209640-36fe-ed7c-c58b-0df401364a8d@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0C4800C72;
+ Fri,  8 Nov 2019 14:26:42 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 51ED9101E58D;
+ Fri,  8 Nov 2019 14:26:16 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Eric Blake <eblake@redhat.com>
+Subject: [PATCH 0/3] hw: Remove dynamic field width from trace event
+Date: Fri,  8 Nov 2019 15:26:10 +0100
+Message-Id: <20191108142613.26649-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f0209640-36fe-ed7c-c58b-0df401364a8d@virtuozzo.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: PWCeP0PoM_2bCF2O4zgELw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: J-7Go_AUMnOQBseuoZ3l1Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -77,56 +68,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dinechin@redhat.com" <dinechin@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 13:56:03 +0000, Vladimir Sementsov-Ogievskiy wrote:
-> 08.11.2019 16:27, Peter Krempa wrote:
-> > On Fri, Nov 08, 2019 at 13:16:55 +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
+Eric noted in [1] the dtrace via stap backend can not support
+the dynamic '*' width format.
+I'd really like to use dynamic width in trace event because the
+read/write accesses are easier to read but it is not a priority.
+Since next release is close, time to fix LP#1844817 [2].
 
-[...]
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04720.html
+[2] https://bugs.launchpad.net/qemu/+bug/1844817
 
-> > Note that 'block-commit' and 'drive-mirror' commands are used by libvir=
-t
-> > in the pre-blockdev era. In those instances we gather statistics of
-> > block devices by nesting in the output of query-blockstats and
-> > query-block rather than selecting the appropriate info by any other
-> > means (e.g. by node name).
-> >=20
-> > This means that the output MUST stay consistend when block jobs are use=
-d
-> > and the hack this patch is deprcating will break those.
-> >=20
-> > Note that in libvirt we don't plan to invest time to add workarounds fo=
-r
-> > non-blockdev cases since blockdev by itself is complex enough and I'd
-> > strongly prefer not having a third code path to care about.
-> >=20
-> > Given that -blockdev can't be used in all cases (e.g. for sd-cards)
-> > which also blocks deprecation of -drive I don't think that hiding of
-> > implicit filter nodes can be deprecated until -drive is deprecated.
-> >=20
->=20
->=20
-> OK, so, we can't deprecate anything around it now.
->=20
-> What is the problem with sd-cards?
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/block/pflash: Remove dynamic field width from trace event
+  hw/mips/gt64xxx: Remove dynamic field width from trace event
+  trace: Forbid dynamic field width in event format
 
-So the problem was that it was impossible to instantiate it via -device,
-but looking at the qemu code base this doesn't seem to be true any more.
+ hw/block/pflash_cfi01.c       |  8 ++++----
+ hw/block/pflash_cfi02.c       |  8 ++++----
+ hw/mips/gt64xxx_pci.c         | 34 +++++++++++++++++-----------------
+ hw/block/trace-events         |  8 ++++----
+ hw/mips/trace-events          |  4 ++--
+ scripts/tracetool/__init__.py |  3 +++
+ 6 files changed, 34 insertions(+), 31 deletions(-)
 
-I'll have a look whether we can rework the instantiation of sd card
-frontends in libvirt somehow or whether it actually ever worked.
-Unfortunately the documentation seems to be rather sparse.
+--=20
+2.21.0
 
 
