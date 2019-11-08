@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E66F439E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 10:40:54 +0100 (CET)
-Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B8EF438C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 10:38:47 +0100 (CET)
+Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT0lB-0007US-Cc
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 04:40:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
+	id 1iT0j7-00054o-Pd
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 04:38:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iT0h9-0003Bp-IU
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:45 -0500
+ (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iT0hB-0003F7-Fw
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iT0h7-0002Sy-QG
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:43 -0500
-Received: from cmccmta1.chinamobile.com ([221.176.66.79]:2544)
+ (envelope-from <baiyaowei@cmss.chinamobile.com>) id 1iT0h9-0002UL-Hi
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 04:36:45 -0500
+Received: from cmccmta2.chinamobile.com ([221.176.66.80]:4899)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <baiyaowei@cmss.chinamobile.com>)
- id 1iT0h0-0002FL-Df; Fri, 08 Nov 2019 04:36:35 -0500
+ id 1iT0h4-0002LD-80; Fri, 08 Nov 2019 04:36:39 -0500
 Received: from spf.mail.chinamobile.com (unknown[172.16.121.3]) by
- rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee35dc536d4101-8563d;
- Fri, 08 Nov 2019 17:35:17 +0800 (CST)
-X-RM-TRANSID: 2ee35dc536d4101-8563d
+ rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee65dc536d6057-8550e;
+ Fri, 08 Nov 2019 17:35:18 +0800 (CST)
+X-RM-TRANSID: 2ee65dc536d6057-8550e
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG: 00000000
 Received: from localhost.novalocal (unknown[112.25.65.41])
- by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee25dc536d2c26-16e35;
+ by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee25dc536d2c26-16e3e;
  Fri, 08 Nov 2019 17:35:17 +0800 (CST)
-X-RM-TRANSID: 2ee25dc536d2c26-16e35
+X-RM-TRANSID: 2ee25dc536d2c26-16e3e
 From: Yaowei Bai <baiyaowei@cmss.chinamobile.com>
 To: pbonzini@redhat.com, fam@euphon.net, dillaman@redhat.com, kwolf@redhat.com,
  mreitz@redhat.com
-Subject: [PATCH 0/4 V2] SCSI COMPARE_AND_WRITE command support
-Date: Fri,  8 Nov 2019 17:35:37 +0800
-Message-Id: <1573205741-2094-1-git-send-email-baiyaowei@cmss.chinamobile.com>
+Subject: [PATCH 1/4 V2] block: add SCSI COMPARE_AND_WRITE support
+Date: Fri,  8 Nov 2019 17:35:38 +0800
+Message-Id: <1573205741-2094-2-git-send-email-baiyaowei@cmss.chinamobile.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1573205741-2094-1-git-send-email-baiyaowei@cmss.chinamobile.com>
+References: <1573205741-2094-1-git-send-email-baiyaowei@cmss.chinamobile.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 221.176.66.79
+X-Received-From: 221.176.66.80
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,53 +57,82 @@ Cc: baiyaowei@cmss.chinamobile.com, yangjun@cmss.chinamobile.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently ceph/librbd added several interfaces to handle SCSI commands like
-COMPARE_AND_WRITE directly. However they were only be used in special
-scenarios, i.e. ISCSI. That involves more software components which makes
-the IO path longer and could bring more potential issues. Actually we're
-maintaining several ceph clusters with ISCSI protocal being used which,
-i have to say, is not an easy job.
+Some storages(i.e. librbd) already have interfaces to handle some SCSI
+commands directly. This patch adds COMPARE_AND_WRITE command support
+through the write path in the block io layer by introducing a new element
+BDRV_REQ_COMPARE_AND_WRITE into BdrvRequestFlags which indicates a
+COMPARE_AND_WRITE request. In this way we could easily extend to other
+SCSI commands support like WRITE_SAME in the future.
 
-So supporting COMPARE_AND_WRITE in scsi-disk would be a reasonable solution
-and easy to implement with the help of the SCSI handlers in librbd, which
-could leave alone the ISCSI stuff and make the IO path shorter.
+Signed-off-by: Yaowei Bai <baiyaowei@cmss.chinamobile.com>
+---
+ block/io.c                | 20 ++++++++++++++++++++
+ include/block/block.h     |  5 +++--
+ include/block/block_int.h |  3 +++
+ 3 files changed, 26 insertions(+), 2 deletions(-)
 
-This patchset implements it by reusing the blk_aio_pwritev interface and
-introducing a new BDRV_REQ_COMPARE_AND_WRITE element into BdrvRequestFlags
-to indicate a COMPARE_AND_WRITE request, rather than adding a new interface
-into block-backend.c.
-
-The FUA support is implemented in the blk_aio_pwritev's callback function
-similar to its emulation in scsi_write_do_fua function, maybe through
-BDRV_REQ_FUA is another doable way.
-
-This patchset is tested with the method of sg_compare_and_write.txt from
-sg3_utils. Link below:
-
-https://github.com/hreinecke/sg3_utils/blob/master/examples/sg_compare_and_write.txt
-
-v1->v2: fix checkpatch script complaints and cleanup
-
-Yaowei Bai (4):
-  block: add SCSI COMPARE_AND_WRITE support
-  block/rbd: implement bdrv_aio_compare_and_write interface
-  hw/scsi: add SCSI COMPARE_AND_WRITE support
-  scsi-disk: add FUA support for COMPARE_AND_WRITE
-
- block/io.c                  | 20 +++++++++
- block/raw-format.c          |  3 +-
- block/rbd.c                 | 45 ++++++++++++++++++++-
- hw/scsi/emulation.c         |  1 +
- hw/scsi/scsi-bus.c          |  4 ++
- hw/scsi/scsi-disk.c         | 98 +++++++++++++++++++++++++++++++++++++++++++++
- hw/scsi/trace-events        |  1 +
- include/block/block.h       |  5 ++-
- include/block/block_int.h   |  3 ++
- include/hw/scsi/emulation.h |  3 ++
- include/scsi/utils.h        |  2 +
- scsi/utils.c                |  5 +++
- 12 files changed, 185 insertions(+), 5 deletions(-)
-
+diff --git a/block/io.c b/block/io.c
+index f75777f..3507d71 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1186,6 +1186,26 @@ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+         goto emulate_flags;
+     }
+ 
++    if (drv->bdrv_aio_compare_and_write &&
++                              (flags & BDRV_REQ_COMPARE_AND_WRITE)) {
++        BlockAIOCB *acb;
++        CoroutineIOCompletion co = {
++            .coroutine = qemu_coroutine_self(),
++        };
++
++        acb = drv->bdrv_aio_compare_and_write(bs, offset, bytes, qiov,
++                                    flags & bs->supported_write_flags,
++                                    bdrv_co_io_em_complete, &co);
++        flags &= ~bs->supported_write_flags;
++        if (acb == NULL) {
++            ret = -EIO;
++        } else {
++            qemu_coroutine_yield();
++            ret = co.ret;
++        }
++        goto emulate_flags;
++    }
++
+     if (drv->bdrv_aio_pwritev) {
+         BlockAIOCB *acb;
+         CoroutineIOCompletion co = {
+diff --git a/include/block/block.h b/include/block/block.h
+index 1df9848..f71aa4f 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -92,9 +92,10 @@ typedef enum {
+      * on read request and means that caller doesn't really need data to be
+      * written to qiov parameter which may be NULL.
+      */
+-    BDRV_REQ_PREFETCH  = 0x200,
++    BDRV_REQ_PREFETCH           = 0x200,
++    BDRV_REQ_COMPARE_AND_WRITE  = 0x400,
+     /* Mask of valid flags */
+-    BDRV_REQ_MASK               = 0x3ff,
++    BDRV_REQ_MASK               = 0x7ff,
+ } BdrvRequestFlags;
+ 
+ typedef struct BlockSizes {
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index dd033d0..96096e0 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -189,6 +189,9 @@ struct BlockDriver {
+     BlockAIOCB *(*bdrv_aio_pdiscard)(BlockDriverState *bs,
+         int64_t offset, int bytes,
+         BlockCompletionFunc *cb, void *opaque);
++    BlockAIOCB *(*bdrv_aio_compare_and_write)(BlockDriverState *bs,
++        uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags,
++        BlockCompletionFunc *cb, void *opaque);
+ 
+     int coroutine_fn (*bdrv_co_readv)(BlockDriverState *bs,
+         int64_t sector_num, int nb_sectors, QEMUIOVector *qiov);
 -- 
 1.8.3.1
 
