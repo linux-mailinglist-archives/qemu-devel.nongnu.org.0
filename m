@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646A5F52C5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 18:44:42 +0100 (CET)
-Received: from localhost ([::1]:58388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7A9F52D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 18:48:50 +0100 (CET)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT8JN-0008Qs-F4
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 12:44:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
+	id 1iT8NN-0001ub-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 12:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iT8IZ-0007uN-Fn
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:43:52 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iT8LP-0000t4-Md
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:46:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iT8IY-0000ep-Eu
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:43:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35066
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iT8IY-0000eV-BZ
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:43:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573235029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QpnJRWJE0qGmFpIo8tXqp6ZYbE2E1mdLJjO92tWc96Y=;
- b=SrEhmBtQ9Xeoq6ujGF/Xg46R2L65ee4996TIyGgw9NBPInZPztRE1hdJCLNd4SJtp3iVpl
- SrVDQzH9zARt+csWWV9nH02NZ5z8srCFsqpOEr/EZNHdET347Lll+OWNhA/1TALNkXYieU
- FsvaywZpP/72nF3eswwbLYHU53mC5wY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-TLFB4pcLNUukvc4uyiSOsw-1; Fri, 08 Nov 2019 12:43:46 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D3A6477;
- Fri,  8 Nov 2019 17:43:45 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-227.ams2.redhat.com
- [10.36.117.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FC733D8C;
- Fri,  8 Nov 2019 17:43:38 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] configure: Check bzip2 is available
-To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20191108114531.21518-1-philmd@redhat.com>
- <20191108114531.21518-3-philmd@redhat.com>
- <20191108114847.GM182396@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <bc9c15f1-bb3f-5b5e-6b25-53821c2264c5@redhat.com>
-Date: Fri, 8 Nov 2019 18:43:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <no-reply@patchew.org>) id 1iT8LN-0002pR-4d
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:46:47 -0500
+Resent-Date: Fri, 08 Nov 2019 12:46:46 -0500
+Resent-Message-Id: <E1iT8LN-0002pR-4d@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21435)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iT8LF-0002Y9-IW
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 12:46:39 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1573235180; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Yvd2e4iJv7UDbbEtloTxnAII06dejFqQ6SfkXEdqQd/8nUwyIUXiSTm13jwq99o6QuZVOpNozje+3nrAQ1j33RV+hk59BnhWVvno2m9a+0RjLUveBjHQYPiJ62sqVTu3uZo8of23yaOn7DG7lW1lGeCHfVBvYO1hAO9hw/5pwYU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1573235180;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=61epiVrGY4hq+m7xEXs3UXpiEMgCuX2YWSo/1Hg69qk=; 
+ b=XDirFG/OUA/H+6C6V68XvVjPBbS3UEE/4snZCe7eFozmEJtkP0F3Ah0vmJ9ioewMHBhC/MihZ5C6nbctoN1gAPedN2fm54GQ9CIhLY/jGikl+mSStzWHpBU1ZnR36T7ukHWhz1AmTm0eEdAnH+KoRheILiG0lZ7CRyt7/Ut27o4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1573235179219895.973693481257;
+ Fri, 8 Nov 2019 09:46:19 -0800 (PST)
+In-Reply-To: <20191108104307.125020-1-dgilbert@redhat.com>
+Subject: Re: [PATCH] tests/migration: Print some debug on bad status
+Message-ID: <157323517815.7743.2882918933706185467@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <20191108114847.GM182396@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: TLFB4pcLNUukvc4uyiSOsw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dgilbert@redhat.com
+Date: Fri, 8 Nov 2019 09:46:19 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,86 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/08/19 12:48, Daniel P. Berrang=C3=A9 wrote:
-> On Fri, Nov 08, 2019 at 12:45:31PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> The bzip2 tool is not included in default installations.
->> On freshly installed systems, ./configure succeeds but 'make'
->> might fail later:
->>
->>     BUNZIP2 pc-bios/edk2-i386-secure-code.fd.bz2
->>   /bin/sh: bzip2: command not found
->>   make: *** [Makefile:305: pc-bios/edk2-i386-secure-code.fd] Error 127
->>   make: *** Deleting file 'pc-bios/edk2-i386-secure-code.fd'
->>   make: *** Waiting for unfinished jobs....
->>
->> Add a check in ./configure to warn the user if bzip2 is missing.
->>
->> Fixes: 536d2173b2b
->> Reported-by: Thomas Huth <thuth@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> v2: use better English (Daniel)
->> (Not taking Daniel Reviewed-by because logic changed)
->> ---
->>  configure | 4 ++++
->>  1 file changed, 4 insertions(+)
->=20
->> diff --git a/configure b/configure
->> index 9b322284c3..2b419a8039 100755
->> --- a/configure
->> +++ b/configure
->> @@ -2147,6 +2147,7 @@ case " $target_list " in
->>    ;;
->>  esac
->> =20
->> +# Some firmware binaries are compressed with bzip2
->=20
-> Squash into previous patch
->=20
->>  for target in $target_list; do
->>    case "$target" in
->>      arm-softmmu | aarch64-softmmu | i386-softmmu | x86_64-softmmu)
->> @@ -2154,6 +2155,9 @@ for target in $target_list; do
->>        ;;
->>    esac
->>  done
->> +if test "$edk2_blobs" =3D "yes" && ! has bzip2; then
->> +  error_exit "The bzip2 program is required for building QEMU"
->> +fi
->> =20
->>  feature_not_found() {
->>    feature=3D$1
->=20
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-I don't feel too strongly about this, but how about a different improvement=
-:
-
-- keep the comment in this patch, but move it right before the "has
-bzip2" check
-- instead of "some firmware binaries", clearly state "edk2 blobs".
-
-Something like:
-
-+# Edk2 blobs are compressed with bzip2.
-+if test "$edk2_blobs" =3D "yes" && ! has bzip2; then
-+  error_exit "The bzip2 program is required for building QEMU"
-+fi
-
-So... now we have three variants: the one posted by Phil (v2), the one
-recommended by Dan (as an update to v2), and the one I suggest above (as
-a different update to v2). For simplicity, I'm fine with any one of the
-three variants going in.
-
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-
-Thanks!
-Laszlo
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwODEwNDMwNy4xMjUw
+MjAtMS1kZ2lsYmVydEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
+Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
+bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBjaGVjay11
+bml0OiB0ZXN0cy90ZXN0LWJkcnYtZHJhaW4Kd2FpdF9mb3JfbWlncmF0aW9uX2ZhaWw6IHVuZXhw
+ZWN0ZWQgc3RhdHVzIHN0YXR1cz13YWl0LXVucGx1ZyBhbGxvd19hY3RpdmU9MQoqKgpFUlJPUjov
+dG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvbWlncmF0aW9uLXRlc3QuYzo5MDg6d2FpdF9mb3JfbWln
+cmF0aW9uX2ZhaWw6IGFzc2VydGlvbiBmYWlsZWQ6IChyZXN1bHQpCkVSUk9SIC0gQmFpbCBvdXQh
+IEVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9taWdyYXRpb24tdGVzdC5jOjkwODp3YWl0
+X2Zvcl9taWdyYXRpb25fZmFpbDogYXNzZXJ0aW9uIGZhaWxlZDogKHJlc3VsdCkKbWFrZTogKioq
+IFtjaGVjay1xdGVzdC1hYXJjaDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZp
+bmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LWJkcnYtZ3Jh
+cGgtbW9kCiAgVEVTVCAgICBjaGVjay11bml0OiB0ZXN0cy90ZXN0LWJsb2Nram9iCi0tLQogICAg
+cmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQ
+cm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0t
+bGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1mYTU3NGNjMDM3N2Y0N2YzOTQ0NzkxOWNi
+OTQxOTk2NScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25m
+aW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdV
+UkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUn
+LCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdics
+ICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hl
+OnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTRjdTc1MXNoL3NyYy9kb2Nr
+ZXItc3JjLjIwMTktMTEtMDgtMTIuMzMuMTMuMjQ1NDU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3Fl
+bXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVk
+IG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5p
+bnN0YW5jZS51dWlkPWZhNTc0Y2MwMzc3ZjQ3ZjM5NDQ3OTE5Y2I5NDE5OTY1Cm1ha2VbMV06ICoq
+KiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90
+bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTRjdTc1MXNoL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVu
+LXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxM201LjEzNnMKdXNlciAgICAw
+bTguMTg2cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
+L2xvZ3MvMjAxOTExMDgxMDQzMDcuMTI1MDIwLTEtZGdpbGJlcnRAcmVkaGF0LmNvbS90ZXN0aW5n
+LmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQg
+YXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBz
+ZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
