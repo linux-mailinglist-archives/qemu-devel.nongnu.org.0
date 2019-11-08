@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EF3F479B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 12:51:34 +0100 (CET)
-Received: from localhost ([::1]:52754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5041EF478D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 12:51:22 +0100 (CET)
+Received: from localhost ([::1]:52748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT2nd-0005M5-6Q
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 06:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36062)
+	id 1iT2nQ-0004zJ-Pr
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 06:51:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iT2kM-00026E-C2
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:11 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iT2l6-00038x-W1
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iT2kL-00072L-5k
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52228
+ (envelope-from <mlevitsk@redhat.com>) id 1iT2l5-0007tE-S6
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31123
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iT2kL-000723-1l
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:09 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iT2l5-0007si-GE
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 06:48:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573213688;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1573213735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rRUSG+WxN8+pJantnDtoL2Q8Iwb84FBCPUWUG1AiSZk=;
- b=YVao0MXbvXLocQ5MUx0s8V+TspqJHCyJjet2IRZLx7v/0BXwOy7qnKjl2k+Z8AAapntxCb
- ow3t3Xk56XG2U5mqWjBHYtKSz6F1qS5Ypg/13YzT7DN3kxKSE8lZ4bLYG3zHdEOhHyszSF
- iUxP/6B3n579t2JWOFywAw7M14M1LRg=
+ bh=kgciMlfj8fnJdQImr+Y8qlRoRf2UH8LblkGo6hwSxIc=;
+ b=bnz1kcGhzs9S5X0bV6T9szBi2JjO/txo+yZVVGIGNX/DnQtGVorOljboGlnY3xxy/s5cGH
+ 7a53RVIYjPnoOtmdWGlNdah04ayAXT1MON+m7kx2HVbLhzK368mUgT5c/uty6LROG5VM+1
+ I30BzoEwy9zfGDv68zOZhq66F/vnFew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-u9YHryKZOI6jqf1dl9ly2Q-1; Fri, 08 Nov 2019 06:48:05 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-103-EkkyRCvcM1axkKoU7lcicA-1; Fri, 08 Nov 2019 06:48:53 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FD17FB;
- Fri,  8 Nov 2019 11:48:04 +0000 (UTC)
-Received: from redhat.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 851525DA7F;
- Fri,  8 Nov 2019 11:47:53 +0000 (UTC)
-Date: Fri, 8 Nov 2019 11:47:50 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 1/2] configure: Only decompress EDK2 blobs for X86/ARM
- targets
-Message-ID: <20191108114750.GL182396@redhat.com>
-References: <20191108114531.21518-1-philmd@redhat.com>
- <20191108114531.21518-2-philmd@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20191108114531.21518-2-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: u9YHryKZOI6jqf1dl9ly2Q-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD4E1800C72;
+ Fri,  8 Nov 2019 11:48:52 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEC916084E;
+ Fri,  8 Nov 2019 11:48:47 +0000 (UTC)
+Message-ID: <8f0857a01eec965ac91fb44083227d7b9fe866f1.camel@redhat.com>
+Subject: Re: [PATCH v2 02/11] qcrypto-luks: extend the create options for
+ upcoming encryption key management
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 08 Nov 2019 13:48:46 +0200
+In-Reply-To: <af4b3495-0b8d-e269-4190-779535526ab4@redhat.com>
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-3-mlevitsk@redhat.com>
+ <e0e85ab0-e84b-0ee8-8467-ff11e803f7cf@redhat.com>
+ <5aa3ad22b0adb236f2ff67c183121c2896e0e1da.camel@redhat.com>
+ <af4b3495-0b8d-e269-4190-779535526ab4@redhat.com>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: EkkyRCvcM1axkKoU7lcicA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,40 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel
+ P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 12:45:30PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> The EDK2 firmware blobs only target the X86/ARM architectures.
-> Define the DECOMPRESS_EDK2_BLOBS variable and only decompress
-> the blobs when the variable exists.
+On Fri, 2019-11-08 at 11:48 +0100, Max Reitz wrote:
+> On 08.11.19 10:28, Maxim Levitsky wrote:
+> > On Fri, 2019-10-04 at 19:42 +0200, Max Reitz wrote:
+> > > On 13.09.19 00:30, Maxim Levitsky wrote:
+> > > > Now you can specify which slot to put the encryption key to
+> > > > Plus add 'active' option which will let  user erase the key secret
+> > > > instead of adding it.
+> > > > Check that active=3Dtrue it when creating.
+> > > >=20
+> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > > > ---
+> > > >  block/crypto.c             |  2 ++
+> > > >  block/crypto.h             | 16 +++++++++++
+> > > >  block/qcow2.c              |  2 ++
+> > > >  crypto/block-luks.c        | 26 +++++++++++++++---
+> > > >  qapi/crypto.json           | 19 ++++++++++++++
+> > > >  tests/qemu-iotests/082.out | 54 ++++++++++++++++++++++++++++++++++=
+++++
+> > > >  6 files changed, 115 insertions(+), 4 deletions(-)
+> > >=20
+> > > (Just doing a cursory RFC-style review)
+> > >=20
+> > > I think we also want to reject unlock-secret if it=E2=80=99s given fo=
+r creation;
+> >=20
+> > Agree, I'll do this in the next version.
+> >=20
+> > > and I suppose it=E2=80=99d be more important to print which slots are=
+ OK than
+> > > the slot the user has given.  (It isn=E2=80=99t like we shouldn=E2=80=
+=99t print that
+> > > slot index, but it=E2=80=99s more likely the user knows that than wha=
+t the
+> > > limits are.  I think.)
+> >=20
+> > I don't really understand what you mean here :-(=20
+> >=20
+> > Since this is qmp interface,
+> > I can't really print anything from it, other that error messages.
 >=20
-> Fixes: 536d2173b2b
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> v2: new
-> ---
->  Makefile  |  2 ++
->  configure | 13 +++++++++++++
->  2 files changed, 15 insertions(+)
+> Exactly, I=E2=80=99m referring to the error message.  Right now it=E2=80=
+=99s:
+>=20
+> "Invalid slot %" PRId64 " is specified", luks_opts.slot
+>=20
+> I think it should be something like:
+>=20
+> "Invalid slot %" PRId64 " specified, must be between 0 and %u",
+> luks_opt.slot, QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS - 1
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+This is a very good idea! implemented now and will
+post in the next version.
+
+Best regards,
+=09Maxim Levitsky
 
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
 
 
