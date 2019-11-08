@@ -2,63 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59F04F4C01
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:42:38 +0100 (CET)
-Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95732F4BFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 13:39:57 +0100 (CET)
+Received: from localhost ([::1]:53204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT3b3-00017D-AH
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:42:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
+	id 1iT3YS-0007aE-Fq
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 07:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iT3Tw-0002d0-A0
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:35:18 -0500
+ (envelope-from <edgar@xilinx.com>) id 1iT3W7-0005Ek-M8
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:37:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iT3Tu-0003NC-9U
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:35:16 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24475
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iT3Tu-0003MD-4L
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:35:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573216512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fnhlJ1kNFDl7LtxUc2N0RSuv6nXz/HJqZ0VtYOFU2WI=;
- b=Khq5y/kRUFCZD3Dy9h5F3bp8XQn4lqZ6UTIcL/UMzni1uKV1i76DT6JI6U2OTntZqzILt1
- nN6kIqwjphGwpPx+cqnzaPzR9g+3sdI82iRljjqeFlSSYDyRl2KruclhKKVMR1ZGiMhERq
- nFADRIh05i5amMcBJ8fAzHaMw9sSSGo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-ULlBqTUpOdem6n-ceQ_LgA-1; Fri, 08 Nov 2019 07:35:09 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B1A5477;
- Fri,  8 Nov 2019 12:35:08 +0000 (UTC)
-Received: from localhost (ovpn-117-78.ams2.redhat.com [10.36.117.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D7C860BE1;
- Fri,  8 Nov 2019 12:35:08 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v4 5/5] iotests: Add test for failing mirror complete
-Date: Fri,  8 Nov 2019 13:34:55 +0100
-Message-Id: <20191108123455.39445-6-mreitz@redhat.com>
-In-Reply-To: <20191108123455.39445-1-mreitz@redhat.com>
-References: <20191108123455.39445-1-mreitz@redhat.com>
+ (envelope-from <edgar@xilinx.com>) id 1iT3W6-0005Fn-5Y
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:37:31 -0500
+Received: from mail-eopbgr790051.outbound.protection.outlook.com
+ ([40.107.79.51]:34544 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <edgar@xilinx.com>) id 1iT3W5-0005DL-O7
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 07:37:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e4sziKGcd1Gw0IDfsq3txJvNXoJYByt1oBXDOGMuwOla5y40xstcYJdg6JzrYy24IRRbJyIRyeGClhXG7H2rz/OeqdLqtlr14iOyZWQp3dChbKvbvsex36egjef2Bdf1IVyFfkcC3a7tmbGWJr4P1t1pQ36myyQ9UH4O0207F4U6HN+sWwCqtBlBretgV9XpjHgyUtZ+xHp7TyYvqM7796lHES+GPoLc7xZGV20T3sOjC6CT7kkuLdnguz2AUOwE83D2piK0MbDkttBSE/Tj7afAdkzFqVuaRT72jjiZvi+erYPWKBWmjAZCunSDe0veP6TWd6uWTeHJA4JrgXGaUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rEpSQs8pJrn8MNGf+QjpI/9MYYCChfh2MXRFsIKzv40=;
+ b=AWYWsYscoadWsPnf+aVgx4xB9zWM9D16EKeM2ZjjdSbfhEBQ3d0fGPqlr48ZyP/3XYh6NNXxQW1we6xls9IuYdZDRoHWo4i/7HrUAETs+7YJ/SDLLAWHS67fXiOyp/HmBYLodfokqvtUtIc/rQbG77sgxlm7I0vbcoqFAOUNYRn++3DYK2d3C6sRYw6TlY/xTZwToqr8e7i15sAnHOnEeT2LEtrOw8sEak5+BbS4+XmooxCgzCMN3Ee+biZZxtLIfELJGZBV767THCbiXWY8/KXh22WkJ77DbDyHs2AXGwZ/xK29x/OZUQEwuTHmfVNAT4vnUHlsjMpKuCsDztTBig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rEpSQs8pJrn8MNGf+QjpI/9MYYCChfh2MXRFsIKzv40=;
+ b=C1+vn0pTACWZc/icGbBqZo8fpEkNkVV3/BBcBEEiNawco4aR6L2/mNvLeP2FygC5IGl2bzmm4EfmxT4iKjt+6wc9HUEzCB5vphCQ0bPwE/JcGPj0txVl/HNxBJj46DkxFvd8iA/hA19hP2WeIBphBTamWkOeweiP52EYidwB8+I=
+Received: from DM6PR02CA0126.namprd02.prod.outlook.com (2603:10b6:5:1b4::28)
+ by BN6PR02MB2369.namprd02.prod.outlook.com (2603:10b6:404:2d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2430.24; Fri, 8 Nov
+ 2019 12:37:27 +0000
+Received: from CY1NAM02FT019.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e45::205) by DM6PR02CA0126.outlook.office365.com
+ (2603:10b6:5:1b4::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2408.24 via Frontend
+ Transport; Fri, 8 Nov 2019 12:37:26 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT019.mail.protection.outlook.com (10.152.75.177) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2430.20
+ via Frontend Transport; Fri, 8 Nov 2019 12:37:26 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iT3W2-0003iF-4L; Fri, 08 Nov 2019 04:37:26 -0800
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iT3Vx-0003kI-1S; Fri, 08 Nov 2019 04:37:21 -0800
+Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66] (may be forged))
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id xA8CbAIE025933; 
+ Fri, 8 Nov 2019 04:37:10 -0800
+Received: from [10.71.116.41] (helo=localhost)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1iT3Vl-0003jU-PM; Fri, 08 Nov 2019 04:37:09 -0800
+Date: Fri, 8 Nov 2019 13:36:54 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 1/3] target/microblaze: Plug temp leaks for loads/stores
+Message-ID: <20191108123654.GD2820@toto>
+References: <20191106141424.27244-1-edgar.iglesias@gmail.com>
+ <20191106141424.27244-2-edgar.iglesias@gmail.com>
+ <3ee495ba-a88c-c81a-92e9-d5ad5d88022e@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ULlBqTUpOdem6n-ceQ_LgA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3ee495ba-a88c-c81a-92e9-d5ad5d88022e@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(7916004)(136003)(39860400002)(376002)(346002)(396003)(199004)(189003)(305945005)(107886003)(33656002)(106002)(6246003)(7416002)(356004)(9686003)(6666004)(126002)(476003)(11346002)(33716001)(486006)(229853002)(316002)(76506006)(9786002)(478600001)(16586007)(4744005)(426003)(5660300002)(186003)(70206006)(70586007)(36386004)(446003)(2906002)(1076003)(81156014)(81166006)(336012)(53546011)(8676002)(58126008)(50466002)(57986006)(4326008)(6916009)(26005)(76176011)(23726003)(8936002)(47776003)(42866002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR02MB2369; H:xsj-pvapsmtpgw01; FPR:;
+ SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dbfa7153-4bf9-4af4-8cb5-08d764486989
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2369:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB23694C5BA535622A2FDFF112C27B0@BN6PR02MB2369.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 0215D7173F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iIQyiXbIC3sZSdTKtysMuXxUc7UlGGVWSeKsO8okfHVmiRoEPMLlcE8Uhi1iSzcYskPffZgmuRUmnVwlIM8wCoV8HEO9wTNotv+MaR+52RXBYn2PXaont6ktppDIWFLmDzzI3upDUXOMcJ/j+dzrPUqo7Gohw4p9Fu1f4k4WKRBglJDaBTGh7FdK8U34m8In6OGAcLBErmqe3WTq2KZHu8NPP6cZVRRGkHrEYxbNJkEU4l5wDEq1DpG95SmEq0Cbu661H/CWFnBsaKUeHWs91Br9/j/5YUKsQ8D/P5bagqU9jQzWPsYRwf1nmeAcoB0vcD/Misa6gi280KNuGKmeGeDRAbgEB8eLotGbxOeeMjpksw3naQFUHHflyAvz+U9gsWck2gHSGAIXMF6kD8xVD4ZBy78VSoKwoH6pUMiLgaSksHMWW6UgY5UadBX1hPA+
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2019 12:37:26.5920 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbfa7153-4bf9-4af4-8cb5-08d764486989
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2369
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.79.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,93 +127,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ sai.pavan.boddu@xilinx.com, frasse.iglesias@gmail.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, frederic.konrad@adacore.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com,
+ luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/041     | 44 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/041.out |  4 ++--
- 2 files changed, 46 insertions(+), 2 deletions(-)
+On Thu, Nov 07, 2019 at 03:19:20PM +0100, Richard Henderson wrote:
+> On 11/6/19 3:14 PM, Edgar E. Iglesias wrote:
+> > @@ -967,12 +967,14 @@ static void dec_load(DisasContext *dc)
+> >                     10 -> 10
+> >                     11 -> 00 */
+> >                  TCGv low = tcg_temp_new();
+> > +                TCGv t3 = tcg_const_tl(3);
+> >  
+> >                  tcg_gen_andi_tl(low, addr, 3);
+> > -                tcg_gen_sub_tl(low, tcg_const_tl(3), low);
+> > +                tcg_gen_sub_tl(low, t3, low);
+> >                  tcg_gen_andi_tl(addr, addr, ~3);
+> >                  tcg_gen_or_tl(addr, addr, low);
+> >                  tcg_temp_free(low);
+> > +                tcg_temp_free(t3);
+> >                  break;
+> 
+> While Luc correctly notes that tcg_gen_subfi_tl() may be used here, I will note
+> (1) there's a typo in the comment (not 2->2, but 2->1), and (2) that this whole
+> section can be done with
+> 
+> 	tcg_gen_xori_tl(addr, addr, 3);
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 8568426311..d7be30b62b 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -1121,6 +1121,50 @@ class TestOrphanedSource(iotests.QMPTestCase):
-                              target=3D'dest-ro')
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-+    def test_failing_permission_in_complete(self):
-+        self.assert_no_active_block_jobs()
-+
-+        # Unshare consistent-read on the target
-+        # (The mirror job does not care)
-+        result =3D self.vm.qmp('blockdev-add',
-+                             driver=3D'blkdebug',
-+                             node_name=3D'dest-perm',
-+                             image=3D'dest',
-+                             unshare_child_perms=3D['consistent-read'])
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('blockdev-mirror', job_id=3D'job', device=
-=3D'src',
-+                             sync=3D'full', target=3D'dest',
-+                             filter_node_name=3D'mirror-filter')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Require consistent-read on the source
-+        # (We can only add this node once the job has started, or it
-+        # will complain that it does not want to run on non-root nodes)
-+        result =3D self.vm.qmp('blockdev-add',
-+                             driver=3D'blkdebug',
-+                             node_name=3D'src-perm',
-+                             image=3D'src',
-+                             take_child_perms=3D['consistent-read'])
-+        self.assert_qmp(result, 'return', {})
-+
-+        # While completing, mirror will attempt to replace src by
-+        # dest, which must fail because src-perm requires
-+        # consistent-read but dest-perm does not share it; thus
-+        # aborting the job when it is supposed to complete
-+        self.complete_and_wait('job',
-+                               completion_error=3D'Operation not permitted=
-')
-+
-+        # Assert that all of our nodes are still there (except for the
-+        # mirror filter, which should be gone despite the failure)
-+        nodes =3D self.vm.qmp('query-named-block-nodes')['return']
-+        nodes =3D [node['node-name'] for node in nodes]
-+
-+        for expect in ('src', 'src-perm', 'dest', 'dest-perm'):
-+            self.assertTrue(expect in nodes, '%s disappeared' % expect)
-+        self.assertFalse('mirror-filter' in nodes,
-+                         'Mirror filter node did not disappear')
-+
- if __name__ =3D=3D '__main__':
-     iotests.main(supported_fmts=3D['qcow2', 'qed'],
-                  supported_protocols=3D['file'])
-diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index 2c448b4239..f496be9197 100644
---- a/tests/qemu-iotests/041.out
-+++ b/tests/qemu-iotests/041.out
-@@ -1,5 +1,5 @@
--..........................................................................=
-................
-+..........................................................................=
-.................
- ----------------------------------------------------------------------
--Ran 90 tests
-+Ran 91 tests
-=20
- OK
---=20
-2.23.0
 
+Nice!
+
+I'll send out a new version shortly.
+
+Best regards,
+Edgar
+
+
+> 
+> Similarly in dec_store.
+> 
+> The other changes in this patch around gen_helper_memalign are ok.
+> 
+> 
+> r~
 
