@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38762F4E23
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:31:48 +0100 (CET)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAD4F4E3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:38:02 +0100 (CET)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5Ig-0004E3-Kr
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:31:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
+	id 1iT5Oh-0002Zg-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:37:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iT5FE-0000Xl-RI
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:28:14 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iT5G3-0001tM-82
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:29:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iT5FD-0000pN-Mq
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:28:12 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28634
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT5FD-0000o9-Je
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:28:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573223291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E/RURPPC+PX0XGwf6Gei0vsDMgKrYkulMKMaEFtT6vg=;
- b=hwNfxoCG20qK2+ccJEc8HDAQ0TmEqniqAm2sU6NgvM9SAYMXVoPxg59l3v0NGfm9LHpoXD
- vtbld74f0vG+AZ16E5j8LttXO27SKyOs8Sg+FITjmgA5XURFmbS55rzN5EKIJ6yEp/IVkr
- /fnLaXyZb94U6B6iZ1b0/Vcdkj89d3A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-zuoahBc_MPycoNJQw0dZ0A-1; Fri, 08 Nov 2019 09:28:07 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC49800C72;
- Fri,  8 Nov 2019 14:28:06 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.206.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2590F10631CE;
- Fri,  8 Nov 2019 14:27:51 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Eric Blake <eblake@redhat.com>
-Subject: [PATCH 3/3] trace: Forbid dynamic field width in event format
-Date: Fri,  8 Nov 2019 15:26:13 +0100
-Message-Id: <20191108142613.26649-4-philmd@redhat.com>
-In-Reply-To: <20191108142613.26649-1-philmd@redhat.com>
-References: <20191108142613.26649-1-philmd@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1iT5G1-00022p-Ht
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:29:02 -0500
+Resent-Date: Fri, 08 Nov 2019 09:29:02 -0500
+Resent-Message-Id: <E1iT5G1-00022p-Ht@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21439)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iT5G1-00021m-A9
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:29:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1573223332; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=L7br7Hpol0MXPkOP63I0dmeH4jg4F2TSApEEtpXuXDFuDqQeYd+e2RhNK8FctgL0KaOzXl0wu5bBNjigl1OHpDGIo2S9HK1E8Tr45MQPdQyWqaU0EYzsn4PkYj2khq9d9c2hpLn22UFX+Toi5rIZtz1s59RlpDOnTVxDDk5Zjk8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1573223332;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=6x+OKmo+E8VZ+vVqURfHO51G/7svYOWm88BUe0jgYMc=; 
+ b=LwX2dySkI/g5XfQlI0fyjIZJNYnpgIW/ev5UZdGrXBX/H350KnK4HZJRmzncU4s9f/3wYmrtFt0DqwfEK97piuG4bDuetlRh6xU3Dg7e4U4vthP+fkcLU6jdhJetO3/UvazY3+y1w40dIM4NA8OgXwuXRzu8Z68AN8PvcuOAnZs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1573223331368688.6385545408299;
+ Fri, 8 Nov 2019 06:28:51 -0800 (PST)
+In-Reply-To: <20191108102212.11101-1-kraxel@redhat.com>
+Subject: Re: [PULL 0/1] Seabios 20191108 patches
+Message-ID: <157322333040.31898.11616442248486542957@37313f22b938>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: zuoahBc_MPycoNJQw0dZ0A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Fri, 8 Nov 2019 06:28:51 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,66 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since not all trace backends support dynamic field width in
-format (dtrace via stap does not), forbid them.
-
-Add a check to refuse field width in new formats:
-
-  $ make
-  [...]
-    GEN     hw/block/trace.h
-  Traceback (most recent call last):
-    File "scripts/tracetool.py", line 152, in <module>
-      main(sys.argv)
-    File "scripts/tracetool.py", line 143, in main
-      events.extend(tracetool.read_events(fh, arg))
-    File "scripts/tracetool/__init__.py", line 371, in read_events
-      event =3D Event.build(line)
-    File "scripts/tracetool/__init__.py", line 285, in build
-      raise ValueError("Event format must not contain field width '%*'")
-  ValueError: Error at hw/block/trace-events:11: Event format must not cont=
-ain field width '%*'
-
-Reported-by: Eric Blake <eblake@redhat.com>
-Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- scripts/tracetool/__init__.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
-index 44c118bc2a..e239be602b 100644
---- a/scripts/tracetool/__init__.py
-+++ b/scripts/tracetool/__init__.py
-@@ -206,6 +206,7 @@ class Event(object):
-                       "\s*"
-                       "(?:(?:(?P<fmt_trans>\".+),)?\s*(?P<fmt>\".+))?"
-                       "\s*")
-+    _DFWRE =3D re.compile(".*(%0?\*).*")
-=20
-     _VALID_PROPS =3D set(["disable", "tcg", "tcg-trans", "tcg-exec", "vcpu=
-"])
-=20
-@@ -280,6 +281,8 @@ class Event(object):
-         if fmt.endswith(r'\n"'):
-             raise ValueError("Event format must not end with a newline "
-                              "character")
-+        if Event._DFWRE.match(fmt):
-+            raise ValueError("Event format must not contain field width '%=
-*'")
-=20
-         if len(fmt_trans) > 0:
-             fmt =3D [fmt_trans, fmt]
---=20
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEwODEwMjIxMi4xMTEw
+MS0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
+a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
+V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
+NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCnFlbXUtc3lzdGVtLWFhcmNoNjQ6
+IGNhbm5vdCBzZXQgdXAgZ3Vlc3QgbWVtb3J5ICdleHlub3M0MjEwLmRyYW0wJzogQ2Fubm90IGFs
+bG9jYXRlIG1lbW9yeQpCcm9rZW4gcGlwZQovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvbGlicXRl
+c3QuYzoxNDA6IGtpbGxfcWVtdSgpIHRyaWVkIHRvIHRlcm1pbmF0ZSBRRU1VIHByb2Nlc3MgYnV0
+IGVuY291bnRlcmVkIGV4aXQgc3RhdHVzIDEgKGV4cGVjdGVkIDApCkVSUk9SIC0gdG9vIGZldyB0
+ZXN0cyBydW4gKGV4cGVjdGVkIDYyLCBnb3QgMSkKbWFrZTogKioqIFtjaGVjay1xdGVzdC1hYXJj
+aDY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAg
+VEVTVCAgICBpb3Rlc3QtcWNvdzI6IDEzNAogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxMzcKLS0t
+CiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNh
+bGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4n
+LCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWM0NDIzZTk3MjE3NDRlMDNhY2Qw
+OWU3ZDExMTZhNGI5JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11
+bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NP
+TkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScs
+ICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywg
+Jy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAv
+Y2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXU4bW54b2ZxL3Ny
+Yy9kb2NrZXItc3JjLjIwMTktMTEtMDgtMDkuMTguMTcuMjA1Njc6L3Zhci90bXAvcWVtdTp6LHJv
+JywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJl
+dHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20u
+cWVtdS5pbnN0YW5jZS51dWlkPWM0NDIzZTk3MjE3NDRlMDNhY2QwOWU3ZDExMTZhNGI5Cm1ha2Vb
+MV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBg
+L3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXU4bW54b2ZxL3NyYycKbWFrZTogKioqIFtkb2Nr
+ZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxMG0zMi41MDhzCnVz
+ZXIgICAgMG04LjEwNXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzIwMTkxMTA4MTAyMjEyLjExMTAxLTEta3JheGVsQHJlZGhhdC5jb20vdGVz
+dGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
+c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
