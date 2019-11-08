@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6D1F4F80
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:26:54 +0100 (CET)
-Received: from localhost ([::1]:56142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FFDF4FCE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:35:09 +0100 (CET)
+Received: from localhost ([::1]:56274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT6A1-000504-FL
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:26:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48903)
+	id 1iT6Hz-0003ql-T0
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:35:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iT60M-0003Eg-Ot
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:16:56 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1iT5xg-0000ao-Pw
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:14:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iT60K-0002sa-V1
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:16:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53538
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iT5xf-0007hD-Ka
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:14:08 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:60858)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iT60K-0002pB-9Z
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:16:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573226210;
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1iT5xc-0007SJ-7b; Fri, 08 Nov 2019 10:14:04 -0500
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 3D63596EF0;
+ Fri,  8 Nov 2019 15:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1573226041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BN+c6gvZddWxIeD0ZTinF47GD6FR2Oe7c252ysnSyYU=;
- b=XTcwAs/atDoxvq2qONm36Q91+wPMCiLEPxgOMl8cRRTpwKK6JulRztSkONE9KgSHvpNH+k
- eGORhIKp0u6t9ymJ/g2GFypHdhf94JCxkkkulkHrpTrn1bW4usRFomNx00eSaiRWYuHGfZ
- N/p7XDEWB4nte2ytidHEaPR3jUDcgaE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-cCrEvohhOT-bN0rN3bA4gA-1; Fri, 08 Nov 2019 10:16:46 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEFEC8017DD;
- Fri,  8 Nov 2019 15:16:45 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA33F27BDC;
- Fri,  8 Nov 2019 15:16:44 +0000 (UTC)
-Date: Fri, 8 Nov 2019 15:16:42 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: - - <nevilad@yahoo.com>, quintela@redhat.com, peterx@redhat.com
-Subject: Re: [PATCH] Bug #1829242 correction
-Message-ID: <20191108151642.GC2877@work-vm>
-References: <694638341.1321046.1573223493407.ref@mail.yahoo.com>
- <694638341.1321046.1573223493407@mail.yahoo.com>
+ bh=snqOWkI+RRcPBVTaSTEEfK/Si5NnJwmqmgoH5QVnxj8=;
+ b=M192jAKwHjp7OkVe5BhPF0EaS4zVbdb25EO8EPfbGLd4Y3eyQto+F1hG+EBbqieOPaMuiI
+ X1T/gsgxCfJmj7OakskWzaHkabxq5OXTbvWF6w1pq4tOPFvczU8VFiF88yj3FnO2B4A3NJ
+ SdaFdqr6q7JiLPohMESqshPDkMs0Y+Y=
+Subject: Re: [PATCH v5 07/13] hw/core/qdev: update hotplug reset regarding
+ resettable
+To: qemu-devel@nongnu.org
+References: <20191018150630.31099-1-damien.hedde@greensocs.com>
+ <20191018150630.31099-8-damien.hedde@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <47ae7c6f-36ab-8422-9438-b6d26e3695ce@greensocs.com>
+Date: Fri, 8 Nov 2019 16:14:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <694638341.1321046.1573223493407@mail.yahoo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: cCrEvohhOT-bN0rN3bA4gA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <20191018150630.31099-8-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1573226042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=snqOWkI+RRcPBVTaSTEEfK/Si5NnJwmqmgoH5QVnxj8=;
+ b=mz/xNsAu1CNq/8XwbqyZd0reVpO/b2Zq5V64PZrxrXUiUmgxsGp92rdoPHHWmu8N9ueoLc
+ HIw2WnOIzyTg+iDZCxnQGrnf1whqNyXNFJtacAzuGr5c6ury1o9gbiVetMuMf8XVx3ONyM
+ Gg1k516kasVLbFKiyd0zQUfvBtoZRAw=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1573226042; a=rsa-sha256; cv=none;
+ b=EG1pPZMxM0xrD+n7j4IDS+pSFdzPRQOk7AcMPf+kua1kRoSBhWiVelLJi2TCeDRI1nQFmK
+ WrCGHMECGrLc7Q6wtmKcU2VHxtsHnT0MgNI1i/WVrMSH84RwB1hGF2oGYgk3uMqeYVvyyW
+ wIIRn6ODolZ9Vtm190cNLYvBdZF0pXc=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,161 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
+ cohuck@redhat.com, mark.burton@greensocs.com, qemu-s390x@nongnu.org,
+ edgari@xilinx.com, qemu-arm@nongnu.org, pbonzini@redhat.com, philmd@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* - - (nevilad@yahoo.com) wrote:
-> Bug #1829242 correction. Added type conversions to ram_addr_t
-> before all left shifts of page indexes to TARGET_PAGE_BITS, to correct
-> overflows when the page address was 4Gb and more.
->=20
-> Signed-off-by: Alexey Romko <nevilad@yahoo.com>
 
-Hi Alexey,
-  (Your git settings are a bit odd, your name isn't on the mail header,
-but that's minor since you have the signed-off ok).
-
-Thanks for this, this is probably a fix for Juan's a935e30
-which started using 'page' rather than 'offset' in the PageSearchStatus,
-and I guess on windows 'long' isn't long enough.
-
-I think this is fine, (with perhaps a better Subject, that Juan can
-add);
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-I think in the long term we probably need to stop using 'long' for
-offsets.
-
-Dave
-
+On 10/18/19 5:06 PM, Damien Hedde wrote:
+> This commit make use of the resettable API to reset the device being
+> hotplugged during when it is realized. Also it make sure it is put in
+> a reset state coherent with the parent it is plugged into.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
-> =A0migration/ram.c | 22 +++++++++++-----------
-> =A01 file changed, 11 insertions(+), 11 deletions(-)
->=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 5078f94490..90a09de620 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1730,7 +1730,7 @@ static inline bool migration_bitmap_clear_dirty(RAM=
-State *rs,
-> =A0 =A0 =A0if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
-> =A0 =A0 =A0 =A0 =A0uint8_t shift =3D rb->clear_bmap_shift;
-> =A0 =A0 =A0 =A0 =A0hwaddr size =3D 1ULL << (TARGET_PAGE_BITS + shift);
-> -=A0 =A0 =A0 =A0 hwaddr start =3D (page << TARGET_PAGE_BITS) & (-size);
-> +=A0 =A0 =A0 =A0 hwaddr start =3D (((ram_addr_t)page) << TARGET_PAGE_BITS=
-) & (-size);
-> =A0
-> =A0 =A0 =A0 =A0 =A0/*
-> =A0 =A0 =A0 =A0 =A0 * CLEAR_BITMAP_SHIFT_MIN should always guarantee this=
-... this
-> @@ -1967,7 +1967,7 @@ static void ram_release_pages(const char *rbname, u=
-int64_t offset, int pages)
-> =A0 =A0 =A0 =A0 =A0return;
-> =A0 =A0 =A0}
-> =A0
-> -=A0 =A0 ram_discard_range(rbname, offset, pages << TARGET_PAGE_BITS);
-> +=A0 =A0 ram_discard_range(rbname, offset, ((ram_addr_t)pages) << TARGET_=
-PAGE_BITS);
-> =A0}
-> =A0
-> =A0/*
-> @@ -2055,7 +2055,7 @@ static int ram_save_page(RAMState *rs, PageSearchSt=
-atus *pss, bool last_stage)
-> =A0 =A0 =A0uint8_t *p;
-> =A0 =A0 =A0bool send_async =3D true;
-> =A0 =A0 =A0RAMBlock *block =3D pss->block;
-> -=A0 =A0 ram_addr_t offset =3D pss->page << TARGET_PAGE_BITS;
-> +=A0 =A0 ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BIT=
-S;
-> =A0 =A0 =A0ram_addr_t current_addr =3D block->offset + offset;
-> =A0
-> =A0 =A0 =A0p =3D block->host + offset;
-> @@ -2242,7 +2242,7 @@ static bool find_dirty_block(RAMState *rs, PageSear=
-chStatus *pss, bool *again)
-> =A0 =A0 =A0 =A0 =A0*again =3D false;
-> =A0 =A0 =A0 =A0 =A0return false;
-> =A0 =A0 =A0}
-> -=A0 =A0 if ((pss->page << TARGET_PAGE_BITS) >=3D pss->block->used_length=
-) {
-> +=A0 =A0 if ((((ram_addr_t)pss->page) << TARGET_PAGE_BITS) >=3D pss->bloc=
-k->used_length) {
-> =A0 =A0 =A0 =A0 =A0/* Didn't find anything in this RAM Block */
-> =A0 =A0 =A0 =A0 =A0pss->page =3D 0;
-> =A0 =A0 =A0 =A0 =A0pss->block =3D QLIST_NEXT_RCU(pss->block, next);
-> @@ -2536,7 +2536,7 @@ static int ram_save_target_page(RAMState *rs, PageS=
-earchStatus *pss,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0bool l=
-ast_stage)
-> =A0{
-> =A0 =A0 =A0RAMBlock *block =3D pss->block;
-> -=A0 =A0 ram_addr_t offset =3D pss->page << TARGET_PAGE_BITS;
-> +=A0 =A0 ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BIT=
-S;
-> =A0 =A0 =A0int res;
-> =A0
-> =A0 =A0 =A0if (control_save_page(rs, block, offset, &res)) {
-> @@ -2617,7 +2617,7 @@ static int ram_save_host_page(RAMState *rs, PageSea=
-rchStatus *pss,
-> =A0 =A0 =A0 =A0 =A0pages +=3D tmppages;
-> =A0 =A0 =A0 =A0 =A0pss->page++;
-> =A0 =A0 =A0} while ((pss->page & (pagesize_bits - 1)) &&
-> -=A0 =A0 =A0 =A0 =A0 =A0 =A0offset_in_ramblock(pss->block, pss->page << T=
-ARGET_PAGE_BITS));
-> +=A0 =A0 =A0 =A0 =A0 =A0 =A0offset_in_ramblock(pss->block, ((ram_addr_t)p=
-ss->page) << TARGET_PAGE_BITS));
-> =A0
-> =A0 =A0 =A0/* The offset we leave with is the last one we looked at */
-> =A0 =A0 =A0pss->page--;
-> @@ -2834,8 +2834,8 @@ void ram_postcopy_migrated_memory_release(Migration=
-State *ms)
-> =A0
-> =A0 =A0 =A0 =A0 =A0while (run_start < range) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0unsigned long run_end =3D find_next_bit(bitmap=
-, range, run_start + 1);
-> -=A0 =A0 =A0 =A0 =A0 =A0 ram_discard_range(block->idstr, run_start << TAR=
-GET_PAGE_BITS,
-> -=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 (run_end - r=
-un_start) << TARGET_PAGE_BITS);
-> +=A0 =A0 =A0 =A0 =A0 =A0 ram_discard_range(block->idstr, ((ram_addr_t)run=
-_start) << TARGET_PAGE_BITS,
-> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ((ram_addr_t=
-)(run_end - run_start)) << TARGET_PAGE_BITS);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0run_start =3D find_next_zero_bit(bitmap, range=
-, run_end + 1);
-> =A0 =A0 =A0 =A0 =A0}
-> =A0 =A0 =A0}
-> @@ -4201,13 +4201,13 @@ static void colo_flush_ram_cache(void)
-> =A0 =A0 =A0 =A0 =A0while (block) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0offset =3D migration_bitmap_find_dirty(ram_sta=
-te, block, offset);
-> =A0
-> -=A0 =A0 =A0 =A0 =A0 =A0 if (offset << TARGET_PAGE_BITS >=3D block->used_=
-length) {
-> +=A0 =A0 =A0 =A0 =A0 =A0 if (((ram_addr_t)offset) << TARGET_PAGE_BITS >=
-=3D block->used_length) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0offset =3D 0;
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0block =3D QLIST_NEXT_RCU(block, next);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0} else {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0migration_bitmap_clear_dirty(ram_state=
-, block, offset);
-> -=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 dst_host =3D block->host + (offset << TA=
-RGET_PAGE_BITS);
-> -=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 src_host =3D block->colo_cache + (offset=
- << TARGET_PAGE_BITS);
-> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 dst_host =3D block->host + (((ram_addr_t=
-)offset) << TARGET_PAGE_BITS);
-> +=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 src_host =3D block->colo_cache + (((ram_=
-addr_t)offset) << TARGET_PAGE_BITS);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0memcpy(dst_host, src_host, TARGET_PAGE=
-_SIZE);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0}
-> =A0 =A0 =A0 =A0 =A0}
-> --=A0
-> 2.15.0.windows.1
->=20
+> 
+> I'm not sure I've done everything that's required here since I do not
+> understand everything that's behind the hotplug and realize/unrealize.
+> I'm a bit lost there...
+> 
+> One of the remaining question is: do we need to do things related to
+> unrealize ?
+> It seems, a device can be realized, unrealized, and re-realized ? But
+> is that true also for a hotplugged device ?>
+> Also resettable API is called there, so children if any are reset too.
+> This was not the case before, this a probably not a big deal, as long
+> as all children are realized too at this point. I'm not sure we have a
+> guarantee on this; the recursive realize is not done in the base bus
+> class so it will go only down to first buses level if it is not
+> propagated by bus subclasses. Do hotplug devices can have more than
+> single level bus subtree (ie: more than some child buses with no
+> devices on them) ?
+> ---
+>  hw/core/qdev.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 3933f62d0c..c5d107ea4e 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -930,7 +930,14 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+>              }
+>          }
+>          if (dev->hotplugged) {
+
+Just thinking that if it is possible to have un-realize then realize
+cycle, we probably need some code here (or even before realizing
+children) to ensure the reset state is zeroed before doing the following.
+
+> -            device_legacy_reset(dev);
+> +            /*
+> +             * Reset the device, as well as its subtree which should be
+> +             * realized too
+> +             */
+> +            resettable_assert_reset(OBJECT(dev), RESET_TYPE_COLD);
+> +            resettable_change_parent(OBJECT(dev), OBJECT(dev->parent_bus),
+> +                                     NULL);
+> +            resettable_release_reset(OBJECT(dev), RESET_TYPE_COLD);
+>          }
+>          dev->pending_deleted_event = false;
+>  
+>
+
 --
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Damien
 
 
