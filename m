@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C923EF4F73
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:26:04 +0100 (CET)
-Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F917F4F0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:14:16 +0100 (CET)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT69D-0003qH-GK
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:26:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
+	id 1iT5xm-0007zQ-NL
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:14:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5p6-0005dX-3Q
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:17 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5pK-00061O-34
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5p3-0005Wc-Of
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:15 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33575
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5pF-0005kL-62
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37980
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iT5p3-0005VT-Kh
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:13 -0500
+ id 1iT5pF-0005jz-2A
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:05:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573225510;
+ s=mimecast20190719; t=1573225524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K6atlegt2pHhl2BHFOIZn9sIb4MIPYLA7+KTpFuvx0s=;
- b=LiERhUNpgbhsIzkKg6NiTZp5sApI/i8leO+DWdAeLBqJ6wpWDsYxnGqDvFqt6vo5nGWCq3
- 42i5crvNLMdJ/wIfEIX6LXTuTefqKj7PS/1Ga95V4M5gfbqdHRmoZ98+CjoT2Mm7R21oOU
- ugwTEbcoEPEqz3xd2GRnc/hsgW688CQ=
+ bh=AUi6QEZalbLTxvUCWZJyEZQMUqLH8rpUCT9b1rwUQl8=;
+ b=eYLUWb2rY4PQMO62o7onDQoHlY862Np8pLfuVbzud6kq2j4Sl06b4lKyredPqv8oVZUjnU
+ ME85kA3+4Oh8Upf0H0MOC824MvihVX0Y6TCwgd8P1FJjQ7G6y+tK3K9KMKMRrAiLlwpsZO
+ N7N6ZxuCNerORhwLy5JKiBAhx/6Yq5E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-bUcHVWTCMxmOc7_-1CU6-g-1; Fri, 08 Nov 2019 10:05:09 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-260-pTyYSquwOQqf7DzP_5NEXw-1; Fri, 08 Nov 2019 10:05:23 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45D0107ACC4
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:05:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3052B477
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:05:22 +0000 (UTC)
 Received: from localhost (ovpn-112-25.ams2.redhat.com [10.36.112.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A538277B6;
- Fri,  8 Nov 2019 15:04:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32E81600C9;
+ Fri,  8 Nov 2019 15:05:13 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 16/25] ppm-save: pass opened fd
-Date: Fri,  8 Nov 2019 19:01:14 +0400
-Message-Id: <20191108150123.12213-17-marcandre.lureau@redhat.com>
+Subject: [PATCH v6 17/25] ui: add pixman image g_autoptr support
+Date: Fri,  8 Nov 2019 19:01:15 +0400
+Message-Id: <20191108150123.12213-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: bUcHVWTCMxmOc7_-1CU6-g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: pTyYSquwOQqf7DzP_5NEXw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,137 +76,22 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow to pre-open the file before running the async finish
-handler and avoid potential monitor fdset races.
-
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- ui/console.c    | 45 ++++++++++++++++++++++-----------------------
- ui/trace-events |  2 +-
- 2 files changed, 23 insertions(+), 24 deletions(-)
+ include/ui/qemu-pixman.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/ui/console.c b/ui/console.c
-index 3c941528d2..77d62fe76d 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -193,6 +193,7 @@ static void dpy_refresh(DisplayState *s);
- static DisplayState *get_alloc_displaystate(void);
- static void text_console_update_cursor_timer(void);
- static void text_console_update_cursor(void *opaque);
-+static bool ppm_save(int fd, DisplaySurface *ds, Error **errp);
+diff --git a/include/ui/qemu-pixman.h b/include/ui/qemu-pixman.h
+index 0668109305..3b7cf70157 100644
+--- a/include/ui/qemu-pixman.h
++++ b/include/ui/qemu-pixman.h
+@@ -90,4 +90,6 @@ void qemu_pixman_glyph_render(pixman_image_t *glyph,
+                               pixman_color_t *bgcol,
+                               int x, int y, int cw, int ch);
 =20
- static void gui_update(void *opaque)
- {
-@@ -308,29 +309,22 @@ void graphic_hw_invalidate(QemuConsole *con)
-     }
- }
-=20
--static void ppm_save(const char *filename, DisplaySurface *ds,
--                     Error **errp)
-+static bool ppm_save(int fd, DisplaySurface *ds, Error **errp)
- {
-     int width =3D pixman_image_get_width(ds->image);
-     int height =3D pixman_image_get_height(ds->image);
--    int fd;
-     FILE *f;
-     int y;
-     int ret;
-     pixman_image_t *linebuf;
-+    bool success =3D false;
-=20
--    trace_ppm_save(filename, ds);
--    fd =3D qemu_open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 06=
-66);
--    if (fd =3D=3D -1) {
--        error_setg(errp, "failed to open file '%s': %s", filename,
--                   strerror(errno));
--        return;
--    }
-+    trace_ppm_save(fd, ds);
-     f =3D fdopen(fd, "wb");
-     ret =3D fprintf(f, "P6\n%d %d\n%d\n", width, height, 255);
-     if (ret < 0) {
-         linebuf =3D NULL;
--        goto write_err;
-+        goto end;
-     }
-     linebuf =3D qemu_pixman_linebuf_create(PIXMAN_BE_r8g8b8, width);
-     for (y =3D 0; y < height; y++) {
-@@ -339,21 +333,16 @@ static void ppm_save(const char *filename, DisplaySur=
-face *ds,
-         ret =3D fwrite(pixman_image_get_data(linebuf), 1,
-                      pixman_image_get_stride(linebuf), f);
-         (void)ret;
--        if (ferror(f)) {
--            goto write_err;
--        }
-+        success =3D !ferror(f);
-     }
-=20
--out:
-+end:
-+    if (!success) {
-+        error_setg(errp, "failed to write to PPM file: %s", strerror(errno=
-));
-+    }
-     qemu_pixman_image_unref(linebuf);
-     fclose(f);
--    return;
--
--write_err:
--    error_setg(errp, "failed to write to file '%s': %s", filename,
--               strerror(errno));
--    unlink(filename);
--    goto out;
-+    return success;
- }
-=20
- void qmp_screendump(const char *filename, bool has_device, const char *dev=
-ice,
-@@ -361,6 +350,7 @@ void qmp_screendump(const char *filename, bool has_devi=
-ce, const char *device,
- {
-     QemuConsole *con;
-     DisplaySurface *surface;
-+    int fd;
-=20
-     if (has_device) {
-         con =3D qemu_console_lookup_by_device_name(device, has_head ? head=
- : 0,
-@@ -387,7 +377,16 @@ void qmp_screendump(const char *filename, bool has_dev=
-ice, const char *device,
-         return;
-     }
-=20
--    ppm_save(filename, surface, errp);
-+    fd =3D qemu_open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 06=
-66);
-+    if (fd =3D=3D -1) {
-+        error_setg(errp, "failed to open file '%s': %s", filename,
-+                   strerror(errno));
-+        return;
-+    }
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(pixman_image_t, qemu_pixman_image_unref)
 +
-+    if (!ppm_save(fd, surface, errp)) {
-+        unlink(filename);
-+    }
- }
-=20
- void graphic_hw_text_update(QemuConsole *con, console_ch_t *chardata)
-diff --git a/ui/trace-events b/ui/trace-events
-index 63de72a798..0dcda393c1 100644
---- a/ui/trace-events
-+++ b/ui/trace-events
-@@ -15,7 +15,7 @@ displaysurface_create_pixman(void *display_surface) "surf=
-ace=3D%p"
- displaysurface_free(void *display_surface) "surface=3D%p"
- displaychangelistener_register(void *dcl, const char *name) "%p [ %s ]"
- displaychangelistener_unregister(void *dcl, const char *name) "%p [ %s ]"
--ppm_save(const char *filename, void *display_surface) "%s surface=3D%p"
-+ppm_save(int fd, void *display_surface) "fd=3D%d surface=3D%p"
-=20
- # gtk.c
- # gtk-gl-area.c
+ #endif /* QEMU_PIXMAN_H */
 --=20
 2.24.0
 
