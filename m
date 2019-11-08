@@ -2,100 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998D2F4D0F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 14:22:24 +0100 (CET)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F21F4D13
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 14:22:54 +0100 (CET)
+Received: from localhost ([::1]:54244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT4DX-0000LU-Fe
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 08:22:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53123)
+	id 1iT4E1-0000qK-5w
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 08:22:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iT495-0006XF-Ac
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:17:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1iT4C8-00084O-B4
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:20:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iT492-0001Ck-5v
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:17:47 -0500
-Received: from mail-eopbgr70095.outbound.protection.outlook.com
- ([40.107.7.95]:64329 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iT48y-000152-JU
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:17:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OYVvvf2kig/ymxDl1e/0rlRgjUPwpGG4hhv5rvMZ2y6Gha52JvoN3Kcn+U4vnSUuhqPbIN/8W4atBTs7ZimQRijKGgtRndAXiEgsy8uwUBuIqxPd0u8D4SWGfpFRktoqMEegjFpQJbN7Wmj+hQoP13+flTfODJhzPUIIppEhzkNeUJGBqfpxP0Td4b/r2niAgBNACefyS4oWnPwGhP6ZgQWGuMQZpEw6IJVF1ATXsjBJPz71OM/7XE7+7n3hqxARuYPOnw/VxOOpMogBIr4HuEnK5z3mRLhr4KGGDphp2pod/XxMzGaswxMjNhYkkKMtAhCamsEd9gMax02E5J+4VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K4SmlmOaErJ2hZg04yh/DN/4Iwm4xChJi+BTRs2xqyM=;
- b=nxcECM7f3LLTYb0qVfDIwLt8/9hLc8UjeZHRvfUUu6ErPSM3VKkfsPMNbcFe6WQic/t0qUdF5dIdMIooEECK66t+WCm6ye4LgXQtdS0WV937NTyseMxb7iSeevyse75/6c4CjYCOTwGLCsm0T1mT6v4YDsAkV9OynGL4QmcEjw68dQeqvzlsfZ6imacPzduSi1EYtbcmRK3PcH1Q+LlifNqYhQWr9MpiwNsQwgKH7TFxGmqcAY4g51Vc9w/5LAM8mUVk/mEXjg08nxVMBHTbSrCctJcOxP578n0MnTrgaHhItx+PXVdZpvy8thra6sJxOmuals13LVlv2f4GraXGrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K4SmlmOaErJ2hZg04yh/DN/4Iwm4xChJi+BTRs2xqyM=;
- b=uBKTCGPeGv/3JwGQQBI1nvtdLQYwoLgveBmhSggMIZJocPHxiuceNVq6s+AuVPsrOzsyb4tuT8BzfdMOEWPfFFbdEZr5x/1JjFOL8L0ieAdKvGtJeiZ8WGYLTzkclvcOawcaFht7E0RWnR8U1xzTcYq8kwYIO+f6XZDDoIhiK2A=
-Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
- AM0PR08MB3188.eurprd08.prod.outlook.com (52.134.94.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.22; Fri, 8 Nov 2019 13:17:37 +0000
-Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
- ([fe80::41f0:981:fd75:9946]) by AM0PR08MB4097.eurprd08.prod.outlook.com
- ([fe80::41f0:981:fd75:9946%3]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
- 13:17:36 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: qxl - spice crash, memslot_get_virt: address generation is not valid
-Thread-Topic: qxl - spice crash, memslot_get_virt: address generation is not
- valid
-Thread-Index: AQHVljbj1x0m8nXmeUG0RhPIt/KulA==
-Date: Fri, 8 Nov 2019 13:17:36 +0000
-Message-ID: <c6cd8eba-dbb1-10fd-7f55-989de1503c03@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0033.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::22)
- To AM0PR08MB4097.eurprd08.prod.outlook.com
- (2603:10a6:208:132::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 50162323-6734-4089-7469-08d7644e05fa
-x-ms-traffictypediagnostic: AM0PR08MB3188:
-x-ms-exchange-purlcount: 2
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR08MB318807153324CFE960431A1EC17B0@AM0PR08MB3188.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0215D7173F
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(366004)(136003)(39840400004)(396003)(376002)(199004)(189003)(53754006)(102836004)(36756003)(52116002)(486006)(71190400001)(71200400001)(14454004)(31686004)(6916009)(4326008)(966005)(478600001)(256004)(31696002)(66946007)(25786009)(66476007)(66556008)(64756008)(66446008)(86362001)(5660300002)(316002)(6116002)(8676002)(81166006)(186003)(3846002)(8936002)(81156014)(6436002)(6486002)(6506007)(26005)(6306002)(2906002)(54906003)(476003)(5024004)(305945005)(386003)(7736002)(6512007)(66066001)(2616005)(99286004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3188;
- H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kQqMEfi1jqwyMZ2hKoYEwwLOyRpDv2X6M09spcfenjt/sPpFf6Fsn4tE4J+xfPFJxaUgQZ87+C00X4lsyzajPUoauNYzt4crBs9Ik6MeVZIihbbIa8tKuNbhwx5JMlRdNrPDi51O/85cumf/pbT6hdDtAp2DZds/Xxt7swLPxqtOBnm1CbFctShexsoHiaYra26Fj9aHFChgFxQDk4JYJZVLg3pz3MJf6eutVFJww7uttoJqoAXL8RnYJtF0vjJTM8+1WQIF1+5eTxcs6FNuhrPZ14kSTQlBftBFJdbn3NVyTL9OPBSd4fj4QdOA+H0fr0BXd0TmmUFtGIckGtUzqomh2ZLEEfTJoIk/yTRFP2prjlIchEi1SmbkaOtF1rOxDdCwZII5PIWWZTiKt84vvxg1t5mTn8yB6QRALFFSNqN5XiXJOk64CiK3e6sxSLXG4NoQPdcm1uiRLvMyu4eWedGzAFTMWDKHkwL6lxoVWHc=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E1BFA06AFEC67E4586BDEB51AECDD456@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1iT4C3-0005W8-Gj
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:20:55 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:36468)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT4C3-0005Mw-8l
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 08:20:51 -0500
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BEEBB36960
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 13:20:48 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id 4so3152820wrf.19
+ for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 05:20:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s08cGvo9oUr1dZvi/xLtjmZo6zf11SHEJ5wS6wyWO0Y=;
+ b=PQVkEgYQ6qQIk1EucycmINCDtF29awxTz5odI7S4hcCe/whzczbWXu4rDJ6H8I2Y9H
+ kx9Mk54VPyuNZL52uxD7BN93dmoWBxtEOPvZ8UPiAogzX3QwFdR5yzKoeB6tIhEQH1D6
+ YlT32SX4gMDTpaxwp0mEliLEwRUqYECYg7FCmqXRfturqwakzX8qMj5CRl6z/ZKED2bI
+ HunQiMr3F5HmEhEl/Hntg05X2bDAOL9pOa0WKKxlL+E1uXuVc2osVsnXs8M4tt9h9L23
+ 3RAeiHlPpZfklZeINFqGaVX7IBcpxL6OyjAlCd12+b/QoWoOIMVm6hC8oQqilX8V3xXG
+ dZNw==
+X-Gm-Message-State: APjAAAWc5Hr1F5onQrPkb51CqIqv76Pl+MXK2X8ono4sk6/6BUWIEg4U
+ BfVcHtipV2ZJuh7tona7dNqESdlhu9gfevuhE0pJPmktI9NbWBkSGWP0c+syvsJcqa5k4FtJdhD
+ 6vg9s45X2LgqvQPk=
+X-Received: by 2002:a1c:4456:: with SMTP id r83mr7922261wma.2.1573219247225;
+ Fri, 08 Nov 2019 05:20:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwX9AYy1A1OrMT0HZ0r02hPieAFfwAud5iK0qKsWaXavaGA9ozGf7tqGrqpiOilbg17jTcXpA==
+X-Received: by 2002:a1c:4456:: with SMTP id r83mr7922222wma.2.1573219246730;
+ Fri, 08 Nov 2019 05:20:46 -0800 (PST)
+Received: from [192.168.1.38] (62.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.62])
+ by smtp.gmail.com with ESMTPSA id g5sm6194167wma.43.2019.11.08.05.20.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Nov 2019 05:20:46 -0800 (PST)
+Subject: Re: [PATCH v7 3/8] Acceptance tests: use avocado tags for machine type
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20191104151323.9883-1-crosa@redhat.com>
+ <20191104151323.9883-4-crosa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b1730ec3-51ce-719b-81ca-e24194283ec7@redhat.com>
+Date: Fri, 8 Nov 2019 14:20:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50162323-6734-4089-7469-08d7644e05fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 13:17:36.8170 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2lxEJcpPJ78dlDUZekog5K6ECfBxXVSFP6OPN4i8itQe+xjcwJxf1Qp3uH7AQVKlhn7cquuAHdieI/B5TU15cUMExyqyclzi0hz+rp4rfZY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3188
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.95
+In-Reply-To: <20191104151323.9883-4-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.132.183.28
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,103 +81,653 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Lunev <den@virtuozzo.com>,
- "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "cfergeau@redhat.com" <cfergeau@redhat.com>,
- "fziglio@redhat.com" <fziglio@redhat.com>
+Cc: Beraldo Leal <bleal@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, qemu-ppc@nongnu.org,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgYWxsIQ0KDQpIb3BlIHNvbWVvbmUgY291bGQgaGVscCBtZSB3aXRoIHRoZSBmb2xsb3dpbmcu
-DQoNClNlZW1zIHdlJ3ZlIGZhY2VkIGh0dHBzOi8vYnVnemlsbGEucmVkaGF0LmNvbS9zaG93X2J1
-Zy5jZ2k/aWQ9MTU0MDkxOSBRZW11IGJ1Zy4gSXQgd2FzDQooQUZBSVUpIHdvcmthcm91bmRlZCBp
-biBzcGljZSwgaW4gaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29tL3Nob3dfYnVnLmNnaT9pZD0x
-NTY3OTQ0ICwNCndoaWNoIG1hcmtlZCBpcyBmaXhlZCBpbiBzcGljZS0wLjE0LjAtNC4uDQoNClN0
-aWxsLCBvdXIgY3Jhc2ggaXMgb24gc3BpY2Utc2VydmVyLTAuMTQuMC03ICwgd2hpY2ggaXMgaGln
-aGVyLi4NClFlbXUgaXMgYmFzZWQgb24gcmhldi0yLjEyLjAtMzMsIGFuZCBJIGRvbid0IHNlZSBp
-biB1cHN0cmVhbSBhbnkgcmVsYXRlZCBmaXhlcy4NCg0KMTU2Nzk0NCBkaXNjdXNzaW9ucyBoYXMg
-Zml4ZXMgaW4gYXR0YWNobWVudHMgYnkgQ2hyaXN0b3BoZSBhbmQgRnJlZGlhbm8uLiBCdXQgSSBj
-YW4ndCBmaW5kDQphbnl0aGluZyBpbiBRZW11IG1haWxpbmcgbGlzdCBhcmNoaXZlcy4gV2hhdCBp
-cyB0aGUgcHJvYmxlbSB3aXRoIHRoZSBwYXRjaD8NCg0KPT09DQpiYWNrdHJhY2UNCg0KIzAgIDB4
-MDAwMDdmZDE3ODVmODMzNyBpbiBfX0dJX3JhaXNlIChzaWc9c2lnQGVudHJ5PTYpIGF0IC4uL25w
-dGwvc3lzZGVwcy91bml4L3N5c3YvbGludXgvcmFpc2UuYzo1NQ0KIzEgIDB4MDAwMDdmZDE3ODVm
-OWEyOCBpbiBfX0dJX2Fib3J0ICgpIGF0IGFib3J0LmM6OTANCiMyICAweDAwMDA3ZmQxNzllM2Vj
-ZmMgaW4gc3BpY2VfbG9ndiAobG9nX2RvbWFpbj0weDdmZDE3OWVhZmJmMSAiU3BpY2UiLCBhcmdz
-PTB4N2ZkMTI1NjFlNDYwLCBmb3JtYXQ9MHg3ZmQxNzllYjZkMzAgImFkZHJlc3MgZ2VuZXJhdGlv
-biBpcyBub3QgdmFsaWQsIGdyb3VwX2lkICVkLCBzbG90X2lkICVkLCBnZW4gJWQsIHNsb3RfZ2Vu
-ICVkXG4iLA0KICAgICBmdW5jdGlvbj0weDdmZDE3OWViNmYzMCA8X19GVU5DVElPTl9fLjE2MDQx
-PiAibWVtc2xvdF9nZXRfdmlydCIsIHN0cmxvYz0weDdmZDE3OWViNmUyNiAibWVtc2xvdC5jOjEy
-MiIsIGxvZ19sZXZlbD1HX0xPR19MRVZFTF9DUklUSUNBTCkgYXQgbG9nLmM6MTgzDQojMyAgc3Bp
-Y2VfbG9nIChsb2dfbGV2ZWw9bG9nX2xldmVsQGVudHJ5PUdfTE9HX0xFVkVMX0NSSVRJQ0FMLCBz
-dHJsb2M9c3RybG9jQGVudHJ5PTB4N2ZkMTc5ZWI2ZTI2ICJtZW1zbG90LmM6MTIyIiwgZnVuY3Rp
-b249ZnVuY3Rpb25AZW50cnk9MHg3ZmQxNzllYjZmMzAgPF9fRlVOQ1RJT05fXy4xNjA0MT4gIm1l
-bXNsb3RfZ2V0X3ZpcnQiLA0KICAgICBmb3JtYXQ9Zm9ybWF0QGVudHJ5PTB4N2ZkMTc5ZWI2ZDMw
-ICJhZGRyZXNzIGdlbmVyYXRpb24gaXMgbm90IHZhbGlkLCBncm91cF9pZCAlZCwgc2xvdF9pZCAl
-ZCwgZ2VuICVkLCBzbG90X2dlbiAlZFxuIikgYXQgbG9nLmM6MTk2DQojNCAgMHgwMDAwN2ZkMTc5
-ZTA1NzlmIGluIG1lbXNsb3RfZ2V0X3ZpcnQgKGluZm89aW5mb0BlbnRyeT0weDU1NmYyMDljNDRm
-MCwgYWRkcj1hZGRyQGVudHJ5PTg0NDQyNDkzMDEzMTk2OCwgYWRkX3NpemU9YWRkX3NpemVAZW50
-cnk9MjAsIGdyb3VwX2lkPWdyb3VwX2lkQGVudHJ5PTEsIGVycm9yPWVycm9yQGVudHJ5PTB4N2Zk
-MTI1NjFlNWQ0KQ0KICAgICBhdCBtZW1zbG90LmM6MTIxDQojNSAgMHgwMDAwN2ZkMTc5ZTBlMDA3
-IGluIHJlZF9nZXRfZGF0YV9jaHVua3NfcHRyIChzbG90cz1zbG90c0BlbnRyeT0weDU1NmYyMDlj
-NDRmMCwgZ3JvdXBfaWQ9Z3JvdXBfaWRAZW50cnk9MSwgbWVtc2xvdF9pZD0wLCByZWQ9cmVkQGVu
-dHJ5PTB4N2ZkMTI1NjFlNjMwLCBxeGw9MHg3ZmQxMjhlMDQwMTYpIGF0IHJlZC1wYXJzZS1xeGwu
-YzoxNDYNCiM2ICAweDAwMDA3ZmQxNzllMTA2YWUgaW4gcmVkX2dldF9jdXJzb3IgKGFkZHI9NzIw
-NTc1OTQwNDQyMzU3NzYsIHJlZD0weDU1NmYyMDlkOGQ0OCwgZ3JvdXBfaWQ9MSwgc2xvdHM9MHg1
-NTZmMjA5YzQ0ZjApIGF0IHJlZC1wYXJzZS1xeGwuYzoxNDQxDQojNyAgcmVkX2dldF9jdXJzb3Jf
-Y21kIChzbG90cz1zbG90c0BlbnRyeT0weDU1NmYyMDljNDRmMCwgZ3JvdXBfaWQ9MSwgcmVkPXJl
-ZEBlbnRyeT0weDU1NmYyMDlkOGQyMCwgYWRkcj08b3B0aW1pemVkIG91dD4pIGF0IHJlZC1wYXJz
-ZS1xeGwuYzoxNDgyDQojOCAgMHgwMDAwN2ZkMTc5ZTIxMzhmIGluIHJlZF9wcm9jZXNzX2N1cnNv
-cl9jbWQgKHdvcmtlcj13b3JrZXJAZW50cnk9MHg1NTZmMjA5YzQ0NjAsIGV4dD1leHRAZW50cnk9
-MHg1NTZmMjJmNTgwMDApIGF0IHJlZC13b3JrZXIuYzoxMTENCiM5ICAweDAwMDA3ZmQxNzllMjE1
-MmIgaW4gbG9hZHZtX2NvbW1hbmQgKGV4dD0weDU1NmYyMmY1ODAwMCwgd29ya2VyPTB4NTU2ZjIw
-OWM0NDYwKSBhdCByZWQtd29ya2VyLmM6OTgwDQojMTAgaGFuZGxlX2Rldl9sb2Fkdm1fY29tbWFu
-ZHMgKG9wYXF1ZT0weDU1NmYyMDljNDQ2MCwgcGF5bG9hZD08b3B0aW1pemVkIG91dD4pIGF0IHJl
-ZC13b3JrZXIuYzoxMDAyDQojMTEgMHgwMDAwN2ZkMTc5ZGVkNjVkIGluIGRpc3BhdGNoZXJfaGFu
-ZGxlX3NpbmdsZV9yZWFkIChkaXNwYXRjaGVyPTB4NTU2ZjIxYjZiOGQwKSBhdCBkaXNwYXRjaGVy
-LmM6Mjg0DQojMTIgZGlzcGF0Y2hlcl9oYW5kbGVfcmVjdl9yZWFkIChkaXNwYXRjaGVyPTB4NTU2
-ZjIxYjZiOGQwKSBhdCBkaXNwYXRjaGVyLmM6MzA0DQojMTMgMHgwMDAwN2ZkMTc5ZGYzZTZiIGlu
-IHdhdGNoX2Z1bmMgKHNvdXJjZT08b3B0aW1pemVkIG91dD4sIGNvbmRpdGlvbj08b3B0aW1pemVk
-IG91dD4sIGRhdGE9MHg1NTZmMjA4ZGMwOTApIGF0IGV2ZW50LWxvb3AuYzoxMjgNCiMxNCAweDAw
-MDA3ZmQxOTA3NDIwNDkgaW4gZ19tYWluX2Rpc3BhdGNoIChjb250ZXh0PTB4NTU2ZjIwOTVlZmQw
-KSBhdCBnbWFpbi5jOjMxNzUNCiMxNSBnX21haW5fY29udGV4dF9kaXNwYXRjaCAoY29udGV4dD1j
-b250ZXh0QGVudHJ5PTB4NTU2ZjIwOTVlZmQwKSBhdCBnbWFpbi5jOjM4MjgNCiMxNiAweDAwMDA3
-ZmQxOTA3NDIzYTggaW4gZ19tYWluX2NvbnRleHRfaXRlcmF0ZSAoY29udGV4dD0weDU1NmYyMDk1
-ZWZkMCwgYmxvY2s9YmxvY2tAZW50cnk9MSwgZGlzcGF0Y2g9ZGlzcGF0Y2hAZW50cnk9MSwgc2Vs
-Zj08b3B0aW1pemVkIG91dD4pIGF0IGdtYWluLmM6MzkwMQ0KIzE3IDB4MDAwMDdmZDE5MDc0MjY3
-YSBpbiBnX21haW5fbG9vcF9ydW4gKGxvb3A9MHg1NTZmMjJhZWVhMDApIGF0IGdtYWluLmM6NDA5
-Nw0KIzE4IDB4MDAwMDdmZDE3OWUyMjVkYSBpbiByZWRfd29ya2VyX21haW4gKGFyZz0weDU1NmYy
-MDljNDQ2MCkgYXQgcmVkLXdvcmtlci5jOjEzNzINCiMxOSAweDAwMDA3ZmQxNzg5OTdlNjUgaW4g
-c3RhcnRfdGhyZWFkIChhcmc9MHg3ZmQxMjU2MjE3MDApIGF0IHB0aHJlYWRfY3JlYXRlLmM6MzA3
-DQojMjAgMHgwMDAwN2ZkMTc4NmMwODhkIGluIGNsb25lICgpIGF0IC4uL3N5c2RlcHMvdW5peC9z
-eXN2L2xpbnV4L3g4Nl82NC9jbG9uZS5TOjExMQ0KDQooZ2RiKSBmciAyDQojMiAgMHgwMDAwN2Zk
-MTc5ZTNlY2ZjIGluIHNwaWNlX2xvZ3YgKGxvZ19kb21haW49MHg3ZmQxNzllYWZiZjEgIlNwaWNl
-IiwgYXJncz0weDdmZDEyNTYxZTQ2MCwgZm9ybWF0PTB4N2ZkMTc5ZWI2ZDMwICJhZGRyZXNzIGdl
-bmVyYXRpb24gaXMgbm90IHZhbGlkLCBncm91cF9pZCAlZCwgc2xvdF9pZCAlZCwgZ2VuICVkLCBz
-bG90X2dlbiAlZFxuIiwNCiAgICAgZnVuY3Rpb249MHg3ZmQxNzllYjZmMzAgPF9fRlVOQ1RJT05f
-Xy4xNjA0MT4gIm1lbXNsb3RfZ2V0X3ZpcnQiLCBzdHJsb2M9MHg3ZmQxNzllYjZlMjYgIm1lbXNs
-b3QuYzoxMjIiLCBsb2dfbGV2ZWw9R19MT0dfTEVWRUxfQ1JJVElDQUwpIGF0IGxvZy5jOjE4Mw0K
-MTgzICAgICAgICAgICAgIGFib3J0KCk7DQooZ2RiKSBsaXN0DQoxNzggICAgICAgICBnX2xvZyhs
-b2dfZG9tYWluLCBsb2dfbGV2ZWwsICIlcyIsIGxvZ19tc2ctPnN0cik7DQoxNzkgICAgICAgICBn
-X3N0cmluZ19mcmVlKGxvZ19tc2csIFRSVUUpOw0KMTgwDQoxODEgICAgICAgICBpZiAoKGFib3J0
-X21hc2sgJiBsb2dfbGV2ZWwpICE9IDApIHsNCjE4MiAgICAgICAgICAgICBzcGljZV9iYWNrdHJh
-Y2UoKTsNCjE4MyAgICAgICAgICAgICBhYm9ydCgpOw0KMTg0ICAgICAgICAgfQ0KMTg1ICAgICB9
-DQoxODYNCjE4NyAgICAgdm9pZCBzcGljZV9sb2coR0xvZ0xldmVsRmxhZ3MgbG9nX2xldmVsLA0K
-KGdkYikgZnIgNA0KIzQgIDB4MDAwMDdmZDE3OWUwNTc5ZiBpbiBtZW1zbG90X2dldF92aXJ0IChp
-bmZvPWluZm9AZW50cnk9MHg1NTZmMjA5YzQ0ZjAsIGFkZHI9YWRkckBlbnRyeT04NDQ0MjQ5MzAx
-MzE5NjgsIGFkZF9zaXplPWFkZF9zaXplQGVudHJ5PTIwLCBncm91cF9pZD1ncm91cF9pZEBlbnRy
-eT0xLCBlcnJvcj1lcnJvckBlbnRyeT0weDdmZDEyNTYxZTVkNCkNCiAgICAgYXQgbWVtc2xvdC5j
-OjEyMQ0KMTIxICAgICAgICAgICAgIHNwaWNlX2NyaXRpY2FsKCJhZGRyZXNzIGdlbmVyYXRpb24g
-aXMgbm90IHZhbGlkLCBncm91cF9pZCAlZCwgc2xvdF9pZCAlZCwgZ2VuICVkLCBzbG90X2dlbiAl
-ZFxuIiwNCihnZGIpIGxpc3QNCjExNiAgICAgICAgIHNsb3QgPSAmaW5mby0+bWVtX3Nsb3RzW2dy
-b3VwX2lkXVtzbG90X2lkXTsNCjExNw0KMTE4ICAgICAgICAgZ2VuZXJhdGlvbiA9IG1lbXNsb3Rf
-Z2V0X2dlbmVyYXRpb24oaW5mbywgYWRkcik7DQoxMTkgICAgICAgICBpZiAoZ2VuZXJhdGlvbiAh
-PSBzbG90LT5nZW5lcmF0aW9uKSB7DQoxMjAgICAgICAgICAgICAgcHJpbnRfbWVtc2xvdHMoaW5m
-byk7DQoxMjEgICAgICAgICAgICAgc3BpY2VfY3JpdGljYWwoImFkZHJlc3MgZ2VuZXJhdGlvbiBp
-cyBub3QgdmFsaWQsIGdyb3VwX2lkICVkLCBzbG90X2lkICVkLCBnZW4gJWQsIHNsb3RfZ2VuICVk
-XG4iLA0KMTIyICAgICAgICAgICAgICAgICAgIGdyb3VwX2lkLCBzbG90X2lkLCBnZW5lcmF0aW9u
-LCBzbG90LT5nZW5lcmF0aW9uKTsNCjEyMyAgICAgICAgICAgICAqZXJyb3IgPSAxOw0KMTI0ICAg
-ICAgICAgICAgIHJldHVybiAwOw0KMTI1ICAgICAgICAgfQ0KKGdkYikgcCBncm91cF9pZA0KJDEg
-PSAxDQooZ2RiKSBwIHNsb3RfaWQNCiQyID0gMA0KKGdkYikgcCBnZW5lcmF0aW9uDQokMyA9IDMN
-CihnZGIpIHAgc2xvdC0+Z2VuZXJhdGlvbg0KJDQgPSAwDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMs
-DQpWbGFkaW1pcg0K
+On 11/4/19 4:13 PM, Cleber Rosa wrote:
+> The same way the arch tag is being used as a fallback for the arch
+> parameter, let's do the same for QEMU's machine and avoid some boiler
+> plate code.
+>=20
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   docs/devel/testing.rst                     | 18 ++++++++
+>   tests/acceptance/avocado_qemu/__init__.py  |  5 ++
+>   tests/acceptance/boot_linux_console.py     | 19 +-------
+>   tests/acceptance/cpu_queries.py            |  2 +-
+>   tests/acceptance/linux_initrd.py           |  2 +-
+>   tests/acceptance/linux_ssh_mips_malta.py   |  5 --
+>   tests/acceptance/machine_m68k_nextcube.py  | 21 ++-------
+>   tests/acceptance/machine_sparc_leon3.py    |  3 +-
+>   tests/acceptance/ppc_prep_40p.py           |  3 --
+>   tests/acceptance/x86_cpu_model_versions.py | 53 ++++++++++++++++-----=
+-
+>   10 files changed, 72 insertions(+), 59 deletions(-)
+>=20
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 8e981e062d..27f286858a 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -746,6 +746,17 @@ name.  If one is not given explicitly, it will eit=
+her be set to
+>   ``None``, or, if the test is tagged with one (and only one)
+>   ``:avocado: tags=3Darch:VALUE`` tag, it will be set to ``VALUE``.
+>  =20
+> +machine
+> +~~~~~~~
+> +
+> +The machine type that will be set to all QEMUMachine instances created
+> +by the test.
+> +
+> +The ``machine`` attribute will be set to the test parameter of the sam=
+e
+> +name.  If one is not given explicitly, it will either be set to
+> +``None``, or, if the test is tagged with one (and only one)
+> +``:avocado: tags=3Dmachine:VALUE`` tag, it will be set to ``VALUE``.
+> +
+>   qemu_bin
+>   ~~~~~~~~
+>  =20
+> @@ -781,6 +792,13 @@ architecture of a kernel or disk image to boot a V=
+M with.
+>   This parameter has a direct relation with the ``arch`` attribute.  If
+>   not given, it will default to None.
+>  =20
+> +machine
+> +~~~~~~~
+> +
+> +The machine type that will be set to all QEMUMachine instances created
+> +by the test.
+> +
+> +
+>   qemu_bin
+>   ~~~~~~~~
+>  =20
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
+ce/avocado_qemu/__init__.py
+> index e676d9c4e7..6618ea67c1 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -115,6 +115,9 @@ class Test(avocado.Test):
+>           self.arch =3D self.params.get('arch',
+>                                       default=3Dself._get_unique_tag_va=
+l('arch'))
+>  =20
+> +        self.machine =3D self.params.get('machine',
+> +                                       default=3Dself._get_unique_tag_=
+val('machine'))
+> +
+>           default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
+>           self.qemu_bin =3D self.params.get('qemu_bin',
+>                                           default=3Ddefault_qemu_bin)
+> @@ -136,6 +139,8 @@ class Test(avocado.Test):
+>               name =3D str(uuid.uuid4())
+>           if self._vms.get(name) is None:
+>               self._vms[name] =3D self._new_vm(*args)
+> +            if self.machine is not None:
+> +                self._vms[name].set_machine(self.machine)
+>           return self._vms[name]
+>  =20
+>       def tearDown(self):
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
+boot_linux_console.py
+> index 7e41cebd47..6732cc59ca 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -62,7 +62,6 @@ class BootLinuxConsole(Test):
+>           kernel_hash =3D '23bebd2680757891cf7adedb033532163a792495'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('pc')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3DttyS0'
+>           self.vm.add_args('-kernel', kernel_path,
+> @@ -85,7 +84,6 @@ class BootLinuxConsole(Test):
+>           kernel_path =3D self.extract_from_deb(deb_path,
+>                                               '/boot/vmlinux-2.6.32-5-4=
+kc-malta')
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3DttyS0'
+>           self.vm.add_args('-kernel', kernel_path,
+> @@ -118,7 +116,6 @@ class BootLinuxConsole(Test):
+>           kernel_path =3D self.extract_from_deb(deb_path,
+>                                               '/boot/vmlinux-2.6.32-5-5=
+kc-malta')
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3DttyS0'
+>           self.vm.add_args('-kernel', kernel_path,
+> @@ -148,7 +145,6 @@ class BootLinuxConsole(Test):
+>           initrd_path =3D self.workdir + "rootfs.cpio"
+>           archive.gzip_uncompress(initrd_path_gz, initrd_path)
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
+>                                  + 'console=3DttyS0 console=3Dtty '
+> @@ -188,7 +184,6 @@ class BootLinuxConsole(Test):
+>           initrd_path =3D self.workdir + "rootfs.cpio"
+>           archive.gzip_uncompress(initrd_path_gz, initrd_path)
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
+>                                  + 'console=3DttyS0 console=3Dtty '
+> @@ -215,7 +210,6 @@ class BootLinuxConsole(Test):
+>               with open(kernel_path, 'wb') as f_out:
+>                   shutil.copyfileobj(f_in, f_out)
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
+>                                  + 'mem=3D256m@@0x0 '
+> @@ -275,7 +269,6 @@ class BootLinuxConsole(Test):
+>           kernel_hash =3D '8c73e469fc6ea06a58dc83a628fc695b693b8493'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('virt')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  'console=3DttyAMA0')
+> @@ -297,7 +290,6 @@ class BootLinuxConsole(Test):
+>           kernel_hash =3D 'e9826d741b4fb04cadba8d4824d1ed3b7fb8b4d4'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('virt')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  'console=3DttyAMA0')
+> @@ -310,7 +302,7 @@ class BootLinuxConsole(Test):
+>       def test_arm_emcraft_sf2(self):
+>           """
+>           :avocado: tags=3Darch:arm
+> -        :avocado: tags=3Dmachine:emcraft_sf2
+> +        :avocado: tags=3Dmachine:emcraft-sf2
+
+Maybe add a comment about this change, "Since avocado 72(?) we can ...=20
+so use ..."
+
+>           :avocado: tags=3Dendian:little
+>           """
+>           uboot_url =3D ('https://raw.githubusercontent.com/'
+> @@ -324,7 +316,6 @@ class BootLinuxConsole(Test):
+>           spi_hash =3D '85f698329d38de63aea6e884a86fbde70890a78a'
+>           spi_path =3D self.fetch_asset(spi_url, asset_hash=3Dspi_hash)
+>  =20
+> -        self.vm.set_machine('emcraft-sf2')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE
+>           self.vm.add_args('-kernel', uboot_path,
+> @@ -351,7 +342,6 @@ class BootLinuxConsole(Test):
+>           kernel_path =3D self.extract_from_deb(deb_path, '/boot/kernel=
+7.img')
+>           dtb_path =3D self.extract_from_deb(deb_path, '/boot/bcm2709-r=
+pi-2-b.dtb')
+>  =20
+> -        self.vm.set_machine('raspi2')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  serial_kernel_cmdline[uart_id])
+> @@ -393,7 +383,6 @@ class BootLinuxConsole(Test):
+>           initrd_path =3D os.path.join(self.workdir, 'rootfs.cpio')
+>           archive.gzip_uncompress(initrd_path_gz, initrd_path)
+>  =20
+> -        self.vm.set_machine('smdkc210')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  'earlycon=3Dexynos4210,0x13800000 earl=
+yprintk ' +
+> @@ -414,7 +403,7 @@ class BootLinuxConsole(Test):
+>       def test_s390x_s390_ccw_virtio(self):
+>           """
+>           :avocado: tags=3Darch:s390x
+> -        :avocado: tags=3Dmachine:s390_ccw_virtio
+> +        :avocado: tags=3Dmachine:s390-ccw-virtio
+>           """
+>           kernel_url =3D ('https://archives.fedoraproject.org/pub/archi=
+ve'
+>                         '/fedora-secondary/releases/29/Everything/s390x=
+/os/images'
+> @@ -422,7 +411,6 @@ class BootLinuxConsole(Test):
+>           kernel_hash =3D 'e8e8439103ef8053418ef062644ffd46a7919313'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('s390-ccw-virtio')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3Dsclp0'
+>           self.vm.add_args('-nodefaults',
+> @@ -444,7 +432,6 @@ class BootLinuxConsole(Test):
+>  =20
+>           uncompressed_kernel =3D archive.uncompress(kernel_path, self.=
+workdir)
+>  =20
+> -        self.vm.set_machine('clipper')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3DttyS0'
+>           self.vm.add_args('-vga', 'std',
+> @@ -465,7 +452,6 @@ class BootLinuxConsole(Test):
+>           kernel_hash =3D '3fe04abfc852b66653b8c3c897a59a689270bc77'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('pseries')
+>           self.vm.set_console()
+>           kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'co=
+nsole=3Dhvc0'
+>           self.vm.add_args('-kernel', kernel_path,
+> @@ -489,7 +475,6 @@ class BootLinuxConsole(Test):
+>           kernel_path =3D self.extract_from_deb(deb_path,
+>                                               '/boot/vmlinux-5.3.0-1-m6=
+8k')
+>  =20
+> -        self.vm.set_machine('q800')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+>                                  'console=3DttyS0 vga=3Doff')
+> diff --git a/tests/acceptance/cpu_queries.py b/tests/acceptance/cpu_que=
+ries.py
+> index af47d2795a..293dccb89a 100644
+> --- a/tests/acceptance/cpu_queries.py
+> +++ b/tests/acceptance/cpu_queries.py
+> @@ -20,8 +20,8 @@ class QueryCPUModelExpansion(Test):
+>       def test(self):
+>           """
+>           :avocado: tags=3Darch:x86_64
+> +        :avocado: tags=3Dmachine:none
+
+Not to confuse with None :)
+
+>           """
+> -        self.vm.set_machine('none')
+>           self.vm.add_args('-S')
+>           self.vm.launch()
+>  =20
+> diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_=
+initrd.py
+> index c61d9826a4..3a0ff7b098 100644
+> --- a/tests/acceptance/linux_initrd.py
+> +++ b/tests/acceptance/linux_initrd.py
+> @@ -20,6 +20,7 @@ class LinuxInitrd(Test):
+>       Checks QEMU evaluates correctly the initrd file passed as -initrd=
+ option.
+>  =20
+>       :avocado: tags=3Darch:x86_64
+> +    :avocado: tags=3Dmachine:pc
+
+For some tests we can run on multiple machines (here q35), I was tempted=20
+to use multiple tags. How could I do that now?
+
+>       """
+>  =20
+>       timeout =3D 300
+> @@ -66,7 +67,6 @@ class LinuxInitrd(Test):
+>               initrd.write(b'\0')
+>               initrd.flush()
+>  =20
+> -            self.vm.set_machine('pc')
+>               self.vm.set_console()
+>               kernel_command_line =3D 'console=3DttyS0'
+>               self.vm.add_args('-kernel', kernel_path,
+> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptanc=
+e/linux_ssh_mips_malta.py
+> index fc13f9e4d4..1d570deb00 100644
+> --- a/tests/acceptance/linux_ssh_mips_malta.py
+> +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> @@ -111,7 +111,6 @@ class LinuxSSH(Test):
+>           image_url, image_hash =3D self.get_image_info(endianess)
+>           image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage=
+_hash)
+>  =20
+> -        self.vm.set_machine('malta')
+>           self.vm.set_console()
+>           kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
+>                                  + 'console=3DttyS0 root=3D/dev/sda1')
+> @@ -215,7 +214,6 @@ class LinuxSSH(Test):
+>       def test_mips_malta32eb_kernel3_2_0(self):
+>           """
+>           :avocado: tags=3Darch:mips
+> -        :avocado: tags=3Dmachine:malta
+>           :avocado: tags=3Dendian:big
+>           :avocado: tags=3Ddevice:pcnet32
+>           """
+> @@ -224,7 +222,6 @@ class LinuxSSH(Test):
+>       def test_mips_malta32el_kernel3_2_0(self):
+>           """
+>           :avocado: tags=3Darch:mipsel
+> -        :avocado: tags=3Dmachine:malta
+>           :avocado: tags=3Dendian:little
+>           :avocado: tags=3Ddevice:pcnet32
+>           """
+> @@ -233,7 +230,6 @@ class LinuxSSH(Test):
+>       def test_mips_malta64eb_kernel3_2_0(self):
+>           """
+>           :avocado: tags=3Darch:mips64
+> -        :avocado: tags=3Dmachine:malta
+>           :avocado: tags=3Dendian:big
+>           :avocado: tags=3Ddevice:pcnet32
+>           """
+> @@ -242,7 +238,6 @@ class LinuxSSH(Test):
+>       def test_mips_malta64el_kernel3_2_0(self):
+>           """
+>           :avocado: tags=3Darch:mips64el
+> -        :avocado: tags=3Dmachine:malta
+>           :avocado: tags=3Dendian:little
+>           :avocado: tags=3Ddevice:pcnet32
+>           """
+> diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptan=
+ce/machine_m68k_nextcube.py
+> index fcd2c58ee7..32cf571f94 100644
+> --- a/tests/acceptance/machine_m68k_nextcube.py
+> +++ b/tests/acceptance/machine_m68k_nextcube.py
+> @@ -43,6 +43,11 @@ def tesseract_available(expected_version):
+>  =20
+>  =20
+>   class NextCubeMachine(Test):
+> +    """
+> +    :avocado: tags=3Darch:m68k
+> +    :avocado: tags=3Dmachine:next-cube
+> +    :avocado: tags=3Ddevice:framebuffer
+> +    """
+>  =20
+>       timeout =3D 15
+>  =20
+> @@ -52,7 +57,6 @@ class NextCubeMachine(Test):
+>           rom_hash =3D 'b3534796abae238a0111299fc406a9349f7fee24'
+>           rom_path =3D self.fetch_asset(rom_url, asset_hash=3Drom_hash)
+>  =20
+> -        self.vm.set_machine('next-cube')
+>           self.vm.add_args('-bios', rom_path)
+>           self.vm.launch()
+>  =20
+> @@ -66,11 +70,6 @@ class NextCubeMachine(Test):
+>  =20
+>       @skipUnless(PIL_AVAILABLE, 'Python PIL not installed')
+>       def test_bootrom_framebuffer_size(self):
+> -        """
+> -        :avocado: tags=3Darch:m68k
+> -        :avocado: tags=3Dmachine:next_cube
+> -        :avocado: tags=3Ddevice:framebuffer
+> -        """
+>           screenshot_path =3D os.path.join(self.workdir, "dump.png")
+>           self.check_bootrom_framebuffer(screenshot_path)
+>  =20
+> @@ -80,11 +79,6 @@ class NextCubeMachine(Test):
+>  =20
+>       @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not av=
+ailable')
+>       def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+> -        """
+> -        :avocado: tags=3Darch:m68k
+> -        :avocado: tags=3Dmachine:next_cube
+> -        :avocado: tags=3Ddevice:framebuffer
+> -        """
+>           screenshot_path =3D os.path.join(self.workdir, "dump.png")
+>           self.check_bootrom_framebuffer(screenshot_path)
+>  =20
+> @@ -101,11 +95,6 @@ class NextCubeMachine(Test):
+>       # that it is still alpha-level software.
+>       @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not av=
+ailable')
+>       def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
+> -        """
+> -        :avocado: tags=3Darch:m68k
+> -        :avocado: tags=3Dmachine:next_cube
+> -        :avocado: tags=3Ddevice:framebuffer
+> -        """
+>           screenshot_path =3D os.path.join(self.workdir, "dump.png")
+>           self.check_bootrom_framebuffer(screenshot_path)
+>  =20
+> diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance=
+/machine_sparc_leon3.py
+> index 298f1e25e6..f77e210ccb 100644
+> --- a/tests/acceptance/machine_sparc_leon3.py
+> +++ b/tests/acceptance/machine_sparc_leon3.py
+> @@ -16,7 +16,7 @@ class Leon3Machine(Test):
+>       def test_leon3_helenos_uimage(self):
+>           """
+>           :avocado: tags=3Darch:sparc
+> -        :avocado: tags=3Dmachine:leon3
+> +        :avocado: tags=3Dmachine:leon3_generic
+>           :avocado: tags=3Dbinfmt:uimage
+>           """
+>           kernel_url =3D ('http://www.helenos.org/releases/'
+> @@ -24,7 +24,6 @@ class Leon3Machine(Test):
+>           kernel_hash =3D 'a88c9cfdb8430c66650e5290a08765f9bf049a30'
+>           kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dker=
+nel_hash)
+>  =20
+> -        self.vm.set_machine('leon3_generic')
+>           self.vm.set_console()
+>           self.vm.add_args('-kernel', kernel_path)
+>  =20
+> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_pr=
+ep_40p.py
+> index 6f507fb0a6..b27572f212 100644
+> --- a/tests/acceptance/ppc_prep_40p.py
+> +++ b/tests/acceptance/ppc_prep_40p.py
+> @@ -39,7 +39,6 @@ class IbmPrep40pMachine(Test):
+>           drive_hash =3D 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
+>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive=
+_hash)
+>  =20
+> -        self.vm.set_machine('40p')
+>           self.vm.set_console()
+>           self.vm.add_args('-bios', bios_path,
+>                            '-fda', drive_path)
+> @@ -53,7 +52,6 @@ class IbmPrep40pMachine(Test):
+>           :avocado: tags=3Darch:ppc
+>           :avocado: tags=3Dmachine:40p
+>           """
+> -        self.vm.set_machine('40p')
+>           self.vm.set_console()
+>           self.vm.add_args('-m', '192') # test fw_cfg
+>  =20
+> @@ -73,7 +71,6 @@ class IbmPrep40pMachine(Test):
+>           drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
+>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive=
+_hash,
+>                                         algorithm=3D'md5')
+> -        self.vm.set_machine('40p')
+>           self.vm.set_console()
+>           self.vm.add_args('-cdrom', drive_path,
+>                            '-boot', 'd')
+> diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/accepta=
+nce/x86_cpu_model_versions.py
+> index 6eb977954d..90558d9a71 100644
+> --- a/tests/acceptance/x86_cpu_model_versions.py
+> +++ b/tests/acceptance/x86_cpu_model_versions.py
+> @@ -75,12 +75,15 @@ class X86CPUModelAliases(avocado_qemu.Test):
+>                            "EPYC-IBPB shouldn't be versioned")
+>  =20
+>       def test_4_0_alias_compatibility(self):
+> -        """Check if pc-*-4.0 unversioned CPU model won't be reported a=
+s aliases"""
+> +        """
+> +        Check if pc-*-4.0 unversioned CPU model won't be reported as a=
+liases
+> +
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           # pc-*-4.0 won't expose non-versioned CPU models as aliases
+>           # We do this to help management software to keep compatibilit=
+y
+>           # with older QEMU versions that didn't have the versioned CPU=
+ model
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.launch()
+>           cpus =3D dict((m['name'], m) for m in self.vm.command('query-=
+cpu-definitions'))
+>  =20
+> @@ -105,9 +108,12 @@ class X86CPUModelAliases(avocado_qemu.Test):
+>               self.assertNotIn('alias-of', c, "%s shouldn't be an alias=
+" % (name))
+>  =20
+>       def test_4_1_alias(self):
+> -        """Check if unversioned CPU model is an alias pointing to righ=
+t version"""
+> +        """
+> +        Check if unversioned CPU model is an alias pointing to right v=
+ersion
+> +
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.1
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.1')
+>           self.vm.launch()
+>  =20
+>           cpus =3D dict((m['name'], m) for m in self.vm.command('query-=
+cpu-definitions'))
+> @@ -207,9 +213,12 @@ class X86CPUModelAliases(avocado_qemu.Test):
+>           self.validate_aliases(cpus)
+>  =20
+>       def test_none_alias(self):
+> -        """Check if unversioned CPU model is an alias pointing to some=
+ version"""
+> +        """
+> +        Check if unversioned CPU model is an alias pointing to some ve=
+rsion
+> +
+> +        :avocado: tags=3Dmachine:none
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('none')
+>           self.vm.launch()
+>  =20
+>           cpus =3D dict((m['name'], m) for m in self.vm.command('query-=
+cpu-definitions'))
+> @@ -242,68 +251,84 @@ class CascadelakeArchCapabilities(avocado_qemu.Te=
+st):
+>           return self.vm.command('qom-get', path=3Dcpu_path, property=3D=
+prop)
+>  =20
+>       def test_4_1(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.1
+> +        """
+>           # machine-type only:
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.1')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=
+=3Don,check=3Doff,enforce=3Doff')
+>           self.vm.launch()
+>           self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+>                            'pc-i440fx-4.1 + Cascadelake-Server should n=
+ot have arch-capabilities')
+>  =20
+>       def test_4_0(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=
+=3Don,check=3Doff,enforce=3Doff')
+>           self.vm.launch()
+>           self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+>                            'pc-i440fx-4.0 + Cascadelake-Server should n=
+ot have arch-capabilities')
+>  =20
+>       def test_set_4_0(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           # command line must override machine-type if CPU model is not=
+ versioned:
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=
+=3Don,check=3Doff,enforce=3Doff,+arch-capabilities')
+>           self.vm.launch()
+>           self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+>                           'pc-i440fx-4.0 + Cascadelake-Server,+arch-cap=
+abilities should have arch-capabilities')
+>  =20
+>       def test_unset_4_1(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.1
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.1')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=
+=3Don,check=3Doff,enforce=3Doff,-arch-capabilities')
+>           self.vm.launch()
+>           self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+>                            'pc-i440fx-4.1 + Cascadelake-Server,-arch-ca=
+pabilities should not have arch-capabilities')
+>  =20
+>       def test_v1_4_0(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           # versioned CPU model overrides machine-type:
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-featu=
+res=3Don,check=3Doff,enforce=3Doff')
+>           self.vm.launch()
+>           self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+>                            'pc-i440fx-4.0 + Cascadelake-Server-v1 shoul=
+d not have arch-capabilities')
+>  =20
+>       def test_v2_4_0(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-featu=
+res=3Don,check=3Doff,enforce=3Doff')
+>           self.vm.launch()
+>           self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+>                           'pc-i440fx-4.0 + Cascadelake-Server-v2 should=
+ have arch-capabilities')
+>  =20
+>       def test_v1_set_4_0(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.0
+> +        """
+>           # command line must override machine-type and versioned CPU m=
+odel:
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.0')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server-v1,x-force-featu=
+res=3Don,check=3Doff,enforce=3Doff,+arch-capabilities')
+>           self.vm.launch()
+>           self.assertTrue(self.get_cpu_prop('arch-capabilities'),
+>                           'pc-i440fx-4.0 + Cascadelake-Server-v1,+arch-=
+capabilities should have arch-capabilities')
+>  =20
+>       def test_v2_unset_4_1(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc-i440fx-4.1
+> +        """
+>           self.vm.add_args('-S')
+> -        self.vm.set_machine('pc-i440fx-4.1')
+>           self.vm.add_args('-cpu', 'Cascadelake-Server-v2,x-force-featu=
+res=3Don,check=3Doff,enforce=3Doff,-arch-capabilities')
+>           self.vm.launch()
+>           self.assertFalse(self.get_cpu_prop('arch-capabilities'),
+>=20
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
