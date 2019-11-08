@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5BBF5073
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 17:00:37 +0100 (CET)
-Received: from localhost ([::1]:56768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0675F5088
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 17:04:42 +0100 (CET)
+Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT6ge-0002NG-24
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 11:00:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
+	id 1iT6ka-0005jd-RJ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 11:04:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iT6ez-00019O-8L
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:58:54 -0500
+ (envelope-from <eblake@redhat.com>) id 1iT6fC-0001RG-0v
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:59:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iT6ex-0000Wf-Un
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:58:52 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36040)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iT6ex-0000WI-OP
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:58:51 -0500
-Received: by mail-oi1-x242.google.com with SMTP id j7so5659683oib.3
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 07:58:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LQ3GbzhAlWakkp9NcFJ+/X9NGKDGeaOkAkmOLvHt9y8=;
- b=me70BZMeByRR5nOfJOfXrhTXOLix/75IkVNyJwLh3MG2Vs4aWNyArN38fX455vnoiy
- 7xQhnCorGK6EaaJWvFaBzv1o2ALA7IWTvKj86zUDvZn0cVb1cMyqNUhZJVZkMK6/3X00
- 0iGArVQbqZAjRD2cZn5a3b8dfEmFjFoBeQ4+5FfnosuwQQqPe/An1X6s7gjk6MfT9m8A
- EWLf5uhTYtSpz/6oaefKht6SWGDuFlFtC5lcbFEO/7hVX575Bb5sD5oU83jX4Bo5Hxzy
- Lu1AwrTL0g7pnH8VIyr1qlavg8O0kqvCkcgfsth/N3c09i7Yu218RbrTkuCgc/04wCZg
- NNLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LQ3GbzhAlWakkp9NcFJ+/X9NGKDGeaOkAkmOLvHt9y8=;
- b=I+cFFAx9GXs8apPavZKnFj2PSnaz9G25h0cRo2CIMDbS9gBmNZSVVSMe+C7a8lteLf
- /qyhXzssC/2CoQCTqe0Sd4fia8VgaYW38DUfR0XQx/XciXNv7EwqV4qsgzux0NpaYdkH
- ZCOZ2ZfT2xzGU1or6priLTE0/ZAYFN6fMA3aItTHqK8tWV4DYg0SGybxHYbOAtzpt0D2
- HLcl5VHBsXgLKGdkfVMRGpE6tgDdDz8GqGD3/g6L+wzAKKVsfTZyIbB1Q7pDOqeGHytL
- YsbNCNmQpSZA1doCDG7sGlcQfXHT6+RpCzBn5C/KiUzXuPqA1dJrb9eHHCJ2SDY2g0RR
- o0Zg==
-X-Gm-Message-State: APjAAAVhsY8MTmHP6+Rfoq6YGlKA0XSx7RSLRQ3gU3vuE1MHtBLuSZ1X
- srDFcZT63V8sFPkNi+Mm/1xY1X3GajpIzrUhP7fHlQ==
-X-Google-Smtp-Source: APXvYqzFXH+9WFfpqv3yYUfaBZFAmE/GIL0oVY3rX9uVSdZK284SwP8KgIKsmc754r4MdcrhxIy1eTKYvtJ1dIycOYc=
-X-Received: by 2002:aca:3e8a:: with SMTP id l132mr9887523oia.146.1573228730711; 
- Fri, 08 Nov 2019 07:58:50 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1iT6fA-0000ck-Ox
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:59:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49163
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iT6fA-0000cR-LL
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:59:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573228744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UM89Ln7Q5VEIZ4qoJyGex24mShc1AIwIxDaD7G6utA4=;
+ b=FsO6NV5YFuS0cTdvWYqVw/TAMQzKGotL9hzSTLFJfVcKOo6ZbedKWK3IpBbdnfJSD9OAjc
+ wk3RakC+GQtppmSXY+ejYfsUq69LomE6GXeqYnsn96btN/RsbE/Fzljkci8u0V2QYKy5No
+ +AR+5epGbMic8xBb2exT30WkrCqiGKE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-rMPk5-n5OTOXT3_7jbMM-g-1; Fri, 08 Nov 2019 10:59:00 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8CF7477;
+ Fri,  8 Nov 2019 15:58:58 +0000 (UTC)
+Received: from [10.3.117.38] (ovpn-117-38.phx2.redhat.com [10.3.117.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8D0A5DA82;
+ Fri,  8 Nov 2019 15:58:51 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] hw/mips/gt64xxx: Remove dynamic field width from
+ trace events
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191108144042.30245-1-philmd@redhat.com>
+ <20191108144042.30245-3-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ead1eb4b-a0e0-edf9-8323-ce9f5a291547@redhat.com>
+Date: Fri, 8 Nov 2019 09:58:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191104115228.30745-1-graf@amazon.com>
-In-Reply-To: <20191104115228.30745-1-graf@amazon.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Nov 2019 15:58:39 +0000
-Message-ID: <CAFEAcA8zkR_MZ-28Nc=x4j05U9MsFYfzQtkHxTf65ZwacK020w@mail.gmail.com>
-Subject: Re: [PATCH] pl031: Expose RTCICR as proper WC register
-To: Alexander Graf <graf@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <20191108144042.30245-3-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: rMPk5-n5OTOXT3_7jbMM-g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,75 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hendrik Borghorst <hborghor@amazon.de>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Nov 2019 at 11:52, Alexander Graf <graf@amazon.com> wrote:
->
-> The current pl031 RTCICR register implementation always clears the IRQ
-> pending status on a register write, regardless of the value it writes.
->
-> To justify that behavior, it references the arm926e documentation
-> (DDI0287B) and indicates that said document states that any write clears
-> the internal IRQ state. I could however not find any text in that document
-> backing the statement. In fact, it explicitly says:
->
->   "Writing 1 to bit 0 of RTCICR clears the RTCINTR flag."
->
-> which describes it as much as a write-to-clear register as the PL031 spec
-> (DDI0224) does:
->
->   "Writing 1 to bit position 0 clears the corresponding interrupt.
->    Writing 0 has no effect."
-
-DDI0287B page 11-2 section 11.1 says
-"The interrupt is cleared by writing any data value to the
-interrupt clear register RTCICR". As you note, this contradicts
-what it says later on in section 11.2.2.
-
-(Interestingly, the PL030 does have a "write any value to
-clear the interrupt" register, RTCEOI.)
-
-I'm fairly sure this patch is right and the DDI0287B document
-has an error, since it isn't internally consistent and doesn't
-match the proper PL031 TRM.
-
-Did you find this because you had a guest that assumed the
-other behaviour? This bug has been in QEMU for a very long time,
-and it seems odd for a guest to deliberately perform an action
-(writing 0) which is documented to have no effect on the device...
-
-> Let's remove the bogus comment and instead follow both specs to what they
-> say.
->
-> Reported-by: Hendrik Borghorst <hborghor@amazon.de>
-> Signed-off-by: Alexander Graf <graf@amazon.com>
+On 11/8/19 8:40 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since not all trace backends support dynamic field width in
+> format (dtrace via stap does not), replace by a static field
+> width instead.
+>=20
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/rtc/pl031.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->
-> diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
-> index 3a982752a2..c57cf83165 100644
-> --- a/hw/rtc/pl031.c
-> +++ b/hw/rtc/pl031.c
-> @@ -149,11 +149,7 @@ static void pl031_write(void * opaque, hwaddr offset,
->          pl031_update(s);
->          break;
->      case RTC_ICR:
-> -        /* The PL031 documentation (DDI0224B) states that the interrupt is
-> -           cleared when bit 0 of the written value is set.  However the
-> -           arm926e documentation (DDI0287B) states that the interrupt is
-> -           cleared when any value is written.  */
-> -        s->is = 0;
-> +        s->is &= ~value;
->          pl031_update(s);
->          break;
->      case RTC_CR:
-> --
-> 2.17.1
+> v2: Do not update qemu_log_mask()
+> ---
+>   hw/mips/gt64xxx_pci.c | 16 ++++++++--------
+>   hw/mips/trace-events  |  4 ++--
+>   2 files changed, 10 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+> index 5cab9c1ee1..6743e7c929 100644
+> --- a/hw/mips/gt64xxx_pci.c
+> +++ b/hw/mips/gt64xxx_pci.c
+> @@ -642,19 +642,19 @@ static void gt64120_writel(void *opaque, hwaddr add=
+r,
+>           /* not really implemented */
+>           s->regs[saddr] =3D ~(~(s->regs[saddr]) | ~(val & 0xfffffffe));
+>           s->regs[saddr] |=3D !!(s->regs[saddr] & 0xfffffffe);
+> -        trace_gt64120_write("INTRCAUSE", size << 1, val);
+> +        trace_gt64120_write("INTRCAUSE", size << 3, val);
 
-thanks
--- PMM
+Again, this isn't mentioned in the commit message.  Why are you changing=20
+parameter values?
+
+
+> +++ b/hw/mips/trace-events
+> @@ -1,4 +1,4 @@
+>   # gt64xxx.c
+> -gt64120_read(const char *regname, int width, uint64_t value) "gt64120 re=
+ad %s value:0x%0*" PRIx64
+> -gt64120_write(const char *regname, int width, uint64_t value) "gt64120 w=
+rite %s value:0x%0*" PRIx64
+> +gt64120_read(const char *regname, int width, uint64_t value) "gt64120 re=
+ad %s width:%d value:0x%08" PRIx64
+> +gt64120_write(const char *regname, int width, uint64_t value) "gt64120 w=
+rite %s width:%d value:0x%08" PRIx64
+
+Huh, we were really broken - the old code (if passed to printf) would=20
+try to parse 4 parameters, even though it was only passed 3.  But it=20
+looks like you still need a v3.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
