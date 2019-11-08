@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67548F4476
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:26:52 +0100 (CET)
-Received: from localhost ([::1]:51788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB6BF446C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:25:10 +0100 (CET)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT1Tf-0008TP-D6
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:26:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47536)
+	id 1iT1S1-0006XW-12
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:25:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iT1Nh-0001Wc-PV
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:20:43 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iT1PJ-0003Op-2e
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:22:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iT1Ng-0007Ox-7J
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:20:41 -0500
-Received: from mx1.redhat.com ([209.132.183.28]:36566)
+ (envelope-from <kraxel@redhat.com>) id 1iT1PH-00087a-WB
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:22:20 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43509
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iT1Ng-0007OS-1V
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:20:40 -0500
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iT1PH-00087A-Si
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:22:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573208539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NFIFdqR/JbcUPJAQyR7Yd97xZj9N3PANWKle10gy0kI=;
+ b=L90cCbZ+4Osd6Uv/D3X2YcNn0DX8eRM6SoO+n1RuG9C5CeJ1eRCZIS9CJ6rgpDMvFnYjGQ
+ 1FNbXCRsZLa10p/toji67FwaHqtESNlg5yrGm+sHLJyTPVLrk1NhWxFYYDAnhpA6kQwsZf
+ hfT2yJNquAgxGuDdOs72osgzL5VmcyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-VcUyKlCfMhucuEAPLVrnfw-1; Fri, 08 Nov 2019 05:22:17 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F257C59451
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:20:38 +0000 (UTC)
-Received: by mail-wm1-f70.google.com with SMTP id b10so2182314wmh.6
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 02:20:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QtT10W8vgH8OqSewK4mmqQdOpRcpmXW/jxpUrutYBGA=;
- b=BxBozVpDWR8rM6aVChRIFqUv8Pfq8WMkrg8xCbDCO6H5z1VIfKkjdphO/STLEMZSp7
- YIMEQSJMRI8XlUZNZPQ4/OSx4PudMmwcbKZkS4S+XxbuCEx6W1cSTVr17ryx/ibJGUk7
- QiKNxPuAqbz8r8c0wL9HU/XpQMPBkLu3i4Nw7sdk1EDI3NPff2jcMByaGsHy8zH6Dzc5
- WqQiX4CDaEGg69DKFxe5u0TRXj2Brag2rAxL5HqBXYDq9dx/qGyJn6Tgx7eDOTez4SSr
- 1uVFM22usZ53loCEyPfvUEr910DmuJ4RH4OeuJEqyshFz12AqUmJ7LlET3bOYliw9YTS
- wD7Q==
-X-Gm-Message-State: APjAAAW0NR9Vqoc/JhQgk6IHjn4TyMEFbzmbDdEOSQP80DmRa7d5gS+a
- kBXlm8TxY1c90oPU/HM1X6NDccW/m4Sv0CJRgMCFoFJNe2ldAI+ly8N2Fxrd88bbbSPIdUWEPvj
- es/dIK0yAS0GmRlg=
-X-Received: by 2002:adf:dd0a:: with SMTP id a10mr6855087wrm.299.1573208437762; 
- Fri, 08 Nov 2019 02:20:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyJD5QTYxzpcfnlx4wZ1NmYOXzEgE/v7xCk30BeKkFYfrhNjoyqngiuSIuFaZG1PsWcdIzClg==
-X-Received: by 2002:adf:dd0a:: with SMTP id a10mr6855074wrm.299.1573208437549; 
- Fri, 08 Nov 2019 02:20:37 -0800 (PST)
-Received: from [192.168.1.33] (62.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.62])
- by smtp.gmail.com with ESMTPSA id h8sm11057249wrc.73.2019.11.08.02.20.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Nov 2019 02:20:36 -0800 (PST)
-Subject: Re: Should QEMU's configure script check for bzip2 ?
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <da6cfaeb-420e-6e84-ca14-a75d900d65c0@redhat.com>
- <20191108094856.GD182396@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <839dd7c3-2f28-d00e-c14b-abd507f2296c@redhat.com>
-Date: Fri, 8 Nov 2019 11:20:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 264C0800C72
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 10:22:17 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
+ [10.36.116.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4759C600C9;
+ Fri,  8 Nov 2019 10:22:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 80D4517535; Fri,  8 Nov 2019 11:22:12 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] Seabios 20191108 patches
+Date: Fri,  8 Nov 2019 11:22:11 +0100
+Message-Id: <20191108102212.11101-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191108094856.GD182396@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: VcUyKlCfMhucuEAPLVrnfw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.132.183.28
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,45 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/8/19 10:48 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Nov 07, 2019 at 08:43:27PM +0100, Thomas Huth wrote:
->>
->>   Hi,
->>
->> I just tried to compile QEMU on a freshly installed system. "configure=
-"
->> finished without problems, but during "make" I hit this error:
->>
->>    BUNZIP2 pc-bios/edk2-i386-secure-code.fd.bz2
->> /bin/sh: bzip2: command not found
->> make: *** [Makefile:305: pc-bios/edk2-i386-secure-code.fd] Error 127
->> make: *** Deleting file 'pc-bios/edk2-i386-secure-code.fd'
->> make: *** Waiting for unfinished jobs....
->>
->> Sure, it's easy to fix, but maybe "configure" should already check for=
- the
+The following changes since commit 59015778f3ec7c01202d46c5dbeeac8ab4225c52=
+:
 
-You found a bug :)
+  Update version for v4.2.0-rc0 release (2019-11-07 18:17:31 +0000)
 
->> availablity of "bzip2", so that we then either skip the installation o=
-f the
->> edk2 images if "bzip2" is not available, or bail out during "configure=
-"
->> already?
->=20
-> The general rule is that if we run a binary we should check for it upfr=
-ont
-> so users immediately see any missing pre-requisites, rather than wastin=
-g
-> 30 minutes waiting for QEMU to build & then fail.
+are available in the Git repository at:
 
-Yes, I'll send a fix.
+  git://git.kraxel.org/qemu tags/seabios-20191108-pull-request
 
-Regards,
+for you to fetch changes up to f085bf95a6208b42f1ae01f60c76d936d9fed490:
 
-Phil.
+  seabios: update to pre-1.13 snapshot (2019-11-08 11:18:26 +0100)
+
+----------------------------------------------------------------
+seabios: update to pre-1.13 snapshot (gcc 4.8.5 version).
+
+----------------------------------------------------------------
+
+Gerd Hoffmann (1):
+  seabios: update to pre-1.13 snapshot
+
+ pc-bios/bios-256k.bin             | Bin 262144 -> 262144 bytes
+ pc-bios/bios.bin                  | Bin 131072 -> 131072 bytes
+ pc-bios/vgabios-ati.bin           | Bin 38912 -> 39424 bytes
+ pc-bios/vgabios-bochs-display.bin | Bin 27648 -> 28672 bytes
+ pc-bios/vgabios-cirrus.bin        | Bin 38400 -> 38912 bytes
+ pc-bios/vgabios-qxl.bin           | Bin 38912 -> 39424 bytes
+ pc-bios/vgabios-ramfb.bin         | Bin 28160 -> 28672 bytes
+ pc-bios/vgabios-stdvga.bin        | Bin 38912 -> 39424 bytes
+ pc-bios/vgabios-virtio.bin        | Bin 38912 -> 39424 bytes
+ pc-bios/vgabios-vmware.bin        | Bin 38912 -> 39424 bytes
+ pc-bios/vgabios.bin               | Bin 38400 -> 38912 bytes
+ roms/Makefile                     |   2 +-
+ roms/seabios                      |   2 +-
+ 13 files changed, 2 insertions(+), 2 deletions(-)
+
+--=20
+2.18.1
+
 
