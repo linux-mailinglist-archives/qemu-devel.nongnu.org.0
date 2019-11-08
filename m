@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C95F4EA0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:46:12 +0100 (CET)
-Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3330F4EBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:52:58 +0100 (CET)
+Received: from localhost ([::1]:55764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5Wc-0003tD-RX
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:46:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
+	id 1iT5dB-0008Dj-NX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:52:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iT5UY-0002Ok-Qn
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:03 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iT5cK-0007lw-Rt
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:52:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iT5UW-0002C2-SF
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:02 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35320)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iT5UW-0002Bo-MB
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:00 -0500
-Received: by mail-oi1-x244.google.com with SMTP id n16so5446548oig.2
- for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 06:44:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1yolX350RikgspNGqXnpbhsMD0ygO5qfrBMQwb1uQOE=;
- b=LkjUck8G6OTsye2KDLb/3YWOGM3eRJkjFeWCM9z2pjE3DQ8/NdrsM8PGq7U9dy2OCi
- O/YgCFf0SeDFOcfEZNmRwjKvtJw2RhH6QOYaL0W1efS7zTQed88y4YLLbvDs3WreGMYQ
- ZaxzetERmj5WoinrStEqgJMiR0zHOAQmrETL4DILgKKpCGVquzWqSd6SvTEaxNE7RfAX
- tzjzCQHM/kYy8k8pL3XBfaBIY0XTNl+5K00rkWqQW2r++l25ivevpuk1vFRPta4W5LuY
- 3v9N+1XYBuNJAR2hSF6l2aRqkH0yfWe63qJ0Ktb4ncSfhWRM2TguYjD7gJgDMCZ2RQpD
- 98IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1yolX350RikgspNGqXnpbhsMD0ygO5qfrBMQwb1uQOE=;
- b=PXtg1GqMXZ/pNV5xtm8ka30yv7hbCwAT5pjE/OyqFkLrwmINbsGob1qdIyX++VSDFa
- RHkqZkD3EEGpLhZs9PTKdx18zo1C1Bzwox7wpzNa+QISzh5iSEKAihbAem2Hqpf2W7T4
- dbSsPes+vDnfoOkOR6l64rF2zBB6i9hlY/ypvClKMrRQatjGrxk6dhINaC3n55hLXp2G
- 9yGgs27AHsyaj7BHR9LN7fiP4qCH4rzYBor+1uAQI88CUvpfvIZQ9P5mLn5lBRr8d/Ag
- 08Z13mkU/5gDg6IjEBSQc0RibdUGM2m5kNSFffr87gkF5T0d6udTsqO/IDYigmBDkrzd
- hJDg==
-X-Gm-Message-State: APjAAAU74ZL+EgHueQk2nqD6BClhNBAzF6yxaJASY1w9jvzggEAZ3W8q
- A7EbmO74KTe6b8g56/g8NY13SN68XxJ6zlHDvaIoDg==
-X-Google-Smtp-Source: APXvYqwUZgFlH1xjAqaqhUR3zUXHR5SpfUfvGghnpa8T32ZKF1LjGGgbALDJY5/Dasjb6L5O7OZBxk4RJww4eOTC89g=
-X-Received: by 2002:a05:6808:7d1:: with SMTP id
- f17mr10273400oij.163.1573224239534; 
- Fri, 08 Nov 2019 06:43:59 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1iT5cG-0005xs-Mp
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:52:04 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24975
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iT5cG-0005xe-JX
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:52:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573224719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jSrtBdqsZCJ2ZmxXF7f1wcoDJ6RojzjaEd3a3FwYmtU=;
+ b=CNLrWiw++FNcAo9Ai4Rn9ruO3OkDRMO7tCX1xMKzWVKt7NMn47PfnydJkrDrQOvqfdMaMb
+ xMT80rWXaw/nLqSLnKsjlQwfOWfsM40nx91iMQiczTJVsyTpPvxsxAEnz4Lonncn0CjP+j
+ YpvMWA5qLoLrToAhPqu6MRmdAr/foL0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-gZQdrMsfPL-K4AS84LW-bA-1; Fri, 08 Nov 2019 09:51:56 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E6A1005500;
+ Fri,  8 Nov 2019 14:51:55 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 420245D6AE;
+ Fri,  8 Nov 2019 14:51:49 +0000 (UTC)
+Date: Fri, 8 Nov 2019 15:51:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v15 12/12] tests/bios-tables-test: add test cases for
+ ACPI HMAT
+Message-ID: <20191108155147.7d64663b@redhat.com>
+In-Reply-To: <20191107074511.14304-13-tao3.xu@intel.com>
+References: <20191107074511.14304-1-tao3.xu@intel.com>
+ <20191107074511.14304-13-tao3.xu@intel.com>
 MIME-Version: 1.0
-References: <20191104131836.12566-1-alex.bennee@linaro.org>
-In-Reply-To: <20191104131836.12566-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Nov 2019 14:43:48 +0000
-Message-ID: <CAFEAcA-42Fg-ihBm3JVET41SJ1Mot7m-i1ZGt+Y1afOY1wZ0Ow@mail.gmail.com>
-Subject: Re: [PATCH] tcg plugins: expose an API version concept
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: gZQdrMsfPL-K4AS84LW-bA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,129 +72,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, jingqi.liu@intel.com, fan.du@intel.com,
+ mdroth@linux.vnet.ibm.com, Daniel Black <daniel@linux.ibm.com>,
+ armbru@redhat.com, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Nov 2019 at 13:18, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> This is a very simple versioning API which allows the plugin
-> infrastructure to check the API a plugin was built against. We also
-> expose a min/cur API version to the plugin via the info block in case
-> it wants to avoid using old deprecated APIs in the future.
+On Thu,  7 Nov 2019 15:45:11 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-I think the general idea here is fine, and I want to see
-us get the version-check into 4.2, because I don't think
-we should release a QEMU which doesn't do a basic version
-sanity check. I have some minor comments below.
+> ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
+> Heterogeneous Memory with boot option '-numa node'.
+>=20
+> Add test cases on PC and Q35 machines with 2 numa nodes.
+> Because HMAT is generated when system enable numa, the
+> following tables need to be added for this test:
+>     tests/data/acpi/pc/APIC.acpihmat
+>     tests/data/acpi/pc/SRAT.acpihmat
+>     tests/data/acpi/pc/HMAT.acpihmat
+>     tests/data/acpi/pc/DSDT.acpihmat
+>     tests/data/acpi/q35/APIC.acpihmat
+>     tests/data/acpi/q35/SRAT.acpihmat
+>     tests/data/acpi/q35/HMAT.acpihmat
+>     tests/data/acpi/q35/DSDT.acpihmat
 
+on top of this we need to check that configuring via
+QAPI works as well.
 
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Add an extra test as a separate patch on top,
+building the same topology (so we could reuse the same reference tables)
+using set-numa-node/--preconfig.
+
+See pc_dynamic_cpu_cfg() and for example how to use set-numa-node
+over QMP.
+
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Daniel Black <daniel@linux.ibm.com>
+> Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 > ---
->  include/qemu/qemu-plugin.h | 19 +++++++++++++++++++
->  plugins/loader.c           | 15 +++++++++++++++
->  plugins/plugin.h           |  2 ++
->  tests/plugin/bb.c          |  2 ++
->  tests/plugin/empty.c       |  2 ++
->  tests/plugin/hotpages.c    |  2 ++
->  tests/plugin/howvec.c      |  2 ++
->  tests/plugin/insn.c        |  2 ++
->  tests/plugin/mem.c         |  2 ++
->  9 files changed, 48 insertions(+)
->
-> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-> index a00a7deb461..5502e112c81 100644
-> --- a/include/qemu/qemu-plugin.h
-> +++ b/include/qemu/qemu-plugin.h
-
-As an aside, is this the header file used for building
-the plugins? It seems a bit odd to have put it
-in include/qemu, which is for headers used when building
-QEMU itself.
-
-> @@ -38,9 +38,28 @@
->
->  typedef uint64_t qemu_plugin_id_t;
->
-> +/*
-> + * Versioning plugins:
-> + *
-> + * The plugin API will pass a minimum and current API version that
-> + * QEMU currently supports. The minimum API will be incremented if an
-> + * API needs to be deprecated.
-> + *
-> + * The plugins export the API they were built against by exposing the
-> + * symbol qemu_plugin_version which can be checked.
-> + */
+>=20
+> Changes in v15:
+>     - Make tests without breaking CI (Michael)
+>=20
+> Changes in v13:
+>     - Use decimal notation with appropriate suffix for cache size
+> ---
+>  tests/bios-tables-test-allowed-diff.h |  8 +++++
+>  tests/bios-tables-test.c              | 44 +++++++++++++++++++++++++++
+>  tests/data/acpi/pc/APIC.acpihmat      |  0
+>  tests/data/acpi/pc/DSDT.acpihmat      |  0
+>  tests/data/acpi/pc/HMAT.acpihmat      |  0
+>  tests/data/acpi/pc/SRAT.acpihmat      |  0
+>  tests/data/acpi/q35/APIC.acpihmat     |  0
+>  tests/data/acpi/q35/DSDT.acpihmat     |  0
+>  tests/data/acpi/q35/HMAT.acpihmat     |  0
+>  tests/data/acpi/q35/SRAT.acpihmat     |  0
+>  10 files changed, 52 insertions(+)
+>  create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+>  create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+>  create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+>  create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+>  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+>  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+>=20
+> diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-te=
+st-allowed-diff.h
+> index dfb8523c8b..3c9e0c979b 100644
+> --- a/tests/bios-tables-test-allowed-diff.h
+> +++ b/tests/bios-tables-test-allowed-diff.h
+> @@ -1 +1,9 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/pc/APIC.acpihmat",
+> +"tests/data/acpi/pc/SRAT.acpihmat",
+> +"tests/data/acpi/pc/HMAT.acpihmat",
+> +"tests/data/acpi/pc/DSDT.acpihmat",
+> +"tests/data/acpi/q35/APIC.acpihmat",
+> +"tests/data/acpi/q35/SRAT.acpihmat",
+> +"tests/data/acpi/q35/HMAT.acpihmat",
+> +"tests/data/acpi/q35/DSDT.acpihmat",
+> diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+> index 0b33fb265f..96803c1f20 100644
+> --- a/tests/bios-tables-test.c
+> +++ b/tests/bios-tables-test.c
+> @@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
+> =20
+>  }
+> =20
+> +static void test_acpi_tcg_acpi_hmat(const char *machine)
+> +{
+> +    test_data data;
 > +
-> +extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
+> +    memset(&data, 0, sizeof(data));
+> +    data.machine =3D machine;
+> +    data.variant =3D ".acpihmat";
+> +    test_acpi_one(" -machine hmat=3Don"
+> +                  " -smp 2,sockets=3D2"
+> +                  " -m 128M,slots=3D2,maxmem=3D1G"
+> +                  " -object memory-backend-ram,size=3D64M,id=3Dm0"
+> +                  " -object memory-backend-ram,size=3D64M,id=3Dm1"
+> +                  " -numa node,nodeid=3D0,memdev=3Dm0"
+> +                  " -numa node,nodeid=3D1,memdev=3Dm1,initiator=3D0"
+> +                  " -numa cpu,node-id=3D0,socket-id=3D0"
+> +                  " -numa cpu,node-id=3D0,socket-id=3D1"
+> +                  " -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dm=
+emory,"
+> +                  "data-type=3Daccess-latency,latency=3D5ns"
+> +                  " -numa hmat-lb,initiator=3D0,target=3D0,hierarchy=3Dm=
+emory,"
+> +                  "data-type=3Daccess-bandwidth,bandwidth=3D500M"
+> +                  " -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dm=
+emory,"
+> +                  "data-type=3Daccess-latency,latency=3D10ns"
+> +                  " -numa hmat-lb,initiator=3D0,target=3D1,hierarchy=3Dm=
+emory,"
+> +                  "data-type=3Daccess-bandwidth,bandwidth=3D100M"
+> +                  " -numa hmat-cache,node-id=3D0,size=3D10K,level=3D1,as=
+soc=3Ddirect,"
+> +                  "policy=3Dwrite-back,line=3D8"
+> +                  " -numa hmat-cache,node-id=3D1,size=3D10K,level=3D1,as=
+soc=3Ddirect,"
+> +                  "policy=3Dwrite-back,line=3D8",
+> +                  &data);
+> +    free_test_data(&data);
+> +}
 > +
-> +#define QEMU_PLUGIN_VERSION 0
+> +static void test_acpi_q35_tcg_acpi_hmat(void)
+> +{
+> +    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
+> +}
 > +
->  typedef struct {
->      /* string describing architecture */
->      const char *target_name;
-> +    struct {
-> +        int min;
-> +        int cur;
-> +    } version;
->      /* is this a full system emulation? */
->      bool system_emulation;
->      union {
-> diff --git a/plugins/loader.c b/plugins/loader.c
-> index ce724ed5839..1bcca909691 100644
-> --- a/plugins/loader.c
-> +++ b/plugins/loader.c
-> @@ -178,6 +178,19 @@ static int plugin_load(struct qemu_plugin_desc *desc=
-, const qemu_info_t *info)
->          goto err_symbol;
->      }
->
-> +    if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
-> +        warn_report("%s: missing version %s", __func__, g_module_error()=
-);
-
-Failure to declare the required version should be an error,
-not just a warning.
-
-> +    } else {
-> +        int version =3D *(int *)sym;
-> +        if (version < QEMU_PLUGIN_MIN_VERSION ||
-> +            version > QEMU_PLUGIN_VERSION) {
-> +            error_report("%s: bad plugin version %d vs %d/%d",
-> +                         __func__, version, QEMU_PLUGIN_MIN_VERSION,
-> +                         QEMU_PLUGIN_VERSION);
-
-I think this message is too cryptic, and would prefer
-something more like:
- "TCG plugin %s requires API version %d, but this QEMU supports only
-versions %d to %d"
-
-where the first %s is the name of the plugin binary, not
-the __func__ of this function (which is not useful to
-the end user).
-
-Better still, special case the MIN_VERSION =3D=3D VERSION
-case to avoid saying "versions 1 to 1".
-
-> +            goto err_symbol;
-> +        }
-> +    }
+> +static void test_acpi_piix4_tcg_acpi_hmat(void)
+> +{
+> +    test_acpi_tcg_acpi_hmat(MACHINE_PC);
+> +}
 > +
->      qemu_rec_mutex_lock(&plugin.lock);
->
->      /* find an unused random id with &ctx as the seed */
-> @@ -248,6 +261,8 @@ int qemu_plugin_load_list(QemuPluginList *head)
->      g_autofree qemu_info_t *info =3D g_new0(qemu_info_t, 1);
->
->      info->target_name =3D TARGET_NAME;
-> +    info->version.min =3D QEMU_PLUGIN_MIN_VERSION;
-> +    info->version.cur =3D QEMU_PLUGIN_VERSION;
->  #ifndef CONFIG_USER_ONLY
->      MachineState *ms =3D MACHINE(qdev_get_machine());
->      info->system_emulation =3D true;
+>  static void test_acpi_virt_tcg(void)
+>  {
+>      test_data data =3D {
+> @@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+>          qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_px=
+m);
+>          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+> +        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_h=
+mat);
+> +        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat)=
+;
+>      } else if (strcmp(arch, "aarch64") =3D=3D 0) {
+>          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+>          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+> diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.a=
+cpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.a=
+cpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.a=
+cpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.a=
+cpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC=
+.acpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT=
+.acpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT=
+.acpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT=
+.acpihmat
+> new file mode 100644
+> index 0000000000..e69de29bb2
 
-thanks
--- PMM
 
