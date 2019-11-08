@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4477AF4424
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:04:04 +0100 (CET)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88070F442B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 11:06:38 +0100 (CET)
+Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT17b-0006JW-3v
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:04:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41858)
+	id 1iT1A5-0000my-AH
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 05:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43235)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iT13l-0003FK-18
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:00:05 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iT17s-0007Bz-CO
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:04:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iT13j-0002tS-UY
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:00:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44146
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iT17r-0005MI-1L
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:04:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30589
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iT13j-0002tH-Qo
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:00:03 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iT17q-0005Kv-TU
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 05:04:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573207203;
+ s=mimecast20190719; t=1573207458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bDtaUVN4udIdkorfhyIBq/ib/+LSzEez0EMfa/xjECc=;
- b=jHrJw3IH/PKFeADnfMR/ZRRuX2KYZDRWOsgUazLAtHM6w8MuvM43/GiFPvjy0XB6Y4Fyyz
- v5+Ym7LfJsoIQlZsP0qkWeiW20DENpLgi5+CsZcgb6VmjA2EVkiw7Y1VGjZPc5ue2PLfZ/
- S19eQSUMihSDGrTqGD6Tchge8xzTFgw=
+ bh=e8kAm7lki0HEyIketRqHW+FrvJ+aE7pa4AGa298cFEY=;
+ b=WtICZYzlDXdUZ0u+4O+WRvrGlNpgulRMMP3WrNxKXgPVp6ya6x0LoKErrW1/h/SjDO13vO
+ W/tJDpHc1omNFUDzeeFKB5LYaloU3/pmmsTuKWG2F+IL1mvBVgnFfe/m0bsHv/jF/hosIe
+ 72wgvUWGP0x4q4yllUB56wmFgwwf5fg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-WZBjsmcVOXSWxiyYU6YyWQ-1; Fri, 08 Nov 2019 05:00:00 -0500
+ us-mta-372-2-cJLhBONViDOYw8Q7qMrw-1; Fri, 08 Nov 2019 05:04:13 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ADAD477;
- Fri,  8 Nov 2019 09:59:59 +0000 (UTC)
-Received: from localhost (ovpn-116-74.ams2.redhat.com [10.36.116.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43FE75C548;
- Fri,  8 Nov 2019 09:59:55 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] docs: install CSS and Javascript files for HTML docs
-Date: Fri,  8 Nov 2019 10:59:42 +0100
-Message-Id: <20191108095942.401225-4-stefanha@redhat.com>
-In-Reply-To: <20191108095942.401225-1-stefanha@redhat.com>
-References: <20191108095942.401225-1-stefanha@redhat.com>
-MIME-Version: 1.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E17171005500;
+ Fri,  8 Nov 2019 10:04:12 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C88E5C290;
+ Fri,  8 Nov 2019 10:04:08 +0000 (UTC)
+Message-ID: <01869101beb86ddca08e1003e48dfd653ca45d58.camel@redhat.com>
+Subject: Re: [PATCH v2 02/11] qcrypto-luks: extend the create options for
+ upcoming encryption key management
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Date: Fri, 08 Nov 2019 12:04:07 +0200
+In-Reply-To: <20191010134423.GC7616@localhost.localdomain>
+References: <20190912223028.18496-1-mlevitsk@redhat.com>
+ <20190912223028.18496-3-mlevitsk@redhat.com>
+ <20191010134423.GC7616@localhost.localdomain>
+Mime-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: WZBjsmcVOXSWxiyYU6YyWQ-1
+X-MC-Unique: 2-cJLhBONViDOYw8Q7qMrw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,37 +73,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install the sphinx CSS/Javascript support files needed by the HTML
-documentation.  The documentation looks ugly without this.
+On Thu, 2019-10-10 at 15:44 +0200, Kevin Wolf wrote:
+> Am 13.09.2019 um 00:30 hat Maxim Levitsky geschrieben:
+> > Now you can specify which slot to put the encryption key to
+> > Plus add 'active' option which will let  user erase the key secret
+> > instead of adding it.
+> > Check that active=3Dtrue it when creating.
+> >=20
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > diff --git a/qapi/crypto.json b/qapi/crypto.json
+> > index b2a4cff683..9b83a70634 100644
+> > --- a/qapi/crypto.json
+> > +++ b/qapi/crypto.json
+> > @@ -190,6 +190,20 @@
+> >  #                  Currently defaults to 'sha256'
+> >  # @hash-alg: the master key hash algorithm
+> >  #            Currently defaults to 'sha256'
+> > +#
+> > +# @active: Should the new secret be added (true) or erased (false)
+> > +#          (amend only, since 4.2)
+> > +#
+> > +# @slot: The slot in which to put/erase the secret
+> > +#        if not given, will select first free slot for secret addtion
+> > +#        and erase all matching keyslots for erase. except last one
+> > +#        (optional, since 4.2)
+> > +#
+> > +# @unlock-secret: The secret to use to unlock the image
+> > +#        If not given, will use the secret that was used
+> > +#        when opening the image.
+> > +#        (optional, for amend only, since 4.2)
+> > +#
+> >  # @iter-time: number of milliseconds to spend in
+> >  #             PBKDF passphrase processing. Currently defaults
+> >  #             to 2000. (since 2.8)
+>=20
+> This approach doesn't look right to me. BlockdevCreateOptions should
+> describe the state of the image after the operation. You're describing
+> an update instead (and in a way that doesn't allow you to change
+> everything that you may want to change, so that you need to call the
+> operation multiple times).
+>=20
+> I imagined the syntax of a blockdev-amend QMP command similar to
+> x-blockdev-reopen: Describe the full set of options that you want to
+> have in effect after the operation; if you don't want to change some
+> option, you just specify it again with its old value.
 
-The previous patch switched to only invoking sphinx once so there is
-only one _static/ directory that needs to be installed across all manual
-sections.
+This approach is a compromise trying to create more or less usable interfac=
+e.
+In particular we (I and Daniel) wanted the following to work:
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+1. ability to add a new password to an empty keyslot and then remove the
+old password. This is probably the most common operation and it won't
+require the caller to know anything about the keyslots.
 
-diff --git a/Makefile b/Makefile
-index 9487a06bed..dd60787d4c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -813,6 +813,7 @@ endef
- # for QEMU developers, and not interesting to our users.
- .PHONY: install-sphinxdocs
- install-sphinxdocs: sphinxdocs
-+=09$(call install-manual,_static)
- =09$(call install-manual,interop)
- =09$(call install-manual,specs)
- =09$(INSTALL_DATA) "$(MANUAL_BUILDDIR)/index.html" "$(DESTDIR)$(qemu_docdi=
-r)/index.html"
---=20
-2.23.0
+2. Allow the user to not know the passwords of some keyslots.
+For example if I want to add a new keyslot, I might  not know
+some of the other keyslots. Specifying all the active keyslots,
+on each amend would force the user to know all the passwords
+(you can't 'extract' a password by reading a keyslot, since only
+hash of it is stored there for the security reasons)
+
+
+Thus the amend interface either allows you to add a keyslot (either a speci=
+fic one,
+or first free one), and to remove a keyslot (again, either a specific one, =
+or
+one that matches given password).
+
+
+
+
+>=20
+> Specifically for luks, this probably means that you have a @slots, which
+> is a list that contains at least the secret for each slot, or JSON null
+> for a slot that should be left empty.
+>=20
+> With the same approach, you don't have to make 'size' optional in later
+> patches, you can just require that the current size is re-specified. And
+> later, blockdev-amend could actually allow changing the size of images
+> if you provide a different value.
+
+This can be done IMHO.
+
+>=20
+> Kevin
+
+
+Best regards,=09
+=09Maxim Levitsky
 
 
