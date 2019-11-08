@@ -2,65 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F50F4FC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:33:53 +0100 (CET)
-Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3483F4FD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:35:34 +0100 (CET)
+Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT6Gl-0003vA-Tv
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
+	id 1iT6IP-0005qR-KQ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:35:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iT62U-0004pN-96
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:19:07 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iT62W-0004ro-GB
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:19:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iT62T-0004Rb-3V
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:19:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26272
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iT62S-0004RR-WA
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:19:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573226344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7yQvCXqaXQpqGDQDvSsJrNYp9zR10FgvYfz0KngMpf4=;
- b=eFsaWSxcUrtoj0JMG0M61O0oINdYIWL18irji+aLkEaFGqKNPHgyxswMe+D5KwSIF2jhBS
- k7KE7RxEPoYZscxOV2uF4PlrnsNS1Zlm7DtLsGIW8k1bMiyOyZE0L8HlGyn4vGcB6ow5gQ
- 0YZ0fnwqppqaIFCQkeu3EBggB4B7reg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-0e5w556uPWiqnc5tUFjKuA-1; Fri, 08 Nov 2019 10:19:02 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C007107ACC4;
- Fri,  8 Nov 2019 15:19:02 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8393E5DA7F;
- Fri,  8 Nov 2019 15:18:57 +0000 (UTC)
-Message-ID: <0930193e0c9c82bc606037e464aed6a10559ff5d.camel@redhat.com>
-Subject: Re: [PATCH v2 09/11] block/qcow2: implement blockdev-amend
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Date: Fri, 08 Nov 2019 17:18:56 +0200
-In-Reply-To: <c26f4f4a-2f2e-84d9-a516-36c7150b6332@redhat.com>
-References: <20190912223028.18496-1-mlevitsk@redhat.com>
- <20190912223028.18496-10-mlevitsk@redhat.com>
- <c26f4f4a-2f2e-84d9-a516-36c7150b6332@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 0e5w556uPWiqnc5tUFjKuA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iT62V-0004SP-1r
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:19:07 -0500
+Received: from mail-am5eur02on070f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe07::70f]:12990
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iT62U-0004RM-E3; Fri, 08 Nov 2019 10:19:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f5e//UB3mZsznpwK6kM5A1MAtJCLO/Tv3CLUq0QRBWRp/vWBQNQKr8+RvO/O0g3rV6nd4IKXfCv108csw06O53/yB5YfeLPxjnu5YvnYmwNcbK0W9ul8C46R3/icMyqFG9wrfz124xd0MdNoFtNz+by67iuGQKviJk6Y1gRggG++l0fInC28hrMLFpucE2tFaGuPhFLW4DN5llixH0vKjf7NgnDB3KiQaYm1nAymmLCKPDoWBZsECpyyaLI2bFipx7supRe90J7gUBTHdXPDCWoOf5aY/AycEzaMQ7ziU6Tj69Q1YdoNDm8bvMVHr6zjmFQn89YdMxgBVZXug2GSMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JMZCXZFf8efRwxO6D8q3hkvo32Adv9wECSvihmaZP7Y=;
+ b=kQnhQMicNfqPPS8JnBhvS/+fULUk8wgZJbq9U47CQyG4EVPo2AQexEh0cOGETfuU+GHMeCNZD1StAZwJ8qoJuktWcuHf75NtfHUHSpB94w8lHqz92OmqMFjSr0lmUh3n238iccXmHseLyXrMzEdW9lvd9PLGaZE56GUi8y5pUDr5IWB+Vqx+QFcTYnwo0hkVKYFVdcm5xsvUbdFA9hvZFhMm/4CYeK5OJ21EvDi9sDoBo2c+9nuDUvCvbAk9dIaphkk33CQbgDYJBcUJm+MhCPr2gbgSw9i5uCCMaRdHugLXcr94m0HmygyjnBhc01Z2MkWXuedZrvq1QHq1/ZxjsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JMZCXZFf8efRwxO6D8q3hkvo32Adv9wECSvihmaZP7Y=;
+ b=SVXu3mb1qFh103d/VeXj1uI/QDwGwJncNCpiVWXvFPU/eLjKNW3Kiw8xFczG2kf81iulpdkDOcVWiVoeFC+XiGTQyiUytenzb36CeWFxVNwg2Ida0IA/oezKMmuuA4mO5TLRwVDFawljSlY2frJjTi0BICzQAm1hLcHqQvcLV0s=
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com (20.178.202.217) by
+ AM0PR08MB4387.eurprd08.prod.outlook.com (20.179.34.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.20; Fri, 8 Nov 2019 15:19:03 +0000
+Received: from AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::41f0:981:fd75:9946]) by AM0PR08MB4097.eurprd08.prod.outlook.com
+ ([fe80::41f0:981:fd75:9946%3]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
+ 15:19:03 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v4 3/5] blkdebug: Allow taking/unsharing
+ permissions
+Thread-Topic: [PATCH for-5.0 v4 3/5] blkdebug: Allow taking/unsharing
+ permissions
+Thread-Index: AQHVljD7SkOSvIdoi0mJPCUs+csIR6eBY1CA
+Date: Fri, 8 Nov 2019 15:19:03 +0000
+Message-ID: <d1d2d944-4829-45e4-2515-251122833022@virtuozzo.com>
+References: <20191108123455.39445-1-mreitz@redhat.com>
+ <20191108123455.39445-4-mreitz@redhat.com>
+In-Reply-To: <20191108123455.39445-4-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0010.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::20) To AM0PR08MB4097.eurprd08.prod.outlook.com
+ (2603:10a6:208:132::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191108181900996
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4a6f55f9-d5f7-4619-6b31-08d7645efcf0
+x-ms-traffictypediagnostic: AM0PR08MB4387:
+x-microsoft-antispam-prvs: <AM0PR08MB43872204138FAE49E981E546C17B0@AM0PR08MB4387.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0215D7173F
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(39840400004)(346002)(366004)(376002)(136003)(189003)(199004)(305945005)(256004)(99286004)(229853002)(5660300002)(54906003)(3846002)(6436002)(6486002)(86362001)(26005)(71200400001)(316002)(6116002)(71190400001)(110136005)(14454004)(2501003)(66066001)(2616005)(66446008)(6246003)(66476007)(66946007)(25786009)(36756003)(102836004)(66556008)(81166006)(4744005)(6512007)(81156014)(486006)(8936002)(31686004)(446003)(64756008)(11346002)(478600001)(4326008)(186003)(7736002)(31696002)(8676002)(52116002)(386003)(6506007)(476003)(76176011)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4387;
+ H:AM0PR08MB4097.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: naQG83cma38uru5aYo5Norps5lkoZdNI6Bq/7QqiXAIE3IwfACQVNk75wRYmRkyNI4OuTYVdc8lOiq3M9pBx5udK7RjcoyH5ApBh3SalZJldEmFLPxGMk5kLHbNzUdLZGPzIZFEXErEN4sK45nSQ+ribKu+xPb6UA7VO0DiHK1aoUXOFnPzJus23GCv0Rw51M+aLa45507e4K5IrCzqeghxnXRyhZv/HDFYbXV3vUe1OISHq9ZzsVrAIkTVSfsAE3cHJtY/iq3Xddc28ysZqTnZJe2WC8C3dKLQECqjb08FohgINlxY0datdny7qQNvDgHiVl1fV+H5TRPrL77Tq5nHdGfC8R8zY/Efu1PtJqO6bdO5ex85/KLc28WrDdEP1vSFytR8wSqg+r5icqXWuQbwbqwGwrRTxfIrxgTq0k8v45AA84lPl57b0fx8pR03w
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <71CE55F02DE5F449BF85F4530317823F@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a6f55f9-d5f7-4619-6b31-08d7645efcf0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 15:19:03.0871 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FRkTAS3w1p4chrNh1ZutbfvfRd0ll0FdAmb6mUsDgjWH5ncBZxSoGU4OFxVwxhgoA6JcG9ATLBq/Yj/+Efu+zlA9HKoDzY1ZUgENJkmhM2U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4387
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe07::70f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,78 +112,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel
- P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-10-04 at 21:03 +0200, Max Reitz wrote:
-> On 13.09.19 00:30, Maxim Levitsky wrote:
-> > Currently only for changing crypto parameters
+08.11.2019 15:34, Max Reitz wrote:
+> Sometimes it is useful to be able to add a node to the block graph that
+> takes or unshare a certain set of permissions for debugging purposes.
+> This patch adds this capability to blkdebug.
 >=20
-> Yep, that elegantly avoids most of the problems we=E2=80=99d have otherwi=
-se. :-)
+> (Note that you cannot make blkdebug release or share permissions that it
+> needs to take or cannot share, because this might result in assertion
+> failures in the block layer.  But if the blkdebug node has no parents,
+> it will not take any permissions and share everything by default, so you
+> can then freely choose what permissions to take and share.)
 >=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  block/qcow2.c        | 71 ++++++++++++++++++++++++++++++++++++++++++++
-> >  qapi/block-core.json |  6 ++--
-> >  2 files changed, 75 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/block/qcow2.c b/block/qcow2.c
-> > index 26f83aeb44..c8847ec6e2 100644
-> > --- a/block/qcow2.c
-> > +++ b/block/qcow2.c
-> > @@ -3079,6 +3079,18 @@ qcow2_co_create(BlockdevCreateOptions *create_op=
-tions, Error **errp)
-> >      assert(create_options->driver =3D=3D BLOCKDEV_DRIVER_QCOW2);
-> >      qcow2_opts =3D &create_options->u.qcow2;
-> > =20
-> > +    if (!qcow2_opts->has_size) {
-> > +        error_setg(errp, "Size is manadatory for image creation");
-> > +        return -EINVAL;
-> > +
-> > +    }
-> > +
-> > +    if (!qcow2_opts->has_file) {
-> > +        error_setg(errp, "'file' is manadatory for image creation");
-> > +        return -EINVAL;
-> > +
-> > +    }
-> > +
-> >      bs =3D bdrv_open_blockdev_ref(qcow2_opts->file, errp);
-> >      if (bs =3D=3D NULL) {
-> >          return -EIO;
-> > @@ -5111,6 +5123,64 @@ static int qcow2_amend_options(BlockDriverState =
-*bs, QemuOpts *opts,
-> >      return 0;
-> >  }
-> > =20
-> > +
-> > +static int coroutine_fn qcow2_co_amend(BlockDriverState *bs,
-> > +                                       BlockdevCreateOptions *opts,
-> > +                                       bool force,
-> > +                                       Error **errp)
-> > +{
-> > +    BlockdevCreateOptionsQcow2 *qopts =3D &opts->u.qcow2;
-> > +    BDRVQcow2State *s =3D bs->opaque;
-> > +    int ret;
-> > +
-> > +    /*
-> > +     * This is ugly as hell, in later versions of this patch
-> > +     * something has to be done about this
->=20
-> Well, at least the language of the comment needs adjustment. :-)
-Thats for sure :-)
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-BTW, if I opt for having a separate amend parameter struct,
-this will fix this problem as well, as all unsupported
-fields will just not be there.
 
-[..]
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+--=20
 Best regards,
-=09Maxim Levitsky
-
+Vladimir
 
