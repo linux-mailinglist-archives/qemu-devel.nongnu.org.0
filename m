@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB2AF4EB2
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:48:19 +0100 (CET)
-Received: from localhost ([::1]:55582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C95F4EA0
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 15:46:12 +0100 (CET)
+Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5Yg-0004xi-7G
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:48:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41841)
+	id 1iT5Wc-0003tD-RX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 09:46:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41924)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iT5Ts-0001OM-OB
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:43:22 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iT5UY-0002Ok-Qn
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iT5Tr-0001wr-Ep
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:43:20 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:59606)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iT5Tq-0001rS-Sb
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:43:19 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 5985F96EF0;
- Fri,  8 Nov 2019 14:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1573224196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HAT2F7kxP2DEpceg2hNmWYGoMEhA07nUZZQxaG5Tzg0=;
- b=2TyO2kUOSZLnKygUV7PwPqGT6x+kB28vMq1/H8bjnVxvPNqKHG3rdgUS9EhFLn7pSiY4zy
- YWh/RWtMQyf1NXVC3uNSC0zftQqsDPpEgiY6obB+cUOasdDjaiqtea+RV9EusepOTzv8CM
- v5QYmyJ5Duw9j6gcWnuygH+d1surOww=
-Subject: Re: [PATCH] gdbstub: Fix buffer overflow in handle_read_all_regs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191108125534.114474-1-damien.hedde@greensocs.com>
- <877e4ah32n.fsf@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <7aa732a4-b67f-855f-0432-290580fc239d@greensocs.com>
-Date: Fri, 8 Nov 2019 15:43:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iT5UW-0002C2-SF
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:02 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35320)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iT5UW-0002Bo-MB
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 09:44:00 -0500
+Received: by mail-oi1-x244.google.com with SMTP id n16so5446548oig.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Nov 2019 06:44:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1yolX350RikgspNGqXnpbhsMD0ygO5qfrBMQwb1uQOE=;
+ b=LkjUck8G6OTsye2KDLb/3YWOGM3eRJkjFeWCM9z2pjE3DQ8/NdrsM8PGq7U9dy2OCi
+ O/YgCFf0SeDFOcfEZNmRwjKvtJw2RhH6QOYaL0W1efS7zTQed88y4YLLbvDs3WreGMYQ
+ ZaxzetERmj5WoinrStEqgJMiR0zHOAQmrETL4DILgKKpCGVquzWqSd6SvTEaxNE7RfAX
+ tzjzCQHM/kYy8k8pL3XBfaBIY0XTNl+5K00rkWqQW2r++l25ivevpuk1vFRPta4W5LuY
+ 3v9N+1XYBuNJAR2hSF6l2aRqkH0yfWe63qJ0Ktb4ncSfhWRM2TguYjD7gJgDMCZ2RQpD
+ 98IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1yolX350RikgspNGqXnpbhsMD0ygO5qfrBMQwb1uQOE=;
+ b=PXtg1GqMXZ/pNV5xtm8ka30yv7hbCwAT5pjE/OyqFkLrwmINbsGob1qdIyX++VSDFa
+ RHkqZkD3EEGpLhZs9PTKdx18zo1C1Bzwox7wpzNa+QISzh5iSEKAihbAem2Hqpf2W7T4
+ dbSsPes+vDnfoOkOR6l64rF2zBB6i9hlY/ypvClKMrRQatjGrxk6dhINaC3n55hLXp2G
+ 9yGgs27AHsyaj7BHR9LN7fiP4qCH4rzYBor+1uAQI88CUvpfvIZQ9P5mLn5lBRr8d/Ag
+ 08Z13mkU/5gDg6IjEBSQc0RibdUGM2m5kNSFffr87gkF5T0d6udTsqO/IDYigmBDkrzd
+ hJDg==
+X-Gm-Message-State: APjAAAU74ZL+EgHueQk2nqD6BClhNBAzF6yxaJASY1w9jvzggEAZ3W8q
+ A7EbmO74KTe6b8g56/g8NY13SN68XxJ6zlHDvaIoDg==
+X-Google-Smtp-Source: APXvYqwUZgFlH1xjAqaqhUR3zUXHR5SpfUfvGghnpa8T32ZKF1LjGGgbALDJY5/Dasjb6L5O7OZBxk4RJww4eOTC89g=
+X-Received: by 2002:a05:6808:7d1:: with SMTP id
+ f17mr10273400oij.163.1573224239534; 
+ Fri, 08 Nov 2019 06:43:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <877e4ah32n.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1573224196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HAT2F7kxP2DEpceg2hNmWYGoMEhA07nUZZQxaG5Tzg0=;
- b=f2jR0xOy41ZIlbmfbHbKFatNbspMUbLzHFpUgulYM3Y+e1cDj9aegBsdtu5hptbfZA21ve
- GD2i01KJK6SLKxFTIQxSNYXN4J8bkU0bZe9snlz5+fOwxA3ArYhGPVr/Crgjxssl1x9n3T
- noyGVb0BJMQ/5GxDuKBRsyOtEgA+hyQ=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1573224196; a=rsa-sha256; cv=none;
- b=rvSjATemCd3+ioJf41n9wbZh9uxjLaNLEsw2v0UOvLANUJjPhqPECghFKHIsHxiT1eijeF
- h9YFjpC4ICCkxvUQ16b+2Oi0s8ZknfJ8gMnY2DCP7DOjum//TGIOabkNMqcGhttJRi8PxR
- 9uar2bNw+bpQHiWg/yAZVLdUbzz7YJc=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+References: <20191104131836.12566-1-alex.bennee@linaro.org>
+In-Reply-To: <20191104131836.12566-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Nov 2019 14:43:48 +0000
+Message-ID: <CAFEAcA-42Fg-ihBm3JVET41SJ1Mot7m-i1ZGt+Y1afOY1wZ0Ow@mail.gmail.com>
+Subject: Re: [PATCH] tcg plugins: expose an API version concept
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,98 +74,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org
+Cc: "Emilio G. Cota" <cota@braap.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 4 Nov 2019 at 13:18, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> This is a very simple versioning API which allows the plugin
+> infrastructure to check the API a plugin was built against. We also
+> expose a min/cur API version to the plugin via the info block in case
+> it wants to avoid using old deprecated APIs in the future.
+
+I think the general idea here is fine, and I want to see
+us get the version-check into 4.2, because I don't think
+we should release a QEMU which doesn't do a basic version
+sanity check. I have some minor comments below.
 
 
-On 11/8/19 3:09 PM, Alex Benn=C3=A9e wrote:
->=20
-> Damien Hedde <damien.hedde@greensocs.com> writes:
->=20
->> Ensure we don't put too much register data in buffers. This avoids
->> a buffer overflow (and stack corruption) when a target has lots
->> of registers.
->>
->> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->> ---
->>
->> Hi all,
->>
->> While working on a target with many registers. I found out the gdbstub
->> may do buffer overflows when receiving a 'g' query (to read general
->> registers). This patch prevents that.
->>
->> Gdb is pretty happy with a partial set of registers and queries
->> remaining registers one by one when needed.
->=20
-> Heh I was just looking at this code with regards to SVE (which can get
-> quite big).
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  include/qemu/qemu-plugin.h | 19 +++++++++++++++++++
+>  plugins/loader.c           | 15 +++++++++++++++
+>  plugins/plugin.h           |  2 ++
+>  tests/plugin/bb.c          |  2 ++
+>  tests/plugin/empty.c       |  2 ++
+>  tests/plugin/hotpages.c    |  2 ++
+>  tests/plugin/howvec.c      |  2 ++
+>  tests/plugin/insn.c        |  2 ++
+>  tests/plugin/mem.c         |  2 ++
+>  9 files changed, 48 insertions(+)
+>
+> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+> index a00a7deb461..5502e112c81 100644
+> --- a/include/qemu/qemu-plugin.h
+> +++ b/include/qemu/qemu-plugin.h
 
-SVE ?
+As an aside, is this the header file used for building
+the plugins? It seems a bit odd to have put it
+in include/qemu, which is for headers used when building
+QEMU itself.
 
->=20
->>
->> Regards,
->> Damien
->> ---
->>  gdbstub.c | 13 +++++++++++--
->>  1 file changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/gdbstub.c b/gdbstub.c
->> index 4cf8af365e..dde0cfe0fe 100644
->> --- a/gdbstub.c
->> +++ b/gdbstub.c
->> @@ -1810,8 +1810,17 @@ static void handle_read_all_regs(GdbCmdContext =
-*gdb_ctx, void *user_ctx)
->>      cpu_synchronize_state(gdb_ctx->s->g_cpu);
->>      len =3D 0;
->>      for (addr =3D 0; addr < gdb_ctx->s->g_cpu->gdb_num_g_regs; addr++=
-) {
->> -        len +=3D gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_bu=
-f + len,
->> -                                 addr);
->> +        int size =3D gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->me=
-m_buf + len,
->> +                                     addr);
->> +        if (len + size > MAX_PACKET_LENGTH / 2) {
->> +            /*
->> +             * Prevent gdb_ctx->str_buf overflow in memtohex() below.
->> +             * As a consequence, send only the first registers conten=
-t.
->> +             * Gdb will query remaining ones if/when needed.
->> +             */
->=20
-> Haven't we already potentially overflowed gdb_ctx->mem_buf though? I
-> suspect the better fix is for str_buf is to make it growable with
-> g_string and be able to handle arbitrary size conversions (unless the
-> spec limits us). But we still don't want a hostile gdbstub to be able t=
-o
-> spam memory by asking for registers that might be bigger than
-> MAX_PACKET_LENGTH bytes.
+> @@ -38,9 +38,28 @@
+>
+>  typedef uint64_t qemu_plugin_id_t;
+>
+> +/*
+> + * Versioning plugins:
+> + *
+> + * The plugin API will pass a minimum and current API version that
+> + * QEMU currently supports. The minimum API will be incremented if an
+> + * API needs to be deprecated.
+> + *
+> + * The plugins export the API they were built against by exposing the
+> + * symbol qemu_plugin_version which can be checked.
+> + */
+> +
+> +extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
+> +
+> +#define QEMU_PLUGIN_VERSION 0
+> +
+>  typedef struct {
+>      /* string describing architecture */
+>      const char *target_name;
+> +    struct {
+> +        int min;
+> +        int cur;
+> +    } version;
+>      /* is this a full system emulation? */
+>      bool system_emulation;
+>      union {
+> diff --git a/plugins/loader.c b/plugins/loader.c
+> index ce724ed5839..1bcca909691 100644
+> --- a/plugins/loader.c
+> +++ b/plugins/loader.c
+> @@ -178,6 +178,19 @@ static int plugin_load(struct qemu_plugin_desc *desc=
+, const qemu_info_t *info)
+>          goto err_symbol;
+>      }
+>
+> +    if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
+> +        warn_report("%s: missing version %s", __func__, g_module_error()=
+);
 
-For gdb_ctx->mem_buf  it's ok because it has also a size of
-MAX_PACKET_LENGTH. (assuming no single register can be bigger than
-MAX_PACKET_LENGTH)
-str_buf has a size of MAX_PACKET_LENGTH + 1
+Failure to declare the required version should be an error,
+not just a warning.
 
-I'm not sure I've understood the second part but if we increase the size
-of str_buf then we will need also a bigger packet buffer.
+> +    } else {
+> +        int version =3D *(int *)sym;
+> +        if (version < QEMU_PLUGIN_MIN_VERSION ||
+> +            version > QEMU_PLUGIN_VERSION) {
+> +            error_report("%s: bad plugin version %d vs %d/%d",
+> +                         __func__, version, QEMU_PLUGIN_MIN_VERSION,
+> +                         QEMU_PLUGIN_VERSION);
 
-The size here only depends on what are the target declared registers, so
-it depends only on the cpu target code.
+I think this message is too cryptic, and would prefer
+something more like:
+ "TCG plugin %s requires API version %d, but this QEMU supports only
+versions %d to %d"
 
->=20
->> +            break;
->> +        }
->> +        len +=3D size;
->>      }
->>
->>      memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, len);
->=20
->=20
-> --
-> Alex Benn=C3=A9e
->=20
+where the first %s is the name of the plugin binary, not
+the __func__ of this function (which is not useful to
+the end user).
+
+Better still, special case the MIN_VERSION =3D=3D VERSION
+case to avoid saying "versions 1 to 1".
+
+> +            goto err_symbol;
+> +        }
+> +    }
+> +
+>      qemu_rec_mutex_lock(&plugin.lock);
+>
+>      /* find an unused random id with &ctx as the seed */
+> @@ -248,6 +261,8 @@ int qemu_plugin_load_list(QemuPluginList *head)
+>      g_autofree qemu_info_t *info =3D g_new0(qemu_info_t, 1);
+>
+>      info->target_name =3D TARGET_NAME;
+> +    info->version.min =3D QEMU_PLUGIN_MIN_VERSION;
+> +    info->version.cur =3D QEMU_PLUGIN_VERSION;
+>  #ifndef CONFIG_USER_ONLY
+>      MachineState *ms =3D MACHINE(qdev_get_machine());
+>      info->system_emulation =3D true;
+
+thanks
+-- PMM
 
