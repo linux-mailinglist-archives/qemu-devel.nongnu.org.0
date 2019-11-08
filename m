@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0567F4EFD
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:11:30 +0100 (CET)
-Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C75CF4F59
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Nov 2019 16:21:21 +0100 (CET)
+Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iT5v7-0004Ir-Fl
-	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:11:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46441)
+	id 1iT64e-0006eb-4b
+	for lists+qemu-devel@lfdr.de; Fri, 08 Nov 2019 10:21:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5nq-0004Rl-H3
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:03:59 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5o1-0004ht-0i
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iT5no-0004ZT-LZ
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:03:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45748
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iT5nz-0004mk-HR
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53306
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iT5no-0004ZL-Hs
- for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:03:56 -0500
+ id 1iT5nz-0004mX-0i
+ for qemu-devel@nongnu.org; Fri, 08 Nov 2019 10:04:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573225436;
+ s=mimecast20190719; t=1573225446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tokP4vjSso+mNJQryUKg0EPaJ0vjrJNzrRiRGvfAkFI=;
- b=RwDVLt9dHEDvbUQKDDRXvEEAhX2g0rsUSxv9FDIvt9QAoavnegr3LgEykWpoNhzn6zp2S0
- wOqnXrsWlxDzGAUt47BUpuSK7kXlQf1KI3lO0VHeEoBaVSZ28JbWVZaqG9qstIcNOX0DLD
- 2d3EjTmszHUF1mRu8H9ZUScqLzXHP1I=
+ bh=zikJ2amcMtcp+zTObXzjfOccch34WImCsoPOE/0vrII=;
+ b=Pn/HBfOxpkDJN5nnjiB3V76OvknkMGuG8QZ7T5dNptHebRKHJ3jWaSYipGWKmOx+c+xRAK
+ ihowhEGxegSxZkQdd0UJh0GyfZ3G1eA3zgyQnggbO1zbQxcEh1kRPA4Rf9JwpX5j4boUnq
+ TX3xAe/N1RN1/Qx0+htVWEWWhsODiOA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-qe37uHoCO7yql5MqneRGJg-1; Fri, 08 Nov 2019 10:03:54 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-20-xP5bygtFOMqhbk1Pe0FfNA-1; Fri, 08 Nov 2019 10:04:04 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C71E7180496F
- for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:03:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 186ED8017DD
+ for <qemu-devel@nongnu.org>; Fri,  8 Nov 2019 15:04:04 +0000 (UTC)
 Received: from localhost (ovpn-112-25.ams2.redhat.com [10.36.112.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E519060BE2;
- Fri,  8 Nov 2019 15:03:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95BF85D6B7;
+ Fri,  8 Nov 2019 15:03:59 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 10/25] QmpSession: keep a queue of pending commands
-Date: Fri,  8 Nov 2019 19:01:08 +0400
-Message-Id: <20191108150123.12213-11-marcandre.lureau@redhat.com>
+Subject: [PATCH v6 11/25] QmpSession: return orderly
+Date: Fri,  8 Nov 2019 19:01:09 +0400
+Message-Id: <20191108150123.12213-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: qe37uHoCO7yql5MqneRGJg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: xP5bygtFOMqhbk1Pe0FfNA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,127 +76,191 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following commit will introduce asynchronous commands. Let's keep
-the session aware of the pending commands, so we can do interesting
-things like order the replies, or cancel pending operations when the
-client is gone.
+QEMU will gain support for asynchronous commands, and may thus finish
+commands in various order. However, the clients expect replies in
+order. Let's enforce ordering of replies in QmpReturn: starting from
+the older command, process each pending QmpReturn, and return until
+reaching one that is unfinished.
 
-The queue needs a lock, since QmpReturn may be called from any thread.
+Or if the command is OOB, it should return immediately.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/qapi/qmp/dispatch.h |  4 ++++
- qapi/qmp-dispatch.c         | 32 ++++++++++++++++++++++++++++++--
- 2 files changed, 34 insertions(+), 2 deletions(-)
+ include/qapi/qmp/dispatch.h |  2 ++
+ qapi/qmp-dispatch.c         | 61 ++++++++++++++++++++++++++++++-------
+ tests/test-qmp-cmds.c       | 33 ++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 11 deletions(-)
 
 diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 6c0d21968e..7c9de9780d 100644
+index 7c9de9780d..92d6fd1afb 100644
 --- a/include/qapi/qmp/dispatch.h
 +++ b/include/qapi/qmp/dispatch.h
-@@ -16,6 +16,7 @@
-=20
- #include "qemu/queue.h"
- #include "qapi/qmp/json-parser.h"
-+#include "qemu/thread.h"
-=20
- typedef struct QmpReturn QmpReturn;
-=20
-@@ -47,11 +48,14 @@ struct QmpSession {
-     const QmpCommandList *cmds;
-     JSONMessageParser parser;
-     QmpDispatchReturn *return_cb;
-+    QemuMutex pending_lock;
-+    QTAILQ_HEAD(, QmpReturn) pending;
- };
-=20
+@@ -55,6 +55,8 @@ struct QmpSession {
  struct QmpReturn {
      QmpSession *session;
      QDict *rsp;
-+    QTAILQ_ENTRY(QmpReturn) entry;
++    bool oob;
++    bool finished;
+     QTAILQ_ENTRY(QmpReturn) entry;
  };
 =20
- /**
 diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index fcf6cb0bf8..aed5c91057 100644
+index aed5c91057..3eb7e4b610 100644
 --- a/qapi/qmp-dispatch.c
 +++ b/qapi/qmp-dispatch.c
-@@ -32,11 +32,24 @@ QmpReturn *qmp_return_new(QmpSession *session, const QO=
-bject *request)
-         qdict_put_obj(qret->rsp, "id", id);
-     }
+@@ -25,6 +25,7 @@ QmpReturn *qmp_return_new(QmpSession *session, const QObj=
+ect *request)
+     const QDict *req =3D qobject_to(QDict, request);
+     QObject *id =3D req ? qdict_get(req, "id") : NULL;
 =20
-+    qemu_mutex_lock(&session->pending_lock);
-+    QTAILQ_INSERT_TAIL(&session->pending, qret, entry);
-+    qemu_mutex_unlock(&session->pending_lock);
-+
++    qret->oob =3D req ? qmp_is_oob(req) : false;
+     qret->session =3D session;
+     qret->rsp =3D qdict_new();
+     if (id) {
+@@ -39,6 +40,15 @@ QmpReturn *qmp_return_new(QmpSession *session, const QOb=
+ject *request)
      return qret;
  }
 =20
++static void qmp_return_free_with_lock(QmpReturn *qret)
++{
++    if (qret->session) {
++        QTAILQ_REMOVE(&qret->session->pending, qret, entry);
++    }
++    qobject_unref(qret->rsp);
++    g_free(qret);
++}
++
  void qmp_return_free(QmpReturn *qret)
  {
-+    QmpSession *session =3D qret->session;
+     QmpSession *session =3D qret->session;
+@@ -46,21 +56,53 @@ void qmp_return_free(QmpReturn *qret)
+     if (session) {
+         qemu_mutex_lock(&session->pending_lock);
+     }
+-    QTAILQ_REMOVE(&session->pending, qret, entry);
 +
-+    if (session) {
-+        qemu_mutex_lock(&session->pending_lock);
++    qmp_return_free_with_lock(qret);
++
+     if (session) {
+         qemu_mutex_unlock(&session->pending_lock);
+     }
+-    qobject_unref(qret->rsp);
+-    g_free(qret);
++}
++
++static void qmp_return_orderly(QmpReturn *qret)
++{
++    QmpSession *session =3D qret->session;
++    QmpReturn *ret, *next;
++
++    if (!session) {
++        /* the session was destroyed before return, discard */
++        qmp_return_free(qret);
++        return;
 +    }
-+    QTAILQ_REMOVE(&session->pending, qret, entry);
-+    if (session) {
-+        qemu_mutex_unlock(&session->pending_lock);
++    if (qret->oob) {
++        session->return_cb(session, qret->rsp);
++        qmp_return_free(qret);
++        return;
 +    }
-     qobject_unref(qret->rsp);
-     g_free(qret);
++
++    qret->finished =3D true;
++
++    qemu_mutex_lock(&session->pending_lock);
++    /*
++     * Process the list of pending and call return_cb until reaching
++     * an unfinished.
++     */
++    QTAILQ_FOREACH_SAFE(ret, &session->pending, entry, next) {
++        if (!ret->finished) {
++            break;
++        }
++        session->return_cb(session, ret->rsp);
++        ret->session =3D session;
++        qmp_return_free_with_lock(ret);
++    }
++
++    qemu_mutex_unlock(&session->pending_lock);
  }
-@@ -44,7 +57,9 @@ void qmp_return_free(QmpReturn *qret)
+=20
  void qmp_return(QmpReturn *qret, QObject *rsp)
  {
      qdict_put_obj(qret->rsp, "return", rsp ?: QOBJECT(qdict_new()));
--    qret->session->return_cb(qret->session, qret->rsp);
-+    if (qret->session) {
-+        qret->session->return_cb(qret->session, qret->rsp);
-+    }
-     qmp_return_free(qret);
+-    if (qret->session) {
+-        qret->session->return_cb(qret->session, qret->rsp);
+-    }
+-    qmp_return_free(qret);
++    qmp_return_orderly(qret);
  }
 =20
-@@ -55,7 +70,9 @@ void qmp_return_error(QmpReturn *qret, Error *err)
+ void qmp_return_error(QmpReturn *qret, Error *err)
+@@ -70,10 +112,7 @@ void qmp_return_error(QmpReturn *qret, Error *err)
      qdict_put_str(qdict, "desc", error_get_pretty(err));
      qdict_put_obj(qret->rsp, "error", QOBJECT(qdict));
      error_free(err);
--    qret->session->return_cb(qret->session, qret->rsp);
-+    if (qret->session) {
-+        qret->session->return_cb(qret->session, qret->rsp);
-+    }
-     qmp_return_free(qret);
+-    if (qret->session) {
+-        qret->session->return_cb(qret->session, qret->rsp);
+-    }
+-    qmp_return_free(qret);
++    qmp_return_orderly(qret);
  }
 =20
-@@ -220,17 +237,28 @@ void qmp_session_init(QmpSession *session,
-                              session, NULL);
-     session->cmds =3D cmds;
-     session->return_cb =3D return_cb;
-+    qemu_mutex_init(&session->pending_lock);
-+    QTAILQ_INIT(&session->pending);
+ static QDict *qmp_dispatch_check_obj(const QObject *request, bool allow_oo=
+b,
+diff --git a/tests/test-qmp-cmds.c b/tests/test-qmp-cmds.c
+index d9623d10b6..213df7e53a 100644
+--- a/tests/test-qmp-cmds.c
++++ b/tests/test-qmp-cmds.c
+@@ -361,6 +361,38 @@ static void test_dealloc_partial(void)
+     qapi_free_UserDefTwo(ud2);
  }
 =20
- void qmp_session_destroy(QmpSession *session)
- {
-+    QmpReturn *ret, *next;
++typedef struct QmpReturnOrderly {
++    QmpSession session;
++    int returns;
++} QmpReturnOrderly;
 +
-     if (!session->return_cb) {
-         return;
-     }
++static void dispatch_return_orderly(QmpSession *session, QDict *resp)
++{
++    QmpReturnOrderly *o =3D container_of(session, QmpReturnOrderly, sessio=
+n);
++
++    o->returns++;
++}
++
++static void test_qmp_return_orderly(void)
++{
++    QDict *dict =3D qdict_new();
++    QmpReturnOrderly o =3D { { 0 }, };
++    QmpReturn *r1, *r2, *r3;
++
++    qmp_session_init(&o.session, &qmp_commands, NULL, dispatch_return_orde=
+rly);
++    r1 =3D qmp_return_new(&o.session, NULL);
++    qdict_put_str(dict, "exec-oob", "test");
++    r2 =3D qmp_return_new(&o.session, QOBJECT(dict));
++    r3 =3D qmp_return_new(&o.session, NULL);
++    qmp_return(r3, NULL);
++    g_assert_cmpint(o.returns, =3D=3D, 0);
++    qmp_return(r2, NULL);
++    g_assert_cmpint(o.returns, =3D=3D, 1);
++    qmp_return(r1, NULL);
++    g_assert_cmpint(o.returns, =3D=3D, 3);
++    qmp_session_destroy(&o.session);
++    qobject_unref(dict);
++}
 =20
-+    qemu_mutex_lock(&session->pending_lock);
-+    QTAILQ_FOREACH_SAFE(ret, &session->pending, entry, next) {
-+        ret->session =3D NULL;
-+        QTAILQ_REMOVE(&session->pending, ret, entry);
-+    }
-+    qemu_mutex_unlock(&session->pending_lock);
-     session->cmds =3D NULL;
-     session->return_cb =3D NULL;
-     json_message_parser_destroy(&session->parser);
-+    qemu_mutex_destroy(&session->pending_lock);
- }
+ int main(int argc, char **argv)
+ {
+@@ -374,6 +406,7 @@ int main(int argc, char **argv)
+                     test_dispatch_cmd_success_response);
+     g_test_add_func("/qmp/dealloc_types", test_dealloc_types);
+     g_test_add_func("/qmp/dealloc_partial", test_dealloc_partial);
++    g_test_add_func("/qmp/return_orderly", test_qmp_return_orderly);
 =20
- void qmp_dispatch(QmpSession *session, QObject *request, bool allow_oob)
+     test_qmp_init_marshal(&qmp_commands);
+     g_test_run();
 --=20
 2.24.0
 
