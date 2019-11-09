@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438F7F5FB1
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Nov 2019 16:13:46 +0100 (CET)
-Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB07F6027
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Nov 2019 16:57:37 +0100 (CET)
+Received: from localhost ([::1]:37376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iTSQq-0008D9-Nl
-	for lists+qemu-devel@lfdr.de; Sat, 09 Nov 2019 10:13:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45561)
+	id 1iTT7I-0003aE-Ig
+	for lists+qemu-devel@lfdr.de; Sat, 09 Nov 2019 10:57:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tfiga@chromium.org>) id 1iTSPd-0007lw-MW
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:12:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iTT6J-00036n-BA
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:56:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tfiga@chromium.org>) id 1iTSPc-0004fo-6M
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:12:29 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43611)
+ (envelope-from <peter.maydell@linaro.org>) id 1iTT6I-0007Lg-7m
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:56:35 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42741)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tfiga@chromium.org>) id 1iTSPb-0004dO-UR
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:12:28 -0500
-Received: by mail-ed1-x533.google.com with SMTP id w6so8412089edx.10
- for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 07:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iTT6I-0007L8-1d
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:56:34 -0500
+Received: by mail-oi1-x242.google.com with SMTP id i185so7937110oif.9
+ for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 07:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=I5aoCc9fhlcAHUeVvXS2BisbghVNdu1/cPTG1nycIkY=;
- b=TymgvK/SkkrRHBlsMJdJ/6A0ZUrDfbPwbVMZg6TykgCLfkU3EWh8IKsDo5HH7+SdLm
- JQJjHqtsuxI8PQM3KJHya4lFNrgtDg8EtYjBXrRdHZ9vYtoBefDwkIbgy7NQck+sae4D
- f0NYwK/iYefWKNpz04s7HSMkVwPbXCbjuvp68=
+ :cc; bh=V0J39ZP+gqYtH1FsiwOzOQMPVqG43LmtvsVt/9EATI0=;
+ b=lhw4tYnxaLtJhVn/kv0pYyxVffeF3PaUuxP7p9Fpbt2/GNC3uU+Ck1KADCeI4ku2Z5
+ Xzw7gam0h72lV02AGEqBW7aWk7HyHggOxmMZdD0MF9uBExKZpC5pQlxz2vVC2Ci3KRIB
+ TJ9kSjXLyo5d+vy8j2gDrYX3i8WXv4sWQodFw88rDUSewzKOpH1LRoR3HGoGHZwPYVBv
+ u4eDtFqF+Blm0DpTqdlV0gMy+wxhy9VIeHG0k1OCB69MAhanpZbpAfxPkR6wgBYnD3Ed
+ Q/ZWFmOWHVGfqT2Fc1XiGoKdDvj6gIwCM7cEbhdv/nFK5jy2OBvnkQEVl6XMzjxyQAyl
+ thMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=I5aoCc9fhlcAHUeVvXS2BisbghVNdu1/cPTG1nycIkY=;
- b=CRtX9U0iTmRaU9I/ufhA8RSMHZ4zpyIZq9dLlkbIs/9tJ5RcjiATwPMlp/r9KBWncT
- R6m9Qyfs/W4q75CaLvL3NTkc6hORiG6GDNfm2C0NIhS12RS/4TFGf9N5oUIUvx62Fi8D
- ZYdyYDc5sr/8xMV6mluGOJXl7UabW1S6EEORovNkAQr4X23EV8BBHw0HrY5fQKssyqQN
- NnMxMBBJodtW2M+8jcXvvzRmd5On8IngQwWwePg1CBubp8EXcpr3t8vCoC+m6aYkavJT
- szALb3PCQ0CeoLKGJnBJ/T/2vuKA6tYLGDO/oByr9bSMRbmSkddz5u4+2/ez9+DIFBdC
- KrLA==
-X-Gm-Message-State: APjAAAXYGZ7qRTnmWjFataKQl/fcvcUDhm3N3N590Xnomjci9vtN+tzW
- tfHMHACSnDqsDQr3EurYYvVQM9FqI2fX7A==
-X-Google-Smtp-Source: APXvYqzPAIVpq6CQ/huifzOT1erZdKhGr0r78LrKncSZQGV8+ggvG/dMLGD8LZFdHI6CEsiGi8EoLQ==
-X-Received: by 2002:a17:906:1c4d:: with SMTP id
- l13mr14073577ejg.308.1573312346398; 
- Sat, 09 Nov 2019 07:12:26 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47])
- by smtp.gmail.com with ESMTPSA id s8sm303679edj.6.2019.11.09.07.12.23
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Nov 2019 07:12:24 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id t26so9077319wmi.4
- for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 07:12:23 -0800 (PST)
-X-Received: by 2002:a1c:3c42:: with SMTP id j63mr14165628wma.90.1573312343284; 
- Sat, 09 Nov 2019 07:12:23 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=V0J39ZP+gqYtH1FsiwOzOQMPVqG43LmtvsVt/9EATI0=;
+ b=tx5+yeCbEGOIWVTdDPd9ikrtO+yiYZdGsdG0RNzywfq1jPENgSTcf/L2mZIGztUx7I
+ c+3rr2Y55hpI3GFcwe9bn5TdVQ+8JGrI1ekO/DkZcYYGD2eP7jJjxmvsMIsjh6oHki/3
+ mCo6Ah+GHCiXKbmBcD5kTedrnKYWHFnCP+G8n0DWdwBLpKCxrOhQVKzDOGDtmkpIC2IR
+ FRaarOvV2mY1IvC3koUMaeol9FMeMW2TNlHZ0REQk8aQAjd5Qnj2OHlvyyFMd+TjsPyL
+ ouK0QRCysPj9qVkwV+ERjs06XTEFyEY98eA0V4r8Nn2X+JjhYqK/9woPqUgLNgBDjRkE
+ gvEg==
+X-Gm-Message-State: APjAAAUHXwmG9M+Kcpv8510l4Og+HxreL3qemj0s9QCdf72hRXGF3Jol
+ IZBrutTPd3Xi9/e7bxykec/unwyHX9BhL2+WbWTWRg==
+X-Google-Smtp-Source: APXvYqwXLfMPazDakHpZ1f42MzE2uWF80g/h7LXsMxSCtr0+m1Yh0ZRS+Ovm0y3B/4Yu55S3pJED+7jptfFAe4vmlC0=
+X-Received: by 2002:a05:6808:7d1:: with SMTP id
+ f17mr16124762oij.163.1573314992944; 
+ Sat, 09 Nov 2019 07:56:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain>
- <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
- <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
- <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
- <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
- <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
- <CAJSP0QWZc=z56CHEKa8WVe9Cw2-EhDFU+7NeGgL+g-Go5q3K5Q@mail.gmail.com>
- <CADMs+9ZrfEt4QfCM9pC243KTejvbORQ-Nzo0eHjU0FJ8y-2kwQ@mail.gmail.com>
- <CAJSP0QUF1YA0c7b2ENeDLo1T9OsfeTJbonOYug5Fc56--YqZJQ@mail.gmail.com>
- <CAAFQd5C6mVEUQUP8-=GevM+rV1ksFg68kyWAjCj+cjB-iQiXaA@mail.gmail.com>
- <CAJSP0QXk9XkrOeiMZ=yQCbStkXATv+AUwqqGDfcSbqL05j1kbg@mail.gmail.com>
-In-Reply-To: <CAJSP0QXk9XkrOeiMZ=yQCbStkXATv+AUwqqGDfcSbqL05j1kbg@mail.gmail.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Sun, 10 Nov 2019 00:12:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DBiUta9HWYZX3N06J8bSqa=zBQvL5kdCLfWUfsf9s9Vw@mail.gmail.com>
-Message-ID: <CAAFQd5DBiUta9HWYZX3N06J8bSqa=zBQvL5kdCLfWUfsf9s9Vw@mail.gmail.com>
-Subject: Re: guest / host buffer sharing ...
-To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20191108194758.17813-1-palmer@dabbelt.com>
+ <20191108194758.17813-3-palmer@dabbelt.com>
+In-Reply-To: <20191108194758.17813-3-palmer@dabbelt.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 9 Nov 2019 15:56:21 +0000
+Message-ID: <CAFEAcA_Lj2SmxMTEN06+FxwQrkuR80Vw5=Dkh1achFUySSFAxA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ARM/virt: Use fdt_setprop_strings()
+To: Palmer Dabbelt <palmer@dabbelt.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::533
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,124 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
- Alex Lau <alexlau@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Keiichi Watanabe <keiichiw@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Dylan Reid <dgreid@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Dmitry Morozov <dmitry.morozov@opensynergy.com>,
- Pawel Osciak <posciak@chromium.org>, David Stevens <stevensd@chromium.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 9, 2019 at 9:08 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+On Fri, 8 Nov 2019 at 19:48, Palmer Dabbelt <palmer@dabbelt.com> wrote:
 >
-> On Sat, Nov 9, 2019 at 12:17 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > On Sat, Nov 9, 2019 at 7:12 PM Stefan Hajnoczi <stefanha@gmail.com> wro=
-te:
-> > > On Sat, Nov 9, 2019 at 2:41 AM St=C3=A9phane Marchesin <marcheu@chrom=
-ium.org> wrote:
-> > > > On Thu, Nov 7, 2019 at 11:35 PM Stefan Hajnoczi <stefanha@gmail.com=
-> wrote:
-> > > > > On Fri, Nov 8, 2019 at 8:22 AM Gerd Hoffmann <kraxel@redhat.com> =
-wrote:
-> > > > > > > > Adding a list of common properties to the spec certainly ma=
-kes sense,
-> > > > > > > > so everybody uses the same names.  Adding struct-ed propert=
-ies for
-> > > > > > > > common use cases might be useful too.
-> > > > > > >
-> > > > > > > Why not define VIRTIO devices for wayland and friends?
-> > > > > >
-> > > > > > There is an out-of-tree implementation of that, so yes, that su=
-rely is
-> > > > > > an option.
-> > > > > >
-> > > > > > Wayland needs (a) shared buffers, mostly for gfx data, and (b) =
-a stream
-> > > > > > pipe as control channel.  Pretty much the same for X11, except =
-that
-> > > > > > shared buffers are optional because the X protocol can also squ=
-eeze all
-> > > > > > display updates through the stream pipe.
-> > > > > >
-> > > > > > So, if you want allow guests talk to the host display server yo=
-u can run
-> > > > > > the stream pipe over vsock.  But there is nothing for the share=
-d
-> > > > > > buffers ...
-> > > > > >
-> > > > > > We could replicate vsock functionality elsewhere.  I think that=
- happened
-> > > > > > in the out-of-tree virtio-wayland implementation.  There also w=
-as some
-> > > > > > discussion about adding streams to virtio-gpu, slightly pimped =
-up so you
-> > > > > > can easily pass around virtio-gpu resource references for buffe=
-r
-> > > > > > sharing.  But given that getting vsock right isn't exactly triv=
-ial
-> > > > > > (consider all the fairness issues when multiplexing multiple st=
-reams
-> > > > > > over a virtqueue for example) I don't think this is a good plan=
-.
-> > > > >
-> > > > > I also think vsock isn't the right fit.
-> > > > >
-> > > >
-> > > > +1 we are using vsock right now and we have a few pains because of =
-it.
-> > > >
-> > > > I think the high-level problem is that because it is a side channel=
-,
-> > > > we don't see everything that happens to the buffer in one place
-> > > > (rendering + display) and we can't do things like reallocate the
-> > > > format accordingly if needed, or we can't do flushing etc. on that
-> > > > buffer where needed.
-> > >
-> > > Do you think a VIRTIO device designed for your use case is an
-> > > appropriate solution?
-> > >
-> > > I have been arguing that these use cases should be addressed with
-> > > dedicated VIRTIO devices, but I don't understand the use cases of
-> > > everyone on the CC list so maybe I'm missing something :).  If there
-> > > are reasons why having a VIRTIO device for your use case does not mak=
-e
-> > > sense then it would be good to discuss them.  Blockers like "VIRTIO i=
-s
-> > > too heavyweight/complex for us because ...", "Our application can't
-> > > make use of VIRTIO devices because ...", etc would be important to
-> > > hear.
-> >
-> > Do you have any idea on how to model Wayland as a VIRTIO device?
-> >
-> > Stephane mentioned that we use vsock, but in fact we have our own
-> > VIRTIO device, except that it's semantically almost the same as vsock,
-> > with a difference being the ability to pass buffers and pipes across
-> > the VM boundary.
+> This new helper function encodes the idiom used by the ARM virt board to
+> set a string array.  I don't currently have a working ARM userspace, so I haven't tested
+> this, but I made the helper function because I wanted to use it for the
+> RISC-V virt board where I have tested it.
 >
-> I know neither Wayland nor your use case :).
+> Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
+> ---
+>  hw/arm/virt.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> But we can discuss the design of your VIRTIO device.  Please post a
-> link to the code.
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index d4bedc2607..4dc00f54d5 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -304,9 +304,8 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
+>
+>      armcpu = ARM_CPU(qemu_get_cpu(0));
+>      if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
+> -        const char compat[] = "arm,armv8-timer\0arm,armv7-timer";
+> -        qemu_fdt_setprop(vms->fdt, "/timer", "compatible",
+> -                         compat, sizeof(compat));
+> +        qemu_fdt_setprop_strings(vms->fdt, "/timer", "compatible",
+> +                                 "arm,armv8-timer\0arm,armv7-timer\0");
+>      } else {
 
-The guest-side driver:
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-=
-4.19/drivers/virtio/virtio_wl.c
 
-Protocol definitions:
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/chromeos-=
-4.19/include/uapi/linux/virtio_wl.h
+This seems to be changing the property we put in -- in
+the old code it is 'foo\0bar\0', but in the new code
+there will end up being two \0 at the end: 'foo\0bar\0\0'.
 
-crosvm device implementation:
-https://chromium.googlesource.com/chromiumos/platform/crosvm/+/refs/heads/m=
-aster/devices/src/virtio/wl.rs
-
-Best regards,
-Tomasz
+thanks
+-- PMM
 
