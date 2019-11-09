@@ -2,86 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0C2F5F79
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Nov 2019 15:17:10 +0100 (CET)
-Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D19F5FE0
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Nov 2019 16:17:05 +0100 (CET)
+Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iTRY5-00067i-FM
-	for lists+qemu-devel@lfdr.de; Sat, 09 Nov 2019 09:17:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53332)
+	id 1iTSU4-0001wQ-KU
+	for lists+qemu-devel@lfdr.de; Sat, 09 Nov 2019 10:17:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tfiga@chromium.org>) id 1iTOjw-0005Xo-Qe
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 06:17:14 -0500
+ (envelope-from <bounces@canonical.com>) id 1iTSSf-0001SO-IH
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:15:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tfiga@chromium.org>) id 1iTOjv-000898-JA
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 06:17:12 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39572)
+ (envelope-from <bounces@canonical.com>) id 1iTSSd-00082b-TB
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:15:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41288)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tfiga@chromium.org>) id 1iTOjv-00088W-B3
- for qemu-devel@nongnu.org; Sat, 09 Nov 2019 06:17:11 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id l25so8029076edt.6
- for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 03:17:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2KJzeg38k9TKP9n2OHi7V1tXDJtLQP/OdiV4r/c9Qw4=;
- b=YlVtrbheqLjXbAWyZhaPH6O4RntSaSg6mNxZeDNdjviC/mLwwz5yZmdchc9K7fjO5r
- MV8hoOwJpyJkHyRuzgwyIbq1y1zftyhCam1YE8EA/XfOvhopBrdKxxZfHCChKYT8b4pd
- 9vOBEHKK8ymvr5y1m0qq80cPB4FeqvV+7V0nY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2KJzeg38k9TKP9n2OHi7V1tXDJtLQP/OdiV4r/c9Qw4=;
- b=KXEQ4GilhTSNi3tc3NB6lFozucCJjUdYUx0GG/UlWr2Vnv23/OV325l/TCvr+fsFTV
- 6VuwSBDMbgnR1HNHpqYzCLf86oJGTxvGwkNUIiMj+CXA6fJorCDvW+VGBqN2VqQgvMmn
- t9XcjEo9n0dnZ956ri+Q5hR79mry2Tgg53Sa1LrOxwarJ9iCkYC5uaQDP7CnTYGh+wT6
- 8TIXsDAKNANYxueZwKzpJGST8+82Dkf0TvGWU21VWAhDoxJQbo7eorZvQ5q/XkyDX5LF
- 18WKVkDQJWvSS7C2YYO+CPJDeb6eS6CTnWpACKbBsrj6w2SgTiANB0c2/NBU+hv5LA6j
- IFqg==
-X-Gm-Message-State: APjAAAVo5UzFz9A34/cYvmrXpERkQHX/aNU9qz0vb9VOHYzhAM4TsLk5
- hqcCeqIUWAF8GQP6RM0hmKOgfqPXOxXyvA==
-X-Google-Smtp-Source: APXvYqxJe2G4k45iOE36CUZcnRC2d6OsmXJeFBTy+akih3+NXLhFV++BShcdFV5/ezwf2+34zHhcAw==
-X-Received: by 2002:aa7:c048:: with SMTP id k8mr15546641edo.254.1573298229619; 
- Sat, 09 Nov 2019 03:17:09 -0800 (PST)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
- [209.85.221.54])
- by smtp.gmail.com with ESMTPSA id q5sm241854edg.66.2019.11.09.03.17.07
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Nov 2019 03:17:07 -0800 (PST)
-Received: by mail-wr1-f54.google.com with SMTP id w9so2965205wrr.0
- for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 03:17:07 -0800 (PST)
-X-Received: by 2002:a5d:4946:: with SMTP id r6mr11729096wrs.155.1573298226861; 
- Sat, 09 Nov 2019 03:17:06 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iTSSd-00080q-NN
+ for qemu-devel@nongnu.org; Sat, 09 Nov 2019 10:15:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iTSSc-0000pD-2J
+ for <qemu-devel@nongnu.org>; Sat, 09 Nov 2019 15:15:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 086D42E8005
+ for <qemu-devel@nongnu.org>; Sat,  9 Nov 2019 15:15:34 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain>
- <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
- <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
- <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
- <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
- <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
- <CAJSP0QWZc=z56CHEKa8WVe9Cw2-EhDFU+7NeGgL+g-Go5q3K5Q@mail.gmail.com>
- <CADMs+9ZrfEt4QfCM9pC243KTejvbORQ-Nzo0eHjU0FJ8y-2kwQ@mail.gmail.com>
- <CAJSP0QUF1YA0c7b2ENeDLo1T9OsfeTJbonOYug5Fc56--YqZJQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QUF1YA0c7b2ENeDLo1T9OsfeTJbonOYug5Fc56--YqZJQ@mail.gmail.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Sat, 9 Nov 2019 20:16:52 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C6mVEUQUP8-=GevM+rV1ksFg68kyWAjCj+cjB-iQiXaA@mail.gmail.com>
-Message-ID: <CAAFQd5C6mVEUQUP8-=GevM+rV1ksFg68kyWAjCj+cjB-iQiXaA@mail.gmail.com>
-Subject: Re: guest / host buffer sharing ...
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::52b
-X-Mailman-Approved-At: Sat, 09 Nov 2019 09:16:11 -0500
+Date: Sat, 09 Nov 2019 15:06:09 -0000
+From: tm <1851939@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: riscv
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: tm42
+X-Launchpad-Bug-Reporter: tm (tm42)
+X-Launchpad-Bug-Modifier: tm (tm42)
+Message-Id: <157331196915.22967.16737072842793038356.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1851939] [NEW] RISC-V mstatus TSR bit not correctly implemented
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5aa4722c46a3ff33cf220c72002fb7f9dfc7801f
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,97 +65,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
- Alex Lau <alexlau@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Keiichi Watanabe <keiichiw@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Dylan Reid <dgreid@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Dmitry Morozov <dmitry.morozov@opensynergy.com>,
- Pawel Osciak <posciak@chromium.org>, David Stevens <stevensd@chromium.org>
+Reply-To: Bug 1851939 <1851939@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Nov 9, 2019 at 7:12 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Sat, Nov 9, 2019 at 2:41 AM St=C3=A9phane Marchesin <marcheu@chromium.=
-org> wrote:
-> >
-> > On Thu, Nov 7, 2019 at 11:35 PM Stefan Hajnoczi <stefanha@gmail.com> wr=
-ote:
-> > >
-> > > On Fri, Nov 8, 2019 at 8:22 AM Gerd Hoffmann <kraxel@redhat.com> wrot=
-e:
-> > > > > > Adding a list of common properties to the spec certainly makes =
-sense,
-> > > > > > so everybody uses the same names.  Adding struct-ed properties =
-for
-> > > > > > common use cases might be useful too.
-> > > > >
-> > > > > Why not define VIRTIO devices for wayland and friends?
-> > > >
-> > > > There is an out-of-tree implementation of that, so yes, that surely=
- is
-> > > > an option.
-> > > >
-> > > > Wayland needs (a) shared buffers, mostly for gfx data, and (b) a st=
-ream
-> > > > pipe as control channel.  Pretty much the same for X11, except that
-> > > > shared buffers are optional because the X protocol can also squeeze=
- all
-> > > > display updates through the stream pipe.
-> > > >
-> > > > So, if you want allow guests talk to the host display server you ca=
-n run
-> > > > the stream pipe over vsock.  But there is nothing for the shared
-> > > > buffers ...
-> > > >
-> > > > We could replicate vsock functionality elsewhere.  I think that hap=
-pened
-> > > > in the out-of-tree virtio-wayland implementation.  There also was s=
-ome
-> > > > discussion about adding streams to virtio-gpu, slightly pimped up s=
-o you
-> > > > can easily pass around virtio-gpu resource references for buffer
-> > > > sharing.  But given that getting vsock right isn't exactly trivial
-> > > > (consider all the fairness issues when multiplexing multiple stream=
-s
-> > > > over a virtqueue for example) I don't think this is a good plan.
-> > >
-> > > I also think vsock isn't the right fit.
-> > >
-> >
-> > +1 we are using vsock right now and we have a few pains because of it.
-> >
-> > I think the high-level problem is that because it is a side channel,
-> > we don't see everything that happens to the buffer in one place
-> > (rendering + display) and we can't do things like reallocate the
-> > format accordingly if needed, or we can't do flushing etc. on that
-> > buffer where needed.
->
-> Do you think a VIRTIO device designed for your use case is an
-> appropriate solution?
->
-> I have been arguing that these use cases should be addressed with
-> dedicated VIRTIO devices, but I don't understand the use cases of
-> everyone on the CC list so maybe I'm missing something :).  If there
-> are reasons why having a VIRTIO device for your use case does not make
-> sense then it would be good to discuss them.  Blockers like "VIRTIO is
-> too heavyweight/complex for us because ...", "Our application can't
-> make use of VIRTIO devices because ...", etc would be important to
-> hear.
+Public bug reported:
 
-Do you have any idea on how to model Wayland as a VIRTIO device?
+Hi,
 
-Stephane mentioned that we use vsock, but in fact we have our own
-VIRTIO device, except that it's semantically almost the same as vsock,
-with a difference being the ability to pass buffers and pipes across
-the VM boundary.
+since qemu 4.1.0 the TSR bit in mstatus register is supported. But it
+does not allow for executing sret in m-mode.
 
-Best regards,
-Tomasz
+>From the RISC-V specifications:
+"When TSR=3D1, attempts to execute SRET while executing in S-mode will rais=
+e an illegal instruction
+exception. When TSR=3D0, this operation is permitted in S-mode."
+
+This means an exception should only be raised when executing in S-mode, but=
+ not in M-mode, hence you should change the condition in helper_sret (targe=
+t/riscv/op_helper.c) from:
+     if (env->priv_ver >=3D PRIV_VERSION_1_10_0 &&
+          get_field(env->mstatus, MSTATUS_TSR))
+to:
+     if (env->priv_ver >=3D PRIV_VERSION_1_10_0 &&
+          get_field(env->mstatus, MSTATUS_TSR) && !(env->priv >=3D PRV_M))
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: riscv
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851939
+
+Title:
+  RISC-V mstatus TSR bit not correctly implemented
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  since qemu 4.1.0 the TSR bit in mstatus register is supported. But it
+  does not allow for executing sret in m-mode.
+
+  From the RISC-V specifications:
+  "When TSR=3D1, attempts to execute SRET while executing in S-mode will ra=
+ise an illegal instruction
+  exception. When TSR=3D0, this operation is permitted in S-mode."
+
+  This means an exception should only be raised when executing in S-mode, b=
+ut not in M-mode, hence you should change the condition in helper_sret (tar=
+get/riscv/op_helper.c) from:
+       if (env->priv_ver >=3D PRIV_VERSION_1_10_0 &&
+            get_field(env->mstatus, MSTATUS_TSR))
+  to:
+       if (env->priv_ver >=3D PRIV_VERSION_1_10_0 &&
+            get_field(env->mstatus, MSTATUS_TSR) && !(env->priv >=3D PRV_M))
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851939/+subscriptions
 
