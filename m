@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D081F6B0A
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Nov 2019 20:07:00 +0100 (CET)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE15F6B09
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Nov 2019 20:06:12 +0100 (CET)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iTsY7-0003GP-49
-	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 14:06:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34937)
+	id 1iTsXL-0001o8-HI
+	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 14:06:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34939)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iTsV3-0000Fb-G0
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iTsV3-0000Fl-KD
  for qemu-devel@nongnu.org; Sun, 10 Nov 2019 14:03:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iTsV2-00037D-C3
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iTsV2-00037J-D5
  for qemu-devel@nongnu.org; Sun, 10 Nov 2019 14:03:49 -0500
-Received: from relay.sw.ru ([185.231.240.75]:42178)
+Received: from relay.sw.ru ([185.231.240.75]:42170)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iTsUz-00033h-7m; Sun, 10 Nov 2019 14:03:45 -0500
+ id 1iTsUz-00033g-Gv; Sun, 10 Nov 2019 14:03:45 -0500
 Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iTsUv-00076X-Qt; Sun, 10 Nov 2019 22:03:41 +0300
+ id 1iTsUw-00076X-3V; Sun, 10 Nov 2019 22:03:42 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v0 1/2] qdev-properties-system: extend set_pionter for
- unrealized devices
-Date: Sun, 10 Nov 2019 22:03:09 +0300
-Message-Id: <20191110190310.19799-2-dplotnikov@virtuozzo.com>
+Subject: [PATCH v0 2/2] block: allow to set 'drive' property on a realized
+ block device
+Date: Sun, 10 Nov 2019 22:03:10 +0300
+Message-Id: <20191110190310.19799-3-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20191110190310.19799-1-dplotnikov@virtuozzo.com>
 References: <20191110190310.19799-1-dplotnikov@virtuozzo.com>
@@ -52,83 +52,138 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some device's property can be changed if the device has been already
-realized. For example, it could be "drive" property of a scsi disk device.
-
-So far, set_pointer could operate only on a relized device. The patch
-extends its interface for operation on an unrealized device.
+This allows to change (replace) the file on a block device and is useful
+to workaround exclusive file access restrictions, e.g. to implement VM
+migration with a shared disk stored on some storage with the exclusive
+file opening model: a destination VM is started waiting for incomming
+migration with a fake image drive, and later, on the last migration
+phase, the fake image file is replaced with the real one.
 
 Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- hw/core/qdev-properties-system.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+ hw/core/qdev-properties-system.c | 89 +++++++++++++++++++++++++++-----
+ 1 file changed, 77 insertions(+), 12 deletions(-)
 
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index ba412dd2ca..c534590dcd 100644
+index c534590dcd..aaab1370a4 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -38,9 +38,14 @@ static void get_pointer(Object *obj, Visitor *v, Property *prop,
- }
+@@ -79,8 +79,55 @@ static void set_pointer(Object *obj, Visitor *v, Property *prop,
  
- static void set_pointer(Object *obj, Visitor *v, Property *prop,
--                        void (*parse)(DeviceState *dev, const char *str,
--                                      void **ptr, const char *propname,
--                                      Error **errp),
-+                        void (*parse_realized)(DeviceState *dev,
-+                                               const char *str, void **ptr,
-+                                               const char *propname,
-+                                               Error **errp),
-+                        void (*parse_unrealized)(DeviceState *dev,
-+                                                 const char *str, void **ptr,
-+                                                 const char *propname,
-+                                                 Error **errp),
-                         const char *name, Error **errp)
- {
-     DeviceState *dev = DEVICE(obj);
-@@ -48,11 +53,6 @@ static void set_pointer(Object *obj, Visitor *v, Property *prop,
-     void **ptr = qdev_get_prop_ptr(dev, prop);
-     char *str;
+ /* --- drive --- */
  
--    if (dev->realized) {
--        qdev_prop_set_after_realize(dev, name, errp);
--        return;
--    }
--
-     visit_type_str(v, name, &str, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -63,7 +63,17 @@ static void set_pointer(Object *obj, Visitor *v, Property *prop,
-         *ptr = NULL;
-         return;
-     }
--    parse(dev, str, ptr, prop->name, errp);
+-static void do_parse_drive(DeviceState *dev, const char *str, void **ptr,
+-                           const char *propname, bool iothread, Error **errp)
++static void do_parse_drive_realized(DeviceState *dev, const char *str,
++                                    void **ptr, const char *propname,
++                                    bool iothread, Error **errp)
++{
++    BlockBackend *blk = *ptr;
++    BlockDriverState *bs = bdrv_lookup_bs(NULL, str, NULL);
++    int ret;
++    bool blk_created = false;
 +
-+    if (dev->realized) {
-+        if (parse_realized) {
-+            parse_realized(dev, str, ptr, prop->name, errp);
-+        } else {
-+            qdev_prop_set_after_realize(dev, name, errp);
-+        }
-+    } else {
-+        parse_unrealized(dev, str, ptr, prop->name, errp);
++    if (!bs) {
++        error_setg(errp, "Can't find blockdev '%s'", str);
++        return;
 +    }
 +
-     g_free(str);
++    if (!blk) {
++        AioContext *ctx = iothread ? bdrv_get_aio_context(bs) :
++                                     qemu_get_aio_context();
++        blk = blk_new(ctx, BLK_PERM_ALL, BLK_PERM_ALL);
++        blk_created = true;
++    } else {
++        if (blk_bs(blk)) {
++            blk_remove_bs(blk);
++        }
++    }
++
++    ret = blk_insert_bs(blk, bs, errp);
++
++    if (!ret && blk_created) {
++        if (blk_attach_dev(blk, dev) < 0) {
++            /*
++             * Shouldn't be any errors here since we just created
++             * the new blk because the device doesn't have any.
++             * Leave the message here in case blk_attach_dev is changed
++             */
++             error_setg(errp, "Can't attach drive '%s' to device '%s'",
++                        str, object_get_typename(OBJECT(dev)));
++        } else {
++            *ptr = blk;
++        }
++    }
++
++    if (blk_created) {
++        blk_unref(blk);
++    }
++}
++
++static void do_parse_drive_unrealized(DeviceState *dev, const char *str,
++                                      void **ptr, const char *propname,
++                                      bool iothread, Error **errp)
+ {
+     BlockBackend *blk;
+     bool blk_created = false;
+@@ -137,18 +184,34 @@ fail:
+     }
  }
  
-@@ -178,13 +188,13 @@ static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
+-static void parse_drive(DeviceState *dev, const char *str, void **ptr,
+-                        const char *propname, Error **errp)
+-{
+-    do_parse_drive(dev, str, ptr, propname, false, errp);
+-}
+-
+-static void parse_drive_iothread(DeviceState *dev, const char *str, void **ptr,
++static void parse_drive_realized(DeviceState *dev, const char *str, void **ptr,
+                                  const char *propname, Error **errp)
+ {
+-    do_parse_drive(dev, str, ptr, propname, true, errp);
++    do_parse_drive_realized(dev, str, ptr, propname, false, errp);
+ }
+ 
++static void parse_drive_realized_iothread(DeviceState *dev, const char *str,
++                                          void **ptr, const char *propname,
++                                          Error **errp)
++{
++    do_parse_drive_realized(dev, str, ptr, propname, true, errp);
++}
++
++static void parse_drive_unrealized(DeviceState *dev, const char *str,
++                                   void **ptr, const char *propname,
++                                   Error **errp)
++{
++    do_parse_drive_unrealized(dev, str, ptr, propname, false, errp);
++}
++
++static void parse_drive_unrealized_iothread(DeviceState *dev, const char *str,
++                                            void **ptr, const char *propname,
++                                            Error **errp)
++{
++    do_parse_drive_unrealized(dev, str, ptr, propname, true, errp);
++}
++
++
+ static void release_drive(Object *obj, const char *name, void *opaque)
+ {
+     DeviceState *dev = DEVICE(obj);
+@@ -188,13 +251,15 @@ static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
  static void set_drive(Object *obj, Visitor *v, const char *name, void *opaque,
                        Error **errp)
  {
--    set_pointer(obj, v, opaque, parse_drive, name, errp);
-+    set_pointer(obj, v, opaque, NULL, parse_drive, name, errp);
+-    set_pointer(obj, v, opaque, NULL, parse_drive, name, errp);
++    set_pointer(obj, v, opaque, parse_drive_realized, parse_drive_unrealized,
++                name, errp);
  }
  
  static void set_drive_iothread(Object *obj, Visitor *v, const char *name,
                                 void *opaque, Error **errp)
  {
--    set_pointer(obj, v, opaque, parse_drive_iothread, name, errp);
-+    set_pointer(obj, v, opaque, NULL, parse_drive_iothread, name, errp);
+-    set_pointer(obj, v, opaque, NULL, parse_drive_iothread, name, errp);
++    set_pointer(obj, v, opaque, parse_drive_realized_iothread,
++                parse_drive_unrealized_iothread, name, errp);
  }
  
  const PropertyInfo qdev_prop_drive = {
