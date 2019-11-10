@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8C9F6B92
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Nov 2019 22:12:54 +0100 (CET)
-Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5C0F6B95
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Nov 2019 22:14:07 +0100 (CET)
+Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iTuVx-0000Fr-9N
-	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 16:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55942)
+	id 1iTuX8-0002UI-O6
+	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 16:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iTuU9-0007FK-I1
+ (envelope-from <dgibson@ozlabs.org>) id 1iTuU9-0007FJ-EB
  for qemu-devel@nongnu.org; Sun, 10 Nov 2019 16:11:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iTuU7-0004kx-OI
+ (envelope-from <dgibson@ozlabs.org>) id 1iTuU7-0004kr-Mg
  for qemu-devel@nongnu.org; Sun, 10 Nov 2019 16:11:00 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:53733)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35913 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iTuU6-0004Uz-Nu; Sun, 10 Nov 2019 16:10:59 -0500
+ id 1iTuU6-0004U7-JB; Sun, 10 Nov 2019 16:10:59 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47B69g6Srqz9sPc; Mon, 11 Nov 2019 08:10:47 +1100 (AEDT)
+ id 47B69g4d0Vz9sNx; Mon, 11 Nov 2019 08:10:47 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1573420247;
- bh=Cxi8Y/8RcsyxS3Cbmyx3hq5e3TOtKkWnlndvJ9l7arc=;
+ bh=v5qDauUW5khZHryv3daXxIa4v7785PoQZ+Oopx4R+9M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=G+WeiNyydhrGD+Jz3duv6+n58GC9rc19+CyRqPmlcYjX3YWgHD/AxXnrUcvZQXu4u
- bcYiyVFhgxNViyAXaTIXX02l7HuYhE1zR+mmHd6MCiUQm3nsWTXbLS6qyyTisz77g5
- Frz9CRu2yui3OBRsDenoYkqbrvrZbaYhsgcjIYkE=
-Date: Sun, 10 Nov 2019 19:44:24 +0000
+ b=g2d7WLEbUvvJd0WQk2hmTLsivIPdN1ibC41UUb+qVE89JCS8n4VSNOeQ9bFxTP8S8
+ NuxOF3aITwuQmOX1VmPoosq/RQAz1dP/KBL9dNMcx+bhZcjZD629Kkl8CB3R+liOVQ
+ 7iloJzmcRSxWPXkHsXuQK21ZylP94TyCxK2q2fOw=
+Date: Sun, 10 Nov 2019 19:47:23 +0000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 1/3] device_tree: Add a helper function for string
- arrays
-Message-ID: <20191110194424.GR2461@umbus.Home>
+Subject: Re: [PATCH v2 2/3] ARM/virt: Use fdt_setprop_strings()
+Message-ID: <20191110194723.GS2461@umbus.Home>
 References: <20191108194758.17813-1-palmer@dabbelt.com>
- <20191108194758.17813-2-palmer@dabbelt.com>
- <CAFEAcA_3jgn1WrX2wpBd+sCYe=nNaqA2POvaZkj-NsSyT2N9bQ@mail.gmail.com>
+ <20191108194758.17813-3-palmer@dabbelt.com>
+ <CAFEAcA_Lj2SmxMTEN06+FxwQrkuR80Vw5=Dkh1achFUySSFAxA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4ECF1u7dKBoUGhe3"
+ protocol="application/pgp-signature"; boundary="A3RWl4qWgABmkY4K"
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_3jgn1WrX2wpBd+sCYe=nNaqA2POvaZkj-NsSyT2N9bQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_Lj2SmxMTEN06+FxwQrkuR80Vw5=Dkh1achFUySSFAxA@mail.gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -65,56 +64,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4ECF1u7dKBoUGhe3
+--A3RWl4qWgABmkY4K
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 09, 2019 at 03:59:24PM +0000, Peter Maydell wrote:
+On Sat, Nov 09, 2019 at 03:56:21PM +0000, Peter Maydell wrote:
 > On Fri, 8 Nov 2019 at 19:48, Palmer Dabbelt <palmer@dabbelt.com> wrote:
 > >
-> > The device tree format allows for arrays of strings, which are encoded
-> > with '\0's inside regular strings.  These are ugly to represent in C, so
-> > the helper function represents them as strings with internal '\0's that
-> > are terminated with a double '\0'.  In other words, the array
-> > ["string1", "string2"] is represeted as "string1\0string2\0".
+> > This new helper function encodes the idiom used by the ARM virt board to
+> > set a string array.  I don't currently have a working ARM userspace, so=
+ I haven't tested
+> > this, but I made the helper function because I wanted to use it for the
+> > RISC-V virt board where I have tested it.
 > >
-> > The DTB generated by this function is accepted by DTC and produces an
-> > array of strings, but I can't find any explicit line in the DT
-> > specification that defines how these are encoded.
+> > Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
+> > ---
+> >  hw/arm/virt.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index d4bedc2607..4dc00f54d5 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -304,9 +304,8 @@ static void fdt_add_timer_nodes(const VirtMachineSt=
+ate *vms)
+> >
+> >      armcpu =3D ARM_CPU(qemu_get_cpu(0));
+> >      if (arm_feature(&armcpu->env, ARM_FEATURE_V8)) {
+> > -        const char compat[] =3D "arm,armv8-timer\0arm,armv7-timer";
+> > -        qemu_fdt_setprop(vms->fdt, "/timer", "compatible",
+> > -                         compat, sizeof(compat));
+> > +        qemu_fdt_setprop_strings(vms->fdt, "/timer", "compatible",
+> > +                                 "arm,armv8-timer\0arm,armv7-timer\0");
+> >      } else {
 >=20
-> > +/*
-> > + * This uses a particularly odd encoding: "strings" is a list of strin=
-gs that
-> > + * must be terminated by two back-to-back '\0' characters.
-> > + */
-> > +int qemu_fdt_setprop_strings(void *fdt, const char *node_path,
-> > +                             const char *property, const char *strings=
-);
 >=20
-> The clean API for this would be to use varargs so you could write
->=20
-> qemu_fdt_setprop_stringlist(fdt, node, prop, "arm,armv8-timer",
->                             "arm,armv7-timer");
->=20
-> and have it do the assembly into the encoding that fdt expects.
-> That would require us to do a bit of allocation-and-freeing
-> to assemble the string, of course, but then we only do fdt
-> creation at startup.
+> This seems to be changing the property we put in -- in
+> the old code it is 'foo\0bar\0', but in the new code
+> there will end up being two \0 at the end: 'foo\0bar\0\0'.
 
-Right, I really don't see the value in this interface.  Using
-"foo\0bar" is a little ugly, but not really any uglier than
-"foo\0bar\0".  The existing interface would be a drag if you had
-dynamically created entries in the list (because getting the size
-can't be done with sizeof() then), but I don't think that's actually a
-very likely usecase.
-
-> NB: I think that this is a good idea but not-for-4.2 material,
-> so if you wanted your sifive board change to go into 4.2 you
-> should probably start with the simple approach and leave the
-> refactoring for the next release cycle.
-
-I concur.
+In fact it's not because the setprop_strings() helper just uses the
+\0\0 to detect the end, but truncates what it actually puts into the
+dtb at the first \0.  But I agree this is confusing enough not to
+really be an improvement over the original version.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -122,25 +115,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4ECF1u7dKBoUGhe3
+--A3RWl4qWgABmkY4K
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3IaJgACgkQbDjKyiDZ
-s5LW6xAAk4fPP8yllNJNbVkErUk5Zvv5iEm1EGcV2RnOFbCH4qoouA0ojTtxT25B
-io/hESOQv3tOBL4paNkvsSk/f3ucU7WG/HB4b0gnuDdcSSQ3+2jj+tr3StXIYfU1
-zHTzIabKqX58x4fVA4qbNVrpybgFPvwF73SkcZ7N6ZNQkHvvDzHUOWP23ekBjzQ4
-z5O9WJmmDoDtncN14Y9+of5GIv6GNkr6szftuerp5EyS8gblNf81m/X63t6GbNqg
-MPnP5bCkqE/8tBFR2xM6HBryFb3FYGC1AiLTjPh4c9bQbdkh8qMtdj1Z3u0/LS0t
-kiKLHCYQiIQ6mLGjqsX6E+nM+7tWe3a7c4mWkacUo2A0hKYFKOpf/IVdcMtKpuc7
-zQGQCsfyWB0SMh0SVNwuN5yxa9MS1BFQKNEBBIezpQ0Lhb/M5OQN1Z2ehhs2xnIO
-dsplEYxTw2gmFbnftD2ty2BsU6OBvKEG8rK+JmbchPwi8NcPutlSPHs2sNQb0YHG
-rEc/Jqam+jbj2Ja1xPc16vN+mxBZNE3DZbWokO7DvmDjEuf2Oy/GkjmV9Ymzp8qv
-vCrCUhKRRQsdVvKXTbtv0pEtYMpld/guVDMbCxy96gtqdWiIZoQhJbVTK5fp6Z1e
-zc3YFC7LO3XCi8PDTeJPsGgv5bjnxzo0Vq2ooASzbY4TXlYQOdY=
-=Cq9U
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3IaUsACgkQbDjKyiDZ
+s5JNiQ//dQzJ3b9Z0jnIoeHqf7B+FFJvza+sCqMD0cN8MgVEA8az8w7jnDOpV8he
+Ui10nBm4fQAFWGPMVnz2pXDi8FZjzR7+ZRgWS1hgdEbKz3nck6724bZ01NLUm1lJ
+kVzSg+xKykkzFj2ez/D46FE2tmjhGic1UyaE4ScjdbsbJNZ5MQ+CWxdHeVVQ4pYb
+HgYR6JOxaRyqaZaTOt2xToUjTlwrbDWdwDpvrKbwRMEAAOXOosWLKBgHjkorEVEP
+MeX6GgUVXqt1AWhATKdw//G36sqOcGA0zXAK1cfacaDYN0kEOjyFYxpAhzBjLT1N
+lRMwfa3sOKggMuK35/XPiiN8/l/tK5haDYvVddgGdIyU1pYbjkwa0ocGqsKgJVtO
+RmN53IsaE4hEQywIGRu27PFy1QXw6KFmdlLo56GhpRkxCnFH3BeKZpo/oFHnXmPi
+81c0c4NQCQzpRMq4itJBF6ewyA8jw3BVA6cUuFFVrGb131MUwHt29Wke4lRj0MjO
+9imh1z84dvgs/g0aQsnKv+cv3znOcr7TSEq8o6UnhoYbv5rkXk69ftAnsAggHEN7
+M9DrbESEjY8Ju6tShcyKFaFcx/XvM2z3b74MhNuXVLmaxb5rLGIWNCwACMVksXzb
+25Db/m7JV+gv7Q6Mx/afvbEpFWzlGu0diWi0iru1FreMHMIUVvs=
+=E/uG
 -----END PGP SIGNATURE-----
 
---4ECF1u7dKBoUGhe3--
+--A3RWl4qWgABmkY4K--
 
