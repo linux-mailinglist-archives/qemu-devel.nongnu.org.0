@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4837F7972
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 18:05:52 +0100 (CET)
-Received: from localhost ([::1]:55554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E39F7979
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 18:08:40 +0100 (CET)
+Received: from localhost ([::1]:55602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUD8R-0000EG-GC
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 12:05:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
+	id 1iUDB9-0003Bs-Cc
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 12:08:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUD4q-0006b7-TJ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:10 -0500
+ (envelope-from <david@redhat.com>) id 1iUD8N-0001JB-Hv
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:05:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUD4p-0006FC-FB
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:08 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54631)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUD4p-0006EG-7q
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:07 -0500
-Received: by mail-wm1-x342.google.com with SMTP id z26so34146wmi.4
- for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 09:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=RA9cC7g7Eu9LrKE1HPtk5Ky9bYI2Ny0CcNKEWeM2CUQ=;
- b=I2NZKZ7izO0C6H0ZAHKckEdvcZM+UvcfXLmy3sEmMnVWQebbA9ZeB1yrNK7Ueqj5YN
- hk4x1PEoKJyLE/U1nLyDRgWfwcXUNjqu9Tg5ZN5YLBnEfDC4+p0dLtIb4JXz/F20ek/a
- 4lTBvDmYvye51JdLeaRU3ucT1cSSZ8fhRGHU+VOsqc6Rup7PPFu7B/grPD4gfrpBDcS6
- B5ox8wdEmmzpWij3F4Dsdih53UQ992Jk6Qhpw7N5wQD9Er9PIZFXNF71rTiIHFAovNRz
- rW4mFIvw9votmyebvTSYLOahpVJPHOdBO/dTXgebIc55JGqcCPYBfCQLHSttV4lu5nrG
- 6E4A==
+ (envelope-from <david@redhat.com>) id 1iUD8K-0007IU-Sb
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:05:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58359
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iUD8K-0007I8-6X
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:05:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573491943;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KA9DKMVimEe8OjrOxf8MOVaIlrFf1AOioc1lcdJVL1Q=;
+ b=VR1hifC4WgY3ZaIn/KSyO6qlH+cp8NnMV8HrLrZAFCMtJO1jEQrivzaTKKqejTC1MDDyj6
+ tegfVtHaX6QllBg4xX2JmUnC5XnvNgGTeq81IxmvzvK2hobd5rXy4wy7OSp/uu9enBn0pr
+ H2lWxEFQlXLI9He86JrNl3BSL5nciEs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-tjeWhDjPOEKV3JeNd2xxXw-1; Mon, 11 Nov 2019 12:05:40 -0500
+Received: by mail-wr1-f70.google.com with SMTP id y3so10276585wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 09:05:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=RA9cC7g7Eu9LrKE1HPtk5Ky9bYI2Ny0CcNKEWeM2CUQ=;
- b=mQsJhvnQM8CWMNCP7FlzG9nM6qkaXEhSfYCvSTDr59eKzx0/QooEcvcIpDFGzLPnFM
- T+N8fE7X2396YQyBXMm7nnhivA/kBL9x3VgLEVeeXPQCKHn3SvUIV4S+LHs9Ou97urOD
- QWUNXffaQglXhI3j8PkxoIfZeu48tTOgU8M/yOtRV4NtQvAQLIqiDOquEXoWHlR/lC8I
- FnsH6HJCVmHwUlXvIYMr8KY+eeBnBEfvN4Mce85OGCsWWKJyTbCVjB6itkbztQQAwIen
- uz3qarcggKO+Kbax/hEPC1xCfC7qMgE+LCLG/5qEbdLpgPOMvb4b0HTl87auqW48n4PP
- g4Og==
-X-Gm-Message-State: APjAAAWOGYwYBBmgSy8V1J19Oy7xaOZcMmlxhb5yZ9CGlywQE6PBNW4E
- ttncbn7gv6Y35R+67oxEv4k1Ng==
-X-Google-Smtp-Source: APXvYqyAUqVcXnU6/PXuNGtnZHq25/k2nSbhmtDtxWen4qHYdujcD3tZrlq6m0H1gJ9jpJLz8IuQcA==
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr11248767wmk.123.1573491724922; 
- Mon, 11 Nov 2019 09:02:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c4sm4584052wrp.86.2019.11.11.09.02.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 09:02:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C81A11FF87;
- Mon, 11 Nov 2019 17:02:02 +0000 (GMT)
-References: <20191111125530.26579-1-alex.bennee@linaro.org>
- <cd4917d6-75b7-2c47-0c6b-07dda077c52e@redhat.com>
- <878soma4ev.fsf@linaro.org>
- <97fd0943-586c-035f-b33b-eb6b2eb3dde6@redhat.com>
- <CAFEAcA_F1gUOhTyVkd185ie=tgoFS08n62Nk425RnAW+w6o0XA@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] tests/migration: use the common library function
-In-reply-to: <CAFEAcA_F1gUOhTyVkd185ie=tgoFS08n62Nk425RnAW+w6o0XA@mail.gmail.com>
-Date: Mon, 11 Nov 2019 17:02:02 +0000
-Message-ID: <8736eu9wj9.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=AMWPqkj/6NDaVSfzlhGevtcgOrANMPQjhHmiJ6rX6kM=;
+ b=KCkvRyTtHlmQAVmrk6PWf0XszC4NUbHdYVzkToN+OWt2m45FZjPNIs8oH/botP79vC
+ PPMRsGk26dy7JC86G88HYkwmtyGDEHiS0fYqP5CecxQoS/p0qlF3Ay8sBgyg4O12ZR+H
+ +PMpid27ucmX/Mw+0pgrgOWIYouwYOHlrmECA4/FoAuaDcrhN4GSs7ciwqbMkkr8zF/I
+ hMod85OkrAJoI1YDY4af/46TGZDkuF2760EyJFMx/barRrRQpZFMppD33qss73vUNiev
+ rfYO+oNaKenAloc55VdtzJLGk1scxCvlfvU2DTHOvIPS9z8iapLnit0gHKmmaHfRO4u2
+ A7JQ==
+X-Gm-Message-State: APjAAAW+5qvDAE/6i6FUZWm0veDmTD1Kxyej/ipntSzbwrOfjcQ89wOr
+ OHiGCudR1Pmt8Ob6tY32oVr8PeHtb37RYSQ5HK1f7cXQS5+wjLCIPtIp5yg3/Uc+RRa3JL+NYmS
+ FWUFRkjlg6+JlE0Q=
+X-Received: by 2002:a1c:96d5:: with SMTP id y204mr20639403wmd.63.1573491938990; 
+ Mon, 11 Nov 2019 09:05:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzG6DWq/+foxDNuFxk1WDhKg339zCI/0lHHTohe5/BcEXcLN/xANTRU5FVMTQKdUNlisJSoEw==
+X-Received: by 2002:a1c:96d5:: with SMTP id y204mr20639378wmd.63.1573491938739; 
+ Mon, 11 Nov 2019 09:05:38 -0800 (PST)
+Received: from [192.168.3.122] (p5B0C62A5.dip0.t-ipconnect.de. [91.12.98.165])
+ by smtp.gmail.com with ESMTPSA id
+ d7sm4925994wrx.11.2019.11.11.09.05.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Nov 2019 09:05:38 -0800 (PST)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2] s390x: Properly fetch the short psw on diag308 subc 0/1
+Date: Mon, 11 Nov 2019 18:05:37 +0100
+Message-Id: <5B7A4B70-BF58-4760-AD97-4BAB7EDDF01D@redhat.com>
+References: <20191111152808.13371-1-frankja@linux.ibm.com>
+In-Reply-To: <20191111152808.13371-1-frankja@linux.ibm.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+X-Mailer: iPhone Mail (17A878)
+X-MC-Unique: tjeWhDjPOEKV3JeNd2xxXw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +87,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Ber?= =?utf-8?Q?rang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Mon, 11 Nov 2019 at 14:41, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 11/11/2019 15.11, Alex Benn=C3=A9e wrote:
->> >
->> > Thomas Huth <thuth@redhat.com> writes:
->> >
->> >> On 11/11/2019 13.55, Alex Benn=C3=A9e wrote:
->> >>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> >>
->> >> Could you please add at least a short patch description? (Why is this
->> >> change necessary / a good idea?)
->> >
->> > It's just a minor clean-up Dave happened to comment on last week. Using
->> > the helper function is preferable given it abstracts away any system
->> > differences for the same information.
->>
->> But this also changes the behavior on non-Linux systems (i.e. the *BSDs
->> and macOS), since they will now use getpid() instead of gettid ... is
->> that the intended change here?
->
-> Does the 'stress' program work on those OSes? For that matter,
-> does it work on Linux?
->
-> As far as I can tell we don't compile stress.c on any host,
-> since the only thing that depends on tests/migration/stress$(EXESUF)
-> is tests/migration/initrd-stress.img, and nothing depends on that.
->
-> Nothing creates tests/migration/ in the build dir so trying
-> to build tests/migration/stress in an out-of-tree config fails:
->
->   CC      tests/migration/stress.o
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:359:=
-1:
-> fatal error: opening dependency file tests/migration/stress.d: No such
-> file or directory
->  }
->  ^
-> compilation terminated.
->
-> ...and if I fix that by manually creating the directory then
-> it fails to link:
->
->   CC      tests/migration/stress.o
->   LINK    tests/migration/stress
-> tests/migration/stress.o: In function `get_command_arg_str':
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:107:
-> undefined reference to `g_strndup'
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:109:
-> undefined reference to `g_strdup'
-> tests/migration/stress.o: In function `get_command_arg_ull':
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:129:
-> undefined reference to `g_free'
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:132:
-> undefined reference to `g_free'
-> tests/migration/stress.o: In function `stress':
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:253:
-> undefined reference to `pthread_create'
-> collect2: error: ld returned 1 exit status
-> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:849:
-> recipe for target 'tests/migration/stress' failed
->
-> Is this dead code ?
+> Am 11.11.2019 um 16:28 schrieb Janosch Frank <frankja@linux.ibm.com>:
+>=20
+> =EF=BB=BFWe need to actually fetch the cpu mask and set it. As we invert =
+the
+> short psw indication in the mask, SIE will report a specification
+> exception, if it wasn't present in the reset psw.
+>=20
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+> target/s390x/cpu.c | 12 ++++++++++--
+> target/s390x/cpu.h |  1 +
+> 2 files changed, 11 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 736a7903e2..40aa42e092 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -76,8 +76,16 @@ static bool s390_cpu_has_work(CPUState *cs)
+> static void s390_cpu_load_normal(CPUState *s)
+> {
+>     S390CPU *cpu =3D S390_CPU(s);
+> -    cpu->env.psw.addr =3D ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
+> -    cpu->env.psw.mask =3D PSW_MASK_32 | PSW_MASK_64;
+> +    uint64_t spsw =3D ldq_phys(s->as, 0);
+> +
+> +    cpu->env.psw.mask =3D spsw & 0xffffffff80000000UL;
 
-It was introduced around 3 years ago by Daniel for stress testing. The
-instructions in:
+ULL
 
-  409437e16df273fc5f78f6cd1cb53023eaeb9b72
-  Author:     Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-  AuthorDate: Wed Jul 20 14:23:13 2016 +0100
-  Commit:     Amit Shah <amit.shah@redhat.com>
-  CommitDate: Fri Jul 22 13:23:39 2016 +0530
+> +    /*
+> +     * Invert short psw indication, so SIE will report a specification
+> +     * exception if it was not set.
+> +     */
 
-  tests: introduce a framework for testing migration performance
+It would be interesting to know how the PSW mask in the PGM old PSW looks l=
+ike on LPAR. IOW, =E2=80=9Eyou forgot to set the short indication, here is =
+an exception. see, the short indication is set now.=E2=80=9C Sounds weird, =
+most probably nobody cares.
 
-say to use:
+> +    cpu->env.psw.mask ^=3D PSW_MASK_SHORTPSW;
+> +    cpu->env.psw.addr =3D spsw & 0x7fffffffUL;
 
-  make tests/migration/initrd-stress.img
+Eventually also ULL
 
-And that has indeed bitrotted over time. All the other tweaks since are
-passing through clean ups.
+> +
+>     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+> }
+> #endif
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 947553386f..2c687185f1 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -261,6 +261,7 @@ extern const struct VMStateDescription vmstate_s390_c=
+pu;
+> #define PSW_MASK_EXT            0x0100000000000000ULL
+> #define PSW_MASK_KEY            0x00F0000000000000ULL
+> #define PSW_SHIFT_KEY           52
+> +#define PSW_MASK_SHORTPSW    0x0008000000000000ULL
+> #define PSW_MASK_MCHECK         0x0004000000000000ULL
+> #define PSW_MASK_WAIT           0x0002000000000000ULL
+> #define PSW_MASK_PSTATE         0x0001000000000000ULL
+> --=20
+> 2.20.1
+>=20
 
->
-> thanks
-> -- PMM
+Looks good to me
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
---
-Alex Benn=C3=A9e
 
