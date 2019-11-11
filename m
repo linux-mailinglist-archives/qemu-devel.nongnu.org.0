@@ -2,40 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB95F73F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:33:21 +0100 (CET)
-Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AEDF7451
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:48:26 +0100 (CET)
+Received: from localhost ([::1]:52058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU8sh-0006We-QO
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:33:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37220)
+	id 1iU97J-0006Qw-KV
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:48:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iU8m8-0008GW-KZ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:36 -0500
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iU96N-0005iX-CE
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:47:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iU8m5-0003aK-T7
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:32 -0500
-Received: from charlie.dont.surf ([128.199.63.193]:52338)
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iU96L-0003lR-SL
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:47:27 -0500
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2049 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iU8m1-0003Rb-4I; Mon, 11 Nov 2019 07:26:25 -0500
-Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 100A6BF5D9;
- Mon, 11 Nov 2019 12:26:04 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 21/21] nvme: handle dma errors
-Date: Mon, 11 Nov 2019 13:25:45 +0100
-Message-Id: <20191111122545.252478-22-its@irrelevant.dk>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191111122545.252478-1-its@irrelevant.dk>
-References: <20191111122545.252478-1-its@irrelevant.dk>
-MIME-Version: 1.0
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1iU96I-0003i7-6d; Mon, 11 Nov 2019 07:47:22 -0500
+Received: from lhreml709-cah.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 2536B2190D1575115E8B;
+ Mon, 11 Nov 2019 12:47:16 +0000 (GMT)
+Received: from lhreml707-chm.china.huawei.com (10.201.108.56) by
+ lhreml709-cah.china.huawei.com (10.201.108.32) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 11 Nov 2019 12:47:15 +0000
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml707-chm.china.huawei.com (10.201.108.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1713.5; Mon, 11 Nov 2019 12:47:15 +0000
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.1713.004; Mon, 11 Nov 2019 12:47:15 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: RE: [PATCH 1/5] hw/arm: Align ACPI blob len to PAGE size
+Thread-Topic: [PATCH 1/5] hw/arm: Align ACPI blob len to PAGE size
+Thread-Index: AQHVeswOt9Cm/mHIvkOjMvan5ZmmMqeBqoOAgAR2W8A=
+Date: Mon, 11 Nov 2019 12:47:15 +0000
+Message-ID: <3ae89f87a5d64f57bea7246772c41301@huawei.com>
+References: <20191004155302.4632-1-shameerali.kolothum.thodi@huawei.com>
+ <20191004155302.4632-2-shameerali.kolothum.thodi@huawei.com>
+ <20191108171745.1465295b@redhat.com>
+In-Reply-To: <20191108171745.1465295b@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.202.227.237]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 128.199.63.193
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,226 +69,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Javier Gonzalez <javier@javigon.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paul Durrant <Paul.Durrant@citrix.com>, Keith Busch <kbusch@kernel.org>,
- Stephen Bates <sbates@raithlin.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handling DMA errors gracefully is required for the device to pass the
-block/011 test ("disable PCI device while doing I/O") in the blktests
-suite.
+Hi Igor,
 
-With this patch the device passes the test by retrying "critical"
-transfers (posting of completion entries and processing of submission
-queue entries).
+> -----Original Message-----
+> From: Igor Mammedov [mailto:imammedo@redhat.com]
+> Sent: 08 November 2019 16:18
+> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+> eric.auger@redhat.com; peter.maydell@linaro.org;
+> shannon.zhaosl@gmail.com; xuwei (O) <xuwei5@huawei.com>;
+> lersek@redhat.com; Linuxarm <linuxarm@huawei.com>; Michael S. Tsirkin
+> <mst@redhat.com>
+> Subject: Re: [PATCH 1/5] hw/arm: Align ACPI blob len to PAGE size
+>=20
+> On Fri, 4 Oct 2019 16:52:58 +0100
+> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
+>=20
+> > If ACPI blob length modifications happens after the initial
+> > virt_acpi_build() call, and the changed blob length is within
+> > the PAGE size boundary, then the revised size is not seen by
+> > the firmware on Guest reboot. The is because in the
+> > virt_acpi_build_update() -> acpi_ram_update() -> qemu_ram_resize()
+> > path, qemu_ram_resize() uses ram_block size which is aligned
+> > to PAGE size and the "resize callback" to update the size seen
+> > by firmware is not getting invoked. Hence align ACPI blob sizes
+> > to PAGE boundary.
+> >
+> > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > ---
+> > More details on this issue can be found here,
+> > https://patchwork.kernel.org/patch/11154757/
+> re-read it again and it seems to me that this patch is workaround
+> rather than a solution to the problem.
 
-If DMA errors occur at any other point in the execution of the command
-(say, while mapping the PRPs or SGLs), the command is aborted with a
-Data Transfer Error status code.
+Thanks for taking a look at this. Yes, I was also not very sure about this =
+approach
+as the root cause of the issue is in qemu_ram_resize().
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c       | 63 +++++++++++++++++++++++++++++++++----------
- hw/block/trace-events |  2 ++
- include/block/nvme.h  |  2 +-
- 3 files changed, 52 insertions(+), 15 deletions(-)
+> CCing Michael as an author this code.
+> on x86 we have crazy history of manually aligning acpi blobs, see code un=
+der
+> comment
+>=20
+>   /* We'll expose it all to Guest so we want to reduce
+>=20
+> so used_length endups with over-sized value which includes table and padd=
+ing
+> and it happens that ACPI_BUILD_TABLE_SIZE is much bigger than host page
+> size
+> so if on reboot we happen to exceed ACPI_BUILD_TABLE_SIZE, the next padde=
+d
+> table
+> size (used_length) would be  2 x ACPI_BUILD_TABLE_SIZE which doesn't
+> trigger
+>   block->used_length =3D=3D HOST_PAGE_ALIGN(newsize)
+> condition so fwcfg gets updated value.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 3acbaaa79008..d9c06a5cef9b 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -71,26 +71,26 @@ static inline bool nvme_addr_is_cmb(NvmeCtrl *n, hwad=
-dr addr)
-     return addr >=3D low && addr < hi;
- }
+Yes, this is the reason why the issue is not visible on x86.
 =20
--static inline void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf,
-+static inline int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf,
-     int size)
- {
-     if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
-         memcpy(buf, (void *) &n->cmbuf[addr - n->ctrl_mem.addr], size);
--        return;
-+        return 0;
-     }
-=20
--    pci_dma_read(&n->parent_obj, addr, buf, size);
-+    return pci_dma_read(&n->parent_obj, addr, buf, size);
- }
-=20
--static inline void nvme_addr_write(NvmeCtrl *n, hwaddr addr, void *buf,
-+static inline int nvme_addr_write(NvmeCtrl *n, hwaddr addr, void *buf,
-     int size)
- {
-     if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
-         memcpy((void *) &n->cmbuf[addr - n->ctrl_mem.addr], buf, size);
--        return;
-+        return 0;
-     }
-=20
--    pci_dma_write(&n->parent_obj, addr, buf, size);
-+    return pci_dma_write(&n->parent_obj, addr, buf, size);
- }
-=20
- static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
-@@ -228,7 +228,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList=
- *qsg, uint64_t prp1,
-=20
-             nents =3D (len + n->page_size - 1) >> n->page_bits;
-             prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(uint64_t)=
-;
--            nvme_addr_read(n, prp2, (void *) prp_list, prp_trans);
-+            if (nvme_addr_read(n, prp2, (void *) prp_list, prp_trans)) {
-+                trace_nvme_err_addr_read(prp2);
-+                status =3D NVME_DATA_TRANSFER_ERROR;
-+                goto unmap;
-+            }
-             while (len !=3D 0) {
-                 bool addr_is_cmb;
-                 uint64_t prp_ent =3D le64_to_cpu(prp_list[i]);
-@@ -250,7 +254,11 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, QEMUSGList=
- *qsg, uint64_t prp1,
-                     i =3D 0;
-                     nents =3D (len + n->page_size - 1) >> n->page_bits;
-                     prp_trans =3D MIN(n->max_prp_ents, nents) * sizeof(u=
-int64_t);
--                    nvme_addr_read(n, prp_ent, (void *) prp_list, prp_tr=
-ans);
-+                    if (nvme_addr_read(n, prp_ent, (void *) prp_list, pr=
-p_trans)) {
-+                        trace_nvme_err_addr_read(prp_ent);
-+                        status =3D NVME_DATA_TRANSFER_ERROR;
-+                        goto unmap;
-+                    }
-                     prp_ent =3D le64_to_cpu(prp_list[i]);
-                 }
-=20
-@@ -402,7 +410,11 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList=
- *qsg,
-=20
-         /* read the segment in chunks of 256 descriptors (4k) */
-         while (nsgld > MAX_NSGLD) {
--            nvme_addr_read(n, addr, segment, sizeof(segment));
-+            if (nvme_addr_read(n, addr, segment, sizeof(segment))) {
-+                trace_nvme_err_addr_read(addr);
-+                status =3D NVME_DATA_TRANSFER_ERROR;
-+                goto unmap;
-+            }
-=20
-             status =3D nvme_map_sgl_data(n, qsg, segment, MAX_NSGLD, &le=
-n, req);
-             if (status) {
-@@ -413,7 +425,11 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList=
- *qsg,
-             addr +=3D MAX_NSGLD * sizeof(NvmeSglDescriptor);
-         }
-=20
--        nvme_addr_read(n, addr, segment, nsgld * sizeof(NvmeSglDescripto=
-r));
-+        if (nvme_addr_read(n, addr, segment, nsgld * sizeof(NvmeSglDescr=
-iptor))) {
-+            trace_nvme_err_addr_read(addr);
-+            status =3D NVME_DATA_TRANSFER_ERROR;
-+            goto unmap;
-+        }
-=20
-         sgl =3D segment[nsgld - 1];
-         addr =3D le64_to_cpu(sgl.addr);
-@@ -458,7 +474,11 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList=
- *qsg,
-     nsgld =3D le64_to_cpu(sgl.len) / sizeof(NvmeSglDescriptor);
-=20
-     while (nsgld > MAX_NSGLD) {
--        nvme_addr_read(n, addr, segment, sizeof(segment));
-+        if (nvme_addr_read(n, addr, segment, sizeof(segment))) {
-+            trace_nvme_err_addr_read(addr);
-+            status =3D NVME_DATA_TRANSFER_ERROR;
-+            goto unmap;
-+        }
-=20
-         status =3D nvme_map_sgl_data(n, qsg, segment, MAX_NSGLD, &len, r=
-eq);
-         if (status) {
-@@ -469,7 +489,11 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList=
- *qsg,
-         addr +=3D MAX_NSGLD * sizeof(NvmeSglDescriptor);
-     }
-=20
--    nvme_addr_read(n, addr, segment, nsgld * sizeof(NvmeSglDescriptor));
-+    if (nvme_addr_read(n, addr, segment, nsgld * sizeof(NvmeSglDescripto=
-r))) {
-+        trace_nvme_err_addr_read(addr);
-+        status =3D NVME_DATA_TRANSFER_ERROR;
-+        goto unmap;
-+    }
-=20
-     status =3D nvme_map_sgl_data(n, qsg, segment, nsgld, &len, req);
-     if (status) {
-@@ -819,8 +843,14 @@ static void nvme_post_cqes(void *opaque)
-         req->cqe.sq_id =3D cpu_to_le16(sq->sqid);
-         req->cqe.sq_head =3D cpu_to_le16(sq->head);
-         addr =3D cq->dma_addr + cq->tail * n->cqe_size;
-+        if (nvme_addr_write(n, addr, (void *) cqe, sizeof(*cqe))) {
-+            trace_nvme_err_addr_write(addr);
-+            QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
-+            timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-+                100 * SCALE_MS);
-+            break;
-+        }
-         nvme_inc_cq_tail(cq);
--        nvme_addr_write(n, addr, (void *) cqe, sizeof(*cqe));
-         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
-     }
-     if (cq->tail !=3D cq->head) {
-@@ -1934,7 +1964,12 @@ static void nvme_process_sq(void *opaque)
-=20
-     while (!(nvme_sq_empty(sq) || QTAILQ_EMPTY(&sq->req_list))) {
-         addr =3D sq->dma_addr + sq->head * n->sqe_size;
--        nvme_addr_read(n, addr, (void *)&cmd, sizeof(NvmeCmd));
-+        if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(NvmeCmd))) {
-+            trace_nvme_err_addr_read(addr);
-+            timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-+                100 * SCALE_MS);
-+            break;
-+        }
-         nvme_inc_sq_head(sq);
-=20
-         req =3D QTAILQ_FIRST(&sq->req_list);
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 5df48cca55e4..140210938f3a 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -84,6 +84,8 @@ nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
- nvme_err_mdts(uint16_t cid, size_t mdts, size_t len) "cid %"PRIu16" mdts=
- %"PRIu64" len %"PRIu64""
- nvme_err_prinfo(uint16_t cid, uint16_t ctrl) "cid %"PRIu16" ctrl %"PRIu1=
-6""
- nvme_err_aio(uint16_t cid, void *aio, const char *blkname, uint64_t offs=
-et, const char *opc, void *req, uint16_t status) "cid %"PRIu16" aio %p bl=
-k \"%s\" offset %"PRIu64" opc \"%s\" req %p status 0x%"PRIx16""
-+nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
-+nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
- nvme_err_invalid_sgl_descriptor(uint16_t cid, uint8_t typ) "cid %"PRIu16=
-" type 0x%"PRIx8""
- nvme_err_invalid_sgl_excess_length(uint16_t cid) "cid %"PRIu16""
- nvme_err_invalid_dma(void) "PRP/SGL is too small for transfer size"
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 418dadf3c5c6..ea75c2a9bbf9 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -459,7 +459,7 @@ enum NvmeStatusCodes {
-     NVME_INVALID_OPCODE         =3D 0x0001,
-     NVME_INVALID_FIELD          =3D 0x0002,
-     NVME_CID_CONFLICT           =3D 0x0003,
--    NVME_DATA_TRAS_ERROR        =3D 0x0004,
-+    NVME_DATA_TRANSFER_ERROR    =3D 0x0004,
-     NVME_POWER_LOSS_ABORT       =3D 0x0005,
-     NVME_INTERNAL_DEV_ERROR     =3D 0x0006,
-     NVME_CMD_ABORT_REQ          =3D 0x0007,
---=20
-2.24.0
+>=20
+> > ---
+> >  hw/arm/virt-acpi-build.c | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > index 4cd50175e0..074e0c858e 100644
+> > --- a/hw/arm/virt-acpi-build.c
+> > +++ b/hw/arm/virt-acpi-build.c
+> > @@ -790,6 +790,7 @@ void virt_acpi_build(VirtMachineState *vms,
+> AcpiBuildTables *tables)
+> >      GArray *table_offsets;
+> >      unsigned dsdt, xsdt;
+> >      GArray *tables_blob =3D tables->table_data;
+> > +    GArray *cmd_blob =3D tables->linker->cmd_blob;
+> >      MachineState *ms =3D MACHINE(vms);
+> >
+> >      table_offsets =3D g_array_new(false, true /* clear */,
+> > @@ -854,6 +855,19 @@ void virt_acpi_build(VirtMachineState *vms,
+> AcpiBuildTables *tables)
+> >          build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
+> >      }
+> >
+> > +    /*
+> > +     * Align the ACPI blob lengths to PAGE size so that on ACPI table
+> > +     * regeneration, the length that firmware sees really gets updated
+> > +     * through 'resize' callback in qemu_ram_resize() in the
+> > +     * virt_acpi_build_update() -> acpi_ram_update() ->
+> qemu_ram_resize()
+> > +     * path.
+> > +     */
+> > +    g_array_set_size(tables_blob,
+> > +
+> TARGET_PAGE_ALIGN(acpi_data_len(tables_blob)));
+> here it would depend on TARGET_PAGE_ALIGN vs HOST_PAGE_ALIGN relation
+> so depending on host it could flip it's behavior to opposite.
+
+Ok.
+
+>=20
+> one thing we could do is dropping (block->used_length =3D=3D newsize) con=
+dition
+
+I tried this before and strangely for some reason on reboot path,
+
+virt_acpi_build_update() is called with build_state being NULL and no acpi_=
+ram_update()
+happens. Not sure what causes this behavior when we drop the above conditio=
+n.
+
+> another is to use value of block->used_length for s->files->f[index].size=
+.
+
+I just tried this by passing block->used_length to fw_cfg_add_file_callback=
+() .
+This could work for this case. But not sure there will be any corner cases
+and also there isn't any easy way to access the mr->ram_balck->used_length =
+from
+hw/core/loader.c.
+
+>=20
+> Michael,
+> what's your take in this?
+
+Thanks,
+Shameer
+
+>=20
+> > +    g_array_set_size(tables->rsdp,
+> > +
+> TARGET_PAGE_ALIGN(acpi_data_len(tables->rsdp)));
+> > +    g_array_set_size(cmd_blob,
+> > +                     TARGET_PAGE_ALIGN(acpi_data_len(cmd_blob)));
+> >      /* Cleanup memory that's no longer used. */
+> >      g_array_free(table_offsets, true);
+> >  }
 
 
