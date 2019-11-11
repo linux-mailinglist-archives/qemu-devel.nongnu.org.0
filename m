@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725C2F7881
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:12:59 +0100 (CET)
-Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAEEF789E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:19:24 +0100 (CET)
+Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCJG-0002Xt-1u
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:12:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
+	id 1iUCPT-0001fY-FN
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCA0-0000Hl-DP
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:25 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iUCA9-0000NN-Rg
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUC9u-00032l-Sh
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40166
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iUCA7-00039I-Hw
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:33 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52825
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUC9u-00031l-O1
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:18 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCA5-00038N-0g
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488198;
+ s=mimecast20190719; t=1573488208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4NCOW8nlY+fuC+DwQmCp78uCKYSfszoYLuO4iepSv0g=;
- b=UHvaVF/dnMUNekb8owAecOm5b10yvDWUdskrFXQp950JaQKlLetEEXfAs5aIXdUel8l1J2
- ysrPHr4mRMiwzJiLGIKI50Jj5k07QHVafynb8Vq+mawHNtC6o7/uh7W8lPZDD/H3l5N4aO
- xFLaIQ1Cq1aXgvJcKfLHT0GOHwz4B8E=
+ bh=kIme/mNdsrkmmm0aGxqarwdyfyoRKfnPiYA6KQ8nt1k=;
+ b=GTA/Y3dP3xUr3ccttDKVnm9RBcoBLlFF1eZVQpy4MOBVetb+HMtX9QGWXgr0z1P31SHyJb
+ HjrR3kBeZ/u3jIEsKOHwwxCn81GPJfoIpQ4W7rovGP0MKB8LnDoGhDlIfx7Bowz6SSdRLt
+ UGzQJrKmVcaD/qrxz6hWUbu6fOJwIUA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-aVsf2vmaPq6YKdgjdjTRkA-1; Mon, 11 Nov 2019 11:03:16 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-224-SUcwdxAGPYensn6jeUpPpA-1; Mon, 11 Nov 2019 11:03:22 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6256292CA62;
- Mon, 11 Nov 2019 16:03:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0330107ACE4;
+ Mon, 11 Nov 2019 16:03:20 +0000 (UTC)
 Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD9EE5D6D4;
- Mon, 11 Nov 2019 16:03:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C8413DBB;
+ Mon, 11 Nov 2019 16:03:20 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 18/23] iotests: Add VM.assert_block_path()
-Date: Mon, 11 Nov 2019 17:02:11 +0100
-Message-Id: <20191111160216.197086-19-mreitz@redhat.com>
+Subject: [PATCH for-5.0 v2 20/23] iotests: Use self.image_len in
+ TestRepairQuorum
+Date: Mon, 11 Nov 2019 17:02:13 +0100
+Message-Id: <20191111160216.197086-21-mreitz@redhat.com>
 In-Reply-To: <20191111160216.197086-1-mreitz@redhat.com>
 References: <20191111160216.197086-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: aVsf2vmaPq6YKdgjdjTRkA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: SUcwdxAGPYensn6jeUpPpA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,85 +78,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/iotests.py | 59 +++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+041's TestRepairQuorum has its own image_len, no need to refer to
+TestSingleDrive.  (This patch allows commenting out TestSingleDrive to
+speed up 041 during test testing.)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index d34305ce69..3e03320ce3 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -681,6 +681,65 @@ class VM(qtest.QEMUQtestMachine):
-=20
-         return fields.items() <=3D ret.items()
-=20
-+    """
-+    Check whether the node under the given path in the block graph is
-+    @expected_node.
-+
-+    @root is the node name of the node where the @path is rooted.
-+
-+    @path is a string that consists of child names separated by
-+    slashes.  It must begin with a slash.
-+
-+    Examples for @root + @path:
-+      - root=3D"qcow2-node", path=3D"/backing/file"
-+      - root=3D"quorum-node", path=3D"/children.2/file"
-+
-+    Hypothetically, @path could be empty, in which case it would point
-+    to @root.  However, in practice this case is not useful and hence
-+    not allowed.
-+
-+    @expected_node may be None.
-+
-+    @graph may be None or the result of an x-debug-query-block-graph
-+    call that has already been performed.
-+    """
-+    def assert_block_path(self, root, path, expected_node, graph=3DNone):
-+        if graph is None:
-+            graph =3D self.qmp('x-debug-query-block-graph')['return']
-+
-+        iter_path =3D iter(path.split('/'))
-+
-+        # Must start with a /
-+        assert next(iter_path) =3D=3D ''
-+
-+        node =3D next((node for node in graph['nodes'] if node['name'] =3D=
-=3D root),
-+                    None)
-+
-+        for path_node in iter_path:
-+            assert node is not None, 'Cannot follow path %s' % path
-+
-+            try:
-+                node_id =3D next(edge['child'] for edge in graph['edges'] =
-\
-+                                             if edge['parent'] =3D=3D node=
-['id'] and
-+                                                edge['name'] =3D=3D path_n=
-ode)
-+
-+                node =3D next(node for node in graph['nodes'] \
-+                                 if node['id'] =3D=3D node_id)
-+            except StopIteration:
-+                node =3D None
-+
-+        assert node is not None or expected_node is None, \
-+               'No node found under %s (but expected %s)' % \
-+               (path, expected_node)
-+
-+        assert expected_node is not None or node is None, \
-+               'Found node %s under %s (but expected none)' % \
-+               (node['name'], path)
-+
-+        if node is not None and expected_node is not None:
-+            assert node['name'] =3D=3D expected_node, \
-+                   'Found node %s under %s (but expected %s)' % \
-+                   (node['name'], path, expected_node)
-=20
- index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
-=20
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/041 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index d636cb7f1d..0c1af45639 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -881,7 +881,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
+         # Add each individual quorum images
+         for i in self.IMAGES:
+             qemu_img('create', '-f', iotests.imgfmt, i,
+-                     str(TestSingleDrive.image_len))
++                     str(self.image_len))
+             # Assign a node name to each quorum image in order to manipula=
+te
+             # them
+             opts =3D "node-name=3Dimg%i" % self.IMAGES.index(i)
 --=20
 2.23.0
 
