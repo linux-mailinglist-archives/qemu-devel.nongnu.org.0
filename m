@@ -2,39 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC7F78F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:39:37 +0100 (CET)
-Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229BFF790E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:45:17 +0100 (CET)
+Received: from localhost ([::1]:55130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCj1-0008Tu-Nr
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:39:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
+	id 1iUCoW-0006Tz-6w
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:45:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iUCBO-0001ND-WB
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:04:52 -0500
+ (envelope-from <mst@redhat.com>) id 1iUCLF-0006RR-4C
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:15:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iUCBN-0003SG-3G
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:04:50 -0500
-Received: from relay.sw.ru ([185.231.240.75]:58210)
+ (envelope-from <mst@redhat.com>) id 1iUCLD-0007aG-U1
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:15:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41237
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iUCBL-0003RT-AD; Mon, 11 Nov 2019 11:04:48 -0500
-Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iUCBC-0003my-OJ; Mon, 11 Nov 2019 19:04:38 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v6 1/3] block: introduce compress filter driver
-Date: Mon, 11 Nov 2019 19:04:35 +0300
-Message-Id: <1573488277-794975-2-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1573488277-794975-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1573488277-794975-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iUCLD-0007Zg-Pi
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:14:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573488899;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OBvWUDiYu62j00yT/+fqATyx7dX8irN1FgZbalznWX0=;
+ b=BkRm8Yg7Yj1KfjJPvjYrUNPzwO4HbVYG9sXPbcUoGnw6BQYiCQFlOyKmDCTGgAxMUiZrS7
+ 3UojwbZjDDEGFEEXHEO/lxlfO6MWDw6GRngow0ifgKHp2ixZ+LJhYuCnW+62j+fA6Vpd2y
+ 0sqYatNtxhoKO/NlRqC2ESnTLODDoHc=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-FYy1bn_fP3uvPG0XzxEkWw-1; Mon, 11 Nov 2019 11:14:56 -0500
+Received: by mail-qk1-f197.google.com with SMTP id a13so8068411qkc.17
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 08:14:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dVkWaw+58rQsHT3SETkIDwx4gS8196YhUcD+YdvGzWE=;
+ b=LrNUQHYi/Ee1WUJvWOv5fKGWRYijo6XGCKsFuR+xPo95Tence1QP+ugppq424XO9ak
+ CATe4fE0bMFXcQLkzDPqT6CRpm70BJx1kWpLLUm9t3cDFN/okYoSo2DWMRhaw70Q3Pei
+ toVqF4aYbEnc4bQx8XpGMkznrI/Jz4q4ykKO7Egbvtw8rttgpaHViL6KAaM6zvEBTK80
+ YhQWTf4k/zrHjz2ueUltgvGPnpOskZF5eYl78MgubSF2InQOS1roqsXfNpT80GTjmTdy
+ dWOSrYSs7wlC1NdDe8x7SHZQNwTFip6MfpbuQTzytSWFglPyvyuAP4rNpWqX6Sn2PGmO
+ UCgQ==
+X-Gm-Message-State: APjAAAXo+w4dKjz6PCoIeDVTs37zRHKlXRCgDSjx5uKisWEulUIhvMPG
+ qvPhXOkQhgOPATKL/wWW0JI24gkl7f9d5pZsotWavcOGSn2XzLVlgRGn5CcEe8ayVue3fplXR94
+ G74vS2lkRzThrIgE=
+X-Received: by 2002:a37:9e05:: with SMTP id h5mr1318606qke.76.1573488895894;
+ Mon, 11 Nov 2019 08:14:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwa9bgDG0bi7y5B/GuSwLmsmFvs/g36cOIp2Jt0HR0PZQYrfw/pCXhzJyVttoVaZtiGlFQepA==
+X-Received: by 2002:a37:9e05:: with SMTP id h5mr1318577qke.76.1573488895606;
+ Mon, 11 Nov 2019 08:14:55 -0800 (PST)
+Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
+ by smtp.gmail.com with ESMTPSA id x65sm7787226qkd.15.2019.11.11.08.14.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 08:14:54 -0800 (PST)
+Date: Mon, 11 Nov 2019 11:14:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
+ revision 2
+Message-ID: <20191111111203-mutt-send-email-mst@kernel.org>
+References: <cover.1573477032.git.jan.kiszka@siemens.com>
+ <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
+ <20191111084327-mutt-send-email-mst@kernel.org>
+ <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
+ <20191111100607-mutt-send-email-mst@kernel.org>
+ <20191111152743.GM814211@redhat.com>
+ <129c527c-1e61-8c0c-3ca1-fe93e26c8bd2@siemens.com>
+MIME-Version: 1.0
+In-Reply-To: <129c527c-1e61-8c0c-3ca1-fe93e26c8bd2@siemens.com>
+X-MC-Unique: FYy1bn_fP3uvPG0XzxEkWw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,289 +94,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow writing all the data compressed through the filter driver.
-The written data will be aligned by the cluster size.
-Based on the QEMU current implementation, that data can be written to
-unallocated clusters only. May be used for a backup job.
+On Mon, Nov 11, 2019 at 04:42:52PM +0100, Jan Kiszka wrote:
+> On 11.11.19 16:27, Daniel P. Berrang=E9 wrote:
+> > On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
+> > > On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
+> > > > On 11.11.19 14:45, Michael S. Tsirkin wrote:
+> > > > > On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
+> > > > > > +| Offset | Register               | Content                   =
+                           |
+> > > > > > +|-------:|:-----------------------|:--------------------------=
+---------------------------|
+> > > > > > +|    00h | Vendor ID              | 1AF4h                     =
+                           |
+> > > > > > +|    02h | Device ID              | 1110h                     =
+                           |
+> > > > >=20
+> > > > > Given it's a virtio vendor ID, please reserve a device ID
+> > > > > with the virtio TC.
+> > > >=20
+> > > > Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this =
+finally
+> > > > official.
+> > > >=20
+> > >=20
+> > > And I guess we will just mark it reserved or something right?
+> > > Since at least IVSHMEM 1 isn't a virtio device.
+> > > And will you be reusing same ID for IVSHMEM 2 or a new one?
+> >=20
+> > 1110h isn't under either of the virtio PCI device ID allowed ranges
+> > according to the spec:
+> >=20
+> >    "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
+> >     ID 0x1000 through 0x107F inclusive is a virtio device.
+> >     ...
+> >     Additionally, devices MAY utilize a Transitional PCI Device
+> >     ID range, 0x1000 to 0x103F depending on the device type. "
+> >=20
+> > So there's no need to reserve 0x1110h from the virtio spec POV.
+>=20
+> Indeed.
+>=20
+> >=20
+> > I have, however, ensured it is assigned to ivshmem from POV of
+> > Red Hat's own internal tracking of allocated device IDs, under
+> > its vendor ID.
+> >=20
+> > If ivshmem 2 is now a virtio device, then it is a good thing that
+> > it will get a new/different PCI device ID, to show that it is not
+> > compatible with the old device impl.
+>=20
+> At this stage, it is just a PCI device that may be used in combination wi=
+th
+> virtio (stacked on top), but it is not designed like a normal virtio (PCI=
+)
+> device. That's because it lacks many properties of regular virtio devices=
+,
+> like queues.
+>=20
+> So, if such a device could be come part of the virtio spec, it would be
+> separate from the rest, and having an ID from the regular range would lik=
+ely
+> not be helpful in this regard.
+>=20
+> Jan
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- block/Makefile.objs     |   1 +
- block/filter-compress.c | 212 ++++++++++++++++++++++++++++++++++++++++++++++++
- qapi/block-core.json    |  10 ++-
- 3 files changed, 219 insertions(+), 4 deletions(-)
- create mode 100644 block/filter-compress.c
+I agree it needs a separate ID not from the regular range.
+It's a distinct transport.
+Maybe even a distinct vendor ID - we could easily get another one
+if needed.
 
-diff --git a/block/Makefile.objs b/block/Makefile.objs
-index e394fe0..330529b 100644
---- a/block/Makefile.objs
-+++ b/block/Makefile.objs
-@@ -43,6 +43,7 @@ block-obj-y += crypto.o
- 
- block-obj-y += aio_task.o
- block-obj-y += backup-top.o
-+block-obj-y += filter-compress.o
- 
- common-obj-y += stream.o
- 
-diff --git a/block/filter-compress.c b/block/filter-compress.c
-new file mode 100644
-index 0000000..a7b0337
---- /dev/null
-+++ b/block/filter-compress.c
-@@ -0,0 +1,212 @@
-+/*
-+ * Compress filter block driver
-+ *
-+ * Copyright (c) 2019 Virtuozzo International GmbH
-+ *
-+ * Author:
-+ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-+ *   (based on block/copy-on-read.c by Max Reitz)
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License as
-+ * published by the Free Software Foundation; either version 2 or
-+ * (at your option) any later version of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "block/block_int.h"
-+#include "qemu/module.h"
-+
-+
-+static int zip_open(BlockDriverState *bs, QDict *options, int flags,
-+                     Error **errp)
-+{
-+    bs->backing = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
-+                                  errp);
-+    if (!bs->backing) {
-+        return -EINVAL;
-+    }
-+
-+    bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
-+        BDRV_REQ_WRITE_COMPRESSED |
-+        (BDRV_REQ_FUA & bs->backing->bs->supported_write_flags);
-+
-+    bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
-+        ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-+            bs->backing->bs->supported_zero_flags);
-+
-+    return 0;
-+}
-+
-+
-+#define PERM_PASSTHROUGH (BLK_PERM_CONSISTENT_READ \
-+                          | BLK_PERM_WRITE \
-+                          | BLK_PERM_RESIZE)
-+#define PERM_UNCHANGED (BLK_PERM_ALL & ~PERM_PASSTHROUGH)
-+
-+static void zip_child_perm(BlockDriverState *bs, BdrvChild *c,
-+                            const BdrvChildRole *role,
-+                            BlockReopenQueue *reopen_queue,
-+                            uint64_t perm, uint64_t shared,
-+                            uint64_t *nperm, uint64_t *nshared)
-+{
-+    *nperm = perm & PERM_PASSTHROUGH;
-+    *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
-+
-+    /*
-+     * We must not request write permissions for an inactive node, the child
-+     * cannot provide it.
-+     */
-+    if (!(bs->open_flags & BDRV_O_INACTIVE)) {
-+        *nperm |= BLK_PERM_WRITE_UNCHANGED;
-+    }
-+}
-+
-+
-+static int64_t zip_getlength(BlockDriverState *bs)
-+{
-+    return bdrv_getlength(bs->backing->bs);
-+}
-+
-+
-+static int coroutine_fn zip_co_truncate(BlockDriverState *bs, int64_t offset,
-+                                         bool exact, PreallocMode prealloc,
-+                                         Error **errp)
-+{
-+    return bdrv_co_truncate(bs->backing, offset, exact, prealloc, errp);
-+}
-+
-+
-+static int coroutine_fn zip_co_preadv(BlockDriverState *bs,
-+                                       uint64_t offset, uint64_t bytes,
-+                                       QEMUIOVector *qiov, int flags)
-+{
-+    return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
-+}
-+
-+
-+static int coroutine_fn zip_co_preadv_part(BlockDriverState *bs,
-+                                            uint64_t offset, uint64_t bytes,
-+                                            QEMUIOVector *qiov,
-+                                            size_t qiov_offset,
-+                                            int flags)
-+{
-+    return bdrv_co_preadv_part(bs->backing, offset, bytes, qiov, qiov_offset,
-+                               flags);
-+}
-+
-+
-+static int coroutine_fn zip_co_pwritev(BlockDriverState *bs,
-+                                        uint64_t offset, uint64_t bytes,
-+                                        QEMUIOVector *qiov, int flags)
-+{
-+    return bdrv_co_pwritev(bs->backing, offset, bytes, qiov,
-+                           flags | BDRV_REQ_WRITE_COMPRESSED);
-+}
-+
-+
-+static int coroutine_fn zip_co_pwritev_part(BlockDriverState *bs,
-+                                             uint64_t offset, uint64_t bytes,
-+                                             QEMUIOVector *qiov,
-+                                             size_t qiov_offset, int flags)
-+{
-+    return bdrv_co_pwritev_part(bs->backing, offset, bytes, qiov, qiov_offset,
-+                                flags | BDRV_REQ_WRITE_COMPRESSED);
-+}
-+
-+
-+static int coroutine_fn zip_co_pwrite_zeroes(BlockDriverState *bs,
-+                                              int64_t offset, int bytes,
-+                                              BdrvRequestFlags flags)
-+{
-+    return bdrv_co_pwrite_zeroes(bs->backing, offset, bytes, flags);
-+}
-+
-+
-+static int coroutine_fn zip_co_pdiscard(BlockDriverState *bs,
-+                                         int64_t offset, int bytes)
-+{
-+    return bdrv_co_pdiscard(bs->backing, offset, bytes);
-+}
-+
-+
-+static void zip_refresh_limits(BlockDriverState *bs, Error **errp)
-+{
-+    BlockDriverInfo bdi;
-+    int ret;
-+
-+    if (!bs->backing) {
-+        return;
-+    }
-+
-+    ret = bdrv_get_info(bs->backing->bs, &bdi);
-+    if (ret < 0 || bdi.cluster_size == 0) {
-+        return;
-+    }
-+
-+    bs->backing->bs->bl.request_alignment = bdi.cluster_size;
-+    bs->backing->bs->bl.max_transfer = bdi.cluster_size;
-+}
-+
-+
-+static void zip_eject(BlockDriverState *bs, bool eject_flag)
-+{
-+    bdrv_eject(bs->backing->bs, eject_flag);
-+}
-+
-+
-+static void zip_lock_medium(BlockDriverState *bs, bool locked)
-+{
-+    bdrv_lock_medium(bs->backing->bs, locked);
-+}
-+
-+
-+static bool zip_recurse_is_first_non_filter(BlockDriverState *bs,
-+                                             BlockDriverState *candidate)
-+{
-+    return bdrv_recurse_is_first_non_filter(bs->backing->bs, candidate);
-+}
-+
-+
-+static BlockDriver bdrv_compress = {
-+    .format_name                        = "compress",
-+
-+    .bdrv_open                          = zip_open,
-+    .bdrv_child_perm                    = zip_child_perm,
-+
-+    .bdrv_getlength                     = zip_getlength,
-+    .bdrv_co_truncate                   = zip_co_truncate,
-+
-+    .bdrv_co_preadv                     = zip_co_preadv,
-+    .bdrv_co_preadv_part                = zip_co_preadv_part,
-+    .bdrv_co_pwritev                    = zip_co_pwritev,
-+    .bdrv_co_pwritev_part               = zip_co_pwritev_part,
-+    .bdrv_co_pwrite_zeroes              = zip_co_pwrite_zeroes,
-+    .bdrv_co_pdiscard                   = zip_co_pdiscard,
-+    .bdrv_refresh_limits                = zip_refresh_limits,
-+
-+    .bdrv_eject                         = zip_eject,
-+    .bdrv_lock_medium                   = zip_lock_medium,
-+
-+    .bdrv_co_block_status               = bdrv_co_block_status_from_backing,
-+
-+    .bdrv_recurse_is_first_non_filter   = zip_recurse_is_first_non_filter,
-+
-+    .has_variable_length                = true,
-+    .is_filter                          = true,
-+};
-+
-+static void bdrv_compress_init(void)
-+{
-+    bdrv_register(&bdrv_compress);
-+}
-+
-+block_init(bdrv_compress_init);
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index aa97ee2..33d8cd8 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2884,15 +2884,16 @@
- # @copy-on-read: Since 3.0
- # @blklogwrites: Since 3.0
- # @blkreplay: Since 4.2
-+# @compress: Since 4.2
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
-   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
--            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
--            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
--            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
--            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-+            'cloop', 'copy-on-read', 'compress', 'dmg', 'file', 'ftp', 'ftps',
-+            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
-+            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
-+            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
-             'sheepdog',
-             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxhs' ] }
-@@ -4045,6 +4046,7 @@
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'copy-on-read':'BlockdevOptionsGenericFormat',
-+      'compress':   'BlockdevOptionsGenericFormat',
-       'dmg':        'BlockdevOptionsGenericFormat',
-       'file':       'BlockdevOptionsFile',
-       'ftp':        'BlockdevOptionsCurlFtp',
--- 
-1.8.3.1
+> --=20
+> Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+> Corporate Competence Center Embedded Linux
 
 
