@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABE2F73EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:32:32 +0100 (CET)
-Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F16F73FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:35:53 +0100 (CET)
+Received: from localhost ([::1]:51872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU8rv-0005Ms-7J
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:32:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36920)
+	id 1iU8vA-0001JA-BT
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:35:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iU8li-0007ca-84
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:07 -0500
+ (envelope-from <its@irrelevant.dk>) id 1iU8m3-0008Cy-EN
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iU8lh-0003Rv-0r
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:06 -0500
-Received: from charlie.dont.surf ([128.199.63.193]:52200)
+ (envelope-from <its@irrelevant.dk>) id 1iU8m1-0003YH-4l
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:27 -0500
+Received: from charlie.dont.surf ([128.199.63.193]:52214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iU8ld-0003Oa-GW; Mon, 11 Nov 2019 07:26:01 -0500
+ id 1iU8lx-0003Oi-Qt; Mon, 11 Nov 2019 07:26:22 -0500
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 714AABFAE9;
+ by charlie.dont.surf (Postfix) with ESMTPSA id BB086BFAF3;
  Mon, 11 Nov 2019 12:26:00 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 10/21] nvme: add logging to error information log page
-Date: Mon, 11 Nov 2019 13:25:34 +0100
-Message-Id: <20191111122545.252478-11-its@irrelevant.dk>
+Subject: [PATCH v3 11/21] nvme: add missing mandatory features
+Date: Mon, 11 Nov 2019 13:25:35 +0100
+Message-Id: <20191111122545.252478-12-its@irrelevant.dk>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191111122545.252478-1-its@irrelevant.dk>
 References: <20191111122545.252478-1-its@irrelevant.dk>
@@ -55,88 +55,173 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Javier Gonzalez <javier@javigon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the nvme_set_error_page function which allows errors to be
-written to the error information log page. The functionality is largely
-unused in the device, but with this in place we can at least try to push
-new contributions to use it.
+Add support for returning a resonable response to Get/Set Features of
+mandatory features.
 
-NOTE: In violation of the specification the Error Count field is *not*
-retained across power off conditions because the device currently has no
-place to store this kind of persistent state.
-
-Cribbed from Keith's qemu-nvme tree.
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
 ---
- hw/block/nvme.c | 22 ++++++++++++++++++++--
- hw/block/nvme.h |  2 ++
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ hw/block/nvme.c       | 51 ++++++++++++++++++++++++++++++++++++++++---
+ hw/block/trace-events |  2 ++
+ include/block/nvme.h  |  3 ++-
+ 3 files changed, 52 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f1a9b2cf5cbd..47f7c5cfcff9 100644
+index 47f7c5cfcff9..5c3dc49416ec 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -161,6 +161,22 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueu=
-e *cq)
-     }
+@@ -1006,12 +1006,24 @@ static uint16_t nvme_get_feature_timestamp(NvmeCt=
+rl *n, NvmeCmd *cmd)
+ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest =
+*req)
+ {
+     uint32_t dw10 =3D le32_to_cpu(cmd->cdw10);
++    uint32_t dw11 =3D le32_to_cpu(cmd->cdw11);
+     uint32_t result;
+=20
++    trace_nvme_getfeat(dw10);
++
+     switch (dw10) {
++    case NVME_ARBITRATION:
++        result =3D cpu_to_le32(n->features.arbitration);
++        break;
++    case NVME_POWER_MANAGEMENT:
++        result =3D cpu_to_le32(n->features.power_mgmt);
++        break;
+     case NVME_TEMPERATURE_THRESHOLD:
+         result =3D cpu_to_le32(n->features.temp_thresh);
+         break;
++    case NVME_ERROR_RECOVERY:
++        result =3D cpu_to_le32(n->features.err_rec);
++        break;
+     case NVME_VOLATILE_WRITE_CACHE:
+         result =3D blk_enable_write_cache(n->conf.blk);
+         trace_nvme_getfeat_vwcache(result ? "enabled" : "disabled");
+@@ -1023,6 +1035,19 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, Nvme=
+Cmd *cmd, NvmeRequest *req)
+         break;
+     case NVME_TIMESTAMP:
+         return nvme_get_feature_timestamp(n, cmd);
++    case NVME_INTERRUPT_COALESCING:
++        result =3D cpu_to_le32(n->features.int_coalescing);
++        break;
++    case NVME_INTERRUPT_VECTOR_CONF:
++        if ((dw11 & 0xffff) > n->params.num_queues) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++
++        result =3D cpu_to_le32(n->features.int_vector_config[dw11 & 0xff=
+ff]);
++        break;
++    case NVME_WRITE_ATOMICITY:
++        result =3D cpu_to_le32(n->features.write_atomicity);
++        break;
+     case NVME_ASYNCHRONOUS_EVENT_CONF:
+         result =3D cpu_to_le32(n->features.async_config);
+         break;
+@@ -1058,6 +1083,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeC=
+md *cmd, NvmeRequest *req)
+     uint32_t dw10 =3D le32_to_cpu(cmd->cdw10);
+     uint32_t dw11 =3D le32_to_cpu(cmd->cdw11);
+=20
++    trace_nvme_setfeat(dw10, dw11);
++
+     switch (dw10) {
+     case NVME_TEMPERATURE_THRESHOLD:
+         n->features.temp_thresh =3D dw11;
+@@ -1085,6 +1112,13 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvme=
+Cmd *cmd, NvmeRequest *req)
+     case NVME_ASYNCHRONOUS_EVENT_CONF:
+         n->features.async_config =3D dw11;
+         break;
++    case NVME_ARBITRATION:
++    case NVME_POWER_MANAGEMENT:
++    case NVME_ERROR_RECOVERY:
++    case NVME_INTERRUPT_COALESCING:
++    case NVME_INTERRUPT_VECTOR_CONF:
++    case NVME_WRITE_ATOMICITY:
++        return NVME_FEAT_NOT_CHANGABLE | NVME_DNR;
+     default:
+         trace_nvme_err_invalid_setfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1708,6 +1742,14 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->starttime_ms =3D qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+     n->temperature =3D NVME_TEMPERATURE;
+     n->features.temp_thresh =3D 0x14d;
++    n->features.int_vector_config =3D g_malloc0_n(n->params.num_queues,
++        sizeof(*n->features.int_vector_config));
++
++    /* disable coalescing (not supported) */
++    for (int i =3D 0; i < n->params.num_queues; i++) {
++        n->features.int_vector_config[i] =3D i | (1 << 16);
++    }
++
+     n->aer_reqs =3D g_new0(NvmeRequest *, n->params.aerl + 1);
  }
 =20
-+static void nvme_set_error_page(NvmeCtrl *n, uint16_t sqid, uint16_t cid=
-,
-+    uint16_t status, uint16_t location, uint64_t lba, uint32_t nsid)
-+{
-+    NvmeErrorLog *elp;
+@@ -1785,15 +1827,17 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+     id->nn =3D cpu_to_le32(n->num_namespaces);
+     id->oncs =3D cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP=
+);
+=20
 +
-+    elp =3D &n->elpes[n->elp_index];
-+    elp->error_count =3D n->error_count++;
-+    elp->sqid =3D sqid;
-+    elp->cid =3D cid;
-+    elp->status_field =3D status;
-+    elp->param_error_location =3D location;
-+    elp->lba =3D lba;
-+    elp->nsid =3D nsid;
-+    n->elp_index =3D (n->elp_index + 1) % n->params.elpe;
-+}
++    if (blk_enable_write_cache(n->conf.blk)) {
++        id->vwc =3D 1;
++    }
 +
- static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_=
-t prp1,
-                              uint64_t prp2, uint32_t len, NvmeCtrl *n)
- {
-@@ -386,7 +402,9 @@ static void nvme_rw_cb(void *opaque, int ret)
-         req->status =3D NVME_SUCCESS;
-     } else {
-         block_acct_failed(blk_get_stats(n->conf.blk), &req->acct);
--        req->status =3D NVME_INTERNAL_DEV_ERROR;
-+        nvme_set_error_page(n, sq->sqid, cpu_to_le16(req->cid),
-+            NVME_INTERNAL_DEV_ERROR, 0, 0, 1);
-+        req->status =3D NVME_INTERNAL_DEV_ERROR | NVME_MORE;
-     }
-     if (req->has_sg) {
-         qemu_sglist_destroy(&req->qsg);
-@@ -677,7 +695,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, NvmeCmd =
-*cmd, uint8_t rae,
-     smart.host_read_commands[0] =3D cpu_to_le64(read_commands);
-     smart.host_write_commands[0] =3D cpu_to_le64(write_commands);
+     strcpy((char *) id->subnqn, "nqn.2019-08.org.qemu:");
+     pstrcat((char *) id->subnqn, sizeof(id->subnqn), n->params.serial);
 =20
--    smart.number_of_error_log_entries[0] =3D cpu_to_le64(0);
-+    smart.number_of_error_log_entries[0] =3D cpu_to_le64(n->error_count)=
-;
-     smart.temperature[0] =3D n->temperature & 0xff;
-     smart.temperature[1] =3D (n->temperature >> 8) & 0xff;
+     id->psd[0].mp =3D cpu_to_le16(0x9c4);
+     id->psd[0].enlat =3D cpu_to_le32(0x10);
+     id->psd[0].exlat =3D cpu_to_le32(0x4);
+-    if (blk_enable_write_cache(n->conf.blk)) {
+-        id->vwc =3D 1;
+-    }
 =20
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 3fc36f577b46..d74b0e0f9b2c 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -100,6 +100,8 @@ typedef struct NvmeCtrl {
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-     uint16_t    temperature;
-+    uint8_t     elp_index;
-+    uint64_t    error_count;
+     n->bar.cap =3D 0;
+     NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
+@@ -1865,6 +1909,7 @@ static void nvme_exit(PCIDevice *pci_dev)
+     g_free(n->sq);
+     g_free(n->elpes);
+     g_free(n->aer_reqs);
++    g_free(n->features.int_vector_config);
 =20
-     QEMUTimer   *aer_timer;
-     uint8_t     aer_mask;
+     if (n->params.cmb_size_mb) {
+         g_free(n->cmbuf);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 6ddb13d34061..a20a68d85d5a 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -41,6 +41,8 @@ nvme_del_cq(uint16_t cqid) "deleted completion queue, s=
+qid=3D%"PRIu16""
+ nvme_identify_ctrl(void) "identify controller"
+ nvme_identify_ns(uint16_t ns) "identify namespace, nsid=3D%"PRIu16""
+ nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=3D%"PRI=
+u16""
++nvme_getfeat(uint32_t fid) "fid 0x%"PRIx32""
++nvme_setfeat(uint32_t fid, uint32_t val) "fid 0x%"PRIx32" val 0x%"PRIx32=
+""
+ nvme_getfeat_vwcache(const char* result) "get feature volatile write cac=
+he, result=3D%s"
+ nvme_getfeat_numq(int result) "get feature number of queues, result=3D%d=
+"
+ nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested=
+ cq_count=3D%d sq_count=3D%d, responding with cq_count=3D%d sq_count=3D%d=
+"
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index ded2ade1b462..6940b71e0e3e 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -445,7 +445,8 @@ enum NvmeStatusCodes {
+     NVME_FW_REQ_RESET           =3D 0x010b,
+     NVME_INVALID_QUEUE_DEL      =3D 0x010c,
+     NVME_FID_NOT_SAVEABLE       =3D 0x010d,
+-    NVME_FID_NOT_NSID_SPEC      =3D 0x010f,
++    NVME_FEAT_NOT_CHANGABLE     =3D 0x010e,
++    NVME_FEAT_NOT_NSID_SPEC     =3D 0x010f,
+     NVME_FW_REQ_SUSYSTEM_RESET  =3D 0x0110,
+     NVME_CONFLICTING_ATTRS      =3D 0x0180,
+     NVME_INVALID_PROT_INFO      =3D 0x0181,
 --=20
 2.24.0
 
