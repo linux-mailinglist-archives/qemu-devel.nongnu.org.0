@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E100F77AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 16:29:26 +0100 (CET)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978FAF77AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 16:32:33 +0100 (CET)
+Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUBd6-0006wr-H9
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 10:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
+	id 1iUBg8-0000Wm-Gl
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 10:32:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1iUBc6-0006U9-LA
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:28:23 -0500
+ (envelope-from <berrange@redhat.com>) id 1iUBcq-00070v-0Y
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1iUBc5-0002Cv-A3
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:28:22 -0500
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:44234)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1iUBc5-0002CU-5s; Mon, 11 Nov 2019 10:28:21 -0500
-Received: by mail-yb1-xb42.google.com with SMTP id g38so6313139ybe.11;
- Mon, 11 Nov 2019 07:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TMToojQjb4LkQHlyZn7r98q377dW+PcJDMvYM+oBKcU=;
- b=MjjIgdjlEv9gLe8d7DhqcAID7MxoTXXtw0tDhiMSoynixVhGgGRNTxdM0T4fwqg0yY
- DEhFtCJDRPZ0tG7OZensTTA2cRqS+FxE8zcCi9CP0gqjCqW5mcbpgyvuu4vuAWHcX+gk
- s+W5fiRKzUXxmaQqk0Le/qh4G7H23Da65lEKFOuR1glCXrJuv76CCO3wUzliN2ghNHE+
- 2WDiH2epkR3V7RJYDllhPaGKVhTkbV4H4E9mDje/qWVQQa5WJqKGRXS1Lt2x/aTKETW1
- IGXbsqXMutJ4FiVvchD3NDo4p/vNvTLjQEtp3TInwUWpfxH3B1u754cypE0UKwzJBBll
- mKpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TMToojQjb4LkQHlyZn7r98q377dW+PcJDMvYM+oBKcU=;
- b=NWhbKwcV9X5zl6dHnisJDXYBYKIs6W+EkklWmEcqZ7YXnXW/RDhBTF6G/y7+cdDjGH
- nkJpRBkHmqBHDwhsjIzehdxaSVg9xcGsD25t0G2Gs6I6OjZb/RzPlHBjgwYf9muI2oLe
- gvE0/NgP+xXGEDxfSKlznxl2wEDdTmC4NbK4m/1oYZKDiuUgV7jG6hLIJJK61z/e3/aA
- cKt8h343G0wf/aqe+6ow4ZFvqeW2YdiKtBruyzru+woORGEKSq30tLahEc6ehfeFThOj
- tteYM0i6ZnxjkuxaMy7JGl4LnbRqFkdWl2jRRXtO4KUFY7O1VyoT1Ygu2QXz4FHY2CgH
- wzEg==
-X-Gm-Message-State: APjAAAUUtlhLlOE0B+7UQ8WFz7fjVMttH68RE8IjEZlDPn6mpGOTN44m
- Sx9G1T7t3fcpiYQ8KLwEFLDgJvRrasu7VDl5nQw=
-X-Google-Smtp-Source: APXvYqxH+NylZgUAdZZ4urnINrmISZPDqSVccdgJGOVL7knRVM31R7jzn3yGZi1ervUPtYGqYMyFaDP36tPxK5bkqX4=
-X-Received: by 2002:a25:42d6:: with SMTP id p205mr11713997yba.65.1573486100092; 
- Mon, 11 Nov 2019 07:28:20 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iUBcn-0002Pz-Bt
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40809
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iUBcm-0002Pm-UQ
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573486144;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hZUpsan7ynawPn4cZlERvm27mWsq78DDG0gqXnnrob8=;
+ b=KtLGCmTmaTAxf8ydn0tAivY/wLDDM5VGn/hMLEAgZ4UMsVBzOes3BIUyUUUvhYVPWpPKi5
+ 5HP1qpXsTsRMlYA0B7ppHv2BvCsrQMZzgy35qGuF8CExubK7/sd7LZDKsRUtpFD7wrzLM6
+ v/RkKtvCQzJNOxZ08CIc+t4CG20XHLw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-kNwO3cPvP4G4TGyclD_Uhg-1; Mon, 11 Nov 2019 10:27:55 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79471106BB8C;
+ Mon, 11 Nov 2019 15:27:54 +0000 (UTC)
+Received: from redhat.com (ovpn-112-45.ams2.redhat.com [10.36.112.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9878C5D9C9;
+ Mon, 11 Nov 2019 15:27:46 +0000 (UTC)
+Date: Mon, 11 Nov 2019 15:27:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
+ revision 2
+Message-ID: <20191111152743.GM814211@redhat.com>
+References: <cover.1573477032.git.jan.kiszka@siemens.com>
+ <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
+ <20191111084327-mutt-send-email-mst@kernel.org>
+ <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
+ <20191111100607-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20191111133804.14454-1-anup.patel@wdc.com>
- <MN2PR04MB60618CCC891177DC612532E98D740@MN2PR04MB6061.namprd04.prod.outlook.com>
-In-Reply-To: <MN2PR04MB60618CCC891177DC612532E98D740@MN2PR04MB6061.namprd04.prod.outlook.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 11 Nov 2019 23:28:08 +0800
-Message-ID: <CAEUhbmVCjFHD6HbA1LS2xbbUGjL5goo3dZat_ZXWiTV=50LvTA@mail.gmail.com>
-Subject: Re: [PATCH] riscv/virt: Add syscon reboot and poweroff DT nodes
-To: Anup Patel <Anup.Patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
+In-Reply-To: <20191111100607-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: kNwO3cPvP4G4TGyclD_Uhg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,103 +78,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Christoph Hellwig <hch@lst.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 11, 2019 at 9:42 PM Anup Patel <Anup.Patel@wdc.com> wrote:
->
-> Correct Palmer's email address.
->
-> > -----Original Message-----
-> > From: Anup Patel
-> > Sent: Monday, November 11, 2019 7:08 PM
-> > To: Peter Maydell <peter.maydell@linaro.org>; Palmer Dabbelt
-> > <palmer@sifive.com>; Alistair Francis <Alistair.Francis@wdc.com>; Sagar
-> > Karandikar <sagark@eecs.berkeley.edu>
-> > Cc: Atish Patra <Atish.Patra@wdc.com>; Christoph Hellwig <hch@lst.de>;
-> > Anup Patel <anup@brainfault.org>; qemu-riscv@nongnu.org; qemu-
-> > devel@nongnu.org; Anup Patel <Anup.Patel@wdc.com>
-> > Subject: [PATCH] riscv/virt: Add syscon reboot and poweroff DT nodes
-> >
-> > The SiFive test device found on virt machine can be used by generic syscon
-> > reboot and poweroff drivers available in Linux kernel.
-> >
-> > This patch updates FDT generation in virt machine so that Linux kernel can
-> > probe and use generic syscon drivers.
-> >
-> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > ---
-> >  hw/riscv/virt.c | 28 ++++++++++++++++++++++++----
-> >  1 file changed, 24 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c index cc8f311e6b..fdfa359713
-> > 100644
-> > --- a/hw/riscv/virt.c
-> > +++ b/hw/riscv/virt.c
-> > @@ -182,11 +182,11 @@ static void create_fdt(RISCVVirtState *s, const
-> > struct MemmapEntry *memmap,
-> >      uint64_t mem_size, const char *cmdline)  {
-> >      void *fdt;
-> > -    int cpu;
-> > +    int cpu, i;
-> >      uint32_t *cells;
-> >      char *nodename;
-> > -    uint32_t plic_phandle, phandle = 1;
-> > -    int i;
-> > +    const char test_compat[] = "sifive,test0\0syscon";
-> > +    uint32_t plic_phandle, test_phandle, phandle = 1;
-> >      hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
-> >      hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
-> >
-> > @@ -356,13 +356,33 @@ static void create_fdt(RISCVVirtState *s, const
-> > struct MemmapEntry *memmap,
-> >      create_pcie_irq_map(fdt, nodename, plic_phandle);
-> >      g_free(nodename);
-> >
-> > +    test_phandle = phandle++;
-> >      nodename = g_strdup_printf("/test@%lx",
-> >          (long)memmap[VIRT_TEST].base);
-> >      qemu_fdt_add_subnode(fdt, nodename);
-> > -    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,test0");
-> > +    qemu_fdt_setprop(fdt, nodename, "compatible",
-> > +                     test_compat, sizeof(test_compat));
-> >      qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> >          0x0, memmap[VIRT_TEST].base,
-> >          0x0, memmap[VIRT_TEST].size);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "phandle", test_phandle);
-> > +    test_phandle = qemu_fdt_get_phandle(fdt, nodename);
+On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
+> > On 11.11.19 14:45, Michael S. Tsirkin wrote:
+> > > On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
+> > > > +| Offset | Register               | Content                       =
+                       |
+> > > > +|-------:|:-----------------------|:------------------------------=
+-----------------------|
+> > > > +|    00h | Vendor ID              | 1AF4h                         =
+                       |
+> > > > +|    02h | Device ID              | 1110h                         =
+                       |
+> > >=20
+> > > Given it's a virtio vendor ID, please reserve a device ID
+> > > with the virtio TC.
+> >=20
+> > Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this fina=
+lly
+> > official.
+> >=20
+>=20
+> And I guess we will just mark it reserved or something right?
+> Since at least IVSHMEM 1 isn't a virtio device.
+> And will you be reusing same ID for IVSHMEM 2 or a new one?
 
-Is this necessary?
+1110h isn't under either of the virtio PCI device ID allowed ranges
+according to the spec:
 
-> > +    g_free(nodename);
-> > +
-> > +    nodename = g_strdup_printf("/reboot");
-> > +    qemu_fdt_add_subnode(fdt, nodename);
-> > +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "syscon-
-> > reboot");
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "regmap", test_phandle);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "offset", 0x0);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "value", FINISHER_RESET);
-> > +    g_free(nodename);
-> > +
-> > +    nodename = g_strdup_printf("/poweroff");
-> > +    qemu_fdt_add_subnode(fdt, nodename);
-> > +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "syscon-
-> > poweroff");
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "regmap", test_phandle);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "offset", 0x0);
-> > +    qemu_fdt_setprop_cell(fdt, nodename, "value", FINISHER_PASS);
-> >      g_free(nodename);
-> >
-> >      nodename = g_strdup_printf("/uart@%lx",
-> > --
+  "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
+   ID 0x1000 through 0x107F inclusive is a virtio device.
+   ...
+   Additionally, devices MAY utilize a Transitional PCI Device=20
+   ID range, 0x1000 to 0x103F depending on the device type. "
+
+So there's no need to reserve 0x1110h from the virtio spec POV.
+
+I have, however, ensured it is assigned to ivshmem from POV of
+Red Hat's own internal tracking of allocated device IDs, under
+its vendor ID.
+
+If ivshmem 2 is now a virtio device, then it is a good thing that
+it will get a new/different PCI device ID, to show that it is not
+compatible with the old device impl.
 
 Regards,
-Bin
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
