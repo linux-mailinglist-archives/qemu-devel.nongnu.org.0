@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8659F78BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:26:33 +0100 (CET)
-Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725C2F7881
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:12:59 +0100 (CET)
+Received: from localhost ([::1]:54652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCWO-0001cK-I8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:26:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39292)
+	id 1iUCJG-0002Xt-1u
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:12:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUC9v-00009c-Od
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:20 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iUCA0-0000Hl-DP
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUC9u-00031u-Fc
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:19 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60540
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iUC9u-00032l-Sh
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40166
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUC9s-000302-QP
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:17 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUC9u-00031l-O1
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488196;
+ s=mimecast20190719; t=1573488198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cl4SYAw3Ga27eigSjmrt5Kp5SAtVG9rNF6zj/H4oMMo=;
- b=DT/finZNUFSfg4rsNlHoGUfHScp+4njtyT6zqhM0Vmx8lXThrTRGB9cUC0H/PwodCW2VkG
- vVol9x0lIyNOYIRcZpoYRMUhySZVSKpTxWY0afTSNMB9OyxfFM9Ke9jRJqg7BJYIq9aH6n
- O/bbjN9PpFPJKYHJjZEKGC2P3dFAJ30=
+ bh=4NCOW8nlY+fuC+DwQmCp78uCKYSfszoYLuO4iepSv0g=;
+ b=UHvaVF/dnMUNekb8owAecOm5b10yvDWUdskrFXQp950JaQKlLetEEXfAs5aIXdUel8l1J2
+ ysrPHr4mRMiwzJiLGIKI50Jj5k07QHVafynb8Vq+mawHNtC6o7/uh7W8lPZDD/H3l5N4aO
+ xFLaIQ1Cq1aXgvJcKfLHT0GOHwz4B8E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-TY9MFZjTMkuavyJqBKb5hA-1; Mon, 11 Nov 2019 11:03:13 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-54-aVsf2vmaPq6YKdgjdjTRkA-1; Mon, 11 Nov 2019 11:03:16 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ECAC10753F3;
- Mon, 11 Nov 2019 16:03:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6256292CA62;
+ Mon, 11 Nov 2019 16:03:15 +0000 (UTC)
 Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BED485DDAA;
- Mon, 11 Nov 2019 16:03:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD9EE5D6D4;
+ Mon, 11 Nov 2019 16:03:14 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 17/23] iotests: Use skip_if_unsupported decorator
- in 041
-Date: Mon, 11 Nov 2019 17:02:10 +0100
-Message-Id: <20191111160216.197086-18-mreitz@redhat.com>
+Subject: [PATCH for-5.0 v2 18/23] iotests: Add VM.assert_block_path()
+Date: Mon, 11 Nov 2019 17:02:11 +0100
+Message-Id: <20191111160216.197086-19-mreitz@redhat.com>
 In-Reply-To: <20191111160216.197086-1-mreitz@redhat.com>
 References: <20191111160216.197086-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: TY9MFZjTMkuavyJqBKb5hA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: aVsf2vmaPq6YKdgjdjTRkA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,164 +77,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can use this decorator above TestRepairQuorum.setUp() to skip all
-quorum tests with a single line.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/041 | 39 +++------------------------------------
- 1 file changed, 3 insertions(+), 36 deletions(-)
+ tests/qemu-iotests/iotests.py | 59 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 3c60c07b01..2ab59e9c53 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -871,6 +871,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
-     image_len =3D 1 * 1024 * 1024 # MB
-     IMAGES =3D [ quorum_img1, quorum_img2, quorum_img3 ]
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index d34305ce69..3e03320ce3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -681,6 +681,65 @@ class VM(qtest.QEMUQtestMachine):
 =20
-+    @iotests.skip_if_unsupported(['quorum'])
-     def setUp(self):
-         self.vm =3D iotests.VM()
+         return fields.items() <=3D ret.items()
 =20
-@@ -894,9 +895,8 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         #assemble the quorum block device from the individual files
-         args =3D { "driver": "quorum", "node-name": "quorum0",
-                  "vote-threshold": 2, "children": [ "img0", "img1", "img2"=
- ] }
--        if iotests.supports_quorum():
--            result =3D self.vm.qmp("blockdev-add", **args)
--            self.assert_qmp(result, 'return', {})
-+        result =3D self.vm.qmp("blockdev-add", **args)
-+        self.assert_qmp(result, 'return', {})
++    """
++    Check whether the node under the given path in the block graph is
++    @expected_node.
++
++    @root is the node name of the node where the @path is rooted.
++
++    @path is a string that consists of child names separated by
++    slashes.  It must begin with a slash.
++
++    Examples for @root + @path:
++      - root=3D"qcow2-node", path=3D"/backing/file"
++      - root=3D"quorum-node", path=3D"/children.2/file"
++
++    Hypothetically, @path could be empty, in which case it would point
++    to @root.  However, in practice this case is not useful and hence
++    not allowed.
++
++    @expected_node may be None.
++
++    @graph may be None or the result of an x-debug-query-block-graph
++    call that has already been performed.
++    """
++    def assert_block_path(self, root, path, expected_node, graph=3DNone):
++        if graph is None:
++            graph =3D self.qmp('x-debug-query-block-graph')['return']
++
++        iter_path =3D iter(path.split('/'))
++
++        # Must start with a /
++        assert next(iter_path) =3D=3D ''
++
++        node =3D next((node for node in graph['nodes'] if node['name'] =3D=
+=3D root),
++                    None)
++
++        for path_node in iter_path:
++            assert node is not None, 'Cannot follow path %s' % path
++
++            try:
++                node_id =3D next(edge['child'] for edge in graph['edges'] =
+\
++                                             if edge['parent'] =3D=3D node=
+['id'] and
++                                                edge['name'] =3D=3D path_n=
+ode)
++
++                node =3D next(node for node in graph['nodes'] \
++                                 if node['id'] =3D=3D node_id)
++            except StopIteration:
++                node =3D None
++
++        assert node is not None or expected_node is None, \
++               'No node found under %s (but expected %s)' % \
++               (path, expected_node)
++
++        assert expected_node is not None or node is None, \
++               'Found node %s under %s (but expected none)' % \
++               (node['name'], path)
++
++        if node is not None and expected_node is not None:
++            assert node['name'] =3D=3D expected_node, \
++                   'Found node %s under %s (but expected %s)' % \
++                   (node['name'], path, expected_node)
 =20
+ index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
 =20
-     def tearDown(self):
-@@ -909,9 +909,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-                 pass
-=20
-     def test_complete(self):
--        if not iotests.supports_quorum():
--            return
--
-         self.assert_no_active_block_jobs()
-=20
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-@@ -928,9 +925,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-                         'target image does not match source after mirrorin=
-g')
-=20
-     def test_cancel(self):
--        if not iotests.supports_quorum():
--            return
--
-         self.assert_no_active_block_jobs()
-=20
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-@@ -945,9 +939,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.vm.shutdown()
-=20
-     def test_cancel_after_ready(self):
--        if not iotests.supports_quorum():
--            return
--
-         self.assert_no_active_block_jobs()
-=20
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-@@ -964,9 +955,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-                         'target image does not match source after mirrorin=
-g')
-=20
-     def test_pause(self):
--        if not iotests.supports_quorum():
--            return
--
-         self.assert_no_active_block_jobs()
-=20
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-@@ -992,9 +980,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-                         'target image does not match source after mirrorin=
-g')
-=20
-     def test_medium_not_found(self):
--        if not iotests.supports_quorum():
--            return
--
-         if iotests.qemu_default_machine !=3D 'pc':
-             return
-=20
-@@ -1006,9 +991,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_image_not_found(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-                              sync=3D'full', node_name=3D'repair0', replace=
-s=3D'img1',
-                              mode=3D'existing', target=3Dquorum_repair_img=
-,
-@@ -1016,9 +998,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_device_not_found(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0',
-                              device=3D'nonexistent', sync=3D'full',
-                              node_name=3D'repair0',
-@@ -1027,9 +1006,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_wrong_sync_mode(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('drive-mirror', device=3D'quorum0', job_id=
-=3D'job0',
-                              node_name=3D'repair0',
-                              replaces=3D'img1',
-@@ -1037,27 +1013,18 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_no_node_name(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-                              sync=3D'full', replaces=3D'img1',
-                              target=3Dquorum_repair_img, format=3Diotests.=
-imgfmt)
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_nonexistent_replaces(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('drive-mirror', job_id=3D'job0', device=3D'=
-quorum0',
-                              sync=3D'full', node_name=3D'repair0', replace=
-s=3D'img77',
-                              target=3Dquorum_repair_img, format=3Diotests.=
-imgfmt)
-         self.assert_qmp(result, 'error/class', 'GenericError')
-=20
-     def test_after_a_quorum_snapshot(self):
--        if not iotests.supports_quorum():
--            return
--
-         result =3D self.vm.qmp('blockdev-snapshot-sync', node_name=3D'img1=
-',
-                              snapshot_file=3Dquorum_snapshot_file,
-                              snapshot_node_name=3D"snap1");
 --=20
 2.23.0
 
