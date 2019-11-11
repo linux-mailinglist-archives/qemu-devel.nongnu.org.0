@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282FAF71BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 11:18:54 +0100 (CET)
-Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6BBF71C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 11:23:49 +0100 (CET)
+Received: from localhost ([::1]:50540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU6ma-00062O-MV
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 05:18:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
+	id 1iU6rM-0001cf-IG
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 05:23:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aurelien@aurel32.net>) id 1iU6go-00049b-Oe
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:12:55 -0500
+ (envelope-from <aurelien@aurel32.net>) id 1iU6hb-0004PC-Sc
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:13:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aurelien@aurel32.net>) id 1iU6gm-000839-K8
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:12:54 -0500
-Received: from hall.aurel32.net ([2001:bc8:30d7:100::1]:46962)
+ (envelope-from <aurelien@aurel32.net>) id 1iU6hZ-0008EI-P4
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:13:43 -0500
+Received: from hall.aurel32.net ([2001:bc8:30d7:100::1]:46980)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aurelien@aurel32.net>)
- id 1iU6gm-00080d-A3
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:12:52 -0500
+ id 1iU6hX-0008DX-SC
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:13:40 -0500
 Received: from [2a01:e35:2fdd:a4e1:fe91:fc89:bc43:b814] (helo=ohm.rr44.fr)
  by hall.aurel32.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <aurelien@aurel32.net>)
- id 1iU6gW-0002It-Px; Mon, 11 Nov 2019 11:12:36 +0100
+ id 1iU6hV-0002K9-Pa; Mon, 11 Nov 2019 11:13:37 +0100
 Received: from aurel32 by ohm.rr44.fr with local (Exim 4.92.3)
  (envelope-from <aurelien@aurel32.net>)
- id 1iU6gW-0007W2-Bz; Mon, 11 Nov 2019 11:12:36 +0100
-Date: Mon, 11 Nov 2019 11:12:36 +0100
+ id 1iU6hV-0007Wu-Ay; Mon, 11 Nov 2019 11:13:37 +0100
+Date: Mon, 11 Nov 2019 11:13:37 +0100
 From: Aurelien Jarno <aurelien@aurel32.net>
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 Subject: Re: [PATCH 4/5] MAINTAINERS: Adjust maintainership for Malta board
-Message-ID: <20191111101236.GA28851@aurel32.net>
+Message-ID: <20191111101337.GC28851@aurel32.net>
 References: <1573240249-6966-1-git-send-email-aleksandar.markovic@rt-rk.com>
  <1573240249-6966-5-git-send-email-aleksandar.markovic@rt-rk.com>
 MIME-Version: 1.0
@@ -87,7 +87,7 @@ On 2019-11-08 20:10, Aleksandar Markovic wrote:
 >  S: Maintained
 >  F: hw/mips/mips_malta.c
 >  F: hw/mips/gt64xxx_pci.c
-=20
+
 Acked-by: Aurelien Jarno <aurelien@aurel32.net>
 
 --=20
