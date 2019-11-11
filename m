@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707E0F78CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:30:24 +0100 (CET)
-Received: from localhost ([::1]:54914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA4FF78D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:34:42 +0100 (CET)
+Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCa7-0005Zt-4z
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:30:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39334)
+	id 1iUCeH-0001me-32
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:34:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCA0-0000Hy-6N
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:25 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iUCA9-0000NL-Rk
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUC9y-00036s-TN
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29558
+ (envelope-from <mreitz@redhat.com>) id 1iUCA7-000399-9n
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41838
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUC9y-00035f-Ou
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:22 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCA5-00038R-FC
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488202;
+ s=mimecast20190719; t=1573488208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vmeBo3JNakPin2YEux2IhikmCE6WDGLfwJ+Y7vlA4eU=;
- b=ItW71+v4frPU1ARaD9mGS38etWBVc57kl0DBpVG7ThzVFKpVrsWwsl6MyajmetoGKWTclZ
- 5C8hWI2jVnFBJc9O2gaIPMnwXYI1318m2xt0nY1Cnd8w0MWS+lXLHtmt3AKCIfav+R1oXs
- anXiExn2S6Scg9pWr0by4JFAvS/v4H0=
+ bh=KjOmMb8SbuE3Eau+JWgFrpKa9d+ujZ1o70YXIj/vuCw=;
+ b=ZG8+q6VNNFhX+EY4QQOVWcPv5JQAfkOvonxPKfhdW44tUb/asfO/KDWNqN4o35N1txC7P1
+ OZG5bEJcMp3velKF7zoYEXkpxUzr53d7clH1pmCxjIwiwXOgFZmJp+yFtZAW7i7LkNB8Jn
+ XF6M5zhKwk9Onclw7VuMSJSP7HBcGgU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-qOoY9_l9PMuY3GXE_myZFA-1; Mon, 11 Nov 2019 11:03:19 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-370-EClod1VRMXayYki6wpUtwg-1; Mon, 11 Nov 2019 11:03:25 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D764A1852E23;
- Mon, 11 Nov 2019 16:03:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04B5792CA60;
+ Mon, 11 Nov 2019 16:03:24 +0000 (UTC)
 Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 728175D9C9;
- Mon, 11 Nov 2019 16:03:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FEDD3DBB;
+ Mon, 11 Nov 2019 16:03:23 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
-Date: Mon, 11 Nov 2019 17:02:12 +0100
-Message-Id: <20191111160216.197086-20-mreitz@redhat.com>
+Subject: [PATCH for-5.0 v2 21/23] iotests: Add tests for invalid Quorum
+ @replaces
+Date: Mon, 11 Nov 2019 17:02:14 +0100
+Message-Id: <20191111160216.197086-22-mreitz@redhat.com>
 In-Reply-To: <20191111160216.197086-1-mreitz@redhat.com>
 References: <20191111160216.197086-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: qOoY9_l9PMuY3GXE_myZFA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: EClod1VRMXayYki6wpUtwg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -77,40 +78,146 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add two tests to see that you cannot replace a Quorum child with the
+mirror job while the child is in use by a different parent.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/041 | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/041     | 70 +++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/041.out |  4 +--
+ 2 files changed, 71 insertions(+), 3 deletions(-)
 
 diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 2ab59e9c53..d636cb7f1d 100755
+index 0c1af45639..ab0cb5b42f 100755
 --- a/tests/qemu-iotests/041
 +++ b/tests/qemu-iotests/041
-@@ -918,8 +918,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
+@@ -20,6 +20,7 @@
 =20
-         self.complete_and_wait(drive=3D"job0")
-         self.assert_has_block_node("repair0", quorum_repair_img)
--        # TODO: a better test requiring some QEMU infrastructure will be a=
-dded
--        #       to check that this file is really driven by quorum
-+        self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
+ import time
+ import os
++import re
+ import iotests
+ from iotests import qemu_img, qemu_io
+=20
+@@ -34,6 +35,8 @@ quorum_img3 =3D os.path.join(iotests.test_dir, 'quorum3.i=
+mg')
+ quorum_repair_img =3D os.path.join(iotests.test_dir, 'quorum_repair.img')
+ quorum_snapshot_file =3D os.path.join(iotests.test_dir, 'quorum_snapshot.i=
+mg')
+=20
++nbd_sock_path =3D os.path.join(iotests.test_dir, 'nbd.sock')
++
+ class TestSingleDrive(iotests.QMPTestCase):
+     image_len =3D 1 * 1024 * 1024 # MB
+     qmp_cmd =3D 'drive-mirror'
+@@ -901,7 +904,8 @@ class TestRepairQuorum(iotests.QMPTestCase):
+=20
+     def tearDown(self):
          self.vm.shutdown()
-         self.assertTrue(iotests.compare_images(quorum_img2, quorum_repair_=
-img),
-                         'target image does not match source after mirrorin=
-g')
-@@ -1041,9 +1040,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
-=20
-         self.complete_and_wait('job0')
+-        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file ]=
+:
++        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file,
++                                 nbd_sock_path ]:
+             # Do a try/except because the test may have deleted some image=
+s
+             try:
+                 os.remove(i)
+@@ -1042,6 +1046,70 @@ class TestRepairQuorum(iotests.QMPTestCase):
          self.assert_has_block_node("repair0", quorum_repair_img)
--        # TODO: a better test requiring some QEMU infrastructure will be a=
-dded
--        #       to check that this file is really driven by quorum
--        self.vm.shutdown()
-+        self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
+         self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
 =20
++    """
++    Check that we cannot replace a Quorum child when it has other
++    parents.
++    """
++    def test_with_other_parent(self):
++        result =3D self.vm.qmp('nbd-server-start',
++                             addr=3D{
++                                 'type': 'unix',
++                                 'data': {'path': nbd_sock_path}
++                             })
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
+=3D'quorum0',
++                             sync=3D'full', node_name=3D'repair0', replace=
+s=3D'img1',
++                             target=3Dquorum_repair_img, format=3Diotests.=
+imgfmt)
++        self.assert_qmp(result, 'error/desc',
++                        "Cannot replace 'img1' by a node mirrored from "
++                        "'quorum0', because it cannot be guaranteed that d=
+oing "
++                        "so would not lead to an abrupt change of visible =
+data")
++
++    """
++    The same as test_with_other_parent(), but add the NBD server only
++    when the mirror job is already running.
++    """
++    def test_with_other_parents_after_mirror_start(self):
++        result =3D self.vm.qmp('nbd-server-start',
++                             addr=3D{
++                                 'type': 'unix',
++                                 'data': {'path': nbd_sock_path}
++                             })
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
+=3D'quorum0',
++                             sync=3D'full', node_name=3D'repair0', replace=
+s=3D'img1',
++                             target=3Dquorum_repair_img, format=3Diotests.=
+imgfmt)
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
++        self.assert_qmp(result, 'return', {})
++
++        # The full error message goes to stderr, we will check it later
++        self.complete_and_wait('mirror',
++                               completion_error=3D'Operation not permitted=
+')
++
++        # Should not have been replaced
++        self.vm.assert_block_path('quorum0', '/children.1', 'img1')
++
++        # Check the full error message now
++        self.vm.shutdown()
++        log =3D self.vm.get_log()
++        log =3D re.sub(r'^\[I \d+\.\d+\] OPENED\n', '', log)
++        log =3D re.sub(r'^Formatting.*\n', '', log)
++        log =3D re.sub(r'\n\[I \+\d+\.\d+\] CLOSED\n?$', '', log)
++        log =3D re.sub(r'^qemu-system-[^:]*: ', '', log)
++
++        self.assertEqual(log,
++                         "Can no longer replace 'img1' by 'repair0', becau=
+se " +
++                         "it can no longer be guaranteed that doing so wou=
+ld " +
++                         "not lead to an abrupt change of visible data")
++
++
  # Test mirroring with a source that does not have any parents (not even a
  # BlockBackend)
+ class TestOrphanedSource(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
+index f496be9197..ffc779b4d1 100644
+--- a/tests/qemu-iotests/041.out
++++ b/tests/qemu-iotests/041.out
+@@ -1,5 +1,5 @@
+-..........................................................................=
+.................
++..........................................................................=
+...................
+ ----------------------------------------------------------------------
+-Ran 91 tests
++Ran 93 tests
+=20
+ OK
 --=20
 2.23.0
 
