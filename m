@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAD0F7428
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:38:07 +0100 (CET)
-Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C7CF7430
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 13:40:25 +0100 (CET)
+Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU8xJ-0004dD-VQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:38:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37166)
+	id 1iU8zY-0007JG-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 07:40:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37217)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iU8m5-0008EI-Tj
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:32 -0500
+ (envelope-from <its@irrelevant.dk>) id 1iU8m8-0008GR-K7
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iU8m3-0003ZU-Re
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:29 -0500
-Received: from charlie.dont.surf ([128.199.63.193]:52298)
+ (envelope-from <its@irrelevant.dk>) id 1iU8m5-0003aF-SU
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 07:26:32 -0500
+Received: from charlie.dont.surf ([128.199.63.193]:52324)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iU8m0-0003R5-I2; Mon, 11 Nov 2019 07:26:24 -0500
+ id 1iU8m0-0003RQ-Rv; Mon, 11 Nov 2019 07:26:24 -0500
 Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 72ED1BFB17;
+ by charlie.dont.surf (Postfix) with ESMTPSA id B9789BF6BD;
  Mon, 11 Nov 2019 12:26:03 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 19/21] nvme: make lba data size configurable
-Date: Mon, 11 Nov 2019 13:25:43 +0100
-Message-Id: <20191111122545.252478-20-its@irrelevant.dk>
+Subject: [PATCH v3 20/21] pci: pass along the return value of dma_memory_rw
+Date: Mon, 11 Nov 2019 13:25:44 +0100
+Message-Id: <20191111122545.252478-21-its@irrelevant.dk>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191111122545.252478-1-its@irrelevant.dk>
 References: <20191111122545.252478-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,57 +56,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Javier Gonzalez <javier@javigon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.c | 2 +-
- hw/block/nvme-ns.h | 4 +++-
- hw/block/nvme.c    | 1 +
- 3 files changed, 5 insertions(+), 2 deletions(-)
+Some might actually care about the return value of dma_memory_rw. So
+let us pass it along instead of ignoring it.
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index 36deedee07a6..dc7e63b01037 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -18,7 +18,7 @@ static int nvme_ns_init(NvmeNamespace *ns)
+There are no existing users of the return value, so this patch should be
+safe.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/pci/pci.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index db75c6dfd05e..4d6f2b48a7f7 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -783,8 +783,7 @@ static inline AddressSpace *pci_get_address_space(PCI=
+Device *dev)
+ static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+                              void *buf, dma_addr_t len, DMADirection dir=
+)
  {
-     NvmeIdNs *id_ns =3D &ns->id_ns;
+-    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+-    return 0;
++    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir=
+);
+ }
 =20
--    id_ns->lbaf[0].ds =3D BDRV_SECTOR_BITS;
-+    id_ns->lbaf[0].ds =3D ns->params.lbads;
-     id_ns->nuse =3D id_ns->ncap =3D id_ns->nsze =3D
-         cpu_to_le64(nvme_ns_nlbas(ns));
-=20
-diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-index b564bac25f6d..9d519182c3a5 100644
---- a/hw/block/nvme-ns.h
-+++ b/hw/block/nvme-ns.h
-@@ -7,10 +7,12 @@
-=20
- #define DEFINE_NVME_NS_PROPERTIES(_state, _props) \
-     DEFINE_PROP_DRIVE("drive", _state, blk), \
--    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0)
-+    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0), \
-+    DEFINE_PROP_UINT8("lbads", _state, _props.lbads, 9)
-=20
- typedef struct NvmeNamespaceParams {
-     uint32_t nsid;
-+    uint8_t  lbads;
- } NvmeNamespaceParams;
-=20
- typedef struct NvmeNamespace {
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 81322bb79e4c..3acbaaa79008 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2599,6 +2599,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error =
-**errp)
-     if (n->namespace.blk) {
-         ns =3D &n->namespace;
-         ns->params.nsid =3D 1;
-+        ns->params.lbads =3D 9;
-=20
-         if (nvme_ns_setup(n, ns, &local_err)) {
-             error_propagate_prepend(errp, local_err, "nvme_ns_setup: ");
+ static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
 --=20
 2.24.0
 
