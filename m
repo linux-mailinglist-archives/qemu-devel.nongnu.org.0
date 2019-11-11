@@ -2,92 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AB0F78EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:37:00 +0100 (CET)
-Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB50F78E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:36:25 +0100 (CET)
+Received: from localhost ([::1]:55016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCgV-0005JS-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42855)
+	id 1iUCfw-0004e7-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:36:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42843)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCVN-0002Di-4Z
+ (envelope-from <jan.kiszka@siemens.com>) id 1iUCVN-0002BT-99
  for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:25:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUCVM-0005Ym-0Q
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:25:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28973
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCVL-0005Xy-24
+ (envelope-from <jan.kiszka@siemens.com>) id 1iUCVK-0005Xl-Nz
  for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:25:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573489526;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Vvbi9HZm3SKQRBkIS83XZwIYMywaBsXfPJAaeEnG3a4=;
- b=dfyDY40a6E46zFse4KQKIGeiVuz/toXzeGfxRJEBFAQOkb+YtS5ta34O7gWW+CwW+AMXuV
- pArc69Z2Wyk0fLxSvC64R76mV1M/J/rMBuEs6qHs4mAGtz0XDVs9vFnyWvIiCn1JFwrP/z
- vM3wBo8b481UzcOG7H7mSttXRqkFoEw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-Js-FmxvQP4-BvpLYRlm7DQ-1; Mon, 11 Nov 2019 11:25:18 -0500
-X-MC-Unique: Js-FmxvQP4-BvpLYRlm7DQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5731F101AF1F;
- Mon, 11 Nov 2019 16:25:17 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-116.ams2.redhat.com
- [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB6314B4;
- Mon, 11 Nov 2019 16:25:05 +0000 (UTC)
-Subject: Re: [PATCH v2 03/15] block/block: add BDRV flag for io_uring
-To: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20191025160444.31632-1-stefanha@redhat.com>
- <20191025160444.31632-4-stefanha@redhat.com>
- <20191111105759.GB7297@linux.fritz.box>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <6e8cf473-d3e9-c743-d2bd-75a0d955e6c6@redhat.com>
-Date: Mon, 11 Nov 2019 17:25:04 +0100
+Received: from david.siemens.de ([192.35.17.14]:43638)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1iUCVJ-0005SA-Vk
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:25:26 -0500
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+ by david.siemens.de (8.15.2/8.15.2) with ESMTPS id xABGP8Fw031243
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Nov 2019 17:25:08 +0100
+Received: from [139.25.68.37] ([139.25.68.37])
+ by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id xABGP8vd009037;
+ Mon, 11 Nov 2019 17:25:08 +0100
+Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
+ revision 2
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <cover.1573477032.git.jan.kiszka@siemens.com>
+ <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
+ <20191111084327-mutt-send-email-mst@kernel.org>
+ <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
+ <20191111100607-mutt-send-email-mst@kernel.org>
+ <20191111152743.GM814211@redhat.com>
+ <129c527c-1e61-8c0c-3ca1-fe93e26c8bd2@siemens.com>
+ <20191111111203-mutt-send-email-mst@kernel.org>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <402f66c9-2038-7fa9-ce02-850b20edf36b@siemens.com>
+Date: Mon, 11 Nov 2019 17:25:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191111105759.GB7297@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wv1QQczEPh1MLbDCfJNuUsLnsNefdwFAk"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20191111111203-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by david.siemens.de id
+ xABGP8Fw031243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 192.35.17.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,96 +64,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com,
- Maxim Levitsky <maximlevitsky@gmail.com>, qemu-block@nongnu.org,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wv1QQczEPh1MLbDCfJNuUsLnsNefdwFAk
-Content-Type: multipart/mixed; boundary="mTnm7e8iVeyIPpldY9ww7k1gXk60uVcjQ"
-
---mTnm7e8iVeyIPpldY9ww7k1gXk60uVcjQ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 11.11.19 11:57, Kevin Wolf wrote:
-> Am 25.10.2019 um 18:04 hat Stefan Hajnoczi geschrieben:
->> From: Aarushi Mehta <mehta.aaru20@gmail.com>
+On 11.11.19 17:14, Michael S. Tsirkin wrote:
+> On Mon, Nov 11, 2019 at 04:42:52PM +0100, Jan Kiszka wrote:
+>> On 11.11.19 16:27, Daniel P. Berrang=E9 wrote:
+>>> On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
+>>>> On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
+>>>>> On 11.11.19 14:45, Michael S. Tsirkin wrote:
+>>>>>> On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
+>>>>>>> +| Offset | Register               | Content                     =
+                         |
+>>>>>>> +|-------:|:-----------------------|:----------------------------=
+-------------------------|
+>>>>>>> +|    00h | Vendor ID              | 1AF4h                       =
+                         |
+>>>>>>> +|    02h | Device ID              | 1110h                       =
+                         |
+>>>>>>
+>>>>>> Given it's a virtio vendor ID, please reserve a device ID
+>>>>>> with the virtio TC.
+>>>>>
+>>>>> Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this =
+finally
+>>>>> official.
+>>>>>
+>>>>
+>>>> And I guess we will just mark it reserved or something right?
+>>>> Since at least IVSHMEM 1 isn't a virtio device.
+>>>> And will you be reusing same ID for IVSHMEM 2 or a new one?
+>>>
+>>> 1110h isn't under either of the virtio PCI device ID allowed ranges
+>>> according to the spec:
+>>>
+>>>     "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
+>>>      ID 0x1000 through 0x107F inclusive is a virtio device.
+>>>      ...
+>>>      Additionally, devices MAY utilize a Transitional PCI Device
+>>>      ID range, 0x1000 to 0x103F depending on the device type. "
+>>>
+>>> So there's no need to reserve 0x1110h from the virtio spec POV.
 >>
->> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
->> Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
->> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>  include/block/block.h | 1 +
->>  1 file changed, 1 insertion(+)
+>> Indeed.
 >>
->> diff --git a/include/block/block.h b/include/block/block.h
->> index 89606bd9f8..bdb48dcd1b 100644
->> --- a/include/block/block.h
->> +++ b/include/block/block.h
->> @@ -126,6 +126,7 @@ typedef struct HDGeometry {
->>                                        ignoring the format layer */
->>  #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
->>  #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening r=
-ead-write fails */
->> +#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the threa=
-d pool */
+>>>
+>>> I have, however, ensured it is assigned to ivshmem from POV of
+>>> Red Hat's own internal tracking of allocated device IDs, under
+>>> its vendor ID.
+>>>
+>>> If ivshmem 2 is now a virtio device, then it is a good thing that
+>>> it will get a new/different PCI device ID, to show that it is not
+>>> compatible with the old device impl.
+>>
+>> At this stage, it is just a PCI device that may be used in combination=
+ with
+>> virtio (stacked on top), but it is not designed like a normal virtio (=
+PCI)
+>> device. That's because it lacks many properties of regular virtio devi=
+ces,
+>> like queues.
+>>
+>> So, if such a device could be come part of the virtio spec, it would b=
+e
+>> separate from the rest, and having an ID from the regular range would =
+likely
+>> not be helpful in this regard.
+>>
+>> Jan
 >=20
-> Why do we need a new (global!) flag rather than a driver-specific option
-> for file-posix? This looks wrong to me, the flag has no sensible meaning
-> for any other driver.
->=20
-> (Yes, BDRV_O_NATIVE_AIO is wrong, too, but compatibility means we can't
-> remove it easily.)
+> I agree it needs a separate ID not from the regular range.
+> It's a distinct transport.
+> Maybe even a distinct vendor ID - we could easily get another one
+> if needed.
 
-To add to that, Kevin and me had a short talk on IRC, and it seemed like
-the reason would be that it=E2=80=99s easier to use this way than an option
-would be.
+That might be useful because I've seen the kernel's virtio-pci driver=20
+grabbing ivshmem devices from time to time. OTOH, that could likely also=20
+be improved in Linux, at least for future versions.
 
-To me, the problem seems to be that it=E2=80=99s only easier to use because=
- of
-the option inheritance we have in the block layer (so you can set this
-flag on a qcow2 node and its file node will have it, too).  But
-naturally this inheritance is a bit of magic (because qemu has to guess
-where you probably want the flag to end up), so I=E2=80=99d too rather avoi=
-d
-adding to it.
+Jan
 
-OTOH, I wonder whether ease of use is really that important here.  Would
-people who want to use io_uring really care about a command line that=E2=80=
-=99s
-going to be a bit more complicated than just
--drive file=3Dfoo.img,format=3D$imgfmt,aio=3Dio_uring,if=3D$interface?  (Na=
-mely
-file.aio in this case, or maybe even a full-on block graph definition.)
-
-Max
-
-
---mTnm7e8iVeyIPpldY9ww7k1gXk60uVcjQ--
-
---wv1QQczEPh1MLbDCfJNuUsLnsNefdwFAk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3Ji2AACgkQ9AfbAGHV
-z0DvCQf/dKHfQwr8HCfFXmjwU2FYvMTlPQPdr+zAeCUCqZ/GZN0/jEyYXlNzeEAP
-z68vOI/yFAW/TXTCS/xrS2upk4aBpZoaocP8fb7l+2x9qHDR77H2wIxZsS8YjL/G
-StLwODzcvCcGyj5iv/4TUyl9wJVqH/PD0Fz1C6H0ZsaMfWJCuLXVJ6n6COqDrzbg
-k+qwOjK4UxBL54RTfpa8cU4u6npb7Su45Vm6SfBv15IBC3et83txnbSKM5NAG5rH
-iWXA00z+JgmuaGkEonDW2wlEBIEqWFi1NVZKOo2FvZU571HDEJIYy4mMAokbhOv/
-nG3Q3nh5JRXs1rVy7z/5uB0mIMNJ3Q==
-=Dbqd
------END PGP SIGNATURE-----
-
---wv1QQczEPh1MLbDCfJNuUsLnsNefdwFAk--
-
+--=20
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
