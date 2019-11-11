@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C80F7985
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 18:11:08 +0100 (CET)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4837F7972
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 18:05:52 +0100 (CET)
+Received: from localhost ([::1]:55554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUDDX-00062f-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 12:11:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48555)
+	id 1iUD8R-0000EG-GC
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 12:05:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1iUD4d-0006Kp-LS
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:57 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUD4q-0006b7-TJ
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1iUD4c-0006BT-5j
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:55 -0500
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:42443)
+ (envelope-from <alex.bennee@linaro.org>) id 1iUD4p-0006FC-FB
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:08 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54631)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1iUD4c-0006BN-1e
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:54 -0500
-Received: by mail-qt1-x836.google.com with SMTP id t20so16371567qtn.9
- for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 09:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NQ6sIHX3cogSCquUSvZcCkqs4h3Hgeb5nTsLWfS1/HI=;
- b=N3uun9No6UhzYE46gRpANAyf4dgZSLeaWkQm9SDACID5hg8tWukx9xN+2Jmg4sKOsm
- KyBMxuNU9newBcMFrzI08Nd3QBCKH5kNfXtfkjlJE7GtjNnrbPqqJk0bLii+Xi2dcOsb
- x0OPgsgyPa0wzSPSXxPOFbjGZvZuzB5CApDfJyTB0Cxq29D9k2D9PTdjyXIaSbBt7/Vj
- CwWnDGST9hoVHqp4yHEEaeEh+zNUQjBoXWFqSEUEJQn7R9pNdkFwlDG20AcTss96BQIA
- 8pk2tUu7LUHEWF/jdy4y/Rs+TCDwGYgAn+PvSG7QxTpypfWbvFnmOIqs1G77LaCOiIp1
- kPxA==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iUD4p-0006EG-7q
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:02:07 -0500
+Received: by mail-wm1-x342.google.com with SMTP id z26so34146wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 09:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RA9cC7g7Eu9LrKE1HPtk5Ky9bYI2Ny0CcNKEWeM2CUQ=;
+ b=I2NZKZ7izO0C6H0ZAHKckEdvcZM+UvcfXLmy3sEmMnVWQebbA9ZeB1yrNK7Ueqj5YN
+ hk4x1PEoKJyLE/U1nLyDRgWfwcXUNjqu9Tg5ZN5YLBnEfDC4+p0dLtIb4JXz/F20ek/a
+ 4lTBvDmYvye51JdLeaRU3ucT1cSSZ8fhRGHU+VOsqc6Rup7PPFu7B/grPD4gfrpBDcS6
+ B5ox8wdEmmzpWij3F4Dsdih53UQ992Jk6Qhpw7N5wQD9Er9PIZFXNF71rTiIHFAovNRz
+ rW4mFIvw9votmyebvTSYLOahpVJPHOdBO/dTXgebIc55JGqcCPYBfCQLHSttV4lu5nrG
+ 6E4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NQ6sIHX3cogSCquUSvZcCkqs4h3Hgeb5nTsLWfS1/HI=;
- b=FALgIMSFzwIzgcra0niu+h6iOSxa93Q1URpoMmac1Ajqrk6ga4JFGcBIbKRdhN5/OM
- AQyBMwrMHROA1fAHTYS/9SKzmizE/yF2suCqOTY+uULukcs0PHm0NxxX0h/bWyZydtjH
- 0GxMD/2WzW4zBrcK32rXYfbFmnBWc9Vo5juBJLaNrxRBsGQ18Sn2UtUQ0Fq7fRsfUFaw
- Xa5bIpMExV6NfR5MhbYm61lsIBPJwdkG+dI75TEyu7q7EXCgM05Rj1wptxxyS1fMsD4l
- z8z6f4XfSEJc4hQf42klNyRyYkzPKTP77ai/KCzvkcUKdVFUmndk2LMYybvKlfa72jUS
- hq5g==
-X-Gm-Message-State: APjAAAWvnhHj2ArI3GOH4lS6EvFwPxtmJQADICtiEPEc1BLzQupXioNN
- bwr5GCYTLhIDcYSa1GCHm9zM3k8ljig=
-X-Google-Smtp-Source: APXvYqy21TkPLbqlStOtPou7fk1+Ce3FxSHRIwU2fZF/wv9HVV3ZPvGf8Pdt9oV6Yq3JSE+arlQO/A==
-X-Received: by 2002:ac8:1e13:: with SMTP id n19mr27180588qtl.384.1573491713352; 
- Mon, 11 Nov 2019 09:01:53 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:980:1591:e29e:17a4:d484])
- by smtp.gmail.com with ESMTPSA id n20sm8572462qkn.118.2019.11.11.09.01.51
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RA9cC7g7Eu9LrKE1HPtk5Ky9bYI2Ny0CcNKEWeM2CUQ=;
+ b=mQsJhvnQM8CWMNCP7FlzG9nM6qkaXEhSfYCvSTDr59eKzx0/QooEcvcIpDFGzLPnFM
+ T+N8fE7X2396YQyBXMm7nnhivA/kBL9x3VgLEVeeXPQCKHn3SvUIV4S+LHs9Ou97urOD
+ QWUNXffaQglXhI3j8PkxoIfZeu48tTOgU8M/yOtRV4NtQvAQLIqiDOquEXoWHlR/lC8I
+ FnsH6HJCVmHwUlXvIYMr8KY+eeBnBEfvN4Mce85OGCsWWKJyTbCVjB6itkbztQQAwIen
+ uz3qarcggKO+Kbax/hEPC1xCfC7qMgE+LCLG/5qEbdLpgPOMvb4b0HTl87auqW48n4PP
+ g4Og==
+X-Gm-Message-State: APjAAAWOGYwYBBmgSy8V1J19Oy7xaOZcMmlxhb5yZ9CGlywQE6PBNW4E
+ ttncbn7gv6Y35R+67oxEv4k1Ng==
+X-Google-Smtp-Source: APXvYqyAUqVcXnU6/PXuNGtnZHq25/k2nSbhmtDtxWen4qHYdujcD3tZrlq6m0H1gJ9jpJLz8IuQcA==
+X-Received: by 2002:a7b:c76a:: with SMTP id x10mr11248767wmk.123.1573491724922; 
+ Mon, 11 Nov 2019 09:02:04 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c4sm4584052wrp.86.2019.11.11.09.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 09:01:52 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 4/4] qemu-iotests: adding LUKS cleanup for non-UTF8 secret
- error
-Date: Mon, 11 Nov 2019 14:01:31 -0300
-Message-Id: <20191111170131.13742-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191111170131.13742-1-danielhb413@gmail.com>
-References: <20191111170131.13742-1-danielhb413@gmail.com>
+ Mon, 11 Nov 2019 09:02:03 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C81A11FF87;
+ Mon, 11 Nov 2019 17:02:02 +0000 (GMT)
+References: <20191111125530.26579-1-alex.bennee@linaro.org>
+ <cd4917d6-75b7-2c47-0c6b-07dda077c52e@redhat.com>
+ <878soma4ev.fsf@linaro.org>
+ <97fd0943-586c-035f-b33b-eb6b2eb3dde6@redhat.com>
+ <CAFEAcA_F1gUOhTyVkd185ie=tgoFS08n62Nk425RnAW+w6o0XA@mail.gmail.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] tests/migration: use the common library function
+In-reply-to: <CAFEAcA_F1gUOhTyVkd185ie=tgoFS08n62Nk425RnAW+w6o0XA@mail.gmail.com>
+Date: Mon, 11 Nov 2019 17:02:02 +0000
+Message-ID: <8736eu9wj9.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::836
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,125 +85,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- jsnow@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Ber?= =?utf-8?Q?rang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a new test file to exercise the case where
-qemu-img fails to complete for the LUKS format when a non-UTF8
-secret is used.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- tests/qemu-iotests/273     | 67 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/273.out | 11 +++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 79 insertions(+)
- create mode 100755 tests/qemu-iotests/273
- create mode 100644 tests/qemu-iotests/273.out
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
-new file mode 100755
-index 0000000000..cb362598b4
---- /dev/null
-+++ b/tests/qemu-iotests/273
-@@ -0,0 +1,67 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img file cleanup for LUKS when using a non-UTF8 secret
-+#
-+# Copyright (C) 2019, IBM Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+TEST_IMAGE_FILE='vol.img'
-+
-+_cleanup()
-+{
-+  _cleanup_test_img
-+  rm non_utf8_secret
-+  rm -f $TEST_IMAGE_FILE
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt luks
-+_supported_proto generic
-+_unsupported_proto vxhs
-+
-+echo "== Create non-UTF8 secret =="
-+echo -n -e '\x3a\x3c\x3b\xff' > non_utf8_secret
-+SECRET="secret,id=sec0,file=non_utf8_secret"
-+
-+echo "== Throws an error because of invalid UTF-8 secret =="
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Image file should not exist after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+echo "== Create a stub image file and run qemu-img again =="
-+touch $TEST_IMAGE_FILE
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Pre-existing image file should also be deleted after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
-new file mode 100644
-index 0000000000..8c6653cd82
---- /dev/null
-+++ b/tests/qemu-iotests/273.out
-@@ -0,0 +1,11 @@
-+QA output created by 273
-+== Create non-UTF8 secret ==
-+== Throws an error because of invalid UTF-8 secret ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Image file should not exist after the error ==
-+== Create a stub image file and run qemu-img again ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Pre-existing image file should also be deleted after the error ==
-+ *** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 065040398d..fc5a680739 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -284,3 +284,4 @@
- 268 rw auto quick
- 270 rw backing quick
- 272 rw
-+273 rw img quick
-\ No newline at end of file
--- 
-2.21.0
+> On Mon, 11 Nov 2019 at 14:41, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 11/11/2019 15.11, Alex Benn=C3=A9e wrote:
+>> >
+>> > Thomas Huth <thuth@redhat.com> writes:
+>> >
+>> >> On 11/11/2019 13.55, Alex Benn=C3=A9e wrote:
+>> >>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> >>
+>> >> Could you please add at least a short patch description? (Why is this
+>> >> change necessary / a good idea?)
+>> >
+>> > It's just a minor clean-up Dave happened to comment on last week. Using
+>> > the helper function is preferable given it abstracts away any system
+>> > differences for the same information.
+>>
+>> But this also changes the behavior on non-Linux systems (i.e. the *BSDs
+>> and macOS), since they will now use getpid() instead of gettid ... is
+>> that the intended change here?
+>
+> Does the 'stress' program work on those OSes? For that matter,
+> does it work on Linux?
+>
+> As far as I can tell we don't compile stress.c on any host,
+> since the only thing that depends on tests/migration/stress$(EXESUF)
+> is tests/migration/initrd-stress.img, and nothing depends on that.
+>
+> Nothing creates tests/migration/ in the build dir so trying
+> to build tests/migration/stress in an out-of-tree config fails:
+>
+>   CC      tests/migration/stress.o
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:359:=
+1:
+> fatal error: opening dependency file tests/migration/stress.d: No such
+> file or directory
+>  }
+>  ^
+> compilation terminated.
+>
+> ...and if I fix that by manually creating the directory then
+> it fails to link:
+>
+>   CC      tests/migration/stress.o
+>   LINK    tests/migration/stress
+> tests/migration/stress.o: In function `get_command_arg_str':
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:107:
+> undefined reference to `g_strndup'
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:109:
+> undefined reference to `g_strdup'
+> tests/migration/stress.o: In function `get_command_arg_ull':
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:129:
+> undefined reference to `g_free'
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:132:
+> undefined reference to `g_free'
+> tests/migration/stress.o: In function `stress':
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:253:
+> undefined reference to `pthread_create'
+> collect2: error: ld returned 1 exit status
+> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:849:
+> recipe for target 'tests/migration/stress' failed
+>
+> Is this dead code ?
 
+It was introduced around 3 years ago by Daniel for stress testing. The
+instructions in:
+
+  409437e16df273fc5f78f6cd1cb53023eaeb9b72
+  Author:     Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+  AuthorDate: Wed Jul 20 14:23:13 2016 +0100
+  Commit:     Amit Shah <amit.shah@redhat.com>
+  CommitDate: Fri Jul 22 13:23:39 2016 +0530
+
+  tests: introduce a framework for testing migration performance
+
+say to use:
+
+  make tests/migration/initrd-stress.img
+
+And that has indeed bitrotted over time. All the other tweaks since are
+passing through clean ups.
+
+>
+> thanks
+> -- PMM
+
+
+--
+Alex Benn=C3=A9e
 
