@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23DCF793C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:55:05 +0100 (CET)
-Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71349F7978
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 18:08:38 +0100 (CET)
+Received: from localhost ([::1]:55600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCy0-0002w4-KB
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:55:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47669)
+	id 1iUDB7-0003A3-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 12:08:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUCxD-0002TO-6g
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:54:16 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1iUD4X-0006Cf-Qy
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUCxB-0002Ih-QL
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:54:14 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36275)
+ (envelope-from <danielhb413@gmail.com>) id 1iUD4W-00069r-Gq
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:49 -0500
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:45327)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUCxB-0002IS-IZ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:54:13 -0500
-Received: by mail-oi1-x241.google.com with SMTP id j7so12092246oib.3
- for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 08:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=5T6ZNB8LXGt8lZJKqiUAZ7ZHK2DtLRkHK8we+HmueO0=;
- b=yl8A7lv8mm5XCZ2lgLiNFw8qkMEF+ZEzG4Xi5Je8O9Z6H+qxcFFB2yr0PC2VUqfjrV
- nw1kyeI+gtfO5vRO3viSHlQrdo9zx4ovsmYt3ezGlbfUoFSbwEIEGukc+Mzsf1mDeBxI
- /SOi6R7B8PbpIIrsqg5M3ugwOfp0emudrPlU6o6csQCo6c6wV5sIb05P2ogI7ckV/BuW
- T0zKM3/kJHNktwKiKCiwFRRMJH6/Vf1KTmX9+tsRMSvOchIQiQWD4wrulbC2EtH5QVWu
- DXt1OTbA/W+fzKhHlXC6p3IjobRjX0WruWw1BRlXsaxrvMr9lkUm7QI6saPVPesaD7d3
- Qt2A==
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1iUD4W-00069e-9C
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 12:01:48 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id g12so5148712qvy.12
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 09:01:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cfnHGAT7BFUvJ4LVpXC2KbNpRwrirSY1IOs1ZSYp6Xg=;
+ b=qIXYp87pccabh8YHwp4af+mY50Aq3IuEyIDZWqlvbKfvUrujifmksM+ChTKmVkcJ9a
+ ax/NsUPysO30QEjx/uspqHhkmopbIZO+NC2W9PxJP1h7Zm9RwuW1vqNiiRuHHUQYEtxU
+ aB54lucCljr1gbSNSpO67SRYd0aB2mLXfgwQaskHJg5fHZAuxpfs8CAaRlo2vAnJ4TiG
+ EhpTAV3XZmu+fmXRzlAWrAtQJiux7fRuF5NkfFgY9W2oClYz2fAlhGOtvDKWks/+PATW
+ nNXE/6jkgosvOFrmTyhTCmWTvLRanHqfJoOSx4esee0Rx3zIj2ZPKt5cXDRA8x/WVuqN
+ FslA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=5T6ZNB8LXGt8lZJKqiUAZ7ZHK2DtLRkHK8we+HmueO0=;
- b=hATy7lwHJ7ilxW1DBjyfoyj7mAmTO2cJkDNjgZ1kBxFMoFNFeieQgAUxvmSntOVAhZ
- qugXaPJSKWVKVydQ+f8tozxiTzcfZOXGkZMSkUdHuaKCJbAEh/eodGzDJQHt523Z0Yu/
- dP9FX3Y87uI5r4dD0ddivJzwk5uKPj23r2QRQfsPbjT6nJ+IDLO5C8nAbpOGy/7wUJyU
- GuWqXX0mc4x724q7HbpoXvOJROWolDkaAkITtjj3Ne/zAbvuYhzvs4KuhGYAPtxVG9JP
- dgJEsBKD4R3/g0NsBEBxRXC7IeeFfpQyUAzceq7w9gh73ekcGojZ/QDxa1uhI1cMHFFQ
- ZP3Q==
-X-Gm-Message-State: APjAAAXePfXoEn8r9YteXCDANc5nvYp0TjOPkdLFni+aZXTikW1tVQzd
- WC5z746NWW1PFhYK9Xt9iZrxA9c4yFGkr0yiURb73zndVjo=
-X-Google-Smtp-Source: APXvYqzXMCZ9IACmqGfoUEfsu1eSRdEpunqqzLUTRZ3AVZQ/RJUNAcNaSiqy+2dADrgAmsgahy3TgLUQrF19XBB0bFY=
-X-Received: by 2002:aca:cf12:: with SMTP id f18mr23630902oig.48.1573491252195; 
- Mon, 11 Nov 2019 08:54:12 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cfnHGAT7BFUvJ4LVpXC2KbNpRwrirSY1IOs1ZSYp6Xg=;
+ b=XhemfeR8aTGV6/qQ5YjySr8pOwRx71d2GgieT31giimaeWGfVt0KogYW/vtyO/snN2
+ X+6TyIOEdkZkFDU5OrpYsgPgiSj191y6u/iWM77fBp8EY4bXEnVLoEs8XPjIUjzI7GRY
+ wOtYguFWEBO0KzLKyvTE4oTS4wy3CZp4hD4SQuOWOmVQewTnnqfCvQ+diCdSk1BySvQ0
+ UAGRMxFA9eSQR7MReIG6npVOLtLMw/n+8a52ltVhFF6MjmzXsuHxE65LW0kbRZXOqodM
+ UdmEXMfLw8lYjZZO8EguP+FHGODyT0lfpRNSlEn0DS1EJgTNvAqyo6BbzYxJSum69sBt
+ fb2Q==
+X-Gm-Message-State: APjAAAX2oPo7eYI+PZtbeZbV2yXfpcKnBkvfr0L3FnVVgDdHwrbgt55N
+ whrYUKieriib8F5SGIaqQRVehfFp
+X-Google-Smtp-Source: APXvYqzDVOjEKcDmKy56b39MDQsor4VqEMUppCt2xFIiV5iEVopYxlb9Wx1uLM9MzsoIjzyYdJyxgA==
+X-Received: by 2002:ad4:408d:: with SMTP id l13mr11153505qvp.49.1573491706434; 
+ Mon, 11 Nov 2019 09:01:46 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:980:1591:e29e:17a4:d484])
+ by smtp.gmail.com with ESMTPSA id n20sm8572462qkn.118.2019.11.11.09.01.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 09:01:45 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 0/4] delete created files when
+ block_crypto_co_create_opts_luks fails
+Date: Mon, 11 Nov 2019 14:01:27 -0300
+Message-Id: <20191111170131.13742-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191111135803.14414-1-peter.maydell@linaro.org>
-In-Reply-To: <20191111135803.14414-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Nov 2019 16:54:01 +0000
-Message-ID: <CAFEAcA9LK4vX+K3Qf2jGLhXjyOqF493KOJRRCkPEyfi_2FG7Ug@mail.gmail.com>
-Subject: Re: [PULL 0/3] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::f36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Nov 2019 at 13:58, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Arm patches for rc1:
->  * two final "remove the old API" patches for some API transitions
->  * bugfix for raspi/highbank Linux boot
->
-> thanks
-> -- PMM
->
-> The following changes since commit 654efcb511d394c1d3f5292c28503d1d19e5b1d3:
->
->   Merge remote-tracking branch 'remotes/vivier/tags/q800-branch-pull-request' into staging (2019-11-11 09:23:46 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191111
->
-> for you to fetch changes up to 45c078f163fd47c35e7505d98928fae63baada7d:
->
->   hw/arm/boot: Set NSACR.{CP11, CP10} in dummy SMC setup routine (2019-11-11 13:44:16 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Remove old unassigned_access CPU hook API
->  * Remove old ptimer_init_with_bh() API
->  * hw/arm/boot: Set NSACR.{CP11, CP10} in dummy SMC setup routine
->
+changes from previous version 7 [1], all suggested by Kevin Wolf:
 
-Applied, thanks.
+- patch 1:
+    * removed function comment of raw_co_delete_file;
+    * removed 'done' label from raw_co_delete_file;
+    * removed 'local' remark from bdrv_co_delete_file comment. The comment
+      is now single-lined;
+    * added missing space in the commit msg;
+- patch 2:
+    * ditched bdrv_delete_co_entry and bdrv_delete_file, now it's a single
+      coroutine_fn bdrv_co_delete_file;
+    * BlockDriverState != NULL dropped - the caller will need to ensure it
+      is not null;
+    * changed the error message of '!bs->drv' condition;
+    * s/delete/deletion in the error message of !bs->drv->bdrv_co_delete_file;
+    * 'out' label removed - function will return immediately on error;
+- patch 3:
+    * check for (ret && bs);
+    * drop the ENOENT verification;
+    * do not prepend the filename in the error message;
+    * removed an extra blank line.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
 
--- PMM
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg00282.html
+
+Daniel Henrique Barboza (4):
+  block: introducing 'bdrv_co_delete_file' interface
+  block.c: adding bdrv_co_delete_file
+  crypto.c: cleanup created file when block_crypto_co_create_opts_luks
+    fails
+  qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
+
+ block.c                    | 26 +++++++++++++++
+ block/crypto.c             | 18 ++++++++++
+ block/file-posix.c         | 23 +++++++++++++
+ include/block/block.h      |  1 +
+ include/block/block_int.h  |  4 +++
+ tests/qemu-iotests/273     | 67 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/273.out | 11 +++++++
+ tests/qemu-iotests/group   |  1 +
+ 8 files changed, 151 insertions(+)
+ create mode 100755 tests/qemu-iotests/273
+ create mode 100644 tests/qemu-iotests/273.out
+
+-- 
+2.21.0
+
 
