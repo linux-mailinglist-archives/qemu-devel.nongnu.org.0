@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229BFF790E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:45:17 +0100 (CET)
-Received: from localhost ([::1]:55130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B640AF78D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:34:16 +0100 (CET)
+Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCoW-0006Tz-6w
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:45:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41251)
+	id 1iUCdr-00010O-OU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:34:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42045)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iUCLF-0006RR-4C
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:15:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iUCOd-0001yi-RS
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:18:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iUCLD-0007aG-U1
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:15:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41237
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iUCLD-0007Zg-Pi
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:14:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OBvWUDiYu62j00yT/+fqATyx7dX8irN1FgZbalznWX0=;
- b=BkRm8Yg7Yj1KfjJPvjYrUNPzwO4HbVYG9sXPbcUoGnw6BQYiCQFlOyKmDCTGgAxMUiZrS7
- 3UojwbZjDDEGFEEXHEO/lxlfO6MWDw6GRngow0ifgKHp2ixZ+LJhYuCnW+62j+fA6Vpd2y
- 0sqYatNtxhoKO/NlRqC2ESnTLODDoHc=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-FYy1bn_fP3uvPG0XzxEkWw-1; Mon, 11 Nov 2019 11:14:56 -0500
-Received: by mail-qk1-f197.google.com with SMTP id a13so8068411qkc.17
- for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 08:14:56 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iUCOc-0001BC-Cb
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:18:31 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46212)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iUCOc-0001AC-6s
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:18:30 -0500
+Received: by mail-ot1-x341.google.com with SMTP id n23so11675134otr.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 08:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GDBpaziJfd1ljGg5IEBQKD7sqmydzh1TW8chDqLMn7A=;
+ b=kr3WZLr9lafU+hR0RzadBExrDWDcMIpI7oY3IDsGjlvKTJLAO/VrwVOdCcc+7hDqcz
+ y4bhJRXhCo4hvv3X0LBzmpPjQZhJ1oHfPhLi94moy2o48pOF2pW69oG8pNMnJYkbhLSc
+ MVIAjeOfupT6BXMemrVrBM3B9FrD3BET/0KsYhNDT+QtTv7rMLpO6IzpEkrwO5WBhnB4
+ dqI+TKaVUNO5v8S+Yspa1wQu5MEdIDicKti0x6fF3HvBJWisJ/v8s62BRFbIQI+YQr+b
+ 2yCIWlrQN7xwl4fReHWM/s/+ddXFhuqUP2IUsWKqGT1wkHCbkkPQvk1mwarmpQur+PZr
+ WkIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dVkWaw+58rQsHT3SETkIDwx4gS8196YhUcD+YdvGzWE=;
- b=LrNUQHYi/Ee1WUJvWOv5fKGWRYijo6XGCKsFuR+xPo95Tence1QP+ugppq424XO9ak
- CATe4fE0bMFXcQLkzDPqT6CRpm70BJx1kWpLLUm9t3cDFN/okYoSo2DWMRhaw70Q3Pei
- toVqF4aYbEnc4bQx8XpGMkznrI/Jz4q4ykKO7Egbvtw8rttgpaHViL6KAaM6zvEBTK80
- YhQWTf4k/zrHjz2ueUltgvGPnpOskZF5eYl78MgubSF2InQOS1roqsXfNpT80GTjmTdy
- dWOSrYSs7wlC1NdDe8x7SHZQNwTFip6MfpbuQTzytSWFglPyvyuAP4rNpWqX6Sn2PGmO
- UCgQ==
-X-Gm-Message-State: APjAAAXo+w4dKjz6PCoIeDVTs37zRHKlXRCgDSjx5uKisWEulUIhvMPG
- qvPhXOkQhgOPATKL/wWW0JI24gkl7f9d5pZsotWavcOGSn2XzLVlgRGn5CcEe8ayVue3fplXR94
- G74vS2lkRzThrIgE=
-X-Received: by 2002:a37:9e05:: with SMTP id h5mr1318606qke.76.1573488895894;
- Mon, 11 Nov 2019 08:14:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwa9bgDG0bi7y5B/GuSwLmsmFvs/g36cOIp2Jt0HR0PZQYrfw/pCXhzJyVttoVaZtiGlFQepA==
-X-Received: by 2002:a37:9e05:: with SMTP id h5mr1318577qke.76.1573488895606;
- Mon, 11 Nov 2019 08:14:55 -0800 (PST)
-Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id x65sm7787226qkd.15.2019.11.11.08.14.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 08:14:54 -0800 (PST)
-Date: Mon, 11 Nov 2019 11:14:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
- revision 2
-Message-ID: <20191111111203-mutt-send-email-mst@kernel.org>
-References: <cover.1573477032.git.jan.kiszka@siemens.com>
- <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
- <20191111084327-mutt-send-email-mst@kernel.org>
- <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
- <20191111100607-mutt-send-email-mst@kernel.org>
- <20191111152743.GM814211@redhat.com>
- <129c527c-1e61-8c0c-3ca1-fe93e26c8bd2@siemens.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GDBpaziJfd1ljGg5IEBQKD7sqmydzh1TW8chDqLMn7A=;
+ b=oScMmzEQULZAYBfuC3Eq1hSdLtcSdBSBJvS6M6wJfZEhERYTBekqN1h6QmSx8SaS0O
+ D4aDUS/cYPNLjkoXIqhcAaRXUKgBAEduSfHgpSPv3AcEhqoNrKWIDMkXh8eFJ+8+XkHG
+ mzeNqRerLhxvp/SeXJUOULN6hO996HTCC6g2WNpxdXmityr/PkN4UOG2P9c9dIpiwTF3
+ lIMu9u+gyHn3vnQf1V//TK50PZ2tN9Dlbqew7Ut/imqaYaFdSt8iLD5GQrpLAxWpdLXZ
+ 3C1Xh5h9wLMbfg5Ap8XSKDQ7mwHJRx8NWklzkfBb8bZWKUNDpWSCaNCr5m58qr8PKK78
+ yEOA==
+X-Gm-Message-State: APjAAAWf3mujVBVuEXh8GDq6+mcs4vu58En04jhFOW7XNBqXaRopNC+4
+ MnqRSZHGPzsouq03qEsoBQgxcrL8jqGeZj1zBKBJDw==
+X-Google-Smtp-Source: APXvYqyWS1Q9XJmC0cN6Fr7ebGcwh9N6FJCRlEb7tUggwY2zfP/tTsK6PnoM6vTmMw3dgWMxCwCC3KTjVvQ0pwYzerk=
+X-Received: by 2002:a9d:7f12:: with SMTP id j18mr20511953otq.221.1573489109237; 
+ Mon, 11 Nov 2019 08:18:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <129c527c-1e61-8c0c-3ca1-fe93e26c8bd2@siemens.com>
-X-MC-Unique: FYy1bn_fP3uvPG0XzxEkWw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191111125530.26579-1-alex.bennee@linaro.org>
+ <cd4917d6-75b7-2c47-0c6b-07dda077c52e@redhat.com> <878soma4ev.fsf@linaro.org>
+ <97fd0943-586c-035f-b33b-eb6b2eb3dde6@redhat.com>
+In-Reply-To: <97fd0943-586c-035f-b33b-eb6b2eb3dde6@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Nov 2019 16:18:17 +0000
+Message-ID: <CAFEAcA_F1gUOhTyVkd185ie=tgoFS08n62Nk425RnAW+w6o0XA@mail.gmail.com>
+Subject: Re: [PATCH] tests/migration: use the common library function
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,85 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Claudio Fontana <claudio.fontana@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 11, 2019 at 04:42:52PM +0100, Jan Kiszka wrote:
-> On 11.11.19 16:27, Daniel P. Berrang=E9 wrote:
-> > On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
-> > > On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
-> > > > On 11.11.19 14:45, Michael S. Tsirkin wrote:
-> > > > > On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
-> > > > > > +| Offset | Register               | Content                   =
-                           |
-> > > > > > +|-------:|:-----------------------|:--------------------------=
----------------------------|
-> > > > > > +|    00h | Vendor ID              | 1AF4h                     =
-                           |
-> > > > > > +|    02h | Device ID              | 1110h                     =
-                           |
-> > > > >=20
-> > > > > Given it's a virtio vendor ID, please reserve a device ID
-> > > > > with the virtio TC.
-> > > >=20
-> > > > Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this =
-finally
-> > > > official.
-> > > >=20
-> > >=20
-> > > And I guess we will just mark it reserved or something right?
-> > > Since at least IVSHMEM 1 isn't a virtio device.
-> > > And will you be reusing same ID for IVSHMEM 2 or a new one?
-> >=20
-> > 1110h isn't under either of the virtio PCI device ID allowed ranges
-> > according to the spec:
-> >=20
-> >    "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
-> >     ID 0x1000 through 0x107F inclusive is a virtio device.
-> >     ...
-> >     Additionally, devices MAY utilize a Transitional PCI Device
-> >     ID range, 0x1000 to 0x103F depending on the device type. "
-> >=20
-> > So there's no need to reserve 0x1110h from the virtio spec POV.
->=20
-> Indeed.
->=20
-> >=20
-> > I have, however, ensured it is assigned to ivshmem from POV of
-> > Red Hat's own internal tracking of allocated device IDs, under
-> > its vendor ID.
-> >=20
-> > If ivshmem 2 is now a virtio device, then it is a good thing that
-> > it will get a new/different PCI device ID, to show that it is not
-> > compatible with the old device impl.
->=20
-> At this stage, it is just a PCI device that may be used in combination wi=
-th
-> virtio (stacked on top), but it is not designed like a normal virtio (PCI=
-)
-> device. That's because it lacks many properties of regular virtio devices=
-,
-> like queues.
->=20
-> So, if such a device could be come part of the virtio spec, it would be
-> separate from the rest, and having an ID from the regular range would lik=
-ely
-> not be helpful in this regard.
->=20
-> Jan
+On Mon, 11 Nov 2019 at 14:41, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 11/11/2019 15.11, Alex Benn=C3=A9e wrote:
+> >
+> > Thomas Huth <thuth@redhat.com> writes:
+> >
+> >> On 11/11/2019 13.55, Alex Benn=C3=A9e wrote:
+> >>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >>
+> >> Could you please add at least a short patch description? (Why is this
+> >> change necessary / a good idea?)
+> >
+> > It's just a minor clean-up Dave happened to comment on last week. Using
+> > the helper function is preferable given it abstracts away any system
+> > differences for the same information.
+>
+> But this also changes the behavior on non-Linux systems (i.e. the *BSDs
+> and macOS), since they will now use getpid() instead of gettid ... is
+> that the intended change here?
 
-I agree it needs a separate ID not from the regular range.
-It's a distinct transport.
-Maybe even a distinct vendor ID - we could easily get another one
-if needed.
+Does the 'stress' program work on those OSes? For that matter,
+does it work on Linux?
 
-> --=20
-> Siemens AG, Corporate Technology, CT RDA IOT SES-DE
-> Corporate Competence Center Embedded Linux
+As far as I can tell we don't compile stress.c on any host,
+since the only thing that depends on tests/migration/stress$(EXESUF)
+is tests/migration/initrd-stress.img, and nothing depends on that.
 
+Nothing creates tests/migration/ in the build dir so trying
+to build tests/migration/stress in an out-of-tree config fails:
+
+  CC      tests/migration/stress.o
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:359:1:
+fatal error: opening dependency file tests/migration/stress.d: No such
+file or directory
+ }
+ ^
+compilation terminated.
+
+...and if I fix that by manually creating the directory then
+it fails to link:
+
+  CC      tests/migration/stress.o
+  LINK    tests/migration/stress
+tests/migration/stress.o: In function `get_command_arg_str':
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:107:
+undefined reference to `g_strndup'
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:109:
+undefined reference to `g_strdup'
+tests/migration/stress.o: In function `get_command_arg_ull':
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:129:
+undefined reference to `g_free'
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:132:
+undefined reference to `g_free'
+tests/migration/stress.o: In function `stress':
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/migration/stress.c:253:
+undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:849:
+recipe for target 'tests/migration/stress' failed
+
+Is this dead code ?
+
+thanks
+-- PMM
 
