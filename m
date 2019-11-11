@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978FAF77AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 16:32:33 +0100 (CET)
-Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C0AF77AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 16:30:33 +0100 (CET)
+Received: from localhost ([::1]:54058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUBg8-0000Wm-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 10:32:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34531)
+	id 1iUBeC-0007us-Rr
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 10:30:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iUBcq-00070v-0Y
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:09 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iUBcB-0006X2-C9
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:28:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iUBcn-0002Pz-Bt
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40809
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iUBcm-0002Pm-UQ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:29:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573486144;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hZUpsan7ynawPn4cZlERvm27mWsq78DDG0gqXnnrob8=;
- b=KtLGCmTmaTAxf8ydn0tAivY/wLDDM5VGn/hMLEAgZ4UMsVBzOes3BIUyUUUvhYVPWpPKi5
- 5HP1qpXsTsRMlYA0B7ppHv2BvCsrQMZzgy35qGuF8CExubK7/sd7LZDKsRUtpFD7wrzLM6
- v/RkKtvCQzJNOxZ08CIc+t4CG20XHLw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-kNwO3cPvP4G4TGyclD_Uhg-1; Mon, 11 Nov 2019 10:27:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79471106BB8C;
- Mon, 11 Nov 2019 15:27:54 +0000 (UTC)
-Received: from redhat.com (ovpn-112-45.ams2.redhat.com [10.36.112.45])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9878C5D9C9;
- Mon, 11 Nov 2019 15:27:46 +0000 (UTC)
-Date: Mon, 11 Nov 2019 15:27:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
- revision 2
-Message-ID: <20191111152743.GM814211@redhat.com>
-References: <cover.1573477032.git.jan.kiszka@siemens.com>
- <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
- <20191111084327-mutt-send-email-mst@kernel.org>
- <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
- <20191111100607-mutt-send-email-mst@kernel.org>
+ (envelope-from <frankja@linux.ibm.com>) id 1iUBcA-0002GL-5T
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:28:27 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20434)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1iUBc9-0002Fu-SR
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 10:28:26 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xABFP6L5083343
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 10:28:24 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w7923mgfa-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 10:28:23 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Mon, 11 Nov 2019 15:28:21 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 11 Nov 2019 15:28:18 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xABFSHJj28770468
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Nov 2019 15:28:17 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC20C4C04E;
+ Mon, 11 Nov 2019 15:28:17 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E1654C04A;
+ Mon, 11 Nov 2019 15:28:16 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.179.89])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Nov 2019 15:28:16 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] s390x: Properly fetch the short psw on diag308 subc 0/1
+Date: Mon, 11 Nov 2019 10:28:08 -0500
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191111100607-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: kNwO3cPvP4G4TGyclD_Uhg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19111115-0008-0000-0000-0000032E107B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19111115-0009-0000-0000-00004A4D1142
+Message-Id: <20191111152808.13371-1-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-11_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1910280000 definitions=main-1911110141
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,67 +87,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
- Claudio Fontana <claudio.fontana@gmail.com>,
- Jan Kiszka <jan.kiszka@siemens.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
-> On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
-> > On 11.11.19 14:45, Michael S. Tsirkin wrote:
-> > > On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
-> > > > +| Offset | Register               | Content                       =
-                       |
-> > > > +|-------:|:-----------------------|:------------------------------=
------------------------|
-> > > > +|    00h | Vendor ID              | 1AF4h                         =
-                       |
-> > > > +|    02h | Device ID              | 1110h                         =
-                       |
-> > >=20
-> > > Given it's a virtio vendor ID, please reserve a device ID
-> > > with the virtio TC.
-> >=20
-> > Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this fina=
-lly
-> > official.
-> >=20
->=20
-> And I guess we will just mark it reserved or something right?
-> Since at least IVSHMEM 1 isn't a virtio device.
-> And will you be reusing same ID for IVSHMEM 2 or a new one?
+We need to actually fetch the cpu mask and set it. As we invert the
+short psw indication in the mask, SIE will report a specification
+exception, if it wasn't present in the reset psw.
 
-1110h isn't under either of the virtio PCI device ID allowed ranges
-according to the spec:
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ target/s390x/cpu.c | 12 ++++++++++--
+ target/s390x/cpu.h |  1 +
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-  "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
-   ID 0x1000 through 0x107F inclusive is a virtio device.
-   ...
-   Additionally, devices MAY utilize a Transitional PCI Device=20
-   ID range, 0x1000 to 0x103F depending on the device type. "
-
-So there's no need to reserve 0x1110h from the virtio spec POV.
-
-I have, however, ensured it is assigned to ivshmem from POV of
-Red Hat's own internal tracking of allocated device IDs, under
-its vendor ID.
-
-If ivshmem 2 is now a virtio device, then it is a good thing that
-it will get a new/different PCI device ID, to show that it is not
-compatible with the old device impl.
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 736a7903e2..40aa42e092 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -76,8 +76,16 @@ static bool s390_cpu_has_work(CPUState *cs)
+ static void s390_cpu_load_normal(CPUState *s)
+ {
+     S390CPU *cpu = S390_CPU(s);
+-    cpu->env.psw.addr = ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
+-    cpu->env.psw.mask = PSW_MASK_32 | PSW_MASK_64;
++    uint64_t spsw = ldq_phys(s->as, 0);
++
++    cpu->env.psw.mask = spsw & 0xffffffff80000000UL;
++    /*
++     * Invert short psw indication, so SIE will report a specification
++     * exception if it was not set.
++     */
++    cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
++    cpu->env.psw.addr = spsw & 0x7fffffffUL;
++
+     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+ }
+ #endif
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 947553386f..2c687185f1 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -261,6 +261,7 @@ extern const struct VMStateDescription vmstate_s390_cpu;
+ #define PSW_MASK_EXT            0x0100000000000000ULL
+ #define PSW_MASK_KEY            0x00F0000000000000ULL
+ #define PSW_SHIFT_KEY           52
++#define PSW_MASK_SHORTPSW	0x0008000000000000ULL
+ #define PSW_MASK_MCHECK         0x0004000000000000ULL
+ #define PSW_MASK_WAIT           0x0002000000000000ULL
+ #define PSW_MASK_PSTATE         0x0001000000000000ULL
+-- 
+2.20.1
 
 
