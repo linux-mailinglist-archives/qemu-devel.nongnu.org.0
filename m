@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D388FF6B93
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Nov 2019 22:12:54 +0100 (CET)
-Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2B8F6C36
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 02:22:59 +0100 (CET)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iTuVx-0000Iv-R8
-	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 16:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55953)
+	id 1iTyPy-0004xJ-6F
+	for lists+qemu-devel@lfdr.de; Sun, 10 Nov 2019 20:22:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50923)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iTuU9-0007FO-Ss
- for qemu-devel@nongnu.org; Sun, 10 Nov 2019 16:11:03 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iTyPB-0004Vc-6o
+ for qemu-devel@nongnu.org; Sun, 10 Nov 2019 20:22:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iTuU8-0004lF-Kg
- for qemu-devel@nongnu.org; Sun, 10 Nov 2019 16:11:01 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34107 helo=ozlabs.org)
+ (envelope-from <tao3.xu@intel.com>) id 1iTyP8-0007ZH-Pp
+ for qemu-devel@nongnu.org; Sun, 10 Nov 2019 20:22:08 -0500
+Received: from mga01.intel.com ([192.55.52.88]:24256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iTuU6-0004Tt-M1; Sun, 10 Nov 2019 16:11:00 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47B69h1WVCz9sPV; Mon, 11 Nov 2019 08:10:47 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1573420248;
- bh=dPLpKbVSRM7C2r1HJoFAQmTeJAQlAkxtorMSpk1OMVo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NZ4kBzEUZgs6QChY4UvrZZXqHSoAvx/+sMOyO8nPI8bzniePWCMUn/S5GSvvdswQb
- MadIeWSpDDPtYGUkaoQ4kKdaF2y2hNI/DncsjxzFEo2Jyz12VRZDxPVbxSKD/5Pl/k
- E2HRidJHf1KzvA4+st46EVAYzRzt2tw8c1f1VC8s=
-Date: Sun, 10 Nov 2019 21:10:33 +0000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH] RISC-V: virt: This is a "sifive,test1" test finisher
-Message-ID: <20191110211033.GU2461@umbus.Home>
-References: <CAFEAcA8k+t2qKCSvMjENitvCXyc-qwiG2qbg6gQFKR_+v_zihg@mail.gmail.com>
- <mhng-3242a5ea-9d0c-49fb-bcf6-d8482328b272@palmer-si-x1c4>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iTyP8-0007Sx-GU
+ for qemu-devel@nongnu.org; Sun, 10 Nov 2019 20:22:06 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Nov 2019 17:21:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,290,1569308400"; d="scan'208";a="206597524"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.160])
+ ([10.239.196.160])
+ by orsmga003.jf.intel.com with ESMTP; 10 Nov 2019 17:21:53 -0800
+Subject: Re: [PATCH v15 09/12] hmat acpi: Build Memory Proximity Domain
+ Attributes Structure(s)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20191107074511.14304-1-tao3.xu@intel.com>
+ <20191107074511.14304-10-tao3.xu@intel.com>
+ <20191108144407.204130ba@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <a373885f-e6fe-cbc4-81b7-eacf02d42c7e@intel.com>
+Date: Mon, 11 Nov 2019 09:21:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oGy11dVowAZA6eXT"
-Content-Disposition: inline
-In-Reply-To: <mhng-3242a5ea-9d0c-49fb-bcf6-d8482328b272@palmer-si-x1c4>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20191108144407.204130ba@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,116 +60,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- palmer@sifive.com, qemu-devel@nongnu.org,
- Christoph Hellwig <hch@infradead.org>, alistair23@gmail.com
+Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ Daniel Black <daniel@linux.ibm.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/8/2019 9:44 PM, Igor Mammedov wrote:
+> On Thu,  7 Nov 2019 15:45:08 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> From: Liu Jingqi <jingqi.liu@intel.com>
+>>
+>> HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
+>> (HMAT). The specification references below link:
+>> http://www.uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+>>
+>> It describes the memory attributes, such as memory side cache
+>> attributes and bandwidth and latency details, related to the
+>> Memory Proximity Domain. The software is
+>> expected to use this information as hint for optimization.
+>>
+>> This structure describes Memory Proximity Domain Attributes by memory
+>> subsystem and its associativity with processor proximity domain as well as
+>> hint for memory usage.
+>>
+>> In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+>> the platform's HMAT tables.
+>>
+>> Reviewed-by: Daniel Black <daniel@linux.ibm.com>
+>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> ---
+> 
+> with nit below fixed
+>    Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> 
+>>
+>> No changes in v15.
+>>
+>> Changes in v13:
+>>      - Remove the unnecessary head file.
+>> ---
+>>   hw/acpi/Kconfig       |  7 ++-
+>>   hw/acpi/Makefile.objs |  1 +
+>>   hw/acpi/hmat.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
+>>   hw/acpi/hmat.h        | 42 ++++++++++++++++++
+>>   hw/i386/acpi-build.c  |  5 +++
+>>   5 files changed, 152 insertions(+), 2 deletions(-)
+>>   create mode 100644 hw/acpi/hmat.c
+>>   create mode 100644 hw/acpi/hmat.h
+>>
+>> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+>> index 12e3f1e86e..54209c6f2f 100644
+>> --- a/hw/acpi/Kconfig
+>> +++ b/hw/acpi/Kconfig
+>> @@ -7,6 +7,7 @@ config ACPI_X86
+>>       select ACPI_NVDIMM
+>>       select ACPI_CPU_HOTPLUG
+>>       select ACPI_MEMORY_HOTPLUG
+>> +    select ACPI_HMAT
+>>   
+>>   config ACPI_X86_ICH
+>>       bool
+>> @@ -23,6 +24,10 @@ config ACPI_NVDIMM
+>>       bool
+>>       depends on ACPI
+>>   
+>> +config ACPI_HMAT
+>> +    bool
+>> +    depends on ACPI
+>> +
+>>   config ACPI_PCI
+>>       bool
+>>       depends on ACPI && PCI
+>> @@ -33,5 +38,3 @@ config ACPI_VMGENID
+>>       depends on PC
+>>   
+>>   config ACPI_HW_REDUCED
+>> -    bool
+>> -    depends on ACPI
+>> diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+>> index 655a9c1973..517bd88704 100644
+>> --- a/hw/acpi/Makefile.objs
+>> +++ b/hw/acpi/Makefile.objs
+>> @@ -7,6 +7,7 @@ common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
+>>   common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
+>>   common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
+>>   common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
+>> +common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
+>>   common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
+>>   
+>>   common-obj-y += acpi_interface.o
+>> diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
+>> new file mode 100644
+>> index 0000000000..c595098ba7
+>> --- /dev/null
+>> +++ b/hw/acpi/hmat.c
+>> @@ -0,0 +1,99 @@
+>> +/*
+>> + * HMAT ACPI Implementation
+>> + *
+>> + * Copyright(C) 2019 Intel Corporation.
+>> + *
+>> + * Author:
+>> + *  Liu jingqi <jingqi.liu@linux.intel.com>
+>> + *  Tao Xu <tao3.xu@intel.com>
+>> + *
+>> + * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
+>> + * (HMAT)
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "sysemu/numa.h"
+>> +#include "hw/acpi/hmat.h"
+>> +
+>> +/*
+>> + * ACPI 6.3:
+>> + * 5.2.27.3 Memory Proximity Domain Attributes Structure: Table 5-145
+>> + */
+>> +static void build_hmat_mpda(GArray *table_data, uint16_t flags,
+> 
+>> +                            uint16_t initiator, uint16_t mem_node)
+> why do you use 16 bit for fields that spec defines as 4byte ones?
+> 
+> It's ACPI api so it, I suggest to stay close to spec when building
+> ACPI primitives (i.e. use uint32_t here).
+> 
 
---oGy11dVowAZA6eXT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for your suggestion. I will fix it.
+>> +{
+>> +
+>> +    /* Memory Proximity Domain Attributes Structure */
+>> +    /* Type */
+>> +    build_append_int_noprefix(table_data, 0, 2);
+>> +    /* Reserved */
+>> +    build_append_int_noprefix(table_data, 0, 2);
+>> +    /* Length */
+>> +    build_append_int_noprefix(table_data, 40, 4);
+>> +    /* Flags */
+>> +    build_append_int_noprefix(table_data, flags, 2);
+>> +    /* Reserved */
+>> +    build_append_int_noprefix(table_data, 0, 2);
+>> +    /* Proximity Domain for the Attached Initiator */
+>> +    build_append_int_noprefix(table_data, initiator, 4);
+>> +    /* Proximity Domain for the Memory */
+>> +    build_append_int_noprefix(table_data, mem_node, 4);
+>> +    /* Reserved */
+>> +    build_append_int_noprefix(table_data, 0, 4);
+>> +    /*
+>> +     * Reserved:
+>> +     * Previously defined as the Start Address of the System Physical
+>> +     * Address Range. Deprecated since ACPI Spec 6.3.
+>> +     */
+>> +    build_append_int_noprefix(table_data, 0, 8);
+>> +    /*
+>> +     * Reserved:
+>> +     * Previously defined as the Range Length of the region in bytes.
+>> +     * Deprecated since ACPI Spec 6.3.
+>> +     */
+>> +    build_append_int_noprefix(table_data, 0, 8);
+>> +}
+>> +
+>> +/* Build HMAT sub table structures */
+>> +static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
+>> +{
+>> +    uint16_t flags;
+>> +    int i;
+>> +
+>> +    for (i = 0; i < numa_state->num_nodes; i++) {
+>> +        flags = 0;
+>> +
+>> +        if (numa_state->nodes[i].initiator < MAX_NODES) {
+>> +            flags |= HMAT_PROXIMITY_INITIATOR_VALID;
+>> +        }
+>> +
+>> +        build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator, i);
+>> +    }
+>> +}
+>> +
+>> +void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
+>> +{
+>> +    int hmat_start = table_data->len;
+>> +
+>> +    /* reserve space for HMAT header  */
+>> +    acpi_data_push(table_data, 40);
+>> +
+>> +    hmat_build_table_structs(table_data, numa_state);
+>> +
+>> +    build_header(linker, table_data,
+>> +                 (void *)(table_data->data + hmat_start),
+>> +                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
+>> +}
+>> diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
+>> new file mode 100644
+>> index 0000000000..437dbc6872
+>> --- /dev/null
+>> +++ b/hw/acpi/hmat.h
+>> @@ -0,0 +1,42 @@
+>> +/*
+>> + * HMAT ACPI Implementation Header
+>> + *
+>> + * Copyright(C) 2019 Intel Corporation.
+>> + *
+>> + * Author:
+>> + *  Liu jingqi <jingqi.liu@linux.intel.com>
+>> + *  Tao Xu <tao3.xu@intel.com>
+>> + *
+>> + * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
+>> + * (HMAT)
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License as published by the Free Software Foundation; either
+>> + * version 2 of the License, or (at your option) any later version.
+>> + *
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see <http://www.gnu.org/licenses/>
+>> + */
+>> +
+>> +#ifndef HMAT_H
+>> +#define HMAT_H
+>> +
+>> +#include "hw/acpi/aml-build.h"
+>> +
+>> +/*
+>> + * ACPI 6.3: 5.2.27.3 Memory Proximity Domain Attributes Structure,
+>> + * Table 5-145, Field "flag", Bit [0]: set to 1 to indicate that data in
+>> + * the Proximity Domain for the Attached Initiator field is valid.
+>> + * Other bits reserved.
+>> + */
+>> +#define HMAT_PROXIMITY_INITIATOR_VALID  0x1
+>> +
+>> +void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state);
+>> +
+>> +#endif
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index 266d9b534b..aec8b71569 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -67,6 +67,7 @@
+>>   #include "hw/i386/intel_iommu.h"
+>>   
+>>   #include "hw/acpi/ipmi.h"
+>> +#include "hw/acpi/hmat.h"
+>>   
+>>   /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+>>    * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+>> @@ -2721,6 +2722,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>>               acpi_add_table(table_offsets, tables_blob);
+>>               build_slit(tables_blob, tables->linker, machine);
+>>           }
+>> +        if (machine->numa_state->hmat_enabled) {
+>> +            acpi_add_table(table_offsets, tables_blob);
+>> +            build_hmat(tables_blob, tables->linker, machine->numa_state);
+>> +        }
+>>       }
+>>       if (acpi_get_mcfg(&mcfg)) {
+>>           acpi_add_table(table_offsets, tables_blob);
+> 
 
-On Fri, Nov 08, 2019 at 10:13:16AM -0800, Palmer Dabbelt wrote:
-> On Fri, 08 Nov 2019 10:04:47 PST (-0800), Peter Maydell wrote:
-> > On Fri, 8 Nov 2019 at 17:15, Alistair Francis <alistair23@gmail.com> wr=
-ote:
-> > >=20
-> > > On Fri, Nov 8, 2019 at 9:05 AM Palmer Dabbelt <palmer@sifive.com> wro=
-te:
-> > > >
-> > > > The test finisher implements the reset command, which means it's a
-> > > > "sifive,test1" device.  This is a backwards compatible change, so i=
-t's
-> > > > also a "sifive,test0" device.  I copied the odd idiom for adding a
-> > > > two-string compatible field from the ARM virt board.
-> > > >
-> > > > Fixes: 9a2551ed6f ("riscv: sifive_test: Add reset functionality")
-> > > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> > > > Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
-> > > > ---
-> > > >  hw/riscv/virt.c | 5 ++++-
-> > > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > > > index 23f340df19..74f2dce81c 100644
-> > > > --- a/hw/riscv/virt.c
-> > > > +++ b/hw/riscv/virt.c
-> > > > @@ -359,7 +359,10 @@ static void create_fdt(RISCVVirtState *s, cons=
-t struct MemmapEntry *memmap,
-> > > >      nodename =3D g_strdup_printf("/test@%lx",
-> > > >          (long)memmap[VIRT_TEST].base);
-> > > >      qemu_fdt_add_subnode(fdt, nodename);
-> > > > -    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,t=
-est0");
-> > > > +    {
-> > > > +        const char compat[] =3D "sifive,test1\0sifive,test0";
-> > >=20
-> > > Does this really work? Why not use qemu_fdt_setprop_cells()?
-> > >=20
-> > > Alistair
-> > >=20
-> > > > +        qemu_fdt_setprop(fdt, nodename, "compatible", compat, size=
-of(compat));
-> > > > +    }
-> >=20
-> > qemu_fdt_setprop_cells() is for "set this property to
-> > contain this list of 32-bit integers" (and it does a byteswap
-> > of each 32-bit value from host to BE). That's not what
-> > you want for a string (or a string list, which is what
-> > we have here).
-> >=20
-> > Cc'ing David Gibson who's our device tree expert to see if there's
-> > a nicer way to write this. Oddly, given that it's used in the
-> > ubiquitous 'compatible' prop, the dtc Documentation/manual.txt
-> > doesn't say anything about properties being able to be
-> > 'string lists', only 'strings', '32 bit numbers', 'lists of
-> > 32-bit numbers' and 'byte sequences'. You have to dig through
-> > the header file comments to deduce that a string list is
-> > represented by a string with embedded NULs separating
-> > each list item.
->=20
-> I copied this from hw/arm/virt.c, but messed up.  There they use
->=20
->        const char compat[] =3D "arm,armv8-timer\0arm,armv7-timer";
->        qemu_fdt_setprop(vms->fdt, "/timer", "compatible",
->                         compat, sizeof(compat));
-
-I'm not sure what you're saying is messed up.  AFAICT, this matches
-the code you have above, and both should be correct.
-
-> I'll send a v2, but I'd be happy to add some sort of setprop_stringlist
-> function.  Maybe we just indicate the length with two '\0's?  IIRC that's
-> how other similar-looking data structures are encoded.
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---oGy11dVowAZA6eXT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3IfMgACgkQbDjKyiDZ
-s5Iy2RAAt3YXZOqcT47TtaZIOVsv93SI1qBvIvw24mQfVd7owu7HLXjkg5F/DXZF
-o5NSHeoNOrW/FC9c0ZH8AmWRQirPxstNKKmmL5v4C/E17d/ny/wYtX0SmF7fGq5V
-RN6FARFfHAepOJvxnNzVokn2Fn5/MPlV5KZ8prImWy/boPPcTuqlYHugWdPvQ9PT
-3Psu6qB2Rp+97+6vh50vqCXw2ApF4uggjxKno8q1BfqV9nLGaspbxxgbM7IJLGVf
-rUji2S5dXmCUlX0NNk7aVFB5EoKBKL9g2qsK57E/qgzZUwnSE7DoVrFsqkCW39qZ
-dbTo+E+gGhLB7gK16RtC4NjVt9zniKtUz5nFBzdyuRm/CYktTBDC9NSW9m0XqDNU
-MflwzN3xKXKNvBdwDk4mW/UU3ZbmBEpNUgs5BVJGj63LabYcJSdIO9T5+FH4UW0t
-tsmhaUELfn09Eo9JU1nS6epFQFA/B/KuH8l96i1Xe1oNyz1cKK7B/jmpz8BsJBAL
-Qf7EmuIbXWkYPMou403fPEOTaBmlO9CrGul89BsiuWNOhedoRRvzdKoIlS5Squ3J
-mJkjzzjDqPEKO/ww45ok3RmN3KxSGkX9YDN/5VqlErKHiyzx5UjWHJri2qASP+Ri
-IAQJltgKyfNwcfN1PLylnRkCxehNGgYQ23U+i2X94qRxvxSgNTo=
-=41z9
------END PGP SIGNATURE-----
-
---oGy11dVowAZA6eXT--
 
