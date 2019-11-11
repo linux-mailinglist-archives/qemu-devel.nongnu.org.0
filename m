@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA4FF78D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:34:42 +0100 (CET)
-Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4F1F78EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:36:59 +0100 (CET)
+Received: from localhost ([::1]:55022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCeH-0001me-32
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:34:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
+	id 1iUCgU-0005J8-LT
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCA9-0000NL-Rk
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:35 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iUCAF-0000RU-Ge
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUCA7-000399-9n
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41838
+ (envelope-from <mreitz@redhat.com>) id 1iUCA9-0003AB-TX
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54854
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCA5-00038R-FC
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:30 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCA9-00039c-PB
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488208;
+ s=mimecast20190719; t=1573488212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KjOmMb8SbuE3Eau+JWgFrpKa9d+ujZ1o70YXIj/vuCw=;
- b=ZG8+q6VNNFhX+EY4QQOVWcPv5JQAfkOvonxPKfhdW44tUb/asfO/KDWNqN4o35N1txC7P1
- OZG5bEJcMp3velKF7zoYEXkpxUzr53d7clH1pmCxjIwiwXOgFZmJp+yFtZAW7i7LkNB8Jn
- XF6M5zhKwk9Onclw7VuMSJSP7HBcGgU=
+ bh=whUrYdJLhBASdpWCpuLFMfQuo3veDYHSDj2xi+Fnx2w=;
+ b=jOwiC8h90pZhHFg1K21fLWxbjWtYzVJnp9H1uIO/oT3hMqDKRR3zNRVb6ayzM85kFLtsDx
+ J6N99oNRfRjx8P7n6jrCEJtmAgcPJHYB3g4E9eXgEcRcXAUR9jvXtuALijsGCbKxzJqhmp
+ rMnTeUVmRr4cveLxmbIbFYN3yVDiC5c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-EClod1VRMXayYki6wpUtwg-1; Mon, 11 Nov 2019 11:03:25 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-344-JvaqgvzvP0S0b2aKMOMFRg-1; Mon, 11 Nov 2019 11:03:31 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04B5792CA60;
- Mon, 11 Nov 2019 16:03:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D1A9107ACC5;
+ Mon, 11 Nov 2019 16:03:30 +0000 (UTC)
 Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FEDD3DBB;
- Mon, 11 Nov 2019 16:03:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3BBA608FF;
+ Mon, 11 Nov 2019 16:03:29 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 21/23] iotests: Add tests for invalid Quorum
- @replaces
-Date: Mon, 11 Nov 2019 17:02:14 +0100
-Message-Id: <20191111160216.197086-22-mreitz@redhat.com>
+Subject: [PATCH for-5.0 v2 23/23] iotests: Mirror must not attempt to create
+ loops
+Date: Mon, 11 Nov 2019 17:02:16 +0100
+Message-Id: <20191111160216.197086-24-mreitz@redhat.com>
 In-Reply-To: <20191111160216.197086-1-mreitz@redhat.com>
 References: <20191111160216.197086-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: EClod1VRMXayYki6wpUtwg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: JvaqgvzvP0S0b2aKMOMFRg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -78,144 +78,280 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two tests to see that you cannot replace a Quorum child with the
-mirror job while the child is in use by a different parent.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/041     | 70 +++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/041.out |  4 +--
- 2 files changed, 71 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/041     | 235 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/041.out |   4 +-
+ 2 files changed, 237 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 0c1af45639..ab0cb5b42f 100755
+index 9a00cf6f7b..0e43bb699d 100755
 --- a/tests/qemu-iotests/041
 +++ b/tests/qemu-iotests/041
-@@ -20,6 +20,7 @@
+@@ -1246,6 +1246,241 @@ class TestReplaces(iotests.QMPTestCase):
 =20
- import time
- import os
-+import re
- import iotests
- from iotests import qemu_img, qemu_io
+         self.vm.assert_block_path('filter0', '/file', 'target')
 =20
-@@ -34,6 +35,8 @@ quorum_img3 =3D os.path.join(iotests.test_dir, 'quorum3.i=
-mg')
- quorum_repair_img =3D os.path.join(iotests.test_dir, 'quorum_repair.img')
- quorum_snapshot_file =3D os.path.join(iotests.test_dir, 'quorum_snapshot.i=
-mg')
-=20
-+nbd_sock_path =3D os.path.join(iotests.test_dir, 'nbd.sock')
++    """
++    See what happens when the @sync/@replaces configuration dictates
++    creating a loop.
++    """
++    @iotests.skip_if_unsupported(['throttle'])
++    def test_loop(self):
++        qemu_img('create', '-f', iotests.imgfmt, test_img, str(1 * 1024 * =
+1024))
 +
- class TestSingleDrive(iotests.QMPTestCase):
-     image_len =3D 1 * 1024 * 1024 # MB
-     qmp_cmd =3D 'drive-mirror'
-@@ -901,7 +904,8 @@ class TestRepairQuorum(iotests.QMPTestCase):
-=20
-     def tearDown(self):
-         self.vm.shutdown()
--        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file ]=
-:
-+        for i in self.IMAGES + [ quorum_repair_img, quorum_snapshot_file,
-+                                 nbd_sock_path ]:
-             # Do a try/except because the test may have deleted some image=
-s
-             try:
-                 os.remove(i)
-@@ -1042,6 +1046,70 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         self.assert_has_block_node("repair0", quorum_repair_img)
-         self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
-=20
-+    """
-+    Check that we cannot replace a Quorum child when it has other
-+    parents.
-+    """
-+    def test_with_other_parent(self):
-+        result =3D self.vm.qmp('nbd-server-start',
-+                             addr=3D{
-+                                 'type': 'unix',
-+                                 'data': {'path': nbd_sock_path}
++        # Dummy group so we can create a NOP filter
++        result =3D self.vm.qmp('object-add', qom_type=3D'throttle-group', =
+id=3D'tg0')
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('blockdev-add', **{
++                                 'driver': 'throttle',
++                                 'node-name': 'source',
++                                 'throttle-group': 'tg0',
++                                 'file': {
++                                     'driver': iotests.imgfmt,
++                                     'node-name': 'filtered',
++                                     'file': {
++                                         'driver': 'file',
++                                         'filename': test_img
++                                     }
++                                 }
 +                             })
 +        self.assert_qmp(result, 'return', {})
 +
-+        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
-+        self.assert_qmp(result, 'return', {})
++        # Block graph is now:
++        #   source[throttle] --file--> filtered[imgfmt] --file--> ...
 +
 +        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
-=3D'quorum0',
-+                             sync=3D'full', node_name=3D'repair0', replace=
-s=3D'img1',
-+                             target=3Dquorum_repair_img, format=3Diotests.=
-imgfmt)
+=3D'source',
++                             target=3Dtarget_img, format=3Diotests.imgfmt,
++                             node_name=3D'target', sync=3D'none',
++                             replaces=3D'filtered')
++
++        """
++        Block graph before mirror exits would be (ignoring mirror_top):
++          source[throttle] --file--> filtered[imgfmt] --file--> ...
++          target[imgfmt] --file--> ...
++
++        Then, because of sync=3Dnone and drive-mirror in absolute-paths mo=
+de,
++        the source is attached to the target:
++          source[throttle] --file--> filtered[imgfmt] --file--> ...
++                 ^
++              backing
++                 |
++            target[imgfmt] --file--> ...
++
++        Replacing filtered by target would yield:
++          source[throttle] --file--> target[imgfmt] --file--> ...
++                 ^                        |
++                 +------- backing --------+
++
++        I.e., a loop.  bdrv_replace_node() detects this and simply
++        does not let source's file link point to target.  However,
++        that means that target cannot really replace source.
++
++        drive-mirror should detect this and not allow this case.
++        """
++
 +        self.assert_qmp(result, 'error/desc',
-+                        "Cannot replace 'img1' by a node mirrored from "
-+                        "'quorum0', because it cannot be guaranteed that d=
-oing "
-+                        "so would not lead to an abrupt change of visible =
-data")
++                        "Replacing 'filtered' by 'target' with this sync "=
+ + \
++                        "mode would result in a loop, because the former "=
+ + \
++                        "would be a child of the latter's backing file " +=
+ \
++                        "('source') after the mirror job")
 +
 +    """
-+    The same as test_with_other_parent(), but add the NBD server only
-+    when the mirror job is already running.
++    Test what happens when there would be no loop with the pre-mirror
++    configuration, but something changes during the mirror job that asks
++    for a loop to be created during completion.
 +    """
-+    def test_with_other_parents_after_mirror_start(self):
-+        result =3D self.vm.qmp('nbd-server-start',
-+                             addr=3D{
-+                                 'type': 'unix',
-+                                 'data': {'path': nbd_sock_path}
++    @iotests.skip_if_unsupported(['copy-on-read', 'quorum'])
++    def test_loop_during_mirror(self):
++        qemu_img('create', '-f', iotests.imgfmt, test_img, str(1 * 1024 * =
+1024))
++
++        """
++        In this test, we are going to mirror from a node that is a
++        filter above some file "common-base".  The target is a quorum
++        node (with just an unrelated null-co child).
++
++        We will ask the mirror job to replace common-base by the
++        target upon completion.  That is a completely valid
++        configuration so far.
++
++        However, while the job is running, we add common-base as an
++        (indirect[1]) child to the target quorum node.  This way,
++        completing the job as requested would yield a loop, because
++        the target would be supposed to replace common-base -- which
++        is its own (indirect) child.
++
++        [1] It needs to be an indirect child, because if it were a
++        direct child, the mirror job would simply end by effectively
++        injecting the target above common-base.  This is the same
++        effect as when using sync=3Dnone: The target ends up above the
++        source.
++
++        So only loops that have a length of more than one node are
++        forbidden, which means common-base must be an indirect child
++        of the target.
++
++        (Furthermore, we are going to use x-blockdev-change to add
++        common-base as a child to the target.  This command only
++        allows doing so for nodes that have no parent yet.
++        common-base will have a parent already, though, namely the
++        source node.  Therefore, this is another reason why we need at
++        least one node above common-base, so this parent can become
++        target's child during the mirror.)
++        """
++
++        result =3D self.vm.qmp('blockdev-add', **{
++                                 'driver': 'null-co',
++                                 'node-name': 'common-base',
++                                 'read-zeroes': True,
++                                 'size': 1 * 1024 * 1024
 +                             })
 +        self.assert_qmp(result, 'return', {})
 +
-+        result =3D self.vm.qmp('drive-mirror', job_id=3D'mirror', device=
-=3D'quorum0',
-+                             sync=3D'full', node_name=3D'repair0', replace=
-s=3D'img1',
-+                             target=3Dquorum_repair_img, format=3Diotests.=
-imgfmt)
++        result =3D self.vm.qmp('blockdev-add', **{
++                                 'driver': 'copy-on-read',
++                                 'node-name': 'source',
++                                 'file': 'common-base'
++                             })
 +        self.assert_qmp(result, 'return', {})
 +
-+        result =3D self.vm.qmp('nbd-server-add', device=3D'img1')
++        """
++        As explained above, we have to create a parent above
++        common-base.
++
++        We cannot use any parent that would forward the RESIZE
++        permission, because the job takes it on the target, but
++        unshares it on the source: After the x-blockdev-change
++        operation during the mirror job, this parent will be a child
++        of the target, so common-base will be an (indirect) child of
++        both the mirror's source and target.  Thus, the job would
++        conflict with itself.
++
++        Therefore, we make common-base a backing child of a $imgfmt
++        node.  Unfortunately, we cannot let the mirror job replace a
++        node that acts as a backing child somewhere (because of an op
++        blocker), so we put another raw node between the $imgfmt node
++        and common-base.
++        """
++        result =3D self.vm.qmp('blockdev-add', **{
++                                 'driver': iotests.imgfmt,
++                                 'node-name': 'base-parent',
++                                 'file': {
++                                     'driver': 'file',
++                                     'filename': test_img
++                                 },
++                                 'backing': {
++                                     'driver': 'raw',
++                                     'file': 'common-base'
++                                 }
++                             })
++
++        """
++        Add a quorum node with a single child, we will add base-parent
++        to prepare a loop later.
++        (We do not care about this single child at all, but it is
++        impossible to create a quorum node without any children.  We
++        will ignore this child from now on.)
++        """
++        result =3D self.vm.qmp('blockdev-add', **{
++                                 'driver': 'quorum',
++                                 'node-name': 'target',
++                                 'vote-threshold': 1,
++                                 'children': [
++                                     {
++                                         'driver': 'null-co',
++                                         'read-zeroes': True,
++                                         'size': 1 * 1024 * 1024
++                                     }
++                                 ]
++                             })
 +        self.assert_qmp(result, 'return', {})
 +
-+        # The full error message goes to stderr, we will check it later
++        """
++        Current block graph:
++
++        base-parent[$imgfmt] --backing--> [raw]
++                                            |
++                                           file
++                                            v
++              source[COR] --file--> common-base[null-co]
++
++        target[quorum]
++
++
++        The following blockdev-mirror asks for this graph post-mirror:
++
++        base-parent[$imgfmt] --backing--> [raw]
++                                            |
++                                           file
++                                            v
++                source[COR] --file--> target[quorum]
++
++        That would be a valid configuration without any loops.
++        """
++
++        result =3D self.vm.qmp('blockdev-mirror', job_id=3D'mirror',
++                             device=3D'source', target=3D'target', sync=3D=
+'full',
++                             replaces=3D'common-base')
++        self.assert_qmp(result, 'return', {})
++
++        """
++        However, now we will make base-parent a child of target.
++        Before the mirror job completes, that is still completely
++        valid:
++
++                                             source
++                                               |
++                                               v
++        target -> base-parent -> [raw] -> common-base
++        """
++
++        result =3D self.vm.qmp('x-blockdev-change',
++                             parent=3D'target', node=3D'base-parent')
++        self.assert_qmp(result, 'return', {})
++
++        """
++        However, post-mirror, we thus ask for a loop:
++
++        source -> target (replaced common-base) -> base-parent
++                                  ^                    |
++                                  |                    v
++                                  +----------------- [raw]
++
++        bdrv_replace_node() would not allow such a configuration, but
++        we should not pretend we can create it, so the mirror job
++        should fail during completion.
++        """
++
 +        self.complete_and_wait('mirror',
 +                               completion_error=3D'Operation not permitted=
 ')
 +
-+        # Should not have been replaced
-+        self.vm.assert_block_path('quorum0', '/children.1', 'img1')
-+
-+        # Check the full error message now
-+        self.vm.shutdown()
-+        log =3D self.vm.get_log()
-+        log =3D re.sub(r'^\[I \d+\.\d+\] OPENED\n', '', log)
-+        log =3D re.sub(r'^Formatting.*\n', '', log)
-+        log =3D re.sub(r'\n\[I \+\d+\.\d+\] CLOSED\n?$', '', log)
-+        log =3D re.sub(r'^qemu-system-[^:]*: ', '', log)
-+
-+        self.assertEqual(log,
-+                         "Can no longer replace 'img1' by 'repair0', becau=
-se " +
-+                         "it can no longer be guaranteed that doing so wou=
-ld " +
-+                         "not lead to an abrupt change of visible data")
-+
-+
- # Test mirroring with a source that does not have any parents (not even a
- # BlockBackend)
- class TestOrphanedSource(iotests.QMPTestCase):
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2', 'qed'],
+                  supported_protocols=3D['file'])
 diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index f496be9197..ffc779b4d1 100644
+index 877b76fd31..20a8158b99 100644
 --- a/tests/qemu-iotests/041.out
 +++ b/tests/qemu-iotests/041.out
 @@ -1,5 +1,5 @@
 -..........................................................................=
-.................
+....................
 +..........................................................................=
-...................
+......................
  ----------------------------------------------------------------------
--Ran 91 tests
-+Ran 93 tests
+-Ran 94 tests
++Ran 96 tests
 =20
  OK
 --=20
