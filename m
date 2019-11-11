@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D014F71BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 11:18:57 +0100 (CET)
-Received: from localhost ([::1]:50504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F9AF71C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 11:20:11 +0100 (CET)
+Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU6me-00074M-A5
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 05:18:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47423)
+	id 1iU6nq-0008U5-9N
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 05:20:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47513)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iU6lC-0006OY-Gb
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:17:28 -0500
+ (envelope-from <mst@redhat.com>) id 1iU6ln-0006xm-0O
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:18:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iU6lA-0000hG-Nj
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:17:25 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57665
+ (envelope-from <mst@redhat.com>) id 1iU6ll-0000oN-Rg
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:18:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35874
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iU6lA-0000h6-HS
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:17:24 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iU6ll-0000o1-OC
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 05:18:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573467443;
+ s=mimecast20190719; t=1573467481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hB+02TOM2itiemu0NxlGKSixLqLWbMMO37xJFMDuthc=;
- b=GTovPwVcavAnM4F70GW3HHutr+TcTFVuDLNcqXoG82U1x9sMDeIE4cDpYMNpp/3f0t0IGG
- Q8NPMr8WS49UEz+b7G/LBgGd9t8USc1Kb8OOo8TjHDHsmXWHxT+VV3jRKa3W8YVrCTAp0Q
- GFOcbUW1vrX0uaVl4t2IxNznSkdyFag=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-8eJ0BAopP2iyv2R_OumgQA-1; Mon, 11 Nov 2019 05:16:01 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED97B107B7D6;
- Mon, 11 Nov 2019 10:16:00 +0000 (UTC)
-Received: from localhost (dhcp-192-217.str.redhat.com [10.33.192.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03F2C3DA3;
- Mon, 11 Nov 2019 10:15:55 +0000 (UTC)
-Date: Mon, 11 Nov 2019 11:15:54 +0100
-From: Jens Freimann <jfreimann@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] tests/migration: Print some debug on bad status
-Message-ID: <20191111101554.m3lwn4divi7643ri@jenstp.localdomain>
-References: <20191108104307.125020-1-dgilbert@redhat.com>
- <157323517815.7743.2882918933706185467@37313f22b938>
- <20191108183817.GB2878@work-vm>
+ bh=/Z09O5HzS6QdzWa8EDPWyd2SK3M6EQ4wvljJa2g7nCc=;
+ b=hWJ0uE9rhZ9zv7G8J6mlSLhPgUqa9R4A+r0eel2XsqaEj93spUpkRSWJlpnN4w0F470FJk
+ 5WuLII2SeqLgR/xhxmJ1VugaerApvroroaNL0HUfcfDX53BReP7j4wD0fCVKf4iNd+oeAn
+ X87+V2v2doteVWDN2qGZSZQmOzAjhz4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-k1v7DQ-HOzy2fSlLtGvsdA-1; Mon, 11 Nov 2019 05:16:47 -0500
+Received: by mail-qv1-f72.google.com with SMTP id m43so2392974qvc.17
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 02:16:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uEKmjpMzFxYdumZRbv8JATTBMMWBUbghULtgERy0pbo=;
+ b=Gk4fg/AtXFmjzh2I2MaVqC+IhuAau2EW4TJRoy4BthaJtk/HAOGGMknsiAc9l6LTTJ
+ JBnpzsYgk5yZ/b4uo/NGmGlWPLVV/cu+C9HrEoM/smG5UBSzrzxatrxt7ZLSyTV/7M+S
+ PPCgP8/aQZdxyo3cY9nFD0lLcV+1In42byz3FB3P7Vy8mvgEx+zO+LVbW9SqN6LQk7cx
+ j6joAit4l0UEXJozh5HWPbqFkino4qmINvtepa1lJwZ0sbl3O9YKvaYLp5ahH4vrILnb
+ sOeIs6ZWJ8KDrmaxHvLM5+z2/QFdPVbP1e785AJjcGVNyR43atMYxZLPwOcKpR6HdxNo
+ C1uw==
+X-Gm-Message-State: APjAAAV+20l3LPDhaCrHuzgft3jSk8am0j5bztlWP0IXu/c/P3bGkBpQ
+ VFjPErFIsvmuIvI9kXur0GX6uRGa1WjJhJoYnrUThMHpAEyt4wnNTVqbjVKl/lP4kwNsJ0tsSI0
+ Rn64Ma5M59sJyWLg=
+X-Received: by 2002:aed:2be2:: with SMTP id e89mr24523497qtd.161.1573467407530; 
+ Mon, 11 Nov 2019 02:16:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyabDfL13W7SFtZyi7lBn3grH+4StX5UEIa479Fraj/bPzTyMc4miKFbqkFuFg3CpBLXTRIdA==
+X-Received: by 2002:aed:2be2:: with SMTP id e89mr24523488qtd.161.1573467407361; 
+ Mon, 11 Nov 2019 02:16:47 -0800 (PST)
+Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
+ by smtp.gmail.com with ESMTPSA id w30sm8865823qtc.47.2019.11.11.02.16.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 02:16:46 -0800 (PST)
+Date: Mon, 11 Nov 2019 05:16:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Klaus Birkelund <its@irrelevant.dk>
+Subject: Re: [PATCH 1/1] pci: pass along the return value of dma_memory_rw
+Message-ID: <20191111051055-mutt-send-email-mst@kernel.org>
+References: <20191011070141.188713-1-its@irrelevant.dk>
+ <20191011070141.188713-2-its@irrelevant.dk>
+ <455e6dee-8dd8-fae7-5a2f-e175b9d1cb8d@redhat.com>
+ <20191111093007.GA109346@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20191108183817.GB2878@work-vm>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 8eJ0BAopP2iyv2R_OumgQA-1
+In-Reply-To: <20191111093007.GA109346@apples.localdomain>
+X-MC-Unique: k1v7DQ-HOzy2fSlLtGvsdA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -75,77 +90,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 08, 2019 at 06:38:17PM +0000, Dr. David Alan Gilbert wrote:
->Hi Jens,
->  the unplug failover stuff is triggering an assertion occasionally on
->aarch64; but
->  a) I'm not sure the right way to fix it
->  b) And I'm out for a little over a week
->
->so...
+On Mon, Nov 11, 2019 at 10:30:07AM +0100, Klaus Birkelund wrote:
+> On Thu, Oct 24, 2019 at 01:13:36AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> > On 10/11/19 9:01 AM, Klaus Jensen wrote:
+> > > Some might actually care about the return value of dma_memory_rw. So
+> > > let us pass it along instead of ignoring it.
+> > >=20
+> > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > > ---
+> > >   include/hw/pci/pci.h | 3 +--
+> > >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > index f3f0ffd5fb78..4e95bb847857 100644
+> > > --- a/include/hw/pci/pci.h
+> > > +++ b/include/hw/pci/pci.h
+> > > @@ -779,8 +779,7 @@ static inline AddressSpace *pci_get_address_space=
+(PCIDevice *dev)
+> > >   static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+> > >                                void *buf, dma_addr_t len, DMADirectio=
+n dir)
+> > >   {
+> > > -    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+> > > -    return 0;
+> > > +    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,=
+ dir);
+> > >   }
+> > >   static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+> > >=20
+> >=20
+> > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>=20
+> Gentle ping on this.
+>=20
+> This fix is required for the nvme device to start passing some of the
+> nasty tests from blktests that flips bus mastering while doing I/O.
+>=20
+>=20
+> Cheers,
+> Klaus
 
-I'll take care of it.=20
+So I looked and it does not seem like anyone at all checks the
+return value. While this makes the patch safe, how come it
+helps anyone at all?
+Maybe this is just infrastructure to allow checks in the
+future, in this case do we need this for the freeze?
+Or can it wait until after the release?
 
->
->* no-reply@patchew.org (no-reply@patchew.org) wrote:
->> Patchew URL: https://patchew.org/QEMU/20191108104307.125020-1-dgilbert@r=
-edhat.com/
->>
->>
->>
->> Hi,
->>
->> This series failed the docker-quick@centos7 build test. Please find the =
-testing commands and
->> their output below. If you have Docker installed, you can probably repro=
-duce it
->> locally.
->>
->> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
->> #!/bin/bash
->> make docker-image-centos7 V=3D1 NETWORK=3D1
->> time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
->> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->>
->>   TEST    check-unit: tests/test-bdrv-drain
->> wait_for_migration_fail: unexpected status status=3Dwait-unplug allow_ac=
-tive=3D1
->
->In tests/migration-test.c we've got wait_for_migration_fail, and it's
->expecting the state to be any one of:
->   setup, failed or maybe active
->
->but it's getting surprised by seeing a 'wait-unplug'
->
->So the question is should we see a wait-unplug?
->
->the migration code has:
->
->    if (qemu_savevm_nr_failover_devices()) {
->        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
->                          MIGRATION_STATUS_WAIT_UNPLUG);
->
->Should qemu_savevm_nr_failover_devices() be true?
->On aarch64 it seems to have a virtio-net device by default
->and qemu_savevm_nr_failover_devices() checks for devices
->having dev_unplug_pending but doesn't call it.
->
->I see two fixes but am not sure which is right:
->   a) Add 'wait-unplug' to the wait_for_migration_fail
->      (easy)
->   b) Actually call dev_unplug_pending in qemu_savevm_nr_failover_devices
->      so that on a guest which has a virtio-net, but no failover device,
->      the state isn't entered.
-
-I also prefer b over a, but I should only set up dev_unplug_pending when
-failover=3Don to avoid this. I'll send a patch.
-
-regards
-Jens
+--=20
+MST
 
 
