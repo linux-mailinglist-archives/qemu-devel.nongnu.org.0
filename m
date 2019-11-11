@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AF8F72DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 12:14:53 +0100 (CET)
-Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0519CF72E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 12:16:28 +0100 (CET)
+Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iU7el-0007Aw-Ri
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 06:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55660)
+	id 1iU7gJ-0008IE-2B
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 06:16:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iU7dz-0006fK-BZ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:14:04 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iU7fS-0007kd-D2
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:15:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iU7dx-0007P5-4C
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:14:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37593
+ (envelope-from <cohuck@redhat.com>) id 1iU7fR-0008VZ-7u
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:15:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53797
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iU7dw-0007ON-PJ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:14:01 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iU7fR-0008V2-4R
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 06:15:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573470840;
+ s=mimecast20190719; t=1573470931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H+xVuvsGLHbZ/y0u4VhFKM5FhlE7stS16FGq3Y9x4/Y=;
- b=SK/Jhy/rfTUlMJJEngjIzIYXp3mjMJGItonL4L8bAY4wEmMiC15uFeu/OD1ORfBgIvnmTE
- NwboDBNKuH5KtiRR0pydI6z9QS3iVRbcQztj8m9pbJKrPM6svnW9ZPWdBeaIj+zb8Y9bfQ
- AN6ywg4QKn4hVlI8Meacawd+9t7qWqo=
+ bh=QDYaKnK7SHy3mXzj1wzR/3s0Wvv47sh0UUXM3G/CLiM=;
+ b=deDbFzZUNuqYcwP9YjQWVm/Q/s+e1MVFgg5SqQ3SM9wzOyFyWFuoPlNx1K/iZ4iVXLgFNF
+ zStDlGfW91zzWu0NpuLMqUlyMqsoJX8l1K8cc0gq7pnLXGT4m6INriMl6xenaRK1nOdJjU
+ ix6H+5mLWeh6Qah2RazbzX4fDPwDQJI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-rggnj2TcPiC4dak3UtLtzg-1; Mon, 11 Nov 2019 06:13:59 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-222-XdLBLbCgP627ZTlM9Mq7cw-1; Mon, 11 Nov 2019 06:15:30 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC71B1800D63;
- Mon, 11 Nov 2019 11:13:57 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-79.ams2.redhat.com [10.36.117.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D61B65D72C;
- Mon, 11 Nov 2019 11:13:48 +0000 (UTC)
-Date: Mon, 11 Nov 2019 12:13:47 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 05/15] stubs: add stubs for io_uring interface
-Message-ID: <20191111111347.GC7297@linux.fritz.box>
-References: <20191025160444.31632-1-stefanha@redhat.com>
- <20191025160444.31632-6-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5ABE801E51
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 11:15:29 +0000 (UTC)
+Received: from gondolin (ovpn-117-4.ams2.redhat.com [10.36.117.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 532E65DD73;
+ Mon, 11 Nov 2019 11:15:26 +0000 (UTC)
+Date: Mon, 11 Nov 2019 12:15:23 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH 2/2] vfio-helpers: Free QEMUVFIOState in qemu_vfio_close()
+Message-ID: <20191111121523.4e692f1f.cohuck@redhat.com>
+In-Reply-To: <14247f68a13c7b9292b91eb7df02de9b9d248544.1573468531.git.mprivozn@redhat.com>
+References: <cover.1573468531.git.mprivozn@redhat.com>
+ <14247f68a13c7b9292b91eb7df02de9b9d248544.1573468531.git.mprivozn@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20191025160444.31632-6-stefanha@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: rggnj2TcPiC4dak3UtLtzg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: XdLBLbCgP627ZTlM9Mq7cw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +72,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: alex.williamson@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.10.2019 um 18:04 hat Stefan Hajnoczi geschrieben:
-> From: Aarushi Mehta <mehta.aaru20@gmail.com>
+On Mon, 11 Nov 2019 11:37:42 +0100
+Michal Privoznik <mprivozn@redhat.com> wrote:
+
+> The qemu_vfio_open_pci() allocates this QEMUVFIOState structure
+> but free counterpart is missing. Since we already have
+> qemu_vfio_close() which does cleanup of the state, it looks like
+> a perfect place to free the structure too.
 >=20
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> =3D=3D178278=3D=3D 528 (360 direct, 168 indirect) bytes in 1 blocks are d=
+efinitely lost in loss record 6,605 of 6,985
+> =3D=3D178278=3D=3D    at 0x4A35476: calloc (vg_replace_malloc.c:752)
+> =3D=3D178278=3D=3D    by 0x51B1158: g_malloc0 (in /usr/lib64/libglib-2.0.=
+so.0.6000.6)
+> =3D=3D178278=3D=3D    by 0xA68613: qemu_vfio_open_pci (vfio-helpers.c:428=
+)
+> =3D=3D178278=3D=3D    by 0x9779EA: nvme_init (nvme.c:606)
+> =3D=3D178278=3D=3D    by 0x97830F: nvme_file_open (nvme.c:795)
+> =3D=3D178278=3D=3D    by 0x8E9439: bdrv_open_driver (block.c:1293)
+> =3D=3D178278=3D=3D    by 0x8E9E1C: bdrv_open_common (block.c:1553)
+> =3D=3D178278=3D=3D    by 0x8ED264: bdrv_open_inherit (block.c:3083)
+> =3D=3D178278=3D=3D    by 0x8ED79D: bdrv_open (block.c:3176)
+> =3D=3D178278=3D=3D    by 0x5DA5C1: bds_tree_init (blockdev.c:670)
+> =3D=3D178278=3D=3D    by 0x5E2B64: qmp_blockdev_add (blockdev.c:4354)
+> =3D=3D178278=3D=3D    by 0x5ECB1D: configure_blockdev (vl.c:1202)
+>=20
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+>  util/vfio-helpers.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> index 813f7ec564..5ff91c1e5c 100644
+> --- a/util/vfio-helpers.c
+> +++ b/util/vfio-helpers.c
+> @@ -721,4 +721,5 @@ void qemu_vfio_close(QEMUVFIOState *s)
+>      close(s->device);
+>      close(s->group);
+>      close(s->container);
+> +    g_free(s);
 
-This commit message needs to answer at least where these stubs are
-actually used. Aren't all callers protected with #ifdef
-CONFIG_LINUX_IO_URING? (And if they aren't, why is abort() okay?)
+Not sure if freeing the parameter passed in via a function called
+'close' isn't too surprising... it's not that obvious that the caller
+is also relinquishing its reference to the QEMUVFIOState; maybe rename
+the function to qemu_vfio_close_and_free() or so?
 
-Kevin
+[Looking at the blockdev code, it uses the pattern of first closing the
+bs and then freeing it separately, which is a bit odd as the only call
+to bdrv_close (which will eventually end up here for nvme) is
+immediately followed by a g_free. Just something I noticed.]
+
+>  }
 
 
