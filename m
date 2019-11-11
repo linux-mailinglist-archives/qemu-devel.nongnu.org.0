@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB32F78B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:26:13 +0100 (CET)
-Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00151F78CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:30:11 +0100 (CET)
+Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCW3-0001Bk-IZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:26:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40535)
+	id 1iUCZu-0005GW-Gx
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:30:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCHH-0001Sy-5Y
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:10:56 -0500
+ (envelope-from <mst@redhat.com>) id 1iUCI7-0002FK-6C
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:11:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUCHF-0005rM-SQ
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:10:55 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50260
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iUCI2-0006Bp-AX
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:11:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23855
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCHF-0005rC-O5
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:10:53 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iUCHz-00069t-1N
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:11:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488653;
+ s=mimecast20190719; t=1573488697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KWwk22sWvytr6VCx3H00HBhRnULGDjawJJA39EcOVDE=;
- b=TLTUDenVkOMneghLGw5xv0P18kHVbCBQ5RRTDpjrA8fQPhgUvvNznGQOj1E4AhwUCzLfGT
- 15lpywh/aHPr66gceTllaDbtdM6ClWSlLgFOJO65/UGNtVHmg5xBSplMKMLsU85NO+RQje
- aZUKJkkj5XTNHfCIXDGF7Q0XNs95uzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-8CHieidwMTaSooWrc0zVLg-1; Mon, 11 Nov 2019 11:10:51 -0500
-X-MC-Unique: 8CHieidwMTaSooWrc0zVLg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4824B107ACCC;
- Mon, 11 Nov 2019 16:10:50 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-116.ams2.redhat.com
- [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B349608FF;
- Mon, 11 Nov 2019 16:10:45 +0000 (UTC)
-Subject: Re: [PATCH v3 4/6] iotests: Skip "make check-block" if QEMU does not
- support virtio-blk
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
-References: <20191022072135.11188-1-thuth@redhat.com>
- <20191022072135.11188-5-thuth@redhat.com>
- <76688061-c59d-953e-b3db-097e3f46fff0@redhat.com>
- <fcd271a6-2d90-5087-237d-f308b2367c04@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <6b002caa-1e53-b12f-3b67-833b87bacd51@redhat.com>
-Date: Mon, 11 Nov 2019 17:10:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2fuRljcPrX0n6JAMXFKZPic1W8wiLyJlEn7JPLjCa3w=;
+ b=iSKNTqxqOREAZxqGMW8EceVCheb04AfUIpKDzCPMViwpkFZdk8yaZyPo0koLthNjrv5ZbZ
+ dBuYmxncCoCQYV0ruWSSsxh+wcH+th/Z84nDV5JpGCPVtmdk1lyQCUzdF+9wsrte+RAV1k
+ zJarRJxC5HoGFKRDpGjRKdNZ1tva+q0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-qExX0ohGOJG8j0EobsC2Gw-1; Mon, 11 Nov 2019 11:11:36 -0500
+Received: by mail-qt1-f200.google.com with SMTP id e2so13709259qtq.11
+ for <qemu-devel@nongnu.org>; Mon, 11 Nov 2019 08:11:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=SrlfUnx++blPBC2NWHQdAx2NCBjdhuXIt93XlmTSMKw=;
+ b=JkRQgrdc93kCz6cQVbEDgyjrsA96M6oasH5yHF5M12riKWzjK5H9dAy2dvim3mYgZQ
+ pfzCT3G1eKilp/CBKrKwYIw2IwfWflp7uivLJka87rNpyhUiiCt/xNOnSut4mqVqo1pU
+ CJCQjB6yX5/om1srgcivxvQT4o8d2NemIDy2DkXQWBkrqAQKxu28s/43EvFoPb+tOgoJ
+ 2BOHiNomPENuFWpfhCa/4CBL6HZyAFZJmUhyPul5LbkHiDe84fVzxWRiWrAiHX/t+nRX
+ 7+UfTXDFbzGhotoIsT65HIs/8tgwxmfm+FNOZHQWIPg/9wycjPWGACh5EkmWYSdejhol
+ CUQw==
+X-Gm-Message-State: APjAAAVqviaGFtOZFM8RfMe0rX8jnH/vkNg84ewbjtccCN98MfdM5frT
+ 56UXoHEJslabY9RKjOJq2Hkv9l3bcBWYEvlT3gAKqA+f4tsFgvBYgAQrnM2xekjICT8Lt8w/8g5
+ Fu1L5oSUWjLmS3Jc=
+X-Received: by 2002:ac8:13ca:: with SMTP id i10mr25526862qtj.214.1573488695626; 
+ Mon, 11 Nov 2019 08:11:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzZ61tryHf/4KBuZ/jlX2fs9bwpLgeUR1Ba5Dbd+hC4jB/lfv1Y2LkR0thEd0nJyn72yla0lg==
+X-Received: by 2002:ac8:13ca:: with SMTP id i10mr25526828qtj.214.1573488695388; 
+ Mon, 11 Nov 2019 08:11:35 -0800 (PST)
+Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
+ by smtp.gmail.com with ESMTPSA id j25sm7053345qkk.3.2019.11.11.08.11.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 08:11:34 -0800 (PST)
+Date: Mon, 11 Nov 2019 11:11:29 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [RFC][PATCH 2/3] docs/specs: Add specification of ivshmem device
+ revision 2
+Message-ID: <20191111105850-mutt-send-email-mst@kernel.org>
+References: <cover.1573477032.git.jan.kiszka@siemens.com>
+ <f5996d934d24775160bcedbf28ac975a95d91101.1573477032.git.jan.kiszka@siemens.com>
+ <20191111084327-mutt-send-email-mst@kernel.org>
+ <0b0475c1-2564-f433-46d8-ff1a06c13569@siemens.com>
+ <20191111100607-mutt-send-email-mst@kernel.org>
+ <20191111152743.GM814211@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fcd271a6-2d90-5087-237d-f308b2367c04@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20191111152743.GM814211@redhat.com>
+X-MC-Unique: qExX0ohGOJG8j0EobsC2Gw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="zM6j7dMVJE7j8sz4ebrFUsytZuez3hCgZ"
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,107 +93,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org
+Cc: liang yan <lyan@suse.com>, Jailhouse <jailhouse-dev@googlegroups.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Hannes Reinecke <hare@suse.de>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zM6j7dMVJE7j8sz4ebrFUsytZuez3hCgZ
-Content-Type: multipart/mixed; boundary="TNhFetbZW2FUXZvHNu3CY8vOTDSeHBkqu"
-
---TNhFetbZW2FUXZvHNu3CY8vOTDSeHBkqu
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 11.11.19 15:02, Thomas Huth wrote:
-> On 30/10/2019 12.21, Max Reitz wrote:
->> On 22.10.19 09:21, Thomas Huth wrote:
->>> The next patch is going to add some python-based tests to the "auto"
->>> group, and these tests require virtio-blk to work properly. Running
->>> iotests without virtio-blk likely does not make too much sense anyway,
->>> so instead of adding a check for the availability of virtio-blk to each
->>> and every test (which does not sound very appealing), let's rather add
->>> a check for this at the top level in the check-block.sh script instead
->>> (so that it is possible to run "make check" without the "check-block"
->>> part for qemu-system-tricore for example).
->>>
->>> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>  tests/check-block.sh | 16 +++++++++++++++-
->>>  1 file changed, 15 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/tests/check-block.sh b/tests/check-block.sh
->>> index 679aedec50..e9e2978818 100755
->>> --- a/tests/check-block.sh
->>> +++ b/tests/check-block.sh
->>> @@ -26,10 +26,24 @@ if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/=
-dev/null ; then
->>>      exit 0
->>>  fi
->>> =20
->>> -if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
->>> +if [ -n "$QEMU_PROG" ]; then
->>> +    qemu_prog=3D"$QEMU_PROG"
->>> +else
->>> +    for binary in *-softmmu/qemu-system-* ; do
->>
->> Hm, I know I=E2=80=99ve already given my R-b, but looking at this again =
-=E2=80=93 what
->> if the user builds qemu for multiple targets?  Then this will just test
->> any target, whereas the iotests might test something else, because the
->> algorithm there is slightly different:
->>
->> First, check $QEMU_PROG (same as here).
->>
->> Second, check $build_iotests/qemu.  I think we can do this here, because
->> we know that $build_iotests is $PWD/tests/qemu-iotests (or invoking
->> ./check below wouldn=E2=80=99t work).
->>
->> Third, and this is actually important, I think, is that we first look
->> for the qemu that matches the host architecture (uname -m, with an
->> exception for ppc64).  I think we really should do that here, too.
->>
->> Fourth, look for any qemu, as is done here.
->>
->> So I think we could do without #2, but it probably doesn=E2=80=99t hurt =
-to check
->> that, too.  I don=E2=80=99t think we should do without #3, though.
+On Mon, Nov 11, 2019 at 03:27:43PM +0000, Daniel P. Berrang=E9 wrote:
+> On Mon, Nov 11, 2019 at 10:08:20AM -0500, Michael S. Tsirkin wrote:
+> > On Mon, Nov 11, 2019 at 02:59:07PM +0100, Jan Kiszka wrote:
+> > > On 11.11.19 14:45, Michael S. Tsirkin wrote:
+> > > > On Mon, Nov 11, 2019 at 01:57:11PM +0100, Jan Kiszka wrote:
+> > > > > +| Offset | Register               | Content                     =
+                         |
+> > > > > +|-------:|:-----------------------|:----------------------------=
+-------------------------|
+> > > > > +|    00h | Vendor ID              | 1AF4h                       =
+                         |
+> > > > > +|    02h | Device ID              | 1110h                       =
+                         |
+> > > >=20
+> > > > Given it's a virtio vendor ID, please reserve a device ID
+> > > > with the virtio TC.
+> > >=20
+> > > Yeah, QEMU's IVSHMEM was always using that. I'm happy to make this fi=
+nally
+> > > official.
+> > >=20
+> >=20
+> > And I guess we will just mark it reserved or something right?
+> > Since at least IVSHMEM 1 isn't a virtio device.
+> > And will you be reusing same ID for IVSHMEM 2 or a new one?
 >=20
-> Maybe we should simply move the check into tests/qemu-iotests/check to
-> avoid duplication of that logic?
-> We could then also only simply skip the python tests instead of skipping
-> everything, in case the chosen QEMU binary does not support virtio-blk.
+> 1110h isn't under either of the virtio PCI device ID allowed ranges
+> according to the spec:
+>=20
+>   "Any PCI device with PCI Vendor ID 0x1AF4, and PCI Device
+>    ID 0x1000 through 0x107F inclusive is a virtio device.
+>    ...
+>    Additionally, devices MAY utilize a Transitional PCI Device=20
+>    ID range, 0x1000 to 0x103F depending on the device type. "
+>=20
+> So there's no need to reserve 0x1110h from the virtio spec POV.
 
-You mean by adding a new flag e.g. -batch that=E2=80=99s supposed to genera=
-lly
-skip cases when in doubt that they can be run on the current host?
-Sounds good to me.
+Well we do have:
 
-Max
+=09B.3
+=09What Device Number?
+=09Device numbers can be reserved by the OASIS committee: email virtio-dev@=
+lists.oasis-open.org to secure
+=09a unique one.
+=09Meanwhile for experimental drivers, use 65535 and work backwards.
+
+So it seems it can  in theory conflict at least with experimental virtio de=
+vices.
+
+Really it's messy that people are reusing the virtio vendor ID for
+random stuff - getting a vendor ID is only hard for a hobbyist, any big
+company already has an ID - but if it is a hobbyist and they at least
+register then doesn't cause much harm.
+
+E.g. Red Hat switched to 1b36 for new non virtio devices and I think that's
+nicer.
 
 
---TNhFetbZW2FUXZvHNu3CY8vOTDSeHBkqu--
+> I have, however, ensured it is assigned to ivshmem from POV of
+> Red Hat's own internal tracking of allocated device IDs, under
+> its vendor ID.
 
---zM6j7dMVJE7j8sz4ebrFUsytZuez3hCgZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3JiAMACgkQ9AfbAGHV
-z0BEiwgAsoueoiIW7d6XAuN2WEJgAWEKLoROypBBdFa7hNkn+WXJ2Xjr+VEvZ/e0
-/wtu7EOlryq9IkiFZK5CfkTV3PSOkZqphhX/9FIKf+2STojFeLx7Tt2gVYpnZmT6
-TrRNH597BLElgISjNivqzb3Ulk8lUrpI/XDbp6VtI3ML4UZcZ3uk+vOIGaBV3rZl
-qc0f39o31ejnqTdCBysKYnYT7MPQumQ+RsaQY/7JIX2FjO8Fja0BiRIVw1dMo6CR
-y48q9+nmrDCzyPjze/kaRvSR+Waec132RN3xC+gaOwwWLqin8iTMNPurmoFX57+v
-/RFDeBOXnY9sGonulA++kXeheWzMVw==
-=UEek
------END PGP SIGNATURE-----
-
---zM6j7dMVJE7j8sz4ebrFUsytZuez3hCgZ--
+> If ivshmem 2 is now a virtio device, then it is a good thing that
+> it will get a new/different PCI device ID, to show that it is not
+> compatible with the old device impl.
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
 
