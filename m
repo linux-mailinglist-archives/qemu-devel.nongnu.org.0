@@ -2,64 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37561F788B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:15:41 +0100 (CET)
-Received: from localhost ([::1]:54678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51B7F789F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Nov 2019 17:19:25 +0100 (CET)
+Received: from localhost ([::1]:54741 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUCLr-000678-D4
-	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:15:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39418)
+	id 1iUCPT-0001l6-TG
+	for lists+qemu-devel@lfdr.de; Mon, 11 Nov 2019 11:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iUCAB-0000Np-8J
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:36 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iUCBO-0001Ls-SD
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:04:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iUCAA-0003AH-6M
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50550
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iUCBN-0003SS-3z
+ for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:04:50 -0500
+Received: from relay.sw.ru ([185.231.240.75]:58212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iUCAA-00039l-30
- for qemu-devel@nongnu.org; Mon, 11 Nov 2019 11:03:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573488213;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OwInKIeB2qHqz5J6Rh6jtjb8BLoBMDSnI+3OT0jmMbs=;
- b=i0y+EXoBDuO2GJmUAYVF4EHiO4UWoFybOGDEUvW+U5Qe6zMOhjNBYH1tBHR/5ZQ9FnERo/
- wfJfJ9+Ir+1ka1Y6qvCBs1acC6dlPV4/SJaiXXXGUSbsUv1YeUxb/M6j/NvshZLyL9lMl6
- Pi2i/HIUZbAv4iSclqHeLOTFSz7bOzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-DX4p-F7uOKW3Albyr_5N-g-1; Mon, 11 Nov 2019 11:03:28 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34FC81005500;
- Mon, 11 Nov 2019 16:03:27 +0000 (UTC)
-Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1A7C5D9C9;
- Mon, 11 Nov 2019 16:03:26 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 22/23] iotests: Check that @replaces can replace
- filters
-Date: Mon, 11 Nov 2019 17:02:15 +0100
-Message-Id: <20191111160216.197086-23-mreitz@redhat.com>
-In-Reply-To: <20191111160216.197086-1-mreitz@redhat.com>
-References: <20191111160216.197086-1-mreitz@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: DX4p-F7uOKW3Albyr_5N-g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iUCBL-0003RS-AR; Mon, 11 Nov 2019 11:04:49 -0500
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iUCBC-0003my-IZ; Mon, 11 Nov 2019 19:04:38 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH v6 0/3] qcow2: advanced compression options
+Date: Mon, 11 Nov 2019 19:04:34 +0300
+Message-Id: <1573488277-794975-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,93 +44,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/041     | 46 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/041.out |  4 ++--
- 2 files changed, 48 insertions(+), 2 deletions(-)
+The compression filter driver is introduced as suggested by Max.
+A sample usage of the filter can be found in the test #214.
+Now, multiple clusters can be written compressed.
+It is useful for the backup job.
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index ab0cb5b42f..9a00cf6f7b 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -1200,6 +1200,52 @@ class TestOrphanedSource(iotests.QMPTestCase):
-         self.assertFalse('mirror-filter' in nodes,
-                          'Mirror filter node did not disappear')
-=20
-+# Test cases for @replaces that do not necessarily involve Quorum
-+class TestReplaces(iotests.QMPTestCase):
-+    # Each of these test cases needs their own block graph, so do not
-+    # create any nodes here
-+    def setUp(self):
-+        self.vm =3D iotests.VM()
-+        self.vm.launch()
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        for img in (test_img, target_img):
-+            try:
-+                os.remove(img)
-+            except OSError:
-+                pass
-+
-+    """
-+    Check that we can replace filter nodes.
-+    """
-+    @iotests.skip_if_unsupported(['copy-on-read'])
-+    def test_replace_filter(self):
-+        result =3D self.vm.qmp('blockdev-add', **{
-+                                 'driver': 'copy-on-read',
-+                                 'node-name': 'filter0',
-+                                 'file': {
-+                                     'driver': 'copy-on-read',
-+                                     'node-name': 'filter1',
-+                                     'file': {
-+                                         'driver': 'null-co'
-+                                     }
-+                                 }
-+                             })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('blockdev-add',
-+                             node_name=3D'target', driver=3D'null-co')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('blockdev-mirror', job_id=3D'mirror', devic=
-e=3D'filter0',
-+                             target=3D'target', sync=3D'full', replaces=3D=
-'filter1')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.complete_and_wait('mirror')
-+
-+        self.vm.assert_block_path('filter0', '/file', 'target')
-+
- if __name__ =3D=3D '__main__':
-     iotests.main(supported_fmts=3D['qcow2', 'qed'],
-                  supported_protocols=3D['file'])
-diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-index ffc779b4d1..877b76fd31 100644
---- a/tests/qemu-iotests/041.out
-+++ b/tests/qemu-iotests/041.out
-@@ -1,5 +1,5 @@
--..........................................................................=
-...................
-+..........................................................................=
-....................
- ----------------------------------------------------------------------
--Ran 93 tests
-+Ran 94 tests
-=20
- OK
---=20
-2.23.0
+v6: The new approach to write compressed data was applied. The patch
+    v5 4/4 with the block-stream compress test case was removed from
+    the series.
+    Discussed in the email thread with the message ID
+    <1571603828-185910-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+
+Andrey Shinkevich (3):
+  block: introduce compress filter driver
+  qcow2: Allow writing compressed data of multiple clusters
+  tests/qemu-iotests: add case to write compressed data of multiple
+    clusters
+
+ block/Makefile.objs        |   1 +
+ block/filter-compress.c    | 212 +++++++++++++++++++++++++++++++++++++++++++++
+ block/qcow2.c              | 102 ++++++++++++++++------
+ qapi/block-core.json       |  10 ++-
+ tests/qemu-iotests/214     |  43 +++++++++
+ tests/qemu-iotests/214.out |  14 +++
+ 6 files changed, 351 insertions(+), 31 deletions(-)
+ create mode 100644 block/filter-compress.c
+
+-- 
+1.8.3.1
 
 
