@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 717D6F88D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:51:40 +0100 (CET)
-Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542B3F88F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:54:05 +0100 (CET)
+Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUQ1b-0002ZX-5O
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:51:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57979)
+	id 1iUQ3w-0007ZL-BQ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58100)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iUPri-0003P6-Ky
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:41:29 -0500
+ (envelope-from <thuth@redhat.com>) id 1iUPtx-0005T0-Q8
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iUPrh-0007Ur-AC
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:41:26 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37861)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iUPrc-0007PL-3N; Tue, 12 Nov 2019 01:41:20 -0500
-Received: by mail-pg1-x544.google.com with SMTP id z24so11189354pgu.4;
- Mon, 11 Nov 2019 22:41:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ViOcwrGNNJLxaLFTqLvWuJzL8hqpUFzYbRzOh1R/JSc=;
- b=dnD1fKL2tM9LQR9v2+PDwJjqCOdKqvguQL2/27vf/A0vw8z0ZTML8ib0yY8SMHEatk
- RBGJSC1Kv08ESNmJ9GsvUT4RucIk5i7O4M/2H9nZgZKgA4hAwFkrN9imHGnpJdA7SsC9
- hZC7PM7EhSsyLsRqGbNOEKm6AXRgj+BvTZQmmS/K1vjwgnq3d7khBNNhXWjGW6RpXt+q
- 68zdZtsLwmC5tfnyd2jCIU7kEGsui9LSX4gNv8MUsYmHZsFh3ONNpgO4ZpCbtPltmg05
- L5L+iV7Qgv61pKonjdAcBpIWuWgwOHvK54xGveX3Kg+MZMO85UGK4L1E60QI13+9ffMk
- ADSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ViOcwrGNNJLxaLFTqLvWuJzL8hqpUFzYbRzOh1R/JSc=;
- b=iPKD3ge1yOfFYvLTfp7tMApGf7AiBJtM5bJO4nalWUmEUgVAwqyMwS7OyG6L0OPgRc
- gQXgW4v9HT3OgsHORRBHkId0thgjyZkwd7vTnbUgP6gbWf2jxl9vk3NSzNpdegUM8VIn
- eUrLP0GCV3h2PAQoJfO94PMjRJw+R3SLA0hnL6ZsW8MyceregNoeGG2GJFGRZrqMyLqJ
- cIyW0XSTYGX5R2ZifbJtf5aauoH8ZQ8EFPy8pNsgCZ3uv4Pgkz2vhTTT83zkyZ6qRPCq
- NIv3fVqMDjzF8Pi+HYCM4EUFOi8pbY6JUwgUsVmkdO1eLua2QGFcEVsWebul8j7ZpXUx
- g6TQ==
-X-Gm-Message-State: APjAAAX3gBc2AcNhjA5mjF5uPACQBpCkzr9AbaYYVd95NheZZpJycv2V
- ai3iPufzGno9EvYs31pXIUY=
-X-Google-Smtp-Source: APXvYqzciZl4YQlwvwwd+6hxm+HSReIGwZmk9f6i8rmUwjxBG2YWkvC0H3OYDV0vdmBQP1mBbl0u7g==
-X-Received: by 2002:aa7:9618:: with SMTP id q24mr6313479pfg.229.1573540878044; 
- Mon, 11 Nov 2019 22:41:18 -0800 (PST)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id q8sm16375590pgg.15.2019.11.11.22.41.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 22:41:17 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH 4/4] watchdog/aspeed: Fix AST2600 frequency behaviour
-Date: Tue, 12 Nov 2019 17:10:58 +1030
-Message-Id: <20191112064058.13275-5-joel@jms.id.au>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191112064058.13275-1-joel@jms.id.au>
-References: <20191112064058.13275-1-joel@jms.id.au>
+ (envelope-from <thuth@redhat.com>) id 1iUPtv-0000RO-7z
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50061
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPtu-0000QV-Uj
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573541022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2JGYuofF4h69cK4L2SEC9qNj1+PE8yPomU6gW4c6KpQ=;
+ b=XHY+QdK91EuH0oMS4y3k6MSddYHODPPxMn8ZAhJeNCFe0J0Gkr2vPH8ocePSR8alQzYx/4
+ AtsM1ooMNbMi1SZZcAWUMqhT2ZxxlOdKtHZ/ooR+jcUAgmMzAa62evfL8qr4z4r8nz3gum
+ viTCwk+vUC09JXTyA9wUJSX3lyWDsy0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-r-9u1cCEMOGCw4BTyh1CBg-1; Tue, 12 Nov 2019 01:43:40 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDEE3107ACC8;
+ Tue, 12 Nov 2019 06:43:39 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-116-124.ams2.redhat.com
+ [10.36.116.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D72EB18373;
+ Tue, 12 Nov 2019 06:43:33 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/6] qtest and misc patches
+Date: Tue, 12 Nov 2019 07:43:26 +0100
+Message-Id: <20191112064332.5074-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: r-9u1cCEMOGCw4BTyh1CBg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,112 +69,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 control register sneakily changed the meaning of bit 4
-without anyone noticing. It no longer controls the 1MHz vs APB clock
-select, and instead always runs at 1MHz.
+ Hi Peter,
 
-The AST2500 was always 1MHz too, but it retained bit 4, making it read
-only. We can model both using the same fixed 1MHz calculation.
+the following changes since commit 654efcb511d394c1d3f5292c28503d1d19e5b1d3=
+:
 
-Fixes: ea29711f467f ("watchdog/aspeed: Fix AST2600 control reg behaviour")
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/watchdog/wdt_aspeed.c         | 21 +++++++++++++++++----
- include/hw/watchdog/wdt_aspeed.h |  1 +
- 2 files changed, 18 insertions(+), 4 deletions(-)
+  Merge remote-tracking branch 'remotes/vivier/tags/q800-branch-pull-reques=
+t' into staging (2019-11-11 09:23:46 +0000)
 
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 5697ed83325a..f43a3bc88976 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -93,11 +93,11 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
- 
- }
- 
--static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
-+static void aspeed_wdt_reload(AspeedWDTState *s)
- {
-     uint64_t reload;
- 
--    if (pclk) {
-+    if (!(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK)) {
-         reload = muldiv64(s->regs[WDT_RELOAD_VALUE], NANOSECONDS_PER_SECOND,
-                           s->pclk_freq);
-     } else {
-@@ -109,6 +109,16 @@ static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
-     }
- }
- 
-+static void aspeed_wdt_reload_1mhz(AspeedWDTState *s)
-+{
-+    uint64_t reload = s->regs[WDT_RELOAD_VALUE] * 1000ULL;
-+
-+    if (aspeed_wdt_is_enabled(s)) {
-+        timer_mod(s->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + reload);
-+    }
-+}
-+
-+
- static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
-                              unsigned size)
- {
-@@ -130,13 +140,13 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
-     case WDT_RESTART:
-         if ((data & 0xFFFF) == WDT_RESTART_MAGIC) {
-             s->regs[WDT_STATUS] = s->regs[WDT_RELOAD_VALUE];
--            aspeed_wdt_reload(s, !(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK));
-+            awc->wdt_reload(s);
-         }
-         break;
-     case WDT_CTRL:
-         if (enable && !aspeed_wdt_is_enabled(s)) {
-             s->regs[WDT_CTRL] = data;
--            aspeed_wdt_reload(s, !(data & WDT_CTRL_1MHZ_CLK));
-+            awc->wdt_reload(s);
-         } else if (!enable && aspeed_wdt_is_enabled(s)) {
-             s->regs[WDT_CTRL] = data;
-             timer_del(s->timer);
-@@ -283,6 +293,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-     awc->offset = 0x20;
-     awc->ext_pulse_width_mask = 0xff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-+    awc->wdt_reload = aspeed_wdt_reload;
- }
- 
- static const TypeInfo aspeed_2400_wdt_info = {
-@@ -317,6 +328,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-     awc->ext_pulse_width_mask = 0xfffff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-+    awc->wdt_reload = aspeed_wdt_reload_1mhz;
- }
- 
- static const TypeInfo aspeed_2500_wdt_info = {
-@@ -336,6 +348,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
-     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
-     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-+    awc->wdt_reload = aspeed_wdt_reload_1mhz;
- }
- 
- static const TypeInfo aspeed_2600_wdt_info = {
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index dfedd7662dd1..819c22993a6e 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -47,6 +47,7 @@ typedef struct AspeedWDTClass {
-     uint32_t ext_pulse_width_mask;
-     uint32_t reset_ctrl_reg;
-     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-+    void (*wdt_reload)(AspeedWDTState *s);
- }  AspeedWDTClass;
- 
- #endif /* WDT_ASPEED_H */
--- 
-2.24.0
+are available in the Git repository at:
+
+  https://gitlab.com/huth/qemu.git tags/pull-request-2019-11-12
+
+for you to fetch changes up to 623ef637a2e42e023e7436d4bfbdc5159fb36684:
+
+  configure: Check bzip2 is available (2019-11-11 14:35:41 +0100)
+
+----------------------------------------------------------------
+- Fix memory leaks for QTESTS
+- Update MAINTAINERS file
+- Check for the availability of bzip2 in "configure"
+----------------------------------------------------------------
+
+Dr. David Alan Gilbert (1):
+      tests/migration: Print some debug on bad status
+
+Jan Kiszka (1):
+      MAINTAINERS: slirp: Remove myself as maintainer
+
+Marc-Andr=C3=A9 Lureau (2):
+      qtest: fix qtest_qmp_device_add leak
+      cpu-plug-test: fix leaks
+
+Philippe Mathieu-Daud=C3=A9 (2):
+      configure: Only decompress EDK2 blobs for X86/ARM targets
+      configure: Check bzip2 is available
+
+ MAINTAINERS            |  2 --
+ Makefile               |  2 ++
+ configure              | 17 +++++++++++++++++
+ tests/cpu-plug-test.c  |  2 ++
+ tests/libqtest.c       |  1 +
+ tests/migration-test.c |  9 +++++++--
+ 6 files changed, 29 insertions(+), 4 deletions(-)
 
 
