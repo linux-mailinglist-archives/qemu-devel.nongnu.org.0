@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D18F9360
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:54:15 +0100 (CET)
-Received: from localhost ([::1]:35898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77FCF9377
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:59:55 +0100 (CET)
+Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUXYb-0006U5-S1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:54:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59761)
+	id 1iUXe6-0003xj-Pg
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:59:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUXVC-0003Wa-BY
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUXVD-0003ZW-W8
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUXVB-00036l-Af
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:42 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50408)
+ (envelope-from <alex.bennee@linaro.org>) id 1iUXVC-00037p-8J
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:43 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39964)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUXVB-00036A-4M
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:41 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id l17so3523389wmh.0
+ id 1iUXVC-00036t-1a
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:42 -0500
+Received: by mail-wr1-x436.google.com with SMTP id i10so18836240wrs.7
  for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 06:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vY7V32XD/jc7g4KIqXW4kFH1SEbrWpPCQjXNemV53O0=;
- b=krw2ZxDySkm3o9mNFrQqb7DUTW05rIj8SuopYbqsUmq+xzJZoiH2moT5v2ygMq+btH
- FhZoJr4CQN6hZFI+Euq1KUOTQK7OV0QpxrA1lnDfSq+RcZd1aYvJf20EY25Tpdd9E0C3
- 8pq4gwblHCtFQxZQ0WZ61s5iaFplAXJ0HH/bxPPxAc5AszScJWJDU5CZcHXW7ZdLurU+
- tRuECfAgiMtbpMkoodPuInL/tgGasaSAFPRiCo9mX3UlAEjtyuAV+ypFifJ7tBReeCh5
- 2VfcMDa6TLxATw/scvbbqUfT018OLPzNFWxv3+2uoI/STwBFD6VrmPfRvzA2mAe0ob5I
- Wy5Q==
+ bh=gqg0+V7qSEz/6ZJOKa53BGZgGZ5jVCsKocXvLtTyKDM=;
+ b=cGi/Yk2CehzucHabB93Ij5kZCzQJ+6MYYNgNxLnbbXlH1Xas/XnGWoNE1xyU4B47Yu
+ jQF7Flaw8Fo+yemlkVPYqChTV3FQ2ESyGiYRSjhUoQX2TUJDJItAqzkbJij2i2KBn7Or
+ V5XW8EGDij7u/M56tYBlsGkUNsx3XF7mzuGUkFWlme1Z8pMPwJVQIR6KWCGWbrWAbWmT
+ 1jbx5pr3Y1m900INehVbJT+/cgakEEKyfyjhdKiK25kw7kY1cPGmzvyV5wLVlYNJzoDI
+ A9TpjVMeEgUm6Xw7dI0btutPKNJGDsP/tiJN6wctHaXNC1QQ7Qx6yqVVct364PABxGTO
+ AXxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vY7V32XD/jc7g4KIqXW4kFH1SEbrWpPCQjXNemV53O0=;
- b=N8Emk9LWRMVmODcm/Vv3wkbZ8jZh2LWwVGT5qw7fvwCrZNRvgislDcpEiI49dhATuI
- Xx00s7AUOGo3gaLPPEjn1tRwhViY/AuB3msxN1MARCyXSfVwb6b0WsZNXBbAYwScKHDp
- BgpCIzHeiwX0bvAjU9htUwaLD4IOrL9pPLmLwEwkovJ58j4nJ2TpsFjt92QgNLCngjQ4
- p1O82kuroMtm8tZrJfqupCNDtp1ouxbQI2BnvYP3HsW9aQDWTHZBiGcGsPOF4ZNEXSay
- 5ButaL3rwKkvlK6FlvtQD5irwjXHxmun2dgsHoqF1lWPMhmECDUC+2a3cxfhZXYoHrKs
- dktg==
-X-Gm-Message-State: APjAAAUI5hnNSwr/b44GdEhNacOU2csPZaA2RHUz9UsF3hx1hgliTyBI
- oFziGT8m78TH7WynHFac/uKS7w==
-X-Google-Smtp-Source: APXvYqyVr/Xtke1Iyd9e99ZL37bUKeYRvRJx4iJCROPZeMMlPDysS3UsayQV9kYuleXO9dHlhKx7VQ==
-X-Received: by 2002:a1c:6588:: with SMTP id z130mr3888853wmb.87.1573570239990; 
- Tue, 12 Nov 2019 06:50:39 -0800 (PST)
+ bh=gqg0+V7qSEz/6ZJOKa53BGZgGZ5jVCsKocXvLtTyKDM=;
+ b=M7CfognzxmkuaSaaDXTUbJxabheJXP1csQ1WAmjfaC3qNtI18wbJc1EwRNygA3snGr
+ XzI7xdgTKu1UkvSnMIIA1jP486CF/rh54OTs2FweNBPia4UTwkHGYXIyIoYTPz9UNxI9
+ u/3WgyoZQLpjh6ZemhvkX6E0X76KqMb0MhAq8MqIQGz14dyOzzeGYbZzxMc1KTEP0Tqo
+ lVBP5NRFpt163fTmy9eL390sAedLmd0Fo34sktNAIjiUIQVIdP+jusPmbogJuGxVu+dl
+ GyMXRehkdBkVIzVSWG/1WuQE7XgDun1mde1vaIFR5w3ky+aX9RyFKi+YArRPq6bVhgtK
+ W0iQ==
+X-Gm-Message-State: APjAAAUQ5/nnqnSKqbNnplCH6oB6QieqUzLX1yjQpIKLLvQxbZkW80Bh
+ HK+40PokclhHMXvsOYvaFEO3Aw==
+X-Google-Smtp-Source: APXvYqyLkFDqbq2jQ5vwURIek2epGpQi4W7lxvxMj1miwXOuKYGv3K/jGwnFtlR7eSIunSSIG5iglw==
+X-Received: by 2002:adf:979a:: with SMTP id s26mr21423502wrb.92.1573570240901; 
+ Tue, 12 Nov 2019 06:50:40 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x9sm19479424wru.32.2019.11.12.06.50.32
+ by smtp.gmail.com with ESMTPSA id l4sm3185204wme.4.2019.11.12.06.50.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 12 Nov 2019 06:50:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A17C31FF96;
+ by zen.linaroharston (Postfix) with ESMTP id C31801FF98;
  Tue, 12 Nov 2019 14:50:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 7/8] .travis.yml: don't run make check with multiple jobs
-Date: Tue, 12 Nov 2019 14:50:27 +0000
-Message-Id: <20191112145028.26386-8-alex.bennee@linaro.org>
+Subject: [PULL 8/8] tcg plugins: expose an API version concept
+Date: Tue, 12 Nov 2019 14:50:28 +0000
+Message-Id: <20191112145028.26386-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191112145028.26386-1-alex.bennee@linaro.org>
 References: <20191112145028.26386-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,31 +81,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Robert Foley <robert.foley@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's challenge the convention that doing more at a time helps. It
-certainly doesn't tell you unambiguously where in the test cycle you
-were before the test hangs and exceeds the job time limit.
+This is a very simple versioning API which allows the plugin
+infrastructure to check the API a plugin was built against. We also
+expose a min/cur API version to the plugin via the info block in case
+it wants to avoid using old deprecated APIs in the future.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 678e33decc2..b9a026c8eeb 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -77,7 +77,7 @@ env:
-     - SRC_DIR="."
-     - BUILD_DIR="."
-     - BASE_CONFIG="--disable-docs --disable-tools"
--    - TEST_CMD="make check -j3 V=1"
-+    - TEST_CMD="make check V=1"
-     # This is broadly a list of "mainline" softmmu targets which have support across the major distros
-     - MAIN_SOFTMMU_TARGETS="aarch64-softmmu,arm-softmmu,i386-softmmu,mips-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-     - CCACHE_SLOPPINESS="include_file_ctime,include_file_mtime"
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index a00a7deb461..5502e112c81 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -38,9 +38,28 @@
+ 
+ typedef uint64_t qemu_plugin_id_t;
+ 
++/*
++ * Versioning plugins:
++ *
++ * The plugin API will pass a minimum and current API version that
++ * QEMU currently supports. The minimum API will be incremented if an
++ * API needs to be deprecated.
++ *
++ * The plugins export the API they were built against by exposing the
++ * symbol qemu_plugin_version which can be checked.
++ */
++
++extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
++
++#define QEMU_PLUGIN_VERSION 0
++
+ typedef struct {
+     /* string describing architecture */
+     const char *target_name;
++    struct {
++        int min;
++        int cur;
++    } version;
+     /* is this a full system emulation? */
+     bool system_emulation;
+     union {
+diff --git a/plugins/loader.c b/plugins/loader.c
+index ce724ed5839..15fc7e55156 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -178,6 +178,25 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+         goto err_symbol;
+     }
+ 
++    if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
++        error_report("TCG plugin %s does not declare API version %s",
++                     desc->path, g_module_error());
++        goto err_symbol;
++    } else {
++        int version = *(int *)sym;
++        if (version < QEMU_PLUGIN_MIN_VERSION) {
++            error_report("TCG plugin %s requires API version %d, but "
++                         "this QEMU supports only a minimum version of %d",
++                         desc->path, version, QEMU_PLUGIN_MIN_VERSION);
++            goto err_symbol;
++        } else if (version > QEMU_PLUGIN_VERSION) {
++            error_report("TCG plugin %s requires API version %d, but "
++                         "this QEMU supports only up to version %d",
++                         desc->path, version, QEMU_PLUGIN_VERSION);
++            goto err_symbol;
++        }
++    }
++
+     qemu_rec_mutex_lock(&plugin.lock);
+ 
+     /* find an unused random id with &ctx as the seed */
+@@ -248,6 +267,8 @@ int qemu_plugin_load_list(QemuPluginList *head)
+     g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
+ 
+     info->target_name = TARGET_NAME;
++    info->version.min = QEMU_PLUGIN_MIN_VERSION;
++    info->version.cur = QEMU_PLUGIN_VERSION;
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+     info->system_emulation = true;
+diff --git a/plugins/plugin.h b/plugins/plugin.h
+index 5482168d797..1aa29dcaddf 100644
+--- a/plugins/plugin.h
++++ b/plugins/plugin.h
+@@ -14,6 +14,8 @@
+ 
+ #include <gmodule.h>
+ 
++#define QEMU_PLUGIN_MIN_VERSION 0
++
+ /* global state */
+ struct qemu_plugin_state {
+     QTAILQ_HEAD(, qemu_plugin_ctx) ctxs;
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index 45e1de5bd68..f30bea08dcc 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t bb_count;
+ static uint64_t insn_count;
+ static bool do_inline;
+diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+index 3f60f690278..8fa6bacd93d 100644
+--- a/tests/plugin/empty.c
++++ b/tests/plugin/empty.c
+@@ -13,6 +13,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ /*
+  * Empty TB translation callback.
+  * This allows us to measure the overhead of injecting and then
+diff --git a/tests/plugin/hotblocks.c b/tests/plugin/hotblocks.c
+index 1bd183849a1..3942a2ca544 100644
+--- a/tests/plugin/hotblocks.c
++++ b/tests/plugin/hotblocks.c
+@@ -15,6 +15,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static bool do_inline;
+ 
+ /* Plugins need to take care of their own locking */
+diff --git a/tests/plugin/hotpages.c b/tests/plugin/hotpages.c
+index 77df07a3ccf..ecd6c187327 100644
+--- a/tests/plugin/hotpages.c
++++ b/tests/plugin/hotpages.c
+@@ -18,6 +18,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
+ static uint64_t page_size = 4096;
+diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+index 58fa675e348..4ca555e1239 100644
+--- a/tests/plugin/howvec.c
++++ b/tests/plugin/howvec.c
+@@ -20,6 +20,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+ 
+ typedef enum {
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index e5fd07fb64b..0a8f5a0000e 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t insn_count;
+ static bool do_inline;
+ 
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+index d9673889896..878abf09d19 100644
+--- a/tests/plugin/mem.c
++++ b/tests/plugin/mem.c
+@@ -14,6 +14,8 @@
+ 
+ #include <qemu-plugin.h>
+ 
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
+ static uint64_t mem_count;
+ static uint64_t io_count;
+ static bool do_inline;
 -- 
 2.20.1
 
