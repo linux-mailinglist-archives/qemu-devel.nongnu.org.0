@@ -2,48 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5E4F9782
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:45:37 +0100 (CET)
-Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F67F97A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:52:36 +0100 (CET)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUaES-0000vq-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:45:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34361)
+	id 1iUaLD-00014z-0I
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:52:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iUa8I-0001sj-1I
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:15 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iUaFj-0002hH-H6
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iUa8F-0005lK-JR
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:13 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:55481)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iUa8F-0005kZ-Fb
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:11 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: 144.121.20.162.lightower.net [144.121.20.162] (may be forged)
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id xACHcRg2028407
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
- Tue, 12 Nov 2019 12:38:27 -0500
-Subject: Re: [PATCH v4 12/20] libqtest: add in-process qtest.c tx/rx handlers
-To: Stefan Hajnoczi <stefanha@gmail.com>
-References: <20191030144926.11873-1-alxndr@bu.edu>
- <20191030144926.11873-13-alxndr@bu.edu>
- <20191106165622.GK340561@stefanha-x1.localdomain>
-From: Alexander Bulekov <alxndr@bu.edu>
-Message-ID: <59cab58d-1976-b22e-9459-75c8a61001cd@bu.edu>
-Date: Tue, 12 Nov 2019 12:38:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <peter.maydell@linaro.org>) id 1iUaFi-0000AQ-7B
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:55 -0500
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:40122)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iUaFi-0000A6-1q
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:54 -0500
+Received: by mail-ot1-x329.google.com with SMTP id m15so15051476otq.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:46:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DwwnKtFgLRPfS1qhLF+qtS5qlN0EhsWE9sbB/D7T7vc=;
+ b=DSQ8TIwGgDOpWp1cGXPfSGUejwUecF1MB06rMVWF2/JOEpJYXFjLwOerTabIgLYOBu
+ kpN/DKsXrAgESpPbOUjvvgb3kCbmHtM2c+hkwP8UFedWWDHff0rAJvUSAyq7ull/CRlQ
+ Nx/TeC3TrNyAqXckq+v0lrjeluTcGBnUPkhj6H/qEZrcW3ZLfUlbR85FKZ+u7VsmbiJi
+ qS33Iau5cEYwZFYC/y4sQy15gqwz+NkLCWhHnT5a5ayC1/p8QZyXCOXu3yRoswSqIeAC
+ /HF0aYnEUpl17yvtg7VWvwlzBlkCkJAmyeC+SLDe6nWhkDCWAiGDhAkfrbl81LVKSHcK
+ CpfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DwwnKtFgLRPfS1qhLF+qtS5qlN0EhsWE9sbB/D7T7vc=;
+ b=R294KbXyzZqFKTeH79qF9Oc7mnpRfxAPLi3qRmsckTBPoeOLDYOCujUCWZE8DgbFl0
+ 9gNh+0Dh57aYg4XZPnPxZ3jOoo3tcSHSFrCiOnoMtJWBRAoC1yOyblaopDlFRW4R/UoB
+ gVGYLglINZtyx3pP/OMiLKyhYO0tLjzdQAQKjPJn0raJjd1hvAPnDKW9BAI8Wof1Zf7U
+ wpfV3r5WoAHv4/JkiK4YZ0wXowgWRkFvPlDfpNBJE/qsww2P3IJPvZiSgTlRu4jmXD3N
+ b7qOpFZ0OiOhpJcVWc7yk/BNHV4otOzJNeQCzJSd4V6gATiiUMTY4/a2wimiadQkEXFy
+ Q3TQ==
+X-Gm-Message-State: APjAAAUXIK5Mxo2hL1GbYmmL4DLN2TOI3M4N7D4fiKUqB43Nb7n6KaWP
+ T6EW8CeoFKnqf2C/3AtQSbjY4xRKSQdRsX4Ib3A84Q==
+X-Google-Smtp-Source: APXvYqxGBk4/149CwP8Zv70xBx4xEaCNejnTr1i2d8jWta3ojcfh+jsBvxcYSAU+NV5XWrE+NEUxfV2QFRhc1StkvSs=
+X-Received: by 2002:a9d:7f12:: with SMTP id j18mr24815448otq.221.1573580813037; 
+ Tue, 12 Nov 2019 09:46:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191106165622.GK340561@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x [fuzzy]
-X-Received-From: 128.197.228.104
+References: <20191112160449.29212-1-edgar.iglesias@gmail.com>
+In-Reply-To: <20191112160449.29212-1-edgar.iglesias@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Nov 2019 17:46:41 +0000
+Message-ID: <CAFEAcA9a12KN3+YNso6i-mPaoMnD8C7RzF8X10=2NMHgLQn5OA@mail.gmail.com>
+Subject: Re: [PULL v1 0/3] MicroBlaze fixes
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,86 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/6/19 11:56 AM, Stefan Hajnoczi wrote:
-> On Wed, Oct 30, 2019 at 02:49:58PM +0000, Oleinik, Alexander wrote:
->> From: Alexander Oleinik <alxndr@bu.edu>
->>
->> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
->> ---
->> There's a particularily ugly line here:
->> qtest_client_set_tx_handler(qts,
->>          (void (*)(QTestState *s, const char*, size_t)) send);
-> 
-> Please typedef the function pointer to avoid repetition:
-> 
->    typedef void (*QTestSendFn)(QTestState *s, const char *buf, size_t len);
-> 
-> And then introduce a wrapper function for type-safety:
-> 
->    /* A type-safe wrapper for s->send() */
->    static void send_wrapper(QTestState *s, const char *buf, size_t len)
->    {
->        s->send(s, buf, len);
->    }
-> 
->    ...
-> 
->    qts->send = send;
->    qtest_client_set_tx_handler(qts, send_wrapper);
-> 
-> Does this solve the issue?
-So there should be two pointers qts->send and qts->ops->send? Otherwise 
-qtest_client_set_tx_handler simply overwrites qts->send with the 
-send_wrapper.
-
-What I'm worried about is having to cast a
-(void (*)(void *s, const char*, size_t) to a
-(void (*)(QTestState *s, const char*, size_t)
-I don't think this is defined according to the standard. If we add a 
-secondary send function pointer to qts (void (*)(void *s, const char*, 
-size_t)), then I think its no longer an issue, which I think is what you 
-suggest above.
-
-> By the way, I also wonder whether the size_t len arguments are necessary
-> since const char *buf is a NUL-terminated C string.  The string should
-> be enough since the length can be calculated from it.
-I'll change it.
-
->> diff --git a/qtest.c b/qtest.c
->> index 9fbfa0f08f..f817a5d789 100644
->> --- a/qtest.c
->> +++ b/qtest.c
->> @@ -812,6 +812,6 @@ void qtest_server_inproc_recv(void *dummy, const char *buf, size_t size)
->>       g_string_append(gstr, buf);
->>       if (gstr->str[gstr->len - 1] == '\n') {
->>           qtest_process_inbuf(NULL, gstr);
->> -        g_string_free(gstr, true);
->> +        g_string_truncate(gstr, 0);
-> 
-> Ah, a fix for the bug in an earlier commit.  Please squash it.
-> 
->> diff --git a/tests/libqtest.c b/tests/libqtest.c
->> index ff3153daf2..6143af33da 100644
->> --- a/tests/libqtest.c
->> +++ b/tests/libqtest.c
->> @@ -71,6 +71,7 @@ static void qtest_client_set_tx_handler(QTestState *s,
->>   static void qtest_client_set_rx_handler(QTestState *s,
->>           GString * (*recv)(QTestState *));
->>   
->> +static GString *recv_str;
-> 
-> Can this be a QTestState field?
-> 
+On Tue, 12 Nov 2019 at 16:04, Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> The following changes since commit 039e285e095c20a88e623b927654b161aaf9d914:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-11-12 12:09:19 +0000)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2019-11-12.for-upstream
+>
+> for you to fetch changes up to c49a41b0b9e6c77e24ac2be4d95c54d62bc7b092:
+>
+>   target/microblaze: Plug temp leak around eval_cond_jmp() (2019-11-12 16:35:26 +0100)
+>
+> ----------------------------------------------------------------
+> For upstream
+>
+> ----------------------------------------------------------------
+> Edgar E. Iglesias (3):
+>       target/microblaze: Plug temp leaks for loads/stores
+>       target/microblaze: Plug temp leaks with delay slot setup
+>       target/microblaze: Plug temp leak around eval_cond_jmp()
+>
 
 
--- 
-===
-I recently changed my last name from Oleinik to Bulekov
-===
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
