@@ -2,64 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0A0F911D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 14:54:41 +0100 (CET)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6F2F912C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 14:57:45 +0100 (CET)
+Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUWcx-000668-FR
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 08:54:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1iUWfw-0007kU-JL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 08:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUWbT-0005BT-Hk
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:53:08 -0500
+ (envelope-from <liam.r.girdwood@linux.intel.com>) id 1iUWf8-0007JH-3p
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUWbS-0000rp-92
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:53:07 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:37878)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUWbR-0000rO-UL
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:53:06 -0500
-Received: by mail-oi1-x232.google.com with SMTP id y194so14835284oie.4
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 05:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cOZA7fuckIXozgptk+Bar+NHWOMyVXYdWJdIWVRbTtI=;
- b=mEUcDZQB26DpG0UZDqaNttJEFCx5CRB7V57iF19712mVjw34sfeOi41hRUQ/te9KNL
- tnlcEQTHOG5GVqrLVtx5/bi137kHpwo1AOIQPBq+8aaYkD/J5DNmllGLLiXm4e3JEZEa
- DXNGCaTbdQDqzJb8RH2wJPEYYvrQ4TtFE8uwp8zp9SYNVG/rqed0kLONOXxTYk+KRjMn
- VROW+y6wKImF/9A9cNViKsh1Qr9k52XTGFaJMS8n5jUfaALQcTseNvX0r/XpQji8Co3A
- LnHV67rs5JpmRfN0kxt0fDnFNxAWLswBTij+BOvBdsv2FgxUwzlA8xzkR0oUdp5TQQoH
- AFEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cOZA7fuckIXozgptk+Bar+NHWOMyVXYdWJdIWVRbTtI=;
- b=ACwTpu5cz5b6LYkh8VQzmVEGTaVcSEndDJqL12WX/xXdwVbMPQOCEL0yw3Bdto8xxv
- B9dltP17ebpr5X/R+Z36qw9L7HrAmWJWEWrV6Zwj/1oMa/VjzBoonNLdYWrllo0shdUz
- 0YcEVTsD1mWj1nVNTSHwUXmMVC3qDQtZeHMBYxxfirOPL1mOEGKnVf0XH1M9FZ48sMB0
- ik+K7XYJgffyeaPLi/K24VGHI7j5gwo/d96acKQhVgo+JHmnwxexcMQ71olvp+eHsTD1
- bufFPfYEneV9pBhbh5fYsRrD7gEOALO5/rTZ9XTGTPJCsLjZIPU38JC+Mm1VpQGSb9vt
- y/Bg==
-X-Gm-Message-State: APjAAAUzaOARwtSpi44DdmihglDeRHNarnqG9WCDi9rmeoH9OPDEdUpH
- rWnnCIXw3b30ubZ2AspNkaMNJD3jQsmVi+9V6SgfuQ==
-X-Google-Smtp-Source: APXvYqyiIp+tebqhLGed8sf/MeS5NHBxKRnUoaPx6janSNE/kXz2MXrI2Z/fofJHd4eU3RhUKZg42PEAs7PamPVnXy8=
-X-Received: by 2002:aca:cf12:: with SMTP id f18mr3982462oig.48.1573566785050; 
- Tue, 12 Nov 2019 05:53:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20191112100429.11957-1-laurent@vivier.eu>
-In-Reply-To: <20191112100429.11957-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Nov 2019 13:52:53 +0000
-Message-ID: <CAFEAcA_TvPZrjXmx0hC2jjEG_ur=QWqX8dD2T1VAi5LVRWbfWA@mail.gmail.com>
-Subject: Re: [PULL 0/5] Trivial branch patches
-To: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <liam.r.girdwood@linux.intel.com>) id 1iUWf6-0002xb-Tu
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:53 -0500
+Received: from mga03.intel.com ([134.134.136.65]:56277)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liam.r.girdwood@linux.intel.com>)
+ id 1iUWf6-0002wl-Jb
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:52 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Nov 2019 05:56:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,296,1569308400"; d="scan'208";a="194319994"
+Received: from hbenchen-mobl1.ger.corp.intel.com ([10.251.95.209])
+ by orsmga007.jf.intel.com with ESMTP; 12 Nov 2019 05:56:45 -0800
+Message-ID: <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+From: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Date: Tue, 12 Nov 2019 13:56:43 +0000
+In-Reply-To: <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain>
+ <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+ <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+ <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+X-Received-From: 134.134.136.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +59,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+ Alex Lau <alexlau@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ Tomasz Figa <tfiga@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>,
+ David Stevens <stevensd@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Nov 2019 at 10:07, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 9f2ce35dfa4ea4a31dbb765dd02bed2500891887:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20191111' into staging (2019-11-11 16:54:16 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
->
-> for you to fetch changes up to 5c62979ed5f75976ae215098566ebd93dfe4e22a:
->
->   ivshmem-server: Terminate also on SIGINT (2019-11-12 10:37:20 +0100)
->
-> ----------------------------------------------------------------
-> Trivial fixes (20191112)
-> ivshmem-server, error messages (numa, qom) and
-> Makefile (bios-microvm) fixes
->
-> ----------------------------------------------------------------
+On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
+> On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
+> wrote:
+> > Each buffer also has some properties to carry metadata, some fixed
+> > (id, size, application), but
+> > also allow free form (name = value, framebuffers would have
+> > width/height/stride/format for example).
+> 
+> Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
+> 
+> https://patchwork.freedesktop.org/patch/310349/
+> 
+> For virtio-wayland + virtio-vdec, the problem is sharing -- not
+> allocation.
+> 
 
-Applied, thanks.
+Audio also needs to share buffers with firmware running on DSPs.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+> As the buffer reaches a kernel boundary, it's properties devolve into
+> [fd, size].  Userspace can typically handle sharing metadata.  The
+> issue is the guest dma-buf fd doesn't mean anything on the host.
+> 
+> One scenario could be:
+> 
+> 1) Guest userspace (say, gralloc) allocates using virtio-gpu.  When
+> allocating, we call uuidgen() and then pass that via RESOURCE_CREATE
+> hypercall to the host.
+> 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the buffer
+> name will be "virtgpu-buffer-${UUID}").
+> 3) When importing, virtio-{vdec, video} reads the dma-buf name in
+> userspace, and calls fd to handle.  The name is sent to the host via
+> a
+> hypercall, giving host virtio-{vdec, video} enough information to
+> identify the buffer.
+> 
+> This solution is entirely userspace -- we can probably come up with
+> something in kernel space [generate_random_uuid()] if need be.  We
+> only need two universal IDs: {device ID, buffer ID}.
+> 
 
--- PMM
+I need something where I can take a guest buffer and then convert it to
+physical scatter gather page list. I can then either pass the SG page
+list to the DSP firmware (for DMAC IP programming) or have the host
+driver program the DMAC directly using the page list (who programs DMAC
+depends on DSP architecture).
+
+DSP FW has no access to userspace so we would need some additional API
+on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+
+Liam
+
+
 
