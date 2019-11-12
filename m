@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6210F9148
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:01:21 +0100 (CET)
-Received: from localhost ([::1]:35342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAB3F915F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:04:30 +0100 (CET)
+Received: from localhost ([::1]:35434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUWjQ-0000jv-9N
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:01:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53655)
+	id 1iUWmT-000365-SE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:04:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iUWhX-0008IH-U6
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:59:24 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iUWin-00017L-Dk
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iUWhW-00057o-PN
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:59:23 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56399
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1iUWim-0005xd-51
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20134
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iUWhW-00057P-Lk
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:59:22 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iUWim-0005xV-1y
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573567162;
+ s=mimecast20190719; t=1573567239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=twVqRx4Sja+DfqjSaz8u0cWY+m3+byf5RH+2bJlobTY=;
- b=TyWxLDZgTvNeHWNqjUulCouE3UC1FHEV+Of+fX5ieHp2BUwowpYD+8OXqd8RvgdCc/Vs0F
- K3nv+Xd7+dbt4ejK0ssfvWve/KOhcRlF4DmEGVBBc6d99tePxPjIu4qu7uJBY3K5J8FVSw
- WZLzH00tV6Fuo6LyBxUKrBtu/ccJXu0=
+ bh=8R3MJt3TIkkobIvD1VeTWMOFbqEEL1wCtlj/pmY8FQM=;
+ b=ahRbmuPjtJIxlQNcuDdPrlmGpmAohETGMk8RnliswTxnPNsXMwKkzhRdY/wwVvvauU/PW3
+ 6m2LTAexXD5HsBuxYMeWtGDPPiK8sFIDJ4VQtRVBoNZe4hxQ3nEKZgXopb7uGuZ1VnDo0m
+ DXsyY45dn1RWHdL1epUMWLXWI8avVZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-89-0pC-nGahPhGGzMtCWMAQDQ-1; Tue, 12 Nov 2019 08:58:12 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-144-k8_fAhusMbun86oWMTsYqQ-1; Tue, 12 Nov 2019 09:00:35 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 237F41800D63
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 13:58:12 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E32F100EBAC;
- Tue, 12 Nov 2019 13:58:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3F72801E69;
+ Tue, 12 Nov 2019 14:00:33 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-3.gru2.redhat.com [10.97.116.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B890563147;
+ Tue, 12 Nov 2019 14:00:22 +0000 (UTC)
+Subject: Re: [PATCH v7 6/8] Acceptance tests: add the build directory to the
+ system PATH
+To: Cleber Rosa <crosa@redhat.com>
+References: <20191104151323.9883-1-crosa@redhat.com>
+ <20191104151323.9883-7-crosa@redhat.com>
+ <0660a16e-2ffc-fd3f-bfc7-cb0c43f1aef9@redhat.com>
+ <20191111224929.GF19559@localhost.localdomain>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests/acceptance: Makes linux_initrd and empty_cpu_model
- use QEMUMachine
-Date: Tue, 12 Nov 2019 08:58:01 -0500
-Message-Id: <20191112135801.854-3-wainersm@redhat.com>
-In-Reply-To: <20191112135801.854-1-wainersm@redhat.com>
-References: <20191112135801.854-1-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0pC-nGahPhGGzMtCWMAQDQ-1
+Message-ID: <74c176fe-5853-93d4-2329-8920af1f33a4@redhat.com>
+Date: Tue, 12 Nov 2019 12:00:20 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <20191111224929.GF19559@localhost.localdomain>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: k8_fAhusMbun86oWMTsYqQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,91 +77,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
+Cc: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, qemu-ppc@nongnu.org,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On linux_initrd and empty_cpu_model tests the same effect of
-calling QEMU through run() to inspect the terminated process is
-achieved with a sequence of set_qmp_monitor() / launch() / wait()
-commands on an QEMUMachine object. This patch changes those
-tests to use QEMUMachine instead, so they follow the same pattern
-to launch QEMU found on other acceptance tests.
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- tests/acceptance/empty_cpu_model.py | 13 +++++++------
- tests/acceptance/linux_initrd.py    | 13 +++++++------
- 2 files changed, 14 insertions(+), 12 deletions(-)
+On 11/11/19 8:49 PM, Cleber Rosa wrote:
+> On Thu, Nov 07, 2019 at 05:46:13PM -0200, Wainer dos Santos Moschetta wro=
+te:
+>> On 11/4/19 1:13 PM, Cleber Rosa wrote:
+>>> So that when binaries such as qemu-img are searched for, those in the
+>>> build tree will be favored.  As a clarification, SRC_ROOT_DIR is
+>>> dependent on the location from where tests are executed, so they are
+>>> equal to the build directory if one is being used.
+>>>
+>>> The original motivation is that Avocado libraries such as
+>>> avocado.utils.vmimage.get() may use the matching binaries, but it may
+>>> also apply to any other binary that test code may eventually attempt
+>>> to execute.
+>>>
+>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>> ---
+>>>    tests/acceptance/avocado_qemu/__init__.py | 6 ++++++
+>>>    1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
+ce/avocado_qemu/__init__.py
+>>> index 17ce583c87..a4bb796a47 100644
+>>> --- a/tests/acceptance/avocado_qemu/__init__.py
+>>> +++ b/tests/acceptance/avocado_qemu/__init__.py
+>>> @@ -110,6 +110,12 @@ class Test(avocado.Test):
+>>>            return None
+>>>        def setUp(self):
+>>> +        # Some utility code uses binaries from the system's PATH.  For
+>>> +        # instance, avocado.utils.vmimage.get() uses qemu-img, to
+>>> +        # create a snapshot image.  This is a transparent way of
+>> Because PATH is changed in a transparent way, wouldn't be better to also
+>> self.log.info() that fact?
+>>
+> I don't have a problem with logging it, but because it will happen for
+> *every single* test, it seems like it will become noise.  I think it's
+> better to properly document this aspect of "avocado_qemu.Test" instead
+> (which is currently missing here).  Something like:
+>
+> "Tests based on avocado_qemu.Test will have, as a convenience, the
+> QEMU build directory added to their PATH environment variable.  The goal
+> is to allow tests to seamless use matching built binaries, instead of
+> binaries installed elsewhere in the system".
+>
+> How does it sound?
 
-diff --git a/tests/acceptance/empty_cpu_model.py b/tests/acceptance/empty_c=
-pu_model.py
-index 3f4f663582..8c20a4ef4a 100644
---- a/tests/acceptance/empty_cpu_model.py
-+++ b/tests/acceptance/empty_cpu_model.py
-@@ -7,13 +7,14 @@
- #
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
--import subprocess
- from avocado_qemu import Test
-=20
- class EmptyCPUModel(Test):
-     def test(self):
--        cmd =3D [self.qemu_bin, '-S', '-display', 'none', '-machine', 'non=
-e', '-cpu', '']
--        r =3D subprocess.run(cmd, stderr=3Dsubprocess.PIPE, stdout=3Dsubpr=
-ocess.PIPE)
--        self.assertEquals(r.returncode, 1, "QEMU exit code should be 1")
--        self.assertEquals(r.stdout, b'', "QEMU stdout should be empty")
--        self.assertNotEquals(r.stderr, b'', "QEMU stderr shouldn't be empt=
-y")
-+        self.vm.add_args('-S', '-display', 'none', '-machine', 'none',
-+                         '-cpu', '')
-+        self.vm.set_qmp_monitor(disabled=3DTrue)
-+        self.vm.launch()
-+        self.vm.wait()
-+        self.assertEquals(self.vm.exitcode(), 1, "QEMU exit code should be=
- 1")
-+        self.assertRegex(self.vm.get_log(), r'-cpu option cannot be empty'=
-)
-diff --git a/tests/acceptance/linux_initrd.py b/tests/acceptance/linux_init=
-rd.py
-index c61d9826a4..158ec4d46c 100644
---- a/tests/acceptance/linux_initrd.py
-+++ b/tests/acceptance/linux_initrd.py
-@@ -10,7 +10,6 @@
-=20
- import logging
- import tempfile
--from avocado.utils.process import run
-=20
- from avocado_qemu import Test
-=20
-@@ -41,13 +40,15 @@ class LinuxInitrd(Test):
-             initrd.seek(max_size)
-             initrd.write(b'\0')
-             initrd.flush()
--            cmd =3D "%s -kernel %s -initrd %s -m 4096" % (
--                  self.qemu_bin, kernel_path, initrd.name)
--            res =3D run(cmd, ignore_status=3DTrue)
--            self.assertEqual(res.exit_status, 1)
-+            self.vm.add_args('-kernel', kernel_path, '-initrd', initrd.nam=
-e,
-+                             '-m', '4096')
-+            self.vm.set_qmp_monitor(disabled=3DTrue)
-+            self.vm.launch()
-+            self.vm.wait()
-+            self.assertEqual(self.vm.exitcode(), 1)
-             expected_msg =3D r'.*initrd is too large.*max: \d+, need %s.*'=
- % (
-                 max_size + 1)
--            self.assertRegex(res.stderr_text, expected_msg)
-+            self.assertRegex(self.vm.get_log(), expected_msg)
-=20
-     def test_with_2gib_file_should_work_with_linux_v4_16(self):
-         """
---=20
-2.18.1
+
+It does.
+
+
+>
+>>> +        # making sure those utilities find and use binaries on the
+>>> +        # build tree by default.
+>>> +        os.environ['PATH'] =3D '%s:%s' % (SRC_ROOT_DIR, os.environ['PA=
+TH'])
+>> I think PATH should be set only once at class initialization. Perhaps in
+>> setUpClass()?
+>>
+>> - Wainer
+>>
+> The Avocado test isolation model makes setUpClass() unnecessary,
+> unsupported and pointless, so we only support setUp().
+>
+> Every test already runs on its own process, and with the nrunner
+> model, should be able to run on completely different systems.  That's
+> why we don't want to support a setUpClass() like approach.
+
+Okay, thanks for the explanation.
+
+Thanks,
+
+Wainer
+
+>
+> - Cleber.
+>
+>
 
 
