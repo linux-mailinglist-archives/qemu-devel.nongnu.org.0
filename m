@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520EFF9505
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:02:51 +0100 (CET)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DC9F9517
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:06:55 +0100 (CET)
+Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUYcz-00024u-WE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:02:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49731)
+	id 1iUYgv-00052g-TR
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUYbm-0001ZF-Tz
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:01:36 -0500
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iUYf3-00045A-Ak
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:04:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUYbk-0005Aa-Ol
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:01:34 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:36632)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iUYf2-0007Bi-EH
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:04:57 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41046)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUYbi-00058q-Uh
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:01:32 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id j7so15252813oib.3
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:01:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5ymF2OB4TgXN865OozscNvARlVHlepLRjVpi/sX4H1k=;
- b=D+8ecHizUoP9n3DbVloxOVUXNJqzgBzAp0aNVkwZLH3PBJYdAUVo32JFG7eIoBRfTw
- NkMBNrj6IIDtN+bE3tKIbRA6GUO6YOMwg62XxcLl7Ux1LIEdJZKUnQNZ+4qKKtqU+mqN
- gYIZcNLA+Kyfsh4jYL0oyHcl8YzqyV53FSsKKAlgoptEwV7fr2ZyB1713DIsKjN/1Xrb
- OCcdjyZbKDRgJZF47EMen/csyDPQrexzOcBoc+CF5PFfvdknOFWhXaKreyIgV/+L8o+W
- 6LwRjsxrodQb/mO5bzS2YoGcooN+Jh7HmlWIB3aD5yKOMRxu50uIehg5+foE+xqZmhsD
- s4qQ==
+ (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1iUYf2-0007B2-8h
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:04:56 -0500
+Received: by mail-wr1-x432.google.com with SMTP id p4so19127984wrm.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:04:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4N/LEuHIUHYOQCoZA48U+wOByIBPr4A4etU0NNzr4Fg=;
+ b=PC8tOUnrCn+yNxrICFnQ6FfOMrk15NwSdLQqLspsGEP7WqRx02jPHOHOYlCCYs4dgS
+ dcPOL2EhUSTpK8xYFOLBF2l3Z2rFjWbaI6NJOosjn9EeF1HhWZCTAglJ74aQ8nPNbBWb
+ F7SspWZ6lguEj2dYBdh8b5ipKWkOkvZjbRDj5RYKBHF2raiZd4y1a0rqTKyGuy9Or4Io
+ /s4dubNWA69D3FLZZHcYG0p90Ve9/l/Gfw2gxTBLQNfVyGVR3dl7ozu7xW6xGykpTZmC
+ HgD9zZVZc/QlqoBcS/Qmdt4EEE5UcxpIiuk7c+GKlHDLszgEWr6/ukY6vJLGKYpm0vtV
+ oGrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5ymF2OB4TgXN865OozscNvARlVHlepLRjVpi/sX4H1k=;
- b=bvcT0mQ+j+ll9WNU1YK9ZiLRCnnxz9661Ly3WFng0/NmWSPyU/HA7Y5Bd34uwUNELN
- mGrm+QawH8hmFb4zlidCHA9IyfEWrkZOrJrnd4dRUm3yGvIpyQrson+hv18tM5sGA71Y
- 6l2LH7gXd/RL0IpxuF5B0VD6NC1GysiTjGITF5tLmuuhQQ6D2zfz4HRoMZWHLI5C2cp2
- rku0Rnkf8BV0q0Ks4WKvGJsafKrOpJ/4tecHTK34r+wFuol1n6z75S0v7oHg4y9k/zsp
- XnUaRUDM7RQT46a9rGOyqr9FtiHALIyVFjhOvcGm9QUFflCe/zJ/JuCkJ1h9iPu0ft3u
- U34w==
-X-Gm-Message-State: APjAAAUIsyGkVnS+HxFKHEsvpIXaPwmrUUvl0xp0EIOwFmX5dfumXIAe
- bR0eSQpEcSfSsIIBS+u+dBX0e4JyIPHHjLWPuXvVLA==
-X-Google-Smtp-Source: APXvYqwKQu/PIGMHbbB0AcVn520nCzbQ0/mR4WPu9wiFc8B0EnIs4s/Gy3UGhPdK2poHa1bdW/YeKOSamxBlmSAymiY=
-X-Received: by 2002:aca:cf12:: with SMTP id f18mr4490165oig.48.1573574486582; 
- Tue, 12 Nov 2019 08:01:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4N/LEuHIUHYOQCoZA48U+wOByIBPr4A4etU0NNzr4Fg=;
+ b=RKxtU99zQDg2gYzr4pk+fsf1c991i9E69+u7OutFJxjquOyy+Smvj3RM5YwsZ+qh2P
+ 4xdQpNs1CTW09O50Qf/1N/JydhYZEmgw9E/1CKMi0ezFi+2sQ/XVoZOCIAGE0khrGrBO
+ D9L8B6Mmd8Pgyx3LMhv4J7jLNvp3KTF52KJZk9+pMJW82MEnxg0YyT0rFCFDWWYJrWPb
+ EMw6Frh1DHKt8K/F2thUwrw8OTIQaQz/DdLD8MvwKTIQwcx8MyASsmn7uUDVeYLp8+Gs
+ tPXl5mYnJKNQYA1utPJIsL+eYOBd4Vy3oDMs2yfQP6hBXkh/ITRrQWOIpI7izgkbp/q8
+ boTQ==
+X-Gm-Message-State: APjAAAWwQLmtriC5QdjbJN5lCgjEHy8x7YNFWjptZ0BndTIr28Uvps3T
+ B93imlPSrVOAWBgjtzzxg8w7UoDFEck=
+X-Google-Smtp-Source: APXvYqxmq0HlaSIjTGczb/k4z1iiMZ4zHG9cKypEHjiYo0EPIVTW1naIxcUwliK3CZOKr3ab74vYgA==
+X-Received: by 2002:a5d:6b51:: with SMTP id x17mr3332334wrw.148.1573574694054; 
+ Tue, 12 Nov 2019 08:04:54 -0800 (PST)
+Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
+ [34.244.242.0])
+ by smtp.gmail.com with ESMTPSA id b196sm4199128wmd.24.2019.11.12.08.04.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 08:04:53 -0800 (PST)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v1 0/3] MicroBlaze fixes
+Date: Tue, 12 Nov 2019 17:04:46 +0100
+Message-Id: <20191112160449.29212-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191112145028.26386-1-alex.bennee@linaro.org>
-In-Reply-To: <20191112145028.26386-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Nov 2019 16:01:15 +0000
-Message-ID: <CAFEAcA_9AwoTE9zaKbiF6DkpN+O8LaEKGOct-m5S3yvFBHGK1g@mail.gmail.com>
-Subject: Re: [PULL 0/8] testing and tcg plugin api ver
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22c
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Nov 2019 at 14:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 039e285e095c20a88e623b927654b161aaf9d9=
-14:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-=
-request' into staging (2019-11-12 12:09:19 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-tcg-121119-1
->
-> for you to fetch changes up to 3fb356cc86461a14450802e14fa79e8436dbbf31:
->
->   tcg plugins: expose an API version concept (2019-11-12 14:32:55 +0000)
->
-> ----------------------------------------------------------------
-> Testing and plugins for rc1
->
->   - add plugin API versioning
->   - tests/vm add netbsd autoinstall
->   - disable ipmi-bt-test for non-Linux
->   - single-thread make check
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
+The following changes since commit 039e285e095c20a88e623b927654b161aaf9d914:
 
-Applied, thanks.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-11-12 12:09:19 +0000)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+are available in the Git repository at:
 
-PS: just noticed, but shouldn't the plugin-version change
-have needed an update to the docs ?
+  git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2019-11-12.for-upstream
 
-thanks
--- PMM
+for you to fetch changes up to c49a41b0b9e6c77e24ac2be4d95c54d62bc7b092:
+
+  target/microblaze: Plug temp leak around eval_cond_jmp() (2019-11-12 16:35:26 +0100)
+
+----------------------------------------------------------------
+For upstream
+
+----------------------------------------------------------------
+Edgar E. Iglesias (3):
+      target/microblaze: Plug temp leaks for loads/stores
+      target/microblaze: Plug temp leaks with delay slot setup
+      target/microblaze: Plug temp leak around eval_cond_jmp()
+
+ target/microblaze/translate.c | 77 +++++++++++++++++++++----------------------
+ 1 file changed, 38 insertions(+), 39 deletions(-)
+
+-- 
+2.20.1
+
 
