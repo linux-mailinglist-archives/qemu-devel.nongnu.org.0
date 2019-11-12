@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D0EF966C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:59:35 +0100 (CET)
-Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22236F969F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:07:06 +0100 (CET)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUZVu-0002w5-SO
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:59:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57023)
+	id 1iUZdA-0001QQ-33
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:07:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57269)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iUZV7-0002Vy-Ri
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:58:46 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iUZWn-0003oC-Tj
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iUZV5-0002GY-QT
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:58:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54587
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iUZV5-0002D2-Ap
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:58:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573577922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DEIhJvVrHl0Oa1XKwGVoSB1tDog/8nxNLWQ6hgh9650=;
- b=a+vvb3rUJIgC5QeZzx/WSvPM2ed2FR1m6G/tpdg0cKnfZCksf3chzYTZXXPiVJ44VCzI8x
- 7F/7Lfue2NYyM/0I/WKA8kJXDYeJs6qe82d4WulSuWFMJzuHSi3tcIMpjkm2X2J830l/af
- w2QlgndCNiZ839Fhoqg9xYnO5a2N4m4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-BCthSfNoOpCwgvP04SmTSQ-1; Tue, 12 Nov 2019 11:58:40 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92D62801E50;
- Tue, 12 Nov 2019 16:58:39 +0000 (UTC)
-Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94E753ABE;
- Tue, 12 Nov 2019 16:58:29 +0000 (UTC)
-Date: Tue, 12 Nov 2019 17:58:27 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v2] s390x: Properly fetch the short psw on diag308 subc 0/1
-Message-ID: <20191112175827.2d7bdb15.cohuck@redhat.com>
-In-Reply-To: <20191111152808.13371-1-frankja@linux.ibm.com>
-References: <20191111152808.13371-1-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1iUZWm-0003WZ-Q9
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:29 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36428)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iUZWm-0003WF-J9
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:28 -0500
+Received: by mail-ot1-x343.google.com with SMTP id f10so14936735oto.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:00:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=87WbpLLoTtM+S/A9vSB0avC7Toq4vDPjmBoWgSvrakE=;
+ b=dxQkiUTlCpXx46MVeUaA5ky8QJ8ycpCpFlSK/PUL8dOjOEppTNl3/p4qQnJ68wVOVd
+ mBc4dj0zxY4R9ReYWKdT//tO1uX0zbL7OD2b4Uto5x0wMnLXhW6wRS5h+uPkJz3q9ziW
+ Z3dCd7VjzyLeL1WcnqCwnWAqY87GWebzPBQOkkMZ+SPkrBhzzzzVEBiky7q82SlfNAkX
+ jTPEAmKIVjmtR/iXSfTpvn6Q2bYA4GVCkHdGhCj8ln5dG7JKIEuBbrIiTlUkEYZFcxGw
+ DFnR+rKwFEVY/GC2pN+MemVFUf8KFReJmZq2pMuV48dhLAS1BGziLP2wtEFOu/2rsYwR
+ CwkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=87WbpLLoTtM+S/A9vSB0avC7Toq4vDPjmBoWgSvrakE=;
+ b=s71+2J0SJt64Fz1ouQwxHChAOEC3Khld2mHe24O/rc2pQm4WjARWL7cBWO2a44jaiN
+ fIbKjt11bRIEWhdRMZf0E62Re900ahRQ7myygNvXT9s6wR3nlRkfHNB9qGNJoLunnX/H
+ hihXjEaXirZb9xTjsEHmW4BSuKLc/B9jYmdBEvyee8w0JdXpy8+QUTiJ8fSB6+3gcZIA
+ 1NMIiPT4gbRMz+z5V5H7ynR9rDPp52+K0XOF2BbcyjPRxPHp4YlXz/rTA36ibgddVOq7
+ 2mHxWR9L/pJ0y5aZTVQjFPH/rsRjwxCRxojJe6vmStFr+/a0lK4Tl//CAiOUcXQoJjFn
+ 718w==
+X-Gm-Message-State: APjAAAWlvtuTtI0qrmoGRWmDbWB6eZdDaEZ5inMuyPmiLaZeAvE45geS
+ k0l0Xrrl2++84IUerzyec8FxSXZw06Qx0j4av5pODw==
+X-Google-Smtp-Source: APXvYqzFC9EJm/6hdrUaFK3MOtRsB99wp+Yr8WK5NyL6omdnrZGcYYPHo+ZqIAwbyF9fne3YzHZ4wVAdDim0ky5/L/8=
+X-Received: by 2002:a9d:6357:: with SMTP id y23mr24021242otk.91.1573578027628; 
+ Tue, 12 Nov 2019 09:00:27 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: BCthSfNoOpCwgvP04SmTSQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191112164051.16404-1-alex.bennee@linaro.org>
+ <20191112164051.16404-2-alex.bennee@linaro.org>
+In-Reply-To: <20191112164051.16404-2-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Nov 2019 17:00:16 +0000
+Message-ID: <CAFEAcA9tfXe3hp74xjODSfAO2eJryEkVgP8owoCd0LMxTt-F=Q@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] docs/devel: rename plugins.rst to tcg-plugins.rst
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,28 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-devel@nongnu.org, david@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Nov 2019 10:28:08 -0500
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> We need to actually fetch the cpu mask and set it. As we invert the
-> short psw indication in the mask, SIE will report a specification
-> exception, if it wasn't present in the reset psw.
->=20
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+On Tue, 12 Nov 2019 at 16:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> This makes it a bit clearer what this is about.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  target/s390x/cpu.c | 12 ++++++++++--
->  target/s390x/cpu.h |  1 +
->  2 files changed, 11 insertions(+), 2 deletions(-)
+>  MAINTAINERS                                 | 1 +
+>  docs/devel/{plugins.rst =3D> tcg-plugins.rst} | 0
+>  2 files changed, 1 insertion(+)
+>  rename docs/devel/{plugins.rst =3D> tcg-plugins.rst} (100%)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ff8d0d29f4b..b160d817208 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2369,6 +2369,7 @@ F: tcg/
+>  TCG Plugins
+>  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>  S: Maintained
+> +F: docs/devel/tcg-plugins.rst
+>  F: plugins/
+>  F: tests/plugin
+>
+> diff --git a/docs/devel/plugins.rst b/docs/devel/tcg-plugins.rst
+> similarity index 100%
+> rename from docs/devel/plugins.rst
+> rename to docs/devel/tcg-plugins.rst
+> -
 
-So, is this change -rc material, or should it go in during the next
-release? I'm a bit confused here.
+Don't you also need to update the reference
+to 'plugins' in docs/devel/index.rst ?
 
-[Also, does this need a change in the tcg code, or is that something
-that should just be done eventually? Sorry, drowning a bit in mails
-here...]
-
+thanks
+-- PMM
 
