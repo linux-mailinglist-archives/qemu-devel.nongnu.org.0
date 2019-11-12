@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31B3F8F4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 13:08:31 +0100 (CET)
-Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF8DF8F86
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 13:17:04 +0100 (CET)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUUyE-0000CR-Of
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 07:08:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
+	id 1iUV6V-0003ad-G3
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 07:17:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40929)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iUUxE-00084R-FB
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:07:30 -0500
+ (envelope-from <bounces@canonical.com>) id 1iUV5C-00034k-4c
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:15:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iUUxB-0003UJ-5P
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:07:26 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49288
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iUUxA-0003Tt-PU
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:07:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573560443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JZiATkY4EU6UkPsPn9LGSQcSmhTzj5Z/sbp9Uw9awJ0=;
- b=NqPjdRl5DBYFY2XcmMgd0Z9Y+7BiCv4bOoPnVwvN60NSKRm0LvAE6p3+o1mjNO8vOmXPXg
- PQKWbJyhTDClFMh3iWp+7c43xmv+qefIDaLUn+i7e20Ic3JBIuLn5JFBzqiyzlhxKan6Y1
- UdN8Ln4g2lLx97BbBCJLfbpUA3jQLmU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-ynGjU3m1N4yveMLye8fntQ-1; Tue, 12 Nov 2019 07:07:22 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5F3A800EB3;
- Tue, 12 Nov 2019 12:07:21 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5A0F6106C;
- Tue, 12 Nov 2019 12:07:16 +0000 (UTC)
-Message-ID: <5a9f329058f6633878eb7d1c7170ae2cfab7e235.camel@redhat.com>
-Subject: Re: [PATCH v2 00/11] RFC crypto/luks: encryption key managment
- using amend interface
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Date: Tue, 12 Nov 2019 14:07:15 +0200
-In-Reply-To: <86918b16-a3c1-4b1e-7e21-1b8e84411065@redhat.com>
-References: <20190912223028.18496-1-mlevitsk@redhat.com>
- <fb2cd2e0-2718-215f-d6af-59b64b229b4f@redhat.com>
- <adcb2b6e5a28573c762f8b0d73541ae12d16fc0d.camel@redhat.com>
- <86918b16-a3c1-4b1e-7e21-1b8e84411065@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ynGjU3m1N4yveMLye8fntQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from <bounces@canonical.com>) id 1iUV59-0006WD-Jf
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:15:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59848)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iUV59-0006W4-Dg
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 07:15:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iUV58-0006HW-7u
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 12:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3ACB82E80C8
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 12:15:38 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Nov 2019 12:08:20 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crobinso pmaydell
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <157349721480.22191.14354362512617460510.malonedeb@soybean.canonical.com>
+Message-Id: <157356050060.22400.2870380016046969133.malone@chaenomeles.canonical.com>
+Subject: [Bug 1852115] Re: qemu --static user build fails with fedora rawhide
+ glibc-2.30.9000
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 49d60c57adeca201842d4ec5c2e37e693e8e0dd3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,94 +67,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel
- P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Bug 1852115 <1852115@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2019-11-12 at 12:58 +0100, Max Reitz wrote:
-> On 08.11.19 16:07, Maxim Levitsky wrote:
-> > On Fri, 2019-10-04 at 21:10 +0200, Max Reitz wrote:
-> > > On 13.09.19 00:30, Maxim Levitsky wrote:
-> > > > This patch series is continuation of my work to add encryption
-> > > > key managment to luks/qcow2 with luks.
-> > > >=20
-> > > > This is second version of this patch set.
-> > > > The changes are mostly addressing the review feedback,
-> > > > plus I tested (and fixed sadly) the somewhat ugly code
-> > > > that allows to still write share a raw luks device,
-> > > > while preveting the key managment from happening in this case,
-> > > > as it is unsafe.
-> > > > I added a new iotest dedicated to that as well.
-> > > >=20
-> > > > Best regards,
-> > > > =09Maxim Levitsky
-> > >=20
-> > > At least for an RFC looks good from my perspective.  I didn=E2=80=99t=
- look at
-> > > the crypto things very closely (assuming Dan would do so), and I didn=
-=E2=80=99t
-> > > check the iotests in detail.  (But it definitely doesn=E2=80=99t look=
- like they
-> > > lack in breadth.  Maybe I=E2=80=99d like to see a test that you canno=
-t have
-> > > other useful nodes attached to the LUKS or qcow2 node while the
-> > > amendment process is ongoing (because CONSISTENT_READ is unshared).  =
-But
-> > > that=E2=80=99s the only thing I can think of.)
-> >=20
-> > Could you elaborate on this?=20
-> >=20
-> > Inside the same process several users can access that luks node at the =
-same
-> > time while one of them changes encryption keys, since this doesn't affe=
-ct IO of the data.
-> >=20
-> > Two users in same process I was *I think* told that can't do the amend =
-in the same time
-> > since qmp is protected with a lock. However since I use a block job (to=
- be consistent with blockdev-create)
-> > I wonder if several qmp amend commands couldn't race one with another. =
-These jobs is running
-> > on the block device AIO context (I changed this recently after a review=
-), but stil I am not sure
-> > there can't be a race.
-> >=20
-> > And when there is access to the same image from multiple processes, I d=
-o have a test that
-> > checks that as long as more that one process has the image open, noone =
-can change the encryption keys
-> > (this is only relevant for raw luks format, since for qcow2 this is for=
-bidden anyway).
->=20
-> Yes, sorry, I don=E2=80=99t remember/know where I got the qcow2 part from=
-.  (I
-> probably just forgot during after reviewing that only LUKS=E2=80=99s perm=
-issions
-> are changed by this series.)
->=20
-> But for LUKS, those changed permissions do apply.  If you can=E2=80=99t d=
-o
-> something between two different qemu instances, you can=E2=80=99t do it i=
-n a
-> single one: The file locks are equivalent to the internal permission mask=
-.
->=20
-> So if you can=E2=80=99t change the encryption keys while another process =
-has the
-> image open, you can=E2=80=99t change the encryption keys while another no=
-de uses
-> the file node in the same process.  For example, you can=E2=80=99t attach=
- two
-> LUKS nodes to a single file node and then change the keys on one of the
-> nodes.
->=20
-> Max
->=20
-Ah, I understand now. I'll add a test for that!
+We use stime() to implement the target stime syscall. We should probably
+switch to using clock_settime(CLOCK_REALTIME, ...) instead, as that's
+what glibc uses internally now to implement its stime():
 
-Best regards,
-=09Maxim Levitsky
+https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dtime/stime.c;h=3D6ea=
+3b6dcc1a393b57b69ca24fbfe8023d9095837;hb=3D12cbde1dae6fa4a9a792b64564c7e0de=
+bf7544cc
 
+
+** Changed in: qemu
+       Status: New =3D> Confirmed
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852115
+
+Title:
+  qemu --static user build fails with fedora rawhide glibc-2.30.9000
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Building qemu latest git 654efcb511d on fedora rawhide fails with this
+  configure line:
+
+  ./configure \
+  	--static \
+  	--disable-system \
+  	--enable-linux-user \
+  	--disable-werror \
+  	--disable-tools \
+  	--disable-capstone
+
+  make fails with:
+
+  /usr/bin/ld: linux-user/syscall.o: in function `do_syscall1':
+  /root/qemu.git/linux-user/syscall.c:7769: undefined reference to `stime'
+  collect2: error: ld returned 1 exit status
+
+  Seems related to this glibc change:
+  https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D12cbde1dae6fa4a9=
+a792b64564c7e0debf7544cc
+
+  ...
+
+  +* The obsolete function stime is no longer available to newly linked
+  +  binaries and it has been removed from <time.h> header.  This function
+  +  has been deprecated in favor of clock_settime.
+  +
+
+  # rpm -q glibc
+  glibc-2.30.9000-17.fc32.x86_64
+
+  =
+
+  FWIW there's some other messages but I don't think they are fatal:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-redhat-linux/9/../../../../lib64/libglib=
+-2.0.a(gutils.c.o): in function `g_get_user_database_entry':
+  (.text+0x267): warning: Using 'getpwuid' in statically linked application=
+s requires at runtime the shared libraries from the glibc version used for =
+linking
+  /usr/bin/ld: (.text+0xe0): warning: Using 'getpwnam_r' in statically link=
+ed applications requires at runtime the shared libraries from the glibc ver=
+sion used for linking
+  /usr/bin/ld: (.text+0x11e): warning: Using 'getpwuid_r' in statically lin=
+ked applications requires at runtime the shared libraries from the glibc ve=
+rsion used for linking
+
+  =
+
+  Also, --disable-capstone is required to avoid this error, but it is pre-e=
+xisting, not sure if it's a bug, if so I can file a separate one:
+
+    LINK    aarch64-linux-user/qemu-aarch64
+  /usr/bin/ld: cannot find -lcapstone
+  collect2: error: ld returned 1 exit status
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852115/+subscriptions
 
