@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B43F8C75
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 11:05:22 +0100 (CET)
-Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73580F8C79
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 11:07:25 +0100 (CET)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUT33-0001YA-Eu
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 05:05:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52583)
+	id 1iUT52-0004FA-9M
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 05:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iUT1A-0000WT-6C
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:03:25 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iUT2V-0001uP-V4
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:04:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iUT18-0001dy-Ou
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:03:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36614
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUT18-0001ca-J3
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:03:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573553001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=79b53HtVGpE09LwB7dtFt79Ki9KVSl2ClbvlHhaMQxs=;
- b=Vl/Ke7No3Kq1UKCwyVacgu4E/B+f0dchtnOhjnoIBkqc45I+r+CG/EHgLLIhzNiSXxSLfy
- G53NLy96c4tprjuS1wmYNc7Hkm8tr5NyGyQn8zfatZ8rMGVYio7h92Wq1DjZIlKd96AUPK
- 7TwhVPiw/2Ck4KN9WhFNcO9OKxL18Oc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-IjztqjDENlKeQ1RNodMmTA-1; Tue, 12 Nov 2019 05:03:18 -0500
-X-MC-Unique: IjztqjDENlKeQ1RNodMmTA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC22F1005500;
- Tue, 12 Nov 2019 10:03:17 +0000 (UTC)
-Received: from localhost (ovpn-116-203.ams2.redhat.com [10.36.116.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4346F579F;
- Tue, 12 Nov 2019 10:03:11 +0000 (UTC)
-Date: Tue, 12 Nov 2019 10:03:10 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] virtio: fix IO request length in virtio SCSI/block
- #PSBM-78839
-Message-ID: <20191112100310.GB463128@stefanha-x1.localdomain>
-References: <20191018115547.19299-1-dplotnikov@virtuozzo.com>
- <20191023172005-mutt-send-email-mst@kernel.org>
+ (envelope-from <laurent@vivier.eu>) id 1iUT2T-0002K4-TV
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:04:47 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:34485)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iUT2N-0002Hp-2b; Tue, 12 Nov 2019 05:04:39 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MRSZX-1iIjTQ31E5-00NSzd; Tue, 12 Nov 2019 11:04:33 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Trivial branch patches
+Date: Tue, 12 Nov 2019 11:04:24 +0100
+Message-Id: <20191112100429.11957-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191023172005-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UHN/qo2QbUvPLonB"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:E3n67UlpV8+o3nG/EliqTYbwJXoT9B5xLa7CaVIaASPHaeYxsM9
+ QWPuQYF6cNPbl95TyNXk6b9pSQjJswTKugLdy3OdqRsEr+am0O8sqPZ9ohi5FfAE7LqCB7k
+ yhqWVnD0JhFMDrnh6VJ6gxWvuExJEgwV+ayWcWVxUAK4MR0BsgH2a65KIl3GCeeUxPIYxYK
+ EIax6t6YkR8AyP3Wi1zKw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/UMi8JzXMuA=:YmsufvCZXGBUV+sV8KcFHc
+ PFUNmpWkNBvLiQdvAqPrWzTU5aniLzrXcgWZEBCqnxlh1vTPZ1G3Mp+3KMOBlktccElg+n8O8
+ 6jT2LNyrOZuYcDUvljQRB3kanBih1oxBMP44Gysbs+TIwWDydpsFYNUJeZ7t76TynhPmVdZRa
+ GQ6GbyduM1B2yUYU8uo7mZYUQ3yzTVl6wASr9twDTQY5Cu5FMdySiQdHNCDzhv+VA0wXMhrA/
+ +xYBz5U/RQfXRj2t/XCTqbtVQqbRjfqdIdWG3Xrb0qbPjgpaF1/sAg8tOEowmiVGcZmo36y3O
+ //bZ+6fDeSOkwjpDFjiJVlV+olq0D7HSZGRfVQi9CvQSiiegchfDh+QHcbUfy9v9syViabg2R
+ 2K8w41Ap78Ol/2eraE4YGS9OVdpokZdDxGNRILIAlredrkvHtVQeRXyC1HR+7RujGUrJJC7MD
+ aMRjScUETd4Oam0Zm5p131CFcKYucGNsGADj2nKVGKQXtcSpjGBLmBUxz1DbuLC5suySujKls
+ nf7k01jJQjej472wpTtnlarmjaycco1QzYcbAjM4l62b4ongM5p3ES80NY8hcfKBlt+zPggNm
+ WvNpURloEKZHt8clMW41XOEC4GnvWlzsUgQS6CMi8Ufrxy9SNoN0txHR7WZs+03OHvb/jcRH/
+ 1v7ilvLWZOeeWmVrhxXJNHIVQbYxDZaSEEpG7NHcSscJggLVwy+MXO0FX4FbwzTz3SgEr9cb0
+ sGePax99HIgEzkAeZlJVAeMbZJR+PNC1sMuFLXwQJnDqpFwCR7eQw+IfJuEB2ulaPKq/q4Vrn
+ d+Zkq72tb8fBRTKlnzgv5vfSN2iNZB6qwGS76OCmwQOrOmhpLQOTwx9zjhWat0HOEyr/RirU7
+ vyD+TSiggxUUvNaXMaEZXmdSxjGPDltbpt5EVn6Sw=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,110 +64,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- kraxel@redhat.com
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UHN/qo2QbUvPLonB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 9f2ce35dfa4ea4a31dbb765dd02bed2500891887:
 
-On Wed, Oct 23, 2019 at 05:28:17PM -0400, Michael S. Tsirkin wrote:
-> On Fri, Oct 18, 2019 at 02:55:47PM +0300, Denis Plotnikov wrote:
-> > From: "Denis V. Lunev" <den@openvz.org>
-> >=20
-> > Linux guests submit IO requests no longer than PAGE_SIZE * max_seg
-> > field reported by SCSI controler. Thus typical sequential read with
-> > 1 MB size results in the following pattern of the IO from the guest:
-> >   8,16   1    15754     2.766095122  2071  D   R 2095104 + 1008 [dd]
-> >   8,16   1    15755     2.766108785  2071  D   R 2096112 + 1008 [dd]
-> >   8,16   1    15756     2.766113486  2071  D   R 2097120 + 32 [dd]
-> >   8,16   1    15757     2.767668961     0  C   R 2095104 + 1008 [0]
-> >   8,16   1    15758     2.768534315     0  C   R 2096112 + 1008 [0]
-> >   8,16   1    15759     2.768539782     0  C   R 2097120 + 32 [0]
-> > The IO was generated by
-> >   dd if=3D/dev/sda of=3D/dev/null bs=3D1024 iflag=3Ddirect
-> >=20
-> > This effectively means that on rotational disks we will observe 3 IOPS
-> > for each 2 MBs processed. This definitely negatively affects both
-> > guest and host IO performance.
-> >=20
-> > The cure is relatively simple - we should report lengthy scatter-gather
-> > ability of the SCSI controller. Fortunately the situation here is very
-> > good. VirtIO transport layer can accomodate 1024 items in one request
-> > while we are using only 128. This situation is present since almost
-> > very beginning. 2 items are dedicated for request metadata thus we
-> > should publish VIRTQUEUE_MAX_SIZE - 2 as max_seg.
-> >=20
-> > The following pattern is observed after the patch:
-> >   8,16   1     9921     2.662721340  2063  D   R 2095104 + 1024 [dd]
-> >   8,16   1     9922     2.662737585  2063  D   R 2096128 + 1024 [dd]
-> >   8,16   1     9923     2.665188167     0  C   R 2095104 + 1024 [0]
-> >   8,16   1     9924     2.665198777     0  C   R 2096128 + 1024 [0]
-> > which is much better.
-> >=20
-> > The dark side of this patch is that we are tweaking guest visible
-> > parameter, though this should be relatively safe as above transport
-> > layer support is present in QEMU/host Linux for a very long time.
-> > The patch adds configurable property for VirtIO SCSI with a new default
-> > and hardcode option for VirtBlock which does not provide good
-> > configurable framework.
-> >=20
-> > Unfortunately the commit can not be applied as is. For the real cure we
-> > need guest to be fixed to accomodate that queue length, which is done
-> > only in the latest 4.14 kernel. Thus we are going to expose the propert=
-y
-> > and tweak it on machine type level.
-> >=20
-> > The problem with the old kernels is that they have
-> > max_segments <=3D virtqueue_size restriction which cause the guest
-> > crashing in the case of violation.
->=20
-> This isn't just in the guests: virtio spec also seems to imply this,
-> or at least be vague on this point.
->=20
-> So I think it'll need a feature bit.
-> Doing that in a safe way will also allow being compatible with old guests=
-.
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20191111' into staging (2019-11-11 16:54:16 +0000)
 
-The spec is quite explicit about this:
+are available in the Git repository at:
 
-  2.6.5 The Virtqueue Descriptor Table
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 
-  The number of descriptors in the table is defined by the queue size for t=
-his virtqueue: this is the maximum possible descriptor chain length.
+for you to fetch changes up to 5c62979ed5f75976ae215098566ebd93dfe4e22a:
 
-and:
+  ivshmem-server: Terminate also on SIGINT (2019-11-12 10:37:20 +0100)
 
-  2.6.5.3.1 Driver Requirements: Indirect Descriptors
+----------------------------------------------------------------
+Trivial fixes (20191112)
+ivshmem-server, error messages (numa, qom) and
+Makefile (bios-microvm) fixes
 
-  A driver MUST NOT create a descriptor chain longer than the Queue Size of=
- the device.
+----------------------------------------------------------------
 
-If some drivers or devices allow longer descriptor chains today that's
-an implementation quirk but a new feature bit is definitely required to
-officially allow longer descriptor chains.
+Bruce Rogers (1):
+  Makefile: install bios-microvm like other binary blobs
 
-Stefan
+Greg Kurz (2):
+  qom: Fix error message in object_class_property_add()
+  numa: Add missing \n to error message
 
---UHN/qo2QbUvPLonB
-Content-Type: application/pgp-signature; name="signature.asc"
+Jan Kiszka (2):
+  ivshmem-server: Clean up shmem on shutdown
+  ivshmem-server: Terminate also on SIGINT
 
------BEGIN PGP SIGNATURE-----
+ Makefile                                |  2 +-
+ contrib/ivshmem-server/ivshmem-server.c |  6 ++++++
+ contrib/ivshmem-server/main.c           |  5 +++--
+ hw/core/numa.c                          |  2 +-
+ qom/object.c                            | 10 ++++------
+ 5 files changed, 15 insertions(+), 10 deletions(-)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3Kg14ACgkQnKSrs4Gr
-c8i4bAf/SFE97PZsQQ5Jb+OyEvCfHNPGCMHPhNtIprVt02Atjff+A/D1YZ3ahQcR
-D+NDDhqhl6T0ybYVi77gsC/lWrs307Gj4QFMqIXSu4Rp9AF4SJAvl1/G8z0cQw4S
-12VgqQ3q2DT6kjE0wVPlEop3Mpgw6bAq/0rP8/daUkD7I0qZiHHr1vqAeIGE4Ti7
-E8quoLtoz6T1FLmisifYg7tA+IhoePc99cGn6D/b6QmhlSXYD6M8htrrNJvGCA7g
-tf9Zuknrdnz4sf8luQ7tBwA06z5pkuIyu38TUWMWSXvzFTatKbPMS5N+URkDtZBL
-VgHwa7mEpHCgMzetbNOzqRbKZWBPOg==
-=qNTo
------END PGP SIGNATURE-----
-
---UHN/qo2QbUvPLonB--
+-- 
+2.21.0
 
 
