@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7FFF88CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:51:39 +0100 (CET)
-Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E2AF88ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:53:37 +0100 (CET)
+Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUQ1a-00041A-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:51:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58164)
+	id 1iUQ3U-0006zX-F0
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:53:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iUPu1-0005Zl-Nk
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:50 -0500
+ (envelope-from <thuth@redhat.com>) id 1iUPu4-0005dj-L0
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iUPu0-0000ZR-N7
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28791
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iUPu3-0000cd-IG
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50125
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPu0-0000YJ-JM
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:48 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPu3-0000cN-Cp
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573541027;
+ s=mimecast20190719; t=1573541031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6iCWevDexXrkaS1kfDd68H5ZWVkTwAlq1mUQVDZIR9A=;
- b=J1bgSOIxUUbBMnTVIQcb+zYfZ3zuUg18tNxmVVesOuZiwQus49bHS7KlWBlH1v2kWxpR0Q
- xXX+WP0xWm1bE2v3grZHEyX/rTpvt/rIEhuT+C+7MfeufFpYCbAwZDWjBwHk7Ykb2Bet0f
- G/2AoHCA6fBLfjZDJhjZllVpKw7TWfc=
+ bh=yVBGcNV8cXbEQTRHK5E3eqn9uEby5ZYMQ51+2U37af0=;
+ b=EGNvAKYnvqhowHIHapPLVHmSKnI8y0giKxxO0itVd8MZ/idvotETraEZL8lGfZkytonhFp
+ hzNkvBbmLEQlIDG4l4gh/U/d/yx+E7BSmzhJPM8Jv3071XipRWR1mlZanM0ORtxIWL0pQM
+ lcHHAQ1T0yhFGBYRxGS4iKsP2FhkpCQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-6atOdEtbNr-4cCyX4uocuQ-1; Tue, 12 Nov 2019 01:43:46 -0500
+ us-mta-175-uGhUem4oMCKXGl35l6psMg-1; Tue, 12 Nov 2019 01:43:47 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5283A100550E;
- Tue, 12 Nov 2019 06:43:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB3D81800D7A;
+ Tue, 12 Nov 2019 06:43:46 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-124.ams2.redhat.com
  [10.36.116.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 461011B42C;
- Tue, 12 Nov 2019 06:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A03325DDA8;
+ Tue, 12 Nov 2019 06:43:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/6] tests/migration: Print some debug on bad status
-Date: Tue, 12 Nov 2019 07:43:30 +0100
-Message-Id: <20191112064332.5074-5-thuth@redhat.com>
+Subject: [PULL 5/6] configure: Only decompress EDK2 blobs for X86/ARM targets
+Date: Tue, 12 Nov 2019 07:43:31 +0100
+Message-Id: <20191112064332.5074-6-thuth@redhat.com>
 In-Reply-To: <20191112064332.5074-1-thuth@redhat.com>
 References: <20191112064332.5074-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 6atOdEtbNr-4cCyX4uocuQ-1
+X-MC-Unique: uGhUem4oMCKXGl35l6psMg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,45 +77,78 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-We're seeing occasional asserts in 'wait_for_migraiton_fail', that
-I can't reliably reproduce, and where the cores don't have any useful
-state.  Print the 'status' out, so we can see which unexpected state
-we're ending up in.
+The EDK2 firmware blobs only target the X86/ARM architectures.
+Define the DECOMPRESS_EDK2_BLOBS variable and only decompress
+the blobs when the variable exists.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20191108104307.125020-1-dgilbert@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+See also: 536d2173b2b ("roms: build edk2 firmware binaries ...")
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20191108114531.21518-2-philmd@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/migration-test.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ Makefile  |  2 ++
+ configure | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index 59f291c654..ac780dffda 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -899,8 +899,13 @@ static void wait_for_migration_fail(QTestState *from, =
-bool allow_active)
+diff --git a/Makefile b/Makefile
+index aa9d1a42aa..3430eca532 100644
+--- a/Makefile
++++ b/Makefile
+@@ -480,7 +480,9 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
++ifdef DECOMPRESS_EDK2_BLOBS
+ $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
++endif
 =20
-     do {
-         status =3D migrate_query_status(from);
--        g_assert(!strcmp(status, "setup") || !strcmp(status, "failed") ||
--                 (allow_active && !strcmp(status, "active")));
-+        bool result =3D !strcmp(status, "setup") || !strcmp(status, "faile=
-d") ||
-+                 (allow_active && !strcmp(status, "active"));
-+        if (!result) {
-+            fprintf(stderr, "%s: unexpected status status=3D%s allow_activ=
-e=3D%d\n",
-+                    __func__, status, allow_active);
-+        }
-+        g_assert(result);
-         failed =3D !strcmp(status, "failed");
-         g_free(status);
-     } while (!failed);
+ .PHONY: $(TARGET_DIRS_RULES)
+ # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
+diff --git a/configure b/configure
+index efe165edf9..9b322284c3 100755
+--- a/configure
++++ b/configure
+@@ -427,6 +427,7 @@ softmmu=3D"yes"
+ linux_user=3D"no"
+ bsd_user=3D"no"
+ blobs=3D"yes"
++edk2_blobs=3D"no"
+ pkgversion=3D""
+ pie=3D""
+ qom_cast_debug=3D"yes"
+@@ -2146,6 +2147,14 @@ case " $target_list " in
+   ;;
+ esac
+=20
++for target in $target_list; do
++  case "$target" in
++    arm-softmmu | aarch64-softmmu | i386-softmmu | x86_64-softmmu)
++      edk2_blobs=3D"yes"
++      ;;
++  esac
++done
++
+ feature_not_found() {
+   feature=3D$1
+   remedy=3D$2
+@@ -7526,6 +7535,10 @@ if test "$libudev" !=3D "no"; then
+     echo "LIBUDEV_LIBS=3D$libudev_libs" >> $config_host_mak
+ fi
+=20
++if test "$edk2_blobs" =3D "yes" ; then
++  echo "DECOMPRESS_EDK2_BLOBS=3Dy" >> $config_host_mak
++fi
++
+ # use included Linux headers
+ if test "$linux" =3D "yes" ; then
+   mkdir -p linux-headers
 --=20
 2.23.0
 
