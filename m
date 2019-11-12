@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454D0F95BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:36:18 +0100 (CET)
-Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFDDF95D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:41:58 +0100 (CET)
+Received: from localhost ([::1]:37484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUZ9M-0003ea-RR
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:36:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1iUZEq-0005U7-Qf
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:41:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iUZ7m-00035I-NV
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:39 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUZDs-0004dm-Rn
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:40:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iUZ7j-0005iU-RR
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43804
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iUZ7j-0005iJ-O7
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573576475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=b3SMrYxnvckf37Kdq1BzVr9OthfuhBasECOwaXNmd50=;
- b=I84Xr5YiLXyK3+l1INbC/kQRsijP40Uc49o5nRvKszyzbD2pP0qgI6Qy2m95DFMGqZXZVv
- oQJBMEzNq4VgTIcPPFpR4seKy1rmrsYaKF3h2LFnKFh3i9KGGIsbnHgHz4IyLTNxi4Voi4
- O539oMAbODrkbOFTM7qb0PJaBXqHEsQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-sZzqbAD_PHyinUmjQtO5Ag-1; Tue, 12 Nov 2019 11:34:32 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A55B107AD44;
- Tue, 12 Nov 2019 16:34:31 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 357381B477;
- Tue, 12 Nov 2019 16:34:23 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iUZDr-00006Q-K0
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:40:56 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54593)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iUZDr-000054-Bh
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:40:55 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id z26so3937794wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:40:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wlus6Qg23tyZnoYcyHUr7C2nwAGT3Mafjeo+ShDKaLw=;
+ b=K/uWUvsOfzKBzR4D1bqAoqKp+MXEVSAzJCF23+wDhSnCdmzZAz9unEdauj2OcLws4T
+ 90bZOjn3jnGHxe7x5kNZMOtiRchRf4QR2wa9h4tzSYtg5wGjUSrlctdyxTo/c2Czc4OB
+ 7DVA5z9FMeRVWO8zww5K6vnRR7Gt21tUi+qFZuYpn5V6mLNxusczkWFbyFqGBmWK8xx+
+ WaL0zyEatEgViDMkDgUpL5XbCcSjK/tAqKlxQ2BmU2XO398glszYZKhG4yw583XZM+1s
+ Fe07/IcO+kgsC+0h9hMd+0pMFt/FHRiyy/AE4cT1mLvui0UMTM03jQ0bb4chkilM7Djn
+ 5i/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wlus6Qg23tyZnoYcyHUr7C2nwAGT3Mafjeo+ShDKaLw=;
+ b=h3a3DoCJNI+uNST5jxeUlEWww5RTTYfsYpO8T6TYFue15q7MlidGR+73KbtQ1fpszx
+ RCGQT/IUU4zTPnyIsKMidwH+SiOG3VB/jFBnZfaKpMycCcIbb1/W3dkHfw84w9G+Yl2G
+ Fz+wn7K0zBbrdUAk+2JAfM1HVGjkb6YI1fYdcqHSJkImSBA93ekec5/5BrXcNaQIeHm6
+ ixUyn7LEfw5603y3qT/MB6zZWSXfMCUQNC+uv7XPc/SSR03A/UFSsTU6wlyO1MEF73+e
+ HI2jK+v9Zto4jMf5ClWlpLNmMqHpnP0EUPCOvAQsPIUiaDWl7CXEhPzsMJ0YqkXgFtqT
+ dloQ==
+X-Gm-Message-State: APjAAAW+aCFIevnoQovaBUQJ78Zj8XiZGPYGYo7FKQavGnIJPHnsSiKS
+ xn39j9R0QqZYpaCx1AFrMF7W/Q==
+X-Google-Smtp-Source: APXvYqw90amr30Rv1K/sZ8DZ/f7eT6ySSLzUq7YyhRmzKNZssIk1Quvw57VxojNQuiu8hqlhTWeMCQ==
+X-Received: by 2002:a7b:c18c:: with SMTP id y12mr3081061wmi.145.1573576853587; 
+ Tue, 12 Nov 2019 08:40:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d202sm3672098wmd.47.2019.11.12.08.40.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 08:40:52 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 854741FF87;
+ Tue, 12 Nov 2019 16:40:51 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] microvm: fix memory leak in microvm_fix_kernel_cmdline
-Date: Tue, 12 Nov 2019 17:34:23 +0100
-Message-Id: <20191112163423.91884-1-slp@redhat.com>
+Subject: [PATCH  v1 0/2] TCG plugin doc updates
+Date: Tue, 12 Nov 2019 16:40:49 +0000
+Message-Id: <20191112164051.16404-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: sZzqbAD_PHyinUmjQtO5Ag-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,40 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In microvm_fix_kernel_cmdline(), fw_cfg_modify_string() is duplicating
-cmdline instead of taking ownership of it. Free it afterwards to avoid
-leaking it.
+Hi,
 
-Reported-by: Coverity (CID 1407218)
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- hw/i386/microvm.c | 2 ++
- 1 file changed, 2 insertions(+)
+A few minor tweaks to the TCG plugin documentation.
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 8aacd6c8d1..def37e60f7 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -331,6 +331,8 @@ static void microvm_fix_kernel_cmdline(MachineState *ma=
-chine)
-=20
-     fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) =
-+ 1);
-     fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
-+
-+    g_free(cmdline);
- }
-=20
- static void microvm_machine_state_init(MachineState *machine)
---=20
-2.23.0
+Alex Bennée (2):
+  docs/devel: rename plugins.rst to tcg-plugins.rst
+  docs/devel: update tcg-plugins.rst with API versioning details
+
+ MAINTAINERS                                 |  1 +
+ docs/devel/{plugins.rst => tcg-plugins.rst} | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
+ rename docs/devel/{plugins.rst => tcg-plugins.rst} (87%)
+
+-- 
+2.20.1
 
 
