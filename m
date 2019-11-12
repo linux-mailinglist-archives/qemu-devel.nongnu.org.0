@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77FCF9377
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:59:55 +0100 (CET)
-Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26609F936E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:57:00 +0100 (CET)
+Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUXe6-0003xj-Pg
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59785)
+	id 1iUXbH-0001Lu-6P
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:56:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUXVD-0003ZW-W8
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:45 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iUXXa-0006TA-7K
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:53:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUXVC-00037p-8J
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:43 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39964)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUXVC-00036t-1a
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:42 -0500
-Received: by mail-wr1-x436.google.com with SMTP id i10so18836240wrs.7
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 06:50:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gqg0+V7qSEz/6ZJOKa53BGZgGZ5jVCsKocXvLtTyKDM=;
- b=cGi/Yk2CehzucHabB93Ij5kZCzQJ+6MYYNgNxLnbbXlH1Xas/XnGWoNE1xyU4B47Yu
- jQF7Flaw8Fo+yemlkVPYqChTV3FQ2ESyGiYRSjhUoQX2TUJDJItAqzkbJij2i2KBn7Or
- V5XW8EGDij7u/M56tYBlsGkUNsx3XF7mzuGUkFWlme1Z8pMPwJVQIR6KWCGWbrWAbWmT
- 1jbx5pr3Y1m900INehVbJT+/cgakEEKyfyjhdKiK25kw7kY1cPGmzvyV5wLVlYNJzoDI
- A9TpjVMeEgUm6Xw7dI0btutPKNJGDsP/tiJN6wctHaXNC1QQ7Qx6yqVVct364PABxGTO
- AXxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gqg0+V7qSEz/6ZJOKa53BGZgGZ5jVCsKocXvLtTyKDM=;
- b=M7CfognzxmkuaSaaDXTUbJxabheJXP1csQ1WAmjfaC3qNtI18wbJc1EwRNygA3snGr
- XzI7xdgTKu1UkvSnMIIA1jP486CF/rh54OTs2FweNBPia4UTwkHGYXIyIoYTPz9UNxI9
- u/3WgyoZQLpjh6ZemhvkX6E0X76KqMb0MhAq8MqIQGz14dyOzzeGYbZzxMc1KTEP0Tqo
- lVBP5NRFpt163fTmy9eL390sAedLmd0Fo34sktNAIjiUIQVIdP+jusPmbogJuGxVu+dl
- GyMXRehkdBkVIzVSWG/1WuQE7XgDun1mde1vaIFR5w3ky+aX9RyFKi+YArRPq6bVhgtK
- W0iQ==
-X-Gm-Message-State: APjAAAUQ5/nnqnSKqbNnplCH6oB6QieqUzLX1yjQpIKLLvQxbZkW80Bh
- HK+40PokclhHMXvsOYvaFEO3Aw==
-X-Google-Smtp-Source: APXvYqyLkFDqbq2jQ5vwURIek2epGpQi4W7lxvxMj1miwXOuKYGv3K/jGwnFtlR7eSIunSSIG5iglw==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr21423502wrb.92.1573570240901; 
- Tue, 12 Nov 2019 06:50:40 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l4sm3185204wme.4.2019.11.12.06.50.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 06:50:35 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C31801FF98;
- Tue, 12 Nov 2019 14:50:29 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 8/8] tcg plugins: expose an API version concept
-Date: Tue, 12 Nov 2019 14:50:28 +0000
-Message-Id: <20191112145028.26386-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191112145028.26386-1-alex.bennee@linaro.org>
-References: <20191112145028.26386-1-alex.bennee@linaro.org>
+ (envelope-from <imammedo@redhat.com>) id 1iUXXY-0004M1-4p
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:53:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29987
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iUXXX-0004LR-KA
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:53:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573570386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tPTS6mLbTN7tU940wnGTobkD2V7rdyFvf0zuWM59LE8=;
+ b=TC8QBphrc4MNBqq6CvetTPDuIn87NT/4CPl+gsDfHbZzf7I3DAia3XFUrMs/qAv/BSZBV8
+ opnWoxWqg58CNpFzDTbk+pKmf18Nq+92qGBu8H8sjgg9lBV7maUkS3ZMGk8iJl+QvR7FKk
+ b7kKqra63eeLtHgq/hQwfHnkwMxxe/k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-5urAgn5-O2W-hbbjGpxvpA-1; Tue, 12 Nov 2019 09:53:03 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BB51107ACCD;
+ Tue, 12 Nov 2019 14:53:02 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B924610E5;
+ Tue, 12 Nov 2019 14:52:55 +0000 (UTC)
+Date: Tue, 12 Nov 2019 15:52:53 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [RFC v2 14/14] virt/acpi: add SDEI table if SDEI is enabled
+Message-ID: <20191112155253.543e15ad@redhat.com>
+In-Reply-To: <20191105091056.9541-15-guoheyi@huawei.com>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+ <20191105091056.9541-15-guoheyi@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 5urAgn5-O2W-hbbjGpxvpA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,199 +71,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Robert Foley <robert.foley@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, James Morse <james.morse@arm.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a very simple versioning API which allows the plugin
-infrastructure to check the API a plugin was built against. We also
-expose a min/cur API version to the plugin via the info block in case
-it wants to avoid using old deprecated APIs in the future.
+On Tue, 5 Nov 2019 17:10:56 +0800
+Heyi Guo <guoheyi@huawei.com> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+> Add SDEI table if SDEI is enabled, so that guest OS can get aware and
+> utilize the interfaces.
+>=20
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Dave Martin <Dave.Martin@arm.com>
+> Cc: Marc Zyngier <marc.zyngier@arm.com>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> ---
+>=20
+> Notes:
+>     v2:
+>     - Drop SDEI table definition and add comments
+>=20
+>  hw/arm/virt-acpi-build.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 4cd50175e0..73d3f8cd15 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -32,6 +32,7 @@
+>  #include "trace.h"
+>  #include "hw/core/cpu.h"
+>  #include "target/arm/cpu.h"
+> +#include "target/arm/sdei.h"
+>  #include "hw/acpi/acpi-defs.h"
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/nvram/fw_cfg.h"
+> @@ -475,6 +476,26 @@ build_iort(GArray *table_data, BIOSLinker *linker, V=
+irtMachineState *vms)
+>                   "IORT", table_data->len - iort_start, 0, NULL, NULL);
+>  }
+> =20
+> +/*
+> + * ACPI spec 6.2 Software Delegated Exception Interface (SDEI).
+> + * (Revision 1.0)
+> + * "SDEI" was reserved in ACPI 6.2. See "Links to ACPI-Related Documents=
+"
+> + * (http://uefi.org/acpi) under the heading "Software
+> + * Delegated Exceptions Interface." The definition is under
+> + * "10 Appendix C: ACPI table definitions for SDEI" in the linked docume=
+nt.
+> + *
+> + * This is a dummy table to expose platform SDEI capbility to OS.
+> + */
+> +static void
+> +build_sdei(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms=
+)
+> +{
+> +    int sdei_start =3D table_data->len;
+> +
+> +    (void)acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +    build_header(linker, table_data, (void *)(table_data->data + sdei_st=
+art),
+> +                 "SDEI", table_data->len - sdei_start, 1, NULL, NULL);
+> +}
+> +
+>  static void
+>  build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms=
+)
+>  {
+> @@ -825,6 +846,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuil=
+dTables *tables)
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_spcr(tables_blob, tables->linker, vms);
+> =20
+> +    if (sdei_enabled) {
+globals shouldn't be introduced in new code
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index a00a7deb461..5502e112c81 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -38,9 +38,28 @@
- 
- typedef uint64_t qemu_plugin_id_t;
- 
-+/*
-+ * Versioning plugins:
-+ *
-+ * The plugin API will pass a minimum and current API version that
-+ * QEMU currently supports. The minimum API will be incremented if an
-+ * API needs to be deprecated.
-+ *
-+ * The plugins export the API they were built against by exposing the
-+ * symbol qemu_plugin_version which can be checked.
-+ */
-+
-+extern QEMU_PLUGIN_EXPORT int qemu_plugin_version;
-+
-+#define QEMU_PLUGIN_VERSION 0
-+
- typedef struct {
-     /* string describing architecture */
-     const char *target_name;
-+    struct {
-+        int min;
-+        int cur;
-+    } version;
-     /* is this a full system emulation? */
-     bool system_emulation;
-     union {
-diff --git a/plugins/loader.c b/plugins/loader.c
-index ce724ed5839..15fc7e55156 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -178,6 +178,25 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
-         goto err_symbol;
-     }
- 
-+    if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
-+        error_report("TCG plugin %s does not declare API version %s",
-+                     desc->path, g_module_error());
-+        goto err_symbol;
-+    } else {
-+        int version = *(int *)sym;
-+        if (version < QEMU_PLUGIN_MIN_VERSION) {
-+            error_report("TCG plugin %s requires API version %d, but "
-+                         "this QEMU supports only a minimum version of %d",
-+                         desc->path, version, QEMU_PLUGIN_MIN_VERSION);
-+            goto err_symbol;
-+        } else if (version > QEMU_PLUGIN_VERSION) {
-+            error_report("TCG plugin %s requires API version %d, but "
-+                         "this QEMU supports only up to version %d",
-+                         desc->path, version, QEMU_PLUGIN_VERSION);
-+            goto err_symbol;
-+        }
-+    }
-+
-     qemu_rec_mutex_lock(&plugin.lock);
- 
-     /* find an unused random id with &ctx as the seed */
-@@ -248,6 +267,8 @@ int qemu_plugin_load_list(QemuPluginList *head)
-     g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
- 
-     info->target_name = TARGET_NAME;
-+    info->version.min = QEMU_PLUGIN_MIN_VERSION;
-+    info->version.cur = QEMU_PLUGIN_VERSION;
- #ifndef CONFIG_USER_ONLY
-     MachineState *ms = MACHINE(qdev_get_machine());
-     info->system_emulation = true;
-diff --git a/plugins/plugin.h b/plugins/plugin.h
-index 5482168d797..1aa29dcaddf 100644
---- a/plugins/plugin.h
-+++ b/plugins/plugin.h
-@@ -14,6 +14,8 @@
- 
- #include <gmodule.h>
- 
-+#define QEMU_PLUGIN_MIN_VERSION 0
-+
- /* global state */
- struct qemu_plugin_state {
-     QTAILQ_HEAD(, qemu_plugin_ctx) ctxs;
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index 45e1de5bd68..f30bea08dcc 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -14,6 +14,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- static uint64_t bb_count;
- static uint64_t insn_count;
- static bool do_inline;
-diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
-index 3f60f690278..8fa6bacd93d 100644
---- a/tests/plugin/empty.c
-+++ b/tests/plugin/empty.c
-@@ -13,6 +13,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- /*
-  * Empty TB translation callback.
-  * This allows us to measure the overhead of injecting and then
-diff --git a/tests/plugin/hotblocks.c b/tests/plugin/hotblocks.c
-index 1bd183849a1..3942a2ca544 100644
---- a/tests/plugin/hotblocks.c
-+++ b/tests/plugin/hotblocks.c
-@@ -15,6 +15,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- static bool do_inline;
- 
- /* Plugins need to take care of their own locking */
-diff --git a/tests/plugin/hotpages.c b/tests/plugin/hotpages.c
-index 77df07a3ccf..ecd6c187327 100644
---- a/tests/plugin/hotpages.c
-+++ b/tests/plugin/hotpages.c
-@@ -18,6 +18,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
- 
- static uint64_t page_size = 4096;
-diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
-index 58fa675e348..4ca555e1239 100644
---- a/tests/plugin/howvec.c
-+++ b/tests/plugin/howvec.c
-@@ -20,6 +20,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
- 
- typedef enum {
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index e5fd07fb64b..0a8f5a0000e 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -14,6 +14,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- static uint64_t insn_count;
- static bool do_inline;
- 
-diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
-index d9673889896..878abf09d19 100644
---- a/tests/plugin/mem.c
-+++ b/tests/plugin/mem.c
-@@ -14,6 +14,8 @@
- 
- #include <qemu-plugin.h>
- 
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
- static uint64_t mem_count;
- static uint64_t io_count;
- static bool do_inline;
--- 
-2.20.1
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_sdei(tables_blob, tables->linker, vms);
+> +    }
+> +
+>      if (ms->numa_state->num_nodes > 0) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_srat(tables_blob, tables->linker, vms);
 
 
