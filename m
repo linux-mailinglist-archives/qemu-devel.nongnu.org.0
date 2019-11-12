@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C3BF8C8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 11:12:43 +0100 (CET)
-Received: from localhost ([::1]:32958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C0FF8CBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 11:21:27 +0100 (CET)
+Received: from localhost ([::1]:33070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUTAA-0003hD-AN
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 05:12:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54639)
+	id 1iUTIc-0008Hj-9z
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 05:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUT92-00030t-T2
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:11:34 -0500
+ (envelope-from <bounces@canonical.com>) id 1iUTHr-0007rl-AF
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:20:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUT91-00066S-Jr
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:11:32 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45738)
+ (envelope-from <bounces@canonical.com>) id 1iUTHq-000549-0y
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:20:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52064)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUT91-00065y-Df
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:11:31 -0500
-Received: by mail-ot1-x344.google.com with SMTP id r24so13786067otk.12
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 02:11:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mcex5tKYR5kzchIuDH/dGD55kEemk/iIXwnLCDeRETo=;
- b=GXKcKWENluTlcfZ3RY48ui1MgE00FdZut7YQOYO7G/rUFPjqh4ruNImrR23OBV/Soy
- vmQbFsmiqm63ROWqBFMSUycz6o8L1O6mMGa1mj37++iuTYDmJxq9D9Oz+WX/7hQEvsUw
- u6MhdtzbKxcPObRbAfPp8hDBpGFF4QuAj695e79UvkAxQGg/zPA5QPJdvtLNZBoUCgn8
- eO+uXLmdN1J9+j2ekjtzSRnntKLAA4kbI8WglbhMMqyRChqp/unImcMiXAEdOUclxw7S
- TSykqSJw2uP16rWI8ANxL78TKQArB6uLiRw1B+WNbF31ROCKE8L9BIJzg6D+5wajZFrU
- jCAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mcex5tKYR5kzchIuDH/dGD55kEemk/iIXwnLCDeRETo=;
- b=Vxip9KslgJqKK8nHbnVpu80YwhI96hwr6c5iQWCYIZfNCL5K7tqKNKqFSNaSTgaStn
- ZB550Rj7zRNgajpxUCLQuqFjU0N2k6szLP/QwS3lULPPe5vIeBS//+NTSsMN7q84l6lr
- D3JR0AztT+oZYGA53mTMwW5hqHakKY7FZdKeQ5KdQLJ71lsg3/YLFfy+7MYpL6neIebl
- 03Z2w71Xuy5TJd0AKdjbgtFODENzpGJMC9Wmlml+kSdG1YnrJV0lYBTbH7Uv2DuBqe6w
- vj3/DWNoCTFJzVXjv1NHEqNqTs5xbwmeQMOYMzkAIwBoNraFUldmiWZlm/mIrDW8sYWE
- YjOg==
-X-Gm-Message-State: APjAAAVWiwsDvrZZdUR2mjbxNByXLtKjj6kuWXe7pFvilgx81LV/b4cq
- 4bz7XdC3+3UEwLEGIPnoG+HL7ZhOILCAbPw1qTwCug==
-X-Google-Smtp-Source: APXvYqwRebUTxYY5thVFoDR1BmPwG2vJ7lg1ITZueVio8cgV6+ut4gsC/nbjdPYzw0u1NU8ksz5gAhHK0IJJ5IeZZpU=
-X-Received: by 2002:a9d:7ac2:: with SMTP id m2mr14930216otn.135.1573553490290; 
- Tue, 12 Nov 2019 02:11:30 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iUTHp-00053W-Qz
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 05:20:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iUTHn-00050F-UA
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 10:20:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DD30E2E80C0
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 10:20:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191106130456.6176-1-laurent@vivier.eu>
- <20191106130456.6176-2-laurent@vivier.eu>
-In-Reply-To: <20191106130456.6176-2-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Nov 2019 10:11:19 +0000
-Message-ID: <CAFEAcA-fTQzYjDtHRzghwA6EAREN=m=JixWJzOMkBc7ZPDmp_g@mail.gmail.com>
-Subject: Re: [PULL v2 01/13] linux-user: Support for NETLINK socket options
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Nov 2019 10:12:12 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+Message-Id: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
+Subject: [Bug 1852196] [NEW] update edk2 submodule & binaries to
+ edk2-stable201911
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5d59ca94ec0a1fb290c48770f2fb241fa11155ec
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,157 +67,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Josh Kunz <jkz@google.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Nov 2019 at 13:07, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> From: Josh Kunz <jkz@google.com>
->
-> This change includes support for all AF_NETLINK socket options up to about
-> kernel version 5.4 (5.4 is not formally released at the time of writing).
-> Socket options that were introduced in kernel versions before the oldest
-> currently stable kernel version are guarded by kernel version macros.
->
-> This change has been built under gcc 8.3, and clang 9.0, and it passes
-> `make check`. The netlink options have been tested by emulating some
-> non-trival software that uses NETLINK socket options, but they have
-> not been exaustively verified.
+Public bug reported:
 
-Hi; Coverity reports a missing-break-in-switch error for
-this commit (CID 1407221):
+edk2-stable201911 will be tagged soon:
 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f6751eecb78c..247883292ce5 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -2248,6 +2248,39 @@ set_timeout:
->              return -TARGET_EFAULT;
->         ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname, &val, sizeof(val)));
->          break;
-> +#ifdef SOL_NETLINK
-> +    case SOL_NETLINK:
-> +        switch (optname) {
-> +        case NETLINK_PKTINFO:
-> +        case NETLINK_ADD_MEMBERSHIP:
-> +        case NETLINK_DROP_MEMBERSHIP:
-> +        case NETLINK_BROADCAST_ERROR:
-> +        case NETLINK_NO_ENOBUFS:
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-> +        case NETLINK_LISTEN_ALL_NSID:
-> +        case NETLINK_CAP_ACK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
-> +        case NETLINK_EXT_ACK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
-> +        case NETLINK_GET_STRICT_CHK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +            break;
-> +        default:
-> +            goto unimplemented;
-> +        }
-> +        val = 0;
-> +        if (optlen < sizeof(uint32_t)) {
-> +            return -TARGET_EINVAL;
-> +        }
-> +        if (get_user_u32(val, optval_addr)) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +        ret = get_errno(setsockopt(sockfd, SOL_NETLINK, optname, &val,
-> +                                   sizeof(val)));
-> +        break;
-> +#endif /* SOL_NETLINK */
->      default:
->      unimplemented:
->          gemu_log("Unsupported setsockopt level=%d optname=%d\n", level, optname);
-> @@ -2532,6 +2565,74 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
->              break;
->          }
->          break;
-> +#ifdef SOL_NETLINK
-> +    case SOL_NETLINK:
-> +        switch (optname) {
-> +        case NETLINK_PKTINFO:
-> +        case NETLINK_BROADCAST_ERROR:
-> +        case NETLINK_NO_ENOBUFS:
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-> +        case NETLINK_LISTEN_ALL_NSID:
-> +        case NETLINK_CAP_ACK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
-> +        case NETLINK_EXT_ACK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
-> +        case NETLINK_GET_STRICT_CHK:
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +            if (get_user_u32(len, optlen)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            if (len != sizeof(val)) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +            lv = len;
-> +            ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
-> +            if (ret < 0) {
-> +                return ret;
-> +            }
-> +            if (put_user_u32(lv, optlen)
-> +                || put_user_u32(val, optval_addr)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            break;
-> +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
-> +        case NETLINK_LIST_MEMBERSHIPS:
-> +        {
-> +            uint32_t *results;
-> +            int i;
-> +            if (get_user_u32(len, optlen)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            if (len < 0) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +            results = lock_user(VERIFY_WRITE, optval_addr, len, 1);
-> +            if (!results) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            lv = len;
-> +            ret = get_errno(getsockopt(sockfd, level, optname, results, &lv));
-> +            if (ret < 0) {
-> +                unlock_user(results, optval_addr, 0);
-> +                return ret;
-> +            }
-> +            /* swap host endianess to target endianess. */
-> +            for (i = 0; i < (len / sizeof(uint32_t)); i++) {
-> +                results[i] = tswap32(results[i]);
-> +            }
-> +            if (put_user_u32(lv, optlen)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            unlock_user(results, optval_addr, 0);
-> +            break;
-> +        }
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-> +        default:
-> +            goto unimplemented;
-> +        }
-> +#endif /* SOL_NETLINK */
+  https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-Release-
+Planning
 
-Here at the end of the 'case SOL_NETLINK' we will just
-fall straight through into 'default:'. Missing 'break' ?
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
+  [upcoming link]
 
->      default:
->      unimplemented:
->          gemu_log("getsockopt level=%d optname=%d not yet supported\n",
-> --
-> 2.21.0
+It should be picked up by QEMU, after the v4.2.0 release.
 
-thanks
--- PMM
+Relevant fixes / features in edk2, since edk2-stable201905 (which is
+what QEMU bundles at the moment, from LP#1831477):
+
+- enable UEFI HTTPS Boot in ArmVirtQemu* platforms
+  https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
+  (this is from edk2-stable201908)
+
+- fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
+  https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
+
+- consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
+  CVE-2019-1563
+  https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
+
+** Affects: qemu
+     Importance: Undecided
+     Assignee: Laszlo Ersek (Red Hat) (lersek)
+         Status: New
+
+
+** Tags: feature-request
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Laszlo Ersek (Red Hat) (lersek)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852196
+
+Title:
+  update edk2 submodule & binaries to edk2-stable201911
+
+Status in QEMU:
+  New
+
+Bug description:
+  edk2-stable201911 will be tagged soon:
+
+    https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-
+  Release-Planning
+
+    https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
+    [upcoming link]
+
+  It should be picked up by QEMU, after the v4.2.0 release.
+
+  Relevant fixes / features in edk2, since edk2-stable201905 (which is
+  what QEMU bundles at the moment, from LP#1831477):
+
+  - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
+    (this is from edk2-stable201908)
+
+  - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
+
+  - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
+    CVE-2019-1563
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
