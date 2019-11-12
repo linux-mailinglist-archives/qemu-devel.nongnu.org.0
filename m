@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9850BF97A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:52:17 +0100 (CET)
-Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C2AF97A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:53:44 +0100 (CET)
+Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUaKu-0000WK-Ep
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:52:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34612)
+	id 1iUaMJ-0002y9-5p
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:53:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34636)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1iUa90-0002X6-FH
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:59 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa98-0002kn-Fc
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:40:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1iUa8z-0005zh-Co
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:58 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:16183)
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa97-00061C-1Y
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:40:06 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8134)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1iUa8z-0005zF-3d
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:57 -0500
+ id 1iUa96-00060t-MK
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:40:04 -0500
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dcaed3f0000>; Tue, 12 Nov 2019 09:34:55 -0800
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dcaed0e0001>; Tue, 12 Nov 2019 09:34:06 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 12 Nov 2019 09:34:55 -0800
+ Tue, 12 Nov 2019 09:35:02 -0800
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 12 Nov 2019 09:34:55 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
- 2019 17:34:55 +0000
+ by hqpgpgate101.nvidia.com on Tue, 12 Nov 2019 09:35:02 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 17:35:02 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 12 Nov 2019 17:34:49 +0000
+ Transport; Tue, 12 Nov 2019 17:34:55 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v9 QEMU 05/15] vfio: Add vfio_get_object callback to
- VFIODeviceOps
-Date: Tue, 12 Nov 2019 22:35:14 +0530
-Message-ID: <1573578324-8389-6-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v9 QEMU 06/15] vfio: Add save and load functions for VFIO PCI
+ devices
+Date: Tue, 12 Nov 2019 22:35:15 +0530
+Message-ID: <1573578324-8389-7-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1573578324-8389-1-git-send-email-kwankhede@nvidia.com>
 References: <1573578324-8389-1-git-send-email-kwankhede@nvidia.com>
@@ -48,18 +48,18 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1573580095; bh=TTCF9JP2KSvdsuWyKRFZPrDwk5R7QtPFd0H35Nr6Flk=;
+ t=1573580046; bh=j4/KvWgLLxkgeWa9pGzSN7ktFdT2r2sBXWZ7jLbIoY8=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=jRM1BCelM03RGz6QQa00wIgX4pusRbrBsdyWHLuRY0Gu/JCXQ3AD6DsG1HYVo4zVq
- Y9pw2THWuFWIUYsHNsF5t+IPwZgTzvAJm3WU0Oh7tQjJQVhRh2HoPq6nya4p/GXR95
- zs3LVVgx+fHZwrgo68w8flmiU2WtZdrQtKmDLh18y1KFzd+mLBbBGpLe26kvsSk2jV
- 5wlFutEZpf+5GYuQi0P2WtJpp3IefSO8eteOKs//5IBvBnLztZ6hf1DedcOdEP1ZaC
- HSbmIC1VXlF6B7mcF/e9eOlNIlv1FPj8Pso31p7OQ5+MgsbrxrjhIkDTT4/nAtXcDn
- /jLT+J5n3njqw==
+ b=DD25NvJfP8Q6fl6uEGc8j74XzaUCe75QkgS6B/cCjuo21XOtnCdkCnyFGfFPcqPXY
+ 8qhEpWLAH1yDMggr2Dn2NL3SsNGoWWb2LGw8qey6DgLI+3Au86tVb4OdopZSZMH8oF
+ dtw6pWwwDRuL8mNxRWE2ekbhXcL/E9e77RZHtPab0361sSfnFbHB3yIW3g85tn9vXm
+ CYAbPGzK3TU8TL8KXt9sMSH6vC20CxOreZNQlO8p3MK56qEmzrT/UMeWIO2yWdkEXW
+ 5zV6yic9UkCY+QPJ8HTVevPWjShcTMStmajTRchNu8U9QaXyTUF4caNgfWznCb/s7Y
+ uMvpJCc71SVIw==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.64
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,49 +81,225 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hook vfio_get_object callback for PCI devices.
+These functions save and restore PCI device specific data - config
+space of PCI device.
+Tested save and restore with MSI and MSIX type.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/pci.c                 | 8 ++++++++
- include/hw/vfio/vfio-common.h | 1 +
- 2 files changed, 9 insertions(+)
+ hw/vfio/pci.c                 | 168 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |   2 +
+ 2 files changed, 170 insertions(+)
 
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index e6569a796850..4ae02e71622a 100644
+index 4ae02e71622a..2c22cca0c3be 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -2395,10 +2395,18 @@ static void vfio_pci_compute_needs_reset(VFIODevice *vbasedev)
+@@ -41,6 +41,7 @@
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
++#include "migration/qemu-file.h"
+ 
+ #define TYPE_VFIO_PCI "vfio-pci"
+ #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+@@ -1620,6 +1621,55 @@ static void vfio_bars_prepare(VFIOPCIDevice *vdev)
      }
  }
  
-+static Object *vfio_pci_get_object(VFIODevice *vbasedev)
++static int vfio_bar_validate(VFIOPCIDevice *vdev, int nr)
++{
++    PCIDevice *pdev = &vdev->pdev;
++    VFIOBAR *bar = &vdev->bars[nr];
++    uint64_t addr;
++    uint32_t addr_lo, addr_hi = 0;
++
++    /* Skip unimplemented BARs and the upper half of 64bit BARS. */
++    if (!bar->size) {
++        return 0;
++    }
++
++    /* skip IO BAR */
++    if (bar->ioport) {
++        return 0;
++    }
++
++    addr_lo = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + nr * 4, 4);
++
++    addr_lo = addr_lo & (bar->ioport ? PCI_BASE_ADDRESS_IO_MASK :
++                                       PCI_BASE_ADDRESS_MEM_MASK);
++    if (bar->type == PCI_BASE_ADDRESS_MEM_TYPE_64) {
++        addr_hi = pci_default_read_config(pdev,
++                                         PCI_BASE_ADDRESS_0 + (nr + 1) * 4, 4);
++    }
++
++    addr = ((uint64_t)addr_hi << 32) | addr_lo;
++
++    if (!QEMU_IS_ALIGNED(addr, bar->size)) {
++        return -EINVAL;
++    }
++
++    return 0;
++}
++
++static int vfio_bars_validate(VFIOPCIDevice *vdev)
++{
++    int i, ret;
++
++    for (i = 0; i < PCI_ROM_SLOT; i++) {
++        ret = vfio_bar_validate(vdev, i);
++        if (ret) {
++            error_report("vfio: BAR address %d validation failed", i);
++            return ret;
++        }
++    }
++    return 0;
++}
++
+ static void vfio_bar_register(VFIOPCIDevice *vdev, int nr)
+ {
+     VFIOBAR *bar = &vdev->bars[nr];
+@@ -2402,11 +2452,129 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
+     return OBJECT(vdev);
+ }
+ 
++static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
 +{
 +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++    PCIDevice *pdev = &vdev->pdev;
++    uint16_t pci_cmd;
++    int i;
 +
-+    return OBJECT(vdev);
++    for (i = 0; i < PCI_ROM_SLOT; i++) {
++        uint32_t bar;
++
++        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
++        qemu_put_be32(f, bar);
++    }
++
++    qemu_put_be32(f, vdev->interrupt);
++    if (vdev->interrupt == VFIO_INT_MSI) {
++        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
++        bool msi_64bit;
++
++        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
++                                            2);
++        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
++
++        msi_addr_lo = pci_default_read_config(pdev,
++                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
++        qemu_put_be32(f, msi_addr_lo);
++
++        if (msi_64bit) {
++            msi_addr_hi = pci_default_read_config(pdev,
++                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
++                                             4);
++        }
++        qemu_put_be32(f, msi_addr_hi);
++
++        msi_data = pci_default_read_config(pdev,
++                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
++                2);
++        qemu_put_be32(f, msi_data);
++    } else if (vdev->interrupt == VFIO_INT_MSIX) {
++        uint16_t offset;
++
++        /* save enable bit and maskall bit */
++        offset = pci_default_read_config(pdev,
++                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
++        qemu_put_be16(f, offset);
++        msix_save(pdev, f);
++    }
++    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
++    qemu_put_be16(f, pci_cmd);
++}
++
++static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
++{
++    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++    PCIDevice *pdev = &vdev->pdev;
++    uint32_t interrupt_type;
++    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
++    uint16_t pci_cmd;
++    bool msi_64bit;
++    int i, ret;
++
++    /* retore pci bar configuration */
++    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
++    vfio_pci_write_config(pdev, PCI_COMMAND,
++                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
++    for (i = 0; i < PCI_ROM_SLOT; i++) {
++        uint32_t bar = qemu_get_be32(f);
++
++        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
++    }
++
++    ret = vfio_bars_validate(vdev);
++    if (ret) {
++        return ret;
++    }
++
++    interrupt_type = qemu_get_be32(f);
++
++    if (interrupt_type == VFIO_INT_MSI) {
++        /* restore msi configuration */
++        msi_flags = pci_default_read_config(pdev,
++                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
++        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
++
++        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
++                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
++
++        msi_addr_lo = qemu_get_be32(f);
++        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
++                              msi_addr_lo, 4);
++
++        msi_addr_hi = qemu_get_be32(f);
++        if (msi_64bit) {
++            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
++                                  msi_addr_hi, 4);
++        }
++        msi_data = qemu_get_be32(f);
++        vfio_pci_write_config(pdev,
++                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
++                msi_data, 2);
++
++        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
++                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
++    } else if (interrupt_type == VFIO_INT_MSIX) {
++        uint16_t offset = qemu_get_be16(f);
++
++        /* load enable bit and maskall bit */
++        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
++                              offset, 2);
++        msix_load(pdev, f);
++    }
++    pci_cmd = qemu_get_be16(f);
++    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
++    return 0;
 +}
 +
  static VFIODeviceOps vfio_pci_ops = {
      .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
      .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
      .vfio_eoi = vfio_intx_eoi,
-+    .vfio_get_object = vfio_pci_get_object,
+     .vfio_get_object = vfio_pci_get_object,
++    .vfio_save_config = vfio_pci_save_config,
++    .vfio_load_config = vfio_pci_load_config,
  };
  
  int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 8d7a0fbb1046..74261feaeac9 100644
+index 74261feaeac9..d69a7f3ae31e 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -119,6 +119,7 @@ struct VFIODeviceOps {
-     void (*vfio_compute_needs_reset)(VFIODevice *vdev);
+@@ -120,6 +120,8 @@ struct VFIODeviceOps {
      int (*vfio_hot_reset_multi)(VFIODevice *vdev);
      void (*vfio_eoi)(VFIODevice *vdev);
-+    Object *(*vfio_get_object)(VFIODevice *vdev);
+     Object *(*vfio_get_object)(VFIODevice *vdev);
++    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
++    int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
  };
  
  typedef struct VFIOGroup {
