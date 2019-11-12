@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C173CF9419
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 16:25:17 +0100 (CET)
-Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F422DF9426
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 16:26:44 +0100 (CET)
+Received: from localhost ([::1]:36606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUY2e-000750-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 10:25:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43575)
+	id 1iUY44-0000iP-0n
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 10:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iUY1d-0006AZ-JQ
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:14 -0500
+ (envelope-from <eblake@redhat.com>) id 1iUY1z-0006fU-2t
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iUY1c-0004vs-Gl
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:13 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46643)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iUY1c-0004vf-CB
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:12 -0500
-Received: by mail-il1-x141.google.com with SMTP id q1so15177513ile.13
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 07:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L852fntP1IyRhNO1sxkOBPKS3vlD7jlzXsaTQ768b/k=;
- b=eXSchAeqF2gAHho/y9bBBrHsTPEtgnouopt56iHXRI/3Aj9hQTEP0w+GIABHBGjav9
- 3QudAdGHXUZDvYaSgvKDMbGlxDyydXMnqEGRKa2b4fnXgj2gc1D3xayD94O5Zunpt+/u
- DIisa5dMepbBnFMhq3BQ8/eC23OgzgF7752hCKE0WScPxAUyR2IP1RuuITFcNfPICfyq
- 3XjAGOn9LiBsToE48xjBAUFhI8zpnIZnMhJbObX01zQg93iX47pLabeEQFqOno7dJh5+
- fW/q0TfpKK+favI1nV3mnSKkBy+tm9EjFp8RJJ3mAr8D4mfWZ5355VQVKmW/KBlfCUxE
- Dttw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L852fntP1IyRhNO1sxkOBPKS3vlD7jlzXsaTQ768b/k=;
- b=Vnvv7twiv7EzgvQXGvhqEy0Y5r4Q0SwvxrVAthoI6e9KDJGy/rKQvCPUU09wzNWVlm
- czYfrX9EWCuEFfcwgu5PpweWtcxKnSNvTWFaw5Wv/ufeE5FhFfB0BjNdQz/hWmxsJlR1
- 8o+gMuS5039qumvHIPB5RliT/IiyHZZtsFjGxOFHmnAug79/jXfqzBr71L/q0DT4xrUd
- eZJ7WluEPNHdM+q1MlpJ/ukwrAQBaC0j5Z/B5Ekska+/knjvrfPaAe6o3VHNoHjRZiDh
- +aiPZ94iTX/H1zddWfz7XVaLPwb0I2r5jBb2yi6r0JnfZ2E6cxijIX9Hp7iLX4UnPR25
- 9T9A==
-X-Gm-Message-State: APjAAAWf6F1YElhp2I3ngvmsbRpXS94vZjs/uEKcsEpRmkt3rH48uvWp
- Lej8b2Weqf9AbCZBnu1y1BDxTuUf4IbdbLxN7teVyQ==
-X-Google-Smtp-Source: APXvYqwM/yVV+zUseQ6b2Ay6caZHRvzsEjdmXRvjoovT196/zioBAx1irbQC8exdjIZl1gIj4I4Bd+ZTbVTeI+wvGdY=
-X-Received: by 2002:a92:4010:: with SMTP id n16mr38755787ila.260.1573572251830; 
- Tue, 12 Nov 2019 07:24:11 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1iUY1w-00051A-BJ
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:33 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34051
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iUY1w-00050z-50
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:24:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573572271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1S5uZn9nVF/MYEDjy+HnQn7FuR6x+DXCDMLzQqeO99U=;
+ b=AA5fH37cjQp+uTPGNHKbR5dlIjiNG0oxj+USKs4ndimXFezckS9hL6n7V21qInjxHNmVAS
+ iIkGqbgxWqChOcOUGUS8psWlghKVN34uj5wefs4Tl52QPmMmvnAxr1Fi2PcQ4l3MusZslR
+ 6kVEwosc1TzKeNDE2KYEM9vgMQ0lHXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-zzZ4Hkj3PSaAgjCwrVN70w-1; Tue, 12 Nov 2019 10:24:29 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36A448FB0C0;
+ Tue, 12 Nov 2019 15:24:28 +0000 (UTC)
+Received: from [10.3.116.242] (ovpn-116-242.phx2.redhat.com [10.3.116.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26C5166834;
+ Tue, 12 Nov 2019 15:24:25 +0000 (UTC)
+Subject: Re: [RFC PATCH] tests/vm: make --interactive (and therefor DEBUG=1)
+ unconditional
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20191112151051.2205-1-alex.bennee@linaro.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4ab19c3c-232e-d92b-e104-5562e9a55e41@redhat.com>
+Date: Tue, 12 Nov 2019 09:24:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191015103900.313928-1-its@irrelevant.dk>
- <20191015103900.313928-20-its@irrelevant.dk>
-In-Reply-To: <20191015103900.313928-20-its@irrelevant.dk>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Tue, 12 Nov 2019 15:24:00 +0000
-Message-ID: <CADSWDzsWWpv64aVJuUUPgu8+DTH8Cs_sRxMqeF6kUb1AicgBvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 19/20] nvme: make lba data size configurable
-To: Klaus Jensen <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::141
+In-Reply-To: <20191112151051.2205-1-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: zzZ4Hkj3PSaAgjCwrVN70w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,77 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Javier Gonzalez <javier@javigon.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <keith.busch@intel.com>, Paul Durrant <Paul.Durrant@citrix.com>,
- Stephen Bates <sbates@raithlin.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Klaus,
+On 11/12/19 9:10 AM, Alex Benn=C3=A9e wrote:
 
-On Tue, 15 Oct 2019 at 11:50, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+In the subject: s/therefor/therefore/
+
+> While the concepts of only dropping to ssh if a test fails is nice it
+
+s/concepts/concept/
+
+> is more useful for this to be unconditional. You usually just want to
+> get the build up and running and then noodle around debugging or
+> attempting to replicate.
+>=20
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  hw/block/nvme-ns.c | 2 +-
->  hw/block/nvme-ns.h | 4 +++-
->  hw/block/nvme.c    | 1 +
->  3 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> index aa76bb63ef45..70ff622a5729 100644
-> --- a/hw/block/nvme-ns.c
-> +++ b/hw/block/nvme-ns.c
-> @@ -18,7 +18,7 @@ static int nvme_ns_init(NvmeNamespace *ns)
->  {
->      NvmeIdNs *id_ns = &ns->id_ns;
->
-> -    id_ns->lbaf[0].ds = BDRV_SECTOR_BITS;
-> +    id_ns->lbaf[0].ds = ns->params.lbads;
->      id_ns->nuse = id_ns->ncap = id_ns->nsze =
->          cpu_to_le64(nvme_ns_nlbas(ns));
->
-> diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
-> index 64dd054cf6a9..aa1c81d85cde 100644
-> --- a/hw/block/nvme-ns.h
-> +++ b/hw/block/nvme-ns.h
-> @@ -6,10 +6,12 @@
->      OBJECT_CHECK(NvmeNamespace, (obj), TYPE_NVME_NS)
->
->  #define DEFINE_NVME_NS_PROPERTIES(_state, _props) \
-> -    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0)
-> +    DEFINE_PROP_UINT32("nsid", _state, _props.nsid, 0), \
-> +    DEFINE_PROP_UINT8("lbads", _state, _props.lbads, 9)
->
-Could we actually use BDRV_SECTOR_BITS instead of magic numbers?
+>   tests/vm/basevm.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+> index 91a9226026d..0b8c1b26576 100755
+> --- a/tests/vm/basevm.py
+> +++ b/tests/vm/basevm.py
+> @@ -403,7 +403,7 @@ def main(vmcls):
+>       exitcode =3D 0
+>       if vm.ssh(*cmd) !=3D 0:
+>           exitcode =3D 3
+> -    if exitcode !=3D 0 and args.interactive:
+> +    if args.interactive:
+>           vm.ssh()
+>  =20
+>       if not args.snapshot:
+>=20
 
-BR
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Beata
-
-
->  typedef struct NvmeNamespaceParams {
->      uint32_t nsid;
-> +    uint8_t  lbads;
->  } NvmeNamespaceParams;
->
->  typedef struct NvmeNamespace {
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 67f92bf5a3ac..d0103c16cfe9 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -2602,6 +2602,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      if (n->namespace.conf.blk) {
->          ns = &n->namespace;
->          ns->params.nsid = 1;
-> +        ns->params.lbads = 9;
->
->          if (nvme_ns_setup(n, ns, &local_err)) {
->              error_propagate_prepend(errp, local_err, "nvme_ns_setup: ");
-> --
-> 2.23.0
->
->
 
