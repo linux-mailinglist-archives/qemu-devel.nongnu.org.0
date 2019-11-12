@@ -2,75 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0576DF9756
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:38:06 +0100 (CET)
-Received: from localhost ([::1]:38160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5E4F9782
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:45:37 +0100 (CET)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUa7A-0000Um-JU
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:38:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34021)
+	id 1iUaES-0000vq-Dh
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:45:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUa5r-0008Sc-F7
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:36:45 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iUa8I-0001sj-1I
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUa5p-0004n1-EB
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:36:43 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUa5p-0004mZ-3h
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:36:41 -0500
-Received: by mail-wm1-x342.google.com with SMTP id a17so2886738wmb.0
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=HNnxjFmrqoWz6Job3vp1ljHdw2Aiy+AK2bbUwC+SXy4=;
- b=v7CvWN1XwcQ3OukyOdzVk4BWKdYokL24fVB4WeGVkcX7VrydqITvS+/TUSNsVL0k0j
- VHMm5Nqm47qMJ/q5n4VrzttgHNrgW2f+n7l51JV6BgZMOnq47HNBYGq+feuXlGHlXjlE
- 17LpmxqP2gbHESihkqNzpeYzoYdCrpDWFPZ/A997AA1XK0vbwwExs7NhChySSnWhZvSw
- 3lv0PmWFgpxvbvT0q1JF8FNcnFfCnXntFCtHMnlU1ThSXT5cPHurjgOvmoNKYkNC6A3y
- MCMBlDX81uxOW0mSsUv0ErEEAhMXzTwC7XpCTJ7VIXMuJxg0YhwdUEnLLYXRSFRkm19U
- LFDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=HNnxjFmrqoWz6Job3vp1ljHdw2Aiy+AK2bbUwC+SXy4=;
- b=OOAQQS85J8pZjGbdgiHiXb72Z3hvmmq1tItROlMfQVMdAUUjNJs24grvSDuKa7aOB0
- MZ/sntlIMoHqOKco5KM5ewNUmGCsGoTIbukclthf59E7P4HTkxZFd42Ko1zXohW9Pebh
- wqBVPZz+fapGJX6LyhGYRQy58dDLvyCjn9jruHBkbi1KyiTJIWGh5kROL2LPP5IvvJCe
- xVhkOLZEU2sQf/PUc8qRUhi2Opx79jeEVoZbR0nJqaftu0zpYfl7sLEtCQNmKdF5en0e
- ZlnjW0caye3xoLgNY5sfdBZiaQV2veKBltc+YR15K0QQYbpv2DDMxAcGKgUPAHIkoj4y
- Tq/A==
-X-Gm-Message-State: APjAAAWyiIVUaXfoiTfuM4k6BofeXIfFih/+QmDzoybCy7nyqhdXrvA1
- /v/UAUC4VcIGhXwaW+YitVbnVg==
-X-Google-Smtp-Source: APXvYqzRGdZ+8JCHNbEIp4CyDGFAzKXpqWfQ3/MJ1xZTquCREaHQ+2gALyusSh3yrFGYoxke2EE7Sg==
-X-Received: by 2002:a7b:ce84:: with SMTP id q4mr4729339wmj.36.1573580199242;
- Tue, 12 Nov 2019 09:36:39 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h140sm4553555wme.22.2019.11.12.09.36.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 09:36:37 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2A6F31FF87;
- Tue, 12 Nov 2019 17:36:37 +0000 (GMT)
-References: <20191112150105.2498-1-robert.foley@linaro.org>
- <20191112150105.2498-4-robert.foley@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v1 3/5] Add use of RCU for qemu_logfile.
-In-reply-to: <20191112150105.2498-4-robert.foley@linaro.org>
-Date: Tue, 12 Nov 2019 17:36:37 +0000
-Message-ID: <87lfsl809m.fsf@linaro.org>
+ (envelope-from <alxndr@bu.edu>) id 1iUa8F-0005lK-JR
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:13 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:55481)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iUa8F-0005kZ-Fb
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:39:11 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: 144.121.20.162.lightower.net [144.121.20.162] (may be forged)
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id xACHcRg2028407
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+ Tue, 12 Nov 2019 12:38:27 -0500
+Subject: Re: [PATCH v4 12/20] libqtest: add in-process qtest.c tx/rx handlers
+To: Stefan Hajnoczi <stefanha@gmail.com>
+References: <20191030144926.11873-1-alxndr@bu.edu>
+ <20191030144926.11873-13-alxndr@bu.edu>
+ <20191106165622.GK340561@stefanha-x1.localdomain>
+From: Alexander Bulekov <alxndr@bu.edu>
+Message-ID: <59cab58d-1976-b22e-9459-75c8a61001cd@bu.edu>
+Date: Tue, 12 Nov 2019 12:38:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <20191106165622.GK340561@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x [fuzzy]
+X-Received-From: 128.197.228.104
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,403 +55,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/6/19 11:56 AM, Stefan Hajnoczi wrote:
+> On Wed, Oct 30, 2019 at 02:49:58PM +0000, Oleinik, Alexander wrote:
+>> From: Alexander Oleinik <alxndr@bu.edu>
+>>
+>> Signed-off-by: Alexander Oleinik <alxndr@bu.edu>
+>> ---
+>> There's a particularily ugly line here:
+>> qtest_client_set_tx_handler(qts,
+>>          (void (*)(QTestState *s, const char*, size_t)) send);
+> 
+> Please typedef the function pointer to avoid repetition:
+> 
+>    typedef void (*QTestSendFn)(QTestState *s, const char *buf, size_t len);
+> 
+> And then introduce a wrapper function for type-safety:
+> 
+>    /* A type-safe wrapper for s->send() */
+>    static void send_wrapper(QTestState *s, const char *buf, size_t len)
+>    {
+>        s->send(s, buf, len);
+>    }
+> 
+>    ...
+> 
+>    qts->send = send;
+>    qtest_client_set_tx_handler(qts, send_wrapper);
+> 
+> Does this solve the issue?
+So there should be two pointers qts->send and qts->ops->send? Otherwise 
+qtest_client_set_tx_handler simply overwrites qts->send with the 
+send_wrapper.
 
-Robert Foley <robert.foley@linaro.org> writes:
+What I'm worried about is having to cast a
+(void (*)(void *s, const char*, size_t) to a
+(void (*)(QTestState *s, const char*, size_t)
+I don't think this is defined according to the standard. If we add a 
+secondary send function pointer to qts (void (*)(void *s, const char*, 
+size_t)), then I think its no longer an issue, which I think is what you 
+suggest above.
 
-> This now allows changing the logfile while logging is active,
-> and also solves the issue of a seg fault while changing the logfile.
->
-> Any read access to the qemu_logfile handle will use
-> the rcu_read_lock()/unlock() around the use of the handle.
-> To fetch the handle we will use atomic_rcu_read().
-> We also in many cases do a check for validity of the
-> logfile handle before using it to deal with the case where the
-> file is closed and set to NULL.
->
-> The cases where we write to the qemu_logfile will use atomic_rcu_set().
-> Writers will also use call_rcu() with a newly added qemu_logfile_free
-> function for freeing/closing when readers have finished.
->
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> ---
-> v1
->     - Changes for review comments.
->     - Minor changes to definition of QemuLogFile.
->     - Changed qemu_log_separate() to fix unbalanced and
->       remove qemu_log_enabled() check.
->     - changed qemu_log_lock() to include else.
->     - make qemu_logfile_free static.
->     - use g_assert(logfile) in qemu_logfile_free.
->     - Relocated unlock out of if/else in qemu_log_close(), and
->       in qemu_set_log().
-> ---
->  include/qemu/log.h | 42 ++++++++++++++++++++++----
->  util/log.c         | 73 +++++++++++++++++++++++++++++++++-------------
->  include/exec/log.h | 33 ++++++++++++++++++---
->  tcg/tcg.c          | 12 ++++++--
->  4 files changed, 128 insertions(+), 32 deletions(-)
->
-> diff --git a/include/qemu/log.h b/include/qemu/log.h
-> index a7c5b01571..528e1f9dd7 100644
-> --- a/include/qemu/log.h
-> +++ b/include/qemu/log.h
-> @@ -3,9 +3,16 @@
->
->  /* A small part of this API is split into its own header */
->  #include "qemu/log-for-trace.h"
-> +#include "qemu/rcu.h"
-> +
-> +typedef struct QemuLogFile {
-> +    struct rcu_head rcu;
-> +    FILE *fd;
-> +} QemuLogFile;
->
->  /* Private global variable, don't use */
-> -extern FILE *qemu_logfile;
-> +extern QemuLogFile *qemu_logfile;
-> +
->
->  /*
->   * The new API:
-> @@ -25,7 +32,16 @@ static inline bool qemu_log_enabled(void)
->   */
->  static inline bool qemu_log_separate(void)
->  {
-> -    return qemu_logfile !=3D NULL && qemu_logfile !=3D stderr;
-> +    QemuLogFile *logfile;
-> +    bool res =3D false;
-> +
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile && logfile->fd !=3D stderr) {
-> +        res =3D true;
-> +    }
-> +    rcu_read_unlock();
-> +    return res;
->  }
->
->  #define CPU_LOG_TB_OUT_ASM (1 << 0)
-> @@ -55,14 +71,23 @@ static inline bool qemu_log_separate(void)
->
->  static inline FILE *qemu_log_lock(void)
->  {
-> -    qemu_flockfile(qemu_logfile);
-> -    return logfile->fd;
-> +    QemuLogFile *logfile;
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        qemu_flockfile(logfile->fd);
-> +        return logfile->fd;
-> +    } else {
-> +        rcu_read_unlock();
-> +        return NULL;
-> +    }
->  }
->
->  static inline void qemu_log_unlock(FILE *fd)
->  {
->      if (fd) {
->          qemu_funlockfile(fd);
-> +        rcu_read_unlock();
->      }
->  }
->
-> @@ -73,9 +98,14 @@ static inline void qemu_log_unlock(FILE *fd)
->  static inline void GCC_FMT_ATTR(1, 0)
->  qemu_log_vprintf(const char *fmt, va_list va)
->  {
-> -    if (qemu_logfile) {
-> -        vfprintf(qemu_logfile, fmt, va);
-> +    QemuLogFile *logfile;
-> +
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        vfprintf(logfile->fd, fmt, va);
->      }
-> +    rcu_read_unlock();
->  }
->
->  /* log only if a bit is set on the current loglevel mask:
-> diff --git a/util/log.c b/util/log.c
-> index c25643dc99..802b8de42e 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -28,7 +28,7 @@
->
->  static char *logfilename;
->  static QemuMutex qemu_logfile_mutex;
-> -FILE *qemu_logfile;
-> +QemuLogFile *qemu_logfile;
->  int qemu_loglevel;
->  static int log_append =3D 0;
->  static GArray *debug_regions;
-> @@ -37,10 +37,14 @@ static GArray *debug_regions;
->  int qemu_log(const char *fmt, ...)
->  {
->      int ret =3D 0;
-> -    if (qemu_logfile) {
-> +    QemuLogFile *logfile;
-> +
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
->          va_list ap;
->          va_start(ap, fmt);
-> -        ret =3D vfprintf(qemu_logfile, fmt, ap);
-> +        ret =3D vfprintf(logfile->fd, fmt, ap);
->          va_end(ap);
->
->          /* Don't pass back error results.  */
-> @@ -48,6 +52,7 @@ int qemu_log(const char *fmt, ...)
->              ret =3D 0;
->          }
->      }
-> +    rcu_read_unlock();
->      return ret;
->  }
->
-> @@ -56,11 +61,23 @@ static void __attribute__((__constructor__)) qemu_log=
-file_init(void)
->      qemu_mutex_init(&qemu_logfile_mutex);
->  }
->
-> +static void qemu_logfile_free(QemuLogFile *logfile)
-> +{
-> +    g_assert(logfile);
-> +
-> +    if (logfile->fd !=3D stderr) {
-> +        fclose(logfile->fd);
-> +    }
-> +    g_free(logfile);
-> +}
-> +
->  static bool log_uses_own_buffers;
->
->  /* enable or disable low levels log */
->  void qemu_set_log(int log_flags)
->  {
-> +    QemuLogFile *logfile;
-> +
->      qemu_loglevel =3D log_flags;
->  #ifdef CONFIG_TRACE_LOG
->      qemu_loglevel |=3D LOG_TRACE;
-> @@ -70,44 +87,50 @@ void qemu_set_log(int log_flags)
->      qemu_mutex_lock(&qemu_logfile_mutex);
->      if (!qemu_logfile &&
->          (is_daemonized() ? logfilename !=3D NULL : qemu_loglevel)) {
-> +        logfile =3D g_new0(QemuLogFile, 1);
->          if (logfilename) {
-> -            qemu_logfile =3D fopen(logfilename, log_append ? "a" : "w");
-> -            if (!qemu_logfile) {
-> +            logfile->fd =3D fopen(logfilename, log_append ? "a" : "w");
-> +            if (!logfile->fd) {
-> +                g_free(logfile);
->                  perror(logfilename);
->                  _exit(1);
->              }
->              /* In case we are a daemon redirect stderr to logfile */
->              if (is_daemonized()) {
-> -                dup2(fileno(qemu_logfile), STDERR_FILENO);
-> -                fclose(qemu_logfile);
-> +                dup2(fileno(logfile->fd), STDERR_FILENO);
-> +                fclose(logfile->fd);
->                  /* This will skip closing logfile in qemu_log_close() */
-> -                qemu_logfile =3D stderr;
-> +                logfile->fd =3D stderr;
->              }
->          } else {
->              /* Default to stderr if no log file specified */
->              assert(!is_daemonized());
-> -            qemu_logfile =3D stderr;
-> +            logfile->fd =3D stderr;
->          }
->          /* must avoid mmap() usage of glibc by setting a buffer "by hand=
-" */
->          if (log_uses_own_buffers) {
->              static char logfile_buf[4096];
->
-> -            setvbuf(qemu_logfile, logfile_buf, _IOLBF, sizeof(logfile_bu=
-f));
-> +            setvbuf(logfile->fd, logfile_buf, _IOLBF, sizeof(logfile_buf=
-));
->          } else {
->  #if defined(_WIN32)
->              /* Win32 doesn't support line-buffering, so use unbuffered o=
-utput. */
-> -            setvbuf(qemu_logfile, NULL, _IONBF, 0);
-> +            setvbuf(logfile->fd, NULL, _IONBF, 0);
->  #else
-> -            setvbuf(qemu_logfile, NULL, _IOLBF, 0);
-> +            setvbuf(logfile->fd, NULL, _IOLBF, 0);
->  #endif
->              log_append =3D 1;
->          }
-> +        atomic_rcu_set(&qemu_logfile, logfile);
->      }
-> -    qemu_mutex_unlock(&qemu_logfile_mutex);
-> +    logfile =3D qemu_logfile;
+> By the way, I also wonder whether the size_t len arguments are necessary
+> since const char *buf is a NUL-terminated C string.  The string should
+> be enough since the length can be calculated from it.
+I'll change it.
 
-Isn't this read outside of the protection of both rcu_read_lock() and
-the mutex? Could that race?
-
-> +
->      if (qemu_logfile &&
->          (is_daemonized() ? logfilename =3D=3D NULL : !qemu_loglevel)) {
-> -        qemu_log_close();
-> +        atomic_rcu_set(&qemu_logfile, NULL);
-> +        call_rcu(logfile, qemu_logfile_free, rcu);
-
-I wonder if we can re-arrange the logic here so it's lets confusing? For
-example the NULL qemu_loglevel can be detected at the start and we
-should be able just to squash the current log and reset and go. I'm not
-sure about the damonize/stdout check.
-
->      }
-> +    qemu_mutex_unlock(&qemu_logfile_mutex);
->  }
->
->  void qemu_log_needs_buffers(void)
-> @@ -123,6 +146,7 @@ void qemu_log_needs_buffers(void)
->  void qemu_set_log_filename(const char *filename, Error **errp)
->  {
->      char *pidstr;
-> +
->      g_free(logfilename);
-
-nit: stray newline
->
->      pidstr =3D strstr(filename, "%");
-> @@ -235,19 +259,28 @@ out:
->  /* fflush() the log file */
->  void qemu_log_flush(void)
->  {
-> -    fflush(qemu_logfile);
-> +    QemuLogFile *logfile;
-> +
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        fflush(logfile->fd);
-> +    }
-> +    rcu_read_unlock();
->  }
->
->  /* Close the log file */
->  void qemu_log_close(void)
->  {
-> +    QemuLogFile *logfile;
-> +
->      g_assert(qemu_logfile_mutex.initialized);
->      qemu_mutex_lock(&qemu_logfile_mutex);
-> -    if (qemu_logfile) {
-> -        if (qemu_logfile !=3D stderr) {
-> -            fclose(qemu_logfile);
-> -        }
-> -        qemu_logfile =3D NULL;
-> +    logfile =3D qemu_logfile;
-> +
-> +    if (logfile) {
-> +        atomic_rcu_set(&qemu_logfile, NULL);
-> +        call_rcu(logfile, qemu_logfile_free, rcu);
->      }
->      qemu_mutex_unlock(&qemu_logfile_mutex);
->  }
-> diff --git a/include/exec/log.h b/include/exec/log.h
-> index e2cfd436e6..9bd1e4aa20 100644
-> --- a/include/exec/log.h
-> +++ b/include/exec/log.h
-> @@ -15,8 +15,15 @@
->   */
->  static inline void log_cpu_state(CPUState *cpu, int flags)
->  {
-> +    QemuLogFile *logfile;
-> +
->      if (qemu_log_enabled()) {
-> -        cpu_dump_state(cpu, qemu_logfile, flags);
-> +        rcu_read_lock();
-> +        logfile =3D atomic_rcu_read(&qemu_logfile);
-> +        if (logfile) {
-> +            cpu_dump_state(cpu, logfile->fd, flags);
-> +        }
-> +        rcu_read_unlock();
->      }
->  }
->
-> @@ -40,19 +47,37 @@ static inline void log_cpu_state_mask(int mask, CPUSt=
-ate *cpu, int flags)
->  static inline void log_target_disas(CPUState *cpu, target_ulong start,
->                                      target_ulong len)
->  {
-> -    target_disas(qemu_logfile, cpu, start, len);
-> +    QemuLogFile *logfile;
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        target_disas(logfile->fd, cpu, start, len);
-> +    }
-> +    rcu_read_unlock();
->  }
->
->  static inline void log_disas(void *code, unsigned long size)
->  {
-> -    disas(qemu_logfile, code, size);
-> +    QemuLogFile *logfile;
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        disas(logfile->fd, code, size);
-> +    }
-> +    rcu_read_unlock();
->  }
->
->  #if defined(CONFIG_USER_ONLY)
->  /* page_dump() output to the log file: */
->  static inline void log_page_dump(void)
->  {
-> -    page_dump(qemu_logfile);
-> +    QemuLogFile *logfile;
-> +    rcu_read_lock();
-> +    logfile =3D atomic_rcu_read(&qemu_logfile);
-> +    if (logfile) {
-> +        page_dump(logfile->fd);
-> +    }
-> +    rcu_read_unlock();
->  }
->  #endif
->  #endif
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 0511266d85..4f616ba38b 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -2114,9 +2114,17 @@ static void tcg_dump_ops(TCGContext *s, bool have_=
-prefs)
->          }
->
->          if (have_prefs || op->life) {
-> -            for (; col < 40; ++col) {
-> -                putc(' ', qemu_logfile);
-> +
-> +            QemuLogFile *logfile;
-> +
-> +            rcu_read_lock();
-> +            logfile =3D atomic_rcu_read(&qemu_logfile);
-> +            if (logfile) {
-> +                for (; col < 40; ++col) {
-> +                    putc(' ', logfile->fd);
-> +                }
->              }
-> +            rcu_read_unlock();
->          }
->
->          if (op->life) {
+>> diff --git a/qtest.c b/qtest.c
+>> index 9fbfa0f08f..f817a5d789 100644
+>> --- a/qtest.c
+>> +++ b/qtest.c
+>> @@ -812,6 +812,6 @@ void qtest_server_inproc_recv(void *dummy, const char *buf, size_t size)
+>>       g_string_append(gstr, buf);
+>>       if (gstr->str[gstr->len - 1] == '\n') {
+>>           qtest_process_inbuf(NULL, gstr);
+>> -        g_string_free(gstr, true);
+>> +        g_string_truncate(gstr, 0);
+> 
+> Ah, a fix for the bug in an earlier commit.  Please squash it.
+> 
+>> diff --git a/tests/libqtest.c b/tests/libqtest.c
+>> index ff3153daf2..6143af33da 100644
+>> --- a/tests/libqtest.c
+>> +++ b/tests/libqtest.c
+>> @@ -71,6 +71,7 @@ static void qtest_client_set_tx_handler(QTestState *s,
+>>   static void qtest_client_set_rx_handler(QTestState *s,
+>>           GString * (*recv)(QTestState *));
+>>   
+>> +static GString *recv_str;
+> 
+> Can this be a QTestState field?
+> 
 
 
---
-Alex Benn=C3=A9e
+-- 
+===
+I recently changed my last name from Oleinik to Bulekov
+===
 
