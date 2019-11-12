@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C24F9528
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:08:42 +0100 (CET)
-Received: from localhost ([::1]:37154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51120F9536
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:10:38 +0100 (CET)
+Received: from localhost ([::1]:37188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUYif-0007ZK-43
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:08:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50237)
+	id 1iUYkX-0001tO-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:10:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iUYfG-0004Nc-3L
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:11 -0500
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iUYfH-0004PA-4h
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iUYfB-0007I6-5J
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:10 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53545)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iUYfG-0007Ka-21
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:11 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51440)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1iUYfA-0007HR-VX
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:05 -0500
-Received: by mail-wm1-x336.google.com with SMTP id u18so3805207wmc.3
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:05:04 -0800 (PST)
+ id 1iUYfF-0007K7-Rq
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:05:09 -0500
+Received: by mail-wm1-x335.google.com with SMTP id q70so3828772wme.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:05:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Rnzob+CMRQLWYBDPF8sebybDJvDCoUE2UV9qiBp+og0=;
- b=EMKEoD8+gI+V1ppQZi51XB0AikaVDO+bkJxUuZ8HOZRC4Rhk0XMySZI2PiKpTD+6Ss
- ML+rZ1wbXMn8w3fd2oQyP6zL5JC2ObDoQOTEkO9btSUVnD7CZsgoX+Qb6ogqBKkWzm7k
- pbnMwqMLX+g1Y00/kOUSuNd1lXbZZMXeIjwvYJlIGJMVBLFMU0oGWXgD4f0Peh+iImg3
- DsYlwm4twGrQxWrzXG1iwdfO23Nbblwxk1XvNo9eiwcrgSCi39binYwD20AEtjFcHayp
- wKXA3wooF1w2qOiJiybqrp1azSE96U3JoBdurAomoYJnvERHxSoPxPYgxg2L2UsyaLyM
- LuSQ==
+ bh=O+7oqTj35SxpOp+OUToP9NWOXc7v9VZvqQg34DnV5Ds=;
+ b=OFdp0JqiIAONYGeN+hkG6JSO0zYB6BSrVhvq09qzUANFF/EE17xkUS7THVsOWvCi0S
+ u5ThIenbyRXW1VpaCOItFgB4j+mNk2Vaio/Bb2N+hjG4SdxCgb9iDuz9ARCRnhrEJna6
+ RdANw84dWoBaTNy3+Alyr4lRAfHLfVxKZBJMXAb10IJyxXVYlOQZrHxaJHXTDuITvwKT
+ eZnDsMd3ZdpHZQB9lWinBOspeLSCORUSwHmxoHZPPthD/Dc7T7flqElvsfYRa5iio/LW
+ nWYIdL7JxbE4eNHQp8xNbuZ9/YbEyZFddJAMGBVQ8lJwXiMZ8C2bMZrzySeACYDAKLiu
+ 7s2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Rnzob+CMRQLWYBDPF8sebybDJvDCoUE2UV9qiBp+og0=;
- b=kBSeUf/AfCoDzVc/q7N/9hoqzvT7luOP3H2iaeOkfyt20XMUQhG71Jjq8UY7x7HX47
- 1/+Gn84GG399uc1HS5+3aN0J0v8RsPUJKrZmYT8B7wquIkpFi6oMSx0mH+Kl4CbdqRxd
- OOXJ5Gg9ArWe7o6546s6x2XMJuL+b6fSMWENoDvn3M50c1C58wEesW4HYhS1Z+pXYPqk
- 2saNDtK4RgmPfhpKl49LL68ugQGctFofB7JOeO4GjXavgkeVJhvIJVQgfPnCg0mQ16f/
- RJv9V/1jV3PlOCatozBOb2tbCtLxWKPZ0iDpQSyXYMwTM3nd4F1VcrTHJgY7wjKOjI62
- MvCQ==
-X-Gm-Message-State: APjAAAXIn98/X5cnccVznBav8HFnaez0VZUzZndVylU8MWxjed8nY4HT
- AVBCmHL8EL8Mb+VYQuf0ED+k+f4n6uc=
-X-Google-Smtp-Source: APXvYqwBInl9Y13r9BSDDMtOCP7EqKV69gcjiaOy7lWDEUDXI8uKHfiYAtRO+vOUnu4IWNLeaLBj0w==
-X-Received: by 2002:a1c:dd06:: with SMTP id u6mr4800727wmg.109.1573574703569; 
- Tue, 12 Nov 2019 08:05:03 -0800 (PST)
+ bh=O+7oqTj35SxpOp+OUToP9NWOXc7v9VZvqQg34DnV5Ds=;
+ b=JHsOvf5wfCiN+eEGISsMaqyQf/SdnN60XdKp+6gxQ8Wdh3Iq4Jbj7JsZr3fpuLkind
+ 60KeCoNohXnqT8Gr8BkH7SvvkqY5N2dTe4nePBI6EMe1iMVvNVeVmEB2fUVUrR/gKbDq
+ asUDqReHS7ZIUVk76l3NGsidBw50SyfiMVp8TdHqlNsABbPUd5LkMLOPwrno1foq7RPL
+ 9mwrOBbnfaT+IlXiiww25t2mp5y9Xwn1CiNK6R5EgrL/9RXnhbhf/7p+1cRHMOYFdAnV
+ IV27B4N7b+wx0beVSXAkA57dG9z3HUkXsQIRv3PkDvx8J89NoCrZ6GyNqpbxnmjlOp4x
+ v/EA==
+X-Gm-Message-State: APjAAAWGvoBpc6MjnroKam7J9yw0uL4wWLWTEBrKUA2BDPlmIOZ+/Ccp
+ TgY5mYZM2BW71q74+rFy3FdRiGxfqMU=
+X-Google-Smtp-Source: APXvYqwrFiH475fyasK7r7vWWq82Dw43WtuYuphWVqvJx8Y9nz1lC+jwRGsHgRTqdSmFazHdGprq7A==
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr4478483wmk.144.1573574708500; 
+ Tue, 12 Nov 2019 08:05:08 -0800 (PST)
 Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
  [34.244.242.0])
- by smtp.gmail.com with ESMTPSA id d13sm19698453wrq.51.2019.11.12.08.05.02
+ by smtp.gmail.com with ESMTPSA id v6sm16175841wrt.13.2019.11.12.08.05.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 08:05:02 -0800 (PST)
+ Tue, 12 Nov 2019 08:05:07 -0800 (PST)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 2/3] target/microblaze: Plug temp leaks with delay slot setup
-Date: Tue, 12 Nov 2019 17:04:48 +0100
-Message-Id: <20191112160449.29212-3-edgar.iglesias@gmail.com>
+Subject: [PULL v1 3/3] target/microblaze: Plug temp leak around eval_cond_jmp()
+Date: Tue, 12 Nov 2019 17:04:49 +0100
+Message-Id: <20191112160449.29212-4-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191112160449.29212-1-edgar.iglesias@gmail.com>
 References: <20191112160449.29212-1-edgar.iglesias@gmail.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,7 +85,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Plug temp leaks with delay slot setup.
+Plug temp leak around eval_cond_jmp().
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
@@ -93,67 +93,25 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/translate.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ target/microblaze/translate.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index c8442b18e1..7b4b66a622 100644
+index 7b4b66a622..bdc7d5326a 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -1177,6 +1177,17 @@ static void eval_cond_jmp(DisasContext *dc, TCGv_i64 pc_true, TCGv_i64 pc_false)
-     tcg_temp_free_i64(tmp_zero);
- }
- 
-+static void dec_setup_dslot(DisasContext *dc)
-+{
-+        TCGv_i32 tmp = tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG));
+@@ -1681,7 +1681,10 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                 dc->tb_flags &= ~D_FLAG;
+                 /* If it is a direct jump, try direct chaining.  */
+                 if (dc->jmp == JMP_INDIRECT) {
+-                    eval_cond_jmp(dc, env_btarget, tcg_const_i64(dc->pc));
++                    TCGv_i64 tmp_pc = tcg_const_i64(dc->pc);
++                    eval_cond_jmp(dc, env_btarget, tmp_pc);
++                    tcg_temp_free_i64(tmp_pc);
 +
-+        dc->delayed_branch = 2;
-+        dc->tb_flags |= D_FLAG;
-+
-+        tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUMBState, bimm));
-+        tcg_temp_free_i32(tmp);
-+}
-+
- static void dec_bcc(DisasContext *dc)
- {
-     unsigned int cc;
-@@ -1188,10 +1199,7 @@ static void dec_bcc(DisasContext *dc)
- 
-     dc->delayed_branch = 1;
-     if (dslot) {
--        dc->delayed_branch = 2;
--        dc->tb_flags |= D_FLAG;
--        tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
--                      cpu_env, offsetof(CPUMBState, bimm));
-+        dec_setup_dslot(dc);
-     }
- 
-     if (dec_alu_op_b_is_small_imm(dc)) {
-@@ -1250,10 +1258,7 @@ static void dec_br(DisasContext *dc)
- 
-     dc->delayed_branch = 1;
-     if (dslot) {
--        dc->delayed_branch = 2;
--        dc->tb_flags |= D_FLAG;
--        tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
--                      cpu_env, offsetof(CPUMBState, bimm));
-+        dec_setup_dslot(dc);
-     }
-     if (link && dc->rd)
-         tcg_gen_movi_i32(cpu_R[dc->rd], dc->pc);
-@@ -1355,10 +1360,7 @@ static void dec_rts(DisasContext *dc)
-         return;
-     }
- 
--    dc->delayed_branch = 2;
--    dc->tb_flags |= D_FLAG;
--    tcg_gen_st_i32(tcg_const_i32(dc->type_b && (dc->tb_flags & IMM_FLAG)),
--                  cpu_env, offsetof(CPUMBState, bimm));
-+    dec_setup_dslot(dc);
- 
-     if (i_bit) {
-         LOG_DIS("rtid ir=%x\n", dc->ir);
+                     dc->is_jmp = DISAS_JUMP;
+                 } else if (dc->jmp == JMP_DIRECT) {
+                     t_sync_flags(dc);
 -- 
 2.20.1
 
