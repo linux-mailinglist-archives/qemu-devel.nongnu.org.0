@@ -2,104 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD93F9311
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:51:15 +0100 (CET)
-Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B27F934E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:52:49 +0100 (CET)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUXVh-0003ML-As
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:51:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59567)
+	id 1iUXXC-00050g-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:52:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rkagan@virtuozzo.com>) id 1iUXUU-0002x2-DL
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:00 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUXV4-0003Nj-Fv
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rkagan@virtuozzo.com>) id 1iUXUS-0002ng-Oa
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:49:58 -0500
-Received: from mail-bgr052101128088.outbound.protection.outlook.com
- ([52.101.128.88]:43622 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
- id 1iUXUS-0002l0-37
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:49:56 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IZ0yWjZIirY3IXnZRQLVKriFTVk9HdgsP//T2qYD9UCs68sWevRVhyF3EQW6PobL92aA7VQUFvFwphC0cqg9J8nBFNnKBm0x3Yq5YsIQlIfMT9Cx6/6yOcvTKhpjAmVfx9BuiuT+Yp0743YEToxSZaxF6DtnGxkFdS64Z+dLCyAyW21B/TGnvjI7YbgfPZ97yr5tGQDCQgl4pyVG1dr5RSJq8o7lTxUDRDqGZ0Z0gubiTlrqZPzz8C5oZN/VB+DdSsJTqhR+dszrm9QJqncvIbewtm2utkdvBl//w5JDmfWJ96IKP+XhkMBVnaRtuYmGD9qSfLcp+weLptdpd5WpHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sQXpvlGi5daoBtmV2MLrMW0+kGLqOLnhiVf09Ppd3Dw=;
- b=ftJpvcPjCvRxUelia99f0pNK1vreMCxqxoTO3O0FuMyswY5d27ZcxtW8BLkHr4YDrQSoQVRvXqHilIEutDLTTva/sA7ZxDyAsTT8HcuT58BBTAFNU9N6+c2USWztYTUiR1GEqU6xHogrEMRubDFOpm/1+ILJVBWkYf4+ikeiPxjOOvssMwE7920cy0ng7ZWnVtf1UuTl5iSQTWMe3X3RGunLhl4wIQUysw6SkLnjGUvOc53PIQGOPoZWDIe80dSdRZ2QbVnHrkuogRYJH7ioz2bGM/+bTNkG9rkXOlnr+yjBW7yIrMjzMb0NBYjAbTHWUCbcgpnsnyaSUuerRBOT3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sQXpvlGi5daoBtmV2MLrMW0+kGLqOLnhiVf09Ppd3Dw=;
- b=JfqpNI2TzK40tjhGzH8DzGLuSH/YpobGOTcG5B5xOsiRH3asFP+G6SnwvsEpx7Yq1XVeg75N4FhK2Qbv7CYEpTujxbFLxhhKAo3TWCcw3IqTTcIQUt5oEJr7oNpYsnv3II5rKmJ6Jwag3cViXgR2vMMuTx4plBkZ5+9rKidme40=
-Received: from VI1PR08MB4608.eurprd08.prod.outlook.com (20.178.80.22) by
- VI1PR08MB3471.eurprd08.prod.outlook.com (20.177.59.86) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.25; Tue, 12 Nov 2019 14:49:47 +0000
-Received: from VI1PR08MB4608.eurprd08.prod.outlook.com
- ([fe80::9465:ec66:befb:e8b5]) by VI1PR08MB4608.eurprd08.prod.outlook.com
- ([fe80::9465:ec66:befb:e8b5%3]) with mapi id 15.20.2430.027; Tue, 12 Nov 2019
- 14:49:47 +0000
-From: Roman Kagan <rkagan@virtuozzo.com>
-To: "lantianyu1986@gmail.com" <lantianyu1986@gmail.com>
-Subject: Re: [PATCH V4] target/i386/kvm: Add Hyper-V direct tlb flush support
-Thread-Topic: [PATCH V4] target/i386/kvm: Add Hyper-V direct tlb flush support
-Thread-Index: AQHVmQooMjAMF4hMsk+z5W7t6cZOKaeHnsGA
-Date: Tue, 12 Nov 2019 14:49:47 +0000
-Message-ID: <20191112144943.GD2397@rkaganb.sw.ru>
-References: <20191112033427.7204-1-Tianyu.Lan@microsoft.com>
-In-Reply-To: <20191112033427.7204-1-Tianyu.Lan@microsoft.com>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.12.1 (2019-06-15)
-mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>, lantianyu1986@gmail.com, 
- pbonzini@redhat.com, rth@twiddle.net,	ehabkost@redhat.com,
- mtosatti@redhat.com, vkuznets@redhat.com,	Tianyu Lan
- <Tianyu.Lan@microsoft.com>, qemu-devel@nongnu.org,	kvm@vger.kernel.org
-x-originating-ip: [185.231.240.5]
-x-clientproxiedby: HE1P191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::14)
- To VI1PR08MB4608.eurprd08.prod.outlook.com
- (2603:10a6:803:c0::22)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rkagan@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e13e0db8-9943-4e42-33b3-08d7677f9000
-x-ms-traffictypediagnostic: VI1PR08MB3471:
-x-microsoft-antispam-prvs: <VI1PR08MB347147F8A0F3067B83A1A8C0C9770@VI1PR08MB3471.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1850;
-x-forefront-prvs: 021975AE46
-x-forefront-antispam-report: SFV:SPM;
- SFS:(10019020)(376002)(396003)(346002)(39850400004)(366004)(136003)(54094003)(199004)(189003)(6246003)(5660300002)(5640700003)(478600001)(14454004)(6436002)(4326008)(25786009)(6116002)(229853002)(36756003)(66476007)(3846002)(9686003)(6512007)(66556008)(66946007)(2501003)(6486002)(64756008)(66446008)(1076003)(446003)(14444005)(99286004)(486006)(256004)(81166006)(71190400001)(71200400001)(1411001)(11346002)(54906003)(102836004)(26005)(66066001)(52116002)(8676002)(476003)(8936002)(186003)(2351001)(76176011)(386003)(6506007)(33656002)(86362001)(2906002)(7736002)(1361003)(81156014)(6916009)(305945005)(316002)(58126008)(30126002);
- DIR:OUT; SFP:1501; SCL:5; SRVR:VI1PR08MB3471;
- H:VI1PR08MB4608.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-transport-forked: True
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ELCLHyOfVzOvDwbmLRdcmpPKnhZxNrOf9t+ZaitBLXaNd3iO6iYZ7tbw1upCdON3a58qPdlxXXj10+JIOQ3K7VTM1CWcoZZWn114sOK3KFjRK8u8rLRtgIzk2fGLRPQRtMYkAlJoRY/mrqGkcOhZKPUJwsW5cQPfC7jdJVXjqi7n/E9LpV3WKe7qRdFl/M/x5ZRI7UtplsEd0DP0+pNuNEG9KLv9hl5xdDbhmvHxY8jY4/RHQz7HGKPoZv6+q3Vc2TGKGNHo2GJ+ppjvr0A6JCDpR8JrH31rmk1Uwi6mQ+HJmktG6TrARJ9iBrS+PAwxDxr62vLduRBbLO2l9Cj9dUboPdC8YwfLSdOzLr9C9koIRiR7nYfdN4ncsFt6LD01
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AB96B3B89FB7624FA45598987B45EF63@eurprd08.prod.outlook.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iUXV3-00032a-0i
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:34 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36847)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iUXV2-000322-OT
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:50:32 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r10so18870053wrx.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 06:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NclHrW8jvApCLb2RoneAblxmOJEEdg/dA8hXiVZ2hN4=;
+ b=eXoBbZj8txS6KYbiUPOIgXDicd4MPbZSQvvkS+M8mC4cAs3BHps9751JecGOF0iAkd
+ xuYmpagp/cu4iKQhY7JNVT17uXh9REPQuLQt36/frxVqO662SpPAmPU8JaAplzlXbWsl
+ fqgctTR+z3YmNq0UT8yyJvZ4rubj+s5ahKemS2jbjLdc9LOiGqBN3EXE9OwSb5s1xPkR
+ rWAWw04tQAGx4e2nWc3Kd+/W3QQbMnW6depShW3EtfrQkPNr/q44hI6a52vy7rCxe/89
+ jZbhpseKxGM4HHvoFqRSJQ6A0dN9KMvQ2tBHZXl/siocFz1o3psl5y4lDcHHW9ojJMfM
+ Vhww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NclHrW8jvApCLb2RoneAblxmOJEEdg/dA8hXiVZ2hN4=;
+ b=JZdhbbJo+wGeCvzkgWfmjoR9N9vYJx6opJKxASkaF2IMQ8Go+ZSTr5NYTjEVA3ZQbj
+ eROTTD6r520TGeAms5nFcTlM4jn15VakvDGOu8AMLiife9ucXO0YBXcu5XlZUL9sKc3e
+ dco511SWvGVhv5vbZEOfeTHr/AwjmYQBUlsvDVP/6W4SJonn5xQehUcgqPR41Uy+yW3V
+ FxuwaPzbjcPAufydzhxicYX9yMziYkx+/c45SzQq6Qrv7f5ywWSNXnFG5/HBj1hXzQtZ
+ JNHMlro6V3ERQ55aLWJiX+zBfCV/sWwP0Ffu0GZOpc42OXC+2KIsNKqqxmQOe6V7kJyU
+ rT4g==
+X-Gm-Message-State: APjAAAXekYw39X8Fk0hgI/+c6jqPbLZ0z1T9x53WwJxOl6CqAiuVLPTS
+ 0tMtv0IX8igSAAvG2dK96WMXxg==
+X-Google-Smtp-Source: APXvYqzh9EzqwFvFQ4z4ASUCi8L7FeMOob5chSO3Eu0RiGUE8Ucxs2/xAK5nZUWDNLm1WLMffhvc5w==
+X-Received: by 2002:adf:f78c:: with SMTP id q12mr6498412wrp.71.1573570231088; 
+ Tue, 12 Nov 2019 06:50:31 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j10sm15036528wrx.30.2019.11.12.06.50.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 06:50:29 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0B47E1FF87;
+ Tue, 12 Nov 2019 14:50:29 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 0/8] testing and tcg plugin api ver
+Date: Tue, 12 Nov 2019 14:50:20 +0000
+Message-Id: <20191112145028.26386-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e13e0db8-9943-4e42-33b3-08d7677f9000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 14:49:47.4052 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4e3DEayglwleibheiFvthRQEoIgBbAIfvrWY9/YW7XHiwDrUoolABIh6P7TEKmv6Rsj27yc6Aa6zTNh5TWdTaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3471
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 52.101.128.88
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,175 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tianyu Lan <Tianyu.Lan@microsoft.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mtosatti@redhat.com" <mtosatti@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 12, 2019 at 11:34:27AM +0800, lantianyu1986@gmail.com wrote:
-> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> 
-> Hyper-V direct tlb flush targets KVM on Hyper-V guest.
-> Enable direct TLB flush for its guests meaning that TLB
-> flush hypercalls are handled by Level 0 hypervisor (Hyper-V)
-> bypassing KVM in Level 1. Due to the different ABI for hypercall
-> parameters between Hyper-V and KVM, KVM capabilities should be
-> hidden when enable Hyper-V direct tlb flush otherwise KVM
-> hypercalls may be intercepted by Hyper-V. Add new parameter
-> "hv-direct-tlbflush". Check expose_kvm and Hyper-V tlb flush
-> capability status before enabling the feature.
-> 
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
-> Change since v3:
->        - Fix logic of Hyper-V passthrough mode with direct
->        tlb flush.
-> 
-> Change sicne v2:
->        - Update new feature description and name.
->        - Change failure print log.
-> 
-> Change since v1:
->        - Add direct tlb flush's Hyper-V property and use
->        hv_cpuid_check_and_set() to check the dependency of tlbflush
->        feature.
->        - Make new feature work with Hyper-V passthrough mode.
-> ---
->  docs/hyperv.txt   | 10 ++++++++++
->  target/i386/cpu.c |  2 ++
->  target/i386/cpu.h |  1 +
->  target/i386/kvm.c | 24 ++++++++++++++++++++++++
->  4 files changed, 37 insertions(+)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 8fdf25c829..140a5c7e44 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -184,6 +184,16 @@ enabled.
->  
->  Requires: hv-vpindex, hv-synic, hv-time, hv-stimer
->  
-> +3.18. hv-direct-tlbflush
-> +=======================
-> +Enable direct TLB flush for KVM when it is running as a nested
-> +hypervisor on top Hyper-V. When enabled, TLB flush hypercalls from L2
-> +guests are being passed through to L0 (Hyper-V) for handling. Due to ABI
-> +differences between Hyper-V and KVM hypercalls, L2 guests will not be
-> +able to issue KVM hypercalls (as those could be mishanled by L0
-> +Hyper-V), this requires KVM hypervisor signature to be hidden.
+The following changes since commit 039e285e095c20a88e623b927654b161aaf9d914:
 
-On a second thought, I wonder if this is the only conflict we have.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-11-12 12:09:19 +0000)
 
-In KVM, kvm_emulate_hypercall, when sees Hyper-V hypercalls enabled,
-just calls kvm_hv_hypercall and returns.  I.e. once the userspace
-enables Hyper-V hypercalls (which QEMU does when any of hv_* flags is
-given), KVM treats *all* hypercalls as Hyper-V ones and handles *no* KVM
-hypercalls.
+are available in the Git repository at:
 
-So, if hiding the KVM hypervisor signature is the only way to prevent the
-guest from issuing KVM hypercalls (need to double-check), then, I'm
-afraid, we just need to require it as soon as any Hyper-V feature is
-enabled.
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-tcg-121119-1
 
+for you to fetch changes up to 3fb356cc86461a14450802e14fa79e8436dbbf31:
 
-> +Requires: hv-tlbflush, -kvm
->  
->  4. Development features
->  ========================
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 44f1bbdcac..7bc7fee512 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6156,6 +6156,8 @@ static Property x86_cpu_properties[] = {
->                        HYPERV_FEAT_IPI, 0),
->      DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
->                        HYPERV_FEAT_STIMER_DIRECT, 0),
-> +    DEFINE_PROP_BIT64("hv-direct-tlbflush", X86CPU, hyperv_features,
-> +                      HYPERV_FEAT_DIRECT_TLBFLUSH, 0),
->      DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
->  
->      DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index eaa5395aa5..3cb105f7d6 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -907,6 +907,7 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  #define HYPERV_FEAT_EVMCS               12
->  #define HYPERV_FEAT_IPI                 13
->  #define HYPERV_FEAT_STIMER_DIRECT       14
-> +#define HYPERV_FEAT_DIRECT_TLBFLUSH     15
->  
->  #ifndef HYPERV_SPINLOCK_NEVER_RETRY
->  #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 11b9c854b5..43f5cbc3f6 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -900,6 +900,10 @@ static struct {
->          },
->          .dependencies = BIT(HYPERV_FEAT_STIMER)
->      },
-> +    [HYPERV_FEAT_DIRECT_TLBFLUSH] = {
-> +        .desc = "direct paravirtualized TLB flush (hv-direct-tlbflush)",
-> +        .dependencies = BIT(HYPERV_FEAT_TLBFLUSH)
-> +    },
->  };
->  
->  static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-> @@ -1224,6 +1228,7 @@ static int hyperv_handle_properties(CPUState *cs,
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_EVMCS);
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_IPI);
->      r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_STIMER_DIRECT);
-> +    r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_DIRECT_TLBFLUSH);
->  
->      /* Additional dependencies not covered by kvm_hyperv_properties[] */
->      if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
-> @@ -1243,6 +1248,25 @@ static int hyperv_handle_properties(CPUState *cs,
->          goto free;
->      }
->  
-> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_DIRECT_TLBFLUSH)) {
-> +        if (kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_DIRECT_TLBFLUSH, 0, 0)) {
-> +            if (!cpu->hyperv_passthrough) {
-> +                fprintf(stderr,
-> +                    "Hyper-V %s is not supported by kernel\n",
-> +                    kvm_hyperv_properties[HYPERV_FEAT_DIRECT_TLBFLUSH].desc);
-> +                return -ENOSYS;
-> +            }
-> +
-> +            cpu->hyperv_features &= ~BIT(HYPERV_FEAT_DIRECT_TLBFLUSH);
-> +        } else if (cpu->expose_kvm) {
-> +            fprintf(stderr,
-> +                "Hyper-V %s requires KVM hypervisor signature "
-> +                "to be hidden (-kvm).\n",
-> +                kvm_hyperv_properties[HYPERV_FEAT_DIRECT_TLBFLUSH].desc);
-> +            return -ENOSYS;
-> +        }
+  tcg plugins: expose an API version concept (2019-11-12 14:32:55 +0000)
 
-In view of my comment above, this "else if" clause may become
-unnecessary.
+----------------------------------------------------------------
+Testing and plugins for rc1
 
-However, it doesn't hurt either, and doesn't make things worse, so, if
-this is seen as 4.2 material and the general KVM vs Hyper-V hypercall
-conflict resolution is postponed till after 4.2, the patch looks ok as
-it is.
+  - add plugin API versioning
+  - tests/vm add netbsd autoinstall
+  - disable ipmi-bt-test for non-Linux
+  - single-thread make check
 
-Under this provision
+----------------------------------------------------------------
+Alex Bennée (4):
+      tests: only run ipmi-bt-test if CONFIG_LINUX
+      tests/vm: support sites with sha512 checksums
+      .travis.yml: don't run make check with multiple jobs
+      tcg plugins: expose an API version concept
 
-Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
+Gerd Hoffmann (4):
+      tests/vm: netbsd autoinstall, using serial console
+      tests/vm: add console_consume helper
+      tests/vm: use console_consume for netbsd
+      tests/vm: update netbsd to version 8.1
 
-> +    }
-> +
->      if (cpu->hyperv_passthrough) {
->          /* We already copied all feature words from KVM as is */
->          r = cpuid->nent;
-> -- 
-> 2.14.5
-> 
+ .travis.yml                |   2 +-
+ include/qemu/qemu-plugin.h |  19 +++++
+ plugins/loader.c           |  21 +++++
+ plugins/plugin.h           |   2 +
+ tests/Makefile.include     |   2 +
+ tests/plugin/bb.c          |   2 +
+ tests/plugin/empty.c       |   2 +
+ tests/plugin/hotblocks.c   |   2 +
+ tests/plugin/hotpages.c    |   2 +
+ tests/plugin/howvec.c      |   2 +
+ tests/plugin/insn.c        |   2 +
+ tests/plugin/mem.c         |   2 +
+ tests/vm/basevm.py         |  29 ++++++-
+ tests/vm/netbsd            | 188 ++++++++++++++++++++++++++++++++++++++++++---
+ 14 files changed, 264 insertions(+), 13 deletions(-)
+
+-- 
+2.20.1
+
 
