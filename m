@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22236F969F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:07:06 +0100 (CET)
-Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16C8F968C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:05:23 +0100 (CET)
+Received: from localhost ([::1]:37870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUZdA-0001QQ-33
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:07:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57269)
+	id 1iUZbW-0007gq-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:05:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUZWn-0003oC-Tj
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:30 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iUZZa-00063q-30
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:03:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUZWm-0003WZ-Q9
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:29 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36428)
+ (envelope-from <peter.maydell@linaro.org>) id 1iUZZX-0004Sg-14
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:03:20 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40664)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUZWm-0003WF-J9
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:00:28 -0500
-Received: by mail-ot1-x343.google.com with SMTP id f10so14936735oto.3
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:00:28 -0800 (PST)
+ id 1iUZZW-0004Ru-Kg
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:03:18 -0500
+Received: by mail-oi1-x244.google.com with SMTP id 22so15462206oip.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:03:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=87WbpLLoTtM+S/A9vSB0avC7Toq4vDPjmBoWgSvrakE=;
- b=dxQkiUTlCpXx46MVeUaA5ky8QJ8ycpCpFlSK/PUL8dOjOEppTNl3/p4qQnJ68wVOVd
- mBc4dj0zxY4R9ReYWKdT//tO1uX0zbL7OD2b4Uto5x0wMnLXhW6wRS5h+uPkJz3q9ziW
- Z3dCd7VjzyLeL1WcnqCwnWAqY87GWebzPBQOkkMZ+SPkrBhzzzzVEBiky7q82SlfNAkX
- jTPEAmKIVjmtR/iXSfTpvn6Q2bYA4GVCkHdGhCj8ln5dG7JKIEuBbrIiTlUkEYZFcxGw
- DFnR+rKwFEVY/GC2pN+MemVFUf8KFReJmZq2pMuV48dhLAS1BGziLP2wtEFOu/2rsYwR
- CwkQ==
+ bh=zj2qDhIY+Fnq6dqr5g8WMbqoi2/FB1bIBoTQLzbXcmI=;
+ b=fegaXNL9AVVswiSx7UtFEZvq/1fI2cbzaroA14rb0U3uE+bNiOVy4t4cJy+CJ6dIsf
+ BFlDu5TGbwvPjMJAzf31s4lq3kVg9+egM9ClaeXT8TS6rzjjzZLbq96WEhgdxWdxQJSH
+ Ohp96j2uUkIxYveJT2zO+hGs9K1cReYRoXLZtTvl7nIxcr8re4hDfPcZP5H6HRaF3RCD
+ MIQInHON0Ct6/I59Zo59vSrxWK+9+2AUYXdbY4NJFnxxmrGRplDhBCEiCAfnBqpbtd/U
+ HveSKwpt057fU/w6fVYfp4XiwqcutW5ezmNN9Bt4p6eJoqSEESNDsNIwRkc1/MKvdtxg
+ 1ezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=87WbpLLoTtM+S/A9vSB0avC7Toq4vDPjmBoWgSvrakE=;
- b=s71+2J0SJt64Fz1ouQwxHChAOEC3Khld2mHe24O/rc2pQm4WjARWL7cBWO2a44jaiN
- fIbKjt11bRIEWhdRMZf0E62Re900ahRQ7myygNvXT9s6wR3nlRkfHNB9qGNJoLunnX/H
- hihXjEaXirZb9xTjsEHmW4BSuKLc/B9jYmdBEvyee8w0JdXpy8+QUTiJ8fSB6+3gcZIA
- 1NMIiPT4gbRMz+z5V5H7ynR9rDPp52+K0XOF2BbcyjPRxPHp4YlXz/rTA36ibgddVOq7
- 2mHxWR9L/pJ0y5aZTVQjFPH/rsRjwxCRxojJe6vmStFr+/a0lK4Tl//CAiOUcXQoJjFn
- 718w==
-X-Gm-Message-State: APjAAAWlvtuTtI0qrmoGRWmDbWB6eZdDaEZ5inMuyPmiLaZeAvE45geS
- k0l0Xrrl2++84IUerzyec8FxSXZw06Qx0j4av5pODw==
-X-Google-Smtp-Source: APXvYqzFC9EJm/6hdrUaFK3MOtRsB99wp+Yr8WK5NyL6omdnrZGcYYPHo+ZqIAwbyF9fne3YzHZ4wVAdDim0ky5/L/8=
-X-Received: by 2002:a9d:6357:: with SMTP id y23mr24021242otk.91.1573578027628; 
- Tue, 12 Nov 2019 09:00:27 -0800 (PST)
+ bh=zj2qDhIY+Fnq6dqr5g8WMbqoi2/FB1bIBoTQLzbXcmI=;
+ b=uEB0sAQo9qfjI4Yv3SRD2AjDvlJtPmuiDmy6snhA3FcXkec1Q6KVkx3siWRY81ZOxV
+ vK39pK3VkYN+CVEiLws7v337VBhzprQEdABBF4LGpX6hY2H4QdzeO2PGyF6shuMBnvI0
+ EuNyCioiWWsPi5UnthgvkWvvRmuWlkGSvOrWMSWLhzHw0PUVS7uAVCdaf8P58x4KX2SS
+ aGypslLtderUa5BdVUWfRMHSb8sNWU7OxUAW6+EA65jsc3IM+5qc99DwxEsHkXiAYrnQ
+ o13L4W1kFzy1d821CVPthA7TUzClZTvDeVZglPZV8Pw40IwUibi0nyTNBUkpaRwUIm5Z
+ mobA==
+X-Gm-Message-State: APjAAAXFBf9yO6tSLCw6e0Y73TXcssbk6wnw5DA3B+HgVKwiZG2pzCnu
+ wbF9po1n+ks+z7VKcN/y7zGSXwH5cmxfjtp8cBg7lA==
+X-Google-Smtp-Source: APXvYqxFId7RZubqVAnobYGUknYFzaoHDh7rz+Itgve/WLUN2Vme+LzjhsqTtRZA072pooHM/+slQ5AmWamRexH5L+Y=
+X-Received: by 2002:aca:451:: with SMTP id 78mr5048176oie.170.1573578197600;
+ Tue, 12 Nov 2019 09:03:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20191112164051.16404-1-alex.bennee@linaro.org>
- <20191112164051.16404-2-alex.bennee@linaro.org>
-In-Reply-To: <20191112164051.16404-2-alex.bennee@linaro.org>
+ <20191112164051.16404-3-alex.bennee@linaro.org>
+In-Reply-To: <20191112164051.16404-3-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Nov 2019 17:00:16 +0000
-Message-ID: <CAFEAcA9tfXe3hp74xjODSfAO2eJryEkVgP8owoCd0LMxTt-F=Q@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] docs/devel: rename plugins.rst to tcg-plugins.rst
+Date: Tue, 12 Nov 2019 17:03:06 +0000
+Message-ID: <CAFEAcA8gjPKU8opRb=oTLmVMRBxoba5W+Of8RkqQZ2nH--Ck5w@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] docs/devel: update tcg-plugins.rst with API
+ versioning details
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,38 +86,48 @@ Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Nov 2019 at 16:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+On Tue, 12 Nov 2019 at 16:41, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
 te:
->
-> This makes it a bit clearer what this is about.
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  MAINTAINERS                                 | 1 +
->  docs/devel/{plugins.rst =3D> tcg-plugins.rst} | 0
->  2 files changed, 1 insertion(+)
->  rename docs/devel/{plugins.rst =3D> tcg-plugins.rst} (100%)
+>  docs/devel/tcg-plugins.rst | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ff8d0d29f4b..b160d817208 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2369,6 +2369,7 @@ F: tcg/
->  TCG Plugins
->  M: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->  S: Maintained
-> +F: docs/devel/tcg-plugins.rst
->  F: plugins/
->  F: tests/plugin
+> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+> index b18fb6729e3..8d619fd44ef 100644
+> --- a/docs/devel/tcg-plugins.rst
+> +++ b/docs/devel/tcg-plugins.rst
+> @@ -25,6 +25,22 @@ process. However the project reserves the right to cha=
+nge or break the
+>  API should it need to do so. The best way to avoid this is to submit
+>  your plugin upstream so they can be updated if/when the API changes.
 >
-> diff --git a/docs/devel/plugins.rst b/docs/devel/tcg-plugins.rst
-> similarity index 100%
-> rename from docs/devel/plugins.rst
-> rename to docs/devel/tcg-plugins.rst
-> -
+> +API versioning
+> +--------------
+> +
+> +All plugins need to declare a symbol which exports the plugin API
+> +version they were built against. This is can be done simply by:
 
-Don't you also need to update the reference
-to 'plugins' in docs/devel/index.rst ?
+either "is" or "can be", but not both :-)
+
+> +
+> +::
+> +    QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+> +
+> +The core code will refuse to load a plugin that doesn't export a
+> +`qemu_plugin_version` symbol.
+
+It also refuses to load a plugin which exports a qemu_plugin_version
+specifying a version which the core code doesn't support, right?
+
+> Additionally the `qemu_info_t` structure
+> +which is passed to the `qemu_plugin_install` method of a plugin will
+> +detail the minimum and current API versions supported by QEMU. The API
+> +version will be incremented if new APIs are added. The minimum API
+> +version will be incremented if existing APIs are changed or removed.
+> +
+>
 
 thanks
 -- PMM
