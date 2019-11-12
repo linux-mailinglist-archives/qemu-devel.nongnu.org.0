@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF98F9580
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:23:58 +0100 (CET)
-Received: from localhost ([::1]:37346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454D0F95BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:36:18 +0100 (CET)
+Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUYxR-0000Hb-D5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:23:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
+	id 1iUZ9M-0003ea-RR
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:36:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUYwO-0008I3-ER
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:53 -0500
+ (envelope-from <slp@redhat.com>) id 1iUZ7m-00035I-NV
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUYwM-0005Yk-VI
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:52 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35121)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUYwM-0005TS-Kc
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:50 -0500
-Received: by mail-wm1-x342.google.com with SMTP id 8so3642780wmo.0
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=UBXjsqQUcqNUyCDlLi0zZZgtyo1Pm4NLb9ARW1ugJ6Y=;
- b=CrHXjY+ts7UF6+YccSiujin/iLExIS43RvKfdekNkZCIMXjvEHG3w8QUNORF37Yg+A
- bfvtZeCMNZv94xePNLKtjZmXmMWFtG2/C5T0ytxkFu6VvqTsWbAzlhUUIlw8X+MkEXnM
- 66McNvfIQYlzI6m05/cM9/9JWcbShqr012BqgDuBVJtSUXCPtNTNEX82s4VN8Kcm90jn
- 3g8PzmuLy8t9l0CNfucmp+bSqv6Cz0bzNMwtFrxJfEEs3SiuqEYgtiZg+SgVs5KOoCUA
- nqMRpibltrhVA2p9+m4Z6Rx89bT1f/dxjr/L+GWMj5aAF+Ga7XeRBqQeSgUh7v7Fx6De
- rJWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=UBXjsqQUcqNUyCDlLi0zZZgtyo1Pm4NLb9ARW1ugJ6Y=;
- b=KAOiw67DRNfTk4d6FAsaPgCwYYIDdNz2A6NSJ/sp2gS5Uvh+LTFKSSQCNTqAWlITNe
- 1xBSWKO0uFeNt9TCMVUbnE4PqHFXd5592URniWBrb02pgR+uV5UC1kuDpg/jSUOAn5Ol
- GUasF8zzCRubTx2acR3wE5uuRpHAgwhey7fRURPZYpbHqc2sB/k1go7Zjky+UTzXoWhS
- QMrhVW7Nza27XVHEWirZ3I/fV70HtY8qZ9OvfBdoHCLciaYWTNltn/oO5Jqf3F3AgCBV
- H569n4AVdBaAoQJYm7Eh8cm0ubxtpWh+1+eNxd+CVe9rab87jNuZqQGElsSIOg5s/W+v
- YlLA==
-X-Gm-Message-State: APjAAAULRntFRkl9FOs9NvI4pc+6Ar8QVO8hUKi51L4E5GJ5Dzu0sLq2
- 7Yhrb5kHTIlc7U5VECHQ0xmO5A==
-X-Google-Smtp-Source: APXvYqzBl0GJ1aMN6fcMAMy2AEf4ls+byXnOAgZQ544zpjhF+c+mknrWyAZaO8mRXpJ1OSedTlawfQ==
-X-Received: by 2002:a1c:49d5:: with SMTP id w204mr4923348wma.111.1573575769063; 
- Tue, 12 Nov 2019 08:22:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y78sm5400567wmd.32.2019.11.12.08.22.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 08:22:47 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2487B1FF87;
- Tue, 12 Nov 2019 16:22:47 +0000 (GMT)
-References: <20191112145028.26386-1-alex.bennee@linaro.org>
- <CAFEAcA_9AwoTE9zaKbiF6DkpN+O8LaEKGOct-m5S3yvFBHGK1g@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/8] testing and tcg plugin api ver
-In-reply-to: <CAFEAcA_9AwoTE9zaKbiF6DkpN+O8LaEKGOct-m5S3yvFBHGK1g@mail.gmail.com>
-Date: Tue, 12 Nov 2019 16:22:47 +0000
-Message-ID: <87woc583oo.fsf@linaro.org>
+ (envelope-from <slp@redhat.com>) id 1iUZ7j-0005iU-RR
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43804
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iUZ7j-0005iJ-O7
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573576475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b3SMrYxnvckf37Kdq1BzVr9OthfuhBasECOwaXNmd50=;
+ b=I84Xr5YiLXyK3+l1INbC/kQRsijP40Uc49o5nRvKszyzbD2pP0qgI6Qy2m95DFMGqZXZVv
+ oQJBMEzNq4VgTIcPPFpR4seKy1rmrsYaKF3h2LFnKFh3i9KGGIsbnHgHz4IyLTNxi4Voi4
+ O539oMAbODrkbOFTM7qb0PJaBXqHEsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-sZzqbAD_PHyinUmjQtO5Ag-1; Tue, 12 Nov 2019 11:34:32 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A55B107AD44;
+ Tue, 12 Nov 2019 16:34:31 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 357381B477;
+ Tue, 12 Nov 2019 16:34:23 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] microvm: fix memory leak in microvm_fix_kernel_cmdline
+Date: Tue, 12 Nov 2019 17:34:23 +0100
+Message-Id: <20191112163423.91884-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: sZzqbAD_PHyinUmjQtO5Ag-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,54 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In microvm_fix_kernel_cmdline(), fw_cfg_modify_string() is duplicating
+cmdline instead of taking ownership of it. Free it afterwards to avoid
+leaking it.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Reported-by: Coverity (CID 1407218)
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ hw/i386/microvm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> On Tue, 12 Nov 2019 at 14:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 039e285e095c20a88e623b927654b161aaf9d=
-914:
->>
->>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull=
--request' into staging (2019-11-12 12:09:19 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-and-tcg-121119-1
->>
->> for you to fetch changes up to 3fb356cc86461a14450802e14fa79e8436dbbf31:
->>
->>   tcg plugins: expose an API version concept (2019-11-12 14:32:55 +0000)
->>
->> ----------------------------------------------------------------
->> Testing and plugins for rc1
->>
->>   - add plugin API versioning
->>   - tests/vm add netbsd autoinstall
->>   - disable ipmi-bt-test for non-Linux
->>   - single-thread make check
->
->
-> Applied, thanks.
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-> for any user-visible changes.
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 8aacd6c8d1..def37e60f7 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -331,6 +331,8 @@ static void microvm_fix_kernel_cmdline(MachineState *ma=
+chine)
+=20
+     fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) =
++ 1);
+     fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
++
++    g_free(cmdline);
+ }
+=20
+ static void microvm_machine_state_init(MachineState *machine)
+--=20
+2.23.0
 
-Yes.. I'll cook something up.
-
->
-> PS: just noticed, but shouldn't the plugin-version change
-> have needed an update to the docs ?
->
-> thanks
-> -- PMM
-
-
---
-Alex Benn=C3=A9e
 
