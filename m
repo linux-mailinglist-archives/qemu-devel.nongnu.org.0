@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724EBF96ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:19:25 +0100 (CET)
-Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119AEF9767
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:42:13 +0100 (CET)
+Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUZp6-00054m-96
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:19:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59281)
+	id 1iUaB9-0004e5-SA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUZnZ-0004fO-Id
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:17:51 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa7C-0000rb-9D
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUZnX-0002CB-C2
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:17:49 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36320)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUZnX-0002Bc-3B
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:17:47 -0500
-Received: by mail-wr1-x444.google.com with SMTP id r10so19449518wrx.3
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:17:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=NGWClE8K7Z/rMeiINCLOV8kH//CWmxLU1cezRk0AHsE=;
- b=nxEZ3rOJj7JltPJLmkH1eab0lYi6E8+Z9rWyPvKYbW6uNSwOLGXZDjQTVB7rzcq4Iw
- 7F/90EFhh0/TN6Othzw8eBBmxiHswjW3VFZWLFSwN1LWqnSf2bXEvEIfSsjOoH9RuIgN
- 0pjWnEgQc72DnNzdmv2G5O5NIs+6Fidz5mAF8yNxV7Yel08gSAXPl84wXGlAQc/wB3t7
- IOkYsVSGU0IN0J+m2/EnDsloUvVKgliHKjKp1Pce/Qda499s1nCwsOSIgTZQYnzviW8w
- 3Aljitaepxa/jlpR4Avi7BqtI+EAdkj4HsotyYdICnf8fI8zOiTLU2nGMJNI2A6lnf71
- gaVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=NGWClE8K7Z/rMeiINCLOV8kH//CWmxLU1cezRk0AHsE=;
- b=AvIStFK1A9sfS5oYsW4xQn6hutj6VBeuyjjp7qJdlFMBJ4wS3N4OqLW7VJY37amomG
- PMQoD6gcL4XDGzhMdLQz5KhlIFnntN8EBVNDF2CN9hdZVVetriDt6l5o4xAwpbu3mHJ7
- pds7ULwQJcXfgjZQU3AhQhaTwXBmatXr76LMgEjPmenQXtukisR/EAI4n98XuJvBxXie
- SCQQWrv6q2s+zu9DhcYgGEzFDFCsOqhRe6odOhYA9GKpw3io98+N4oollQ4AFPbS22Q3
- kQJMh1RB/ZLlDKVhT08/BngnWA1QNME99aBJjXZrg18V1UwBVFVNUyXZzgIfBMJKNi8E
- L6zg==
-X-Gm-Message-State: APjAAAXWffb/7HAM+7ARzpSixGti68j9o0jB6nnMKi+2YTDlXy8NN2Xs
- WzFq9gFqZuCGhHOrfCyBMIhgUQ==
-X-Google-Smtp-Source: APXvYqwaOZLm6GO09f+gLZyxfX2Rsc0cr58zQ814EXKTeb3qu0imSgwIjJVit5a9q9ncVHyh1W8xJA==
-X-Received: by 2002:adf:e286:: with SMTP id v6mr974412wri.60.1573579065399;
- Tue, 12 Nov 2019 09:17:45 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w19sm3927677wmk.36.2019.11.12.09.17.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 09:17:44 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6BC911FF87;
- Tue, 12 Nov 2019 17:17:43 +0000 (GMT)
-References: <20191112150105.2498-1-robert.foley@linaro.org>
- <20191112150105.2498-3-robert.foley@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v1 2/5] qemu_log_lock/unlock now preserves the
- qemu_logfile handle.
-In-reply-to: <20191112150105.2498-3-robert.foley@linaro.org>
-Date: Tue, 12 Nov 2019 17:17:43 +0000
-Message-ID: <87o8xh8154.fsf@linaro.org>
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa7A-0005J5-MW
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:06 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8018)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1iUa7A-0005In-EM
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:04 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5dcaec850000>; Tue, 12 Nov 2019 09:31:49 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 12 Nov 2019 09:32:45 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 12 Nov 2019 09:32:45 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 17:32:45 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 12 Nov 2019 17:32:38 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v9 Kernel 0/5] Add KABIs to support migration for VFIO devices
+Date: Tue, 12 Nov 2019 22:33:35 +0530
+Message-ID: <1573578220-7530-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1573579909; bh=VwC/4UKhllpfCNBLQXoDqFAkQVIzZ3vwpVHFBclHKmQ=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=hngEcYbiELuMYGwLOY+aojWwkFwbIb88rEnqTaNdX8pKqsHhdtawuQ5Owkr/83lZd
+ 8w6d4hihyrv9NSLgpxsbJKvqrs2m10BaVI6f3Swqj7xHgLglW456B0isfaqHcyrBbi
+ nqUUZqucInxHkPgktFJT+C2/tf3N1tL9KUejNR6dhDN/1jnY0OYXo7tQchEbvlY3Dc
+ xUYTui9uTUTAJnYlvTY07EI/hj0iOuAr7QE464kYCvg490MjJ6LXmz9xz9oa4jYydQ
+ cJe+qR8aWGih//SplUcHpCv2EjELQPEsflP21H3jWPINYWm8QfNRTD346RRAmfLK1o
+ /yqJxG3uWVylQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,426 +67,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, qemu-devel@nongnu.org
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Alex,
 
-Robert Foley <robert.foley@linaro.org> writes:
+To keep kernel and QEMU patches in sync, keeping v9 version for this patch
+set. Till v8 version, KABI was being discussed from QEMU patch series[1].
+In earlier version mail and as per in person discussion at KVM forum, this
+patch set adds:
+* New IOCTL VFIO_IOMMU_GET_DIRTY_BITMAP to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned by vendor driver
+  should be considered as dirty.
+* New IOCTL VFIO_IOMMU_UNMAP_DMA_GET_BITMAP to get dirty pages bitmap
+  before unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
 
-> qemu_log_lock() now returns a handle and qemu_log_unlock() receives a
-> handle to unlock.  This allows for changing the handle during logging
-> and ensures the lock() and unlock() are for the same file.
->
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> ---
-> v1
->     - Moved this up in the patch sequence to be
->       before adding RCU for qemu_logfile.
-> ---
->  include/qemu/log.h            |  9 ++++++---
->  accel/tcg/cpu-exec.c          |  4 ++--
->  accel/tcg/translate-all.c     |  4 ++--
->  accel/tcg/translator.c        |  4 ++--
->  exec.c                        |  4 ++--
->  hw/net/can/can_sja1000.c      |  4 ++--
->  net/can/can_socketcan.c       |  5 ++---
->  target/cris/translate.c       |  4 ++--
->  target/i386/translate.c       |  5 +++--
->  target/lm32/translate.c       |  4 ++--
->  target/microblaze/translate.c |  4 ++--
->  target/nios2/translate.c      |  4 ++--
->  target/tilegx/translate.c     |  7 ++++---
->  target/unicore32/translate.c  |  4 ++--
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
 
-A bit messier than I'd like but I guess that's unavoidable. It does
-nicely show who's left to convert to the common translator loop ;-)
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg640400.html
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
 
->  tcg/tcg.c                     | 16 ++++++++--------
->  15 files changed, 43 insertions(+), 39 deletions(-)
->
-> diff --git a/include/qemu/log.h b/include/qemu/log.h
-> index a91105b2ad..a7c5b01571 100644
-> --- a/include/qemu/log.h
-> +++ b/include/qemu/log.h
-> @@ -53,14 +53,17 @@ static inline bool qemu_log_separate(void)
->   * qemu_loglevel is never set when qemu_logfile is unset.
->   */
->
-> -static inline void qemu_log_lock(void)
-> +static inline FILE *qemu_log_lock(void)
->  {
->      qemu_flockfile(qemu_logfile);
-> +    return logfile->fd;
->  }
->
-> -static inline void qemu_log_unlock(void)
-> +static inline void qemu_log_unlock(FILE *fd)
->  {
-> -    qemu_funlockfile(qemu_logfile);
-> +    if (fd) {
-> +        qemu_funlockfile(fd);
-> +    }
->  }
->
->  /* Logging functions: */
-> diff --git a/net/can/can_socketcan.c b/net/can/can_socketcan.c
-> index 8a6ffad40c..29bfacd4f8 100644
-> --- a/net/can/can_socketcan.c
-> +++ b/net/can/can_socketcan.c
-> @@ -76,8 +76,7 @@ QEMU_BUILD_BUG_ON(offsetof(qemu_can_frame, data)
->  static void can_host_socketcan_display_msg(struct qemu_can_frame *msg)
->  {
->      int i;
-> -
-> -    qemu_log_lock();
-> +    FILE *logfile =3D qemu_log_lock();
->      qemu_log("[cansocketcan]: %03X [%01d] %s %s",
->               msg->can_id & QEMU_CAN_EFF_MASK,
->               msg->can_dlc,
-> @@ -89,7 +88,7 @@ static void can_host_socketcan_display_msg(struct qemu_=
-can_frame *msg)
->      }
->      qemu_log("\n");
->      qemu_log_flush();
-> -    qemu_log_unlock();
-> +    qemu_log_unlock(logfile);
->  }
->
->  static void can_host_socketcan_read(void *opaque)
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index c01f59c743..62068d10c3 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -156,7 +156,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *=
-cpu, TranslationBlock *itb)
->  #if defined(DEBUG_DISAS)
->      if (qemu_loglevel_mask(CPU_LOG_TB_CPU)
->          && qemu_log_in_addr_range(itb->pc)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          int flags =3D 0;
->          if (qemu_loglevel_mask(CPU_LOG_TB_FPU)) {
->              flags |=3D CPU_DUMP_FPU;
-> @@ -165,7 +165,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *=
-cpu, TranslationBlock *itb)
->          flags |=3D CPU_DUMP_CCOP;
->  #endif
->          log_cpu_state(cpu, flags);
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif /* DEBUG_DISAS */
->
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 9f48da9472..bb325a2bc4 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1804,7 +1804,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
->          qemu_log_in_addr_range(tb->pc)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("OUT: [size=3D%d]\n", gen_code_size);
->          if (tcg_ctx->data_gen_ptr) {
->              size_t code_size =3D tcg_ctx->data_gen_ptr - tb->tc.ptr;
-> @@ -1829,7 +1829,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->          }
->          qemu_log("\n");
->          qemu_log_flush();
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->
-> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-> index f977682be7..603d17ff83 100644
-> --- a/accel/tcg/translator.c
-> +++ b/accel/tcg/translator.c
-> @@ -138,11 +138,11 @@ void translator_loop(const TranslatorOps *ops, Disa=
-sContextBase *db,
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(db->pc_first)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("----------------\n");
->          ops->disas_log(db, cpu);
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->  }
-> diff --git a/exec.c b/exec.c
-> index ffdb518535..c994a00f10 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -1223,13 +1223,13 @@ void cpu_abort(CPUState *cpu, const char *fmt, ..=
-.)
->      fprintf(stderr, "\n");
->      cpu_dump_state(cpu, stderr, CPU_DUMP_FPU | CPU_DUMP_CCOP);
->      if (qemu_log_separate()) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("qemu: fatal: ");
->          qemu_log_vprintf(fmt, ap2);
->          qemu_log("\n");
->          log_cpu_state(cpu, CPU_DUMP_FPU | CPU_DUMP_CCOP);
->          qemu_log_flush();
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->          qemu_log_close();
->      }
->      va_end(ap2);
-> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-> index 1f81341554..39c78faf9b 100644
-> --- a/hw/net/can/can_sja1000.c
-> +++ b/hw/net/can/can_sja1000.c
-> @@ -247,8 +247,8 @@ int can_sja_accept_filter(CanSJA1000State *s,
->  static void can_display_msg(const char *prefix, const qemu_can_frame *ms=
-g)
->  {
->      int i;
-> +    FILE *logfile =3D qemu_log_lock();
->
-> -    qemu_log_lock();
->      qemu_log("%s%03X [%01d] %s %s",
->               prefix,
->               msg->can_id & QEMU_CAN_EFF_MASK,
-> @@ -261,7 +261,7 @@ static void can_display_msg(const char *prefix, const=
- qemu_can_frame *msg)
->      }
->      qemu_log("\n");
->      qemu_log_flush();
-> -    qemu_log_unlock();
-> +    qemu_log_unlock(logfile);
->  }
->
->  static void buff2frame_pel(const uint8_t *buff, qemu_can_frame *frame)
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index e752bd0609..cb57516a44 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -3273,11 +3273,11 @@ void gen_intermediate_code(CPUState *cs, Translat=
-ionBlock *tb, int max_insns)
->  #if !DISAS_CRIS
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(pc_start)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("--------------\n");
->          qemu_log("IN: %s\n", lookup_symbol(pc_start));
->          log_target_disas(cs, pc_start, dc->pc - pc_start);
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->  #endif
-> diff --git a/target/i386/translate.c b/target/i386/translate.c
-> index 77e932d827..7c99ef1385 100644
-> --- a/target/i386/translate.c
-> +++ b/target/i386/translate.c
-> @@ -2502,14 +2502,15 @@ static void gen_unknown_opcode(CPUX86State *env, =
-DisasContext *s)
->      gen_illegal_opcode(s);
->
->      if (qemu_loglevel_mask(LOG_UNIMP)) {
-> +        FILE *logfile =3D qemu_log_lock();
->          target_ulong pc =3D s->pc_start, end =3D s->pc;
-> -        qemu_log_lock();
-> +
->          qemu_log("ILLOPC: " TARGET_FMT_lx ":", pc);
->          for (; pc < end; ++pc) {
->              qemu_log(" %02x", cpu_ldub_code(env, pc));
->          }
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  }
->
-> diff --git a/target/lm32/translate.c b/target/lm32/translate.c
-> index 778cae1e81..73db9654d6 100644
-> --- a/target/lm32/translate.c
-> +++ b/target/lm32/translate.c
-> @@ -1137,10 +1137,10 @@ void gen_intermediate_code(CPUState *cs, Translat=
-ionBlock *tb, int max_insns)
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(pc_start)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("\n");
->          log_target_disas(cs, pc_start, dc->pc - pc_start);
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->  }
-> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-> index 761f535357..cc1ad15656 100644
-> --- a/target/microblaze/translate.c
-> +++ b/target/microblaze/translate.c
-> @@ -1766,10 +1766,10 @@ void gen_intermediate_code(CPUState *cs, Translat=
-ionBlock *tb, int max_insns)
->  #if !SIM_COMPAT
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(pc_start)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("--------------\n");
->          log_target_disas(cs, pc_start, dc->pc - pc_start);
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->  #endif
-> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-> index e17656e66f..82107bf270 100644
-> --- a/target/nios2/translate.c
-> +++ b/target/nios2/translate.c
-> @@ -892,11 +892,11 @@ void gen_intermediate_code(CPUState *cs, Translatio=
-nBlock *tb, int max_insns)
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(tb->pc)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("IN: %s\n", lookup_symbol(tb->pc));
->          log_target_disas(cs, tb->pc, dc->pc - tb->pc);
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->  }
-> diff --git a/target/tilegx/translate.c b/target/tilegx/translate.c
-> index 68dd4aa2d8..fd406f4f71 100644
-> --- a/target/tilegx/translate.c
-> +++ b/target/tilegx/translate.c
-> @@ -2377,6 +2377,7 @@ void gen_intermediate_code(CPUState *cs, Translatio=
-nBlock *tb, int max_insns)
->      uint64_t pc_start =3D tb->pc;
->      uint64_t page_start =3D pc_start & TARGET_PAGE_MASK;
->      int num_insns =3D 0;
-> +    FILE *logfile =3D NULL;
->
->      dc->pc =3D pc_start;
->      dc->mmuidx =3D 0;
-> @@ -2388,7 +2389,7 @@ void gen_intermediate_code(CPUState *cs, Translatio=
-nBlock *tb, int max_insns)
->      dc->zero =3D NULL;
->
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
-> -        qemu_log_lock();
-> +        logfile =3D qemu_log_lock();
->          qemu_log("IN: %s\n", lookup_symbol(pc_start));
->      }
->      gen_tb_start(tb);
-> @@ -2418,9 +2419,9 @@ void gen_intermediate_code(CPUState *cs, Translatio=
-nBlock *tb, int max_insns)
->      tb->size =3D dc->pc - pc_start;
->      tb->icount =3D num_insns;
->
-> -    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)) {
-> +    if (logfile) {
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  }
->
-> diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
-> index 0e01f35856..0f6891b8aa 100644
-> --- a/target/unicore32/translate.c
-> +++ b/target/unicore32/translate.c
-> @@ -1994,12 +1994,12 @@ done_generating:
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
->          && qemu_log_in_addr_range(pc_start)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("----------------\n");
->          qemu_log("IN: %s\n", lookup_symbol(pc_start));
->          log_target_disas(cs, pc_start, dc->pc - pc_start);
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->      tb->size =3D dc->pc - pc_start;
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 5475d49ed1..0511266d85 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1085,7 +1085,7 @@ void tcg_prologue_init(TCGContext *s)
->
->  #ifdef DEBUG_DISAS
->      if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("PROLOGUE: [size=3D%zu]\n", prologue_size);
->          if (s->data_gen_ptr) {
->              size_t code_size =3D s->data_gen_ptr - buf0;
-> @@ -1110,7 +1110,7 @@ void tcg_prologue_init(TCGContext *s)
->          }
->          qemu_log("\n");
->          qemu_log_flush();
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->
-> @@ -4041,11 +4041,11 @@ int tcg_gen_code(TCGContext *s, TranslationBlock =
-*tb)
->  #ifdef DEBUG_DISAS
->      if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP)
->                   && qemu_log_in_addr_range(tb->pc))) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("OP:\n");
->          tcg_dump_ops(s, false);
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
->
-> @@ -4086,11 +4086,11 @@ int tcg_gen_code(TCGContext *s, TranslationBlock =
-*tb)
->  #ifdef DEBUG_DISAS
->          if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_IND)
->                       && qemu_log_in_addr_range(tb->pc))) {
-> -            qemu_log_lock();
-> +            FILE *logfile =3D qemu_log_lock();
->              qemu_log("OP before indirect lowering:\n");
->              tcg_dump_ops(s, false);
->              qemu_log("\n");
-> -            qemu_log_unlock();
-> +            qemu_log_unlock(logfile);
->          }
->  #endif
->          /* Replace indirect temps with direct temps.  */
-> @@ -4107,11 +4107,11 @@ int tcg_gen_code(TCGContext *s, TranslationBlock =
-*tb)
->  #ifdef DEBUG_DISAS
->      if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_OPT)
->                   && qemu_log_in_addr_range(tb->pc))) {
-> -        qemu_log_lock();
-> +        FILE *logfile =3D qemu_log_lock();
->          qemu_log("OP after optimization and liveness analysis:\n");
->          tcg_dump_ops(s, true);
->          qemu_log("\n");
-> -        qemu_log_unlock();
-> +        qemu_log_unlock(logfile);
->      }
->  #endif
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
 
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
 
---
-Alex Benn=C3=A9e
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
+
+Thanks,
+Kirti
+
+Kirti Wankhede (5):
+  vfio: KABI for migration interface for device state
+  vfio iommu: Add ioctl defination to get dirty pages bitmap.
+  vfio iommu: Add ioctl defination to unmap IOVA and return dirty bitmap
+  vfio iommu: Implementation of ioctl to get dirty pages bitmap.
+  vfio iommu: Implementation of ioctl to get dirty bitmap before unmap
+
+ drivers/vfio/vfio_iommu_type1.c | 163 ++++++++++++++++++++++++++++++++++++++-
+ include/uapi/linux/vfio.h       | 164 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 325 insertions(+), 2 deletions(-)
+
+-- 
+2.7.0
+
 
