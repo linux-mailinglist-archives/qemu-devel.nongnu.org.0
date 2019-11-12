@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5112EF88C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:49:54 +0100 (CET)
-Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315C9F88D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:51:52 +0100 (CET)
+Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUPzs-0001YS-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:49:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
+	id 1iUQ1m-0004Rf-U1
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:51:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iUPu3-0005cI-RT
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:52 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iUPwP-0007Ss-Tm
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:46:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iUPu2-0000c2-Ot
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55668
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPu2-0000bd-LP
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573541030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aCLLqG38888t2sVO5GwFFujL32t2nwGBtSf6KfG0fDg=;
- b=MKLZ1nP+DlFL7h6a6BXZ6ddxVSqSHJiHUv27vA+s4AwaNgC+jipn+FzDdAjWK+PSTP1ElQ
- pBpVNJWIJT/tqNEQnJNXf09hGrRYrAeebNDEa9LTc1mxFeby0zpPcTgmrHkYW5vSW67Wnx
- jbmZi86JI6XFbBL5UbdLEWk0ShWjHa8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-p6rp4FgGP6qciuABM-TjBA-1; Tue, 12 Nov 2019 01:43:48 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10DC18017E0;
- Tue, 12 Nov 2019 06:43:48 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-116-124.ams2.redhat.com
- [10.36.116.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04C3E5DF2A;
- Tue, 12 Nov 2019 06:43:46 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/6] configure: Check bzip2 is available
-Date: Tue, 12 Nov 2019 07:43:32 +0100
-Message-Id: <20191112064332.5074-7-thuth@redhat.com>
-In-Reply-To: <20191112064332.5074-1-thuth@redhat.com>
-References: <20191112064332.5074-1-thuth@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1iUPwO-00038I-C4
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:46:17 -0500
+Resent-Date: Tue, 12 Nov 2019 01:46:17 -0500
+Resent-Message-Id: <E1iUPwO-00038I-C4@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21429)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iUPwM-00032P-Hf
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:46:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1573541167; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Zqfhw4EQ6yq/ruU3iRoYLO9f72OH+c3b8hrVhaEotOnNHB1Uf1fuGtzS15mCBQ2BjbKIHvSdyCUUjFinu1Gg1FDBB/eL3+swclGI73jkPZk9qR4+sbvhBcDL7/dEKpy5qPgrTYJbpYAUgp/I7vy+BJjLxj41bivDhF5SI0nBc/M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1573541167;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=7uPYc+DQ8UngTAhkcv1JHQzjv0RbyFXOkqLFzelfyNA=; 
+ b=JLMcRj/NrleN0VzKz0I9BjNn++ukmdW+GC9L8762zYhsR4JfiWvJidTKc1aZZYItYQNrgYEOz4xNDTMXQENIfrTPn0xv7M8fXH9FpG0zZL7bdwc7FBf5tWQRHoUcaZem/vhWaXFz7u2sXVJ+ABLrferqEOGYbtT7eW4JBqmPCpQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 157354116495997.61063772422119;
+ Mon, 11 Nov 2019 22:46:04 -0800 (PST)
+In-Reply-To: <20191111135803.14414-1-peter.maydell@linaro.org>
+Subject: Re: [PULL 0/3] target-arm queue
+Message-ID: <157354116405.9707.7884495097199774252@37313f22b938>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: p6rp4FgGP6qciuABM-TjBA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: peter.maydell@linaro.org
+Date: Mon, 11 Nov 2019 22:46:04 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,54 +64,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-The bzip2 tool is not included in default installations.
-On freshly installed systems, ./configure succeeds but 'make'
-might fail later:
-
-    BUNZIP2 pc-bios/edk2-i386-secure-code.fd.bz2
-  /bin/sh: bzip2: command not found
-  make: *** [Makefile:305: pc-bios/edk2-i386-secure-code.fd] Error 127
-  make: *** Deleting file 'pc-bios/edk2-i386-secure-code.fd'
-  make: *** Waiting for unfinished jobs....
-
-Add a check in ./configure to warn the user if bzip2 is missing.
-
-See also: 536d2173b2b ("roms: build edk2 firmware binaries ...")
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191108114531.21518-3-philmd@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/configure b/configure
-index 9b322284c3..6099be1d84 100755
---- a/configure
-+++ b/configure
-@@ -2154,6 +2154,10 @@ for target in $target_list; do
-       ;;
-   esac
- done
-+# The EDK2 binaries are compressed with bzip2
-+if test "$edk2_blobs" =3D "yes" && ! has bzip2; then
-+  error_exit "The bzip2 program is required for building QEMU"
-+fi
-=20
- feature_not_found() {
-   feature=3D$1
---=20
-2.23.0
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTExMTEzNTgwMy4xNDQx
+NC0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BVTEwgMC8zXSB0YXJnZXQtYXJtIHF1ZXVlClR5
+cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MTExMTEzNTgwMy4xNDQxNC0xLXBldGVyLm1heWRl
+bGxAbGluYXJvLm9yZwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQg
+cmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdp
+dCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNr
+cGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClN3aXRj
+aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKCj09PSBPVVRQVVQgQkVHSU4gPT09CmNoZWNrcGF0
+Y2gucGw6IG5vIHJldmlzaW9ucyByZXR1cm5lZCBmb3IgcmV2bGlzdCAnMScKPT09IE9VVFBVVCBF
+TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMjU1CgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MTExMTEzNTgwMy4x
+NDQxNC0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
+bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
+dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
+LWRldmVsQHJlZGhhdC5jb20=
 
