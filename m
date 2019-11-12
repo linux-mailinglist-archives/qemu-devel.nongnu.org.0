@@ -2,48 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E714F977B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:44:00 +0100 (CET)
-Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ADBF977A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:43:47 +0100 (CET)
+Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUaCt-0007CZ-2d
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:43:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34270)
+	id 1iUaCg-0006qf-3Q
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:43:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1iUa7M-00015P-2z
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:17 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa7Z-0001Gy-LI
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1iUa7K-0005OS-Pf
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:16 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:8030)
+ (envelope-from <kwankhede@nvidia.com>) id 1iUa7Y-0005Tp-Fa
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:29 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8033)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1iUa7K-0005O2-HY
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:14 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ id 1iUa7Y-0005TI-7W
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:38:28 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
  hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5dcaeca00000>; Tue, 12 Nov 2019 09:32:16 -0800
+ id <B5dcaeca60000>; Tue, 12 Nov 2019 09:32:22 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 12 Nov 2019 09:33:12 -0800
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Tue, 12 Nov 2019 09:33:18 -0800
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 12 Nov 2019 09:33:12 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
- 2019 17:33:11 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
- 2019 17:33:11 +0000
+ by hqpgpgate102.nvidia.com on Tue, 12 Nov 2019 09:33:18 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 17:33:18 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 12 Nov 2019 17:33:05 +0000
+ Transport; Tue, 12 Nov 2019 17:33:11 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v9 Kernel 4/5] vfio iommu: Implementation of ioctl to get
- dirty pages bitmap.
-Date: Tue, 12 Nov 2019 22:33:39 +0530
-Message-ID: <1573578220-7530-5-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v9 Kernel 5/5] vfio iommu: Implementation of ioctl to get
+ dirty bitmap before unmap
+Date: Tue, 12 Nov 2019 22:33:40 +0530
+Message-ID: <1573578220-7530-6-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1573578220-7530-1-git-send-email-kwankhede@nvidia.com>
 References: <1573578220-7530-1-git-send-email-kwankhede@nvidia.com>
@@ -51,16 +48,16 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1573579936; bh=U7o8nopuwa5svw0kgwL12cP5oHdgEJ1PRVw74v24iMA=;
+ t=1573579942; bh=b76VG1CtaF0t0W+2xw926JIpF08VPIo1rVi43atlLHw=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=Oa9jIzdSNDv8nSrjw2gE/HEM5+chCLs5VFmZT1f6pXZk2cFN2f9W961uIXq4C6J9A
- 0wbQ+0xoH0eWsgA3rGKkd/gky0UIN++q7AC3MnvsywmVH7DJzmCoyPdKJ/uf4Wue6u
- CDCX1KhJPZulX2UrjHmKmiI+IiztBcspQsdKf+zomDq1oNFRvyiGPBgyiEa/9xKtvs
- r61NvcpH54uToWIdrnMcGwiyNyq2UJptvqwmFsa2K/Vr1zTsnAUp+I22nbw2pWEoNN
- TplD8/9Vf9QAcl4os7DY6lFZGzZXG2iJp4aBxkG2VQgl1zytul1kVTRvgfWiTOhoSi
- EunXiz8XRiqMA==
+ b=HvyAOKaOIfCq27eIY++DpFpn6cLVxF3V9P5LNQc9uHf11GXj1ihxcOK+JmcFRfsNz
+ qvqi0Y5BiUG3bMqb3O30JBCjnkRBpCjljKVmo8xzhXzA5TF1XXxsLCCr14DuAoyHfl
+ Qo2Dd4hGGU1XLz/cieVBumRSxOb89vDZ0LGD9edGUniATX0P0/9q1juq0UC+DLN8pu
+ zXqeqlU5ymQHbnV9/Kw3Y/OcJzWOKlRfE708v93GHAAFVF4tG+gR8Q6gdtU9xdagVl
+ PSo1vUk/qp063s+/tkvt5n0jKmsNVHF2ht2VU1NM25ZfCEAIkMylqMnKAUPL3fvm5L
+ 8o9hcZnmFuIJg==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 216.228.121.65
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,128 +81,126 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IOMMU container maintains list of external pinned pages. Bitmap of pinned
-pages for input IO virtual address range is created and returned.
-IO virtual address range should be from a single mapping created by
-map request. Input bitmap_size is validated by calculating the size of
-requested range.
-This ioctl returns bitmap of dirty pages, its user space application
-responsibility to copy content of dirty pages from source to destination
-during migration.
+If pages are pinned by external interface for requested IO virtual address
+range, bitmap of such pages is created and then that range is unmapped.
+To get bitmap during unmap, user should set flag
+VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP, bitmap memory should be allocated and
+bitmap_size should be set. If flag is not set, then it behaves same as
+VFIO_IOMMU_UNMAP_DMA ioctl.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- drivers/vfio/vfio_iommu_type1.c | 92 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
+ drivers/vfio/vfio_iommu_type1.c | 71 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 69 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 2ada8e6cdb88..ac176e672857 100644
+index ac176e672857..d6b988452ba6 100644
 --- a/drivers/vfio/vfio_iommu_type1.c
 +++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -850,6 +850,81 @@ static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
- 	return bitmap;
+@@ -926,7 +926,8 @@ static int vfio_iova_get_dirty_bitmap(struct vfio_iommu *iommu,
  }
  
-+/*
-+ * start_iova is the reference from where bitmaping started. This is called
-+ * from DMA_UNMAP where start_iova can be different than iova
-+ */
+ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+-			     struct vfio_iommu_type1_dma_unmap *unmap)
++			     struct vfio_iommu_type1_dma_unmap *unmap,
++			     unsigned long *bitmap)
+ {
+ 	uint64_t mask;
+ 	struct vfio_dma *dma, *dma_last = NULL;
+@@ -1026,6 +1027,12 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+ 						    &nb_unmap);
+ 			goto again;
+ 		}
 +
-+static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
-+				  size_t size, dma_addr_t start_iova,
-+				  unsigned long *bitmap)
++		if (bitmap) {
++			vfio_iova_dirty_bitmap(iommu, dma->iova, dma->size,
++					       unmap->iova, bitmap);
++		}
++
+ 		unmapped += dma->size;
+ 		vfio_remove_dma(iommu, dma);
+ 	}
+@@ -1039,6 +1046,43 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+ 	return ret;
+ }
+ 
++static int vfio_dma_do_unmap_bitmap(struct vfio_iommu *iommu,
++		struct vfio_iommu_type1_dma_unmap_bitmap *unmap_bitmap)
 +{
-+	struct vfio_dma *dma;
-+	dma_addr_t temp_iova = iova;
-+
-+	dma = vfio_find_dma(iommu, iova, size);
-+	if (!dma)
-+		return -EINVAL;
-+
-+	/*
-+	 * Range should be from a single mapping created by map request.
-+	 */
-+
-+	if ((iova < dma->iova) ||
-+	    ((dma->iova + dma->size) < (iova + size)))
-+		return -EINVAL;
-+
-+	while (temp_iova < iova + size) {
-+		struct vfio_pfn *vpfn = NULL;
-+
-+		vpfn = vfio_find_vpfn(dma, temp_iova);
-+		if (vpfn)
-+			__bitmap_set(bitmap, vpfn->iova - start_iova, 1);
-+
-+		temp_iova += PAGE_SIZE;
-+	}
-+
-+	return 0;
-+}
-+
-+static int verify_bitmap_size(unsigned long npages, unsigned long bitmap_size)
-+{
-+	unsigned long bsize = ALIGN(npages, BITS_PER_LONG) / 8;
-+
-+	if ((bitmap_size == 0) || (bitmap_size < bsize))
-+		return -EINVAL;
-+	return 0;
-+}
-+
-+static int vfio_iova_get_dirty_bitmap(struct vfio_iommu *iommu,
-+				struct vfio_iommu_type1_dirty_bitmap *range)
-+{
-+	unsigned long *bitmap;
++	struct vfio_iommu_type1_dma_unmap unmap;
++	unsigned long *bitmap = NULL;
 +	int ret;
 +
-+	ret = verify_bitmap_size(range->size >> PAGE_SHIFT, range->bitmap_size);
-+	if (ret)
-+		return ret;
++	/* check bitmap size */
++	if ((unmap_bitmap->flags | VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)) {
++		ret = verify_bitmap_size(unmap_bitmap->size >> PAGE_SHIFT,
++					 unmap_bitmap->bitmap_size);
++		if (ret)
++			return ret;
 +
-+	/* one bit per page */
-+	bitmap = bitmap_zalloc(range->size >> PAGE_SHIFT, GFP_KERNEL);
-+	if (!bitmap)
-+		return -ENOMEM;
-+
-+	mutex_lock(&iommu->lock);
-+	ret = vfio_iova_dirty_bitmap(iommu, range->iova, range->size,
-+				     range->iova, bitmap);
-+	mutex_unlock(&iommu->lock);
-+
-+	if (!ret) {
-+		if (copy_to_user(range->bitmap, bitmap, range->bitmap_size))
-+			ret = -EFAULT;
++		/* one bit per page */
++		bitmap = bitmap_zalloc(unmap_bitmap->size >> PAGE_SHIFT,
++					GFP_KERNEL);
++		if (!bitmap)
++			return -ENOMEM;
 +	}
 +
-+	bitmap_free(bitmap);
++	unmap.iova = unmap_bitmap->iova;
++	unmap.size = unmap_bitmap->size;
++	ret = vfio_dma_do_unmap(iommu, &unmap, bitmap);
++	if (!ret)
++		unmap_bitmap->size = unmap.size;
++
++	if (bitmap) {
++		if (!ret && copy_to_user(unmap_bitmap->bitmap, bitmap,
++					 unmap_bitmap->bitmap_size))
++			ret = -EFAULT;
++		bitmap_free(bitmap);
++	}
++
 +	return ret;
 +}
 +
- static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
- 			     struct vfio_iommu_type1_dma_unmap *unmap)
+ static int vfio_iommu_map(struct vfio_iommu *iommu, dma_addr_t iova,
+ 			  unsigned long pfn, long npage, int prot)
  {
-@@ -2297,6 +2372,23 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+@@ -2366,7 +2410,7 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+ 		if (unmap.argsz < minsz || unmap.flags)
+ 			return -EINVAL;
  
- 		return copy_to_user((void __user *)arg, &unmap, minsz) ?
- 			-EFAULT : 0;
-+	} else if (cmd == VFIO_IOMMU_GET_DIRTY_BITMAP) {
-+		struct vfio_iommu_type1_dirty_bitmap range;
+-		ret = vfio_dma_do_unmap(iommu, &unmap);
++		ret = vfio_dma_do_unmap(iommu, &unmap, NULL);
+ 		if (ret)
+ 			return ret;
+ 
+@@ -2389,6 +2433,29 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+ 			return -EINVAL;
+ 
+ 		return vfio_iova_get_dirty_bitmap(iommu, &range);
++	} else if (cmd == VFIO_IOMMU_UNMAP_DMA_GET_BITMAP) {
++		struct vfio_iommu_type1_dma_unmap_bitmap unmap_bitmap;
++		long ret;
 +
 +		/* Supported for v2 version only */
 +		if (!iommu->v2)
 +			return -EACCES;
 +
-+		minsz = offsetofend(struct vfio_iommu_type1_dirty_bitmap,
-+					bitmap);
++		minsz = offsetofend(struct vfio_iommu_type1_dma_unmap_bitmap,
++				    bitmap);
 +
-+		if (copy_from_user(&range, (void __user *)arg, minsz))
++		if (copy_from_user(&unmap_bitmap, (void __user *)arg, minsz))
 +			return -EFAULT;
 +
-+		if (range.argsz < minsz)
++		if (unmap_bitmap.argsz < minsz)
 +			return -EINVAL;
 +
-+		return vfio_iova_get_dirty_bitmap(iommu, &range);
++		ret = vfio_dma_do_unmap_bitmap(iommu, &unmap_bitmap);
++		if (ret)
++			return ret;
++
++		return copy_to_user((void __user *)arg, &unmap_bitmap, minsz) ?
++			-EFAULT : 0;
  	}
  
  	return -ENOTTY;
