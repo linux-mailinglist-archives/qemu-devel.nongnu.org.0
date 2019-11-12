@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F67F97A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:52:36 +0100 (CET)
-Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F26F981A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 19:01:32 +0100 (CET)
+Received: from localhost ([::1]:38724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUaLD-00014z-0I
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:52:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35718)
+	id 1iUaTr-00082z-JC
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 13:01:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iUaFj-0002hH-H6
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:56 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iUaS9-0007UQ-A7
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:59:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iUaFi-0000AQ-7B
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:55 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:40122)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iUaFi-0000A6-1q
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:46:54 -0500
-Received: by mail-ot1-x329.google.com with SMTP id m15so15051476otq.7
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:46:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DwwnKtFgLRPfS1qhLF+qtS5qlN0EhsWE9sbB/D7T7vc=;
- b=DSQ8TIwGgDOpWp1cGXPfSGUejwUecF1MB06rMVWF2/JOEpJYXFjLwOerTabIgLYOBu
- kpN/DKsXrAgESpPbOUjvvgb3kCbmHtM2c+hkwP8UFedWWDHff0rAJvUSAyq7ull/CRlQ
- Nx/TeC3TrNyAqXckq+v0lrjeluTcGBnUPkhj6H/qEZrcW3ZLfUlbR85FKZ+u7VsmbiJi
- qS33Iau5cEYwZFYC/y4sQy15gqwz+NkLCWhHnT5a5ayC1/p8QZyXCOXu3yRoswSqIeAC
- /HF0aYnEUpl17yvtg7VWvwlzBlkCkJAmyeC+SLDe6nWhkDCWAiGDhAkfrbl81LVKSHcK
- CpfA==
+ (envelope-from <pbonzini@redhat.com>) id 1iUaS6-00065h-Eg
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:59:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35940
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iUaS6-00064z-6w
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:59:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573581581;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=inaUrAqlO9f2fCusKfgrQkNvn6nw0Sit8cZDHu0UyI0=;
+ b=Yfd/MwF9HaS3uUUpdiicrG+u6dgdt/nwy/xreBTQmqzK+h6bHF0PAzb2Lmv1IQRn5tn1cH
+ fsgbjzwx3diC24EcpshjpD+q6aV6M1oj3KAYg8gv5RTLscTWeB9SBdPwdjRVFsyeZ592bm
+ 7tL6V2tu2dcui4JAGHd5Xt7V6juUO3g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-B6Q45NvOOmCyoMIRiOihIQ-1; Tue, 12 Nov 2019 12:59:40 -0500
+Received: by mail-wm1-f72.google.com with SMTP id 199so1984630wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:59:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DwwnKtFgLRPfS1qhLF+qtS5qlN0EhsWE9sbB/D7T7vc=;
- b=R294KbXyzZqFKTeH79qF9Oc7mnpRfxAPLi3qRmsckTBPoeOLDYOCujUCWZE8DgbFl0
- 9gNh+0Dh57aYg4XZPnPxZ3jOoo3tcSHSFrCiOnoMtJWBRAoC1yOyblaopDlFRW4R/UoB
- gVGYLglINZtyx3pP/OMiLKyhYO0tLjzdQAQKjPJn0raJjd1hvAPnDKW9BAI8Wof1Zf7U
- wpfV3r5WoAHv4/JkiK4YZ0wXowgWRkFvPlDfpNBJE/qsww2P3IJPvZiSgTlRu4jmXD3N
- b7qOpFZ0OiOhpJcVWc7yk/BNHV4otOzJNeQCzJSd4V6gATiiUMTY4/a2wimiadQkEXFy
- Q3TQ==
-X-Gm-Message-State: APjAAAUXIK5Mxo2hL1GbYmmL4DLN2TOI3M4N7D4fiKUqB43Nb7n6KaWP
- T6EW8CeoFKnqf2C/3AtQSbjY4xRKSQdRsX4Ib3A84Q==
-X-Google-Smtp-Source: APXvYqxGBk4/149CwP8Zv70xBx4xEaCNejnTr1i2d8jWta3ojcfh+jsBvxcYSAU+NV5XWrE+NEUxfV2QFRhc1StkvSs=
-X-Received: by 2002:a9d:7f12:: with SMTP id j18mr24815448otq.221.1573580813037; 
- Tue, 12 Nov 2019 09:46:53 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o68stXTTYyv/hkVCHpr8R/spnIn0dJ4yEUgJ4hreUPw=;
+ b=FcAD9zgCz2yxGUlNFSLSKcUKLEfiDSnNQmGyUEZ1wZkvkShBVq1SD/VOovfihcsGna
+ BPwAq18OVz9vLUy2SK6JPnFhGESVlfDopJYYec+zqyBdKK4lbZzOmgIMVCRNeVC18zXx
+ gtNVPvCkWHyBR3h4YlL5n6p5c51mIpDDCaxndy1vkJzAuT2+MlXSjlRxectlz5jbQnV3
+ NL9T9yhdd+gLKpVYXj6/xkzQUwCMab2gS7Hp5g4oYA7m532QN45f8NJQOUJZ4U9EwwpI
+ epbPon27EuJ8go0nNxqO+wBP0aztUUBmnOmjjVQuerhozbdq3U/BgwDJ7XN//XGnhVBw
+ dwMA==
+X-Gm-Message-State: APjAAAVCQotg+tgiAGJXiJttN9018ArnWYm5A8YqDh+9SOmxkcVkUgxm
+ hJ3UGs0pdElE6O5yRYRAHgbPPuLgglDovxc8evNG1Fnbb7cPqhXWzcJOF+K83DSVhrEjVkU7UD9
+ HXCRoj4r1eIi5gSI=
+X-Received: by 2002:a7b:c18c:: with SMTP id y12mr3436595wmi.145.1573581578938; 
+ Tue, 12 Nov 2019 09:59:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwC9yUMxlKITsttDnG5GH7q8H8eAawRfDpfPazAm0ha4DSbn1FygxWu1TggCJaYMaer+sYaiQ==
+X-Received: by 2002:a7b:c18c:: with SMTP id y12mr3436575wmi.145.1573581578672; 
+ Tue, 12 Nov 2019 09:59:38 -0800 (PST)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id v6sm16495406wrt.13.2019.11.12.09.59.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Nov 2019 09:59:38 -0800 (PST)
+Subject: Re: [PATCH] microvm: fix memory leak in microvm_fix_kernel_cmdline
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
+References: <20191112163423.91884-1-slp@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <6c05f286-e685-daf8-c859-ae81ed55d97a@redhat.com>
+Date: Tue, 12 Nov 2019 18:59:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191112160449.29212-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20191112160449.29212-1-edgar.iglesias@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Nov 2019 17:46:41 +0000
-Message-ID: <CAFEAcA9a12KN3+YNso6i-mPaoMnD8C7RzF8X10=2NMHgLQn5OA@mail.gmail.com>
-Subject: Re: [PULL v1 0/3] MicroBlaze fixes
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+In-Reply-To: <20191112163423.91884-1-slp@redhat.com>
+Content-Language: en-US
+X-MC-Unique: B6Q45NvOOmCyoMIRiOihIQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Nov 2019 at 16:04, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> The following changes since commit 039e285e095c20a88e623b927654b161aaf9d914:
->
->   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull-request' into staging (2019-11-12 12:09:19 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2019-11-12.for-upstream
->
-> for you to fetch changes up to c49a41b0b9e6c77e24ac2be4d95c54d62bc7b092:
->
->   target/microblaze: Plug temp leak around eval_cond_jmp() (2019-11-12 16:35:26 +0100)
->
-> ----------------------------------------------------------------
-> For upstream
->
-> ----------------------------------------------------------------
-> Edgar E. Iglesias (3):
->       target/microblaze: Plug temp leaks for loads/stores
->       target/microblaze: Plug temp leaks with delay slot setup
->       target/microblaze: Plug temp leak around eval_cond_jmp()
->
+On 12/11/19 17:34, Sergio Lopez wrote:
+> In microvm_fix_kernel_cmdline(), fw_cfg_modify_string() is duplicating
+> cmdline instead of taking ownership of it. Free it afterwards to avoid
+> leaking it.
+>=20
+> Reported-by: Coverity (CID 1407218)
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+>  hw/i386/microvm.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 8aacd6c8d1..def37e60f7 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -331,6 +331,8 @@ static void microvm_fix_kernel_cmdline(MachineState *=
+machine)
+> =20
+>      fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline=
+) + 1);
+>      fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
+> +
+> +    g_free(cmdline);
+>  }
+> =20
+>  static void microvm_machine_state_init(MachineState *machine)
+>=20
 
+Queued, thanks.
 
-Applied, thanks.
+Paolo
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
-
--- PMM
 
