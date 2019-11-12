@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4679DF9D1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 23:33:49 +0100 (CET)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFE9F9D7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 23:51:05 +0100 (CET)
+Received: from localhost ([::1]:40242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUejM-0005TB-7j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 17:33:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41893)
+	id 1iUf04-0002LT-9W
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 17:51:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iUehE-0004AV-98
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 17:31:37 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iUez5-0001lB-S7
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 17:50:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iUehD-0007nT-1j
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 17:31:36 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43465
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iUehC-0007nN-UF
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 17:31:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573597894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IFjoCXM3aDjIq+KpZvKaiyfBSifVnRLohoE7M9/BvmA=;
- b=C6Kr3KvD6yn5HwHzG0QiulS5K2EEEl2BzLs/EKNhIQqSsRnxp+vbZsFhzs8O9eQoCxIE1s
- miFdU63LwFJ54DqV442AF2Oq0diGGDoUsi1y2N+fi+2qthN6VWNYgcNgl6d9XmZ8l0Kjjy
- iLF7vXFjkgapO1zTAi/Za1jhncBziVM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-mYuiBlk2OPOXKtpPfD_7tQ-1; Tue, 12 Nov 2019 17:30:24 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7332464A7D;
- Tue, 12 Nov 2019 22:30:22 +0000 (UTC)
-Received: from x1.home (ovpn-116-138.phx2.redhat.com [10.3.116.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22F1328D3C;
- Tue, 12 Nov 2019 22:30:21 +0000 (UTC)
-Date: Tue, 12 Nov 2019 15:30:20 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v9 Kernel 2/5] vfio iommu: Add ioctl defination to get
- dirty pages bitmap.
-Message-ID: <20191112153020.71406c44@x1.home>
-In-Reply-To: <1573578220-7530-3-git-send-email-kwankhede@nvidia.com>
-References: <1573578220-7530-1-git-send-email-kwankhede@nvidia.com>
- <1573578220-7530-3-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat
+ (envelope-from <no-reply@patchew.org>) id 1iUez4-0006Ly-AU
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 17:50:03 -0500
+Resent-Date: Tue, 12 Nov 2019 17:50:03 -0500
+Resent-Message-Id: <E1iUez4-0006Ly-AU@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21453)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iUez4-0006Ld-2y; Tue, 12 Nov 2019 17:50:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1573598988; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nxIZM4cl4CKPuivFVOCC7Ws+C2++1vnE081bcNiSmuTYxiz5f7Mdok6hPs3mN8pWKk4hWZwU1vSvLWsOOe1/iLedH3RAyqtik6uKk2x/gMuw4lQCDXJTY61dPvrWjKR0vCYYXkQiiTQsLWfj9mGkiZMxDVKUH3qR7vw9oXH8rGE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1573598988;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=eowEHl8dEqS/5idvYjDyGXeKXtkea2pY7xptjhnKfJA=; 
+ b=Q12qTp3TvW1cWXc9I0Nd5Za4LQyShlyz42HDniK8YAPATWixoQQHT4wSZpCxZN6ruGTacB5WznXWmwfrOHjyrwD07pVOHdQU+2L7nRfpOKdrx0ooChtPWbgAKKQKgcOjP0cYpM1Uh3RoUtThVa4pYuYcEY6txy/aiQR37w3xYHM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1573598985567905.227643839399;
+ Tue, 12 Nov 2019 14:49:45 -0800 (PST)
+In-Reply-To: <20191112113012.71136-1-slp@redhat.com>
+Subject: Re: [PATCH v3 0/8] blockdev: avoid acquiring AioContext lock twice at
+ do_drive_backup and do_blockdev_backup
+Message-ID: <157359898425.22470.3655469789274855006@37313f22b938>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: mYuiBlk2OPOXKtpPfD_7tQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: slp@redhat.com
+Date: Tue, 12 Nov 2019 14:49:45 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,92 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, slp@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Nov 2019 22:33:37 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
-
-> All pages pinned by vendor driver through vfio_pin_pages API should be
-> considered as dirty during migration. IOMMU container maintains a list of
-> all such pinned pages. Added an ioctl defination to get bitmap of such
-
-definition
-
-> pinned pages for requested IO virtual address range.
-
-Additionally, all mapped pages are considered dirty when physically
-mapped through to an IOMMU, modulo we discussed devices opting in to
-per page pinning to indicate finer granularity with a TBD mechanism to
-figure out if any non-opt-in devices remain.
-
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  include/uapi/linux/vfio.h | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->=20
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 35b09427ad9f..6fd3822aa610 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -902,6 +902,29 @@ struct vfio_iommu_type1_dma_unmap {
->  #define VFIO_IOMMU_ENABLE=09_IO(VFIO_TYPE, VFIO_BASE + 15)
->  #define VFIO_IOMMU_DISABLE=09_IO(VFIO_TYPE, VFIO_BASE + 16)
-> =20
-> +/**
-> + * VFIO_IOMMU_GET_DIRTY_BITMAP - _IOWR(VFIO_TYPE, VFIO_BASE + 17,
-> + *                                     struct vfio_iommu_type1_dirty_bit=
-map)
-> + *
-> + * IOCTL to get dirty pages bitmap for IOMMU container during migration.
-> + * Get dirty pages bitmap of given IO virtual addresses range using
-> + * struct vfio_iommu_type1_dirty_bitmap. Caller sets argsz, which is siz=
-e of
-> + * struct vfio_iommu_type1_dirty_bitmap. User should allocate memory to =
-get
-> + * bitmap and should set size of allocated memory in bitmap_size field.
-> + * One bit is used to represent per page consecutively starting from iov=
-a
-> + * offset. Bit set indicates page at that offset from iova is dirty.
-> + */
-> +struct vfio_iommu_type1_dirty_bitmap {
-> +=09__u32        argsz;
-> +=09__u32        flags;
-> +=09__u64        iova;                      /* IO virtual address */
-> +=09__u64        size;                      /* Size of iova range */
-> +=09__u64        bitmap_size;               /* in bytes */
-
-This seems redundant.  We can calculate the size of the bitmap based on
-the iova size.
-
-> +=09void __user *bitmap;                    /* one bit per page */
-
-Should we define that as a __u64* to (a) help with the size
-calculation, and (b) assure that we can use 8-byte ops on it?
-
-However, who defines page size?  Is it necessarily the processor page
-size?  A physical IOMMU may support page sizes other than the CPU page
-size.  It might be more important to indicate the expected page size
-than the bitmap size.  Thanks,
-
-Alex
-
-> +};
-> +
-> +#define VFIO_IOMMU_GET_DIRTY_BITMAP             _IO(VFIO_TYPE, VFIO_BASE=
- + 17)
-> +
->  /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU --------=
- */
-> =20
->  /*
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTExMjExMzAxMi43MTEz
+Ni0xLXNscEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9ja2Vy
+LXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFu
+ZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwg
+eW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVUV09S
+Sz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0xNCBO
+RVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6
+IDI2OApGYWlsdXJlczogMTQxCkZhaWxlZCAxIG9mIDEwOCBpb3Rlc3RzCm1ha2U6ICoqKiBbY2hl
+Y2stdGVzdHMvY2hlY2stYmxvY2suc2hdIEVycm9yIDEKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBj
+YWxsIGxhc3QpOgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUgNjYyLCBp
+biA8bW9kdWxlPgogICAgc3lzLmV4aXQobWFpbigpKQotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nl
+c3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21t
+YW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11
+Lmluc3RhbmNlLnV1aWQ9NWUwYTRlN2Y5NzE1NGE5M2IxODJkNzA5OTY5Yjk0MTcnLCAnLXUnLCAn
+MTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICct
+ZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywg
+J1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAn
+LWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIv
+LmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFy
+L3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNmE5XzhxMG4vc3JjL2RvY2tlci1zcmMuMjAxOS0xMS0x
+Mi0xNy4zOC40Ni4yNjAyNzovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92
+YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBz
+dGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9NWUw
+YTRlN2Y5NzE1NGE5M2IxODJkNzA5OTY5Yjk0MTcKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBF
+cnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rl
+ci10bXAtNmE5XzhxMG4vc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50
+b3M3XSBFcnJvciAyCgpyZWFsICAgIDEwbTU3LjgzOXMKdXNlciAgICAwbTguMDYycwoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMTIx
+MTMwMTIuNzExMzYtMS1zbHBAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
