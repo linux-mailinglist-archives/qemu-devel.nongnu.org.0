@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E2AF88ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:53:37 +0100 (CET)
-Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5112EF88C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 07:49:54 +0100 (CET)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUQ3U-0006zX-F0
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:53:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
+	id 1iUPzs-0001YS-Rg
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 01:49:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iUPu4-0005dj-L0
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:53 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iUPu3-0000cd-IG
+ (envelope-from <thuth@redhat.com>) id 1iUPu3-0005cI-RT
  for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50125
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <thuth@redhat.com>) id 1iUPu2-0000c2-Ot
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55668
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPu3-0000cN-Cp
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:51 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iUPu2-0000bd-LP
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 01:43:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573541031;
+ s=mimecast20190719; t=1573541030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yVBGcNV8cXbEQTRHK5E3eqn9uEby5ZYMQ51+2U37af0=;
- b=EGNvAKYnvqhowHIHapPLVHmSKnI8y0giKxxO0itVd8MZ/idvotETraEZL8lGfZkytonhFp
- hzNkvBbmLEQlIDG4l4gh/U/d/yx+E7BSmzhJPM8Jv3071XipRWR1mlZanM0ORtxIWL0pQM
- lcHHAQ1T0yhFGBYRxGS4iKsP2FhkpCQ=
+ bh=aCLLqG38888t2sVO5GwFFujL32t2nwGBtSf6KfG0fDg=;
+ b=MKLZ1nP+DlFL7h6a6BXZ6ddxVSqSHJiHUv27vA+s4AwaNgC+jipn+FzDdAjWK+PSTP1ElQ
+ pBpVNJWIJT/tqNEQnJNXf09hGrRYrAeebNDEa9LTc1mxFeby0zpPcTgmrHkYW5vSW67Wnx
+ jbmZi86JI6XFbBL5UbdLEWk0ShWjHa8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-uGhUem4oMCKXGl35l6psMg-1; Tue, 12 Nov 2019 01:43:47 -0500
+ us-mta-83-p6rp4FgGP6qciuABM-TjBA-1; Tue, 12 Nov 2019 01:43:48 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB3D81800D7A;
- Tue, 12 Nov 2019 06:43:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10DC18017E0;
+ Tue, 12 Nov 2019 06:43:48 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-124.ams2.redhat.com
  [10.36.116.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A03325DDA8;
- Tue, 12 Nov 2019 06:43:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04C3E5DF2A;
+ Tue, 12 Nov 2019 06:43:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/6] configure: Only decompress EDK2 blobs for X86/ARM targets
-Date: Tue, 12 Nov 2019 07:43:31 +0100
-Message-Id: <20191112064332.5074-6-thuth@redhat.com>
+Subject: [PULL 6/6] configure: Check bzip2 is available
+Date: Tue, 12 Nov 2019 07:43:32 +0100
+Message-Id: <20191112064332.5074-7-thuth@redhat.com>
 In-Reply-To: <20191112064332.5074-1-thuth@redhat.com>
 References: <20191112064332.5074-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: uGhUem4oMCKXGl35l6psMg-1
+X-MC-Unique: p6rp4FgGP6qciuABM-TjBA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -79,76 +79,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The EDK2 firmware blobs only target the X86/ARM architectures.
-Define the DECOMPRESS_EDK2_BLOBS variable and only decompress
-the blobs when the variable exists.
+The bzip2 tool is not included in default installations.
+On freshly installed systems, ./configure succeeds but 'make'
+might fail later:
+
+    BUNZIP2 pc-bios/edk2-i386-secure-code.fd.bz2
+  /bin/sh: bzip2: command not found
+  make: *** [Makefile:305: pc-bios/edk2-i386-secure-code.fd] Error 127
+  make: *** Deleting file 'pc-bios/edk2-i386-secure-code.fd'
+  make: *** Waiting for unfinished jobs....
+
+Add a check in ./configure to warn the user if bzip2 is missing.
 
 See also: 536d2173b2b ("roms: build edk2 firmware binaries ...")
-Suggested-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191108114531.21518-2-philmd@redhat.com>
+Message-Id: <20191108114531.21518-3-philmd@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- Makefile  |  2 ++
- configure | 13 +++++++++++++
- 2 files changed, 15 insertions(+)
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index aa9d1a42aa..3430eca532 100644
---- a/Makefile
-+++ b/Makefile
-@@ -480,7 +480,9 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
- $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
-+ifdef DECOMPRESS_EDK2_BLOBS
- $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
-+endif
-=20
- .PHONY: $(TARGET_DIRS_RULES)
- # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
 diff --git a/configure b/configure
-index efe165edf9..9b322284c3 100755
+index 9b322284c3..6099be1d84 100755
 --- a/configure
 +++ b/configure
-@@ -427,6 +427,7 @@ softmmu=3D"yes"
- linux_user=3D"no"
- bsd_user=3D"no"
- blobs=3D"yes"
-+edk2_blobs=3D"no"
- pkgversion=3D""
- pie=3D""
- qom_cast_debug=3D"yes"
-@@ -2146,6 +2147,14 @@ case " $target_list " in
-   ;;
- esac
+@@ -2154,6 +2154,10 @@ for target in $target_list; do
+       ;;
+   esac
+ done
++# The EDK2 binaries are compressed with bzip2
++if test "$edk2_blobs" =3D "yes" && ! has bzip2; then
++  error_exit "The bzip2 program is required for building QEMU"
++fi
 =20
-+for target in $target_list; do
-+  case "$target" in
-+    arm-softmmu | aarch64-softmmu | i386-softmmu | x86_64-softmmu)
-+      edk2_blobs=3D"yes"
-+      ;;
-+  esac
-+done
-+
  feature_not_found() {
    feature=3D$1
-   remedy=3D$2
-@@ -7526,6 +7535,10 @@ if test "$libudev" !=3D "no"; then
-     echo "LIBUDEV_LIBS=3D$libudev_libs" >> $config_host_mak
- fi
-=20
-+if test "$edk2_blobs" =3D "yes" ; then
-+  echo "DECOMPRESS_EDK2_BLOBS=3Dy" >> $config_host_mak
-+fi
-+
- # use included Linux headers
- if test "$linux" =3D "yes" ; then
-   mkdir -p linux-headers
 --=20
 2.23.0
 
