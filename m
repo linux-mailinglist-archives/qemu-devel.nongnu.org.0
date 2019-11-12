@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7ABF93A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 16:07:11 +0100 (CET)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E91F93AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 16:09:39 +0100 (CET)
+Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUXl8-0001ta-6C
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 10:07:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38078)
+	id 1iUXnW-0005L3-15
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 10:09:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40159)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iUXgf-0005yt-Jk
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:02:34 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iUXix-0008M4-Jf
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:04:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iUXge-0002MP-HV
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:02:33 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37487)
+ (envelope-from <beata.michalska@linaro.org>) id 1iUXis-0004Rx-Jq
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:04:55 -0500
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:39329)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iUXge-0002LR-CR
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:02:32 -0500
-Received: by mail-pg1-x544.google.com with SMTP id z24so12027673pgu.4
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 07:02:32 -0800 (PST)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iUXis-0004RN-Ef
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 10:04:50 -0500
+Received: by mail-il1-x142.google.com with SMTP id a7so15368474ild.6
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 07:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PT8V7FGR+uiq7NVQ+Sjew78XVlFsZNWfaPZAmYaVr1k=;
- b=Q9idqCMz9VimN1mMjs3zKKOgu3qH6ebvRMGUkdIvw/xpWGHSAvFdW0RRmKk4cbYfhK
- ZSu6sw1X8Nxrz0mzIg9luOOw0qjM+woe2NyjLoYXO/Rj3lx4uYKXIMCPNeUT3Mpkrau6
- MsgJEIlRHL98krpYf1g1e0vvSZjPivYElyJhVZhaYXlM7DjgLFJBJF7WO3GivsNUuh0s
- jDy+/WegJGFa9AXNU/rsQswCjZ6B2/gIMMOOcJpQGkyn0GoU8j7t3FlL0dKiMqtX+IlU
- bRah0LBoS/jPrug038fn2IdSP5iR7bc1NcxuFMVWgEfAQYE/orTeYCR/Z2kd4zOgyD8i
- JTSA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aZGDbtndWOMKAw2Lgf48Y968nKr28g4QRlcQ3K84CR4=;
+ b=gnv6e6QOO9WGrFVtjijJXSFUy0kQxny2NLkBhluHZp0rzQo/VzSMNgxEJh/wC3QaAA
+ Iz/ewoAOO2C2oE880U+pXsQ6A4fRa/hKNifdUJAa/ITBIANiQIoLYptB6q/JiZ3S0rZM
+ 8SHJc/mx7PWWUp81DuZpcKhZ5VKmvmIjC6RXS8kBO6uTl98hzb0H2kyaDfR9vo99INA/
+ W2gLmItkY/8WcLYnnYWqH+ZiHNTo1wSXs/OU+qPDWD+XqF027a8bRgYNBJzV9/nLua4B
+ aoqaM3Fu3Wa5wm9ydkNuje7lk9PbqPB33OP4/l8v8WwsbfCWq5kop/Xc7pLrVhMLJFo0
+ 0lFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=PT8V7FGR+uiq7NVQ+Sjew78XVlFsZNWfaPZAmYaVr1k=;
- b=mEi7pFTrHEgscKGXaH4q7H4Lrx3pgF6B4l+fNqE+DRz3i84htLS6u2zHFVhs/VTEk+
- xtxV4M0vOiVe9vewdFxHTs74XJz/Wk1GpEo68RdTABwhQunhSpnh6bj6lHcFrsfJTWWy
- joXlh7bSUSdspK9WJq+vRSPp+9eu5JDnUYorlWMXbviOvm7+wH29cSqjkjGhnEoC+iPD
- H9zBWSZlN2BjXWirqnYfHLTJEGr5EhYP4w/tC+mIrg0KhSptagp1n+AsbJlTlEnGxs0V
- 8gcUhHOr5UFoPKdUDwvZrcNosJiKdFH73jIeqJ3OCJ9mrHD+4ky2zvO6mOXsdPXV0xDC
- YJZA==
-X-Gm-Message-State: APjAAAXUSHrSXvX6klO0Ny6kXL1sm71jwpxyu2oJbDf5+DrqGX99wXkJ
- 2JojW2eKZ97l+YpUoaXIZdhkxBJ6m38=
-X-Google-Smtp-Source: APXvYqydZHbRXKOaskx2KED5Vp78LHwgvDL/dT3tqHdIZNtzSzeP0L1fGWWKw2Y7QjcZms6bcnrIJQ==
-X-Received: by 2002:a63:f501:: with SMTP id w1mr36813394pgh.307.1573570951144; 
- Tue, 12 Nov 2019 07:02:31 -0800 (PST)
-Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id a3sm8235511pfo.71.2019.11.12.07.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 07:02:30 -0800 (PST)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] Fix double free issue in qemu_set_log_filename().
-Date: Tue, 12 Nov 2019 10:01:05 -0500
-Message-Id: <20191112150105.2498-6-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191112150105.2498-1-robert.foley@linaro.org>
-References: <20191112150105.2498-1-robert.foley@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aZGDbtndWOMKAw2Lgf48Y968nKr28g4QRlcQ3K84CR4=;
+ b=A1zeMwnEPx+kpyjBfGLRrqQWgs1EYTFXE/4QzRWlQ+Lo43O21o06nQBZX0P6+l3wep
+ ZL2SldWOky69UoWE2wJTR27nyczcVIs3A43TNSl4IYT++1i115tg7EGlwqzEtiWvQ+kz
+ bu0rlVuOYxP0s+zyfA1IL7MI6HzTWW49tNynTuHKBTZLlMDEctprjjKzaExsGK5SfwOD
+ /NuUT9HX7q1PvMWUpsEcADBAglglPfpEwjj7+iBDDYpsesATaYqSYKku5XcyarAjsbcU
+ 3ULiY/Y2x/LYDXQGuPh9FKMbR1umhal9t7yv3NCFFEpvmKrdAHRd7zvZN/lwD6BWDp3S
+ m6mQ==
+X-Gm-Message-State: APjAAAWFooEPvZ43MyOTYfYqE1uGita2rE7dbT8tSDMwfv8odFDZimKP
+ yZv7muB29+mbPRXxG4ng9kzlV86sS7Ngn8WILid/LA==
+X-Google-Smtp-Source: APXvYqzZj5ieHKarWMQt56PXnjFhqLDHjx9ddz010jINsRAuf7orP5Yn4MJdvBFyS2qll6CEGkF4kO8CFI6jvaAAkys=
+X-Received: by 2002:a92:b00f:: with SMTP id x15mr18893925ilh.248.1573571089387; 
+ Tue, 12 Nov 2019 07:04:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20191015103900.313928-1-its@irrelevant.dk>
+ <20191015103900.313928-7-its@irrelevant.dk>
+In-Reply-To: <20191015103900.313928-7-its@irrelevant.dk>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Tue, 12 Nov 2019 15:04:38 +0000
+Message-ID: <CADSWDzt2gjQ6pvzm2A29hqiNAf1RSD=qTwjELLB3fTD4Yjbryg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/20] nvme: add support for the abort command
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,34 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, alex.bennee@linaro.org, robert.foley@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Javier Gonzalez <javier@javigon.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <keith.busch@intel.com>, Paul Durrant <Paul.Durrant@citrix.com>,
+ Stephen Bates <sbates@raithlin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After freeing the logfilename, we set logfilename to NULL, in case of an
-error which returns without setting logfilename.
+Hi Klaus
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
-v1
-    - This is new in the patch v1.
----
- util/log.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, 15 Oct 2019 at 11:41, Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> Section 5.1 ("Abort command").
+>
+> The Abort command is a best effort command; for now, the device always
+> fails to abort the given command.
+>
+> Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> ---
+>  hw/block/nvme.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index daa2367b0863..84e4f2ea7a15 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -741,6 +741,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+>      }
+>  }
+>
+> +static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> +{
+> +    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
+> +
+> +    req->cqe.result = 1;
+> +    if (nvme_check_sqid(n, sqid)) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+Shouldn't we validate the CID as well ?
 
-diff --git a/util/log.c b/util/log.c
-index 802b8de42e..1eed74788c 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -148,6 +148,7 @@ void qemu_set_log_filename(const char *filename, Error **errp)
-     char *pidstr;
- 
-     g_free(logfilename);
-+    logfilename = NULL;
- 
-     pidstr = strstr(filename, "%");
-     if (pidstr) {
--- 
-2.17.1
+> +    return NVME_SUCCESS;
+> +}
+> +
+>  static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+>  {
+>      trace_nvme_setfeat_timestamp(ts);
+> @@ -859,6 +871,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          trace_nvme_err_invalid_setfeat(dw10);
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> +
+>      return NVME_SUCCESS;
+>  }
+>
+> @@ -875,6 +888,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>          return nvme_create_cq(n, cmd);
+>      case NVME_ADM_CMD_IDENTIFY:
+>          return nvme_identify(n, cmd);
+> +    case NVME_ADM_CMD_ABORT:
+> +        return nvme_abort(n, cmd, req);
+>      case NVME_ADM_CMD_SET_FEATURES:
+>          return nvme_set_feature(n, cmd, req);
+>      case NVME_ADM_CMD_GET_FEATURES:
+> @@ -1388,6 +1403,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>      id->ieee[2] = 0xb3;
+>      id->ver = cpu_to_le32(0x00010201);
+>      id->oacs = cpu_to_le16(0);
+> +    id->acl = 3;
+So we are setting the max number of concurrent commands
+but there is no logic to enforce that and wrap up with the
+status suggested by specification.
 
+BR
+
+
+Beata
+>      id->frmw = 7 << 1;
+>      id->lpa = 1 << 0;
+>      id->sqes = (0x6 << 4) | 0x6;
+> --
+> 2.23.0
+>
+>
 
