@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AE1F956D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:19:05 +0100 (CET)
-Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF98F9580
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:23:58 +0100 (CET)
+Received: from localhost ([::1]:37346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUYsi-000656-9X
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52130)
+	id 1iUYxR-0000Hb-D5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:23:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iUYr3-0004oX-1w
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:22 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUYwO-0008I3-ER
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iUYr1-0007oF-Tf
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:20 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:55769)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iUYqy-0007iq-07
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:17 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MfZ9C-1hxOol22yO-00fy48; Tue, 12 Nov 2019 17:16:59 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] linux-user: remove host stime() syscall
-Date: Tue, 12 Nov 2019 17:16:54 +0100
-Message-Id: <20191112161654.2253-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191112161654.2253-1-laurent@vivier.eu>
-References: <20191112161654.2253-1-laurent@vivier.eu>
+ (envelope-from <alex.bennee@linaro.org>) id 1iUYwM-0005Yk-VI
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:52 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35121)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iUYwM-0005TS-Kc
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:22:50 -0500
+Received: by mail-wm1-x342.google.com with SMTP id 8so3642780wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 08:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=UBXjsqQUcqNUyCDlLi0zZZgtyo1Pm4NLb9ARW1ugJ6Y=;
+ b=CrHXjY+ts7UF6+YccSiujin/iLExIS43RvKfdekNkZCIMXjvEHG3w8QUNORF37Yg+A
+ bfvtZeCMNZv94xePNLKtjZmXmMWFtG2/C5T0ytxkFu6VvqTsWbAzlhUUIlw8X+MkEXnM
+ 66McNvfIQYlzI6m05/cM9/9JWcbShqr012BqgDuBVJtSUXCPtNTNEX82s4VN8Kcm90jn
+ 3g8PzmuLy8t9l0CNfucmp+bSqv6Cz0bzNMwtFrxJfEEs3SiuqEYgtiZg+SgVs5KOoCUA
+ nqMRpibltrhVA2p9+m4Z6Rx89bT1f/dxjr/L+GWMj5aAF+Ga7XeRBqQeSgUh7v7Fx6De
+ rJWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=UBXjsqQUcqNUyCDlLi0zZZgtyo1Pm4NLb9ARW1ugJ6Y=;
+ b=KAOiw67DRNfTk4d6FAsaPgCwYYIDdNz2A6NSJ/sp2gS5Uvh+LTFKSSQCNTqAWlITNe
+ 1xBSWKO0uFeNt9TCMVUbnE4PqHFXd5592URniWBrb02pgR+uV5UC1kuDpg/jSUOAn5Ol
+ GUasF8zzCRubTx2acR3wE5uuRpHAgwhey7fRURPZYpbHqc2sB/k1go7Zjky+UTzXoWhS
+ QMrhVW7Nza27XVHEWirZ3I/fV70HtY8qZ9OvfBdoHCLciaYWTNltn/oO5Jqf3F3AgCBV
+ H569n4AVdBaAoQJYm7Eh8cm0ubxtpWh+1+eNxd+CVe9rab87jNuZqQGElsSIOg5s/W+v
+ YlLA==
+X-Gm-Message-State: APjAAAULRntFRkl9FOs9NvI4pc+6Ar8QVO8hUKi51L4E5GJ5Dzu0sLq2
+ 7Yhrb5kHTIlc7U5VECHQ0xmO5A==
+X-Google-Smtp-Source: APXvYqzBl0GJ1aMN6fcMAMy2AEf4ls+byXnOAgZQ544zpjhF+c+mknrWyAZaO8mRXpJ1OSedTlawfQ==
+X-Received: by 2002:a1c:49d5:: with SMTP id w204mr4923348wma.111.1573575769063; 
+ Tue, 12 Nov 2019 08:22:49 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y78sm5400567wmd.32.2019.11.12.08.22.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 08:22:47 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2487B1FF87;
+ Tue, 12 Nov 2019 16:22:47 +0000 (GMT)
+References: <20191112145028.26386-1-alex.bennee@linaro.org>
+ <CAFEAcA_9AwoTE9zaKbiF6DkpN+O8LaEKGOct-m5S3yvFBHGK1g@mail.gmail.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/8] testing and tcg plugin api ver
+In-reply-to: <CAFEAcA_9AwoTE9zaKbiF6DkpN+O8LaEKGOct-m5S3yvFBHGK1g@mail.gmail.com>
+Date: Tue, 12 Nov 2019 16:22:47 +0000
+Message-ID: <87woc583oo.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zAlir39psUJGY/PKb1Os7sQIO9usNnJ82WbHPpVdxmU4zixrPL5
- uB0hsRgoYLSaGaLyZMRXqN1Z/HrL1QVENlXEcqQ10Od+I78K+bzN8GkzH/H6uTJaRuhWK8P
- oOIBJgWg5XpBBEvm1HFRAQC3sXx53Oso9Y7mRNRjSZd9W4yiUWm8K3LSuhu2rjbz2QfUcwk
- Ss2P06f3ZpJXnuvFxHidA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AgWAZBIztvs=:Iq/eRFx5pl7QZxrFRIPOEN
- TkdeKaaGcWXwuDw6eABnpaON/tb+eSJJ2VJD+DoMWx8ykxwGbFnMF3nsS34IPJXLjlIpgWTBx
- 0c2EfDvTsi+hgUDy7hBKRLVN5K4dic+RwcY9CFki9I9IAdiNBvXOBjMeWjkruZvzRtEPYCa4z
- JpveDM6oCTTsHUPpyDdUHE1BUClBg9AYZOx1bTHdoAF2Wdqdlle0IL8LijASxW5jAtXjBAuPD
- 2L1aZhRiLFZb9Q42BmZfPh18iDNXslI/CaChDhB2dFyKXPN9+acqnomXqcL/yqKL9PDNaHNMu
- 5suWD0/Z2nwu1oEHtMk5llMx0TXXF6JfTFmrGVIWFJXGqra0us+wPT4TzRd73sIWCfts86XN7
- JXlzW0HECPsJanJd5oUJ5gwdciUGr6JgO6lVjjszyYuCvxehAVanxfK7wyzkRoSW6eiIiJjxf
- US1u3cr6tg+DGYqSuhTq2D7JojfQZ+SCU+WkCbwvINm06mBrmdEGj/BRm8QZagMWxqjZ6m3f6
- IdYyqMo3GG3SqsB+Cny4j6R4vkO90Wds7MclZdoETnGlRWWVWtfY/eiaumuLmDEtOlFqE0L27
- bYjCYb6R9cXGXAiPxw339LGAVistev6MryYkF/C3BO0xk2erejileUOYFuJvkL5Lm+DZ6hb+I
- NPqD4xG1SMrXsQXmesABwJQX+3WV9oBTkdUJZ0HL5tAoGGGLWijki1P9JvpMLn2/TDimbXnlH
- lBz+GH3fDzMhNL9ckCsanImTlBVuoXkOlxA2xnXYEK+10BpTJtAGMwzJ3aBxRKM9zGkUCZdJZ
- LE5cwX9rmdicpclMfyz/ajCEJAygVRo/6WdYXzf8XbfHe6BKHFOwxG76E5cLCeEK7ats+HdTu
- 9gvpDnMW0unka0ZZoGow==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.17.24
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,69 +82,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Cole Robinson <crobinso@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-stime() has been withdrawn from glibc
-(12cbde1dae6f "Use clock_settime to implement stime; withdraw stime.")
 
-Implement the target stime() syscall using host
-clock_settime(CLOCK_REALTIME, ...) as it is done internally in glibc.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Tested qemu-ppc/x86_64 with:
+> On Tue, 12 Nov 2019 at 14:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 039e285e095c20a88e623b927654b161aaf9d=
+914:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-pull=
+-request' into staging (2019-11-12 12:09:19 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-tcg-121119-1
+>>
+>> for you to fetch changes up to 3fb356cc86461a14450802e14fa79e8436dbbf31:
+>>
+>>   tcg plugins: expose an API version concept (2019-11-12 14:32:55 +0000)
+>>
+>> ----------------------------------------------------------------
+>> Testing and plugins for rc1
+>>
+>>   - add plugin API versioning
+>>   - tests/vm add netbsd autoinstall
+>>   - disable ipmi-bt-test for non-Linux
+>>   - single-thread make check
+>
+>
+> Applied, thanks.
+>
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+> for any user-visible changes.
 
-	#include <time.h>
-	#include <stdio.h>
+Yes.. I'll cook something up.
 
-	int main(void)
-	{
-		time_t t;
-		int ret;
+>
+> PS: just noticed, but shouldn't the plugin-version change
+> have needed an update to the docs ?
+>
+> thanks
+> -- PMM
 
-		/* date -u -d"2019-11-12T15:11:00" "+%s" */
-		t = 1573571460;
-		ret = stime(&t);
-		printf("ret %d\n", ret);
-		return 0;
-	}
 
-        # date; ./stime; date
-        Tue Nov 12 14:18:32 UTC 2019
-        ret 0
-        Tue Nov 12 15:11:00 UTC 2019
-
-Buglink: https://bugs.launchpad.net/qemu/+bug/1852115
-Reported-by: Cole Robinson <crobinso@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20191112142556.6335-1-laurent@vivier.eu>
----
- linux-user/syscall.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 4e97bcf1e5a9..ce399a55f0db 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7764,10 +7764,12 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #ifdef TARGET_NR_stime /* not on alpha */
-     case TARGET_NR_stime:
-         {
--            time_t host_time;
--            if (get_user_sal(host_time, arg1))
-+            struct timespec ts;
-+            ts.tv_nsec = 0;
-+            if (get_user_sal(ts.tv_sec, arg1)) {
-                 return -TARGET_EFAULT;
--            return get_errno(stime(&host_time));
-+            }
-+            return get_errno(clock_settime(CLOCK_REALTIME, &ts));
-         }
- #endif
- #ifdef TARGET_NR_alarm /* not on alpha */
--- 
-2.21.0
-
+--
+Alex Benn=C3=A9e
 
