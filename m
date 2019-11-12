@@ -2,30 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D52FF8BFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 10:37:18 +0100 (CET)
-Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E3BF8C03
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 10:39:38 +0100 (CET)
+Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUSbt-0003co-CR
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 04:37:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48903)
+	id 1iUSe9-00068m-8B
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 04:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iUSZV-0001y4-NR
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:34:50 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iUScV-0004Yc-Lp
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iUSZU-0006fc-Fv
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:34:49 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:60627)
+ (envelope-from <laurent@vivier.eu>) id 1iUScU-0007UK-Gg
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:55 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:34181)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iUSZT-0006f9-AS; Tue, 12 Nov 2019 04:34:48 -0500
+ id 1iUScU-0007U2-7w; Tue, 12 Nov 2019 04:37:54 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MWiUg-1iNjPU3uFE-00X7Bh; Tue, 12 Nov 2019 10:34:41 +0100
-Subject: Re: [PATCH] numa: Add missing \n to error message
-To: Greg Kurz <groug@kaod.org>, Eduardo Habkost <ehabkost@redhat.com>
-References: <157304440026.351774.14607704217028190097.stgit@bahia.lan>
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MPXMa-1iGcy93mi2-00MdPb; Tue, 12 Nov 2019 10:36:28 +0100
+Subject: Re: [PATCH v2] ivshmem-server: Clean up shmem on shutdown
+To: Markus Armbruster <armbru@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>
+References: <d938a62c-7538-9d2b-cc0a-13b240ab9141@web.de>
+ <2587815f-e4eb-1f44-0b2d-5b77e3337553@suse.de>
+ <7c4cb51d-ce45-4324-811b-4674ab9aa691@siemens.com>
+ <87eeyi8kny.fsf@dusky.pond.sub.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,36 +72,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <89950cbb-c788-36d7-8987-9e64a5591169@vivier.eu>
-Date: Tue, 12 Nov 2019 10:34:39 +0100
+Message-ID: <d18914f3-6760-ff6a-3914-956856b4ccdf@vivier.eu>
+Date: Tue, 12 Nov 2019 10:36:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <157304440026.351774.14607704217028190097.stgit@bahia.lan>
+In-Reply-To: <87eeyi8kny.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OyWeVbKIuUp/KtQwl2WUwplj6nEGLOCRU1av1ZEgPHMDygpZkM3
- 2mkc+bWR3ibV63hqz3pct6FzeIZST7eaL53eBYwki0nGF2t6YE9HRGHr5Y5/X6x0iuiU4RV
- tiuw2IfDloEbC9HrxMkcRndQNx6jYRrU1H1rtqbGHWBKQWNw1sBeCYXILH1DtH+E17FxT3E
- Hw2y//fT0XTh66hIyJcjg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8TWoRjj6VEw=:0zEf3Ins3nXTHZjUCBrGgE
- wGmhqDqj0ACB9c5S75fvU8EgCL+ImZ6FTRKsW1O8Jp4XBZwVHmUKqmE09RawqybQiTbvxBVCD
- ISNr3ttTH8hz/yTsl0ZNniM6Tp2xX0I/HsCxQYR6p3Xa+GZdzbOB9sdoQs2ICBAt/ltd/eHrl
- D5GmyxMeEVLFLMR+odts4jCiSjA4BNtCa6i2Vm9EOaQDNbzvv2mXKcP4jBlvvKnDX/P8KW3gu
- CUCYStpI4hM1NGxVtcRrDcyAv1xNRl4flP5wzpca165A8t1eVw4h32LFlgjGuEOYbqyo1g9j6
- GeiEgMAqJsx5GxJe4YnSV6hcfYghVxEHxPtUbQq7J3pm4micRLEx/cVK/Zo4pq2ptMTgKjAyr
- dhopYBmotWIgf9PwGyCyriA1tRLnHGNJitM2n80dV7B7693JUjzbre16llD+/C6TOdOnozCaz
- H3BZHUx8T+VSTdfG4uWuJO5SiFfF76eL906dfjwblRhiVVwQ7rf0g4B9+Rni6rivp8xncbMfx
- nZLW3O6zGKSLWlEaDIjtfpvmQKc+RRltLvE6wqJdimZebi7Vggv78ck0RJ2d0zVsBYaITBdFC
- PA88pKRFKluxJVM+LcXdZKlpLPL+thjFUxmLmKeMEiHxzn6JoP5I3mYFog6iMpynh9MGzTWv9
- suvuyL7XHJDHN9dVZkuFBPlCnEtyw0qfusmJjH9xHUATySVT/Rv6InafFWGNHG8hpxeS0i7aj
- nRFvv90KXCYGCitwO5c0AYvHf8BBJ1xR/xGVjGAEjMxSN4hGOcrSdwe0TGMGM6Wmlfptta3dC
- Bn1AiLJmrZpVAsJyAbXjXF589RmD9RGlziKglnyBkY5zbV9quzpM+ANfoAsckZsBX4jtP1kLR
- kH6Gh8Ep5NE7sunm550g==
+X-Provags-ID: V03:K1:qz4EmSDynfqaF8BVNus9esc1IxUDMYZM9noeiVw4HLLaFlFyLbK
+ 0j1aFaUvS9STz6futnqrOS2lU/2qKosoc31qwJJujV2ONePybdoNFib4qyuJ7PY96kEq6mD
+ iie1FpUbJBAQ2zT9zce/FypWytEX0BVu91WnMlmd//XsCeFhH+AQx/sCXsiVqgToSIauxk8
+ vPNbOB9Lo3e+dQpZUAL9Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tQRRcULPSZI=:VUOi/OJ5q4AbgwZI9SilZG
+ XpqpuH6Km+OmdIk/OR7fdpP3dDds061BbJRooqAkaNt8vobNakxxJywLuw6gUEhW+gVjT5kps
+ Ga1c21F5sahzeurkmichfZMPteFHwaLHfylBi5E34ptQv8V2UQ5eYnwd2QM45TV0fVhw8RuXR
+ zdABjX9e2bne1DR7qJtQNBwnMr5EXMG/3gDrIQgMN+cMWlZuvDdIudq54Vfx3i44HtyNdiIV0
+ pELCh0OQiPEkGuSmNlHiW+R4zcqo0Yef39nUZND3gegfxQeAHKTD/+zn0I7ek/jc4kwwTMohB
+ ODDBn4tEU41V2zlo+zMWDiInadrhsMCOiTPs0/pyVIQltbSfjDxDj/+GhQwqUbpuMw9MJaqIB
+ jaeX6hTqs+LcYDKpyH9a1Z1yopsKKySW5jjflXsxzSs6KQCkVxuhvQUWl+e8wsBZdtWkxP2TD
+ k4uXmXEofd+znup1Iz37Q640/5XbX5zarq2OB5lo/Zd1Ur6r+V65Qwe6vml/LhpXAfMC3Ws8e
+ w6v06w+HiC/qhCVT4tK9G8yKYXv02CKRkWiQixlixcCGvFdIPXiEMAilqA349c5OjgG+r+t/A
+ VJO1DzpWCs6Ix5+aTp+oTZeEsMZK10/kmEVE9LxvvCcEWfRgHCdZ/PN0XkX2LU3I3Pl3W56nW
+ zEuN0m9es+uv4myI3HS6wlrnaKMaE959j7VItwerOgJsIs/lkcHjsIesM+z6tzWoJoDuhoyun
+ tFyb5SH2HyTgjg7qcvNQWGYcs2QqP9aTkW0+UtxmUl8DpFiizPXCl/7t2loP23WVqwvtlvbcZ
+ BmwEfQjNFSxPyfWHSdGWk612KAU3l4LfRUmbbeax7GSUoJR3L/obGlsddnrF4IS7H3pgSftig
+ XZ/fF19xYs567ja2OGbw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,45 +113,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <marcel@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Claudio Fontana <claudio.fontana@suse.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/11/2019 à 13:46, Greg Kurz a écrit :
-> If memory allocation fails when using -mem-path, QEMU is supposed to print
-> out a message to indicate that fallback to anonymous RAM is deprecated. This
-> is done with error_printf() which does output buffering. As a consequence,
-> the message is only printed at the next flush, eg. when quiting QEMU, and
-> it also lacks a trailing newline:
+Le 08/11/2019 à 16:14, Markus Armbruster a écrit :
+> Jan Kiszka <jan.kiszka@siemens.com> writes:
 > 
-> qemu-system-ppc64: unable to map backing store for guest RAM: Cannot allocate memory
-> qemu-system-ppc64: warning: falling back to regular RAM allocation
-> QEMU 4.1.50 monitor - type 'help' for more information
-> (qemu) q
-> This is deprecated. Make sure that -mem-path  specified path has sufficient resources to allocate -m specified RAM amountgreg@boss02:~/Work/qemu/qemu-spapr$
+>> On 06.08.19 15:01, Claudio Fontana wrote:
+>>> On 8/5/19 7:54 AM, Jan Kiszka wrote:
+>>>> From: Jan Kiszka <jan.kiszka@siemens.com>
+>>>>
+>>>> So far, the server leaves the posix shared memory object behind when
+>>>> terminating, requiring the user to explicitly remove it in order to
+>>>> start a new instance.
+>>>>
+>>>> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+>>>> ---
+>>>>
+>>>> Changes in v2:
+>>>>   - respect use_shm_open
+>>>>   - also clean up in ivshmem_server_start error path
+>>>>
+>>>>   contrib/ivshmem-server/ivshmem-server.c | 6 ++++++
+>>>>   1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-server/ivshmem-server.c
+>>>> index 77f97b209c..88daee812d 100644
+>>>> --- a/contrib/ivshmem-server/ivshmem-server.c
+>>>> +++ b/contrib/ivshmem-server/ivshmem-server.c
+>>>> @@ -353,6 +353,9 @@ ivshmem_server_start(IvshmemServer *server)
+>>>>   err_close_sock:
+>>>>       close(sock_fd);
+>>>>   err_close_shm:
+>>>> +    if (server->use_shm_open) {
+>>>> +        shm_unlink(server->shm_path);
+>>>> +    }
+>>>>       close(shm_fd);
+>>>>       return -1;
+>>>>   }
+>>>> @@ -370,6 +373,9 @@ ivshmem_server_close(IvshmemServer *server)
+>>>>       }
+>>>>
+>>>>       unlink(server->unix_sock_path);
+>>>> +    if (server->use_shm_open) {
+>>>> +        shm_unlink(server->shm_path);
+>>>> +    }
+>>>>       close(server->sock_fd);
+>>>>       close(server->shm_fd);
+>>>>       server->sock_fd = -1;
+>>>> --
+>>>> 2.16.4
+>>>>
+>>>>
+>>>
+>>> Reviewed-by: Claudio Fontana <claudio.fontana@suse.com>
+>>
+>> Markus, would you take this?
 > 
-> Add the missing \n to fix both issues.
-> 
-> Fixes: cb79224b7e4b "deprecate -mem-path fallback to anonymous RAM"
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  hw/core/numa.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 038c96d4abc6..e3332a984f7c 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -503,7 +503,7 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
->              warn_report("falling back to regular RAM allocation");
->              error_printf("This is deprecated. Make sure that -mem-path "
->                           " specified path has sufficient resources to allocate"
-> -                         " -m specified RAM amount");
-> +                         " -m specified RAM amount\n");
->              /* Legacy behavior: if allocation failed, fall back to
->               * regular RAM allocation.
->               */
+> ivshmem has no maintainer.  I you need me to serve as a pull request
+> monkey of last resort, I can do that.  However, for this one,
+> qemu-trivial (cc'ed) should do.
 > 
 > 
 
