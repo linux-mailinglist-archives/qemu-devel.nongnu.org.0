@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7371F8EB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 12:38:55 +0100 (CET)
-Received: from localhost ([::1]:33716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D58F8ECB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 12:44:27 +0100 (CET)
+Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUUVa-00054i-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 06:38:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35581)
+	id 1iUUaw-0001fI-DT
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 06:44:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iUUP2-0007GE-7X
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:32:10 -0500
+ (envelope-from <mst@redhat.com>) id 1iUUW6-0005t7-8M
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:39:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iUUOy-00019E-5K
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:32:08 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49634
+ (envelope-from <mst@redhat.com>) id 1iUUW5-0003HQ-87
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:39:26 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49340
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iUUOw-00018A-1O
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:32:02 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iUUW5-0003HF-4I
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 06:39:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573558321;
+ s=mimecast20190719; t=1573558764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uP29D3i3Jo/HrZeAJm59V6dRbMwu73JzUIZJLFx40Vw=;
- b=PTXUB5xDDmxhn43LoMp60vkYr9Am2h3FWutRz8dVO0dklvbgq8PVUuMVs69wYC+fBVhy7r
- 0tooxxNIpkJ3RTNlhHaZf25NQtjK60zhnGOYVaG44gQR58CBMADp2ooGbFN9icPs4bBb2B
- l2vzTIPLj5O26VzvBh+mBUlP/GsaHBk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-k0alqf7pMEmQc89YZMda8A-1; Tue, 12 Nov 2019 06:30:46 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 375AA85B6F8;
- Tue, 12 Nov 2019 11:30:45 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBA1660A89;
- Tue, 12 Nov 2019 11:30:42 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] blockdev: honor bdrv_try_set_aio_context() context
- requirements
-Date: Tue, 12 Nov 2019 12:30:12 +0100
-Message-Id: <20191112113012.71136-9-slp@redhat.com>
-In-Reply-To: <20191112113012.71136-1-slp@redhat.com>
-References: <20191112113012.71136-1-slp@redhat.com>
+ bh=Zbj464CEZ0mq9CN5nTQpqhp4Y/J5FATmBxTphmBe8vo=;
+ b=QSbStywHf0jaLWTsrYg/5WYvq0Y7st89+cYBCkPJxfAIteUwtjh0rBC6vzFAVbMnT+iirt
+ pErG4mb7jPgpak4e0QEqjzoD00by9Ib0D7x8SuHARQKDLtZbB/d2p5FQmHY9f29ynVrpUH
+ Q5tImzp0H7JQvWQiWyJx1yaJT8AHaWU=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-uj7xomP9PhK2G727NIsvsQ-1; Tue, 12 Nov 2019 06:39:23 -0500
+Received: by mail-qt1-f200.google.com with SMTP id j18so695634qtp.15
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 03:39:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=G7vfK+So+1KS9Ji60fE66Mpa7XjCoE8SThUV71L22ZA=;
+ b=sJ5oRNplyaWB4SLVaoc1gz7/tjM9eewjBIZ35W9OJhDt3DSQbhta5X4tXORKwZiiO2
+ HCnOwdE+hiyWbBmbO31kUsYPGpww5dfn80RuK8qZ/HyhJ3P4IHBzfc1cz9vTCqNs1lG6
+ pd+iRbbBmwKIotpZmi4CGVQZ5w/TBOq8SYic4VLj60AE1JzypI132szSTrreullUhnuq
+ GLPEItC9UvyVhvIBhh+KuQge9gB9kU1l6RLE+PvJfjzc/wO49VlZnRApzGDcdWSV6dsq
+ 6/bl1MsuIYARY86MC5YnLqASH0/MNcRQfbEjlnFOP/gDs6heBty/rqIBIa3teCpI+CnH
+ x2Sw==
+X-Gm-Message-State: APjAAAW8ZZV5xokGYshS+nguPMHHjxgwrb6C5AREGF+A48/K3f1hG8DQ
+ lZjARxeLS8m2Zja2+Icy7jGC4g9QDOemzj+GDIuFYXxu7JE2D99hdb5iJqJk4WYgbJFXIMJJueE
+ 6zniycquHxly0eQk=
+X-Received: by 2002:ac8:4a93:: with SMTP id l19mr787213qtq.121.1573558763019; 
+ Tue, 12 Nov 2019 03:39:23 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwY8zAO40e4sfiPujc8kSY8fSPJu1N6r/RfzsSPBatkbZwmZ7nbmpSFAzIHprRxhzCY/64PzQ==
+X-Received: by 2002:ac8:4a93:: with SMTP id l19mr787194qtq.121.1573558762818; 
+ Tue, 12 Nov 2019 03:39:22 -0800 (PST)
+Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
+ by smtp.gmail.com with ESMTPSA id g17sm10939096qte.89.2019.11.12.03.39.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 03:39:21 -0800 (PST)
+Date: Tue, 12 Nov 2019 06:39:15 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Subject: Re: [PATCH v3 0/2] virtio: make seg_max virtqueue size dependent
+Message-ID: <20191112063838-mutt-send-email-mst@kernel.org>
+References: <20191112111354.26324-1-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: k0alqf7pMEmQc89YZMda8A-1
+In-Reply-To: <20191112111354.26324-1-dplotnikov@virtuozzo.com>
+X-MC-Unique: uj7xomP9PhK2G727NIsvsQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,222 +86,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_try_set_aio_context() requires that the old context is held, and
-the new context is not held. Fix all the occurrences where it's not
-done this way.
+On Tue, Nov 12, 2019 at 02:13:52PM +0300, Denis Plotnikov wrote:
+> v3:
+>   * add property to set in machine type [MST]
+>   * add min queue size check [Stefan]
+>   * add avocado based test [Max, Stefan, Eduardo, Cleber]
+>=20
+> v2:
+>   * the standalone patch to make seg_max virtqueue size dependent
+>   * other patches are postponed
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- blockdev.c | 67 ++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 58 insertions(+), 9 deletions(-)
+Looks good. I think it's best to apply this after the release,
+so when release is out pls rebase and repost.
+Thanks!
 
-diff --git a/blockdev.c b/blockdev.c
-index 152a0f7454..b0647d8d33 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1535,6 +1535,7 @@ static void external_snapshot_prepare(BlkActionState =
-*common,
-                              DO_UPCAST(ExternalSnapshotState, common, comm=
-on);
-     TransactionAction *action =3D common->action;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     int ret;
-=20
-     /* 'blockdev-snapshot' and 'blockdev-snapshot-sync' have similar
-@@ -1675,11 +1676,20 @@ static void external_snapshot_prepare(BlkActionStat=
-e *common,
-         goto out;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(state->new_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-     ret =3D bdrv_try_set_aio_context(state->new_bs, aio_context, errp);
-     if (ret < 0) {
--        goto out;
-+        aio_context_release(old_context);
-+        return;
-     }
-=20
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     /* This removes our old bs and adds the new bs. This is an operation t=
-hat
-      * can fail, so we need to do it in .prepare; undoing it for abort is
-      * always possible. */
-@@ -1775,11 +1785,13 @@ static void drive_backup_prepare(BlkActionState *co=
-mmon, Error **errp)
-     BlockDriverState *target_bs;
-     BlockDriverState *source =3D NULL;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     QDict *options;
-     Error *local_err =3D NULL;
-     int flags;
-     int64_t size;
-     bool set_backing_hd =3D false;
-+    int ret;
-=20
-     assert(common->action->type =3D=3D TRANSACTION_ACTION_KIND_DRIVE_BACKU=
-P);
-     backup =3D common->action->u.drive_backup.data;
-@@ -1868,6 +1880,20 @@ static void drive_backup_prepare(BlkActionState *com=
-mon, Error **errp)
-         goto out;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        aio_context_release(old_context);
-+        return;
-+     }
-+
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-         if (local_err) {
-@@ -1947,6 +1973,8 @@ static void blockdev_backup_prepare(BlkActionState *c=
-ommon, Error **errp)
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-+    int ret;
-=20
-     assert(common->action->type =3D=3D TRANSACTION_ACTION_KIND_BLOCKDEV_BA=
-CKUP);
-     backup =3D common->action->u.blockdev_backup.data;
-@@ -1961,7 +1989,18 @@ static void blockdev_backup_prepare(BlkActionState *=
-common, Error **errp)
-         return;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-     aio_context =3D bdrv_get_aio_context(bs);
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_acquire(old_context);
-+
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        aio_context_release(old_context);
-+        return;
-+    }
-+
-+    aio_context_release(old_context);
-     aio_context_acquire(aio_context);
-     state->bs =3D bs;
-=20
-@@ -3562,7 +3601,6 @@ static BlockJob *do_backup_common(BackupCommon *backu=
-p,
-     BlockJob *job =3D NULL;
-     BdrvDirtyBitmap *bmap =3D NULL;
-     int job_flags =3D JOB_DEFAULT;
--    int ret;
-=20
-     if (!backup->has_speed) {
-         backup->speed =3D 0;
-@@ -3586,11 +3624,6 @@ static BlockJob *do_backup_common(BackupCommon *back=
-up,
-         backup->compress =3D false;
-     }
-=20
--    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
--    if (ret < 0) {
--        return NULL;
--    }
--
-     if ((backup->sync =3D=3D MIRROR_SYNC_MODE_BITMAP) ||
-         (backup->sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL)) {
-         /* done before desugaring 'incremental' to print the right message=
- */
-@@ -3825,6 +3858,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-     BlockDriverState *bs;
-     BlockDriverState *source, *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     BlockMirrorBackingMode backing_mode;
-     Error *local_err =3D NULL;
-     QDict *options =3D NULL;
-@@ -3937,12 +3971,22 @@ void qmp_drive_mirror(DriveMirror *arg, Error **err=
-p)
-                    (arg->mode =3D=3D NEW_IMAGE_MODE_EXISTING ||
-                     !bdrv_has_zero_init(target_bs)));
-=20
-+
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-     ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-     if (ret < 0) {
-         bdrv_unref(target_bs);
--        goto out;
-+        aio_context_release(old_context);
-+        return;
-     }
-=20
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     blockdev_mirror_common(arg->has_job_id ? arg->job_id : NULL, bs, targe=
-t_bs,
-                            arg->has_replaces, arg->replaces, arg->sync,
-                            backing_mode, zero_target,
-@@ -3984,6 +4028,7 @@ void qmp_blockdev_mirror(bool has_job_id, const char =
-*job_id,
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     BlockMirrorBackingMode backing_mode =3D MIRROR_LEAVE_BACKING_CHAIN;
-     Error *local_err =3D NULL;
-     bool zero_target;
-@@ -4001,14 +4046,18 @@ void qmp_blockdev_mirror(bool has_job_id, const cha=
-r *job_id,
-=20
-     zero_target =3D (sync =3D=3D MIRROR_SYNC_MODE_FULL);
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-     aio_context =3D bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
-+    aio_context_acquire(old_context);
-=20
-     ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-     if (ret < 0) {
-         goto out;
-     }
-=20
-+    aio_context_acquire(aio_context);
-+
-     blockdev_mirror_common(has_job_id ? job_id : NULL, bs, target_bs,
-                            has_replaces, replaces, sync, backing_mode,
-                            zero_target, has_speed, speed,
---=20
-2.23.0
+> v1:
+>   the initial series
+>=20
+> Denis Plotnikov (2):
+>   virtio: make seg_max virtqueue size dependent
+>   tests: add virtio-scsi and virtio-blk seg_max_adjust test
+>=20
+>  hw/block/virtio-blk.c                     |   9 +-
+>  hw/core/machine.c                         |   3 +
+>  hw/scsi/vhost-scsi.c                      |   2 +
+>  hw/scsi/virtio-scsi.c                     |  10 +-
+>  include/hw/virtio/virtio-blk.h            |   1 +
+>  include/hw/virtio/virtio-scsi.h           |   1 +
+>  tests/acceptance/virtio_seg_max_adjust.py | 135 ++++++++++++++++++++++
+>  7 files changed, 159 insertions(+), 2 deletions(-)
+>  create mode 100755 tests/acceptance/virtio_seg_max_adjust.py
+>=20
+> --=20
+> 2.17.0
 
 
