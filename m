@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E3BF8C03
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 10:39:38 +0100 (CET)
-Received: from localhost ([::1]:60666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE83F8BFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 10:38:35 +0100 (CET)
+Received: from localhost ([::1]:60656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUSe9-00068m-8B
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 04:39:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49205)
+	id 1iUSd8-000501-OE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 04:38:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iUScV-0004Yc-Lp
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:56 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iUScH-0004FQ-JL
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iUScU-0007UK-Gg
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:55 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:34181)
+ (envelope-from <laurent@vivier.eu>) id 1iUScF-0007Qm-U5
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 04:37:41 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:54117)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1iUScU-0007U2-7w; Tue, 12 Nov 2019 04:37:54 -0500
+ id 1iUScD-0007Pj-LP; Tue, 12 Nov 2019 04:37:37 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MPXMa-1iGcy93mi2-00MdPb; Tue, 12 Nov 2019 10:36:28 +0100
-Subject: Re: [PATCH v2] ivshmem-server: Clean up shmem on shutdown
+ 1N9d91-1hsFZO1i9V-015dA0; Tue, 12 Nov 2019 10:37:31 +0100
+Subject: Re: [PATCH v2] ivshmem-server: Terminate also on SIGINT
 To: Markus Armbruster <armbru@redhat.com>, Jan Kiszka <jan.kiszka@siemens.com>
-References: <d938a62c-7538-9d2b-cc0a-13b240ab9141@web.de>
- <2587815f-e4eb-1f44-0b2d-5b77e3337553@suse.de>
- <7c4cb51d-ce45-4324-811b-4674ab9aa691@siemens.com>
- <87eeyi8kny.fsf@dusky.pond.sub.org>
+References: <99c1a7bd-1876-66a2-4b8e-d5bc86116fe7@web.de>
+ <fed41c57-c433-9723-e5db-5eb3a10c4f8b@siemens.com>
+ <87a7968km1.fsf@dusky.pond.sub.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -72,33 +71,33 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <d18914f3-6760-ff6a-3914-956856b4ccdf@vivier.eu>
-Date: Tue, 12 Nov 2019 10:36:26 +0100
+Message-ID: <b0fda46b-6518-4228-b7e3-2bd1bdf27817@vivier.eu>
+Date: Tue, 12 Nov 2019 10:37:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <87eeyi8kny.fsf@dusky.pond.sub.org>
+In-Reply-To: <87a7968km1.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qz4EmSDynfqaF8BVNus9esc1IxUDMYZM9noeiVw4HLLaFlFyLbK
- 0j1aFaUvS9STz6futnqrOS2lU/2qKosoc31qwJJujV2ONePybdoNFib4qyuJ7PY96kEq6mD
- iie1FpUbJBAQ2zT9zce/FypWytEX0BVu91WnMlmd//XsCeFhH+AQx/sCXsiVqgToSIauxk8
- vPNbOB9Lo3e+dQpZUAL9Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tQRRcULPSZI=:VUOi/OJ5q4AbgwZI9SilZG
- XpqpuH6Km+OmdIk/OR7fdpP3dDds061BbJRooqAkaNt8vobNakxxJywLuw6gUEhW+gVjT5kps
- Ga1c21F5sahzeurkmichfZMPteFHwaLHfylBi5E34ptQv8V2UQ5eYnwd2QM45TV0fVhw8RuXR
- zdABjX9e2bne1DR7qJtQNBwnMr5EXMG/3gDrIQgMN+cMWlZuvDdIudq54Vfx3i44HtyNdiIV0
- pELCh0OQiPEkGuSmNlHiW+R4zcqo0Yef39nUZND3gegfxQeAHKTD/+zn0I7ek/jc4kwwTMohB
- ODDBn4tEU41V2zlo+zMWDiInadrhsMCOiTPs0/pyVIQltbSfjDxDj/+GhQwqUbpuMw9MJaqIB
- jaeX6hTqs+LcYDKpyH9a1Z1yopsKKySW5jjflXsxzSs6KQCkVxuhvQUWl+e8wsBZdtWkxP2TD
- k4uXmXEofd+znup1Iz37Q640/5XbX5zarq2OB5lo/Zd1Ur6r+V65Qwe6vml/LhpXAfMC3Ws8e
- w6v06w+HiC/qhCVT4tK9G8yKYXv02CKRkWiQixlixcCGvFdIPXiEMAilqA349c5OjgG+r+t/A
- VJO1DzpWCs6Ix5+aTp+oTZeEsMZK10/kmEVE9LxvvCcEWfRgHCdZ/PN0XkX2LU3I3Pl3W56nW
- zEuN0m9es+uv4myI3HS6wlrnaKMaE959j7VItwerOgJsIs/lkcHjsIesM+z6tzWoJoDuhoyun
- tFyb5SH2HyTgjg7qcvNQWGYcs2QqP9aTkW0+UtxmUl8DpFiizPXCl/7t2loP23WVqwvtlvbcZ
- BmwEfQjNFSxPyfWHSdGWk612KAU3l4LfRUmbbeax7GSUoJR3L/obGlsddnrF4IS7H3pgSftig
- XZ/fF19xYs567ja2OGbw==
+X-Provags-ID: V03:K1:nQNyJBWKmy47yS9fg7wGpnBBnonEJ8lSB4igRqbxxvF/7R59GWZ
+ ray5CprKCKS22by/InN/eSPKSmdNYFEh1AjYbsJOI5GJWQh+QvSQjBmijYa8rutTkQKSw94
+ BTLLY68oNy4oW305ZqbDUsw894Vx9Pz2FxAo8yWf75YxxG/RN0fCgwfyqCLCX05VJzy0c/h
+ OGjWdbfnPwv3BuANyn/Ug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rkkrestwDpg=:IO1ZeCBV7K+DaPAaZTl7GK
+ y7qvCn+mGYAilp7bA3bfKlkk92QLfyMLf1OZQuZtq9FZjgIHHtD3ku8eS1kvMHlHq+nfFrv8+
+ EYMPygCT+AXmHqOL2+BVdtYrj51tDQ/FXGjtXtn6QqRjB/eBhH06DpVQrMVKcG041QMfsL9EU
+ OhNFCGCCu3Foge7wDz0fMsBCgQt4Aks/C5yZebGg1rVt7p6hKm6AIXj70Y/PfJI3nXOKhy28f
+ QtWduxKWoPvLPYnt9ygHPIgHL21ciinMh16ZOUqHVPCvtiwjOMk+GRqzUyowWjbkgDBJGlAoa
+ JkwMhKewvp9hJXuBRwpJa2pnPG6IrYFHd+S6ZXpTaXD2umKZQGkegfEvQxzHGtdzqJbhNHQd4
+ pdl8bVXrekeQ1BJ/WOpVRiSOyaVYp8kx+5A6+T9CbmmW/A5a/Dao7+v0wQ3th9fVEAFNVS/Ck
+ ENS9WvWrFA4gahGD1Z2niSY78Xt826fSz5BiWKKg+ke69RNS7zyVNOv7waaA7lAK1ut3aJyCB
+ M2St+yKXHpTqpOmtscBiyit2GA+jz1LTu814WkmNmz6AyaDE+MdlHIaQ8lHdyaL/waw16rsSj
+ fV2HQ4Z/H205jNcFT6JqGMfKXQ9s2EHZ3j24+eDjcR1bjkrsHjUcbduv0Fto0PeuJPZfiNJjD
+ z7HtB9zRwUkUe+Vx4idRIscQw8sZhUxKQXSSACbmObPwTwt1waOmRdWWQljOjXuyTxLv/Uaya
+ 38Bhe9yffCk/ziEuZr0TzulPllFZiAW9EKI4EyXvI+teHRDG5YFN11WLk5sUmEGXZ9NB0ihyc
+ h6dHCYwhrvM4/ppcBLn33kngBHHBIyfAyLRPU4jCJkfF3HKiYW+AybL2khPMv5tG6VZ38wl/c
+ KKrkqVACzEFDXnQauvowGQbHm8H8Vndqgf4c4e3WQ=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.17.10
@@ -113,68 +112,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Claudio Fontana <claudio.fontana@suse.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel <qemu-devel@nongnu.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/11/2019 à 16:14, Markus Armbruster a écrit :
+Le 08/11/2019 à 16:15, Markus Armbruster a écrit :
 > Jan Kiszka <jan.kiszka@siemens.com> writes:
 > 
->> On 06.08.19 15:01, Claudio Fontana wrote:
->>> On 8/5/19 7:54 AM, Jan Kiszka wrote:
->>>> From: Jan Kiszka <jan.kiszka@siemens.com>
->>>>
->>>> So far, the server leaves the posix shared memory object behind when
->>>> terminating, requiring the user to explicitly remove it in order to
->>>> start a new instance.
->>>>
->>>> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
->>>> ---
->>>>
->>>> Changes in v2:
->>>>   - respect use_shm_open
->>>>   - also clean up in ivshmem_server_start error path
->>>>
->>>>   contrib/ivshmem-server/ivshmem-server.c | 6 ++++++
->>>>   1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/contrib/ivshmem-server/ivshmem-server.c b/contrib/ivshmem-server/ivshmem-server.c
->>>> index 77f97b209c..88daee812d 100644
->>>> --- a/contrib/ivshmem-server/ivshmem-server.c
->>>> +++ b/contrib/ivshmem-server/ivshmem-server.c
->>>> @@ -353,6 +353,9 @@ ivshmem_server_start(IvshmemServer *server)
->>>>   err_close_sock:
->>>>       close(sock_fd);
->>>>   err_close_shm:
->>>> +    if (server->use_shm_open) {
->>>> +        shm_unlink(server->shm_path);
->>>> +    }
->>>>       close(shm_fd);
->>>>       return -1;
->>>>   }
->>>> @@ -370,6 +373,9 @@ ivshmem_server_close(IvshmemServer *server)
->>>>       }
->>>>
->>>>       unlink(server->unix_sock_path);
->>>> +    if (server->use_shm_open) {
->>>> +        shm_unlink(server->shm_path);
->>>> +    }
->>>>       close(server->sock_fd);
->>>>       close(server->shm_fd);
->>>>       server->sock_fd = -1;
->>>> --
->>>> 2.16.4
->>>>
->>>>
+>> On 03.08.19 15:22, Jan Kiszka wrote:
+>>> From: Jan Kiszka <jan.kiszka@siemens.com>
 >>>
->>> Reviewed-by: Claudio Fontana <claudio.fontana@suse.com>
+>>> Allows to shutdown a foreground session via ctrl-c.
+>>>
+>>> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+>>> ---
+>>>
+>>> Changes in v2:
+>>>   - adjust error message
+>>>
+>>>   contrib/ivshmem-server/main.c | 5 +++--
+>>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/contrib/ivshmem-server/main.c b/contrib/ivshmem-server/main.c
+>>> index 197c79c57e..e4cd35f74c 100644
+>>> --- a/contrib/ivshmem-server/main.c
+>>> +++ b/contrib/ivshmem-server/main.c
+>>> @@ -223,8 +223,9 @@ main(int argc, char *argv[])
+>>>       sa_quit.sa_handler = ivshmem_server_quit_cb;
+>>>       sa_quit.sa_flags = 0;
+>>>       if (sigemptyset(&sa_quit.sa_mask) == -1 ||
+>>> -        sigaction(SIGTERM, &sa_quit, 0) == -1) {
+>>> -        perror("failed to add SIGTERM handler; sigaction");
+>>> +        sigaction(SIGTERM, &sa_quit, 0) == -1 ||
+>>> +        sigaction(SIGINT, &sa_quit, 0) == -1) {
+>>> +        perror("failed to add signal handler; sigaction");
+>>>           goto err;
+>>>       }
+>>>
+>>> --
+>>> 2.16.4
+>>>
+>>>
 >>
->> Markus, would you take this?
+>> ...and this one for you as well, Markus?
 > 
-> ivshmem has no maintainer.  I you need me to serve as a pull request
-> monkey of last resort, I can do that.  However, for this one,
-> qemu-trivial (cc'ed) should do.
+> Cc: qemu-trivial
 > 
 > 
 
