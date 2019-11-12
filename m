@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DCFF969E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:07:01 +0100 (CET)
-Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91558F96B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 18:10:50 +0100 (CET)
+Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUZd6-0001MN-SC
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:07:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58007)
+	id 1iUZgn-0003FX-MF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 12:10:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iUZbt-0000Qb-2K
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:05:46 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUZfy-0002lE-6m
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:09:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iUZbq-0005ZY-9p
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:05:43 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59604
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iUZbq-0005Yg-1e
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:05:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573578339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=arFwck7l+QK6Dgb5wgD+6uTgKNUuvR3ncd2XqieEKpo=;
- b=gK0LhhvX/6Cergs5WWedeaBRzK5JpCFBxhzTDDZ6+kUGTo/dR5zftDMst112DeS6UE4bgy
- FLUfQgrsysj1TIi5GIlU7xs2nEs9qo0u0PZowxN4dbroojG+wZg3KT82Gyl2+ZpQN5nKoS
- kwjlmgWHp2DGogWdOEi/rGKudRoAeiE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-X06zrwcfPzGpZKHBZEBNog-1; Tue, 12 Nov 2019 12:05:36 -0500
-Received: by mail-wr1-f70.google.com with SMTP id p4so6328358wrw.15
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:05:36 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1iUZfw-00079w-Vi
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:09:57 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34461)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iUZfw-00079H-No
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 12:09:56 -0500
+Received: by mail-wr1-x444.google.com with SMTP id e6so19462160wrw.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 09:09:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+8X2fw+lpiGEVyw/TSnjv5VUz1kjUlvOB6+1svjsaqc=;
+ b=t6k3m8gEQShAZFagrNgeQG0qRjU/SAWph4XRyo9hgp+J9lUCTZzJOoj0A86mfmI1Y+
+ nUU3QpeQXUnTVY8pDxl3VUGtmsf2ArWTA1ATW5wHGtB+IG65vKbnUQSW7D1+r07VlYVI
+ 5sOsCgDinXdTJEvHCuVOFERuHnPg9uQhaeEzC0XYClreYieyIgLkFR0bdf10qHK0G1bB
+ 3jH6ED3TSfjQB/UlqK7zcxaEgyoeNHdZUhBKb/6NbvbfLOMCmqJV4//QpASrSrYe8pqk
+ l49OP0Jfn1xgrShCcnQM+VtychOZn8Pc25oGK2c9Drsh8WI1osZu0qqlxVvhhDZTXnaZ
+ gr/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=hlQOoRyzLIF/1kW42Wdr9gDHqSRM9pwLv7pqFJdQtYk=;
- b=Cq07D1qeFi3hU5JLN9673GJHk1rqM2VGO0hDngoPmHNz8hmRJWuq/r+Bw89x9GPbXb
- zixKncBzjDQ9LqoeTiEg5kkpMjtPStkcVAtZoXzN1xM9SkLjieSvqnn0n0wF4bKM9rJe
- XNzfht/AMwRZBfHmb2Z+6M0h2E3qp+p77igPQsNvMzb24kdN0G+PzJnP28IPZu3MegPo
- Cd8yajCjc5hh2N51uZ1aJitYJxkMcjzYmIM++DZ1r4qTpd8HyDdcpsX1syMMP5vIqeMQ
- vRhfJgvpsTrrBsosTgWxtf9rFdMY5ZTQP0glqBMfELsl3Z5Cx5755sll0XASB+m8/7nm
- TVaQ==
-X-Gm-Message-State: APjAAAXStt+2dTsDqt4//dUyQJISIL2qKPLaMWNNeAqJDHXDizHov7HB
- B8UxDJlH8mnQi1lJzJ25QpDJtjbG7cKFKkFziVVo+kkPIN/c8Yg6lh3ZofvevVbXPlRhhPHXP87
- yn5NtMV/uqbQ3W+8=
-X-Received: by 2002:a1c:bc56:: with SMTP id m83mr4771481wmf.11.1573578335491; 
- Tue, 12 Nov 2019 09:05:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxB35scU4RLgwHLGP3QPo+sEBk4mNkWHxxrHH9My28Q1njgfLOifWeBK33ANRonVr37MUFRbQ==
-X-Received: by 2002:a1c:bc56:: with SMTP id m83mr4771461wmf.11.1573578335270; 
- Tue, 12 Nov 2019 09:05:35 -0800 (PST)
-Received: from [192.168.3.122] (p4FF23E69.dip0.t-ipconnect.de. [79.242.62.105])
- by smtp.gmail.com with ESMTPSA id p15sm3449371wmb.10.2019.11.12.09.05.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Nov 2019 09:05:34 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2] s390x: Properly fetch the short psw on diag308 subc 0/1
-Date: Tue, 12 Nov 2019 18:05:33 +0100
-Message-Id: <1FDC3957-B9E3-41E0-B766-B4ACD0753EC0@redhat.com>
-References: <20191112175827.2d7bdb15.cohuck@redhat.com>
-In-Reply-To: <20191112175827.2d7bdb15.cohuck@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-X-Mailer: iPhone Mail (17A878)
-X-MC-Unique: X06zrwcfPzGpZKHBZEBNog-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+8X2fw+lpiGEVyw/TSnjv5VUz1kjUlvOB6+1svjsaqc=;
+ b=LqTqmVAF+Lh9HT0abn2IotlCYhw29bSvTIDPrJPblIsiuccOCeoJ1T939+zBGv8xiZ
+ pVpzpTMepTtCfA1mdE4WwWnO8XivdrzxniNSAxXrnWT4CTVmIznnKij2xM+GRJM6h6Hp
+ mdxsxwE0cJZla6pLfGG1yvKVaVo6tL4gxVVaB7+tgppEcoprwpNNfR4h0Y9+TZ2clU4Y
+ vOS9C4onI256SH9ZXvvWSsRTsR4MQHyAmf7+sY0MkhKOdAs2CODzOYzaV+aJBA3ifFqS
+ MdOt8ZNyL/R6tRKH9K/xTAFkwlsMCLrgnrovSy+Md2XSHNZnZBvC5/6Xwvr+xm8bALhm
+ 0DXg==
+X-Gm-Message-State: APjAAAU3KaeIMDphczmwRLeD2W3kIWhXOnl0Mn7WlAL0jhMZce+JmLWe
+ SEju/kK4vxcbe5ZwvHIFiPS0Tg==
+X-Google-Smtp-Source: APXvYqzDU3IQQuwM8MNnV4QUhvmpAyR1Rb+bHEY6cpHVTmsaAI9kYVI1p9wjtMiqNHM8bXFQCPjk+g==
+X-Received: by 2002:a5d:5391:: with SMTP id d17mr321340wrv.382.1573578594947; 
+ Tue, 12 Nov 2019 09:09:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h140sm4470875wme.22.2019.11.12.09.09.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Nov 2019 09:09:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 080E91FF87;
+ Tue, 12 Nov 2019 17:09:53 +0000 (GMT)
+References: <20191112150105.2498-1-robert.foley@linaro.org>
+ <20191112150105.2498-2-robert.foley@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Robert Foley <robert.foley@linaro.org>
+Subject: Re: [PATCH v1 1/5] Add a mutex to guarantee single writer to
+ qemu_logfile handle.
+In-reply-to: <20191112150105.2498-2-robert.foley@linaro.org>
+Date: Tue, 12 Nov 2019 17:09:52 +0000
+Message-ID: <87r22d81i7.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,39 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, david@redhat.com,
- Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: peter.puhov@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Robert Foley <robert.foley@linaro.org> writes:
 
-> Am 12.11.2019 um 17:58 schrieb Cornelia Huck <cohuck@redhat.com>:
->=20
-> =EF=BB=BFOn Mon, 11 Nov 2019 10:28:08 -0500
-> Janosch Frank <frankja@linux.ibm.com> wrote:
->=20
->> We need to actually fetch the cpu mask and set it. As we invert the
->> short psw indication in the mask, SIE will report a specification
->> exception, if it wasn't present in the reset psw.
->>=20
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> ---
->> target/s390x/cpu.c | 12 ++++++++++--
->> target/s390x/cpu.h |  1 +
->> 2 files changed, 11 insertions(+), 2 deletions(-)
->=20
-> So, is this change -rc material, or should it go in during the next
-> release? I'm a bit confused here.
+> Also added qemu_logfile_init() for initializing the logfile mutex.
+>
+> Signed-off-by: Robert Foley <robert.foley@linaro.org>
 
-IMHO, this is not urgent and can wait.
->=20
-> [Also, does this need a change in the tcg code, or is that something
-> that should just be done eventually? Sorry, drowning a bit in mails
-> here...]
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-We=E2=80=98re missing many checks when loading/running a new PSW for TCG, n=
-ot just this scenario. So this should be done at one point but is not urgen=
-t at all.
+> ---
+> v1
+>     - changed qemu_logfile_init() to use __constructor__.
+> ---
+>  util/log.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/util/log.c b/util/log.c
+> index 1ca13059ee..c25643dc99 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -24,8 +24,10 @@
+>  #include "qapi/error.h"
+>  #include "qemu/cutils.h"
+>  #include "trace/control.h"
+> +#include "qemu/thread.h"
+>
+>  static char *logfilename;
+> +static QemuMutex qemu_logfile_mutex;
+>  FILE *qemu_logfile;
+>  int qemu_loglevel;
+>  static int log_append =3D 0;
+> @@ -49,6 +51,11 @@ int qemu_log(const char *fmt, ...)
+>      return ret;
+>  }
+>
+> +static void __attribute__((__constructor__)) qemu_logfile_init(void)
+> +{
+> +    qemu_mutex_init(&qemu_logfile_mutex);
+> +}
+> +
+>  static bool log_uses_own_buffers;
+>
+>  /* enable or disable low levels log */
+> @@ -58,6 +65,9 @@ void qemu_set_log(int log_flags)
+>  #ifdef CONFIG_TRACE_LOG
+>      qemu_loglevel |=3D LOG_TRACE;
+>  #endif
+> +
+> +    g_assert(qemu_logfile_mutex.initialized);
+> +    qemu_mutex_lock(&qemu_logfile_mutex);
+>      if (!qemu_logfile &&
+>          (is_daemonized() ? logfilename !=3D NULL : qemu_loglevel)) {
+>          if (logfilename) {
+> @@ -93,6 +103,7 @@ void qemu_set_log(int log_flags)
+>              log_append =3D 1;
+>          }
+>      }
+> +    qemu_mutex_unlock(&qemu_logfile_mutex);
+>      if (qemu_logfile &&
+>          (is_daemonized() ? logfilename =3D=3D NULL : !qemu_loglevel)) {
+>          qemu_log_close();
+> @@ -230,12 +241,15 @@ void qemu_log_flush(void)
+>  /* Close the log file */
+>  void qemu_log_close(void)
+>  {
+> +    g_assert(qemu_logfile_mutex.initialized);
+> +    qemu_mutex_lock(&qemu_logfile_mutex);
+>      if (qemu_logfile) {
+>          if (qemu_logfile !=3D stderr) {
+>              fclose(qemu_logfile);
+>          }
+>          qemu_logfile =3D NULL;
+>      }
+> +    qemu_mutex_unlock(&qemu_logfile_mutex);
+>  }
+>
+>  const QEMULogItem qemu_log_items[] =3D {
 
+
+--
+Alex Benn=C3=A9e
 
