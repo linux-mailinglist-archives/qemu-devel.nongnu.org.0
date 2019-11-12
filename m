@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6F2F912C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 14:57:45 +0100 (CET)
-Received: from localhost ([::1]:35314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD3EF9155
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 15:02:40 +0100 (CET)
+Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUWfw-0007kU-JL
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 08:57:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53238)
+	id 1iUWkh-000283-5O
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 09:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53861)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.r.girdwood@linux.intel.com>) id 1iUWf8-0007JH-3p
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:55 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iUWiC-0000lj-W6
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.r.girdwood@linux.intel.com>) id 1iUWf6-0002xb-Tu
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:53 -0500
-Received: from mga03.intel.com ([134.134.136.65]:56277)
+ (envelope-from <wainersm@redhat.com>) id 1iUWiB-0005l2-Ha
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45371
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.r.girdwood@linux.intel.com>)
- id 1iUWf6-0002wl-Jb
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 08:56:52 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Nov 2019 05:56:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,296,1569308400"; d="scan'208";a="194319994"
-Received: from hbenchen-mobl1.ger.corp.intel.com ([10.251.95.209])
- by orsmga007.jf.intel.com with ESMTP; 12 Nov 2019 05:56:45 -0800
-Message-ID: <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-From: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 12 Nov 2019 13:56:43 +0000
-In-Reply-To: <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain>
- <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
- <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
- <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iUWiB-0005ku-E6
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 09:00:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573567203;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QMaz93oeeSwpj+0Bg8d84jsyitV/43/J5C+F+DvC3MY=;
+ b=DTxTytsR7z0nwBn0IotiXLqDIDVkQI9RDYHj2I9M873te9JBvBiTm0gmJ4j+PAyr8Z818Z
+ gwaXX593e5k02gMxm3GacWx4bJDETdEF/oXS0t3oUowIiMH3DXtCXyQVLA5KWes4OTsRgI
+ SkLUtIbPIavVUex9WxmH42ThUej/y7s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-e-q08fHBN5-Uz45moYrp1g-1; Tue, 12 Nov 2019 08:58:11 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59E39107ACC5
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 13:58:10 +0000 (UTC)
+Received: from virtlab501.virt.lab.eng.bos.redhat.com
+ (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84F0B100EBAC;
+ Tue, 12 Nov 2019 13:58:02 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] tests/acceptance: Use QEMUMachine on tests that expect
+ failure
+Date: Tue, 12 Nov 2019 08:57:59 -0500
+Message-Id: <20191112135801.854-1-wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: e-q08fHBN5-Uz45moYrp1g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,70 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
- Alex Lau <alexlau@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- Alexandre Courbot <acourbot@chromium.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>,
- David Stevens <stevensd@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- Dylan Reid <dgreid@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Dmitry Morozov <dmitry.morozov@opensynergy.com>,
- Pawel Osciak <posciak@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
-> On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
-> wrote:
-> > Each buffer also has some properties to carry metadata, some fixed
-> > (id, size, application), but
-> > also allow free form (name = value, framebuffers would have
-> > width/height/stride/format for example).
-> 
-> Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
-> 
-> https://patchwork.freedesktop.org/patch/310349/
-> 
-> For virtio-wayland + virtio-vdec, the problem is sharing -- not
-> allocation.
-> 
+The linux_initrd and empty_cpu_model tests assert that QEMU exit
+with failure on certain scenarios. Currently they are not able
+to use QEMUMachine object due to the QMP monitor connection which
+is tentatively established always. Instead they handle the QEMU binary
+directy, but ideally they should use QEMUMachine in order to:
+ a) Take advantage of error handling and logging in QEMUMachine.
+ b) Follow the pattern in other acceptance tests.
 
-Audio also needs to share buffers with firmware running on DSPs.
+Notes worth it:
+ - Patch 01 first appeared in [1]. Here I propose the same
+   implementation but the code was rebased.
+ - empty_cpu_model used to check both stdout and stderr of the process. The
+   QEMUMachine doesn't provide an interface to access the underneath
+   process object, instead the process' output is available through
+   get_log(). This method in turn returns the content of stdout (stderr is
+   redirected to stdout). Therefore, I adapted the assertion statement
+   to check the '-cpu option cannot be empty' message shows in the output.
 
-> As the buffer reaches a kernel boundary, it's properties devolve into
-> [fd, size].  Userspace can typically handle sharing metadata.  The
-> issue is the guest dma-buf fd doesn't mean anything on the host.
-> 
-> One scenario could be:
-> 
-> 1) Guest userspace (say, gralloc) allocates using virtio-gpu.  When
-> allocating, we call uuidgen() and then pass that via RESOURCE_CREATE
-> hypercall to the host.
-> 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the buffer
-> name will be "virtgpu-buffer-${UUID}").
-> 3) When importing, virtio-{vdec, video} reads the dma-buf name in
-> userspace, and calls fd to handle.  The name is sent to the host via
-> a
-> hypercall, giving host virtio-{vdec, video} enough information to
-> identify the buffer.
-> 
-> This solution is entirely userspace -- we can probably come up with
-> something in kernel space [generate_random_uuid()] if need be.  We
-> only need two universal IDs: {device ID, buffer ID}.
-> 
+Git:
+ - Tree: https://github.com/wainersm/qemu
+ - Branch: tests_without_qmp
 
-I need something where I can take a guest buffer and then convert it to
-physical scatter gather page list. I can then either pass the SG page
-list to the DSP firmware (for DMAC IP programming) or have the host
-driver program the DMAC directly using the page list (who programs DMAC
-depends on DSP architecture).
+CI:
+ - Travis (PASS): https://travis-ci.org/wainersm/qemu/builds/610499693
 
-DSP FW has no access to userspace so we would need some additional API
-on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+References:
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg627498.html
 
-Liam
+Wainer dos Santos Moschetta (2):
+  python/qemu: Add set_qmp_monitor() to QEMUMachine
+  tests/acceptance: Makes linux_initrd and empty_cpu_model use
+    QEMUMachine
 
+ python/qemu/machine.py              | 68 +++++++++++++++++++----------
+ tests/acceptance/empty_cpu_model.py | 13 +++---
+ tests/acceptance/linux_initrd.py    | 13 +++---
+ 3 files changed, 59 insertions(+), 35 deletions(-)
+
+--=20
+2.18.1
 
 
