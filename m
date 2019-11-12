@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26ED2F956C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:18:56 +0100 (CET)
-Received: from localhost ([::1]:37298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2493BF9570
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Nov 2019 17:20:01 +0100 (CET)
+Received: from localhost ([::1]:37316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUYsY-0005nP-JS
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:18:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
+	id 1iUYtc-0007Jm-81
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 11:20:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iUYqy-0004nx-3G
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:19 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iUYr7-0004tp-Q7
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iUYqv-0007j0-Q9
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:15 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:56347)
+ (envelope-from <laurent@vivier.eu>) id 1iUYr6-0007t6-UM
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:25 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:50793)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iUYqv-0007hF-3Z
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:13 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iUYr6-0007rl-LQ
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 11:17:24 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N49Ul-1hmfQR16O1-0107NJ; Tue, 12 Nov 2019 17:16:58 +0100
+ id 1MILnm-1iisiE3z9g-00ELwK; Tue, 12 Nov 2019 17:16:59 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Linux user for 4.2 patches
-Date: Tue, 12 Nov 2019 17:16:52 +0100
-Message-Id: <20191112161654.2253-1-laurent@vivier.eu>
+Subject: [PULL 1/2] linux-user: fix missing break
+Date: Tue, 12 Nov 2019 17:16:53 +0100
+Message-Id: <20191112161654.2253-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191112161654.2253-1-laurent@vivier.eu>
+References: <20191112161654.2253-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uZ43GMnjBxmgJnu/YfAwUZ2XUDywIsf4cg1+YMf4rdl5Xj4hACU
- HYgb1xTkIh8axmmaTWn6EjrarkTHrmqoDES3WFCvl4SujcA9q/L0n0EGVBuccnDWOGDKcUU
- UcqmznvZxDNGnsENxr+/ImP81t8SZOkn7pBTTsGKebdN2wJ0Fd9Z8eIYm+Pau+B2RVkcw7b
- YiWn51fZ+EiA/wj13t2mw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WDdoDoZNP/k=:tl1u7Bkp9WSLL/B1CKbSy2
- dVjcisOZ77sh6oGKA919R8MP3mek3IVWBRzWxMI4mUetE7WwXG+a+D4dM6zSXbgSiXSwbHXsr
- 64N144RVVcT1cdX8prPO3gesARgSlm2DYf+VdTC8qw5kc1Dc0nevBAWnd6lScMlswlnJt1ssh
- O9T6cgqCUqxbp8BqTNch1XJqbFU2K2ygdkBb6BnKeZWwnU/tHRrsgaaqduObQGmA9+MvHePw2
- Qgx6XdAWhgf/OUBpRhQAZ5vEWlt1h2Rj7R0CcnytR/7jdsJxOK1e3EIdoJbi+m5loFLWaq32G
- zNgg4NRBLBLcLraJl0tM3DR5aNPaYZA8Vm3HjG5I4yN9Y/ZZuHAJAIJ3MXJztvr8lGTZp7zBR
- WKthjNeTKooZeoGtfNbhGyw/Ms2PQzMJcplTLbX5lOdwwc1WeB0R2iiJSvJAYHUAAG0p4M0TB
- Xffsl3DkZYcXbSyieIGlcgW+OWk0rdcyR6iLMZjC9H3xnr3eXn1Wkrd/Og77zTivBNO7GtrBr
- gso6YXzgweoFFCCJNXK2ca50BaDyCVHhdLEkRbhyrLzderoxyKCjkS8M/RSzbuWQbbzxUUAPi
- jniP7gaVgrZJ0Ta7pbmGeP5ECFnt30LM0JrJMBUi1Jqb2BSLFNQtdm3m4iNg50SQkoivXfDFx
- 0RfOENgwGaSyk7WasX9t4Xy9Ct31oVkR+lAe4U5w6X+JnO6G+TlcFGSLqHrIQ73uj7IQYedwc
- 670mc6/MFxGswqn/o94afFJ8OxHTU3ug0dKiKYb4pDGZY5iSVClZYM4f0k/R+8q2SdOqvG0VE
- cKWEws0OfktXpewaVWgxeQqciWz0wd7Tz2K5wg9BTY8clNJtTnSyHTEYNSuLtJwt6CbMKrdZv
- v42tNhyOOcZ5reM+TiPg==
+X-Provags-ID: V03:K1:4q1ZiXUm1NNxEphIptLzxsFCP5oKPyBKAyhrjBdSzsQbJQQJjqa
+ yYgGBkzRkI4rffCarwnM/rbXeZ/DWcXHqqfzc2gPsdtiPS/SZLn2OSPI4XtN8xFRN8jTaVY
+ GqJHJLiujCs/JTP2HFm5SiR757aVoE0/1HriLCScr8Bx8oRjK6zkqyJqO0zgTyJST+pIdbk
+ K1vuBZTGT3V4ONpWGoePg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X/8ttX9xq2A=:I/aF08mj3XklnJGxcbX/OZ
+ vvR+Ni5NUnWhbksGh92qblu0yzUs8jy6izEiUywm5p+7F8oe6l0b78nEd+a46ikcciPOCQDHY
+ iPitZEqOIXtTMadSZPCsNdlYQYMLBrFasf6yvEM1jofR0iRGHOALd0reGkA0FkZuVm5CMKNgn
+ nwaw2g5Mbw0r9AUAPLen7kgyXhBjggc8G5FondcOZpiOaqdH0YUOHZRcB/pTe0UMAu/6HN6H/
+ qLnMf2n36yr39DhU19OxcE5zPojzTJij4MD19M6cPP7HeGBbw4LuGH52oaAmemrPPwMPzrECw
+ nhC/qllNI8qWbGxMbByghqbP9DjOml+pvkIviLdr9i32xe+ScrIoJCEcM7ap1KQw9v34Xgu3P
+ wDWW3PfoTstCRgbFR/g10Yqv/KCsfIkh22u9iXnYlXEJRQUEgiv4Uflm+D9ErT1k+AaC1/RVD
+ F0v2r9a7PRu53WBDWOIMnWNaY+sLxPQa5AiPIPTtLD+OQD7DBmI5UhJugw6zFEzWWcZ8DaZgu
+ lRqHAmsiyJgaJ692sxNwlbOPMSTbeH+y/VQsCDd5Kvm5ImZ7PazZfgNRW28LWFbOoFFjQ3+4a
+ 6Nc/BsCEBBgZKn8va0N0kOnwwqLHha+lmvDv6FiHDsAEAkEZ2S8QZJJ4+Vv08tlkEBJwNJ9hu
+ KGHUIYT/8jOw5QjBH0PEs2HUSfu5iLCLzlBlvxsEsv2gWBoeKF/y4QKSyJCY1DZuAUNrxJR/H
+ YC2BG/JpqHnnnCib325MsLN4i1GVDwRM0TFF1lndXfd/+fQ3YFnwULFWZkEWk++H+Z7fZyCzq
+ 6mBrat8W5fdMV4+HDmzopFc96KT54KWkPsszaB33edrwjVdaFty9dQ4CbG4wNiYelZhHo8HPm
+ 0+lb95MeTVKbJBpjI39gGnSyZ/i1wXACHS8a/Jz6Q=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.24
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,34 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Josh Kunz <jkz@google.com>, Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2a7e7c3e103a5c29af7c583390c243d85a2527e8:
+Reported by Coverity (CID 1407221)
+Fixes: a2d866827bd8 ("linux-user: Support for NETLINK socket options")
+cc: Josh Kunz <jkz@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191112105055.32269-1-laurent@vivier.eu>
+---
+ linux-user/syscall.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-tcg-121119-1' into staging (2019-11-12 14:51:00 +0000)
-
-are available in the Git repository at:
-
-  git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
-
-for you to fetch changes up to 0f1f2d4596aee037d3ccbcf10592466daa54107f:
-
-  linux-user: remove host stime() syscall (2019-11-12 17:05:57 +0100)
-
-----------------------------------------------------------------
-Fix CID 1407221 and stime()
-
-----------------------------------------------------------------
-
-Laurent Vivier (2):
-  linux-user: fix missing break
-  linux-user: remove host stime() syscall
-
- linux-user/syscall.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ab9d933e53af..4e97bcf1e5a9 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -2632,6 +2632,7 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
+         default:
+             goto unimplemented;
+         }
++        break;
+ #endif /* SOL_NETLINK */
+     default:
+     unimplemented:
 -- 
 2.21.0
 
