@@ -2,72 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6506CFA9E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 06:56:49 +0100 (CET)
-Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB05FAA10
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 07:13:20 +0100 (CET)
+Received: from localhost ([::1]:41588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUle3-00070a-UK
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 00:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
+	id 1iUlu3-0001ci-Qw
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 01:13:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <flukshun@gmail.com>) id 1iUlcV-00065w-B1
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 00:55:12 -0500
+ (envelope-from <its@irrelevant.dk>) id 1iUltG-00017C-AQ
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 01:12:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <flukshun@gmail.com>) id 1iUlcU-0003j3-5L
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 00:55:11 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37620)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <flukshun@gmail.com>) id 1iUlcS-0003hj-PN
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 00:55:08 -0500
-Received: by mail-ot1-x334.google.com with SMTP id d5so623737otp.4
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 21:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=YOrfQnhBHEKGLSxFSIoYsFCZDaVZzhhq6yEyMDOqMWA=;
- b=K1gtKSaoksjaivBsAVLb/ZkTUosgvctFHUSq+6ZQ8kzkLRZsDwZbycBCtlDTRRrXTw
- Xoknhd/sK4w+gIYnFYCPca2KOMUB3PaIukZ56lrNU0YO4QfKWCW4pKdxiFEzRAPZnGJR
- KQA8J4q8eJ9EH0yTGo1D78kvLzn0kPNicNLkW2O4jbA/ynvjGXKMmb5cKrnzAbktMHhB
- kzZHeGxvDQRFuWVAeAog+XEidnlSqAYF/kkqNkCzbcAEy5VI9ydnbKDKOiCTv7f1SpWH
- tnbnXDIIKLrEjo0GmyTYg0bq35wFvFPf/4QheQhbMrYFL5YvXHRoeM1Crk5do/j4QXzA
- XATA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=YOrfQnhBHEKGLSxFSIoYsFCZDaVZzhhq6yEyMDOqMWA=;
- b=NbZ+Kazli0VxeuEneW3t1SzYCD1gVL1MXTlF+JKuJaLlOOTPuJVmm0k8bs75LsBcbj
- NXaLn4gvimzLQm29r1v73DNu9rJMMz6NIqawPNO3npv2+xGA3iCsjvzVfOdZuzaVHJKA
- 3ef2tcvaUl0UUHNfaV8+fZpXgzVxybu4jkh0YBloYnvIN5tBgFi9jb0VFzvZXcMbODpm
- 67+U53HM2HEiOrfveKyy5kghQbYzxQ/X0giFYgcjDiEOhvADFK5fGMG+11JUftGBv+wg
- hIVwSOdaPaj1wcxRp+cAdtk/3wr40STfhxfPAyVqDAvXDdzjfFDwzQiZ/vOXKFQw9tkL
- s+jw==
-X-Gm-Message-State: APjAAAW4qVcrewo+3DruUJED80ND+GJPmDFTmVihrMllESaNsMM1DBoj
- MfjY8YOnIgi2L3MhHNAX96c=
-X-Google-Smtp-Source: APXvYqz4gp5u8pT85h6802ssBaj4hXGpoxNzJZj7nnggKosXVsA62emJMCaYy8fDSswTCUl6aac5+g==
-X-Received: by 2002:a05:6830:54a:: with SMTP id
- l10mr1136609otb.249.1573624506453; 
- Tue, 12 Nov 2019 21:55:06 -0800 (PST)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 103sm428637otn.63.2019.11.12.21.55.05
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 12 Nov 2019 21:55:05 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <its@irrelevant.dk>) id 1iUltF-0002zI-69
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 01:12:30 -0500
+Received: from charlie.dont.surf ([128.199.63.193]:55412)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <its@irrelevant.dk>)
+ id 1iUltA-0002tj-PT; Wed, 13 Nov 2019 01:12:25 -0500
+Received: from apples.localdomain (212.27.19.17.bredband.3.dk [212.27.19.17])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 21B91BF448;
+ Wed, 13 Nov 2019 06:12:19 +0000 (UTC)
+Date: Wed, 13 Nov 2019 07:12:14 +0100
+From: Klaus Birkelund <its@irrelevant.dk>
+To: Beata Michalska <beata.michalska@linaro.org>
+Subject: Re: [PATCH v2 06/20] nvme: add support for the abort command
+Message-ID: <20191113061214.GA452722@apples.localdomain>
+References: <20191015103900.313928-1-its@irrelevant.dk>
+ <20191015103900.313928-7-its@irrelevant.dk>
+ <CADSWDzt2gjQ6pvzm2A29hqiNAf1RSD=qTwjELLB3fTD4Yjbryg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <17da2769-1999-a0a3-590d-9f9bc6a9adc3@ozlabs.ru>
-References: <17da2769-1999-a0a3-590d-9f9bc6a9adc3@ozlabs.ru>
-Message-ID: <157362449788.24851.9129567746458175944@sif>
-User-Agent: alot/0.7
-Subject: Re: virtio,iommu_platform=on
-Date: Tue, 12 Nov 2019 23:54:57 -0600
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADSWDzt2gjQ6pvzm2A29hqiNAf1RSD=qTwjELLB3fTD4Yjbryg@mail.gmail.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 128.199.63.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,40 +50,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Javier Gonzalez <javier@javigon.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <keith.busch@intel.com>, Paul Durrant <Paul.Durrant@citrix.com>,
+ Stephen Bates <sbates@raithlin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Alexey Kardashevskiy (2019-11-11 21:53:49)
-> Hi!
-> =
+On Tue, Nov 12, 2019 at 03:04:38PM +0000, Beata Michalska wrote:
+> Hi Klaus
+> 
 
-> I am enabling IOMMU for virtio in the pseries firmware (SLOF) and seeing
-> problems, one of them is SLOF does SCSI bus scan, then it stops the
-> virtio-scsi by clearing MMIO|IO|BUSMASTER from PCI_COMMAND (as SLOF
-> stopped using the devices) and when this happens, I see unassigned
-> memory access (see below) which happens because disabling busmaster
-> disables IOMMU and QEMU cannot access the rings to do some shutdown. And
-> when this happens, the device does not come back even if SLOF re-enables =
-it.
-> =
+Hi Beata,
 
-> Hacking SLOF to not clear BUSMASTER makes virtio-scsi work but it is
-> hardly a right fix.
+Thank you very much for your thorough reviews! I'll start going through
+them one by one :) You might have seen that I've posted a v3, but I will
+make sure to consolidate between v2 and v3!
 
-I hit the same issue enabling IOMMU for virtio-blk using this branch:
+> On Tue, 15 Oct 2019 at 11:41, Klaus Jensen <its@irrelevant.dk> wrote:
+> >
+> > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> > Section 5.1 ("Abort command").
+> >
+> > The Abort command is a best effort command; for now, the device always
+> > fails to abort the given command.
+> >
+> > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> > ---
+> >  hw/block/nvme.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index daa2367b0863..84e4f2ea7a15 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -741,6 +741,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+> >      }
+> >  }
+> >
+> > +static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> > +{
+> > +    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
+> > +
+> > +    req->cqe.result = 1;
+> > +    if (nvme_check_sqid(n, sqid)) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> Shouldn't we validate the CID as well ?
+> 
 
-  https://github.com/mdroth/SLOF/commits/virtio-iommu
+According to the specification it is "implementation specific if/when a
+controller chooses to complete the command when the command to abort is
+not found".
 
-I just sent a tentative fix for QEMU as:
+I'm interpreting this to mean that, yes, an invalid command identifier
+could be given in the command, but this implementation does not care
+about that.
 
-  "virtio-pci: disable vring processing when bus-mastering is disabled"
+I still think the controller should check the validity of the submission
+queue identifier though. It is a general invariant that the sqid should
+be valid.
 
-It's an RFC since piggy-backing off dev->broken seems a bit hacky, but
-it seems to fix the issue at least.
+> > +    return NVME_SUCCESS;
+> > +}
+> > +
+> >  static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+> >  {
+> >      trace_nvme_setfeat_timestamp(ts);
+> > @@ -859,6 +871,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> >          trace_nvme_err_invalid_setfeat(dw10);
+> >          return NVME_INVALID_FIELD | NVME_DNR;
+> >      }
+> > +
+> >      return NVME_SUCCESS;
+> >  }
+> >
+> > @@ -875,6 +888,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> >          return nvme_create_cq(n, cmd);
+> >      case NVME_ADM_CMD_IDENTIFY:
+> >          return nvme_identify(n, cmd);
+> > +    case NVME_ADM_CMD_ABORT:
+> > +        return nvme_abort(n, cmd, req);
+> >      case NVME_ADM_CMD_SET_FEATURES:
+> >          return nvme_set_feature(n, cmd, req);
+> >      case NVME_ADM_CMD_GET_FEATURES:
+> > @@ -1388,6 +1403,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> >      id->ieee[2] = 0xb3;
+> >      id->ver = cpu_to_le32(0x00010201);
+> >      id->oacs = cpu_to_le16(0);
+> > +    id->acl = 3;
+> So we are setting the max number of concurrent commands
+> but there is no logic to enforce that and wrap up with the
+> status suggested by specification.
+> 
 
-BTW, the SLOF branch above needs cleanup, but it's booting guests okay
-and I was planning to post this week. Where are you at on yours? Maybe
-we should sync up...
+That is true, but because the controller always completes the Abort
+command immediately this cannot happen. If the controller did try to
+abort executing commands, the Abort command would need to linger in the
+controller state until a completion queue entry is posted for the
+command to be aborted before the completion queue entry can be posted
+for the Abort command. This takes up resources in the controller and is
+the reason for the Abort Command Limit.
+
+You could argue that we should set ACL to 0 then, but the specification
+recommends a value of 3 and I do not see any harm in conveying a
+"reasonable", though inconsequential, value.
 
