@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301C6FB52F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:34:59 +0100 (CET)
-Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164A8FB538
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:35:47 +0100 (CET)
+Received: from localhost ([::1]:47226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvbe-0000Us-51
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:34:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43538)
+	id 1iUvcQ-000139-35
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:35:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iUvZz-0008FD-Hm
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:16 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1iUvaP-0008Si-A7
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iUvZy-0003Yf-7u
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32354
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUvZy-0003YT-43
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573662793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aV7aW7e+dZhaghHwln3l1mSz/SjcA88O0mnaAZ5G2Mo=;
- b=QQ2pS8xnM8CZnE+Gip1luAR09nCOwBhuNNjeFA19+1WBocBF+Ki3TOPQV++ntUFFL6zZ0t
- 7ceszKbQVBE2WTBKNNrgwunvofksKkYmaYl9oZwDqpVb/FO37W6KMYThd8DoJr7oo6MxU8
- z3xMnItRPJfBIZWJuYy8a5lEh2F5fsY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-Zp_4L1wWOQiB30zYZu0eww-1; Wed, 13 Nov 2019 11:33:10 -0500
-X-MC-Unique: Zp_4L1wWOQiB30zYZu0eww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65098802880;
- Wed, 13 Nov 2019 16:33:07 +0000 (UTC)
-Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F309B1077D95;
- Wed, 13 Nov 2019 16:33:01 +0000 (UTC)
-Date: Wed, 13 Nov 2019 16:33:00 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [RFC v4 PATCH 11/49] multi-process: setup memory manager for
- remote device
-Message-ID: <20191113163300.GF563983@stefanha-x1.localdomain>
+ (envelope-from <jag.raman@oracle.com>) id 1iUvaM-0003g4-Pf
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:39 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:38132)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
+ id 1iUvaM-0003fi-G4
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:38 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGOK2e180167;
+ Wed, 13 Nov 2019 16:33:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2019-08-05;
+ bh=VhUfnAv4kTjj2ZaGMjER91lusz/+pawYUIvZ/vkHdkE=;
+ b=ZqfIhjzTAjaYUKJQ5y/dWQcG71RkkzdxMk3ZMWqLnFeO9dUM0SvCFN7lqr/mJ3OlQUm9
+ 1Y6PyZMWYfc9jXriN33hdQX82dk2s7uYso1s+ZLsWCb98d364bVPzb4Bl2IvhmzlWeHx
+ Y2I+j3OmaMlj/d39YOZgOEoY/25+OB/DpN0WXcj6mRR2vXCloHRvBqjhfX7VsvUbNxtj
+ 21unBxZ375KPPulP16CotLFnnO58OXMSDfzVqUz1/Tq/xcDzpVx0KMk1jRwBVLAsTzKe
+ ZAvz+/yR7M9NjcpHZuu4/Vv2f+BE75YcT/sPx4lTSBBdnLWHh7w0zUiqWI7ovm20Z63s uw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2w5p3qwjft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Nov 2019 16:33:27 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGQwfk156001;
+ Wed, 13 Nov 2019 16:33:27 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2w8g17sgs0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Nov 2019 16:33:27 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xADGXOo9019779;
+ Wed, 13 Nov 2019 16:33:24 GMT
+Received: from [10.152.34.2] (/10.152.34.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 13 Nov 2019 08:33:24 -0800
+Subject: Re: [RFC v4 PATCH 45/49] multi-process/mig: Synchronize runstate of
+ remote process
+To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
- <5bfab4fa2f7f12137d0030e08a494d9ac3e11f04.1571905346.git.jag.raman@oracle.com>
+ <5ef7500148d9c15b236f551f6af7b8a4a8d6e81d.1571905346.git.jag.raman@oracle.com>
+ <20191111161759.GG402228@stefanha-x1.localdomain>
+From: Jag Raman <jag.raman@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <278b1ff6-1291-ce05-115a-f1904aee3be0@oracle.com>
+Date: Wed, 13 Nov 2019 11:33:23 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <5bfab4fa2f7f12137d0030e08a494d9ac3e11f04.1571905346.git.jag.raman@oracle.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20191111161759.GG402228@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9440
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1910280000 definitions=main-1911130146
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9440
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
+ definitions=main-1911130146
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,75 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
  john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- quintela@redhat.com, berrange@redhat.com, mst@redhat.com,
+ liran.alon@oracle.com, rth@twiddle.net, quintela@redhat.com,
  qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
- kanth.ghatraju@oracle.com, kraxel@redhat.com, kwolf@redhat.com,
- pbonzini@redhat.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
- mreitz@redhat.com, dgilbert@redhat.com, rth@twiddle.net
+ mst@redhat.com, kraxel@redhat.com, kwolf@redhat.com, pbonzini@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, kanth.ghatraju@oracle.com,
+ dgilbert@redhat.com, marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---JcvBIhDvR6w3jUPA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Thu, Oct 24, 2019 at 05:08:52AM -0400, Jagannathan Raman wrote:
-> +static void remote_ram_destructor(MemoryRegion *mr)
-> +{
-> +    qemu_ram_free(mr->ram_block);
-> +}
-> +
-> +static void remote_ram_init_from_fd(MemoryRegion *mr, int fd, uint64_t size,
-> +                                    ram_addr_t offset, Error **errp)
-> +{
-> +    char *name = g_strdup_printf("%d", fd);
-> +
-> +    memory_region_init(mr, NULL, name, size);
-> +    mr->ram = true;
-> +    mr->terminates = true;
-> +    mr->destructor = NULL;
-> +    mr->align = 0;
-> +    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, RAM_SHARED, fd, offset,
-> +                                           errp);
-> +    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
-> +
-> +    g_free(name);
-> +}
 
-This is not specific to remote/memory.c and could be shared in case
-something else in QEMU wants to initialize from an fd.
+On 11/11/2019 11:17 AM, Stefan Hajnoczi wrote:
+> On Thu, Oct 24, 2019 at 05:09:26AM -0400, Jagannathan Raman wrote:
+>> @@ -656,6 +657,19 @@ static void init_proxy(PCIDevice *dev, char *command, bool need_spawn, Error **e
+>>       }
+>>   }
+>>   
+>> +static void proxy_vm_state_change(void *opaque, int running, RunState state)
+>> +{
+>> +    PCIProxyDev *dev = opaque;
+>> +    MPQemuMsg msg = { 0 };
+>> +
+>> +    msg.cmd = RUNSTATE_SET;
+>> +    msg.bytestream = 0;
+>> +    msg.size = sizeof(msg.data1);
+>> +    msg.data1.runstate.state = state;
+>> +
+>> +    mpqemu_msg_send(dev->mpqemu_link, &msg, dev->mpqemu_link->com);
+>> +}
+> 
+> Changing vm state is a barrier operation - devices must not dirty memory
+> afterwards.  This function doesn't have barrier semantics, it sends off
+> the message without waiting for the remote process to finish processing
+> it.  This means there is a race condition where QEMU has changes the vm
+> state but devices could still dirty memory.  Please wait for a reply to
+> prevent this.
 
-> +
-> +void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
-> +{
-> +    sync_sysmem_msg_t *sysmem_info = &msg->data1.sync_sysmem;
+Got it, thanks! Will do.
 
-A possible security issue with MPQemuMsg: was the message size
-validatedb before we access msg->data1.sync_sysmem?
+--
+Jag
 
-If not, then we might access uninitialized data.  I didn't see if there
-is a single place in the code that always zeroes msg, but I think the
-answer is no.  Accessing uninitialized data could expose the old
-contents of the stack/heap to the other process.  Information leaks like
-this can be used to defeat address-space randomization because the other
-process may learn about our memory layout if there are memory addresses
-in the uninitialized data.
-
---JcvBIhDvR6w3jUPA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3MMDwACgkQnKSrs4Gr
-c8jlCgf+MIh6V0G/2YZ8kaHYEQKdJIuOrSEL/jixbWpDabyjYfLJNo1eGSHLQaZx
-FbUgS6uje339cUyLqKwlaDRPUVnY10T74KRRTqC39uMPTxn7lG839FnNsTjXIY1w
-hLov+VxZV16CS6OTK1AGBFwkPxfdmaHAdVrWmepDX1mDZaQ7yFJKIofq98QPlXRl
-h3Um0qVwtHiNGhYbEOB1Ig7GnvOgX/UWgIRRabcvIutNrqyQ7CN2zFrGNbzZdcuG
-xpaZYYA+TDVOgnD1vPxIzLdQcTMk/ESGHLqhA1hP/H3ZcOhp/IWmHayVuNZMs+J+
-RPWYFvihmk8odNkbP/ZoU3ozlirHdw==
-=oacJ
------END PGP SIGNATURE-----
-
---JcvBIhDvR6w3jUPA--
-
+> 
+> Stefan
+> 
 
