@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66DEFB597
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:51:04 +0100 (CET)
-Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091F2FB58E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:49:33 +0100 (CET)
+Received: from localhost ([::1]:47406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvrD-0000EM-Qe
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44999)
+	id 1iUvpj-0006lA-MW
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:49:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUviw-0000x2-OW
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:31 -0500
+ (envelope-from <armbru@redhat.com>) id 1iUvmV-00047h-QI
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUviv-0005ls-Lx
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:30 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:36123 helo=mail.rt-rk.com)
+ (envelope-from <armbru@redhat.com>) id 1iUvmT-0006xa-DK
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56928
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iUvit-0005kZ-N7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:27 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id B62FE1A229B;
- Wed, 13 Nov 2019 17:41:20 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
- [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 743B31A22BB;
- Wed, 13 Nov 2019 17:41:20 +0100 (CET)
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for 5.0 6/6] linux-user: Add rtc voltage low detector read and
- clear using ioctls
-Date: Wed, 13 Nov 2019 17:41:11 +0100
-Message-Id: <1573663271-31519-7-git-send-email-Filip.Bozuta@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1573663271-31519-1-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1573663271-31519-1-git-send-email-Filip.Bozuta@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iUvmT-0006xL-9Z
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573663568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fW7GUyMMHX6QKjOzgsMfsicIBNd+G+GV+I1wj3KKLSA=;
+ b=P14Qtg5A1tgxwrWG0QGDXpg9Qe+e7tNpVzPWCAPwab5r8FZ7njohTpvo+ku8009Fs481DH
+ tciRtXmAilkSDuMrhhi/r7AOkp62iGfyIZUKlIXiNdOzFA89P40z1TNaZiQiR0zXomgV4T
+ dQkHOXs76sFCXcc+BUmqlH48wDzU/3k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-a0WAMMGaOdSKtbqDVc2Hzw-1; Wed, 13 Nov 2019 11:46:07 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7229100EE09;
+ Wed, 13 Nov 2019 16:46:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72AC360478;
+ Wed, 13 Nov 2019 16:45:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DD6A41138648; Wed, 13 Nov 2019 17:45:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Subject: Re: [PATCH v2] monitor/qmp: resume monitor when clearing its queue
+References: <20191024081231.19087-1-w.bumiller@proxmox.com>
+Date: Wed, 13 Nov 2019 17:45:57 +0100
+In-Reply-To: <20191024081231.19087-1-w.bumiller@proxmox.com> (Wolfgang
+ Bumiller's message of "Thu, 24 Oct 2019 10:12:31 +0200")
+Message-ID: <871rubvi62.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: a0WAMMGaOdSKtbqDVc2Hzw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,43 +74,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@viver.eu, Filip.Bozuta@rt-rk.com
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
----
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index eea65e1..330e502 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -89,6 +89,8 @@
-      IOCTL(RTC_WKALM_RD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-      IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-      IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-+     IOCTL(RTC_VL_READ, IOC_R, TYPE_INT)
-+     IOCTL(RTC_VL_CLR, 0, TYPE_NULL)
- 
-      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 367e9bd..6ad827b 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -796,6 +796,8 @@ struct target_rtc_pll_info {
-                                                struct target_rtc_pll_info)
- #define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-                                                struct target_rtc_pll_info)
-+#define TARGET_RTC_VL_READ          TARGET_IOR('p', 0x13, int)
-+#define TARGET_RTC_VL_CLR           TARGET_IO('p', 0x14)
- 
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
--- 
-2.7.4
+> When a monitor's queue is filled up in handle_qmp_command()
+> it gets suspended. It's the dispatcher bh's job currently to
+> resume the monitor, which it does after processing an event
+> from the queue. However, it is possible for a
+> CHR_EVENT_CLOSED event to be processed before before the bh
+> is scheduled, which will clear the queue without resuming
+> the monitor, thereby preventing the dispatcher from reaching
+> the resume() call.
+> Any new connections to the qmp socket will be accept()ed and
+> show the greeting, but will not respond to any messages sent
+> afterwards (as they will not be read from the
+> still-suspended socket).
+> Fix this by resuming the monitor when clearing a queue which
+> was filled up.
+>
+> Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+> ---
+> Changes to v1:
+>   * Update commit message to include the resulting symptoms.
+>   * Moved the resume code from `monitor_qmp_cleanup_req_queue_locked` to
+>     `monitor_qmp_cleanup_queues` to avoid an unnecessary resume when
+>     destroying the monitor (as the `_locked` version is also used by
+>     `monitor_data_destroy()`.
+>   * Renamed `monitor_qmp_cleanup_queues` to
+>     `monitor_qmp_cleanup_queues_and_resume` to reflect the change and be
+>     verbose about it for potential future users of the function.
+>     Currently the only user is `monitor_qmp_event()` in the
+>     `CHR_EVENT_CLOSED` case, which is exactly the problematic case curren=
+tly.
+>
+> Sorry for the deleay :|
+
+Same to you (my sorry excuse is KVM Forum).  Now we need to hurry to get
+this fix into 4.2.  Let's try.
+
+>  monitor/qmp.c | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
+>
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index 9d9e5d8b27..df689aa95e 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -75,10 +75,30 @@ static void monitor_qmp_cleanup_req_queue_locked(Moni=
+torQMP *mon)
+>      }
+>  }
+> =20
+> -static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
+> +static void monitor_qmp_cleanup_queues_and_resume(MonitorQMP *mon)
+
+Let's rename to _cleanup_queue_and resume().  The plural is a remnant
+from when we also had a response queue.  Gone since commit 27656018d86.
+
+>  {
+>      qemu_mutex_lock(&mon->qmp_queue_lock);
+> +
+> +    /*
+> +     * Same condition as in monitor_qmp_bh_dispatcher(), but before remo=
+ving an
+> +     * element from the queue (hence no `- 1`), also, the queue should n=
+ot be
+> +     * empty either, otherwise the monitor hasn't been suspended yet (or=
+ was
+> +     * already resumed).
+> +     */
+
+Comment lines should be wrapped around colum 70.
+
+> +    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests->le=
+ngth > 0)
+> +        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
+
+Now let me digest the comment.  Here's condition in
+monitor_qmp_bh_dispatcher():
+
+    need_resume =3D !qmp_oob_enabled(mon) ||
+        mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX - 1;
+
+"Same but before removing" is
+
+       bool need_resume =3D !qmp_oob_enabled(mon)
+           || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
+
+That leaves the "also" part.  It's been too long since v1, I don't
+remember a thing, and I'm too dense today to understand without more
+help.  Can you help me some more?
+
+> +
+>      monitor_qmp_cleanup_req_queue_locked(mon);
+> +
+> +    if (need_resume) {
+> +        /*
+> +         * Pairs with the monitor_suspend() in handle_qmp_command() in c=
+ase the
+> +         * queue gets cleared from a CH_EVENT_CLOSED event before the di=
+spatch
+> +         * bh got scheduled.
+> +         */
+
+CHR_EVENT_CLOSED
+
+Suggest:
+
+           /*
+            * handle_qmp_command() suspened the monitor because the
+            * request queue filled up, to be resumed when the queue has
+            * space again.  We just emptied it; resume the monitor.
+            */
+
+If we want to record the issue that made us fix the missing resume, we
+can add:
+
+            * Without this, the monitor would remain suspended forever
+            * when we get here while the monitor is suspended.  An
+            * unfortunately times CHR_EVENT_CLOSED can do the trick.
+
+Also update handle_qmp_command()'s comment:
+
+    /*
+     * Suspend the monitor when we can't queue more requests after
+     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
+     * monitor_qmp_cleanup_queue_and_resume() will resume it.
+     * Note that when OOB is disabled, we queue at most one command,
+     * for backward compatibility.
+     */
+
+> +        monitor_resume(&mon->common);
+> +    }
+> +
+>      qemu_mutex_unlock(&mon->qmp_queue_lock);
+>  }
+> =20
+> @@ -332,7 +352,7 @@ static void monitor_qmp_event(void *opaque, int event=
+)
+>           * stdio, it's possible that stdout is still open when stdin
+>           * is closed.
+>           */
+> -        monitor_qmp_cleanup_queues(mon);
+> +        monitor_qmp_cleanup_queues_and_resume(mon);
+>          json_message_parser_destroy(&mon->parser);
+>          json_message_parser_init(&mon->parser, handle_qmp_command,
+>                                   mon, NULL);
 
 
