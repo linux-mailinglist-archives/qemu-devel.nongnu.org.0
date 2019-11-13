@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8359FB28B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:27:08 +0100 (CET)
-Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D085FB2B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:41:36 +0100 (CET)
+Received: from localhost ([::1]:45636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUtbv-0002o7-GF
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52919)
+	id 1iUtpv-0007WU-0M
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:41:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iUtam-0002LI-Tu
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:25:58 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtna-0005hp-IJ
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iUtal-0002Pd-J7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:25:56 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:60610)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnZ-0006Ht-H2
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:10 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iUtak-0002Jj-Ve; Wed, 13 Nov 2019 09:25:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=fo9fXrt/4QKP5axhScAZ9lsv1vh7e+e52quUdpTznIE=; 
- b=XaQxHgGw3F9HrQPEM80TDX2jske9jOfEytgrptmfLq6PrxaiwE0kuyZ++EwJEb/gUfIVb7sfHPIy9B81lY72hpRSlzd9aJOdMiAv5sdcoj0NuopWICxK2wCCJEdOflZMaODVJJXyVjjULSm3xXbkGIxr+4c97Z0WesoOpCjrKPyrt91+uTHBKELztzMUNOSLOlsZkBMwW/+/iUejz/AoDxXsc9e0PlUMm181pvw0z1CZBFdAAN7/7Ry5zWmkMQZVbOWlecmaxxAG8JDJq7RdCNAnvLZBSiEf2SIAEj375qI0dDppIxqb6v10Vzew+B5O+7cV5/vsejhhRkrnO1KlBw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1iUtaP-0003SO-SI; Wed, 13 Nov 2019 15:25:33 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1iUtaP-0006be-Pj; Wed, 13 Nov 2019 15:25:33 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 03/26] qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC
- clusters in handle_copied()
-In-Reply-To: <7daa553e-b74c-3573-5b67-e140436deb7a@redhat.com>
-References: <cover.1572125022.git.berto@igalia.com>
- <fe73f28b44ecaea8a0104e11078f38f563da5925.1572125022.git.berto@igalia.com>
- <7daa553e-b74c-3573-5b67-e140436deb7a@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 13 Nov 2019 15:25:33 +0100
-Message-ID: <w515zjn26qq.fsf@maestria.local.igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iUtnZ-0006HT-An
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:09 -0500
+Received: by mail-wm1-x335.google.com with SMTP id l1so2258811wme.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=34nGcZj4xea5+smY48xXr/h0k+G3Y+D6V6WvkQpf2m4=;
+ b=B+MBpC+wr+Ofawkskp/n3a3/8/bGg4H3NWxg46sJOJJjX9JYv8YVuQZPTdVMcLnOnk
+ HP6wBMFyYJ79Ds4l2P+R/mIamZGGd/OGlXHZJg7MtrXiSLw3GscCdYgYEQH8SrWyjD7V
+ fYiiUlhE07nIjFP/hjLS7noeH4h1HC/416G0mulkDJ6EN458Nm2NFlwbF1ZsUGJikaHj
+ d7BkvfTSNDWqGYcX6KTg+En/0D0Zy1MiMsxHX2xgrU1XKB9SbvSzvp3cRDTQN/wyX47B
+ YSL6V9SolQfULg6UaDgW1ho1AB8edvS58GjKX1cG5P58K0Q2Aj8aC6Kx+7wuVAfScfx5
+ za6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=34nGcZj4xea5+smY48xXr/h0k+G3Y+D6V6WvkQpf2m4=;
+ b=BdNPAtgwmm1yw0FPKbcnw4dXcklW4poGSF3H6y2uTLRRswt8iaVyOdxW9trKrKguzl
+ 3T2rHnxvrclni8PtRJ6Qgk8zXTV0fheAffTdikwstWRDCTVHZfvwMbJQcoV0G4RGwIUY
+ aBTSh1s+ZMzLeyL0ifNBYF401bmU2w0dbHeO2j8U4vfz84tAVkXyaMiCJ+/dE8r1C9hZ
+ UU61roHq8tahyK0rZnVBSRHH83AlDisb/akhnC8DfEavW/Y/Y1fdmcBRRJ2u2S5JjKDL
+ 354w/Ixy7u+I7oYgFprG8smrBgHIa4R5dcnKjfbQxhlyer2cvrgN8vaQD2PGz0FpxJg4
+ BZng==
+X-Gm-Message-State: APjAAAWTH+tnQTaSsoRlKWNDWSMu3Kubi9K6x8ZljbtU8urfJi5TP3sY
+ LLSJ1Q9hm+r+ZuyqIMSFavUJbhVM
+X-Google-Smtp-Source: APXvYqxF+sxL2uhBv5mt0b7lcW3OdIiEy3wyo5kk8QEedYOWkS3u6wUayLsiiVEd4YjeyQhk7CVotA==
+X-Received: by 2002:a1c:a556:: with SMTP id o83mr2989902wme.165.1573655947014; 
+ Wed, 13 Nov 2019 06:39:07 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.06
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 13 Nov 2019 06:39:06 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.0 00/16] Complete the implementation of -accel
+Date: Wed, 13 Nov 2019 15:38:49 +0100
+Message-Id: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,136 +71,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
+Cc: thuth@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 30 Oct 2019 03:24:08 PM CET, Max Reitz wrote:
->>  static void calculate_l2_meta(BlockDriverState *bs, uint64_t host_offse=
-t,
->>                                uint64_t guest_offset, uint64_t bytes,
->> -                              QCowL2Meta **m, bool keep_old)
->> +                              uint64_t *l2_slice, QCowL2Meta **m, bool =
-keep_old)
->>  {
->>      BDRVQcow2State *s =3D bs->opaque;
->> -    unsigned cow_start_from =3D 0;
->> +    int l2_index =3D offset_to_l2_slice_index(s, guest_offset);
->> +    uint64_t l2_entry;
->> +    unsigned cow_start_from, cow_end_to;
->>      unsigned cow_start_to =3D offset_into_cluster(s, guest_offset);
->>      unsigned cow_end_from =3D cow_start_to + bytes;
->> -    unsigned cow_end_to =3D ROUND_UP(cow_end_from, s->cluster_size);
->>      unsigned nb_clusters =3D size_to_clusters(s, cow_end_from);
->>      QCowL2Meta *old_m =3D *m;
->> +    QCow2ClusterType type;
->> +
->> +    /* Return if there's no COW (all clusters are normal and we keep th=
-em) */
->> +    if (keep_old) {
->> +        int i;
->> +        for (i =3D 0; i < nb_clusters; i++) {
->> +            l2_entry =3D be64_to_cpu(l2_slice[l2_index + i]);
->
-> I=E2=80=99d assert somewhere that l2_index + nb_clusters - 1 won=E2=80=99=
-t overflow.
->
->> +            if (qcow2_get_cluster_type(bs, l2_entry) !=3D QCOW2_CLUSTER=
-_NORMAL) {
->
-> Wouldn=E2=80=99t cluster_needs_cow() be better?
+This series completes the implementation of -accel:
 
-The semantics of cluster_needs_cow() change in this patch (which also
-updates the documentation). But I should maybe change the name instead.
+- Alternative accelerators can be specified with multiple -accel options,
+  and each -accel option will configure the respective accelerator.
+  This is implemented in patches 1 to 6, with a small addendum in patch 7.
 
->> +                break;
->> +            }
->> +        }
->> +        if (i =3D=3D nb_clusters) {
->> +            return;
->> +        }
->> +    }
->
-> So I understand we always need to create an L2Meta structure in all
-> other cases because we at least need to turn those clusters into
-> normal clusters?  (Even if they=E2=80=99re already allocated, as in the c=
-ase
-> of allocated zero clusters.)
+- Accelerators can now support arbitrary options, which are implemented
+  in terms of QOM properties.  This is implemented in patches 8 to 11,
+  together with the conversion of the sole existing "-accel" option to QOM.
 
-That's correct.
+- Accelerator-related machine options, and legacy options such as -tb-size,
+  forward to accelerator objects for backwards compatibility, but they
+  do not exist anymore as QOM properties.  This is implemented in patch
+  6 for "-machine accel" and patches 12 to 16 for everything else.
 
->> -/* Returns true if writing to a cluster requires COW */
->> +/* Returns true if the cluster is unallocated or has refcount > 1 */
->>  static bool cluster_needs_cow(BlockDriverState *bs, uint64_t l2_entry)
->>  {
->>      switch (qcow2_get_cluster_type(bs, l2_entry)) {
->>      case QCOW2_CLUSTER_NORMAL:
->> +    case QCOW2_CLUSTER_ZERO_ALLOC:
->>          if (l2_entry & QCOW_OFLAG_COPIED) {
->>              return false;
->
-> Don=E2=80=99t zero-allocated clusters need COW always?  (Because the at t=
-he
-> given host offset isn=E2=80=99t guaranteed to be zero.)
+Paolo
 
-Yeah, hence the semantics change I described earlier. I should probably
-call it cluster_needs_new_allocation() or something like that, which is
-what this means now ("true if unallocated or refcount > 1").
+Paolo Bonzini (16):
+  memory: do not look at current_machine->accel
+  vl: extract accelerator option processing to a separate function
+  vl: merge -accel processing into configure_accelerators
+  vl: move icount configuration earlier
+  vl: introduce object_parse_property_opt
+  vl: configure accelerators from -accel options
+  vl: warn for unavailable accelerators, clarify messages
+  qom: introduce object_register_sugar_prop
+  qom: add object_new_with_class
+  accel: pass object to accel_init_machine
+  tcg: convert "-accel threads" to a QOM property
+  tcg: add "-accel tcg,tb-size" and deprecate "-tb-size"
+  xen: convert "-machine igd-passthru" to an accelerator property
+  kvm: convert "-machine kvm_shadow_mem" to an accelerator property
+  kvm: introduce kvm_kernel_irqchip_* functions
+  kvm: convert "-machine kernel_irqchip" to an accelerator property
 
->> - * Returns the number of contiguous clusters that can be used for an al=
-locating
->> - * write, but require COW to be performed (this includes yet unallocate=
-d space,
->> - * which must copy from the backing file)
->> + * Returns the number of contiguous clusters that can be written to
->> + * using one single write request, starting from @l2_index.
->> + * At most @nb_clusters are checked.
->> + *
->> + * If @want_cow is true this counts clusters that are either
->> + * unallocated, or allocated but with refcount > 1.
->
-> +(So they need to be newly allocated and COWed)?
+ accel/accel.c             |  67 +-------------
+ accel/kvm/kvm-all.c       | 117 ++++++++++++++++++++++-
+ accel/tcg/tcg-all.c       | 149 +++++++++++++++++++++++++++++-
+ cpus.c                    |  72 ---------------
+ hw/core/machine.c         | 141 ----------------------------
+ hw/ppc/e500.c             |   4 +-
+ hw/ppc/spapr_irq.c        |  10 +-
+ hw/xen/xen-common.c       |  16 ++++
+ include/hw/boards.h       |   7 --
+ include/qom/object.h      |  13 +++
+ include/sysemu/accel.h    |   4 +-
+ include/sysemu/cpus.h     |   2 -
+ include/sysemu/kvm.h      |   7 +-
+ memory.c                  |   5 +-
+ qemu-deprecated.texi      |   6 ++
+ qemu-options.hx           |  30 +++---
+ qom/object.c              |  28 +++++-
+ target/arm/kvm.c          |   8 +-
+ target/i386/cpu.c         |   8 +-
+ target/i386/kvm.c         |   6 +-
+ target/mips/kvm.c         |   2 +-
+ target/ppc/kvm.c          |   2 +-
+ target/s390x/cpu_models.c |   4 +-
+ target/s390x/kvm.c        |   2 +-
+ vl.c                      | 231 ++++++++++++++++++++++++++++++++--------------
+ 25 files changed, 534 insertions(+), 407 deletions(-)
 
-Yes. Which in this context is the same as "newly allocated" I guess,
-because every newly allocated cluster requires COW.
+-- 
+1.8.3.1
 
-> (Or is the past participle of COW COWn?  Or maybe CedOW?)
-
-:-))
-
->> + * If @want_cow is false this counts clusters that are already
->> + * allocated and can be written to using their current locations
->
-> s/using their current locations/in-place/?
-
-Ok.
-
->> @@ -1475,13 +1489,14 @@ static int handle_alloc(BlockDriverState *bs, ui=
-nt64_t guest_offset,
->>      *bytes =3D MIN(*bytes, nb_bytes - offset_into_cluster(s, guest_offs=
-et));
->>      assert(*bytes !=3D 0);
->>=20=20
->> -    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes,
->> -                      m, keep_old_clusters);
->> +    calculate_l2_meta(bs, alloc_cluster_offset, guest_offset, *bytes, l=
-2_slice,
->> +                      m, false);
->>=20=20
->> -    return 1;
->> +    ret =3D 1;
->>=20=20
->> -fail:
->> -    if (*m && (*m)->nb_clusters > 0) {
->> +out:
->> +    qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
->
-> Is this a bug fix?
-
-No, we call qcow2_cache_put() later because calculate_l2_meta() needs
-l2_slice.
-
-Berto
 
