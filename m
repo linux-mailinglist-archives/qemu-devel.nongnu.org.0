@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C0DFB2BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:41:42 +0100 (CET)
-Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C962CFB2D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:48:30 +0100 (CET)
+Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUtq1-0007jv-Bf
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:41:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54511)
+	id 1iUtwb-0007XW-6z
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:48:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54537)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnf-0005m1-OG
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:16 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnh-0005pK-Im
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtne-0006KH-Jv
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:15 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35908)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtng-0006Kw-A3
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:17 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iUtne-0006Jt-Dj
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:14 -0500
-Received: by mail-wr1-x441.google.com with SMTP id r10so2659016wrx.3
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:14 -0800 (PST)
+ id 1iUtng-0006Ke-26
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:16 -0500
+Received: by mail-wr1-x444.google.com with SMTP id i12so2648269wro.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=04DgeNC9vfzASWfCYcrOuTaV0nl4hE4YtksZoBBJzpM=;
- b=mFgVDQT0R2WoA2hwT/zTC4fqohWKyBeYrk+M9RZ8g8/ggUav/aBzcVRDWXMnMGr8Tv
- pqLOMzepX+E2hDjvoh/T7oXyPIl3f7tkE5//gNauYYyhSy1etsVVlHF2YwzHNg2+zcMF
- iRlVNwHmiHqKP7GRaVJ7uRL6FoHYZ/kDhtzGR/HrTi2Newr80Eb1whTByOefV4icYadT
- EEraEB5e/15S1xeYPUnVT9DamTA8m8ApoGVKNUHOoWhUXRJ8hlqfsuc8zmQ9KuHt4I8p
- /qNBHySWE3ZkTkAkqKb7nJGB+R/dUu99orFznU2cB0Nve6n0Se07I68aYVikEDf8zwnz
- 9Z2A==
+ bh=cIfZoKMkbTbdhoYje0A8wEbwWm6iqWmZiic8eSGDlZA=;
+ b=QCS/BAheEgIiJ/pn0fdSoGjEWMUcqw1/81Df3vGJxN8iLKCn3uPm20N5Kk0ruRJDBy
+ YsDtWVWjzHG6qWd9oEek/Fxu2O2dtkHWGvBFtSZJNdipdPEWFFH1gq2zeQUIZSh1JWA/
+ yi1SnLFDLU64YUBU82n+qK8EPDTllIv7HdkBWv3iSv3PgN8tRHdcgZsZuOwgDe6KWpPj
+ vtkWg46mdpHccuQ+BhOaEWCF196e+dr8hZZ0ULCJ2ZrEE/k0qGRoyWkF50VBR/xoWBBn
+ FSJw4JdSylnYjso67r9TBGrmnDCwnCGmR/yaKVOaL8V5q4A/UQBpzGcsG5ipaU3c3ZEo
+ z/JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=04DgeNC9vfzASWfCYcrOuTaV0nl4hE4YtksZoBBJzpM=;
- b=AzkYQXGk1EQcozzJ2ziiHDFCVpNFIJi7sCrdKz/v+Uhlk1gUPJ033GNLiyDRONLhfA
- HHtFFrVZTPpowDgNmrEkkwL0PUe+kIUuIqu9FyETJP5wAeuNlDmg/+jFbh8UxEl9NO7R
- hMlJhU+cxmfj34gulKSL5xwaU55MjhlbTSIAMhfic/U2TSGSv+GB67rxxvfClvQnMyWP
- Qcrxnfn4C6tkrHcpP9BWVBsMvsZKLzxbvcaDmbgbn6OE5wLCCFRXt/Dc08FD3yGo8OFh
- Kx3f2jWR2S63JW2FwtFbLbMdZBNZGk6SwMf7bkZdxlY8/DDdstFUKd/GwSYwuVTlwa39
- 18Pg==
-X-Gm-Message-State: APjAAAWcdQBF6XGzkbMrRdgOrj0NLEPRpjlT+Wo0NnBKTs76tqpwhOpT
- s9uw3QOrjE6lXaAugR/tIIs/wCgA
-X-Google-Smtp-Source: APXvYqzkbdvF6nahA7MzSMxfnYw7Ty4nmru8yvnOHdhpihtJz7hNUa8rB6FNoc01SXiWvwJHziPkxw==
-X-Received: by 2002:a5d:4810:: with SMTP id l16mr3010699wrq.127.1573655953255; 
- Wed, 13 Nov 2019 06:39:13 -0800 (PST)
+ bh=cIfZoKMkbTbdhoYje0A8wEbwWm6iqWmZiic8eSGDlZA=;
+ b=tbQgHvXYzKBQuh8zMz1cnX4SihgGvzQem1zRaBbD/CFfZz5YGsJrAlZv4TaItTI2B9
+ sYix2RbcwucWIZ2DllotgPqcjFEVkJyb43SHWXcKJh6quvFD3oJf8H8/MlYWFUr54hMi
+ nRXbDj/ShrWn+RGqSKPA8/eG4dqj2iwhI231aTjooYkp629hZJBjhYCO+3o8VVHpUMrx
+ /NPbrw3aHKEAMIjvrS3BrikG/K/9200PeClb8P0c4RT/qr5FOtCGkFt4sVzIAIzrshRo
+ 6sGckcdTlBDQSpgO33ZiOYu6kTf4OcSY7TbK5f74hXkdyEXFNbDt9DQkJqeSKj9uEPkP
+ 2RZQ==
+X-Gm-Message-State: APjAAAWbAIyTEExA8roccKMVgAQgU2HYQ/EcXP4WUY17H2fPgTCDHp8f
+ uI5DcUr9/A6W8//f8n08gbQUSO3N
+X-Google-Smtp-Source: APXvYqwAzcMj54Zgb/yKGGEvENL1FyL4ReJ86GIwaA9v8vPLPCgp2rOpbMHLL1fnV+IG3cmc+lfQTw==
+X-Received: by 2002:adf:9ec7:: with SMTP id b7mr3181836wrf.221.1573655954119; 
+ Wed, 13 Nov 2019 06:39:14 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.12
+ by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Nov 2019 06:39:12 -0800 (PST)
+ Wed, 13 Nov 2019 06:39:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/16] vl: warn for unavailable accelerators, clarify messages
-Date: Wed, 13 Nov 2019 15:38:56 +0100
-Message-Id: <1573655945-14912-8-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 08/16] qom: introduce object_register_sugar_prop
+Date: Wed, 13 Nov 2019 15:38:57 +0100
+Message-Id: <1573655945-14912-9-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +78,96 @@ Cc: thuth@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So far, specifying an accelerator that was not compiled in did not result
-in an error; fix that.
-
-While at it, clarify the mysterious "Back to TCG" message.
+Similar to the existing "-rtc driftfix" option, we will convert some
+legacy "-machine" command line options to global properties on accelerators.
+Because accelerators are not devices, we cannot use qdev_prop_register_global.
+Instead, provide a slot in the generic object_compat_props arrays for
+command line syntactic sugar.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- vl.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ include/qom/object.h |  1 +
+ qom/object.c         | 23 +++++++++++++++++++++--
+ vl.c                 | 10 +++-------
+ 3 files changed, 25 insertions(+), 9 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 128d00c..230b18f 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GPtrArray *props,
+                                Error **errp);
+ void object_set_machine_compat_props(GPtrArray *compat_props);
+ void object_set_accelerator_compat_props(GPtrArray *compat_props);
++void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
+ void object_apply_compat_props(Object *obj);
+ 
+ /**
+diff --git a/qom/object.c b/qom/object.c
+index 6fa9c61..c7825dd 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -414,10 +414,29 @@ void object_apply_global_props(Object *obj, const GPtrArray *props, Error **errp
+  * Global property defaults
+  * Slot 0: accelerator's global property defaults
+  * Slot 1: machine's global property defaults
++ * Slot 2: global properties from legacy command line option
+  * Each is a GPtrArray of of GlobalProperty.
+  * Applied in order, later entries override earlier ones.
+  */
+-static GPtrArray *object_compat_props[2];
++static GPtrArray *object_compat_props[3];
++
++/*
++ * Retrieve @GPtrArray for global property defined with options
++ * other than "-global".  These are generally used for syntactic
++ * sugar and legacy command line options.
++ */
++void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
++{
++    GlobalProperty *g;
++    if (!object_compat_props[2]) {
++        object_compat_props[2] = g_ptr_array_new();
++    }
++    g = g_new(GlobalProperty, 1);
++    g->driver = g_strdup(driver);
++    g->property = g_strdup(prop);
++    g->value = g_strdup(value);
++    g_ptr_array_add(object_compat_props[2], g);
++}
+ 
+ /*
+  * Set machine's global property defaults to @compat_props.
+@@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
+ 
+     for (i = 0; i < ARRAY_SIZE(object_compat_props); i++) {
+         object_apply_global_props(obj, object_compat_props[i],
+-                                  &error_abort);
++                                  i == 2 ? &error_fatal : &error_abort);
+     }
+ }
+ 
 diff --git a/vl.c b/vl.c
-index dd895db..843b263 100644
+index 843b263..cb993dd 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -2853,6 +2853,8 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-     int ret;
- 
-     if (!ac) {
-+        *p_init_failed = true;
-+        error_report("invalid accelerator %s", acc);
-         return 0;
-     }
-     ret = accel_init_machine(ac, current_machine);
-@@ -2907,6 +2909,9 @@ static void configure_accelerators(const char *progname)
-              */
-             if (accel_find(*tmp)) {
-                 qemu_opts_parse_noisily(qemu_find_opts("accel"), *tmp, true);
-+            } else {
-+                init_failed = true;
-+                error_report("invalid accelerator %s", *tmp);
-             }
-         }
-     } else {
-@@ -2926,7 +2931,7 @@ static void configure_accelerators(const char *progname)
- 
-     if (init_failed) {
-         AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
--        error_report("Back to %s accelerator", ac->name);
-+        error_report("falling back to %s", ac->name);
-     }
- 
-     if (!tcg_enabled() && use_icount) {
+@@ -896,13 +896,9 @@ static void configure_rtc(QemuOpts *opts)
+     value = qemu_opt_get(opts, "driftfix");
+     if (value) {
+         if (!strcmp(value, "slew")) {
+-            static GlobalProperty slew_lost_ticks = {
+-                .driver   = "mc146818rtc",
+-                .property = "lost_tick_policy",
+-                .value    = "slew",
+-            };
+-
+-            qdev_prop_register_global(&slew_lost_ticks);
++            object_register_sugar_prop("mc146818rtc",
++                                       "lost_tick_policy",
++                                       "slew");
+         } else if (!strcmp(value, "none")) {
+             /* discard is default */
+         } else {
 -- 
 1.8.3.1
 
