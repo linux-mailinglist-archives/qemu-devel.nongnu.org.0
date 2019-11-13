@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65A6FA91D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 05:45:42 +0100 (CET)
-Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A3BFA93B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 05:55:36 +0100 (CET)
+Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUkXF-0005aM-NA
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 23:45:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45931)
+	id 1iUkgp-0007hr-AG
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 23:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1iUkWE-00059J-KX
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:44:40 -0500
+ (envelope-from <aik@ozlabs.ru>) id 1iUkfd-0006y8-R8
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:54:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1iUkWC-0004qQ-Kc
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:44:38 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35749)
+ (envelope-from <aik@ozlabs.ru>) id 1iUkfc-00007l-6c
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:54:21 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1iUkWC-0004pp-3E
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:44:36 -0500
-Received: by mail-pf1-x443.google.com with SMTP id q13so764281pff.2
- for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 20:44:34 -0800 (PST)
+ (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1iUkfb-00007T-UL
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 23:54:20 -0500
+Received: by mail-pg1-x543.google.com with SMTP id f19so550941pgk.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Nov 2019 20:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4hfeFSty6f9IfaX9pKD2lkE3hIwKWP94DmraNC+7G+w=;
- b=KLBF3TauoeC6Yb5CKS0i8EIM4ZsZVDZXW+mvOFeJINyVcM+LX3a3WXjUAoxT8+4vm4
- ODWeWzsAZbyeZNH0kpo8TECywLDD3cyaBiqg+TlmHNpJezYlyfcHM9dUmLsGixciciqE
- nSlzJA9ljprRqCIXxPfc1sFkgUrIsS1Wgs8PzT+B1BtByXZcyKV2Hd39/2ZHbeMzynfE
- IVPupf+tYw21NHhJbd6msttz6Xb3VA+g+qC02ksFcvlhQm4ww2PCmUtFv8ytO6OBlcAO
- ++N+NpZcg96fFVF0YWOv3qNrbxSeYhOZTQ6ZC5unT0h2jKzka3hEjUVH9vvc1ak9Gt6b
- C5Gg==
+ bh=tI2O47zl9E4oNtEpc0+MTWD6xth1/e/SOWLQjS61Tog=;
+ b=hBF2ppLkV/QyPwQwgC9inABmY9Akv5+RBNmAZR7yIPhw4FBf/EAuytZUvkxNZSJU2P
+ YuvIgz1I7JUqsKbvrlEezyAMlrlzUioGDQvSt/n2plOD16lA6iD+nSq6FuUo0piwkev1
+ D+nwrIPY/o1Mt+XI2OWlRyOk9iv9mFfypK3G1B1xqzZ4GUAhFxsS1LuPadv6UU7NBefE
+ VAzP+zkVYNQkB6MU0dHRmVxonXo0TnYZ6qACAeJMizOKtaH3QouxPXBjb1RBcXGoDx7k
+ PoA23n7WNyRpenIsJ93nSF5fSmSa66WUJo4Nbg/zvtjSdWAp4zUoo9BYQVlJPacq/LGZ
+ 6f9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=4hfeFSty6f9IfaX9pKD2lkE3hIwKWP94DmraNC+7G+w=;
- b=sFzpckmRVfy/xLWDGao4yd5WtLKxco6V2Gd9FB69iE5FfMsicOsyqln+93Yw47MkMy
- AITT32fU6wpF7QgRf4JJeZ2j90mfSy9nu1GcLvXJsfHUHZ2aSjdvYkh/Pe/ffq2QCUZS
- xyBbbpUAmK+B96mbqWBRG+Unar7/PVaiSDnLU9QP62ZOyETLFcxxvSy+WRL0lwr7A3TC
- dZBcJuqcQXaSENyu90g8gEmXy96fSNrU+xZGTO6XjtWt+VyL5+Tmaz0lWdVtL6VJo7OL
- 2H70CoOc/Xb00rLCPZg93uF4K72YUdNcPKAo8LAZedP0dE9qVYvipiyGFIcXOPQXrKnh
- W1mA==
-X-Gm-Message-State: APjAAAXp1yJWI23O56HFvOrmNArFk8P6wvDtfuFvBh6VipPJVZJ9u/SI
- qiavkCt2lQOntzha0oSO5uO56g==
-X-Google-Smtp-Source: APXvYqxOu2Aq7vtOUJrQmrMPXQUTuCHAJhEvHFGhlZClg9TNlcY5j/u8qdL+TSn7q42tpjPZ5PMjJQ==
-X-Received: by 2002:a62:14d0:: with SMTP id 199mr1927450pfu.147.1573620273810; 
- Tue, 12 Nov 2019 20:44:33 -0800 (PST)
+ bh=tI2O47zl9E4oNtEpc0+MTWD6xth1/e/SOWLQjS61Tog=;
+ b=KLWATvZeHMTdYDCcWVrvyIBD699/A6Ugyp8A0YF4oSG0209c9oDvYXfjbcjT+6f0av
+ nHx/VkQ+zAE+lE+NpKv7ooYLl724ZzxmEVINPVyI7qcf+XSyp4zLnyPSYezE032yWsfP
+ zv7IQ5gzehUeHXDfK8D3Nf72kYYnzX+Nlr0tOG6/ybEsm7bscbiag50JiK9XrPIyoLl9
+ Lt4xYsIQZHYtS4aupPg48Y4wM+abhoh/WJ1EBzH9LahlFKX6Y2d3SqSBZ1XcEKCMWh9s
+ XwRCjofndIZuEQAlGeYGooCYFenNxcRVGhwmXEFqaspOy23U+V+PiaRX8pcsUbq7HTJc
+ L9tg==
+X-Gm-Message-State: APjAAAXoLgqUghkf7KwPGvsTcDZ4EqNynXup+WM6NGI0d2A+kWPlqTKP
+ dA5qaey2mqDjQ+L5dnbl7Qo7bQ==
+X-Google-Smtp-Source: APXvYqzMOzpmw9UEo8G7rYZvobBtyzXKUrlgiy2/w6s6mu+6gFb9s7BC7jXsDB6C9ATrY4Reh4GhfA==
+X-Received: by 2002:aa7:9d09:: with SMTP id k9mr1999857pfp.154.1573620858675; 
+ Tue, 12 Nov 2019 20:54:18 -0800 (PST)
 Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id l74sm770058pje.29.2019.11.12.20.44.31
+ by smtp.gmail.com with ESMTPSA id e8sm814103pga.17.2019.11.12.20.54.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Nov 2019 20:44:33 -0800 (PST)
+ Tue, 12 Nov 2019 20:54:17 -0800 (PST)
 Subject: Re: virtio,iommu_platform=on
-To: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
 References: <17da2769-1999-a0a3-590d-9f9bc6a9adc3@ozlabs.ru>
- <20191112014821-mutt-send-email-mst@kernel.org>
+ <9204f8a7-0dfa-b689-7f97-5997d3298fdd@redhat.com>
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
 Autocrypt: addr=aik@ozlabs.ru; keydata=
  mQINBE+rT0sBEADFEI2UtPRsLLvnRf+tI9nA8T91+jDK3NLkqV+2DKHkTGPP5qzDZpRSH6mD
@@ -132,18 +132,18 @@ Autocrypt: addr=aik@ozlabs.ru; keydata=
  c7E5M+/NpslPCmYnDjs5qg0/3ihh6XuOGggZQOqrYPC3PnsNs3NxirwOkVPQgO6mXxpuifvJ
  DG9EMkK8IBXnLulqVk54kf7fE0jT/d8RTtJIA92GzsgdK2rpT1MBKKVffjRFGwN7nQVOzi4T
  XrB5p+6ML7Bd84xOEGsj/vdaXmz1esuH7BOZAGEZfLRCHJ0GVCSssg==
-Message-ID: <7ac95a46-b2ae-005b-1907-5302d5b0a39d@ozlabs.ru>
-Date: Wed, 13 Nov 2019 15:44:28 +1100
+Message-ID: <1747743b-0867-7e5e-eb00-dff0dd8678e3@ozlabs.ru>
+Date: Wed, 13 Nov 2019 15:54:13 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191112014821-mutt-send-email-mst@kernel.org>
+In-Reply-To: <9204f8a7-0dfa-b689-7f97-5997d3298fdd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -155,14 +155,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 12/11/2019 18:08, Michael S. Tsirkin wrote:
-> On Tue, Nov 12, 2019 at 02:53:49PM +1100, Alexey Kardashevskiy wrote:
+On 12/11/2019 20:06, Laszlo Ersek wrote:
+> On 11/12/19 04:53, Alexey Kardashevskiy wrote:
 >> Hi!
 >>
 >> I am enabling IOMMU for virtio in the pseries firmware (SLOF) and seeing
@@ -172,37 +173,25 @@ On 12/11/2019 18:08, Michael S. Tsirkin wrote:
 >> memory access (see below) which happens because disabling busmaster
 >> disables IOMMU and QEMU cannot access the rings to do some shutdown. And
 >> when this happens, the device does not come back even if SLOF re-enables it.
-> 
-> In fact clearing bus master should disable ring access even
-> without the IOMMU.
-> Once you do this you should not wait for rings to be processed,
-> it is safe to assume they won't be touched again and just
-> free up any buffers that have not been used.
-> 
-> Why don't you see this without IOMMU?
-
-Because without IOMMU, virtio can always access rings, it does not need
-bus master address space for that.
-
-
-> It's a bug I think, probably there to work around buggy guests.
-> 
-> So pls fix this in SLOF and then hopefully we can drop the
-> work arounds and have clearing bus master actually block DMA.
-
-
-Laszlo suggested writing 0 to the status but this does not seem helping,
-with both ioeventfd=true/false. It looks like setting/clearing busmaster
-bit confused memory region caches in QEMU's virtio. I am confused which
-direction to keep digging to, any suggestions? Thanks,
-
-
-
-> 
+>>
 >> Hacking SLOF to not clear BUSMASTER makes virtio-scsi work but it is
 >> hardly a right fix.
 >>
 >> Is this something expected? Thanks,
+> 
+> Can you perform a virtio reset (write 0 to the virtio-scsi-pci device's
+> virtio status register) in SLOF, before clearing PCI_COMMAND?
+
+
+The device stops working in SLOF, even if I do not remove bus master bit
+ever. Weird...
+
+
+> 
+> Thanks,
+> Laszlo
+> 
+> 
 >>
 >>
 >> Here is the exact command line:
@@ -335,8 +324,6 @@ direction to keep digging to, any suggestions? Thanks,
 >> ../sysdeps/unix/sysv/linux/powerpc/powerpc64/clone.S:96
 >> (gdb)
 >>
->> -- 
->> Alexey
 > 
 
 -- 
