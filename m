@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F86DFB497
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:03:44 +0100 (CET)
-Received: from localhost ([::1]:46832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429C7FB49D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:06:23 +0100 (CET)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUv7O-0002eC-Vq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:03:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39502)
+	id 1iUv9y-0004nP-B9
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:06:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iUv5F-0001KN-15
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:01:30 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1iUv8o-0004Ep-NC
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iUv5C-0007u5-Rt
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:01:27 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:41266)
+ (envelope-from <jag.raman@oracle.com>) id 1iUv8n-0000Ec-6Z
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:10 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:46728)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iUv5C-0007ti-HY
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:01:26 -0500
+ id 1iUv8m-0000ES-UC
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:09 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFxPG5184711;
- Wed, 13 Nov 2019 16:01:13 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFxHhO184540;
+ Wed, 13 Nov 2019 16:05:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=UrcrXeFYsAMWyvMKxJQHOi0fyGnqK04kJ29J94/VgLU=;
- b=X1BJ6tunUaIZUu7nFjGnOnCZ8Dro4vhBZnWMajtmeNmcSL2c0DJQp4T+waRA3JCqLDdm
- RGw+Zf0drFnyl345SpBKYK47cQYBOL5QjejndeaeXK5+jUhfb8i266KY5AgsQZ6mr/8M
- ukyxfEfBUvEAXaCsPAJn4maZVENYXLf+dgWfaj/4E6IBpTLisIawabZaYyd9hyspI5wq
- J9bjejnGYr/5v0RtQRo1/SQw4JVrOLQdtKW8BNlRXFgSVTGQJjCezwjIwbGjOOIAzHYi
- 2q0bW1zlqzhqn7exyO9DonUQJ5Fz275+C/BuHzq8HuG8vY8ea7CBr6nX8SXpq2PC2RtV 2g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2w5mvtwfce-1
+ bh=6JcNT36og4QgKqc4dAnHnCmnzctDyvNZpyy1UsLdnDA=;
+ b=dQSd/t8VJn6PFzcLtC/+crRNdieNkVa9qufNAsvGxPLV0eViJfzrGJHo5rICH8QY3kBK
+ rt/grjuDEc90kWTU+R7WTO8ywIfb8k+MyNMe7aPcc05Q7R65JFtE4OSZgiLYUsMthAG5
+ DNIvLGxnmjYy5T2R4WTuzNYVK/OngViqBYW+K9IcisSCnAoSte0pYh1hjbtGoMX73ked
+ ztI9UQCMYd1RdYh1H2EAFPJTxOivpBtrvLY+QwSaGuimGrTI4WCgWxrB8rNf5TAqxOlq
+ rS5mUTwPVjOYiWZbBWq6AuKY/21txlIvogoO5Ct5j2nv18UEAtIH0WRjTDmHbY2Cwt/W WQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2w5mvtwgdw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:01:12 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFxGrA152052;
- Wed, 13 Nov 2019 16:01:12 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2w7vbd3sqc-1
+ Wed, 13 Nov 2019 16:05:02 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFwv49059290;
+ Wed, 13 Nov 2019 16:05:02 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2w8g17r108-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:01:12 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xADG18Ax006571;
- Wed, 13 Nov 2019 16:01:09 GMT
+ Wed, 13 Nov 2019 16:05:00 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xADG4xUb022092;
+ Wed, 13 Nov 2019 16:04:59 GMT
 Received: from [10.152.34.2] (/10.152.34.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Nov 2019 08:01:08 -0800
-Subject: Re: [RFC v4 PATCH 30/49] multi-process: send heartbeat messages to
- remote
-To: Stefan Hajnoczi <stefanha@redhat.com>
+ with ESMTP ; Wed, 13 Nov 2019 08:04:59 -0800
+Subject: Re: [RFC v4 PATCH 02/49] multi-process: util: Add
+ qemu_thread_cancel() to cancel running thread
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
- <14c33104778e77fcf2e7f0df2a1dd96fbcaf49d7.1571905346.git.jag.raman@oracle.com>
- <20191111162750.GJ402228@stefanha-x1.localdomain>
+ <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
+ <20191113153006.GA563983@stefanha-x1.localdomain>
+ <fd30b4ee-1f92-82a8-42a6-871b0a9e23b1@oracle.com>
+ <20191113155125.GI2445240@redhat.com>
 From: Jag Raman <jag.raman@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <6f063381-c842-9c03-280f-1e9652a15881@oracle.com>
-Date: Wed, 13 Nov 2019 11:01:07 -0500
+Message-ID: <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
+Date: Wed, 13 Nov 2019 11:04:58 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20191111162750.GJ402228@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20191113155125.GI2445240@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9439
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -79,10 +80,13 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9439
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
  definitions=main-1911130144
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2130.oracle.com id
+ xADFxHhO184540
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,66 +101,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
- john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- liran.alon@oracle.com, rth@twiddle.net, quintela@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
- mst@redhat.com, kraxel@redhat.com, kwolf@redhat.com, pbonzini@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, kanth.ghatraju@oracle.com,
- dgilbert@redhat.com, marcandre.lureau@gmail.com
+ ross.lagerwall@citrix.com, ehabkost@redhat.com, john.g.johnson@oracle.com,
+ mst@redhat.com, konrad.wilk@oracle.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, quintela@redhat.com, liran.alon@oracle.com,
+ kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com,
+ kwolf@redhat.com, marcandre.lureau@gmail.com, mreitz@redhat.com,
+ kanth.ghatraju@oracle.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 11/11/2019 11:27 AM, Stefan Hajnoczi wrote:
-> On Thu, Oct 24, 2019 at 05:09:11AM -0400, Jagannathan Raman wrote:
->> +static void broadcast_msg(MPQemuMsg *msg, bool need_reply)
->> +{
->> +    PCIProxyDev *entry;
->> +    unsigned int pid;
->> +    int wait;
->> +
->> +    QLIST_FOREACH(entry, &proxy_dev_list.devices, next) {
->> +        if (need_reply) {
->> +            wait = eventfd(0, EFD_NONBLOCK);
->> +            msg->num_fds = 1;
->> +            msg->fds[0] = wait;
->> +        }
->> +
->> +        mpqemu_msg_send(entry->mpqemu_link, msg, entry->mpqemu_link->com);
->> +        if (need_reply) {
->> +            pid = (uint32_t)wait_for_remote(wait);
-> 
-> Sometimes QEMU really needs to wait for the remote process before it can
-> make progress.  I think this is not one of those cases though.
-> 
-> Since QEMU is event-driven it's problematic to invoke blocking system
-> calls.  The remote process might not respond for a significant amount of
-> time.  Other QEMU threads will be held up waiting for the QEMU global
-> mutex in the meantime (because we hold it!).
+On 11/13/2019 10:51 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Nov 13, 2019 at 10:38:06AM -0500, Jag Raman wrote:
+>>
+>>
+>> On 11/13/2019 10:30 AM, Stefan Hajnoczi wrote:
+>>> On Thu, Oct 24, 2019 at 05:08:43AM -0400, Jagannathan Raman wrote:
+>>>> qemu_thread_cancel() added to destroy a given running thread.
+>>>> This will be needed in the following patches.
+>>>>
+>>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>>>> ---
+>>>>    include/qemu/thread.h    |  1 +
+>>>>    util/qemu-thread-posix.c | 10 ++++++++++
+>>>>    2 files changed, 11 insertions(+)
+>>>
+>>> Is this still needed?  I thought previous discussion concluded that
+>>> thread cancellation is hard to get right and it's not actually used b=
+y
+>>> this series?
+>>
+>> Hi Stefan,
+>>
+>> This is used in PATCH 41/49.
+>=20
+> I don't believe the cancellation usage in that patch is safe :-)
 
-There are places where we wait synchronously for the remote process.
-However, these synchronous waits carry a timeout to prevent the hang
-situation you described above.
+Thanks for the feedback, we will address that.
 
-We will add an error recovery in the future. That is, we will respawn
-the remote process if the QEMU times out waiting for it.
+May I please ask why it is not safe? Any clarification will help us to
+find a better alternative.
 
-> 
-> Please implement heartbeat/ping asynchronously.  The wait eventfd should
-> be read by an event loop fd handler instead.  That way QEMU can continue
-> with running the VM while waiting for the remote process.
-
-In the current implementation, the heartbeat/ping is asynchronous.
-start_heartbeat_timer() sets up a timer to perform the ping.
-
-Thanks!
+Thank you very much!
 --
 Jag
 
-> 
-> This will also improve guest performance because there will be less
-> jitter (random latency because the event loop is held up waiting for
-> remote processes for short periods of time).
-> 
+>=20
+> Regards,
+> Daniel
+>=20
 
