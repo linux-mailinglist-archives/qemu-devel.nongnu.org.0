@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C560EFB54A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:37:56 +0100 (CET)
-Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F584FB56E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:43:29 +0100 (CET)
+Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUveV-0003Vq-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:37:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44011)
+	id 1iUvjs-0008KM-2r
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:43:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iUvck-0002Ed-2u
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:07 -0500
+ (envelope-from <lukasstraub2@web.de>) id 1iUvdE-0002z3-7S
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iUvci-0004IW-R3
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24793
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iUvci-0004IO-NX
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573662964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZpU+T4qTzqt3if6DmyaPMbq6ZmoJIClv6sQNilHAx8c=;
- b=Lxr3P4bqLbPEyhhmjVQhbYhtlw5MNr9Y8UqkNSSbe//mRrfcL4FIUW2ekH3KSkE7iOQigG
- zUHIMynzYbXgxxheFuUuR7je7Qzgo1YMfTUUCSeizSLGl1TNkTl7KzGC9Y27XPEb5DWSs+
- up1Q18a1hax3nA0fms//iQW7FXDXXfU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-HyhW1OOHMr-eSodQPWayGA-1; Wed, 13 Nov 2019 11:36:02 -0500
-Received: by mail-wr1-f72.google.com with SMTP id p4so1871151wrw.15
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:36:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=twTzFGr5vasz6AFOcNkEKt4SEwD6IFMW9o8bKOxiDkk=;
- b=cShkFTlS50m0Yw5yz6Zvl1kMQ23wUF9MxSwi0215ui+5YTN4Cob9AQV24oJ9roIWVy
- W9O5H9I+FD73bF1kk778ZmqLMnorrt+3LrYt/Kf9Es/mF1UHs5bTtP6XbZGsBq9T0vLK
- EDRRRky4dvlBT8hNs/ytMBS1jjcz0yKpzADMrOKpvuwOG8UjXtaZyYzi29/njW0JT1C6
- U/5/TzE3get9ddDmhHUuqF+k/jra+NokDxIKm9e1a3ScRuOVZ2cN6yz1YCT8mMJvUNLR
- pDRQ3PZGUVCOnYdQE+x1RUs5eeaED5lfWIRm4EV2LQ+E1oVmITqc3EplQNxH+p/tp774
- t7Dw==
-X-Gm-Message-State: APjAAAUgnNuVnnQ17td6Wz5zrp2ePqviFZgkCS0BqTcvfVUdOsVG7Xts
- pKhztuJYL3QdzWdrZ0cKIvFc7hf2o/mMCgK+8/a0jIilpJ81STUDCCYw0c4R5mNPdU/p/UQ3stK
- hhwwGzmeNqeAXOVc=
-X-Received: by 2002:adf:ef0c:: with SMTP id e12mr3658020wro.270.1573662961690; 
- Wed, 13 Nov 2019 08:36:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxzUgKXjnZvwt1mJuNlNXQ3dZYZCXKgKph4OOHE71k8kGtrqkCunUpfZMg2DXZAQxUXl1Nr7Q==
-X-Received: by 2002:adf:ef0c:: with SMTP id e12mr3658005wro.270.1573662961510; 
- Wed, 13 Nov 2019 08:36:01 -0800 (PST)
-Received: from [192.168.1.35] (170.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.170])
- by smtp.gmail.com with ESMTPSA id d13sm3182509wrq.51.2019.11.13.08.36.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Nov 2019 08:36:00 -0800 (PST)
-Subject: Re: [PATCH] WHPX: refactor load library
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-References: <MW2PR2101MB1116386CFE4628B6767D6CDBC07B0@MW2PR2101MB1116.namprd21.prod.outlook.com>
- <MW2PR2101MB1116C3DF422DB5E301B74AEEC0770@MW2PR2101MB1116.namprd21.prod.outlook.com>
- <20191112194738.GF3812@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <017bdcd1-4058-c717-619a-d8362ac089b7@redhat.com>
+ (envelope-from <lukasstraub2@web.de>) id 1iUvdD-0004Mo-3H
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:36 -0500
+Received: from mout.web.de ([212.227.15.3]:51047)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>)
+ id 1iUvdA-0004Lf-7R; Wed, 13 Nov 2019 11:36:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1573662965;
+ bh=EBgpQzQ6k/7S9mrSMyrm9gx2RGexNh0KiOQHDh8YCbE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=IJO7Ce7DG3rI3Xo7Y5oAXRxFx1L4KcTaR/QGJoEL+y0m9nQ+4pDQCm8OMEsaZgkWW
+ /EviO93lOYmRvGivi2WxNFycGr+dL59ryO1J2AWXHGoSJEjcLkPCdsXKHb5fvCjfO5
+ buVzlaR40viQ9EAYADDWH/4SwguaLjpV1bKAKoQE=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([88.130.61.246]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LpQjF-1hzQki0lBl-00fE8Z; Wed, 13
+ Nov 2019 17:36:05 +0100
 Date: Wed, 13 Nov 2019 17:35:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v7 0/4] colo: Add support for continuous replication
+Message-ID: <20191113173559.0713c27d@luklap>
+In-Reply-To: <cover.1571925699.git.lukasstraub2@web.de>
+References: <cover.1571925699.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <20191112194738.GF3812@habkost.net>
-Content-Language: en-US
-X-MC-Unique: HyhW1OOHMr-eSodQPWayGA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:y3h3pjukhRtHWwr5vlytXIvJfiqTcZB0SBFXX/TxIZFmhhHmvDF
+ FkFTjY0DkNJbsOpvq+WN43IVVJ+gfj4zQqecMR9sDLk46AepxJQ6uugy4CdmsXT4L5kAW1r
+ WnNwJIoHJ3B9NQF8j2HUOJO7rzDzzBAalA+aGdX+5N75os2IAmLsUW3b3PKp5bq0UIHdLGh
+ qbMSgDdr9OthG1DHP0RgQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DeFpq/sNSfw=:wN3lNCCvlfA+FMHIK86BEx
+ uumRBWu3uatXj1pJYvPt+baJg/X4E7SU3ICALGPQIZ9yo+uZvtuVoWr1XlZFxcKMqpdeC307U
+ 2umPqBqngmEbev3r/eEH1cs3ccXWoCOSiQfrR1DEMFWheFiqWEfE39xY2odbmi717znVfTOwg
+ XQeils8+oN3wtK05Zeu+63sK+C6f1ieMK6YP+KeLRVUcp7PV9UoWweeyXnilfcl19MT4g5cmo
+ COJdH1NsJKJ5D0vzz7fFkq5H9j2ueCxhnP+jw2HkDdJaVaAjBZskHrxT85qttW2GXLo9WcMnH
+ fGTk97zmmBCVM5D6/foP1GX9LOL6om2Ddi5etsQ+Jajas+a/3uNwD2MFB6Neij9kfnE/OM72Q
+ qkRbW/Sa0dqt7D7Szom+91y/0fqnIJdF+gy3jEXEEM4jXkZ/e/y1NHoukVU2VX76C8VhnwHRe
+ GXAxafP8QeCtkI0ihSAy5WYl4huVCeg27dkNHY7nmhbgSmX4CKq7+mkOuR+Pm5GuNcSObqNEL
+ knyatxX+T9ui1sNsGzg7lb3IoMQZciSJECmYp7e34ce0AlMI1nw2lY4PT+9AnP0EaUgh2okOl
+ /VBZm/zzGwNCu6yvoLtk/xv/p48W0ak3m/gi7ighkw9Hg1Cg+LkwjQR/Sv7FYp83c57/YZXRS
+ ila/kloUsy5QD9yuPuJ1/cCEN989CTE4/ykZ2zzvpCjTZ/refUl/YZqiAGnPA2wFK549KvKzi
+ UCH9a6m+Qor+nrwhqeZDnzLEwgc11x+8RL/R0PZQfYOLeDTbE3E3mWK2g9QdSQwlndUECbQX/
+ Du0I0OqJpyJk4DMTXog6n8FV68nn/fFQp1HET8iU4+ARmy0QEv4UY92v4RrlPyD9bcXGSBmn8
+ vd6JWzjJUR9f2+RowXMaDvxgHcfBTrTk28eBKzuadL8Y5zXPPG1ozqatpcb/o4lm1aV9iagSW
+ usN1pKRQTHzE4vPKojCxpKhegaun7oqmBbpSjsidOFPLRLvibzPQQBs4l3Zg3OmBhHPFXLhtu
+ JUJYsrrNTP558AHmnp62mb2HqnVTPGMGj4J1a5meJT69t75w+NBIHmpS2ZNdaMoRUWMFeX0g/
+ OLwWFsUAiwNsT5+XnGo4oZCo+LW8DmkSw8axLT3DiIq4Z1UU6TwvGNO8n7Ja0lmA4H9QMk+lR
+ bh24Sd/QmjZk/OBz9dSxlpx1SsPydH5ShqM4xwOx8RYRmqEKEELwBVeeYGFxOSgsAGCAeKoQg
+ 8OGxDM8IjkQufz1N0ZFyqLdNLiyqFtcs4SsiP3ZSw2vQ5SQCp7NgVY3vabxY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 212.227.15.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,50 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- "Justin Terry \(VM\)" <juterry@microsoft.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Zhang Chen <chen.zhang@intel.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/19 8:47 PM, Eduardo Habkost wrote:
-> On Tue, Nov 12, 2019 at 06:42:00PM +0000, Sunil Muthuswamy wrote:
->>
->>
->>> -----Original Message-----
->>> From: Sunil Muthuswamy
->>> Sent: Friday, November 8, 2019 12:32 PM
->>> To: 'Paolo Bonzini' <pbonzini@redhat.com>; 'Richard Henderson' <rth@twi=
-ddle.net>; 'Eduardo Habkost' <ehabkost@redhat.com>; 'Stefan
->>> Weil' <sw@weilnetz.de>
->>> Cc: 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>; Justin Terry (VM) =
-<juterry@microsoft.com>
->>> Subject: [PATCH] WHPX: refactor load library
->>>
->>> This refactors the load library of WHV libraries to make it more
->>> modular. It makes a helper routine that can be called on demand.
->>> This allows future expansion of load library/functions to support
->>> functionality that is depenedent on some feature being available.
->>>
->>> Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
->>> ---
->>
->> Can I possibly get some eyes on this?
->=20
-> I'd be glad to queue the patch if we get a Reviewed-by line from
-> somebody who understands Windows and WHPX.  Maybe Justin?
+On Fri, 25 Oct 2019 19:06:31 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
-Can we wait for approval from the Microsoft legal department first?
-So we can start testing WHPX builds, and reduce the possibilities to=20
-introduce regressions.
+> Hello Everyone,
+> These Patches add support for continuous replication to colo. This means
+> that after the Primary fails and the Secondary did a failover, the Secon=
+dary
+> can then become Primary and resume replication to a new Secondary.
+>
+> Regards,
+> Lukas Straub
+>
+> v7:
+>  - clarify meaning of ip's in documentation and note that active and hid=
+den
+>    images just need to be created once
+>  - reverted removal of bdrv_is_root_node(top_bs) in replication and adju=
+sted
+>    the top-id=3D parameter in documentation acordingly
+>
+> v6:
+>  - documented the position=3D and insert=3D options
+>  - renamed replication test
+>  - clarified documentation by using different ip's for primary and secon=
+dary
+>  - added Reviewed-by tags
+>
+> v5:
+>  - change syntax for the position=3D parameter
+>  - fix spelling mistake
+>
+> v4:
+>  - fix checkpatch.pl warnings
+>
+> v3:
+>  - add test for replication changes
+>  - check if the filter to be inserted before/behind belongs to the same =
+interface
+>  - fix the error message for the position=3D parameter
+>  - rename term "after" -> "behind" and variable "insert_before" -> "inse=
+rt_before_flag"
+>  - document the quorum node on the secondary side
+>  - simplify quorum parameters in documentation
+>  - remove trailing spaces in documentation
+>  - clarify the testing procedure in documentation
+>
+> v2:
+>  - fix email formating
+>  - fix checkpatch.pl warnings
+>  - fix patchew error
+>  - clearer commit messages
+>
+>
+> Lukas Straub (4):
+>   block/replication.c: Ignore requests after failover
+>   tests/test-replication.c: Add test for for secondary node continuing
+>     replication
+>   net/filter.c: Add Options to insert filters anywhere in the filter
+>     list
+>   colo: Update Documentation for continuous replication
+>
+>  block/replication.c        |  35 +++++-
+>  docs/COLO-FT.txt           | 224 +++++++++++++++++++++++++++----------
+>  docs/block-replication.txt |  28 +++--
+>  include/net/filter.h       |   2 +
+>  net/filter.c               |  92 ++++++++++++++-
+>  qemu-options.hx            |  31 ++++-
+>  tests/test-replication.c   |  52 +++++++++
+>  7 files changed, 389 insertions(+), 75 deletions(-)
+>
 
-Testing is ready, we are waiting for Microsoft to merge, see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg646351.html
+Hello Everyone,
+So I guess this is ready for merging or will that have to wait until the 4=
+.2 release is done?
 
->=20
-> Sunil, Justin, would you like to be listed as maintainers or
-> designated reviewers for the WHPX code in QEMU?
-
-Great idea!
-
+Regards,
+Lukas Straub
 
