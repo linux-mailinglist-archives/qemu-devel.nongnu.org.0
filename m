@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B70FB4C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:17:26 +0100 (CET)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA76FB4CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:17:42 +0100 (CET)
+Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvKf-0000WP-Iq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:17:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41141)
+	id 1iUvKv-0000v1-Lk
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:17:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iUvIb-00087E-G0
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:18 -0500
+ (envelope-from <jag.raman@oracle.com>) id 1iUvJB-0008T0-EZ
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iUvIZ-0003pD-6B
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:16 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:55986)
+ (envelope-from <jag.raman@oracle.com>) id 1iUvJ9-0004B9-Qh
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:53 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:60572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iUvIX-0003nN-ET
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:15 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGETcU191040;
- Wed, 13 Nov 2019 16:14:54 GMT
+ id 1iUvJ9-0004AN-2E
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:15:51 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGERDk004458;
+ Wed, 13 Nov 2019 16:15:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=Gf82kvPB9o3AXSipIhQIpH9XV7z/RdTyFEKA74ZwzJA=;
- b=GbWsNyWq4lQxMofD5UTCzmYQ2GRN51QiqUAsuMVIzz9oM53ObUUgPdi4HMLpYl02+ld0
- /i9pNfzEFo4IiNa0pPLtFjRTZ8QEh7nsOckZM4iYndZHV/x6rdVXtqL7khjRcl1HRjaq
- NiFpG1wWUNqvajBZVYUuQUQKhxCK81L59RUYx65BFITYIMj/niaf1LhsU7/6zLbQjwY8
- CRSa+Qfq8iZVxtG9oUjRCqogF5y1D7/G92GvsGJgE59BDQw/LuSJbB2gO2NJt1LyQIop
- FlawMNkwxTUBXVTGUIgi4Cj/MiOgMwyi+qCIIWqCErUWurZF+YNvSegXB5Ik1XDtOiuh rQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2w5ndqdjar-1
+ bh=er8MOkPV/Ynl6hc7d1xXkF9ZBWl9J81+v32s/NC6i74=;
+ b=ewz6r7PvkP4bhoSFbj/7ExceXRdevJns0b+vhW6+YDuGe1ZPHb0Gcx0UV7J9jwtGecpE
+ nvaqyI5rBwyMsImc9V5yZf8oyhQzjyO1nYe/3DnpMGXjSVEEDuhIVcSLjJyBfNE7Bsnp
+ N+btlKzme7GD3LAmq/STXRhyzBpf5zyvDGitn2dLKsDnRfha3lAKnAZufgd98uFUYNwK
+ Sv6LojMbQ5RfkjhM4lsH1B3QVDtOCBpEOPZGU0shSkD/fAFwxU8C3Glq1IyxA8Vlrql8
+ MCuK6CT60vck57L/sVQHFgPvDxUQRAmi6/dqr9G9mOazZdXDxMm5Tfz8IacF7OjioxAC Kg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 2w5mvtwk46-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:14:54 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFwuBQ059244;
- Wed, 13 Nov 2019 16:14:53 GMT
+ Wed, 13 Nov 2019 16:15:44 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFxDFL151857;
+ Wed, 13 Nov 2019 16:15:44 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2w8g17rks5-1
+ by userp3020.oracle.com with ESMTP id 2w7vbd4nf7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:14:53 +0000
+ Wed, 13 Nov 2019 16:15:44 +0000
 Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xADGEpHf001616;
- Wed, 13 Nov 2019 16:14:51 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xADGFhnM002317;
+ Wed, 13 Nov 2019 16:15:43 GMT
 Received: from [10.152.34.2] (/10.152.34.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Nov 2019 08:14:51 -0800
-Subject: Re: [RFC v4 PATCH 32/49] multi-process: Use separate MMIO
- communication channel
+ with ESMTP ; Wed, 13 Nov 2019 08:15:43 -0800
+Subject: Re: [RFC v4 PATCH 33/49] multi-process: perform device reset in the
+ remote process
 To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <cover.1571905346.git.jag.raman@oracle.com>
- <b2594fdefb278f890762d12639524c4db7667393.1571905346.git.jag.raman@oracle.com>
- <20191111162132.GI402228@stefanha-x1.localdomain>
+ <7579c5df98f9c09933685209395aa4a0e0ceb857.1571905346.git.jag.raman@oracle.com>
+ <20191111161951.GH402228@stefanha-x1.localdomain>
 From: Jag Raman <jag.raman@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <4a528246-f414-49af-170b-98306b9a0c96@oracle.com>
-Date: Wed, 13 Nov 2019 11:14:50 -0500
+Message-ID: <7e278409-5631-e5d9-8e01-bcb56aa359c3@oracle.com>
+Date: Wed, 13 Nov 2019 11:15:42 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20191111162132.GI402228@stefanha-x1.localdomain>
+In-Reply-To: <20191111161951.GH402228@stefanha-x1.localdomain>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -84,7 +84,7 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
  definitions=main-1911130145
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Received-From: 156.151.31.86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,25 +108,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 11/11/2019 11:21 AM, Stefan Hajnoczi wrote:
-> On Thu, Oct 24, 2019 at 05:09:13AM -0400, Jagannathan Raman wrote:
->> Using a separate communication channel for MMIO helps
->> with improving Performance
+On 11/11/2019 11:19 AM, Stefan Hajnoczi wrote:
+> On Thu, Oct 24, 2019 at 05:09:14AM -0400, Jagannathan Raman wrote:
+>> +void proxy_device_reset(DeviceState *dev)
+>> +{
+>> +    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
+>> +    MPQemuMsg msg;
+>> +
+>> +    memset(&msg, 0, sizeof(MPQemuMsg));
+>> +
+>> +    msg.bytestream = 0;
+>> +    msg.size = sizeof(msg.data1);
+>> +    msg.cmd = DEVICE_RESET;
+>> +
+>> +    mpqemu_msg_send(pdev->mpqemu_link, &msg, pdev->mpqemu_link->com);
+>> +}
 > 
-> Why?
+> Device reset must wait for the remote process to finish reset, otherwise
+> the remote device could still be running after proxy_device_reset()
+> returns from sending the message.
 
-Typical initiation of IO operations involves multiple MMIO accesses per
-IO operation. In some legacy devices like LSI, the completion of the IO
-operations is also accomplished by polling on MMIO registers. Therefore,
-MMIO traffic can be hefty in some cases and contribute to Performance.
+Thanks for feedback. We will wait for the reset to complete.
 
-Having a dedicated channel for MMIO ensures that it doesn't have to
-compete with other messages to the remote process, especially when there
-are multiple devices emulated by a single remote process.
-
-Thanks!
 --
 Jag
 
+> 
+> Stefan
 > 
 
