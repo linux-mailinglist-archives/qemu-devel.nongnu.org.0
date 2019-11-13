@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7DFB2F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:57:38 +0100 (CET)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0BBFB2F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:55:50 +0100 (CET)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUu5R-0002WW-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:57:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55500)
+	id 1iUu3h-0008B7-Cz
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:55:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jdenemar@redhat.com>) id 1iUttI-00052g-Dh
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:05 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUu2O-00073U-9n
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:54:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jdenemar@redhat.com>) id 1iUttG-0000ng-9U
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57969
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1iUttG-0000nI-4A
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573656301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iXZqSVes3VY3F7HqcZAog3ZOF4SOqtJvJDfz1zq/XJY=;
- b=hlQXYg8w32Jn3J0n6EJwBVNxgGBzUCjb8t7e/I9+6mxFLld0C6DXtlV8u6Dt+ya85j6MMg
- 4oQf9rL+3VOex7TFOcAxqkijPhPTvPp4XkwGCVE0kEJLoxRiahlUU7fUFsG0zSpLft29cu
- b9RAoPjwAFzth6gFQRX47ZmbkMAiidQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-IzETOaiYNXmxGtdaUyQsIQ-1; Wed, 13 Nov 2019 09:43:50 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C5661005502;
- Wed, 13 Nov 2019 14:43:49 +0000 (UTC)
-Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6806360317;
- Wed, 13 Nov 2019 14:43:46 +0000 (UTC)
-Received: by virval.usersys.redhat.com (Postfix, from userid 500)
- id 8938810ADD2; Wed, 13 Nov 2019 15:43:44 +0100 (CET)
-Date: Wed, 13 Nov 2019 15:43:44 +0100
-From: Jiri Denemark <jdenemar@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
-Message-ID: <20191113144344.GA4204@orkuz.int.mamuti.net>
-References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUu2M-0003yt-8I
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:54:28 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45624)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iUu2L-0003wm-Vu
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:54:26 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z10so2675694wrs.12
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0e/IEGD2nU1wq5jgs4stb3eSCZi/H8yvoxbn7PksIPc=;
+ b=BRskTjeA/qi+QHtLw6VTZTPOrvD1KV7aJrhj4jiW8JyUO05y+DUM4NUuSorSzyUreA
+ KaxT9tYQHAq+YJ4e96KpTX/aiMVIGgaHUUqyrGXIMaUQEGX+Lg1AdZED40zDuNLkwZfl
+ uzEmK6luwueBT7F4UA2Eln8CZi9AMPbbaWTpMm5YG1VBM48+3uBXU45qBybEDCMEPrkv
+ dCPL/wLRQbEq2gDkmRp8Pya7pR4reuOKpKwBAGYfzHzCxRC19nS1OuPpNYShp3cMeOf/
+ ziwoBw4+Z7QEWDJC/IPEWc+2XWFH44G9W1Rzm7Jq5L8Ek+QtPi/+gBaGOuDZRkPxlEG0
+ 2u+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0e/IEGD2nU1wq5jgs4stb3eSCZi/H8yvoxbn7PksIPc=;
+ b=llVzg+8LDPO0nMAMsKo0Uf7bI+P3epId5QXD7kMBWsrNwp8ghUadkYC2qGUGi+Btou
+ UUhlx0dMR7kIBk+OpguAlhbwLb+GoR2uNrwoUmOWvhLR+wzmnab6AmAG3U3SH08Lwrkb
+ tFUTUfscEs03kodvRS0Z/hdiL/zM3/9tU645iY7x3C549CGiljoIaZyH82sA3XmXOYQM
+ /vyJcISwwIAiYM4qgemBKXBnCoU5iOTtgfLTx9s7sxXWmcobhxvdMa1DzRQ8YgEbhNnV
+ /5H5g+0VghsyFlnf12s1q262oElTSmCNh6sOL//qc5macrsRextvzKrt25dm7Uxcn/PZ
+ fwOQ==
+X-Gm-Message-State: APjAAAUcb2naWrEzrrsI6oHucLX1yHFs55zpVJi62z82PySI4zmCUlAT
+ a5Sm521LmIkcLyZP8canhRuEf0s5
+X-Google-Smtp-Source: APXvYqxlptbj9biPJUjhpihDbElL2clyq/Y6gnQ/KGiQby/deNsKcn96H8vUQx7XQM5kRjrSTkb9kw==
+X-Received: by 2002:adf:dd0a:: with SMTP id a10mr2865008wrm.299.1573656864248; 
+ Wed, 13 Nov 2019 06:54:24 -0800 (PST)
+Received: from donizetti.redhat.com ([2001:b07:6468:f312:64a1:540d:6391:74a9])
+ by smtp.gmail.com with ESMTPSA id
+ n1sm3171579wrr.24.2019.11.13.06.54.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Nov 2019 06:54:23 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: add PSCHANGE_NO bit for the ARCH_CAPABILITIES MSR
+Date: Wed, 13 Nov 2019 15:54:25 +0100
+Message-Id: <20191113145425.16326-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: IzETOaiYNXmxGtdaUyQsIQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,51 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, Igor Mammedov <imammedo@redhat.com>
+Cc: speck for Paolo Bonzini <speck@linutronix.de>,
+ Jinpu Wang <jinpuwang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David.
+From: speck for Paolo Bonzini <speck@linutronix.de>
 
-On Wed, Oct 30, 2019 at 17:32:43 +0100, David Gibson wrote:
-> We have to set the default model of all machine classes, not just for the
-> active one. Otherwise, "query-machines" will indicate the wrong CPU model
-> ("qemu-s390x-cpu" instead of "host-s390x-cpu") as "default-cpu-type".
->=20
-> s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model fo=
-r
-> all machine classes".  This patch applies a similar fix for the pseries-*
-> machine types on ppc64.
->=20
-> Doing a
->     {"execute":"query-machines"}
-> under KVM now results in
->     {
->       "hotpluggable-cpus": true,
->       "name": "pseries-4.2",
->       "numa-mem-supported": true,
->       "default-cpu-type": "host-powerpc64-cpu",
->       "is-default": true,
->       "cpu-max": 1024,
->       "deprecated": false,
->       "alias": "pseries"
->     },
->     {
->       "hotpluggable-cpus": true,
->       "name": "pseries-4.1",
->       "numa-mem-supported": true,
->       "default-cpu-type": "host-powerpc64-cpu",
->       "cpu-max": 1024,
->       "deprecated": false
->     },
->     ...
->=20
-> Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
-> currently see the wrong CPU model under KVM.
+This is required to disable ITLB multihit mitigations in nested
+hypervisors.
 
-Will this patch make it into 4.2.0?
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jirka
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a624163ac2..2f60df37c4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1204,7 +1204,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = MSR_FEATURE_WORD,
+         .feat_names = {
+             "rdctl-no", "ibrs-all", "rsba", "skip-l1dfl-vmentry",
+-            "ssb-no", "mds-no", NULL, NULL,
++            "ssb-no", "mds-no", "pschange-mc-no", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+-- 
+2.21.0
 
 
