@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429C7FB49D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:06:23 +0100 (CET)
-Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86321FB4A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:09:13 +0100 (CET)
+Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUv9y-0004nP-B9
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:06:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
+	id 1iUvCi-0006Gx-JY
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:09:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iUv8o-0004Ep-NC
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:15 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iUvBQ-0005jC-Eg
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:07:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iUv8n-0000Ec-6Z
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:10 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:46728)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iUv8m-0000ES-UC
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:05:09 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFxHhO184540;
- Wed, 13 Nov 2019 16:05:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=6JcNT36og4QgKqc4dAnHnCmnzctDyvNZpyy1UsLdnDA=;
- b=dQSd/t8VJn6PFzcLtC/+crRNdieNkVa9qufNAsvGxPLV0eViJfzrGJHo5rICH8QY3kBK
- rt/grjuDEc90kWTU+R7WTO8ywIfb8k+MyNMe7aPcc05Q7R65JFtE4OSZgiLYUsMthAG5
- DNIvLGxnmjYy5T2R4WTuzNYVK/OngViqBYW+K9IcisSCnAoSte0pYh1hjbtGoMX73ked
- ztI9UQCMYd1RdYh1H2EAFPJTxOivpBtrvLY+QwSaGuimGrTI4WCgWxrB8rNf5TAqxOlq
- rS5mUTwPVjOYiWZbBWq6AuKY/21txlIvogoO5Ct5j2nv18UEAtIH0WRjTDmHbY2Cwt/W WQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2w5mvtwgdw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:05:02 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADFwv49059290;
- Wed, 13 Nov 2019 16:05:02 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2w8g17r108-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:05:00 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id xADG4xUb022092;
- Wed, 13 Nov 2019 16:04:59 GMT
-Received: from [10.152.34.2] (/10.152.34.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Nov 2019 08:04:59 -0800
-Subject: Re: [RFC v4 PATCH 02/49] multi-process: util: Add
- qemu_thread_cancel() to cancel running thread
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ (envelope-from <stefanha@redhat.com>) id 1iUvBN-0000z7-Mq
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:07:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48544
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUvBN-0000yx-Ie
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:07:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573661268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3TFOP5HhhrndeHyfu0+0vsl+n39VTRsiECATSHsmCxg=;
+ b=TOJVv55PETJQzOyEotwXd15S9MGBZUsZYwfO5zuXPl3RKqBI1Ou81otpd2o7h47yYFeE04
+ Bb5iDAenyVm5hEtFDKLeSR4l7EH5gRdzG33d4dpFVIxJ4jaotmpBGpAcS1U/mpVy0kk8J1
+ VjN0rNAq3FgSd3EZnLM72JDmWY9f8kQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-fX_ypdL7PU-PxNYGmF8ilA-1; Wed, 13 Nov 2019 11:07:45 -0500
+X-MC-Unique: fX_ypdL7PU-PxNYGmF8ilA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2F9B1087B1C;
+ Wed, 13 Nov 2019 16:07:43 +0000 (UTC)
+Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3ADF91726D;
+ Wed, 13 Nov 2019 16:07:38 +0000 (UTC)
+Date: Wed, 13 Nov 2019 16:07:37 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [RFC v4 PATCH 09/49] multi-process: setup PCI host bridge for
+ remote device
+Message-ID: <20191113160737.GD563983@stefanha-x1.localdomain>
 References: <cover.1571905346.git.jag.raman@oracle.com>
- <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
- <20191113153006.GA563983@stefanha-x1.localdomain>
- <fd30b4ee-1f92-82a8-42a6-871b0a9e23b1@oracle.com>
- <20191113155125.GI2445240@redhat.com>
-From: Jag Raman <jag.raman@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
-Date: Wed, 13 Nov 2019 11:04:58 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ <21b8d0f06279f177f2daca8779ced48af14139ee.1571905346.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20191113155125.GI2445240@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9439
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1910280000 definitions=main-1911130144
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9439
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
- definitions=main-1911130144
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2130.oracle.com id
- xADFxHhO184540
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+In-Reply-To: <21b8d0f06279f177f2daca8779ced48af14139ee.1571905346.git.jag.raman@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="W5WqUoFLvi1M7tJE"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,56 +74,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
- ross.lagerwall@citrix.com, ehabkost@redhat.com, john.g.johnson@oracle.com,
- mst@redhat.com, konrad.wilk@oracle.com, qemu-devel@nongnu.org,
- armbru@redhat.com, quintela@redhat.com, liran.alon@oracle.com,
- kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com,
- kwolf@redhat.com, marcandre.lureau@gmail.com, mreitz@redhat.com,
- kanth.ghatraju@oracle.com, dgilbert@redhat.com, rth@twiddle.net
+ john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ quintela@redhat.com, berrange@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
+ kanth.ghatraju@oracle.com, kraxel@redhat.com, kwolf@redhat.com,
+ pbonzini@redhat.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
+ mreitz@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--W5WqUoFLvi1M7tJE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Thu, Oct 24, 2019 at 05:08:50AM -0400, Jagannathan Raman wrote:
+> +static void remote_host_realize(DeviceState *dev, Error **errp)
+> +{
+> +    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
+> +    RemPCIHost *s = REMOTE_HOST_DEVICE(dev);
+> +
+> +    /*
+> +     * TODO: the name of the bus would be provided by QEMU. Use
+> +     * "pcie.0" for now.
+> +     */
+> +    pci->bus = pci_root_bus_new(DEVICE(s), "pcie.0",
+> +                                s->mr_pci_mem, s->mr_sys_io,
+> +                                0, TYPE_PCIE_BUS);
 
-On 11/13/2019 10:51 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Wed, Nov 13, 2019 at 10:38:06AM -0500, Jag Raman wrote:
->>
->>
->> On 11/13/2019 10:30 AM, Stefan Hajnoczi wrote:
->>> On Thu, Oct 24, 2019 at 05:08:43AM -0400, Jagannathan Raman wrote:
->>>> qemu_thread_cancel() added to destroy a given running thread.
->>>> This will be needed in the following patches.
->>>>
->>>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->>>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->>>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->>>> ---
->>>>    include/qemu/thread.h    |  1 +
->>>>    util/qemu-thread-posix.c | 10 ++++++++++
->>>>    2 files changed, 11 insertions(+)
->>>
->>> Is this still needed?  I thought previous discussion concluded that
->>> thread cancellation is hard to get right and it's not actually used b=
-y
->>> this series?
->>
->> Hi Stefan,
->>
->> This is used in PATCH 41/49.
->=20
-> I don't believe the cancellation usage in that patch is safe :-)
+The PCI bus name could be a property and then whatever instantiates
+RemPCIHost could set it.
 
-Thanks for the feedback, we will address that.
+Machine types usually hardcode the name because they assume there is
+only one machine instance.  In the case of mpqemu this is an okay
+starting point, but maybe multiple busses will become necessary if the
+device emulation process handles multiple device instances - especially
+if they are served to multiple guests like in a software-defined network
+switch use case.
 
-May I please ask why it is not safe? Any clarification will help us to
-find a better alternative.
+--W5WqUoFLvi1M7tJE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you very much!
---
-Jag
+-----BEGIN PGP SIGNATURE-----
 
->=20
-> Regards,
-> Daniel
->=20
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3MKkkACgkQnKSrs4Gr
+c8j9YAf+NLWJIKQnVeo+AsQcSk7wyk40tQBgNFbl/sOH2adzF0BXMvmOvlc4T/0y
+BUUYkXhUXWUfB/mWo184X2UFmmEKFQdng2AEmrzTunH9xT7WVNyuKtZJZvE1rKIh
+yDEOOpMO9hXhIXeskv3+44LgM298sE+H3VlbY+6BodIhuvEiWkIHoXvzc40L0xCH
+yPJnCyIWKXWhGg3xG8qvlTnqoiS5FccFvh4qMQtKGnjgHENRceIEC3wwDVPnGdNF
+umPHMMU+Ln8wtElsSpQfL5ZkOqxpslgq1aySh6Jp9mSL9UJdeUoo18ZljE3YUaPo
+A5Iua4n60iEPl9opcT5MP49gfnIYNg==
+=+42L
+-----END PGP SIGNATURE-----
+
+--W5WqUoFLvi1M7tJE--
+
 
