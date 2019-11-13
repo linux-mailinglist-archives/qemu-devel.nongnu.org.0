@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A549AFB570
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:43:40 +0100 (CET)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C560EFB54A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:37:56 +0100 (CET)
+Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvk3-0001Cc-JY
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:43:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44030)
+	id 1iUveV-0003Vq-Mf
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:37:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44011)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iUvcr-0002Pm-LW
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:14 -0500
+ (envelope-from <philmd@redhat.com>) id 1iUvck-0002Ed-2u
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iUvcq-0004Ji-DF
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28448
+ (envelope-from <philmd@redhat.com>) id 1iUvci-0004IW-R3
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iUvcq-0004JX-9b
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:12 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iUvci-0004IO-NX
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573662971;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1573662964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YQFb/AiV2JVeAvhBIhzbSNrgnSukUKHp3jTJfAyZ+rg=;
- b=FFf4BQmUCXrZ+s1XkHGXYWHuyb9wh5DQ7Dzc19EZ5NknF/e0DA1NQr/j1/OgNqDIbwcMK5
- B2fD+pSIEgXthkAEmN8fxldOG0QpCDSG5Yhq20VTGk0nwQgqAqQRPY1WeHMk6XSpALDAup
- UnpvYmfvTQrS5IPmNt6lWzq7+TBV+6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-Zu0UgxR3Pyuvspzi6g08yw-1; Wed, 13 Nov 2019 11:36:08 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C7DE184CCC6;
- Wed, 13 Nov 2019 16:36:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81B7810E1B43;
- Wed, 13 Nov 2019 16:35:54 +0000 (UTC)
-Date: Wed, 13 Nov 2019 16:35:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [RFC v4 PATCH 02/49] multi-process: util: Add
- qemu_thread_cancel() to cancel running thread
-Message-ID: <20191113163552.GJ2445240@redhat.com>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
- <20191113153006.GA563983@stefanha-x1.localdomain>
- <fd30b4ee-1f92-82a8-42a6-871b0a9e23b1@oracle.com>
- <20191113155125.GI2445240@redhat.com>
- <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
+ bh=ZpU+T4qTzqt3if6DmyaPMbq6ZmoJIClv6sQNilHAx8c=;
+ b=Lxr3P4bqLbPEyhhmjVQhbYhtlw5MNr9Y8UqkNSSbe//mRrfcL4FIUW2ekH3KSkE7iOQigG
+ zUHIMynzYbXgxxheFuUuR7je7Qzgo1YMfTUUCSeizSLGl1TNkTl7KzGC9Y27XPEb5DWSs+
+ up1Q18a1hax3nA0fms//iQW7FXDXXfU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-HyhW1OOHMr-eSodQPWayGA-1; Wed, 13 Nov 2019 11:36:02 -0500
+Received: by mail-wr1-f72.google.com with SMTP id p4so1871151wrw.15
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:36:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=twTzFGr5vasz6AFOcNkEKt4SEwD6IFMW9o8bKOxiDkk=;
+ b=cShkFTlS50m0Yw5yz6Zvl1kMQ23wUF9MxSwi0215ui+5YTN4Cob9AQV24oJ9roIWVy
+ W9O5H9I+FD73bF1kk778ZmqLMnorrt+3LrYt/Kf9Es/mF1UHs5bTtP6XbZGsBq9T0vLK
+ EDRRRky4dvlBT8hNs/ytMBS1jjcz0yKpzADMrOKpvuwOG8UjXtaZyYzi29/njW0JT1C6
+ U/5/TzE3get9ddDmhHUuqF+k/jra+NokDxIKm9e1a3ScRuOVZ2cN6yz1YCT8mMJvUNLR
+ pDRQ3PZGUVCOnYdQE+x1RUs5eeaED5lfWIRm4EV2LQ+E1oVmITqc3EplQNxH+p/tp774
+ t7Dw==
+X-Gm-Message-State: APjAAAUgnNuVnnQ17td6Wz5zrp2ePqviFZgkCS0BqTcvfVUdOsVG7Xts
+ pKhztuJYL3QdzWdrZ0cKIvFc7hf2o/mMCgK+8/a0jIilpJ81STUDCCYw0c4R5mNPdU/p/UQ3stK
+ hhwwGzmeNqeAXOVc=
+X-Received: by 2002:adf:ef0c:: with SMTP id e12mr3658020wro.270.1573662961690; 
+ Wed, 13 Nov 2019 08:36:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxzUgKXjnZvwt1mJuNlNXQ3dZYZCXKgKph4OOHE71k8kGtrqkCunUpfZMg2DXZAQxUXl1Nr7Q==
+X-Received: by 2002:adf:ef0c:: with SMTP id e12mr3658005wro.270.1573662961510; 
+ Wed, 13 Nov 2019 08:36:01 -0800 (PST)
+Received: from [192.168.1.35] (170.red-83-59-162.dynamicip.rima-tde.net.
+ [83.59.162.170])
+ by smtp.gmail.com with ESMTPSA id d13sm3182509wrq.51.2019.11.13.08.36.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Nov 2019 08:36:00 -0800 (PST)
+Subject: Re: [PATCH] WHPX: refactor load library
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
+References: <MW2PR2101MB1116386CFE4628B6767D6CDBC07B0@MW2PR2101MB1116.namprd21.prod.outlook.com>
+ <MW2PR2101MB1116C3DF422DB5E301B74AEEC0770@MW2PR2101MB1116.namprd21.prod.outlook.com>
+ <20191112194738.GF3812@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <017bdcd1-4058-c717-619a-d8362ac089b7@redhat.com>
+Date: Wed, 13 Nov 2019 17:35:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: Zu0UgxR3Pyuvspzi6g08yw-1
+In-Reply-To: <20191112194738.GF3812@habkost.net>
+Content-Language: en-US
+X-MC-Unique: HyhW1OOHMr-eSodQPWayGA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,63 +93,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, john.g.johnson@oracle.com,
- rth@twiddle.net, mst@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- ross.lagerwall@citrix.com, mreitz@redhat.com, liran.alon@oracle.com,
- kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- kanth.ghatraju@oracle.com, pbonzini@redhat.com, kwolf@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com, marcandre.lureau@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ "Justin Terry \(VM\)" <juterry@microsoft.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 13, 2019 at 11:04:58AM -0500, Jag Raman wrote:
+On 11/12/19 8:47 PM, Eduardo Habkost wrote:
+> On Tue, Nov 12, 2019 at 06:42:00PM +0000, Sunil Muthuswamy wrote:
+>>
+>>
+>>> -----Original Message-----
+>>> From: Sunil Muthuswamy
+>>> Sent: Friday, November 8, 2019 12:32 PM
+>>> To: 'Paolo Bonzini' <pbonzini@redhat.com>; 'Richard Henderson' <rth@twi=
+ddle.net>; 'Eduardo Habkost' <ehabkost@redhat.com>; 'Stefan
+>>> Weil' <sw@weilnetz.de>
+>>> Cc: 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>; Justin Terry (VM) =
+<juterry@microsoft.com>
+>>> Subject: [PATCH] WHPX: refactor load library
+>>>
+>>> This refactors the load library of WHV libraries to make it more
+>>> modular. It makes a helper routine that can be called on demand.
+>>> This allows future expansion of load library/functions to support
+>>> functionality that is depenedent on some feature being available.
+>>>
+>>> Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+>>> ---
+>>
+>> Can I possibly get some eyes on this?
 >=20
->=20
-> On 11/13/2019 10:51 AM, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Nov 13, 2019 at 10:38:06AM -0500, Jag Raman wrote:
-> > >=20
-> > >=20
-> > > On 11/13/2019 10:30 AM, Stefan Hajnoczi wrote:
-> > > > On Thu, Oct 24, 2019 at 05:08:43AM -0400, Jagannathan Raman wrote:
-> > > > > qemu_thread_cancel() added to destroy a given running thread.
-> > > > > This will be needed in the following patches.
-> > > > >=20
-> > > > > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > > > > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > > > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > > > > ---
-> > > > >    include/qemu/thread.h    |  1 +
-> > > > >    util/qemu-thread-posix.c | 10 ++++++++++
-> > > > >    2 files changed, 11 insertions(+)
-> > > >=20
-> > > > Is this still needed?  I thought previous discussion concluded that
-> > > > thread cancellation is hard to get right and it's not actually used=
- by
-> > > > this series?
-> > >=20
-> > > Hi Stefan,
-> > >=20
-> > > This is used in PATCH 41/49.
-> >=20
-> > I don't believe the cancellation usage in that patch is safe :-)
->=20
-> Thanks for the feedback, we will address that.
->=20
-> May I please ask why it is not safe? Any clarification will help us to
-> find a better alternative.
+> I'd be glad to queue the patch if we get a Reviewed-by line from
+> somebody who understands Windows and WHPX.  Maybe Justin?
 
-I put some comments inline in the patch 41 explaining my thoughts.
+Can we wait for approval from the Microsoft legal department first?
+So we can start testing WHPX builds, and reduce the possibilities to=20
+introduce regressions.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+Testing is ready, we are waiting for Microsoft to merge, see:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg646351.html
+
+>=20
+> Sunil, Justin, would you like to be listed as maintainers or
+> designated reviewers for the WHPX code in QEMU?
+
+Great idea!
 
 
