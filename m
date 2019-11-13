@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B55F9F9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 01:55:48 +0100 (CET)
-Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C38F9FC8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 02:03:36 +0100 (CET)
+Received: from localhost ([::1]:40852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUgwl-0003Cg-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 19:55:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
+	id 1iUh4J-0007Kk-3f
+	for lists+qemu-devel@lfdr.de; Tue, 12 Nov 2019 20:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iUgtT-0001VD-Vq
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 19:52:24 -0500
+ (envelope-from <joel.stan@gmail.com>) id 1iUgta-0001Y6-4r
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 19:52:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iUgtT-0005K0-1P
- for qemu-devel@nongnu.org; Tue, 12 Nov 2019 19:52:23 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43754)
+ (envelope-from <joel.stan@gmail.com>) id 1iUgtY-0005LH-Uc
+ for qemu-devel@nongnu.org; Tue, 12 Nov 2019 19:52:30 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38606)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iUgtQ-0005JE-VB; Tue, 12 Nov 2019 19:52:21 -0500
-Received: by mail-pg1-x544.google.com with SMTP id l24so150809pgh.10;
- Tue, 12 Nov 2019 16:52:20 -0800 (PST)
+ id 1iUgtU-0005K8-1P; Tue, 12 Nov 2019 19:52:24 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 15so169623pgh.5;
+ Tue, 12 Nov 2019 16:52:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aNfFczhM8NYMoBpUcEwP04hyJCPiYk7J/QnyzWmI2l8=;
- b=lePXLF7AcSFkiDMl6Or4EyDx6Sa5+DayZIMfs8WYoO61KhqXFZdHA2BYG+jWj6t87l
- O/mtH/omXWKOtO2Ogig7yUxIj6Naq/nHLm1HmZGb4vCWyKrnE11m558QfaKmvdlTPey9
- T8EHF42FPTUJRX/lPWYfuJbWyqTv672XJkC+elSQMZvGWJcy0yxl2VI0/SG+AJwB7ETH
- Ul+zQFBO0w0x4VcxpRkP5aYxLkFnj4TIlfS+XoANp1BlJK/NvKqgaiwPwdXMyp8js4Y0
- WOUJb0UgJghKvEyJAOw5UfvMW0NfZzq1sNR+HHdux8V0J9/JGdLzajnO46uBoIPN/snP
- Na9w==
+ bh=69JEq1ljDXyHeKt9u+I4iV39ni/MWZMig/OklbPPAFo=;
+ b=AmedqT/ypEk0jFibhlPxFaz1RYCARtLfspAqPXQ2kQJfniym7juPQGVAcuWGuag11L
+ 4Bw+qgzs9yWYtMnTjzin1fJmWntop5jw7Fm+HH7tC8JQRzciC9rWudA3MQ+LDxdrz5U1
+ YauVmLH6tnmdB3RXNbd6+ec5KM7Vo8YuJSmcHB811Vlo5odm5JTLBaDOYqGZvsbPQJml
+ 3niV6NQQNbMWXh7DlGGOdW46axI8wxoKopecw3aCt1iyT1TXQXiU2AnMeSuuXbewkOny
+ Fl7/KXwyQGtrTs6EyAZ0qbZ4RogOA5VZuPM9Gows6aAsQx6T/eU3kcAjt3UTFoePLfJ7
+ uYwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aNfFczhM8NYMoBpUcEwP04hyJCPiYk7J/QnyzWmI2l8=;
- b=Q1vbK9lK/Ch28B2KwpOTurG6wEWTOWBIvDjotey71hDJqLa/hUkYAsrN2MmX8oxsXe
- bOXBgSo72TlRU/uAfk2XWXjw+McVtLMVabLymcex8/gtEugA7slz5Bk0sjMMxxBIuNYo
- yLRUMKSumM54JhSEWSuTko49BvB6k9oOXYjHsUBIaQskpLK1u8lLXBPGAJp85v7jsYO0
- ptGKpqMh+pZJR7l7fy9xtyWszGxWhPauypZV88iXdROykva2C/GFJWlUME4+61gd+lq1
- /hwXRx8XpM1brb8e50LKqXzkSMPO/Q21tdRGp/a4h2U6DkLApYOKiRD5BLeD9Tczg6s4
- 87Og==
-X-Gm-Message-State: APjAAAUBl5o/IzLpERqr5TXkryCdk4uJDQq4O1vfUqs/ec/sHSs8an9r
- EPdR15AyQXvCFnqdSNHgTF8=
-X-Google-Smtp-Source: APXvYqzaZR0YirggX2ER41wzyMX4gPg5r9s+OsA6a96F3FNdJBFn5QwMH4cEhhdv8wBdx/9qQ67MVA==
-X-Received: by 2002:aa7:9314:: with SMTP id 20mr897065pfj.231.1573606339846;
- Tue, 12 Nov 2019 16:52:19 -0800 (PST)
+ bh=69JEq1ljDXyHeKt9u+I4iV39ni/MWZMig/OklbPPAFo=;
+ b=KuNA2ROQ+pG6VKwdwXFgcSEzVLbm4TZAQs0YeFq5g9n+sCVpC08lsAi9oQI1YlrqnV
+ o9bVpNuSqC1db4ltnKp2EJw7f+p4IRv97mNa2Aq/GmYkrGKovEBreZ6ehkG1jUHe7i1F
+ E0FqVWbx77ifqjDx+VW6VBaJzaoVZ8WvR6PgIaLx+owTBoJaw4ePcUZ597Pk+wewPXOA
+ AuXtQXJlJd8SDwL38BuydoCzXi6YvMxryU2r/KVztaTPmvKsI5EfrwbPb8PbaWJVfeEf
+ 7VjLBHZoCL44O1LP/H1zdSckmxPHwEb8e+7NuWQ9Si2wNpVMaIcT2t2pVv/+TeZeGuqk
+ f9pQ==
+X-Gm-Message-State: APjAAAVTLvddvFUocB0KFp394/8lPPNmquFu84X/gYOxzEP+We+mNq4Q
+ cEeKP4QoNQ1j3ZOb0j3RprU=
+X-Google-Smtp-Source: APXvYqw5PXQN99bT0X3yFG5Qvc8C/cy/do4EhrEVIV6IfSExcICJDfI9deCrxc2aLvHMN+uJugLSeA==
+X-Received: by 2002:a17:90a:8083:: with SMTP id c3mr937501pjn.92.1573606342926; 
+ Tue, 12 Nov 2019 16:52:22 -0800 (PST)
 Received: from voyager.ozlabs.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id i13sm169848pfo.39.2019.11.12.16.52.17
+ by smtp.gmail.com with ESMTPSA id i13sm169848pfo.39.2019.11.12.16.52.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 16:52:19 -0800 (PST)
+ Tue, 12 Nov 2019 16:52:22 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 3/4] watchdog/aspeed: Improve watchdog timeout message
-Date: Wed, 13 Nov 2019 11:22:00 +1030
-Message-Id: <20191113005201.19005-4-joel@jms.id.au>
+Subject: [PATCH v2 4/4] watchdog/aspeed: Fix AST2600 frequency behaviour
+Date: Wed, 13 Nov 2019 11:22:01 +1030
+Message-Id: <20191113005201.19005-5-joel@jms.id.au>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191113005201.19005-1-joel@jms.id.au>
 References: <20191113005201.19005-1-joel@jms.id.au>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,32 +83,110 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Users benefit from knowing which watchdog timer has expired. The address
-of the watchdog's registers unambiguously indicates which has expired,
-so log that.
+The AST2600 control register sneakily changed the meaning of bit 4
+without anyone noticing. It no longer controls the 1MHz vs APB clock
+select, and instead always runs at 1MHz.
 
+The AST2500 was always 1MHz too, but it retained bit 4, making it read
+only. We can model both using the same fixed 1MHz calculation.
+
+Fixes: 6b2b2a703cad ("hw: wdt_aspeed: Add AST2600 support")
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
-v2: Use HWADDR_PRIx
+v2: Fix Fixes line in commit message
 ---
- hw/watchdog/wdt_aspeed.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/watchdog/wdt_aspeed.c         | 21 +++++++++++++++++----
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
 diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 145be6f99ce2..8787c5ad0f97 100644
+index 8787c5ad0f97..9a8a2200fd8e 100644
 --- a/hw/watchdog/wdt_aspeed.c
 +++ b/hw/watchdog/wdt_aspeed.c
-@@ -219,7 +219,8 @@ static void aspeed_wdt_timer_expired(void *dev)
-         return;
-     }
+@@ -93,11 +93,11 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
  
--    qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
-+    qemu_log_mask(CPU_LOG_RESET, "Watchdog timer %" HWADDR_PRIx " expired.\n",
-+            s->iomem.addr);
-     watchdog_perform_action();
-     timer_del(s->timer);
  }
+ 
+-static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
++static void aspeed_wdt_reload(AspeedWDTState *s)
+ {
+     uint64_t reload;
+ 
+-    if (pclk) {
++    if (!(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK)) {
+         reload = muldiv64(s->regs[WDT_RELOAD_VALUE], NANOSECONDS_PER_SECOND,
+                           s->pclk_freq);
+     } else {
+@@ -109,6 +109,16 @@ static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
+     }
+ }
+ 
++static void aspeed_wdt_reload_1mhz(AspeedWDTState *s)
++{
++    uint64_t reload = s->regs[WDT_RELOAD_VALUE] * 1000ULL;
++
++    if (aspeed_wdt_is_enabled(s)) {
++        timer_mod(s->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + reload);
++    }
++}
++
++
+ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+                              unsigned size)
+ {
+@@ -130,13 +140,13 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+     case WDT_RESTART:
+         if ((data & 0xFFFF) == WDT_RESTART_MAGIC) {
+             s->regs[WDT_STATUS] = s->regs[WDT_RELOAD_VALUE];
+-            aspeed_wdt_reload(s, !(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK));
++            awc->wdt_reload(s);
+         }
+         break;
+     case WDT_CTRL:
+         if (enable && !aspeed_wdt_is_enabled(s)) {
+             s->regs[WDT_CTRL] = data;
+-            aspeed_wdt_reload(s, !(data & WDT_CTRL_1MHZ_CLK));
++            awc->wdt_reload(s);
+         } else if (!enable && aspeed_wdt_is_enabled(s)) {
+             s->regs[WDT_CTRL] = data;
+             timer_del(s->timer);
+@@ -283,6 +293,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
+     awc->offset = 0x20;
+     awc->ext_pulse_width_mask = 0xff;
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
++    awc->wdt_reload = aspeed_wdt_reload;
+ }
+ 
+ static const TypeInfo aspeed_2400_wdt_info = {
+@@ -317,6 +328,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
+     awc->ext_pulse_width_mask = 0xfffff;
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
++    awc->wdt_reload = aspeed_wdt_reload_1mhz;
+ }
+ 
+ static const TypeInfo aspeed_2500_wdt_info = {
+@@ -336,6 +348,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
+     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
+     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
++    awc->wdt_reload = aspeed_wdt_reload_1mhz;
+ }
+ 
+ static const TypeInfo aspeed_2600_wdt_info = {
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index dfedd7662dd1..819c22993a6e 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -47,6 +47,7 @@ typedef struct AspeedWDTClass {
+     uint32_t ext_pulse_width_mask;
+     uint32_t reset_ctrl_reg;
+     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
++    void (*wdt_reload)(AspeedWDTState *s);
+ }  AspeedWDTClass;
+ 
+ #endif /* WDT_ASPEED_H */
 -- 
 2.24.0
 
