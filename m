@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C30EFBB8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 23:24:08 +0100 (CET)
-Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F63FBBD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 23:48:57 +0100 (CET)
+Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iV13W-0006cI-PF
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 17:24:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34946)
+	id 1iV1RX-0007Qp-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 17:48:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iV0tN-0001sW-1T
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:13:38 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iV1Q9-0006y3-FX
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:47:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iV0tL-0001JV-0V
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:13:36 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34002)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iV0tE-0001G0-K8; Wed, 13 Nov 2019 17:13:28 -0500
-Received: by mail-pl1-x644.google.com with SMTP id h13so1669042plr.1;
- Wed, 13 Nov 2019 14:13:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nAP5XJXdKxaozCcpOcXkIdrUjuBLz94yxW3NObWQlgM=;
- b=KSJ9+PCGE7qR0mmVCze0s+sM2HIzUzZ2VQXrgmI8YGkl/K4jObRNkEgMXQtLXIA+Em
- KlMRApyxFOkwr4yu5kGYDWmpyo0dbdy8+CHRemXlSryWMjZ09U5u5gAHEIitcquv1MIN
- JuwRPSJ9nHFy5ex1eyftCtooJJlrHd1sj2bNlkJqWSxnQrwLeMynca1jiClM6zFOVID2
- +xCwxza1ArFXBpnKM2FHL3OnyNjDI7k5PldE2ncsRgiy2RVNFHYoSufKannhIRQLVvyQ
- PK/TVgdK1Acg0veLH0X5KmMgJlpW947o7cSXJTbNun8vKfLxdYhj8mLlLOqYI9sezHFa
- u+Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nAP5XJXdKxaozCcpOcXkIdrUjuBLz94yxW3NObWQlgM=;
- b=AGYUWAGmYHAXxuvayhb/ZAnVMOBV2WPTvaII6CcwQ87Gd54WTVW/ZT8W3TJL42HxcA
- Ag66WoXGTl3a+9PDudwixlxsqHt7U0jgoiP47c4xc/W/xZkEbCiq8IPQN1c6RAFyN2nM
- NCob1XPopzrkM8UKxSlvanWqUqBxGKyqYoL4sPFOe5Woi02UyqfZ7tff0a69dHi0Hq9U
- Wz9JRCzPuRr/JFa9DbezQBnPB+mNd5lQ/EKVLe8fD4oufvRnWqe4RnQN7h5OT5nvaBov
- Nf8XAiAbW/zrFXxV6pda/9qYBxBZ97KtwjLVa4258EvGeoABO2ioA+RuNe7VJaD9Q6Ug
- 65/Q==
-X-Gm-Message-State: APjAAAV0W9zZBeCv/13A48HF+DBCLyf7oBoRHzoGRPHSs9UQ2uJXJD6A
- +aF4QMKGTNzC1Sj+0m51xOE=
-X-Google-Smtp-Source: APXvYqzo/DKt23zo8dF8lERxUeqD/tcuTpx2OEFK+kMK+mysqvj4EWbNODKUa6HiksH032g2CRAqpw==
-X-Received: by 2002:a17:902:6f01:: with SMTP id
- w1mr6355065plk.35.1573683207515; 
- Wed, 13 Nov 2019 14:13:27 -0800 (PST)
-Received: from voyager.lan ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id w69sm5252005pfc.164.2019.11.13.14.13.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Nov 2019 14:13:27 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v3 4/4] watchdog/aspeed: Fix AST2600 frequency behaviour
-Date: Thu, 14 Nov 2019 08:43:01 +1030
-Message-Id: <20191113221301.8768-5-joel@jms.id.au>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191113221301.8768-1-joel@jms.id.au>
-References: <20191113221301.8768-1-joel@jms.id.au>
+ (envelope-from <ehabkost@redhat.com>) id 1iV1Q6-0003rK-1Z
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:47:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48571
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iV1Q5-0003qz-Qy
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:47:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573685245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rx+W/j7wKqTmWJhjjsIpEsgoEg1LEQ7lkkOPOubL3IQ=;
+ b=ApMj0sLk1q9rxZ4yP/f+9AV/LSBKC7sXjQ+3db19UMXJMJcSTfv3BBov87EnuVuFx7vfd9
+ Gwtxse2+I+fJ2cF0hQlJjzLC4W0k5VhNK+a7zL15dxDf6oIBrxwUajiNG+bYWBfqAvCAw2
+ 8sZ17OryT5X9mX+NnyC9QfPw3uhaGuY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-0Rn4M4IBMdKUl4PH-S9W4g-1; Wed, 13 Nov 2019 17:47:22 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC217800EBE;
+ Wed, 13 Nov 2019 22:47:19 +0000 (UTC)
+Received: from localhost (ovpn-116-59.gru2.redhat.com [10.97.116.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5687369198;
+ Wed, 13 Nov 2019 22:47:19 +0000 (UTC)
+Date: Wed, 13 Nov 2019 19:47:17 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: About MONITOR/MWAIT in i386 CPU model
+Message-ID: <20191113224717.GN3812@habkost.net>
+References: <d52ddfd1-3d9d-6a3a-5ce9-893df96639cc@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <d52ddfd1-3d9d-6a3a-5ce9-893df96639cc@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 0Rn4M4IBMdKUl4PH-S9W4g-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,117 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: "Lai, Paul C" <paul.c.lai@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Guo,
+ Xuelian" <xuelian.guo@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 control register sneakily changed the meaning of bit 4
-without anyone noticing. It no longer controls the 1MHz vs APB clock
-select, and instead always runs at 1MHz.
+On Wed, Nov 13, 2019 at 04:42:25PM +0800, Tao Xu wrote:
+> Hi Eduardo=EF=BC=8C
+>=20
+> After kvm use "-overcommit cpu-pm=3Don" to expose MONITOR/MWAIT
+> (commit id 6f131f13e68d648a8e4f083c667ab1acd88ce4cd), the MONITOR/MWAIT
+> feature in CPU model (phenom core2duo coreduo n270 Opteron_G3 EPYC Snowri=
+dge
+> Denverton) may be unused. For example, when we boot a guest with Denverto=
+n
+> cpu model, guest cannot detect MONITOR and boot with no warning. Should w=
+e
+> remove this feature from some CPU model?
 
-The AST2500 was always 1MHz too, but it retained bit 4, making it read
-only. We can model both using the same fixed 1MHz calculation.
+Good catch, thanks!
 
-Fixes: 6b2b2a703cad ("hw: wdt_aspeed: Add AST2600 support")
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
-v2: Fix Fixes line in commit message
----
- hw/watchdog/wdt_aspeed.c         | 21 +++++++++++++++++----
- include/hw/watchdog/wdt_aspeed.h |  1 +
- 2 files changed, 18 insertions(+), 4 deletions(-)
+Yes, we should remove them from Opteron_G3, EPYC, Snowridge, and
+Denverton, at least.  The other older CPU models can be left
+alone: they are more useful for use with TCG than with KVM, and
+TCG supports MONITOR/MWAIT.
 
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index d283d07d6546..122aa8daaadf 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -93,11 +93,11 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
- 
- }
- 
--static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
-+static void aspeed_wdt_reload(AspeedWDTState *s)
- {
-     uint64_t reload;
- 
--    if (pclk) {
-+    if (!(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK)) {
-         reload = muldiv64(s->regs[WDT_RELOAD_VALUE], NANOSECONDS_PER_SECOND,
-                           s->pclk_freq);
-     } else {
-@@ -109,6 +109,16 @@ static void aspeed_wdt_reload(AspeedWDTState *s, bool pclk)
-     }
- }
- 
-+static void aspeed_wdt_reload_1mhz(AspeedWDTState *s)
-+{
-+    uint64_t reload = s->regs[WDT_RELOAD_VALUE] * 1000ULL;
-+
-+    if (aspeed_wdt_is_enabled(s)) {
-+        timer_mod(s->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + reload);
-+    }
-+}
-+
-+
- static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
-                              unsigned size)
- {
-@@ -130,13 +140,13 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
-     case WDT_RESTART:
-         if ((data & 0xFFFF) == WDT_RESTART_MAGIC) {
-             s->regs[WDT_STATUS] = s->regs[WDT_RELOAD_VALUE];
--            aspeed_wdt_reload(s, !(s->regs[WDT_CTRL] & WDT_CTRL_1MHZ_CLK));
-+            awc->wdt_reload(s);
-         }
-         break;
-     case WDT_CTRL:
-         if (enable && !aspeed_wdt_is_enabled(s)) {
-             s->regs[WDT_CTRL] = data;
--            aspeed_wdt_reload(s, !(data & WDT_CTRL_1MHZ_CLK));
-+            awc->wdt_reload(s);
-         } else if (!enable && aspeed_wdt_is_enabled(s)) {
-             s->regs[WDT_CTRL] = data;
-             timer_del(s->timer);
-@@ -283,6 +293,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
-     awc->offset = 0x20;
-     awc->ext_pulse_width_mask = 0xff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-+    awc->wdt_reload = aspeed_wdt_reload;
- }
- 
- static const TypeInfo aspeed_2400_wdt_info = {
-@@ -317,6 +328,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
-     awc->ext_pulse_width_mask = 0xfffff;
-     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-+    awc->wdt_reload = aspeed_wdt_reload_1mhz;
- }
- 
- static const TypeInfo aspeed_2500_wdt_info = {
-@@ -336,6 +348,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
-     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
-     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
-     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
-+    awc->wdt_reload = aspeed_wdt_reload_1mhz;
- }
- 
- static const TypeInfo aspeed_2600_wdt_info = {
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index dfedd7662dd1..819c22993a6e 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -47,6 +47,7 @@ typedef struct AspeedWDTClass {
-     uint32_t ext_pulse_width_mask;
-     uint32_t reset_ctrl_reg;
-     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
-+    void (*wdt_reload)(AspeedWDTState *s);
- }  AspeedWDTClass;
- 
- #endif /* WDT_ASPEED_H */
--- 
-2.24.0
+I would like to understand why this wasn't detected during
+testing by Intel.  I suggest always testing CPU models using the
+"enforce" flag to make sure warnings don't go unnoticed.
+
+>=20
+> Tested by Guo, Xuelian <xuelian.guo@intel.com>
+>=20
+> Tao Xu
+>=20
+
+--=20
+Eduardo
 
 
