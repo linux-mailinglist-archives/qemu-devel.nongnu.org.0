@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA3DFB55B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:40:28 +0100 (CET)
-Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D089FFB58C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:48:53 +0100 (CET)
+Received: from localhost ([::1]:47400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvgx-0006d4-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:40:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
+	id 1iUvp6-0005ZG-JT
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:48:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44473)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iUvfQ-00057D-PX
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:38:54 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iUvfx-0005o4-Vs
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:39:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iUvfO-0004s8-RD
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:38:52 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48210
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iUvfx-0004yt-41
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:39:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35638
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUvfL-0004rv-7t
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:38:48 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iUvfx-0004yl-03
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:39:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573663126;
+ s=mimecast20190719; t=1573663164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7K9qbPjJBUGQ9+IZ6IoeTgUCn0urUOjgPIFUaEJjzjs=;
- b=gzWYHweQbqlOXo7WC7uRG1XoWfcPlvq9kD6NkjejiIsvwaEKfVWXKwPyJ0HVbjDNkjJSN3
- LgBNDjppkKfsMbgVLtHZViP7u3skSF7nJyzaiv8Hw9d/YhM2dIfz9H6Jn4MBOj63kVcFBl
- f+GK7jxEe4B37/1E9rxVTUtsfNIILD4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-DTqf8iamNPipA6f9AsqgCA-1; Wed, 13 Nov 2019 11:38:42 -0500
-X-MC-Unique: DTqf8iamNPipA6f9AsqgCA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 183781015E6F;
- Wed, 13 Nov 2019 16:38:41 +0000 (UTC)
-Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D2735F76F;
- Wed, 13 Nov 2019 16:38:35 +0000 (UTC)
-Date: Wed, 13 Nov 2019 16:38:34 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [RFC v4 PATCH 12/49] multi-process: remote process initialization
-Message-ID: <20191113163834.GG563983@stefanha-x1.localdomain>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <a0550c5a6df8f294528393cfe3c031e194ba2188.1571905346.git.jag.raman@oracle.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=W5ESZVlgXqZhKNf3qEMg2/MVXve5dMtkBXxq9INumG0=;
+ b=cDPa2qHVgp4aSovPGfYLq9VuGxB8G7J1tVQt7VVJbjMbuVtxVX5nXRmmp8tongybFEwmW1
+ p3nNCotxQdrw/PmjrNEazLjLLbeX87bvG67L+X6UEA4LTciSsvsNBgBB4Mp1QYboY4JvP/
+ bpPiUcufGlqtpPTsZW9z6dZ2/LEwHC0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-73Dp8DiIOK2mmV2AOs7CwQ-1; Wed, 13 Nov 2019 11:39:22 -0500
+Received: by mail-wr1-f70.google.com with SMTP id k15so1880812wrp.22
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:39:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zvZLv6HTGcAhBqsOGK77xyvCjpQjhuTLJfyhHW5z87U=;
+ b=hjtj8rcb80dTJbERzOc/5oy14mBWd9j80XRaaB5aPg/ix+mEii3HSM1Re+2wINECBr
+ Uwaha1qf5Ry4QWGaVouy5Lii3KIbzEGQsMy8ACVcvgjVvtjNHm4AnWlhkX1YJUOzfqDj
+ 6QDqOXIBdOOPKMwVkiSyuHG4la99DYS2QEbhLSpfYmqhPAhWq+lrgUiPcuIAbtKyhFnu
+ Ue3wFbd6OoU7SBwVnHtaGb8ZjymdM2EZe+kx1se7lbZqg2P2wM6UIq869wdaXehK0AQH
+ aDBYJ/Ynmtlhzzi7V6DpT28nJFToqb2awyLMEJWWXwg6K5KfHDyCMuetjsx3+GLpIFgy
+ do4g==
+X-Gm-Message-State: APjAAAXlZO/BrGp8/IF4i/jD+3wDYShnsCUSG4nnQifUOELX1tLhYj9Q
+ xpdt7y/VD4AzcBrWvNu/gxav0PKaTnLDSuwMsDCHa1w/UOUfCDpgLb9XmfJeRS10C+g28afVmwS
+ ra2a3Aq3l+cpz8Ug=
+X-Received: by 2002:adf:9e92:: with SMTP id a18mr3634485wrf.34.1573663161677; 
+ Wed, 13 Nov 2019 08:39:21 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzHJJlW/GEZxD9JGnpZA/rt2PfjDQKk6D62Qp6nokew3hXIeD1VMGiBBXumIKC+vNxDpjYnag==
+X-Received: by 2002:adf:9e92:: with SMTP id a18mr3634466wrf.34.1573663161388; 
+ Wed, 13 Nov 2019 08:39:21 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:8c9d:1a6f:4730:367c?
+ ([2001:b07:6468:f312:8c9d:1a6f:4730:367c])
+ by smtp.gmail.com with ESMTPSA id x6sm3677614wrw.34.2019.11.13.08.39.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Nov 2019 08:39:20 -0800 (PST)
+Subject: Re: [PATCH v1 2/5] docs/devel: rename plugins.rst to tcg-plugins.rst
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191113115952.775-1-alex.bennee@linaro.org>
+ <20191113115952.775-3-alex.bennee@linaro.org>
+ <9fa870a6-afcd-e00e-b9f2-d26d7661a48e@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <e45cd589-3054-d83c-d1bd-e9f3e1be8025@redhat.com>
+Date: Wed, 13 Nov 2019 17:39:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <a0550c5a6df8f294528393cfe3c031e194ba2188.1571905346.git.jag.raman@oracle.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <9fa870a6-afcd-e00e-b9f2-d26d7661a48e@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 73Dp8DiIOK2mmV2AOs7CwQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pE2VAHO2njSJCslu"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,72 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
- john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- quintela@redhat.com, berrange@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
- kanth.ghatraju@oracle.com, kraxel@redhat.com, kwolf@redhat.com,
- pbonzini@redhat.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
- mreitz@redhat.com, dgilbert@redhat.com, rth@twiddle.net
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pE2VAHO2njSJCslu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> What about (other patch):
+>=20
+> =C2=A0 plugins/ -> tcg/plugins/
+>=20
+>> =C2=A0 F: tests/plugin
+>=20
+> tests/plugin/ -> tests/tcg/plugins/
 
-On Thu, Oct 24, 2019 at 05:08:53AM -0400, Jagannathan Raman wrote:
->  int main(int argc, char *argv[])
->  {
-> +    Error *err =3D NULL;
-> +
->      module_call_init(MODULE_INIT_QOM);
-> =20
-> +    bdrv_init_with_whitelist();
-> +
-> +    if (qemu_init_main_loop(&err)) {
-> +        error_report_err(err);
-> +        return -EBUSY;
-> +    }
-> +
-> +    qemu_init_cpu_loop();
-> +
-> +    page_size_init();
-> +
->      current_machine =3D MACHINE(REMOTE_MACHINE(object_new(TYPE_REMOTE_MA=
-CHINE)));
-> =20
-> +    mpqemu_link =3D mpqemu_link_create();
-> +    if (!mpqemu_link) {
-> +        printf("Could not create MPQemu link\n");
-> +        return -1;
-> +    }
-> +
-> +    mpqemu_init_channel(mpqemu_link, &mpqemu_link->com, STDIN_FILENO);
-> +    mpqemu_link_set_callback(mpqemu_link, process_msg);
-> +
-> +    mpqemu_start_coms(mpqemu_link);
+tests/tcg is for code that runs on the target in general, but perhaps
+tests/tcg-plugins would make sense.
 
-Can you use util/main-loop.c instead of an mpqemu-specific event loop?
-I think that file is needed anyway because lots of QEMU code depends on
-it.
-
---pE2VAHO2njSJCslu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3MMYoACgkQnKSrs4Gr
-c8jFwgf/cp/YFcGf+fWF6uuDb6t0lFeTLR4iZwWoF59WCBGaaUlyYquP8EoT9rPY
-m9FrlvURkNl2IhGSiwyh+Mkj18wPTjHoD6849edPKordSe5nOYFfdgCe6OV8+Ni3
-9E9udLUHQlOEeyrqyHvRuX2RUcFh39EKb4Xa/+W8rtXY6cw5PsDu3OeM5zChaJ0g
-YM4veidnLy61kT+PCCij932mhn0TCJgutfMa7qZAP7NpOYpDFokTO1FwRY9yAus2
-/SZhufBie7UExgQh+/IL1qoxw9QcGCfae3HT2BSeUTVJw2hIt7Gl1pRb9vZ/68zn
-5vIKeqiWwGVQuAB8P9cpTtP0QGgSJw==
-=iEWJ
------END PGP SIGNATURE-----
-
---pE2VAHO2njSJCslu--
+Paolo
 
 
