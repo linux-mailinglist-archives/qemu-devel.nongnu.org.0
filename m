@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458E9FAD1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:37:14 +0100 (CET)
-Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291E2FACF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:29:12 +0100 (CET)
+Received: from localhost ([::1]:42424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUp5N-0008Ms-9i
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:37:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
+	id 1iUoxb-00057V-8s
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iUp3p-0007EB-Sz
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:39 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iUowo-0004bp-Tj
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:28:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iUp3o-0000Kf-LW
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38718)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iUp3o-0000JK-F7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iUp3m-0007eE-K2
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:35:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9553E2E80C7
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:35:34 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1iUowo-0001Jw-0v
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:28:22 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30144
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iUown-0001J9-TJ
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:28:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573637301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lX/RYQGaSR4ElmSy26R6x9qPqktQPym3MrRZqVoi0ac=;
+ b=hWuk4C5ZgoHLwqi9xuvQ90VwxrxRpYMg+XdhIG0fkOOWl2tYf708jSUx9glESEeHcQTwiF
+ if/W/6WRF0225+rrPAw3QzzARS/VoImBnMzQzsN21iQ/As7LwrN8cuDyoZ8mNoMprfD+NQ
+ m7kqZjslFZZrIk3VCXY00xC3D12YmNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-qBgmVkMmNe-VH54_vYgwZg-1; Wed, 13 Nov 2019 04:28:18 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E4241944689;
+ Wed, 13 Nov 2019 09:28:17 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-169.ams2.redhat.com [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E4845889;
+ Wed, 13 Nov 2019 09:28:15 +0000 (UTC)
+Date: Wed, 13 Nov 2019 10:28:13 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH 2/2] iotests: Test multiple blockdev-snapshot calls
+Message-ID: <20191113092813.GB6471@linux.fritz.box>
+References: <20191108085312.27049-1-kwolf@redhat.com>
+ <20191108085312.27049-3-kwolf@redhat.com>
+ <w51lfsqsakn.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <w51lfsqsakn.fsf@maestria.local.igalia.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: qBgmVkMmNe-VH54_vYgwZg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 13 Nov 2019 09:26:36 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crobinso laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <157349721480.22191.14354362512617460510.malonedeb@soybean.canonical.com>
-Message-Id: <157363719710.21811.1266172365389136223.malone@soybean.canonical.com>
-Subject: [Bug 1852115] Re: qemu --static user build fails with fedora rawhide
- glibc-2.30.9000
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 336fb9ae6640123e81aa681a9b20db253c083b0d
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,85 +74,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852115 <1852115@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed by 0f1f2d4596ae ("linux-user: remove host stime() syscall")
+Am 08.11.2019 um 15:32 hat Alberto Garcia geschrieben:
+> On Fri 08 Nov 2019 09:53:12 AM CET, Kevin Wolf wrote:
+> > +# Test large write to a qcow2 image
+>=20
+> This doesn't belong here I guess :)
 
+Yes, fixed.
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+> I wonder if this test could go in 245 instead.
 
--- =
+The headline for 245 is "Test cases for the QMP 'x-blockdev-reopen'
+command", so I don't think so?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852115
+We end up testing the reopen code, but only as a side effect of
+snapshotting, not through x-blockdev-reopen.
 
-Title:
-  qemu --static user build fails with fedora rawhide glibc-2.30.9000
+Kevin
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Building qemu latest git 654efcb511d on fedora rawhide fails with this
-  configure line:
-
-  ./configure \
-  	--static \
-  	--disable-system \
-  	--enable-linux-user \
-  	--disable-werror \
-  	--disable-tools \
-  	--disable-capstone
-
-  make fails with:
-
-  /usr/bin/ld: linux-user/syscall.o: in function `do_syscall1':
-  /root/qemu.git/linux-user/syscall.c:7769: undefined reference to `stime'
-  collect2: error: ld returned 1 exit status
-
-  Seems related to this glibc change:
-  https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D12cbde1dae6fa4a9=
-a792b64564c7e0debf7544cc
-
-  ...
-
-  +* The obsolete function stime is no longer available to newly linked
-  +  binaries and it has been removed from <time.h> header.  This function
-  +  has been deprecated in favor of clock_settime.
-  +
-
-  # rpm -q glibc
-  glibc-2.30.9000-17.fc32.x86_64
-
-  =
-
-  FWIW there's some other messages but I don't think they are fatal:
-
-  /usr/bin/ld: /usr/lib/gcc/x86_64-redhat-linux/9/../../../../lib64/libglib=
--2.0.a(gutils.c.o): in function `g_get_user_database_entry':
-  (.text+0x267): warning: Using 'getpwuid' in statically linked application=
-s requires at runtime the shared libraries from the glibc version used for =
-linking
-  /usr/bin/ld: (.text+0xe0): warning: Using 'getpwnam_r' in statically link=
-ed applications requires at runtime the shared libraries from the glibc ver=
-sion used for linking
-  /usr/bin/ld: (.text+0x11e): warning: Using 'getpwuid_r' in statically lin=
-ked applications requires at runtime the shared libraries from the glibc ve=
-rsion used for linking
-
-  =
-
-  Also, --disable-capstone is required to avoid this error, but it is pre-e=
-xisting, not sure if it's a bug, if so I can file a separate one:
-
-    LINK    aarch64-linux-user/qemu-aarch64
-  /usr/bin/ld: cannot find -lcapstone
-  collect2: error: ld returned 1 exit status
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852115/+subscriptions
 
