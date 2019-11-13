@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A979FBB61
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 23:08:23 +0100 (CET)
-Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90F6FBB7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 23:18:54 +0100 (CET)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iV0oH-0007vA-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 17:08:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58051)
+	id 1iV0yT-0003h1-QI
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 17:18:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iV0mp-0007Rr-0d
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:06:52 -0500
+ (envelope-from <joel.stan@gmail.com>) id 1iV0t4-0001iP-6e
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:13:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iV0mm-0003EG-9n
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:06:49 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26453
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iV0mm-0003CW-53
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:06:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573682806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I9TOmPxTWO/6PmCmkkYp0IKdNI+tcj2U/Uo1rI7zIf4=;
- b=OUmdUdABOAPQu5LbS5UTn8++LN7XhZjxhlG143zI/6MLOgceE/9t6L9Mn1vmKr7E0r1vih
- c5f+p1UeUgVF0xVrgzQu42ywxKuPQbgQ/I8w4rahO/frJuOQmOJgykHNnFsF+pi7ahnG6X
- nGakUfUhACOiFeLv7ZaUnyYrYTayyKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-bTy_bVdtNSW2LUZ7mFQxVg-1; Wed, 13 Nov 2019 17:06:43 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E08BD107ACC5;
- Wed, 13 Nov 2019 22:06:41 +0000 (UTC)
-Received: from localhost (ovpn-116-59.gru2.redhat.com [10.97.116.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B962601B8;
- Wed, 13 Nov 2019 22:06:38 +0000 (UTC)
-Date: Wed, 13 Nov 2019 19:06:36 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v14 03/11] tests: Add test for QAPI builtin type time
-Message-ID: <20191113220636.GK3812@habkost.net>
-References: <20191028075220.25673-1-tao3.xu@intel.com>
- <20191028075220.25673-4-tao3.xu@intel.com>
- <20191106205359.GR3812@habkost.net>
- <1f2fa942-0993-548b-1f5c-8345d564bf29@intel.com>
- <20191107133112.GS3812@habkost.net>
- <9ecafb7f-69b9-870b-b109-939fef47acde@intel.com>
- <87lfsqbxnj.fsf@dusky.pond.sub.org>
- <20191112201558.GG3812@habkost.net>
- <8d8f7a45-b337-2ec8-d83d-4baec1efdaec@intel.com>
+ (envelope-from <joel.stan@gmail.com>) id 1iV0t3-00011m-9F
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:13:18 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43733)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1iV0t0-0000yS-T7; Wed, 13 Nov 2019 17:13:15 -0500
+Received: by mail-pl1-x644.google.com with SMTP id a18so1646031plm.10;
+ Wed, 13 Nov 2019 14:13:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ufOagEkF5eMwDKIkGywA+c2/zP6DlOH3JxK6kKvdjE8=;
+ b=CYSnFNi91bJlOKbK/Oh6pt2YKRWLIjBx6Gj1HXL01lyESCT/tnz6bgqaDp5/upyESZ
+ FYA4HRSDbg9sEYrXhbQvmKLFghRlhDAHf9P+aE+lEs6UBjGgtE2fTQMTA/C0YpreEuth
+ WcysJua/ze6L/9JBV7a5QBV2e+0WhN3eripZ7a1NwVFEFB/+pSlF1bd+8heofmxk7636
+ eEO4oo7mh7H86mBognxeasVVNqpXn3ULRQ8Dhu5ZUNPlvupRWQnWMsOoWdFo+lSn8B2y
+ zi/RQsOWrO53qjJtVSjfYMwjQXz1m3BtZNDHHhMhOUpcXVobxI9ijJf/suzrlPz9S1CO
+ lnRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ufOagEkF5eMwDKIkGywA+c2/zP6DlOH3JxK6kKvdjE8=;
+ b=QPshFHTwJTms+Nfp1jWUtGA8rogQ2ku6fOr8T/GH5Yd6cuactmtJ5doVBd2npEPS92
+ QLqdPMEWJZ/nG2YIZtt1kEs289Cbhqf/4ZSqiudVmk1bUxcJcHyekjVjLCaObQQ8GH8k
+ ePltN52NSQYihRNs7ktCY1OqX71mpyWJaWlLx3jUfjCtXElsO9zqOUZocAcCM/BbqnTm
+ ASa9rSg5KcDvaGj/9SYpwskdPIhKXpwNVPzsoMexOHUbtoTlstQUyQs0HKjShRjDEWHa
+ PRwrOxhorr5JiHM51XjHrp5wooJqm8oaEIX5MctXj2pd7YIQBoMuxjquKCD0EdPYdD35
+ w/LA==
+X-Gm-Message-State: APjAAAXq/HjoNi2y08fGTzTUv5bOF6e/QUk81Wy48qwZOELgMjw7qUGt
+ eOdq2rtEnFMiPZV9D0ZIys8=
+X-Google-Smtp-Source: APXvYqz2DQ5LizG9g65X9Em+nEhcxKPI+Te+nQPxr2SxI8WMKsHrdvy3UBFsT+sdogErrdyWLjw1dg==
+X-Received: by 2002:a17:902:9683:: with SMTP id
+ n3mr5933541plp.53.1573683192123; 
+ Wed, 13 Nov 2019 14:13:12 -0800 (PST)
+Received: from voyager.lan ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id w69sm5252005pfc.164.2019.11.13.14.13.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Nov 2019 14:13:11 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v3 0/4] arm/aspeed: Watchdog and SDRAM fixes
+Date: Thu, 14 Nov 2019 08:42:57 +1030
+Message-Id: <20191113221301.8768-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <8d8f7a45-b337-2ec8-d83d-4baec1efdaec@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bTy_bVdtNSW2LUZ7mFQxVg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,143 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
- Markus Armbruster <armbru@redhat.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 13, 2019 at 09:01:29AM +0800, Tao Xu wrote:
-> On 11/13/2019 4:15 AM, Eduardo Habkost wrote:
-> > On Fri, Nov 08, 2019 at 09:05:52AM +0100, Markus Armbruster wrote:
-> > > Tao Xu <tao3.xu@intel.com> writes:
-> > >=20
-> > > > On 11/7/2019 9:31 PM, Eduardo Habkost wrote:
-> > > > > On Thu, Nov 07, 2019 at 02:24:52PM +0800, Tao Xu wrote:
-> > > > > > On 11/7/2019 4:53 AM, Eduardo Habkost wrote:
-> > > > > > > On Mon, Oct 28, 2019 at 03:52:12PM +0800, Tao Xu wrote:
-> > > > > > > > Add tests for time input such as zero, around limit of prec=
-ision,
-> > > > > > > > signed upper limit, actual upper limit, beyond limits, time=
- suffixes,
-> > > > > > > > and etc.
-> > > > > > > >=20
-> > > > > > > > Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> > > > > > > > ---
-> > > > > > > [...]
-> > > > > > > > +    /* Close to signed upper limit 0x7ffffffffffffc00 (53 =
-msbs set) */
-> > > > > > > > +    qdict =3D keyval_parse("time1=3D9223372036854774784," =
-/* 7ffffffffffffc00 */
-> > > > > > > > +                         "time2=3D9223372036854775295", /*=
- 7ffffffffffffdff */
-> > > > > > > > +                         NULL, &error_abort);
-> > > > > > > > +    v =3D qobject_input_visitor_new_keyval(QOBJECT(qdict))=
-;
-> > > > > > > > +    qobject_unref(qdict);
-> > > > > > > > +    visit_start_struct(v, NULL, NULL, 0, &error_abort);
-> > > > > > > > +    visit_type_time(v, "time1", &time, &error_abort);
-> > > > > > > > +    g_assert_cmphex(time, =3D=3D, 0x7ffffffffffffc00);
-> > > > > > > > +    visit_type_time(v, "time2", &time, &error_abort);
-> > > > > > > > +    g_assert_cmphex(time, =3D=3D, 0x7ffffffffffffc00);
-> > > > > > >=20
-> > > > > > > I'm confused by this test case and the one below[1].  Are the=
-se
-> > > > > > > known bugs?  Shouldn't we document them as known bugs?
-> > > > > >=20
-> > > > > > Because do_strtosz() or do_strtomul() actually parse with strto=
-d(), so the
-> > > > > > precision is 53 bits, so in these cases, 7ffffffffffffdff and
-> > > > > > fffffffffffffbff are rounded.
-> > > > >=20
-> > > > > My questions remain: why isn't this being treated like a bug?
-> > > > >=20
-> > > > Hi Markus,
-> > > >=20
-> > > > I am confused about the code here too. Because in do_strtosz(), the
-> > > > upper limit is
-> > > >=20
-> > > > val * mul >=3D 0xfffffffffffffc00
-> > > >=20
-> > > > So some data near 53 bit may be rounded. Is there a bug?
-> > >=20
-> > > No, but the design is surprising, and the functions lack written
-> > > contracts, except for the do_strtosz() helper, which has one that suc=
-ks.
-> > >=20
-> > > qemu_strtosz() & friends are designed to accept fraction * unit
-> > > multiplier.  Example: 1.5M means 1.5 * 1024 * 1024 with qemu_strtosz(=
-)
-> > > and qemu_strtosz_MiB(), and 1.5 * 1000 * 1000 with
-> > > qemu_strtosz_metric().  Whether supporting fractions is a good idea i=
-s
-> > > debatable, but it's what we've got.
-> > >=20
-> > > The implementation limits the numeric part to the precision of double=
-,
-> > > i.e. 53 bits.  "8PiB should be enough for anybody."
-> > >=20
-> > > Switching it from double to long double raises the limit to the
-> > > precision of long double.  At least 64 bit on common hosts, but hosts
-> > > exist where it's the same 53 bits.  Do we support any such hosts?  If
-> > > yes, then we'd make the precision depend on the host, which feels lik=
-e a
-> > > bad idea.
-> > >=20
-> > > A possible alternative is to parse the numeric part both as a double =
-and
-> > > as a 64 bit unsigned integer, then use whatever consumes more
-> > > characters.  This enables providing full 64 bits unless you actually =
-use
-> > > a fraction.
-> > >=20
-> >=20
-> > This sounds like the right thing to do, if user input is an
-> > integer and the code in the other end is consuming an integer.
-> >=20
-> >=20
-> > > As far as I remember, the only problem we've ever had with the 53 bit=
-s
-> > > limit is developer confusion :)
-> > >=20
-> >=20
-> > Developer confusion, I can deal with.  However, exposing this
-> > behavior on external interfaces is a bug to me.
-> >=20
-> > I don't know how serious the bug is because I don't know which
-> > interfaces are affected by it.  Do we have a list?
-> >=20
-> > > Patches welcome.
-> >=20
-> > My first goal is to get the maintainers of that code to recognize
-> > it as a bug.  Then I hope this will motivate somebody else to fix
-> > it.  :)
-> >=20
->=20
-> Hi Eduardo,
->=20
-> If it is a bug, could the fix patch merged during rc1-rc3? Because I made=
- 2
-> patches, and I want to submit before HMAT (HMAT patches is big, so submit
-> together may be slow).
+Three of these are fixes for ast2600 models that I found when testing
+master. The forth is a usability improvement that is helpful when
+diagnosing why a watchdog is biting.
 
-Even if I convince other maintainers it is a bug, I don't think
-it is serious enough to require a fix in QEMU 4.2.  I suggest
-finishing the ongoing HMAT work first, and worry about this issue
-later.
+v3 adds some comments and fixes whitespace, and r-b from Alex. Thanks
+for the review Alex.
 
-Or, if you really prefer to address it before HMAT, it's OK to
-make the next version of the HMAT series depend on a series
-that's not merged yet.  Just make this explicit in the series
-cover letter (publishing a git branch to help review and testing
-is also appreciated).
+v2 fixes some review comments from Cédric and adds his r-b.
 
---=20
-Eduardo
+Joel Stanley (4):
+  aspeed/sdmc: Make ast2600 default 1G
+  aspeed/scu: Fix W1C behavior
+  watchdog/aspeed: Improve watchdog timeout message
+  watchdog/aspeed: Fix AST2600 frequency behaviour
+
+ hw/misc/aspeed_scu.c             | 15 +++++++++++----
+ hw/misc/aspeed_sdmc.c            |  6 +++---
+ hw/watchdog/wdt_aspeed.c         | 24 +++++++++++++++++++-----
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ 4 files changed, 34 insertions(+), 12 deletions(-)
+
+-- 
+2.24.0
 
 
