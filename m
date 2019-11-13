@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10A5FB01C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 13:02:24 +0100 (CET)
-Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66129FB050
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 13:22:52 +0100 (CET)
+Received: from localhost ([::1]:43536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUrLr-0006Xs-KY
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 07:02:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33087)
+	id 1iUrfe-0005w9-VW
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 07:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iUrJZ-00052p-MS
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:00:06 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iUreq-0005R1-Ul
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:22:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iUrJY-0004Ej-G7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:00:01 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38302)
+ (envelope-from <alex.bennee@linaro.org>) id 1iUrep-0003Xa-Lq
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:22:00 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38791)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iUrJY-0004EI-AH
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:00:00 -0500
-Received: by mail-wm1-x341.google.com with SMTP id z19so1708516wmk.3
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 04:00:00 -0800 (PST)
+ id 1iUreo-0003Wg-LA
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 07:21:58 -0500
+Received: by mail-wr1-x444.google.com with SMTP id i12so2131055wro.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 04:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hHy+s1GjJ2Pj+MpNXAGF+PVR24txIcWOxbNUbbYLGfQ=;
- b=eVPQ0Y9WRTXYDIfJ8BZ5JDLy10VSWn1LR/H7bqSNCvQ7fQps7Uv7U7CFrqYkbH0eBS
- mlgJ7hcQgFGr22pq/Avy1TGMF3KGQPsGmEcJv+KndGM42thnxgrMG6TCsKcnn8qZ0SRU
- K/vFAPQaBdZ8J3bQwX3FhSqEnISwxrFI0BLwKP3kyUhWxjj6BGeNjPQQvSi89sygcHV1
- SRoPFI8nhiZNzY0sULLPLIuVd0WZse8Tae/sWxCVJZFLdevQzuJ9sJGhYLu6AyDKt/BL
- c69wKSZnaaH2+9wy8KpvhwDpc9ockG3gyi5mcpsN5Y+fpAt2cSHwJ/EXB3ITJ5I0F2Pc
- 8IPQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=h778VlmNFlAxz7rsto+8uif3uW1hIAf0AZ2+xBgeotc=;
+ b=ShX+Extn2n1TRzYJz23rsb3qT1eX8JKe4wnHQd9dsJtB/n72ycuX5FChHA+K3A888E
+ 2mLmcyvMadPs28csBmReNJJQAV3PTdFUNGW/J0F8DhWUPtzpXxu/T1bIkdqt2rB+/+Ts
+ 32nOPmT2++HSzfzR6VQetvSBWryyMhpeWsWY8s/1F9527EF4/fugNNnVdfW5U98C0hv2
+ V/gQ/VNvKiyBJB9VAhtykH7j55BfCvUbG/C5wshDDZB8wbKLkSC8AcYer0e0W0xXkusQ
+ KhAZc7W/FHPJJ9s5s0yviK+kuWaFvX13AMY38uldGSE2KLqR5gYGW2FpBdCCnmnrUxDu
+ 1liQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hHy+s1GjJ2Pj+MpNXAGF+PVR24txIcWOxbNUbbYLGfQ=;
- b=ScAFDyeWHtbuHN2xr90DVJVCcRGoMQhJwvvehS1/vKS555IpGISsCjZWxChQw5AYW7
- WLgreDxm9AEp1TAuK+GySEChDQowWrpIAiE0xIXzz8ZIKOhPuJi1L/SoubT7XUQtaNnE
- OhfGzHgEqaCr2xZhzrIVrkwe4NGH28Wt7uIOZbPd1l9nkCuJOJofktLPcuPfcljFesoX
- HiksNV4l5h2dXBJXdhHUQgBuccgYtXWlsPK4AFWJC3ll0SmWKDJmrSHeHKJ6PJpv2SsG
- NiYsUb0IxmwdigO7tgTOYds2frJFKaQ7FyDGfSKOD8AJSwgWsBY0rrDkz6AQ3VCHY6ZF
- MGOg==
-X-Gm-Message-State: APjAAAUoZKc0pFnKQ9hfjOdkhZT7OPI+lts6bi0LK8+nZpOc9fNE6LM9
- 1uD2d1nNRS9upEAZKixLhCebsA==
-X-Google-Smtp-Source: APXvYqxyHMHZS0VXykLM0bZtp1uuPdIkgaCPZpMqf14Mw9nIRWQggtVjew7X1s9k6cqu7nam+EXwcw==
-X-Received: by 2002:a1c:9dd3:: with SMTP id g202mr2539263wme.43.1573646399143; 
- Wed, 13 Nov 2019 03:59:59 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=h778VlmNFlAxz7rsto+8uif3uW1hIAf0AZ2+xBgeotc=;
+ b=UJWArV8zEG1AmWV6v6RZFMvybB0FIxRX5xJhR9hk9+SEUBRLNqid8nlv+WEJizEHxX
+ PijKDdAzpJJmxapAJ3vx+qDOD9HKazqhi9KY3YN2bdoKQTdszr/9UME9Hnkg6evv6aoo
+ yrmQM/05Y7q9cQ+zTWxsEBxPScxiqCOFImC0St8EnDkxU+/+4M+Xq7WX8QLkgPVCogVb
+ W1yhTyWKavcaLty0LSGrgXErua8VoCNxXF2ZowmnGFCWE6N91b8wUOWwuDECidGbWLs6
+ 3eTg9aU0JY5ecJBHvMAOyJTG2dZ/MMFAi9zMnCxzxpfxMfI9Vn2Q2Mqf347WCL56TiSy
+ O40w==
+X-Gm-Message-State: APjAAAWWGP8m7yCsrh/k+ad+hKFy3fq+rc9H1NNMvH6ZEVi3SBF4Gm8E
+ ti5zHaU5huJW2HmJcj62H1YgQg==
+X-Google-Smtp-Source: APXvYqzEw1q1bjHuVDlVILQ6OveTdmRhz3Wp6pK8Gaz+fV/AtIWrUYMiV+g9S1ze/u3iZsRJOcI6Sw==
+X-Received: by 2002:a05:6000:12d1:: with SMTP id
+ l17mr2513981wrx.261.1573647716844; 
+ Wed, 13 Nov 2019 04:21:56 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h140sm2475558wme.22.2019.11.13.03.59.54
+ by smtp.gmail.com with ESMTPSA id q15sm2731029wrs.91.2019.11.13.04.21.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Nov 2019 03:59:56 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9BD381FF92;
- Wed, 13 Nov 2019 11:59:52 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] .travis.yml: drop 32 bit systems from
- MAIN_SOFTMMU_TARGETS
-Date: Wed, 13 Nov 2019 11:59:52 +0000
-Message-Id: <20191113115952.775-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191113115952.775-1-alex.bennee@linaro.org>
-References: <20191113115952.775-1-alex.bennee@linaro.org>
+ Wed, 13 Nov 2019 04:21:55 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 192A11FF87;
+ Wed, 13 Nov 2019 12:21:55 +0000 (GMT)
+References: <20191113005201.19005-1-joel@jms.id.au>
+ <20191113005201.19005-2-joel@jms.id.au>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-arm@nongnu.org
+Subject: Re: [PATCH v2 1/4] aspeed/sdmc: Make ast2600 default 1G
+In-reply-to: <20191113005201.19005-2-joel@jms.id.au>
+Date: Wed, 13 Nov 2019 12:21:55 +0000
+Message-ID: <87a7907yqk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,39 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The older clangs are still struggling to build and run everything
-withing the 50 minute timeout so lets lighten the load a bit more. We
-still have coverage for GCC and hopefully no obscure 32 bit guest only
-breakages slip through the cracks.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Joel Stanley <joel@jms.id.au> writes:
 
-diff --git a/.travis.yml b/.travis.yml
-index b9a026c8eeb..c09b6a00143 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -79,7 +79,7 @@ env:
-     - BASE_CONFIG="--disable-docs --disable-tools"
-     - TEST_CMD="make check V=1"
-     # This is broadly a list of "mainline" softmmu targets which have support across the major distros
--    - MAIN_SOFTMMU_TARGETS="aarch64-softmmu,arm-softmmu,i386-softmmu,mips-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-+    - MAIN_SOFTMMU_TARGETS="aarch64-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-     - CCACHE_SLOPPINESS="include_file_ctime,include_file_mtime"
-     - CCACHE_MAXSIZE=1G
- 
--- 
-2.20.1
+> Most boards have this much.
+>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  hw/misc/aspeed_sdmc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
+> index f3a63a2e01db..2df3244b53c8 100644
+> --- a/hw/misc/aspeed_sdmc.c
+> +++ b/hw/misc/aspeed_sdmc.c
+> @@ -208,10 +208,10 @@ static int ast2600_rambits(AspeedSDMCState *s)
+>      }
+>
+>      /* use a common default */
+> -    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
+> +    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
+>                  s->ram_size);
+> -    s->ram_size =3D 512 << 20;
+> -    return ASPEED_SDMC_AST2600_512MB;
+> +    s->ram_size =3D 1024 << 20;
 
+FWIW units.h has some nice #defines to wrap this stuff:
+
+ s->ram_size =3D 1024 * MiB
+
+Not a blocker though:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+> +    return ASPEED_SDMC_AST2600_1024MB;
+>  }
+>
+>  static void aspeed_sdmc_reset(DeviceState *dev)
+
+
+--
+Alex Benn=C3=A9e
 
