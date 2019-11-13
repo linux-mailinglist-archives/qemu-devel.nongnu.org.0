@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C541DFB2DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:50:13 +0100 (CET)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A10BFB2D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:48:03 +0100 (CET)
+Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUtyG-0000vd-FX
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
+	id 1iUtwA-0007BG-EO
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnh-0005q7-VC
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtni-0005ro-TV
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtng-0006L2-Jp
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:17 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37638)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnh-0006LM-Ll
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:18 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53331)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iUtng-0006Kn-Dd
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:16 -0500
-Received: by mail-wm1-x342.google.com with SMTP id b17so2280425wmj.2
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:16 -0800 (PST)
+ id 1iUtnh-0006L7-FL
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:17 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id u18so2263335wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WlKrofDa4j3N22AYaGt218mSvCaVNbM8UKHCQuejvbk=;
- b=oEmLid5CyqiWpYA7YnLFodz5JRkBBt6E2FSEOuJlUIwaQYzuyPjU9cTsfNoSLn1EJn
- A30ii760z3VHk3SfbQB28jR0uwdAbRitOboycqF7qrsc3V2djwwuld3dI52wREzCQH/1
- V6/YYEew5D28Q2+F7/ySFOp6Pk9S25d2050mhtexfxiJ+tktIXRF2s2TWi+D9INjRqvi
- OWK5n3fMqb8w+oUneo4w1QQA9tt7hTeHXHsvxisO/lVb7iohNy55F4dBSm8GFBITmAEr
- qCtHGOQwVouzEvdG0B5wPlrvFlgZmFULHRIN77Uo5F7X8RqGRFFOu/jtsZd2G2UWkYLq
- zl8A==
+ bh=pQu82Uaslki9sDRmDSEOZxkk8VrP+Tw6ygHKYigroK8=;
+ b=PZgtqet8mzO3nGNaugWE73kPl8iRDG/esg7WFCgCdi76+ckXLd2MwTUO+7hDSG8iD/
+ lDx+K1FrRpYVsogjZWbEg38ERtyNCLCJ1zs0vJlAB6WelSdT8Bcny8+poI0BuFaRCkjL
+ fiL5GWsDL3vNYnMqmC7LqyPbBBy4g43iQVzVxjfRnTDFKKfckNecQTo92WfJQyhOpHaG
+ YecI6AfJRDWVcgfeLW1UlmG8ib0KhcMki70ZXImTSbYlY6cKqNqEPRVlw2CJoT3P/nb/
+ t2E/6UR5GdeOtJ6cGNAWOHqeKcJSvvofnGoU0fej5dSY33bZI1zyPuRAmw31+XdKwdyN
+ 1Obg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=WlKrofDa4j3N22AYaGt218mSvCaVNbM8UKHCQuejvbk=;
- b=HwrfNtAMyXUlKR0hk8BvvGiMhLLZJk+zS5SYeUY3XesBY5dZRUvKnhVdgZku8u+gfI
- BLf+TUyuUK9LrFUbYE8RMCQl2W1kmH5LGy4k99SEPlPBcgHIvzuqrW4gvLisa84KW3lc
- co3heNB38v96OaeZp+4/0/pv/o4h0zoJeaGusyF2zFhlpVX8fZu6D4ByW5upyrwT49q8
- lMYQ4VGjcR6KsFGuHC3drb0ImgqCHuCNU8MNmZ1Z3uhDJw2Y1lOS6WKut2a9Hg20mdbP
- fq/nfAWdjaCLKyVf0Nj5CbSLQd+DPgfn1tUtU0RsMwbZ3dIMZnjZ/pYyn43rcvqxFloP
- WIYQ==
-X-Gm-Message-State: APjAAAUnel/7itPhBqli/fiZYwgPyLFTlplV71DyN9hJJaEVCS4qtENr
- UEt8dPxC6mRzMMN6wNCeog3iVrtO
-X-Google-Smtp-Source: APXvYqzrqEoZm9SIpdGzJInDCEHXo5WV9uklireTeOJNgI+dKw3xVZ3G/ENSYKMbjiMNUU+eXibRCw==
-X-Received: by 2002:a1c:1fca:: with SMTP id f193mr2874305wmf.173.1573655955073; 
- Wed, 13 Nov 2019 06:39:15 -0800 (PST)
+ bh=pQu82Uaslki9sDRmDSEOZxkk8VrP+Tw6ygHKYigroK8=;
+ b=ZlNzEw0IMeg5Bn/Om15uXrH6OxuMoyugeTev6gqPX/EwWZx1KASujXc8ugRRpmGzAP
+ NLgwPeemvLd/MkRMS+uLyH11630MwooaNeUlGRn9bngPQDNzkXlih7RIRkjh+ubdRiPB
+ v4CBP0/vvY4PX8V2hj15bdCkPkW6aQnD9r19D5aYlcJA6l/RmnAoML3/KbUL7t/6OGTN
+ ZZFR4LLaEJch601zt5wkYjx/QnNn8DzxtGqaNmgYbmsz7G+iNS2c3zov5sqKgkzTaN8N
+ vIVtt/7dVVLZn0XsxhF4CixpoXCIfpntTNsoAY8Wd2Nu1tBcVReEdXLZ/pSsK4EBrvCq
+ U56g==
+X-Gm-Message-State: APjAAAXNVIEsMIYZqNOHxT5EZ6vH71vRlGS+GpM3eRpYGq4JkLTJBb2t
+ yVPoNwAglpPZLVNWDRi/MNGtm90x
+X-Google-Smtp-Source: APXvYqxdivET+mj2LzU/MpeGr0KuGjnoFF3cIxLRZpJTT1yPpIwUnMenw9yVkGeAyASutRZraGwMNw==
+X-Received: by 2002:a1c:96d5:: with SMTP id y204mr2993846wmd.63.1573655956177; 
+ Wed, 13 Nov 2019 06:39:16 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.14
+ by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.15
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 13 Nov 2019 06:39:14 -0800 (PST)
+ Wed, 13 Nov 2019 06:39:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/16] qom: add object_new_with_class
-Date: Wed, 13 Nov 2019 15:38:58 +0100
-Message-Id: <1573655945-14912-10-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 10/16] accel: pass object to accel_init_machine
+Date: Wed, 13 Nov 2019 15:38:59 +0100
+Message-Id: <1573655945-14912-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,135 +78,71 @@ Cc: thuth@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to CPU and machine classes, "-accel" class names are mangled,
-so we have to first get a class via accel_find and then instantiate it.
-Provide a new function to instantiate a class without going through
-object_class_get_name, and use it for CPUs and machines already.
+We will have to set QOM properties before accel_init_machine, based on the
+options provided to -accel.  Construct the object outside it so that it
+will be possible to insert the iteration between object_new_with_class
+and accel_init_machine.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h      | 12 ++++++++++++
- qom/object.c              |  5 +++++
- target/i386/cpu.c         |  8 ++++----
- target/s390x/cpu_models.c |  4 ++--
- vl.c                      |  3 +--
- 5 files changed, 24 insertions(+), 8 deletions(-)
+ accel/accel.c          | 6 ++----
+ include/sysemu/accel.h | 2 +-
+ vl.c                   | 4 +++-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 230b18f..f9ad692 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -593,6 +593,18 @@ struct InterfaceClass
-                                              __FILE__, __LINE__, __func__))
- 
- /**
-+ * object_new_with_class:
-+ * @klass: The class to instantiate.
-+ *
-+ * This function will initialize a new object using heap allocated memory.
-+ * The returned object has a reference count of 1, and will be freed when
-+ * the last reference is dropped.
-+ *
-+ * Returns: The newly allocated and instantiated object.
-+ */
-+Object *object_new_with_class(ObjectClass *klass);
-+
-+/**
-  * object_new:
-  * @typename: The name of the type of the object to instantiate.
-  *
-diff --git a/qom/object.c b/qom/object.c
-index c7825dd..ee7708e 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -658,6 +658,11 @@ static Object *object_new_with_type(Type type)
-     return obj;
+diff --git a/accel/accel.c b/accel/accel.c
+index 74eda68..822e945 100644
+--- a/accel/accel.c
++++ b/accel/accel.c
+@@ -52,11 +52,9 @@ AccelClass *accel_find(const char *opt_name)
+     return ac;
  }
  
-+Object *object_new_with_class(ObjectClass *klass)
-+{
-+    return object_new_with_type(klass->type);
-+}
-+
- Object *object_new(const char *typename)
+-int accel_init_machine(AccelClass *acc, MachineState *ms)
++int accel_init_machine(AccelState *accel, MachineState *ms)
  {
-     TypeImpl *ti = type_get_by_name(typename);
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a624163..4742a0e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3881,7 +3881,7 @@ static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
-         return;
-     }
+-    ObjectClass *oc = OBJECT_CLASS(acc);
+-    const char *cname = object_class_get_name(oc);
+-    AccelState *accel = ACCEL(object_new(cname));
++    AccelClass *acc = ACCEL_GET_CLASS(accel);
+     int ret;
+     ms->accelerator = accel;
+     *(acc->allowed) = true;
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index 90b6213..22cac0f 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -67,7 +67,7 @@ typedef struct AccelClass {
+ extern unsigned long tcg_tb_size;
  
--    xc = X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))));
-+    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
+ AccelClass *accel_find(const char *opt_name);
+-int accel_init_machine(AccelClass *acc, MachineState *ms);
++int accel_init_machine(AccelState *accel, MachineState *ms);
  
-     x86_cpu_expand_features(xc, &err);
-     if (err) {
-@@ -3952,7 +3952,7 @@ static GSList *get_sorted_cpu_model_list(void)
- 
- static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
- {
--    Object *obj = object_new(object_class_get_name(OBJECT_CLASS(xc)));
-+    Object *obj = object_new_with_class(OBJECT_CLASS(xc));
-     char *r = object_property_get_str(obj, "model-id", &error_abort);
-     object_unref(obj);
-     return r;
-@@ -4333,7 +4333,7 @@ static X86CPU *x86_cpu_from_model(const char *model, QDict *props, Error **errp)
-         goto out;
-     }
- 
--    xc = X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))));
-+    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
-     if (props) {
-         object_apply_props(OBJECT(xc), props, &err);
-         if (err) {
-@@ -5177,7 +5177,7 @@ static void x86_cpu_apic_create(X86CPU *cpu, Error **errp)
-     APICCommonState *apic;
-     ObjectClass *apic_class = OBJECT_CLASS(apic_get_class());
- 
--    cpu->apic_state = DEVICE(object_new(object_class_get_name(apic_class)));
-+    cpu->apic_state = DEVICE(object_new_with_class(apic_class));
- 
-     object_property_add_child(OBJECT(cpu), "lapic",
-                               OBJECT(cpu->apic_state), &error_abort);
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 7e92fb2..72cf48b 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -440,7 +440,7 @@ static void create_cpu_model_list(ObjectClass *klass, void *opaque)
-     if (cpu_list_data->model) {
-         Object *obj;
-         S390CPU *sc;
--        obj = object_new(object_class_get_name(klass));
-+        obj = object_new_with_class(klass);
-         sc = S390_CPU(obj);
-         if (sc->model) {
-             info->has_unavailable_features = true;
-@@ -501,7 +501,7 @@ static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *info,
-         error_setg(errp, "The CPU definition '%s' requires KVM", info->name);
-         return;
-     }
--    obj = object_new(object_class_get_name(oc));
-+    obj = object_new_with_class(oc);
-     cpu = S390_CPU(obj);
- 
-     if (!cpu->model) {
+ /* Called just before os_setup_post (ie just before drop OS privs) */
+ void accel_setup_post(MachineState *ms);
 diff --git a/vl.c b/vl.c
-index cb993dd..6e406d4 100644
+index 6e406d4..c8ec906 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -3988,8 +3988,7 @@ int main(int argc, char **argv, char **envp)
-                       cleanup_add_fd, NULL, &error_fatal);
- #endif
+@@ -2846,6 +2846,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     bool *p_init_failed = opaque;
+     const char *acc = qemu_opt_get(opts, "accel");
+     AccelClass *ac = accel_find(acc);
++    AccelState *accel;
+     int ret;
  
--    current_machine = MACHINE(object_new(object_class_get_name(
--                          OBJECT_CLASS(machine_class))));
-+    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
-     if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
-         exit(0);
+     if (!ac) {
+@@ -2853,7 +2854,8 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+         error_report("invalid accelerator %s", acc);
+         return 0;
      }
+-    ret = accel_init_machine(ac, current_machine);
++    accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
++    ret = accel_init_machine(accel, current_machine);
+     if (ret < 0) {
+         *p_init_failed = true;
+         error_report("failed to initialize %s: %s",
 -- 
 1.8.3.1
 
