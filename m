@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E04FB552
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:39:20 +0100 (CET)
-Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A549AFB570
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:43:40 +0100 (CET)
+Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvfr-000500-NH
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:39:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43879)
+	id 1iUvk3-0001Cc-JY
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:43:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sameid@google.com>) id 1iUvbz-0001OP-VM
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:21 -0500
+ (envelope-from <berrange@redhat.com>) id 1iUvcr-0002Pm-LW
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sameid@google.com>) id 1iUvby-00044B-Ip
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:19 -0500
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:37767)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sameid@google.com>) id 1iUvbw-00041k-J2
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:18 -0500
-Received: by mail-qk1-x741.google.com with SMTP id e187so2285003qkf.4
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:35:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SkZ7vb9dOUvTVroUidoDFjMZpFuFCc60ezXoeOjm4Ok=;
- b=dJBNqxW8vTw6t3KaiY1EOt58shSLuxRhHA1NVADvsra1/HKpV7unGQPyt949M1VgBk
- Ny4r9bU83uR3klDzlTaMV5I/mBXXIiGZnhEgioq7WTgvLCnmW7W980mWeXwEqYzn3U3i
- 6XY5y8Sjm1ME+3Ks420GXILpQNRjHqqNGX33P7WYrFImF9r6lLSW7VuMnzisCYj91FBf
- fJ7He3punD/f5Sw87ylf6oiH6u+NaX0CTJmpfbnI6g5upxBslTj17kCadHkArgEbygkM
- Q3DbBzKsGlPrx4UnCR395npKuxcuMIhDCn4UcqSfEujw/kQRIex4FJXRZU8Ht3FQoGyg
- et5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SkZ7vb9dOUvTVroUidoDFjMZpFuFCc60ezXoeOjm4Ok=;
- b=Qte6cHhSNsCDIs86c/ilCduJ3bXZ4MgyNNJ4EXWxSlLKc4WD6owmQdGs3XcQs0epJn
- +JHv2Doft88ydJBXCkvaCVffRFIvrTksl7Fz+9DKnioXkHB44dRPPFPfdp9ty+gyIIGD
- k6uXvezVrtRRduIz1M7h+bMOgNJYAt3mIAx3S7pySpGx3yShg/9Cq003mzw5OQrjEmSe
- 6ZrsOlBx/O8qaySkOTYemkvax8EuGAaLasD5zz1Lm0NF1IMgvwgDXsGFK4dmoJEH9BMv
- OKx2hz1aPKs3LQPkebKHtWllhR8vAwBaxeCl+xdUEmruimqB10KYM62tiGUmQwKTzHIZ
- nzYQ==
-X-Gm-Message-State: APjAAAU8IpUe9sUW9jaUZTo+9ldeVxWisusfRjFuqur+jHY08Z06cSgd
- 6i8/hkEjX8iuWYfftIWPHEVQlXJNITqukn/00n+d8A==
-X-Google-Smtp-Source: APXvYqyYfvXYeGxwgRhlHer3wZqydexi7OMg3bmionzBqAcC9FC14g8yI0FpQGD3oOHtECbO6pszlsHhjlixcea7+kE=
-X-Received: by 2002:a37:b2c5:: with SMTP id b188mr3467737qkf.30.1573662914121; 
- Wed, 13 Nov 2019 08:35:14 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iUvcq-0004Ji-DF
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28448
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iUvcq-0004JX-9b
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:36:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573662971;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YQFb/AiV2JVeAvhBIhzbSNrgnSukUKHp3jTJfAyZ+rg=;
+ b=FFf4BQmUCXrZ+s1XkHGXYWHuyb9wh5DQ7Dzc19EZ5NknF/e0DA1NQr/j1/OgNqDIbwcMK5
+ B2fD+pSIEgXthkAEmN8fxldOG0QpCDSG5Yhq20VTGk0nwQgqAqQRPY1WeHMk6XSpALDAup
+ UnpvYmfvTQrS5IPmNt6lWzq7+TBV+6c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-Zu0UgxR3Pyuvspzi6g08yw-1; Wed, 13 Nov 2019 11:36:08 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C7DE184CCC6;
+ Wed, 13 Nov 2019 16:36:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81B7810E1B43;
+ Wed, 13 Nov 2019 16:35:54 +0000 (UTC)
+Date: Wed, 13 Nov 2019 16:35:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [RFC v4 PATCH 02/49] multi-process: util: Add
+ qemu_thread_cancel() to cancel running thread
+Message-ID: <20191113163552.GJ2445240@redhat.com>
+References: <cover.1571905346.git.jag.raman@oracle.com>
+ <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
+ <20191113153006.GA563983@stefanha-x1.localdomain>
+ <fd30b4ee-1f92-82a8-42a6-871b0a9e23b1@oracle.com>
+ <20191113155125.GI2445240@redhat.com>
+ <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
 MIME-Version: 1.0
-References: <20191113091809.31365-1-kraxel@redhat.com>
- <84d3a1aa-bbb2-d831-0abc-fe1169f8a860@redhat.com>
- <20191113140057.2ocwfa3rqqfkbg3r@sirius.home.kraxel.org>
- <CAFr6bUn5W2-w3z4Ty9XD7mh+=kxVq2rQJ3ZUz5nXA13ZdxQtsg@mail.gmail.com>
- <ca6dadb1-fddf-5f6f-a6fc-f94eb02862b6@redhat.com>
-In-Reply-To: <ca6dadb1-fddf-5f6f-a6fc-f94eb02862b6@redhat.com>
-From: Sam Eiderman <sameid@google.com>
-Date: Wed, 13 Nov 2019 18:35:02 +0200
-Message-ID: <CAFr6bUkGrC64gXfLgeZ5hYEkzLF4J-NzNCG3X1deHEovyJ7qSw@mail.gmail.com>
-Subject: Re: [SeaBIOS] Re: [PATCH] ahci: zero-initialize port struct
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- seabios@seabios.org, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <89ec048f-6db1-a52d-49de-c758f8408eb0@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Zu0UgxR3Pyuvspzi6g08yw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,91 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, john.g.johnson@oracle.com,
+ rth@twiddle.net, mst@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ ross.lagerwall@citrix.com, mreitz@redhat.com, liran.alon@oracle.com,
+ kraxel@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ kanth.ghatraju@oracle.com, pbonzini@redhat.com, kwolf@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com, marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sure,
+On Wed, Nov 13, 2019 at 11:04:58AM -0500, Jag Raman wrote:
+>=20
+>=20
+> On 11/13/2019 10:51 AM, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Nov 13, 2019 at 10:38:06AM -0500, Jag Raman wrote:
+> > >=20
+> > >=20
+> > > On 11/13/2019 10:30 AM, Stefan Hajnoczi wrote:
+> > > > On Thu, Oct 24, 2019 at 05:08:43AM -0400, Jagannathan Raman wrote:
+> > > > > qemu_thread_cancel() added to destroy a given running thread.
+> > > > > This will be needed in the following patches.
+> > > > >=20
+> > > > > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> > > > > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> > > > > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > > > > ---
+> > > > >    include/qemu/thread.h    |  1 +
+> > > > >    util/qemu-thread-posix.c | 10 ++++++++++
+> > > > >    2 files changed, 11 insertions(+)
+> > > >=20
+> > > > Is this still needed?  I thought previous discussion concluded that
+> > > > thread cancellation is hard to get right and it's not actually used=
+ by
+> > > > this series?
+> > >=20
+> > > Hi Stefan,
+> > >=20
+> > > This is used in PATCH 41/49.
+> >=20
+> > I don't believe the cancellation usage in that patch is safe :-)
+>=20
+> Thanks for the feedback, we will address that.
+>=20
+> May I please ask why it is not safe? Any clarification will help us to
+> find a better alternative.
 
-There are two issues here.
+I put some comments inline in the patch 41 explaining my thoughts.
 
-The first issue is that my commits which applied to seabios master:
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-* 9caa19b - geometry: Apply LCHS values for boot devices
-* cb56f61 - config: Add toggle for bootdevice information
-* ad29109 - geometry: Add boot_lchs_find_*() utility functions
-* b3d2120 - boot: Reorder functions in boot.c
-* 7c66a43 - geometry: Read LCHS from fw_cfg
-
-Are not from the latest version which was submitted to the mailing list (v4=
-)
-* fw_cfg key name has changed
-* The value and of the key has changed from binary (v1) to textual (v4)
-* Other fixes and variable name changes.
-
-So these commits need to be reverted and reapplied with the latest version =
-(v4)
-
-The second issue is that my commits, (in v4 too) will require this fix
-that Gerd added ([PATCH] ahci: zero-initialize port struct) since they
-change how SeaBIOS uses lchs.
-
-Previously, before any of my commits, drive.lchs could contain "random
-crap" since it was always set before being used in
-setup_translation().
-
-After my patches, get_translation() invokes overriden_lchs_supplied()
-which checks: "return drive->lchs.cylinder || drive->lchs.head ||
-drive->lchs.sector;"
-So there is an assumption that "drive->lchs" is zeroed when lchs is
-not supplied for the host.
-
-This was true for all devices using "drive->lchs" (all were memset to
-0) except ahci.
-(I used 'git grep "drive_s * drive"' to find them all).
-
-So Gerd fix is indeed needed and then all devices are covered
-(drive->lchs is memset to 0).
-
-Now only the first issue remains...
-
-Sam
-
-On Wed, Nov 13, 2019 at 6:12 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Hi Sam,
->
-> On 11/13/19 4:03 PM, Sam Eiderman wrote:
-> > Hi,
-> >
-> > Does this fix a bug that actually happened?
-> >
-> > I just noticed that in my lchs patches I assumed that lchs struct is
-> > zeroed out in all devices (not only ahci):
-> >
-> > 9caa19be0e53 (geometry: Apply LCHS values for boot devices)
-> >
-> > Seems like this is not the case but why only ahci is affected?
-> >
-> > The list of devices is at least:
-> >
-> >          * ata
-> >          * ahci
-> >          * scsi
-> >              * esp
-> >              * lsi
-> >              * megasas
-> >              * mpt
-> >              * pvscsi
-> >              * virtio
-> >          * virtio-blk
-> >
-> > As specified in the commit message.
-> >
-> > Also Gerd it seems that my lchs patches were not committed in the
-> > latest submitted version (v4)!!!
-> > The ABI of the fw config key is completely broken.
->
-> What do you mean? Can you be more specific?
->
 
