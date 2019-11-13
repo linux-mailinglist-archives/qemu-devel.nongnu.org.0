@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C930FBBEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 23:55:44 +0100 (CET)
-Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EABFBC23
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 00:03:17 +0100 (CET)
+Received: from localhost ([::1]:52128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iV1Y6-0002iH-R1
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 17:55:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33883)
+	id 1iV1fP-0001NP-66
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 18:03:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iV1TO-000840-Vz
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:52 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iV1TO-000841-Vn
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iV1TN-0007c0-2o
+ (envelope-from <alxndr@bu.edu>) id 1iV1TN-0007c5-39
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:50 -0500
-Received: from mail-dm3nam03on072d.outbound.protection.outlook.com
- ([2a01:111:f400:fe49::72d]:36592
- helo=NAM03-DM3-obe.outbound.protection.outlook.com)
+Received: from mail-eopbgr820113.outbound.protection.outlook.com
+ ([40.107.82.113]:22310 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iV1TM-0007S1-Li
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iV1TM-0007aZ-Mr
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:49 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QHivrUapXYyTLpR82jl8qfEDXxI8U+T5PBYAg9LMaOzSyU7gS8NHPZ6sQzPQg26dyj8m4FR/3oV+7DGCyuKBgkHrG3/vpmF1r1+QJ1CCj8V5teMyhmb8UygpMPS9Xw5YvkHf8Di/GJyeTnnsShmsFAXzTXJLiKfIDn1RJCo5vPhzElCdIEQQ7Cf2CEQeqjReU4tHIzgb2f3kmXtpj+Oj+m39n3rCj1O+f++pXCsjFiOkSmepO5vWJAfH/Oir+UzUi2WXHtcVncUtdHe3PSFs/g2IGB7kToweuWAucnkaDfYBmmI35qjrihOWB/euaiKAZ84T5dzgIjxXnt0F6Q9Znw==
+ b=Mh9TNJNlf6pOEfBwsAPNWJgmT1jn1tExV0krLXfJNSFYDrpE+vRr4NSe7lvHABQLezH96ih3c6eWUKdRLAYV7oiPqnDXmfGMizygeVcdpuU4DNpzXttwVJ962Vo+FGU8LrfILVpVntA1bm9VNyUNoMR7GUSNhD5z2cil59I/P5TXZHYUk8s1ZJ15P2dqyk+kVMb/OAFSTEpYxdQbK7A8OBv9w9QbJ9kMTUDkVOM6J79dY4eTu5bNvtQAPAlUpJvGe3FabgjQrtEBsxaoGevlNZDMT+QJObpNdEFH3KUm8S2rySHDZfwbngaS8XTWRVUUx0iEukO6sWc1CNqeTaFasQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3S8Tox1xa0Kv8JfcLGiMndC8WdzfHsEq8E4UGEz9Fuw=;
- b=LNYBMSMJ5lDzb0oCYP240MeV1fTZyPSYwum61bZ5qDxpt2M6cz8JYHp25mCheSMweha+pDm5rRasPL85OcNNBsl4P/Sv8y7bUuBhE82e17I5g6cWi10Z+0sWLTp9ptueptkGrL19FDgac242ioDa/b7FrnjPzChkBcNUOrGi29pIFni5iCAV5hPTGxQayarFNDLEEze+M2FlYf2FcA6huzevxIGHbGLWY2H9mwyKeQ4sHr8yBW1JctURbnmKVAwHbubUeTHXTdxEIbIYE1r2oBVUdyq06tGZdhI0biORDlwHCObAbQlkS+J2lccQQ+oteNDs7KStG4dQ5hwwV4T3Lg==
+ bh=ZPW70vhuDCy9oDq26QeRC1tJQO5d+nILsOwrQqFMipg=;
+ b=BODcYdPI+J9Qy/+n7+lOJ0jaJGvrhvR1Eg0tFTmyKsgm7heIVchNnW05RLcV4P2icFBbK5HMKSzoDBT2Mj1vcdrvEIeKQ7wWUZL/sX+rY2lKUft0TBA7y2byHDdx0uhuVTJ/feMkYTKC0D7ngw+PTWJQUx/xOE1X440mPMXMzfCRvkpfK4vmIv6UfDxNyNyLdT8YxrqstOR1RZV9MBhEQ774HprxNJVcBmbFPrEnoRI3afmlB0dOW3mNE9PyVwoiyK4RfaAJCEpjVkVJnIxAeHeQjMyz7zj1sxiQfDZ/5anutR3JI9/lVg8837sCY4WIYaZP9jqx92Gu47Q8CI6UUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3S8Tox1xa0Kv8JfcLGiMndC8WdzfHsEq8E4UGEz9Fuw=;
- b=RKkJ3q4df+SYDIQBrEHtAg7Qtk9pv60yE7UhVengwlcV2clnZPSDa65+Ub9rHjcpiE9tmZuBpGMuvYmtjSMDbHSge+NTEYFA8EJkCBGWxOyUEbVmpGWr229oS/cyxSc1+EZqrCT/wCrZtyvuGdKCffUlO1EHeBUfv/jBTyFfWpU=
+ bh=ZPW70vhuDCy9oDq26QeRC1tJQO5d+nILsOwrQqFMipg=;
+ b=J3+iniX1luNUwmdp78qP4DEFmhRh/5er27XTfF8QVmKEhaCS3ItUIGWbf23T0HigIdYCAIsYeGuxGk7gd+83rp1s0fDe5Mabck99a1SxKQRZxpVnRDiXGoUCNdKknJgRssUCG3rRw9J8TAmr3jc3AZTd7H/sqKhfTy/u+hQIOuY=
 Received: from MN2PR03MB4800.namprd03.prod.outlook.com (20.179.82.78) by
  MN2PR03MB5024.namprd03.prod.outlook.com (52.132.169.72) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Wed, 13 Nov 2019 22:50:41 +0000
+ 15.20.2430.20; Wed, 13 Nov 2019 22:50:42 +0000
 Received: from MN2PR03MB4800.namprd03.prod.outlook.com
  ([fe80::344f:b88:26f0:9f66]) by MN2PR03MB4800.namprd03.prod.outlook.com
  ([fe80::344f:b88:26f0:9f66%7]) with mapi id 15.20.2451.023; Wed, 13 Nov 2019
- 22:50:41 +0000
+ 22:50:42 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v5 00/20] Add virtual device fuzzing support
-Thread-Topic: [PATCH v5 00/20] Add virtual device fuzzing support
-Thread-Index: AQHVmnTG77CbXoJrvUGHcHHmfhQA0Q==
-Date: Wed, 13 Nov 2019 22:50:41 +0000
-Message-ID: <20191113225030.17023-1-alxndr@bu.edu>
+Subject: [PATCH v5 01/20] softmmu: split off vl.c:main() into main.c
+Thread-Topic: [PATCH v5 01/20] softmmu: split off vl.c:main() into main.c
+Thread-Index: AQHVmnTGsVmsxY6a30O5nXkOvQbtug==
+Date: Wed, 13 Nov 2019 22:50:42 +0000
+Message-ID: <20191113225030.17023-2-alxndr@bu.edu>
+References: <20191113225030.17023-1-alxndr@bu.edu>
+In-Reply-To: <20191113225030.17023-1-alxndr@bu.edu>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -64,14 +65,14 @@ x-clientproxiedby: MN2PR15CA0028.namprd15.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 562aa295-1d82-4f0b-a518-08d7688be8e5
+x-ms-office365-filtering-correlation-id: df437fb3-3246-4465-0eac-08d7688be94b
 x-ms-traffictypediagnostic: MN2PR03MB5024:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR03MB5024EC2D2A6F7481DADA430DBA760@MN2PR03MB5024.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-microsoft-antispam-prvs: <MN2PR03MB50243E7F76EBB9DBF7310B23BA760@MN2PR03MB5024.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0220D4B98D
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(366004)(136003)(376002)(346002)(39860400002)(199004)(189003)(2501003)(88552002)(75432002)(54906003)(7736002)(99286004)(6436002)(6486002)(5640700003)(476003)(305945005)(256004)(786003)(2906002)(2351001)(14444005)(316002)(14454004)(6116002)(86362001)(2616005)(6512007)(6916009)(486006)(3846002)(71200400001)(71190400001)(4326008)(1076003)(36756003)(386003)(8676002)(478600001)(66066001)(81166006)(186003)(66946007)(5660300002)(6506007)(81156014)(64756008)(52116002)(26005)(102836004)(50226002)(25786009)(8936002)(66476007)(66556008)(66446008);
+ SFS:(10019020)(396003)(366004)(136003)(376002)(346002)(39860400002)(199004)(189003)(2501003)(88552002)(75432002)(54906003)(446003)(7736002)(99286004)(11346002)(6436002)(6486002)(5640700003)(476003)(305945005)(256004)(786003)(2906002)(2351001)(14444005)(316002)(14454004)(6116002)(86362001)(2616005)(6512007)(6916009)(486006)(3846002)(71200400001)(71190400001)(4326008)(1076003)(36756003)(386003)(8676002)(478600001)(66066001)(76176011)(81166006)(186003)(66946007)(5660300002)(6506007)(81156014)(64756008)(52116002)(26005)(102836004)(50226002)(25786009)(8936002)(66476007)(66556008)(66446008);
  DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR03MB5024;
  H:MN2PR03MB4800.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -79,20 +80,20 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yCuYXPyeS+2+vr8kYdmqsBCyQc7kpwRAB9OptApbw32n6kpNwqGI+uUOEIMQ7IU9iOeZzLqyVb05DEkY2lYns9H0+tdaZhOe+h79L9MkC3azG+JPHhuUvPvLLzP+zIBugmLF8FgdPeNiNstHjg9JwP1Xz9VLOlPk2rTJjRfnziBDrC83Uzt+7sSl99uK4I84v46DSmeSKs0x8ImRj7CJ4Uyb9yTEbQVEbwgUn50kxJCGnngoRHxVRp3TAF5wcXsOamR2TltXiokdjBl89KJoJXF764DsVk82RS3cI1xdchfAHYQVJEITHJiGrPeipffS0RCAegcQ4wBPC7dk0iSBN+R1c1EE4eZTwiQX5+fwigf1DzfKI5EbiTwVnujOYTYbprNUSqeJ763RmFPiMwdQxXdyj4Q5/BBRw2f7cPd19Yr0k8Hpk9uwszxeZ5YIrgS9
+x-microsoft-antispam-message-info: wyzhBvh8OGJrOnavvnP1OVuVz+Y65axZs9i2jRJmouJiZbR2BLDaIt22qeLcCkZdwZbkDwwVNrK6fYDhSwX1cWbof/RNd02GzYGzUwsfs8rSDtwecL3R2Si4tSk5DzaxtCOvyeXEoKt7IFqfKPAbnsrY7nZnVNXTFDnqDn0Ch09j3WRFPvV6muCNmLWKGGQ6DmqbNxe4iFnOkW9IdJzo8B16rC5/2wj5f19nzJuZnqdhSYHd8rduwjTuGtbogpaZIjrgMrOumfXoYxl/jFF9yjW5KwqZb6aAc+CAu5Od5RJA5m9AvWrjfomTkKnAycbdNzQiAfFh7hVUUWbXod4rIiZDsZMJsjgo1/KeCsjPWLEycHMUVao/bXPazavNbDr0TCVgrvp+8c+KjSMHwvbTuXeSxx5Uyrb9esE96HpMgzy1t2qAqLxx7PCuba3Hqe+G
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 562aa295-1d82-4f0b-a518-08d7688be8e5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 22:50:41.5640 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: df437fb3-3246-4465-0eac-08d7688be94b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 22:50:42.2196 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GDGZmFJ0o8eBETa/ZtqjU+J2QZkcUqYOjosbjYFF/m26zC03V8+Gi3FiMkLoxwsS
+X-MS-Exchange-CrossTenant-userprincipalname: otqjKGWZ0RNMYnzFPu55JvFcpblrE1hIrRrCNFqGx7A2hlEmLH6j7lI1TMUQZRYI
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5024
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe49::72d
+X-Received-From: 40.107.82.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,114 +111,237 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds a framework for coverage-guided fuzzing of
-virtual-devices. Fuzzing targets are based on qtest and can make use of
-the libqos abstractions.
+A program might rely on functions implemented in vl.c, but implement its
+own main(). By placing main into a separate source file, there are no
+complaints about duplicate main()s when linking against vl.o. For
+example, the virtual-device fuzzer uses a main() provided by libfuzzer,
+and needs to perform some initialization before running the softmmu
+initialization. Now, main simply calls three vl.c functions which
+handle the guest initialization, main loop and cleanup.
 
-V5:
- * misc fixes addressing V4 comments
- * cleanup in-process handlers/globals in libqtest.c
- * small fixes to fork-based fuzzing and support for multiple workers
- * changes to the virtio-net fuzzer to kick after each vq add
-
-V4:
- * add/transfer license headers to new files
- * restructure the added QTestClientTransportOps struct
- * restructure the FuzzTarget struct and fuzzer skeleton
- * fork-based fuzzer now directly mmaps shm over the coverage bitmaps
- * fixes to i440 and virtio-net fuzz targets
- * undo the changes to qtest_memwrite
- * possible to build /fuzz and /all in the same build-dir
- * misc fixes to address V3 comments
-
-V3:
- * rebased onto v4.1.0+
- * add the fuzzer as a new build-target type in the build-system
- * add indirection to qtest client/server communication functions
- * remove ramfile and snapshot-based fuzzing support
- * add i440fx fuzz-target as a reference for developers.
- * add linker-script to assist with fork-based fuzzer
-
-V2:
- * split off changes to qos virtio-net and qtest server to other patches
- * move vl:main initialization into new func: qemu_init
- * moved useful functions from qos-test.c to a separate object
- * use struct of function pointers for add_fuzz_target(), instead of
-   arguments
- * move ramfile to migration/qemu-file
- * rewrite fork-based fuzzer pending patch to libfuzzer
- * pass check-patch
-
-Alexander Bulekov (20):
-  softmmu: split off vl.c:main() into main.c
-  libqos: Rename i2c_send and i2c_recv
-  fuzz: Add FUZZ_TARGET module type
-  qtest: add qtest_server_send abstraction
-  libqtest: Add a layer of abstraciton to send/recv
-  module: check module wasn't already initialized
-  qtest: add in-process incoming command handler
-  tests: provide test variables to other targets
-  libqos: split qos-test and libqos makefile vars
-  libqos: move useful qos-test funcs to qos_external
-  libqtest: make bufwrite rely on the TransportOps
-  libqtest: add in-process qtest.c tx/rx handlers
-  fuzz: add configure flag --enable-fuzzing
-  fuzz: Add target/fuzz makefile rules
-  fuzz: add fuzzer skeleton
-  fuzz: add support for fork-based fuzzing.
-  fuzz: add support for qos-assisted fuzz targets
-  fuzz: add i440fx fuzz targets
-  fuzz: add virtio-net fuzz target
-  fuzz: add documentation to docs/devel/
-
- Makefile                     |  16 ++-
- Makefile.objs                |   4 +
- Makefile.target              |  18 ++-
- configure                    |  39 ++++++
- docs/devel/fuzzing.txt       | 119 ++++++++++++++++++
- exec.c                       |  12 +-
- include/qemu/module.h        |   4 +-
- include/sysemu/qtest.h       |   4 +
- include/sysemu/sysemu.h      |   4 +
- main.c                       |  53 ++++++++
- qtest.c                      |  31 ++++-
- tests/Makefile.include       |  75 +++++------
- tests/fuzz/Makefile.include  |  11 ++
- tests/fuzz/fork_fuzz.c       |  55 +++++++++
- tests/fuzz/fork_fuzz.h       |  23 ++++
- tests/fuzz/fork_fuzz.ld      |  37 ++++++
- tests/fuzz/fuzz.c            | 179 +++++++++++++++++++++++++++
- tests/fuzz/fuzz.h            |  94 ++++++++++++++
- tests/fuzz/i440fx_fuzz.c     | 176 ++++++++++++++++++++++++++
- tests/fuzz/qos_fuzz.c        | 232 +++++++++++++++++++++++++++++++++++
- tests/fuzz/qos_fuzz.h        |  33 +++++
- tests/fuzz/virtio_net_fuzz.c | 100 +++++++++++++++
- tests/libqos/i2c.c           |  10 +-
- tests/libqos/i2c.h           |   4 +-
- tests/libqos/qos_external.c  | 168 +++++++++++++++++++++++++
- tests/libqos/qos_external.h  |  28 +++++
- tests/libqtest.c             | 108 ++++++++++++++--
- tests/libqtest.h             |   4 +
- tests/pca9552-test.c         |  10 +-
- tests/qos-test.c             | 140 +--------------------
- util/module.c                |   7 ++
- vl.c                         |  38 ++----
- 32 files changed, 1607 insertions(+), 229 deletions(-)
- create mode 100644 docs/devel/fuzzing.txt
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ Makefile                |  1 +
+ Makefile.objs           |  2 ++
+ include/sysemu/sysemu.h |  4 ++++
+ main.c                  | 53 +++++++++++++++++++++++++++++++++++++++++
+ vl.c                    | 38 ++++++++---------------------
+ 5 files changed, 70 insertions(+), 28 deletions(-)
  create mode 100644 main.c
- create mode 100644 tests/fuzz/Makefile.include
- create mode 100644 tests/fuzz/fork_fuzz.c
- create mode 100644 tests/fuzz/fork_fuzz.h
- create mode 100644 tests/fuzz/fork_fuzz.ld
- create mode 100644 tests/fuzz/fuzz.c
- create mode 100644 tests/fuzz/fuzz.h
- create mode 100644 tests/fuzz/i440fx_fuzz.c
- create mode 100644 tests/fuzz/qos_fuzz.c
- create mode 100644 tests/fuzz/qos_fuzz.h
- create mode 100644 tests/fuzz/virtio_net_fuzz.c
- create mode 100644 tests/libqos/qos_external.c
- create mode 100644 tests/libqos/qos_external.h
 
+diff --git a/Makefile b/Makefile
+index 0e994a275d..d2b2ecd3c4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -474,6 +474,7 @@ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
+ $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
++$(SOFTMMU_ALL_RULES): $(softmmu-main-y)
+=20
+ .PHONY: $(TARGET_DIRS_RULES)
+ # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
+diff --git a/Makefile.objs b/Makefile.objs
+index 11ba1a36bd..9ff9b0c6f9 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -86,6 +86,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
+ # qapi
+=20
+ common-obj-y +=3D qapi/
++
++softmmu-main-y =3D main.o
+ endif
+=20
+ #######################################################################
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 44f18eb739..d1dbf85414 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -114,6 +114,10 @@ QemuOpts *qemu_get_machine_opts(void);
+=20
+ bool defaults_enabled(void);
+=20
++void qemu_init(int argc, char **argv, char **envp);
++void qemu_main_loop(void);
++void qemu_cleanup(void);
++
+ extern QemuOptsList qemu_legacy_drive_opts;
+ extern QemuOptsList qemu_common_drive_opts;
+ extern QemuOptsList qemu_drive_opts;
+diff --git a/main.c b/main.c
+new file mode 100644
+index 0000000000..f10ceda541
+--- /dev/null
++++ b/main.c
+@@ -0,0 +1,53 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "sysemu/sysemu.h"
++
++#ifdef CONFIG_SDL
++#if defined(__APPLE__) || defined(main)
++#include <SDL.h>
++int main(int argc, char **argv)
++{
++    return qemu_main(argc, argv, NULL);
++}
++#undef main
++#define main qemu_main
++#endif
++#endif /* CONFIG_SDL */
++
++#ifdef CONFIG_COCOA
++#undef main
++#define main qemu_main
++#endif /* CONFIG_COCOA */
++
++int main(int argc, char **argv, char **envp)
++{
++    qemu_init(argc, argv, envp);
++    qemu_main_loop();
++    qemu_cleanup();
++
++    return 0;
++}
+diff --git a/vl.c b/vl.c
+index c389d24b2c..adb08a3d41 100644
+--- a/vl.c
++++ b/vl.c
+@@ -36,25 +36,6 @@
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+=20
+-#ifdef CONFIG_SDL
+-#if defined(__APPLE__) || defined(main)
+-#include <SDL.h>
+-int qemu_main(int argc, char **argv, char **envp);
+-int main(int argc, char **argv)
+-{
+-    return qemu_main(argc, argv, NULL);
+-}
+-#undef main
+-#define main qemu_main
+-#endif
+-#endif /* CONFIG_SDL */
+-
+-#ifdef CONFIG_COCOA
+-#undef main
+-#define main qemu_main
+-#endif /* CONFIG_COCOA */
+-
+-
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/accel.h"
+@@ -1797,7 +1778,7 @@ static bool main_loop_should_exit(void)
+     return false;
+ }
+=20
+-static void main_loop(void)
++void qemu_main_loop(void)
+ {
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+@@ -2824,7 +2805,7 @@ static void user_register_global_props(void)
+                       global_init_func, NULL, NULL);
+ }
+=20
+-int main(int argc, char **argv, char **envp)
++void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+     int snapshot, linux_boot;
+@@ -3404,7 +3385,7 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_watchdog:
+                 if (watchdog) {
+                     error_report("only one watchdog option may be given");
+-                    return 1;
++                    exit(1);
+                 }
+                 watchdog =3D optarg;
+                 break;
+@@ -3847,7 +3828,7 @@ int main(int argc, char **argv, char **envp)
+     set_memory_options(&ram_slots, &maxram_size, machine_class);
+=20
+     os_daemonize();
+-    rcu_disable_atfork();
++    /* rcu_disable_atfork(); */
+=20
+     if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
+         error_reportf_err(err, "cannot create PID file: ");
+@@ -4327,7 +4308,7 @@ int main(int argc, char **argv, char **envp)
+     parse_numa_opts(current_machine);
+=20
+     /* do monitor/qmp handling at preconfig state if requested */
+-    main_loop();
++    qemu_main_loop();
+=20
+     audio_init_audiodevs();
+=20
+@@ -4440,7 +4421,7 @@ int main(int argc, char **argv, char **envp)
+     if (vmstate_dump_file) {
+         /* dump and exit */
+         dump_vmstate_json_to_file(vmstate_dump_file);
+-        return 0;
++        exit(0);
+     }
+=20
+     if (incoming) {
+@@ -4457,8 +4438,11 @@ int main(int argc, char **argv, char **envp)
+     accel_setup_post(current_machine);
+     os_setup_post();
+=20
+-    main_loop();
++    return;
++}
+=20
++void qemu_cleanup(void)
++{
+     gdbserver_cleanup();
+=20
+     /*
+@@ -4495,6 +4479,4 @@ int main(int argc, char **argv, char **envp)
+     qemu_chr_cleanup();
+     user_creatable_cleanup();
+     /* TODO: unref root container, check all devices are ok */
+-
+-    return 0;
+ }
 --=20
 2.23.0
 
