@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E1DFB2F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:56:13 +0100 (CET)
-Received: from localhost ([::1]:45938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7DFB2F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:57:38 +0100 (CET)
+Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUu44-0000GO-SQ
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:56:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54803)
+	id 1iUu5R-0002WW-Gy
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:57:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iUtpI-0008Mq-Q7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:40:58 -0500
+ (envelope-from <jdenemar@redhat.com>) id 1iUttI-00052g-Dh
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iUtpH-0006ol-DU
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:40:56 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35338)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iUtpH-0006of-4R
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:40:55 -0500
-Received: by mail-lj1-x244.google.com with SMTP id r7so2877674ljg.2
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=u3Cv8WUE2l7b3jexTec4eGt7y3TTD6iPElcZZTnvLYc=;
- b=TXQQWyzy1kE1W++iWSc8JbHt3LtJA4kJyjDMMxQKTia4QErt4voKinALfrn4HyRAdz
- 9A4HbUizINPZ+mXY7cq/L05cKrnM2ukNueTRRaeje1nfbqNlKxnKXDmp0tZrP5zzPza3
- G2ajMrhaaDJ5Y/qdhoA6azqpM2+06L7l8u/MuBMuTIFhNB5h7hbGUVaBbwPaa4SuJRvv
- SG0qsqhtt46dOc1VZTmLwatWQJZ3tK4oHWXSQnYFJMPov0r7zCD3Esk/gy1c0CdQgyoB
- FNyYaVY40fHSkgLLLI7p9PwmdkRjUM7VvAah3tleUsNPsr53A2L2fkoAzKuQxCU1+NK5
- 7GXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=u3Cv8WUE2l7b3jexTec4eGt7y3TTD6iPElcZZTnvLYc=;
- b=r3et6O+76I5aZxbROILeGpdWWkfheD9zq+YpZdq5QUtBeixqDQRhebnKlOpVSJsuQ6
- QagEVaSIlovMgrpK95TtpOnJhOnDgOZ8Uwi7vFESxJ7Cu932r3W4hVkJ0c5CB8KiofsO
- bAsdcXRGbHGIg5vHZApuDMTzF+2jlB6m5C94PA2MGvWpMvp/D3yFno7XRmMszVm/4D0j
- uwprpJNi7deSY5k98rEhmDLvFSK5GFeWjpNiS4ECHGdUcOxNr8z5yR8QXkVzgtHWfDFg
- UPHnprp2jmcKqnzQ7xYxTKZuZuyScxQPwb51S3eV7s8Qw8F5F6/TESN4K9yX1BIuZQr6
- iK+g==
-X-Gm-Message-State: APjAAAURBCjo2JyqTEGILm/PVdOgHf5B0pCNykP3fXh2OE6+wkfB725C
- RYheeTMFta96M2TW7kaSG57CNn7aSN8xL/79lkErS1oE8tg=
-X-Google-Smtp-Source: APXvYqwRgCRlWfb7c6lm6lv5Ll7Qto9k29EpNpHoPo69hHImX20MsJqW7FpoXilSdcRwn6jw3HkbTBFARpMK1BZ/TpA=
-X-Received: by 2002:a2e:9f4d:: with SMTP id v13mr2933292ljk.78.1573656053538; 
- Wed, 13 Nov 2019 06:40:53 -0800 (PST)
+ (envelope-from <jdenemar@redhat.com>) id 1iUttG-0000ng-9U
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57969
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1iUttG-0000nI-4A
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:45:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573656301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iXZqSVes3VY3F7HqcZAog3ZOF4SOqtJvJDfz1zq/XJY=;
+ b=hlQXYg8w32Jn3J0n6EJwBVNxgGBzUCjb8t7e/I9+6mxFLld0C6DXtlV8u6Dt+ya85j6MMg
+ 4oQf9rL+3VOex7TFOcAxqkijPhPTvPp4XkwGCVE0kEJLoxRiahlUU7fUFsG0zSpLft29cu
+ b9RAoPjwAFzth6gFQRX47ZmbkMAiidQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-IzETOaiYNXmxGtdaUyQsIQ-1; Wed, 13 Nov 2019 09:43:50 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C5661005502;
+ Wed, 13 Nov 2019 14:43:49 +0000 (UTC)
+Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6806360317;
+ Wed, 13 Nov 2019 14:43:46 +0000 (UTC)
+Received: by virval.usersys.redhat.com (Postfix, from userid 500)
+ id 8938810ADD2; Wed, 13 Nov 2019 15:43:44 +0100 (CET)
+Date: Wed, 13 Nov 2019 15:43:44 +0100
+From: Jiri Denemark <jdenemar@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+Message-ID: <20191113144344.GA4204@orkuz.int.mamuti.net>
+References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-References: <20191113115952.775-1-alex.bennee@linaro.org>
- <20191113115952.775-4-alex.bennee@linaro.org>
- <SN6PR13MB2272B60021982C8C7F680CAA80760@SN6PR13MB2272.namprd13.prod.outlook.com>
-In-Reply-To: <SN6PR13MB2272B60021982C8C7F680CAA80760@SN6PR13MB2272.namprd13.prod.outlook.com>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Wed, 13 Nov 2019 09:40:42 -0500
-Message-ID: <CAEyhzFt_BBoH3AHwK7WHyFgCtqwz6nW9i=qPWprwi+jLHhfrew@mail.gmail.com>
-Subject: Re: FW: [PATCH v1 3/5] docs/devel: update tcg-plugins.rst with API
- versioning details
-To: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: IzETOaiYNXmxGtdaUyQsIQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,84 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- cota@braap.org, stefanha@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, aurelien@aurel32.net
+Cc: david@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 Nov 2019 at 07:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> While we are at it fix up the quoted code sections with the inline ::
-> approach.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> ---
-> v2
->   - fix grammar
->   - mention we also will fail to load outside the range
->   - clean-up code sections
-> ---
->  docs/devel/tcg-plugins.rst | 27 +++++++++++++++++++++------
->  1 file changed, 21 insertions(+), 6 deletions(-)
->
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index b18fb6729e3..718eef00f22 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -25,6 +25,23 @@ process. However the project reserves the right to cha=
-nge or break the
->  API should it need to do so. The best way to avoid this is to submit
->  your plugin upstream so they can be updated if/when the API changes.
->
-> +API versioning
-> +--------------
-> +
-> +All plugins need to declare a symbol which exports the plugin API
-> +version they were built against. This can be done simply by::
-> +
-> +  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
-> +
-> +The core code will refuse to load a plugin that doesn't export a
-> +`qemu_plugin_version` symbol or if plugin version is outside of QEMU's
-> +supported range of API versions.
-> +
-> +Additionally the `qemu_info_t` structure which is passed to the
-> +`qemu_plugin_install` method of a plugin will detail the minimum and
-> +current API versions supported by QEMU. The API version will be
-> +incremented if new APIs are added. The minimum API version will be
-> +incremented if existing APIs are changed or removed.
->
->  Exposure of QEMU internals
->  --------------------------
-> @@ -40,16 +57,14 @@ instructions and events are opaque to the plugins the=
-mselves.
->  Usage
->  =3D=3D=3D=3D=3D
->
-> -The QEMU binary needs to be compiled for plugin support:
-> +The QEMU binary needs to be compiled for plugin support::
->
-> -::
-> -    configure --enable-plugins
-> +  configure --enable-plugins
->
->  Once built a program can be run with multiple plugins loaded each with
-> -their own arguments:
-> +their own arguments::
->
-> -::
-> -    $QEMU $OTHER_QEMU_ARGS \
-> +  $QEMU $OTHER_QEMU_ARGS \
->        -plugin tests/plugin/libhowvec.so,arg=3Dinline,arg=3Dhint \
->        -plugin tests/plugin/libhotblocks.so
->
-> --
-> 2.20.1
->
->
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Hi David.
+
+On Wed, Oct 30, 2019 at 17:32:43 +0100, David Gibson wrote:
+> We have to set the default model of all machine classes, not just for the
+> active one. Otherwise, "query-machines" will indicate the wrong CPU model
+> ("qemu-s390x-cpu" instead of "host-s390x-cpu") as "default-cpu-type".
+>=20
+> s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model fo=
+r
+> all machine classes".  This patch applies a similar fix for the pseries-*
+> machine types on ppc64.
+>=20
+> Doing a
+>     {"execute":"query-machines"}
+> under KVM now results in
+>     {
+>       "hotpluggable-cpus": true,
+>       "name": "pseries-4.2",
+>       "numa-mem-supported": true,
+>       "default-cpu-type": "host-powerpc64-cpu",
+>       "is-default": true,
+>       "cpu-max": 1024,
+>       "deprecated": false,
+>       "alias": "pseries"
+>     },
+>     {
+>       "hotpluggable-cpus": true,
+>       "name": "pseries-4.1",
+>       "numa-mem-supported": true,
+>       "default-cpu-type": "host-powerpc64-cpu",
+>       "cpu-max": 1024,
+>       "deprecated": false
+>     },
+>     ...
+>=20
+> Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
+> currently see the wrong CPU model under KVM.
+
+Will this patch make it into 4.2.0?
+
+Jirka
+
 
