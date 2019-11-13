@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93581FB5BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:54:07 +0100 (CET)
-Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B740FB5AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:52:07 +0100 (CET)
+Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvuA-0004mT-JL
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:54:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45543)
+	id 1iUvsD-0001Ti-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:52:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45860)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sameid@google.com>) id 1iUvmz-0004tC-6v
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:43 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iUvpk-0007g5-0p
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:49:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sameid@google.com>) id 1iUvmv-00077E-4d
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:39 -0500
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:44722)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sameid@google.com>) id 1iUvmu-00076c-DN
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:36 -0500
-Received: by mail-qv1-xf44.google.com with SMTP id d3so1068281qvs.11
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:46:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=H2T4CW/fFtJ7qTKVlw1EfF9OHZRW0qNkbbnBH8/YztA=;
- b=DZIkfGjlGjA3Bv7uKY0Hv2FshF+S/3x8Ue+HxKPJBs00W4sdvy97etts9fRei1lAHz
- EvJ44yhilYKHvXTZEPVWEPWxgn5y5rAp/s8Ucl+tLOVWmQEokEleWFDyGMeI9s0YaRXr
- 5AhheVKT+pHsCWw6VtBFF/TaCnZba7GIucH0ps+jhkkkTPXIA/CUBwvUYez2FhI6qEuX
- iWvH4FOuW44uI6FmVe5VCx7kiqIhIybtKRBaxKhgX+n5ePBa1s6B19mHnJPxvxZd6prY
- LGpuStYPkaKI8TpEzDMEdnYBdlhb4b3zJEAK9+7oeNJVPYJ/6oAmpu+Y5eXCTShwmFVt
- EG3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=H2T4CW/fFtJ7qTKVlw1EfF9OHZRW0qNkbbnBH8/YztA=;
- b=WOFti20YbiwzpE8Pghz0o/XJU6JOVyNNuvC30LeNvi6/VMvzwBylEwxB/kW5HKWQYR
- BzjBgJFoxWrGSNO3m1CfyiQpD8pU2lbwKKBYCz16i3WbuQk4F/2y3kFvszfVTdbhVPxm
- qTRrSs5KJWjpLp47N1ojp20ey0+EeKQUWMPucFmXbIeDLzo2AX3vPVYQvY/JyiV9pS2m
- R5cPfjMigr54VQBEON9rCKKFU9kqyAYvoNpHRT9jWNec4XOgMN3WcqywN+OPwGe0Y715
- VeGXSU8S0J39SHRHqYdcUqVz5jHGMX2Cu6lZhXmwZqJXh7qjAn1y8crTxVdFJ/s9OeJY
- LOXg==
-X-Gm-Message-State: APjAAAWJLDWrk/oZRk2NDmpxreh+fcJFgl9B4J/1vfutNj4xYsrx9BP3
- 3Ck/i1Nz4J65zoJ9Y1iTuuHKf60BfdeLhkcfC3aDgA==
-X-Google-Smtp-Source: APXvYqyyfqmPV3smKhmZ/ilXt1u859euBJoIdqBZ0BLSBatkimON7MNFO0JY9tQKLdQiaRasUJhPRqyfIXw1fL10NzQ=
-X-Received: by 2002:ad4:4092:: with SMTP id l18mr3574904qvp.114.1573663595160; 
- Wed, 13 Nov 2019 08:46:35 -0800 (PST)
+ (envelope-from <ehabkost@redhat.com>) id 1iUvpi-0008TM-SA
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:49:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22632
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iUvpi-0008T0-O5
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:49:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573663770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A8xyAFOsMdus7D4rGFJvNbB2xTR9kmAYPaWz+MEpoJw=;
+ b=Je2dmP3eqsjO1b9FnyoKt3kVBYlWWEdlnx5rAZlj6Er5Jm11ebxXnjvwlJzrcxyl0VyYw9
+ 4ZPflK8+1DZ9m+TghYgOMoOjYYC6aCbFRlWb6HTIobL7/I5PMGnQ1RWIVxfSJC6EGrMTZz
+ 73+y90rHCPb5I5jglD3zD9LJ2/aejPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-DPPGL4oVOk2BbBFGhvceKg-1; Wed, 13 Nov 2019 11:49:28 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BD52803905;
+ Wed, 13 Nov 2019 16:49:27 +0000 (UTC)
+Received: from localhost (ovpn-116-59.gru2.redhat.com [10.97.116.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBF7C60563;
+ Wed, 13 Nov 2019 16:49:24 +0000 (UTC)
+Date: Wed, 13 Nov 2019 13:49:22 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] WHPX: refactor load library
+Message-ID: <20191113164922.GI3812@habkost.net>
+References: <MW2PR2101MB1116386CFE4628B6767D6CDBC07B0@MW2PR2101MB1116.namprd21.prod.outlook.com>
+ <MW2PR2101MB1116C3DF422DB5E301B74AEEC0770@MW2PR2101MB1116.namprd21.prod.outlook.com>
+ <20191112194738.GF3812@habkost.net>
+ <017bdcd1-4058-c717-619a-d8362ac089b7@redhat.com>
 MIME-Version: 1.0
-References: <20191113091809.31365-1-kraxel@redhat.com>
- <84d3a1aa-bbb2-d831-0abc-fe1169f8a860@redhat.com>
- <20191113140057.2ocwfa3rqqfkbg3r@sirius.home.kraxel.org>
- <CAFr6bUn5W2-w3z4Ty9XD7mh+=kxVq2rQJ3ZUz5nXA13ZdxQtsg@mail.gmail.com>
- <ca6dadb1-fddf-5f6f-a6fc-f94eb02862b6@redhat.com>
- <CAFr6bUkGrC64gXfLgeZ5hYEkzLF4J-NzNCG3X1deHEovyJ7qSw@mail.gmail.com>
-In-Reply-To: <CAFr6bUkGrC64gXfLgeZ5hYEkzLF4J-NzNCG3X1deHEovyJ7qSw@mail.gmail.com>
-From: Sam Eiderman <sameid@google.com>
-Date: Wed, 13 Nov 2019 18:46:23 +0200
-Message-ID: <CAFr6bU=Ru+G8u_aSeN7-nGYz54V0a2cpJz+dsNP8R98zR_kahQ@mail.gmail.com>
-Subject: Re: [SeaBIOS] Re: [PATCH] ahci: zero-initialize port struct
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- seabios@seabios.org, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <017bdcd1-4058-c717-619a-d8362ac089b7@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: DPPGL4oVOk2BbBFGhvceKg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::f44
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,117 +74,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Justin Terry \(VM\)" <juterry@microsoft.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Links to latest commits from archive.
-You can see all changes in the cover letter.
+On Wed, Nov 13, 2019 at 05:35:59PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 11/12/19 8:47 PM, Eduardo Habkost wrote:
+> > On Tue, Nov 12, 2019 at 06:42:00PM +0000, Sunil Muthuswamy wrote:
+> > >=20
+> > >=20
+> > > > -----Original Message-----
+> > > > From: Sunil Muthuswamy
+> > > > Sent: Friday, November 8, 2019 12:32 PM
+> > > > To: 'Paolo Bonzini' <pbonzini@redhat.com>; 'Richard Henderson' <rth=
+@twiddle.net>; 'Eduardo Habkost' <ehabkost@redhat.com>; 'Stefan
+> > > > Weil' <sw@weilnetz.de>
+> > > > Cc: 'qemu-devel@nongnu.org' <qemu-devel@nongnu.org>; Justin Terry (=
+VM) <juterry@microsoft.com>
+> > > > Subject: [PATCH] WHPX: refactor load library
+> > > >=20
+> > > > This refactors the load library of WHV libraries to make it more
+> > > > modular. It makes a helper routine that can be called on demand.
+> > > > This allows future expansion of load library/functions to support
+> > > > functionality that is depenedent on some feature being available.
+> > > >=20
+> > > > Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+> > > > ---
+> > >=20
+> > > Can I possibly get some eyes on this?
+> >=20
+> > I'd be glad to queue the patch if we get a Reviewed-by line from
+> > somebody who understands Windows and WHPX.  Maybe Justin?
+>=20
+> Can we wait for approval from the Microsoft legal department first?
+> So we can start testing WHPX builds, and reduce the possibilities to
+> introduce regressions.
+>=20
+> Testing is ready, we are waiting for Microsoft to merge, see:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg646351.html
 
-[SeaBIOS] [PATCH v4 0/5] Add Qemu to SeaBIOS LCHS interface
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/VLNFB=
-EERTWLEUO6LM5BYLBNVIFCTP46M/
-[SeaBIOS] [PATCH v4 1/5] geometry: Read LCHS from fw_cfg
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/B3IPD=
-3HH4UPDYJWFE4KX3HXUCNW5GPEW/
-[SeaBIOS] [PATCH v4 2/5] boot: Reorder functions in boot.c
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/YDVU3=
-WIGOSKZ2RQSMR5UVQNZ66K4IG65/
-[SeaBIOS] [PATCH v4 3/5] boot: Build ata and scsi paths in function
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/RY33D=
-RZZ3UK3UMQ3Q6BY2KUCHRRW4MRK/
-[SeaBIOS] [PATCH v4 4/5] geometry: Add boot_lchs_find_*() utility functions
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/DAJOU=
-LWFK24DX4DY3VS6WWOOQNWW3GSG/
-[SeaBIOS] [PATCH v4 5/5] geometry: Apply LCHS values for boot devices
-https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/UUCTP=
-PJ4PTS5CUTCFLOH3YOEXGC6HQ4T/
+Making it easier for other people to test WHPX would be nice.
+But in case this is not sorted out soon, I don't see a reason to
+not merge WHPX changes if they are reviewed and approved by the
+main author of that code (Justin).
 
-Sam
+--=20
+Eduardo
 
-On Wed, Nov 13, 2019 at 6:35 PM Sam Eiderman <sameid@google.com> wrote:
->
-> Sure,
->
-> There are two issues here.
->
-> The first issue is that my commits which applied to seabios master:
->
-> * 9caa19b - geometry: Apply LCHS values for boot devices
-> * cb56f61 - config: Add toggle for bootdevice information
-> * ad29109 - geometry: Add boot_lchs_find_*() utility functions
-> * b3d2120 - boot: Reorder functions in boot.c
-> * 7c66a43 - geometry: Read LCHS from fw_cfg
->
-> Are not from the latest version which was submitted to the mailing list (=
-v4)
-> * fw_cfg key name has changed
-> * The value and of the key has changed from binary (v1) to textual (v4)
-> * Other fixes and variable name changes.
->
-> So these commits need to be reverted and reapplied with the latest versio=
-n (v4)
->
-> The second issue is that my commits, (in v4 too) will require this fix
-> that Gerd added ([PATCH] ahci: zero-initialize port struct) since they
-> change how SeaBIOS uses lchs.
->
-> Previously, before any of my commits, drive.lchs could contain "random
-> crap" since it was always set before being used in
-> setup_translation().
->
-> After my patches, get_translation() invokes overriden_lchs_supplied()
-> which checks: "return drive->lchs.cylinder || drive->lchs.head ||
-> drive->lchs.sector;"
-> So there is an assumption that "drive->lchs" is zeroed when lchs is
-> not supplied for the host.
->
-> This was true for all devices using "drive->lchs" (all were memset to
-> 0) except ahci.
-> (I used 'git grep "drive_s * drive"' to find them all).
->
-> So Gerd fix is indeed needed and then all devices are covered
-> (drive->lchs is memset to 0).
->
-> Now only the first issue remains...
->
-> Sam
->
-> On Wed, Nov 13, 2019 at 6:12 PM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
-> >
-> > Hi Sam,
-> >
-> > On 11/13/19 4:03 PM, Sam Eiderman wrote:
-> > > Hi,
-> > >
-> > > Does this fix a bug that actually happened?
-> > >
-> > > I just noticed that in my lchs patches I assumed that lchs struct is
-> > > zeroed out in all devices (not only ahci):
-> > >
-> > > 9caa19be0e53 (geometry: Apply LCHS values for boot devices)
-> > >
-> > > Seems like this is not the case but why only ahci is affected?
-> > >
-> > > The list of devices is at least:
-> > >
-> > >          * ata
-> > >          * ahci
-> > >          * scsi
-> > >              * esp
-> > >              * lsi
-> > >              * megasas
-> > >              * mpt
-> > >              * pvscsi
-> > >              * virtio
-> > >          * virtio-blk
-> > >
-> > > As specified in the commit message.
-> > >
-> > > Also Gerd it seems that my lchs patches were not committed in the
-> > > latest submitted version (v4)!!!
-> > > The ABI of the fw config key is completely broken.
-> >
-> > What do you mean? Can you be more specific?
-> >
 
