@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B67FB3C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 16:31:32 +0100 (CET)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70801FB3C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 16:33:45 +0100 (CET)
+Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUucF-0000Jc-0R
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 10:31:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34794)
+	id 1iUueO-0001hL-Df
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 10:33:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iUub4-0008E8-By
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:30:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iUucy-00014u-0d
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:32:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iUub2-0003S6-1k
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:30:16 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35675
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUub1-0003Re-TE
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:30:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573659014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d2pwvEcjQ8rpUv0vSemqBseZmqO3YkEmmjAK9P5nESY=;
- b=fb4umIFCYfaBCdwfZgdAb9hX7vq64sWEFSvM9BUwa8H08uOx04WevbZpuD59LE4BZr+E8z
- 1PNKbI8OH8s6PCSkRGNfDleDLhvKHO3BZCBVUcJbZg6ZwcoUCiaqLcm9wYwpcwTqxKGQEB
- MYVNiBWN5H5QUyU1Su9WUBZQGmJ1vjM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-l2V1BVagN2mg4_oSkdBKIg-1; Wed, 13 Nov 2019 10:30:13 -0500
-X-MC-Unique: l2V1BVagN2mg4_oSkdBKIg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C99803CE0;
- Wed, 13 Nov 2019 15:30:11 +0000 (UTC)
-Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B8C46293B;
- Wed, 13 Nov 2019 15:30:07 +0000 (UTC)
-Date: Wed, 13 Nov 2019 15:30:06 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [RFC v4 PATCH 02/49] multi-process: util: Add
- qemu_thread_cancel() to cancel running thread
-Message-ID: <20191113153006.GA563983@stefanha-x1.localdomain>
-References: <cover.1571905346.git.jag.raman@oracle.com>
- <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iUucw-0004L6-RD
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:32:15 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iUucw-0004J6-NL
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 10:32:14 -0500
+Received: by mail-ot1-x341.google.com with SMTP id l14so1941586oti.10
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 07:32:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m6otvXm7FRYsOzQexRm28vZfmpNFDrAkgCczbQKPxXc=;
+ b=O62DzsnF14+iZVGoPr2DEYrYR4/T8L0aFu62NjsvCUG2z2dxgzf2etuVnKYJnKpl1D
+ hDgO4PpBa0bt7mZBV4ZwSmPYhoaLAb3919bv0OaFVuOMabEA6Zk8ltXrOlItkZMc/8vA
+ DHJm4Wvl77TbdsTyovsXT8w0Q5PofoaFMxRacnmopX2CqjHiTHcYyc9FP7jBLygEyagT
+ 4aVWUBCLgnmD99fmrqb4SijkeHCjBuUjGPSmgYaYbHGPavfNCA4Jq3198ASVcAzw05v0
+ WMiw6Wkh6GLBycwKAcCkUM1Un6CqOwb+8bZXvO+O2moLmg4JlObXgsaVhnW4gGmc/sgN
+ /k5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m6otvXm7FRYsOzQexRm28vZfmpNFDrAkgCczbQKPxXc=;
+ b=LO3RAC7m8tnUtCBMY0vqK1xYy+ubEW/ONi3Hur54qL4xDTW0WBVcN7BB25PRrtToMx
+ gFLvGt95LR/1Dm+iqMB0ImCSv+qa0DlfkCzfU7N8OMwk1qBKMtauaRKKnRBZbTcg33ux
+ k5T0H9kziVWIjtaq6/XuhKSr9eKNXzGy2b5Yu1GZNCO2V9W4+manWzI1x4jG8pGOX/0n
+ Vna365D1WGE3yKiz8yF28C0lHaSWJxXZkOdH1HGGI2j/a1Mjt4UzjjDtf9eCUSZQuW2/
+ x1VgA4leGyEKh24kDJOdTQ2r7S0BZbgaGypd7idoLpJx2jj+Z5tEqE9OX8RxNlq1+uvx
+ sWug==
+X-Gm-Message-State: APjAAAWL43cHnYiSJxEQpOOlPwWJwcX68qgZpBuWeUWVI40q9rzUCWsL
+ 8Js4qhg9PUSCRNC31k55vhDZND+AwEQ+sNyLvr2K5A==
+X-Google-Smtp-Source: APXvYqwG9D7t1OIYN7pkrdiTaBBoo3x5Rw86eLlLq92DTnt0nMBrclCJtB70rlVO4cI4/EuEDS0z7puiMHQ+pmJmQoQ=
+X-Received: by 2002:a9d:12d2:: with SMTP id g76mr3867008otg.232.1573659129302; 
+ Wed, 13 Nov 2019 07:32:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <e821aa9bccb49bf68c94e3d49b105c420dde9981.1571905346.git.jag.raman@oracle.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+ <20191113144344.GA4204@orkuz.int.mamuti.net>
+ <20191113160900.5f9f5415@bahia.lan>
+In-Reply-To: <20191113160900.5f9f5415@bahia.lan>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 13 Nov 2019 15:31:58 +0000
+Message-ID: <CAFEAcA9+VzDC9N5vGcA9COUaPsSue9VWmtoaPneCqY7drtbVzA@mail.gmail.com>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,54 +73,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
- john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- quintela@redhat.com, berrange@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
- kanth.ghatraju@oracle.com, kraxel@redhat.com, kwolf@redhat.com,
- pbonzini@redhat.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
- mreitz@redhat.com, dgilbert@redhat.com, rth@twiddle.net
+Cc: Laurent Vivier <lvivier@redhat.com>, David Hildenbrand <david@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 13 Nov 2019 at 15:10, Greg Kurz <groug@kaod.org> wrote:
+> David is away until the 19th of November, which is the release date
+> of rc2 according to the planning [*]. Then we have rc3 the 26th, and
+> final release (or rc4) the 3rd of December, so it should be ok.
 
-On Thu, Oct 24, 2019 at 05:08:43AM -0400, Jagannathan Raman wrote:
-> qemu_thread_cancel() added to destroy a given running thread.
-> This will be needed in the following patches.
->=20
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> ---
->  include/qemu/thread.h    |  1 +
->  util/qemu-thread-posix.c | 10 ++++++++++
->  2 files changed, 11 insertions(+)
+Please don't actively plan to delay putting changes in
+until later release candidates. The release process
+involves steadily winding up the bar of whether it's
+worth putting in and hopefully reducing the volume
+of changes between rcs. In an ideal world rc3 would
+have very few changes, and then there would be no
+changes at all between rc3 and the final release.
 
-Is this still needed?  I thought previous discussion concluded that
-thread cancellation is hard to get right and it's not actually used by
-this series?
-
-Stefan
-
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3MIX4ACgkQnKSrs4Gr
-c8gYFAgAn+JuUbBhCvAha0GL8dpCMJv5c5NqEjKNQKrmxH9MRywtJG0EuYVDl4zz
-NYOdqV0kZZA9OQ3btXZAX9f44U51Dd+1cSvA5kNyKEDKtjSXDcpEpJ0bNRKT0jOo
-owiEiV1/E0EvLhR464MK3apnWKpmZNts+UYcKmqZNK26XVxnLQLohkNdiQIK7BC3
-UI+CjHg39Z24leG6cxxHvy8DeVuntzYsGMBMTSrPS8jlE/pxXLlR6KfPZUjtfsSw
-ktFbOH4qUoVKPR5MaiHTJknJQ9y85xXsLkgljbV04FxvojKB2av7UXnXBMSUyZDa
-a3vOXOjs6qWBShTNoo8S+xUtwYaexg==
-=jBc1
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
-
+thanks
+-- PMM
 
