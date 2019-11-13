@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F62AFACC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:21:04 +0100 (CET)
-Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D3AFACE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:25:34 +0100 (CET)
+Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUopj-0001az-0H
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:21:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44232)
+	id 1iUou5-0002y1-TL
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:25:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iUoop-00013D-TF
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:20:08 -0500
+ (envelope-from <coiby.xu@gmail.com>) id 1iUot0-0002WO-Bi
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:24:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iUook-0000H9-Mg
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:20:07 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41262
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iUook-0000Fu-HH
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:20:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573636801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3pvjWV65p7QLO2nZo4Cy7x7NY19SoRlkUPSuHAuyl2U=;
- b=d3YvnyHjS1eI9+p7zATVAgCxA/L4A7RE6UiVbQn2iFVMFE/iIFhqQdpY9Th2YkFqGit4k6
- p/NAqxuQ1AjZoztbZfGvZ2v0RCwCS0958JnXkreiMpKk/PUq9ER5BCB+g+Mu5KgHT0oujG
- N8QF/sdc8vzafEigQQ/5L+LpuzFIZ3Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-7O3hu0o9MguO7BhMS6SfdA-1; Wed, 13 Nov 2019 04:18:31 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41D801855564;
- Wed, 13 Nov 2019 09:18:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com
- [10.36.116.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F2BA4D9E1;
- Wed, 13 Nov 2019 09:18:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5086116E08; Wed, 13 Nov 2019 10:18:24 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: seabios@seabios.org
-Subject: [PATCH] ahci: zero-initialize port struct
-Date: Wed, 13 Nov 2019 10:18:09 +0100
-Message-Id: <20191113091809.31365-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 7O3hu0o9MguO7BhMS6SfdA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (envelope-from <coiby.xu@gmail.com>) id 1iUosy-00050T-Vm
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:24:26 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:40522)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1iUosy-0004yo-Oe
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:24:24 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id j26so1334974lfh.7
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 01:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=v+/1D1pCf0FqmqRrpEzWJsmatlnglaF6o/w8KE6KdjQ=;
+ b=bDEecYma2z7sgOpF3v+4IrFXtUTJoRVRV/UArgEYDSWicMPuQ6Pg8f2Qq6cs7G5h31
+ KBEgjPzgyuIVMfASR4QYmXH2WYUEdCRVouvr9ZM/Zrq/4ltjwud/OIHcREW/9gV2kmzC
+ d4E/htXszeelm7EnR2B0uddOSxr2rokYdfRAY6yCVpkDrQVhXZB8NCEGw04bW5NOw/W2
+ Wj6AMXZg63ZUTHFZDsY+QDDpGS66+qOwCewfg1kK4OnJS/lkcntWE+cHYVQMRZ2p03iC
+ DfrxMsLCg5yTyDg+Y8rvsPWVf83NuP5Jf9wPASpWVEIr7IwI4Se0lVnWTm8YCEFi+pgi
+ odLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=v+/1D1pCf0FqmqRrpEzWJsmatlnglaF6o/w8KE6KdjQ=;
+ b=WWefWYl1X1aowhqRn1U1T6C6D8EnHa99TrHvw0sPaFzL+IR40C1gkVFUWnEVxq/zT9
+ P3R3dFaeVYsUyJ+GpD50zo2IgFhkRky91fjOmw0jFfftlzM8JdDXXyemkOH83Zw5y/sO
+ UP9m174FSVil8lul22w6oUD9z4hXGLy7fem37cEQbrcnp5hWEZwHVczVwNXR54LIM2+o
+ Alg0k0qcU2RfGTZXq/lVPTxASB6JnG8WhGRabG2g4PN4RaZa+DiLOv1mdtOW2h4yEgQk
+ jjc4X7e3o7n6clrx3jLubl3EneIF3AW+tlIXKJ/H74bELXI5/8m54ZVPVBP7mtUAvrgn
+ EjXg==
+X-Gm-Message-State: APjAAAWPhpzi8bHY2ANjAomYHlydKKpR/Qid/GiGU5wknHPn904d/qR3
+ AcGf7/1IMHqRetcMvyMNvxhLzfUpp1iPklJ9SDXLPHXrga4=
+X-Google-Smtp-Source: APXvYqycRhaSbKjgMtA/iJWGM8zSmunOvmWW+Oj+bTgO0fPFvh0U+Xz39rfFH5FeXeDhyiUiWLlc1Fm4tpcweaElnqw=
+X-Received: by 2002:a19:6b10:: with SMTP id d16mr1977003lfa.137.1573637062700; 
+ Wed, 13 Nov 2019 01:24:22 -0800 (PST)
+MIME-Version: 1.0
+From: Coiby Xu <coiby.xu@gmail.com>
+Date: Wed, 13 Nov 2019 17:23:46 +0800
+Message-ID: <CAJAkqrXyeVn4iy7NzkR__BS9q9xT4ZWcjJszNBaSKH0U57c4hw@mail.gmail.com>
+Subject: How to extend QEMU's vhost-user tests after implementing
+ vhost-user-blk device backend
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::12e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,33 +68,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Specifically port->driver.lchs needs clearing, otherwise seabios will
-try interpret whatever random crap happens to be there as disk geometry,
-which may or may not break boot depending on how lucky you are.
+Hi,
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- src/hw/ahci.c | 1 +
- 1 file changed, 1 insertion(+)
+I've implemented vhost-user-blk device backend by following
+https://wiki.qemu.org/Google_Summer_of_Code_2019#vhost-user-blk_device_backend.
+But I'm not sure what kind of tests I should write or to extend to
+take advantage of implemented vhost-user-blk device backend. The
+existing two tests related to vhost user are tests/vhost-user-bridge.c
+and tests/vhost-user-test.c both of which act as vhost user server to
+test QEMU's implementation of vhost user client. Am I supposed to
+extend these two tests? Could you elaborate on the final step "Extend
+QEMU's vhost-user tests to take advantage of your vhost-user-blk
+device backend"?
 
-diff --git a/src/hw/ahci.c b/src/hw/ahci.c
-index 97a072a1ca81..d45b4307ec68 100644
---- a/src/hw/ahci.c
-+++ b/src/hw/ahci.c
-@@ -345,6 +345,7 @@ ahci_port_alloc(struct ahci_ctrl_s *ctrl, u32 pnr)
-         warn_noalloc();
-         return NULL;
-     }
-+    memset(port, 0, sizeof(*port));
-     port->pnr =3D pnr;
-     port->ctrl =3D ctrl;
-     port->list =3D memalign_tmp(1024, 1024);
---=20
-2.18.1
-
+Thank you!
+--
+Best regards,
+Coiby
 
