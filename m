@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5322FB1BF
+	by mail.lfdr.de (Postfix) with ESMTPS id 79782FB1BE
 	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 14:51:21 +0100 (CET)
-Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUt3I-0002TP-CQ
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 08:51:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46255)
+	id 1iUt3H-0002RS-NF
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 08:51:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iUt0c-0000lX-Ts
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iUt0c-0000la-RB
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 08:48:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iUt0a-0005LC-N0
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iUt0a-0005LL-NA
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 08:48:34 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:47632 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:47645 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iUt0Y-0004vj-ND
+ id 1iUt0Y-0004vl-NG
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 08:48:32 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id C35151A2291;
+ by mail.rt-rk.com (Postfix) with ESMTP id D74841A22A8;
  Wed, 13 Nov 2019 14:47:19 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A80011A214E;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id B2DAF1A2253;
  Wed, 13 Nov 2019 14:47:19 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] MAINTAINERS: Add a section on UI translation
-Date: Wed, 13 Nov 2019 14:47:02 +0100
-Message-Id: <1573652826-23987-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v2 2/5] MAINTAINERS: Adjust maintainership for Fulong 2E board
+Date: Wed, 13 Nov 2019 14:47:03 +0100
+Message-Id: <1573652826-23987-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573652826-23987-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1573652826-23987-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -60,31 +60,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-There should be a person who will quickly evaluate new UI
-translation, and find a way to update existing ones should
-something changes in UI.
+Change the maintainership for Fulong 2E board to improve its quality.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
+ MAINTAINERS | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 363e72a..fd9ba32 100644
+index fd9ba32..3bf2144 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2714,6 +2714,11 @@ M: Daniel P. Berrange <berrange@redhat.com>
- S: Odd Fixes
- F: scripts/git-submodule.sh
+@@ -976,9 +976,10 @@ S: Maintained
+ F: hw/mips/mips_r4k.c
 =20
-+UI translations
-+M: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-+R: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-+F: po/*.po
-+
- Sphinx documentation configuration and build machinery
- M: Peter Maydell <peter.maydell@linaro.org>
- S: Maintained
+ Fulong 2E
+-M: Aleksandar Markovic <amarkovic@wavecomp.com>
+-R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+-S: Odd Fixes
++M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
++R: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
++R: Aleksandar Markovic <amarkovic@wavecomp.com>
++S: Maintained
+ F: hw/mips/mips_fulong2e.c
+ F: hw/isa/vt82c686.c
+ F: hw/pci-host/bonito.c
 --=20
 2.7.4
 
