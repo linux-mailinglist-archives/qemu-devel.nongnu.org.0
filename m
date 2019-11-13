@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA99FB55F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:41:08 +0100 (CET)
-Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301C6FB52F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:34:59 +0100 (CET)
+Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvhb-0007sh-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:41:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43913)
+	id 1iUvbe-0000Us-51
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:34:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jag.raman@oracle.com>) id 1iUvcE-0001ZF-L2
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:35 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iUvZz-0008FD-Hm
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jag.raman@oracle.com>) id 1iUvcB-00047u-FX
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:34 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:57194)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jag.raman@oracle.com>)
- id 1iUvc8-00047T-Rw
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:35:30 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGOc9s014590;
- Wed, 13 Nov 2019 16:35:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=RE+xJpVZGtvS0gxy0/6z/QxURaatPvLmDLPIuO3KOeE=;
- b=gQ4M8atyJPJQiRK+3yjnI27+zbsORkFgDhySNBWFxNfAXJSZ+8LyAOpdtDMYNsLDiVzV
- rtj4ecUiUyug2xn6lpdTNPUnNINfwMZ9dSn2o3gPyrR8iqzvzhsGbz67t/qd4/8CaOQL
- XC9+wLzLqyMYTHcXF9mWgq3L3bV7b/VZAcm6LOkS8R3OLpgeSkbs+6Dn1f4hbfakor4J
- j1jcw4dsRe0xl7qyR0mFh4+mYmOnljydegaSUzO1SfsYyjwaF0DtJ5ynsYpWTCHe18uM
- thX12agdqWgSFrYOnoxS3u1oka3/MVyK2MIEU3m61IRPRL/i8oNTjuHQ17CAsOKLW887 TA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2w5mvtwqje-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:35:20 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xADGQcPW186268;
- Wed, 13 Nov 2019 16:35:19 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2w7vppj77n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Nov 2019 16:35:19 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xADGWBia001111;
- Wed, 13 Nov 2019 16:32:11 GMT
-Received: from [10.152.34.2] (/10.152.34.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Nov 2019 08:32:10 -0800
-Subject: Re: [RFC v4 PATCH 41/49] multi-process/mig: Enable VMSD save in the
- Proxy object
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ (envelope-from <stefanha@redhat.com>) id 1iUvZy-0003Yf-7u
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32354
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUvZy-0003YT-43
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:33:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573662793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aV7aW7e+dZhaghHwln3l1mSz/SjcA88O0mnaAZ5G2Mo=;
+ b=QQ2pS8xnM8CZnE+Gip1luAR09nCOwBhuNNjeFA19+1WBocBF+Ki3TOPQV++ntUFFL6zZ0t
+ 7ceszKbQVBE2WTBKNNrgwunvofksKkYmaYl9oZwDqpVb/FO37W6KMYThd8DoJr7oo6MxU8
+ z3xMnItRPJfBIZWJuYy8a5lEh2F5fsY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-Zp_4L1wWOQiB30zYZu0eww-1; Wed, 13 Nov 2019 11:33:10 -0500
+X-MC-Unique: Zp_4L1wWOQiB30zYZu0eww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65098802880;
+ Wed, 13 Nov 2019 16:33:07 +0000 (UTC)
+Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F309B1077D95;
+ Wed, 13 Nov 2019 16:33:01 +0000 (UTC)
+Date: Wed, 13 Nov 2019 16:33:00 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [RFC v4 PATCH 11/49] multi-process: setup memory manager for
+ remote device
+Message-ID: <20191113163300.GF563983@stefanha-x1.localdomain>
 References: <cover.1571905346.git.jag.raman@oracle.com>
- <8b15ab3d4fe51b792897ffc87e221bfb9317a836.1571905346.git.jag.raman@oracle.com>
- <20191113155019.GH2445240@redhat.com>
-From: Jag Raman <jag.raman@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <2f2985ea-8449-9cd7-efa9-1eb8d286bbfe@oracle.com>
-Date: Wed, 13 Nov 2019 11:32:09 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ <5bfab4fa2f7f12137d0030e08a494d9ac3e11f04.1571905346.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20191113155019.GH2445240@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9440
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1910280000 definitions=main-1911130146
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9440
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1910280000
- definitions=main-1911130146
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2130.oracle.com id
- xADGOc9s014590
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+In-Reply-To: <5bfab4fa2f7f12137d0030e08a494d9ac3e11f04.1571905346.git.jag.raman@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,186 +75,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, fam@euphon.net, thuth@redhat.com,
  john.g.johnson@oracle.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- quintela@redhat.com, mst@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- ross.lagerwall@citrix.com, mreitz@redhat.com, kanth.ghatraju@oracle.com,
- kraxel@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- liran.alon@oracle.com, marcandre.lureau@gmail.com, kwolf@redhat.com,
- dgilbert@redhat.com, rth@twiddle.net
+ quintela@redhat.com, berrange@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, ross.lagerwall@citrix.com,
+ kanth.ghatraju@oracle.com, kraxel@redhat.com, kwolf@redhat.com,
+ pbonzini@redhat.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
+ mreitz@redhat.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--JcvBIhDvR6w3jUPA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Thu, Oct 24, 2019 at 05:08:52AM -0400, Jagannathan Raman wrote:
+> +static void remote_ram_destructor(MemoryRegion *mr)
+> +{
+> +    qemu_ram_free(mr->ram_block);
+> +}
+> +
+> +static void remote_ram_init_from_fd(MemoryRegion *mr, int fd, uint64_t size,
+> +                                    ram_addr_t offset, Error **errp)
+> +{
+> +    char *name = g_strdup_printf("%d", fd);
+> +
+> +    memory_region_init(mr, NULL, name, size);
+> +    mr->ram = true;
+> +    mr->terminates = true;
+> +    mr->destructor = NULL;
+> +    mr->align = 0;
+> +    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, RAM_SHARED, fd, offset,
+> +                                           errp);
+> +    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+> +
+> +    g_free(name);
+> +}
 
-On 11/13/2019 10:50 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Oct 24, 2019 at 05:09:22AM -0400, Jagannathan Raman wrote:
->> Collect the VMSD from remote process on the source and save
->> it to the channel leading to the destination
->>
->> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->> ---
->>   New patch in v4
->>
->>   hw/proxy/qemu-proxy.c         | 132 ++++++++++++++++++++++++++++++++=
-++++++++++
->>   include/hw/proxy/qemu-proxy.h |   2 +
->>   include/io/mpqemu-link.h      |   1 +
->>   3 files changed, 135 insertions(+)
->>
->> diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
->> index 623a6c5..ce72e6a 100644
->> --- a/hw/proxy/qemu-proxy.c
->> +++ b/hw/proxy/qemu-proxy.c
->> @@ -52,6 +52,14 @@
->>   #include "util/event_notifier-posix.c"
->>   #include "hw/boards.h"
->>   #include "include/qemu/log.h"
->> +#include "io/channel.h"
->> +#include "migration/qemu-file-types.h"
->> +#include "qapi/error.h"
->> +#include "io/channel-util.h"
->> +#include "migration/qemu-file-channel.h"
->> +#include "migration/qemu-file.h"
->> +#include "migration/migration.h"
->> +#include "migration/vmstate.h"
->>  =20
->>   QEMUTimer *hb_timer;
->>   static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
->> @@ -62,6 +70,9 @@ static void stop_heartbeat_timer(void);
->>   static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx)=
-;
->>   static void broadcast_msg(MPQemuMsg *msg, bool need_reply);
->>  =20
->> +#define PAGE_SIZE getpagesize()
->> +uint8_t *mig_data;
->> +
->>   static void childsig_handler(int sig, siginfo_t *siginfo, void *ctx)
->>   {
->>       /* TODO: Add proper handler. */
->> @@ -357,14 +368,135 @@ static void pci_proxy_dev_inst_init(Object *obj=
-)
->>       dev->mem_init =3D false;
->>   }
->>  =20
->> +typedef struct {
->> +    QEMUFile *rem;
->> +    PCIProxyDev *dev;
->> +} proxy_mig_data;
->> +
->> +static void *proxy_mig_out(void *opaque)
->> +{
->> +    proxy_mig_data *data =3D opaque;
->> +    PCIProxyDev *dev =3D data->dev;
->> +    uint8_t byte;
->> +    uint64_t data_size =3D PAGE_SIZE;
->> +
->> +    mig_data =3D g_malloc(data_size);
->> +
->> +    while (true) {
->> +        byte =3D qemu_get_byte(data->rem);
->=20
-> There is a pretty large set of APIs hiding behind the qemu_get_byte
-> call, which does not give me confidence that...
->=20
->> +        mig_data[dev->migsize++] =3D byte;
->> +        if (dev->migsize =3D=3D data_size) {
->> +            data_size +=3D PAGE_SIZE;
->> +            mig_data =3D g_realloc(mig_data, data_size);
->> +        }
->> +    }
->> +
->> +    return NULL;
->> +}
->> +
->> +static int proxy_pre_save(void *opaque)
->> +{
->> +    PCIProxyDev *pdev =3D opaque;
->> +    proxy_mig_data *mig_data;
->> +    QEMUFile *f_remote;
->> +    MPQemuMsg msg =3D {0};
->> +    QemuThread thread;
->> +    Error *err =3D NULL;
->> +    QIOChannel *ioc;
->> +    uint64_t size;
->> +    int fd[2];
->> +
->> +    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
->> +        return -1;
->> +    }
->> +
->> +    ioc =3D qio_channel_new_fd(fd[0], &err);
->> +    if (err) {
->> +        error_report_err(err);
->> +        return -1;
->> +    }
->> +
->> +    qio_channel_set_name(QIO_CHANNEL(ioc), "PCIProxyDevice-mig");
->> +
->> +    f_remote =3D qemu_fopen_channel_input(ioc);
->> +
->> +    pdev->migsize =3D 0;
->> +
->> +    mig_data =3D g_malloc0(sizeof(proxy_mig_data));
->> +    mig_data->rem =3D f_remote;
->> +    mig_data->dev =3D pdev;
->> +
->> +    qemu_thread_create(&thread, "Proxy MIG_OUT", proxy_mig_out, mig_d=
-ata,
->> +                       QEMU_THREAD_DETACHED);
->> +
->> +    msg.cmd =3D START_MIG_OUT;
->> +    msg.bytestream =3D 0;
->> +    msg.num_fds =3D 2;
->> +    msg.fds[0] =3D fd[1];
->> +    msg.fds[1] =3D GET_REMOTE_WAIT;
->> +
->> +    mpqemu_msg_send(pdev->mpqemu_link, &msg, pdev->mpqemu_link->com);
->> +    size =3D wait_for_remote(msg.fds[1]);
->> +    PUT_REMOTE_WAIT(msg.fds[1]);
->> +
->> +    assert(size !=3D ULLONG_MAX);
->> +
->> +    /*
->> +     * migsize is being update by a separate thread. Using volatile t=
-o
->> +     * instruct the compiler to fetch the value of this variable from
->> +     * memory during every read
->> +     */
->> +    while (*((volatile uint64_t *)&pdev->migsize) < size) {
->> +    }
->> +
->> +    qemu_thread_cancel(&thread);
->=20
-> ....this is a safe way to stop the thread executing without
-> resulting in memory being leaked.
->=20
-> In addition thread cancellation is asynchronous, so the thread
-> may still be using the QEMUFile object while....
->=20
->> +    qemu_fclose(f_remote);
+This is not specific to remote/memory.c and could be shared in case
+something else in QEMU wants to initialize from an fd.
 
-The above "wait_for_remote()" call waits for the remote process to
-finish with Migration, and return the size of the VMSD.
+> +
+> +void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+> +{
+> +    sync_sysmem_msg_t *sysmem_info = &msg->data1.sync_sysmem;
 
-It should be safe to cancel the thread and close the file, once the
-remote process is done sending the VMSD and we have read "size" bytes
-from it, is it not?
+A possible security issue with MPQemuMsg: was the message size
+validatedb before we access msg->data1.sync_sysmem?
 
-Thank you very much!
---
-Jag
+If not, then we might access uninitialized data.  I didn't see if there
+is a single place in the code that always zeroes msg, but I think the
+answer is no.  Accessing uninitialized data could expose the old
+contents of the stack/heap to the other process.  Information leaks like
+this can be used to defeat address-space randomization because the other
+process may learn about our memory layout if there are memory addresses
+in the uninitialized data.
 
->=20
-> ..this is closing it. This feels like it is a crash danger.
->=20
->=20
->> +    close(fd[1]);
->> +
->> +    return 0;
->> +}
->=20
-> Regards,
-> Daniel
->=20
+--JcvBIhDvR6w3jUPA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3MMDwACgkQnKSrs4Gr
+c8jlCgf+MIh6V0G/2YZ8kaHYEQKdJIuOrSEL/jixbWpDabyjYfLJNo1eGSHLQaZx
+FbUgS6uje339cUyLqKwlaDRPUVnY10T74KRRTqC39uMPTxn7lG839FnNsTjXIY1w
+hLov+VxZV16CS6OTK1AGBFwkPxfdmaHAdVrWmepDX1mDZaQ7yFJKIofq98QPlXRl
+h3Um0qVwtHiNGhYbEOB1Ig7GnvOgX/UWgIRRabcvIutNrqyQ7CN2zFrGNbzZdcuG
+xpaZYYA+TDVOgnD1vPxIzLdQcTMk/ESGHLqhA1hP/H3ZcOhp/IWmHayVuNZMs+J+
+RPWYFvihmk8odNkbP/ZoU3ozlirHdw==
+=oacJ
+-----END PGP SIGNATURE-----
+
+--JcvBIhDvR6w3jUPA--
+
 
