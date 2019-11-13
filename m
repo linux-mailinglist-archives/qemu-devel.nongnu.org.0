@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EABFBC23
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 00:03:17 +0100 (CET)
-Received: from localhost ([::1]:52128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAE7FBC1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 00:02:13 +0100 (CET)
+Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iV1fP-0001NP-66
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 18:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33894)
+	id 1iV1eO-0000Es-Bb
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 18:02:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iV1TO-000841-Vn
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:53 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iV1TP-000843-4t
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iV1TN-0007c5-39
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:50 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iV1TN-0007cc-FO
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:51 -0500
 Received: from mail-eopbgr820113.outbound.protection.outlook.com
  ([40.107.82.113]:22310 helo=NAM01-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iV1TM-0007aZ-Mr
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iV1TN-0007aZ-9p
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:50:49 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mh9TNJNlf6pOEfBwsAPNWJgmT1jn1tExV0krLXfJNSFYDrpE+vRr4NSe7lvHABQLezH96ih3c6eWUKdRLAYV7oiPqnDXmfGMizygeVcdpuU4DNpzXttwVJ962Vo+FGU8LrfILVpVntA1bm9VNyUNoMR7GUSNhD5z2cil59I/P5TXZHYUk8s1ZJ15P2dqyk+kVMb/OAFSTEpYxdQbK7A8OBv9w9QbJ9kMTUDkVOM6J79dY4eTu5bNvtQAPAlUpJvGe3FabgjQrtEBsxaoGevlNZDMT+QJObpNdEFH3KUm8S2rySHDZfwbngaS8XTWRVUUx0iEukO6sWc1CNqeTaFasQ==
+ b=YGN2Mo0ClBRAxYQhmYqUIFHz481bsMExvnto0DPBMe47/9+8GUB+5OtaXGK3sKX/fy6IlNm3HmP3GvGKcTze4RZpjSsjHs375rsJBIEOlvvDoBWYZI9Zd3Rkd+LscDlVXAuELQw8lCibLDGn8qjZRouEpi6lGAedqy2kqGIlkRLWw7+RbjX6/BXXKeAo2FkyEAWJ/yqjnxRuYcyt45gQKpLsq3OgzBihfnD9/lYNrb+IkcTStUKNrWhJMvIeZ5az73K8DAOcXFGimxeVI9H54/D17aHiczZbZ7IwiGKGevSEa5eXLBq9KFCfWor+gPdgeYBEmFVyJxgSDrvjel2MbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZPW70vhuDCy9oDq26QeRC1tJQO5d+nILsOwrQqFMipg=;
- b=BODcYdPI+J9Qy/+n7+lOJ0jaJGvrhvR1Eg0tFTmyKsgm7heIVchNnW05RLcV4P2icFBbK5HMKSzoDBT2Mj1vcdrvEIeKQ7wWUZL/sX+rY2lKUft0TBA7y2byHDdx0uhuVTJ/feMkYTKC0D7ngw+PTWJQUx/xOE1X440mPMXMzfCRvkpfK4vmIv6UfDxNyNyLdT8YxrqstOR1RZV9MBhEQ774HprxNJVcBmbFPrEnoRI3afmlB0dOW3mNE9PyVwoiyK4RfaAJCEpjVkVJnIxAeHeQjMyz7zj1sxiQfDZ/5anutR3JI9/lVg8837sCY4WIYaZP9jqx92Gu47Q8CI6UUQ==
+ bh=dg6bsFmb0bzDC/DwCpZEdhtgXcsPjmuqoaoCCJEJlIA=;
+ b=UuOJFUUj31LPou4iKDXTa9UbCdiJp6dvIebNkIHlFT0+tI5FMYv1xi6MNAGjgYFKNVCxLvbp2LFy2YApw2q/Oo8QuJQ/1hNCJWv85UOuGYVKi5K5OJ0hYCmU/Gtic5eXeoB0cx557rd27UF9mS9ZexFVhMX4SRdQbvdmadwZoWClp8U1snpjQ2RKRTqthXFTvU1YnqeY/33D6axQOYUeASkyx3870xxOkL1xebwBEYPi35vI/eIbe8OGKviyS1v//rSjHqDZBokqfzMm6lEm5GRXIB93opYW/Ysj0mOzNetlkXMnttYZd459W4qdDyB9WahSno7WVt/SHnepI8w+5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZPW70vhuDCy9oDq26QeRC1tJQO5d+nILsOwrQqFMipg=;
- b=J3+iniX1luNUwmdp78qP4DEFmhRh/5er27XTfF8QVmKEhaCS3ItUIGWbf23T0HigIdYCAIsYeGuxGk7gd+83rp1s0fDe5Mabck99a1SxKQRZxpVnRDiXGoUCNdKknJgRssUCG3rRw9J8TAmr3jc3AZTd7H/sqKhfTy/u+hQIOuY=
+ bh=dg6bsFmb0bzDC/DwCpZEdhtgXcsPjmuqoaoCCJEJlIA=;
+ b=dKhk5wQw5wO904l/zGrKd0bxrk//cGM68gLWQhRA1blXoKMP4z9AofjUK7Phn5HIGrkPfQ0+mlOt97z6Erm+eg2ejvEBjYQjHkE0SjbTuKrNUbOCueb+9373OQbrYQjlQ5I8Y/KBhzOYx3g/DyfRm04gmnrvsnomtjE1PEbVeTE=
 Received: from MN2PR03MB4800.namprd03.prod.outlook.com (20.179.82.78) by
  MN2PR03MB5024.namprd03.prod.outlook.com (52.132.169.72) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Wed, 13 Nov 2019 22:50:42 +0000
+ 15.20.2430.20; Wed, 13 Nov 2019 22:50:43 +0000
 Received: from MN2PR03MB4800.namprd03.prod.outlook.com
  ([fe80::344f:b88:26f0:9f66]) by MN2PR03MB4800.namprd03.prod.outlook.com
  ([fe80::344f:b88:26f0:9f66%7]) with mapi id 15.20.2451.023; Wed, 13 Nov 2019
- 22:50:42 +0000
+ 22:50:43 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v5 01/20] softmmu: split off vl.c:main() into main.c
-Thread-Topic: [PATCH v5 01/20] softmmu: split off vl.c:main() into main.c
-Thread-Index: AQHVmnTGsVmsxY6a30O5nXkOvQbtug==
-Date: Wed, 13 Nov 2019 22:50:42 +0000
-Message-ID: <20191113225030.17023-2-alxndr@bu.edu>
+Subject: [PATCH v5 02/20] libqos: Rename i2c_send and i2c_recv
+Thread-Topic: [PATCH v5 02/20] libqos: Rename i2c_send and i2c_recv
+Thread-Index: AQHVmnTHmGTqbqpNPkOerbpYJbMzKQ==
+Date: Wed, 13 Nov 2019 22:50:43 +0000
+Message-ID: <20191113225030.17023-3-alxndr@bu.edu>
 References: <20191113225030.17023-1-alxndr@bu.edu>
 In-Reply-To: <20191113225030.17023-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -65,14 +65,14 @@ x-clientproxiedby: MN2PR15CA0028.namprd15.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: df437fb3-3246-4465-0eac-08d7688be94b
+x-ms-office365-filtering-correlation-id: 58f80198-1028-4696-7d62-08d7688be9a5
 x-ms-traffictypediagnostic: MN2PR03MB5024:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR03MB50243E7F76EBB9DBF7310B23BA760@MN2PR03MB5024.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-microsoft-antispam-prvs: <MN2PR03MB5024D4DA9AE7A0C7332D8AAEBA760@MN2PR03MB5024.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
 x-forefront-prvs: 0220D4B98D
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(366004)(136003)(376002)(346002)(39860400002)(199004)(189003)(2501003)(88552002)(75432002)(54906003)(446003)(7736002)(99286004)(11346002)(6436002)(6486002)(5640700003)(476003)(305945005)(256004)(786003)(2906002)(2351001)(14444005)(316002)(14454004)(6116002)(86362001)(2616005)(6512007)(6916009)(486006)(3846002)(71200400001)(71190400001)(4326008)(1076003)(36756003)(386003)(8676002)(478600001)(66066001)(76176011)(81166006)(186003)(66946007)(5660300002)(6506007)(81156014)(64756008)(52116002)(26005)(102836004)(50226002)(25786009)(8936002)(66476007)(66556008)(66446008);
+ SFS:(10019020)(396003)(366004)(136003)(376002)(346002)(39860400002)(199004)(189003)(2501003)(88552002)(75432002)(54906003)(446003)(7736002)(99286004)(11346002)(6436002)(6486002)(5640700003)(476003)(305945005)(256004)(786003)(2906002)(2351001)(316002)(14454004)(6116002)(86362001)(2616005)(6512007)(6916009)(486006)(3846002)(71200400001)(71190400001)(4326008)(1076003)(36756003)(386003)(8676002)(478600001)(66066001)(76176011)(81166006)(186003)(66946007)(5660300002)(6506007)(81156014)(64756008)(52116002)(26005)(102836004)(50226002)(25786009)(8936002)(66476007)(66556008)(66446008);
  DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR03MB5024;
  H:MN2PR03MB4800.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -80,17 +80,17 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wyzhBvh8OGJrOnavvnP1OVuVz+Y65axZs9i2jRJmouJiZbR2BLDaIt22qeLcCkZdwZbkDwwVNrK6fYDhSwX1cWbof/RNd02GzYGzUwsfs8rSDtwecL3R2Si4tSk5DzaxtCOvyeXEoKt7IFqfKPAbnsrY7nZnVNXTFDnqDn0Ch09j3WRFPvV6muCNmLWKGGQ6DmqbNxe4iFnOkW9IdJzo8B16rC5/2wj5f19nzJuZnqdhSYHd8rduwjTuGtbogpaZIjrgMrOumfXoYxl/jFF9yjW5KwqZb6aAc+CAu5Od5RJA5m9AvWrjfomTkKnAycbdNzQiAfFh7hVUUWbXod4rIiZDsZMJsjgo1/KeCsjPWLEycHMUVao/bXPazavNbDr0TCVgrvp+8c+KjSMHwvbTuXeSxx5Uyrb9esE96HpMgzy1t2qAqLxx7PCuba3Hqe+G
+x-microsoft-antispam-message-info: m7LKeAfrZDvcp0MMeDY1SgrZF/kbWpBn1vO8MSck90t5N3TyFKAJcY1s9E9SQLOXDaEJxyXbvb7dyT3hWlAAsI15tbXJNuNTQRaPYqDdTEOjgNxx8c+nxPZ+b/3LJ0GdtD/K7Q9b5KBb8YI36EipX/n8FxCTsIe1quF8JZ1c6KI2RjyBuBBT57d8haU5dFIzZ3ovBwWm1hg1+7ejJ7Yf0yYZv/5ywYjqgPOtee1r+QVilfX4p95wz9TgHIHp2KBFiBDKVkGnk1WoXB1lPLYwetfo/sg+5UIzxeTx6FWAgXnuxTyg+8QCvoBPuXcXYoArMNuspGMIUa/wKz3vSbUfgVs+DttNld5oyCjhD0T8NeWLqWzaHTJRFSZr5MRSULTMZz78ZGtxgpUWPPlTkPftEjCaGygYmkAS6uixYbZauNubGgnqXXaXl5PmIQFVf6um
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: df437fb3-3246-4465-0eac-08d7688be94b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 22:50:42.2196 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58f80198-1028-4696-7d62-08d7688be9a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 22:50:43.1131 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: otqjKGWZ0RNMYnzFPu55JvFcpblrE1hIrRrCNFqGx7A2hlEmLH6j7lI1TMUQZRYI
+X-MS-Exchange-CrossTenant-userprincipalname: Hnccm+bbJ/FY+m9WzR05+Ivcx5KB7H1xzVn6JDZ3KYeivYe3wilU/Wir7s1LK9Qh
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB5024
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.82.113
@@ -105,243 +105,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "Oleinik, Alexander" <alxndr@bu.edu>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Oleinik, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A program might rely on functions implemented in vl.c, but implement its
-own main(). By placing main into a separate source file, there are no
-complaints about duplicate main()s when linking against vl.o. For
-example, the virtual-device fuzzer uses a main() provided by libfuzzer,
-and needs to perform some initialization before running the softmmu
-initialization. Now, main simply calls three vl.c functions which
-handle the guest initialization, main loop and cleanup.
+The names i2c_send and i2c_recv collide with functions defined in
+hw/i2c/core.c. This causes an error when linking against libqos and
+softmmu simultaneously (for example when using qtest inproc). Rename the
+libqos functions to avoid this.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- Makefile                |  1 +
- Makefile.objs           |  2 ++
- include/sysemu/sysemu.h |  4 ++++
- main.c                  | 53 +++++++++++++++++++++++++++++++++++++++++
- vl.c                    | 38 ++++++++---------------------
- 5 files changed, 70 insertions(+), 28 deletions(-)
- create mode 100644 main.c
+ tests/libqos/i2c.c   | 10 +++++-----
+ tests/libqos/i2c.h   |  4 ++--
+ tests/pca9552-test.c | 10 +++++-----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 0e994a275d..d2b2ecd3c4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -474,6 +474,7 @@ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
- $(SOFTMMU_ALL_RULES): $(io-obj-y)
- $(SOFTMMU_ALL_RULES): config-all-devices.mak
- $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
-+$(SOFTMMU_ALL_RULES): $(softmmu-main-y)
+diff --git a/tests/libqos/i2c.c b/tests/libqos/i2c.c
+index 156114e745..38f800dbab 100644
+--- a/tests/libqos/i2c.c
++++ b/tests/libqos/i2c.c
+@@ -10,12 +10,12 @@
+ #include "libqos/i2c.h"
+ #include "libqtest.h"
 =20
- .PHONY: $(TARGET_DIRS_RULES)
- # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
-diff --git a/Makefile.objs b/Makefile.objs
-index 11ba1a36bd..9ff9b0c6f9 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -86,6 +86,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
- # qapi
-=20
- common-obj-y +=3D qapi/
-+
-+softmmu-main-y =3D main.o
- endif
-=20
- #######################################################################
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 44f18eb739..d1dbf85414 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -114,6 +114,10 @@ QemuOpts *qemu_get_machine_opts(void);
-=20
- bool defaults_enabled(void);
-=20
-+void qemu_init(int argc, char **argv, char **envp);
-+void qemu_main_loop(void);
-+void qemu_cleanup(void);
-+
- extern QemuOptsList qemu_legacy_drive_opts;
- extern QemuOptsList qemu_common_drive_opts;
- extern QemuOptsList qemu_drive_opts;
-diff --git a/main.c b/main.c
-new file mode 100644
-index 0000000000..f10ceda541
---- /dev/null
-+++ b/main.c
-@@ -0,0 +1,53 @@
-+/*
-+ * QEMU System Emulator
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "sysemu/sysemu.h"
-+
-+#ifdef CONFIG_SDL
-+#if defined(__APPLE__) || defined(main)
-+#include <SDL.h>
-+int main(int argc, char **argv)
-+{
-+    return qemu_main(argc, argv, NULL);
-+}
-+#undef main
-+#define main qemu_main
-+#endif
-+#endif /* CONFIG_SDL */
-+
-+#ifdef CONFIG_COCOA
-+#undef main
-+#define main qemu_main
-+#endif /* CONFIG_COCOA */
-+
-+int main(int argc, char **argv, char **envp)
-+{
-+    qemu_init(argc, argv, envp);
-+    qemu_main_loop();
-+    qemu_cleanup();
-+
-+    return 0;
-+}
-diff --git a/vl.c b/vl.c
-index c389d24b2c..adb08a3d41 100644
---- a/vl.c
-+++ b/vl.c
-@@ -36,25 +36,6 @@
- #include "sysemu/seccomp.h"
- #include "sysemu/tcg.h"
-=20
--#ifdef CONFIG_SDL
--#if defined(__APPLE__) || defined(main)
--#include <SDL.h>
--int qemu_main(int argc, char **argv, char **envp);
--int main(int argc, char **argv)
--{
--    return qemu_main(argc, argv, NULL);
--}
--#undef main
--#define main qemu_main
--#endif
--#endif /* CONFIG_SDL */
--
--#ifdef CONFIG_COCOA
--#undef main
--#define main qemu_main
--#endif /* CONFIG_COCOA */
--
--
- #include "qemu/error-report.h"
- #include "qemu/sockets.h"
- #include "sysemu/accel.h"
-@@ -1797,7 +1778,7 @@ static bool main_loop_should_exit(void)
-     return false;
- }
-=20
--static void main_loop(void)
-+void qemu_main_loop(void)
+-void i2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
++void qi2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
  {
- #ifdef CONFIG_PROFILER
-     int64_t ti;
-@@ -2824,7 +2805,7 @@ static void user_register_global_props(void)
-                       global_init_func, NULL, NULL);
+     i2cdev->bus->send(i2cdev->bus, i2cdev->addr, buf, len);
  }
 =20
--int main(int argc, char **argv, char **envp)
-+void qemu_init(int argc, char **argv, char **envp)
+-void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
++void qi2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
  {
-     int i;
-     int snapshot, linux_boot;
-@@ -3404,7 +3385,7 @@ int main(int argc, char **argv, char **envp)
-             case QEMU_OPTION_watchdog:
-                 if (watchdog) {
-                     error_report("only one watchdog option may be given");
--                    return 1;
-+                    exit(1);
-                 }
-                 watchdog =3D optarg;
-                 break;
-@@ -3847,7 +3828,7 @@ int main(int argc, char **argv, char **envp)
-     set_memory_options(&ram_slots, &maxram_size, machine_class);
-=20
-     os_daemonize();
--    rcu_disable_atfork();
-+    /* rcu_disable_atfork(); */
-=20
-     if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
-         error_reportf_err(err, "cannot create PID file: ");
-@@ -4327,7 +4308,7 @@ int main(int argc, char **argv, char **envp)
-     parse_numa_opts(current_machine);
-=20
-     /* do monitor/qmp handling at preconfig state if requested */
--    main_loop();
-+    qemu_main_loop();
-=20
-     audio_init_audiodevs();
-=20
-@@ -4440,7 +4421,7 @@ int main(int argc, char **argv, char **envp)
-     if (vmstate_dump_file) {
-         /* dump and exit */
-         dump_vmstate_json_to_file(vmstate_dump_file);
--        return 0;
-+        exit(0);
-     }
-=20
-     if (incoming) {
-@@ -4457,8 +4438,11 @@ int main(int argc, char **argv, char **envp)
-     accel_setup_post(current_machine);
-     os_setup_post();
-=20
--    main_loop();
-+    return;
-+}
-=20
-+void qemu_cleanup(void)
-+{
-     gdbserver_cleanup();
-=20
-     /*
-@@ -4495,6 +4479,4 @@ int main(int argc, char **argv, char **envp)
-     qemu_chr_cleanup();
-     user_creatable_cleanup();
-     /* TODO: unref root container, check all devices are ok */
--
--    return 0;
+     i2cdev->bus->recv(i2cdev->bus, i2cdev->addr, buf, len);
  }
+@@ -23,8 +23,8 @@ void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t =
+len)
+ void i2c_read_block(QI2CDevice *i2cdev, uint8_t reg,
+                     uint8_t *buf, uint16_t len)
+ {
+-    i2c_send(i2cdev, &reg, 1);
+-    i2c_recv(i2cdev, buf, len);
++    qi2c_send(i2cdev, &reg, 1);
++    qi2c_recv(i2cdev, buf, len);
+ }
+=20
+ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+@@ -33,7 +33,7 @@ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+     uint8_t *cmd =3D g_malloc(len + 1);
+     cmd[0] =3D reg;
+     memcpy(&cmd[1], buf, len);
+-    i2c_send(i2cdev, cmd, len + 1);
++    qi2c_send(i2cdev, cmd, len + 1);
+     g_free(cmd);
+ }
+=20
+diff --git a/tests/libqos/i2c.h b/tests/libqos/i2c.h
+index 945b65b34c..c65f087834 100644
+--- a/tests/libqos/i2c.h
++++ b/tests/libqos/i2c.h
+@@ -47,8 +47,8 @@ struct QI2CDevice {
+ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr)=
+;
+ void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr);
+=20
+-void i2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
+-void i2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
++void qi2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
++void qi2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+=20
+ void i2c_read_block(QI2CDevice *dev, uint8_t reg,
+                     uint8_t *buf, uint16_t len);
+diff --git a/tests/pca9552-test.c b/tests/pca9552-test.c
+index 4b800d3c3e..d80ed93cd3 100644
+--- a/tests/pca9552-test.c
++++ b/tests/pca9552-test.c
+@@ -32,22 +32,22 @@ static void receive_autoinc(void *obj, void *data, QGue=
+stAllocator *alloc)
+=20
+     pca9552_init(i2cdev);
+=20
+-    i2c_send(i2cdev, &reg, 1);
++    qi2c_send(i2cdev, &reg, 1);
+=20
+     /* PCA9552_LS0 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+=20
+     /* PCA9552_LS1 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS2 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS3 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+ }
+=20
 --=20
 2.23.0
 
