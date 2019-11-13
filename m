@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091F2FB58E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:49:33 +0100 (CET)
-Received: from localhost ([::1]:47406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93581FB5BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:54:07 +0100 (CET)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvpj-0006lA-MW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:49:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
+	id 1iUvuA-0004mT-JL
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:54:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iUvmV-00047h-QI
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:13 -0500
+ (envelope-from <sameid@google.com>) id 1iUvmz-0004tC-6v
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iUvmT-0006xa-DK
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:10 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56928
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iUvmT-0006xL-9Z
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573663568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fW7GUyMMHX6QKjOzgsMfsicIBNd+G+GV+I1wj3KKLSA=;
- b=P14Qtg5A1tgxwrWG0QGDXpg9Qe+e7tNpVzPWCAPwab5r8FZ7njohTpvo+ku8009Fs481DH
- tciRtXmAilkSDuMrhhi/r7AOkp62iGfyIZUKlIXiNdOzFA89P40z1TNaZiQiR0zXomgV4T
- dQkHOXs76sFCXcc+BUmqlH48wDzU/3k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-a0WAMMGaOdSKtbqDVc2Hzw-1; Wed, 13 Nov 2019 11:46:07 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7229100EE09;
- Wed, 13 Nov 2019 16:46:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72AC360478;
- Wed, 13 Nov 2019 16:45:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DD6A41138648; Wed, 13 Nov 2019 17:45:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Wolfgang Bumiller <w.bumiller@proxmox.com>
-Subject: Re: [PATCH v2] monitor/qmp: resume monitor when clearing its queue
-References: <20191024081231.19087-1-w.bumiller@proxmox.com>
-Date: Wed, 13 Nov 2019 17:45:57 +0100
-In-Reply-To: <20191024081231.19087-1-w.bumiller@proxmox.com> (Wolfgang
- Bumiller's message of "Thu, 24 Oct 2019 10:12:31 +0200")
-Message-ID: <871rubvi62.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <sameid@google.com>) id 1iUvmv-00077E-4d
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:39 -0500
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:44722)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <sameid@google.com>) id 1iUvmu-00076c-DN
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:46:36 -0500
+Received: by mail-qv1-xf44.google.com with SMTP id d3so1068281qvs.11
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 08:46:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=H2T4CW/fFtJ7qTKVlw1EfF9OHZRW0qNkbbnBH8/YztA=;
+ b=DZIkfGjlGjA3Bv7uKY0Hv2FshF+S/3x8Ue+HxKPJBs00W4sdvy97etts9fRei1lAHz
+ EvJ44yhilYKHvXTZEPVWEPWxgn5y5rAp/s8Ucl+tLOVWmQEokEleWFDyGMeI9s0YaRXr
+ 5AhheVKT+pHsCWw6VtBFF/TaCnZba7GIucH0ps+jhkkkTPXIA/CUBwvUYez2FhI6qEuX
+ iWvH4FOuW44uI6FmVe5VCx7kiqIhIybtKRBaxKhgX+n5ePBa1s6B19mHnJPxvxZd6prY
+ LGpuStYPkaKI8TpEzDMEdnYBdlhb4b3zJEAK9+7oeNJVPYJ/6oAmpu+Y5eXCTShwmFVt
+ EG3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=H2T4CW/fFtJ7qTKVlw1EfF9OHZRW0qNkbbnBH8/YztA=;
+ b=WOFti20YbiwzpE8Pghz0o/XJU6JOVyNNuvC30LeNvi6/VMvzwBylEwxB/kW5HKWQYR
+ BzjBgJFoxWrGSNO3m1CfyiQpD8pU2lbwKKBYCz16i3WbuQk4F/2y3kFvszfVTdbhVPxm
+ qTRrSs5KJWjpLp47N1ojp20ey0+EeKQUWMPucFmXbIeDLzo2AX3vPVYQvY/JyiV9pS2m
+ R5cPfjMigr54VQBEON9rCKKFU9kqyAYvoNpHRT9jWNec4XOgMN3WcqywN+OPwGe0Y715
+ VeGXSU8S0J39SHRHqYdcUqVz5jHGMX2Cu6lZhXmwZqJXh7qjAn1y8crTxVdFJ/s9OeJY
+ LOXg==
+X-Gm-Message-State: APjAAAWJLDWrk/oZRk2NDmpxreh+fcJFgl9B4J/1vfutNj4xYsrx9BP3
+ 3Ck/i1Nz4J65zoJ9Y1iTuuHKf60BfdeLhkcfC3aDgA==
+X-Google-Smtp-Source: APXvYqyyfqmPV3smKhmZ/ilXt1u859euBJoIdqBZ0BLSBatkimON7MNFO0JY9tQKLdQiaRasUJhPRqyfIXw1fL10NzQ=
+X-Received: by 2002:ad4:4092:: with SMTP id l18mr3574904qvp.114.1573663595160; 
+ Wed, 13 Nov 2019 08:46:35 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: a0WAMMGaOdSKtbqDVc2Hzw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191113091809.31365-1-kraxel@redhat.com>
+ <84d3a1aa-bbb2-d831-0abc-fe1169f8a860@redhat.com>
+ <20191113140057.2ocwfa3rqqfkbg3r@sirius.home.kraxel.org>
+ <CAFr6bUn5W2-w3z4Ty9XD7mh+=kxVq2rQJ3ZUz5nXA13ZdxQtsg@mail.gmail.com>
+ <ca6dadb1-fddf-5f6f-a6fc-f94eb02862b6@redhat.com>
+ <CAFr6bUkGrC64gXfLgeZ5hYEkzLF4J-NzNCG3X1deHEovyJ7qSw@mail.gmail.com>
+In-Reply-To: <CAFr6bUkGrC64gXfLgeZ5hYEkzLF4J-NzNCG3X1deHEovyJ7qSw@mail.gmail.com>
+From: Sam Eiderman <sameid@google.com>
+Date: Wed, 13 Nov 2019 18:46:23 +0200
+Message-ID: <CAFr6bU=Ru+G8u_aSeN7-nGYz54V0a2cpJz+dsNP8R98zR_kahQ@mail.gmail.com>
+Subject: Re: [SeaBIOS] Re: [PATCH] ahci: zero-initialize port struct
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ seabios@seabios.org, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,155 +80,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wolfgang Bumiller <w.bumiller@proxmox.com> writes:
+Links to latest commits from archive.
+You can see all changes in the cover letter.
 
-> When a monitor's queue is filled up in handle_qmp_command()
-> it gets suspended. It's the dispatcher bh's job currently to
-> resume the monitor, which it does after processing an event
-> from the queue. However, it is possible for a
-> CHR_EVENT_CLOSED event to be processed before before the bh
-> is scheduled, which will clear the queue without resuming
-> the monitor, thereby preventing the dispatcher from reaching
-> the resume() call.
-> Any new connections to the qmp socket will be accept()ed and
-> show the greeting, but will not respond to any messages sent
-> afterwards (as they will not be read from the
-> still-suspended socket).
-> Fix this by resuming the monitor when clearing a queue which
-> was filled up.
+[SeaBIOS] [PATCH v4 0/5] Add Qemu to SeaBIOS LCHS interface
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/VLNFB=
+EERTWLEUO6LM5BYLBNVIFCTP46M/
+[SeaBIOS] [PATCH v4 1/5] geometry: Read LCHS from fw_cfg
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/B3IPD=
+3HH4UPDYJWFE4KX3HXUCNW5GPEW/
+[SeaBIOS] [PATCH v4 2/5] boot: Reorder functions in boot.c
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/YDVU3=
+WIGOSKZ2RQSMR5UVQNZ66K4IG65/
+[SeaBIOS] [PATCH v4 3/5] boot: Build ata and scsi paths in function
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/RY33D=
+RZZ3UK3UMQ3Q6BY2KUCHRRW4MRK/
+[SeaBIOS] [PATCH v4 4/5] geometry: Add boot_lchs_find_*() utility functions
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/DAJOU=
+LWFK24DX4DY3VS6WWOOQNWW3GSG/
+[SeaBIOS] [PATCH v4 5/5] geometry: Apply LCHS values for boot devices
+https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/message/UUCTP=
+PJ4PTS5CUTCFLOH3YOEXGC6HQ4T/
+
+Sam
+
+On Wed, Nov 13, 2019 at 6:35 PM Sam Eiderman <sameid@google.com> wrote:
 >
-> Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
-> ---
-> Changes to v1:
->   * Update commit message to include the resulting symptoms.
->   * Moved the resume code from `monitor_qmp_cleanup_req_queue_locked` to
->     `monitor_qmp_cleanup_queues` to avoid an unnecessary resume when
->     destroying the monitor (as the `_locked` version is also used by
->     `monitor_data_destroy()`.
->   * Renamed `monitor_qmp_cleanup_queues` to
->     `monitor_qmp_cleanup_queues_and_resume` to reflect the change and be
->     verbose about it for potential future users of the function.
->     Currently the only user is `monitor_qmp_event()` in the
->     `CHR_EVENT_CLOSED` case, which is exactly the problematic case curren=
-tly.
+> Sure,
 >
-> Sorry for the deleay :|
-
-Same to you (my sorry excuse is KVM Forum).  Now we need to hurry to get
-this fix into 4.2.  Let's try.
-
->  monitor/qmp.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
+> There are two issues here.
 >
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 9d9e5d8b27..df689aa95e 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -75,10 +75,30 @@ static void monitor_qmp_cleanup_req_queue_locked(Moni=
-torQMP *mon)
->      }
->  }
-> =20
-> -static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
-> +static void monitor_qmp_cleanup_queues_and_resume(MonitorQMP *mon)
-
-Let's rename to _cleanup_queue_and resume().  The plural is a remnant
-from when we also had a response queue.  Gone since commit 27656018d86.
-
->  {
->      qemu_mutex_lock(&mon->qmp_queue_lock);
-> +
-> +    /*
-> +     * Same condition as in monitor_qmp_bh_dispatcher(), but before remo=
-ving an
-> +     * element from the queue (hence no `- 1`), also, the queue should n=
-ot be
-> +     * empty either, otherwise the monitor hasn't been suspended yet (or=
- was
-> +     * already resumed).
-> +     */
-
-Comment lines should be wrapped around colum 70.
-
-> +    bool need_resume =3D (!qmp_oob_enabled(mon) && mon->qmp_requests->le=
-ngth > 0)
-> +        || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
-
-Now let me digest the comment.  Here's condition in
-monitor_qmp_bh_dispatcher():
-
-    need_resume =3D !qmp_oob_enabled(mon) ||
-        mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX - 1;
-
-"Same but before removing" is
-
-       bool need_resume =3D !qmp_oob_enabled(mon)
-           || mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX;
-
-That leaves the "also" part.  It's been too long since v1, I don't
-remember a thing, and I'm too dense today to understand without more
-help.  Can you help me some more?
-
-> +
->      monitor_qmp_cleanup_req_queue_locked(mon);
-> +
-> +    if (need_resume) {
-> +        /*
-> +         * Pairs with the monitor_suspend() in handle_qmp_command() in c=
-ase the
-> +         * queue gets cleared from a CH_EVENT_CLOSED event before the di=
-spatch
-> +         * bh got scheduled.
-> +         */
-
-CHR_EVENT_CLOSED
-
-Suggest:
-
-           /*
-            * handle_qmp_command() suspened the monitor because the
-            * request queue filled up, to be resumed when the queue has
-            * space again.  We just emptied it; resume the monitor.
-            */
-
-If we want to record the issue that made us fix the missing resume, we
-can add:
-
-            * Without this, the monitor would remain suspended forever
-            * when we get here while the monitor is suspended.  An
-            * unfortunately times CHR_EVENT_CLOSED can do the trick.
-
-Also update handle_qmp_command()'s comment:
-
-    /*
-     * Suspend the monitor when we can't queue more requests after
-     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
-     * monitor_qmp_cleanup_queue_and_resume() will resume it.
-     * Note that when OOB is disabled, we queue at most one command,
-     * for backward compatibility.
-     */
-
-> +        monitor_resume(&mon->common);
-> +    }
-> +
->      qemu_mutex_unlock(&mon->qmp_queue_lock);
->  }
-> =20
-> @@ -332,7 +352,7 @@ static void monitor_qmp_event(void *opaque, int event=
-)
->           * stdio, it's possible that stdout is still open when stdin
->           * is closed.
->           */
-> -        monitor_qmp_cleanup_queues(mon);
-> +        monitor_qmp_cleanup_queues_and_resume(mon);
->          json_message_parser_destroy(&mon->parser);
->          json_message_parser_init(&mon->parser, handle_qmp_command,
->                                   mon, NULL);
-
+> The first issue is that my commits which applied to seabios master:
+>
+> * 9caa19b - geometry: Apply LCHS values for boot devices
+> * cb56f61 - config: Add toggle for bootdevice information
+> * ad29109 - geometry: Add boot_lchs_find_*() utility functions
+> * b3d2120 - boot: Reorder functions in boot.c
+> * 7c66a43 - geometry: Read LCHS from fw_cfg
+>
+> Are not from the latest version which was submitted to the mailing list (=
+v4)
+> * fw_cfg key name has changed
+> * The value and of the key has changed from binary (v1) to textual (v4)
+> * Other fixes and variable name changes.
+>
+> So these commits need to be reverted and reapplied with the latest versio=
+n (v4)
+>
+> The second issue is that my commits, (in v4 too) will require this fix
+> that Gerd added ([PATCH] ahci: zero-initialize port struct) since they
+> change how SeaBIOS uses lchs.
+>
+> Previously, before any of my commits, drive.lchs could contain "random
+> crap" since it was always set before being used in
+> setup_translation().
+>
+> After my patches, get_translation() invokes overriden_lchs_supplied()
+> which checks: "return drive->lchs.cylinder || drive->lchs.head ||
+> drive->lchs.sector;"
+> So there is an assumption that "drive->lchs" is zeroed when lchs is
+> not supplied for the host.
+>
+> This was true for all devices using "drive->lchs" (all were memset to
+> 0) except ahci.
+> (I used 'git grep "drive_s * drive"' to find them all).
+>
+> So Gerd fix is indeed needed and then all devices are covered
+> (drive->lchs is memset to 0).
+>
+> Now only the first issue remains...
+>
+> Sam
+>
+> On Wed, Nov 13, 2019 at 6:12 PM Philippe Mathieu-Daud=C3=A9
+> <philmd@redhat.com> wrote:
+> >
+> > Hi Sam,
+> >
+> > On 11/13/19 4:03 PM, Sam Eiderman wrote:
+> > > Hi,
+> > >
+> > > Does this fix a bug that actually happened?
+> > >
+> > > I just noticed that in my lchs patches I assumed that lchs struct is
+> > > zeroed out in all devices (not only ahci):
+> > >
+> > > 9caa19be0e53 (geometry: Apply LCHS values for boot devices)
+> > >
+> > > Seems like this is not the case but why only ahci is affected?
+> > >
+> > > The list of devices is at least:
+> > >
+> > >          * ata
+> > >          * ahci
+> > >          * scsi
+> > >              * esp
+> > >              * lsi
+> > >              * megasas
+> > >              * mpt
+> > >              * pvscsi
+> > >              * virtio
+> > >          * virtio-blk
+> > >
+> > > As specified in the commit message.
+> > >
+> > > Also Gerd it seems that my lchs patches were not committed in the
+> > > latest submitted version (v4)!!!
+> > > The ABI of the fw config key is completely broken.
+> >
+> > What do you mean? Can you be more specific?
+> >
 
