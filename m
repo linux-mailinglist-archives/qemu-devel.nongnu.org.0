@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FCBFACEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:26:22 +0100 (CET)
-Received: from localhost ([::1]:42406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458E9FAD1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:37:14 +0100 (CET)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUour-0003zO-EB
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:26:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44974)
+	id 1iUp5N-0008Ms-9i
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:37:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iUotk-00032D-9F
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:25:13 -0500
+ (envelope-from <bounces@canonical.com>) id 1iUp3p-0007EB-Sz
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iUotj-0006b7-9M
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:25:12 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20347
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iUotj-0006Yn-5j
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:25:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573637110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9PZS+Le9P3FsskF0CwhBeJ2yhtb61uyEtHKrlgYplmk=;
- b=XHUIQE8EAbmqjE9SaEQJvaxsnZ9aF7w6ohm6hlqkO0WMApAZMpBh0L+7VaCOj7ie9qauB8
- 89zc1S3I7aWFGjdR4uKnXn9S6SEbRQZzH1p8XVKkkPwWNwagty96y4mXmIuUYf/fEKvCHt
- I0Q0B/1QF/dPzpYJoRvcF84qsY9HtZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-ekva7z-kNnOjCNhu3U_wSw-1; Wed, 13 Nov 2019 04:25:07 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD77F8E18F9;
- Wed, 13 Nov 2019 09:25:06 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-169.ams2.redhat.com [10.36.117.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A75BA17F20;
- Wed, 13 Nov 2019 09:25:04 +0000 (UTC)
-Date: Wed, 13 Nov 2019 10:25:02 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH 2/2] iotests: Test multiple blockdev-snapshot calls
-Message-ID: <20191113092502.GA6471@linux.fritz.box>
-References: <20191108085312.27049-1-kwolf@redhat.com>
- <20191108085312.27049-3-kwolf@redhat.com>
- <20191112160726.GC163480@angien.pipo.sk>
+ (envelope-from <bounces@canonical.com>) id 1iUp3o-0000Kf-LW
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38718)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iUp3o-0000JK-F7
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iUp3m-0007eE-K2
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:35:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9553E2E80C7
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:35:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191112160726.GC163480@angien.pipo.sk>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ekva7z-kNnOjCNhu3U_wSw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Wed, 13 Nov 2019 09:26:36 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crobinso laurent-vivier pmaydell
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <157349721480.22191.14354362512617460510.malonedeb@soybean.canonical.com>
+Message-Id: <157363719710.21811.1266172365389136223.malone@soybean.canonical.com>
+Subject: [Bug 1852115] Re: qemu --static user build fails with fedora rawhide
+ glibc-2.30.9000
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 336fb9ae6640123e81aa681a9b20db253c083b0d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,49 +67,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1852115 <1852115@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.11.2019 um 17:07 hat Peter Krempa geschrieben:
-> On Fri, Nov 08, 2019 at 09:53:12 +0100, Kevin Wolf wrote:
-> > Test that doing a second blockdev-snapshot doesn't make the first
-> > overlay's backing file go away.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  tests/qemu-iotests/273     |  76 +++++++++
-> >  tests/qemu-iotests/273.out | 337 +++++++++++++++++++++++++++++++++++++
-> >  tests/qemu-iotests/group   |   1 +
-> >  3 files changed, 414 insertions(+)
-> >  create mode 100755 tests/qemu-iotests/273
-> >  create mode 100644 tests/qemu-iotests/273.out
->=20
-> Didn't apply cleanly for me.
->=20
-> >=20
-> > diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
-> > new file mode 100755
-> > index 0000000000..60076de7ce
-> > --- /dev/null
-> > +++ b/tests/qemu-iotests/273
-> > @@ -0,0 +1,76 @@
-> > +#!/usr/bin/env bash
-> > +#
-> > +# Test large write to a qcow2 image
->=20
-> Cut&paste?
+Fixed by 0f1f2d4596ae ("linux-user: remove host stime() syscall")
 
-Indeed. I'll change it like this:
 
-# Test multiple blockdev-snapshot calls with 'backing': null
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Committed
 
-> Rest looks good
->=20
-> Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+-- =
 
-Thanks!
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852115
 
-Kevin
+Title:
+  qemu --static user build fails with fedora rawhide glibc-2.30.9000
 
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Building qemu latest git 654efcb511d on fedora rawhide fails with this
+  configure line:
+
+  ./configure \
+  	--static \
+  	--disable-system \
+  	--enable-linux-user \
+  	--disable-werror \
+  	--disable-tools \
+  	--disable-capstone
+
+  make fails with:
+
+  /usr/bin/ld: linux-user/syscall.o: in function `do_syscall1':
+  /root/qemu.git/linux-user/syscall.c:7769: undefined reference to `stime'
+  collect2: error: ld returned 1 exit status
+
+  Seems related to this glibc change:
+  https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D12cbde1dae6fa4a9=
+a792b64564c7e0debf7544cc
+
+  ...
+
+  +* The obsolete function stime is no longer available to newly linked
+  +  binaries and it has been removed from <time.h> header.  This function
+  +  has been deprecated in favor of clock_settime.
+  +
+
+  # rpm -q glibc
+  glibc-2.30.9000-17.fc32.x86_64
+
+  =
+
+  FWIW there's some other messages but I don't think they are fatal:
+
+  /usr/bin/ld: /usr/lib/gcc/x86_64-redhat-linux/9/../../../../lib64/libglib=
+-2.0.a(gutils.c.o): in function `g_get_user_database_entry':
+  (.text+0x267): warning: Using 'getpwuid' in statically linked application=
+s requires at runtime the shared libraries from the glibc version used for =
+linking
+  /usr/bin/ld: (.text+0xe0): warning: Using 'getpwnam_r' in statically link=
+ed applications requires at runtime the shared libraries from the glibc ver=
+sion used for linking
+  /usr/bin/ld: (.text+0x11e): warning: Using 'getpwuid_r' in statically lin=
+ked applications requires at runtime the shared libraries from the glibc ve=
+rsion used for linking
+
+  =
+
+  Also, --disable-capstone is required to avoid this error, but it is pre-e=
+xisting, not sure if it's a bug, if so I can file a separate one:
+
+    LINK    aarch64-linux-user/qemu-aarch64
+  /usr/bin/ld: cannot find -lcapstone
+  collect2: error: ld returned 1 exit status
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852115/+subscriptions
 
