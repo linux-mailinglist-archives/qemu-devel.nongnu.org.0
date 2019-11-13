@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3DFFAD79
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:46:57 +0100 (CET)
-Received: from localhost ([::1]:42496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF8FFAD18
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 10:36:10 +0100 (CET)
+Received: from localhost ([::1]:42456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUpEl-0001rW-UD
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:46:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47112)
+	id 1iUp4L-0007Rp-8R
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 04:36:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iUpDv-0001Qy-HZ
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:46:04 -0500
+ (envelope-from <lersek@redhat.com>) id 1iUp3R-0006tY-Py
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iUpDu-00011g-6G
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:46:03 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iUpDu-00010t-0y
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:46:02 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iUpDq-0001KQ-VY
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:45:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 96C8F2E80DF
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 09:45:57 +0000 (UTC)
+ (envelope-from <lersek@redhat.com>) id 1iUp3Q-0008QF-Q4
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53803
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iUp3Q-0008On-Mw
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 04:35:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573637711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UWAVBjO4TE8spENeGMJIe9SLcP/MQ3d38TnQilLPNhw=;
+ b=fFzG8QIa9wPnAqbmzhG97wHYvFrvAnM8i2YoM3xPQLKFKLXf6tiG6V4bEExQkqCkf7v0J+
+ YYut2Tb7tHG2F/aqSwlVt+Gs8xi4sXBY+oCs7dhcqWtgtOPAalJHXdSe7K2ieZlBsADquH
+ LvsvvHCmw5ACpG8UFX2UfFYI8LTOxB4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-yd9Kk5IhN4maSE1aJEjwbQ-1; Wed, 13 Nov 2019 04:35:08 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFED9800590;
+ Wed, 13 Nov 2019 09:35:07 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-243.ams2.redhat.com
+ [10.36.116.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CB9B28DCA;
+ Wed, 13 Nov 2019 09:35:04 +0000 (UTC)
+Subject: Re: [PATCH] ahci: zero-initialize port struct
+To: Gerd Hoffmann <kraxel@redhat.com>, seabios@seabios.org
+References: <20191113091809.31365-1-kraxel@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <84d3a1aa-bbb2-d831-0abc-fe1169f8a860@redhat.com>
+Date: Wed, 13 Nov 2019 10:35:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191113091809.31365-1-kraxel@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: yd9Kk5IhN4maSE1aJEjwbQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 13 Nov 2019 09:34:49 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Wishlist;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amitshah dkg0 laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: dkg (dkg0)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <154753485996.31938.10842883255904010357.malonedeb@wampee.canonical.com>
-Message-Id: <157363769017.21696.8697806904316907402.malone@soybean.canonical.com>
-Subject: [Bug 1811758] Re: virtio-rng backend should use getentropy() syscall
- when available
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 366627a9b22452fb6cb809d2083253e0810b9d44
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,43 +74,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811758 <1811758@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rng-builtin is the new RNG default backend for virtio-rng and is based
-on getrandom().
+On 11/13/19 10:18, Gerd Hoffmann wrote:
+> Specifically port->driver.lchs needs clearing, otherwise seabios will
 
-0198c2621a1e virtio-rng: change default backend to rng-builtin
-5f7655f6ef15 virtio-rng: Keep the default backend out of VirtIORNGConf
-6c4e9d487fea rng-builtin: add an RNG backend that uses qemu_guest_getrandom=
-()
+s/driver/drive/
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+> try interpret whatever random crap happens to be there as disk geometry,
+> which may or may not break boot depending on how lucky you are.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  src/hw/ahci.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/src/hw/ahci.c b/src/hw/ahci.c
+> index 97a072a1ca81..d45b4307ec68 100644
+> --- a/src/hw/ahci.c
+> +++ b/src/hw/ahci.c
+> @@ -345,6 +345,7 @@ ahci_port_alloc(struct ahci_ctrl_s *ctrl, u32 pnr)
+>          warn_noalloc();
+>          return NULL;
+>      }
+> +    memset(port, 0, sizeof(*port));
+>      port->pnr =3D pnr;
+>      port->ctrl =3D ctrl;
+>      port->list =3D memalign_tmp(1024, 1024);
+>=20
 
--- =
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811758
-
-Title:
-  virtio-rng backend should use getentropy() syscall when available
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  According to https://wiki.qemu.org/Features/VirtIORNG the default
-  backend for `virtio-rng-pci` is `/dev/random`.  Alternately, the user
-  can point it to a different backend file, like `/dev/urandom`.
-
-  However, both of these files have suboptimal behavior in one way or
-  another, as documented in `random(7)`.  Instead, the default behavior
-  should be to pull the requested octets from the `getrandom()` system
-  call, if available, called with no flags set.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811758/+subscriptions
 
