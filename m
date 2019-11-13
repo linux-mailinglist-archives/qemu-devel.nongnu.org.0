@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFF7FB582
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:46:00 +0100 (CET)
-Received: from localhost ([::1]:47346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B821FB592
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 17:50:45 +0100 (CET)
+Received: from localhost ([::1]:47422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUvmI-0002Te-F2
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:45:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
+	id 1iUvqu-0008AK-33
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 11:50:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44953)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUvit-0000v6-TO
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUviu-0000v7-23
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUvis-0005kx-Gw
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iUvis-0005kh-Fn
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:27 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:35073 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:35076 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iUvir-0005TM-Un
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:26 -0500
+ id 1iUvir-0005TN-Ij
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 11:42:25 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 957A01A22B9;
+ by mail.rt-rk.com (Postfix) with ESMTP id 8FD161A22C8;
  Wed, 13 Nov 2019 17:41:20 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 60A881A22A8;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 65BCD1A22B2;
  Wed, 13 Nov 2019 17:41:20 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 5.0 2/6] linux-user: Add set and read for rtc time and
- alarm using ioctls
-Date: Wed, 13 Nov 2019 17:41:07 +0100
-Message-Id: <1573663271-31519-3-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH for 5.0 3/6] linux-user: Add read and set for rtc periodic
+ interrupt and epoch using ioctls
+Date: Wed, 13 Nov 2019 17:41:08 +0100
+Message-Id: <1573663271-31519-4-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573663271-31519-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1573663271-31519-1-git-send-email-Filip.Bozuta@rt-rk.com>
@@ -57,63 +57,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h        |  4 ++++
- linux-user/syscall_defs.h  |  4 ++++
- linux-user/syscall_types.h | 11 +++++++++++
- 3 files changed, 19 insertions(+)
+ linux-user/ioctls.h       | 4 ++++
+ linux-user/syscall_defs.h | 4 ++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 97741c7..ff1cdd2 100644
+index ff1cdd2..7d76a9f 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -77,6 +77,10 @@
-      IOCTL(RTC_PIE_OFF, 0, TYPE_NULL)
-      IOCTL(RTC_WIE_ON, 0, TYPE_NULL)
-      IOCTL(RTC_WIE_OFF, 0, TYPE_NULL)
-+     IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-+     IOCTL(RTC_ALM_READ, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-+     IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-+     IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+@@ -81,6 +81,10 @@
+      IOCTL(RTC_ALM_READ, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
++     IOCTL(RTC_IRQP_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_IRQP_SET, IOC_W, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_EPOCH_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_EPOCH_SET, IOC_W, MK_PTR(TYPE_ULONG))
  
       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index f91579a..2298547 100644
+index 2298547..e69071f 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -772,6 +772,10 @@ struct target_pollfd {
- #define TARGET_RTC_PIE_OFF          TARGET_IO('p', 0x06)
- #define TARGET_RTC_WIE_ON           TARGET_IO('p', 0x0f)
- #define TARGET_RTC_WIE_OFF          TARGET_IO('p', 0x10)
-+#define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_time)
-+#define TARGET_RTC_ALM_READ         TARGET_IOR('p', 0x08, struct rtc_time)
-+#define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_time)
-+#define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_time)
+@@ -776,6 +776,10 @@ struct target_pollfd {
+ #define TARGET_RTC_ALM_READ         TARGET_IOR('p', 0x08, struct rtc_time)
+ #define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_time)
+ #define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_time)
++#define TARGET_RTC_IRQP_READ        TARGET_IOR('p', 0x0b, abi_ulong)
++#define TARGET_RTC_IRQP_SET         TARGET_IOW('p', 0x0c, abi_ulong)
++#define TARGET_RTC_EPOCH_READ       TARGET_IOR('p', 0x0d, abi_ulong)
++#define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
  
  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
         defined(TARGET_XTENSA)
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 4e36983..a35072a 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -255,6 +255,17 @@ STRUCT(blkpg_partition,
-        MK_ARRAY(TYPE_CHAR, BLKPG_DEVNAMELTH), /* devname */
-        MK_ARRAY(TYPE_CHAR, BLKPG_VOLNAMELTH)) /* volname */
- 
-+STRUCT(rtc_time,
-+       TYPE_INT, /* tm_sec */
-+       TYPE_INT, /* tm_min */
-+       TYPE_INT, /* tm_hour */
-+       TYPE_INT, /* tm_mday */
-+       TYPE_INT, /* tm_mon */
-+       TYPE_INT, /* tm_year */
-+       TYPE_INT, /* tm_wday */
-+       TYPE_INT, /* tm_yday */
-+       TYPE_INT) /* tm_isdst */
-+
- STRUCT(blkpg_ioctl_arg,
-        TYPE_INT, /* op */
-        TYPE_INT, /* flags */
 -- 
 2.7.4
 
