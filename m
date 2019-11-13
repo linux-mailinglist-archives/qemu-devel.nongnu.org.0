@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A60FB2C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:44:37 +0100 (CET)
-Received: from localhost ([::1]:45680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C0DFB2BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 15:41:42 +0100 (CET)
+Received: from localhost ([::1]:45640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUtsp-00031J-PS
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:44:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54514)
+	id 1iUtq1-0007jv-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 09:41:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54511)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnf-0005mB-SD
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:17 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtnf-0005m1-OG
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iUtne-0006K4-8D
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iUtne-0006KH-Jv
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:15 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35732)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35908)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iUtne-0006Jf-0w
+ id 1iUtne-0006Jt-Dj
  for qemu-devel@nongnu.org; Wed, 13 Nov 2019 09:39:14 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id s5so2661129wrw.2
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:13 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id r10so2659016wrx.3
+ for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 06:39:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Na0X6tD4ZljnoxlrSDpoo7TALwUaYoZx+hQdqFyPXBw=;
- b=upyJIbbJgtqHoBCNVXlzbW5HD2N2Q0jIgByquHlV1B+k1WiZdz3Z3xn66KsFcgzMd4
- gn4XYDNL9pu0LDNsSmLepJSuYq/HGwMYLKjf1LOAJqTKkb8uJTCI+vxL9dVl7N/8701N
- +vZDMhPsCo/jWj2SeHtGvAXE4eRwfqpp/+yntQeuFNWF7QubKWLSWDtWpjFODFBLmm5I
- 9fUxhpuGbN7JHCm1g80xOasIAyCNJRO9YKkIMvtoBnaTGsFfBDyM9xaE0CPZV0u5wmgr
- KMU7EIcOohCl8Bio3f9TzStefbytdM0AdmD9dT1sCXiwGqB76k0XXhHonnytEJTWlK0K
- 9tiA==
+ bh=04DgeNC9vfzASWfCYcrOuTaV0nl4hE4YtksZoBBJzpM=;
+ b=mFgVDQT0R2WoA2hwT/zTC4fqohWKyBeYrk+M9RZ8g8/ggUav/aBzcVRDWXMnMGr8Tv
+ pqLOMzepX+E2hDjvoh/T7oXyPIl3f7tkE5//gNauYYyhSy1etsVVlHF2YwzHNg2+zcMF
+ iRlVNwHmiHqKP7GRaVJ7uRL6FoHYZ/kDhtzGR/HrTi2Newr80Eb1whTByOefV4icYadT
+ EEraEB5e/15S1xeYPUnVT9DamTA8m8ApoGVKNUHOoWhUXRJ8hlqfsuc8zmQ9KuHt4I8p
+ /qNBHySWE3ZkTkAkqKb7nJGB+R/dUu99orFznU2cB0Nve6n0Se07I68aYVikEDf8zwnz
+ 9Z2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Na0X6tD4ZljnoxlrSDpoo7TALwUaYoZx+hQdqFyPXBw=;
- b=COzqY8RLhGfch63KNl8KfP34hIqrbs1oscJr2E+34vOhannePUiHMxmFeWZ7WUlQVC
- k2EJa2xu7KQS81bS2IZGpQziCkSbUmAH6LiE6c4QbjsROdniAeaAu56FyD+g2HwCPyAt
- JiJSCtdjrDyTQAaO8lJQxkxE1HqVEldj46vJrY+hppCfTPb+0LYRFDn6o7OunyLpIleo
- tv+EG5JCHtpmNCzyMeuClQPA0LcLNEb3RZ9u8idqfeTT9p5nCCDZYDZW/Pj86JVOdZok
- 8YMfT9a3a+/UFs2JJETeMWB8rm4c4GoSK9roWPfUPJX61kiPBQXsjwUcaEKjTDGwxQx1
- zD9w==
-X-Gm-Message-State: APjAAAVJy2Ed8BW5FGkm65BBslSdcWr62RPyMgIx8fIICTZKYL2G6ghL
- Zsj4gR71ETAvo9ZQ3RwjfrZ+1Zik
-X-Google-Smtp-Source: APXvYqya0qtv7PNmHngS7cmFYAVcWFcrNzyk9qJREnNmNVVHyEqpmYYIOGBZyLmplb9y4hxosqF1XA==
-X-Received: by 2002:adf:f18e:: with SMTP id h14mr3300376wro.348.1573655952596; 
- Wed, 13 Nov 2019 06:39:12 -0800 (PST)
+ bh=04DgeNC9vfzASWfCYcrOuTaV0nl4hE4YtksZoBBJzpM=;
+ b=AzkYQXGk1EQcozzJ2ziiHDFCVpNFIJi7sCrdKz/v+Uhlk1gUPJ033GNLiyDRONLhfA
+ HHtFFrVZTPpowDgNmrEkkwL0PUe+kIUuIqu9FyETJP5wAeuNlDmg/+jFbh8UxEl9NO7R
+ hMlJhU+cxmfj34gulKSL5xwaU55MjhlbTSIAMhfic/U2TSGSv+GB67rxxvfClvQnMyWP
+ Qcrxnfn4C6tkrHcpP9BWVBsMvsZKLzxbvcaDmbgbn6OE5wLCCFRXt/Dc08FD3yGo8OFh
+ Kx3f2jWR2S63JW2FwtFbLbMdZBNZGk6SwMf7bkZdxlY8/DDdstFUKd/GwSYwuVTlwa39
+ 18Pg==
+X-Gm-Message-State: APjAAAWcdQBF6XGzkbMrRdgOrj0NLEPRpjlT+Wo0NnBKTs76tqpwhOpT
+ s9uw3QOrjE6lXaAugR/tIIs/wCgA
+X-Google-Smtp-Source: APXvYqzkbdvF6nahA7MzSMxfnYw7Ty4nmru8yvnOHdhpihtJz7hNUa8rB6FNoc01SXiWvwJHziPkxw==
+X-Received: by 2002:a5d:4810:: with SMTP id l16mr3010699wrq.127.1573655953255; 
+ Wed, 13 Nov 2019 06:39:13 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.11
+ by smtp.gmail.com with ESMTPSA id s11sm2965823wrr.43.2019.11.13.06.39.12
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Wed, 13 Nov 2019 06:39:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/16] vl: configure accelerators from -accel options
-Date: Wed, 13 Nov 2019 15:38:55 +0100
-Message-Id: <1573655945-14912-7-git-send-email-pbonzini@redhat.com>
+Subject: [PATCH 07/16] vl: warn for unavailable accelerators, clarify messages
+Date: Wed, 13 Nov 2019 15:38:56 +0100
+Message-Id: <1573655945-14912-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,247 +78,48 @@ Cc: thuth@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the "accel" property from MachineState, and instead desugar
-"-machine accel=" to a list of "-accel" options.
+So far, specifying an accelerator that was not compiled in did not result
+in an error; fix that.
 
-This has a semantic change due to removing merge_lists from -accel.
-For example:
-
-- "-accel kvm -accel tcg" all but ignored "-accel kvm".  This is a bugfix.
-
-- "-accel kvm -accel thread=single" ignored "thread=single", since it
-  applied the option to KVM.  Now it fails due to not specifying the
-  accelerator on "-accel thread=single".
-
-- "-accel tcg -accel thread=single" chose single-threaded TCG, while now
-  it will fail due to not specifying the accelerator on "-accel
-  thread=single".
-
-Also, "-machine accel" and "-accel" become incompatible.
+While at it, clarify the mysterious "Back to TCG" message.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c   | 21 ------------
- include/hw/boards.h |  1 -
- vl.c                | 93 +++++++++++++++++++++++++++++++----------------------
- 3 files changed, 54 insertions(+), 61 deletions(-)
+ vl.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3..45ddfb6 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -173,21 +173,6 @@ GlobalProperty hw_compat_2_1[] = {
- };
- const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
- 
--static char *machine_get_accel(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->accel);
--}
--
--static void machine_set_accel(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->accel);
--    ms->accel = g_strdup(value);
--}
--
- static void machine_set_kernel_irqchip(Object *obj, Visitor *v,
-                                        const char *name, void *opaque,
-                                        Error **errp)
-@@ -808,11 +793,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     mc->numa_mem_align_shift = 23;
-     mc->numa_auto_assign_ram = numa_default_auto_assign_ram;
- 
--    object_class_property_add_str(oc, "accel",
--        machine_get_accel, machine_set_accel, &error_abort);
--    object_class_property_set_description(oc, "accel",
--        "Accelerator list", &error_abort);
--
-     object_class_property_add(oc, "kernel-irqchip", "on|off|split",
-         NULL, machine_set_kernel_irqchip,
-         NULL, NULL, &error_abort);
-@@ -971,7 +951,6 @@ static void machine_finalize(Object *obj)
- {
-     MachineState *ms = MACHINE(obj);
- 
--    g_free(ms->accel);
-     g_free(ms->kernel_filename);
-     g_free(ms->initrd_filename);
-     g_free(ms->kernel_cmdline);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index de45087..36fcbda 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -275,7 +275,6 @@ struct MachineState {
- 
-     /*< public >*/
- 
--    char *accel;
-     bool kernel_irqchip_allowed;
-     bool kernel_irqchip_required;
-     bool kernel_irqchip_split;
 diff --git a/vl.c b/vl.c
-index b93217d..dd895db 100644
+index dd895db..843b263 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -293,7 +293,6 @@ static QemuOptsList qemu_accel_opts = {
-     .name = "accel",
-     .implied_opt_name = "accel",
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_accel_opts.head),
--    .merge_lists = true,
-     .desc = {
-         {
-             .name = "accel",
-@@ -2651,6 +2650,11 @@ static int machine_set_property(void *opaque,
-         }
-     }
+@@ -2853,6 +2853,8 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     int ret;
  
-+    /* Legacy options do not correspond to MachineState properties.  */
-+    if (g_str_equal(qom_name, "accel")) {
-+        return 0;
-+    }
-+
-     r = object_parse_property_opt(opaque, name, value, "type", errp);
-     g_free(qom_name);
-     return r;
-@@ -2843,74 +2847,88 @@ static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
- 
- static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
- {
-+    bool *p_init_failed = opaque;
-+    const char *acc = qemu_opt_get(opts, "accel");
-+    AccelClass *ac = accel_find(acc);
-+    int ret;
-+
-+    if (!ac) {
-+        return 0;
-+    }
-+    ret = accel_init_machine(ac, current_machine);
-+    if (ret < 0) {
+     if (!ac) {
 +        *p_init_failed = true;
-+        error_report("failed to initialize %s: %s",
-+                     acc, strerror(-ret));
-+        return 0;
-+    }
-+
-     if (tcg_enabled()) {
-         qemu_tcg_configure(opts, &error_fatal);
++        error_report("invalid accelerator %s", acc);
+         return 0;
      }
--    return 0;
-+    return 1;
- }
- 
- static void configure_accelerators(const char *progname)
- {
-     const char *accel;
-     char **accel_list, **tmp;
--    int ret;
-     bool accel_initialised = false;
-     bool init_failed = false;
--    AccelClass *acc = NULL;
- 
-     qemu_opts_foreach(qemu_find_opts("icount"),
-                       do_configure_icount, NULL, &error_fatal);
- 
-     accel = qemu_opt_get(qemu_get_machine_opts(), "accel");
--    if (accel == NULL) {
--        /* Select the default accelerator */
--        if (!accel_find("tcg") && !accel_find("kvm")) {
--            error_report("No accelerator selected and"
--                         " no default accelerator available");
--            exit(1);
--        } else {
--            int pnlen = strlen(progname);
--            if (pnlen >= 3 && g_str_equal(&progname[pnlen - 3], "kvm")) {
--                /* If the program name ends with "kvm", we prefer KVM */
--                accel = "kvm:tcg";
-+    if (QTAILQ_EMPTY(&qemu_accel_opts.head)) {
-+        if (accel == NULL) {
-+            /* Select the default accelerator */
-+            if (!accel_find("tcg") && !accel_find("kvm")) {
-+                error_report("No accelerator selected and"
-+                             " no default accelerator available");
-+                exit(1);
-             } else {
--                accel = "tcg:kvm";
-+                int pnlen = strlen(progname);
-+                if (pnlen >= 3 && g_str_equal(&progname[pnlen - 3], "kvm")) {
-+                    /* If the program name ends with "kvm", we prefer KVM */
-+                    accel = "kvm:tcg";
-+                } else {
-+                    accel = "tcg:kvm";
-+                }
+     ret = accel_init_machine(ac, current_machine);
+@@ -2907,6 +2909,9 @@ static void configure_accelerators(const char *progname)
+              */
+             if (accel_find(*tmp)) {
+                 qemu_opts_parse_noisily(qemu_find_opts("accel"), *tmp, true);
++            } else {
++                init_failed = true;
++                error_report("invalid accelerator %s", *tmp);
              }
          }
--    }
- 
--    accel_list = g_strsplit(accel, ":", 0);
-+        accel_list = g_strsplit(accel, ":", 0);
- 
--    for (tmp = accel_list; !accel_initialised && tmp && *tmp; tmp++) {
--        acc = accel_find(*tmp);
--        if (!acc) {
--            continue;
-+        for (tmp = accel_list; !accel_initialised && tmp && *tmp; tmp++) {
-+            /*
-+             * Filter invalid accelerators here, to prevent obscenities
-+             * such as "-machine accel=tcg,,thread=single".
-+             */
-+            if (accel_find(*tmp)) {
-+                qemu_opts_parse_noisily(qemu_find_opts("accel"), *tmp, true);
-+            }
-         }
--        ret = accel_init_machine(acc, current_machine);
--        if (ret < 0) {
--            init_failed = true;
--            error_report("failed to initialize %s: %s",
--                         acc->name, strerror(-ret));
--        } else {
--            accel_initialised = true;
-+    } else {
-+        if (accel != NULL) {
-+            error_report("The -accel and \"-machine accel=\" options are incompatible");
-+            exit(1);
-         }
-     }
--    g_strfreev(accel_list);
- 
--    if (!accel_initialised) {
-+    if (!qemu_opts_foreach(qemu_find_opts("accel"),
-+                           do_configure_accelerator, &init_failed, &error_fatal)) {
-         if (!init_failed) {
--            error_report("-machine accel=%s: No accelerator found", accel);
-+            error_report("no accelerator found");
-         }
-         exit(1);
-     }
+     } else {
+@@ -2926,7 +2931,7 @@ static void configure_accelerators(const char *progname)
  
      if (init_failed) {
--        error_report("Back to %s accelerator", acc->name);
-+        AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
-+        error_report("Back to %s accelerator", ac->name);
+         AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
+-        error_report("Back to %s accelerator", ac->name);
++        error_report("falling back to %s", ac->name);
      }
  
--    qemu_opts_foreach(qemu_find_opts("accel"),
--                      do_configure_accelerator, NULL, &error_fatal);
--
      if (!tcg_enabled() && use_icount) {
-         error_report("-icount is not allowed with hardware virtualization");
-         exit(1);
-@@ -3618,9 +3636,6 @@ int main(int argc, char **argv, char **envp)
-                                  "use -M accel=... for now instead");
-                     exit(1);
-                 }
--                opts = qemu_opts_create(qemu_find_opts("machine"), NULL,
--                                        false, &error_abort);
--                qemu_opt_set(opts, "accel", optarg, &error_abort);
-                 break;
-             case QEMU_OPTION_usb:
-                 olist = qemu_find_opts("machine");
 -- 
 1.8.3.1
 
