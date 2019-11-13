@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E7BFAFE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 12:43:18 +0100 (CET)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7BCFAFF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Nov 2019 12:44:38 +0100 (CET)
+Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iUr3N-0000uM-A2
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 06:43:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59440)
+	id 1iUr4f-0001tM-7S
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 06:44:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iUr2U-0000La-Cs
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:23 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iUr33-0000xj-3L
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iUr2S-0000pn-B5
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55970
+ (envelope-from <stefanha@redhat.com>) id 1iUr32-00016N-0H
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:57 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35749
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUr2R-0000ob-MD
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:20 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iUr31-000164-St
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 06:42:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573645338;
+ s=mimecast20190719; t=1573645375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=85fsVWvzYnD+mm448oAj/FKqg21EgD9YvxqnXBpTVE4=;
- b=gPvC3ZDWQVvt6RGkDo3FD4Jh8WgMX4noHS4PlEGoFlw98OgZHd5itd1Q93RWysunWqD9H4
- ekDMraNI/aOG3DfP5sAZh5kqAlBEerssahkRCtesrhk87+afyWbt2yU6kccv9ZZyTkgzHP
- fi/6ZcWqGqPHcPEaYVkGIkGv8ZqkXV4=
+ bh=n5TLFGXJehTFWZi7glcawbPCbF72AnDjPDJ2VujtrUE=;
+ b=aFeg1BjqA7lFMkR95P5e/FS6azyGhNZ+Op8yg9FAqiitRDuENdZN0TV9rRgceTELA7RwKZ
+ cx/CgVkfv0XiywH58t12ZOsJ1i+dEb//Hb0Upf6+4TzPKzmGVZTkW8rQVn1J3iHm+CBS0q
+ 5sJ3Nk3Fs/hkEqQ8rnwfd99wkDaPii0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-qbeHOlU1O0etKLIvzDeK7A-1; Wed, 13 Nov 2019 06:42:16 -0500
-X-MC-Unique: qbeHOlU1O0etKLIvzDeK7A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-185-i3z_vbdxOCmb0jz_oUg7YQ-1; Wed, 13 Nov 2019 06:42:52 -0500
+X-MC-Unique: i3z_vbdxOCmb0jz_oUg7YQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F89D1005502;
- Wed, 13 Nov 2019 11:42:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06E85800C77;
+ Wed, 13 Nov 2019 11:42:51 +0000 (UTC)
 Received: from localhost (ovpn-117-166.ams2.redhat.com [10.36.117.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63C2028DCD;
- Wed, 13 Nov 2019 11:42:09 +0000 (UTC)
-Date: Wed, 13 Nov 2019 11:42:08 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A2CA12EB1;
+ Wed, 13 Nov 2019 11:42:44 +0000 (UTC)
+Date: Wed, 13 Nov 2019 11:42:43 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v2 03/15] block/block: add BDRV flag for io_uring
-Message-ID: <20191113114208.GB538417@stefanha-x1.localdomain>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 05/15] stubs: add stubs for io_uring interface
+Message-ID: <20191113114243.GC538417@stefanha-x1.localdomain>
 References: <20191025160444.31632-1-stefanha@redhat.com>
- <20191025160444.31632-4-stefanha@redhat.com>
- <20191111105759.GB7297@linux.fritz.box>
- <6e8cf473-d3e9-c743-d2bd-75a0d955e6c6@redhat.com>
+ <20191025160444.31632-6-stefanha@redhat.com>
+ <20191111111347.GC7297@linux.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <6e8cf473-d3e9-c743-d2bd-75a0d955e6c6@redhat.com>
+In-Reply-To: <20191111111347.GC7297@linux.fritz.box>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
+ protocol="application/pgp-signature"; boundary="7gGkHNMELEOhSGF6"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,95 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Maxim Levitsky <maximlevitsky@gmail.com>, qemu-block@nongnu.org,
- oleksandr@redhat.com, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---DBIVS5p969aUjpLe
-Content-Type: text/plain; charset=utf-8
+--7gGkHNMELEOhSGF6
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 11, 2019 at 05:25:04PM +0100, Max Reitz wrote:
-> On 11.11.19 11:57, Kevin Wolf wrote:
-> > Am 25.10.2019 um 18:04 hat Stefan Hajnoczi geschrieben:
-> >> From: Aarushi Mehta <mehta.aaru20@gmail.com>
-> >>
-> >> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> >> Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
-> >> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> >> ---
-> >>  include/block/block.h | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/include/block/block.h b/include/block/block.h
-> >> index 89606bd9f8..bdb48dcd1b 100644
-> >> --- a/include/block/block.h
-> >> +++ b/include/block/block.h
-> >> @@ -126,6 +126,7 @@ typedef struct HDGeometry {
-> >>                                        ignoring the format layer */
-> >>  #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
-> >>  #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening=
- read-write fails */
-> >> +#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thr=
-ead pool */
+On Mon, Nov 11, 2019 at 12:13:47PM +0100, Kevin Wolf wrote:
+> Am 25.10.2019 um 18:04 hat Stefan Hajnoczi geschrieben:
+> > From: Aarushi Mehta <mehta.aaru20@gmail.com>
 > >=20
-> > Why do we need a new (global!) flag rather than a driver-specific optio=
-n
-> > for file-posix? This looks wrong to me, the flag has no sensible meanin=
-g
-> > for any other driver.
-> >=20
-> > (Yes, BDRV_O_NATIVE_AIO is wrong, too, but compatibility means we can't
-> > remove it easily.)
+> > Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 >=20
-> To add to that, Kevin and me had a short talk on IRC, and it seemed like
-> the reason would be that it=E2=80=99s easier to use this way than an opti=
-on
-> would be.
->=20
-> To me, the problem seems to be that it=E2=80=99s only easier to use becau=
-se of
-> the option inheritance we have in the block layer (so you can set this
-> flag on a qcow2 node and its file node will have it, too).  But
-> naturally this inheritance is a bit of magic (because qemu has to guess
-> where you probably want the flag to end up), so I=E2=80=99d too rather av=
-oid
-> adding to it.
->=20
-> OTOH, I wonder whether ease of use is really that important here.  Would
-> people who want to use io_uring really care about a command line that=E2=
-=80=99s
-> going to be a bit more complicated than just
-> -drive file=3Dfoo.img,format=3D$imgfmt,aio=3Dio_uring,if=3D$interface?  (=
-Namely
-> file.aio in this case, or maybe even a full-on block graph definition.)
+> This commit message needs to answer at least where these stubs are
+> actually used. Aren't all callers protected with #ifdef
+> CONFIG_LINUX_IO_URING? (And if they aren't, why is abort() okay?)
 
-Thanks for the idea.  I agree it's cleaner to avoid a new global flag.
-
-I'll take a look at fixing this and let you know if I hit any problems.
+Okay, will look into this.
 
 Stefan
 
---DBIVS5p969aUjpLe
+--7gGkHNMELEOhSGF6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3L7BAACgkQnKSrs4Gr
-c8iTqwf/Wk9AmJ+/J6nAHZn89JzBjeM8wdgK9JNguZiajRzZJH9qeQ+RQeewuLWT
-3m8AOXAwFtjP1uYwAFYRSpUKDTVVINgKQThYcjzcSUfigbZFEiI6Oil6JmVKFmZ8
-KrTrVPZQuJ3i/mTRrTCcZghYr8e0hNANkbCb1dF+8VmGeXeXvl/bI3y/ghaZrHIE
-5JHMR+VHqMuY9z6+sbVfkegzJEpKNUWjf3K2AyDm1xw8XtkKpUrXVduUHXKtgwxt
-wjjiSE12E1zWzaxxXrkRISjz4TT5ay1CffLr8tpfKMeNB6nj5mgw/rGvS7dM2JIa
-qgcA9uN8grlljO9hRSHY+hFlT1O+6Q==
-=3h6i
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3L7DMACgkQnKSrs4Gr
+c8j+KQf+LPQHFzkemqc5hDRAyNNwo9xNVZMVRaDgAj/fLNvqI9sVJgaH8PDKJ6Yn
+Xgr2scz7eJtvc5lJ7SokTmlVIWPakvTz95G/ZR9wFDDdoX0MV35IMi0WZh23EbdE
+0+fR3uOh32cfNrOk6rbTYL1p9KUegie7nVXrzRUk4PwdJ+HJhmCKcZ+s+UtAOQ7w
+6yaXiFNY8hqPZ+ZxQNPCxdDr7wyQMjIp9AO7Sn5RI6ZHbMf23vW5Q89a9jqN2RYe
+Kt9/Z3mSlwBRQWerN+o0F65OWzFMh8wwAN6inqnvWmIds7917BwGLeKOQCB/KL8E
+b1PKV8jHcyAdyIXQ4Us0Wg4/gICIfg==
+=MWaE
 -----END PGP SIGNATURE-----
 
---DBIVS5p969aUjpLe--
+--7gGkHNMELEOhSGF6--
 
 
