@@ -2,87 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D5EFC368
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 10:59:53 +0100 (CET)
-Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4F9FC388
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 11:03:51 +0100 (CET)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVBup-0003l5-PW
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 04:59:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37867)
+	id 1iVByf-0008GE-R9
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 05:03:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38481)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iVBjB-0000QU-38
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:47:51 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iVBle-000380-Dv
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:50:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iVBj9-0005hK-Cf
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:47:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35697
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iVBlc-0007IF-3a
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:50:22 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49915
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iVBj9-0005gn-87
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:47:47 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVBlb-0007H6-TS
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:50:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573724866;
+ s=mimecast20190719; t=1573725018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=ojOq2wu0mVLtGFE7nGG21vwE2WrVKKE8wMdSINZBWBU=;
- b=DLWJzRreeCAjn5NcuQzufqOofnV3eeJYA8yBr1ws931omvl91cbvC50zbBvu+N9MGl5zDu
- fe1H56J34GvkRaZ8rpQOJ+Bk+AOPSdRoVz5/JxuNbrLe7OXrMoWRWurAwU7jLD8+JXxxnj
- +qSTmZQCqvZeTPpSWENz3ExGPrXI/P8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-w9qELwVqOQ2kjBQ-_q5HBw-1; Thu, 14 Nov 2019 04:47:45 -0500
-Received: by mail-wr1-f71.google.com with SMTP id j17so4087584wru.13
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 01:47:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/ZQayYqt85CI2kT7kzP3q5CrsAdYdXt1NILertHaAPk=;
- b=VHVwPb8T1WG0C9xm/tztkACL4SWS+ijtvChH3anlTLx1DfGTbF7SHdPzW2naP711AC
- DQXUKNe+J4eUnC/BNgWmHmVo3+rYiYwgslVAV2FQOtHNnaUCf1UxMz5cJwTYqLsb/W9I
- ECvWazyYqeIUE9Akv553xqR7tUPxEXKGgs4JQE69LL8m31zHV1N5NqW4sCc4rOztWEtg
- Kz1xseKR1y8Jq2yb0A7I4A40YGCFd1alHNSj976mT+wggHdECcGGu+TBbsOGKUr0FO7u
- RYZy10DBnHTedFf99tdn8ANzPswbOXPSUYdmjbcsoAH6kog73dWkCKDYBbJ8Sp334CFe
- qhMQ==
-X-Gm-Message-State: APjAAAXmUBGQgillUuQVaH+eU6mP2SjDdjEIJAUqxJlycrdefn+d013R
- KPWRUOqdh1GE42Mk48w7C5PReUW6K+K5p/gUfDFRq/YRj7dyBVnBI8vx9NUWhnar4Q6uiLbfUlu
- PEW0uRm6wudeq5dY=
-X-Received: by 2002:adf:93e1:: with SMTP id 88mr7160613wrp.198.1573724863782; 
- Thu, 14 Nov 2019 01:47:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwvvx4EEiPEEhfla6gzpjAcB2GVS1eFShzSLtkQcn/7XUE+V15PwBNpzhMXKAumEmsPgAA69w==
-X-Received: by 2002:adf:93e1:: with SMTP id 88mr7160586wrp.198.1573724863377; 
- Thu, 14 Nov 2019 01:47:43 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:a15b:f753:1ac4:56dc?
- ([2001:b07:6468:f312:a15b:f753:1ac4:56dc])
- by smtp.gmail.com with ESMTPSA id t13sm6160943wrr.88.2019.11.14.01.47.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Nov 2019 01:47:42 -0800 (PST)
-Subject: Re: [PATCH 13/16] xen: convert "-machine igd-passthru" to an
- accelerator property
-To: Paul Durrant <pdurrant@gmail.com>
-References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
- <1573655945-14912-14-git-send-email-pbonzini@redhat.com>
- <CACCGGhB=Sp8jcp+hhQjU0sXqhyQ8ug7nT-PuijS-eXPq4kog-w@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <3b5cbfb9-0de9-ae52-6695-12579bc42c09@redhat.com>
-Date: Thu, 14 Nov 2019 10:47:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PSMrPiqCb9br3g2nOFUtJc0oA3/IGdib9/8MGCrZWX0=;
+ b=gN3THK5wRDqWZVodbinkzRvibolg4dXenYrXgZCalgQd8GfgcWWGVZNRSVsOlkpeQOaWXo
+ yiGQVkbLauyIrpCl9pjaeCTOqtv3td/ES/jLq5hOCgzo4G7o+vMAEsGiCdHMZe4nwuIodo
+ qTWdLjCE5iP7a4nhEIIiR9b4jfLHI7s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-8oJLk1mhPQau7d_li7hK-w-1; Thu, 14 Nov 2019 04:50:16 -0500
+X-MC-Unique: 8oJLk1mhPQau7d_li7hK-w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16F0E107ACC8;
+ Thu, 14 Nov 2019 09:50:15 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-160.ams2.redhat.com
+ [10.36.117.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF6905E258;
+ Thu, 14 Nov 2019 09:50:12 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PATCH v4 01/14] qapi: Parse numeric values
+To: Markus Armbruster <armbru@redhat.com>
+References: <20190624173935.25747-1-mreitz@redhat.com>
+ <20190624173935.25747-2-mreitz@redhat.com>
+ <87mucyq0mp.fsf@dusky.pond.sub.org>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <f42afeb3-422a-16f0-5f7e-be885f1132ff@redhat.com>
+Date: Thu, 14 Nov 2019 10:50:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CACCGGhB=Sp8jcp+hhQjU0sXqhyQ8ug7nT-PuijS-eXPq4kog-w@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: w9qELwVqOQ2kjBQ-_q5HBw-1
+In-Reply-To: <87mucyq0mp.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lLTlRknFjJbeaQfME8LQQ6fMkATAbuwDw"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,252 +99,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- xen-devel <xen-devel@lists.xenproject.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/11/19 10:39, Paul Durrant wrote:
-> On Wed, 13 Nov 2019 at 14:53, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> The first machine property to fall is Xen's Intel integrated graphics
->> passthrough.  The "-machine igd-passthru" option does not set anymore
->> a property on the machine object, but desugars to a GlobalProperty on
->> accelerator objects.
->>
->> The setter is very simple, since the value ends up in a
->> global variable, so this patch also provides an example before the more
->> complicated cases that follow it.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lLTlRknFjJbeaQfME8LQQ6fMkATAbuwDw
+Content-Type: multipart/mixed; boundary="qGXBiv7TiXnx1hXbUmZqcvhjKHqyJle4u"
+
+--qGXBiv7TiXnx1hXbUmZqcvhjKHqyJle4u
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 14.11.19 10:15, Markus Armbruster wrote:
+> Max Reitz <mreitz@redhat.com> writes:
 >=20
-> Did something go wrong with get_maintainers here? The Xen maintainers
-> ought to have been cc-ed. The Xen toolstack will require consequent
-> modification.
-
-No, I just didn't use getmaintainers, my bad.  But backwards-compatible
-syntactic sugar is provided, so no modifications are needed to Xen.  See
-here in the code:
-
-+    if (g_str_equal(qom_name, "igd-passthru")) {
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, valu=
-e);
-+        return 0;
-+    }
-
-Paolo
-
-> Cc-ing (rest of) Xen maintainers and xen-devel manually.
->=20
->   Paul
->=20
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>  hw/core/machine.c   | 20 --------------------
->>  hw/xen/xen-common.c | 16 ++++++++++++++++
->>  include/hw/boards.h |  1 -
->>  qemu-options.hx     |  9 +++++----
->>  vl.c                | 14 ++++----------
->>  5 files changed, 25 insertions(+), 35 deletions(-)
+>>  tests/qapi-schema/bad-type-int.json      |  1 -
+>>  tests/qapi-schema/enum-int-member.json   |  1 -
+>>  scripts/qapi/common.py                   | 25 ++++++++++++++++++++----
+>>  scripts/qapi/introspect.py               |  2 ++
+>>  tests/qapi-schema/bad-type-int.err       |  2 +-
+>>  tests/qapi-schema/enum-int-member.err    |  2 +-
+>>  tests/qapi-schema/leading-comma-list.err |  2 +-
+>>  7 files changed, 26 insertions(+), 9 deletions(-)
 >>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 45ddfb6..d7a0356 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -412,20 +412,6 @@ static void machine_set_graphics(Object *obj, bool =
-value, Error **errp)
->>      ms->enable_graphics =3D value;
->>  }
->>
->> -static bool machine_get_igd_gfx_passthru(Object *obj, Error **errp)
->> -{
->> -    MachineState *ms =3D MACHINE(obj);
->> -
->> -    return ms->igd_gfx_passthru;
->> -}
->> -
->> -static void machine_set_igd_gfx_passthru(Object *obj, bool value, Error=
- **errp)
->> -{
->> -    MachineState *ms =3D MACHINE(obj);
->> -
->> -    ms->igd_gfx_passthru =3D value;
->> -}
->> -
->>  static char *machine_get_firmware(Object *obj, Error **errp)
->>  {
->>      MachineState *ms =3D MACHINE(obj);
->> @@ -862,12 +848,6 @@ static void machine_class_init(ObjectClass *oc, voi=
-d *data)
->>      object_class_property_set_description(oc, "graphics",
->>          "Set on/off to enable/disable graphics emulation", &error_abort=
-);
->>
->> -    object_class_property_add_bool(oc, "igd-passthru",
->> -        machine_get_igd_gfx_passthru, machine_set_igd_gfx_passthru,
->> -        &error_abort);
->> -    object_class_property_set_description(oc, "igd-passthru",
->> -        "Set on/off to enable/disable igd passthrou", &error_abort);
->> -
->>      object_class_property_add_str(oc, "firmware",
->>          machine_get_firmware, machine_set_firmware,
->>          &error_abort);
->> diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
->> index 5284b0d..6cba30c 100644
->> --- a/hw/xen/xen-common.c
->> +++ b/hw/xen/xen-common.c
->> @@ -124,6 +124,16 @@ static void xen_change_state_handler(void *opaque, =
-int running,
->>      }
->>  }
->>
->> +static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
->> +{
->> +    return has_igd_gfx_passthru;
->> +}
+>> diff --git a/tests/qapi-schema/bad-type-int.json b/tests/qapi-schema/bad=
+-type-int.json
+>> index 56fc6f8126..81355eb196 100644
+>> --- a/tests/qapi-schema/bad-type-int.json
+>> +++ b/tests/qapi-schema/bad-type-int.json
+>> @@ -1,3 +1,2 @@
+>>  # we reject an expression with a metatype that is not a string
+>> -# FIXME: once the parser understands integer inputs, improve the error =
+message
+>>  { 'struct': 1, 'data': { } }
+>> diff --git a/tests/qapi-schema/enum-int-member.json b/tests/qapi-schema/=
+enum-int-member.json
+>> index 6c9c32e149..6958440c6d 100644
+>> --- a/tests/qapi-schema/enum-int-member.json
+>> +++ b/tests/qapi-schema/enum-int-member.json
+>> @@ -1,3 +1,2 @@
+>>  # we reject any enum member that is not a string
+>> -# FIXME: once the parser understands integer inputs, improve the error =
+message
+>>  { 'enum': 'MyEnum', 'data': [ 1 ] }
+>> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+>> index d61bfdc526..3396ea4a09 100644
+>> --- a/scripts/qapi/common.py
+>> +++ b/scripts/qapi/common.py
+>> @@ -498,6 +498,8 @@ class QAPISchemaParser(object):
+>>              raise QAPISemError(info, "Unknown pragma '%s'" % name)
+>> =20
+>>      def accept(self, skip_comment=3DTrue):
+>> +        num_match =3D re.compile(r'([-+]?inf|nan|[-+0-9.][0-9a-f.ex]*)'=
+)
 >> +
->> +static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **e=
-rrp)
->> +{
->> +    has_igd_gfx_passthru =3D value;
->> +}
->> +
->>  static void xen_setup_post(MachineState *ms, AccelState *accel)
->>  {
->>      int rc;
->> @@ -177,6 +187,12 @@ static void xen_accel_class_init(ObjectClass *oc, v=
-oid *data)
->>      ac->compat_props =3D g_ptr_array_new();
->>
->>      compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
->> +
->> +    object_class_property_add_bool(oc, "igd-passthru",
->> +        xen_get_igd_gfx_passthru, xen_set_igd_gfx_passthru,
->> +        &error_abort);
->> +    object_class_property_set_description(oc, "igd-passthru",
->> +        "Set on/off to enable/disable igd passthrou", &error_abort);
->>  }
->>
->>  #define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 36fcbda..cdcf481 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -287,7 +287,6 @@ struct MachineState {
->>      bool mem_merge;
->>      bool usb;
->>      bool usb_disabled;
->> -    bool igd_gfx_passthru;
->>      char *firmware;
->>      bool iommu;
->>      bool suppress_vmdesc;
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 3931f90..5b43a83 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -37,7 +37,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->>      "                kvm_shadow_mem=3Dsize of KVM shadow MMU in bytes\n=
-"
->>      "                dump-guest-core=3Don|off include guest memory in a=
- core dump (default=3Don)\n"
->>      "                mem-merge=3Don|off controls memory merge support (=
-default: on)\n"
->> -    "                igd-passthru=3Don|off controls IGD GFX passthrough=
- support (default=3Doff)\n"
->>      "                aes-key-wrap=3Don|off controls support for AES key=
- wrapping (default=3Don)\n"
->>      "                dea-key-wrap=3Don|off controls support for DEA key=
- wrapping (default=3Don)\n"
->>      "                suppress-vmdesc=3Don|off disables self-describing =
-migration (default=3Doff)\n"
->> @@ -71,8 +70,6 @@ more than one accelerator specified, the next one is u=
-sed if the previous one
->>  fails to initialize.
->>  @item kernel_irqchip=3Don|off
->>  Controls in-kernel irqchip support for the chosen accelerator when avai=
-lable.
->> -@item gfx_passthru=3Don|off
->> -Enables IGD GFX passthrough support for the chosen machine when availab=
-le.
->>  @item vmport=3Don|off|auto
->>  Enables emulation of VMWare IO port, for vmmouse etc. auto says to sele=
-ct the
->>  value based on accel. For accel=3Dxen the default is off otherwise the =
-default
->> @@ -118,8 +115,9 @@ Select CPU model (@code{-cpu help} for list and addi=
-tional feature selection)
->>  ETEXI
->>
->>  DEF("accel", HAS_ARG, QEMU_OPTION_accel,
->> -    "-accel [accel=3D]accelerator[,thread=3Dsingle|multi]\n"
->> +    "-accel [accel=3D]accelerator[,prop[=3Dvalue][,...]]\n"
->>      "                select accelerator (kvm, xen, hax, hvf, whpx or tc=
-g; use 'help' for a list)\n"
->> +    "                igd-passthru=3Don|off (enable Xen integrated Intel=
- graphics passthrough, default=3Doff)\n"
->>      "                tb-size=3Dn (TCG translation block cache size)\n"
->>      "                thread=3Dsingle|multi (enable multi-threaded TCG)\=
-n", QEMU_ARCH_ALL)
->>  STEXI
->> @@ -130,6 +128,9 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By=
- default, tcg is used. If th
->>  more than one accelerator specified, the next one is used if the previo=
-us one
->>  fails to initialize.
->>  @table @option
->> +@item igd-passthru=3Don|off
->> +When Xen is in use, this option controls whether Intel integrated graph=
-ics
->> +devices can be passed through to the guest (default=3Doff)
->>  @item tb-size=3D@var{n}
->>  Controls the size (in MiB) of the TCG translation block cache.
->>  @item thread=3Dsingle|multi
->> diff --git a/vl.c b/vl.c
->> index 06c6ad9..7d8fed1 100644
->> --- a/vl.c
->> +++ b/vl.c
->> @@ -1256,13 +1256,6 @@ static void configure_msg(QemuOpts *opts)
->>  }
->>
->>
->> -/* Now we still need this for compatibility with XEN. */
->> -bool has_igd_gfx_passthru;
->> -static void igd_gfx_passthru(void)
->> -{
->> -    has_igd_gfx_passthru =3D current_machine->igd_gfx_passthru;
->> -}
->> -
->>  /***********************************************************/
->>  /* USB devices */
->>
->> @@ -2645,6 +2638,10 @@ static int machine_set_property(void *opaque,
->>      if (g_str_equal(qom_name, "accel")) {
->>          return 0;
->>      }
->> +    if (g_str_equal(qom_name, "igd-passthru")) {
->> +        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, v=
-alue);
->> +        return 0;
->> +    }
->>
->>      r =3D object_parse_property_opt(opaque, name, value, "type", errp);
->>      g_free(qom_name);
->> @@ -4449,9 +4446,6 @@ int main(int argc, char **argv, char **envp)
->>              exit(1);
->>      }
->>
->> -    /* Check if IGD GFX passthrough. */
->> -    igd_gfx_passthru();
->> -
->>      /* init generic devices */
->>      rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
->>      qemu_opts_foreach(qemu_find_opts("device"),
->> --
->> 1.8.3.1
->>
->>
->>
+>>          while True:
+>>              self.tok =3D self.src[self.cursor]
+>>              self.pos =3D self.cursor
 >=20
+> This is yet another extension over plain JSON.  RFC 8259:
+>=20
+>       number =3D [ minus ] int [ frac ] [ exp ]
+>       decimal-point =3D %x2E       ; .
+>       digit1-9 =3D %x31-39         ; 1-9
+>       e =3D %x65 / %x45            ; e E
+>       exp =3D e [ minus / plus ] 1*DIGIT
+>       frac =3D decimal-point 1*DIGIT
+>       int =3D zero / ( digit1-9 *DIGIT )
+>       minus =3D %x2D               ; -
+>       plus =3D %x2B                ; +
+>       zero =3D %x30                ; 0
+>=20
+> Extensions are acceptable when we have an actual use for it, and we
+> document them properly.
+
+Well, it isn=E2=80=99t really an extension, because this isn=E2=80=99t a JS=
+ON parser but
+just something that accepts anything that looks like a number and then
+lets Python try a conversion on it.
+
+> Isn't the parenthesis in your regular expression redundant?
+
+You=E2=80=99re right, but on second thought, maybe I should surround it by =
+\<
+and \>.
+
+> What use do you have in mind for 'inf' and 'nan'?
+
+I could imagine inf being a useful default value, actually.  nan,
+probably not so much.
+
+> Why accept leading '+' as in '+123'?
+>=20
+> Why accept empty integral part as in '.123'?
+>=20
+> Why accept '.xe.'?  Kidding you, that must be a bug in your regexp.
+
+Well, kind of.
+
+I wanted to accept anything that looks in any way like a number and then
+let Python try to convert it.  That=E2=80=99s also the reason why the case =
+comes
+last.
+
+For that reason, I decided to keep the regex as simple as possible,
+because the attempted conversions would reject anything that isn=E2=80=99t =
+(to
+Python) a valid number later.
+
+It was my impression that the QAPI schema isn=E2=80=99t really JSON anyway =
+and
+that our QAPI schema parser isn=E2=80=99t a JSON parser.  Under that assump=
+tion
+it simply seemed useful to me to accept anything that could potentially
+be a number to Python and convert it.
+
+Now, honestly, I still don=E2=80=99t see the point of having a strict JSON
+=E2=80=9Cparser=E2=80=9D here, but if you insist.  Seems possible to do in =
+a regex.
+
+Though I do think it makes sense to support hex integers as an extension.
+
+> Please decide what number syntax you'd like to accept, then specify it
+> in docs/devel/qapi-code-gen.txt, so we can first discuss the
+> specification, and then check the regexp implements it.
+>=20
+> docs/devel/qapi-code-gen.txt update goes here:
+>=20
+>     =3D=3D=3D Schema syntax =3D=3D=3D
+>=20
+>     Syntax is loosely based on JSON (http://www.ietf.org/rfc/rfc8259.txt)=
+.
+>     Differences:
+>=20
+>     * Comments: start with a hash character (#) that is not part of a
+>       string, and extend to the end of the line.
+>=20
+>     * Strings are enclosed in 'single quotes', not "double quotes".
+>=20
+>     * Strings are restricted to printable ASCII, and escape sequences to
+>       just '\\'.
+>=20
+> --> * Numbers and null are not supported.
+
+OK.
+
+> Hrmm, commit 9d55380b5a "qapi: Remove null from schema language" left
+> two instances in error messages behind.  I'll fix them.
+>=20
+>> @@ -584,7 +586,22 @@ class QAPISchemaParser(object):
+>>                      return
+>>                  self.line +=3D 1
+>>                  self.line_pos =3D self.cursor
+>> -            elif not self.tok.isspace():
+>> +            elif self.tok.isspace():
+>> +                pass
+>> +            elif num_match.match(self.src[self.pos:]):
+>> +                match =3D num_match.match(self.src[self.pos:]).group(0)
+>=20
+> Sadly, the walrus operator is Python 3.8.
+>=20
+>> +                try:
+>> +                    self.val =3D int(match, 0)
+>> +                except ValueError:
+>> +                    try:
+>> +                        self.val =3D float(match)
+>> +                    except ValueError:
+>> +                        raise QAPIParseError(self,
+>> +                                '"%s" is not a valid integer or float' =
+% match)
+>> +
+>> +                self.cursor +=3D len(match) - 1
+>> +                return
+>> +            else:
+>>                  raise QAPIParseError(self, 'Stray "%s"' % self.tok)
+>=20
+> Any particular reason for putting the number case last?
+
+Because the match is so broad.
+
+>> =20
+>>      def get_members(self):
+>> @@ -617,9 +634,9 @@ class QAPISchemaParser(object):
+>>          if self.tok =3D=3D ']':
+>>              self.accept()
+>>              return expr
+>> -        if self.tok not in "{['tfn":
+>> +        if self.tok not in "{['tfn-+0123456789.i":
+>=20
+> This is getting a bit ugly.  Let's not worry about it now.
+>=20
+>>              raise QAPIParseError(self, 'Expected "{", "[", "]", string,=
+ '
+>> -                                 'boolean or "null"')
+>> +                                 'boolean, number or "null"')
+>>          while True:
+>>              expr.append(self.get_expr(True))
+>>              if self.tok =3D=3D ']':
+>> @@ -638,7 +655,7 @@ class QAPISchemaParser(object):
+>>          elif self.tok =3D=3D '[':
+>>              self.accept()
+>>              expr =3D self.get_values()
+>> -        elif self.tok in "'tfn":
+>> +        elif self.tok in "'tfn-+0123456789.i":
+>>              expr =3D self.val
+>>              self.accept()
+>>          else:
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index f62cf0a2e1..6a61dd831f 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -57,6 +57,8 @@ def to_qlit(obj, level=3D0, suppress_first_indent=3DFa=
+lse):
+>>          ret +=3D indent(level) + '}))'
+>>      elif isinstance(obj, bool):
+>>          ret +=3D 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
+>> +    elif isinstance(obj, int) and obj >=3D -(2 ** 63) and obj < 2 ** 63=
+:
+>> +        ret +=3D 'QLIT_QNUM(%i)' % obj
+>=20
+> Please explain the range check.
+
+Will do.
+
+>>      else:
+>>          assert False                # not implemented
+>>      if level > 0:
+>> diff --git a/tests/qapi-schema/bad-type-int.err b/tests/qapi-schema/bad-=
+type-int.err
+>> index da89895404..e22fb4f655 100644
+>> --- a/tests/qapi-schema/bad-type-int.err
+>> +++ b/tests/qapi-schema/bad-type-int.err
+>> @@ -1 +1 @@
+>> -tests/qapi-schema/bad-type-int.json:3:13: Stray "1"
+>> +tests/qapi-schema/bad-type-int.json:2: 'struct' key must have a string =
+value
+>=20
+> Test needs a rename, assuming it's not redundant now.
+
+I=E2=80=99m not adding a test here, it=E2=80=99s just the value has changed=
+ in
+4d42815587063d.
+
+Thanks for reviewing!
+
+Max
+
+>> diff --git a/tests/qapi-schema/enum-int-member.err b/tests/qapi-schema/e=
+num-int-member.err
+>> index 071c5213d8..112175f79d 100644
+>> --- a/tests/qapi-schema/enum-int-member.err
+>> +++ b/tests/qapi-schema/enum-int-member.err
+>> @@ -1 +1 @@
+>> -tests/qapi-schema/enum-int-member.json:3:31: Stray "1"
+>> +tests/qapi-schema/enum-int-member.json:2: Member of enum 'MyEnum' requi=
+res a string name
+>=20
+> This one's name is still good.
+>=20
+>> diff --git a/tests/qapi-schema/leading-comma-list.err b/tests/qapi-schem=
+a/leading-comma-list.err
+>> index f5c870bb9c..fa9c80aa57 100644
+>> --- a/tests/qapi-schema/leading-comma-list.err
+>> +++ b/tests/qapi-schema/leading-comma-list.err
+>> @@ -1 +1 @@
+>> -tests/qapi-schema/leading-comma-list.json:2:13: Expected "{", "[", "]",=
+ string, boolean or "null"
+>> +tests/qapi-schema/leading-comma-list.json:2:13: Expected "{", "[", "]",=
+ string, boolean, number or "null"
+
+
+
+--qGXBiv7TiXnx1hXbUmZqcvhjKHqyJle4u--
+
+--lLTlRknFjJbeaQfME8LQQ6fMkATAbuwDw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3NI1IACgkQ9AfbAGHV
+z0CgYwf/dIMAsJBt6HvmH1qkcH4Od3brCIXd8Tchs4PWM5PSKhVoBQgpZm7XHXdP
+kAx27wfiol6aRCHugd9Addz0aoKy633vjcuokU61FBtiA9LqTBee7MDivRsdXx+L
+Nl4UjUYbxNIiJeCK7908mxbM8ARtTfxNGNBWGlqSnHtfi6LoxSx2rhp0s6e7lYfJ
+4DjfdFLd4PSIVnke3QdkASEIzJAPEBadxGdClE4wzfQhVl3/Z/FkBLdoptLDoTrO
+2XtB3xjnzZIDKppvSVEZ6TgsjqRgCp7XwgwYNopGbLyyKdbAhygSaZp7obaXMyUk
+FxbpJKutqzjO8ah1JVx8tjIrdtux9Q==
+=T0KG
+-----END PGP SIGNATURE-----
+
+--lLTlRknFjJbeaQfME8LQQ6fMkATAbuwDw--
 
 
