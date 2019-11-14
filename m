@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7EEFC9D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 16:24:20 +0100 (CET)
-Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84986FC981
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 16:05:40 +0100 (CET)
+Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVGyp-0005gi-98
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 10:24:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55974)
+	id 1iVGgl-0001SQ-62
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 10:05:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1iVElY-0002sP-SC
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 08:02:33 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iVGfv-00012k-64
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 10:04:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zltjiangshi@gmail.com>) id 1iVElW-0005ib-HG
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 08:02:28 -0500
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:35062)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <zltjiangshi@gmail.com>)
- id 1iVElW-0005i3-7b
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 08:02:26 -0500
-Received: by mail-lj1-x243.google.com with SMTP id r7so6605919ljg.2
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 05:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xY858FZhltXf8u/Fe2p5BTnW1HQp3BVSAzz9nIgvRMY=;
- b=iXoS07YdD3iooiv0Qb8LrLlc+eamN/DONg+7x6cnv9fyBqUS0TShjnJ76ITF+yjhGr
- oPaTe/xRLzmu0F9v3MvF3TvB0i1R8TqbgCVZnAZtj/maCPbqS7SAs2zwwEUfSouNwqd2
- 82ekMcTJnYIE05UFQnWQpZ1KNi1on4B3Gm/KQUlbjDH4Z/Piep9Sdn92O87yfU7JHjJU
- JpdfySAl9neTrfo/sFPXSF4J814Z/ha4e4r1PewkCPR0EqzEagN59qDP6hHgoZwjWmKW
- iiFDNabw5yeK7P3qZVlndAloJILk5etFlh4G+EruH22/ZW9z2TUGOKyorQvK8cNM6ZiX
- TuXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xY858FZhltXf8u/Fe2p5BTnW1HQp3BVSAzz9nIgvRMY=;
- b=M+KedoNkU6r0CPu7mcq+dPnWoQlIQch0rFpuXJutWIYY1GL+Ko0FKHldq40o11aWbf
- aa2Kzcd2r1knd+3YQy0/QkW/8TsuKCXfLb9yj+7joj597eeIHaFQXbCq2bF7VUf7q7ya
- hlpbnQGxgM9ciev1yQyXdZ1ZGyru6Hl8+8QNGK5fJYQaGNF0fY0VDsCUWK4E0WYha/h4
- 5WX1nA8ogvja+fzX0RLc3VzQYIsxrfNllc+qHbFsyUV9Z0Zmw8V/z++BHDsXObHfJipL
- qC/YEdwqYqnS6/aXA9twKvki4u79Cjbe8/SzlRRhsz5vbgXEoVYO2LwRXLS9g2xEgV1H
- 3i4A==
-X-Gm-Message-State: APjAAAXOty0bg+m/H4Gq9JKpNGzODAMnoKvGRfQ3ymmTavG5gRx59yJ/
- m/QOOMa1grsgH2S43vbtxRYmI3aAR9ODcHIXuQk=
-X-Google-Smtp-Source: APXvYqyZz5E2jI63QY+3gNDprqyOgsbBjF5OQ5QDOVb/zG8OtILzMs0aUgbYzLqhKtYndbBN1iA/ik5bLHnfvnnfyB4=
-X-Received: by 2002:a2e:890a:: with SMTP id d10mr105096lji.33.1573736542692;
- Thu, 14 Nov 2019 05:02:22 -0800 (PST)
+ (envelope-from <alxndr@bu.edu>) id 1iVGfp-0003Ig-9u
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 10:04:46 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:47757)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iVGfp-0003Ho-6W
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 10:04:41 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: 144.121.20.162.lightower.net [144.121.20.162] (may be forged)
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id xAEF42p6004001
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+ Thu, 14 Nov 2019 10:04:02 -0500
+Subject: Re: [PATCH v5 00/20] Add virtual device fuzzing support
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "bsd@redhat.com"
+ <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>
+References: <20191113225030.17023-1-alxndr@bu.edu>
+ <20191114105542.d56y5egnd3qm6yuf@starbug-mbp>
+From: Alexander Bulekov <alxndr@bu.edu>
+Message-ID: <3374ef9f-0cf8-1bf7-1d49-7789d2789eb0@bu.edu>
+Date: Thu, 14 Nov 2019 10:04:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-References: <1573652826-23987-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1573652826-23987-3-git-send-email-aleksandar.markovic@rt-rk.com>
- <c053c16c-c6f4-4f73-7383-7b66e54ad696@redhat.com>
- <BN6PR2201MB12512B977314BCFCA202449DC6710@BN6PR2201MB1251.namprd22.prod.outlook.com>
-In-Reply-To: <BN6PR2201MB12512B977314BCFCA202449DC6710@BN6PR2201MB1251.namprd22.prod.outlook.com>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Thu, 14 Nov 2019 21:08:17 +0800
-Message-ID: <CABDp7VoVpZsQpDc7U4uJ1B7ZVCc8A2KO5qNaOucHQH6xUdX8tQ@mail.gmail.com>
-Subject: Re: [EXTERNAL]Re: [PATCH v2 2/5] MAINTAINERS: Adjust maintainership
- for Fulong 2E board
-To: Aleksandar Markovic <amarkovic@wavecomp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
-X-Mailman-Approved-At: Thu, 14 Nov 2019 10:21:44 -0500
+In-Reply-To: <20191114105542.d56y5egnd3qm6yuf@starbug-mbp>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+X-MIME-Autoconverted: from 8bit to base64 by relay68.bu.edu id xAEF42p6004001
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.6.x [fuzzy]
+X-Received-From: 128.197.228.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,144 +57,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- "hpoussin@reactos.org" <hpoussin@reactos.org>, Huacai Chen <chenhc@lemote.com>,
- "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, all,
-
-On Thu, Nov 14, 2019 at 8:34 PM Aleksandar Markovic
-<amarkovic@wavecomp.com> wrote:
->
-> Hi, Philippe,
->
-> > From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >
-> > Hi Aleksandar,
-> >
-> > On 11/13/19 2:47 PM, Aleksandar Markovic wrote:
-> > > From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > >
-> > > Change the maintainership for Fulong 2E board to improve its quality.
-> >
-> > IIRC you told me once this board is named Fuloong, and its CPU is a
-> =E2=80=8E> Loongson, both with 2x 'o' :) I have a patch renaming the vari=
-ous
-> > occurrences.
-> >
->
-> I still think that the oficial name is "Fuloong 2E", however, it is
-> shortened to "Fulong 2E" quite often in communication, and, it seems,
-> sometimes even in various docs/app notes etc.
->
-> Can perhaps Huacai Chen enlighten us regarding the right spelling?
-The right spelling is Fuloong.
-
->
-> > > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > > ---
-> > >   MAINTAINERS | 7 ++++---
-> > >   1 file changed, 4 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index fd9ba32..3bf2144 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -976,9 +976,10 @@ S: Maintained
-> > >   F: hw/mips/mips_r4k.c
-> > >
-> > >   Fulong 2E
-> > > -M: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > > -R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> > > -S: Odd Fixes
-> > > +M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >
-> > I am happy to keep the Fuloong working, but this will be on my personal
-> > (hobbyist) time. This area is not a priority for my employer, so I'll
-> > use my personal email: f4bug@amsat.org.
-> >
->
-> OK.
->
-> > The original author is active on the Linux kernel, let ask him if he'd
-> > be OK to keep an eye on his work.
-> >
-> > Huacai, would you agree to be listed as a reviewer on the Fuloong
-> > related QEMU files? You don't have to worry about the generic QEMU code
-> > plate (like keeping API up to date) I'll manage that, but I'd like to
-> > have you listed to assert the hardware is properly modeled.
-> >
-> > You would appear as:
-> > R: Huacai Chen <chenhc@lemote.com>
-> >
->
-> That is a great idea!
->
-> Please, Chen, get involved, you would be very welcomed, there is a place
-> for you in QEMU community!
-I'm sorry that I'm busy now, but I think I will do something in QEMU
-in the next year.
-
->
->
-> > > +R: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-> >
-> > I don't think Herv=C3=A9 is interested by this board, he has not modifi=
-ed the
-> > code.
-> >
-> > > +R: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > > +S: Maintained
-> >
-> > Let keep it as "Odd Fixes" :)
-> >
->
-> OK.
->
-> >    Odd Fixes:   It has a maintainer but they don't have
-> >                 time to do much other than throw the odd
-> >                 patch in.
-> >
-> > >   F: hw/mips/mips_fulong2e.c
-> > >   F: hw/isa/vt82c686.c
-> > >   F: hw/pci-host/bonito.c
-> > >
-> >
-> > So the patch would be:
-> >
-> > -- 8< --
-> >   Fulong 2E
-> > -M: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > -R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> > +M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > +R: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > +R: Huacai Chen <chenhc@lemote.com>
-> >   S: Odd Fixes
-> >   F: hw/mips/mips_fulong2e.c
-> >   F: hw/isa/vt82c686.c
->
-> Plus possible s/Fulong 2E/Fuloong 2E/
->
-> > ---
-> >
-> > But let's wait to see what Huacai Chen thinks of it, before posting it.
-> >
-> > Thanks for taking care of those changes!
-> >
-> > Phil.
-> >
-> >
->
-> Thank you!
->
-> Aleksandar
-Thanks,
-
-Huacai
+T24gMTEvMTQvMTkgNTo1NSBBTSwgRGFycmVuIEtlbm55IHdyb3RlOg0KPiBIaSBBbGV4YW5k
+ZXIsDQo+IA0KPiBBIHF1aWNrIGNvbW1lbnQgb24gdGhlIGZhY3QgdGhhdCB5b3Ugb21pdHRl
+ZCBhbnkgUmV2aWV3ZWQtYnkncyB0aGF0DQo+IHlvdSBoYXZlIHJlY2VpdmVkIHNvIGZhci4N
+Cj4gDQo+IFdhcyB0aGF0IGludGVudGlvbmFsPw0KTm8gLSBJJ2xsIGZpbmQgYSB3YXkgdG8g
+YWRkIHRoZW0uDQpzb3JyeSBhYm91dCB0aGF0DQotQWxleA0KPiANCj4gVGhhbmtzLA0KPiAN
+Cj4gRGFycmVuLg0KPiANCj4gT24gV2VkLCBOb3YgMTMsIDIwMTkgYXQgMTA6NTA6NDFQTSAr
+MDAwMCwgT2xlaW5paywgQWxleGFuZGVyIHdyb3RlOg0KPj4gVGhpcyBzZXJpZXMgYWRkcyBh
+IGZyYW1ld29yayBmb3IgY292ZXJhZ2UtZ3VpZGVkIGZ1enppbmcgb2YNCj4+IHZpcnR1YWwt
+ZGV2aWNlcy4gRnV6emluZyB0YXJnZXRzIGFyZSBiYXNlZCBvbiBxdGVzdCBhbmQgY2FuIG1h
+a2UgdXNlIG9mDQo+PiB0aGUgbGlicW9zIGFic3RyYWN0aW9ucy4NCj4+DQo+PiBWNToNCj4+
+ICogbWlzYyBmaXhlcyBhZGRyZXNzaW5nIFY0IGNvbW1lbnRzDQo+PiAqIGNsZWFudXAgaW4t
+cHJvY2VzcyBoYW5kbGVycy9nbG9iYWxzIGluIGxpYnF0ZXN0LmMNCj4+ICogc21hbGwgZml4
+ZXMgdG8gZm9yay1iYXNlZCBmdXp6aW5nIGFuZCBzdXBwb3J0IGZvciBtdWx0aXBsZSB3b3Jr
+ZXJzDQo+PiAqIGNoYW5nZXMgdG8gdGhlIHZpcnRpby1uZXQgZnV6emVyIHRvIGtpY2sgYWZ0
+ZXIgZWFjaCB2cSBhZGQNCj4+DQo+PiBWNDoNCj4+ICogYWRkL3RyYW5zZmVyIGxpY2Vuc2Ug
+aGVhZGVycyB0byBuZXcgZmlsZXMNCj4+ICogcmVzdHJ1Y3R1cmUgdGhlIGFkZGVkIFFUZXN0
+Q2xpZW50VHJhbnNwb3J0T3BzIHN0cnVjdA0KPj4gKiByZXN0cnVjdHVyZSB0aGUgRnV6elRh
+cmdldCBzdHJ1Y3QgYW5kIGZ1enplciBza2VsZXRvbg0KPj4gKiBmb3JrLWJhc2VkIGZ1enpl
+ciBub3cgZGlyZWN0bHkgbW1hcHMgc2htIG92ZXIgdGhlIGNvdmVyYWdlIGJpdG1hcHMNCj4+
+ICogZml4ZXMgdG8gaTQ0MCBhbmQgdmlydGlvLW5ldCBmdXp6IHRhcmdldHMNCj4+ICogdW5k
+byB0aGUgY2hhbmdlcyB0byBxdGVzdF9tZW13cml0ZQ0KPj4gKiBwb3NzaWJsZSB0byBidWls
+ZCAvZnV6eiBhbmQgL2FsbCBpbiB0aGUgc2FtZSBidWlsZC1kaXINCj4+ICogbWlzYyBmaXhl
+cyB0byBhZGRyZXNzIFYzIGNvbW1lbnRzDQo+Pg0KPj4gVjM6DQo+PiAqIHJlYmFzZWQgb250
+byB2NC4xLjArDQo+PiAqIGFkZCB0aGUgZnV6emVyIGFzIGEgbmV3IGJ1aWxkLXRhcmdldCB0
+eXBlIGluIHRoZSBidWlsZC1zeXN0ZW0NCj4+ICogYWRkIGluZGlyZWN0aW9uIHRvIHF0ZXN0
+IGNsaWVudC9zZXJ2ZXIgY29tbXVuaWNhdGlvbiBmdW5jdGlvbnMNCj4+ICogcmVtb3ZlIHJh
+bWZpbGUgYW5kIHNuYXBzaG90LWJhc2VkIGZ1enppbmcgc3VwcG9ydA0KPj4gKiBhZGQgaTQ0
+MGZ4IGZ1enotdGFyZ2V0IGFzIGEgcmVmZXJlbmNlIGZvciBkZXZlbG9wZXJzLg0KPj4gKiBh
+ZGQgbGlua2VyLXNjcmlwdCB0byBhc3Npc3Qgd2l0aCBmb3JrLWJhc2VkIGZ1enplcg0KPj4N
+Cj4+IFYyOg0KPj4gKiBzcGxpdCBvZmYgY2hhbmdlcyB0byBxb3MgdmlydGlvLW5ldCBhbmQg
+cXRlc3Qgc2VydmVyIHRvIG90aGVyIHBhdGNoZXMNCj4+ICogbW92ZSB2bDptYWluIGluaXRp
+YWxpemF0aW9uIGludG8gbmV3IGZ1bmM6IHFlbXVfaW5pdA0KPj4gKiBtb3ZlZCB1c2VmdWwg
+ZnVuY3Rpb25zIGZyb20gcW9zLXRlc3QuYyB0byBhIHNlcGFyYXRlIG9iamVjdA0KPj4gKiB1
+c2Ugc3RydWN0IG9mIGZ1bmN0aW9uIHBvaW50ZXJzIGZvciBhZGRfZnV6el90YXJnZXQoKSwg
+aW5zdGVhZCBvZg0KPj4gwqAgYXJndW1lbnRzDQo+PiAqIG1vdmUgcmFtZmlsZSB0byBtaWdy
+YXRpb24vcWVtdS1maWxlDQo+PiAqIHJld3JpdGUgZm9yay1iYXNlZCBmdXp6ZXIgcGVuZGlu
+ZyBwYXRjaCB0byBsaWJmdXp6ZXINCj4+ICogcGFzcyBjaGVjay1wYXRjaA0KPj4NCj4+IEFs
+ZXhhbmRlciBCdWxla292ICgyMCk6DQo+PiDCoHNvZnRtbXU6IHNwbGl0IG9mZiB2bC5jOm1h
+aW4oKSBpbnRvIG1haW4uYw0KPj4gwqBsaWJxb3M6IFJlbmFtZSBpMmNfc2VuZCBhbmQgaTJj
+X3JlY3YNCj4+IMKgZnV6ejogQWRkIEZVWlpfVEFSR0VUIG1vZHVsZSB0eXBlDQo+PiDCoHF0
+ZXN0OiBhZGQgcXRlc3Rfc2VydmVyX3NlbmQgYWJzdHJhY3Rpb24NCj4+IMKgbGlicXRlc3Q6
+IEFkZCBhIGxheWVyIG9mIGFic3RyYWNpdG9uIHRvIHNlbmQvcmVjdg0KPj4gwqBtb2R1bGU6
+IGNoZWNrIG1vZHVsZSB3YXNuJ3QgYWxyZWFkeSBpbml0aWFsaXplZA0KPj4gwqBxdGVzdDog
+YWRkIGluLXByb2Nlc3MgaW5jb21pbmcgY29tbWFuZCBoYW5kbGVyDQo+PiDCoHRlc3RzOiBw
+cm92aWRlIHRlc3QgdmFyaWFibGVzIHRvIG90aGVyIHRhcmdldHMNCj4+IMKgbGlicW9zOiBz
+cGxpdCBxb3MtdGVzdCBhbmQgbGlicW9zIG1ha2VmaWxlIHZhcnMNCj4+IMKgbGlicW9zOiBt
+b3ZlIHVzZWZ1bCBxb3MtdGVzdCBmdW5jcyB0byBxb3NfZXh0ZXJuYWwNCj4+IMKgbGlicXRl
+c3Q6IG1ha2UgYnVmd3JpdGUgcmVseSBvbiB0aGUgVHJhbnNwb3J0T3BzDQo+PiDCoGxpYnF0
+ZXN0OiBhZGQgaW4tcHJvY2VzcyBxdGVzdC5jIHR4L3J4IGhhbmRsZXJzDQo+PiDCoGZ1eno6
+IGFkZCBjb25maWd1cmUgZmxhZyAtLWVuYWJsZS1mdXp6aW5nDQo+PiDCoGZ1eno6IEFkZCB0
+YXJnZXQvZnV6eiBtYWtlZmlsZSBydWxlcw0KPj4gwqBmdXp6OiBhZGQgZnV6emVyIHNrZWxl
+dG9uDQo+PiDCoGZ1eno6IGFkZCBzdXBwb3J0IGZvciBmb3JrLWJhc2VkIGZ1enppbmcuDQo+
+PiDCoGZ1eno6IGFkZCBzdXBwb3J0IGZvciBxb3MtYXNzaXN0ZWQgZnV6eiB0YXJnZXRzDQo+
+PiDCoGZ1eno6IGFkZCBpNDQwZnggZnV6eiB0YXJnZXRzDQo+PiDCoGZ1eno6IGFkZCB2aXJ0
+aW8tbmV0IGZ1enogdGFyZ2V0DQo+PiDCoGZ1eno6IGFkZCBkb2N1bWVudGF0aW9uIHRvIGRv
+Y3MvZGV2ZWwvDQo+Pg0KPj4gTWFrZWZpbGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHzCoCAxNiArKy0NCj4+IE1ha2VmaWxlLm9ianPCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNCArDQo+PiBNYWtlZmlsZS50YXJnZXTCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMTggKystDQo+PiBjb25maWd1cmXCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMzkgKysrKysrDQo+PiBkb2NzL2Rl
+dmVsL2Z1enppbmcudHh0wqDCoMKgwqDCoMKgIHwgMTE5ICsrKysrKysrKysrKysrKysrKw0K
+Pj4gZXhlYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fMKgIDEyICstDQo+PiBpbmNsdWRlL3FlbXUvbW9kdWxlLmjCoMKgwqDCoMKgwqDCoCB8wqDC
+oCA0ICstDQo+PiBpbmNsdWRlL3N5c2VtdS9xdGVzdC5owqDCoMKgwqDCoMKgIHzCoMKgIDQg
+Kw0KPj4gaW5jbHVkZS9zeXNlbXUvc3lzZW11LmjCoMKgwqDCoMKgIHzCoMKgIDQgKw0KPj4g
+bWFpbi5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKg
+IDUzICsrKysrKysrDQo+PiBxdGVzdC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHzCoCAzMSArKysrLQ0KPj4gdGVzdHMvTWFrZWZpbGUuaW5jbHVkZcKg
+wqDCoMKgwqDCoCB8wqAgNzUgKysrKystLS0tLS0NCj4+IHRlc3RzL2Z1enovTWFrZWZpbGUu
+aW5jbHVkZcKgIHzCoCAxMSArKw0KPj4gdGVzdHMvZnV6ei9mb3JrX2Z1enouY8KgwqDCoMKg
+wqDCoCB8wqAgNTUgKysrKysrKysrDQo+PiB0ZXN0cy9mdXp6L2ZvcmtfZnV6ei5owqDCoMKg
+wqDCoMKgIHzCoCAyMyArKysrDQo+PiB0ZXN0cy9mdXp6L2ZvcmtfZnV6ei5sZMKgwqDCoMKg
+wqAgfMKgIDM3ICsrKysrKw0KPj4gdGVzdHMvZnV6ei9mdXp6LmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHwgMTc5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPj4gdGVzdHMvZnV6
+ei9mdXp6LmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA5NCArKysrKysrKysrKysrKw0K
+Pj4gdGVzdHMvZnV6ei9pNDQwZnhfZnV6ei5jwqDCoMKgwqAgfCAxNzYgKysrKysrKysrKysr
+KysrKysrKysrKysrKysNCj4+IHRlc3RzL2Z1enovcW9zX2Z1enouY8KgwqDCoMKgwqDCoMKg
+IHwgMjMyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+PiB0ZXN0cy9m
+dXp6L3Fvc19mdXp6LmjCoMKgwqDCoMKgwqDCoCB8wqAgMzMgKysrKysNCj4+IHRlc3RzL2Z1
+enovdmlydGlvX25ldF9mdXp6LmMgfCAxMDAgKysrKysrKysrKysrKysrDQo+PiB0ZXN0cy9s
+aWJxb3MvaTJjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMTAgKy0NCj4+IHRlc3RzL2xp
+YnFvcy9pMmMuaMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDQgKy0NCj4+IHRlc3RzL2xp
+YnFvcy9xb3NfZXh0ZXJuYWwuY8KgIHwgMTY4ICsrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4+IHRlc3RzL2xpYnFvcy9xb3NfZXh0ZXJuYWwuaMKgIHzCoCAyOCArKysrKw0KPj4gdGVz
+dHMvbGlicXRlc3QuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEwOCArKysrKysrKysr
+KysrKy0tDQo+PiB0ZXN0cy9saWJxdGVzdC5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
+oMKgIDQgKw0KPj4gdGVzdHMvcGNhOTU1Mi10ZXN0LmPCoMKgwqDCoMKgwqDCoMKgIHzCoCAx
+MCArLQ0KPj4gdGVzdHMvcW9zLXRlc3QuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDE0
+MCArLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+IHV0aWwvbW9kdWxlLmPCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNyArKw0KPj4gdmwuY8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMzggKystLS0tDQo+PiAzMiBm
+aWxlcyBjaGFuZ2VkLCAxNjA3IGluc2VydGlvbnMoKyksIDIyOSBkZWxldGlvbnMoLSkNCj4+
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkb2NzL2RldmVsL2Z1enppbmcudHh0DQo+PiBjcmVhdGUg
+bW9kZSAxMDA2NDQgbWFpbi5jDQo+PiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvZnV6ei9N
+YWtlZmlsZS5pbmNsdWRlDQo+PiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvZnV6ei9mb3Jr
+X2Z1enouYw0KPj4gY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL2Z1enovZm9ya19mdXp6LmgN
+Cj4+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9mdXp6L2ZvcmtfZnV6ei5sZA0KPj4gY3Jl
+YXRlIG1vZGUgMTAwNjQ0IHRlc3RzL2Z1enovZnV6ei5jDQo+PiBjcmVhdGUgbW9kZSAxMDA2
+NDQgdGVzdHMvZnV6ei9mdXp6LmgNCj4+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9mdXp6
+L2k0NDBmeF9mdXp6LmMNCj4+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9mdXp6L3Fvc19m
+dXp6LmMNCj4+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9mdXp6L3Fvc19mdXp6LmgNCj4+
+IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9mdXp6L3ZpcnRpb19uZXRfZnV6ei5jDQo+PiBj
+cmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvbGlicW9zL3Fvc19leHRlcm5hbC5jDQo+PiBjcmVh
+dGUgbW9kZSAxMDA2NDQgdGVzdHMvbGlicW9zL3Fvc19leHRlcm5hbC5oDQo+Pg0KPj4gLS0g
+DQo+PiAyLjIzLjANCj4+DQo+Pg0KDQoNCi0tIA0KPT09DQpJIHJlY2VudGx5IGNoYW5nZWQg
+bXkgbGFzdCBuYW1lIGZyb20gT2xlaW5payB0byBCdWxla292DQo9PT0NCg==
 
