@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A12FFD063
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:35:37 +0100 (CET)
-Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BBDFD067
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:37:02 +0100 (CET)
+Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVMm7-0003EC-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:35:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
+	id 1iVMnV-0005RL-E3
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:37:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iVMkv-0002TZ-AD
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:22 -0500
+ (envelope-from <eblake@redhat.com>) id 1iVMky-0002Ug-76
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iVMkt-0004LV-Rw
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:20 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37660
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1iVMkx-0004Ma-3d
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20350
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVMkt-0004LR-L0
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:19 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVMkw-0004MB-WD
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573767258;
+ s=mimecast20190719; t=1573767262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=q288qwFbv1mHiL53WSWYe7eL+61FyEci8UWEehenINY=;
- b=cTKQ5KHpHWb0Ia6nkdcMrLEez2w4m1UW12ppVzjo6nuGp3Nkk8iZ5UDNXAd63MD7XQxy5J
- /8n68ib0QpUKIL/9Q7tLG+fiuW27DWFhftVwF/MLFAiqWe7pUOWfHERhBQo5YLMqOZ0mdM
- 5FbfE8u4kq+k2mkdxTajBvL8F2Hkie8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ErE597zNsknTpXwjlbggVGyQOq4x4Cnoeq1ubYOh5+o=;
+ b=J4vZJQKkMAGroRVg7sf1eJ8ezH/LkADPpN0nKm0egWm4CUkgi8h+SFod6zKedYyR7Khbwd
+ vJI8nuIq+B3WSpw7aR8ogCHnYHZP0hxhRwLLsudA57ho44xBFl6MPW21GWxx4k97XMl9Wm
+ IZcIwZaTPy1am9VGF2QR98bF7VTLECE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-s7Eb9yy5OxqL2Fx0RVCszw-1; Thu, 14 Nov 2019 16:34:17 -0500
+ us-mta-196-WvLMB20wNCGxRy4Q93-PDg-1; Thu, 14 Nov 2019 16:34:19 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73016800C73
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 21:34:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DD3B1005502;
+ Thu, 14 Nov 2019 21:34:18 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-242.phx2.redhat.com [10.3.116.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C0CC6609E;
- Thu, 14 Nov 2019 21:34:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D129067661;
+ Thu, 14 Nov 2019 21:34:17 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 for-4.2 0/4] tests: More iotest 223 improvements
-Date: Thu, 14 Nov 2019 15:34:11 -0600
-Message-Id: <20191114213415.23499-1-eblake@redhat.com>
+Subject: [PATCH v3 1/4] iotests: Fix 173
+Date: Thu, 14 Nov 2019 15:34:12 -0600
+Message-Id: <20191114213415.23499-2-eblake@redhat.com>
+In-Reply-To: <20191114213415.23499-1-eblake@redhat.com>
+References: <20191114213415.23499-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: s7Eb9yy5OxqL2Fx0RVCszw-1
+X-MC-Unique: WvLMB20wNCGxRy4Q93-PDg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,52 +70,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v2:
-- rebase to SOCK_DIR changes
-- new patch 2 to avoid TCP port 10810 contention [Max]
-- add imgfmt filtering [Max]
+This test has been broken since 3.0.  It used TEST_IMG to influence
+the name of a file created during _make_test_img, but commit 655ae6bb
+changed things so that the wrong file name is being created, which
+then caused _launch_qemu to fail.  In the meantime, the set of events
+issued for the actions of the test has increased.
 
-As this is limited to iotests, I think it is fair game for -rc2.
+Why haven't we noticed the failure? Because the test rarely gets run:
+'./check -qcow2 173' is insufficient (that defaults to using file protocol)
+'./check -nfs 173' is insufficient (that defaults to using raw format)
+so the test is only run with:
+./check -qcow2 -nfs 173
 
-Eric Blake (4):
-  iotests: Fix 173
-  iotests: Switch nbd tests to use Unix rather than TCP
-  iotests: Include QMP input in .out files
-  tests: More iotest 223 improvements
+Note that we already have a number of other problems with -nfs:
+./check -nfs (fails 18/30)
+./check -qcow2 -nfs (fails 45/76 after this patch, if exports does
+not permit 'insecure')
+and it's not on my priority list to fix those.  Rather, I found this
+because of my next patch's work on tests using _send_qemu_cmd.
 
- tests/qemu-iotests/common.filter |   6 +-
- tests/qemu-iotests/common.qemu   |   9 +++
- tests/qemu-iotests/common.rc     |   8 +--
- tests/qemu-iotests/085.out       |  26 ++++++++
- tests/qemu-iotests/094.out       |   4 ++
- tests/qemu-iotests/095.out       |   2 +
- tests/qemu-iotests/109.out       |  88 +++++++++++++++++++++++++++
- tests/qemu-iotests/117.out       |   5 ++
- tests/qemu-iotests/127.out       |   4 ++
- tests/qemu-iotests/140.out       |   5 ++
- tests/qemu-iotests/141.out       |  26 ++++++++
- tests/qemu-iotests/143.out       |   3 +
- tests/qemu-iotests/144.out       |   5 ++
- tests/qemu-iotests/153.out       |  11 ++++
- tests/qemu-iotests/156.out       |  11 ++++
- tests/qemu-iotests/161.out       |   8 +++
- tests/qemu-iotests/173           |   4 +-
- tests/qemu-iotests/173.out       |  10 +++-
- tests/qemu-iotests/182.out       |   8 +++
- tests/qemu-iotests/183.out       |  11 ++++
- tests/qemu-iotests/185.out       |  18 ++++++
- tests/qemu-iotests/191.out       |   8 +++
- tests/qemu-iotests/200.out       |   1 +
- tests/qemu-iotests/223           |  16 ++++-
- tests/qemu-iotests/223.out       | 100 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/229.out       |   3 +
- tests/qemu-iotests/249.out       |   6 ++
- 27 files changed, 395 insertions(+), 11 deletions(-)
+Fixes: 655ae6b
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/173     | 4 ++--
+ tests/qemu-iotests/173.out | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qemu-iotests/173 b/tests/qemu-iotests/173
+index 9e2fa2e73cb9..29dcaa1960df 100755
+--- a/tests/qemu-iotests/173
++++ b/tests/qemu-iotests/173
+@@ -47,9 +47,9 @@ size=3D100M
+ BASE_IMG=3D"${TEST_DIR}/image.base"
+ TOP_IMG=3D"${TEST_DIR}/image.snp1"
+
+-TEST_IMG=3D"${BASE_IMG}" _make_test_img $size
++TEST_IMG_FILE=3D"${BASE_IMG}" _make_test_img $size
+
+-TEST_IMG=3D"${TOP_IMG}" _make_test_img $size
++TEST_IMG_FILE=3D"${TOP_IMG}" _make_test_img $size
+
+ echo
+ echo =3D=3D=3D Running QEMU, using block-stream to find backing image =3D=
+=3D=3D
+diff --git a/tests/qemu-iotests/173.out b/tests/qemu-iotests/173.out
+index f477a0099a32..e83d17ec2f64 100644
+--- a/tests/qemu-iotests/173.out
++++ b/tests/qemu-iotests/173.out
+@@ -7,6 +7,10 @@ Formatting 'TEST_DIR/image.snp1', fmt=3DIMGFMT size=3D1048=
+57600
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk2"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk2"}}
+ {"return": {}}
+-{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "BLOCK_JOB_COMPLETED", "data": {"device": "disk2", "len": 104857600, "off=
+set": 104857600, "speed": 0, "type": "stream"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "disk2"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "disk2"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
+: "BLOCK_JOB_COMPLETED", "data": {"device": "disk2", "len": 0, "offset": 0,=
+ "speed": 0, "type": "stream"}}
+ *** done
 --=20
 2.21.0
 
