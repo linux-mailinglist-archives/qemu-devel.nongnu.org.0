@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C730FCAC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 17:32:37 +0100 (CET)
-Received: from localhost ([::1]:59557 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14469FCBA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:17:19 +0100 (CET)
+Received: from localhost ([::1]:60125 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVI2q-0003Ie-Ee
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 11:32:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46049)
+	id 1iVIk9-0000OR-7B
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:17:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iVI1H-0002lh-Rt
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 11:30:57 -0500
+ (envelope-from <janine.schneider@fau.de>) id 1iVHjP-0002xt-V2
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 11:12:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iVI1G-0008Uj-Q6
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 11:30:55 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:45938)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iVI1G-0008UX-8j; Thu, 14 Nov 2019 11:30:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=f1RirJvvUeLJsnKNfUMaLgYUeQF0wiRTlL9EblNuzKg=; 
- b=FnVuxjsjTHJulSaxNRcykbA7+JQLce54J/ea5BZybO1tvkYW0kJAGqA/bf2l1Wb3a3hyBvimpyZLuUo6VmgfCrUSTktGvzbvzJ4ycYvmEos/h4FPL4NNKTHLI5Qa0pL602EpRgSWsFWBf/+IqmDpffZN1QSTAgZokFavmhmeZ1OlNI20NQGehu8pjSBClPONItArrM2rFdWL0/83f2JOgk9dlnRBg4lZZMXhrJeV5mTGUj5kzzVBWyx8pMr91SpaXyo/sOWUR8Bc7mxidcDQ78ClJjl4Teu/zvyKjq65SDdTXOdISID7zYYXwZwwLjAzPPNoXYfLvW5VLhJsauAXYQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1iVI1D-0002OC-OH; Thu, 14 Nov 2019 17:30:51 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1iVI1D-0002hX-L3; Thu, 14 Nov 2019 17:30:51 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 20/26] qcow2: Update L2 bitmap in
- qcow2_alloc_cluster_link_l2()
-In-Reply-To: <389b5cbb-2278-86c1-034a-05621a7b4c71@redhat.com>
-References: <cover.1572125022.git.berto@igalia.com>
- <289ea5edc3f1530787c8fe905b1a524cc48945a9.1572125022.git.berto@igalia.com>
- <389b5cbb-2278-86c1-034a-05621a7b4c71@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 14 Nov 2019 17:30:51 +0100
-Message-ID: <w51mucye7yc.fsf@maestria.local.igalia.com>
+ (envelope-from <janine.schneider@fau.de>) id 1iVHjO-00024B-E0
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 11:12:27 -0500
+Received: from mx-rz-1.rrze.uni-erlangen.de ([131.188.11.20]:33525)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <janine.schneider@fau.de>)
+ id 1iVHjK-0001uq-MT; Thu, 14 Nov 2019 11:12:23 -0500
+Received: from mx-rz-smart.rrze.uni-erlangen.de
+ (mx-rz-smart.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::1e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mx-rz-1.rrze.uni-erlangen.de (Postfix) with ESMTPS id 47DRMJ4wcNz8tb0;
+ Thu, 14 Nov 2019 17:12:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fau.de; s=fau-2013;
+ t=1573747932; bh=TFW8IRQQAQ83C3ERCW/pMN6KV0BPOO1zLXfNhSWbKsI=;
+ h=From:To:Subject:Date:From:To:CC:Subject;
+ b=drJWESGYh0S4ZrgVPmRTd8T25RH0SYKY46bDAmczybNE/Vv0P2R08tO8uUv5EaYJR
+ bLT2jIC2BBSMQuF0M/iZzNdTTeDoUb/4SEo3IUununP6lfvCBMjPqq3XwvS3wcJyRi
+ rbjaTbuzIw/h6VgkO923zl+aLS5rH8oLubUAMLo4VGBnFNOwWVb+Fya9b/1pPJPIaM
+ 6kDz8fWY5Oqk3bXI34jnILBxeaFFAc2CQ286S91vVYFNWpfy6oXPLVFayXgf+SF5+8
+ OI7mRSMI82XNgjv6zrCR3y9JTqim/SMhnT95SL7H0GXIl5LBgirqvUr8fTXwcRL78Z
+ sSXPdxtLSFsIg==
+X-Virus-Scanned: amavisd-new at boeck1.rrze.uni-erlangen.de (RRZE)
+X-RRZE-Flag: Not-Spam
+X-RRZE-Submit-IP: 131.188.31.97
+Received: from LenovoJS (faui1-97.informatik.uni-erlangen.de [131.188.31.97])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: U2FsdGVkX1+CZ0g9ytG5i8NPflQjkaOmK8al27qIWro=)
+ by smtp-auth.uni-erlangen.de (Postfix) with ESMTPSA id 47DRMF38Gcz8tNx;
+ Thu, 14 Nov 2019 17:12:09 +0100 (CET)
+From: <janine.schneider@fau.de>
+To: <qemu-devel@nongnu.org>,
+	<qemu-block@nongnu.org>
+Subject: Convert VMDK to RAW
+Date: Thu, 14 Nov 2019 17:12:14 +0100
+Message-ID: <009201d59b06$475883f0$d6098bd0$@fau.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0093_01D59B0E.A91CEBF0"
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: de
+Thread-Index: AdWbAvRCCzVB3tUBQxKkTQEQDKtfLg==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 131.188.11.20
+X-Mailman-Approved-At: Thu, 14 Nov 2019 12:11:33 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,21 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- qemu-block@nongnu.org, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Denis V . Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 05 Nov 2019 12:43:16 PM CET, Max Reitz wrote:
+This is a multipart message in MIME format.
 
-> Speaking of handle_copied(); both elements of Qcow2COWRegion are of
-> type unsigned.  handle_copied() doesn=E2=80=99t look like it takes any
-> precautions to limit the range to even UINT_MAX (and it should
-> probably limit it to INT_MAX).
+------=_NextPart_000_0093_01D59B0E.A91CEBF0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Or rather, both handle_copied() and handle_alloc() should probably limit
-it to BDRV_REQUEST_MAX_BYTES.
+Ladies and Gentlemen,
 
-Berto
+ 
+
+I am a PhD student at the Friedrich-Alexander-University Erlangen-Nuremberg
+in Bavaria, Germany and am currently working on a forensic reconstruction
+tool. The tool can be used to analyze physical and virtual hard disks and to
+reconstruct files. I would now like to extend the tool so that it is able to
+analyze VMDK files and convert them to raw. Unfortunately I have not been
+able to understand how to correctly unpack and assemble VMDK containers.
+Since qemu is able to convert VMDK to raw, I wanted to ask you if you could
+explain to me how to put the grains together?
+
+ 
+
+Many thanks and greetings
+
+Janine Schneider
+
+
+------=_NextPart_000_0093_01D59B0E.A91CEBF0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.E-MailFormatvorlage17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 2.0cm 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DDE =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal><span lang=3DEN-US>Ladies and =
+Gentlemen,<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>I am a PhD student at the Friedrich-Alexander-University =
+Erlangen-Nuremberg in Bavaria, Germany and am currently working on a =
+forensic reconstruction tool. The tool can be used to analyze physical =
+and virtual hard disks and to reconstruct files. I would now like to =
+extend the tool so that it is able to analyze VMDK files and convert =
+them to raw. Unfortunately I have not been able to understand how to =
+correctly unpack and assemble VMDK containers. Since qemu is able to =
+convert VMDK to raw, I wanted to ask you if you could explain to me how =
+to put the grains together?<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US>Many thanks and =
+greetings<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US>Janine Schneider<o:p></o:p></span></p></div></body></html>
+------=_NextPart_000_0093_01D59B0E.A91CEBF0--
+
 
