@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC19FC392
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 11:06:39 +0100 (CET)
-Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DA2FC381
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 11:01:41 +0100 (CET)
+Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVC1O-0002Ix-98
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 05:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
+	id 1iVBwZ-0005Ma-S5
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 05:01:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40151)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iVBs0-0002A7-Ej
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:56:57 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iVBtX-0003Wb-Hg
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iVBrz-0002y8-56
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:56:56 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51260)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iVBry-0002xX-V2
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:56:55 -0500
-Received: by mail-wm1-x343.google.com with SMTP id q70so4969041wme.1
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 01:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=W5W9c4wZh6+Bl+2TUc+NRe/Ljh59M/04katqaQTo5YY=;
- b=Dr395fGX4Ynvi/fj1HvvOh3sCQ491PEsFvThZbwQ+AzJj6uJwOdAvY95tRV7woSY5j
- 1dhCaSZNwkceJDoGOoRmGVkuF4Yx51xzTqXFUbTaNsDhXA7tGWJ5UnEEAFZlEOwajfxQ
- Lnrc1dgphlVsm0/llHYZGw7qFAAXmpJTdMVfk4tyJOV5B6hN/aMdfflAarKFTC05cas9
- Yyad33BIYQVRoa2Pdl83bzlqITgn2Wq8uV3hv1lmQLJ0GjNggNnQPuQMXUm9Ebn/VovY
- zmnPAlHIpJKkixNhjKPQbum949C5WcGvXd6FVTVQOugq6hA0QtPNDP2D6BoatNrqQ+3J
- EK3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=W5W9c4wZh6+Bl+2TUc+NRe/Ljh59M/04katqaQTo5YY=;
- b=CXiaidid35un6siv98iIJ7XwVP85hJEYZi+shVxPNWpiB2GXffW/yO13BXHH/uSjfe
- A51E8tBKAhXr1QTF7IcDHHF7w0XgWOsEh9OtoU3X9T53l7WWZMd6ObWYo+tAJGYSE19Q
- jP7ZosBmJ4cgYy9h1etJZj8Q0lw7at7O2nvIV/qiVb88p6/fb85uP3QPL+CPWIXhF48b
- C9kOPdyN6J30C5biF4unOEkBlpjVKqXwefbj1ufpE/IMhVTpWKB1TKjI5GeDZFgFeXFf
- GAi0Hj2MmKlFFOBtORg3rbjw3jUZi3ZXtH4PF0GJ//FB5MsXWHMMOhvkINyZ3eUWFIw2
- CJQQ==
-X-Gm-Message-State: APjAAAVD2DtKK2dICYkZ1VMJX1dzgDi8NbIfaufKV2czrIcQmlAv+4ys
- p9N5W7qf32RsD3rmquyoF7N+4DeCdhedq+K2isI=
-X-Google-Smtp-Source: APXvYqyuPiYtPAb1AQ+8RnEAms3l7aGkSEYwMMhpedIUO02CmEA64cn9l5diYFTPCyVnJhnJgeG2Pku1z0H0o1hsTVI=
-X-Received: by 2002:a05:600c:20e:: with SMTP id
- 14mr6679021wmi.107.1573725412224; 
- Thu, 14 Nov 2019 01:56:52 -0800 (PST)
+ (envelope-from <mreitz@redhat.com>) id 1iVBtW-00044n-I5
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:31 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32117
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVBtW-00044K-E9
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573725509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2yTXW+Zc6vdj8GSrA1o5hSC2zgRCuAdNbIEfJx2QdBs=;
+ b=O7gqur5Il0g0lQdLEaWHPrGySxyfFl3IvY7/So9JXxRTwST6nyRzlZFzfv2NN5EIi+hif0
+ 4I4vqsdxsYPB6J/u8cnoL1KBdKYUNXH/OSYnHVRltyWyMyWkaFUmoF8kLWIKLDXA54Bask
+ guCFpJjO011NC8XnxR1lvnYDkeBMaiY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-l7tRJgHaOouV7VyWWAs5bw-1; Thu, 14 Nov 2019 04:58:26 -0500
+X-MC-Unique: l7tRJgHaOouV7VyWWAs5bw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E2B6189CB00;
+ Thu, 14 Nov 2019 09:58:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-160.ams2.redhat.com
+ [10.36.117.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69204108132E;
+ Thu, 14 Nov 2019 09:58:23 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PATCH v4 02/14] qapi: Move to_c_string() to
+ common.py
+To: Markus Armbruster <armbru@redhat.com>
+References: <20190624173935.25747-1-mreitz@redhat.com>
+ <20190624173935.25747-3-mreitz@redhat.com>
+ <87imnmq0fu.fsf@dusky.pond.sub.org>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <74c8532f-971f-9e5e-ea12-16508d49fedf@redhat.com>
+Date: Thu, 14 Nov 2019 10:58:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
- <1573655945-14912-10-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1573655945-14912-10-git-send-email-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 14 Nov 2019 13:56:40 +0400
-Message-ID: <CAJ+F1CK0-cRFevUFHK4MM-ucfWkiNdpLfdm2jYuxDA066pd=+Q@mail.gmail.com>
-Subject: Re: [PATCH 09/16] qom: add object_new_with_class
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <87imnmq0fu.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,165 +100,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 13, 2019 at 6:48 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Similar to CPU and machine classes, "-accel" class names are mangled,
-> so we have to first get a class via accel_find and then instantiate it.
-> Provide a new function to instantiate a class without going through
-> object_class_get_name, and use it for CPUs and machines already.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ
+Content-Type: multipart/mixed; boundary="cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85"
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+--cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  include/qom/object.h      | 12 ++++++++++++
->  qom/object.c              |  5 +++++
->  target/i386/cpu.c         |  8 ++++----
->  target/s390x/cpu_models.c |  4 ++--
->  vl.c                      |  3 +--
->  5 files changed, 24 insertions(+), 8 deletions(-)
->
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 230b18f..f9ad692 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -593,6 +593,18 @@ struct InterfaceClass
->                                               __FILE__, __LINE__, __func_=
-_))
->
->  /**
-> + * object_new_with_class:
-> + * @klass: The class to instantiate.
-> + *
-> + * This function will initialize a new object using heap allocated memor=
-y.
-> + * The returned object has a reference count of 1, and will be freed whe=
-n
-> + * the last reference is dropped.
-> + *
-> + * Returns: The newly allocated and instantiated object.
-> + */
-> +Object *object_new_with_class(ObjectClass *klass);
-> +
-> +/**
->   * object_new:
->   * @typename: The name of the type of the object to instantiate.
->   *
-> diff --git a/qom/object.c b/qom/object.c
-> index c7825dd..ee7708e 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -658,6 +658,11 @@ static Object *object_new_with_type(Type type)
->      return obj;
->  }
->
-> +Object *object_new_with_class(ObjectClass *klass)
-> +{
-> +    return object_new_with_type(klass->type);
-> +}
-> +
->  Object *object_new(const char *typename)
->  {
->      TypeImpl *ti =3D type_get_by_name(typename);
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index a624163..4742a0e 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3881,7 +3881,7 @@ static void x86_cpu_class_check_missing_features(X8=
-6CPUClass *xcc,
->          return;
->      }
->
-> -    xc =3D X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))))=
-;
-> +    xc =3D X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
->
->      x86_cpu_expand_features(xc, &err);
->      if (err) {
-> @@ -3952,7 +3952,7 @@ static GSList *get_sorted_cpu_model_list(void)
->
->  static char *x86_cpu_class_get_model_id(X86CPUClass *xc)
->  {
-> -    Object *obj =3D object_new(object_class_get_name(OBJECT_CLASS(xc)));
-> +    Object *obj =3D object_new_with_class(OBJECT_CLASS(xc));
->      char *r =3D object_property_get_str(obj, "model-id", &error_abort);
->      object_unref(obj);
->      return r;
-> @@ -4333,7 +4333,7 @@ static X86CPU *x86_cpu_from_model(const char *model=
-, QDict *props, Error **errp)
->          goto out;
->      }
->
-> -    xc =3D X86_CPU(object_new(object_class_get_name(OBJECT_CLASS(xcc))))=
-;
-> +    xc =3D X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
->      if (props) {
->          object_apply_props(OBJECT(xc), props, &err);
->          if (err) {
-> @@ -5177,7 +5177,7 @@ static void x86_cpu_apic_create(X86CPU *cpu, Error =
-**errp)
->      APICCommonState *apic;
->      ObjectClass *apic_class =3D OBJECT_CLASS(apic_get_class());
->
-> -    cpu->apic_state =3D DEVICE(object_new(object_class_get_name(apic_cla=
-ss)));
-> +    cpu->apic_state =3D DEVICE(object_new_with_class(apic_class));
->
->      object_property_add_child(OBJECT(cpu), "lapic",
->                                OBJECT(cpu->apic_state), &error_abort);
-> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-> index 7e92fb2..72cf48b 100644
-> --- a/target/s390x/cpu_models.c
-> +++ b/target/s390x/cpu_models.c
-> @@ -440,7 +440,7 @@ static void create_cpu_model_list(ObjectClass *klass,=
- void *opaque)
->      if (cpu_list_data->model) {
->          Object *obj;
->          S390CPU *sc;
-> -        obj =3D object_new(object_class_get_name(klass));
-> +        obj =3D object_new_with_class(klass);
->          sc =3D S390_CPU(obj);
->          if (sc->model) {
->              info->has_unavailable_features =3D true;
-> @@ -501,7 +501,7 @@ static void cpu_model_from_info(S390CPUModel *model, =
-const CpuModelInfo *info,
->          error_setg(errp, "The CPU definition '%s' requires KVM", info->n=
-ame);
->          return;
->      }
-> -    obj =3D object_new(object_class_get_name(oc));
-> +    obj =3D object_new_with_class(oc);
->      cpu =3D S390_CPU(obj);
->
->      if (!cpu->model) {
-> diff --git a/vl.c b/vl.c
-> index cb993dd..6e406d4 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -3988,8 +3988,7 @@ int main(int argc, char **argv, char **envp)
->                        cleanup_add_fd, NULL, &error_fatal);
->  #endif
->
-> -    current_machine =3D MACHINE(object_new(object_class_get_name(
-> -                          OBJECT_CLASS(machine_class))));
-> +    current_machine =3D MACHINE(object_new_with_class(OBJECT_CLASS(machi=
-ne_class)));
->      if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
->          exit(0);
->      }
-> --
-> 1.8.3.1
->
->
->
+On 14.11.19 10:20, Markus Armbruster wrote:
+> Max Reitz <mreitz@redhat.com> writes:
+>=20
+>> This function will be useful for code generation once we allow default
+>> values, so move it to the other "C helper functions".  In the process,
+>> rewrite it so it supports all nonprintable and non-ASCII characters.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>=20
+> Please have a close look at commit 56a8caff92 "qapi: Restrict strings to
+> printable ASCII".  Do we still need the rewrite?
+
+If that=E2=80=99s all that has changed, I think we will still need at least=
+ some
+bits, like the " or \ escaping.
+
+Also, actually, it looks like 56a8caff92 didn=E2=80=99t change the fact tha=
+t
+control characters are verbatim parts of the string, i.e. \u000a will
+still be a literal 0xa byte, and as such must be escaped anew in the C
+string.
+
+So without having tried, I think this is still very much necessary.
+
+> If yes: the commit message title promises code motion, but the patch is
+> anything but.  Adjust the title, please.
+
+OK.
+
+Max
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+
+--cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85--
+
+--8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3NJT0ACgkQ9AfbAGHV
+z0D5qAf9FI3biTo2N0X/pvSl7NaP7p1xSYgln4ObbJu6sJ7XgGkkZzTdwodrsmVA
+eM/2LafgXYcPFVRjjEf856l34CZ4snJshQ20op81iksiS6bXMNzYgi6i34df73AC
+KsFNNrM9gdV3rjBuFLAtszHNJIXX6JaCfOV+tQaHmrwE2W+EjmCFPaqtM8kUrVDJ
+bQHpGBLqmWu7XBelpBKXk4OUT1vBkFJO6xuo/gZJ3oj0nscg7ZZji3i/bw1nI/jj
+jzKiX2/rzCGPaQv3TOrlQJxdqbQCVc4lV4QAH1CmQlkGdujAEy7YvrvKOsAxOY01
+4TWNTGDe3H0c44KW2phBoAND0G8GsQ==
+=aaAT
+-----END PGP SIGNATURE-----
+
+--8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ--
+
 
