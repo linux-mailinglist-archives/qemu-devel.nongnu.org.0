@@ -2,151 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDECFBC1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 00:02:53 +0100 (CET)
-Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC60FBD2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 01:49:06 +0100 (CET)
+Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iV1f1-0000vj-K6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 18:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39129)
+	id 1iV3Jo-0001m4-8l
+	for lists+qemu-devel@lfdr.de; Wed, 13 Nov 2019 19:49:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1iV1bG-0007OG-47
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:59:00 -0500
+ (envelope-from <yan.y.zhao@intel.com>) id 1iV3FT-0000me-Od
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 19:44:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1iV1bC-0005qB-B7
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:58:56 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41739)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1iV1bB-0005oe-Pb
- for qemu-devel@nongnu.org; Wed, 13 Nov 2019 17:58:54 -0500
-Received: by mail-pg1-x543.google.com with SMTP id h4so2317704pgv.8
- for <qemu-devel@nongnu.org>; Wed, 13 Nov 2019 14:58:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EXxt83cK1vp+N6vJKRMoLmDJM6XT9v9Gq4ShVjocKiI=;
- b=X0vTi2k/jfxAO21e/Gxw3XKImFJllgTtLwwV7yjHzim5k7m080xOMS+OoMghnqrS8u
- swx/mP25DvlS1wYEn5jOVN2NTqRx+8x2payf2hyNNJGBnagcIlGra8IfzHiDWksGbjny
- y5JF5JMbaTeyNYv6pGuRWhv5SrzHo3CQpl/HUUWCBNBiQOhN6mi2hZDNcmJu/BHC/JI7
- UuUp5zD4NQ/y56C4zSySXh66AUTHbreGiGoJl5p5vu2iStGNXIJfSG0lqRIlt5Lrpl8p
- FQEMnZyDoU3P2XqxnYXJmqtaunvSC5JZBQVOqfTItKHj+VUItDtHzn0Z9X+HAcqB9yaf
- XKgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=EXxt83cK1vp+N6vJKRMoLmDJM6XT9v9Gq4ShVjocKiI=;
- b=dGQzAkYgBqQW8vmpg5YN2RLXDmB4e0q4zhfFkg60yt7Bl6xqegNPfswtqDbIMpvcd8
- m/DyCerldSw3oksfDnTYxoL3ACQxHSCkALxBgGU2ssxTqc8e0aNYKpLIp3Pt1pEX+WF4
- H2UHlZIRklMPndJLg6yVSnDg9BQJDVkvMu1QBhDYPDR7ZyPbKo90Jt4XWgUxs6oZewUI
- Ugu/gYM5uArV5iyvTAEaCUenej/SMuZJItVW+yb+l4P26yAFg6xRWokf77MyQyQRKAUK
- nMkV/ePwQlRusvc5LUMtHuynd79mos6gQt6bUgNOKssuv8tczA0y0qW8grl8tVrTRa+S
- PV8A==
-X-Gm-Message-State: APjAAAVylcUEF1AgQsFutFB2UnYReaRLMYNaAbPjDic36wrIzEf5ysm2
- 3473bKY25v8zN+4+FXF3iEv+97Kv8T0=
-X-Google-Smtp-Source: APXvYqwN6BjophzqJoBmlboG/TP2ZPL5deZ5j58T7gAZg/3LxFWpYQej9U3HcupKEBWBsFDUc8ljWw==
-X-Received: by 2002:a17:90a:19d1:: with SMTP id
- 17mr8256464pjj.52.1573685931981; 
- Wed, 13 Nov 2019 14:58:51 -0800 (PST)
-Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id l24sm3885410pff.151.2019.11.13.14.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Nov 2019 14:58:51 -0800 (PST)
-Subject: Re: virtio,iommu_platform=on
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <17da2769-1999-a0a3-590d-9f9bc6a9adc3@ozlabs.ru>
- <20191112014821-mutt-send-email-mst@kernel.org>
- <7ac95a46-b2ae-005b-1907-5302d5b0a39d@ozlabs.ru>
- <20191113045747-mutt-send-email-mst@kernel.org>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Autocrypt: addr=aik@ozlabs.ru; keydata=
- mQINBE+rT0sBEADFEI2UtPRsLLvnRf+tI9nA8T91+jDK3NLkqV+2DKHkTGPP5qzDZpRSH6mD
- EePO1JqpVuIow/wGud9xaPA5uvuVgRS1q7RU8otD+7VLDFzPRiRE4Jfr2CW89Ox6BF+q5ZPV
- /pS4v4G9eOrw1v09lEKHB9WtiBVhhxKK1LnUjPEH3ifkOkgW7jFfoYgTdtB3XaXVgYnNPDFo
- PTBYsJy+wr89XfyHr2Ev7BB3Xaf7qICXdBF8MEVY8t/UFsesg4wFWOuzCfqxFmKEaPDZlTuR
- tfLAeVpslNfWCi5ybPlowLx6KJqOsI9R2a9o4qRXWGP7IwiMRAC3iiPyk9cknt8ee6EUIxI6
- t847eFaVKI/6WcxhszI0R6Cj+N4y+1rHfkGWYWupCiHwj9DjILW9iEAncVgQmkNPpUsZECLT
- WQzMuVSxjuXW4nJ6f4OFHqL2dU//qR+BM/eJ0TT3OnfLcPqfucGxubhT7n/CXUxEy+mvWwnm
- s9p4uqVpTfEuzQ0/bE6t7dZdPBua7eYox1AQnk8JQDwC3Rn9kZq2O7u5KuJP5MfludMmQevm
- pHYEMF4vZuIpWcOrrSctJfIIEyhDoDmR34bCXAZfNJ4p4H6TPqPh671uMQV82CfTxTrMhGFq
- 8WYU2AH86FrVQfWoH09z1WqhlOm/KZhAV5FndwVjQJs1MRXD8QARAQABtCRBbGV4ZXkgS2Fy
- ZGFzaGV2c2tpeSA8YWlrQG96bGFicy5ydT6JAjgEEwECACIFAk+rT0sCGwMGCwkIBwMCBhUI
- AgkKCwQWAgMBAh4BAheAAAoJEIYTPdgrwSC5fAIP/0wf/oSYaCq9PhO0UP9zLSEz66SSZUf7
- AM9O1rau1lJpT8RoNa0hXFXIVbqPPKPZgorQV8SVmYRLr0oSmPnTiZC82x2dJGOR8x4E01gK
- TanY53J/Z6+CpYykqcIpOlGsytUTBA+AFOpdaFxnJ9a8p2wA586fhCZHVpV7W6EtUPH1SFTQ
- q5xvBmr3KkWGjz1FSLH4FeB70zP6uyuf/B2KPmdlPkyuoafl2UrU8LBADi/efc53PZUAREih
- sm3ch4AxaL4QIWOmlE93S+9nHZSRo9jgGXB1LzAiMRII3/2Leg7O4hBHZ9Nki8/fbDo5///+
- kD4L7UNbSUM/ACWHhd4m1zkzTbyRzvL8NAVQ3rckLOmju7Eu9whiPueGMi5sihy9VQKHmEOx
- OMEhxLRQbzj4ypRLS9a+oxk1BMMu9cd/TccNy0uwx2UUjDQw/cXw2rRWTRCxoKmUsQ+eNWEd
- iYLW6TCfl9CfHlT6A7Zmeqx2DCeFafqEd69DqR9A8W5rx6LQcl0iOlkNqJxxbbW3ddDsLU/Y
- r4cY20++WwOhSNghhtrroP+gouTOIrNE/tvG16jHs8nrYBZuc02nfX1/gd8eguNfVX/ZTHiR
- gHBWe40xBKwBEK2UeqSpeVTohYWGBkcd64naGtK9qHdo1zY1P55lHEc5Uhlk743PgAnOi27Q
- ns5zuQINBE+rT0sBEACnV6GBSm+25ACT+XAE0t6HHAwDy+UKfPNaQBNTTt31GIk5aXb2Kl/p
- AgwZhQFEjZwDbl9D/f2GtmUHWKcCmWsYd5M/6Ljnbp0Ti5/xi6FyfqnO+G/wD2VhGcKBId1X
- Em/B5y1kZVbzcGVjgD3HiRTqE63UPld45bgK2XVbi2+x8lFvzuFq56E3ZsJZ+WrXpArQXib2
- hzNFwQleq/KLBDOqTT7H+NpjPFR09Qzfa7wIU6pMNF2uFg5ihb+KatxgRDHg70+BzQfa6PPA
- o1xioKXW1eHeRGMmULM0Eweuvpc7/STD3K7EJ5bBq8svoXKuRxoWRkAp9Ll65KTUXgfS+c0x
- gkzJAn8aTG0z/oEJCKPJ08CtYQ5j7AgWJBIqG+PpYrEkhjzSn+DZ5Yl8r+JnZ2cJlYsUHAB9
- jwBnWmLCR3gfop65q84zLXRQKWkASRhBp4JK3IS2Zz7Nd/Sqsowwh8x+3/IUxVEIMaVoUaxk
- Wt8kx40h3VrnLTFRQwQChm/TBtXqVFIuv7/Mhvvcq11xnzKjm2FCnTvCh6T2wJw3de6kYjCO
- 7wsaQ2y3i1Gkad45S0hzag/AuhQJbieowKecuI7WSeV8AOFVHmgfhKti8t4Ff758Z0tw5Fpc
- BFDngh6Lty9yR/fKrbkkp6ux1gJ2QncwK1v5kFks82Cgj+DSXK6GUQARAQABiQIfBBgBAgAJ
- BQJPq09LAhsMAAoJEIYTPdgrwSC5NYEP/2DmcEa7K9A+BT2+G5GXaaiFa098DeDrnjmRvumJ
- BhA1UdZRdfqICBADmKHlJjj2xYo387sZpS6ABbhrFxM6s37g/pGPvFUFn49C47SqkoGcbeDz
- Ha7JHyYUC+Tz1dpB8EQDh5xHMXj7t59mRDgsZ2uVBKtXj2ZkbizSHlyoeCfs1gZKQgQE8Ffc
- F8eWKoqAQtn3j4nE3RXbxzTJJfExjFB53vy2wV48fUBdyoXKwE85fiPglQ8bU++0XdOr9oyy
- j1llZlB9t3tKVv401JAdX8EN0++ETiOovQdzE1m+6ioDCtKEx84ObZJM0yGSEGEanrWjiwsa
- nzeK0pJQM9EwoEYi8TBGhHC9ksaAAQipSH7F2OHSYIlYtd91QoiemgclZcSgrxKSJhyFhmLr
- QEiEILTKn/pqJfhHU/7R7UtlDAmFMUp7ByywB4JLcyD10lTmrEJ0iyRRTVfDrfVP82aMBXgF
- tKQaCxcmLCaEtrSrYGzd1sSPwJne9ssfq0SE/LM1J7VdCjm6OWV33SwKrfd6rOtvOzgadrG6
- 3bgUVBw+bsXhWDd8tvuCXmdY4bnUblxF2B6GOwSY43v6suugBttIyW5Bl2tXSTwP+zQisOJo
- +dpVG2pRr39h+buHB3NY83NEPXm1kUOhduJUA17XUY6QQCAaN4sdwPqHq938S3EmtVhsuQIN
- BFq54uIBEACtPWrRdrvqfwQF+KMieDAMGdWKGSYSfoEGGJ+iNR8v255IyCMkty+yaHafvzpl
- PFtBQ/D7Fjv+PoHdFq1BnNTk8u2ngfbre9wd9MvTDsyP/TmpF0wyyTXhhtYvE267Av4X/BQT
- lT9IXKyAf1fP4BGYdTNgQZmAjrRsVUW0j6gFDrN0rq2J9emkGIPvt9rQt6xGzrd6aXonbg5V
- j6Uac1F42ESOZkIh5cN6cgnGdqAQb8CgLK92Yc8eiCVCH3cGowtzQ2m6U32qf30cBWmzfSH0
- HeYmTP9+5L8qSTA9s3z0228vlaY0cFGcXjdodBeVbhqQYseMF9FXiEyRs28uHAJEyvVZwI49
- CnAgVV/n1eZa5qOBpBL+ZSURm8Ii0vgfvGSijPGbvc32UAeAmBWISm7QOmc6sWa1tobCiVmY
- SNzj5MCNk8z4cddoKIc7Wt197+X/X5JPUF5nQRvg3SEHvfjkS4uEst9GwQBpsbQYH9MYWq2P
- PdxZ+xQE6v7cNB/pGGyXqKjYCm6v70JOzJFmheuUq0Ljnfhfs15DmZaLCGSMC0Amr+rtefpA
- y9FO5KaARgdhVjP2svc1F9KmTUGinSfuFm3quadGcQbJw+lJNYIfM7PMS9fftq6vCUBoGu3L
- j4xlgA/uQl/LPneu9mcvit8JqcWGS3fO+YeagUOon1TRqQARAQABiQRsBBgBCAAgFiEEZSrP
- ibrORRTHQ99dhhM92CvBILkFAlq54uICGwICQAkQhhM92CvBILnBdCAEGQEIAB0WIQQIhvWx
- rCU+BGX+nH3N7sq0YorTbQUCWrni4gAKCRDN7sq0YorTbVVSD/9V1xkVFyUCZfWlRuryBRZm
- S4GVaNtiV2nfUfcThQBfF0sSW/aFkLP6y+35wlOGJE65Riw1C2Ca9WQYk0xKvcZrmuYkK3DZ
- 0M9/Ikkj5/2v0vxz5Z5w/9+IaCrnk7pTnHZuZqOh23NeVZGBls/IDIvvLEjpD5UYicH0wxv+
- X6cl1RoP2Kiyvenf0cS73O22qSEw0Qb9SId8wh0+ClWet2E7hkjWFkQfgJ3hujR/JtwDT/8h
- 3oCZFR0KuMPHRDsCepaqb/k7VSGTLBjVDOmr6/C9FHSjq0WrVB9LGOkdnr/xcISDZcMIpbRm
- EkIQ91LkT/HYIImL33ynPB0SmA+1TyMgOMZ4bakFCEn1vxB8Ir8qx5O0lHMOiWMJAp/PAZB2
- r4XSSHNlXUaWUg1w3SG2CQKMFX7vzA31ZeEiWO8tj/c2ZjQmYjTLlfDK04WpOy1vTeP45LG2
- wwtMA1pKvQ9UdbYbovz92oyZXHq81+k5Fj/YA1y2PI4MdHO4QobzgREoPGDkn6QlbJUBf4To
- pEbIGgW5LRPLuFlOPWHmIS/sdXDrllPc29aX2P7zdD/ivHABslHmt7vN3QY+hG0xgsCO1JG5
- pLORF2N5XpM95zxkZqvYfC5tS/qhKyMcn1kC0fcRySVVeR3tUkU8/caCqxOqeMe2B6yTiU1P
- aNDq25qYFLeYxg67D/4w/P6BvNxNxk8hx6oQ10TOlnmeWp1q0cuutccblU3ryRFLDJSngTEu
- ZgnOt5dUFuOZxmMkqXGPHP1iOb+YDznHmC0FYZFG2KAc9pO0WuO7uT70lL6larTQrEneTDxQ
- CMQLP3qAJ/2aBH6SzHIQ7sfbsxy/63jAiHiT3cOaxAKsWkoV2HQpnmPOJ9u02TPjYmdpeIfa
- X2tXyeBixa3i/6dWJ4nIp3vGQicQkut1YBwR7dJq67/FCV3Mlj94jI0myHT5PIrCS2S8LtWX
- ikTJSxWUKmh7OP5mrqhwNe0ezgGiWxxvyNwThOHc5JvpzJLd32VDFilbxgu4Hhnf6LcgZJ2c
- Zd44XWqUu7FzVOYaSgIvTP0hNrBYm/E6M7yrLbs3JY74fGzPWGRbBUHTZXQEqQnZglXaVB5V
- ZhSFtHopZnBSCUSNDbB+QGy4B/E++Bb02IBTGl/JxmOwG+kZUnymsPvTtnNIeTLHxN/H/ae0
- c7E5M+/NpslPCmYnDjs5qg0/3ihh6XuOGggZQOqrYPC3PnsNs3NxirwOkVPQgO6mXxpuifvJ
- DG9EMkK8IBXnLulqVk54kf7fE0jT/d8RTtJIA92GzsgdK2rpT1MBKKVffjRFGwN7nQVOzi4T
- XrB5p+6ML7Bd84xOEGsj/vdaXmz1esuH7BOZAGEZfLRCHJ0GVCSssg==
-Message-ID: <83876a34-8bc1-c69b-d846-4ac35a8c0a47@ozlabs.ru>
-Date: Thu, 14 Nov 2019 09:58:47 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <yan.y.zhao@intel.com>) id 1iV3FO-0004Nr-Ub
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 19:44:34 -0500
+Received: from mga01.intel.com ([192.55.52.88]:29946)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1iV3FN-0003na-Qn
+ for qemu-devel@nongnu.org; Wed, 13 Nov 2019 19:44:30 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2019 16:44:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,302,1569308400"; d="scan'208";a="355644464"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga004.jf.intel.com with ESMTP; 13 Nov 2019 16:44:18 -0800
+Date: Wed, 13 Nov 2019 19:36:15 -0500
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v9 Kernel 1/5] vfio: KABI for migration interface for
+ device state
+Message-ID: <20191114003615.GD18001@joy-OptiPlex-7040>
+References: <1573578220-7530-1-git-send-email-kwankhede@nvidia.com>
+ <1573578220-7530-2-git-send-email-kwankhede@nvidia.com>
+ <20191112153005.53bf324c@x1.home>
+ <20191113032332.GB18001@joy-OptiPlex-7040>
+ <d0be166b-9ffe-645d-de74-b48855995326@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20191113045747-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0be166b-9ffe-645d-de74-b48855995326@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -158,219 +62,397 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 13/11/2019 21:00, Michael S. Tsirkin wrote:
-> On Wed, Nov 13, 2019 at 03:44:28PM +1100, Alexey Kardashevskiy wrote:
->>
->>
->> On 12/11/2019 18:08, Michael S. Tsirkin wrote:
->>> On Tue, Nov 12, 2019 at 02:53:49PM +1100, Alexey Kardashevskiy wrote:
->>>> Hi!
->>>>
->>>> I am enabling IOMMU for virtio in the pseries firmware (SLOF) and seeing
->>>> problems, one of them is SLOF does SCSI bus scan, then it stops the
->>>> virtio-scsi by clearing MMIO|IO|BUSMASTER from PCI_COMMAND (as SLOF
->>>> stopped using the devices) and when this happens, I see unassigned
->>>> memory access (see below) which happens because disabling busmaster
->>>> disables IOMMU and QEMU cannot access the rings to do some shutdown. And
->>>> when this happens, the device does not come back even if SLOF re-enables it.
->>>
->>> In fact clearing bus master should disable ring access even
->>> without the IOMMU.
->>> Once you do this you should not wait for rings to be processed,
->>> it is safe to assume they won't be touched again and just
->>> free up any buffers that have not been used.
->>>
->>> Why don't you see this without IOMMU?
->>
->> Because without IOMMU, virtio can always access rings, it does not need
->> bus master address space for that.
-> 
-> Right and that's a bug in virtio scsi. E.g. virtio net checks
-> bus mastering before each access.
-
-You have to be specific - virtio scsi in the guest or in QEMU?
-
-
-> Which is all well and good, but we can't just break the world
-> so I guess we first need to fix SLOF, and then add
-> a compat property. And maybe keep it broken for
-> legacy ...
-> 
->>
->>> It's a bug I think, probably there to work around buggy guests.
->>>
->>> So pls fix this in SLOF and then hopefully we can drop the
->>> work arounds and have clearing bus master actually block DMA.
->>
->>
->> Laszlo suggested writing 0 to the status but this does not seem helping,
->> with both ioeventfd=true/false. It looks like setting/clearing busmaster
->> bit confused memory region caches in QEMU's virtio. I am confused which
->> direction to keep digging to, any suggestions? Thanks,
->>
-> 
-> to clarify you reset after setting bus master? right?
-
-
-I was talking about clearing the bus master, and where I call that
-virtio reset does not matter. Thanks,
-
-
-
+On Thu, Nov 14, 2019 at 03:02:55AM +0800, Kirti Wankhede wrote:
 > 
 > 
->>
->>>
->>>> Hacking SLOF to not clear BUSMASTER makes virtio-scsi work but it is
->>>> hardly a right fix.
->>>>
->>>> Is this something expected? Thanks,
->>>>
->>>>
->>>> Here is the exact command line:
->>>>
->>>> /home/aik/pbuild/qemu-garrison2-ppc64/ppc64-softmmu/qemu-system-ppc64 \
->>>>
->>>> -nodefaults \
->>>>
->>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>>
->>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>>
->>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>>
->>>> -nographic \
->>>>
->>>> -vga none \
->>>>
->>>> -enable-kvm \
->>>> -m 2G \
->>>>
->>>> -device
->>>> virtio-scsi-pci,id=vscsi0,iommu_platform=on,disable-modern=off,disable-legacy=on
->>>> \
->>>> -drive id=DRIVE0,if=none,file=img/u1804-64le.qcow2,format=qcow2 \
->>>>
->>>> -device scsi-disk,id=scsi-disk0,drive=DRIVE0 \
->>>>
->>>> -snapshot \
->>>>
->>>> -smp 1 \
->>>>
->>>> -machine pseries \
->>>>
->>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>>
->>>> -trace events=qemu_trace_events \
->>>>
->>>> -d guest_errors \
->>>>
->>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.ssh59518 \
->>>>
->>>> -mon chardev=SOCKET0,mode=control
->>>>
->>>>
->>>>
->>>> Here is the backtrace:
->>>>
->>>> Thread 5 "qemu-system-ppc" hit Breakpoint 8, unassigned_mem_accepts
->>>> (opaque=0x0, addr=0x5802, size=0x2, is_write=0x0, attrs=...) at /home/
->>>> aik/p/qemu/memory.c:1275
->>>> 1275        return false;
->>>> #0  unassigned_mem_accepts (opaque=0x0, addr=0x5802, size=0x2,
->>>> is_write=0x0, attrs=...) at /home/aik/p/qemu/memory.c:1275
->>>> #1  0x00000000100a8ac8 in memory_region_access_valid (mr=0x1105c230
->>>> <io_mem_unassigned>, addr=0x5802, size=0x2, is_write=0x0, attrs=...) at
->>>> /home/aik/p/qemu/memory.c:1377
->>>> #2  0x00000000100a8c88 in memory_region_dispatch_read (mr=0x1105c230
->>>> <io_mem_unassigned>, addr=0x5802, pval=0x7ffff550d410, op=MO_16,
->>>> attrs=...) at /home/aik/p/qemu/memory.c:1418
->>>> #3  0x000000001001cad4 in address_space_lduw_internal_cached_slow
->>>> (cache=0x7fff68036fa0, addr=0x2, attrs=..., result=0x0,
->>>> endian=DEVICE_LITTLE_ENDIAN) at /home/aik/p/qemu/memory_ldst.inc.c:211
->>>> #4  0x000000001001cc84 in address_space_lduw_le_cached_slow
->>>> (cache=0x7fff68036fa0, addr=0x2, attrs=..., result=0x0) at
->>>> /home/aik/p/qemu/memory_ldst.inc.c:249
->>>> #5  0x000000001019bd80 in address_space_lduw_le_cached
->>>> (cache=0x7fff68036fa0, addr=0x2, attrs=..., result=0x0) at
->>>> /home/aik/p/qemu/include/exec/memory_ldst_cached.inc.h:56
->>>> #6  0x000000001019c10c in lduw_le_phys_cached (cache=0x7fff68036fa0,
->>>> addr=0x2) at /home/aik/p/qemu/include/exec/memory_ldst_phys.inc.h:91
->>>> #7  0x000000001019d86c in virtio_lduw_phys_cached (vdev=0x118b9110,
->>>> cache=0x7fff68036fa0, pa=0x2) at
->>>> /home/aik/p/qemu/include/hw/virtio/virtio-access.h:166
->>>> #8  0x000000001019e648 in vring_avail_idx (vq=0x118c2720) at
->>>> /home/aik/p/qemu/hw/virtio/virtio.c:302
->>>> #9  0x000000001019f5bc in virtio_queue_split_empty (vq=0x118c2720) at
->>>> /home/aik/p/qemu/hw/virtio/virtio.c:581
->>>> #10 0x000000001019f838 in virtio_queue_empty (vq=0x118c2720) at
->>>> /home/aik/p/qemu/hw/virtio/virtio.c:612
->>>> #11 0x00000000101a8fa8 in virtio_queue_host_notifier_aio_poll
->>>> (opaque=0x118c2798) at /home/aik/p/qemu/hw/virtio/virtio.c:3389
->>>> #12 0x000000001092679c in run_poll_handlers_once (ctx=0x11212e40,
->>>> timeout=0x7ffff550d7d8) at /home/aik/p/qemu/util/aio-posix.c:520
->>>> #13 0x0000000010926aec in try_poll_mode (ctx=0x11212e40,
->>>> timeout=0x7ffff550d7d8) at /home/aik/p/qemu/util/aio-posix.c:607
->>>> #14 0x0000000010926c2c in aio_poll (ctx=0x11212e40, blocking=0x1) at
->>>> /home/aik/p/qemu/util/aio-posix.c:639
->>>> #15 0x000000001091fe0c in aio_wait_bh_oneshot (ctx=0x11212e40,
->>>> cb=0x1016f35c <virtio_scsi_dataplane_stop_bh>, opaque=0x118b9110) at
->>>> /home/aik/p/qemu/util/aio-wait.c:71
->>>> #16 0x000000001016fa60 in virtio_scsi_dataplane_stop (vdev=0x118b9110)
->>>> at /home/aik/p/qemu/hw/scsi/virtio-scsi-dataplane.c:211
->>>> #17 0x0000000010684740 in virtio_bus_stop_ioeventfd (bus=0x118b9098) at
->>>> /home/aik/p/qemu/hw/virtio/virtio-bus.c:245
->>>> #18 0x0000000010688290 in virtio_pci_stop_ioeventfd (proxy=0x118b0fa0)
->>>> at /home/aik/p/qemu/hw/virtio/virtio-pci.c:292
->>>> #19 0x00000000106891e8 in virtio_write_config (pci_dev=0x118b0fa0,
->>>> address=0x4, val=0x100100, len=0x4) at
->>>> /home/aik/p/qemu/hw/virtio/virtio-pci.c:613
->>>> #20 0x00000000105b7228 in pci_host_config_write_common
->>>> (pci_dev=0x118b0fa0, addr=0x4, limit=0x100, val=0x100100, len=0x4) at
->>>> /home/aik/p/qemu/hw/pci/pci_host.c:81
->>>> #21 0x00000000101f7bdc in finish_write_pci_config (spapr=0x11217200,
->>>> buid=0x800000020000000, addr=0x4, size=0x4, val=0x100100,
->>>> rets=0x7e7533e0) at /home/aik/p/qemu/hw/ppc/spapr_pci.c:192
->>>> #22 0x00000000101f7cec in rtas_ibm_write_pci_config (cpu=0x11540df0,
->>>> spapr=0x11217200, token=0x2017, nargs=0x5, args=0x7e7533cc, nret=0x1,
->>>> rets=0x7e7533e0) at /home/aik/p/qemu/hw/ppc/spapr_pci.c:216
->>>> #23 0x00000000101f5860 in spapr_rtas_call (cpu=0x11540df0,
->>>> spapr=0x11217200, token=0x2017, nargs=0x5, args=0x7e7533cc, nret=0x1,
->>>> rets=0x7e7533e0) at /home/aik/p/qemu/hw/ppc/spapr_rtas.c:416
->>>> #24 0x00000000101ee214 in h_rtas (cpu=0x11540df0, spapr=0x11217200,
->>>> opcode=0xf000, args=0x7ffff4cf0030) at
->>>> /home/aik/p/qemu/hw/ppc/spapr_hcall.c:1214
->>>> #25 0x00000000101f0524 in spapr_hypercall (cpu=0x11540df0,
->>>> opcode=0xf000, args=0x7ffff4cf0030) at
->>>> /home/aik/p/qemu/hw/ppc/spapr_hcall.c:2014
->>>> #26 0x000000001033bff0 in kvm_arch_handle_exit (cs=0x11540df0,
->>>> run=0x7ffff4cf0000) at /home/aik/p/qemu/target/ppc/kvm.c:1684
->>>> #27 0x00000000100cc7c8 in kvm_cpu_exec (cpu=0x11540df0) at
->>>> /home/aik/p/qemu/accel/kvm/kvm-all.c:2391
->>>> #28 0x000000001008edf8 in qemu_kvm_cpu_thread_fn (arg=0x11540df0) at
->>>> /home/aik/p/qemu/cpus.c:1318
->>>> #29 0x000000001092c704 in qemu_thread_start (args=0x11588d90) at
->>>> /home/aik/p/qemu/util/qemu-thread-posix.c:519
->>>> #30 0x00007ffff7b58070 in start_thread (arg=0x7ffff550ebf0) at
->>>> pthread_create.c:335
->>>> #31 0x00007ffff7aa3a70 in clone () at
->>>> ../sysdeps/unix/sysv/linux/powerpc/powerpc64/clone.S:96
->>>> (gdb)
->>>>
->>>> -- 
->>>> Alexey
->>>
->>
->> -- 
->> Alexey
+> On 11/13/2019 8:53 AM, Yan Zhao wrote:
+> > On Wed, Nov 13, 2019 at 06:30:05AM +0800, Alex Williamson wrote:
+> >> On Tue, 12 Nov 2019 22:33:36 +0530
+> >> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> >>
+> >>> - Defined MIGRATION region type and sub-type.
+> >>> - Used 3 bits to define VFIO device states.
+> >>>      Bit 0 => _RUNNING
+> >>>      Bit 1 => _SAVING
+> >>>      Bit 2 => _RESUMING
+> >>>      Combination of these bits defines VFIO device's state during migration
+> >>>      _RUNNING => Normal VFIO device running state. When its reset, it
+> >>> 		indicates _STOPPED state. when device is changed to
+> >>> 		_STOPPED, driver should stop device before write()
+> >>> 		returns.
+> >>>      _SAVING | _RUNNING => vCPUs are running, VFIO device is running but
+> >>>                            start saving state of device i.e. pre-copy state
+> >>>      _SAVING  => vCPUs are stopped, VFIO device should be stopped, and
+> >>
+> >> s/should/must/
+> >>
+> >>>                  save device state,i.e. stop-n-copy state
+> >>>      _RESUMING => VFIO device resuming state.
+> >>>      _SAVING | _RESUMING and _RUNNING | _RESUMING => Invalid states
+> >>
+> >> A table might be useful here and in the uapi header to indicate valid
+> >> states:
+> >>
+> >> | _RESUMING | _SAVING | _RUNNING | Description
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     0     |    0    |     0    | Stopped, not saving or resuming (a)
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     0     |    0    |     1    | Running, default state
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     0     |    1    |     0    | Stopped, migration interface in save mode
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     0     |    1    |     1    | Running, save mode interface, iterative
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     1     |    0    |     0    | Stopped, migration resume interface active
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     1     |    0    |     1    | Invalid (b)
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     1     |    1    |     0    | Invalid (c)
+> >> +-----------+---------+----------+------------------------------------------
+> >> |     1     |    1    |     1    | Invalid (d)
+> >>
+> >> I think we need to consider whether we define (a) as generally
+> >> available, for instance we might want to use it for diagnostics or a
+> >> fatal error condition outside of migration.
+> >>
 > 
+> We have to set it as init state. I'll add this it.
+> 
+> >> Are there hidden assumptions between state transitions here or are
+> >> there specific next possible state diagrams that we need to include as
+> >> well?
+> >>
+> >> I'm curious if Intel agrees with the states marked invalid with their
+> >> push for post-copy support.
+> >>
+> > hi Alex and Kirti,
+> > Actually, for postcopy, I think we anyway need an extra POSTCOPY state
+> > introduced. Reasons as below:
+> > - in the target side, _RSESUMING state is set in the beginning of
+> >    migration. It cannot be used as a state to inform device of that
+> >    currently it's in postcopy state and device DMAs are to be trapped and
+> >    pre-faulted.
+> >    we also cannot use state (_RESUMING + _RUNNING) as an indicator of
+> >    postcopy, because before device & vm running in target side, some device
+> >    state are already loaded (e.g. page tables, pending workloads),
+> >    target side can do pre-pagefault at that period before target vm up.
+> > - in the source side, after device is stopped, postcopy needs saving
+> >    device state only (as compared to device state + remaining dirty
+> >    pages in precopy). state (!_RUNNING + _SAVING) here again cannot
+> >    differentiate precopy and postcopy here.
+> > 
+> >>>      Bits 3 - 31 are reserved for future use. User should perform
+> >>>      read-modify-write operation on this field.
+> >>> - Defined vfio_device_migration_info structure which will be placed at 0th
+> >>>    offset of migration region to get/set VFIO device related information.
+> >>>    Defined members of structure and usage on read/write access:
+> >>>      * device_state: (read/write)
+> >>>          To convey VFIO device state to be transitioned to. Only 3 bits are
+> >>> 	used as of now, Bits 3 - 31 are reserved for future use.
+> >>>      * pending bytes: (read only)
+> >>>          To get pending bytes yet to be migrated for VFIO device.
+> >>>      * data_offset: (read only)
+> >>>          To get data offset in migration region from where data exist
+> >>> 	during _SAVING and from where data should be written by user space
+> >>> 	application during _RESUMING state.
+> >>>      * data_size: (read/write)
+> >>>          To get and set size in bytes of data copied in migration region
+> >>> 	during _SAVING and _RESUMING state.
+> >>>
+> >>> Migration region looks like:
+> >>>   ------------------------------------------------------------------
+> >>> |vfio_device_migration_info|    data section                      |
+> >>> |                          |     ///////////////////////////////  |
+> >>>   ------------------------------------------------------------------
+> >>>   ^                              ^
+> >>>   offset 0-trapped part        data_offset
+> >>>
+> >>> Structure vfio_device_migration_info is always followed by data section
+> >>> in the region, so data_offset will always be non-0. Offset from where data
+> >>> to be copied is decided by kernel driver, data section can be trapped or
+> >>> mapped depending on how kernel driver defines data section.
+> >>> Data section partition can be defined as mapped by sparse mmap capability.
+> >>> If mmapped, then data_offset should be page aligned, where as initial
+> >>> section which contain vfio_device_migration_info structure might not end
+> >>> at offset which is page aligned.
+> >>> Vendor driver should decide whether to partition data section and how to
+> >>> partition the data section. Vendor driver should return data_offset
+> >>> accordingly.
+> >>>
+> >>> For user application, data is opaque. User should write data in the same
+> >>> order as received.
+> >>>
+> >>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >>> ---
+> >>>   include/uapi/linux/vfio.h | 108 ++++++++++++++++++++++++++++++++++++++++++++++
+> >>>   1 file changed, 108 insertions(+)
+> >>>
+> >>> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> >>> index 9e843a147ead..35b09427ad9f 100644
+> >>> --- a/include/uapi/linux/vfio.h
+> >>> +++ b/include/uapi/linux/vfio.h
+> >>> @@ -305,6 +305,7 @@ struct vfio_region_info_cap_type {
+> >>>   #define VFIO_REGION_TYPE_PCI_VENDOR_MASK	(0xffff)
+> >>>   #define VFIO_REGION_TYPE_GFX                    (1)
+> >>>   #define VFIO_REGION_TYPE_CCW			(2)
+> >>> +#define VFIO_REGION_TYPE_MIGRATION              (3)
+> >>>   
+> >>>   /* sub-types for VFIO_REGION_TYPE_PCI_* */
+> >>>   
+> >>> @@ -379,6 +380,113 @@ struct vfio_region_gfx_edid {
+> >>>   /* sub-types for VFIO_REGION_TYPE_CCW */
+> >>>   #define VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD	(1)
+> >>>   
+> >>> +/* sub-types for VFIO_REGION_TYPE_MIGRATION */
+> >>> +#define VFIO_REGION_SUBTYPE_MIGRATION           (1)
+> >>> +
+> >>> +/*
+> >>> + * Structure vfio_device_migration_info is placed at 0th offset of
+> >>> + * VFIO_REGION_SUBTYPE_MIGRATION region to get/set VFIO device related migration
+> >>> + * information. Field accesses from this structure are only supported at their
+> >>> + * native width and alignment, otherwise the result is undefined and vendor
+> >>> + * drivers should return an error.
+> >>> + *
+> >>> + * device_state: (read/write)
+> >>> + *      To indicate vendor driver the state VFIO device should be transitioned
+> >>> + *      to. If device state transition fails, write on this field return error.
+> >>> + *      It consists of 3 bits:
+> >>> + *      - If bit 0 set, indicates _RUNNING state. When its reset, that indicates
+> >>
+> >> Let's use set/cleared or 1/0 to indicate bit values, 'reset' is somewhat
+> >> ambiguous.
+> 
+> Ok. Updating it.
+> 
+> >>
+> >>> + *        _STOPPED state. When device is changed to _STOPPED, driver should stop
+> >>> + *        device before write() returns.
+> >>> + *      - If bit 1 set, indicates _SAVING state. When set, that indicates driver
+> >>> + *        should start gathering device state information which will be provided
+> >>> + *        to VFIO user space application to save device's state.
+> >>> + *      - If bit 2 set, indicates _RESUMING state. When set, that indicates
+> >>> + *        prepare to resume device, data provided through migration region
+> >>> + *        should be used to resume device.
+> >>> + *      Bits 3 - 31 are reserved for future use. User should perform
+> >>> + *      read-modify-write operation on this field.
+> >>> + *      _SAVING and _RESUMING bits set at the same time is invalid state.
+> >>> + *	Similarly _RUNNING and _RESUMING bits set is invalid state.
+> >>> + *
+> >>> + * pending bytes: (read only)
+> >>> + *      Number of pending bytes yet to be migrated from vendor driver
+> >>> + *
+> >>> + * data_offset: (read only)
+> >>> + *      User application should read data_offset in migration region from where
+> >>> + *      user application should read device data during _SAVING state or write
+> >>> + *      device data during _RESUMING state. See below for detail of sequence to
+> >>> + *      be followed.
+> >>> + *
+> >>> + * data_size: (read/write)
+> >>> + *      User application should read data_size to get size of data copied in
+> >>> + *      bytes in migration region during _SAVING state and write size of data
+> >>> + *      copied in bytes in migration region during _RESUMING state.
+> >>> + *
+> >>> + * Migration region looks like:
+> >>> + *  ------------------------------------------------------------------
+> >>> + * |vfio_device_migration_info|    data section                      |
+> >>> + * |                          |     ///////////////////////////////  |
+> >>> + * ------------------------------------------------------------------
+> >>> + *   ^                              ^
+> >>> + *  offset 0-trapped part        data_offset
+> >>> + *
+> >>> + * Structure vfio_device_migration_info is always followed by data section in
+> >>> + * the region, so data_offset will always be non-0. Offset from where data is
+> >>> + * copied is decided by kernel driver, data section can be trapped or mapped
+> >>> + * or partitioned, depending on how kernel driver defines data section.
+> >>> + * Data section partition can be defined as mapped by sparse mmap capability.
+> >>> + * If mmapped, then data_offset should be page aligned, where as initial section
+> >>> + * which contain vfio_device_migration_info structure might not end at offset
+> >>> + * which is page aligned.
+> >>
+> >> "The user is not required to to access via mmap regardless of the
+> >> region mmap capabilities."
+> >>
+> > But once the user decides to access via mmap, it has to read data of
+> > data_size each time, otherwise the vendor driver has no idea of how many
+> > data are already read from user. Agree?
+> > 
+> 
+> that's right.
+> 
+> >>> + * Vendor driver should decide whether to partition data section and how to
+> >>> + * partition the data section. Vendor driver should return data_offset
+> >>> + * accordingly.
+> >>> + *
+> >>> + * Sequence to be followed for _SAVING|_RUNNING device state or pre-copy phase
+> >>> + * and for _SAVING device state or stop-and-copy phase:
+> >>> + * a. read pending_bytes. If pending_bytes > 0, go through below steps.
+> >>> + * b. read data_offset, indicates kernel driver to write data to staging buffer.
+> >>> + *    Kernel driver should return this read operation only after writing data to
+> >>> + *    staging buffer is done.
+> > May I know under what condition this data_offset will be changed per
+> > each iteration from a-f ?
+> > 
+> 
+> Its upto vendor driver, if vendor driver maintains multiple partitions 
+> in data section.
+>
+So, do you mean each time before doing b (reading data_offset), step a
+(reading pending_bytes) is mandatory, otherwise the vendor driver does
+not know which data_offset is?
+Then, any lock to wrap step a and b to ensure atomic?
 
--- 
-Alexey
+Thanks
+Yan
+
+
+> >>
+> >> "staging buffer" implies a vendor driver implementation, perhaps we
+> >> could just state that data is available from (region + data_offset) to
+> >> (region + data_offset + data_size) upon return of this read operation.
+> >>
+> 
+> Makes sense. Updating it.
+> 
+> >>> + * c. read data_size, amount of data in bytes written by vendor driver in
+> >>> + *    migration region.
+> >>> + * d. read data_size bytes of data from data_offset in the migration region.
+> >>> + * e. process data.
+> >>> + * f. Loop through a to e. Next read on pending_bytes indicates that read data
+> >>> + *    operation from migration region for previous iteration is done.
+> >>
+> >> I think this indicate that step (f) should be to read pending_bytes, the
+> >> read sequence is not complete until this step.  Optionally the user can
+> >> then proceed to step (b).  There are no read side-effects of (a) afaict.
+> >>
+> 
+> I tried to reword this sequence to be more specific:
+> 
+> * Sequence to be followed for _SAVING|_RUNNING device state or pre-copy 
+> * phase and for _SAVING device state or stop-and-copy phase:
+> * a. read pending_bytes, indicates start of new iteration to get device 
+> *    data. If there was previous iteration, then this read operation
+> *    indicates previous iteration is done. If pending_bytes > 0, go
+> *    through below steps.
+> * b. read data_offset, indicates kernel driver to make data available
+> *    through data section. Kernel driver should return this read
+> *    operation only after data is available from (region + data_offset)
+> *    to (region + data_offset + data_size).
+> * c. read data_size, amount of data in bytes available through migration
+> *    region.
+> * d. read data of data_size bytes from (region + data_offset) from
+> *    migration region.
+> * e. process data.
+> * f. Loop through a to e.
+> 
+> Hope this is more clear.
+> 
+> >> Is the use required to reach pending_bytes == 0 before changing
+> >> device_state, particularly transitioning to !_RUNNING?
+> 
+> No, its not necessary to reach till pending_bytes==0 in pre-copy phase.
+> 
+> >>  Presumably the
+> >> user can exit this sequence at any time by clearing _SAVING.
+> 
+> In that case device state data is not complete, which will result in not 
+> able to resume device with that data.
+> In stop-and-copy phase, user should iterate till pending_bytes is 0.
+> 
+> >>
+> >>> + *
+> >>> + * Sequence to be followed while _RESUMING device state:
+> >>> + * While data for this device is available, repeat below steps:
+> >>> + * a. read data_offset from where user application should write data.
+> > before proceed to step b, need to read data_size from vendor driver to determine
+> > the max len of data to write. I think it's necessary in such a condition
+> > that source vendor driver and target vendor driver do not offer data sections of
+> > the same size. e.g. in source side, the data section is of size 100M,
+> > but in target side, the data section is only of 50M size.
+> > rather than simply fail, loop and write seems better.
+> > 
+> 
+> Makes sense. Doing this change for next version.
+> 
+> > Thanks
+> > Yan
+> >>> + * b. write data of data_size to migration region from data_offset.
+> >>> + * c. write data_size which indicates vendor driver that data is written in
+> >>> + *    staging buffer. Vendor driver should read this data from migration
+> >>> + *    region and resume device's state.
+> >>
+> >> The device defaults to _RUNNING state, so a prerequisite is to set
+> >> _RESUMING and clear _RUNNING, right?
+> 
+> Yes.
+> 
+> >>
+> >>> + *
+> >>> + * For user application, data is opaque. User should write data in the same
+> >>> + * order as received.
+> >>> + */
+> >>> +
+> >>> +struct vfio_device_migration_info {
+> >>> +	__u32 device_state;         /* VFIO device state */
+> >>> +#define VFIO_DEVICE_STATE_RUNNING   (1 << 0)
+> >>> +#define VFIO_DEVICE_STATE_SAVING    (1 << 1)
+> >>> +#define VFIO_DEVICE_STATE_RESUMING  (1 << 2)
+> >>> +#define VFIO_DEVICE_STATE_MASK      (VFIO_DEVICE_STATE_RUNNING | \
+> >>> +				     VFIO_DEVICE_STATE_SAVING |  \
+> >>> +				     VFIO_DEVICE_STATE_RESUMING)
+> >>> +
+> >>> +#define VFIO_DEVICE_STATE_INVALID_CASE1    (VFIO_DEVICE_STATE_SAVING | \
+> >>> +					    VFIO_DEVICE_STATE_RESUMING)
+> >>> +
+> >>> +#define VFIO_DEVICE_STATE_INVALID_CASE2    (VFIO_DEVICE_STATE_RUNNING | \
+> >>> +					    VFIO_DEVICE_STATE_RESUMING)
+> >>
+> >> These seem difficult to use, maybe we just need a
+> >> VFIO_DEVICE_STATE_VALID macro?
+> >>
+> >> #define VFIO_DEVICE_STATE_VALID(state) \
+> >>    (state & VFIO_DEVICE_STATE_RESUMING ? \
+> >>    (state & VFIO_DEVICE_STATE_MASK) == VFIO_DEVICE_STATE_RESUMING : 1)
+> >>
+> 
+> This will not be work when use of other bits gets added in future. 
+> That's the reason I preferred to add individual invalid states which 
+> user should check.
+> 
+> Thanks,
+> Kirti
+> 
+> >> Thanks,
+> >> Alex
+> >>
+> >>> +	__u32 reserved;
+> >>> +	__u64 pending_bytes;
+> >>> +	__u64 data_offset;
+> >>> +	__u64 data_size;
+> >>> +} __attribute__((packed));
+> >>> +
+> >>>   /*
+> >>>    * The MSIX mappable capability informs that MSIX data of a BAR can be mmapped
+> >>>    * which allows direct access to non-MSIX registers which happened to be within
+> >>
 
