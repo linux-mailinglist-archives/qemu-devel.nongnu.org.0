@@ -2,63 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6384DFD068
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:38:30 +0100 (CET)
-Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFF0FD087
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:47:39 +0100 (CET)
+Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVMov-0006a3-FI
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:38:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49573)
+	id 1iVMxl-0001zH-N9
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:47:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iVMlc-0003IT-IV
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:35:05 -0500
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iVMuu-0000iQ-JE
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:44:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iVMla-0004UN-UD
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:35:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25058
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVMla-0004U9-Qm
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:35:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573767302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AiLkXJ5im7FRgeBj2PCHH8w5U3wR9a5dO5bQtbS4eAk=;
- b=I9O2Fpkcef5VR/xFGkVX/uQm8NSeB6pPXD0ibfhhkUGuzOD+Fn4feTJqtjuyD9dwf+wXBJ
- mWP3HfB6lJBLY9kteEEhmHTqC4fdpIywp3pzPoBhfxtClqVPHoebI9bvs94Ex4gmb6ZHs6
- LWlCH+o9pFf7wNN54pkDtoAdj4RRMTE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-EIR162OHMSmckjOZ-Sh0aQ-1; Thu, 14 Nov 2019 16:34:21 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 704AC18B5F68;
- Thu, 14 Nov 2019 21:34:20 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-242.phx2.redhat.com [10.3.116.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F34A46609E;
- Thu, 14 Nov 2019 21:34:19 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] tests: More iotest 223 improvements
-Date: Thu, 14 Nov 2019 15:34:15 -0600
-Message-Id: <20191114213415.23499-5-eblake@redhat.com>
-In-Reply-To: <20191114213415.23499-1-eblake@redhat.com>
-References: <20191114213415.23499-1-eblake@redhat.com>
+ (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iVMus-0007Jy-TL
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:44:40 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64814
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
+ id 1iVMuo-0007Iq-NU; Thu, 14 Nov 2019 16:44:34 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xAELbmeV012834; Thu, 14 Nov 2019 16:44:31 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w9cn7n5du-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Nov 2019 16:44:30 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xAELZZhL021981;
+ Thu, 14 Nov 2019 21:44:29 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 2w5n37afcm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Nov 2019 21:44:29 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAELiTMu54722942
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Nov 2019 21:44:29 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 13721112062;
+ Thu, 14 Nov 2019 21:44:29 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC72D112061;
+ Thu, 14 Nov 2019 21:44:28 +0000 (GMT)
+Received: from localhost (unknown [9.53.179.218])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Nov 2019 21:44:28 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: EIR162OHMSmckjOZ-Sh0aQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+From: Michael Roth <mdroth@linux.vnet.ibm.com>
+User-Agent: alot/0.7
+To: qemu-devel@nongnu.org
+Message-ID: <157376786282.8295.5424159782656228513@sif>
+Subject: [ANNOUNCE] QEMU 4.1.1 Stable released
+Date: Thu, 14 Nov 2019 15:44:22 -0600
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-14_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1910280000 definitions=main-1911140176
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,182 +82,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, mreitz@redhat.com
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run the core of the test twice, once without iothreads, and again
-with, for more coverage of both setups.
+Hi everyone,
 
-Suggested-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/223     | 16 ++++++-
- tests/qemu-iotests/223.out | 85 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 97 insertions(+), 4 deletions(-)
+I am pleased to announce that the QEMU v4.1.1 stable release is now
+available:
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index b5a80e50bbc1..ea69cd4b8b5e 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -117,10 +117,19 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabili=
-ties"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
--_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
--  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
-   "arguments":{"node":"n", "name":"b"}}' "return"
-+
-+for attempt in normal iothread; do
-+
-+echo
-+echo "=3D=3D=3D Set up NBD with $attempt access =3D=3D=3D"
-+echo
-+if [ $attempt =3D iothread ]; then
-+_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
-+  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
-+fi
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
-   "arguments":{"device":"n"}}' "error" # Attempt add without server
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
-@@ -180,6 +189,9 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-rem=
-ove",
-   "arguments":{"name":"n2"}}' "error" # Attempt duplicate clean
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "error" # Agai=
-n
-+
-+done
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"quit"}' "return"
- wait=3Dyes _cleanup_qemu
+You can grab the tarball from our download page here:
 
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 861ddbd9e0a4..f17559880268 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -28,10 +28,91 @@ wrote 2097152/2097152 bytes at offset 2097152
- {"return": {}}
- {"execute":"blockdev-add", "arguments":{"driver":"IMGFMT", "node-name":"n"=
-, "file":{"driver":"file", "filename":"TEST_DIR/t.IMGFMT"}}}
- {"return": {}}
--{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iothr=
-ead":"io0"}}
--{"return": {}}
- {"execute":"block-dirty-bitmap-disable", "arguments":{"node":"n", "name":"=
-b"}}
- {"return": {}}
-+
-+=3D=3D=3D Set up NBD with normal access =3D=3D=3D
-+
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd"}}}}
-+{"return": {}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd1"}}}}
-+{"error": {"class": "GenericError", "desc": "NBD server already running"}}
-+exports available: 0
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "bitmap":"b"}}
-+{"return": {}}
-+{"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
-+{"error": {"class": "GenericError", "desc": "Cannot find device=3Dnosuch n=
-or node_name=3Dnosuch"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server already has export=
- named 'n'"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitm=
-ap":"b2"}}
-+{"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompati=
-ble with readonly export"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitm=
-ap":"b3"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "writ=
-able":true, "bitmap":"b2"}}
-+{"return": {}}
-+exports available: 2
-+ export: 'n'
-+  size:  4194304
-+  flags: 0x58f ( readonly flush fua df multi cache )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b
-+ export: 'n2'
-+  size:  4194304
-+  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b2
-+
-+=3D=3D=3D Contrast normal status to large granularity dirty-bitmap =3D=3D=
-=3D
-+
-+read 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 524288
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 2097152/2097152 bytes at offset 2097152
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "o=
-ffset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": fals=
-e, "offset": OFFSET},
-+{ "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data": =
-true, "offset": OFFSET}]
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false},
-+{ "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": tr=
-ue, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": =
-false}]
-+
-+=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D
-+
-+[{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "of=
-fset": OFFSET},
-+{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
-+{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": tru=
-e, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": =
-false}]
-+
-+=3D=3D=3D End qemu NBD server =3D=3D=3D
-+
-+{"execute":"nbd-server-remove", "arguments":{"name":"n"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
-+{"execute":"nbd-server-stop"}
-+{"return": {}}
-+{"execute":"nbd-server-stop"}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+
-+=3D=3D=3D Set up NBD with iothread access =3D=3D=3D
-+
-+{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iothr=
-ead":"io0"}}
-+{"return": {}}
- {"execute":"nbd-server-add", "arguments":{"device":"n"}}
- {"error": {"class": "GenericError", "desc": "NBD server not running"}}
- {"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd"}}}}
---=20
-2.21.0
+  https://www.qemu.org/download/#source
+
+v4.1.1 is now tagged in the official qemu.git repository,
+and the stable-4.1 branch has been updated accordingly:
+
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dshortlog;h=3Drefs/heads/stable-4.1
+
+This update contains a number of fixes relating qcow2 and XFS corruption, a
+security fix for LSI SCSI emulation (CVE-2019-12068), and general fixes for
+various other subsystems.
+
+Please see the changelog for additional details and update accordingly.
+
+Thank you to everyone involved!
+
+CHANGELOG:
+
+99c5874a9b: Update version for 4.1.1 release (Michael Roth)
+e092a17d38: mirror: Keep mirror_top_bs drained after dropping permissions (=
+Kevin Wolf)
+088f1e8fd9: block/create: Do not abort if a block driver is not available (=
+Philippe Mathieu-Daud=C3=A9)
+145b562990: vhost: Fix memory region section comparison (Dr. David Alan Gil=
+bert)
+42b6571357: memory: Provide an equality function for MemoryRegionSections (=
+Dr. David Alan Gilbert)
+c0aca9352d: memory: Align MemoryRegionSections fields (Dr. David Alan Gilbe=
+rt)
+54c130493c: tests: make filemonitor test more robust to event ordering (Dan=
+iel P. Berrang=C3=A9)
+3d018ff3bd: block: posix: Always allocate the first block (Nir Soffer)
+f0d3fa265d: file-posix: Handle undetectable alignment (Nir Soffer)
+7db05c8a73: block/file-posix: Let post-EOF fallocate serialize (Max Reitz)
+d9b88f7e0d: block: Add bdrv_co_get_self_request() (Max Reitz)
+590cff8230: block: Make wait/mark serialising requests public (Max Reitz)
+2e2ad02f2c: block/io: refactor padding (Vladimir Sementsov-Ogievskiy)
+b3b76fc643: util/iov: improve qemu_iovec_is_zero (Vladimir Sementsov-Ogievs=
+kiy)
+cff024fe85: util/iov: introduce qemu_iovec_init_extended (Vladimir Sementso=
+v-Ogievskiy)
+40df4a1bf7: qcow2-bitmap: Fix uint64_t left-shift overflow (Tuguoyi)
+b156178553: iotests: Add peek_file* functions (Max Reitz)
+15f5e8c367: iotests: Add test for 4G+ compressed qcow2 write (Max Reitz)
+405deba14f: qcow2: Fix QCOW2_COMPRESSED_SECTOR_MASK (Max Reitz)
+01be50603b: virtio-blk: Cancel the pending BH when the dataplane is reset (=
+Philippe Mathieu-Daud=C3=A9)
+051c9b3cbc: scsi: lsi: exit infinite loop while executing script (CVE-2019-=
+12068) (Paolo Bonzini)
+b387531323: target/xtensa: regenerate and re-import test_mmuhifi_c3 core (M=
+ax Filippov)
+cdc6896659: target/arm: Allow reading flags from FPSCR for M-profile (Chris=
+tophe Lyon)
+c0b35d87de: hbitmap: handle set/reset with zero length (Vladimir Sementsov-=
+Ogievskiy)
+fcd7cba6ac: util/hbitmap: strict hbitmap_reset (Vladimir Sementsov-Ogievski=
+y)
+aea18ef938: COLO-compare: Fix incorrect `if` logic (Fan Yang)
+4887acf574: virtio-net: prevent offloads reset on migration (Mikhail Sennik=
+ovsky)
+8010d3fce0: virtio: new post_load hook (Michael S. Tsirkin)
+6705b9344f: ui: Fix hanging up Cocoa display on macOS 10.15 (Catalina) (Hik=
+aru Nishida)
+c0e2fbf124: mirror: Do not dereference invalid pointers (Max Reitz)
+b077ac637d: iotests: Test large write request to qcow2 file (Max Reitz)
+9e51c5306c: qcow2: Limit total allocation range to INT_MAX (Max Reitz)
+aae0faa5d3: hw/core/loader: Fix possible crash in rom_copy() (Thomas Huth)
+7b404cae7f: vhost-user: save features if the char dev is closed (Adrian Mor=
+eno)
+d868d30db6: iotests: Test internal snapshots with -blockdev (Kevin Wolf)
+7a8aa6c734: block/snapshot: Restrict set of snapshot nodes (Kevin Wolf)
+331c08d300: s390: PCI: fix IOMMU region init (Matthew Rosato)
+fc5afb1a92: roms/Makefile.edk2: don't pull in submodules when building from=
+ tarball (Michael Roth)
+c5c9b1362d: make-release: pull in edk2 submodules so we can build it from t=
+arballs (Michael Roth)
+220816989c: hw/arm/boot.c: Set NSACR.{CP11,CP10} for NS kernel boots (Peter=
+ Maydell)
+783e7eb52c: block/backup: fix backup_cow_with_offload for last cluster (Vla=
+dimir Sementsov-Ogievskiy)
+e01ed1a1ae: block/backup: fix max_transfer handling for copy_range (Vladimi=
+r Sementsov-Ogievskiy)
+416a692e51: qcow2: Fix corruption bug in qcow2_detect_metadata_preallocatio=
+n() (Kevin Wolf)
+e9bb3d942e: coroutine: Add qemu_co_mutex_assert_locked() (Kevin Wolf)
+84f22c7285: block/qcow2: Fix corruption introduced by commit 8ac0f15f335 (M=
+axim Levitsky)
+86b0f4022b: blockjob: update nodes head while removing all bdrv (Sergio Lop=
+ez)
+2d86df1f78: curl: Handle success in multi_check_completion (Max Reitz)
+18e1b71937: curl: Report only ready sockets (Max Reitz)
+0888ddac8e: curl: Pass CURLSocket to curl_multi_do() (Max Reitz)
+4be97ef966: curl: Check completion in curl_multi_do() (Max Reitz)
+78ea94e389: curl: Keep *socket until the end of curl_sock_cb() (Max Reitz)
+3648493495: curl: Keep pointer to the CURLState in CURLSocket (Max Reitz)
+0694c489cd: block/nfs: tear down aio before nfs_close (Peter Lieven)
+c9ffb12754: qcow2: Fix the calculation of the maximum L2 cache size (Albert=
+o Garcia)
+28a9a3558a: libvhost-user: fix SLAVE_SEND_FD handling (Johannes Berg)
+9027d3fba6: target/arm: Don't abort on M-profile exception return in linux-=
+user mode (Peter Maydell)
+38fb634853: target/arm: Free TCG temps in trans_VMOV_64_sp() (Peter Maydell)
+ad95e0573e: iotests: Test blockdev-create for vpc (Max Reitz)
+593beeaf81: iotests: Restrict nbd Python tests to nbd (Max Reitz)
+eee776fbc0: iotests: Restrict file Python tests to file (Max Reitz)
+819ba23575: iotests: Add supported protocols to execute_test() (Max Reitz)
+4d9bdd3149: iotests: add testing shim for script-style python tests (John S=
+now)
+97c478c355: vpc: Return 0 from vpc_co_create() on success (Max Reitz)
+725dfa851f: x86: do not advertise die-id in query-hotpluggbale-cpus if '-sm=
+p dies' is not set (Igor Mammedov)
+57fdf4a13f: pr-manager: Fix invalid g_free() crash bug (Markus Armbruster)
+3361d03ff0: iotests: Test reverse sub-cluster qcow2 writes (Max Reitz)
+6f1a94035b: block/file-posix: Reduce xfsctl() use (Max Reitz)
+c12adfd8f6: xen-bus: check whether the frontend is active during device res=
+et... (Paul Durrant)
+b6cedc911e: xen-bus: Fix backend state transition on device reset (Anthony =
+PERARD)
+7ebcd375ad: pc: Don't make die-id mandatory unless necessary (Eduardo Habko=
+st)
+4bfd496be3: target/alpha: fix tlb_fill trap_arg2 value for instruction fetc=
+h (Aurelien Jarno)
+499a5d6bb4: s390x/tcg: Fix VERIM with 32/64 bit elements (David Hildenbrand)
+73a5bf4729: Revert "ide/ahci: Check for -ECANCELED in aio callbacks" (John =
+Snow)
+fbde196c30: dma-helpers: ensure AIO callback is invoked after cancellation =
+(Paolo Bonzini)
 
 
