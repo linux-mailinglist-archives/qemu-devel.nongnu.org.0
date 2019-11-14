@@ -2,64 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336B2FC8C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 15:20:53 +0100 (CET)
-Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B966AFC8CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 15:22:29 +0100 (CET)
+Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVFzQ-0000zz-2R
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 09:20:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43052)
+	id 1iVG0y-0003VC-M7
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 09:22:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43169)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iVFvL-0005xD-Cq
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:41 -0500
+ (envelope-from <clg@kaod.org>) id 1iVFvm-0006AL-WC
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:17:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iVFvK-0005vT-59
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:39 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32245
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iVFvl-00064s-EN
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:17:06 -0500
+Received: from 15.mo5.mail-out.ovh.net ([178.33.107.29]:60344)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iVFvK-0005uq-1r
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573740997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7otgk21TGtZNlyb00P+iaFfgZ/AszQJdHAIrPr7If2w=;
- b=SO2Mwl7HlvI0/0uL0rFZCvo2p+wSYvvM0t6TQ4taM3HcCWovCk67Kyob1ExzzvJjqqSHeU
- WJjPdnAXcLW3t5PQGy27OW7DS2JXiBSlDweMw4g5oeyyQny5394ZZx0nSL5RKhhCug7gfG
- o+r+zZINXWDme2RM08vGeBYQRat7zYU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-0HqWFb3yM_G6lZ7dfKR-FA-1; Thu, 14 Nov 2019 09:16:34 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 727B4107ACC5;
- Thu, 14 Nov 2019 14:16:33 +0000 (UTC)
-Received: from localhost (ovpn-117-54.ams2.redhat.com [10.36.117.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FA305F772;
- Thu, 14 Nov 2019 14:16:30 +0000 (UTC)
-From: Jens Freimann <jfreimann@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] net/virtio: return error when device_opts arg is NULL
-Date: Thu, 14 Nov 2019 15:16:13 +0100
-Message-Id: <20191114141613.15804-4-jfreimann@redhat.com>
-In-Reply-To: <20191114141613.15804-1-jfreimann@redhat.com>
-References: <20191114141613.15804-1-jfreimann@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVFvk-00064T-CY
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:17:05 -0500
+Received: from player692.ha.ovh.net (unknown [10.108.57.245])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id EC95825A18E
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 15:17:01 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 707C9BFD145D;
+ Thu, 14 Nov 2019 14:16:54 +0000 (UTC)
+Subject: Re: [PATCH v3 0/4] arm/aspeed: Watchdog and SDRAM fixes
+To: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20191113221301.8768-1-joel@jms.id.au>
+ <CAFEAcA8AL6865u8KaY3HjRH19mTP=JUJ3FAgf9VezJYPOEbmBg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <3dbfb0eb-4ecb-35b4-9c8d-dec3fd6f083f@kaod.org>
+Date: Thu, 14 Nov 2019 15:16:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 0HqWFb3yM_G6lZ7dfKR-FA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+In-Reply-To: <CAFEAcA8AL6865u8KaY3HjRH19mTP=JUJ3FAgf9VezJYPOEbmBg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 7051792592352807744
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeffedgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 178.33.107.29
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,55 +59,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, dgilbert@redhat.com,
- mst@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-device_opts could be NULL. Make sure we don't pass it to
-qemu_opts_to_dict. When we made sure it can't be NULL we can also remove
-it from the if condition.
-This fixes CID 1407222.
+On 14/11/2019 15:04, Peter Maydell wrote:
+> On Wed, 13 Nov 2019 at 22:13, Joel Stanley <joel@jms.id.au> wrote:
+>>
+>> Three of these are fixes for ast2600 models that I found when testing
+>> master. The forth is a usability improvement that is helpful when
+>> diagnosing why a watchdog is biting.
+>>
+>> v3 adds some comments and fixes whitespace, and r-b from Alex. Thanks
+>> for the review Alex.
+>>
+>> v2 fixes some review comments from C=C3=A9dric and adds his r-b.
+>>
+>> Joel Stanley (4):
+>>   aspeed/sdmc: Make ast2600 default 1G
+>>   aspeed/scu: Fix W1C behavior
+>>   watchdog/aspeed: Improve watchdog timeout message
+>>   watchdog/aspeed: Fix AST2600 frequency behaviour
+>=20
+> Were you wanting any of these (or any of the other aspeed
+> patches currently on the list) to go into 4.2? None of them
+> are specifically marked as for-4.2 bugfixes, and I don't
+> know enough about aspeed to be able to judge their importance.
 
-Fixes: 9711cd0dfc3f ("net/virtio: add failover support")
-Signed-off-by: Jens Freimann <jfreimann@redhat.com>
----
- hw/net/virtio-net.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+I think we are done for 4.2, although these are relatively=20
+simple fixes that could go in 4.2. Nothing critical. As you
+wish.
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 81650d4dc0..d53aa5796b 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2878,9 +2878,12 @@ static int virtio_net_primary_should_be_hidden(Devic=
-eListener *listener,
-             QemuOpts *device_opts)
- {
-     VirtIONet *n =3D container_of(listener, VirtIONet, primary_listener);
--    bool match_found;
--    bool hide;
-+    bool match_found =3D false;
-+    bool hide =3D false;
-=20
-+    if (!device_opts) {
-+        return -1;
-+    }
-     n->primary_device_dict =3D qemu_opts_to_qdict(device_opts,
-             n->primary_device_dict);
-     if (n->primary_device_dict) {
-@@ -2888,7 +2891,7 @@ static int virtio_net_primary_should_be_hidden(Device=
-Listener *listener,
-         n->standby_id =3D g_strdup(qdict_get_try_str(n->primary_device_dic=
-t,
-                     "failover_pair_id"));
-     }
--    if (device_opts && g_strcmp0(n->standby_id, n->netclient_name) =3D=3D =
-0) {
-+    if (g_strcmp0(n->standby_id, n->netclient_name) =3D=3D 0) {
-         match_found =3D true;
-     } else {
-         match_found =3D false;
---=20
-2.21.0
+We are preparing, and reviewing, the initial 5.0 patchset=20
+which will contain the I2C pool buffer model plus the fixes=20
+Joel and I sent.
 
+Thanks,
+C.
 
