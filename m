@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E060EFCBBB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:21:13 +0100 (CET)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0A5FCBC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:22:53 +0100 (CET)
+Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVInw-0003cW-R1
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:21:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55641)
+	id 1iVIpY-0005ao-7H
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:22:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iVIid-0000hM-3W
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:15:45 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iVIjY-000189-GE
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:16:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iVIib-0000ZS-4F
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:15:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56347
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iVIjX-0001T7-CQ
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:16:40 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50811
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVIia-0000YV-QM
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:15:40 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVIjX-0001Rl-83
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:16:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573751739;
+ s=mimecast20190719; t=1573751798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VAfdzWCp6SmRd/nw8Ps5q9EmVuY+pngdALVoOZQlmXo=;
- b=KIALei12FDjec5SL3e4cQUnA6QhHF6fb1yHJOS0IVg24Bb03l3LAhUIjfDG+qn+OWkv/FF
- ESA0d0ITwnGwkvYLPUX6vU76/WtDJq2RjFbIFA6OkpCyfgG3cDXM9xNv6fuZdmHuldFEvY
- /C3O7F7EIrQBwbHiTMZt4qUWJSMO/7A=
+ bh=WtHuauGgalHX/tLruBd3DQ+I7aAKgFnx23xEMpphl2I=;
+ b=gWcfizSa7FK2HSGTfa3yQldJ/VcvYG2XIxFiOQbc5+j/A5ckbjHbUb1eFtalFwNikzK4UA
+ lFN5v8TWGnqFDonNYrSgFhNy6I2CwwDAMSMfQSZg0CpfiN++yczJ+rpMpwQbjB1tuoet//
+ D04QsH7ilEtU6AC1+2cijBtw9K7rrTs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-YwUm1N5-O86zHC6yER6LJw-1; Thu, 14 Nov 2019 12:15:34 -0500
-X-MC-Unique: YwUm1N5-O86zHC6yER6LJw-1
+ us-mta-55-yYpulzwvPTuKRWCRNouAzw-1; Thu, 14 Nov 2019 12:16:35 -0500
+X-MC-Unique: yYpulzwvPTuKRWCRNouAzw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02F47107ACC7;
- Thu, 14 Nov 2019 17:15:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1FC2107ACC7;
+ Thu, 14 Nov 2019 17:16:33 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-117-160.ams2.redhat.com
  [10.36.117.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66F6B67648;
- Thu, 14 Nov 2019 17:15:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7081608B3;
+ Thu, 14 Nov 2019 17:16:26 +0000 (UTC)
 Subject: Re: [PATCH for-4.2 v2 3/3] block/file-posix: Let post-EOF fallocate
  serialize
+From: Max Reitz <mreitz@redhat.com>
 To: Christoph Hellwig <hch@infradead.org>
 References: <20191101152510.11719-1-mreitz@redhat.com>
  <20191101152510.11719-4-mreitz@redhat.com>
  <20191114162751.GA29976@infradead.org>
-From: Max Reitz <mreitz@redhat.com>
+ <e5e9e5d8-caf9-1077-1441-c11ae3d23696@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
  /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
@@ -75,20 +76,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e5e9e5d8-caf9-1077-1441-c11ae3d23696@redhat.com>
-Date: Thu, 14 Nov 2019 18:15:21 +0100
+Message-ID: <94c4557a-ad98-ae2d-b7aa-b3c85f288a50@redhat.com>
+Date: Thu, 14 Nov 2019 18:16:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191114162751.GA29976@infradead.org>
+In-Reply-To: <e5e9e5d8-caf9-1077-1441-c11ae3d23696@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="jZoFkrpXLZD7yqtpnfTWbKLKj33RbN77y"
+ boundary="oCiZwDmrs3hxDjdUGXNPBKKJ2xCx8DqVS"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,52 +109,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jZoFkrpXLZD7yqtpnfTWbKLKj33RbN77y
-Content-Type: multipart/mixed; boundary="2tCLH2Qq5IKXatSI4JNSO6HCj1MUNhPeq"
+--oCiZwDmrs3hxDjdUGXNPBKKJ2xCx8DqVS
+Content-Type: multipart/mixed; boundary="j23zGuX2BvQ0N1WWbce5nw3zh7QjCdWj1"
 
---2tCLH2Qq5IKXatSI4JNSO6HCj1MUNhPeq
+--j23zGuX2BvQ0N1WWbce5nw3zh7QjCdWj1
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 14.11.19 17:27, Christoph Hellwig wrote:
-> On Fri, Nov 01, 2019 at 04:25:10PM +0100, Max Reitz wrote:
->> The XFS kernel driver has a bug that may cause data corruption for qcow2
->> images as of qemu commit c8bb23cbdbe32f.  We can work around it by
->> treating post-EOF fallocates as serializing up until infinity (INT64_MAX
->> in practice).
+On 14.11.19 18:15, Max Reitz wrote:
+> On 14.11.19 17:27, Christoph Hellwig wrote:
+>> On Fri, Nov 01, 2019 at 04:25:10PM +0100, Max Reitz wrote:
+>>> The XFS kernel driver has a bug that may cause data corruption for qcow=
+2
+>>> images as of qemu commit c8bb23cbdbe32f.  We can work around it by
+>>> treating post-EOF fallocates as serializing up until infinity (INT64_MA=
+X
+>>> in practice).
+>>
+>> This has been fixed in the kernel a while ago.  I don't think it makes
+>> sense to work around it in qemu.
 >=20
-> This has been fixed in the kernel a while ago.  I don't think it makes
-> sense to work around it in qemu.
+> Has it?  It was my understanding that this is fixed by
+> https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git/commit/?h=3Dfor-next&=
+id=3D249bd9087a5264d2b8a974081870e2e27671b4dcwhich
 
-Has it?  It was my understanding that this is fixed by
+Sorry, broke the link.  Let me try again:
+
 https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git/commit/?h=3Dfor-next&id=
-=3D249bd9087a5264d2b8a974081870e2e27671b4dcwhich
-has been merged only very recently and is on track to be part of Linux
-5.5, as far as I understand.
+=3D249bd9087a5264d2b8a974081870e2e27671b4dc
 
 Max
 
+> has been merged only very recently and is on track to be part of Linux
+> 5.5, as far as I understand.
+>=20
+> Max
+>=20
 
---2tCLH2Qq5IKXatSI4JNSO6HCj1MUNhPeq--
 
---jZoFkrpXLZD7yqtpnfTWbKLKj33RbN77y
+
+--j23zGuX2BvQ0N1WWbce5nw3zh7QjCdWj1--
+
+--oCiZwDmrs3hxDjdUGXNPBKKJ2xCx8DqVS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3Ni6kACgkQ9AfbAGHV
-z0DcDgf+Jl0aqV1X3e3XedOOhJw3qIytZTZiLLbaLb9/HDAAIi1hYT6WN8QcRACC
-zmeoCt8ld827kM6O5YwvdjNbCVp3VC2I8sg/jQQXwI3LS8YMgw+HTYDVKfgJlUF+
-BUDwmMgW3O4LgvWdJw0WUwmI/cmc+fP7reHbVkHl5yeN155UQOFGz+JTkPZ3ELtL
-g14eb6nyUavhobSwyILmxvlSOhe/zOAEZIJyDur0EUjr+blRlhtiIZvHlob2zEi0
-qBBD61TbGQDlvBGri3clVmwDjkzSrwUGZFpNUedp28fgT/IbmCZ1U6O2NVls2LiF
-2Ju5fZsvq4zV+rjfPSoOFur1M/UFsw==
-=Kknc
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3Ni+YACgkQ9AfbAGHV
+z0DQ0wf9HiYtrQ/5ViQ/cGFo8iESRg72n07lmJBOADQIy55p/K7HSu2TghCWgOkv
+mLz6TSIuE79KcrM9lkJkp/JSlBlr7AJagQaIpdashEXJ9dsUyg8X1Gtd3czn0GuN
+JlTTX94/DLNB5HFW1lJ7iOw1NRcaCJybORGzaM2y50+WPIJU0sttxo/BdPl1xLUD
+r2fvMm9Cc/D5DKHzez3MnbSFFZR92OtcsVC0S90LVm9rd/ZXHLgXR5c4SqL1s5SP
+bDln/yJl0Ge7fHiQDxH58GwX5FCjUVIgUn5wP6rzCsVySYJxk7VUVlPfSwHUs4ZL
+FHzkDlGNFwp37ppl6/+B0GBvfMBMYQ==
+=8qCE
 -----END PGP SIGNATURE-----
 
---jZoFkrpXLZD7yqtpnfTWbKLKj33RbN77y--
+--oCiZwDmrs3hxDjdUGXNPBKKJ2xCx8DqVS--
 
 
