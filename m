@@ -2,90 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6412FCBD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:29:21 +0100 (CET)
-Received: from localhost ([::1]:60246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3B9FCBE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:33:11 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVIvo-0007tP-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:29:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33370)
+	id 1iVIzW-0001mz-OS
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:33:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iVItv-0006n3-AU
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:27:24 -0500
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1iVIxr-00013a-3x
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:31:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iVItt-0000sk-JQ
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:27:22 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43152
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVItq-0000oG-Vu
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:27:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573752435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=s6NS6oXwG9MSSPnWoLkzYwgGh2SBe3PEJ3mXfYSmRjo=;
- b=h4RAYQuHVUM9RLzB2hyQOQuUmHsNKHPwox8nzLcVqGhNeXqmASN6GLWVnohakcXzU7q6wj
- jfmSCMYhOcKdY+RQSYC0LgpdyRGyxecmT3xDo2tqnGAnVw4K3KUavd7XX04Ro4zbwi06AJ
- 8LGuO3Ec4lGxPnvkRo055TwFsHOGeU0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-lV2oTLvgMtWhJwHE9ngSMA-1; Thu, 14 Nov 2019 12:27:12 -0500
-X-MC-Unique: lV2oTLvgMtWhJwHE9ngSMA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08B538026BD;
- Thu, 14 Nov 2019 17:27:11 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-160.ams2.redhat.com
- [10.36.117.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E79A5E25B;
- Thu, 14 Nov 2019 17:27:07 +0000 (UTC)
-Subject: Re: Convert VMDK to RAW
-To: janine.schneider@fau.de, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <009201d59b06$475883f0$d6098bd0$@fau.de>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <97e53c9c-7d3d-75e7-8227-7a1ff186f52e@redhat.com>
-Date: Thu, 14 Nov 2019 18:27:05 +0100
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1iVIxq-0003TT-43
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:31:27 -0500
+Received: from mail-lf1-f47.google.com ([209.85.167.47]:42326)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
+ id 1iVIxn-0003SL-Ua; Thu, 14 Nov 2019 12:31:24 -0500
+Received: by mail-lf1-f47.google.com with SMTP id z12so5707908lfj.9;
+ Thu, 14 Nov 2019 09:31:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5pjE+s8tcDk2h5vDutSKunuXvj4LGCDA6TqTBwGmmGg=;
+ b=cFQ3YYVrT589O0N1+jSSouTD8msIvMRBYJG4qL5gzrrSjpM0cN/e0jSVucemmrQ+rW
+ GFh0BUnDQ77S4gfilSN9J9KZfMSAaMlX4uurTtdYDTr8eS03hGqDW0VorLBg/oKHDTDf
+ OyW4I9ySICRWzCCl0QcA/7W/i+QI9payUyIeRqXBf0CMpe8G5/k2aDs/vINM4xCER14j
+ 3HFhQt0bYYHpFKDpSrFAcHFLjYCMGmUv9Vw4wwyXTLHXQxe7L9sqfpehFGp/WnkDoOwS
+ GN64XPnMFIwHgywQ9gLOWQHMII5b/hwEUDEou5osFMltmnoHIB23kKJcUw6PJdbZP1R7
+ bDQg==
+X-Gm-Message-State: APjAAAUhzIbIFt/DdJe4APl2VCqKrNRXzg3XejwPg1toDuUBywK1vQZ7
+ jllHhG28bf6KwCqSbN8KprE=
+X-Google-Smtp-Source: APXvYqzl35gee+m3GSdeAsqQ3VUbYij6xPqXxECjY+IOP+i0Jg2MFpG2lr4dxd1USSwI96REGjA4oA==
+X-Received: by 2002:a19:40cf:: with SMTP id n198mr7658293lfa.189.1573752682685; 
+ Thu, 14 Nov 2019 09:31:22 -0800 (PST)
+Received: from [192.168.42.103] ([213.87.136.65])
+ by smtp.gmail.com with ESMTPSA id i22sm2562721ljg.94.2019.11.14.09.31.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Nov 2019 09:31:21 -0800 (PST)
+Subject: Re: [QEMU-SECURITY] ide: fix assertion in ide_dma_cb() to prevent
+ qemu DoS from quest
+From: Alexander Popov <alex.popov@linux.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>
+References: <1562335669-10127-1-git-send-email-alex.popov@linux.com>
+ <76881947-141b-0a16-c52d-a315203c32eb@redhat.com>
+ <20191106070433-mutt-send-email-mst@kernel.org>
+ <c3a2af63-3103-10a4-11e1-3400b55d4622@linux.com>
+Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
+ 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
+ j3lCqPk=
+Message-ID: <32a1672d-6f11-6454-fa60-f2ae0c659931@linux.com>
+Date: Thu, 14 Nov 2019 20:31:19 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <009201d59b06$475883f0$d6098bd0$@fau.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="9L1X55mk2QEFH0tnW7PJFlddLOysQ2Uki"
+In-Reply-To: <c3a2af63-3103-10a4-11e1-3400b55d4622@linux.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.85.167.47
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,103 +118,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: alex.popov@linux.com
+Cc: Andrea Arcangeli <aarcange@redhat.com>, sstabellini@kernel.org,
+ pmatouse@redhat.com, qemu-block@nongnu.org, qemu-stable@nongnu.org,
+ mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ Kashyap Chamarthy <kashyap.cv@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ pjp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9L1X55mk2QEFH0tnW7PJFlddLOysQ2Uki
-Content-Type: multipart/mixed; boundary="cTGwnSNZcSHGO72Z7oVyglRvp7uuSNZT9"
+On 07.11.2019 01:05, Alexander Popov wrote:
+> On 06.11.2019 15:05, Michael S. Tsirkin wrote:
+>> Do you want to cook up a patch like this then?
+> 
+> Yes, I will take this task and return with a patch.
+> 
+> Thanks!
 
---cTGwnSNZcSHGO72Z7oVyglRvp7uuSNZT9
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I've just sent the v2 of the patch.
+Looking forward to your feedback.
 
-On 14.11.19 17:12, janine.schneider@fau.de wrote:
-> Ladies and Gentlemen,
->=20
-> =A0
->=20
-> I am a PhD student at the Friedrich-Alexander-University
-> Erlangen-Nuremberg in Bavaria, Germany and am currently working on a
-> forensic reconstruction tool. The tool can be used to analyze physical
-> and virtual hard disks and to reconstruct files. I would now like to
-> extend the tool so that it is able to analyze VMDK files and convert
-> them to raw. Unfortunately I have not been able to understand how to
-> correctly unpack and assemble VMDK containers. Since qemu is able to
-> convert VMDK to raw, I wanted to ask you if you could explain to me how
-> to put the grains together?
-
-Hi,
-
-I=92m not quite sure what you mean by a =93VMDK container=94.  VMDK disk
-images can consist of multiple files that are linked together by a
-descriptor file.  In theory all you need to do is tell qemu-img to
-convert that descriptor file into a raw image.  For example:
-
-(Sorry, I don=92t know much about VMware, so all I can do is use qemu
-tools to demonstrate)
-
-$ qemu-img create -f vmdk -o subformat=3DtwoGbMaxExtentSparse foo.vmdk 4G
-Formatting 'foo.vmdk', fmt=3Dvmdk size=3D4294967296 compat6=3Doff
-hwversion=3Dundefined subformat=3DtwoGbMaxExtentSparse
-$ ls
-foo-s001.vmdk=A0 foo-s002.vmdk=A0 foo.vmdk
-$
-
-In this example, foo.vmdk is the descriptor file and it points to the
-other two (data) files:
-
-$ cat foo.vmdk
-# Disk DescriptorFile
-version=3D1
-CID=3D6d8d65ed
-parentCID=3Dffffffff
-createType=3D"twoGbMaxExtentSparse"
-
-# Extent description
-RW 4194304 SPARSE "foo-s001.vmdk"
-RW 4194304 SPARSE "foo-s002.vmdk"
-
-# The Disk Data Base
-#DDB
-
-ddb.virtualHWVersion =3D "4"
-ddb.geometry.cylinders =3D "8322"
-ddb.geometry.heads =3D "16"
-ddb.geometry.sectors =3D "63"
-ddb.adapterType =3D "ide"
-$
-
-
-So to convert this VMDK disk image to a raw image, you=92d simply do this:
-
-$ qemu-img convert -f vmdk -O raw -p foo.vmdk foo.img
-    (100.00/100%)
-$
-
-Max
-
-
---cTGwnSNZcSHGO72Z7oVyglRvp7uuSNZT9--
-
---9L1X55mk2QEFH0tnW7PJFlddLOysQ2Uki
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3NjmkACgkQ9AfbAGHV
-z0AkzQf/eCWu7o1cP7EZLLWvSj2p3dDpz7gpVQlhlHmiSR1IUIzSd0VpCsG7RviE
-nBi4eZslVqCIrOmWFcuuTepEAL99SuZ/JZHBRJLPGCeswEN09HuHEF1V3V0V0HNF
-FwMZ8F6C4FeV8pMsxCYWaDbhiNIJjWVbezxgSTRVDvCgKtbpkAkCFhBLw0A5ZOJ2
-CNPCczfDifgdj1xdG8DvF/IKcAYQPgujmj3ntOy1KadscDoVLciFUwwiYQ321EGD
-U3+V6KWAX2j1LQJHtM2/F/DnAzK5rAcIhceq4r6EOIkYtx9UO0ySyiiiI2aNRTru
-RvoxI7JjTy3G1bOLd1blDPUnh9M2Rg==
-=IV64
------END PGP SIGNATURE-----
-
---9L1X55mk2QEFH0tnW7PJFlddLOysQ2Uki--
-
+Best regards,
+Alexander
 
