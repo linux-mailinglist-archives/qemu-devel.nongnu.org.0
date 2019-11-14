@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2D3FC8BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 15:20:50 +0100 (CET)
-Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B411FC8C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 15:21:13 +0100 (CET)
+Received: from localhost ([::1]:58174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVFzN-0000tn-IN
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 09:20:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
+	id 1iVFzk-0001Xf-90
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 09:21:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1iVFvG-0005uS-77
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:36 -0500
+ (envelope-from <jfreimann@redhat.com>) id 1iVFvJ-0005vO-J5
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1iVFvE-0005ou-8s
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21874
+ (envelope-from <jfreimann@redhat.com>) id 1iVFvI-0005tK-5L
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52100
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1iVFv9-0005gJ-VE
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:29 -0500
+ id 1iVFvI-0005rm-14
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 09:16:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573740985;
+ s=mimecast20190719; t=1573740995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yXLF/5v/Y0ulB8RgG6831J7A7kzz7pP2YMK7OORF2xs=;
- b=Fy1Dei1HaeC2W4upL8UelTddHTZ7xW20L13aMUOCzZ6ei+t+Wkne/SPuawtQ2fbhVOUSCC
- GgAvNc/PXriUowJCuFZzxXPaMM5oW1wGXAh3Vld6PZAbEuqZyj1PxWLJ+5g1NOevaLfmeB
- Lddefe3HZ+6fUgfkmW2Sgmdp6PjGyHI=
+ bh=Vp19o7nPJmeYy2waXOwQ6m55HRVX0oHH0OccOrsWHXY=;
+ b=TpWnLz0PPkr+h7uE+Y5A3O0fAHOHMDZaRmt7e4L46KAehmr0DE42eCeZS1s4FIF8EMjEAv
+ gnf4sqcROyXDCkR1lfyz0FD1phDRW3A2FSC33x2l0qEr4frFIh66DQ54AJMPAessD+tUe8
+ HmXjEgGYaG8qthFxKfRZ6WL4q4aNsgM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-1Zgee5QzPzSGV2xggSK86g-1; Thu, 14 Nov 2019 09:16:24 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-210-H87gvM6NN5C4mXNOlyGNng-1; Thu, 14 Nov 2019 09:16:29 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41CD31802CE5;
- Thu, 14 Nov 2019 14:16:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 634D7107ACC5;
+ Thu, 14 Nov 2019 14:16:28 +0000 (UTC)
 Received: from localhost (ovpn-117-54.ams2.redhat.com [10.36.117.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BDC010375DA;
- Thu, 14 Nov 2019 14:16:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C2165DF3A;
+ Thu, 14 Nov 2019 14:16:24 +0000 (UTC)
 From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] net/virtio: return early when failover primary alread
- added
-Date: Thu, 14 Nov 2019 15:16:11 +0100
-Message-Id: <20191114141613.15804-2-jfreimann@redhat.com>
+Subject: [PATCH 3/4] net/virtio: avoid passing NULL to qdev_set_parent_bus
+Date: Thu, 14 Nov 2019 15:16:12 +0100
+Message-Id: <20191114141613.15804-3-jfreimann@redhat.com>
 In-Reply-To: <20191114141613.15804-1-jfreimann@redhat.com>
 References: <20191114141613.15804-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 1Zgee5QzPzSGV2xggSK86g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: H87gvM6NN5C4mXNOlyGNng-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -77,31 +76,52 @@ Cc: peter.maydell@linaro.org, jasowang@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bail out when primary device was already added before.
-This avoids printing a wrong warning message during reboot.
+Make sure no arguments for qdev_set_parent_bus are NULL.
+This fixes CID 1407224.
 
 Fixes: 9711cd0dfc3f ("net/virtio: add failover support")
 Signed-off-by: Jens Freimann <jfreimann@redhat.com>
 ---
- hw/net/virtio-net.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/net/virtio-net.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 946039c0dc..ac4d19109e 100644
+index ac4d19109e..81650d4dc0 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -759,6 +759,10 @@ static void failover_add_primary(VirtIONet *n, Error *=
-*errp)
- {
-     Error *err =3D NULL;
-=20
-+    if (n->primary_dev) {
-+        return;
-+    }
-+
-     n->primary_device_opts =3D qemu_opts_find(qemu_find_opts("device"),
-             n->primary_device_id);
+@@ -2809,8 +2809,16 @@ static bool failover_replug_primary(VirtIONet *n, Er=
+ror **errp)
      if (n->primary_device_opts) {
+         if (n->primary_dev) {
+             n->primary_bus =3D n->primary_dev->parent_bus;
++            if (n->primary_bus) {
++                qdev_set_parent_bus(n->primary_dev, n->primary_bus);
++            } else  {
++                error_setg(errp, "virtio_net: couldn't set bus for primary=
+");
++                goto out;
++            }
++        } else {
++            error_setg(errp, "virtio_net: couldn't find primary device");
++            goto out;
+         }
+-        qdev_set_parent_bus(n->primary_dev, n->primary_bus);
+         n->primary_should_be_hidden =3D false;
+         qemu_opt_set_bool(n->primary_device_opts,
+                 "partially_hotplugged", true, errp);
+@@ -2819,10 +2827,8 @@ static bool failover_replug_primary(VirtIONet *n, Er=
+ror **errp)
+             hotplug_handler_pre_plug(hotplug_ctrl, n->primary_dev, errp);
+             hotplug_handler_plug(hotplug_ctrl, n->primary_dev, errp);
+         }
+-        if (!n->primary_dev) {
+-            error_setg(errp, "virtio_net: couldn't find primary device");
+-        }
+     }
++out:
+     return *errp !=3D NULL;
+ }
+=20
 --=20
 2.21.0
 
