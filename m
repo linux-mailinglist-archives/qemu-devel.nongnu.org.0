@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963A0FC316
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 10:54:36 +0100 (CET)
-Received: from localhost ([::1]:54964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECF7FC320
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 10:56:46 +0100 (CET)
+Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVBpj-0006Hw-Fg
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 04:54:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38858)
+	id 1iVBro-0000zr-Sx
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 04:56:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdurrant@gmail.com>) id 1iVBng-0004wU-1z
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:52:29 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iVBp6-0006de-7U
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:53:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pdurrant@gmail.com>) id 1iVBnd-0008Aa-22
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:52:27 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33850)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iVBp5-0000dD-0X
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:53:56 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43721)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pdurrant@gmail.com>) id 1iVBnc-0008AF-Qm
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:52:25 -0500
-Received: by mail-pf1-x444.google.com with SMTP id n13so3863195pff.1
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 01:52:24 -0800 (PST)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iVBp3-0000b4-6t
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:53:53 -0500
+Received: by mail-wr1-x442.google.com with SMTP id n1so5667157wra.10
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 01:53:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ks6ZMzeQ8Hqs4DUYx85GDL216MhZLdSTeq5jMObCwZc=;
- b=KEaT5I2XDutXUdg+ZHxY4g44RBjKlFb+73IxC2N+ecw6YAEVRJ/4+bL1M8LqR5ikDO
- pdNNYBKCpnujqfJ8opZXqTkUx0AHkYe+ybzLSXnU/Bx73JDMre9XKxPrK/8if6J44NhB
- lS3LggV2AgippMYHUsrvQ4uAD1vHOojT25x79AoyDKjZWWRLzvub1hj63XOb19fALSzP
- 5uELEZHmGvqRqN/dj0fdwT+VGCWeimBwdgZOMovt0BmTUas6/X4OIFMvAE3wXmuyLH1C
- YVa6tyuo8MapU8OjAeOJG6Nc4lgnuZzMrVdWrSgnRiAUH5IZdTmBM12L4OeeiyRvcV4X
- K+uA==
+ :cc:content-transfer-encoding;
+ bh=kbB2Y45L7oBiWC8ZUb/p54R4T/QBkMEEKASSdFhSGDw=;
+ b=mzsCuUnXUIJSmBZ73EdiyGSk9op/LpgRtBjctY+05eM0rYKDNwz+L2RcbUfXOv40nQ
+ 1yKC8YizXq/bkE8O2setGpggEjpHyWILaQFcxq3QzZNMgvH3W2sVPEDoClFCR+PzRGja
+ v6xtd1Uy32z5A0bwL7Q+N5kM8a3yCCat4C23onp9Mbij7upvH7g+JglCtBj4xd9D45Z5
+ piAD1bbRDkeGtdnjPIFv9p6egeKgxM5s6sUFTLqCKnCa0FXEo/DBZl1Ewy4AXOimqkYv
+ 5z5ffEvKVxD6n23pO0hDR5sZAy/rw0M5Fk3rTsk6iDPVbAUvoyccSvKLcr54okh0bHsE
+ etdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ks6ZMzeQ8Hqs4DUYx85GDL216MhZLdSTeq5jMObCwZc=;
- b=jkIjbzRsPXNSZCzpQ+RM91awvklNxntSQFaORHIPUfsfdXNIWFqhxuYgVa4GpX3QoX
- GrLeyNHndQNy9/MNJRgIwHiXB7Tlx9Wv7rjBa8SMdEgck2jkFCqo46t1qIkXXqk93goq
- hHfkOniX6ax32+zOCcC4zrVqdbl3rHT9elMQZj4QcI0UB7h28aLSLdXhUR5tpAEi+9vt
- CSDFguV1OTaiG24E94Hc4yIKFHgHEvsPrdy8NLPkCWGR8lzxjh3sTlQ7Fe7b8mnq1btb
- FMroJImDEcjptQaPLpRmZSavb4OMYRQgj6tQ8bgtYXd9OmcFvGjuAJFU/4uxjBMUHGXT
- wkIA==
-X-Gm-Message-State: APjAAAX8zkL3qqwITbXeRs5rv1bxZPrS+ln8cRJ4khbHaUdRW+jiZ9Nr
- /Vds8jS/Bdrrm1WwKf18ftKW0JlYesJkJSTNK0A=
-X-Google-Smtp-Source: APXvYqxzXX4gMr/8AZMK3C3UoQrg/vLLalfJKwzG7hT2vr5WUapQUxySziwmUkR3kprEI/EcdLg0BrJjrRJ1Ozk1a+M=
-X-Received: by 2002:a17:90b:4386:: with SMTP id
- in6mr11353486pjb.33.1573725143421; 
- Thu, 14 Nov 2019 01:52:23 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kbB2Y45L7oBiWC8ZUb/p54R4T/QBkMEEKASSdFhSGDw=;
+ b=c4fVUixFXOvzgSlx0cFvHHjd6clFkFBghlMdmCIAgLwu7LZIEeVvKd9qTRfJdIIOws
+ FufFtYNgkxLVX20qjeXkqxic+yqHFSnMAWNyK4hz/TVmuJBWQfMwlPjgvwE25iiXeNib
+ Ky2Yyv0anKMpSCnnII+rvo84ElAWAV3r6w1n66p5ktuA/H17Zcndrn68fK/aQ21XqPeH
+ hRE9y1qcvLVujMupmFsx2iQ1LO8pXya5KM58/gTVQXgwsiHe9rLgJl82pAYHvpcgkFcS
+ s5QyUnH7SmeLO6YhbS+T6AZxbca/i4plccVHmHUnTrVLKSDd58z5Qwm3iFjiL/63/L9B
+ NF1w==
+X-Gm-Message-State: APjAAAUdXmN+bDGCAV+3Gy4nNR5zGIOCfZdBjVmsBZRT+svfIGQivY1U
+ flMNtWtpDZ1L3HM+Nxppatum9N8Vk0A3do5tKwU=
+X-Google-Smtp-Source: APXvYqwfhSQLmTp0w2ezzzrVD4hgwEuT4QngXbSekXg7vunog7cYZ6XP6MlpHEvuWPdv7DqQFdqeBhi+/f6CqJj2DXE=
+X-Received: by 2002:a5d:670a:: with SMTP id o10mr7650456wru.312.1573725231402; 
+ Thu, 14 Nov 2019 01:53:51 -0800 (PST)
 MIME-Version: 1.0
 References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
- <1573655945-14912-14-git-send-email-pbonzini@redhat.com>
- <CACCGGhB=Sp8jcp+hhQjU0sXqhyQ8ug7nT-PuijS-eXPq4kog-w@mail.gmail.com>
- <3b5cbfb9-0de9-ae52-6695-12579bc42c09@redhat.com>
-In-Reply-To: <3b5cbfb9-0de9-ae52-6695-12579bc42c09@redhat.com>
-From: Paul Durrant <pdurrant@gmail.com>
-Date: Thu, 14 Nov 2019 09:52:12 +0000
-Message-ID: <CACCGGhBvZgrm+pvYcb9uPePHNAfo8MPHktURbBh+icf=FPUOsw@mail.gmail.com>
-Subject: Re: [PATCH 13/16] xen: convert "-machine igd-passthru" to an
- accelerator property
+ <1573655945-14912-9-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1573655945-14912-9-git-send-email-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 14 Nov 2019 13:53:39 +0400
+Message-ID: <CAJ+F1CLJhFZhu4RJOnwQ=RjJwP=U_xGU-15J0BO_3CEfys7aZg@mail.gmail.com>
+Subject: Re: [PATCH 08/16] qom: introduce object_register_sugar_prop
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,232 +74,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- xen-devel <xen-devel@lists.xenproject.org>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Nov 2019 at 09:47, Paolo Bonzini <pbonzini@redhat.com> wrote:
+Hi
+
+On Wed, Nov 13, 2019 at 6:46 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> On 14/11/19 10:39, Paul Durrant wrote:
-> > On Wed, 13 Nov 2019 at 14:53, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >>
-> >> The first machine property to fall is Xen's Intel integrated graphics
-> >> passthrough.  The "-machine igd-passthru" option does not set anymore
-> >> a property on the machine object, but desugars to a GlobalProperty on
-> >> accelerator objects.
-> >>
-> >> The setter is very simple, since the value ends up in a
-> >> global variable, so this patch also provides an example before the more
-> >> complicated cases that follow it.
-> >>
-> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> >
-> > Did something go wrong with get_maintainers here? The Xen maintainers
-> > ought to have been cc-ed. The Xen toolstack will require consequent
-> > modification.
+> Similar to the existing "-rtc driftfix" option, we will convert some
+> legacy "-machine" command line options to global properties on accelerato=
+rs.
+> Because accelerators are not devices, we cannot use qdev_prop_register_gl=
+obal.
+> Instead, provide a slot in the generic object_compat_props arrays for
+> command line syntactic sugar.
 >
-> No, I just didn't use getmaintainers, my bad.  But backwards-compatible
-> syntactic sugar is provided, so no modifications are needed to Xen.  See
-> here in the code:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+sounds reasonable
+
+> ---
+>  include/qom/object.h |  1 +
+>  qom/object.c         | 23 +++++++++++++++++++++--
+>  vl.c                 | 10 +++-------
+>  3 files changed, 25 insertions(+), 9 deletions(-)
 >
-> +    if (g_str_equal(qom_name, "igd-passthru")) {
-> +        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
-> +        return 0;
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 128d00c..230b18f 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GPt=
+rArray *props,
+>                                 Error **errp);
+>  void object_set_machine_compat_props(GPtrArray *compat_props);
+>  void object_set_accelerator_compat_props(GPtrArray *compat_props);
+> +void object_register_sugar_prop(const char *driver, const char *prop, co=
+nst char *value);
+
+Or simply
+
+void object_add_global_prop(const char *typename, ...) ?
+
+
+>  void object_apply_compat_props(Object *obj);
+>
+>  /**
+> diff --git a/qom/object.c b/qom/object.c
+> index 6fa9c61..c7825dd 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -414,10 +414,29 @@ void object_apply_global_props(Object *obj, const G=
+PtrArray *props, Error **errp
+>   * Global property defaults
+>   * Slot 0: accelerator's global property defaults
+>   * Slot 1: machine's global property defaults
+> + * Slot 2: global properties from legacy command line option
+>   * Each is a GPtrArray of of GlobalProperty.
+>   * Applied in order, later entries override earlier ones.
+>   */
+> -static GPtrArray *object_compat_props[2];
+> +static GPtrArray *object_compat_props[3];
+> +
+> +/*
+> + * Retrieve @GPtrArray for global property defined with options
+> + * other than "-global".  These are generally used for syntactic
+> + * sugar and legacy command line options.
+> + */
+> +void object_register_sugar_prop(const char *driver, const char *prop, co=
+nst char *value)
+> +{
+> +    GlobalProperty *g;
+> +    if (!object_compat_props[2]) {
+> +        object_compat_props[2] =3D g_ptr_array_new();
 > +    }
-
-Ah, no immediate danger. Thanks for pointing this out.
-
-Cheers,
-  Paul
-
+> +    g =3D g_new(GlobalProperty, 1);
+> +    g->driver =3D g_strdup(driver);
+> +    g->property =3D g_strdup(prop);
+> +    g->value =3D g_strdup(value);
+> +    g_ptr_array_add(object_compat_props[2], g);
+> +}
 >
-> Paolo
+>  /*
+>   * Set machine's global property defaults to @compat_props.
+> @@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
 >
-> > Cc-ing (rest of) Xen maintainers and xen-devel manually.
-> >
-> >   Paul
-> >
-> >> ---
-> >>  hw/core/machine.c   | 20 --------------------
-> >>  hw/xen/xen-common.c | 16 ++++++++++++++++
-> >>  include/hw/boards.h |  1 -
-> >>  qemu-options.hx     |  9 +++++----
-> >>  vl.c                | 14 ++++----------
-> >>  5 files changed, 25 insertions(+), 35 deletions(-)
-> >>
-> >> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> >> index 45ddfb6..d7a0356 100644
-> >> --- a/hw/core/machine.c
-> >> +++ b/hw/core/machine.c
-> >> @@ -412,20 +412,6 @@ static void machine_set_graphics(Object *obj, bool value, Error **errp)
-> >>      ms->enable_graphics = value;
-> >>  }
-> >>
-> >> -static bool machine_get_igd_gfx_passthru(Object *obj, Error **errp)
-> >> -{
-> >> -    MachineState *ms = MACHINE(obj);
-> >> -
-> >> -    return ms->igd_gfx_passthru;
-> >> -}
-> >> -
-> >> -static void machine_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
-> >> -{
-> >> -    MachineState *ms = MACHINE(obj);
-> >> -
-> >> -    ms->igd_gfx_passthru = value;
-> >> -}
-> >> -
-> >>  static char *machine_get_firmware(Object *obj, Error **errp)
-> >>  {
-> >>      MachineState *ms = MACHINE(obj);
-> >> @@ -862,12 +848,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-> >>      object_class_property_set_description(oc, "graphics",
-> >>          "Set on/off to enable/disable graphics emulation", &error_abort);
-> >>
-> >> -    object_class_property_add_bool(oc, "igd-passthru",
-> >> -        machine_get_igd_gfx_passthru, machine_set_igd_gfx_passthru,
-> >> -        &error_abort);
-> >> -    object_class_property_set_description(oc, "igd-passthru",
-> >> -        "Set on/off to enable/disable igd passthrou", &error_abort);
-> >> -
-> >>      object_class_property_add_str(oc, "firmware",
-> >>          machine_get_firmware, machine_set_firmware,
-> >>          &error_abort);
-> >> diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
-> >> index 5284b0d..6cba30c 100644
-> >> --- a/hw/xen/xen-common.c
-> >> +++ b/hw/xen/xen-common.c
-> >> @@ -124,6 +124,16 @@ static void xen_change_state_handler(void *opaque, int running,
-> >>      }
-> >>  }
-> >>
-> >> +static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
-> >> +{
-> >> +    return has_igd_gfx_passthru;
-> >> +}
-> >> +
-> >> +static void xen_set_igd_gfx_passthru(Object *obj, bool value, Error **errp)
-> >> +{
-> >> +    has_igd_gfx_passthru = value;
-> >> +}
-> >> +
-> >>  static void xen_setup_post(MachineState *ms, AccelState *accel)
-> >>  {
-> >>      int rc;
-> >> @@ -177,6 +187,12 @@ static void xen_accel_class_init(ObjectClass *oc, void *data)
-> >>      ac->compat_props = g_ptr_array_new();
-> >>
-> >>      compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
-> >> +
-> >> +    object_class_property_add_bool(oc, "igd-passthru",
-> >> +        xen_get_igd_gfx_passthru, xen_set_igd_gfx_passthru,
-> >> +        &error_abort);
-> >> +    object_class_property_set_description(oc, "igd-passthru",
-> >> +        "Set on/off to enable/disable igd passthrou", &error_abort);
-> >>  }
-> >>
-> >>  #define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
-> >> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> >> index 36fcbda..cdcf481 100644
-> >> --- a/include/hw/boards.h
-> >> +++ b/include/hw/boards.h
-> >> @@ -287,7 +287,6 @@ struct MachineState {
-> >>      bool mem_merge;
-> >>      bool usb;
-> >>      bool usb_disabled;
-> >> -    bool igd_gfx_passthru;
-> >>      char *firmware;
-> >>      bool iommu;
-> >>      bool suppress_vmdesc;
-> >> diff --git a/qemu-options.hx b/qemu-options.hx
-> >> index 3931f90..5b43a83 100644
-> >> --- a/qemu-options.hx
-> >> +++ b/qemu-options.hx
-> >> @@ -37,7 +37,6 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-> >>      "                kvm_shadow_mem=size of KVM shadow MMU in bytes\n"
-> >>      "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
-> >>      "                mem-merge=on|off controls memory merge support (default: on)\n"
-> >> -    "                igd-passthru=on|off controls IGD GFX passthrough support (default=off)\n"
-> >>      "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
-> >>      "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
-> >>      "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
-> >> @@ -71,8 +70,6 @@ more than one accelerator specified, the next one is used if the previous one
-> >>  fails to initialize.
-> >>  @item kernel_irqchip=on|off
-> >>  Controls in-kernel irqchip support for the chosen accelerator when available.
-> >> -@item gfx_passthru=on|off
-> >> -Enables IGD GFX passthrough support for the chosen machine when available.
-> >>  @item vmport=on|off|auto
-> >>  Enables emulation of VMWare IO port, for vmmouse etc. auto says to select the
-> >>  value based on accel. For accel=xen the default is off otherwise the default
-> >> @@ -118,8 +115,9 @@ Select CPU model (@code{-cpu help} for list and additional feature selection)
-> >>  ETEXI
-> >>
-> >>  DEF("accel", HAS_ARG, QEMU_OPTION_accel,
-> >> -    "-accel [accel=]accelerator[,thread=single|multi]\n"
-> >> +    "-accel [accel=]accelerator[,prop[=value][,...]]\n"
-> >>      "                select accelerator (kvm, xen, hax, hvf, whpx or tcg; use 'help' for a list)\n"
-> >> +    "                igd-passthru=on|off (enable Xen integrated Intel graphics passthrough, default=off)\n"
-> >>      "                tb-size=n (TCG translation block cache size)\n"
-> >>      "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
-> >>  STEXI
-> >> @@ -130,6 +128,9 @@ kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used. If th
-> >>  more than one accelerator specified, the next one is used if the previous one
-> >>  fails to initialize.
-> >>  @table @option
-> >> +@item igd-passthru=on|off
-> >> +When Xen is in use, this option controls whether Intel integrated graphics
-> >> +devices can be passed through to the guest (default=off)
-> >>  @item tb-size=@var{n}
-> >>  Controls the size (in MiB) of the TCG translation block cache.
-> >>  @item thread=single|multi
-> >> diff --git a/vl.c b/vl.c
-> >> index 06c6ad9..7d8fed1 100644
-> >> --- a/vl.c
-> >> +++ b/vl.c
-> >> @@ -1256,13 +1256,6 @@ static void configure_msg(QemuOpts *opts)
-> >>  }
-> >>
-> >>
-> >> -/* Now we still need this for compatibility with XEN. */
-> >> -bool has_igd_gfx_passthru;
-> >> -static void igd_gfx_passthru(void)
-> >> -{
-> >> -    has_igd_gfx_passthru = current_machine->igd_gfx_passthru;
-> >> -}
-> >> -
-> >>  /***********************************************************/
-> >>  /* USB devices */
-> >>
-> >> @@ -2645,6 +2638,10 @@ static int machine_set_property(void *opaque,
-> >>      if (g_str_equal(qom_name, "accel")) {
-> >>          return 0;
-> >>      }
-> >> +    if (g_str_equal(qom_name, "igd-passthru")) {
-> >> +        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
-> >> +        return 0;
-> >> +    }
-> >>
-> >>      r = object_parse_property_opt(opaque, name, value, "type", errp);
-> >>      g_free(qom_name);
-> >> @@ -4449,9 +4446,6 @@ int main(int argc, char **argv, char **envp)
-> >>              exit(1);
-> >>      }
-> >>
-> >> -    /* Check if IGD GFX passthrough. */
-> >> -    igd_gfx_passthru();
-> >> -
-> >>      /* init generic devices */
-> >>      rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-> >>      qemu_opts_foreach(qemu_find_opts("device"),
-> >> --
-> >> 1.8.3.1
-> >>
-> >>
-> >>
-> >
+>      for (i =3D 0; i < ARRAY_SIZE(object_compat_props); i++) {
+>          object_apply_global_props(obj, object_compat_props[i],
+> -                                  &error_abort);
+> +                                  i =3D=3D 2 ? &error_fatal : &error_abo=
+rt);
+
+Isn't error_abort() appropriate in all cases?
+
+
+>      }
+>  }
 >
+> diff --git a/vl.c b/vl.c
+> index 843b263..cb993dd 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -896,13 +896,9 @@ static void configure_rtc(QemuOpts *opts)
+>      value =3D qemu_opt_get(opts, "driftfix");
+>      if (value) {
+>          if (!strcmp(value, "slew")) {
+> -            static GlobalProperty slew_lost_ticks =3D {
+> -                .driver   =3D "mc146818rtc",
+> -                .property =3D "lost_tick_policy",
+> -                .value    =3D "slew",
+> -            };
+> -
+> -            qdev_prop_register_global(&slew_lost_ticks);
+> +            object_register_sugar_prop("mc146818rtc",
+> +                                       "lost_tick_policy",
+> +                                       "slew");
+
+Why do you convert this since it's a device?
+
+>          } else if (!strcmp(value, "none")) {
+>              /* discard is default */
+>          } else {
+> --
+> 1.8.3.1
+>
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
