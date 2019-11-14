@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DA2FC381
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 11:01:41 +0100 (CET)
-Received: from localhost ([::1]:55052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06947FC38F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 11:05:52 +0100 (CET)
+Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVBwZ-0005Ma-S5
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 05:01:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40151)
+	id 1iVC0d-0001Qp-0n
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 05:05:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iVBtX-0003Wb-Hg
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:32 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iVByn-0000IU-PR
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 05:03:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iVBtW-00044n-I5
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:31 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32117
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iVByl-0000ZM-4N
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 05:03:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47193
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iVBtW-00044K-E9
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 04:58:30 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iVByl-0000Yb-0m
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 05:03:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573725509;
+ s=mimecast20190719; t=1573725834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2yTXW+Zc6vdj8GSrA1o5hSC2zgRCuAdNbIEfJx2QdBs=;
- b=O7gqur5Il0g0lQdLEaWHPrGySxyfFl3IvY7/So9JXxRTwST6nyRzlZFzfv2NN5EIi+hif0
- 4I4vqsdxsYPB6J/u8cnoL1KBdKYUNXH/OSYnHVRltyWyMyWkaFUmoF8kLWIKLDXA54Bask
- guCFpJjO011NC8XnxR1lvnYDkeBMaiY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-l7tRJgHaOouV7VyWWAs5bw-1; Thu, 14 Nov 2019 04:58:26 -0500
-X-MC-Unique: l7tRJgHaOouV7VyWWAs5bw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E2B6189CB00;
- Thu, 14 Nov 2019 09:58:25 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-160.ams2.redhat.com
- [10.36.117.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69204108132E;
- Thu, 14 Nov 2019 09:58:23 +0000 (UTC)
-Subject: Re: [Qemu-devel] [PATCH v4 02/14] qapi: Move to_c_string() to
- common.py
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190624173935.25747-1-mreitz@redhat.com>
- <20190624173935.25747-3-mreitz@redhat.com>
- <87imnmq0fu.fsf@dusky.pond.sub.org>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <74c8532f-971f-9e5e-ea12-16508d49fedf@redhat.com>
-Date: Thu, 14 Nov 2019 10:58:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=V+HpgZ0izySaZwjH5Kez1WXrOu6XKCOqPwKaJ6S/W2k=;
+ b=fd0mnPUeMik0Jmf+gkNBFAIs0m4JA4tOZKAv6S/T3seOF6HEcD+vH42teM+jgyxKNoyrxy
+ m1F2MfBKzW77G0e937dX5cXri8cJHZHpyha163fUAa2WSsXASzEHB9ye5ES5J2R5ANuCSJ
+ 2GbiKTRdYwALye7Sw8ewb2iEwPQnjdk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-q1kp-j3rO_i2GgOUjYHuAA-1; Thu, 14 Nov 2019 05:03:52 -0500
+Received: by mail-wm1-f70.google.com with SMTP id g13so3866801wme.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 02:03:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s3mrhYi5USE47zqjcJbZk3/QjwY7g17f0COfc6haMkc=;
+ b=JX5g0MttoWjV/UdftCcykch+wzkeY2a6WPgSApRUjrixceADJNKw6Y6XAk2baU4Z9N
+ nMXQRAPYONSzOBlOTOgzgpKw3WB6LK2fiy5E3XUh+OcZolpiqGoxRQ+V+bIw0C1AUW7l
+ ohJ9TlCgYpmI6RpOr7n6WgXIs17UYN3tjuL2if0pmkSxLZTbT/KCznzIQIUNa516b9SE
+ AhVlMMJ0q+Jk/L15bf0fIV5WmceKy6petUw3TbylT0v346Lat6xM/D5Sw0AoXs99nJbC
+ S9KivTekQ1IvrSlQ0AAmmpUap1NghhOSqyYzuDYcZvfsSkW2OwkY8341Fm8RbDIE9j5j
+ Hn/A==
+X-Gm-Message-State: APjAAAVHQwrmuYI2GzXIVNq/yNmQ1HEmukrEzDStD8yh0+IGRtx9qDFg
+ UiFm4by6FOHX8AF2/9mSLHlMXVQfNrnpEdfwpHWgJ7Z1vSMB8KMwPhkZK9hWIeKd8LlaBtMh3Fk
+ TnsNpAt8qfKaWavQ=
+X-Received: by 2002:a7b:c768:: with SMTP id x8mr7365880wmk.26.1573725831665;
+ Thu, 14 Nov 2019 02:03:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzP86zHEXXIeZB5H1BMMkBYMInedLI7gZymxhqBydoevsNOD5b2cBhZWGZDIW7WyJqHwK5e3A==
+X-Received: by 2002:a7b:c768:: with SMTP id x8mr7365848wmk.26.1573725831287;
+ Thu, 14 Nov 2019 02:03:51 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:a15b:f753:1ac4:56dc?
+ ([2001:b07:6468:f312:a15b:f753:1ac4:56dc])
+ by smtp.gmail.com with ESMTPSA id y2sm6120027wmy.2.2019.11.14.02.03.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Nov 2019 02:03:50 -0800 (PST)
+Subject: Re: [PATCH 08/16] qom: introduce object_register_sugar_prop
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <1573655945-14912-1-git-send-email-pbonzini@redhat.com>
+ <1573655945-14912-9-git-send-email-pbonzini@redhat.com>
+ <CAJ+F1CLJhFZhu4RJOnwQ=RjJwP=U_xGU-15J0BO_3CEfys7aZg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <de9bc045-1eb5-ab77-136e-859a1d4a0e98@redhat.com>
+Date: Thu, 14 Nov 2019 11:03:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <87imnmq0fu.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAJ+F1CLJhFZhu4RJOnwQ=RjJwP=U_xGU-15J0BO_3CEfys7aZg@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: q1kp-j3rO_i2GgOUjYHuAA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,72 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ
-Content-Type: multipart/mixed; boundary="cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85"
-
---cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 14.11.19 10:20, Markus Armbruster wrote:
-> Max Reitz <mreitz@redhat.com> writes:
->=20
->> This function will be useful for code generation once we allow default
->> values, so move it to the other "C helper functions".  In the process,
->> rewrite it so it supports all nonprintable and non-ASCII characters.
+On 14/11/19 10:53, Marc-Andr=C3=A9 Lureau wrote:
+>>  include/qom/object.h |  1 +
+>>  qom/object.c         | 23 +++++++++++++++++++++--
+>>  vl.c                 | 10 +++-------
+>>  3 files changed, 25 insertions(+), 9 deletions(-)
 >>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> diff --git a/include/qom/object.h b/include/qom/object.h
+>> index 128d00c..230b18f 100644
+>> --- a/include/qom/object.h
+>> +++ b/include/qom/object.h
+>> @@ -679,6 +679,7 @@ void object_apply_global_props(Object *obj, const GP=
+trArray *props,
+>>                                 Error **errp);
+>>  void object_set_machine_compat_props(GPtrArray *compat_props);
+>>  void object_set_accelerator_compat_props(GPtrArray *compat_props);
+>> +void object_register_sugar_prop(const char *driver, const char *prop, c=
+onst char *value);
 >=20
-> Please have a close look at commit 56a8caff92 "qapi: Restrict strings to
-> printable ASCII".  Do we still need the rewrite?
+> Or simply
+>=20
+> void object_add_global_prop(const char *typename, ...) ?
 
-If that=E2=80=99s all that has changed, I think we will still need at least=
- some
-bits, like the " or \ escaping.
+This is actually how I called it first, but I didn't like it because
+it's prioritized _below_ -global, and it's easy to confuse it with
+object_add_global_prop.
 
-Also, actually, it looks like 56a8caff92 didn=E2=80=99t change the fact tha=
-t
-control characters are verbatim parts of the string, i.e. \u000a will
-still be a literal 0xa byte, and as such must be escaped anew in the C
-string.
+>>  /*
+>>   * Set machine's global property defaults to @compat_props.
+>> @@ -445,7 +464,7 @@ void object_apply_compat_props(Object *obj)
+>>
+>>      for (i =3D 0; i < ARRAY_SIZE(object_compat_props); i++) {
+>>          object_apply_global_props(obj, object_compat_props[i],
+>> -                                  &error_abort);
+>> +                                  i =3D=3D 2 ? &error_fatal : &error_ab=
+ort);
+>=20
+> Isn't error_abort() appropriate in all cases?
 
-So without having tried, I think this is still very much necessary.
+Unfortunately not, because otherwise "-accel tcg,tb-size=3Dfoo" would crash=
+.
 
-> If yes: the commit message title promises code motion, but the patch is
-> anything but.  Adjust the title, please.
+>>      }
+>>  }
+>>
+>> diff --git a/vl.c b/vl.c
+>> index 843b263..cb993dd 100644
+>> --- a/vl.c
+>> +++ b/vl.c
+>> @@ -896,13 +896,9 @@ static void configure_rtc(QemuOpts *opts)
+>>      value =3D qemu_opt_get(opts, "driftfix");
+>>      if (value) {
+>>          if (!strcmp(value, "slew")) {
+>> -            static GlobalProperty slew_lost_ticks =3D {
+>> -                .driver   =3D "mc146818rtc",
+>> -                .property =3D "lost_tick_policy",
+>> -                .value    =3D "slew",
+>> -            };
+>> -
+>> -            qdev_prop_register_global(&slew_lost_ticks);
+>> +            object_register_sugar_prop("mc146818rtc",
+>> +                                       "lost_tick_policy",
+>> +                                       "slew");
+>=20
+> Why do you convert this since it's a device?
 
-OK.
+Not strictly necessary, but it's more compact and it more or less
+matches the usecase for this function.
 
-Max
-
-
-
---cu0rSlCpgjy3P8QSkMt8zqD2gHcLE2M85--
-
---8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3NJT0ACgkQ9AfbAGHV
-z0D5qAf9FI3biTo2N0X/pvSl7NaP7p1xSYgln4ObbJu6sJ7XgGkkZzTdwodrsmVA
-eM/2LafgXYcPFVRjjEf856l34CZ4snJshQ20op81iksiS6bXMNzYgi6i34df73AC
-KsFNNrM9gdV3rjBuFLAtszHNJIXX6JaCfOV+tQaHmrwE2W+EjmCFPaqtM8kUrVDJ
-bQHpGBLqmWu7XBelpBKXk4OUT1vBkFJO6xuo/gZJ3oj0nscg7ZZji3i/bw1nI/jj
-jzKiX2/rzCGPaQv3TOrlQJxdqbQCVc4lV4QAH1CmQlkGdujAEy7YvrvKOsAxOY01
-4TWNTGDe3H0c44KW2phBoAND0G8GsQ==
-=aaAT
------END PGP SIGNATURE-----
-
---8vIPydQE2nXUwJE2Z4tAda9RJdV26ESnJ--
+Paolo
 
 
