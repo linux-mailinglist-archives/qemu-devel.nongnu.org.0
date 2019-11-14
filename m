@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BBDFD067
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:37:02 +0100 (CET)
-Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10B6FD06A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 22:38:53 +0100 (CET)
+Received: from localhost ([::1]:33962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVMnV-0005RL-E3
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
+	id 1iVMpI-0007Ed-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 16:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iVMky-0002Ug-76
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:25 -0500
+ (envelope-from <eblake@redhat.com>) id 1iVMkz-0002Vf-1x
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iVMkx-0004Ma-3d
+ (envelope-from <eblake@redhat.com>) id 1iVMkx-0004Mu-S9
  for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20350
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58546
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVMkw-0004MB-WD
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVMkx-0004Mm-PB
  for qemu-devel@nongnu.org; Thu, 14 Nov 2019 16:34:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573767262;
+ s=mimecast20190719; t=1573767263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ErE597zNsknTpXwjlbggVGyQOq4x4Cnoeq1ubYOh5+o=;
- b=J4vZJQKkMAGroRVg7sf1eJ8ezH/LkADPpN0nKm0egWm4CUkgi8h+SFod6zKedYyR7Khbwd
- vJI8nuIq+B3WSpw7aR8ogCHnYHZP0hxhRwLLsudA57ho44xBFl6MPW21GWxx4k97XMl9Wm
- IZcIwZaTPy1am9VGF2QR98bF7VTLECE=
+ bh=pULa/xs6+FCOf9U0sNxrjD7lju2T+ptwptlYWCXWeGo=;
+ b=BHZKhd0qo6lboe3ZGTKVAH28fsQBcJIz6bre/FLh8PoZcRcMLtwKC701L0ZZc1klTwQRRQ
+ DwaAzV3uIG4q6WAzi15ehecwTGrCeRh2vVUZNBhDIFJCnjNP2fd/VinWbgmVhxYVEYmYSy
+ xl+Aj8reWJLUeSY5Mc5cw1/Z7hsm3HM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-WvLMB20wNCGxRy4Q93-PDg-1; Thu, 14 Nov 2019 16:34:19 -0500
+ us-mta-344-WCI62-22NzSl9EKx9xZsBg-1; Thu, 14 Nov 2019 16:34:19 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DD3B1005502;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE7F064A7D;
  Thu, 14 Nov 2019 21:34:18 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-242.phx2.redhat.com [10.3.116.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D129067661;
- Thu, 14 Nov 2019 21:34:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B2126609E;
+ Thu, 14 Nov 2019 21:34:18 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] iotests: Fix 173
-Date: Thu, 14 Nov 2019 15:34:12 -0600
-Message-Id: <20191114213415.23499-2-eblake@redhat.com>
+Subject: [PATCH v3 2/4] iotests: Switch nbd tests to use Unix rather than TCP
+Date: Thu, 14 Nov 2019 15:34:13 -0600
+Message-Id: <20191114213415.23499-3-eblake@redhat.com>
 In-Reply-To: <20191114213415.23499-1-eblake@redhat.com>
 References: <20191114213415.23499-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: WvLMB20wNCGxRy4Q93-PDg-1
+X-MC-Unique: WCI62-22NzSl9EKx9xZsBg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -75,75 +75,90 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test has been broken since 3.0.  It used TEST_IMG to influence
-the name of a file created during _make_test_img, but commit 655ae6bb
-changed things so that the wrong file name is being created, which
-then caused _launch_qemu to fail.  In the meantime, the set of events
-issued for the actions of the test has increased.
+Up to now, all it took to cause a lot of iotest failures was to have a
+background process such as 'nbdkit -p 10810 null' running, because we
+hard-coded the TCP port.  Switching to a Unix socket eliminates this
+contention.  We still have TCP coverage in test 233, and that test is
+more careful to not pick a hard-coded port.
 
-Why haven't we noticed the failure? Because the test rarely gets run:
-'./check -qcow2 173' is insufficient (that defaults to using file protocol)
-'./check -nfs 173' is insufficient (that defaults to using raw format)
-so the test is only run with:
-./check -qcow2 -nfs 173
-
-Note that we already have a number of other problems with -nfs:
-./check -nfs (fails 18/30)
-./check -qcow2 -nfs (fails 45/76 after this patch, if exports does
-not permit 'insecure')
-and it's not on my priority list to fix those.  Rather, I found this
-because of my next patch's work on tests using _send_qemu_cmd.
-
-Fixes: 655ae6b
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/173     | 4 ++--
- tests/qemu-iotests/173.out | 6 +++++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/common.filter | 6 ++++--
+ tests/qemu-iotests/common.rc     | 8 ++++----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/173 b/tests/qemu-iotests/173
-index 9e2fa2e73cb9..29dcaa1960df 100755
---- a/tests/qemu-iotests/173
-+++ b/tests/qemu-iotests/173
-@@ -47,9 +47,9 @@ size=3D100M
- BASE_IMG=3D"${TEST_DIR}/image.base"
- TOP_IMG=3D"${TEST_DIR}/image.snp1"
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.f=
+ilter
+index f870e00e4421..5367deea398e 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -127,7 +127,8 @@ _filter_img_create()
+         -e "s#$TEST_DIR#TEST_DIR#g" \
+         -e "s#$SOCK_DIR#SOCK_DIR#g" \
+         -e "s#$IMGFMT#IMGFMT#g" \
+-        -e 's#nbd:127.0.0.1:10810#TEST_DIR/t.IMGFMT#g' \
++        -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
++        -e 's#nbd+unix:///\??socket=3DSOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
+         -e "s# encryption=3Doff##g" \
+         -e "s# cluster_size=3D[0-9]\\+##g" \
+         -e "s# table_size=3D[0-9]\\+##g" \
+@@ -164,7 +165,8 @@ _filter_img_info()
+         -e "s#$TEST_DIR#TEST_DIR#g" \
+         -e "s#$SOCK_DIR#SOCK_DIR#g" \
+         -e "s#$IMGFMT#IMGFMT#g" \
+-        -e 's#nbd://127.0.0.1:10810$#TEST_DIR/t.IMGFMT#g' \
++        -e 's#nbd://127.0.0.1:[0-9]\\+$#TEST_DIR/t.IMGFMT#g' \
++        -e 's#nbd+unix:///\??socket=3DSOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
+         -e 's#json.*vdisk-id.*vxhs"}}#TEST_DIR/t.IMGFMT#' \
+         -e "/encrypted: yes/d" \
+         -e "/cluster_size: [0-9]\\+/d" \
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index fa7bae24226a..f772dcb67322 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -217,7 +217,7 @@ if [ "$IMGOPTSSYNTAX" =3D "true" ]; then
+         TEST_IMG=3D"$DRIVER,file.filename=3D$TEST_DIR/t.$IMGFMT"
+     elif [ "$IMGPROTO" =3D "nbd" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+-        TEST_IMG=3D"$DRIVER,file.driver=3Dnbd,file.host=3D127.0.0.1,file.p=
+ort=3D10810"
++        TEST_IMG=3D"$DRIVER,file.driver=3Dnbd,file.type=3Dunix,file.path=
+=3D$SOCKDIR/$IMGFMT"
+     elif [ "$IMGPROTO" =3D "ssh" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         TEST_IMG=3D"$DRIVER,file.driver=3Dssh,file.host=3D127.0.0.1,file.p=
+ath=3D$TEST_IMG_FILE"
+@@ -233,7 +233,7 @@ else
+         TEST_IMG=3D$TEST_DIR/t.$IMGFMT
+     elif [ "$IMGPROTO" =3D "nbd" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+-        TEST_IMG=3D"nbd:127.0.0.1:10810"
++        TEST_IMG=3D"nbd+unix:///?socket=3D$SOCK_DIR/nbd"
+     elif [ "$IMGPROTO" =3D "ssh" ]; then
+         TEST_IMG_FILE=3D$TEST_DIR/t.$IMGFMT
+         REMOTE_TEST_DIR=3D"ssh://\\($USER@\\)\\?127.0.0.1\\(:[0-9]\\+\\)\\=
+?$TEST_DIR"
+@@ -293,7 +293,7 @@ _stop_nbd_server()
+         local QEMU_NBD_PID
+         read QEMU_NBD_PID < "${QEMU_TEST_DIR}/qemu-nbd.pid"
+         kill ${QEMU_NBD_PID}
+-        rm -f "${QEMU_TEST_DIR}/qemu-nbd.pid"
++        rm -f "${QEMU_TEST_DIR}/qemu-nbd.pid" "$SOCK_DIR/nbd"
+     fi
+ }
 
--TEST_IMG=3D"${BASE_IMG}" _make_test_img $size
-+TEST_IMG_FILE=3D"${BASE_IMG}" _make_test_img $size
+@@ -353,7 +353,7 @@ _make_test_img()
+     if [ $IMGPROTO =3D "nbd" ]; then
+         # Pass a sufficiently high number to -e that should be enough for =
+all
+         # tests
+-        eval "$QEMU_NBD -v -t -b 127.0.0.1 -p 10810 -f $IMGFMT -e 42 -x ''=
+ $TEST_IMG_FILE >/dev/null &"
++        eval "$QEMU_NBD -v -t -k '$SOCK_DIR/nbd' -f $IMGFMT -e 42 -x '' $T=
+EST_IMG_FILE >/dev/null &"
+         sleep 1 # FIXME: qemu-nbd needs to be listening before we continue
+     fi
 
--TEST_IMG=3D"${TOP_IMG}" _make_test_img $size
-+TEST_IMG_FILE=3D"${TOP_IMG}" _make_test_img $size
-
- echo
- echo =3D=3D=3D Running QEMU, using block-stream to find backing image =3D=
-=3D=3D
-diff --git a/tests/qemu-iotests/173.out b/tests/qemu-iotests/173.out
-index f477a0099a32..e83d17ec2f64 100644
---- a/tests/qemu-iotests/173.out
-+++ b/tests/qemu-iotests/173.out
-@@ -7,6 +7,10 @@ Formatting 'TEST_DIR/image.snp1', fmt=3DIMGFMT size=3D1048=
-57600
- {"return": {}}
- {"return": {}}
- {"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk2"}}
- {"return": {}}
--{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "BLOCK_JOB_COMPLETED", "data": {"device": "disk2", "len": 104857600, "off=
-set": 104857600, "speed": 0, "type": "stream"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "disk2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "disk2"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event"=
-: "BLOCK_JOB_COMPLETED", "data": {"device": "disk2", "len": 0, "offset": 0,=
- "speed": 0, "type": "stream"}}
- *** done
 --=20
 2.21.0
 
