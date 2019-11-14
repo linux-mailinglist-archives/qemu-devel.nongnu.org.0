@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5291BFCBBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:21:46 +0100 (CET)
-Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9949FCBD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Nov 2019 18:29:25 +0100 (CET)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVIoQ-0003zN-T1
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:21:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56792)
+	id 1iVIvs-00088l-Ma
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 12:29:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iVIm4-0002cP-EC
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:19:19 -0500
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1iVIuR-00072F-6M
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:27:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1iVIm1-0005A4-1r
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:19:15 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40376
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1iVIm0-0004PC-7T
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:19:12 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xAEGpf5Q022953; Thu, 14 Nov 2019 12:18:00 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w99d450b9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Nov 2019 12:17:59 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id xAEGwoYR042729;
- Thu, 14 Nov 2019 12:17:59 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w99d450ap-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Nov 2019 12:17:59 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xAEHAv9n029717;
- Thu, 14 Nov 2019 17:17:58 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03dal.us.ibm.com with ESMTP id 2w5n37809x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Nov 2019 17:17:58 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAEHHvIC55378262
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Nov 2019 17:17:57 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 568D4BE053;
- Thu, 14 Nov 2019 17:17:57 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 131D8BE04F;
- Thu, 14 Nov 2019 17:17:56 +0000 (GMT)
-Received: from localhost (unknown [9.53.179.218])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 14 Nov 2019 17:17:56 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <a13xp0p0v88@gmail.com>) id 1iVIuQ-0001LL-0e
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 12:27:55 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36851)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
+ id 1iVIuM-0001FN-1A; Thu, 14 Nov 2019 12:27:50 -0500
+Received: by mail-lj1-f195.google.com with SMTP id k15so7574232lja.3;
+ Thu, 14 Nov 2019 09:27:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u6U4auc3+kGBAbtlPhPv7a7xPAKjNiKOvhAkoCwTOE0=;
+ b=umzIloFbyJRISwqd34/tYPlEwZMj4QTQgU60P6iePG5b3dhfiQohvOjQ1PLztACP09
+ T1iHDY8xXNifj/0fDPuQUSTgE95Fa3jPqwn8tg4O155OL7UlCunHRcQafyDwEfgYo4C1
+ wxDPE7tB8rLUpzIMnt2y1StKPeQ9xNXZ2pvMeMA9WGhslo+SLyD0AT8zN1GiHXZwsHgr
+ Z7MDSd39RsXrdHgE5MSwvRTORR1rGR8bXb4UFRPm6M6FvH3vOjggb41hjxsZu0MfhhWD
+ iDutSjc9+vvx0igYDMrxo+ioWHvqPysYH5sY/cn4kN/cP5kK31gFH9LuWDejNmOK3ZjZ
+ 9kTw==
+X-Gm-Message-State: APjAAAVgakfb9jkDAxo4Qft46wjd8HO5ihepl1oZCq5Omr56SkUJXcVh
+ F+QQb9SWtLmF+y+ziu+JEds=
+X-Google-Smtp-Source: APXvYqygrer3G4p/zc97tyQJiP1LithYuprVDFOnuLHg1YKZD9rdfoOcYU5SZFH2RSFo5d1hL+JGdw==
+X-Received: by 2002:a2e:7a07:: with SMTP id v7mr7612588ljc.208.1573752468226; 
+ Thu, 14 Nov 2019 09:27:48 -0800 (PST)
+Received: from localhost.localdomain ([213.87.136.65])
+ by smtp.gmail.com with ESMTPSA id u7sm2953559lfg.65.2019.11.14.09.27.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Nov 2019 09:27:47 -0800 (PST)
+From: Alexander Popov <alex.popov@linux.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ pmatouse@redhat.com, sstabellini@kernel.org, mdroth@linux.vnet.ibm.com,
+ pjp@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Kashyap Chamarthy <kashyap.cv@gmail.com>,
+ Alexander Popov <alex.popov@linux.com>
+Subject: [PATCH v2 1/1] ide: check DMA transfer size in ide_dma_cb() to
+ prevent qemu DoS from quests
+Date: Thu, 14 Nov 2019 20:25:31 +0300
+Message-Id: <20191114172531.10644-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: "Michael S. Tsirkin" <mst@redhat.com>
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <20191114041049-mutt-send-email-mst@kernel.org>
-References: <20191113054301.31529-1-mdroth@linux.vnet.ibm.com>
- <20191113050402-mutt-send-email-mst@kernel.org>
- <157369365636.3335.3099930975683371802@sif>
- <20191114034532-mutt-send-email-mst@kernel.org>
- <20191114041049-mutt-send-email-mst@kernel.org>
-Message-ID: <157375187402.3335.9181283576251818887@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH RFC] virtio-pci: disable vring processing when
- bus-mastering is disabled
-Date: Thu, 14 Nov 2019 11:17:54 -0600
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-11-14_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=8 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1910280000 definitions=main-1911140150
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.208.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,466 +71,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Michael S. Tsirkin (2019-11-14 03:12:00)
-> On Thu, Nov 14, 2019 at 04:10:36AM -0500, Michael S. Tsirkin wrote:
-> > On Wed, Nov 13, 2019 at 07:07:36PM -0600, Michael Roth wrote:
-> > > Quoting Michael S. Tsirkin (2019-11-13 04:09:02)
-> > > > On Tue, Nov 12, 2019 at 11:43:01PM -0600, Michael Roth wrote:
-> > > > > Currently the SLOF firmware for pseries guests will disable/re-en=
-able
-> > > > > a PCI device multiple times via IO/MEM/MASTER bits of PCI_COMMAND
-> > > > > register after the initial probe/feature negotiation, as it tends=
- to
-> > > > > work with a single device at a time at various stages like probing
-> > > > > and running block/network bootloaders without doing a full reset
-> > > > > in-between.
-> > > > > =
+The commit a718978ed58a from July 2015 introduced the assertion which
+implies that the size of successful DMA transfers handled in ide_dma_cb()
+should be multiple of 512 (the size of a sector). But guest systems can
+initiate DMA transfers that don't fit this requirement.
 
-> > > > > In QEMU, when PCI_COMMAND_MASTER is disabled we disable the
-> > > > > corresponding IOMMU memory region, so DMA accesses (including to =
-vring
-> > > > > fields like idx/flags) will no longer undergo the necessary
-> > > > > translation. Normally we wouldn't expect this to happen since it =
-would
-> > > > > be misbehavior on the driver side to continue driving DMA request=
-s.
-> > > > > =
+PoC for Linux that uses SCSI_IOCTL_SEND_COMMAND to perform such an ATA
+command and crash qemu:
 
-> > > > > However, in the case of pseries, with iommu_platform=3Don, we tri=
-gger the
-> > > > > following sequence when tearing down the virtio-blk dataplane ioe=
-ventfd
-> > > > > in response to the guest unsetting PCI_COMMAND_MASTER:
-> > > > > =
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
+#include <stdlib.h>
+#include <scsi/scsi.h>
+#include <scsi/scsi_ioctl.h>
 
-> > > > >   #2  0x0000555555922651 in virtqueue_map_desc (vdev=3Dvdev@entry=
-=3D0x555556dbcfb0, p_num_sg=3Dp_num_sg@entry=3D0x7fffe657e1a8, addr=3Daddr@=
-entry=3D0x7fffe657e240, iov=3Diov@entry=3D0x7fffe6580240, max_num_sg=3Dmax_=
-num_sg@entry=3D1024, is_write=3Dis_write@entry=3Dfalse, pa=3D0, sz=3D0)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio.c:757
-> > > > >   #3  0x0000555555922a89 in virtqueue_pop (vq=3Dvq@entry=3D0x5555=
-56dc8660, sz=3Dsz@entry=3D184)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio.c:950
-> > > > >   #4  0x00005555558d3eca in virtio_blk_get_request (vq=3D0x555556=
-dc8660, s=3D0x555556dbcfb0)
-> > > > >       at /home/mdroth/w/qemu.git/hw/block/virtio-blk.c:255
-> > > > >   #5  0x00005555558d3eca in virtio_blk_handle_vq (s=3D0x555556dbc=
-fb0, vq=3D0x555556dc8660)
-> > > > >       at /home/mdroth/w/qemu.git/hw/block/virtio-blk.c:776
-> > > > >   #6  0x000055555591dd66 in virtio_queue_notify_aio_vq (vq=3Dvq@e=
-ntry=3D0x555556dc8660)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio.c:1550
-> > > > >   #7  0x000055555591ecef in virtio_queue_notify_aio_vq (vq=3D0x55=
-5556dc8660)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio.c:1546
-> > > > >   #8  0x000055555591ecef in virtio_queue_host_notifier_aio_poll (=
-opaque=3D0x555556dc86c8)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio.c:2527
-> > > > >   #9  0x0000555555d02164 in run_poll_handlers_once (ctx=3Dctx@ent=
-ry=3D0x55555688bfc0, timeout=3Dtimeout@entry=3D0x7fffe65844a8)
-> > > > >       at /home/mdroth/w/qemu.git/util/aio-posix.c:520
-> > > > >   #10 0x0000555555d02d1b in try_poll_mode (timeout=3D0x7fffe65844=
-a8, ctx=3D0x55555688bfc0)
-> > > > >       at /home/mdroth/w/qemu.git/util/aio-posix.c:607
-> > > > >   #11 0x0000555555d02d1b in aio_poll (ctx=3Dctx@entry=3D0x5555568=
-8bfc0, blocking=3Dblocking@entry=3Dtrue)
-> > > > >       at /home/mdroth/w/qemu.git/util/aio-posix.c:639
-> > > > >   #12 0x0000555555d0004d in aio_wait_bh_oneshot (ctx=3D0x55555688=
-bfc0, cb=3Dcb@entry=3D0x5555558d5130 <virtio_blk_data_plane_stop_bh>, opaqu=
-e=3Dopaque@entry=3D0x555556de86f0)
-> > > > >       at /home/mdroth/w/qemu.git/util/aio-wait.c:71
-> > > > >   #13 0x00005555558d59bf in virtio_blk_data_plane_stop (vdev=3D<o=
-ptimized out>)
-> > > > >       at /home/mdroth/w/qemu.git/hw/block/dataplane/virtio-blk.c:=
-288
-> > > > >   #14 0x0000555555b906a1 in virtio_bus_stop_ioeventfd (bus=3Dbus@=
-entry=3D0x555556dbcf38)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio-bus.c:245
-> > > > >   #15 0x0000555555b90dbb in virtio_bus_stop_ioeventfd (bus=3Dbus@=
-entry=3D0x555556dbcf38)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio-bus.c:237
-> > > > >   #16 0x0000555555b92a8e in virtio_pci_stop_ioeventfd (proxy=3D0x=
-555556db4e40)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio-pci.c:292
-> > > > >   #17 0x0000555555b92a8e in virtio_write_config (pci_dev=3D0x5555=
-56db4e40, address=3D<optimized out>, val=3D1048832, len=3D<optimized out>)
-> > > > >       at /home/mdroth/w/qemu.git/hw/virtio/virtio-pci.c:613
-> > > > > =
+#define CMD_SIZE 2048
 
-> > > > > I.e. the calling code is only scheduling a one-shot BH for
-> > > > > virtio_blk_data_plane_stop_bh, but somehow we end up trying to pr=
-ocess
-> > > > > an additional virtqueue entry before we get there. This is likely=
- due
-> > > > > to the following check in virtio_queue_host_notifier_aio_poll:
-> > > > > =
+struct scsi_ioctl_cmd_6 {
+	unsigned int inlen;
+	unsigned int outlen;
+	unsigned char cmd[6];
+	unsigned char data[];
+};
 
-> > > > >   static bool virtio_queue_host_notifier_aio_poll(void *opaque)
-> > > > >   {
-> > > > >       EventNotifier *n =3D opaque;
-> > > > >       VirtQueue *vq =3D container_of(n, VirtQueue, host_notifier);
-> > > > >       bool progress;
-> > > > > =
+int main(void)
+{
+	intptr_t fd = 0;
+	struct scsi_ioctl_cmd_6 *cmd = NULL;
 
-> > > > >       if (!vq->vring.desc || virtio_queue_empty(vq)) {
-> > > > >           return false;
-> > > > >       }
-> > > > > =
+	cmd = malloc(CMD_SIZE);
+	if (!cmd) {
+		perror("[-] malloc");
+		return 1;
+	}
 
-> > > > >       progress =3D virtio_queue_notify_aio_vq(vq);
-> > > > > =
+	memset(cmd, 0, CMD_SIZE);
+	cmd->inlen = 1337;
+	cmd->cmd[0] = READ_6;
 
-> > > > > namely the call to virtio_queue_empty(). In this case, since no n=
-ew
-> > > > > requests have actually been issued, shadow_avail_idx =3D=3D last_=
-avail_idx,
-> > > > > so we actually try to access the vring via vring_avail_idx() to g=
-et
-> > > > > the latest non-shadowed idx:
-> > > > > =
+	fd = open("/dev/sg0", O_RDONLY);
+	if (fd == -1) {
+		perror("[-] opening sg");
+		return 1;
+	}
 
-> > > > >   int virtio_queue_empty(VirtQueue *vq)
-> > > > >   {
-> > > > >       bool empty;
-> > > > >       ...
-> > > > > =
+	printf("[+] sg0 is opened\n");
 
-> > > > >       if (vq->shadow_avail_idx !=3D vq->last_avail_idx) {
-> > > > >           return 0;
-> > > > >       }
-> > > > > =
+	printf("[.] qemu should break here:\n");
+	fflush(stdout);
+	ioctl(fd, SCSI_IOCTL_SEND_COMMAND, cmd);
+	printf("[-] qemu didn't break\n");
 
-> > > > >       rcu_read_lock();
-> > > > >       empty =3D vring_avail_idx(vq) =3D=3D vq->last_avail_idx;
-> > > > >       rcu_read_unlock();
-> > > > >       return empty;
-> > > > > =
+	free(cmd);
 
-> > > > > but since the IOMMU region has been disabled we get a bogus value=
- (0
-> > > > > usually), which causes virtio_queue_empty() to falsely report that
-> > > > > there are entries to be processed, which causes errors such as:
-> > > > > =
+	return 1;
+}
 
-> > > > >   "virtio: zero sized buffers are not allowed"
-> > > > > =
+For fixing that let's check the number of bytes prepared for the transfer
+by the prepare_buf() handler. If it is not a multiple of 512 then end
+the DMA transfer with an error.
 
-> > > > > or
-> > > > > =
+That also fixes the I/O stall in guests after a DMA transfer request
+for less than the size of a sector.
 
-> > > > >   "virtio-blk missing headers"
-> > > > > =
+Signed-off-by: Alexander Popov <alex.popov@linux.com>
+---
+ hw/ide/core.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-> > > > > and puts the device in an error state.
-> > > > > =
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 754ff4dc34..85aac614f0 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -849,6 +849,7 @@ static void ide_dma_cb(void *opaque, int ret)
+     int64_t sector_num;
+     uint64_t offset;
+     bool stay_active = false;
++    int32_t prepared = 0;
+ 
+     if (ret == -EINVAL) {
+         ide_dma_error(s);
+@@ -892,12 +893,10 @@ static void ide_dma_cb(void *opaque, int ret)
+     n = s->nsector;
+     s->io_buffer_index = 0;
+     s->io_buffer_size = n * 512;
+-    if (s->bus->dma->ops->prepare_buf(s->bus->dma, s->io_buffer_size) < 512) {
+-        /* The PRDs were too short. Reset the Active bit, but don't raise an
+-         * interrupt. */
+-        s->status = READY_STAT | SEEK_STAT;
+-        dma_buf_commit(s, 0);
+-        goto eot;
++    prepared = s->bus->dma->ops->prepare_buf(s->bus->dma, s->io_buffer_size);
++    if (prepared % 512) {
++        ide_dma_error(s);
++        return;
+     }
+ 
+     trace_ide_dma_cb(s, sector_num, n, IDE_DMA_CMD_str(s->dma_cmd));
+-- 
+2.21.0
 
-> > > > > This patch works around the issue by introducing virtio_set_disab=
-led(),
-> > > > > which piggy-backs off the vdev->broken flag we already use to byp=
-ass
-> > > > > checks like virtio_queue_empty(), and sets/unsets it in response =
-to
-> > > > > enabling/disabling bus-mastering.
-> > > > > =
-
-> > > > > NOTES:
-> > > > > =
-
-> > > > >  - It's possible we could also work around this in SLOF by doing a
-> > > > >    full reset instead of relying on PCI_COMMAND to enable/disable=
-, but
-> > > > >    in any case the QEMU behavior seems wrong.
-> > > > >  - This leaves some other oddities in play, like the fact that
-> > > > >    DRIVER_OK also gets unset in response to bus-mastering being
-> > > > >    disabled, but not restored (however the device seems to contin=
-ue
-> > > > >    working)
-> > > > >  - Similarly, we disable the host notifier via
-> > > > >    virtio_bus_stop_ioeventfd(), which seems to move the handling =
-out
-> > > > >    of virtio-blk dataplane and back into the main IO thread, and =
-it
-> > > > >    ends up staying there till a reset (but otherwise continues wo=
-rking
-> > > > >    normally)
-> > > > > =
-
-> > > > > Cc: David Gibson <david@gibson.dropbear.id.au>,
-> > > > > Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > > > > Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> > > > > Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> > > > > ---
-> > > > >  hw/virtio/virtio-pci.c     | 12 ++++++++----
-> > > > >  hw/virtio/virtio.c         |  7 ++++++-
-> > > > >  include/hw/virtio/virtio.h |  1 +
-> > > > >  3 files changed, 15 insertions(+), 5 deletions(-)
-> > > > > =
-
-> > > > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > > > > index c6b47a9c73..394d409fb9 100644
-> > > > > --- a/hw/virtio/virtio-pci.c
-> > > > > +++ b/hw/virtio/virtio-pci.c
-> > > > > @@ -608,10 +608,14 @@ static void virtio_write_config(PCIDevice *=
-pci_dev, uint32_t address,
-> > > > >          pcie_cap_flr_write_config(pci_dev, address, val, len);
-> > > > >      }
-> > > > >  =
-
-> > > > > -    if (range_covers_byte(address, len, PCI_COMMAND) &&
-> > > > > -        !(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
-> > > > > -        virtio_pci_stop_ioeventfd(proxy);
-> > > > > -        virtio_set_status(vdev, vdev->status & ~VIRTIO_CONFIG_S_=
-DRIVER_OK);
-> > > > > +    if (range_covers_byte(address, len, PCI_COMMAND)) {
-> > > > > +        if (!(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)=
-) {
-> > > > > +            virtio_set_disabled(vdev, true);
-> > > > > +            virtio_pci_stop_ioeventfd(proxy);
-> > > > > +            virtio_set_status(vdev, vdev->status & ~VIRTIO_CONFI=
-G_S_DRIVER_OK);
-> > > > > +        } else {
-> > > > > +            virtio_set_disabled(vdev, false);
-> > > > > +        }
-> > > > >      }
-> > > > >  =
-
-> > > > >      if (proxy->config_cap &&
-> > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > > > index 527df03bfd..46580c357d 100644
-> > > > > --- a/hw/virtio/virtio.c
-> > > > > +++ b/hw/virtio/virtio.c
-> > > > > @@ -2575,6 +2575,11 @@ void virtio_device_set_child_bus_name(Virt=
-IODevice *vdev, char *bus_name)
-> > > > >      vdev->bus_name =3D g_strdup(bus_name);
-> > > > >  }
-> > > > >  =
-
-> > > > > +void virtio_set_disabled(VirtIODevice *vdev, bool disable)
-> > > > > +{
-> > > > > +    vdev->broken =3D disable;
-> > > > > +}
-> > > > > +
-> > > > >  void GCC_FMT_ATTR(2, 3) virtio_error(VirtIODevice *vdev, const c=
-har *fmt, ...)
-> > > > >  {
-> > > > >      va_list ap;
-> > > > =
-
-> > > > Hmm. I think just clear and immediate set of bus master while devic=
-e was
-> > > > not doing any DMA actually should be fine and should not require a
-> > > > reset.  Now it's true that right now guests reset first thing which=
- will
-> > > > clear the broken flag, but I'd say it's wrong to require this speci=
-fic
-> > > > order.
-> > > > I think the easiest thing is to add a "disabled" flag.
-> > > =
-
-> > > Agreed. Some comments on that below.
-> > > =
-
-> > > > =
-
-> > > > =
-
-> > > > > @@ -2588,7 +2593,7 @@ void GCC_FMT_ATTR(2, 3) virtio_error(VirtIO=
-Device *vdev, const char *fmt, ...)
-> > > > >          virtio_notify_config(vdev);
-> > > > >      }
-> > > > >  =
-
-> > > > > -    vdev->broken =3D true;
-> > > > > +    virtio_set_disabled(vdev, true);
-> > > > >  }
-> > > > >  =
-
-> > > > >  static void virtio_memory_listener_commit(MemoryListener *listen=
-er)
-> > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virti=
-o.h
-> > > > > index 48e8d04ff6..921945b7e8 100644
-> > > > > --- a/include/hw/virtio/virtio.h
-> > > > > +++ b/include/hw/virtio/virtio.h
-> > > > > @@ -168,6 +168,7 @@ void virtio_init(VirtIODevice *vdev, const ch=
-ar *name,
-> > > > >                           uint16_t device_id, size_t config_size);
-> > > > >  void virtio_cleanup(VirtIODevice *vdev);
-> > > > >  =
-
-> > > > > +void virtio_set_disabled(VirtIODevice *vdev, bool disable);
-> > > > >  void virtio_error(VirtIODevice *vdev, const char *fmt, ...) GCC_=
-FMT_ATTR(2, 3);
-> > > > >  =
-
-> > > > >  /* Set the child bus name. */
-> > > > =
-
-> > > > =
-
-> > > > One open question here is cross version migration.
-> > > > What exactly happens if we migrate to an old qemu?
-> > > > from an old qemu?
-> > > =
-
-> > > Currently vdev->broken is already migrated via a subsection if it is =
-set.
-> > > =
-
-> > > So, with the current proposed patch I would expect the following:
-> > > =
-
-> > >  old -> new:
-> > >    dev->broken set due to proposed virtio_set_disabled():
-> > >      - N/A
-> > >    dev->broken set due to other/existing reasons:
-> > >      - value is migrated, migration succeeds
-> > >      - device continues not working until a reset, or bus-mastering
-> > >        enabled/re-enabled. (which is good, but also makes me realize
-> > >        that a device that was put into broken state for reasons
-> > >        other than virtio_set_disabled() should not get 'unbroken'
-> > >        simply because bus-master bit was cycled. a separate flag
-> > >        is probably needed)
-> > >      - PASS
-> > >    dev->broken not set:
-> > >      - not migrated
-> > >      - PASS
-> > >  new -> old:
-> > >    dev->broken set due to proposed virtio_set_disabled():
-> > >      - migration succeeds to any QEMU that already has handling for
-> > >        dev->broken.
-> > >      - migration fails for any QEMU that doesn't have handling for
-> > >        dev->broken as it does now, but will a higher chance of
-> > >        triggering
-> > >      - device won't work until it is reset. for most guests we will
-> > >        probably get a reset before the device is used again anyway. f=
-or
-> > >        the SLOF case the device will stay broken after bus-mastering
-> > >        re-enabled, but that's the case for existing QEMU now anyway
-> > >      - PASS, but with increased chance of migration breakage for
-> > >        QEMU's that don't have handling for dev->broken.
-> > >    dev->broken set due to other/existing reasons:
-> > >      - migration succeeds to any QEMU that already has handling for
-> > >        dev->broken. device will require a reset as it does now.
-> > >      - migration fails for any QEMU that doesn't have handling for
-> > >        dev->broken as it does now
-> > >      - PASS
-> > >    dev->broken not set:
-> > >      - not migrated
-> > >      - PASS
-> > > =
-
-> > > With a new dev->disabled flag, which we'd likely send using a subsect=
-ion
-> > > like with dev->broken, I would expect the following:
-> > > =
-
-> > >  old -> new:
-> > >    dev->disabled set:
-> > >      - N/A
-> > >    dev->disabled not set:
-> > >      - not migrated
-> > >      - if source disables BM just before migration we will likely go
-> > >        into an error state that either sets dev->broken or puts the
-> > >        device in some other possibly bad state. either case would req=
-uire
-> > >        subsequent reset, just as they would without migration
-> > >      - PASS
-> > >  new -> old:
-> > >    dev->disabled set:
-> > >      - migration stream fails
-> > >      - FAIL, but as expected, and doesn't seem common currently outsi=
-de
-> > >        of SLOF early-boot else we'd probably have more reports of
-> > >        breakage from vring access while BM isn't set.
-> > >    dev->broken not set:
-> > >      - not migrated
-> > >      - PASS
-> > > =
-
-> > > So re-using 'broken' is slightly better from a migration standpoint, =
-but
-> > > as noted above it is probably wrong to unset 'broken' just because BM=
- bit
-> > > gets cycled, so a new 'disabled' flag is probably needed.
-> > > =
-
-> > > We could probably get by with just adding a check for dev->disabled i=
-n =
-
-> > > virtio_queue_empty(), or even earlier in
-> > > virtio_queue_host_notifier_aio_poll(), but it seems more proper to al=
-so
-> > > add it in most of the same places we currently check for dev->broken.
-> > > =
-
-> > > That seems somewhat redundant though, so I think maybe the best appro=
-ach
-> > > is to:
-> > > =
-
-> > >  - replace most dev->broken checks with checks for dev->disabled
-> > =
-
-> > I propose calling an inline functions so we are not tied to a specific
-> > field.
-> > =
-
-
-Makes sense.
-
-> > >  - set dev->disabled whenever dev->broken gets set
-> > >  - add a check in virtio_set_disabled() that only allows us to re-ena=
-ble if
-> > >    dev->broken hasn't also been set.
-> > > =
-
-> > > I'll work on a follow-up using that approach if it seems reasonable to
-> > > you.
-> =
-
-> =
-
-> Also, since the new field is not migrated anyway, how about a flag
-> that old machine types set, and behave the way we do now?
-
-Hmm, you're right that in the above cases there's only one case where we
-would migrate (new->old, when dev->disabled is set), and this would
-break the migration stream anyway, so there's no reason to migrate. But I
-forgot to include the more common case of new->new:
-
-  new -> new:
-    dev->disabled set:
-      - migrated
-      - PASS
-    dev->disabled not set:
-      - not migrated
-      - PASS
-    =
-
-So I was planning on migrating it via subsection. But it does make sense
-to only use it for newer machine types so we don't trigger the failure
-for (new->old && dev->disabled =3D=3D true). Maybe that's what you were
-suggesting in the first place?
-
-I'll give that a shot.
-
-> > > =
-
-> > > Thanks!
-> > > =
-
-> > > > =
-
-> > > > > -- =
-
-> > > > > 2.17.1
-> > > > =
-
->=20
 
