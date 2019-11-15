@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E69FE0CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 16:04:47 +0100 (CET)
-Received: from localhost ([::1]:40492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2550FE0E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 16:10:44 +0100 (CET)
+Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVd9R-00073e-N9
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 10:04:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56952)
+	id 1iVdFE-00028s-2C
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 10:10:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <michael.goffioul@gmail.com>) id 1iVcAK-0007ZJ-1B
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:01:40 -0500
+ (envelope-from <thuth@redhat.com>) id 1iVdEG-0001Ti-M0
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <michael.goffioul@gmail.com>) id 1iVcAI-0004gd-Tx
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:01:35 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:32981)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <michael.goffioul@gmail.com>)
- id 1iVcAC-0004fC-IF; Fri, 15 Nov 2019 09:01:28 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id c184so6735573pfb.0;
- Fri, 15 Nov 2019 06:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=96GNJAm9RKsC/N5GfKUlT10rQYojQswtEI+FU+oycSE=;
- b=nFYR1VC7VfoELPLqeMlNLP1llrgbkwZxRrJnNHRoI85cb4fBS6e7YM+8yNqY9im0Ny
- G9ZvLwt6MkK4tID65se07FNl7ZO0bdHl1QFnbv0P7wiSl6l7/V23AP10XCu1iOMzDrPx
- NxnVnhajAT85zfVKxHUtdyffKky232jOyy+TdKIlsqHVuwc0X5J5HqYljOtUUwOSL6PZ
- tUzqlPtA9Na23Jw55q2y69vvEiPAhdZMWbE7mp35e3t+CPGgwLXeD++7jFQY9Ha3/bN4
- KFMWiODWyBRk96myRUXS7Jdqm4ycJ3bOu/mLSVXeT0P8//VuucMwpQXqrqUD0rox2zdH
- IbaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=96GNJAm9RKsC/N5GfKUlT10rQYojQswtEI+FU+oycSE=;
- b=F2BX22QBCCMGue1Ov1/YfVNScnoX87KuTO/eW92dv7oEKf3zp4uQjrLNwZTUd+SVcf
- NXwaEj9vPA4X7M/GmkSvbHQbHJb2yDSpgJ29z/0W2TSTrJxiL032BYPEgxLXfk20ObrH
- /cwtAgRSpe812cw/AYOrOyO4McE7bKPekG9Y+Xx7CLBc6zVXYNoCZDFUz+2Kq9e4WA6d
- QNS2uL74qFSyMLAl86PhaZ/F5YPjGutu3SPBzFFJJ54jz50yKqTlt+PE9awDVF06cEm6
- MKqU/dhZUNuVCWMnm4bZRy9qLbYzQTr64vEE7vx1utRhLcXFUVJco+z2JO5J9KumIjkF
- gnIA==
-X-Gm-Message-State: APjAAAW1twqiCHtUbO6grPecNvlKDbjpY/RD4tqYFlspJDrbnpP+rBb2
- Qg/UeGoJREDv4Jt/Li8DZJN1p6ADg3YP+2o+t2g=
-X-Google-Smtp-Source: APXvYqzjWMsnZN8deEBM8ZWpk4Ql1YWVy/FtzqS5bbbRWC+6pSY5mHc93gufRfs9I4WxSSebLHxrIQ9FGU+2SUBH8rU=
-X-Received: by 2002:a17:90a:ba89:: with SMTP id
- t9mr20177726pjr.29.1573826487071; 
- Fri, 15 Nov 2019 06:01:27 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1iVdEE-00088j-Of
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:09:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40579
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iVdEE-00088C-J9
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:09:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573830582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/C08I94E41LhRbG7BjaHY25aetPMw9QUs0aFH5/d2/c=;
+ b=MNPEXhlISZpPPR+Zomn3TInjoMOaSlzBtQsgaMkAQ/iEMJ4Und0vP7Bj+fjqkT6U7SZh6e
+ 5tkjSzmvZCMKYTMU8kOgjwEEOF6QLrWDZGKy/Sci5gjqVbru6htSz4zm3NYf8tS2EYKN0v
+ uSbacfeFatml5fzo6p5n1Cy583CEjJg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-xqQ2s-ssNjCwKT03Gb6qhA-1; Fri, 15 Nov 2019 10:09:39 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E25CF2649B;
+ Fri, 15 Nov 2019 15:09:37 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-117-84.ams2.redhat.com
+ [10.36.117.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 628FF60C81;
+ Fri, 15 Nov 2019 15:09:30 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH for-4.2] hw/i386: Fix compiler warning when CONFIG_IDE_ISA is
+ disabled
+Date: Fri, 15 Nov 2019 15:50:49 +0100
+Message-Id: <20191115145049.26868-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <CAB-99Lv3LySps4MOoKEj7Sp0CBouv-KgZp2osbiokSq_Gdfj5Q@mail.gmail.com>
- <CAFEAcA-RXurz2OB24i1wypumCDWf5s__mC33mFzBA3SCsm4_VA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-RXurz2OB24i1wypumCDWf5s__mC33mFzBA3SCsm4_VA@mail.gmail.com>
-From: Michael Goffioul <michael.goffioul@gmail.com>
-Date: Fri, 15 Nov 2019 09:01:15 -0500
-Message-ID: <CAB-99LsMY5R11VN=2aOq0CDcvm5sN5rTjCAZumOsZ-uWjXgujQ@mail.gmail.com>
-Subject: Re: Invalid ARM instruction for clang-compiled Android code
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b33e6905976308cb"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::42c
-X-Mailman-Approved-At: Fri, 15 Nov 2019 10:01:37 -0500
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: xqQ2s-ssNjCwKT03Gb6qhA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,85 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b33e6905976308cb
-Content-Type: text/plain; charset="UTF-8"
+When CONFIG_IDE_ISA is disabled, compilation currently fails:
 
-On Fri, Nov 15, 2019 at 6:03 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+ hw/i386/pc_piix.c: In function =E2=80=98pc_init1=E2=80=99:
+ hw/i386/pc_piix.c:81:9: error: unused variable =E2=80=98i=E2=80=99 [-Werro=
+r=3Dunused-variable]
 
-> Richard, I think we're tripping over the check you added
-> in commit af2882289951e. Specifically:
->
-> +    /* We UNDEF for these UNPREDICTABLE cases.  */
-> +    if (a->rd == 15 || a->rn == 15 || a->rt == 15
-> +        || a->rd == a->rn || a->rd == a->rt
-> +        || (s->thumb && (a->rd == 13 || a->rt == 13))
-> +        || (mop == MO_64
-> +            && (a->rt2 == 15
-> +                || a->rd == a->rt2 || a->rt == a->rt2
-> +                || (s->thumb && a->rt2 == 13)))) {
-> +        unallocated_encoding(s);
-> +        return true;
-> +    }
->
-> in the mop == MO_64 subclause we check for
->  a->rt == a->rt2
-> so we will UNDEF for rt == rt2, as in this example. But the
-> pseudocode in the spec doesn't say that rt == rt2 is
-> an UNPREDICTABLE case. (It is an UNDPREDICTABLE
-> case for LDREXD, but STREXD lets you write the same
-> register twice if you want to.) Or am I misreading this?
->
+Move the variable declaration to the right code block to avoid
+this problem.
 
-BTW, I can confirm that removing the check "a->rt == a->rt2" seems to fix
-my problem.
+Fixes: 4501d317b50e ("hw/i386/pc: Extract pc_i8259_create()")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/i386/pc_piix.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---000000000000b33e6905976308cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2aefa3b8df..d187db761c 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
+     X86MachineState *x86ms =3D X86_MACHINE(machine);
+     MemoryRegion *system_memory =3D get_system_memory();
+     MemoryRegion *system_io =3D get_system_io();
+-    int i;
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+     PCII440FXState *i440fx_state;
+@@ -253,7 +252,7 @@ static void pc_init1(MachineState *machine,
+     }
+ #ifdef CONFIG_IDE_ISA
+ else {
+-        for(i =3D 0; i < MAX_IDE_BUS; i++) {
++        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
+             ISADevice *dev;
+             char busname[] =3D "ide.0";
+             dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i],
+--=20
+2.23.0
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 15, 2019 at 6:03 AM Peter May=
-dell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.o=
-rg</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Richard, I think we&#39;re tripping over the c=
-heck you added<br>
-in commit af2882289951e. Specifically:<br>
-<br>
-+=C2=A0 =C2=A0 /* We UNDEF for these UNPREDICTABLE cases.=C2=A0 */<br>
-+=C2=A0 =C2=A0 if (a-&gt;rd =3D=3D 15 || a-&gt;rn =3D=3D 15 || a-&gt;rt =3D=
-=3D 15<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 || a-&gt;rd =3D=3D a-&gt;rn || a-&gt;rd =3D=3D=
- a-&gt;rt<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 || (s-&gt;thumb &amp;&amp; (a-&gt;rd =3D=3D 13=
- || a-&gt;rt =3D=3D 13))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 || (mop =3D=3D MO_64<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; (a-&gt;rt2 =3D=3D 15<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || a-&gt;rd =3D=3D=
- a-&gt;rt2 || a-&gt;rt =3D=3D a-&gt;rt2<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 || (s-&gt;thumb &a=
-mp;&amp; a-&gt;rt2 =3D=3D 13)))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unallocated_encoding(s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-in the mop =3D=3D MO_64 subclause we check for<br>
-=C2=A0a-&gt;rt =3D=3D a-&gt;rt2<br>
-so we will UNDEF for rt =3D=3D rt2, as in this example. But the<br>
-pseudocode in the spec doesn&#39;t say that rt =3D=3D rt2 is<br>
-an UNPREDICTABLE case. (It is an UNDPREDICTABLE<br>
-case for LDREXD, but STREXD lets you write the same<br>
-register twice if you want to.) Or am I misreading this?<br></blockquote><d=
-iv><br></div><div>BTW, I can confirm that removing the check &quot;a-&gt;rt=
- =3D=3D a-&gt;rt2&quot; seems to fix my problem.</div><div><br></div></div>=
-</div>
-
---000000000000b33e6905976308cb--
 
