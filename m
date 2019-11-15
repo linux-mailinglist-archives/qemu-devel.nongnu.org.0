@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D6CFDFF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:22:47 +0100 (CET)
-Received: from localhost ([::1]:39832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC62AFDFE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:19:13 +0100 (CET)
+Received: from localhost ([::1]:39791 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcUo-0002ei-Jy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:22:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59013)
+	id 1iVcRL-0007SG-Me
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:19:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004dQ-Tr
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004ci-90
  for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xu-QZ
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xA-9l
  for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:02 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47416)
+Received: from relay.sw.ru ([185.231.240.75]:47458)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNG-0001ru-GU; Fri, 15 Nov 2019 09:14:59 -0500
+ id 1iVcNG-0001s1-K6; Fri, 15 Nov 2019 09:14:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNC-0006WW-Dg; Fri, 15 Nov 2019 17:14:54 +0300
+ id 1iVcNC-0006WW-Ir; Fri, 15 Nov 2019 17:14:54 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 19/24] blockjob: add set_speed to BlockJobDriver
-Date: Fri, 15 Nov 2019 17:14:39 +0300
-Message-Id: <20191115141444.24155-20-vsementsov@virtuozzo.com>
+Subject: [RFC 20/24] job: call job_enter from job_user_pause
+Date: Fri, 15 Nov 2019 17:14:40 +0300
+Message-Id: <20191115141444.24155-21-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,52 +54,27 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to use async block-copy call in backup, so we'll need to
-passthrough setting backup speed to block-copy call.
+If main job coroutine called job_yield (while some background process
+is in progress), we should give it a chance to call job_pause_point().
+It will be used in backup, when moved on async block-copy.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/blockjob_int.h | 2 ++
- blockjob.c                   | 6 ++++++
- 2 files changed, 8 insertions(+)
+ job.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
-index e2824a36a8..6633d83da2 100644
---- a/include/block/blockjob_int.h
-+++ b/include/block/blockjob_int.h
-@@ -52,6 +52,8 @@ struct BlockJobDriver {
-      * besides job->blk to the new AioContext.
-      */
-     void (*attached_aio_context)(BlockJob *job, AioContext *new_context);
-+
-+    void (*set_speed)(BlockJob *job, int64_t speed);
- };
- 
- /**
-diff --git a/blockjob.c b/blockjob.c
-index c6e20e2fcd..3b827d420d 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -255,6 +255,7 @@ static bool job_timer_pending(Job *job)
- 
- void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
- {
-+    const BlockJobDriver *drv = block_job_driver(job);
-     int64_t old_speed = job->speed;
- 
-     if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp)) {
-@@ -268,6 +269,11 @@ void block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     ratelimit_set_speed(&job->limit, speed, BLOCK_JOB_SLICE_TIME);
- 
-     job->speed = speed;
-+
-+    if (drv->set_speed) {
-+        drv->set_speed(job, speed);
-+    }
-+
-     if (speed && speed <= old_speed) {
-         return;
+diff --git a/job.c b/job.c
+index 04409b40aa..39c7baa436 100644
+--- a/job.c
++++ b/job.c
+@@ -557,6 +557,7 @@ void job_user_pause(Job *job, Error **errp)
      }
+     job->user_paused = true;
+     job_pause(job);
++    job_enter(job);
+ }
+ 
+ bool job_user_paused(Job *job)
 -- 
 2.21.0
 
