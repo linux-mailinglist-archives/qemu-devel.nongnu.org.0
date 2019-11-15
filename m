@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70043FE370
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:55:48 +0100 (CET)
-Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9424CFE325
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:47:25 +0100 (CET)
+Received: from localhost ([::1]:41748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVest-0008VK-6K
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:55:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54994)
+	id 1iVekl-0006S3-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:47:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53427)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iVeeN-0000vM-PI
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:40:48 -0500
+ (envelope-from <alex.williamson@redhat.com>) id 1iVeVt-0007Mm-C3
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:32:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iVeeM-0001c3-HK
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:40:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42336
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <alex.williamson@redhat.com>) id 1iVeVs-0004EP-Bj
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:32:01 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40772
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iVeeM-0001bA-Do
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:40:46 -0500
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1iVeVs-0004DX-8H
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:32:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573836045;
+ s=mimecast20190719; t=1573835519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bsa92Q1oLaeg2Ly1mFURdZAQKOoOIkCvfQlosZkOli0=;
- b=ZCWACbD9CypUmtY60BtEkCrhE5/lHD0ksQeNW0bHqNh0s6HLv5sq+jk6g6M7H14iH77/VY
- kQ04SbSnzYbCnzq7kG/VsRnCrpTPL+gKB/ZolmAc6UlCJOm0KVWOAHCECLkt5oM5U8AhcE
- T7k1riWa2cAEqJK5tPz+A4qTxUwqwMQ=
+ bh=9rITASvu+CLUW9uwsnwJHZkbRT0BDAa5FevngGChaLs=;
+ b=QyUDxC2IFeJJ+/ZyvLstAKEU6tB6Zgt6CIw/pFZFBidfQipKtUktp8V9Ct5QSdNM+5GlWa
+ ZUP/zwE7lAt0MGJAsfl/1qB8Cm/aWGke4uMa4dF1S0uwMsY/DosMoumyv7pUtedpq8ix67
+ w0zRQagqKCX87lYRQGaLyBcFA/lhMOs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-DuPW1Eg4MKa6C2ePq5XJbw-1; Fri, 15 Nov 2019 11:40:42 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-59-oeIG7BZ9OZ-0_hQiR1GjKQ-1; Fri, 15 Nov 2019 11:31:57 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFC748034E0
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 16:40:40 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-84.ams2.redhat.com
- [10.36.117.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 604C96055E;
- Fri, 15 Nov 2019 16:40:36 +0000 (UTC)
-Subject: Re: [qemu-web PATCH v3] Add a blog post on "Micro-Optimizing KVM
- VM-Exits"
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20191115162441.27302-1-kchamart@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <cc5b77d2-e152-c87b-a84c-38212c1e5811@redhat.com>
-Date: Fri, 15 Nov 2019 17:29:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E34C41007310
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 16:31:56 +0000 (UTC)
+Received: from x1.home (ovpn-116-56.phx2.redhat.com [10.3.116.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A097660C18;
+ Fri, 15 Nov 2019 16:31:56 +0000 (UTC)
+Date: Fri, 15 Nov 2019 09:31:55 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH 0/2] A pair of memory access problems
+Message-ID: <20191115093155.3c6b5a31@x1.home>
+In-Reply-To: <cover.1573468531.git.mprivozn@redhat.com>
+References: <cover.1573468531.git.mprivozn@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20191115162441.27302-1-kchamart@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: DuPW1Eg4MKa6C2ePq5XJbw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: oeIG7BZ9OZ-0_hQiR1GjKQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,19 +72,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aarcange@redhat.com, dgilbert@redhat.com, rjones@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, vkuznets@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/2019 17.24, Kashyap Chamarthy wrote:
-> This blog post summarizes the talk "Micro-Optimizing KVM VM-Exits"[1],
-> given by Andrea Arcangeli at the recently concluded KVM Forum 2019.
+On Mon, 11 Nov 2019 11:37:40 +0100
+Michal Privoznik <mprivozn@redhat.com> wrote:
 
-Thanks, pushed now:
+> The first patch fixes a crasher, the second fixes a memleak.
+>=20
+> Michal Privoznik (2):
+>   hw/vfio/pci: Fix double free of migration_blocker
+>   vfio-helpers: Free QEMUVFIOState in qemu_vfio_close()
+>=20
+>  hw/vfio/pci.c       | 2 ++
+>  util/vfio-helpers.c | 1 +
+>  2 files changed, 3 insertions(+)
 
-https://www.qemu.org/2019/11/15/micro-optimizing-kvm-vmexits/
+I'll take the first patch, looks like there's some discussion still on
+the vfio-helpers patch and I don't own that file anyway, so please post
+it separately.  Thanks,
 
- Thomas
+Alex
 
 
