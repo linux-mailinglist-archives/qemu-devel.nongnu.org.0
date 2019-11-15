@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A092FE252
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:09:35 +0100 (CET)
-Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67837FE22D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:01:46 +0100 (CET)
+Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVeA9-0004De-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:09:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49047)
+	id 1iVe2a-00028j-Vf
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:01:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iVe8j-0003EA-44
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:08:06 -0500
+ (envelope-from <groug@kaod.org>) id 1iVdwp-0005CQ-NR
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:55:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iVe8i-0000dB-64
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:08:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43296
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iVe8i-0000d0-2U
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:08:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573834083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NF1GPwHSIb75wfplXH4calBumC0jwBT66xxUdBcvEjA=;
- b=Y2SnYOpV6j1f5ikM41wKXXdnRThHlziWhGRpE0TNMQiZkCMQwD3jruldwAhPXlarcCE7TI
- O9a2CG0hwuNz7B5m+iBy1WOL7gAR2VrMlVmNlEFfuc3Xj9mVFtjQQ3dQ7xkm7W1ce7L31T
- P3rksu35PbHVlSAeYexQu4sUmW5cDQ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-L5p1BtuKNyW-h1cBUXINlw-1; Fri, 15 Nov 2019 11:08:00 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F02E1005513;
- Fri, 15 Nov 2019 16:07:59 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-84.ams2.redhat.com
- [10.36.117.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B0F510016DA;
- Fri, 15 Nov 2019 16:07:51 +0000 (UTC)
-Subject: Re: [PATCH for-4.2] hw/i386: Fix compiler warning when CONFIG_IDE_ISA
- is disabled
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191115145049.26868-1-thuth@redhat.com>
- <CAFEAcA-EuQVBtr=BCE5sdHo+LMv8XchHUSPM=CgSYxPVryWKZg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <273a3123-9eef-c78e-5b83-833a21e3988c@redhat.com>
-Date: Fri, 15 Nov 2019 16:54:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <groug@kaod.org>) id 1iVdwo-0003bK-FP
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:55:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60226)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVdwo-0003Zx-6E
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:55:46 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAFFgVxx122544
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:55:45 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w9nsjwbb0-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:55:45 -0500
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 15 Nov 2019 15:55:43 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 15 Nov 2019 15:55:39 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAFFtcPj61407352
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Nov 2019 15:55:38 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 668ECA405F;
+ Fri, 15 Nov 2019 15:55:38 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 35EB1A405B;
+ Fri, 15 Nov 2019 15:55:38 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.70.126])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 15 Nov 2019 15:55:38 +0000 (GMT)
+Subject: [PATCH v2 for-5.0 3/8] xive: Link "xive" property to
+ XiveEndSource::xrtr pointer
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Date: Fri, 15 Nov 2019 16:55:37 +0100
+In-Reply-To: <157383332103.165747.15204186097237659466.stgit@bahia.lan>
+References: <157383332103.165747.15204186097237659466.stgit@bahia.lan>
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EuQVBtr=BCE5sdHo+LMv8XchHUSPM=CgSYxPVryWKZg@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: L5p1BtuKNyW-h1cBUXINlw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19111515-0012-0000-0000-00000363FE98
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19111515-0013-0000-0000-0000219F7D07
+Message-Id: <157383333784.165747.5298512574054268786.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-15_04:2019-11-15,2019-11-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1034 adultscore=0 impostorscore=0
+ mlxlogscore=656 phishscore=0 suspectscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911150142
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +91,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/2019 16.54, Peter Maydell wrote:
-> On Fri, 15 Nov 2019 at 15:10, Thomas Huth <thuth@redhat.com> wrote:
->>
->> When CONFIG_IDE_ISA is disabled, compilation currently fails:
->>
->>  hw/i386/pc_piix.c: In function =E2=80=98pc_init1=E2=80=99:
->>  hw/i386/pc_piix.c:81:9: error: unused variable =E2=80=98i=E2=80=99 [-We=
-rror=3Dunused-variable]
->>
->> Move the variable declaration to the right code block to avoid
->> this problem.
->>
->> Fixes: 4501d317b50e ("hw/i386/pc: Extract pc_i8259_create()")
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  hw/i386/pc_piix.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index 2aefa3b8df..d187db761c 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
->>      X86MachineState *x86ms =3D X86_MACHINE(machine);
->>      MemoryRegion *system_memory =3D get_system_memory();
->>      MemoryRegion *system_io =3D get_system_io();
->> -    int i;
->>      PCIBus *pci_bus;
->>      ISABus *isa_bus;
->>      PCII440FXState *i440fx_state;
->> @@ -253,7 +252,7 @@ static void pc_init1(MachineState *machine,
->>      }
->>  #ifdef CONFIG_IDE_ISA
->>  else {
->> -        for(i =3D 0; i < MAX_IDE_BUS; i++) {
->> +        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
->>              ISADevice *dev;
->>              char busname[] =3D "ide.0";
->>              dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i]=
-,
->=20
-> Don't put variable declarations inside 'for' statements,
-> please. They should go at the start of a {} block.
+The END source object has both a pointer and a "xive" property pointing to
+the router object. Confusing bugs could arise if these ever go out of sync.
 
-Why? We're using -std=3Dgnu99 now, so this should not be an issue anymore.
+Change the property definition so that it explicitely sets the pointer.
+The property isn't optional : not being able to set the link is a bug
+and QEMU should rather abort than exit in this case.
 
- Thomas
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/intc/pnv_xive.c   |    4 ++--
+ hw/intc/spapr_xive.c |    4 ++--
+ hw/intc/xive.c       |   13 +++----------
+ 3 files changed, 7 insertions(+), 14 deletions(-)
+
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 9e23dc705dc3..6aa7aeed6f83 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1705,8 +1705,8 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
+ 
+     object_property_set_int(OBJECT(end_xsrc), PNV_XIVE_NR_ENDS, "nr-ends",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 10890aeeeb5b..729246e906c9 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -290,8 +290,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
+      */
+     object_property_set_int(OBJECT(end_xsrc), xive->nr_irqs, "nr-ends",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 2eac15efa675..3d472e29c858 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1814,17 +1814,8 @@ static const MemoryRegionOps xive_end_source_ops = {
+ static void xive_end_source_realize(DeviceState *dev, Error **errp)
+ {
+     XiveENDSource *xsrc = XIVE_END_SOURCE(dev);
+-    Object *obj;
+-    Error *local_err = NULL;
+-
+-    obj = object_property_get_link(OBJECT(dev), "xive", &local_err);
+-    if (!obj) {
+-        error_propagate(errp, local_err);
+-        error_prepend(errp, "required link 'xive' not found: ");
+-        return;
+-    }
+ 
+-    xsrc->xrtr = XIVE_ROUTER(obj);
++    assert(xsrc->xrtr);
+ 
+     if (!xsrc->nr_ends) {
+         error_setg(errp, "Number of interrupt needs to be greater than 0");
+@@ -1850,6 +1841,8 @@ static Property xive_end_source_properties[] = {
+     DEFINE_PROP_UINT8("block-id", XiveENDSource, block_id, 0),
+     DEFINE_PROP_UINT32("nr-ends", XiveENDSource, nr_ends, 0),
+     DEFINE_PROP_UINT32("shift", XiveENDSource, esb_shift, XIVE_ESB_64K),
++    DEFINE_PROP_LINK("xive", XiveENDSource, xrtr, TYPE_XIVE_ROUTER,
++                     XiveRouter *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 
 
