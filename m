@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A750DFE024
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:33:02 +0100 (CET)
-Received: from localhost ([::1]:39962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B87FE030
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:35:23 +0100 (CET)
+Received: from localhost ([::1]:40004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcej-0006OX-9h
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60346)
+	id 1iVch0-0000qf-LV
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:35:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33395)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iVcW2-0005lB-GB
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:24:03 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1iVcej-0007Qd-NB
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:33:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iVcW1-0006jJ-D7
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:24:02 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36459)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iVcW0-0006ih-T2
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:24:01 -0500
-Received: by mail-oi1-x243.google.com with SMTP id j7so8749579oib.3
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:24:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v2GL+vEceX7QnJdKkRZm0hTIut65lKcbIclQGi2TMYQ=;
- b=oOUeJhFWTuixgiaHr5LuAPJKXhpTTqkrHWIbe3bW326PrttPYdIXRMXZa/8uquIx/C
- 9OdG7OrdoVsBnIECiUW8kNBZgriEQRTeJCng2ya5jU44wVb1rmJ9oXr/8i9DoIYyc3PH
- GuyQLJNAGazvZqoZ4uNGw3cO0sSiq5TwsOt8hd60jcfaJX2zvBIW8Ms7XwNzLl8ya/eP
- C2xE5n1OnYr7Z/tRn0RgBizb4hTlXjQr5W2LC0cKQ61OXKQdtQDFVjCFx0AwWWpvbVlk
- nbTVuZZtXqnLvAKI9GGNvpj6b2XgEPv3ULbmhwY2oTWtjkuesQ9m9fm0n/wanLHe3ZOk
- hU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v2GL+vEceX7QnJdKkRZm0hTIut65lKcbIclQGi2TMYQ=;
- b=FD5k6nvN9Sx9C39ze9OjQYXm8a+xmZkUsRcp9vkQS9H72thmiMfooDDOeoECiYd1YL
- l0q3s2VjbJ/HbNEwZoFLhQaRYWr/L9a5FbG+FL2tiDE2ovNXBkkyCeo7+19VYwhpRY1e
- 7DFwNmF2ciKPLwHbDw+ls1ymkWxIUEqBXtuzWnJx/Tci6vwuVKlin4JvHclzbbuMGjhf
- ksl2DMy2AGYvQjTkyusHqnqP69BvFYEdO978k+bc7OxMpXN0wqw9Vr8eRGlJiRYXk0cT
- SIOxNuTcu+3kh9CM4x9efBNb27xhekd37MMWn+Ro3VFOuuQVmMRGdPtiJJpEtTjjM/PM
- AHEw==
-X-Gm-Message-State: APjAAAWpq2kLa8ICh5amoEonWDNykrTMxr+Q0FpZjMMjvcbVnPjC3M56
- yz+XUB9Mphw1GMSt/xw17OCkbCXdTcPkKVJSkVtmTw==
-X-Google-Smtp-Source: APXvYqyqzGzCg5nW/oyn+K8wSpYpgR6Ivpbph0vN16Ki4+z+Dhc1sFh2I5AwkGUmyFE3YPCkNYlqlXtN/ttS2J0tWZ8=
-X-Received: by 2002:a05:6808:b04:: with SMTP id
- s4mr8182301oij.163.1573827839885; 
- Fri, 15 Nov 2019 06:23:59 -0800 (PST)
+ (envelope-from <gengdongjiu@huawei.com>) id 1iVcei-0004OC-EH
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:33:01 -0500
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2050 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1iVcef-0004C3-KE; Fri, 15 Nov 2019 09:32:57 -0500
+Received: from lhreml705-cah.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id EC45E68D6C269495430B;
+ Fri, 15 Nov 2019 14:32:51 +0000 (GMT)
+Received: from lhreml712-chm.china.huawei.com (10.201.108.63) by
+ lhreml705-cah.china.huawei.com (10.201.108.46) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 15 Nov 2019 14:32:51 +0000
+Received: from dggeme755-chm.china.huawei.com (10.3.19.101) by
+ lhreml712-chm.china.huawei.com (10.201.108.63) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.1713.5; Fri, 15 Nov 2019 14:32:50 +0000
+Received: from dggeme755-chm.china.huawei.com ([10.7.64.71]) by
+ dggeme755-chm.china.huawei.com ([10.7.64.71]) with mapi id 15.01.1713.004;
+ Fri, 15 Nov 2019 22:32:47 +0800
+From: gengdongjiu <gengdongjiu@huawei.com>
+To: Igor Mammedov <imammedo@redhat.com>, "zhengxiang (A)"
+ <zhengxiang9@huawei.com>
+Subject: Re: [RESEND PATCH v21 3/6] ACPI: Add APEI GHES table generation
+ support
+Thread-Topic: [RESEND PATCH v21 3/6] ACPI: Add APEI GHES table generation
+ support
+Thread-Index: AdWbwWSZ/1gyxkpeREeYn2g+7NgH+g==
+Date: Fri, 15 Nov 2019 14:32:47 +0000
+Message-ID: <19b1b4b9ceb24aad9f34ab4e58bccab3@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.148.208.87]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20191108095942.401225-1-stefanha@redhat.com>
- <20191108095942.401225-3-stefanha@redhat.com>
- <CAFEAcA8b_POWyCWERMaT2mKZxrYA+RDoaLCHtO=pS28f-SCZ3w@mail.gmail.com>
- <CAJSP0QWoSNk7NmC+AjgWQenyKLw6H5wqHay8C-1evQ8QTrSJ6Q@mail.gmail.com>
-In-Reply-To: <CAJSP0QWoSNk7NmC+AjgWQenyKLw6H5wqHay8C-1evQ8QTrSJ6Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Nov 2019 14:23:48 +0000
-Message-ID: <CAFEAcA9w7NRXSRV=RO95vPE0KmRg_ju5ozMe83XDL5wAgV-4Og@mail.gmail.com>
-Subject: Re: [PATCH 2/3] docs: build a global index page
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 185.176.76.210
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,22 +66,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "james.morse@arm.com" <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Nov 2019 at 11:39, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> You are right:
->  * The hidden documents are included in the navigation bar (different
-> from the table of contents).
->  * The search index (which install-doc omits!) includes content from
-> the hidden documents.
+> > + */
+> > +static void acpi_ghes_build_notify(GArray *table, const uint8_t type)
+>=20
+> typically format should be build_WHAT(), so
+>  build_ghes_hw_error_notification()
+>=20
+> And I'd move this out into its own patch.
+> this applies to other trivial in-depended sub-tables, that take all data =
+needed to construct them from supplied arguments.
 
-What is install-doc failing to install? I just did a test
-'make install' into a tempdir, and the search seems to work
-in that set of installed docs.
+I very used your suggested method in previous series[1], but other maintain=
+er suggested to move this function to this file, because he think only GHES=
+ used it
 
-thanks
--- PMM
+[1]:
+https://patchwork.ozlabs.org/cover/1099428/
+
+>=20
+> > +{
+> > +        /* Type */
+> > +        build_append_int_noprefix(table, type, 1);
+> > +        /*
+> > +         * Length:
+> > +         * Total length of the structure in bytes
+> > +         */
+> > +        build_append_int_noprefix(table, 28, 1);
+> > +        /* Configuration Write Enable */
+> > +        build_append_int_noprefix(table, 0, 2);
+> > +        /* Poll Interval */
+> > +        build_append_int_noprefix(table, 0, 4);
+> > +        /* Vector */
+> > +        build_append_int_noprefix(table, 0, 4);
+> > +        /* Switch To Polling Threshold Value */
+> > +        build_append_int_noprefix(table, 0, 4);
+> > +        /* Switch To Polling Threshold Window */
+> > +        build_append_int_noprefix(table, 0, 4);
+> > +        /* Error Threshold Value */
+> > +        build_append_int_noprefix(table, 0, 4);
+> > +        /* Error Threshold Window */
+> > +        build_append_int_noprefix(table, 0, 4); }
+> > +
+>=20
+> /*
+>   Initialize "etc/hardware_errors" and "etc/hardware_errors_addr" fwcfg b=
+lobs.
+>   See docs/specs/acpi_hest_ghes.rst for blobs format */
+> > +void acpi_ghes_build_error_table(GArray *hardware_errors, BIOSLinker
+> > +*linker)
+> build_ghes_error_table()
+>=20
+> also I'd move this function into its own patch along with other related c=
+ode that initializes and wires it into virt board.
+
+I ever use your suggested method[1], but other maintainer, it seems Michael=
+, suggested to move these functions to this file that used it, because he t=
+hink only GHES used it.
+
+[1]:
+https://patchwork.ozlabs.org/patch/1099424/
+https://patchwork.ozlabs.org/patch/1099425/
+https://patchwork.ozlabs.org/patch/1099430/
+
+
 
