@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17D2FE473
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 19:00:32 +0100 (CET)
-Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B306BFE4AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 19:13:38 +0100 (CET)
+Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVftX-0007Gx-HZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 13:00:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44109)
+	id 1iVg6D-0005a3-KB
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 13:13:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iVfrv-0006fg-9o
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:58:52 -0500
+ (envelope-from <bounces@canonical.com>) id 1iVg3T-0003Ao-L8
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 13:10:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iVfrs-00058W-Q8
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:58:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52477
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVfrs-00058K-Mi
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:58:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573840727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A0cChxa3QFKf8B7BOwuxNLytzexujOqnktnr9e0QbeA=;
- b=MJi3KgMRTfeIMBZw9MoG1Rt0TNkAoxoz5XP8lhcO1gMovPw+BNNjUwKqICrJeKQUPttC1Z
- zOi+DROAcEEvtYMpgGmxQ0PUblHe2EmqhSoIQZteZ84A3iAIFt3yBlBEIQp2IuLsP/PfHa
- eB2CayEv3pv1z/ZOCbQVjqWFzZvPvoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-89p0WWSHO6yO7_-8RLM3Aw-1; Fri, 15 Nov 2019 12:58:44 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D16F1005502;
- Fri, 15 Nov 2019 17:58:43 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DB8669183;
- Fri, 15 Nov 2019 17:58:38 +0000 (UTC)
-Subject: Re: [RFC 21/24] backup: move to block-copy
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
- <20191115141444.24155-22-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <66b4478f-3d51-9888-3a88-78d4ae7dcd48@redhat.com>
-Date: Fri, 15 Nov 2019 11:58:37 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iVg3S-0005Dn-8J
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 13:10:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51026)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iVg3S-0005DI-1v
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 13:10:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iVg3Q-0003uB-NA
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 18:10:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A76EF2E80C0
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 18:10:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191115141444.24155-22-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 89p0WWSHO6yO7_-8RLM3Aw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 Nov 2019 18:00:47 -0000
+From: Colin Ian King <1852781@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: colin-king
+X-Launchpad-Bug-Reporter: Colin Ian King (colin-king)
+X-Launchpad-Bug-Modifier: Colin Ian King (colin-king)
+Message-Id: <157384084797.7162.9983011521410421204.malonedeb@gac.canonical.com>
+Subject: [Bug 1852781] [NEW] qemu s390x on focal - applications breaking
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a8581d662ee900ac544fccf35130bcca67cc4125
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,43 +64,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, wencongyang2@huawei.com,
- xiechanglong.d@gmail.com, armbru@redhat.com, qemu-devel@nongnu.org,
- crosa@redhat.com, den@openvz.org, mreitz@redhat.com, jsnow@redhat.com
+Reply-To: Bug 1852781 <1852781@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/19 8:14 AM, Vladimir Sementsov-Ogievskiy wrote:
-> This brings async request handling and block-status driven chunk sizes
-> to backup out of the box, which improves backup performance.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
+Public bug reported:
 
-> +++ b/qapi/block-core.json
-> @@ -1455,6 +1455,12 @@
->   #                    above node specified by @drive. If this option is =
-not given,
->   #                    a node name is autogenerated. (Since: 4.2)
->   #
-> +# @x-max-workers: maximum of parallel requests for static data backup. T=
-his
-> +#                 doesn't influence copy-before-write operations. (Since=
-: 4.3)
-> +#
-> +# @x-max-chunk: maximum chunk length for static data backup. This doesn'=
-t
-> +#               influence copy-before-write operations. (Since: 4.3)
+Running qemu-system-s390x (1:4.0+dfsg-0ubuntu10) on an x86-64 Focal host
+with an upgrade of a Eoan s390x VM to a Focal s390x is triggering random
+breakage, for example:
 
-The next release is 5.0, not 4.3.
+sudo apt-get update && sudo apt-get dist-upgrade
 
-Is there a reason to keep these experimental for a while?  For example,=20
-are there potential changes to the interface that might affect how it=20
-gets used?  Or should we drop the x- prefix and add this outright in 5.0?
+...
+...
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Unpacking debianutils (4.9) over (4.8.6.3) ...
+Setting up debianutils (4.9) ...
+Use of uninitialized value $ARGV[0] in string ne at /usr/sbin/update-mime l=
+ine 43.
+(Reading database ... 83640 files and directories currently installed.)
+Preparing to unpack .../bash_5.0-5ubuntu1_s390x.deb ...
+Unpacking bash (5.0-5ubuntu1) over (5.0-4ubuntu1) ...
+Setting up bash (5.0-5ubuntu1) ...
+[12124.788618] User process fault: interruption code 0007 ilc:3 in bash[2aa=
+3d780000+149000]
+dpkg: error processing package bash (--configure):
+ installed bash package post-installation script subprocess was killed by s=
+ignal (Floating point exception), core du
+mped
+Errors were encountered while processing:
+ bash
+E: Sub-process /usr/bin/dpkg returned an error code (1)
 
+And now bash is completely broken:
+
+cking@eoan-s390x:~$ bash
+[12676.204389] User process fault: interruption code 0007 ilc:3 in bash[2aa=
+14780000+149000]
+
+Floating point exception (core dumped)
+
+The upgrade works OK on a s390x, so I'm assuming it's something to do
+with the qemu emulation.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852781
+
+Title:
+  qemu s390x on focal - applications breaking
+
+Status in QEMU:
+  New
+
+Bug description:
+  Running qemu-system-s390x (1:4.0+dfsg-0ubuntu10) on an x86-64 Focal
+  host with an upgrade of a Eoan s390x VM to a Focal s390x is triggering
+  random breakage, for example:
+
+  sudo apt-get update && sudo apt-get dist-upgrade
+
+  ...
+  ...
+
+  Unpacking debianutils (4.9) over (4.8.6.3) ...
+  Setting up debianutils (4.9) ...
+  Use of uninitialized value $ARGV[0] in string ne at /usr/sbin/update-mime=
+ line 43.
+  (Reading database ... 83640 files and directories currently installed.)
+  Preparing to unpack .../bash_5.0-5ubuntu1_s390x.deb ...
+  Unpacking bash (5.0-5ubuntu1) over (5.0-4ubuntu1) ...
+  Setting up bash (5.0-5ubuntu1) ...
+  [12124.788618] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa3d780000+149000]
+  dpkg: error processing package bash (--configure):
+   installed bash package post-installation script subprocess was killed by=
+ signal (Floating point exception), core du
+  mped
+  Errors were encountered while processing:
+   bash
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+  And now bash is completely broken:
+
+  cking@eoan-s390x:~$ bash
+  [12676.204389] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa14780000+149000]
+
+  Floating point exception (core dumped)
+
+  The upgrade works OK on a s390x, so I'm assuming it's something to do
+  with the qemu emulation.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852781/+subscriptions
 
