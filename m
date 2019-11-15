@@ -2,76 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79ADFDDC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:27:21 +0100 (CET)
-Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CE6FDDF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:35:11 +0100 (CET)
+Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVah6-00068h-RE
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:27:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44254)
+	id 1iVaog-0000kI-6Q
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:35:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iVafr-0004sk-3Q
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:26:04 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iVan4-0007pB-Hz
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:33:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iVafp-0008Ef-0c
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:26:02 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34316)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iVafo-0008Ea-Pi
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:26:00 -0500
-Received: by mail-wr1-x442.google.com with SMTP id e6so10810982wrw.1
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 04:26:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=2eA1tdA9Vp0KF0ArCn/9pmdEdHA9aAE9JyEY4YzRnNg=;
- b=Dx1NfYNPWZs7flHQ7KcqNJpVrtwRzriGUDmXjmNYzUp6Zx73YSJhlVmfOAK/+0DxNn
- t0QaRQHArcsskpNUu/qJAPozF2kz5+qzHoTnEGvFJ/zZ4fJfXSrhrag/yxdTAHWGDKFL
- 4hBm7Y/6uCNmKo0K54DSiZfF1vAaFVd7yazclFyp5W7hz5iRmZbHDJ2PsFZ/e5kR2mpB
- Joa3ZCAzaciep673yIM4n/by+D/vrwZbtkQNkxa5lZM67FVfBN+swWehZ6tZqKCui4FP
- uzo1PYVGEZXX3VrOG0oLndc9dIiZAsTSUX8uQlB/g+qnVEdFD8mLdHZIVQ7pHafvKGvj
- O7xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=2eA1tdA9Vp0KF0ArCn/9pmdEdHA9aAE9JyEY4YzRnNg=;
- b=WGUURtAmLOxOWqlf9hPgbUkv2D3Zrc9+XjarMSmvyXUsAQ/dpLHQXUKTF2K4bRi4HS
- 1hkWp28GJJOxOC6SOlXAb//VxZLME0GrXcSYm1SLCDIqZ3r9wUyDQvjNjM7C1QjslPwl
- osmpmS20Ct0U3IaqDEI6QA38yiXN/zPSI6moYkUZrJHg/F7P1ePofMdvJtaC0g8ncVBQ
- swm4B5A626HEX1pDh4c90NwZNBgrMixuxI+Ekfh9rDWwF8L8gJO5+uEhQ1EKOLXdQgsO
- BBAgWAzI0kBlMNU3GuGs5r+6tLZjhEw3eYf9DSYKQzoNWP1NLw3HsNA2akrV4sDuBK+d
- o3xg==
-X-Gm-Message-State: APjAAAWvwkA8ujoNL/CtKdlbhJNcrCNz11r51Ig6DCzrHeqEMF98dJCW
- qiOlbrBFOF30+W3A393bFxu/KAjU0o0=
-X-Google-Smtp-Source: APXvYqwrLxCmQUg/plhp0jA90K6NM19KcfFsvetrsxK984BDMpBP+hDIzlgjs55P1i063hZnXUE6Wg==
-X-Received: by 2002:adf:fec5:: with SMTP id q5mr15126722wrs.293.1573820758623; 
- Fri, 15 Nov 2019 04:25:58 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b196sm10083999wmd.24.2019.11.15.04.25.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2019 04:25:57 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD9DB1FF87;
- Fri, 15 Nov 2019 12:25:56 +0000 (GMT)
-References: <20191108092247.16207-1-kchamart@redhat.com>
- <f8dce546-ea28-0619-a20a-62c762f99721@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iVan3-0003JX-8P
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:33:30 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:50425 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1iVan2-00030Y-TI
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 07:33:29 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 9085D1A21B7;
+ Fri, 15 Nov 2019 13:32:23 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 57A121A1D8B;
+ Fri, 15 Nov 2019 13:32:23 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu-web] Add a blog post on "Micro-Optimizing KVM
- VM-Exits"
-In-reply-to: <f8dce546-ea28-0619-a20a-62c762f99721@redhat.com>
-Date: Fri, 15 Nov 2019 12:25:56 +0000
-Message-ID: <87zhgx5nsb.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Subject: [PATCH v3 for 5.0 0/6] linux-user: Add support for real time clock
+ ioctls
+Date: Fri, 15 Nov 2019 13:32:10 +0100
+Message-Id: <1573821136-30219-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,170 +49,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aarcange@redhat.com, Kashyap Chamarthy <kchamart@redhat.com>,
- dgilbert@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- vkuznets@redhat.com
+Cc: laurent@viver.eu, Filip.Bozuta@rt-rk.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add ioctls for all RTC features that are currently supported in linux kernel.
 
-Thomas Huth <thuth@redhat.com> writes:
+This series covers following 22 iocts:
 
-> On 08/11/2019 10.22, Kashyap Chamarthy wrote:
->> This blog post summarizes the talk "Micro-Optimizing KVM VM-Exits"[1],
->> given by Andrea Arcangeli at the recently concluded KVM Forum 2019.
->>
->
->  Hi Kashyap,
->
-> first thanks for writing up this article! It's a really nice summary of
-> the presentation, I think.
->
-> But before we include it, let me ask a meta-question: Is an article
-> about the KVM *kernel* code suitable for the *QEMU* blog? Or is there
-> maybe a better place for this, like an article on www.linux-kvm.org ?
->
-> Opinions? Ideas?
+    * RTC_AIE_ON
+    * RTC_AIE_OFF
+    * RTC_UIE_ON
+    * RTC_UIE_OFF
+    * RTC_PIE_ON
+    * RTC_PIE_OFF
+    * RTC_WIE_ON
+    * RTC_WIE_OFF
+    * RTC_ALM_SET
+    * RTC_ALM_READ
+    * RTC_RD_TIME
+    * RTC_SET_TIME
+    * RTC_IRQP_READ
+    * RTC_IRQP_SET
+    * RTC_EPOCH_READ
+    * RTC_EPOCH_SET
+    * RTC_WKALM_SET
+    * RTC_WKALM_RD
+    * RTC_PLL_GET
+    * RTC_PLL_SET
+    * RTC_VL_READ
+    * RTC_VL_CLR
 
-I don't think it is a particular problem hosting it on the QEMU blog
-given the closeness of the two projects. It would get syndicated to
-planet.libvirt as well ;-)
+The functionalities of individual ioctls were described in this series
+patch commit messages.
 
->
->  Thomas
->
->
->> ---
->>  ...019-11-06-micro-optimizing-kvm-vmexits.txt | 115 ++++++++++++++++++
->>  1 file changed, 115 insertions(+)
->>  create mode 100644 _posts/2019-11-06-micro-optimizing-kvm-vmexits.txt
->>
->> diff --git a/_posts/2019-11-06-micro-optimizing-kvm-vmexits.txt b/_posts=
-/2019-11-06-micro-optimizing-kvm-vmexits.txt
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..f4a28d58ddb40103dd599fdf=
-d861eeb4c41ed976
->> --- /dev/null
->> +++ b/_posts/2019-11-06-micro-optimizing-kvm-vmexits.txt
->> @@ -0,0 +1,115 @@
->> +---
->> +layout: post
->> +title: "Micro-Optimizing KVM VM-Exits"
->> +date:   2019-11-08
->> +categories: [kvm, optimization]
->> +---
->> +
->> +Background on VM-Exits
->> +----------------------
->> +
->> +KVM (Kernel-based Virtual Machine) is the Linux kernel module that
->> +allows a host to run virtualized guests (Linux, Windows, etc).  The KVM
->> +"guest execution loop", with QEMU (the open source emulator and
->> +virtualizer) as its user space, is roughly as follows: QEMU issues the
->> +ioctl(), KVM_RUN, to tell KVM to prepare to enter the CPU's "Guest Mode"
->> +-- a special processor mode which allows guest code to safely run
->> +directly on the physical CPU.  The guest code, which is inside a "jail"
->> +and thus cannot interfere with the rest of the system, keeps running on
->> +the hardware until it encounters a request it cannot handle.  Then the
->> +processor gives the control back (referred to as "VM-Exit") either to
->> +kernel space, or to the user space to handle the request.  Once the
->> +request is handled, native execution of guest code on the processor
->> +resumes again.  And the loop goes on.
->> +
->> +There are dozens of reasons for VM-Exits (Intel's Software Developer
->> +Manual outlines 64 "Basic Exit Reasons").  For example, when a guest
->> +needs to emulate the CPUID instruction, it causes a "light-weight exit"
->> +to kernel space, because CPUID (among a few others) is emulated in the
->> +kernel itself, for performance reasons.  But when the kernel _cannot_
->> +handle a request, e.g. to emulate certain hardware, it results in a
->> +"heavy-weight exit" to QEMU, to perform the emulation.  These VM-Exits
->> +and subsequent re-entries ("VM-Enters"), even the light-weight ones, can
->> +be expensive.  What can be done about it?
->> +
->> +Guest workloads that are hard to virtualize
->> +-------------------------------------------
->> +
->> +At the 2019 edition of the KVM Forum in Lyon, kernel developer, Andrea
->> +Arcangeli, attempted to address the kernel part of minimizing VM-Exits.
->> +
->> +His talk touched on the cost of VM-Exits into the kernel, especially for
->> +guest workloads (e.g. enterprise databases) that are sensitive to their
->> +performance penalty.  However, these workloads cannot avoid triggering
->> +VM-Exits with a high frequency.  Andrea then outlined some of the
->> +optimizations he's been working on to improve the VM-Exit performance in
->> +the KVM code path -- especially in light of applying mitigations for
->> +speculative execution flaws (Spectre v2, MDS, L1TF).
->> +
->> +Andrea gave a brief recap of the different kinds of speculative
->> +execution attacks (retpolines, IBPB, PTI, SSBD, etc).  Followed by that
->> +he outlined the performance impact of Spectre-v2 mitigations in context
->> +of KVM.
->> +
->> +The microbechmark: CPUID in a one million loop
->> +----------------------------------------------
->> +
->> +The synthetic microbenchmark (meaning, focus on measuring the
->> +performance of a specific area of code) Andrea used was to run the CPUID
->> +instruction one million times, without any GCC optimizations or caching.
->> +This was done to test the latency of VM-Exits.
->> +
->> +While stressing that the results of these microbenchmarks do not
->> +represent real-world workloads, he had two goals in mind with it: (a)
->> +explain how the software mitigation works; and (b) to justify to the
->> +broader community the value of the software optimizations he's working
->> +on in KVM.
->> +
->> +Andrea then reasoned through several interesting graphs that show how
->> +CPU computation time gets impacted when you disable or enable the
->> +various kernel-space mitigations for Spectre v2, L1TF, MDS, et al.
->> +
->> +The proposal: "KVM Monolithic"
->> +------------------------------
->> +
->> +Based on his investigation, Andrea proposed a patch series, ["KVM
->> +monolithc"](https://lwn.net/Articles/800870/), to get rid of the KVM
->> +common module, 'kvm.ko'.  Instead the KVM common code gets linked twice
->> +into each of the vendor-specific KVM modules, 'kvm-intel.ko' and
->> +'kvm-amd.ko'.
->> +
->> +The reason for doing this is that the 'kvm.ko' module indirectly calls
->> +(via the "retpoline" technique) the vendor-specific KVM modules at every
->> +VM-Exit, several times.  These indirect calls were not optimal before,
->> +but the "retpoline" mitigation (which isolates indirect branches, that
->> +allow a CPU to execute code from arbitrary locations, from speculative
->> +execution) for Spectre v2 compounds the problem, as it degrades
->> +performance.
->> +
->> +This approach will result in a few MiB of increased disk space for
->> +'kvm-intel.ko' and 'kvm-amd.ko', but the upside in saved indirect calls,
->> +and the elimination of "retpoline" overhead at run-time more than
->> +compensate for it.
->> +
->> +With the "KVM Monolithic" patch series applied, Andrea's microbenchmarks
->> +show a double-digit improvement in performance with default mitigations
->> +(for Spectre v2, et al) enabled on both Intel 'VMX' and AMD 'SVM'.  And
->> +with 'spectre_v2=3Doff' or for CPUs with IBRS_ALL in ARCH_CAPABILITIES
->> +"KVM monolithic" still improve[s] performance, albiet it's on the order
->> +of 1%.
->> +
->> +Conclusion
->> +----------
->> +
->> +Removal of the common KVM module has a non-negligible positive
->> +performance impact.  And the "KVM Monolitic" patch series is still
->> +actively being reviewed, modulo some pending clean-ups.  Based on the
->> +upstream review discussion, KVM Maintainer, Paolo Bonzini, and other
->> +reviewers seemed amenable to merge the series.
->> +
->> +Although, we still have to deal with mitigations for 'indirect branch
->> +prediction' for a long time, reducing the VM-Exit latency is important
->> +in general; and more specifically, for guest workloads that happen to
->> +trigger frequent VM-Exits, without having to disable Spectre v2
->> +mitigations on the host, as Andrea stated in the cover letter of his
->> +patch series.
->>
+Testing method:
 
+    Mini test programs were written for each ioctl. Those programs were
+    compiled (sometimes using cross-compilers) for the following 
+    architectures:
 
---
-Alex Benn=C3=A9e
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
+
+    The corresponding native programs were executed without using 
+    QEMU on following hosts:
+
+        * Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
+        *.7447A, (ppc32 host)
+
+    All applicable compiled programs were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+Example of a test program:
+
+    For ioctl RTC_RD_TIME we have used the following test program:
+
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <linux/rtc.h>
+    #include <fcntl.h>
+    #include <linux/input.h>
+    #include <sys/types.h>
+    #include <unistd.h>
+
+    #define ERROR -1
+
+    int main()
+    {
+
+        int fd = open("/dev/rtc", O_RDWR | O_NONBLOCK);
+
+        if(fd == ERROR)
+        {
+            perror("open");
+            return -1;
+        }
+
+        struct rtc_time cur_time;
+
+        if(ioctl(fd, RTC_RD_TIME, &cur_time) < 0)
+        {
+            perror("ioctl");
+            return -1;
+        }
+
+        printf("Second: %d, Minute: %d, Hour: %d, Day: %d, Month: %d, Year: %d,",
+            cur_time.tm_sec, cur_time.tm_min, cur_time.tm_hour, 
+            cur_time.tm_mday, cur_time.tm_mon, cur_time.tm_year);
+
+        return 0;
+    }
+
+Limitations of testing:
+    
+    My test host (intel pc) has RTC that doesn't support all
+    RTC features that are accessible through ioctls. This
+    means that testing can't discover functionality errors
+    related to the third argument of ioctls that are used
+    for features that are not supported. For example,
+    running my test program for ioctl RTC_EPOCH_READ gives
+    the error output: inappropriate ioctl for device. As 
+    expected, i get the same output through QEMU which means
+    that this ioctl is recognized in QEMU but doesn't really
+    do anything beacuse it is not supported in my computer's
+    RTC.
+
+    Conclusion: Some RTC ioctls need to be tested on computers
+    that support their functionalities so that we can be sure
+    that they are really supported in QEMU. In absence of such
+    test hosts, we need to carefully check the specifications
+    of those ioctls manually and update implementations
+    accordingly.
+
+v3:
+
+    * changed two instances of MK_PTR(TYPE_ULONG) to TYPE_ULONG
+
+v2:
+
+    * added description of each ioctl in patches
+    * wrote a more detailed cover letter with description of testing
+    * changed one instance of TYPE_INT to MK_PTR(TYPE_INT)
+
+Filip Bozuta (6):
+  linux-user: Add support for enable/disable RTC features using ioctls
+  linux-user: Add support for read/set RTC time and alarm using ioctls
+  linux-user: Add support for read/set RTC periodic interrupt and epoch
+    using ioctls
+  linux-user: Add support for get/set RTC wakeup alarm using ioctls
+  linux-user: Add support for get/set RTC PLL correction using ioctls
+  linux-user: Add support for read/clear RTC voltage low detector using
+    ioctls
+
+ linux-user/ioctls.h        | 23 +++++++++++++++++++++++
+ linux-user/syscall.c       |  1 +
+ linux-user/syscall_defs.h  | 36 ++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h | 25 +++++++++++++++++++++++++
+ 4 files changed, 85 insertions(+)
+
+-- 
+2.7.4
+
 
