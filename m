@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADA4FE010
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:29:46 +0100 (CET)
-Received: from localhost ([::1]:39918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AEAFDFFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:24:30 +0100 (CET)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcbZ-0003Iy-AC
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
+	id 1iVcWS-000595-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:24:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNj-0005B6-LW
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:30 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNf-000584-Cn
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNf-0002Ck-01
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:27 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47456)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNd-0002B3-KN
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:23 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47424)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNa-0001rx-6B; Fri, 15 Nov 2019 09:15:18 -0500
+ id 1iVcNa-0001rp-5o; Fri, 15 Nov 2019 09:15:18 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcN4-0006WW-Ma; Fri, 15 Nov 2019 17:14:46 +0300
+ id 1iVcN4-0006WW-PJ; Fri, 15 Nov 2019 17:14:46 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 07/24] block/block-copy: hide structure definitions
-Date: Fri, 15 Nov 2019 17:14:27 +0300
-Message-Id: <20191115141444.24155-8-vsementsov@virtuozzo.com>
+Subject: [RFC 08/24] block/block-copy: rename in-flight requests to tasks
+Date: Fri, 15 Nov 2019 17:14:28 +0300
+Message-Id: <20191115141444.24155-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
@@ -55,315 +54,190 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hide structure definitions and add explicit API instead, to keep an
-eye on the scope of the shared fields.
+We are going to use aio-task-pool API and extend in-flight request
+structure to be a successor of AioTask, so rename things appropriately.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block-copy.h | 57 +++------------------------------
- block/backup-top.c         |  6 ++--
- block/backup.c             | 27 ++++++++--------
- block/block-copy.c         | 64 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 86 insertions(+), 68 deletions(-)
+ block/block-copy.c | 82 ++++++++++++++++++++++------------------------
+ 1 file changed, 40 insertions(+), 42 deletions(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index d96b097267..753fa663ac 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -18,61 +18,9 @@
- #include "block/block.h"
- #include "qemu/co-shared-resource.h"
- 
--typedef struct BlockCopyInFlightReq {
--    int64_t offset;
--    int64_t bytes;
--    QLIST_ENTRY(BlockCopyInFlightReq) list;
--    CoQueue wait_queue; /* coroutines blocked on this request */
--} BlockCopyInFlightReq;
--
- typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
- typedef void (*ProgressResetCallbackFunc)(void *opaque);
--typedef struct BlockCopyState {
--    /*
--     * BdrvChild objects are not owned or managed by block-copy. They are
--     * provided by block-copy user and user is responsible for appropriate
--     * permissions on these children.
--     */
--    BdrvChild *source;
--    BdrvChild *target;
--    BdrvDirtyBitmap *copy_bitmap;
--    int64_t cluster_size;
--    bool use_copy_range;
--    int64_t copy_size;
--    uint64_t len;
--    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
--
--    BdrvRequestFlags write_flags;
--
--    /*
--     * skip_unallocated:
--     *
--     * Used by sync=top jobs, which first scan the source node for unallocated
--     * areas and clear them in the copy_bitmap.  During this process, the bitmap
--     * is thus not fully initialized: It may still have bits set for areas that
--     * are unallocated and should actually not be copied.
--     *
--     * This is indicated by skip_unallocated.
--     *
--     * In this case, block_copy() will query the source’s allocation status,
--     * skip unallocated regions, clear them in the copy_bitmap, and invoke
--     * block_copy_reset_unallocated() every time it does.
--     */
--    bool skip_unallocated;
--
--    /* progress_bytes_callback: called when some copying progress is done. */
--    ProgressBytesCallbackFunc progress_bytes_callback;
--
--    /*
--     * progress_reset_callback: called when some bytes reset from copy_bitmap
--     * (see @skip_unallocated above). The callee is assumed to recalculate how
--     * many bytes remain based on the dirty bit count of copy_bitmap.
--     */
--    ProgressResetCallbackFunc progress_reset_callback;
--    void *progress_opaque;
--
--    SharedResource *mem;
--} BlockCopyState;
-+typedef struct BlockCopyState BlockCopyState;
- 
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size,
-@@ -93,4 +41,7 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
- int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
-                             bool *error_is_read);
- 
-+BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
-+void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
-+
- #endif /* BLOCK_COPY_H */
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 7cdb1f8eba..1026628b57 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -38,6 +38,7 @@ typedef struct BDRVBackupTopState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
-     bool active;
-+    int64_t cluster_size;
- } BDRVBackupTopState;
- 
- static coroutine_fn int backup_top_co_preadv(
-@@ -51,8 +52,8 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offset,
-                                        uint64_t bytes)
- {
-     BDRVBackupTopState *s = bs->opaque;
--    uint64_t end = QEMU_ALIGN_UP(offset + bytes, s->bcs->cluster_size);
--    uint64_t off = QEMU_ALIGN_DOWN(offset, s->bcs->cluster_size);
-+    uint64_t end = QEMU_ALIGN_UP(offset + bytes, s->cluster_size);
-+    uint64_t off = QEMU_ALIGN_DOWN(offset, s->cluster_size);
- 
-     return block_copy(s->bcs, off, end - off, NULL);
- }
-@@ -227,6 +228,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-         goto failed_after_append;
-     }
- 
-+    state->cluster_size = cluster_size;
-     state->bcs = block_copy_state_new(top->backing, state->target,
-                                       cluster_size, write_flags, &local_err);
-     if (local_err) {
-diff --git a/block/backup.c b/block/backup.c
-index cf62b1a38c..acab0d08da 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -48,6 +48,7 @@ typedef struct BackupBlockJob {
-     int64_t cluster_size;
- 
-     BlockCopyState *bcs;
-+    BdrvDirtyBitmap *bcs_bitmap;
- } BackupBlockJob;
- 
- static const BlockJobDriver backup_job_driver;
-@@ -63,7 +64,7 @@ static void backup_progress_bytes_callback(int64_t bytes, void *opaque)
- static void backup_progress_reset_callback(void *opaque)
- {
-     BackupBlockJob *s = opaque;
--    uint64_t estimate = bdrv_get_dirty_count(s->bcs->copy_bitmap);
-+    uint64_t estimate = bdrv_get_dirty_count(s->bcs_bitmap);
- 
-     job_progress_set_remaining(&s->common.job, estimate);
- }
-@@ -111,8 +112,7 @@ static void backup_cleanup_sync_bitmap(BackupBlockJob *job, int ret)
- 
-     if (ret < 0 && job->bitmap_mode == BITMAP_SYNC_MODE_ALWAYS) {
-         /* If we failed and synced, merge in the bits we didn't copy: */
--        bdrv_dirty_bitmap_merge_internal(bm, job->bcs->copy_bitmap,
--                                         NULL, true);
-+        bdrv_dirty_bitmap_merge_internal(bm, job->bcs_bitmap, NULL, true);
-     }
- }
- 
-@@ -151,7 +151,7 @@ void backup_do_checkpoint(BlockJob *job, Error **errp)
-         return;
-     }
- 
--    bdrv_set_dirty_bitmap(backup_job->bcs->copy_bitmap, 0, backup_job->len);
-+    bdrv_set_dirty_bitmap(backup_job->bcs_bitmap, 0, backup_job->len);
- }
- 
- static BlockErrorAction backup_error_action(BackupBlockJob *job,
-@@ -196,7 +196,7 @@ static int coroutine_fn backup_loop(BackupBlockJob *job)
-     BdrvDirtyBitmapIter *bdbi;
-     int ret = 0;
- 
--    bdbi = bdrv_dirty_iter_new(job->bcs->copy_bitmap);
-+    bdbi = bdrv_dirty_iter_new(job->bcs_bitmap);
-     while ((offset = bdrv_dirty_iter_next(bdbi)) != -1) {
-         do {
-             if (yield_and_check(job)) {
-@@ -216,13 +216,13 @@ static int coroutine_fn backup_loop(BackupBlockJob *job)
-     return ret;
- }
- 
--static void backup_init_copy_bitmap(BackupBlockJob *job)
-+static void backup_init_bcs_bitmap(BackupBlockJob *job)
- {
-     bool ret;
-     uint64_t estimate;
- 
-     if (job->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
--        ret = bdrv_dirty_bitmap_merge_internal(job->bcs->copy_bitmap,
-+        ret = bdrv_dirty_bitmap_merge_internal(job->bcs_bitmap,
-                                                job->sync_bitmap,
-                                                NULL, true);
-         assert(ret);
-@@ -232,12 +232,12 @@ static void backup_init_copy_bitmap(BackupBlockJob *job)
-              * We can't hog the coroutine to initialize this thoroughly.
-              * Set a flag and resume work when we are able to yield safely.
-              */
--            job->bcs->skip_unallocated = true;
-+            block_copy_set_skip_unallocated(job->bcs, true);
-         }
--        bdrv_set_dirty_bitmap(job->bcs->copy_bitmap, 0, job->len);
-+        bdrv_set_dirty_bitmap(job->bcs_bitmap, 0, job->len);
-     }
- 
--    estimate = bdrv_get_dirty_count(job->bcs->copy_bitmap);
-+    estimate = bdrv_get_dirty_count(job->bcs_bitmap);
-     job_progress_set_remaining(&job->common.job, estimate);
- }
- 
-@@ -246,7 +246,7 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
-     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
-     int ret = 0;
- 
--    backup_init_copy_bitmap(s);
-+    backup_init_bcs_bitmap(s);
- 
-     if (s->sync_mode == MIRROR_SYNC_MODE_TOP) {
-         int64_t offset = 0;
-@@ -265,12 +265,12 @@ static int coroutine_fn backup_run(Job *job, Error **errp)
- 
-             offset += count;
-         }
--        s->bcs->skip_unallocated = false;
-+        block_copy_set_skip_unallocated(s->bcs, false);
-     }
- 
-     if (s->sync_mode == MIRROR_SYNC_MODE_NONE) {
-         /*
--         * All bits are set in copy_bitmap to allow any cluster to be copied.
-+         * All bits are set in bcs_bitmap to allow any cluster to be copied.
-          * This does not actually require them to be copied.
-          */
-         while (!job_is_cancelled(job)) {
-@@ -458,6 +458,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     job->sync_bitmap = sync_bitmap;
-     job->bitmap_mode = bitmap_mode;
-     job->bcs = bcs;
-+    job->bcs_bitmap = block_copy_dirty_bitmap(bcs);
-     job->cluster_size = cluster_size;
-     job->len = len;
- 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index aca44b13fb..7e14e86a2d 100644
+index 7e14e86a2d..b00cbfc841 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -24,6 +24,60 @@
+@@ -24,12 +24,12 @@
  #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
  #define BLOCK_COPY_MAX_MEM (128 * MiB)
  
-+typedef struct BlockCopyInFlightReq {
-+    int64_t offset;
-+    int64_t bytes;
-+    QLIST_ENTRY(BlockCopyInFlightReq) list;
-+    CoQueue wait_queue; /* coroutines blocked on this request */
-+} BlockCopyInFlightReq;
-+
-+typedef struct BlockCopyState {
-+    /*
-+     * BdrvChild objects are not owned or managed by block-copy. They are
-+     * provided by block-copy user and user is responsible for appropriate
-+     * permissions on these children.
-+     */
-+    BdrvChild *source;
-+    BdrvChild *target;
-+    BdrvDirtyBitmap *copy_bitmap;
-+    int64_t cluster_size;
-+    bool use_copy_range;
-+    int64_t copy_size;
-+    uint64_t len;
-+    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
-+
-+    BdrvRequestFlags write_flags;
-+
-+    /*
-+     * skip_unallocated:
-+     *
-+     * Used by sync=top jobs, which first scan the source node for unallocated
-+     * areas and clear them in the copy_bitmap.  During this process, the bitmap
-+     * is thus not fully initialized: It may still have bits set for areas that
-+     * are unallocated and should actually not be copied.
-+     *
-+     * This is indicated by skip_unallocated.
-+     *
-+     * In this case, block_copy() will query the source’s allocation status,
-+     * skip unallocated regions, clear them in the copy_bitmap, and invoke
-+     * block_copy_reset_unallocated() every time it does.
-+     */
-+    bool skip_unallocated;
-+
-+    /* progress_bytes_callback: called when some copying progress is done. */
-+    ProgressBytesCallbackFunc progress_bytes_callback;
-+
-+    /*
-+     * progress_reset_callback: called when some bytes reset from copy_bitmap
-+     * (see @skip_unallocated above). The callee is assumed to recalculate how
-+     * many bytes remain based on the dirty bit count of copy_bitmap.
-+     */
-+    ProgressResetCallbackFunc progress_reset_callback;
-+    void *progress_opaque;
-+
-+    SharedResource *mem;
-+} BlockCopyState;
-+
- static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
-                                                           int64_t offset,
-                                                           int64_t bytes)
-@@ -492,3 +546,13 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+-typedef struct BlockCopyInFlightReq {
++typedef struct BlockCopyTask {
+     int64_t offset;
+     int64_t bytes;
+-    QLIST_ENTRY(BlockCopyInFlightReq) list;
+-    CoQueue wait_queue; /* coroutines blocked on this request */
+-} BlockCopyInFlightReq;
++    QLIST_ENTRY(BlockCopyTask) list;
++    CoQueue wait_queue; /* coroutines blocked on this task */
++} BlockCopyTask;
  
-     return 0;
+ typedef struct BlockCopyState {
+     /*
+@@ -44,7 +44,7 @@ typedef struct BlockCopyState {
+     bool use_copy_range;
+     int64_t copy_size;
+     uint64_t len;
+-    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
++    QLIST_HEAD(, BlockCopyTask) tasks;
+ 
+     BdrvRequestFlags write_flags;
+ 
+@@ -78,15 +78,14 @@ typedef struct BlockCopyState {
+     SharedResource *mem;
+ } BlockCopyState;
+ 
+-static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+-                                                          int64_t offset,
+-                                                          int64_t bytes)
++static BlockCopyTask *block_copy_find_task(BlockCopyState *s,
++                                           int64_t offset, int64_t bytes)
+ {
+-    BlockCopyInFlightReq *req;
++    BlockCopyTask *t;
+ 
+-    QLIST_FOREACH(req, &s->inflight_reqs, list) {
+-        if (offset + bytes > req->offset && offset < req->offset + req->bytes) {
+-            return req;
++    QLIST_FOREACH(t, &s->tasks, list) {
++        if (offset + bytes > t->offset && offset < t->offset + t->bytes) {
++            return t;
+         }
+     }
+ 
+@@ -100,57 +99,56 @@ static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t start,
+                                              int64_t end)
+ {
+-    BlockCopyInFlightReq *req = block_copy_find_inflight_req(s, start, end);
++    BlockCopyTask *task = block_copy_find_task(s, start, end);
+ 
+-    if (!req) {
++    if (!task) {
+         return false;
+     }
+ 
+-    qemu_co_queue_wait(&req->wait_queue, NULL);
++    qemu_co_queue_wait(&task->wait_queue, NULL);
+ 
+     return true;
  }
-+
-+BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
-+{
-+    return s->copy_bitmap;
-+}
-+
-+void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
-+{
-+    s->skip_unallocated = skip;
-+}
+ 
+ /* Called only on full-dirty region */
+-static void block_copy_inflight_req_begin(BlockCopyState *s,
+-                                          BlockCopyInFlightReq *req,
+-                                          int64_t offset, int64_t bytes)
++static void block_copy_task_begin(BlockCopyState *s, BlockCopyTask *task,
++                                  int64_t offset, int64_t bytes)
+ {
+-    assert(!block_copy_find_inflight_req(s, offset, bytes));
++    assert(!block_copy_find_task(s, offset, bytes));
+ 
+     bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
+ 
+-    req->offset = offset;
+-    req->bytes = bytes;
+-    qemu_co_queue_init(&req->wait_queue);
+-    QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
++    task->offset = offset;
++    task->bytes = bytes;
++    qemu_co_queue_init(&task->wait_queue);
++    QLIST_INSERT_HEAD(&s->tasks, task, list);
+ }
+ 
+-static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
+-        BlockCopyInFlightReq *req, int64_t new_bytes)
++static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
++                                                BlockCopyTask *task,
++                                                int64_t new_bytes)
+ {
+-    if (new_bytes == req->bytes) {
++    if (new_bytes == task->bytes) {
+         return;
+     }
+ 
+-    assert(new_bytes > 0 && new_bytes < req->bytes);
++    assert(new_bytes > 0 && new_bytes < task->bytes);
+ 
+     bdrv_set_dirty_bitmap(s->copy_bitmap,
+-                          req->offset + new_bytes, req->bytes - new_bytes);
++                          task->offset + new_bytes, task->bytes - new_bytes);
+ 
+-    req->bytes = new_bytes;
+-    qemu_co_queue_restart_all(&req->wait_queue);
++    task->bytes = new_bytes;
++    qemu_co_queue_restart_all(&task->wait_queue);
+ }
+ 
+-static void coroutine_fn block_copy_inflight_req_end(BlockCopyState *s,
+-                                                     BlockCopyInFlightReq *req,
+-                                                     int ret)
++static void coroutine_fn block_copy_task_end(BlockCopyState *s,
++                                             BlockCopyTask *task, int ret)
+ {
+     if (ret < 0) {
+-        bdrv_set_dirty_bitmap(s->copy_bitmap, req->offset, req->bytes);
++        bdrv_set_dirty_bitmap(s->copy_bitmap, task->offset, task->bytes);
+     }
+-    QLIST_REMOVE(req, list);
+-    qemu_co_queue_restart_all(&req->wait_queue);
++    QLIST_REMOVE(task, list);
++    qemu_co_queue_restart_all(&task->wait_queue);
+ }
+ 
+ void block_copy_state_free(BlockCopyState *s)
+@@ -218,7 +216,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+     }
+ 
+-    QLIST_INIT(&s->inflight_reqs);
++    QLIST_INIT(&s->tasks);
+ 
+     return s;
+ }
+@@ -456,7 +454,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+ 
+     while (bytes) {
+-        BlockCopyInFlightReq req;
++        BlockCopyTask task;
+         int64_t next_zero, cur_bytes, status_bytes;
+ 
+         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
+@@ -477,12 +475,12 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+             assert(next_zero < offset + cur_bytes); /* no need to do MIN() */
+             cur_bytes = next_zero - offset;
+         }
+-        block_copy_inflight_req_begin(s, &req, offset, cur_bytes);
++        block_copy_task_begin(s, &task, offset, cur_bytes);
+ 
+         ret = block_copy_block_status(s, offset, cur_bytes, &status_bytes);
+-        block_copy_inflight_req_shrink(s, &req, status_bytes);
++        block_copy_task_shrink(s, &task, status_bytes);
+         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
+-            block_copy_inflight_req_end(s, &req, 0);
++            block_copy_task_end(s, &task, 0);
+             s->progress_reset_callback(s->progress_opaque);
+             trace_block_copy_skip_range(s, offset, status_bytes);
+             offset += status_bytes;
+@@ -498,7 +496,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+         ret = block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_ZERO,
+                                  error_is_read);
+         co_put_to_shres(s->mem, cur_bytes);
+-        block_copy_inflight_req_end(s, &req, ret);
++        block_copy_task_end(s, &task, ret);
+         if (ret < 0) {
+             return ret;
+         }
 -- 
 2.21.0
 
