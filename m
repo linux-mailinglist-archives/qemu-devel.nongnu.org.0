@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709FBFE0AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:56:49 +0100 (CET)
-Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6BCFE0CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 16:05:02 +0100 (CET)
+Received: from localhost ([::1]:40506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVd1j-0002dY-Uo
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37441)
+	id 1iVd9h-0007UR-8Z
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 10:05:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iVd0p-00026T-Vn
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:55:53 -0500
+ (envelope-from <michael.goffioul@gmail.com>) id 1iVaFi-00078k-Ij
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:59:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iVd0n-0000Ih-8t
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:55:50 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27446
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iVd0n-0000II-5x
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:55:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573829748;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0rorQVHKK9jfAoq/OSb/+Jl9+t1z4hwT4nWpoleuD6s=;
- b=Hw8KZv6qo/ROgH2xZt1qFuS7bb1/a136O2wjh3mPFPUJFvtQBVuwvRoTcsPxTDPgR+WrIo
- 7mNy5Rs+gqJNxgV79czheqR8Wy279raoESmllzBCMibmaZAgF6nHdVLmMW7xLozm6v9laS
- 1mDiz87Ek0uXgMwwGIC+/SdWFTNWzFw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-U1O2p4rXNzuo3glGwPq_PQ-1; Fri, 15 Nov 2019 09:55:45 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F2ED104FB65;
- Fri, 15 Nov 2019 14:55:42 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B67DD4645F;
- Fri, 15 Nov 2019 14:55:29 +0000 (UTC)
-Date: Fri, 15 Nov 2019 15:55:27 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: gengdongjiu <gengdongjiu@huawei.com>
-Subject: Re: [RESEND PATCH v21 3/6] ACPI: Add APEI GHES table generation
- support
-Message-ID: <20191115155527.287ee95b@redhat.com>
-In-Reply-To: <19b1b4b9ceb24aad9f34ab4e58bccab3@huawei.com>
-References: <19b1b4b9ceb24aad9f34ab4e58bccab3@huawei.com>
+ (envelope-from <michael.goffioul@gmail.com>) id 1iVaFg-0000gJ-Ii
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:59:02 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44344)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <michael.goffioul@gmail.com>)
+ id 1iVaFY-0000bG-3u; Fri, 15 Nov 2019 06:58:53 -0500
+Received: by mail-pg1-x532.google.com with SMTP id f19so5900811pgk.11;
+ Fri, 15 Nov 2019 03:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3PiXi4UBRQ42F3qaUYYPAcpUcWadxVQHnItxf83NNYw=;
+ b=GYg0r/F2LWcu9GlU8ZnUHD0vuhPJDzmIrxV14bPET1GJI8z+r5ILDY00t21eiRw5a3
+ 7J2VbDN3m17gavW1jtf+mTHfxPvXyzVTY0PKnr/YdwAEHAast5c+g72wZKlmnciEFkja
+ ewZvEGc4vsBFIO1Z6hWlI+8aLJRo5/MtAY/wbJf/LIzS5rIwv9wxbR6NERnCbCWeacXq
+ kGJyZ1FV5E3Hpf9W+7BN/bRwfuZpZJBBnJbwitLEKChyzYeu015AxYaxyxlddaoQnrmX
+ N0TR0l6sQRp6oudCOnFkJTdH+ae9WTBOkASZk9EjWJ+Xl4XRdS7G6u+rAyksIvGfhe0E
+ elWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3PiXi4UBRQ42F3qaUYYPAcpUcWadxVQHnItxf83NNYw=;
+ b=jj87UdKTJYg8mFext9iw0A4bBwnjbExidsA3Klabbf08XsJFQ6CYzoaBcpiBAuzRBS
+ nWBIfM3iRfv3tMXY+zgyv90LUQsTfS5/3qEnEB0apLtni7pIp9mUdVIZjL8M/G8Du0p3
+ WNw/olulbwFAVRy0o8OfAX9ydkk7BjL94G+WKdUBzUpXqABk2CCiubhHRPyxFM8i73TM
+ //onr2XuuLY/pzAPwCQZ2mS3LWyfAQfuf2p0L0z1ne9J+diL/14fLXESMTjBKpR5mR9y
+ UnqiQ7VDN3v5qF6TMTha8ckSik9E3Q7nMt6dp2NoShFPJfutBilrTwmGOFsizQmOeVIK
+ 3q0Q==
+X-Gm-Message-State: APjAAAXpM1+9b7m9cBmYMSjWIz0FKIHW4P03Qs6aLNzBH0Ka1Gh9FRs2
+ ZYH1Fra46iqIFVEaLqDFOFgfZiuo3K16OcpiSCI=
+X-Google-Smtp-Source: APXvYqyTaqHfbuGerDofyIHlaMPVSRan4zxEhFIJN1BT8TE+e1Ii0UPQWwc/Gjqh+a7KMiMH3W6BBzqMreCdvYYKeIM=
+X-Received: by 2002:a62:e914:: with SMTP id j20mr17339797pfh.245.1573819125984; 
+ Fri, 15 Nov 2019 03:58:45 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: U1O2p4rXNzuo3glGwPq_PQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <CAB-99Lv3LySps4MOoKEj7Sp0CBouv-KgZp2osbiokSq_Gdfj5Q@mail.gmail.com>
+ <CAFEAcA-RXurz2OB24i1wypumCDWf5s__mC33mFzBA3SCsm4_VA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-RXurz2OB24i1wypumCDWf5s__mC33mFzBA3SCsm4_VA@mail.gmail.com>
+From: Michael Goffioul <michael.goffioul@gmail.com>
+Date: Fri, 15 Nov 2019 06:58:34 -0500
+Message-ID: <CAB-99Ls6YfRv7zYLMCAmQ1jj6=2As9YtmgHwucvr5d5_eaCOPA@mail.gmail.com>
+Subject: Re: Invalid ARM instruction for clang-compiled Android code
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000f1f1d40597615187"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::532
+X-Mailman-Approved-At: Fri, 15 Nov 2019 10:01:37 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,100 +72,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- "mtosatti@redhat.com" <mtosatti@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "zhengxiang \(A\)" <zhengxiang9@huawei.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "james.morse@arm.com" <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Nov 2019 14:32:47 +0000
-gengdongjiu <gengdongjiu@huawei.com> wrote:
+--000000000000f1f1d40597615187
+Content-Type: text/plain; charset="UTF-8"
 
-> > > + */
-> > > +static void acpi_ghes_build_notify(GArray *table, const uint8_t type=
-) =20
-> >=20
-> > typically format should be build_WHAT(), so
-> >  build_ghes_hw_error_notification()
-> >=20
-> > And I'd move this out into its own patch.
-> > this applies to other trivial in-depended sub-tables, that take all dat=
-a needed to construct them from supplied arguments. =20
->=20
-> I very used your suggested method in previous series[1], but other mainta=
-iner suggested to move this function to this file, because he think only GH=
-ES used it
+On Fri, Nov 15, 2019 at 6:03 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Using this file is ok, what I've meant for you to split function from
-this patch into a separate smaller patch.
+> On Fri, 15 Nov 2019 at 05:03, Michael Goffioul
+> <michael.goffioul@gmail.com> wrote:
+> > When running QEMU user mode on some code compiled by clang (dynamic
+> linker from AOSP-10), the emulator chokes on this instruction:
+> >
+> >    9aa92:       e8c0 2277       strexd  r7, r2, r2, [r0]
+>
+> I think that ought to be a valid insn...
+>
+> > From debugging, I determined that op_strex() calls
+> unallocated_encoding(), which I think leads to the SIGILL signal generated.
+> >
+> > I run the emulator without specifying the ARM cpu type, I think it then
+> defaults to "any", which should support all instructions, if I'm not
+> mistaken.
+> >
+> > Is this instruction really invalid? Or am I doing something wrong?
+>
+> Which version of QEMU are you using? (Looking at the code I
+> suspect we still have this bug in master, but it's always
+> useful to specify what version you're using in a bug report.)
+>
 
-With the way code split now I have to review 2 big complex patches at
-the same which makes reviewing hard and I have a hard time convincing
-myself that code it correct.
+Yes sorry, I forgot to mention it. I'm using master branch
+at 187f35512106501fe9a11057f4d8705431e0026d
 
-Moving small self-contained chunks of code in to separate smaller patches
-makes review easier.
+--000000000000f1f1d40597615187
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> [1]:
-> https://patchwork.ozlabs.org/cover/1099428/
->=20
-> >  =20
-> > > +{
-> > > +        /* Type */
-> > > +        build_append_int_noprefix(table, type, 1);
-> > > +        /*
-> > > +         * Length:
-> > > +         * Total length of the structure in bytes
-> > > +         */
-> > > +        build_append_int_noprefix(table, 28, 1);
-> > > +        /* Configuration Write Enable */
-> > > +        build_append_int_noprefix(table, 0, 2);
-> > > +        /* Poll Interval */
-> > > +        build_append_int_noprefix(table, 0, 4);
-> > > +        /* Vector */
-> > > +        build_append_int_noprefix(table, 0, 4);
-> > > +        /* Switch To Polling Threshold Value */
-> > > +        build_append_int_noprefix(table, 0, 4);
-> > > +        /* Switch To Polling Threshold Window */
-> > > +        build_append_int_noprefix(table, 0, 4);
-> > > +        /* Error Threshold Value */
-> > > +        build_append_int_noprefix(table, 0, 4);
-> > > +        /* Error Threshold Window */
-> > > +        build_append_int_noprefix(table, 0, 4); }
-> > > + =20
-> >=20
-> > /*
-> >   Initialize "etc/hardware_errors" and "etc/hardware_errors_addr" fwcfg=
- blobs.
-> >   See docs/specs/acpi_hest_ghes.rst for blobs format */ =20
-> > > +void acpi_ghes_build_error_table(GArray *hardware_errors, BIOSLinker
-> > > +*linker) =20
-> > build_ghes_error_table()
-> >=20
-> > also I'd move this function into its own patch along with other related=
- code that initializes and wires it into virt board. =20
->=20
-> I ever use your suggested method[1], but other maintainer, it seems Micha=
-el, suggested to move these functions to this file that used it, because he=
- think only GHES used it.
->=20
-> [1]:
-> https://patchwork.ozlabs.org/patch/1099424/
-> https://patchwork.ozlabs.org/patch/1099425/
-> https://patchwork.ozlabs.org/patch/1099430/
->=20
->=20
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 15, 2019 at 6:03 AM Peter May=
+dell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.o=
+rg</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">On Fri, 15 Nov 2019 at 05:03, Michael Goffioul=
+<br>
+&lt;<a href=3D"mailto:michael.goffioul@gmail.com" target=3D"_blank">michael=
+.goffioul@gmail.com</a>&gt; wrote:<br>
+&gt; When running QEMU user mode on some code compiled by clang (dynamic li=
+nker from AOSP-10), the emulator chokes on this instruction:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 9aa92:=C2=A0 =C2=A0 =C2=A0 =C2=A0e8c0 2277=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0strexd=C2=A0 r7, r2, r2, [r0]<br>
+<br>
+I think that ought to be a valid insn...<br>
+<br>
+&gt; From debugging, I determined that op_strex() calls unallocated_encodin=
+g(), which I think leads to the SIGILL signal generated.<br>
+&gt;<br>
+&gt; I run the emulator without specifying the ARM cpu type, I think it the=
+n defaults to &quot;any&quot;, which should support all instructions, if I&=
+#39;m not mistaken.<br>
+&gt;<br>
+&gt; Is this instruction really invalid? Or am I doing something wrong?<br>
+<br>
+Which version of QEMU are you using? (Looking at the code I<br>
+suspect we still have this bug in master, but it&#39;s always<br>
+useful to specify what version you&#39;re using in a bug report.)<br></bloc=
+kquote><div><br></div><div>Yes sorry, I forgot to mention it. I&#39;m using=
+ master branch at=C2=A0187f35512106501fe9a11057f4d8705431e0026d</div><div><=
+br></div></div></div>
 
+--000000000000f1f1d40597615187--
 
