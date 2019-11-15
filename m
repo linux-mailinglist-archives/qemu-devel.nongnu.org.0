@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CA4FD37F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 04:48:58 +0100 (CET)
-Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671B7FD399
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 05:21:24 +0100 (CET)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVSbR-0003Kn-Qs
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 22:48:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45037)
+	id 1iVT6o-0002Im-Vz
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 23:21:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1iVSYM-0000vU-DT
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:45:47 -0500
+ (envelope-from <farman@linux.ibm.com>) id 1iVT5h-0001gY-Gn
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 23:20:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farman@linux.ibm.com>) id 1iVSYK-0002Dj-PJ
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:45:46 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55582
+ (envelope-from <farman@linux.ibm.com>) id 1iVT5g-0000mS-BI
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 23:20:13 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59602
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
- id 1iVSYK-0002Cn-L8
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:45:44 -0500
+ id 1iVT5g-0000mE-6i
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 23:20:12 -0500
 Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAF3YTXM118046
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:35:30 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w9jtv6qhd-1
+ xAF3YThV117964
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:35:25 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w9jtv6qd7-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:35:29 -0500
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:35:23 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
- Fri, 15 Nov 2019 03:34:43 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Fri, 15 Nov 2019 03:34:41 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 15 Nov 2019 03:34:39 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAF3Ycba52953192
+ Fri, 15 Nov 2019 03:34:40 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAF3YcYC54525998
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 Nov 2019 03:34:38 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4EAC352052;
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5C75DA405C;
+ Fri, 15 Nov 2019 03:34:38 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 417EDA4054;
  Fri, 15 Nov 2019 03:34:38 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 3565E5204F;
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Fri, 15 Nov 2019 03:34:38 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id A9836E02BB; Fri, 15 Nov 2019 04:34:37 +0100 (CET)
+ id A70A7E02B8; Fri, 15 Nov 2019 04:34:37 +0100 (CET)
 From: Eric Farman <farman@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [RFC PATCH v1 8/8] vfio-ccw: Add support for the CRW irq
-Date: Fri, 15 Nov 2019 04:34:37 +0100
+Subject: [RFC PATCH v1 7/8] vfio-ccw: Refactor ccw irq handler
+Date: Fri, 15 Nov 2019 04:34:36 +0100
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191115033437.37926-1-farman@linux.ibm.com>
 References: <20191115033437.37926-1-farman@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19111503-4275-0000-0000-0000037DDC76
+x-cbid: 19111503-0012-0000-0000-00000363C327
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111503-4276-0000-0000-00003891447D
-Message-Id: <20191115033437.37926-9-farman@linux.ibm.com>
+x-cbparentid: 19111503-0013-0000-0000-0000219F3EE0
+Message-Id: <20191115033437.37926-8-farman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-14_07:2019-11-14,2019-11-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
+ malwarescore=0 suspectscore=2
  adultscore=0 clxscore=1015 impostorscore=0 bulkscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=833
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1911150029
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
@@ -93,121 +96,133 @@ Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Farhan Ali <alifm@linux.ibm.com>
+Make it easier to add new ones in the future.
 
-The CRW irq will be used by vfio-ccw to notify the userspace
-about any CRWs the userspace needs to handle. Let's add support
-for it.
-
-Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
 Signed-off-by: Eric Farman <farman@linux.ibm.com>
 ---
-
-Notes:
-    v0->v1: [EF]
-     - Check vcdev->crw_region before registering the irq,
-       in case host kernel does not have matching support
-     - Split the refactoring changes to an earlier (new) patch
-       (and don't remove the "num_irqs" check in the register
-       routine, but adjust it to the check the input variable)
-     - Don't revert the cool vfio_set_irq_signaling() stuff
-     - Unregister CRW IRQ before IO IRQ in unrealize
-     - s/crw1/crw0/
-
- hw/vfio/ccw.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ hw/vfio/ccw.c | 55 ++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 39 insertions(+), 16 deletions(-)
 
 diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index b16526d5de..b3f4120118 100644
+index 2b1a83b94c..b16526d5de 100644
 --- a/hw/vfio/ccw.c
 +++ b/hw/vfio/ccw.c
-@@ -48,6 +48,7 @@ struct VFIOCCWDevice {
-     uint64_t crw_region_offset;
-     struct ccw_crw_region *crw_region;
-     EventNotifier io_notifier;
-+    EventNotifier crw_notifier;
-     bool force_orb_pfch;
-     bool warned_orb_pfch;
- };
-@@ -259,6 +260,34 @@ static void vfio_ccw_reset(DeviceState *dev)
-     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
+@@ -334,22 +334,35 @@ read_err:
+     css_inject_io_interrupt(sch);
  }
  
-+static void vfio_ccw_crw_notifier_handler(void *opaque)
-+{
-+    VFIOCCWDevice *vcdev = opaque;
-+    struct ccw_crw_region *region = vcdev->crw_region;
-+    CRW crw;
-+    int size;
-+    uint8_t erc;
-+    uint16_t rsid;
-+
-+    if (!event_notifier_test_and_clear(&vcdev->crw_notifier)) {
-+        return;
-+    }
-+
-+    memset(region, 0, sizeof(*region));
-+    size = pread(vcdev->vdev.fd, region, vcdev->crw_region_size,
-+                 vcdev->crw_region_offset);
-+
-+    if (size == -1) {
-+        error_report("vfio-ccw: Read crw region failed with errno=%d", errno);
-+        return;
-+    }
-+
-+    memcpy(&crw, &region->crw0, sizeof(CRW));
-+    erc = crw.flags & 0x003f;
-+    rsid = crw.rsid;
-+    css_queue_crw(CRW_RSC_CHP, erc, 0, 0, rsid);
-+}
-+
- static void vfio_ccw_io_notifier_handler(void *opaque)
+-static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
++static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev, int irq,
++                                           Error **errp)
  {
-     VFIOCCWDevice *vcdev = opaque;
-@@ -349,6 +378,10 @@ static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev, int irq,
-         notifier = &vcdev->io_notifier;
-         fd_read = vfio_ccw_io_notifier_handler;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        fd_read = vfio_ccw_crw_notifier_handler;
+     VFIODevice *vdev = &vcdev->vdev;
+     struct vfio_irq_info *irq_info;
+     size_t argsz;
+     int fd;
++    EventNotifier *notifier;
++    IOHandler *fd_read;
++
++    switch (irq) {
++    case VFIO_CCW_IO_IRQ_INDEX:
++        notifier = &vcdev->io_notifier;
++        fd_read = vfio_ccw_io_notifier_handler;
 +        break;
-     default:
-         error_setg(errp, "vfio: Unsupported device irq(%d) fd: %m", irq);
++    default:
++        error_setg(errp, "vfio: Unsupported device irq(%d) fd: %m", irq);
++        return;
++    }
+ 
+-    if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
+-        error_setg(errp, "vfio: unexpected number of io irqs %u",
++    if (vdev->num_irqs < irq + 1) {
++        error_setg(errp, "vfio: unexpected number of irqs %u",
+                    vdev->num_irqs);
          return;
-@@ -398,6 +431,9 @@ static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev, int irq)
-     case VFIO_CCW_IO_IRQ_INDEX:
-         notifier = &vcdev->io_notifier;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        break;
-     default:
-         error_report("vfio: Unsupported device irq(%d) fd: %m", irq);
-         return;
-@@ -618,6 +654,14 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
-         goto out_notifier_err;
      }
  
-+    if (vcdev->crw_region) {
-+        vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX, &err);
-+        if (err) {
-+            vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-+            goto out_notifier_err;
-+        }
-+    }
-+
-     return;
+     argsz = sizeof(*irq_info);
+     irq_info = g_malloc0(argsz);
+-    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
++    irq_info->index = irq;
+     irq_info->argsz = argsz;
+     if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
+               irq_info) < 0 || irq_info->count < 1) {
+@@ -357,37 +370,47 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+         goto out_free_info;
+     }
  
- out_notifier_err:
-@@ -642,6 +686,7 @@ static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
+-    if (event_notifier_init(&vcdev->io_notifier, 0)) {
++    if (event_notifier_init(notifier, 0)) {
+         error_setg_errno(errp, errno,
+-                         "vfio: Unable to init event notifier for IO");
++                         "vfio: Unable to init event notifier for irq (%d)", irq);
+         goto out_free_info;
+     }
+ 
+-    fd = event_notifier_get_fd(&vcdev->io_notifier);
+-    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
++    fd = event_notifier_get_fd(notifier);
++    qemu_set_fd_handler(fd, fd_read, NULL, vcdev);
+ 
+-    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
++    if (vfio_set_irq_signaling(vdev, irq, 0,
+                                VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
+         qemu_set_fd_handler(fd, NULL, NULL, vcdev);
+-        event_notifier_cleanup(&vcdev->io_notifier);
++        event_notifier_cleanup(notifier);
+     }
+ 
+ out_free_info:
+     g_free(irq_info);
+ }
+ 
+-static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
++static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev, int irq)
+ {
+     Error *err = NULL;
++    EventNotifier *notifier;
++
++    switch (irq) {
++    case VFIO_CCW_IO_IRQ_INDEX:
++        notifier = &vcdev->io_notifier;
++        break;
++    default:
++        error_report("vfio: Unsupported device irq(%d) fd: %m", irq);
++        return;
++    }
+ 
+-    if (vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
++    if (vfio_set_irq_signaling(&vcdev->vdev, irq, 0,
+                                VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err)) {
+         error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+     }
+ 
+-    qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
++    qemu_set_fd_handler(event_notifier_get_fd(notifier),
+                         NULL, NULL, vcdev);
+-    event_notifier_cleanup(&vcdev->io_notifier);
++    event_notifier_cleanup(notifier);
+ }
+ 
+ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+@@ -590,7 +613,7 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+         goto out_region_err;
+     }
+ 
+-    vfio_ccw_register_io_notifier(vcdev, &err);
++    vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX, &err);
+     if (err) {
+         goto out_notifier_err;
+     }
+@@ -619,7 +642,7 @@ static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
      S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
      VFIOGroup *group = vcdev->vdev.group;
  
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
+-    vfio_ccw_unregister_io_notifier(vcdev);
++    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
      vfio_ccw_put_region(vcdev);
      vfio_ccw_put_device(vcdev);
+     vfio_put_group(group);
 -- 
 2.17.1
 
