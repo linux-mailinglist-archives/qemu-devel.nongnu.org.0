@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C31FD84A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 10:01:30 +0100 (CET)
-Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61D4FD8A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 10:21:20 +0100 (CET)
+Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVXTt-0006sa-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 04:01:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46510)
+	id 1iVXn5-00088R-6I
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 04:21:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iVXSH-0005kt-KU
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 03:59:50 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iVXmD-0006Uz-1r
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 04:20:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iVXSE-0007i3-Qn
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 03:59:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54401
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iVXmB-0001Pb-Bv
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 04:20:24 -0500
+Received: from ozlabs.org ([203.11.71.1]:33569)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iVXSD-0007dN-1u
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 03:59:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573808383;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wLUb0zNbebYnbqgm5xC8kICvQAF+NIpa2TBsPCz7rGM=;
- b=KUQFecLbv7INGw6ve4L1GrGmZCXWGoU8Oxf/tPQZkWRcWjdvC9gzTwVQsZoE4aKw24lc/u
- xjn6E829J4nOb4wbUma72skgxANKAAllITmsX2awueSgq5yBR2OP7Azsoi7fqE4jKdg3ib
- IpNv5AuDeygrxwcOgGIq0C0s5upOEHM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-1Dl33t1INAqu2O8H7fBTQw-1; Fri, 15 Nov 2019 03:59:42 -0500
-Received: by mail-wr1-f70.google.com with SMTP id v6so7213187wrm.18
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 00:59:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EAoMrOycLPsICECqXY+/i1ufSVcPIgS3UrLbF1mf3U8=;
- b=c0BjC2lyoAa0qlhJFtwXXH/v0JEf6mZyYyAcdU0TgcayFB/jkON+e5h7sIIpG6r+1W
- rH1904KGryry805y/7IewSbnmmXA+smWC6jLDkDZcfWWLyQQ2b5kRZYLOzSajDWMMtfl
- tTP5bfW2cM52rzqmsrBNs9rg5/4QKTj1mfmQtzbp33ZCrKkKUF3+oMJ2zpFsWsUG+PZs
- p9SFsgz++19SgVr6fZOZ/46yamiuPCsarAn+gg1v375GE+xBZXx/wNiFFl5In7fYQuIC
- To/7q6jfgdcxevTFnsjRTBc8uwg1TuE8CiLiVVhYVxCQSO5cx/jFQ5hb/IRqIUiq0do2
- C/WA==
-X-Gm-Message-State: APjAAAUmrtfcLSSX96MA7MAZdWSj9t202DD/xs0Ae9H67PpZepINYgn1
- XVfbZ75z76LF/g26ejsIWtmDWSc+PJLScNG4pvpb4D9IGlkLlcyaP2dJdn+wwjtyNHDGUD8eDow
- zQFDf481Fj58/kJE=
-X-Received: by 2002:a7b:c408:: with SMTP id k8mr14091423wmi.67.1573808380950; 
- Fri, 15 Nov 2019 00:59:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz8VX76Nu5Xx4104nZXlXQZygsOdDf9FezlRY9UFFjxz3JcVyxh5D2mdGbqsQZsT0EQg2oxPA==
-X-Received: by 2002:a7b:c408:: with SMTP id k8mr14091408wmi.67.1573808380668; 
- Fri, 15 Nov 2019 00:59:40 -0800 (PST)
-Received: from steredhat (a-nu5-32.tin.it. [212.216.181.31])
- by smtp.gmail.com with ESMTPSA id t5sm10268526wro.76.2019.11.15.00.59.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2019 00:59:40 -0800 (PST)
-Date: Fri, 15 Nov 2019 09:59:38 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH] vfio: don't ignore return value of migrate_add_blocker
-Message-ID: <20191115085938.evd2lyxvivxlxwvy@steredhat>
-References: <20191114133449.11536-1-jfreimann@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iVXmA-0001OU-Eg; Fri, 15 Nov 2019 04:20:23 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47Dt9T70Rvz9sPK; Fri, 15 Nov 2019 20:20:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1573809613;
+ bh=GAal6PR4V2MjnYgDyPxtGuW71Cb60NDCzl1+F1KPVz8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oCXdOO/+grhCEijrhLzm80aMLb9YMzM1Lx9h73OPwjsGro3yHTmwafX8NFSli1h/p
+ p/qbP+Qy8TCgVHSBsQlRv2iUl9r1VBakt4SdZsQx/0/Dh1CtknjxmSn2MF5ezK2yvB
+ EzW+QnjH7/lohfVaw2+cuHFV6mq//kzfA6Yezeco=
+Date: Fri, 15 Nov 2019 20:20:03 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr/kvm: Set default cpu model for all machine classes
+Message-ID: <20191115092003.GC2134@umbus.fritz.box>
+References: <20191030163243.10644-1-david@gibson.dropbear.id.au>
+ <20191113144344.GA4204@orkuz.int.mamuti.net>
+ <20191113160900.5f9f5415@bahia.lan>
+ <CAFEAcA9+VzDC9N5vGcA9COUaPsSue9VWmtoaPneCqY7drtbVzA@mail.gmail.com>
+ <20191113170040.7c62fcaf@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20191114133449.11536-1-jfreimann@redhat.com>
-X-MC-Unique: 1Dl33t1INAqu2O8H7fBTQw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZwgA9U+XZDXt4+m+"
 Content-Disposition: inline
+In-Reply-To: <20191113170040.7c62fcaf@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,24 +59,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.williamson@redhat.com, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 14, 2019 at 02:34:49PM +0100, Jens Freimann wrote:
-> When an error occurs in migrate_add_blocker() it sets a
-> negative return value and uses error pointer we pass in.
-> Instead of just looking at the error pointer check for a negative return
-> value and avoid a coverity error because the return value is
-> set but never used. This fixes CID 1407219.
+
+--ZwgA9U+XZDXt4+m+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 13, 2019 at 05:00:40PM +0100, Greg Kurz wrote:
+> On Wed, 13 Nov 2019 15:31:58 +0000
+> Peter Maydell <peter.maydell@linaro.org> wrote:
 >=20
-> Fixes: f045a0104c8c ("vfio: unplug failover primary device before
->   migration")
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> ---
->  hw/vfio/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > On Wed, 13 Nov 2019 at 15:10, Greg Kurz <groug@kaod.org> wrote:
+> > > David is away until the 19th of November, which is the release date
+> > > of rc2 according to the planning [*]. Then we have rc3 the 26th, and
+> > > final release (or rc4) the 3rd of December, so it should be ok.
+> >=20
+> > Please don't actively plan to delay putting changes in
+> > until later release candidates. The release process
+> > involves steadily winding up the bar of whether it's
+> > worth putting in and hopefully reducing the volume
+> > of changes between rcs. In an ideal world rc3 would
+> > have very few changes, and then there would be no
+> > changes at all between rc3 and the final release.
+> >=20
+>=20
+> Right. I could discuss with Laurent: David should be back on Monday
+> actually. Hopefully he can a send a PR before rc2.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+I'm back home now, back to work on Monday.  It'll probably take me a
+full day of catching up on email and whatnot, so the earliest I'd be
+likely to do the PR is Tuesday.  If you can get it ready before that,
+please go ahead.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ZwgA9U+XZDXt4+m+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3ObcMACgkQbDjKyiDZ
+s5L3EQ//a7h4hPa3JOSKWPJsMCordo1RlsRseAMKWTDLx3BdbvX8GNoBUtyzL6qn
+lT48IIojLntMzF0b+OdElr7ofHJSj9ZtgMx6j7fJ/eea7ckCRESoGFfXznwXmx6j
+iY/3k09rmW4X7QJB3OgZw6qO6L/H2uUhRlo6HTMxzEIJHCt1FdoMrdZUtNAAvoXQ
+gG1L+W/Gbuxe2ceoX6ALQ7/KikQCSdONr1W6WoCHandqy58Q9Z7Fx9P4Sc/QdrN3
+rWpF3aDY1PW8wEfYKvkjTEDjAvSWmEfX6dkHS0wPUd4B2Pophg9l4nrdYc/cIHzw
+GXssoR38JTTuHN7emiLS+QmbM5yoN/Ehiql1ijLkT6H5k/jtZimHHBRzxNQK9/KC
+kJKw1kp9rCpixMJbndfCfgYXRgij7k1i8+DCVtCjot0rwMxc8VM8maDlzqnCaVl+
+/WSKI3+oF0HIkW1kPgs354j+y4GkiwA42QrNGYHs3EvJGTqsysvxasZjQQ1ZsmIZ
+fw5PZ2swqRL+KGa3n0HzUCiPJh3TRH77bwhZllU4ugVZ8O5A138UMekgoZqAOG0j
+ZQ1H4kyJK8JvLWmq6xzl+qf8/CYWJCY1dxjLQ/ceviR/+FcCW78fT1Y10O5/a0l9
+X2vBDLbKXAge6oPib4X1hoJtIbHH3QlT/bBckfCkYFomI0qpS+Q=
+=HbOp
+-----END PGP SIGNATURE-----
+
+--ZwgA9U+XZDXt4+m+--
 
