@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2490DFE23A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:06:10 +0100 (CET)
-Received: from localhost ([::1]:41228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB4CFE250
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:09:09 +0100 (CET)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVe6q-00088x-Ut
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:06:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48585)
+	id 1iVe9k-0003YA-48
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:09:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48998)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iVe4p-0006IB-TF
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:04:04 -0500
+ (envelope-from <drjones@redhat.com>) id 1iVe8R-0002u8-Lf
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iVe4o-0007jH-Ku
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:04:03 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13218)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVe4o-0007it-D1
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:04:02 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAFFvjD3047850
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 11:03:58 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w9nsjwpge-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 11:03:58 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 15 Nov 2019 16:03:55 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 15 Nov 2019 16:03:52 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAFG3F7813304122
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Nov 2019 16:03:15 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BAAD3AE056;
- Fri, 15 Nov 2019 16:03:51 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8A1B4AE04D;
- Fri, 15 Nov 2019 16:03:51 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.70.126])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 15 Nov 2019 16:03:51 +0000 (GMT)
-Subject: [PATCH] ppc/pnv: Drop "chip" link from POWER9 PSI object
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Fri, 15 Nov 2019 17:03:51 +0100
-User-Agent: StGit/unknown-version
+ (envelope-from <drjones@redhat.com>) id 1iVe8O-0000Ue-Nh
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:07:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53963
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iVe8O-0000UK-Dy
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:07:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573834063;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1aScKk7d8oMI7xOeymNT1W0UWcwIjCMDBGVIBA5RdvM=;
+ b=fnOXvEU+/F8S5wmG0lwfPdNDR00IXURcJ8W0RAmfoq7hM1FTM5CzTdaWDhyKIx940SQUqk
+ RVHVUltq01bszTjHRPmcjPaZdvyEztsYofFNqtHS2fWzNft1sVUCeEcLhMaiaaoaZtqZbA
+ 274/fzUi7xSIScsT8CtJHe0ST9OSCvY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-Czi9hoxwPhGxBgi-sJs62w-1; Fri, 15 Nov 2019 11:06:35 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E78E5477;
+ Fri, 15 Nov 2019 16:06:33 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C3299D75;
+ Fri, 15 Nov 2019 16:06:32 +0000 (UTC)
+Date: Fri, 15 Nov 2019 17:06:30 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] target/arm: Clean up arm_cpu_vq_map_next_smaller asserts
+Message-ID: <20191115160630.ofkre7rp5gszbpcd@kamzik.brq.redhat.com>
+References: <20191115131623.322-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19111516-0028-0000-0000-000003B74461
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111516-0029-0000-0000-0000247A56A1
-Message-Id: <157383383118.166856.2588933416368211047.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-15_04:2019-11-15,2019-11-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- bulkscore=0 lowpriorityscore=0 clxscore=1034 adultscore=0 impostorscore=0
- mlxlogscore=861 phishscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911150143
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <20191115131623.322-1-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Czi9hoxwPhGxBgi-sJs62w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,29 +71,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It has no apparent user.
+On Fri, Nov 15, 2019 at 02:16:23PM +0100, Richard Henderson wrote:
+> Coverity reports, in sve_zcr_get_valid_len,
+>=20
+> "Subtract operation overflows on operands
+> arm_cpu_vq_map_next_smaller(cpu, start_vq + 1U) and 1U"
+>=20
+> First, fix the aarch32 stub version to not return 0, but to
+> simply assert unreachable.  Because that nonsense return value
+> does exactly what Coverity reports.
+>=20
+> Second, 1 is the minimum value that can be returned from the
+> aarch64 version of arm_cpu_vq_map_next_smaller, but that is
+> non-obvious from the set of asserts in the function.  Begin by
+> asserting that 2 is the minimum input, and finish by asserting
+> that we did in fact find a set bit in the bitmap.  Bit 0 is
+> always set, so we must be able to find that.
+>=20
+> Reported-by: Coverity (CID 1407217)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h   |  4 +++-
+>  target/arm/cpu64.c | 11 +++++++++--
+>  2 files changed, 12 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index e1a66a2d1c..d89e727d7b 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -190,7 +190,9 @@ uint32_t arm_cpu_vq_map_next_smaller(ARMCPU *cpu, uin=
+t32_t vq);
+>  # define ARM_MAX_VQ    1
+>  static inline void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp) { }
+>  static inline uint32_t arm_cpu_vq_map_next_smaller(ARMCPU *cpu, uint32_t=
+ vq)
+> -{ return 0; }
+> +{
+> +    g_assert_not_reached();
+> +}
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/pnv.c |    2 --
- 1 file changed, 2 deletions(-)
+This is indeed a better way to implement a stub.
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d7130c3304f0..24bc3d5ab32b 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1091,8 +1091,6 @@ static void pnv_chip_power9_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi),
-                             TYPE_PNV9_PSI, &error_abort, NULL);
--    object_property_add_const_link(OBJECT(&chip9->psi), "chip", obj,
--                                   &error_abort);
- 
-     object_initialize_child(obj, "lpc",  &chip9->lpc, sizeof(chip9->lpc),
-                             TYPE_PNV9_LPC, &error_abort, NULL);
+>  #endif
+> =20
+>  typedef struct ARMVectorReg {
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 68baf0482f..83ff8c8713 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -466,11 +466,18 @@ uint32_t arm_cpu_vq_map_next_smaller(ARMCPU *cpu, u=
+int32_t vq)
+>       * We allow vq =3D=3D ARM_MAX_VQ + 1 to be input because the caller =
+may want
+>       * to find the maximum vq enabled, which may be ARM_MAX_VQ, but this
+>       * function always returns the next smaller than the input.
+> +     *
+> +     * Similarly, vq =3D=3D 2 is the minimum input because 1 is the mini=
+mum
+> +     * output that makes sense.
+>       */
+> -    assert(vq && vq <=3D ARM_MAX_VQ + 1);
+> +    assert(vq >=3D 2 && vq <=3D ARM_MAX_VQ + 1);
+
+This makes sense since nobody should request the next-smaller than
+the smallest.
+
+> =20
+>      bitnum =3D find_last_bit(cpu->sve_vq_map, vq - 1);
+> -    return bitnum =3D=3D vq - 1 ? 0 : bitnum + 1;
+> +
+> +    /* We always have vq =3D=3D 1 present in sve_vq_map.  */
+
+This is true with TCG and 99.9999% likely to be true with KVM, but we
+take pains to not assume it's true in all SVE paths shared with KVM. This
+function isn't currently used by KVM, but nothing about it looks TCG
+specific. Maybe we should just remove this function and put the
+find_last_bit() call and all input/output validation directly in
+sve_zcr_get_valid_len() ?
+
+Thanks,
+drew
+
+> +    assert(bitnum < vq - 1);
+> +
+> +    return bitnum + 1;
+>  }
+> =20
+>  static void cpu_max_get_sve_max_vq(Object *obj, Visitor *v, const char *=
+name,
+> --=20
+> 2.17.1
+>=20
 
 
