@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52704FE2EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:35:56 +0100 (CET)
-Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1C9FE2FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:40:58 +0100 (CET)
+Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVeZe-000251-Ds
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:35:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52405)
+	id 1iVeeX-00089g-1e
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:40:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iVeQ7-0000ar-R9
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:04 -0500
+ (envelope-from <clg@kaod.org>) id 1iVeQD-0000jr-Po
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iVeQ6-00013M-OC
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:03 -0500
-Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:32809)
+ (envelope-from <clg@kaod.org>) id 1iVeQC-00015U-HX
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:09 -0500
+Received: from 4.mo6.mail-out.ovh.net ([87.98.184.159]:47081)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQ6-00011v-Ht
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:02 -0500
-Received: from player787.ha.ovh.net (unknown [10.109.146.173])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id EE5331B5432
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:00 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQC-00014l-8m
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:08 -0500
+Received: from player787.ha.ovh.net (unknown [10.109.143.209])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 53E161ECA77
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:06 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player787.ha.ovh.net (Postfix) with ESMTPSA id 0C1A1C444B8D;
- Fri, 15 Nov 2019 16:25:55 +0000 (UTC)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id EA542C444C11;
+ Fri, 15 Nov 2019 16:26:00 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH for-5.0 v5 13/23] ppc/pnv: Implement the XiveFabric interface
-Date: Fri, 15 Nov 2019 17:24:26 +0100
-Message-Id: <20191115162436.30548-14-clg@kaod.org>
+Subject: [PATCH for-5.0 v5 14/23] ppc/spapr: Implement the XiveFabric interface
+Date: Fri, 15 Nov 2019 17:24:27 +0100
+Message-Id: <20191115162436.30548-15-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115162436.30548-1-clg@kaod.org>
 References: <20191115162436.30548-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 15102821353968995302
+X-Ovh-Tracer-Id: 15104510202362498022
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeeh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.52.147
+X-Received-From: 87.98.184.159
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,81 +61,90 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CAM line matching on the PowerNV machine now scans all chips of
-the system and all CPUs of a chip to find a dispatched NVT in the
-thread contexts.
+The CAM line matching sequence in the pseries machine does not change
+much apart from the use of the new QOM interfaces. There is an extra
+indirection because of the sPAPR IRQ backend of the machine. Only the
+XIVE backend implements the new 'match_nvt' handler.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ hw/ppc/spapr.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 94c9f536413f..207a5cf2c650 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1446,6 +1446,35 @@ static void pnv_pic_print_info(InterruptStatsProvi=
-der *obj,
-     }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 94f9d27096af..a8f5850f65bb 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4270,6 +4270,39 @@ static void spapr_pic_print_info(InterruptStatsPro=
+vider *obj,
+                    kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
  }
 =20
-+static int pnv_xive_match_nvt(XiveFabric *xfb, uint8_t format,
-+                               uint8_t nvt_blk, uint32_t nvt_idx,
-+                               bool cam_ignore, uint8_t priority,
-+                               uint32_t logic_serv,
-+                               XiveTCTXMatch *match)
++static int spapr_xive_match_nvt(XiveFabric *xfb, uint8_t format,
++                                uint8_t nvt_blk, uint32_t nvt_idx,
++                                bool cam_ignore, uint8_t priority,
++                                uint32_t logic_serv, XiveTCTXMatch *matc=
+h)
 +{
-+    PnvMachineState *pnv =3D PNV_MACHINE(xfb);
-+    int total_count =3D 0;
-+    int i;
++    SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
++    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
++    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
++    int count;
 +
-+    for (i =3D 0; i < pnv->num_chips; i++) {
-+        Pnv9Chip *chip9 =3D PNV9_CHIP(pnv->chips[i]);
-+        XivePresenter *xptr =3D XIVE_PRESENTER(&chip9->xive);
-+        XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-+        int count;
-+
-+        count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ign=
-ore,
-+                               priority, logic_serv, match);
-+
-+        if (count < 0) {
-+            return count;
-+        }
-+
-+        total_count +=3D count;
++    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
++                           priority, logic_serv, match);
++    if (count < 0) {
++        return count;
 +    }
 +
-+    return total_count;
++    /*
++     * When we implement the save and restore of the thread interrupt
++     * contexts in the enter/exit CPU handlers of the machine and the
++     * escalations in QEMU, we should be able to handle non dispatched
++     * vCPUs.
++     *
++     * Until this is done, the sPAPR machine should find at least one
++     * matching context always.
++     */
++    if (count =3D=3D 0) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is not dispatche=
+d\n",
++                      nvt_blk, nvt_idx);
++    }
++
++    return count;
 +}
 +
- static void pnv_get_num_chips(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
+ int spapr_get_vcpu_id(PowerPCCPU *cpu)
  {
-@@ -1509,9 +1538,11 @@ static void pnv_machine_power8_class_init(ObjectCl=
-ass *oc, void *data)
- static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc =3D MACHINE_CLASS(oc);
+     return cpu->vcpu_id;
+@@ -4366,6 +4399,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+     PPCVirtualHypervisorClass *vhc =3D PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
+     XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
+     InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
+(oc);
 +    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
 =20
-     mc->desc =3D "IBM PowerNV (Non-Virtualized) POWER9";
-     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power9_v2.0");
-+    xfc->match_nvt =3D pnv_xive_match_nvt;
-=20
-     mc->alias =3D "powernv";
+     mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
+     mc->ignore_boot_device_suffixes =3D true;
+@@ -4442,6 +4476,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+     smc->linux_pci_probe =3D true;
+     smc->smp_threads_vsmt =3D true;
+     smc->nr_xirqs =3D SPAPR_NR_XIRQS;
++    xfc->match_nvt =3D spapr_xive_match_nvt;
  }
-@@ -1558,6 +1589,10 @@ static const TypeInfo types[] =3D {
-         .name          =3D MACHINE_TYPE_NAME("powernv9"),
-         .parent        =3D TYPE_PNV_MACHINE,
-         .class_init    =3D pnv_machine_power9_class_init,
-+        .interfaces =3D (InterfaceInfo[]) {
-+            { TYPE_XIVE_FABRIC },
-+            { },
-+        },
+=20
+ static const TypeInfo spapr_machine_info =3D {
+@@ -4460,6 +4495,7 @@ static const TypeInfo spapr_machine_info =3D {
+         { TYPE_PPC_VIRTUAL_HYPERVISOR },
+         { TYPE_XICS_FABRIC },
+         { TYPE_INTERRUPT_STATS_PROVIDER },
++        { TYPE_XIVE_FABRIC },
+         { }
      },
-     {
-         .name          =3D MACHINE_TYPE_NAME("powernv8"),
+ };
 --=20
 2.21.0
 
