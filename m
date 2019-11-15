@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2D1FDD05
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:06:18 +0100 (CET)
-Received: from localhost ([::1]:38084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91143FDD0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:09:07 +0100 (CET)
+Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVaMj-0004nt-4n
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:06:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40060)
+	id 1iVaPS-0008AY-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:09:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iVaB8-000269-DF
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:54:19 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iVaD5-0004LF-4j
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:56:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iVaB7-0006hV-0T
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:54:18 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48738
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVaB6-0006h7-RO
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:54:16 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAFBpmQ2186314
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:54:16 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w9nsfmwy4-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:54:16 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 15 Nov 2019 11:54:14 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 15 Nov 2019 11:54:11 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAFBrXaC43516330
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Nov 2019 11:53:33 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 76B40A4062;
- Fri, 15 Nov 2019 11:54:10 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 06B2FA405C;
- Fri, 15 Nov 2019 11:54:10 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.70.126])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 15 Nov 2019 11:54:09 +0000 (GMT)
-Subject: [PATCH for-5.0 8/8] ppc/pnv: Link "chip" property to PnvXive::chip
- pointer
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Fri, 15 Nov 2019 12:54:09 +0100
-In-Reply-To: <157381880498.136087.3775284829737989585.stgit@bahia.lan>
-References: <157381880498.136087.3775284829737989585.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (envelope-from <beata.michalska@linaro.org>) id 1iVaD2-0007ya-Ta
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:56:18 -0500
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:44602)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iVaD1-0007y1-AA
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:56:15 -0500
+Received: by mail-io1-xd43.google.com with SMTP id j20so10103093ioo.11
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 03:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0IMemjzD8sNr2RjGjur7l8zNaeE4KNQ5qCbMx1IMxtM=;
+ b=QE9H4hQ9zjZF+mu2Zn+gXAmhUx7mSOBuIkMMuY9GAgYu9Aeao4p8mzWVA+PR0GXToV
+ 3vaKDz7j7Lhp66IZXevUb7RVNf3UAQwOH0pPZ2FyUDRnLTWpb8ypvnDoh9W+H0o8huFW
+ pfzVhOvdp3GVRWZWYu6c5V6xT3Q6nf+Hksa52jbQiEzU8qGVYUutV0KIZhd/4Zi/kVhg
+ 5ZcMlcFZ+3oMaXeNz+qCk6Rldm7Y1S9BnzRR3pJkSlw0hx6FUoQ/nt4ca2r9xCE2KlyV
+ ppZK7Z9hb/44KAWSRxk2J2BY4UJ2ZhMZSxBDgAl/h4pulIBwskXModY4rqV+wvAq2WLK
+ lVIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0IMemjzD8sNr2RjGjur7l8zNaeE4KNQ5qCbMx1IMxtM=;
+ b=X/1uVaY1MtReklHjWwHkccPGaLIgiYQJc58qP8YMbYp62ksi/dlYvpnM+cIdxvOzb5
+ CPaghbWvB2ufsZvF1AQBkmkrn/dVt8WpYXnYOiReSzAxguVwphxvcTaBYJlCtkjXVDwt
+ A7KWFlgcN4E5hLL/aBlbisMqgWKJc331R1Js1K87Vbwz78/Z67jKzMAd7ERV00XDXanV
+ OJJmdN2M6DjnmM3K3fGuX/YzfhXc9CDmG3/6G5Vk8PvKMPnFZBcl/kvJMLsBntDOlDPD
+ aFwhSVPyRfnILlrvaQtkvie8S3BMLmdo/G2AnqJuoUd5D4wnQNnF7S6vGnBn0PwT6Yxb
+ iWSQ==
+X-Gm-Message-State: APjAAAV1oiBAmPPII/bKWStAlDBL7Zj+Nf3aPOgs9UXGt57JFUAIMlIE
+ 3XcjknnniKvPT+y+D1QjvFL+D4vjrrKK/73N7INnNQ==
+X-Google-Smtp-Source: APXvYqx4mixFa1jrCZuBk8/trzudGfNPNYJypdLhqOIIo8FZ15hLjDRe6wNFWPoWoxzSjwNzR4+o7G68IDy0R+R4Ofs=
+X-Received: by 2002:a05:6638:73a:: with SMTP id
+ j26mr274914jad.116.1573818971639; 
+ Fri, 15 Nov 2019 03:56:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19111511-4275-0000-0000-0000037DFA42
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111511-4276-0000-0000-0000389163B2
-Message-Id: <157381884958.136087.2386559512465741955.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-15_03:2019-11-15,2019-11-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1034
- malwarescore=0 mlxlogscore=395 priorityscore=1501 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911150112
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+References: <20191015103900.313928-1-its@irrelevant.dk>
+ <20191015103900.313928-7-its@irrelevant.dk>
+ <CADSWDzt2gjQ6pvzm2A29hqiNAf1RSD=qTwjELLB3fTD4Yjbryg@mail.gmail.com>
+ <20191113061214.GA452722@apples.localdomain>
+In-Reply-To: <20191113061214.GA452722@apples.localdomain>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Fri, 15 Nov 2019 11:56:00 +0000
+Message-ID: <CADSWDztYzebjF0C9hh+OhTaFJT8aPCKvu+bY8xTi+4fQBm_=aA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/20] nvme: add support for the abort command
+To: Klaus Birkelund <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,115 +75,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Javier Gonzalez <javier@javigon.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <keith.busch@intel.com>, Paul Durrant <Paul.Durrant@citrix.com>,
+ Stephen Bates <sbates@raithlin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XIVE object has both a pointer and a "chip" property pointing to the
-chip object. Confusing bugs could arise if these ever go out of sync.
+Hi Klaus,
 
-Change the property definition so that it explicitely sets the pointer.
+On Wed, 13 Nov 2019 at 06:12, Klaus Birkelund <its@irrelevant.dk> wrote:
+>
+> On Tue, Nov 12, 2019 at 03:04:38PM +0000, Beata Michalska wrote:
+> > Hi Klaus
+> >
+>
+> Hi Beata,
+>
+> Thank you very much for your thorough reviews! I'll start going through
+> them one by one :) You might have seen that I've posted a v3, but I will
+> make sure to consolidate between v2 and v3!
+>
+> > On Tue, 15 Oct 2019 at 11:41, Klaus Jensen <its@irrelevant.dk> wrote:
+> > >
+> > > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
+> > > Section 5.1 ("Abort command").
+> > >
+> > > The Abort command is a best effort command; for now, the device always
+> > > fails to abort the given command.
+> > >
+> > > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
+> > > ---
+> > >  hw/block/nvme.c | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > >
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index daa2367b0863..84e4f2ea7a15 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -741,6 +741,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+> > >      }
+> > >  }
+> > >
+> > > +static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> > > +{
+> > > +    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
+> > > +
+> > > +    req->cqe.result = 1;
+> > > +    if (nvme_check_sqid(n, sqid)) {
+> > > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > > +    }
+> > > +
+> > Shouldn't we validate the CID as well ?
+> >
+>
+> According to the specification it is "implementation specific if/when a
+> controller chooses to complete the command when the command to abort is
+> not found".
+>
+> I'm interpreting this to mean that, yes, an invalid command identifier
+> could be given in the command, but this implementation does not care
+> about that.
+>
+> I still think the controller should check the validity of the submission
+> queue identifier though. It is a general invariant that the sqid should
+> be valid.
+>
+> > > +    return NVME_SUCCESS;
+> > > +}
+> > > +
+> > >  static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
+> > >  {
+> > >      trace_nvme_setfeat_timestamp(ts);
+> > > @@ -859,6 +871,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> > >          trace_nvme_err_invalid_setfeat(dw10);
+> > >          return NVME_INVALID_FIELD | NVME_DNR;
+> > >      }
+> > > +
+> > >      return NVME_SUCCESS;
+> > >  }
+> > >
+> > > @@ -875,6 +888,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+> > >          return nvme_create_cq(n, cmd);
+> > >      case NVME_ADM_CMD_IDENTIFY:
+> > >          return nvme_identify(n, cmd);
+> > > +    case NVME_ADM_CMD_ABORT:
+> > > +        return nvme_abort(n, cmd, req);
+> > >      case NVME_ADM_CMD_SET_FEATURES:
+> > >          return nvme_set_feature(n, cmd, req);
+> > >      case NVME_ADM_CMD_GET_FEATURES:
+> > > @@ -1388,6 +1403,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> > >      id->ieee[2] = 0xb3;
+> > >      id->ver = cpu_to_le32(0x00010201);
+> > >      id->oacs = cpu_to_le16(0);
+> > > +    id->acl = 3;
+> > So we are setting the max number of concurrent commands
+> > but there is no logic to enforce that and wrap up with the
+> > status suggested by specification.
+> >
+>
+> That is true, but because the controller always completes the Abort
+> command immediately this cannot happen. If the controller did try to
+> abort executing commands, the Abort command would need to linger in the
+> controller state until a completion queue entry is posted for the
+> command to be aborted before the completion queue entry can be posted
+> for the Abort command. This takes up resources in the controller and is
+> the reason for the Abort Command Limit.
+>
+> You could argue that we should set ACL to 0 then, but the specification
+> recommends a value of 3 and I do not see any harm in conveying a
+> "reasonable", though inconsequential, value.
 
-While here, rename pnv_xive_init() to pnv_xive_instance_init() for
-clarity.
+Could we  potentially add some comment describing the above ?
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/intc/pnv_xive.c   |   21 +++++++++------------
- hw/ppc/pnv.c         |    4 ++--
- include/hw/ppc/pnv.h |    2 +-
- 3 files changed, 12 insertions(+), 15 deletions(-)
-
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 6aa7aeed6f83..158d16b328e3 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1651,7 +1651,7 @@ static void pnv_xive_reset(void *dev)
-     }
- }
- 
--static void pnv_xive_init(Object *obj)
-+static void pnv_xive_instance_init(Object *obj)
- {
-     PnvXive *xive = PNV_XIVE(obj);
- 
-@@ -1661,6 +1661,12 @@ static void pnv_xive_init(Object *obj)
-     object_initialize_child(obj, "end_source", &xive->end_source,
-                             sizeof(xive->end_source), TYPE_XIVE_END_SOURCE,
-                             &error_abort, NULL);
-+
-+    /* The PnvChip id identifies the XIVE interrupt controller. */
-+    object_property_add_link(obj, "chip", TYPE_PNV_CHIP,
-+                             (Object **) &PNV_XIVE(obj)->chip,
-+                             qdev_prop_allow_set_link_before_realize,
-+                             OBJ_PROP_LINK_STRONG, &error_abort);
- }
- 
- /*
-@@ -1675,17 +1681,8 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
-     XiveSource *xsrc = &xive->ipi_source;
-     XiveENDSource *end_xsrc = &xive->end_source;
-     Error *local_err = NULL;
--    Object *obj;
- 
--    obj = object_property_get_link(OBJECT(dev), "chip", &local_err);
--    if (!obj) {
--        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'chip' not found: ");
--        return;
--    }
--
--    /* The PnvChip id identifies the XIVE interrupt controller. */
--    xive->chip = PNV_CHIP(obj);
-+    assert(xive->chip);
- 
-     /*
-      * The XiveSource and XiveENDSource objects are realized with the
-@@ -1829,7 +1826,7 @@ static void pnv_xive_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_xive_info = {
-     .name          = TYPE_PNV_XIVE,
-     .parent        = TYPE_XIVE_ROUTER,
--    .instance_init = pnv_xive_init,
-+    .instance_init = pnv_xive_instance_init,
-     .instance_size = sizeof(PnvXive),
-     .class_init    = pnv_xive_class_init,
-     .interfaces    = (InterfaceInfo[]) {
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 8851875bcfd7..d7130c3304f0 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1088,8 +1088,6 @@ static void pnv_chip_power9_instance_init(Object *obj)
- 
-     object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xive),
-                             TYPE_PNV_XIVE, &error_abort, NULL);
--    object_property_add_const_link(OBJECT(&chip9->xive), "chip", obj,
--                                   &error_abort);
- 
-     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi),
-                             TYPE_PNV9_PSI, &error_abort, NULL);
-@@ -1171,6 +1169,8 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
-                             "pc-bar", &error_fatal);
-     object_property_set_int(OBJECT(&chip9->xive), PNV9_XIVE_TM_BASE(chip),
-                             "tm-bar", &error_fatal);
-+    object_property_set_link(OBJECT(&chip9->xive), OBJECT(chip), "chip",
-+                             &error_abort);
-     object_property_set_bool(OBJECT(&chip9->xive), true, "realized",
-                              &local_err);
-     if (local_err) {
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 5ecd3ba6ed24..d82484ecf669 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -87,9 +87,9 @@ typedef struct Pnv8Chip {
- typedef struct Pnv9Chip {
-     /*< private >*/
-     PnvChip      parent_obj;
-+    PnvXive      xive;
- 
-     /*< public >*/
--    PnvXive      xive;
-     Pnv9Psi      psi;
-     PnvLpcController lpc;
-     PnvOCC       occ;
-
+BR
+Beata
 
