@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A04FE82D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 23:41:23 +0100 (CET)
-Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C28FE818
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 23:37:37 +0100 (CET)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVkHK-0002GV-V8
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 17:41:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1iVkDf-0006dV-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 17:37:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1iVk9x-0003zM-AW
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:47 -0500
+ (envelope-from <lvivier@redhat.com>) id 1iVk9q-0003wj-U1
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1iVk9w-0000vX-6M
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:45 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24525
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <lvivier@redhat.com>) id 1iVk9p-0000sD-1j
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:38 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47687
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iVk9v-0000v3-EY
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:44 -0500
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iVk9o-0000ra-Uo
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573857223;
+ s=mimecast20190719; t=1573857215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VZhkqmiZ0I2Ks/BCR+8j353XbItxBsaSyT+JsObDfGQ=;
- b=f2XfVglS4PzBbpgK0fYqVUeW6eId9O1ATehv09HnqeKTe8n7vLWEwTg052IJtEqnPDxhFW
- VBZl/P1Qls8hKZgKOmFsmAYeVhvg8pza2N48roBXelP/eqieTvR4k4fnT02MLgGA5o41CV
- M5UCDiHCP3Hl6pa+ugMhzikIckTMJ+k=
+ bh=5JgkFxsL7y5c2pKkk9IttI3V7Q7XyhHR9WTCI4er8Jk=;
+ b=PD6cJ1AQPm8jwFDfzjRGCL/qfHdg8IKam47+4Ou7P04L9MrSio9/SvKvOPXe5Y/sk7zAh2
+ 3CM4cemLtAk9WsZ7T3DdPtzV9ytMAr1/dq8DtIXsFdY4XARwrjVx7aKJDz6Ue+Uv6OZ20x
+ hQeLQUMy1pUBTe/+w/HpzQPbwTXQLUQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-SrXyzJQ0MMisYm11oUzKrA-1; Fri, 15 Nov 2019 17:33:30 -0500
+ us-mta-332-JAzfPScVNX6XDgB-FtHFog-1; Fri, 15 Nov 2019 17:33:31 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9D74477;
- Fri, 15 Nov 2019 22:33:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C231005500;
+ Fri, 15 Nov 2019 22:33:30 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-116-194.ams2.redhat.com
  [10.36.116.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA9A175E39;
- Fri, 15 Nov 2019 22:33:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D79E75E39;
+ Fri, 15 Nov 2019 22:33:28 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] spapr/kvm: Set default cpu model for all machine classes
-Date: Fri, 15 Nov 2019 23:33:11 +0100
-Message-Id: <20191115223312.204979-6-lvivier@redhat.com>
+Subject: [PULL 6/6] mos6522: fix T1 and T2 timers
+Date: Fri, 15 Nov 2019 23:33:12 +0100
+Message-Id: <20191115223312.204979-7-lvivier@redhat.com>
 In-Reply-To: <20191115223312.204979-1-lvivier@redhat.com>
 References: <20191115223312.204979-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: SrXyzJQ0MMisYm11oUzKrA-1
+X-MC-Unique: JAzfPScVNX6XDgB-FtHFog-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,122 +71,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Ji=C5=99i=20Denemark?= <jdenemar@redhat.com>,
+Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Gibson <david@gibson.dropbear.id.au>
+From: Laurent Vivier <laurent@vivier.eu>
 
-We have to set the default model of all machine classes, not just for
-the active one. Otherwise, "query-machines" will indicate the wrong
-CPU model (e.g. "power9_v2.0-powerpc64-cpu" instead of
-"host-powerpc64-cpu") as "default-cpu-type".
+With the Quadra 800 emulation, mos6522 timers processing can consume
+until 70% of the host CPU time with an idle guest (I guess the problem
+should also happen with PowerMac emulation).
 
-s390x already fixed this in de60a92e "s390x/kvm: Set default cpu model for
-all machine classes".  This patch applies a similar fix for the pseries-*
-machine types on ppc64.
+On a recent system, it can be painless (except if you look at top), but
+on an old host like a PowerMac G5 the guest kernel can be terribly slow
+during the boot sequence (for instance, unpacking initramfs can take 15
+seconds rather than only 3 seconds).
 
-Doing a
-    {"execute":"query-machines"}
-under KVM now results in
-    {
-      "hotpluggable-cpus": true,
-      "name": "pseries-4.2",
-      "numa-mem-supported": true,
-      "default-cpu-type": "host-powerpc64-cpu",
-      "is-default": true,
-      "cpu-max": 1024,
-      "deprecated": false,
-      "alias": "pseries"
-    },
-    {
-      "hotpluggable-cpus": true,
-      "name": "pseries-4.1",
-      "numa-mem-supported": true,
-      "default-cpu-type": "host-powerpc64-cpu",
-      "cpu-max": 1024,
-      "deprecated": false
-    },
-    ...
+We can avoid this CPU overload by enabling QEMU internal timers only if
+the mos6522 counter interrupts are enabled. Sometime the guest kernel
+wants to read the counters values, but we don't need the timers to
+update the counters.
 
-Libvirt probes all machines via "-machine none,accel=3Dkvm:tcg" and will
-currently see the wrong CPU model under KVM.
+With this patch applied, an idle Q800 consumes only 3% of host CPU time
+(and the guest can boot in a decent time).
 
-Reported-by: Ji=C5=99i Denemark <jdenemar@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20191102154919.17775-1-laurent@vivier.eu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Tested-by: Jiri Denemark <jdenemar@redhat.com>
 ---
- target/ppc/kvm.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ hw/misc/mos6522.c | 67 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 52 insertions(+), 15 deletions(-)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 7d2e8969ac5f..c77f9848ec38 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -100,7 +100,7 @@ static bool kvmppc_is_pr(KVMState *ks)
-     return kvm_vm_check_extension(ks, KVM_CAP_PPC_GET_PVINFO) !=3D 0;
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index 57f13db266b4..aa3bfe1afddd 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -38,8 +38,10 @@
+=20
+ /* XXX: implement all timer modes */
+=20
+-static void mos6522_timer_update(MOS6522State *s, MOS6522Timer *ti,
+-                                 int64_t current_time);
++static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
++                                  int64_t current_time);
++static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
++                                  int64_t current_time);
+=20
+ static void mos6522_update_irq(MOS6522State *s)
+ {
+@@ -98,7 +100,11 @@ static void set_counter(MOS6522State *s, MOS6522Timer *=
+ti, unsigned int val)
+     trace_mos6522_set_counter(1 + ti->index, val);
+     ti->load_time =3D get_load_time(s, ti);
+     ti->counter_value =3D val;
+-    mos6522_timer_update(s, ti, ti->load_time);
++    if (ti->index =3D=3D 0) {
++        mos6522_timer1_update(s, ti, ti->load_time);
++    } else {
++        mos6522_timer2_update(s, ti, ti->load_time);
++    }
  }
 =20
--static int kvm_ppc_register_host_cpu_type(MachineState *ms);
-+static int kvm_ppc_register_host_cpu_type(void);
- static void kvmppc_get_cpu_characteristics(KVMState *s);
- static int kvmppc_get_dec_bits(void);
-=20
-@@ -147,7 +147,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         exit(1);
-     }
-=20
--    kvm_ppc_register_host_cpu_type(ms);
-+    kvm_ppc_register_host_cpu_type();
-=20
-     return 0;
- }
-@@ -2534,13 +2534,19 @@ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
-     return pvr_pcc;
- }
-=20
--static int kvm_ppc_register_host_cpu_type(MachineState *ms)
-+static void pseries_machine_class_fixup(ObjectClass *oc, void *opaque)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
+ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
+@@ -130,19 +136,34 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS=
+6522Timer *ti,
+     trace_mos6522_get_next_irq_time(ti->latch, d, next_time - d);
+     next_time =3D muldiv64(next_time, NANOSECONDS_PER_SECOND, ti->frequenc=
+y) +
+                          ti->load_time;
 +
-+    mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
+     if (next_time <=3D current_time) {
+         next_time =3D current_time + 1;
+     }
+     return next_time;
+ }
+=20
+-static void mos6522_timer_update(MOS6522State *s, MOS6522Timer *ti,
++static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
++                                 int64_t current_time)
++{
++    if (!ti->timer) {
++        return;
++    }
++    if ((s->ier & T1_INT) =3D=3D 0 || (s->acr & T1MODE) !=3D T1MODE_CONT) =
+{
++        timer_del(ti->timer);
++    } else {
++        ti->next_irq_time =3D get_next_irq_time(s, ti, current_time);
++        timer_mod(ti->timer, ti->next_irq_time);
++    }
 +}
 +
-+static int kvm_ppc_register_host_cpu_type(void)
++static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
+                                  int64_t current_time)
  {
-     TypeInfo type_info =3D {
-         .name =3D TYPE_HOST_POWERPC_CPU,
-         .class_init =3D kvmppc_host_cpu_class_init,
-     };
--    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
-     PowerPCCPUClass *pvr_pcc;
-     ObjectClass *oc;
-     DeviceClass *dc;
-@@ -2552,10 +2558,9 @@ static int kvm_ppc_register_host_cpu_type(MachineSta=
-te *ms)
+     if (!ti->timer) {
+         return;
      }
-     type_info.parent =3D object_class_get_name(OBJECT_CLASS(pvr_pcc));
-     type_register(&type_info);
--    if (object_dynamic_cast(OBJECT(ms), TYPE_SPAPR_MACHINE)) {
--        /* override TCG default cpu type with 'host' cpu model */
--        mc->default_cpu_type =3D TYPE_HOST_POWERPC_CPU;
--    }
-+    /* override TCG default cpu type with 'host' cpu model */
-+    object_class_foreach(pseries_machine_class_fixup, TYPE_SPAPR_MACHINE,
-+                         false, NULL);
+-    if (ti->index =3D=3D 0 && (s->acr & T1MODE) !=3D T1MODE_CONT) {
++    if ((s->ier & T2_INT) =3D=3D 0) {
+         timer_del(ti->timer);
+     } else {
+         ti->next_irq_time =3D get_next_irq_time(s, ti, current_time);
+@@ -155,7 +176,7 @@ static void mos6522_timer1(void *opaque)
+     MOS6522State *s =3D opaque;
+     MOS6522Timer *ti =3D &s->timers[0];
 =20
-     oc =3D object_class_by_name(type_info.name);
-     g_assert(oc);
+-    mos6522_timer_update(s, ti, ti->next_irq_time);
++    mos6522_timer1_update(s, ti, ti->next_irq_time);
+     s->ifr |=3D T1_INT;
+     mos6522_update_irq(s);
+ }
+@@ -165,7 +186,7 @@ static void mos6522_timer2(void *opaque)
+     MOS6522State *s =3D opaque;
+     MOS6522Timer *ti =3D &s->timers[1];
+=20
+-    mos6522_timer_update(s, ti, ti->next_irq_time);
++    mos6522_timer2_update(s, ti, ti->next_irq_time);
+     s->ifr |=3D T2_INT;
+     mos6522_update_irq(s);
+ }
+@@ -204,7 +225,16 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsig=
+ned size)
+ {
+     MOS6522State *s =3D opaque;
+     uint32_t val;
++    int64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+=20
++    if (now >=3D s->timers[0].next_irq_time) {
++        mos6522_timer1_update(s, &s->timers[0], now);
++        s->ifr |=3D T1_INT;
++    }
++    if (now >=3D s->timers[1].next_irq_time) {
++        mos6522_timer2_update(s, &s->timers[1], now);
++        s->ifr |=3D T2_INT;
++    }
+     switch (addr) {
+     case VIA_REG_B:
+         val =3D s->b;
+@@ -299,8 +329,8 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t =
+val, unsigned size)
+         break;
+     case VIA_REG_T1CL:
+         s->timers[0].latch =3D (s->timers[0].latch & 0xff00) | val;
+-        mos6522_timer_update(s, &s->timers[0],
+-                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        mos6522_timer1_update(s, &s->timers[0],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T1CH:
+         s->timers[0].latch =3D (s->timers[0].latch & 0xff) | (val << 8);
+@@ -309,14 +339,14 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_=
+t val, unsigned size)
+         break;
+     case VIA_REG_T1LL:
+         s->timers[0].latch =3D (s->timers[0].latch & 0xff00) | val;
+-        mos6522_timer_update(s, &s->timers[0],
+-                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        mos6522_timer1_update(s, &s->timers[0],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T1LH:
+         s->timers[0].latch =3D (s->timers[0].latch & 0xff) | (val << 8);
+         s->ifr &=3D ~T1_INT;
+-        mos6522_timer_update(s, &s->timers[0],
+-                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        mos6522_timer1_update(s, &s->timers[0],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T2CL:
+         s->timers[1].latch =3D (s->timers[1].latch & 0xff00) | val;
+@@ -334,8 +364,8 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t =
+val, unsigned size)
+         break;
+     case VIA_REG_ACR:
+         s->acr =3D val;
+-        mos6522_timer_update(s, &s->timers[0],
+-                             qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        mos6522_timer1_update(s, &s->timers[0],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_PCR:
+         s->pcr =3D val;
+@@ -354,6 +384,11 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t=
+ val, unsigned size)
+             s->ier &=3D ~val;
+         }
+         mos6522_update_irq(s);
++        /* if IER is modified starts needed timers */
++        mos6522_timer1_update(s, &s->timers[0],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        mos6522_timer2_update(s, &s->timers[1],
++                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     default:
+     case VIA_REG_ANH:
+@@ -426,9 +461,11 @@ static void mos6522_reset(DeviceState *dev)
+     s->timers[0].frequency =3D s->frequency;
+     s->timers[0].latch =3D 0xffff;
+     set_counter(s, &s->timers[0], 0xffff);
++    timer_del(s->timers[0].timer);
+=20
+     s->timers[1].frequency =3D s->frequency;
+     s->timers[1].latch =3D 0xffff;
++    timer_del(s->timers[1].timer);
+ }
+=20
+ static void mos6522_init(Object *obj)
 --=20
 2.23.0
 
