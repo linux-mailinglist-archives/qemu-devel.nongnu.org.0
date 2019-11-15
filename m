@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270DEFE740
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 22:37:44 +0100 (CET)
-Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A24CFE842
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 23:47:02 +0100 (CET)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVjHi-0001kl-Ob
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 16:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50996)
+	id 1iVkMn-00046f-Al
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 17:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57599)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iVjGt-0001FS-6R
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 16:36:52 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iVkJm-0002x6-KC
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:43:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iVjGr-0001K5-3D
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 16:36:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43753
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iVkJk-0005Ff-D5
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:43:54 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41473 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iVjGq-0001Jr-U6
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 16:36:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573853807;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wc1KwRdzG24rtgM+UYfJutsa3vYduFiEXvLuSRKdjLU=;
- b=VKL5plr79VvqRBcESUdA2sYzUnThUHIeasEU8qerCXqSCcbiL2whgrfUtUD4l4mINPyvqI
- YHhvEHsSf1cnH7W4QIDOLi9+U42IOClzNzJtLWlel4+I75u/1mWL47Ce8lBP9OmPZE+PXo
- 0g0QajADSgFp89vcsnbLHq0OeFZeh4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-v8Ak5NbZPe6ePR6xTgXC4A-1; Fri, 15 Nov 2019 16:36:45 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 675918048ED;
- Fri, 15 Nov 2019 21:36:43 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-125-0.rdu2.redhat.com [10.10.125.0])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33AF15D713;
- Fri, 15 Nov 2019 21:36:34 +0000 (UTC)
-Date: Fri, 15 Nov 2019 16:36:32 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v7 5/8] Acceptance tests: keep a stable reference to the
- QEMU build dir
-Message-ID: <20191115213632.GG19559@localhost.localdomain>
-References: <20191104151323.9883-1-crosa@redhat.com>
- <20191104151323.9883-6-crosa@redhat.com>
- <5a8c7d1a-a7b7-2b7c-2ac6-fe79d7dcd1e8@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iVkJi-0005Dh-MC; Fri, 15 Nov 2019 17:43:51 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47FD0f0CYBz9sPF; Sat, 16 Nov 2019 09:43:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1573857826;
+ bh=XzfwguQxTo4cQwb9EYgC2ttZ0hY3v8BVzTnFBRqdZOM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bSicxwJPeNPHnm/X6QRZq1Q5+ILe0wP/xAMScYVdTCt3eSKcm0ZUT3nj099pmWA/S
+ hHOTyZr/Gk6NtQLh19cQeeXcVefqzrAd4B8baruJIYryfqSd/hJMQAuWa3ewOedSE3
+ +slLOvRL77rQrHVpLvIRAyieJR5TH5nL9YnRD+QU=
+Date: Sat, 16 Nov 2019 09:22:04 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] ppc/pnv: Drop "chip" link from POWER9 PSI object
+Message-ID: <20191115222204.GP2134@umbus.fritz.box>
+References: <157383383118.166856.2588933416368211047.stgit@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <5a8c7d1a-a7b7-2b7c-2ac6-fe79d7dcd1e8@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: v8Ak5NbZPe6ePR6xTgXC4A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7PAM/4G1BR2SfWzg"
 Content-Disposition: inline
+In-Reply-To: <157383383118.166856.2588933416368211047.stgit@bahia.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,86 +55,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Willian Rampazzo <wrampazz@redhat.com>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 07, 2019 at 05:22:24PM -0200, Wainer dos Santos Moschetta wrote=
-:
->=20
-> On 11/4/19 1:13 PM, Cleber Rosa wrote:
-> > This is related to the the differences in in-tree and out-of-tree
-> > builds in QEMU.  For simplification, <BLD> means my build directory.
-> >=20
-> > Currently, by running a `make check-acceptance` one gets (in
-> > tests/acceptance/avocado_qemu/__init__.py):
-> >=20
-> >     SRC_ROOT_DIR: <BLD>/tests/acceptance/avocado_qemu/../../..
-> >=20
-> > This in itself is problematic, because after the parent directories
-> > are applied, one may be left not with a pointer to the build directory
-> > as intended, but with the location of the source tree (assuming they
-> > differ). Built binaries, such as qemu-img, are of course not there and
-> > can't be found.
-> >=20
-> > Given that a Python '__file__' will contain the absolute path to the
-> > file backing the module, say:
-> >=20
-> >     __file__: <BLD>/tests/acceptance/avocado_qemu/__init__.py
-> >=20
-> >                    |  4  |     3    |      2     |     1     |
-> >=20
-> > A solution is to not "evaluate" the third parent dir (marked as 4
-> > here) because that ends up following the "tests" directory symlink to
-> > the source tree.  In fact, there's no need to keep or evaluate any of
-> > the parent directories, we can just drop the rightmost 4 components,
-> > and we'll keep a stable reference to the build directory (with no
-> > symlink being followed).  This works for either a dedicated build
-> > directory or also a combined source and build tree.
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >   tests/acceptance/avocado_qemu/__init__.py | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
-ce/avocado_qemu/__init__.py
-> > index 6618ea67c1..17ce583c87 100644
-> > --- a/tests/acceptance/avocado_qemu/__init__.py
-> > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -16,7 +16,7 @@ import tempfile
-> >   import avocado
-> > -SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__), '..', '..', '=
-..')
-> > +SRC_ROOT_DIR =3D os.path.dirname(os.path.dirname(os.path.dirname(os.pa=
-th.dirname(__file__))))
->=20
-> In this case, wouldn't make sense to rename the constant from SRC_ROOT_DI=
-R
-> to BUILD_ROOT_DIR?
->=20
-> This patch looks good to me besides that.
->=20
-> - Wainer
->
 
-So, based on your review, I went back and forward with this.  I'm
-going to propose something different on v8, basically distinguishing
-between source and build directories.  I'm keeping this patch as is on
-v8 though, just for the sake of making the indivdual changes easier to
-track.
+--7PAM/4G1BR2SfWzg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-- Cleber.
+On Fri, Nov 15, 2019 at 05:03:51PM +0100, Greg Kurz wrote:
+> It has no apparent user.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-> >   sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
-> >   from qemu.machine import QEMUMachine
+Applied to ppc-for-5.0, thanks.
 
+> ---
+>  hw/ppc/pnv.c |    2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index d7130c3304f0..24bc3d5ab32b 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1091,8 +1091,6 @@ static void pnv_chip_power9_instance_init(Object *o=
+bj)
+> =20
+>      object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi),
+>                              TYPE_PNV9_PSI, &error_abort, NULL);
+> -    object_property_add_const_link(OBJECT(&chip9->psi), "chip", obj,
+> -                                   &error_abort);
+> =20
+>      object_initialize_child(obj, "lpc",  &chip9->lpc, sizeof(chip9->lpc),
+>                              TYPE_PNV9_LPC, &error_abort, NULL);
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--7PAM/4G1BR2SfWzg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3PJQwACgkQbDjKyiDZ
+s5IJVRAArqWqwrrnCUnKQU2TNiZXwSffvRn9tRkA+APe3fktq0qlbt1rIgk2fvek
+/EgoMTBFQeNJj/uZICdSZaf7CX8UWNRZTnyeFprrC3ZAM7SFzGXA40X+oIczZLgt
+slNoNTG95wBBsLXw6Fi5auq9pchd+CC1wGN6XQ0FyHzSYxwH+HRIh6Pgrl76f+r0
+3t5PvGXmJJ8ycbplgH6Fb3RWopvAc6WtwzYEKkmOSYKULDLfnrfBsi5BfYziq59y
+DEiXXJmxJzVKQZymhtuDYJImHh/d62LB7p5BkCIWyKh2J9Lrbucss7vin7Qckl/i
+pJZ4AlT5mJLUExwAZZmvTKYHuOS7qZDR9NGAOTktPTiVyVb0KY8rwf0vY5cwMsps
+Mj7SRRmFbt8+6qlA23zp9gln0ij5yhihfpx9Gx4qFGDpA5jwW78qa9U+o0Y14kYs
+9YpzoqCmJ91vFUjYz67LBUMMHJcoG3Cbmp7+8dSsqNETj8xImMow+ymXCFCinGQI
+Ta0oZeFikqw318a6sgkN1qTJiG/dpvJxVAYt/y/lRxccmMWNgTYXAdnZLbERaZSo
+3cFRdSWTFJFdthMX5a+m5XbjwKjahwoJyK1v+BY/2hgz+ESUFSSZxTF+EluCBcAB
+hcMEeMrQ7fOYs3HobXRXz4VunLjbAY27KXvepTWZIpt0/jFJJUY=
+=TDdR
+-----END PGP SIGNATURE-----
+
+--7PAM/4G1BR2SfWzg--
 
