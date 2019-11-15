@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51A6FE676
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 21:35:58 +0100 (CET)
-Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E2BFE6B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 21:59:32 +0100 (CET)
+Received: from localhost ([::1]:44980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iViJx-0005Ac-UI
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 15:35:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43960)
+	id 1iVigk-00035I-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 15:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iViI7-0004Jp-8L
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:34:05 -0500
+ (envelope-from <vgoyal@redhat.com>) id 1iVieU-0001Kn-J2
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:57:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iViI4-0006yQ-LA
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:34:03 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57597
+ (envelope-from <vgoyal@redhat.com>) id 1iVieS-00046u-Cy
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:57:09 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46554
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iViI4-0006yE-9z
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:34:00 -0500
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iVieS-00046L-8O
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 15:57:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573850039;
+ s=mimecast20190719; t=1573851427;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j/xNcdTmkcJPeynSqMWfjWiq5ARQaZ+ZdcyZVrWm5hM=;
- b=YdvhuD5jUrccYDPm8bkIwG1F5g4EYJTpmFtCBh3RSD1xWWouY6mDMAgL/664Zf9yLNqlpv
- Q32A32bh1A/cs3OtofDwCvIuv5+F1/bprwfHeEjFzkOA9psUH7SgAWdXb74X5EJwzcAx9g
- G7soFWNmC7sT3PM0hE6TW6s6Hw0YXMc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-P5PdOaP7PmKrlLfTipgaGA-1; Fri, 15 Nov 2019 15:33:56 -0500
-Received: by mail-wr1-f72.google.com with SMTP id g17so8718438wru.4
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 12:33:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LVd/0L7Kkg11GT11i+kP3yo0t5j6ifayUNh5lfAITqo=;
- b=ND6f7D9FjzG2UjZRQlAa6EaC+JMM9cgGLXKvIaeUAfRBUs+FRrhdvDjtqe5N78EaAw
- S04k+jR7dLZ+aDUm2yxydEhUWbO8fpXcutoPR4zF7rhft882sAra8fW4xGCM7xFWK2XT
- nNq5zd7oW6q9TU1Ux4rt881Yxs9yLwxWB8smdxhI/0WxX0flNNODwepjIWxYs3cKOIWZ
- DO66+SjJM3cu/djU/x0t8E/ka3AlTQvoOl6NVI6ActVm+0KoQaDa0YS2UYoRkiJ3X6PU
- U4ky/dqSjxFDsktEr2gSKHdcVQCngJzVTIW8cZw0OESmWWs5X/QhaInmVTIoy8/LrGpq
- JtOA==
-X-Gm-Message-State: APjAAAWztjmG//MI/Ua9V1EFBCRTqz2O+vKfjhDoqi9AxR7cUW6ajmF4
- JqOQM2HMvWS/yO5SHvuGo5G+BL9o39uavE8spvCQNY8wyClHULlyTJQd/YPkecy6SXTSYIf+P2Y
- /11/zDNG63FotBsc=
-X-Received: by 2002:adf:f44a:: with SMTP id f10mr17547531wrp.63.1573850035593; 
- Fri, 15 Nov 2019 12:33:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwpsxL7j/q/JtFqkuyG464ZN2FB57L9GJpO1g6b2uC8nNHoJkV3QxyzbmbPvv1wmF1HS5aK1A==
-X-Received: by 2002:adf:f44a:: with SMTP id f10mr17547512wrp.63.1573850035411; 
- Fri, 15 Nov 2019 12:33:55 -0800 (PST)
-Received: from [192.168.1.35] (170.red-83-59-162.dynamicip.rima-tde.net.
- [83.59.162.170])
- by smtp.gmail.com with ESMTPSA id n17sm12205585wrp.40.2019.11.15.12.33.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Nov 2019 12:33:54 -0800 (PST)
-Subject: Re: [PATCH for-4.2] hw/i386: Fix compiler warning when CONFIG_IDE_ISA
- is disabled
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20191115145049.26868-1-thuth@redhat.com>
- <CAFEAcA-EuQVBtr=BCE5sdHo+LMv8XchHUSPM=CgSYxPVryWKZg@mail.gmail.com>
- <273a3123-9eef-c78e-5b83-833a21e3988c@redhat.com>
- <c7c45aed-76c0-9c17-72fb-6abceb9e5ff4@redhat.com>
- <be453a76-d5fe-62c3-6954-447be7fe646a@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a2795653-8726-6bce-7183-2da59d70808e@redhat.com>
-Date: Fri, 15 Nov 2019 21:33:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HoO6ruPAVxpQOdAwRSe++ZTUuE+UMCu2boRtR0cZEy8=;
+ b=TYYClmRrvnfK4NnOh6xN5ZlG0d7uQ3+nc4I0rRkqtlNk5MEJ+RNeYTH8qeaU3tHXf6HQ54
+ +WpgSpmpqlRXlf+PMcPfFhG6kVDt59tPknK55DT0RvIXKPOrNUidlkmkGJMIptjOcuDJJI
+ DbUdtPEWV4gN1NN3X6rJ5VGuFHyOV28=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-ubEa3dvYNRWGtF9pNoScXg-1; Fri, 15 Nov 2019 15:55:59 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 979FF1005512;
+ Fri, 15 Nov 2019 20:55:57 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.18.25.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DF505C548;
+ Fri, 15 Nov 2019 20:55:51 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id C6A67220C26; Fri, 15 Nov 2019 15:55:50 -0500 (EST)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: virtio-fs@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/4] [RFC] virtiofsd,
+ vhost-user-fs: Add support for notification queue
+Date: Fri, 15 Nov 2019 15:55:39 -0500
+Message-Id: <20191115205543.1816-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <be453a76-d5fe-62c3-6954-447be7fe646a@redhat.com>
-Content-Language: en-US
-X-MC-Unique: P5PdOaP7PmKrlLfTipgaGA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: ubEa3dvYNRWGtF9pNoScXg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -96,86 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: miklos@szeredi.hu, stefanha@redhat.com, vgoyal@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/19 5:13 PM, Thomas Huth wrote:
-> On 15/11/2019 17.13, Paolo Bonzini wrote:
->> On 15/11/19 16:54, Thomas Huth wrote:
->>> On 15/11/2019 16.54, Peter Maydell wrote:
->>>> On Fri, 15 Nov 2019 at 15:10, Thomas Huth <thuth@redhat.com> wrote:
->>>>>
->>>>> When CONFIG_IDE_ISA is disabled, compilation currently fails:
->>>>>
->>>>>   hw/i386/pc_piix.c: In function =E2=80=98pc_init1=E2=80=99:
->>>>>   hw/i386/pc_piix.c:81:9: error: unused variable =E2=80=98i=E2=80=99 =
-[-Werror=3Dunused-variable]
->>>>>
->>>>> Move the variable declaration to the right code block to avoid
->>>>> this problem.
->>>>>
->>>>> Fixes: 4501d317b50e ("hw/i386/pc: Extract pc_i8259_create()")
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> ---
->>>>>   hw/i386/pc_piix.c | 3 +--
->>>>>   1 file changed, 1 insertion(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->>>>> index 2aefa3b8df..d187db761c 100644
->>>>> --- a/hw/i386/pc_piix.c
->>>>> +++ b/hw/i386/pc_piix.c
->>>>> @@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
->>>>>       X86MachineState *x86ms =3D X86_MACHINE(machine);
->>>>>       MemoryRegion *system_memory =3D get_system_memory();
->>>>>       MemoryRegion *system_io =3D get_system_io();
->>>>> -    int i;
->>>>>       PCIBus *pci_bus;
->>>>>       ISABus *isa_bus;
->>>>>       PCII440FXState *i440fx_state;
->>>>> @@ -253,7 +252,7 @@ static void pc_init1(MachineState *machine,
->>>>>       }
->>>>>   #ifdef CONFIG_IDE_ISA
->>>>>   else {
->>>>> -        for(i =3D 0; i < MAX_IDE_BUS; i++) {
->>>>> +        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
->>>>>               ISADevice *dev;
->>>>>               char busname[] =3D "ide.0";
->>>>>               dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase=
-2[i],
->>>>
->>>> Don't put variable declarations inside 'for' statements,
->>>> please. They should go at the start of a {} block.
->>>
->>> Why? We're using -std=3Dgnu99 now, so this should not be an issue anymo=
-re.
->>
->> For now I can squash the following while we discuss coding standards. :)
+Hi,
 
-Thanks.
+Here are RFC patches for adding a notification queue to virtio-fs to
+send notifications from host to guest. It also has patches to support
+remote posix locks which make use of this newly introduced notification
+queue.
 
->>
->> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->> index fa62244f4d..0130b8fb4e 100644
->> --- a/hw/i386/pc_piix.c
->> +++ b/hw/i386/pc_piix.c
->> @@ -244,7 +244,8 @@ static void pc_init1(MachineState *machine,
->>       }
->>   #ifdef CONFIG_IDE_ISA
->>   else {
->> -        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
->> +        int i;
->> +        for (i =3D 0; i < MAX_IDE_BUS; i++) {
->>               ISADevice *dev;
->>               char busname[] =3D "ide.0";
->>               dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i=
-],
->=20
-> Yes, please do. I guess we won't update CODING_STYLE.rst during the hard
-> freeze anymore ;-)
+These patches apply on top of following.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+https://gitlab.com/virtio-fs/qemu/tree/virtio-fs-dev
+
+These change require changes in spec also. I have yet to create spec
+changes and that's why this is still an RFC patch series.
+
+Any feedback is appreciated.
+
+Thanks
+Vivek
+
+Vivek Goyal (4):
+  virtiofsd: Release file locks using F_UNLCK
+  virtiofd: Create a notification queue
+  virtiofsd: Specify size of notification buffer using config space
+  virtiofsd: Implement blocking posix locks
+
+ contrib/virtiofsd/fuse_i.h                 |   1 +
+ contrib/virtiofsd/fuse_kernel.h            |   7 +
+ contrib/virtiofsd/fuse_lowlevel.c          |  23 ++-
+ contrib/virtiofsd/fuse_lowlevel.h          |  25 +++
+ contrib/virtiofsd/fuse_virtio.c            | 226 +++++++++++++++++++--
+ contrib/virtiofsd/passthrough_ll.c         |  79 +++++--
+ hw/virtio/vhost-user-fs-pci.c              |   2 +-
+ hw/virtio/vhost-user-fs.c                  |  63 +++++-
+ include/hw/virtio/vhost-user-fs.h          |   3 +
+ include/standard-headers/linux/virtio_fs.h |   5 +
+ 10 files changed, 386 insertions(+), 48 deletions(-)
+
+--=20
+2.20.1
 
 
