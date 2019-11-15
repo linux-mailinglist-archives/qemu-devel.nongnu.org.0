@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF1DFE32F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:48:06 +0100 (CET)
-Received: from localhost ([::1]:41750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CEAFE377
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:56:51 +0100 (CET)
+Received: from localhost ([::1]:41904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVelR-00075V-4F
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:48:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52655)
+	id 1iVetu-0001ss-5E
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52704)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iVeQj-0001YQ-P5
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:42 -0500
+ (envelope-from <clg@kaod.org>) id 1iVeQq-0001hU-2d
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iVeQi-0001I3-Kh
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:41 -0500
-Received: from 9.mo179.mail-out.ovh.net ([46.105.76.148]:43995)
+ (envelope-from <clg@kaod.org>) id 1iVeQo-0001Lh-Pz
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:47 -0500
+Received: from 6.mo173.mail-out.ovh.net ([46.105.43.93]:36347)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQi-0001HT-Ec
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:40 -0500
-Received: from player787.ha.ovh.net (unknown [10.109.146.163])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 3E82C14619A
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:39 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQo-0001KB-3G
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:46 -0500
+Received: from player787.ha.ovh.net (unknown [10.109.143.210])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id AA3C111DAB6
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:44 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player787.ha.ovh.net (Postfix) with ESMTPSA id CAF1BC444E38;
- Fri, 15 Nov 2019 16:26:33 +0000 (UTC)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id 3BED8C444E7D;
+ Fri, 15 Nov 2019 16:26:39 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH for-5.0 v5 20/23] ppc/xive: Introduce a xive_tctx_ipb_update()
- helper
-Date: Fri, 15 Nov 2019 17:24:33 +0100
-Message-Id: <20191115162436.30548-21-clg@kaod.org>
+Subject: [PATCH for-5.0 v5 21/23] ppc/xive: Synthesize interrupt from the
+ saved IPB in the NVT
+Date: Fri, 15 Nov 2019 17:24:34 +0100
+Message-Id: <20191115162436.30548-22-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115162436.30548-1-clg@kaod.org>
 References: <20191115162436.30548-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 15113798877735193574
+X-Ovh-Tracer-Id: 15115206252426333158
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeeg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.76.148
+X-Received-From: 46.105.43.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,86 +62,96 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will use it to resend missed interrupts when a vCPU context is
-pushed on a HW thread.
+When a vCPU is dispatched on a HW thread, its context is pushed in the
+thread registers and it is activated by setting the VO bit in the CAM
+line word2. The HW grabs the associated NVT, pulls the IPB bits and
+merges them with the IPB of the new context. If interrupts were missed
+while the vCPU was not dispatched, these are synthesized in this
+sequence.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h |  1 +
- hw/intc/xive.c        | 21 +++++++++++----------
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ hw/intc/xive.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 24315480e7c2..9c0bf2c301e2 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -469,6 +469,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
- *mon);
- Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
- void xive_tctx_reset(XiveTCTX *tctx);
- void xive_tctx_destroy(XiveTCTX *tctx);
-+void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
-=20
- /*
-  * KVM XIVE device helpers
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index e576a1e4ba9c..840ab2a555e1 100644
+index 840ab2a555e1..ce904b0b5ab4 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -47,12 +47,6 @@ static uint8_t ipb_to_pipr(uint8_t ibp)
-     return ibp ? clz32((uint32_t)ibp << 24) : 0xff;
+@@ -393,6 +393,57 @@ static uint64_t xive_tm_pull_os_ctx(XivePresenter *x=
+ptr, XiveTCTX *tctx,
+     return qw1w2;
  }
 =20
--static void ipb_update(uint8_t *regs, uint8_t priority)
--{
--    regs[TM_IPB] |=3D priority_to_ipb(priority);
--    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
--}
--
- static uint8_t exception_mask(uint8_t ring)
- {
-     switch (ring) {
-@@ -135,6 +129,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
-_t ring, uint8_t cppr)
-     xive_tctx_notify(tctx, ring);
- }
-=20
-+void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
++static void xive_tctx_need_resend(XiveRouter *xrtr, XiveTCTX *tctx,
++                                  uint8_t nvt_blk, uint32_t nvt_idx)
 +{
-+    uint8_t *regs =3D &tctx->regs[ring];
++    XiveNVT nvt;
++    uint8_t ipb;
 +
-+    regs[TM_IPB] |=3D ipb;
-+    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
-+    xive_tctx_notify(tctx, ring);
++    /*
++     * Grab the associated NVT to pull the pending bits, and merge
++     * them with the IPB of the thread interrupt context registers
++     */
++    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVT %x/%x\n",
++                          nvt_blk, nvt_idx);
++        return;
++    }
++
++    ipb =3D xive_get_field32(NVT_W4_IPB, nvt.w4);
++
++    if (ipb) {
++        /* Reset the NVT value */
++        nvt.w4 =3D xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
++        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
++
++        /* Merge in current context */
++        xive_tctx_ipb_update(tctx, TM_QW1_OS, ipb);
++    }
 +}
 +
- static inline uint32_t xive_tctx_word2(uint8_t *ring)
- {
-     return *((uint32_t *) &ring[TM_WORD2]);
-@@ -336,8 +339,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, =
-XiveTCTX *tctx,
- static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
-                                    hwaddr offset, uint64_t value, unsign=
-ed size)
- {
--    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
--    xive_tctx_notify(tctx, TM_QW1_OS);
-+    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff))=
++/*
++ * Updating the OS CAM line can trigger a resend of interrupt
++ */
++static void xive_tm_push_os_ctx(XivePresenter *xptr, XiveTCTX *tctx,
++                                hwaddr offset, uint64_t value, unsigned =
+size)
++{
++    uint32_t cam =3D value;
++    uint32_t qw1w2 =3D cpu_to_be32(cam);
++    uint8_t nvt_blk;
++    uint32_t nvt_idx;
++    bool vo;
++
++    xive_os_cam_decode(cam, &nvt_blk, &nvt_idx, &vo);
++
++    /* First update the registers */
++    xive_tctx_set_os_cam(tctx, qw1w2);
++
++    /* Check the interrupt pending bits */
++    if (vo) {
++        xive_tctx_need_resend(XIVE_ROUTER(xptr), tctx, nvt_blk, nvt_idx)=
 ;
- }
-=20
- static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
-@@ -1429,8 +1431,7 @@ static bool xive_presenter_notify(uint8_t format,
-=20
-     /* handle CPU exception delivery */
-     if (count) {
--        ipb_update(&match.tctx->regs[match.ring], priority);
--        xive_tctx_notify(match.tctx, match.ring);
-+        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
-ority));
-     }
-=20
-     return count;
++    }
++}
++
+ /*
+  * Define a mapping of "special" operations depending on the TIMA page
+  * offset and the size of the operation.
+@@ -414,6 +465,7 @@ static const XiveTmOp xive_tm_operations[] =3D {
+      * effects
+      */
+     { XIVE_TM_OS_PAGE, TM_QW1_OS + TM_CPPR,   1, xive_tm_set_os_cppr, NU=
+LL },
++    { XIVE_TM_HV_PAGE, TM_QW1_OS + TM_WORD2,     4, xive_tm_push_os_ctx,=
+ NULL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_CPPR, 1, xive_tm_set_hv_cppr,=
+ NULL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, xive_tm_vt_push, NU=
+LL },
+     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, NULL, xive_tm_vt_po=
+ll },
 --=20
 2.21.0
 
