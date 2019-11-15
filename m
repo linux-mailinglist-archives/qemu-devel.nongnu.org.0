@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B506FE3A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:10:26 +0100 (CET)
-Received: from localhost ([::1]:42440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E25DFE417
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:35:20 +0100 (CET)
+Received: from localhost ([::1]:42767 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVf73-00011E-MY
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:10:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59703)
+	id 1iVfV8-000218-Mo
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:35:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVf61-0000CF-Qw
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:09:22 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iVfQ8-0007Cf-72
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVf60-0008Lw-Mr
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:09:21 -0500
-Received: from mail-eopbgr40116.outbound.protection.outlook.com
- ([40.107.4.116]:65430 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVf5y-0008JU-86; Fri, 15 Nov 2019 12:09:18 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i3I4LJq7KFqMiZSKub9d6NBAmAL/S44N3x66pn3ZD2LWonwoEsQ1rEuUYzKY0TVHs/J9gXBZiHzUOlDAXr8w4V5LpzIU7lab529/9ArpCteG+JyGBi9L9YwHKPY6Oj4MeB/RU9WUQMp6p2cgdyFsPKFQlPSpttqIiwduoGd+J6oUJjgza2Yd5veftIl53L0TXojOrfRO8QcGZ6moXk9eFeUyEGoNzyh8BKKsBpNXdgojT63by63MIKY7vMzEPWBLweGpSpc0nTnhSR3b0ZEyE4b6dmdzayP1HNtdnQzKeOuswgjT72fSzx6NsaF1YYgd5ZSFy8Bl/rlBxx1Dr721sA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PYEIOquNE+7Onip/QcEMBS7Rccf7xFZSfZ+GUGgZiWo=;
- b=DYfgKt+T7CjLbEfUxZ9dIa8lcpSAgTQnP9xu5WaWqZ0rASvcilrjYOr/LIZdv0+TsqYhcsw/20H8cLcb+CIWBstd/yvjhyvorenC+XpW2hwegwhllJWM4ltU9QSymu5E8HJtq23+vNr8Emgt6HLmrDvfFGQND1Z0iQaLblT/UD6w+D48Qyi99MHTLUg2W0H71F8zb3SUltwOmN/zSATT3sMD1UNd0I80cbpkCqB7UuiYvN1vTbBVV8HW/zUDu9IALVUSuEep0C3N9XwsAhFf4IlpwUXNQkgtBm7ZkE+1YjtFHhddiXeFo0k1UE2hfMUaVZmO3/sh3BaWz5VAf81W1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PYEIOquNE+7Onip/QcEMBS7Rccf7xFZSfZ+GUGgZiWo=;
- b=Bt8XR9MCDjIYb0pjexgkj47MObBh9Q9r/cLK3FhZU8UMGqMaI9PQWsVQTS/Qt4B0RYsD98/2jgnd6fjtEqUI+hDeLtHWrDIoXmjsSF5VXfJJ1TiVrJE2jX6Jz4EHtfs2G+M0YyQ4UTMFHrjuA5RWx99VQ/RRFdKdbQQdn6gHTD0=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3749.eurprd08.prod.outlook.com (20.178.91.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2451.28; Fri, 15 Nov 2019 17:09:16 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2451.029; Fri, 15 Nov 2019
- 17:09:16 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 2/4] bitmap: Enforce maximum bitmap name length
-Thread-Topic: [PATCH v3 2/4] bitmap: Enforce maximum bitmap name length
-Thread-Index: AQHVmpXQlrP7gvUJk0eiM4XXWoXbLqeMiPCA///Zu4CAAAzrgIAACg4A
-Date: Fri, 15 Nov 2019 17:09:16 +0000
-Message-ID: <9f5aa9bd-0a31-f80e-336d-a85398869875@virtuozzo.com>
-References: <20191114024635.11363-1-eblake@redhat.com>
- <20191114024635.11363-3-eblake@redhat.com>
- <0a25974f-f9cd-07a1-4cb7-2bbd4dfe4375@virtuozzo.com>
- <6d54c6eb-4f28-6a5d-81e1-a175e34f3cf8@virtuozzo.com>
- <8461437b-8991-3725-308d-68e054c7f3a8@redhat.com>
-In-Reply-To: <8461437b-8991-3725-308d-68e054c7f3a8@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0010.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::20)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191115200914246
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4628ed91-e618-4eab-63c1-08d769ee8bae
-x-ms-traffictypediagnostic: AM6PR08MB3749:
-x-microsoft-antispam-prvs: <AM6PR08MB3749E8C2EF7AE76EB0C96A49C1700@AM6PR08MB3749.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 02229A4115
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(366004)(136003)(376002)(396003)(346002)(51444003)(199004)(189003)(86362001)(71200400001)(71190400001)(66066001)(8936002)(386003)(66446008)(64756008)(66556008)(31686004)(81156014)(81166006)(8676002)(186003)(102836004)(2616005)(54906003)(5660300002)(11346002)(446003)(305945005)(486006)(476003)(7736002)(52116002)(66476007)(110136005)(26005)(316002)(66946007)(6506007)(53546011)(99286004)(4326008)(6436002)(478600001)(2501003)(31696002)(76176011)(36756003)(14444005)(256004)(2906002)(229853002)(6486002)(6246003)(6512007)(6116002)(3846002)(25786009)(14454004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3749;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ePE773/LjkjN9eaQyPzZKqbUBogF4tQlG5nDHZ46tGVMKFCHf+HMrMJOPXW736dyp7OaIqgYX6LeRMpoXUIxA/gpbY09d7iklBFveYXojDzcSCWJe/PBO4nbpPcY4pvniu6k6F38jRYGU09M474S6xQhMeVjbeBBKHbzIjuez3zZzN+e08oYOIQ//F9GymtqzcdxNq4zZ026AQUkqVuIdXE3jfWNbK2QcnRr6lBz+stO/hdcLyuDT14CLdCMYt15eraPXx+ZBnBSbLhi5Edq7/OrbWO69u+Y8NVHKZF2YZOPchzQjDf+cADLSRlrg8g0f6GdQRaPJiUZPoV3eNZC6IgqKGgi2reCKr3P85ObLuZ0x/o7O5leoaXAT/3buY13ZtEVPKNh6Q1zwd3CCitjxvUPYD0E4zyCPf+CmWMpDMrmKJyrZEpl8VDALbM9Odas
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <DB0F00452A5037409B42DBA720A9277F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <alex.bennee@linaro.org>) id 1iVfQ5-0002jU-GG
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:08 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38985)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iVfQ5-0002hr-66
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:05 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t26so11295480wmi.4
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 09:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xcp3/CHlbhH4lfwxeXUOHv5G4pUx2CNyxu3i0EkeVg4=;
+ b=JMUhJ0aMpu/I0Mk0bM/1Ll/UZ/Ooj9mFMgjrmFlNAhgGXU6Wvv0964RByFo2dbt1bs
+ Qenre8+qMRiteSZcZrm4tmR2wfldK5BlEgGq+VcVVh2gh5eaMtX9xXWN1pTNL5n7NYBA
+ VnT76tYQmPAIPeDstRpCNo12pWUrYukzIe6mwoV2odhJ7hqlU/mIO8VxVlAKj5uLkXX9
+ 7IVG+5T2YB6j2KNmjIAp2Xq2nCglafUldmXOOqqC5v2k2tF0BXbvT5E94F0O3dQwxHW2
+ auxwjgJqx+4yzQjOD17pGiQHBb4BrnThDqCDCNzBXtgt906pxRJgQ7++CEizVp2kui2I
+ UQ/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xcp3/CHlbhH4lfwxeXUOHv5G4pUx2CNyxu3i0EkeVg4=;
+ b=NEn81SRjUe8ucn32Rab8zK/ogtcj08RRvn4mQfH/9YjQQULxPIngQHcy+hAWpDNwcE
+ +BOpltgxYgKaxSYU2gscMGsfPIF27iVFthkIY2zggPSIKzC/3C+k+H+kqyWSyUmT9zdO
+ XCsguGCShcJWgiFZtXnJbRbaSyNBhXdvwwFt/sAsex65EqTNaKoioK3zIoPOY/Tb1ACZ
+ 8YPTRyXatW6q5mTk4hmLn2mWj5Iobomcuqc0jFIRhfwm64e/v/AWWpD9v/9wtYndR7Sp
+ iZxzbhhPDN7jspO2whnWpWf+RLneVX3A7PueA08UMFbVjf7ekDLkNrF38ZwxzARhe0YK
+ bDSg==
+X-Gm-Message-State: APjAAAX0JSjzR7GGX2ybQCZPtCBc0Vwx79x90o0m0hY96OQSXgg9srei
+ KvJLnA0EdVEnPjaYui9pjI3zUw==
+X-Google-Smtp-Source: APXvYqxnVyKY3G8NKK2QiV3mzCZWoyDF5NHykAAEAv/1yF83ldaAz0t05z0gCcn6S6tbA5SeFQWDjA==
+X-Received: by 2002:a1c:1fca:: with SMTP id
+ f193mr14881322wmf.173.1573839003817; 
+ Fri, 15 Nov 2019 09:30:03 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s11sm11769241wrr.43.2019.11.15.09.30.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Nov 2019 09:30:01 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C7A3F1FF87;
+ Fri, 15 Nov 2019 17:30:00 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH  00/11] gdbstub re-factor and SVE support
+Date: Fri, 15 Nov 2019 17:29:49 +0000
+Message-Id: <20191115173000.21891-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4628ed91-e618-4eab-63c1-08d769ee8bae
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2019 17:09:16.3648 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oQpAjjlROK1GxKWQ++OT1kMB50+/w24nklitYnnusdHZRXyD342YPeXRf5pCGaZJlfU2UserSmd0AHXzlEyVswJwxW7ltFfOnuLhctB8e8o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3749
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.116
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,49 +80,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15.11.2019 19:33, Eric Blake wrote:
-> On 11/15/19 9:47 AM, Vladimir Sementsov-Ogievskiy wrote:
->> 15.11.2019 18:03, Vladimir Sementsov-Ogievskiy wrote:
->>> 14.11.2019 5:46, Eric Blake wrote:
->>>> We document that for qcow2 persistent bitmaps, the name cannot exceed
->>>> 1023 bytes.=A0 It is inconsistent if transient bitmaps do not have to
->>>> abide by the same limit, and it is unlikely that any existing client
->>>> even cares about using bitmap names this long.=A0 It's time to codify
->>>> that ALL bitmaps managed by qemu (whether persistent in qcow2 or not)
->>>> have a documented maximum length.
->>>>
->>>> Signed-off-by: Eric Blake <eblake@redhat.com>
->>>
->>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>
->>>
->>
->> One doubt:
->>
->> Is it good idea to include string larger than 4K into error message
->> (in next patch too)? I doubt that such message would be
->> readable, and I think that most possible source of such message is
->> some kind of memory corruption, so the whole message would be garbage,
->> which may contain special symbols which may look bad or even break
->> output.
->=20
-> The string was provided by the user. You are correct that it results in a=
- lot of output on stderr, but it is no more garbage than what the user prov=
-ided in the first place. If we wanted, we could truncate (list only the fir=
-st 256 or so bytes and then output "..."), but it's such a corner case erro=
-r that I don't think it's worth the effort to worry about it.
->=20
+Hi,
 
-OK
+This RFC is for supporting SVE registers in QEMU's gdbstub.
 
---=20
-Best regards,
-Vladimir
+However on the way to that there is a bunch of re-factoring to the
+core gdbstub code to remove some of the hardcoded size limits from its
+various buffers. By using dynamically sized buffers we are less likely
+to trip up as we potentially push these large registers into the
+staging memory before transmission. Ultimately we end up touching all
+guest gdbstub register code to make them push bytes into a GByteArray
+rather than directly poking memory. For the most part this is a
+mechanical process although PPC makes it a little uglier as it can
+dynamically change endianess and therefor has its own custom byte
+swapping routine after the fact.
+
+One other thing to note is that currently we don't match the existing
+gdbstub XML (org.gnu.gdb.aarch64.sve) opting instead to send our own
+register layout (org.qemu.gdb.aarch64.sve). The principle difference
+is we report the registers in quads (e.g. z0p0 -> z0pN) depending on
+the configured size of the machine. It could be changed easily enough
+but I was having trouble getting gdbstub on the current master to work
+so went with something I could understand more easily.
+
+Alex Bennée (11):
+  gdbstub: move allocation of GDBState to one place
+  gdbstub: stop passing GDBState * around
+  gdbstub: move str_buf to GDBState and use GString
+  gdbstub: move mem_buf to GDBState and use GByteArray
+  gdbstub: add helper for 128 bit registers
+  target/arm: use gdb_get_reg helpers
+  target/m68k: use gdb_get_reg helpers
+  gdbstub: extend GByteArray to read register helpers
+  target/arm: prepare for multiple dynamic XMLs
+  target/arm: explicitly encode regnum in our XML
+  target/arm: generate xml description of our SVE registers
+
+ include/exec/gdbstub.h              |  41 ++-
+ include/hw/core/cpu.h               |   2 +-
+ target/alpha/cpu.h                  |   2 +-
+ target/arm/cpu.h                    |  34 +-
+ target/cris/cpu.h                   |   4 +-
+ target/hppa/cpu.h                   |   2 +-
+ target/i386/cpu.h                   |   2 +-
+ target/lm32/cpu.h                   |   2 +-
+ target/m68k/cpu.h                   |   2 +-
+ target/microblaze/cpu.h             |   2 +-
+ target/mips/internal.h              |   2 +-
+ target/openrisc/cpu.h               |   2 +-
+ target/ppc/cpu.h                    |   4 +-
+ target/riscv/cpu.h                  |   2 +-
+ target/s390x/internal.h             |   2 +-
+ target/sh4/cpu.h                    |   2 +-
+ target/sparc/cpu.h                  |   2 +-
+ target/xtensa/cpu.h                 |   2 +-
+ gdbstub.c                           | 520 +++++++++++++++-------------
+ hw/core/cpu.c                       |   2 +-
+ target/alpha/gdbstub.c              |   2 +-
+ target/arm/gdbstub.c                | 137 +++++++-
+ target/arm/gdbstub64.c              |   2 +-
+ target/arm/helper.c                 | 108 ++++--
+ target/cris/gdbstub.c               |   4 +-
+ target/hppa/gdbstub.c               |   2 +-
+ target/i386/gdbstub.c               |   2 +-
+ target/lm32/gdbstub.c               |   2 +-
+ target/m68k/gdbstub.c               |   2 +-
+ target/m68k/helper.c                |  33 +-
+ target/microblaze/gdbstub.c         |   2 +-
+ target/mips/gdbstub.c               |   2 +-
+ target/nios2/cpu.c                  |   2 +-
+ target/openrisc/gdbstub.c           |   2 +-
+ target/ppc/gdbstub.c                |  48 +--
+ target/ppc/translate_init.inc.c     |  54 +--
+ target/riscv/gdbstub.c              |  18 +-
+ target/s390x/gdbstub.c              |  30 +-
+ target/sh4/gdbstub.c                |   2 +-
+ target/sparc/gdbstub.c              |   2 +-
+ target/xtensa/gdbstub.c             |   2 +-
+ tests/tcg/multiarch/float_helpers.c |   7 +-
+ 42 files changed, 659 insertions(+), 439 deletions(-)
+
+-- 
+2.20.1
+
 
