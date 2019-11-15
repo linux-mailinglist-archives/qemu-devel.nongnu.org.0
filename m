@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D65FE000
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:25:10 +0100 (CET)
-Received: from localhost ([::1]:39866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936CEFDFF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:22:04 +0100 (CET)
+Received: from localhost ([::1]:39823 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcX7-0006B7-Aw
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:25:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59000)
+	id 1iVcU7-0001jb-Kr
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:22:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004dF-Oe
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:04 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004cw-E9
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xS-Gk
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001x2-7C
  for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:02 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47452)
+Received: from relay.sw.ru ([185.231.240.75]:47428)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNG-0001rs-J4; Fri, 15 Nov 2019 09:14:58 -0500
+ id 1iVcNG-0001rq-II; Fri, 15 Nov 2019 09:14:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcN5-0006WW-Ad; Fri, 15 Nov 2019 17:14:47 +0300
+ id 1iVcNB-0006WW-EG; Fri, 15 Nov 2019 17:14:53 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 12/24] block/block-copy: move block_copy_task_create down
-Date: Fri, 15 Nov 2019 17:14:32 +0300
-Message-Id: <20191115141444.24155-13-vsementsov@virtuozzo.com>
+Subject: [RFC 16/24] block/block-copy: add max_chunk and max_workers paramters
+Date: Fri, 15 Nov 2019 17:14:36 +0300
+Message-Id: <20191115141444.24155-17-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,97 +54,78 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple movement without any change. It's needed for the following
-patch, as this function will need to use some staff which is currently
-below it.
+They will be used for backup.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 64 +++++++++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ include/block/block-copy.h | 5 +++++
+ block/block-copy.c         | 9 +++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 407de7e520..8fc27156b3 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -47,6 +47,11 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+ /*
+  * Run block-copy in a coroutine, return state pointer. If finished early
+  * returns NULL (@cb is called anyway).
++ *
++ * @max_workers means maximum of parallel coroutines to execute sub-requests,
++ * must be > 0.
++ *
++ * @max_chunk means maximum length for one IO operation. Zero means unlimited.
+  */
+ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+                                      int64_t offset, int64_t bytes,
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 0525a9fcd5..4e8c64a45d 100644
+index 0b41afd30d..f28f3b8b6c 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -111,38 +111,6 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t start,
-     return true;
- }
+@@ -32,6 +32,8 @@ typedef struct BlockCopyCallState {
+     BlockCopyState *s;
+     int64_t offset;
+     int64_t bytes;
++    int max_workers;
++    int64_t max_chunk;
+     BlockCopyAsyncCallbackFunc cb;
  
--static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
--                                             int64_t offset, int64_t bytes)
--{
--    int64_t next_zero;
--    BlockCopyTask *task = g_new(BlockCopyTask, 1);
--
--    assert(bdrv_dirty_bitmap_get(s->copy_bitmap, offset));
--
+     /* State */
+@@ -393,7 +395,7 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+ 
+     assert(bdrv_dirty_bitmap_get(s->copy_bitmap, offset));
+ 
 -    bytes = MIN(bytes, s->copy_size);
--    next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset, bytes);
--    if (next_zero >= 0) {
--        assert(next_zero > offset); /* offset is dirty */
--        assert(next_zero < offset + bytes); /* no need to do MIN() */
--        bytes = next_zero - offset;
--    }
--
--    /* region is dirty, so no existent tasks possible in it */
--    assert(!block_copy_find_task(s, offset, bytes));
--
--    bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
--
--    *task = (BlockCopyTask) {
--        .s = s,
--        .offset = offset,
--        .bytes = bytes,
--    };
--    qemu_co_queue_init(&task->wait_queue);
--    QLIST_INSERT_HEAD(&s->tasks, task, list);
--
--    return task;
--}
--
- static void coroutine_fn block_copy_task_shrink(BlockCopyTask *task,
-                                                 int64_t new_bytes)
- {
-@@ -348,6 +316,38 @@ out:
-     return ret;
- }
++    bytes = MIN(bytes, MIN_NON_ZERO(s->copy_size, call_state->max_chunk));
+     next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset, bytes);
+     if (next_zero >= 0) {
+         assert(next_zero > offset); /* offset is dirty */
+@@ -578,7 +580,7 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
+         co_get_from_shres(s->mem, task->bytes);
  
-+static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
-+                                             int64_t offset, int64_t bytes)
-+{
-+    int64_t next_zero;
-+    BlockCopyTask *task = g_new(BlockCopyTask, 1);
-+
-+    assert(bdrv_dirty_bitmap_get(s->copy_bitmap, offset));
-+
-+    bytes = MIN(bytes, s->copy_size);
-+    next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset, bytes);
-+    if (next_zero >= 0) {
-+        assert(next_zero > offset); /* offset is dirty */
-+        assert(next_zero < offset + bytes); /* no need to do MIN() */
-+        bytes = next_zero - offset;
-+    }
-+
-+    /* region is dirty, so no existent tasks possible in it */
-+    assert(!block_copy_find_task(s, offset, bytes));
-+
-+    bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-+
-+    *task = (BlockCopyTask) {
-+        .s = s,
-+        .offset = offset,
-+        .bytes = bytes,
-+    };
-+    qemu_co_queue_init(&task->wait_queue);
-+    QLIST_INSERT_HEAD(&s->tasks, task, list);
-+
-+    return task;
-+}
-+
- static int block_copy_block_status(BlockCopyState *s, int64_t offset,
-                                    int64_t bytes, int64_t *pnum)
- {
+         if (!aio && task->bytes != bytes) {
+-            aio = aio_task_pool_new(BLOCK_COPY_MAX_WORKERS);
++            aio = aio_task_pool_new(call_state->max_workers);
+         }
+ 
+         offset += task->bytes;
+@@ -655,6 +657,7 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+         .s = s,
+         .offset = start,
+         .bytes = bytes,
++        .max_workers = BLOCK_COPY_MAX_WORKERS,
+     };
+ 
+     int ret = block_copy_common(&call_state);
+@@ -686,6 +689,8 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+         .offset = offset,
+         .bytes = bytes,
+         .cb = cb,
++        .max_workers = max_workers ?: BLOCK_COPY_MAX_WORKERS,
++        .max_chunk = max_chunk,
+     };
+ 
+     qemu_coroutine_enter(co);
 -- 
 2.21.0
 
