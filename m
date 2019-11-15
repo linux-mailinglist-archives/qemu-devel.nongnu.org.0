@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8263FE229
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:00:52 +0100 (CET)
-Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18412FE237
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:04:46 +0100 (CET)
+Received: from localhost ([::1]:41207 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVe1j-0001Ng-QY
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:00:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
+	id 1iVe5T-00065Z-V2
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:04:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iVdxA-0005Pv-3n
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:09 -0500
+ (envelope-from <groug@kaod.org>) id 1iVdxF-0005Yh-Bz
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iVdx8-0003lN-W7
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:07 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62216
+ (envelope-from <groug@kaod.org>) id 1iVdxE-0003qx-4g
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:13 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35658
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVdx8-0003kw-LM
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:06 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAFFhQg2102833
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:56:05 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w9qmjsdbt-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVdxD-0003qO-V0
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 10:56:12 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAFFgeBa009664
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:56:11 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w9nsmnsma-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:56:04 -0500
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 10:56:11 -0500
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 15 Nov 2019 15:56:03 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Fri, 15 Nov 2019 15:56:09 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 15 Nov 2019 15:56:01 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAFFu02c37421164
+ Fri, 15 Nov 2019 15:56:07 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAFFu6aw53739524
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Nov 2019 15:56:00 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D66D4204F;
- Fri, 15 Nov 2019 15:56:00 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6BE8842042;
- Fri, 15 Nov 2019 15:56:00 +0000 (GMT)
+ Fri, 15 Nov 2019 15:56:06 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 350D911C05E;
+ Fri, 15 Nov 2019 15:56:06 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0365D11C052;
+ Fri, 15 Nov 2019 15:56:06 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.70.126])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 15 Nov 2019 15:56:00 +0000 (GMT)
-Subject: [PATCH v2 for-5.0 7/8] ppc/pnv: Link "chip" property to
- PnvCore::chip pointer
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 15 Nov 2019 15:56:05 +0000 (GMT)
+Subject: [PATCH v2 for-5.0 8/8] ppc/pnv: Link "chip" property to
+ PnvXive::chip pointer
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>,
  =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Fri, 15 Nov 2019 16:56:00 +0100
+Date: Fri, 15 Nov 2019 16:56:05 +0100
 In-Reply-To: <157383332103.165747.15204186097237659466.stgit@bahia.lan>
 References: <157383332103.165747.15204186097237659466.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -67,17 +67,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19111515-0020-0000-0000-000003868A73
+x-cbid: 19111515-0016-0000-0000-000002C402F2
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111515-0021-0000-0000-000021DCA824
-Message-Id: <157383336007.165747.1524120147081367440.stgit@bahia.lan>
+x-cbparentid: 19111515-0017-0000-0000-00003325AB70
+Message-Id: <157383336564.165747.10250365296928442882.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-15_04:2019-11-15,2019-11-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- mlxlogscore=706 lowpriorityscore=0 phishscore=0 suspectscore=0
- clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034 adultscore=0
+ malwarescore=0 impostorscore=0 mlxscore=0 spamscore=0 phishscore=0
+ mlxlogscore=509 suspectscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1911150142
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -96,60 +96,70 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The core object has both a pointer and a "chip" property pointing to the
+The XIVE object has both a pointer and a "chip" property pointing to the
 chip object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/pnv.c      |    4 ++--
- hw/ppc/pnv_core.c |   10 ++--------
- 2 files changed, 4 insertions(+), 10 deletions(-)
+ hw/intc/pnv_xive.c |   13 +++----------
+ hw/ppc/pnv.c       |    4 ++--
+ 2 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 232c817452c0..8851875bcfd7 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1326,8 +1326,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
-         object_property_set_int(OBJECT(pnv_core),
-                                 pcc->core_pir(chip, core_hwid),
-                                 "pir", &error_fatal);
--        object_property_add_const_link(OBJECT(pnv_core), "chip",
--                                       OBJECT(chip), &error_fatal);
-+        object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
-+                                 &error_abort);
-         object_property_set_bool(OBJECT(pnv_core), true, "realized",
-                                  &error_fatal);
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 6aa7aeed6f83..4e56c2e4689c 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1675,17 +1675,8 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
+     XiveSource *xsrc = &xive->ipi_source;
+     XiveENDSource *end_xsrc = &xive->end_source;
+     Error *local_err = NULL;
+-    Object *obj;
  
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 61b3d3ce2250..5ab75bde6cc5 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -217,15 +217,8 @@ static void pnv_core_realize(DeviceState *dev, Error **errp)
-     void *obj;
-     int i, j;
-     char name[32];
--    Object *chip;
- 
--    chip = object_property_get_link(OBJECT(dev), "chip", &local_err);
--    if (!chip) {
--        error_propagate_prepend(errp, local_err,
--                                "required link 'chip' not found: ");
+-    obj = object_property_get_link(OBJECT(dev), "chip", &local_err);
+-    if (!obj) {
+-        error_propagate(errp, local_err);
+-        error_prepend(errp, "required link 'chip' not found: ");
 -        return;
 -    }
--    pc->chip = PNV_CHIP(chip);
-+    assert(pc->chip);
+-
+-    /* The PnvChip id identifies the XIVE interrupt controller. */
+-    xive->chip = PNV_CHIP(obj);
++    assert(xive->chip);
  
-     pc->threads = g_new(PowerPCCPU *, cc->nr_threads);
-     for (i = 0; i < cc->nr_threads; i++) {
-@@ -297,6 +290,7 @@ static void pnv_core_unrealize(DeviceState *dev, Error **errp)
- 
- static Property pnv_core_properties[] = {
-     DEFINE_PROP_UINT32("pir", PnvCore, pir, 0),
-+    DEFINE_PROP_LINK("chip", PnvCore, chip, TYPE_PNV_CHIP, PnvChip *),
+     /*
+      * The XiveSource and XiveENDSource objects are realized with the
+@@ -1800,6 +1791,8 @@ static Property pnv_xive_properties[] = {
+     DEFINE_PROP_UINT64("vc-bar", PnvXive, vc_base, 0),
+     DEFINE_PROP_UINT64("pc-bar", PnvXive, pc_base, 0),
+     DEFINE_PROP_UINT64("tm-bar", PnvXive, tm_base, 0),
++    /* The PnvChip id identifies the XIVE interrupt controller. */
++    DEFINE_PROP_LINK("chip", PnvXive, chip, TYPE_PNV_CHIP, PnvChip *),
      DEFINE_PROP_END_OF_LIST(),
  };
  
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 8851875bcfd7..d7130c3304f0 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1088,8 +1088,6 @@ static void pnv_chip_power9_instance_init(Object *obj)
+ 
+     object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xive),
+                             TYPE_PNV_XIVE, &error_abort, NULL);
+-    object_property_add_const_link(OBJECT(&chip9->xive), "chip", obj,
+-                                   &error_abort);
+ 
+     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi),
+                             TYPE_PNV9_PSI, &error_abort, NULL);
+@@ -1171,6 +1169,8 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
+                             "pc-bar", &error_fatal);
+     object_property_set_int(OBJECT(&chip9->xive), PNV9_XIVE_TM_BASE(chip),
+                             "tm-bar", &error_fatal);
++    object_property_set_link(OBJECT(&chip9->xive), OBJECT(chip), "chip",
++                             &error_abort);
+     object_property_set_bool(OBJECT(&chip9->xive), true, "realized",
+                              &local_err);
+     if (local_err) {
 
 
