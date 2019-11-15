@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58081FD6E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 08:25:27 +0100 (CET)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4785FFD76B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 08:57:02 +0100 (CET)
+Received: from localhost ([::1]:36360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVVyv-00087D-Sh
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 02:25:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35507)
+	id 1iVWTU-0007ei-Pm
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 02:57:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iVVxL-0007fV-GN
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:23:48 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iVWQh-0005j9-CJ
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iVVxK-0007OG-2A
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:23:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60809
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iVWQf-0002c9-E2
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:06 -0500
+Received: from mga07.intel.com ([134.134.136.100]:47999)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iVVxJ-0007Mh-VA
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:23:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573802624;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M78NfFz3hwR7EO88l4LtRd0NEn6qWxByP1E6YXhdv3c=;
- b=O+b1xGtHoJqYLqNIXhulr0tR73lz0XB4I1HUEOt2vY3pMVX9aNMQerOztIGk9j0y/UKwSl
- eGwuxGrqLUEdBTvLz2QJoHxHIZ2ewqGQMz0hP348+F3owueuhSnBxRD7cPX5ATg2991QmC
- TVh4YjU6x3NGTcZkVNnUosRFpWZ/tm8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-ZV0n4l6TNeihFqKOyjKSpg-1; Fri, 15 Nov 2019 02:23:41 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BE31005502;
- Fri, 15 Nov 2019 07:23:40 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-84.ams2.redhat.com
- [10.36.116.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 62F525DF3A;
- Fri, 15 Nov 2019 07:23:39 +0000 (UTC)
-Subject: Re: [PATCH] Modify tests to work with clang
-To: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
-References: <1573792691-398-1-git-send-email-tsimpson@quicinc.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2853dc41-919d-f32c-e531-07fd1111d59a@redhat.com>
-Date: Fri, 15 Nov 2019 08:23:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iVWQf-0002Ye-5E
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:05 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2019 23:53:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,307,1569308400"; d="scan'208";a="235987184"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2019 23:53:54 -0800
+From: Tao Xu <tao3.xu@intel.com>
+To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
+Subject: [PATCH v16 00/14] Build ACPI Heterogeneous Memory Attribute Table
+ (HMAT)
+Date: Fri, 15 Nov 2019 15:53:38 +0800
+Message-Id: <20191115075352.17734-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1573792691-398-1-git-send-email-tsimpson@quicinc.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: ZV0n4l6TNeihFqKOyjKSpg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,56 +54,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/2019 05.38, Taylor Simpson wrote:
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  tests/tcg/multiarch/float_helpers.c | 13 ++++++++++++-
->  tests/tcg/multiarch/linux-test.c    |  2 +-
->  2 files changed, 13 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/tcg/multiarch/float_helpers.c b/tests/tcg/multiarch/fl=
-oat_helpers.c
-> index 8ee7903..437247c 100644
-> --- a/tests/tcg/multiarch/float_helpers.c
-> +++ b/tests/tcg/multiarch/float_helpers.c
-> @@ -26,6 +26,17 @@
-> =20
->  #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-> =20
-> +/*----------------------------------------------------------------------=
-------
-> +| The macro QEMU_GNUC_PREREQ tests for minimum version of the GNU C comp=
-iler.
-> +| The code is a copy of SOFTFLOAT_GNUC_PREREQ, see softfloat-macros.h.
-> +*-----------------------------------------------------------------------=
------*/
-> +#if defined(__GNUC__) && defined(__GNUC_MINOR__)
-> +# define QEMU_GNUC_PREREQ(maj, min) \
-> +         ((__GNUC__ << 16) + __GNUC_MINOR__ >=3D ((maj) << 16) + (min))
-> +#else
-> +# define QEMU_GNUC_PREREQ(maj, min) 0
-> +#endif
-> +
->  /*
->   * Half Precision Numbers
->   *
-> @@ -79,7 +90,7 @@ char *fmt_16(uint16_t num)
-> =20
->  #ifndef SNANF
->  /* Signaling NaN macros, if supported.  */
-> -# if __GNUC_PREREQ(3, 3)
-> +# if defined(__clang__) || QEMU_GNUC_PREREQ(3, 3)
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-IIRC clearly, Clang reports itself as GCC 4.2, so you certainly don't
-need the defined(__clang__) here.
-But additionally, we require at least GCC 4.8 to compile QEMU these days
-(see the check in the configure script), so you can even remove this #if
-statement completely, so that the following #defines are simply always used=
-.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
 
- Thomas
+The V15 patches link:
+https://patchwork.kernel.org/cover/11231971/
+
+Changelog:
+v16:
+    - Add and use qemu_strtold_finite to parse size, support full
+      64bit precision, modify related test cases (Eduardo and Markus)
+    - Simplify struct HMAT_LB_Info and related code, unify latency
+      and bandwidth (Igor)
+    - Add cross check with hmat_lb data (Igor)
+    - Fields in Cache Attributes are promoted to uint32_t before
+      shifting (Igor)
+    - Add case for QMP build HMAT (Igor)
+v15:
+    - Add a new patch to refactor do_strtosz() (Eduardo)
+    - Make tests without breaking CI (Michael)
+v14:
+    - Reuse the codes of do_strtosz to build qemu_strtotime_ns
+      (Eduardo)
+    - Squash patch v13 01/12 and 02/12 together (Daniel and Eduardo)
+    - Drop time unit picosecond (Eric)
+    - Use qemu ctz64 and clz64 instead of builtin function
+v13:
+    - Modify some text description
+    - Drop "initiator_valid" field in struct NodeInfo
+    - Reuse Garray to store the raw bandwidth and bandwidth data
+    - Calculate common base unit using range bitmap
+    - Add a patch to alculate hmat latency and bandwidth entry list
+    - Drop the total_levels option and use readable cache size
+    - Remove the unnecessary head file
+    - Use decimal notation with appropriate suffix for cache size
+v12:
+    - Fix a bug that a memory-only node without initiator setting
+      doesn't report error. (reported by Danmei Wei)
+    - Fix a bug that if HMAT is enabled and without hmat-lb setting,
+      QEMU will crash. (reported by Danmei Wei)
+v11:
+    - Move numa option patches forward.
+    - Add num_initiator in Numa_state to record the number of
+    initiators.
+    - Simplify struct HMAT_LB_Info, use uint64_t array to store data.
+    - Drop hmat_get_base().
+    - Calculate base in build_hmat_lb().
+v10:
+    - Add qemu_strtotime_ps() to convert strings with time suffixes
+    to numbers, and add some tests for it.
+    - Add qapi buildin type time, and add some tests for it.
+    - Add machine oprion properties "-machine hmat=on|off" for enabling
+    or disabling HMAT in QEMU.
+
+Liu Jingqi (5):
+  numa: Extend CLI to provide memory latency and bandwidth information
+  numa: Extend CLI to provide memory side cache information
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
+
+Tao Xu (9):
+  util/cutils: Add Add qemu_strtold and qemu_strtold_finite
+  util/cutils: Use qemu_strtold_finite to parse size
+  util/cutils: refactor do_strtosz() to support suffixes list
+  util/cutils: Add qemu_strtotime_ns()
+  qapi: Add builtin type time
+  tests: Add test for QAPI builtin type time
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/numa: Add case for QMP build HMAT
+  tests/bios-tables-test: add test cases for ACPI HMAT
+
+ hw/acpi/Kconfig                       |   7 +-
+ hw/acpi/Makefile.objs                 |   1 +
+ hw/acpi/hmat.c                        | 269 +++++++++++++++++++++++++
+ hw/acpi/hmat.h                        |  42 ++++
+ hw/core/machine.c                     |  64 ++++++
+ hw/core/numa.c                        | 270 ++++++++++++++++++++++++++
+ hw/i386/acpi-build.c                  |   5 +
+ include/qapi/visitor-impl.h           |   4 +
+ include/qapi/visitor.h                |   8 +
+ include/qemu/cutils.h                 |   4 +
+ include/sysemu/numa.h                 |  84 ++++++++
+ qapi/machine.json                     | 178 ++++++++++++++++-
+ qapi/opts-visitor.c                   |  22 +++
+ qapi/qapi-visit-core.c                |  12 ++
+ qapi/qobject-input-visitor.c          |  18 ++
+ qapi/trace-events                     |   1 +
+ qemu-options.hx                       |  96 ++++++++-
+ scripts/qapi/schema.py                |   1 +
+ tests/bios-tables-test-allowed-diff.h |   8 +
+ tests/bios-tables-test.c              |  44 +++++
+ tests/data/acpi/pc/APIC.acpihmat      |   0
+ tests/data/acpi/pc/DSDT.acpihmat      |   0
+ tests/data/acpi/pc/HMAT.acpihmat      |   0
+ tests/data/acpi/pc/SRAT.acpihmat      |   0
+ tests/data/acpi/q35/APIC.acpihmat     |   0
+ tests/data/acpi/q35/DSDT.acpihmat     |   0
+ tests/data/acpi/q35/HMAT.acpihmat     |   0
+ tests/data/acpi/q35/SRAT.acpihmat     |   0
+ tests/numa-test.c                     |  51 +++++
+ tests/test-cutils.c                   | 214 ++++++++++++++++----
+ tests/test-keyval.c                   | 136 +++++++++----
+ tests/test-qemu-opts.c                |  39 +---
+ tests/test-qobject-input-visitor.c    |  29 +++
+ util/cutils.c                         | 147 ++++++++++----
+ 34 files changed, 1596 insertions(+), 158 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+
+-- 
+2.20.1
 
 
