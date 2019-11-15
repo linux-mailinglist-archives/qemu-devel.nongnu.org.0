@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F2DFE295
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:19:49 +0100 (CET)
-Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A28FE29C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:21:00 +0100 (CET)
+Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVeK4-0003iP-Ee
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:19:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50310)
+	id 1iVeLE-0005pl-0i
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:21:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iVeFP-00085p-Uy
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:15:00 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iVeFt-0000H8-El
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:15:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iVeFP-0003JV-2L
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:14:59 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51935)
+ (envelope-from <peter.maydell@linaro.org>) id 1iVeFs-0003Wn-05
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:15:28 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42570)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iVeFO-0003J7-Sq
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:14:59 -0500
-Received: by mail-wm1-x344.google.com with SMTP id q70so10204465wme.1
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 08:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gNXtn/mvqE8uO4RJgi1dejcMTDf5RkTo+nX3CTX7x3s=;
- b=k3M0NOBp5w2XyCWNejLBZeOsT+pDRTwApIa/K9aC5+ZJAB9AoPITEQTvnu+AznpZAx
- yJ5kwZ7cXbV72OGJQqZPv7HqBZ5Y3BnlgE+CLCQH5ZvM/ADWgWM8fPEo4sLMFRLOjpBf
- uIQ6TedR9KWKzwRQLBAUtNlYagszfZsXZAsvn38KgzEF/gJx0OJMOmDgEqRei7/etb+T
- QN8YKim3p/Gm88wRkYncud3aoqEzsFwk7zas/Xpz4TYKMJXxc9cv3tJCdcNfJVBZgPhi
- 4i+tdC80iTgNvphFKpGxV3/yanL41oAZD4kh10ub52vKRnKHmwx3oDCej28ns7dsOmKx
- JEpQ==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iVeFr-0003WK-Ry
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:15:27 -0500
+Received: by mail-ot1-x341.google.com with SMTP id b16so8437587otk.9
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 08:15:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UiU14tuo2Z+Fw3fwdTXdL3cwTjgYED6vsPEkPTAXsNU=;
+ b=p64ci8sT6hrRtWG1QUYvLwxorbFnW1571L48ZvA3lPiHDEf2rnDRsRrWGJGH2iYqyO
+ sYwhToIwdr3tQ35Ttq8eLzWHLiVhGjhGGWOKu7xuoiJSXAq0gdBArfDaPkoNsJeVxbek
+ NeiYrDJRToxg5WCJ69HRC8/zD6zNtG0vPFXh5w49TF++beVFgkLrJIgbQBiPRypBSBt+
+ Vf8pnYPx1ajiSrkolCADSf1m2Qx4E+bEjP4NVapAivwfHtmQSRjH7niG/tgQhTS311Yd
+ T4E9Vlcy5E9KdVgPNh1h5yITSD0V9rJiHRJcotbQZE1QDO70/lLcKk0wJwzuPS5hDEPB
+ K6Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=gNXtn/mvqE8uO4RJgi1dejcMTDf5RkTo+nX3CTX7x3s=;
- b=MpZO5lqZ08epq349NXnyk6xQHVfqdhenrIwDxhzYuuu76L5qHg04EUFXQaMKhuL9BU
- NtnQzu0hVnButYPxGKf/n7q5sxylU87JMSJRVcKeapemFUyniQHf288ira9PWOszuk50
- UDJN9XmgsqrTQ2u1ENl8RGcPKNr934aJJ/q23ZIrErFrkvmj4EEiGA0P7n/8g6Qo0/lN
- De1Zrti3mGQQ4jvhkbbKsHBPRu2uVDxn+JCap1GpVWsYRS5m2LF3nvqIlyFktkrKQDdM
- WK1t0U9zRKt5F3kGfm8ZBV0ztv6LL48a6iOimLPbXj8ke0PP+HEivkHM4ja23SXTfNMc
- 5Xxg==
-X-Gm-Message-State: APjAAAWWiKxjiQmWrM89gkrz/Y2xDhnhMqLw3mcPkp0Y/p+D6SeuHpCf
- LNo4+XyZnPgqiGvtJQAQAQSvkXjx
-X-Google-Smtp-Source: APXvYqyZztQkWKLLwYjt0318PdvoBP+xplQG7SxJ5qDCRPDH2Ow25QhcivcBr3QZwJTOekIHYxDiFQ==
-X-Received: by 2002:a05:600c:c5:: with SMTP id
- u5mr14919805wmm.35.1573834497241; 
- Fri, 15 Nov 2019 08:14:57 -0800 (PST)
-Received: from localhost.localdomain ([2001:b07:6468:f312:a15b:f753:1ac4:56dc])
- by smtp.gmail.com with ESMTPSA id p25sm9776515wma.20.2019.11.15.08.14.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2019 08:14:56 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] vfio: vfio-pci requires EDID
-Date: Fri, 15 Nov 2019 17:14:55 +0100
-Message-Id: <20191115161455.27862-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UiU14tuo2Z+Fw3fwdTXdL3cwTjgYED6vsPEkPTAXsNU=;
+ b=e55vuig0v54lVwQTFFMaxgCqBs+Ql/vEj+iOwaPUHtr+aq40yHUrSmwcCmJdbVTtgd
+ GPB/dVV3+9h9ivWZ5m4W9lpT4VVtgOf1dKbGGry3hR98fOThDIeB8K6WyR23RPsFZk8N
+ TjEy7jffRIt59X+VSJj1E2qT3m3Q/u0Pk9B158IR8245JiF62Lx2PGj2nb3chnYVzYfF
+ 79V9Gq+SDjkmbp93rlch7CoKAwW+ABCx5OJ4pwJkBSRQzRiW40FwwNMRpVyr7pzeEx2L
+ oLxDdFm3wi8tKMy1MWw81H3EuAGxUDf5w4q0GQqDXUdUtM7fxMX/s9F/u/eJUNmu6/Mh
+ j/1A==
+X-Gm-Message-State: APjAAAVte/huiOBiMjWhY1TgQXflxcYJbGoCubCi+eDl/7Eh6j7zuJ/r
+ x+BLP4VtRDgNvIHgiyHMbO3LhGN2B5hgzxMt0RZqrw==
+X-Google-Smtp-Source: APXvYqwUmeKm+p8xsuo+aZV7WnTBtauZLjrYUygKNlB1JQWTDLeD3nGcX48D+8ZbBdBY6gdXAp1/WdQ1RgpurtyvF3c=
+X-Received: by 2002:a9d:7f12:: with SMTP id j18mr10887156otq.221.1573834526578; 
+ Fri, 15 Nov 2019 08:15:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191115145049.26868-1-thuth@redhat.com>
+ <CAFEAcA-EuQVBtr=BCE5sdHo+LMv8XchHUSPM=CgSYxPVryWKZg@mail.gmail.com>
+ <273a3123-9eef-c78e-5b83-833a21e3988c@redhat.com>
+In-Reply-To: <273a3123-9eef-c78e-5b83-833a21e3988c@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 Nov 2019 16:15:15 +0000
+Message-ID: <CAFEAcA9N+T=M=5-xb3ahRMqD6oxhm5Lx55-1Mtk1vXsRJEomwA@mail.gmail.com>
+Subject: Re: [PATCH for-4.2] hw/i386: Fix compiler warning when CONFIG_IDE_ISA
+ is disabled
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,31 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hw/vfio/display.c needs the EDID subsystem, select it.
+On Fri, 15 Nov 2019 at 16:08, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 15/11/2019 16.54, Peter Maydell wrote:
+> > On Fri, 15 Nov 2019 at 15:10, Thomas Huth <thuth@redhat.com> wrote:
+> >> --- a/hw/i386/pc_piix.c
+> >> +++ b/hw/i386/pc_piix.c
+> >> @@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
+> >>      X86MachineState *x86ms = X86_MACHINE(machine);
+> >>      MemoryRegion *system_memory = get_system_memory();
+> >>      MemoryRegion *system_io = get_system_io();
+> >> -    int i;
+> >>      PCIBus *pci_bus;
+> >>      ISABus *isa_bus;
+> >>      PCII440FXState *i440fx_state;
+> >> @@ -253,7 +252,7 @@ static void pc_init1(MachineState *machine,
+> >>      }
+> >>  #ifdef CONFIG_IDE_ISA
+> >>  else {
+> >> -        for(i = 0; i < MAX_IDE_BUS; i++) {
+> >> +        for (int i = 0; i < MAX_IDE_BUS; i++) {
+> >>              ISADevice *dev;
+> >>              char busname[] = "ide.0";
+> >>              dev = isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i],
+> >
+> > Don't put variable declarations inside 'for' statements,
+> > please. They should go at the start of a {} block.
+>
+> Why? We're using -std=gnu99 now, so this should not be an issue anymore.
 
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/vfio/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Consistency with the rest of the code base, which mostly
+avoids this particular trick. See the 'Declarations' section
+of CODING_STYLE.rst.
 
-diff --git a/hw/vfio/Kconfig b/hw/vfio/Kconfig
-index 34da2a3cfd..f0eaa75ce7 100644
---- a/hw/vfio/Kconfig
-+++ b/hw/vfio/Kconfig
-@@ -6,6 +6,7 @@ config VFIO_PCI
-     bool
-     default y
-     select VFIO
-+    select EDID
-     depends on LINUX && PCI
- 
- config VFIO_CCW
--- 
-2.21.0
+As Paolo points out, there's a nice convenient block
+here already, so there's not much to be gained from
+putting the declaration in the middle of the for statement.
 
+thanks
+-- PMM
 
