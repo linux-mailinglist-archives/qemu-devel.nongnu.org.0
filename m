@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15754FDFFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:24:32 +0100 (CET)
-Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7512EFE00A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:27:18 +0100 (CET)
+Received: from localhost ([::1]:39888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcWU-0005AN-L1
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58981)
+	id 1iVcZB-00009n-3t
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:27:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59347)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004cs-Bj
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNj-0005B5-Le
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xF-AB
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:02 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47466)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNe-0002Cr-WB
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:27 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47472)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNG-0001s0-GP; Fri, 15 Nov 2019 09:14:58 -0500
+ id 1iVcNb-0001t5-18; Fri, 15 Nov 2019 09:15:19 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcN4-0006WW-6x; Fri, 15 Nov 2019 17:14:46 +0300
+ id 1iVcN4-0006WW-EH; Fri, 15 Nov 2019 17:14:46 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 03/24] block/block-copy: factor out block_copy_find_inflight_req
-Date: Fri, 15 Nov 2019 17:14:23 +0300
-Message-Id: <20191115141444.24155-4-vsementsov@virtuozzo.com>
+Subject: [RFC 05/24] block/block-copy: rename start to offset in interfaces
+Date: Fri, 15 Nov 2019 17:14:25 +0300
+Message-Id: <20191115141444.24155-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,60 +54,231 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split block_copy_find_inflight_req to be used in seprate.
+offset/bytes pair is more usual naming in block layer, let's use it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ include/block/block-copy.h |  2 +-
+ block/block-copy.c         | 80 +++++++++++++++++++-------------------
+ 2 files changed, 41 insertions(+), 41 deletions(-)
 
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 7321b3d305..d96b097267 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -19,7 +19,7 @@
+ #include "qemu/co-shared-resource.h"
+ 
+ typedef struct BlockCopyInFlightReq {
+-    int64_t start;
++    int64_t offset;
+     int64_t bytes;
+     QLIST_ENTRY(BlockCopyInFlightReq) list;
+     CoQueue wait_queue; /* coroutines blocked on this request */
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 74295d93d5..94e7e855ef 100644
+index cc273b6cb8..20068cd699 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -24,23 +24,30 @@
- #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+@@ -25,13 +25,13 @@
  #define BLOCK_COPY_MAX_MEM (128 * MiB)
  
-+static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
-+                                                          int64_t start,
-+                                                          int64_t end)
-+{
-+    BlockCopyInFlightReq *req;
-+
-+    QLIST_FOREACH(req, &s->inflight_reqs, list) {
-+        if (end > req->start_byte && start < req->end_byte) {
-+            return req;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
- static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
-                                                        int64_t start,
-                                                        int64_t end)
+ static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+-                                                          int64_t start,
++                                                          int64_t offset,
+                                                           int64_t bytes)
  {
      BlockCopyInFlightReq *req;
--    bool waited;
--
--    do {
--        waited = false;
--        QLIST_FOREACH(req, &s->inflight_reqs, list) {
--            if (end > req->start_byte && start < req->end_byte) {
--                qemu_co_queue_wait(&req->wait_queue, NULL);
--                waited = true;
--                break;
--            }
--        }
--    } while (waited);
-+
-+    while ((req = block_copy_find_inflight_req(s, start, end))) {
-+        qemu_co_queue_wait(&req->wait_queue, NULL);
-+    }
+ 
+     QLIST_FOREACH(req, &s->inflight_reqs, list) {
+-        if (start + bytes > req->start && start < req->start + req->bytes) {
++        if (offset + bytes > req->offset && offset < req->offset + req->bytes) {
+             return req;
+         }
+     }
+@@ -40,21 +40,21 @@ static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+ }
+ 
+ static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
+-                                                       int64_t start,
++                                                       int64_t offset,
+                                                        int64_t bytes)
+ {
+     BlockCopyInFlightReq *req;
+ 
+-    while ((req = block_copy_find_inflight_req(s, start, bytes))) {
++    while ((req = block_copy_find_inflight_req(s, offset, bytes))) {
+         qemu_co_queue_wait(&req->wait_queue, NULL);
+     }
  }
  
  static void block_copy_inflight_req_begin(BlockCopyState *s,
+                                           BlockCopyInFlightReq *req,
+-                                          int64_t start, int64_t bytes)
++                                          int64_t offset, int64_t bytes)
+ {
+-    req->start = start;
++    req->offset = offset;
+     req->bytes = bytes;
+     qemu_co_queue_init(&req->wait_queue);
+     QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
+@@ -158,24 +158,24 @@ void block_copy_set_callbacks(
+  * Returns 0 on success.
+  */
+ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+-                                           int64_t start, int64_t bytes,
++                                           int64_t offset, int64_t bytes,
+                                            bool zeroes, bool *error_is_read)
+ {
+     int ret;
+-    int nbytes = MIN(start + bytes, s->len) - start;
++    int nbytes = MIN(offset + bytes, s->len) - offset;
+     void *bounce_buffer = NULL;
+ 
+-    assert(start >= 0 && bytes > 0 && INT64_MAX - start >= bytes);
+-    assert(QEMU_IS_ALIGNED(start, s->cluster_size));
++    assert(offset >= 0 && bytes > 0 && INT64_MAX - offset >= bytes);
++    assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+-    assert(start + bytes <= s->len ||
+-           start + bytes == QEMU_ALIGN_UP(s->len, s->cluster_size));
++    assert(offset + bytes <= s->len ||
++           offset + bytes == QEMU_ALIGN_UP(s->len, s->cluster_size));
+ 
+     if (zeroes) {
+-        ret = bdrv_co_pwrite_zeroes(s->target, start, nbytes, s->write_flags &
++        ret = bdrv_co_pwrite_zeroes(s->target, offset, nbytes, s->write_flags &
+                                     ~BDRV_REQ_WRITE_COMPRESSED);
+         if (ret < 0) {
+-            trace_block_copy_write_zeroes_fail(s, start, ret);
++            trace_block_copy_write_zeroes_fail(s, offset, ret);
+             if (error_is_read) {
+                 *error_is_read = false;
+             }
+@@ -184,10 +184,10 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+     }
+ 
+     if (s->use_copy_range) {
+-        ret = bdrv_co_copy_range(s->source, start, s->target, start, nbytes,
++        ret = bdrv_co_copy_range(s->source, offset, s->target, offset, nbytes,
+                                  0, s->write_flags);
+         if (ret < 0) {
+-            trace_block_copy_copy_range_fail(s, start, ret);
++            trace_block_copy_copy_range_fail(s, offset, ret);
+             s->use_copy_range = false;
+             s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+             /* Fallback to read+write with allocated buffer */
+@@ -221,19 +221,19 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+ 
+     bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
+ 
+-    ret = bdrv_co_pread(s->source, start, nbytes, bounce_buffer, 0);
++    ret = bdrv_co_pread(s->source, offset, nbytes, bounce_buffer, 0);
+     if (ret < 0) {
+-        trace_block_copy_read_fail(s, start, ret);
++        trace_block_copy_read_fail(s, offset, ret);
+         if (error_is_read) {
+             *error_is_read = true;
+         }
+         goto out;
+     }
+ 
+-    ret = bdrv_co_pwrite(s->target, start, nbytes, bounce_buffer,
++    ret = bdrv_co_pwrite(s->target, offset, nbytes, bounce_buffer,
+                          s->write_flags);
+     if (ret < 0) {
+-        trace_block_copy_write_fail(s, start, ret);
++        trace_block_copy_write_fail(s, offset, ret);
+         if (error_is_read) {
+             *error_is_read = false;
+         }
+@@ -345,7 +345,7 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+ }
+ 
+ int coroutine_fn block_copy(BlockCopyState *s,
+-                            int64_t start, uint64_t bytes,
++                            int64_t offset, uint64_t bytes,
+                             bool *error_is_read)
+ {
+     int ret = 0;
+@@ -358,59 +358,59 @@ int coroutine_fn block_copy(BlockCopyState *s,
+     assert(bdrv_get_aio_context(s->source->bs) ==
+            bdrv_get_aio_context(s->target->bs));
+ 
+-    assert(QEMU_IS_ALIGNED(start, s->cluster_size));
++    assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+ 
+-    block_copy_wait_inflight_reqs(s, start, bytes);
+-    block_copy_inflight_req_begin(s, &req, start, bytes);
++    block_copy_wait_inflight_reqs(s, offset, bytes);
++    block_copy_inflight_req_begin(s, &req, offset, bytes);
+ 
+     while (bytes) {
+         int64_t next_zero, cur_bytes, status_bytes;
+ 
+-        if (!bdrv_dirty_bitmap_get(s->copy_bitmap, start)) {
+-            trace_block_copy_skip(s, start);
+-            start += s->cluster_size;
++        if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
++            trace_block_copy_skip(s, offset);
++            offset += s->cluster_size;
+             bytes -= s->cluster_size;
+             continue; /* already copied */
+         }
+ 
+         cur_bytes = MIN(bytes, s->copy_size);
+ 
+-        next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
++        next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset,
+                                                 cur_bytes);
+         if (next_zero >= 0) {
+-            assert(next_zero > start); /* start is dirty */
+-            assert(next_zero < start + cur_bytes); /* no need to do MIN() */
+-            cur_bytes = next_zero - start;
++            assert(next_zero > offset); /* offset is dirty */
++            assert(next_zero < offset + cur_bytes); /* no need to do MIN() */
++            cur_bytes = next_zero - offset;
+         }
+ 
+-        ret = block_copy_block_status(s, start, cur_bytes, &status_bytes);
++        ret = block_copy_block_status(s, offset, cur_bytes, &status_bytes);
+         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
+-            bdrv_reset_dirty_bitmap(s->copy_bitmap, start, status_bytes);
++            bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, status_bytes);
+             s->progress_reset_callback(s->progress_opaque);
+-            trace_block_copy_skip_range(s, start, status_bytes);
+-            start += status_bytes;
++            trace_block_copy_skip_range(s, offset, status_bytes);
++            offset += status_bytes;
+             bytes -= status_bytes;
+             continue;
+         }
+ 
+         cur_bytes = MIN(cur_bytes, status_bytes);
+ 
+-        trace_block_copy_process(s, start);
++        trace_block_copy_process(s, offset);
+ 
+-        bdrv_reset_dirty_bitmap(s->copy_bitmap, start, cur_bytes);
++        bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
+ 
+         co_get_from_shres(s->mem, cur_bytes);
+-        ret = block_copy_do_copy(s, start, cur_bytes, ret & BDRV_BLOCK_ZERO,
++        ret = block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_ZERO,
+                                  error_is_read);
+         co_put_to_shres(s->mem, cur_bytes);
+         if (ret < 0) {
+-            bdrv_set_dirty_bitmap(s->copy_bitmap, start, cur_bytes);
++            bdrv_set_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
+             break;
+         }
+ 
+         s->progress_bytes_callback(cur_bytes, s->progress_opaque);
+-        start += cur_bytes;
++        offset += cur_bytes;
+         bytes -= cur_bytes;
+     }
+ 
 -- 
 2.21.0
 
