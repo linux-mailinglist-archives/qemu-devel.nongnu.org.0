@@ -2,48 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A24CFE842
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 23:47:02 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E00FE809
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 23:36:05 +0100 (CET)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVkMn-00046f-Al
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 17:47:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57599)
+	id 1iVkCB-0005WT-RH
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 17:36:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iVkJm-0002x6-KC
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:43:57 -0500
+ (envelope-from <lvivier@redhat.com>) id 1iVk9a-0003hA-OO
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iVkJk-0005Ff-D5
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:43:54 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41473 helo=ozlabs.org)
+ (envelope-from <lvivier@redhat.com>) id 1iVk9Y-0000gX-AY
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29494
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iVkJi-0005Dh-MC; Fri, 15 Nov 2019 17:43:51 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47FD0f0CYBz9sPF; Sat, 16 Nov 2019 09:43:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1573857826;
- bh=XzfwguQxTo4cQwb9EYgC2ttZ0hY3v8BVzTnFBRqdZOM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bSicxwJPeNPHnm/X6QRZq1Q5+ILe0wP/xAMScYVdTCt3eSKcm0ZUT3nj099pmWA/S
- hHOTyZr/Gk6NtQLh19cQeeXcVefqzrAd4B8baruJIYryfqSd/hJMQAuWa3ewOedSE3
- +slLOvRL77rQrHVpLvIRAyieJR5TH5nL9YnRD+QU=
-Date: Sat, 16 Nov 2019 09:22:04 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Drop "chip" link from POWER9 PSI object
-Message-ID: <20191115222204.GP2134@umbus.fritz.box>
-References: <157383383118.166856.2588933416368211047.stgit@bahia.lan>
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iVk9Y-0000fM-70
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 17:33:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1573857199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=64WVrzDZ62NONk0zWq6JXWWrJ/svFtlrpVXVGoXMmbI=;
+ b=KYalicSpMP0XS3Yyx0uO2VvtyQwiQ1kgdbpMteEzlGfk75zBxFP2jvdJO9eULF5wznTf3o
+ IDxLiZotDeS+y9bnb+3MNHL6FZft0QDZVDf6vFSmjBOTa8YkSF5vENOfXn/I72L5UaGfbN
+ 3MYHkZ5kM4LakiW24kssuu5GbmK+Sx0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-vGrkxYYcOKavcavckoJw7A-1; Fri, 15 Nov 2019 17:33:16 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32AFD477;
+ Fri, 15 Nov 2019 22:33:15 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-116-194.ams2.redhat.com
+ [10.36.116.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A4D766835;
+ Fri, 15 Nov 2019 22:33:12 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] ppc-for-4.2 queue 2019-11-15
+Date: Fri, 15 Nov 2019 23:33:06 +0100
+Message-Id: <20191115223312.204979-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7PAM/4G1BR2SfWzg"
-Content-Disposition: inline
-In-Reply-To: <157383383118.166856.2588933416368211047.stgit@bahia.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: vGrkxYYcOKavcavckoJw7A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,69 +68,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 36609b4fa36f0ac934874371874416f7533a5408=
+:
 
---7PAM/4G1BR2SfWzg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/palmer/tags/palmer-for-master-4.2-s=
+f1' into staging (2019-11-02 17:59:03 +0000)
 
-On Fri, Nov 15, 2019 at 05:03:51PM +0100, Greg Kurz wrote:
-> It has no apparent user.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+are available in the Git repository at:
 
-Applied to ppc-for-5.0, thanks.
+  https://github.com/vivier/qemu.git tags/ppc-for-4.2-pull-request
 
-> ---
->  hw/ppc/pnv.c |    2 --
->  1 file changed, 2 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index d7130c3304f0..24bc3d5ab32b 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1091,8 +1091,6 @@ static void pnv_chip_power9_instance_init(Object *o=
-bj)
-> =20
->      object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi),
->                              TYPE_PNV9_PSI, &error_abort, NULL);
-> -    object_property_add_const_link(OBJECT(&chip9->psi), "chip", obj,
-> -                                   &error_abort);
-> =20
->      object_initialize_child(obj, "lpc",  &chip9->lpc, sizeof(chip9->lpc),
->                              TYPE_PNV9_LPC, &error_abort, NULL);
->=20
+for you to fetch changes up to 140fce75367a2bd8ef50681896a15f34952d9b85:
+
+  mos6522: fix T1 and T2 timers (2019-11-03 20:09:59 +0100)
+
+----------------------------------------------------------------
+ppc patch queue 2019-11-15
+
+Several fixes for 4.2.0-rc2:
+
+fix mos6522 performance issue,
+xive/xics issues,
+fix /chosen device-tree on reset
+and KVM default cpu-model for all machine classes
+
+----------------------------------------------------------------
+
+Alexey Kardashevskiy (1):
+  spapr: Add /chosen to FDT only at reset time to preserve kernel and
+    initramdisk
+
+David Gibson (1):
+  spapr/kvm: Set default cpu model for all machine classes
+
+Greg Kurz (3):
+  ppc: Add intc_destroy() handlers to SpaprInterruptController/PnvChip
+  xive, xics: Fix reference counting on CPU objects
+  ppc: Skip partially initialized vCPUs in 'info pic'
+
+Laurent Vivier (1):
+  mos6522: fix T1 and T2 timers
+
+ hw/intc/spapr_xive.c       | 10 ++++++
+ hw/intc/xics.c             | 22 ++++++++++++-
+ hw/intc/xics_spapr.c       | 10 ++++++
+ hw/intc/xive.c             | 20 +++++++++++-
+ hw/misc/mos6522.c          | 67 +++++++++++++++++++++++++++++---------
+ hw/ppc/pnv.c               | 21 ++++++++++++
+ hw/ppc/pnv_core.c          |  7 ++--
+ hw/ppc/spapr.c             | 25 ++++++++------
+ hw/ppc/spapr_cpu_core.c    |  7 +---
+ hw/ppc/spapr_irq.c         | 14 ++++++++
+ include/hw/ppc/pnv.h       |  1 +
+ include/hw/ppc/spapr_irq.h |  2 ++
+ include/hw/ppc/xics.h      |  1 +
+ include/hw/ppc/xive.h      |  1 +
+ target/ppc/kvm.c           | 21 +++++++-----
+ 15 files changed, 185 insertions(+), 44 deletions(-)
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.23.0
 
---7PAM/4G1BR2SfWzg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3PJQwACgkQbDjKyiDZ
-s5IJVRAArqWqwrrnCUnKQU2TNiZXwSffvRn9tRkA+APe3fktq0qlbt1rIgk2fvek
-/EgoMTBFQeNJj/uZICdSZaf7CX8UWNRZTnyeFprrC3ZAM7SFzGXA40X+oIczZLgt
-slNoNTG95wBBsLXw6Fi5auq9pchd+CC1wGN6XQ0FyHzSYxwH+HRIh6Pgrl76f+r0
-3t5PvGXmJJ8ycbplgH6Fb3RWopvAc6WtwzYEKkmOSYKULDLfnrfBsi5BfYziq59y
-DEiXXJmxJzVKQZymhtuDYJImHh/d62LB7p5BkCIWyKh2J9Lrbucss7vin7Qckl/i
-pJZ4AlT5mJLUExwAZZmvTKYHuOS7qZDR9NGAOTktPTiVyVb0KY8rwf0vY5cwMsps
-Mj7SRRmFbt8+6qlA23zp9gln0ij5yhihfpx9Gx4qFGDpA5jwW78qa9U+o0Y14kYs
-9YpzoqCmJ91vFUjYz67LBUMMHJcoG3Cbmp7+8dSsqNETj8xImMow+ymXCFCinGQI
-Ta0oZeFikqw318a6sgkN1qTJiG/dpvJxVAYt/y/lRxccmMWNgTYXAdnZLbERaZSo
-3cFRdSWTFJFdthMX5a+m5XbjwKjahwoJyK1v+BY/2hgz+ESUFSSZxTF+EluCBcAB
-hcMEeMrQ7fOYs3HobXRXz4VunLjbAY27KXvepTWZIpt0/jFJJUY=
-=TDdR
------END PGP SIGNATURE-----
-
---7PAM/4G1BR2SfWzg--
 
