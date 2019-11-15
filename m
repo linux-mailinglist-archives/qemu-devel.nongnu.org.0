@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE39FDFE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:20:11 +0100 (CET)
-Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15754FDFFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:24:32 +0100 (CET)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcSI-0008UM-09
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:20:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59262)
+	id 1iVcWU-0005AN-L1
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:24:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNf-000570-0w
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:27 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004cs-Bj
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNd-0002AW-57
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47420)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xF-AB
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:02 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47466)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNa-0001rn-26; Fri, 15 Nov 2019 09:15:18 -0500
+ id 1iVcNG-0001s0-GP; Fri, 15 Nov 2019 09:14:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcN3-0006WW-Ui; Fri, 15 Nov 2019 17:14:46 +0300
+ id 1iVcN4-0006WW-6x; Fri, 15 Nov 2019 17:14:46 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 01/24] block/block-copy: specialcase first copy_range request
-Date: Fri, 15 Nov 2019 17:14:21 +0300
-Message-Id: <20191115141444.24155-2-vsementsov@virtuozzo.com>
+Subject: [RFC 03/24] block/block-copy: factor out block_copy_find_inflight_req
+Date: Fri, 15 Nov 2019 17:14:23 +0300
+Message-Id: <20191115141444.24155-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,113 +54,60 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In block_copy_do_copy we fallback to read+write if copy_range failed.
-In this case copy_size is larger than defined for buffered IO, and
-there is corresponding commit. Still, backup copies data cluster by
-cluster, and most of requests are limited to one cluster anyway, so the
-only source of this one bad-limited request is copy-before-write
-operation.
-
-Further patch will move backup to use block_copy directly, than for
-cases where copy_range is not supported, first request will be
-oversized in each backup. It's not good, let's change it now.
-
-Fix is simple: just limit first copy_range request like buffer-based
-request. If it succeed, set larger copy_range limit.
+Split block_copy_find_inflight_req to be used in seprate.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 41 ++++++++++++++++++++++++++++++-----------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+ block/block-copy.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 79798a1567..8602e2cae7 100644
+index 74295d93d5..94e7e855ef 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -70,16 +70,19 @@ void block_copy_state_free(BlockCopyState *s)
-     g_free(s);
- }
+@@ -24,23 +24,30 @@
+ #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
  
-+static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
++static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
++                                                          int64_t start,
++                                                          int64_t end)
 +{
-+    return MIN_NON_ZERO(INT_MAX,
-+                        MIN_NON_ZERO(source->bs->bl.max_transfer,
-+                                     target->bs->bl.max_transfer));
++    BlockCopyInFlightReq *req;
++
++    QLIST_FOREACH(req, &s->inflight_reqs, list) {
++        if (end > req->start_byte && start < req->end_byte) {
++            return req;
++        }
++    }
++
++    return NULL;
 +}
 +
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size,
-                                      BdrvRequestFlags write_flags, Error **errp)
+ static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
+                                                        int64_t start,
+                                                        int64_t end)
  {
-     BlockCopyState *s;
-     BdrvDirtyBitmap *copy_bitmap;
--    uint32_t max_transfer =
--            MIN_NON_ZERO(INT_MAX,
--                         MIN_NON_ZERO(source->bs->bl.max_transfer,
--                                      target->bs->bl.max_transfer));
+     BlockCopyInFlightReq *req;
+-    bool waited;
+-
+-    do {
+-        waited = false;
+-        QLIST_FOREACH(req, &s->inflight_reqs, list) {
+-            if (end > req->start_byte && start < req->end_byte) {
+-                qemu_co_queue_wait(&req->wait_queue, NULL);
+-                waited = true;
+-                break;
+-            }
+-        }
+-    } while (waited);
++
++    while ((req = block_copy_find_inflight_req(s, start, end))) {
++        qemu_co_queue_wait(&req->wait_queue, NULL);
++    }
+ }
  
-     copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
-                                            errp);
-@@ -99,7 +102,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-         .mem = shres_create(BLOCK_COPY_MAX_MEM),
-     };
- 
--    if (max_transfer < cluster_size) {
-+    if (block_copy_max_transfer(source, target) < cluster_size) {
-         /*
-          * copy_range does not respect max_transfer. We don't want to bother
-          * with requests smaller than block-copy cluster size, so fallback to
-@@ -114,12 +117,11 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-         s->copy_size = cluster_size;
-     } else {
-         /*
--         * copy_range does not respect max_transfer (it's a TODO), so we factor
--         * that in here.
-+         * We enable copy-range, but keep small copy_size, until first
-+         * successful copy_range (look at block_copy_do_copy).
-          */
-         s->use_copy_range = true;
--        s->copy_size = MIN(MAX(cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
--                           QEMU_ALIGN_DOWN(max_transfer, cluster_size));
-+        s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
-     }
- 
-     QLIST_INIT(&s->inflight_reqs);
-@@ -168,7 +170,21 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
-             s->use_copy_range = false;
-             s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
-             /* Fallback to read+write with allocated buffer */
--        } else {
-+        } else if (s->use_copy_range) {
-+            /*
-+             * Successful copy-range. Now increase copy_size.
-+             * copy_range does not respect max_transfer (it's a TODO), so we
-+             * factor that in here.
-+             *
-+             * Note: we double-check s->use_copy_range for the case when
-+             * parallel block-copy request unset it during previous
-+             * bdrv_co_copy_range call.
-+             */
-+            s->copy_size =
-+                    MIN(MAX(s->cluster_size, BLOCK_COPY_MAX_COPY_RANGE),
-+                        QEMU_ALIGN_DOWN(block_copy_max_transfer(s->source,
-+                                                                s->target),
-+                                        s->cluster_size));
-             goto out;
-         }
-     }
-@@ -176,7 +192,10 @@ static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
-     /*
-      * In case of failed copy_range request above, we may proceed with buffered
-      * request larger than BLOCK_COPY_MAX_BUFFER. Still, further requests will
--     * be properly limited, so don't care too much.
-+     * be properly limited, so don't care too much. Moreover the most possible
-+     * case (copy_range is unsupported for the configuration, so the very first
-+     * copy_range request fails) is handled by setting large copy_size only
-+     * after first successful copy_range.
-      */
- 
-     bounce_buffer = qemu_blockalign(s->source->bs, nbytes);
+ static void block_copy_inflight_req_begin(BlockCopyState *s,
 -- 
 2.21.0
 
