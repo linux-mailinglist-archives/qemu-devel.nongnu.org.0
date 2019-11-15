@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A90CFDCB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 12:52:35 +0100 (CET)
-Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14721FDCC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 12:57:04 +0100 (CET)
+Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVa9S-0000Zh-4e
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 06:52:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1iVaDm-0003Tq-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 06:57:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sameid@google.com>) id 1iVa7L-0008Fx-JK
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:50:24 -0500
+ (envelope-from <groug@kaod.org>) id 1iVaAa-0001NF-27
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sameid@google.com>) id 1iVa7K-0002mb-8a
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:50:23 -0500
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:33738)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sameid@google.com>) id 1iVa7K-0002l9-3U
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:50:22 -0500
-Received: by mail-qt1-x844.google.com with SMTP id y39so10573810qty.0
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 03:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XfJg8JR87Lkrje0WQ8cx45AKvZCsaNKGqfSiDtvB3Ls=;
- b=hvdG/Bnr6HIqoG+hQm6U4+6khJvzHHqoh6g72MW6dga6wYsGEj39XoSSnUWmRbYmdc
- nznjiEFSyuiYhogOeCRCxL/zYEwCbb/bENp6XbeygczKf0UJCR4g6dK3qqhuUol3sSc/
- tBR5azY0thSeaUcFrt2M0mpieDfMjKiTWdhrojfIClfZ9+w6HAlQjBha155zLc6NKFjz
- ctusnRIoeUIptnNbsWdsezG9VE62wqZatpLgYPZY2LB95/4CU+JJTiNMmqm27qGieQfZ
- rw57AbbnvUlmYsgiT2BLwSN83B9lWbHsGRlBrCHScOjw8tQapTh3oIGTmwmWUgiCOoNK
- OEew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XfJg8JR87Lkrje0WQ8cx45AKvZCsaNKGqfSiDtvB3Ls=;
- b=JTSkiZfhFZraZJj5pXZx8onqlGAeMJfEqUVxp5xfvetvx1HyRhsGNSdHFFpkbS+GSH
- T9CWa7iCvGU+TKL8Bi1CnVYushBgd6L7jIPif9GfXRVworWmPo6tGUnv2b8Rx3YjA+E7
- nFlyoCIE0m0QZciCZY45ODzko+cb6s4tL0B8dh0fz8fjbIaNNpyDgDclgyfVIwzmSv0v
- AtMSxhgqotPdsMumIMd8Ji2GizzcRAGW7iV2LNdl6JdSXqfuGjJVivqMsLBz8Sq06m4q
- 4vXntCaxrc0j2PGw8yuCWUT+T7PPEf9pdHba9hxx0NO6QJER/LlY9ZZ9t4SlNb9qsJGg
- 8fRA==
-X-Gm-Message-State: APjAAAXP2Ws9FbXlfHp6GRzP9TpIT22Cyg642oBkHUjavjpgpMs/1JXs
- NGm2myoaXDlh8cXI0seZntwaJmZ+2oXHv5opMB/0hQ==
-X-Google-Smtp-Source: APXvYqwv/lq6uZnNaUoxazGLcXTlV3zQ0Scx7q0uG3EUebzlpaaVxEFjadyfUyBjIyFPbHK9iyyE9BTQu019FWDFthk=
-X-Received: by 2002:ac8:117:: with SMTP id e23mr13365099qtg.82.1573818618579; 
- Fri, 15 Nov 2019 03:50:18 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1iVaAX-00067G-Ta
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:43 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20080)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVaAX-00063w-L8
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:41 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAFBqCFT009862
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:32 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w9nuh4260-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:32 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 15 Nov 2019 11:53:30 -0000
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 15 Nov 2019 11:53:26 -0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xAFBqmh933948006
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Nov 2019 11:52:49 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 975E75204F;
+ Fri, 15 Nov 2019 11:53:25 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.70.126])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 60F735204E;
+ Fri, 15 Nov 2019 11:53:25 +0000 (GMT)
+Subject: [PATCH for-5.0 0/8] ppc: Consolidate QOM links and pointers to the
+ same object
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Date: Fri, 15 Nov 2019 12:53:25 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-References: <20191113091809.31365-1-kraxel@redhat.com>
- <84d3a1aa-bbb2-d831-0abc-fe1169f8a860@redhat.com>
- <20191113140057.2ocwfa3rqqfkbg3r@sirius.home.kraxel.org>
- <CAFr6bUn5W2-w3z4Ty9XD7mh+=kxVq2rQJ3ZUz5nXA13ZdxQtsg@mail.gmail.com>
- <20191114072042.wuo572evuw4hyh3l@sirius.home.kraxel.org>
- <CAFr6bUmUxN4k4AhNOZZxwXUY3uEZZHAwuno4bCvedKFJuuRp8w@mail.gmail.com>
- <20191115065422.rqu74yt2r3asnk35@sirius.home.kraxel.org>
- <20191115113546.oxsb2wipmg3rhtef@sirius.home.kraxel.org>
-In-Reply-To: <20191115113546.oxsb2wipmg3rhtef@sirius.home.kraxel.org>
-From: Sam Eiderman <sameid@google.com>
-Date: Fri, 15 Nov 2019 13:50:07 +0200
-Message-ID: <CAFr6bUnXTySHwTBYmc7gD012xAweSfQQ90eK-iy1zuiRf2Sq8A@mail.gmail.com>
-Subject: Re: [SeaBIOS] Re: [PATCH] ahci: zero-initialize port struct
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, seabios@seabios.org, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::844
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19111511-0020-0000-0000-000003866CF3
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19111511-0021-0000-0000-000021DC892A
+Message-Id: <157381880498.136087.3775284829737989585.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-15_03:2019-11-15,2019-11-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ spamscore=0 clxscore=1034 malwarescore=0 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 mlxscore=0
+ mlxlogscore=903 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1911150112
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looks great
+There's a recurring pattern in the code where a const link is added to a
+newly instanciated object and the link is then used in the object's realize
+function to keep a pointer to the QOM entity which the link points to.
 
-Sam
+void create_obj_B(Object *obj_a)
+{
+    Object *obj_b;
 
-On Fri, Nov 15, 2019 at 1:35 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > I am afraid it will be slightly unreadable when looking at file histories.
-> > > The only commit that didn't change was:
-> > > [SeaBIOS] [PATCH v4 2/5] boot: Reorder functions in boot.c
-> >
-> > Hmm, looks like there have been more changes than I remember.
->
-> Yep, v3..v4 diff is pretty big, so revert + apply v4 looks more
-> reasonable.  Can you have a look and double-check?
->
-> https://git.kraxel.org/cgit/seabios/log/?h=lchs-fixup
->
-> thanks,
->   Gerd
->
+    obj_b = object_new(TYPE_B);
+    object_property_add_const_link(obj_b, "link-to-a", obj_a, &error_abort);
+}
+
+void object_B_realize(DeviceState *dev, Error **errp)
+{
+    Object *obj_a;
+
+    obj_a = object_property_get_link(OBJECT(dev), "link-to-a", errp);
+    if (!obj_a) {
+        return;
+    }
+
+    obj_b->obj_a = A(obj_a); // If obj_b->obj_a is changed, the link property
+                             // still points to the original obj_a that was
+                             // passed to object_property_add_const_link()
+}
+
+Confusing bugs could arise if the pointer and the link go out of sync for
+some reason. This can be avoided if the property is defined to directly use
+the pointer with object_property_add_link() and object_property_set_link().
+
+This series just does that for all occurences of the fragile pattern in
+the XIVE and PNV code.
+
+--
+Greg
+
+---
+
+Greg Kurz (8):
+      xive: Link "cpu" property to XiveTCTX::cs pointer
+      xive: Link "xive" property to XiveSource::xive pointer
+      xive: Link "xive" property to XiveEndSource::xrtr pointer
+      ppc/pnv: Link "psi" property to PnvLpc::psi pointer
+      ppc/pnv: Link "psi" property to PnvOCC::psi pointer
+      ppc/pnv: Link "chip" property to PnvHomer::chip pointer
+      ppc/pnv: Link "chip" property to PnvCore::chip pointer
+      ppc/pnv: Link "chip" property to PnvXive::chip pointer
+
+
+ hw/intc/pnv_xive.c        |   29 +++++++++-----------
+ hw/intc/spapr_xive.c      |    8 +++---
+ hw/intc/xive.c            |   65 ++++++++++++++++++++++-----------------------
+ hw/ppc/pnv.c              |   32 +++++++++++-----------
+ hw/ppc/pnv_core.c         |   18 +++++++-----
+ hw/ppc/pnv_homer.c        |   24 +++++++++--------
+ hw/ppc/pnv_lpc.c          |   23 ++++++++--------
+ hw/ppc/pnv_occ.c          |   23 ++++++++--------
+ hw/ppc/pnv_psi.c          |    3 +-
+ include/hw/ppc/pnv.h      |    2 +
+ include/hw/ppc/pnv_core.h |    2 +
+ 11 files changed, 115 insertions(+), 114 deletions(-)
+
 
