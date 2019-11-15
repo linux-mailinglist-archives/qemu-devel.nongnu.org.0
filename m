@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E25DFE417
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:35:20 +0100 (CET)
-Received: from localhost ([::1]:42767 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F2DFE413
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:35:13 +0100 (CET)
+Received: from localhost ([::1]:42762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVfV8-000218-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:35:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
+	id 1iVfV1-0001tg-22
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:35:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iVfQ8-0007Cf-72
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:11 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iVfQ6-0007BH-Ja
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iVfQ5-0002jU-GG
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:08 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38985)
+ (envelope-from <alex.bennee@linaro.org>) id 1iVfQ4-0002i5-Dy
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:06 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36694)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iVfQ5-0002hr-66
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:05 -0500
-Received: by mail-wm1-x343.google.com with SMTP id t26so11295480wmi.4
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 09:30:05 -0800 (PST)
+ id 1iVfQ4-0002dp-3f
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:04 -0500
+Received: by mail-wr1-x444.google.com with SMTP id r10so11851227wrx.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 09:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Xcp3/CHlbhH4lfwxeXUOHv5G4pUx2CNyxu3i0EkeVg4=;
- b=JMUhJ0aMpu/I0Mk0bM/1Ll/UZ/Ooj9mFMgjrmFlNAhgGXU6Wvv0964RByFo2dbt1bs
- Qenre8+qMRiteSZcZrm4tmR2wfldK5BlEgGq+VcVVh2gh5eaMtX9xXWN1pTNL5n7NYBA
- VnT76tYQmPAIPeDstRpCNo12pWUrYukzIe6mwoV2odhJ7hqlU/mIO8VxVlAKj5uLkXX9
- 7IVG+5T2YB6j2KNmjIAp2Xq2nCglafUldmXOOqqC5v2k2tF0BXbvT5E94F0O3dQwxHW2
- auxwjgJqx+4yzQjOD17pGiQHBb4BrnThDqCDCNzBXtgt906pxRJgQ7++CEizVp2kui2I
- UQ/Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=b3lRu2lU9dlRQQ6ScHgKfSG/1eYQg9vd77Swnr8j6IA=;
+ b=VX4rYQkbDLJQAzgEhNQU4zCu21NMgPbg7GNdfh8AFd2iMQ7uL2Dm4WX8I2pe1QjjJh
+ tPAmG92LF77wtSOpKpoGYSsGDoxLMjgzuYYRldGRcqkFEXgaS4Ib14FegxGT7Kqs2GvZ
+ W9pzhAUQIhdeNggKOJwB89oZWa2EhxvNnXvzcth41eUdyzGRCM55dnf9arTuvIjRV5dr
+ 8HM7WXNFPNt3EG8mvQAgx+xx4BsEwN3MpiBDFRcNO9Xw1RmZpNWxHznZysUUGHP/lH5u
+ +tWVKyCCXN8UYL2hTXp49ZI3ns6D/7wfNXb9EQgOg3LYglI9CfD+BCoeo1VSBSdiQgGp
+ 9Eiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Xcp3/CHlbhH4lfwxeXUOHv5G4pUx2CNyxu3i0EkeVg4=;
- b=NEn81SRjUe8ucn32Rab8zK/ogtcj08RRvn4mQfH/9YjQQULxPIngQHcy+hAWpDNwcE
- +BOpltgxYgKaxSYU2gscMGsfPIF27iVFthkIY2zggPSIKzC/3C+k+H+kqyWSyUmT9zdO
- XCsguGCShcJWgiFZtXnJbRbaSyNBhXdvwwFt/sAsex65EqTNaKoioK3zIoPOY/Tb1ACZ
- 8YPTRyXatW6q5mTk4hmLn2mWj5Iobomcuqc0jFIRhfwm64e/v/AWWpD9v/9wtYndR7Sp
- iZxzbhhPDN7jspO2whnWpWf+RLneVX3A7PueA08UMFbVjf7ekDLkNrF38ZwxzARhe0YK
- bDSg==
-X-Gm-Message-State: APjAAAX0JSjzR7GGX2ybQCZPtCBc0Vwx79x90o0m0hY96OQSXgg9srei
- KvJLnA0EdVEnPjaYui9pjI3zUw==
-X-Google-Smtp-Source: APXvYqxnVyKY3G8NKK2QiV3mzCZWoyDF5NHykAAEAv/1yF83ldaAz0t05z0gCcn6S6tbA5SeFQWDjA==
-X-Received: by 2002:a1c:1fca:: with SMTP id
- f193mr14881322wmf.173.1573839003817; 
- Fri, 15 Nov 2019 09:30:03 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=b3lRu2lU9dlRQQ6ScHgKfSG/1eYQg9vd77Swnr8j6IA=;
+ b=gezzMJAUvAeV2aUQfynr7GeDo59wU3eRpQkaJESZ2o+NJkRObMhwV+fheNQ/pAkq5v
+ zH/b3tm7PR8QtIweX81PWDHaIrvsYTKRNgfFLgM6WgzUXlOTx5bieifJnDmwR5OBrCbD
+ 2UKBoCqRVjcfH8VmbRqVDQsRxUZQlN4Nc3OkRmdGeu6Prco7k9LZUEO2G47hDmkGN9ra
+ 6GpO9qKtKASRwaHuQnHAtbMzBlv3iGUy5gfhfbvqyLmjmtNVVNAdvoY7scFWUvB9sjI1
+ 2bfgw8I66e8Re+gh8SfwKtkN4/gY0Oe3NLszTP1PBT1etnOeXPuydcBQI6NpfM86VeAz
+ ovBw==
+X-Gm-Message-State: APjAAAVrSWhan58BnsL83IlDz/wjK8PHkRSQropfy4NOnv5hx9BIRNyU
+ HmY1MXBDMON307a6EqY2Eo7uNA==
+X-Google-Smtp-Source: APXvYqwUsBlWQVxnzTlbrH0mbq88zgEd3ethII/j4ofEb0yRBPFkKrFFgjt9vQwQCq1pX4PYANul8Q==
+X-Received: by 2002:a5d:4684:: with SMTP id u4mr15846457wrq.352.1573839002363; 
+ Fri, 15 Nov 2019 09:30:02 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s11sm11769241wrr.43.2019.11.15.09.30.01
+ by smtp.gmail.com with ESMTPSA id x11sm12248423wro.84.2019.11.15.09.30.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 Nov 2019 09:30:01 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C7A3F1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id DC5201FF8C;
  Fri, 15 Nov 2019 17:30:00 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  00/11] gdbstub re-factor and SVE support
-Date: Fri, 15 Nov 2019 17:29:49 +0000
-Message-Id: <20191115173000.21891-1-alex.bennee@linaro.org>
+Subject: [RFC PATCH  01/11] gdbstub: move allocation of GDBState to one place
+Date: Fri, 15 Nov 2019 17:29:50 +0000
+Message-Id: <20191115173000.21891-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191115173000.21891-1-alex.bennee@linaro.org>
+References: <20191115173000.21891-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,91 +82,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, alan.hayward@arm.com
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, alan.hayward@arm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We use g_new0() as it is the preferred form for such allocations. We
+can also ensure that gdbserver_state is reset in one place.
 
-This RFC is for supporting SVE registers in QEMU's gdbstub.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ gdbstub.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-However on the way to that there is a bunch of re-factoring to the
-core gdbstub code to remove some of the hardcoded size limits from its
-various buffers. By using dynamically sized buffers we are less likely
-to trip up as we potentially push these large registers into the
-staging memory before transmission. Ultimately we end up touching all
-guest gdbstub register code to make them push bytes into a GByteArray
-rather than directly poking memory. For the most part this is a
-mechanical process although PPC makes it a little uglier as it can
-dynamically change endianess and therefor has its own custom byte
-swapping routine after the fact.
-
-One other thing to note is that currently we don't match the existing
-gdbstub XML (org.gnu.gdb.aarch64.sve) opting instead to send our own
-register layout (org.qemu.gdb.aarch64.sve). The principle difference
-is we report the registers in quads (e.g. z0p0 -> z0pN) depending on
-the configured size of the machine. It could be changed easily enough
-but I was having trouble getting gdbstub on the current master to work
-so went with something I could understand more easily.
-
-Alex Bennée (11):
-  gdbstub: move allocation of GDBState to one place
-  gdbstub: stop passing GDBState * around
-  gdbstub: move str_buf to GDBState and use GString
-  gdbstub: move mem_buf to GDBState and use GByteArray
-  gdbstub: add helper for 128 bit registers
-  target/arm: use gdb_get_reg helpers
-  target/m68k: use gdb_get_reg helpers
-  gdbstub: extend GByteArray to read register helpers
-  target/arm: prepare for multiple dynamic XMLs
-  target/arm: explicitly encode regnum in our XML
-  target/arm: generate xml description of our SVE registers
-
- include/exec/gdbstub.h              |  41 ++-
- include/hw/core/cpu.h               |   2 +-
- target/alpha/cpu.h                  |   2 +-
- target/arm/cpu.h                    |  34 +-
- target/cris/cpu.h                   |   4 +-
- target/hppa/cpu.h                   |   2 +-
- target/i386/cpu.h                   |   2 +-
- target/lm32/cpu.h                   |   2 +-
- target/m68k/cpu.h                   |   2 +-
- target/microblaze/cpu.h             |   2 +-
- target/mips/internal.h              |   2 +-
- target/openrisc/cpu.h               |   2 +-
- target/ppc/cpu.h                    |   4 +-
- target/riscv/cpu.h                  |   2 +-
- target/s390x/internal.h             |   2 +-
- target/sh4/cpu.h                    |   2 +-
- target/sparc/cpu.h                  |   2 +-
- target/xtensa/cpu.h                 |   2 +-
- gdbstub.c                           | 520 +++++++++++++++-------------
- hw/core/cpu.c                       |   2 +-
- target/alpha/gdbstub.c              |   2 +-
- target/arm/gdbstub.c                | 137 +++++++-
- target/arm/gdbstub64.c              |   2 +-
- target/arm/helper.c                 | 108 ++++--
- target/cris/gdbstub.c               |   4 +-
- target/hppa/gdbstub.c               |   2 +-
- target/i386/gdbstub.c               |   2 +-
- target/lm32/gdbstub.c               |   2 +-
- target/m68k/gdbstub.c               |   2 +-
- target/m68k/helper.c                |  33 +-
- target/microblaze/gdbstub.c         |   2 +-
- target/mips/gdbstub.c               |   2 +-
- target/nios2/cpu.c                  |   2 +-
- target/openrisc/gdbstub.c           |   2 +-
- target/ppc/gdbstub.c                |  48 +--
- target/ppc/translate_init.inc.c     |  54 +--
- target/riscv/gdbstub.c              |  18 +-
- target/s390x/gdbstub.c              |  30 +-
- target/sh4/gdbstub.c                |   2 +-
- target/sparc/gdbstub.c              |   2 +-
- target/xtensa/gdbstub.c             |   2 +-
- tests/tcg/multiarch/float_helpers.c |   7 +-
- 42 files changed, 659 insertions(+), 439 deletions(-)
-
+diff --git a/gdbstub.c b/gdbstub.c
+index 4cf8af365e2..c5b6701825f 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -374,6 +374,13 @@ static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
+ 
+ static GDBState *gdbserver_state;
+ 
++static GDBState *gdb_allocate_state(void)
++{
++    g_assert(!gdbserver_state);
++    gdbserver_state = g_new0(GDBState, 1);
++    return gdbserver_state;
++}
++
+ bool gdb_has_xml;
+ 
+ #ifdef CONFIG_USER_ONLY
+@@ -3083,15 +3090,13 @@ static bool gdb_accept(void)
+         return false;
+     }
+ 
+-    s = g_malloc0(sizeof(GDBState));
++    s = gdb_allocate_state();
+     create_default_process(s);
+     s->processes[0].attached = true;
+     s->c_cpu = gdb_first_attached_cpu(s);
+     s->g_cpu = s->c_cpu;
+     s->fd = fd;
+     gdb_has_xml = false;
+-
+-    gdbserver_state = s;
+     return true;
+ }
+ 
+@@ -3359,8 +3364,7 @@ int gdbserver_start(const char *device)
+ 
+     s = gdbserver_state;
+     if (!s) {
+-        s = g_malloc0(sizeof(GDBState));
+-        gdbserver_state = s;
++        s = gdb_allocate_state();
+ 
+         qemu_add_vm_change_state_handler(gdb_vm_state_change, NULL);
+ 
 -- 
 2.20.1
 
