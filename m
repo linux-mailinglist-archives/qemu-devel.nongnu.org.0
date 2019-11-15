@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02548FE43F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:43:22 +0100 (CET)
-Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B79FE450
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 18:48:21 +0100 (CET)
+Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVfcu-0007SI-JH
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:43:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35111)
+	id 1iVfhk-0003yY-6m
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 12:48:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iVfQN-0007SK-18
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:25 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iVfRD-0008I7-PR
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:31:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iVfQJ-00034f-9J
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:22 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40155)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iVfQI-00033r-W4
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:30:19 -0500
-Received: by mail-wm1-x344.google.com with SMTP id f3so11274702wmc.5
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 09:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gDNQ6jd5KtQyxOB0ZoMedQcNspZkCdSb8aZGFqdtZ3w=;
- b=QW9/hvzdAuKfyS0eMvBz+I8scgYQ9K8h6m+yRISWSGNbUKXnd/NADyTTVtouItyDpL
- SBBrAaBdeBCJxMzsBEsfe/DMkVGILz/KCKAZzmEzUzRfdfxQNPLOpLdubCdMhtc3Hxk6
- mn4Ix4c9KXqfhTg5luYSm83zc8Vvy4rXq6QT+70ep3kGPTNCWN/ePosZvqNDvOnb37VT
- sak50ENmN9IyioQ3BkNrr6rEfNiChOk9pcZ2SsjYhNlPKcdBTkWjpV1lUMsnpQ+1bBlb
- b+D6da6prYL6ruswXBUsAbXm9y2CymkLxGIRkdf2pUF6adFcKNT2tqeSRGmxDsXnwxHc
- 1mkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gDNQ6jd5KtQyxOB0ZoMedQcNspZkCdSb8aZGFqdtZ3w=;
- b=TZ79CJJ+itRvVFeNgpoojD/gNSxWViQs0XmHZjSIxFJGBwZKuced4UG3IpFQxIe5Zh
- rpp9veSWyAU7LyTW6rn6UBQ2Oqe3ka91kxc7T2iiid+XTPMdTllvlT8w7tb4CgHJU6OJ
- vGLcFwcfIvaPdi7xUqzgc19cRG7XQhAwIIn4xC/eidXAcuc0UvEQiKsXSIz3rIvUp5fd
- xN4guGqTJ77e6WiBcyHoeEiwC4mfM6d6c7R/k1uh06E/vjuN3SWn9N1/coQp0b3rqilB
- 2Zy1zrW67dvk+amVziyvStOFlUliyyLYevwgkc2OVp34dt/D2oHShHzC3VKlYu4SILNA
- MqYg==
-X-Gm-Message-State: APjAAAWzdXRBpIcmnoPAPka4WPBO0X4rR8Qiypppss3iJ2kn/Pzt1TKB
- iovAtBqHN0/QdzbSD6tX9ompUQ==
-X-Google-Smtp-Source: APXvYqwxqF0SfsWWV0w8ZUQ/M5d8kHvlsAtVwwlpkEgixWQhCY16QKjwdCMjGiNWTWzRmeLQoj6Baw==
-X-Received: by 2002:a1c:20ce:: with SMTP id g197mr14906905wmg.99.1573839017761; 
- Fri, 15 Nov 2019 09:30:17 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a26sm2586691wmm.14.2019.11.15.09.30.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Nov 2019 09:30:13 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16CA01FF9B;
- Fri, 15 Nov 2019 17:30:02 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 11/11] target/arm: generate xml description of our SVE
- registers
-Date: Fri, 15 Nov 2019 17:30:00 +0000
-Message-Id: <20191115173000.21891-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191115173000.21891-1-alex.bennee@linaro.org>
-References: <20191115173000.21891-1-alex.bennee@linaro.org>
+ (envelope-from <no-reply@patchew.org>) id 1iVfRB-0004Al-1t
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 12:31:14 -0500
+Resent-Date: Fri, 15 Nov 2019 12:31:14 -0500
+Resent-Message-Id: <E1iVfRB-0004Al-1t@eggs.gnu.org>
+Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21858)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iVfR3-0003hu-OK; Fri, 15 Nov 2019 12:31:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1573839024; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=F1xUwyzoZO21wUWMwYy2D67iVSyPVzjkIJk08WDv7NtgYuWVToIWrIKb936Bixh0JVzPZZQz643ENKfPLL0nE7CkA9zgo7voga9u11kyLuMcaxiEEETaja8MFpe1p8bn6BCEVdYV6iskPSPRfA6tRfmOKBkwIGnvI7oLf1+Ht64=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1573839024;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=b9IPWFMF0q1Gox5OfSALIYnoQn9wqQyhWYA+GqAHsJk=; 
+ b=EmXAxB8bZS5SsozTBKnWH8TaRA5Cm4dEdarYykBzBCy+CB3OAZ5/2SeB7AIT2bfiLkj9AVJp9qfPxBB10c3ikagNBSffitrfEDz9J9084wU7SGb9AXeHhGzhYp2KYU1ftpmpzipMkl7OjHiVWU2NJjdVOFXOLTCesZ8EjnmSUos=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1573839024339180.6758787662319;
+ Fri, 15 Nov 2019 09:30:24 -0800 (PST)
+In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
+Subject: Re: [RFC 00/24] backup performance: block_status + async
+Message-ID: <157383902266.4715.8258926242204485012@37313f22b938>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vsementsov@virtuozzo.com
+Date: Fri, 15 Nov 2019 09:30:24 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.58
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,275 +63,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
- luis.machado@linaro.org, richard.henderson@linaro.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, crosa@redhat.com, den@openvz.org,
+ mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- target/arm/cpu.h     | 10 ++++-
- target/arm/gdbstub.c | 99 ++++++++++++++++++++++++++++++++++++++++++++
- target/arm/helper.c  | 69 ++++++++++++++++++++++++++++--
- 3 files changed, 173 insertions(+), 5 deletions(-)
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d5b6eeeb2f0..5470548a057 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -141,6 +141,9 @@ typedef struct DynamicGDBXMLInfo {
-         struct {
-             uint32_t *keys;
-         } cpregs;
-+        struct {
-+            int fpsr_pos;
-+        } sve;
-     } data;
- } DynamicGDBXMLInfo;
- 
-@@ -758,6 +761,7 @@ struct ARMCPU {
-     int32_t cpreg_vmstate_array_len;
- 
-     DynamicGDBXMLInfo dyn_sysreg_xml;
-+    DynamicGDBXMLInfo dyn_svereg_xml;
- 
-     /* Timers used by the generic (architected) timer */
-     QEMUTimer *gt_timer[NUM_GTIMERS];
-@@ -961,10 +965,12 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
- int arm_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- 
--/* Dynamically generates for gdb stub an XML description of the sysregs from
-- * the cp_regs hashtable. Returns the registered sysregs number.
-+/*
-+ * Helpers to dynamically generates XML descriptions of the sysregs
-+ * and SVE registers. Returns the number of registers in each set.
-  */
- int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
-+int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
- 
- /* Returns the dynamically generated XML for the gdb stub.
-  * Returns a pointer to the XML contents for the specified XML file or NULL
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index ca2abedd8cf..62b17fccbe7 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -170,12 +170,111 @@ int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
-     return cpu->dyn_sysreg_xml.num;
- }
- 
-+struct TypeSize {
-+    const char *gdb_type;
-+    int  size;
-+    const char *suffix;
-+};
-+
-+static struct TypeSize vec_lanes[] = {
-+    { "uint128", 128, "qu"},
-+    { "int128", 128, "qs" },
-+    { "uint64", 64, "lu"},
-+    { "int64", 64, "ls" },
-+    { "uint32", 32, "u"},
-+    { "int32", 32, "s" },
-+    { "uint16", 16, "hu"},
-+    { "int16", 16, "hs" },
-+    { "uint8", 8, "ub"},
-+    { "int8", 8, "sb" },
-+    { "ieee_double", 64, "df" },
-+    { "ieee_single", 32, "sf" },
-+    { "ieee_half", 16, "hf" },
-+};
-+
-+
-+int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    GString *s = g_string_new(NULL);
-+    DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
-+    g_autoptr(GString) ts = g_string_new("");
-+    g_autoptr(GString) us = g_string_new("");
-+    int i, j;
-+    info->num = 0;
-+    g_string_printf(s, "<?xml version=\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
-+    /* first define types and the union they belong to */
-+    for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-+        int count = 128 / vec_lanes[i].size;
-+        g_string_printf(ts, "vq%d%s", count, vec_lanes[i].suffix);
-+        g_string_append_printf(s, "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
-+                               ts->str, vec_lanes[i].gdb_type, count);
-+        g_string_append_printf(us, "<field name=\"%s\" type=\"%s\"/>",
-+                               vec_lanes[i].suffix, ts->str);
-+    }
-+    /* wrap the union around define the overall vq type */
-+    us = g_string_prepend(us, "<union id=\"vq\">");
-+    us = g_string_append(us,"</union>");
-+    g_string_append(s, us->str);
-+
-+    /* Then define each register in parts for each vq */
-+    for (i = 0; i < 32; i++) {
-+        for (j = 0; j < cpu->sve_max_vq; j++) {
-+            g_string_append_printf(s,
-+                                   "<reg name=\"z%dp%d\" bitsize=\"128\""
-+                                   " regnum=\"%d\" group=\"vector\""
-+                                   " type=\"vq\"/>",
-+                                   i, j, base_reg++);
-+            info->num++;
-+        }
-+    }
-+    /* fpscr & status registers */
-+    info->data.sve.fpsr_pos = info->num;
-+    g_string_append_printf(s, "<reg name=\"fpsr\" bitsize=\"32\""
-+                           " regnum=\"%d\" group=\"float\""
-+                           " type=\"int\"/>", base_reg++);
-+    g_string_append_printf(s, "<reg name=\"fpcr\" bitsize=\"32\""
-+                           " regnum=\"%d\" group=\"float\""
-+                           " type=\"int\"/>", base_reg++);
-+    info->num += 2;
-+    /*
-+     * Predicate registers aren't so big they are worth splitting up
-+     * but we do need to define a type to hold the array of quad
-+     * references.
-+     */
-+    g_string_append_printf(s,
-+                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
-+                           cpu->sve_max_vq);
-+    for (i = 0; i < 16; i++) {
-+        g_string_append_printf(s,
-+                               "<reg name=\"p%d\" bitsize=\"%d\""
-+                               " regnum=\"%d\" group=\"vector\""
-+                               " type=\"vqp\"/>",
-+                               i, cpu->sve_max_vq * 16, base_reg++);
-+        info->num++;
-+    }
-+    g_string_append_printf(s,
-+                           "<reg name=\"ffr\" bitsize=\"%d\""
-+                           " regnum=\"%d\" group=\"vector\""
-+                           " type=\"vqp\"/>",
-+                           cpu->sve_max_vq * 16, base_reg++);
-+    info->num++;
-+    g_string_append_printf(s, "</feature>");
-+    cpu->dyn_svereg_xml.desc = g_string_free(s, false);
-+    return cpu->dyn_svereg_xml.num;
-+}
-+
-+
- const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
- 
-     if (strcmp(xmlname, "system-registers.xml") == 0) {
-         return cpu->dyn_sysreg_xml.desc;
-+    } else if (strcmp(xmlname, "sve-registers.xml") == 0) {
-+        return cpu->dyn_svereg_xml.desc;
-     }
-     return NULL;
- }
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 421e27e0f32..b517b88ba3c 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -201,6 +201,15 @@ static void write_raw_cp_reg(CPUARMState *env, const ARMCPRegInfo *ri,
-     }
- }
- 
-+/**
-+ * arm_get/set_gdb_*: get/set a gdb register
-+ * @env: the CPU state
-+ * @buf: a buffer to copy to/from
-+ * @reg: register number (offset from start of group)
-+ *
-+ * We return the number of bytes copied
-+ */
-+
- static int arm_gdb_get_sysreg(CPUARMState *env, GByteArray *buf, int reg)
- {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -224,6 +233,46 @@ static int arm_gdb_set_sysreg(CPUARMState *env, uint8_t *buf, int reg)
-     return 0;
- }
- 
-+#ifdef TARGET_AARCH64
-+static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    ARMCPU *cpu = env_archcpu(env);
-+    DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
-+
-+    /* The first 32 * vq registers are the zNpQ regs */
-+    if (reg < (32 * cpu->sve_max_vq)) {
-+        int vq = reg % cpu->sve_max_vq;
-+        int z = reg / cpu->sve_max_vq;
-+        return gdb_get_reg128(buf,
-+                              env->vfp.zregs[z].d[vq * 2 + 1],
-+                              env->vfp.zregs[z].d[vq * 2]);
-+    }
-+    switch (reg - info->data.sve.fpsr_pos) {
-+    case 0:
-+        return gdb_get_reg32(buf, vfp_get_fpsr(env));
-+    case 1:
-+        return gdb_get_reg32(buf, vfp_get_fpsr(env));
-+    case 2 ... 19:
-+    {
-+        /* XXX FIXME: not quite right, we could be bigger */
-+        int preg = reg - info->data.sve.fpsr_pos - 2;
-+        return gdb_get_reg64(buf, env->vfp.pregs[preg].p[0]);
-+    }
-+    default:
-+        /* gdbstub asked for something out our range */
-+        break;
-+    }
-+
-+    return 0;
-+}
-+
-+static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    fprintf(stderr, "%s: %d\n", __func__, reg);
-+    return 0;
-+}
-+#endif /* TARGET_AARCH64 */
-+
- static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
- {
-    /* Return true if the regdef would cause an assertion if you called
-@@ -6897,9 +6946,22 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     CPUARMState *env = &cpu->env;
- 
-     if (arm_feature(env, ARM_FEATURE_AARCH64)) {
--        gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
--                                 aarch64_fpu_gdb_set_reg,
--                                 34, "aarch64-fpu.xml", 0);
-+        /*
-+         * The lower part of each SVE register aliases to the FPU
-+         * registers so we don't need to include both.
-+         */
-+#ifdef TARGET_AARCH64
-+        if (isar_feature_aa64_sve(&cpu->isar)) {
-+            gdb_register_coprocessor(cs, arm_gdb_get_svereg, arm_gdb_set_svereg,
-+                                     arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs),
-+                                     "sve-registers.xml", 0);
-+        } else
-+#endif
-+        {
-+            gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
-+                                     aarch64_fpu_gdb_set_reg,
-+                                     34, "aarch64-fpu.xml", 0);
-+        }
-     } else if (arm_feature(env, ARM_FEATURE_NEON)) {
-         gdb_register_coprocessor(cs, vfp_gdb_get_reg, vfp_gdb_set_reg,
-                                  51, "arm-neon.xml", 0);
-@@ -6913,6 +6975,7 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
-+
- }
- 
- /* Sort alphabetically by type name, except for "any". */
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTExNTE0MTQ0NC4yNDE1
+NS0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
+byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
+b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1JGQyAwMC8yNF0gYmFja3VwIHBlcmZvcm1hbmNl
+OiBibG9ja19zdGF0dXMgKyBhc3luYwpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTExMTUx
+NDE0NDQuMjQxNTUtMS12c2VtZW50c292QHZpcnR1b3p6by5jb20KCj09PSBURVNUIFNDUklQVCBC
+RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
+aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
+aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
+RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
+NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYjNlYTU3NCBweXRo
+b246IGJlbmNobWFyayBuZXcgYmFja3VwIGFyY2hpdGVjdHVyZQo4OTlhNDEzIHB5dGhvbjogYWRk
+IHFlbXUvYmVuY2hfYmxvY2tfam9iLnB5CjQ2NTUyZDIgcHl0aG9uOiBhZGQgc2ltcGxlYmVuY2gu
+cHkKZTIwZjFmYiBiYWNrdXA6IG1vdmUgdG8gYmxvY2stY29weQo5YjBlNWYwIGpvYjogY2FsbCBq
+b2JfZW50ZXIgZnJvbSBqb2JfdXNlcl9wYXVzZQpmY2MwYTcyIGJsb2Nram9iOiBhZGQgc2V0X3Nw
+ZWVkIHRvIEJsb2NrSm9iRHJpdmVyCjYyZDg1YTcgYmxvY2svYmxvY2stY29weTogYWRkIGJsb2Nr
+X2NvcHlfY2FuY2VsCjE5MDY2Y2YgYmxvY2svYmxvY2stY29weTogYWRkIHJhdGVsaW1pdCB0byBi
+bG9jay1jb3B5CmRiNTM5OTAgYmxvY2svYmxvY2stY29weTogYWRkIG1heF9jaHVuayBhbmQgbWF4
+X3dvcmtlcnMgcGFyYW10ZXJzCjk3ZmU5MzYgYmxvY2svYmxvY2stY29weTogaW1wbGVtZW50IGJs
+b2NrX2NvcHlfYXN5bmMKZmViMThkYSBibG9jay9ibG9jay1jb3B5OiBNb3JlIGV4cGxpY2l0IGNh
+bGxfc3RhdGUKNWY5ZmQ5NCBibG9jay9ibG9jay1jb3B5OiB1c2UgYWlvLXRhc2stcG9vbCBBUEkK
+OTRhNGY0ZiBibG9jay9ibG9jay1jb3B5OiBtb3ZlIGJsb2NrX2NvcHlfdGFza19jcmVhdGUgZG93
+bgo3NGJjMWIxIGJsb2NrL2Jsb2NrLWNvcHk6IG1vdmUgdGFzayBzaXplIGluaXRpYWwgY2FsY3Vs
+YXRpb24gdG8gX3Rhc2tfY3JlYXRlCmFhZjM5OGMgYmxvY2svYmxvY2stY29weTogYWRkIHN0YXRl
+IHBvaW50ZXIgdG8gQmxvY2tDb3B5VGFzawo1YzRkYmQyIGJsb2NrL2Jsb2NrLWNvcHk6IGFsbG9j
+IHRhc2sgb24gZWFjaCBpdGVyYXRpb24KNDRlNjk4ZiBibG9jay9ibG9jay1jb3B5OiByZW5hbWUg
+aW4tZmxpZ2h0IHJlcXVlc3RzIHRvIHRhc2tzCjZkNzg1ODQgYmxvY2svYmxvY2stY29weTogaGlk
+ZSBzdHJ1Y3R1cmUgZGVmaW5pdGlvbnMKNGI1NDFiNSBibG9jay9ibG9jay1jb3B5OiByZWR1Y2Ug
+aW50ZXJzZWN0aW5nIHJlcXVlc3QgbG9jawozM2Q0ZWIxIGJsb2NrL2Jsb2NrLWNvcHk6IHJlbmFt
+ZSBzdGFydCB0byBvZmZzZXQgaW4gaW50ZXJmYWNlcwpkNzRjYzU5IGJsb2NrL2Jsb2NrLWNvcHk6
+IHJlZmFjdG9yIGludGVyZmFjZXMgdG8gdXNlIGJ5dGVzIGluc3RlYWQgb2YgZW5kCmJjNGU4MzYg
+YmxvY2svYmxvY2stY29weTogZmFjdG9yIG91dCBibG9ja19jb3B5X2ZpbmRfaW5mbGlnaHRfcmVx
+CmYyMjIwMGMgYmxvY2svYmxvY2stY29weTogdXNlIGJsb2NrX3N0YXR1cwo1YzIzNzc4IGJsb2Nr
+L2Jsb2NrLWNvcHk6IHNwZWNpYWxjYXNlIGZpcnN0IGNvcHlfcmFuZ2UgcmVxdWVzdAoKPT09IE9V
+VFBVVCBCRUdJTiA9PT0KMS8yNCBDaGVja2luZyBjb21taXQgNWMyMzc3OGJiM2Y0IChibG9jay9i
+bG9jay1jb3B5OiBzcGVjaWFsY2FzZSBmaXJzdCBjb3B5X3JhbmdlIHJlcXVlc3QpCjIvMjQgQ2hl
+Y2tpbmcgY29tbWl0IGYyMjIwMGM1YjUwYSAoYmxvY2svYmxvY2stY29weTogdXNlIGJsb2NrX3N0
+YXR1cykKMy8yNCBDaGVja2luZyBjb21taXQgYmM0ZTgzNjQwNjgyIChibG9jay9ibG9jay1jb3B5
+OiBmYWN0b3Igb3V0IGJsb2NrX2NvcHlfZmluZF9pbmZsaWdodF9yZXEpCjQvMjQgQ2hlY2tpbmcg
+Y29tbWl0IGQ3NGNjNTliOTkyMSAoYmxvY2svYmxvY2stY29weTogcmVmYWN0b3IgaW50ZXJmYWNl
+cyB0byB1c2UgYnl0ZXMgaW5zdGVhZCBvZiBlbmQpCjUvMjQgQ2hlY2tpbmcgY29tbWl0IDMzZDRl
+YjExOGZkNiAoYmxvY2svYmxvY2stY29weTogcmVuYW1lIHN0YXJ0IHRvIG9mZnNldCBpbiBpbnRl
+cmZhY2VzKQo2LzI0IENoZWNraW5nIGNvbW1pdCA0YjU0MWI1ODZjYmYgKGJsb2NrL2Jsb2NrLWNv
+cHk6IHJlZHVjZSBpbnRlcnNlY3RpbmcgcmVxdWVzdCBsb2NrKQo3LzI0IENoZWNraW5nIGNvbW1p
+dCA2ZDc4NTg0NWMyMzYgKGJsb2NrL2Jsb2NrLWNvcHk6IGhpZGUgc3RydWN0dXJlIGRlZmluaXRp
+b25zKQo4LzI0IENoZWNraW5nIGNvbW1pdCA0NGU2OThmY2FiZDkgKGJsb2NrL2Jsb2NrLWNvcHk6
+IHJlbmFtZSBpbi1mbGlnaHQgcmVxdWVzdHMgdG8gdGFza3MpCjkvMjQgQ2hlY2tpbmcgY29tbWl0
+IDVjNGRiZDI4MWRhNyAoYmxvY2svYmxvY2stY29weTogYWxsb2MgdGFzayBvbiBlYWNoIGl0ZXJh
+dGlvbikKMTAvMjQgQ2hlY2tpbmcgY29tbWl0IGFhZjM5OGM5NTM0MyAoYmxvY2svYmxvY2stY29w
+eTogYWRkIHN0YXRlIHBvaW50ZXIgdG8gQmxvY2tDb3B5VGFzaykKMTEvMjQgQ2hlY2tpbmcgY29t
+bWl0IDc0YmMxYjFhMjcxOSAoYmxvY2svYmxvY2stY29weTogbW92ZSB0YXNrIHNpemUgaW5pdGlh
+bCBjYWxjdWxhdGlvbiB0byBfdGFza19jcmVhdGUpCjEyLzI0IENoZWNraW5nIGNvbW1pdCA5NGE0
+ZjRmYmFmNzggKGJsb2NrL2Jsb2NrLWNvcHk6IG1vdmUgYmxvY2tfY29weV90YXNrX2NyZWF0ZSBk
+b3duKQoxMy8yNCBDaGVja2luZyBjb21taXQgNWY5ZmQ5NDNjNzgyIChibG9jay9ibG9jay1jb3B5
+OiB1c2UgYWlvLXRhc2stcG9vbCBBUEkpCjE0LzI0IENoZWNraW5nIGNvbW1pdCBmZWIxOGRhOGQy
+MzMgKGJsb2NrL2Jsb2NrLWNvcHk6IE1vcmUgZXhwbGljaXQgY2FsbF9zdGF0ZSkKMTUvMjQgQ2hl
+Y2tpbmcgY29tbWl0IDk3ZmU5MzY2ZWEyYiAoYmxvY2svYmxvY2stY29weTogaW1wbGVtZW50IGJs
+b2NrX2NvcHlfYXN5bmMpCjE2LzI0IENoZWNraW5nIGNvbW1pdCBkYjUzOTkwMTNkNDIgKGJsb2Nr
+L2Jsb2NrLWNvcHk6IGFkZCBtYXhfY2h1bmsgYW5kIG1heF93b3JrZXJzIHBhcmFtdGVycykKMTcv
+MjQgQ2hlY2tpbmcgY29tbWl0IDE5MDY2Y2ZkM2FlYiAoYmxvY2svYmxvY2stY29weTogYWRkIHJh
+dGVsaW1pdCB0byBibG9jay1jb3B5KQoxOC8yNCBDaGVja2luZyBjb21taXQgNjJkODVhNzQzNGQ4
+IChibG9jay9ibG9jay1jb3B5OiBhZGQgYmxvY2tfY29weV9jYW5jZWwpCjE5LzI0IENoZWNraW5n
+IGNvbW1pdCBmY2MwYTcyMjg2ODMgKGJsb2Nram9iOiBhZGQgc2V0X3NwZWVkIHRvIEJsb2NrSm9i
+RHJpdmVyKQoyMC8yNCBDaGVja2luZyBjb21taXQgOWIwZTVmMDQzMzk2IChqb2I6IGNhbGwgam9i
+X2VudGVyIGZyb20gam9iX3VzZXJfcGF1c2UpCjIxLzI0IENoZWNraW5nIGNvbW1pdCBlMjBmMWZi
+ODRkZDQgKGJhY2t1cDogbW92ZSB0byBibG9jay1jb3B5KQoyMi8yNCBDaGVja2luZyBjb21taXQg
+NDY1NTJkMjhiNDU5IChweXRob246IGFkZCBzaW1wbGViZW5jaC5weSkKV0FSTklORzogYWRkZWQs
+IG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5n
+PwojMTM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdz
+LCAxMjIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjIvMjQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KMjMvMjQgQ2hlY2tpbmcgY29tbWl0IDg5OWE0MTMxMmE4MiAocHl0aG9uOiBhZGQgcWVtdS9i
+ZW5jaF9ibG9ja19qb2IucHkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUo
+cyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzEzOiAKbmV3IGZpbGUgbW9kZSAx
+MDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTE0IGxpbmVzIGNoZWNrZWQKClBh
+dGNoIDIzLzI0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI0LzI0IENoZWNraW5nIGNvbW1p
+dCBiM2VhNTc0NzQ5ZWMgKHB5dGhvbjogYmVuY2htYXJrIG5ldyBiYWNrdXAgYXJjaGl0ZWN0dXJl
+KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
+RVJTIG5lZWQgdXBkYXRpbmc/CiMyODogCm5ldyBmaWxlIG1vZGUgMTAwNzU1CgpFUlJPUjogbGlu
+ZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzY2OiBGSUxFOiBweXRob24vYmVuY2gtZXhhbXBsZS5weToz
+NDoKKyAgICAgICAgJ3FlbXVfYmluYXJ5JzogJy93b3JrL3NyYy9xZW11L3VwLWJsb2NrLWNvcHkt
+YmxvY2stc3RhdHVzLS1iZWZvcmUveDg2XzY0LXNvZnRtbXUvcWVtdS1zeXN0ZW0teDg2XzY0JwoK
+RVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM3MTogRklMRTogcHl0aG9uL2JlbmNoLWV4
+YW1wbGUucHk6Mzk6CisgICAgICAgICdxZW11X2JpbmFyeSc6ICcvd29yay9zcmMvcWVtdS91cC1i
+bG9jay1jb3B5LWJsb2NrLXN0YXR1cy0tYmVmb3JlLS1uby1jb3B5LXJhbmdlL3g4Nl82NC1zb2Z0
+bW11L3FlbXUtc3lzdGVtLXg4Nl82NCcKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
+NzY6IEZJTEU6IHB5dGhvbi9iZW5jaC1leGFtcGxlLnB5OjQ0OgorICAgICAgICAncWVtdV9iaW5h
+cnknOiAnL3dvcmsvc3JjL3FlbXUvdXAtYmxvY2stY29weS1ibG9jay1zdGF0dXMveDg2XzY0LXNv
+ZnRtbXUvcWVtdS1zeXN0ZW0teDg2XzY0JwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJz
+CiM4MTogRklMRTogcHl0aG9uL2JlbmNoLWV4YW1wbGUucHk6NDk6CisgICAgICAgICdxZW11X2Jp
+bmFyeSc6ICcvd29yay9zcmMvcWVtdS91cC1ibG9jay1jb3B5LWJsb2NrLXN0YXR1cy0tbm8tY29w
+eV9yYW5nZS94ODZfNjQtc29mdG1tdS9xZW11LXN5c3RlbS14ODZfNjQnCgpFUlJPUjogbGluZSBv
+dmVyIDkwIGNoYXJhY3RlcnMKIzg2OiBGSUxFOiBweXRob24vYmVuY2gtZXhhbXBsZS5weTo1NDoK
+KyAgICAgICAgJ3FlbXVfYmluYXJ5JzogJy93b3JrL3NyYy9xZW11L3VwLWJsb2NrLWNvcHktYmxv
+Y2stc3RhdHVzL3g4Nl82NC1zb2Z0bW11L3FlbXUtc3lzdGVtLXg4Nl82NCcKCkVSUk9SOiBsaW5l
+IG92ZXIgOTAgY2hhcmFjdGVycwojMTEwOiBGSUxFOiBweXRob24vYmVuY2gtZXhhbXBsZS5weTo3
+ODoKKyAgICAgICAgJ3FlbXVfYmluYXJ5JzogJy93b3JrL3NyYy9xZW11L3VwLWJsb2NrLWNvcHkt
+YmxvY2stc3RhdHVzLS1iZWZvcmUveDg2XzY0LXNvZnRtbXUvcWVtdS1zeXN0ZW0teDg2XzY0JwoK
+RVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTU6IEZJTEU6IHB5dGhvbi9iZW5jaC1l
+eGFtcGxlLnB5OjgzOgorICAgICAgICAncWVtdV9iaW5hcnknOiAnL3dvcmsvc3JjL3FlbXUvdXAt
+YmxvY2stY29weS1ibG9jay1zdGF0dXMveDg2XzY0LXNvZnRtbXUvcWVtdS1zeXN0ZW0teDg2XzY0
+JwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMjA6IEZJTEU6IHB5dGhvbi9iZW5j
+aC1leGFtcGxlLnB5Ojg4OgorICAgICAgICAncWVtdV9iaW5hcnknOiAnL3dvcmsvc3JjL3FlbXUv
+dXAtYmxvY2stY29weS1ibG9jay1zdGF0dXMveDg2XzY0LXNvZnRtbXUvcWVtdS1zeXN0ZW0teDg2
+XzY0JwoKdG90YWw6IDggZXJyb3JzLCAxIHdhcm5pbmdzLCA5MyBsaW5lcyBjaGVja2VkCgpQYXRj
+aCAyNC8yNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
+c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
+ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpU
+ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMTUxNDE0NDQuMjQxNTUtMS12c2Vt
+ZW50c292QHZpcnR1b3p6by5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
+LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
+ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
+YXQuY29t
 
 
