@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFCCFE309
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:44:38 +0100 (CET)
-Received: from localhost ([::1]:41714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE76FE35F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:52:17 +0100 (CET)
+Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVei5-0003Rk-7n
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:44:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52544)
+	id 1iVepU-0003NV-2H
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iVeQT-0001AE-KP
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:26 -0500
+ (envelope-from <clg@kaod.org>) id 1iVeQY-0001HU-OD
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iVeQS-0001BW-9k
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:25 -0500
-Received: from 15.mo5.mail-out.ovh.net ([178.33.107.29]:52210)
+ (envelope-from <clg@kaod.org>) id 1iVeQX-0001Df-9Z
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:30 -0500
+Received: from 7.mo177.mail-out.ovh.net ([46.105.61.149]:49513)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQS-0001BA-3E
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:24 -0500
-Received: from player787.ha.ovh.net (unknown [10.109.146.137])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 76D8925A31F
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:22 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeQX-0001DM-37
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:26:29 -0500
+Received: from player787.ha.ovh.net (unknown [10.108.57.183])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id E2FD410DDC3
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:26:27 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player787.ha.ovh.net (Postfix) with ESMTPSA id 156EAC444D2C;
- Fri, 15 Nov 2019 16:26:17 +0000 (UTC)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id 7884CC444DA6;
+ Fri, 15 Nov 2019 16:26:22 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH for-5.0 v5 17/23] ppc/pnv: Clarify how the TIMA is accessed on
- a multichip system
-Date: Fri, 15 Nov 2019 17:24:30 +0100
-Message-Id: <20191115162436.30548-18-clg@kaod.org>
+Subject: [PATCH for-5.0 v5 18/23] ppc/xive: Move the TIMA operations to the
+ controller model
+Date: Fri, 15 Nov 2019 17:24:31 +0100
+Message-Id: <20191115162436.30548-19-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115162436.30548-1-clg@kaod.org>
 References: <20191115162436.30548-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 15109013802862939110
+X-Ovh-Tracer-Id: 15110421177047944166
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.107.29
+X-Received-From: 46.105.61.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,123 +62,201 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TIMA region gives access to the thread interrupt context registers
-of a CPU. It is mapped at the same address on all chips and can be
-accessed by any CPU of the system. To identify the chip from which the
-access is being done, the PowerBUS uses a 'chip' field in the
-load/store messages. QEMU does not model these messages, instead, we
-extract the chip id from the CPU PIR and do a lookup at the machine
-level to fetch the targeted interrupt controller.
+On the P9 Processor, the thread interrupt context registers of a CPU
+can be accessed "directly" when by load/store from the CPU or
+"indirectly" by the IC through an indirect TIMA page. This requires to
+configure first the PC_TCTXT_INDIRx registers.
 
-Introduce pnv_get_chip() and pnv_xive_tm_get_xive() helpers to clarify
-this process in pnv_xive_get_tctx(). The latter will be removed in the
-subsequent patches but the same principle will be kept.
+Today, we rely on the get_tctx() handler to deduce from the CPU PIR
+the chip from which the TIMA access is being done. By handling the
+TIMA memory ops under the interrupt controller model of each machine,
+we can uniformize the TIMA direct and indirect ops under PowerNV. We
+can also check that the CPUs have been enabled in the XIVE controller.
+
+This prepares ground for the future versions of XIVE.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h | 13 +++++++++++++
- hw/intc/pnv_xive.c   | 46 ++++++++++++++++++++++++++++----------------
- 2 files changed, 42 insertions(+), 17 deletions(-)
+ include/hw/ppc/xive.h |  1 -
+ hw/intc/pnv_xive.c    | 35 ++++++++++++++++++++++++++++++++++-
+ hw/intc/spapr_xive.c  | 33 +++++++++++++++++++++++++++++++--
+ hw/intc/xive.c        | 29 -----------------------------
+ 4 files changed, 65 insertions(+), 33 deletions(-)
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 58f4dcc0b71d..9b98b6afa31b 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -192,6 +192,19 @@ static inline bool pnv_is_power9(PnvMachineState *pn=
-v)
-     return pnv_chip_is_power9(pnv->chips[0]);
- }
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 97bbcddb381d..dcf897451589 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -462,7 +462,6 @@ typedef struct XiveENDSource {
+ #define XIVE_TM_OS_PAGE         0x2
+ #define XIVE_TM_USER_PAGE       0x3
 =20
-+static inline PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_=
-id)
-+{
-+    int i;
-+
-+    for (i =3D 0; i < pnv->num_chips; i++) {
-+        PnvChip *chip =3D pnv->chips[i];
-+        if (chip->chip_id =3D=3D chip_id) {
-+            return chip;
-+        }
-+    }
-+    return NULL;
-+}
-+
- #define PNV_FDT_ADDR          0x01000000
- #define PNV_TIMEBASE_FREQ     512000000ULL
-=20
+-extern const MemoryRegionOps xive_tm_ops;
+ void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
+et,
+                         uint64_t value, unsigned size);
+ uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
+ffset,
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 3ee28f00694a..d75053d0baad 100644
+index d75053d0baad..4501c671d8df 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -378,6 +378,12 @@ static int cpu_pir(PowerPCCPU *cpu)
-     return env->spr_cb[SPR_PIR].default_value;
- }
+@@ -1473,6 +1473,39 @@ static const MemoryRegionOps xive_tm_indirect_ops =
+=3D {
+     },
+ };
 =20
-+static int cpu_chip_id(PowerPCCPU *cpu)
++static void pnv_xive_tm_write(void *opaque, hwaddr offset,
++                              uint64_t value, unsigned size)
 +{
-+    int pir =3D cpu_pir(cpu);
-+    return (pir >> 8) & 0x7f;
-+}
-+
- static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
- {
-     int pir =3D cpu_pir(cpu);
-@@ -440,31 +446,37 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, =
-uint8_t format,
-     return count;
- }
-=20
-+/*
-+ * The TIMA MMIO space is shared among the chips and to identify the
-+ * chip from which the access is being done, we extract the chip id
-+ * from the PIR.
-+ */
-+static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
-+{
-+    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-+    PnvChip *chip;
-+    PnvXive *xive;
-+
-+    chip =3D pnv_get_chip(pnv, cpu_chip_id(cpu));
-+    assert(chip);
-+    xive =3D &PNV9_CHIP(chip)->xive;
-+
-+    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
-+        xive_error(xive, "IC: CPU %x is not enabled", cpu_pir(cpu));
-+    }
-+    return xive;
-+}
-+
- static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
- {
-     PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
--    PnvXive *xive =3D NULL;
--    CPUPPCState *env =3D &cpu->env;
--    int pir =3D env->spr_cb[SPR_PIR].default_value;
++    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
 +    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
++    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++
++    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
++}
++
++static uint64_t pnv_xive_tm_read(void *opaque, hwaddr offset, unsigned s=
+ize)
++{
++    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
++    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
++    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
++
++    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
++}
++
++const MemoryRegionOps pnv_xive_tm_ops =3D {
++    .read =3D pnv_xive_tm_read,
++    .write =3D pnv_xive_tm_write,
++    .endianness =3D DEVICE_BIG_ENDIAN,
++    .valid =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++    .impl =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++};
++
+ /*
+  * Interrupt controller XSCOM region.
+  */
+@@ -1845,7 +1878,7 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
+r **errp)
+                           "xive-pc", PNV9_XIVE_PC_SIZE);
 =20
--    /*
--     * Perform an extra check on the HW thread enablement.
--     *
--     * The TIMA is shared among the chips and to identify the chip
--     * from which the access is being done, we extract the chip id
--     * from the PIR.
--     */
--    xive =3D pnv_xive_get_ic((pir >> 8) & 0xf);
-     if (!xive) {
-         return NULL;
-     }
+     /* Thread Interrupt Management Area (Direct) */
+-    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops,
++    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &pnv_xive_tm_ops=
+,
+                           xive, "xive-tima", PNV9_XIVE_TM_SIZE);
 =20
--    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
--        xive_error(PNV_XIVE(xrtr), "IC: CPU %x is not enabled", pir);
--    }
--
--    return tctx;
-+    return XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+     qemu_register_reset(pnv_xive_reset, dev);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index bb3b2dfdb77f..6292da58f62c 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -205,6 +205,35 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
+ol enable)
+     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
  }
 =20
- /*
++static void spapr_xive_tm_write(void *opaque, hwaddr offset,
++                          uint64_t value, unsigned size)
++{
++    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
++
++    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
+);
++}
++
++static uint64_t spapr_xive_tm_read(void *opaque, hwaddr offset, unsigned=
+ size)
++{
++    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
++
++    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
+;
++}
++
++const MemoryRegionOps spapr_xive_tm_ops =3D {
++    .read =3D spapr_xive_tm_read,
++    .write =3D spapr_xive_tm_write,
++    .endianness =3D DEVICE_BIG_ENDIAN,
++    .valid =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++    .impl =3D {
++        .min_access_size =3D 1,
++        .max_access_size =3D 8,
++    },
++};
++
+ static void spapr_xive_end_reset(XiveEND *end)
+ {
+     memset(end, 0, sizeof(*end));
+@@ -314,8 +343,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
+r **errp)
+     qemu_register_reset(spapr_xive_reset, dev);
+=20
+     /* TIMA initialization */
+-    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
+ve,
+-                          "xive.tima", 4ull << TM_SHIFT);
++    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &spapr_xive_tm_o=
+ps,
++                          xive, "xive.tima", 4ull << TM_SHIFT);
+     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
+=20
+     /*
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index a9298783e7d2..ab779c4c2a0f 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -523,35 +523,6 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, Xive=
+TCTX *tctx, hwaddr offset,
+     return xive_tm_raw_read(tctx, offset, size);
+ }
+=20
+-static void xive_tm_write(void *opaque, hwaddr offset,
+-                          uint64_t value, unsigned size)
+-{
+-    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
+_cpu);
+-
+-    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
+);
+-}
+-
+-static uint64_t xive_tm_read(void *opaque, hwaddr offset, unsigned size)
+-{
+-    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
+_cpu);
+-
+-    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
+;
+-}
+-
+-const MemoryRegionOps xive_tm_ops =3D {
+-    .read =3D xive_tm_read,
+-    .write =3D xive_tm_write,
+-    .endianness =3D DEVICE_BIG_ENDIAN,
+-    .valid =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 8,
+-    },
+-    .impl =3D {
+-        .min_access_size =3D 1,
+-        .max_access_size =3D 8,
+-    },
+-};
+-
+ static char *xive_tctx_ring_print(uint8_t *ring)
+ {
+     uint32_t w2 =3D xive_tctx_word2(ring);
 --=20
 2.21.0
 
