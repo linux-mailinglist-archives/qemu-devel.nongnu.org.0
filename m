@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9660FD77E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 09:00:50 +0100 (CET)
-Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C70AFD7AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 09:08:16 +0100 (CET)
+Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVWXB-0003Fj-8m
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 03:00:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39174)
+	id 1iVWeM-0002CO-NZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 03:08:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iVWQz-000605-OU
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:26 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iVWR2-000647-83
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iVWQy-0002vC-5C
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:25 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iVWR0-0002vw-TX
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:28 -0500
 Received: from mga07.intel.com ([134.134.136.100]:48001)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iVWQx-0002Zs-TX
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:24 -0500
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iVWR0-0002Zs-JB
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 02:54:26 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2019 23:54:23 -0800
+ 14 Nov 2019 23:54:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,307,1569308400"; d="scan'208";a="235987289"
+X-IronPort-AV: E=Sophos;i="5.68,307,1569308400"; d="scan'208";a="235987303"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2019 23:54:21 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2019 23:54:23 -0800
 From: Tao Xu <tao3.xu@intel.com>
 To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
  mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com
-Subject: [PATCH v16 11/14] hmat acpi: Build System Locality Latency and
- Bandwidth Information Structure(s)
-Date: Fri, 15 Nov 2019 15:53:49 +0800
-Message-Id: <20191115075352.17734-12-tao3.xu@intel.com>
+Subject: [PATCH v16 12/14] hmat acpi: Build Memory Side Cache Information
+ Structure(s)
+Date: Fri, 15 Nov 2019 15:53:50 +0800
+Message-Id: <20191115075352.17734-13-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191115075352.17734-1-tao3.xu@intel.com>
 References: <20191115075352.17734-1-tao3.xu@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -57,162 +58,126 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, jonathan.cameron@huawei.com
+ qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liu Jingqi <jingqi.liu@intel.com>
 
-This structure describes the memory access latency and bandwidth
-information from various memory access initiator proximity domains.
-The latency and bandwidth numbers represented in this structure
-correspond to rated latency and bandwidth for the platform.
-The software could use this information as hint for optimization.
+This structure describes memory side cache information for memory
+proximity domains if the memory side cache is present and the
+physical device forms the memory side cache.
+The software could use this information to effectively place
+the data in memory to maximize the performance of the system
+memory that use the memory side cache.
 
+Reviewed-by: Daniel Black <daniel@linux.ibm.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
 Changes in v16:
-    - Add more description for lb_length (Igor)
-    - Drop entry_list and calculate entries in this patch (Igor)
+    - Use checks and assert to replace masks (Igor)
+    - Fields in Cache Attributes are promoted to uint32_t before
+      shifting (Igor)
+    - Drop cpu_to_le32() (Igor)
 
 Changes in v13:
-    - Calculate the entries in a new patch.
+    - rename level as cache_level
 ---
- hw/acpi/hmat.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 104 insertions(+), 1 deletion(-)
+ hw/acpi/hmat.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 68 insertions(+), 1 deletion(-)
 
 diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 9ff79308a4..ed19ebed2f 100644
+index ed19ebed2f..2b4f760e0e 100644
 --- a/hw/acpi/hmat.c
 +++ b/hw/acpi/hmat.c
-@@ -25,8 +25,10 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "sysemu/numa.h"
- #include "hw/acpi/hmat.h"
-+#include "qemu/error-report.h"
- 
- /*
-  * ACPI 6.3:
-@@ -67,11 +69,89 @@ static void build_hmat_mpda(GArray *table_data, uint16_t flags,
-     build_append_int_noprefix(table_data, 0, 8);
+@@ -144,14 +144,62 @@ static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
+     g_free(entry_list);
  }
  
-+/*
-+ * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-+ * Structure: Table 5-146
-+ */
-+static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
-+                          uint32_t num_initiator, uint32_t num_target,
-+                          uint32_t *initiator_list)
++/* ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure: Table 5-147 */
++static void build_hmat_cache(GArray *table_data, HMAT_Cache_Info *hmat_cache,
++                             uint8_t total_levels)
 +{
-+    int i, index;
-+    HMAT_LB_Data *lb_data;
-+    uint16_t *entry_list;
-+    uint32_t base;
-+    /* Length in bytes for entire structure */
-+    uint32_t lb_length
-+        = 32 /* Table length upto and including Entry Base Unit */
-+        + 4 * num_initiator /* Initiator Proximity Domain List */
-+        + 4 * num_target /* Target Proximity Domain List */
-+        + 2 * num_initiator * num_target; /* Latency or Bandwidth Entries */
++    /*
++     * Cache Attributes: Bits [3:0] – Total Cache Levels
++     * for this Memory Proximity Domain
++     */
++    uint32_t cache_attr = total_levels;
++
++    /* Bits [7:4] : Cache Level described in this structure */
++    cache_attr |= (uint32_t) hmat_cache->level << 4;
++
++    /* Bits [11:8] - Cache Associativity */
++    cache_attr |= (uint32_t) hmat_cache->associativity << 8;
++
++    /* Bits [15:12] - Write Policy */
++    cache_attr |= (uint32_t) hmat_cache->write_policy << 12;
++
++    /* Bits [31:16] - Cache Line size in bytes */
++    cache_attr |= (uint32_t) hmat_cache->line_size << 16;
 +
 +    /* Type */
-+    build_append_int_noprefix(table_data, 1, 2);
++    build_append_int_noprefix(table_data, 2, 2);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 2);
 +    /* Length */
-+    build_append_int_noprefix(table_data, lb_length, 4);
-+    /* Flags: Bits [3:0] Memory Hierarchy, Bits[7:4] Reserved */
-+    assert(!(hmat_lb->hierarchy >> 4));
-+    build_append_int_noprefix(table_data, hmat_lb->hierarchy, 1);
-+    /* Data Type */
-+    build_append_int_noprefix(table_data, hmat_lb->data_type, 1);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Number of Initiator Proximity Domains (s) */
-+    build_append_int_noprefix(table_data, num_initiator, 4);
-+    /* Number of Target Proximity Domains (t) */
-+    build_append_int_noprefix(table_data, num_target, 4);
++    build_append_int_noprefix(table_data, 32, 4);
++    /* Proximity Domain for the Memory */
++    build_append_int_noprefix(table_data, hmat_cache->proximity, 4);
 +    /* Reserved */
 +    build_append_int_noprefix(table_data, 0, 4);
-+
-+    /* Entry Base Unit */
-+    if (hmat_lb->data_type <= HMAT_LB_DATA_WRITE_LATENCY) {
-+        /* Convert latency base from nanoseconds to picosecond */
-+        base = hmat_lb->base * 1000;
-+    } else {
-+        /* Convert bandwidth base from Byte to Megabyte */
-+        base = hmat_lb->base / MiB;
-+    }
-+    build_append_int_noprefix(table_data, base, 8);
-+
-+    /* Initiator Proximity Domain List */
-+    for (i = 0; i < num_initiator; i++) {
-+        build_append_int_noprefix(table_data, initiator_list[i], 4);
-+    }
-+
-+    /* Target Proximity Domain List */
-+    for (i = 0; i < num_target; i++) {
-+        build_append_int_noprefix(table_data, i, 4);
-+    }
-+
-+    /* Latency or Bandwidth Entries */
-+    entry_list = g_malloc0(hmat_lb->list->len * sizeof(uint16_t));
-+    for (i = 0; i < hmat_lb->list->len; i++) {
-+        lb_data = &g_array_index(hmat_lb->list, HMAT_LB_Data, i);
-+        index = lb_data->initiator * num_target + lb_data->target;
-+
-+        entry_list[index] = (uint16_t)(lb_data->data / hmat_lb->base);
-+    }
-+
-+    for (i = 0; i < num_initiator * num_target; i++) {
-+        build_append_int_noprefix(table_data, entry_list[i], 2);
-+    }
-+
-+    g_free(entry_list);
++    /* Memory Side Cache Size */
++    build_append_int_noprefix(table_data, hmat_cache->size, 8);
++    /* Cache Attributes */
++    build_append_int_noprefix(table_data, cache_attr, 4);
++    /* Reserved */
++    build_append_int_noprefix(table_data, 0, 2);
++    /*
++     * Number of SMBIOS handles (n)
++     * Linux kernel uses Memory Side Cache Information Structure
++     * without SMBIOS entries for now, so set Number of SMBIOS handles
++     * as 0.
++     */
++    build_append_int_noprefix(table_data, 0, 2);
 +}
 +
  /* Build HMAT sub table structures */
  static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
  {
      uint16_t flags;
--    int i;
-+    uint32_t num_initiator = 0;
-+    uint32_t initiator_list[MAX_NODES];
-+    int i, hierarchy, type;
-+    HMAT_LB_Info *hmat_lb;
+     uint32_t num_initiator = 0;
+     uint32_t initiator_list[MAX_NODES];
+-    int i, hierarchy, type;
++    int i, hierarchy, type, cache_level, total_levels;
+     HMAT_LB_Info *hmat_lb;
++    HMAT_Cache_Info *hmat_cache;
  
      for (i = 0; i < numa_state->num_nodes; i++) {
          flags = 0;
-@@ -82,6 +162,29 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
- 
-         build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator, i);
+@@ -185,6 +233,25 @@ static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
+             }
+         }
      }
 +
-+    for (i = 0; i < numa_state->num_nodes; i++) {
-+        if (numa_state->nodes[i].has_cpu) {
-+            initiator_list[num_initiator++] = i;
-+        }
-+    }
-+
 +    /*
-+     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
-+     * Structure: Table 5-146
++     * ACPI 6.3: 5.2.27.5 Memory Side Cache Information Structure:
++     * Table 5-147
 +     */
-+    for (hierarchy = HMAT_LB_MEM_MEMORY;
-+         hierarchy <= HMAT_LB_MEM_CACHE_3RD_LEVEL; hierarchy++) {
-+        for (type = HMAT_LB_DATA_ACCESS_LATENCY;
-+             type <= HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
-+            hmat_lb = numa_state->hmat_lb[hierarchy][type];
-+
-+            if (hmat_lb) {
-+                build_hmat_lb(table_data, hmat_lb, num_initiator,
-+                              numa_state->num_nodes, initiator_list);
++    for (i = 0; i < numa_state->num_nodes; i++) {
++        total_levels = 0;
++        for (cache_level = 1; cache_level < HMAT_LB_LEVELS; cache_level++) {
++            if (numa_state->hmat_cache[i][cache_level]) {
++                total_levels++;
++            }
++        }
++        for (cache_level = 0; cache_level <= total_levels; cache_level++) {
++            hmat_cache = numa_state->hmat_cache[i][cache_level];
++            if (hmat_cache) {
++                build_hmat_cache(table_data, hmat_cache, total_levels);
 +            }
 +        }
 +    }
