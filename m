@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936CEFDFF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:22:04 +0100 (CET)
-Received: from localhost ([::1]:39823 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130A4FE011
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:29:48 +0100 (CET)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVcU7-0001jb-Kr
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:22:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1iVcba-0003K4-Us
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:29:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0004cw-E9
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNL-0004eJ-HY
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001x2-7C
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:02 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47428)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNK-0001yD-0s
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47414)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNG-0001rq-II; Fri, 15 Nov 2019 09:14:58 -0500
+ id 1iVcNG-0001ry-J3; Fri, 15 Nov 2019 09:14:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNB-0006WW-EG; Fri, 15 Nov 2019 17:14:53 +0300
+ id 1iVcNB-0006WW-NH; Fri, 15 Nov 2019 17:14:54 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 16/24] block/block-copy: add max_chunk and max_workers paramters
-Date: Fri, 15 Nov 2019 17:14:36 +0300
-Message-Id: <20191115141444.24155-17-vsementsov@virtuozzo.com>
+Subject: [RFC 17/24] block/block-copy: add ratelimit to block-copy
+Date: Fri, 15 Nov 2019 17:14:37 +0300
+Message-Id: <20191115141444.24155-18-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,78 +54,149 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They will be used for backup.
+We are going to directly use one async block-copy operation for backup
+job, so we need rate limitator.
+
+We want to maintain current backup behavior: only background copying is
+limited and copy-before-write operations only participate in limit
+calculation. Therefore we need one rate limitator for block-copy state
+and boolean flag for block-copy call state for actual limitation.
+
+Note, that we can't just calculate each chunk in limitator after
+successful copying: it will not restring starting a lot of async
+sub-requests which will exceed limit too much. Instead let's use the
+following scheme on sub-request creation:
+1. If at the moment limit is not exceeded, create the request and
+account it immediately.
+2. If at the moment limit is already exceeded, drop create sub-request
+and handle limit instead (by sleep).
+With this approach we'll never exceed the limit more than by one
+sub-request (which pretty much matches current backup behavior).
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block-copy.h | 5 +++++
- block/block-copy.c         | 9 +++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ include/block/block-copy.h |  8 +++++++
+ block/block-copy.c         | 44 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
 diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 407de7e520..8fc27156b3 100644
+index 8fc27156b3..3f9cdc5eb2 100644
 --- a/include/block/block-copy.h
 +++ b/include/block/block-copy.h
-@@ -47,6 +47,11 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
- /*
-  * Run block-copy in a coroutine, return state pointer. If finished early
-  * returns NULL (@cb is called anyway).
-+ *
-+ * @max_workers means maximum of parallel coroutines to execute sub-requests,
-+ * must be > 0.
-+ *
-+ * @max_chunk means maximum length for one IO operation. Zero means unlimited.
-  */
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
-                                      int64_t offset, int64_t bytes,
+@@ -59,6 +59,14 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
+                                      int64_t max_chunk,
+                                      BlockCopyAsyncCallbackFunc cb);
+ 
++/*
++ * Set speed limit for block-copy instance. All block-copy operations related to
++ * this BlockCopyState will participate in speed calculation, but only
++ * block_copy_async calls with @ratelimit=true will be actually limited.
++ */
++void block_copy_set_speed(BlockCopyState *s, BlockCopyCallState *call_state,
++                          uint64_t speed);
++
+ BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
+ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
+ 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 0b41afd30d..f28f3b8b6c 100644
+index f28f3b8b6c..091bc044de 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -32,6 +32,8 @@ typedef struct BlockCopyCallState {
-     BlockCopyState *s;
-     int64_t offset;
+@@ -26,6 +26,7 @@
+ #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
+ #define BLOCK_COPY_MAX_WORKERS 64
++#define BLOCK_COPY_SLICE_TIME 100000000ULL /* ns */
+ 
+ typedef struct BlockCopyCallState {
+     /* IN parameters */
+@@ -34,11 +35,13 @@ typedef struct BlockCopyCallState {
      int64_t bytes;
-+    int max_workers;
-+    int64_t max_chunk;
+     int max_workers;
+     int64_t max_chunk;
++    bool ratelimit;
      BlockCopyAsyncCallbackFunc cb;
  
      /* State */
-@@ -393,7 +395,7 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+     bool failed;
+     bool finished;
++    QemuCoSleepState *sleep_state;
  
-     assert(bdrv_dirty_bitmap_get(s->copy_bitmap, offset));
+     /* OUT parameters */
+     bool error_is_read;
+@@ -101,6 +104,9 @@ typedef struct BlockCopyState {
+     void *progress_opaque;
  
--    bytes = MIN(bytes, s->copy_size);
-+    bytes = MIN(bytes, MIN_NON_ZERO(s->copy_size, call_state->max_chunk));
-     next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset, bytes);
-     if (next_zero >= 0) {
-         assert(next_zero > offset); /* offset is dirty */
-@@ -578,7 +580,7 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-         co_get_from_shres(s->mem, task->bytes);
+     SharedResource *mem;
++
++    uint64_t speed;
++    RateLimit rate_limit;
+ } BlockCopyState;
  
-         if (!aio && task->bytes != bytes) {
--            aio = aio_task_pool_new(BLOCK_COPY_MAX_WORKERS);
-+            aio = aio_task_pool_new(call_state->max_workers);
+ static BlockCopyTask *block_copy_find_task(BlockCopyState *s,
+@@ -575,6 +581,21 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
          }
+         task->zeroes = ret & BDRV_BLOCK_ZERO;
  
-         offset += task->bytes;
-@@ -655,6 +657,7 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
++        if (s->speed) {
++            if (call_state->ratelimit) {
++                uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
++                if (ns > 0) {
++                    block_copy_task_end(task, -EAGAIN);
++                    g_free(task);
++                    qemu_co_sleep_ns_wakeable(QEMU_CLOCK_REALTIME, ns,
++                                              &call_state->sleep_state);
++                    continue;
++                }
++            }
++
++            ratelimit_calculate_delay(&s->rate_limit, task->bytes);
++        }
++
+         trace_block_copy_process(s, offset);
+ 
+         co_get_from_shres(s->mem, task->bytes);
+@@ -604,6 +625,13 @@ out:
+     return ret < 0 ? ret : found_dirty;
+ }
+ 
++static void block_copy_kick(BlockCopyCallState *call_state)
++{
++    if (call_state->sleep_state) {
++        qemu_co_sleep_wake(call_state->sleep_state);
++    }
++}
++
+ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+ {
+     int ret = 0;
+@@ -688,6 +716,7 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
          .s = s,
-         .offset = start,
-         .bytes = bytes,
-+        .max_workers = BLOCK_COPY_MAX_WORKERS,
-     };
- 
-     int ret = block_copy_common(&call_state);
-@@ -686,6 +689,8 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
          .offset = offset,
          .bytes = bytes,
++        .ratelimit = ratelimit,
          .cb = cb,
-+        .max_workers = max_workers ?: BLOCK_COPY_MAX_WORKERS,
-+        .max_chunk = max_chunk,
-     };
- 
-     qemu_coroutine_enter(co);
+         .max_workers = max_workers ?: BLOCK_COPY_MAX_WORKERS,
+         .max_chunk = max_chunk,
+@@ -711,3 +740,18 @@ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
+ {
+     s->skip_unallocated = skip;
+ }
++
++void block_copy_set_speed(BlockCopyState *s, BlockCopyCallState *call_state,
++                          uint64_t speed)
++{
++    uint64_t old_speed = s->speed;
++
++    s->speed = speed;
++    if (speed > 0) {
++        ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
++    }
++
++    if (call_state && old_speed && (speed > old_speed || speed == 0)) {
++        block_copy_kick(call_state);
++    }
++}
 -- 
 2.21.0
 
