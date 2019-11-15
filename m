@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0549EFE35D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:51:49 +0100 (CET)
-Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94102FE360
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:52:31 +0100 (CET)
+Received: from localhost ([::1]:41832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVep1-0002R3-GX
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:51:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53825)
+	id 1iVepi-0003pQ-32
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:52:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iVeXG-0000Po-8Z
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:33:27 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iVeZn-0003hv-0B
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:36:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iVeXF-0005OR-2J
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:33:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35729
+ (envelope-from <stefanha@redhat.com>) id 1iVeZl-00076u-S0
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:36:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38618
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iVeXE-0005Nq-UQ
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:33:25 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iVeZl-00076K-NA
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:36:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573835604;
+ s=mimecast20190719; t=1573835760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C0egKsDNYyaAsKZw2Aoql8Q0HQfoDcgXVU0JgdBJdHk=;
- b=KAK61XmLH1SnhYLrAmjiX+XzdXbiG3XuSp3ACyhu+EJnvUa9oNKXkQew+jsgYZhvOEO5+x
- g+8UdGutVC7uHewk6fXZcYvJPRnuQsNEb2V5rpHpJnBuomwuoSpaCUu5TS+xWTmcTelsUW
- 3Y+qHvtaICprSFg2iD/3s2F5J/LpJzs=
+ bh=pJWkQq07D9FyveHY6DKhA9fp3MyBnIGG1kulEmk+b2E=;
+ b=MRawGxc+i5ou8qiYdBXtbpmquUtn/FQJ7Hcfp82yenMSeaM6FrpTS2FyveQiao+Ls7X/SC
+ s+gjgmtNyImHPsyh1oZIGWYj3HaoW6wk1C3XmMHP0/7ovb8tHeMRL2eqh+HZ+xy3s7R7Kr
+ UDv01TjXo2GTTl/5e362bB+Oj23I7fg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-efPNeMcxOOm0m11iViw4zQ-1; Fri, 15 Nov 2019 11:33:21 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-44-kbz2Lt3VN7-j5x6heH90vg-1; Fri, 15 Nov 2019 11:35:57 -0500
+X-MC-Unique: kbz2Lt3VN7-j5x6heH90vg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 285B51095A9B;
- Fri, 15 Nov 2019 16:33:20 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 385666013C;
- Fri, 15 Nov 2019 16:33:16 +0000 (UTC)
-Subject: Re: [PATCH v3 2/4] bitmap: Enforce maximum bitmap name length
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20191114024635.11363-1-eblake@redhat.com>
- <20191114024635.11363-3-eblake@redhat.com>
- <0a25974f-f9cd-07a1-4cb7-2bbd4dfe4375@virtuozzo.com>
- <6d54c6eb-4f28-6a5d-81e1-a175e34f3cf8@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <8461437b-8991-3725-308d-68e054c7f3a8@redhat.com>
-Date: Fri, 15 Nov 2019 10:33:15 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C81AD1005511;
+ Fri, 15 Nov 2019 16:35:56 +0000 (UTC)
+Received: from localhost (ovpn-116-253.ams2.redhat.com [10.36.116.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B17D67E5F;
+ Fri, 15 Nov 2019 16:35:50 +0000 (UTC)
+Date: Fri, 15 Nov 2019 16:35:49 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Micky Yun Chan <chanmickyyun@gmail.com>
+Subject: Re: [PATCH] Implement backend program convention command for
+ vhost-user-blk
+Message-ID: <20191115163549.GC47045@stefanha-x1.localdomain>
+References: <20191115060925.12346-1-michan@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6d54c6eb-4f28-6a5d-81e1-a175e34f3cf8@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: efPNeMcxOOm0m11iViw4zQ-1
+In-Reply-To: <20191115060925.12346-1-michan@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="eHhjakXzOLJAF9wJ"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -78,47 +72,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ michan <michan@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/15/19 9:47 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 15.11.2019 18:03, Vladimir Sementsov-Ogievskiy wrote:
->> 14.11.2019 5:46, Eric Blake wrote:
->>> We document that for qcow2 persistent bitmaps, the name cannot exceed
->>> 1023 bytes.=A0 It is inconsistent if transient bitmaps do not have to
->>> abide by the same limit, and it is unlikely that any existing client
->>> even cares about using bitmap names this long.=A0 It's time to codify
->>> that ALL bitmaps managed by qemu (whether persistent in qcow2 or not)
->>> have a documented maximum length.
->>>
->>> Signed-off-by: Eric Blake <eblake@redhat.com>
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>
->>
->=20
-> One doubt:
->=20
-> Is it good idea to include string larger than 4K into error message
-> (in next patch too)? I doubt that such message would be
-> readable, and I think that most possible source of such message is
-> some kind of memory corruption, so the whole message would be garbage,
-> which may contain special symbols which may look bad or even break
-> output.
+--eHhjakXzOLJAF9wJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The string was provided by the user. You are correct that it results in=20
-a lot of output on stderr, but it is no more garbage than what the user=20
-provided in the first place. If we wanted, we could truncate (list only=20
-the first 256 or so bytes and then output "..."), but it's such a corner=20
-case error that I don't think it's worth the effort to worry about it.
+On Fri, Nov 15, 2019 at 02:09:25PM +0800, Micky Yun Chan wrote:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks for the patch!
+
+> +    context =3D g_option_context_new(NULL);
+
+Missing g_option_context_free() later in this function.  g_auto() is the
+easiest way to ensure that.
+
+> +    g_option_context_add_main_entries(context, entries, NULL);
+> +    if (!g_option_context_parse(context, &argc, &argv, &error)) {
+> +        g_printerr("Option parsing failed: %s\n", error->message);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +    if (opt_print_caps) {
+> +        g_print("{\n");
+> +        g_print("  \"type\": \"blk\",\n");
+> +        g_print("  \"features\": [\n");
+> +        g_print("    \"blk-file\",\n");
+> +        g_print("    \"read-only\"\n");
+> +        g_print("  ]\n");
+> +        g_print("}\n");
+> +        exit(EXIT_SUCCESS);
+>      }
+> =20
+> -    if (!unix_socket || !blk_file) {
+> +    if (!opt_blk_file) {
+>          printf("Usage: %s [ -b block device or file, -s UNIX domain sock=
+et"
+>                 " | -r Enable read-only ] | [ -h ]\n", argv[0]);
+
+g_option_context_get_help() can be used instead.  That way the help text
+is consistent.
+
+>          return -1;
+
+A good opportunity to switch to exit(EXIT_FAILURE) since main() should
+not return -1.
+
+>      }
+> =20
+> -    lsock =3D unix_sock_new(unix_socket);
+> -    if (lsock < 0) {
+> -        goto err;
+> +    if (opt_socket_path) {
+> +        lsock =3D unix_sock_new(opt_socket_path);
+> +        if (lsock < 0) {
+> +           exit(EXIT_FAILURE);
+> +        }
+> +    } else {
+
+  } else if (opt_fd < 0) {
+      ...print usage because neither --socket-path nor --fd were given...
+  }
+
+--eHhjakXzOLJAF9wJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3O0+UACgkQnKSrs4Gr
+c8jL1wf/Qp+s2uHiJQiVpULC4qq1z64WhxBmzdipbYuinpbVmV329h31I+H5xchv
+jn5n+Lx+otVTm/qCANwzrIJl5R66nhXLa9E/ym1mli8l3zHKkWpkJZAfElNrXEsS
+IpxGc72ebwY/un20ud96kTJ+VQRTx5AhEdHkJAIDx65DOx74SwP3OocKZCoRFnh3
+oMaU3sxWAyXtRMZID2hhXV612uLB1JkU2o7aGbCg47HYLYFvjBiRmf9e/eV+PVW8
+7sm5GEWRFuw6qeM6xFKD2mXQtVETnFzq9Kkp8HtxGsMTAOD/1eyBfqB8JhXbsNsj
+i+oJXEzdTGvHnmwHXRj+Z32eVlxpzA==
+=XHKD
+-----END PGP SIGNATURE-----
+
+--eHhjakXzOLJAF9wJ--
 
 
