@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76FFFE031
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:35:40 +0100 (CET)
-Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD29FE015
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 15:30:36 +0100 (CET)
+Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVchH-0001Kj-Q1
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:35:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59031)
+	id 1iVccM-0004Gv-UB
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 09:30:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNL-0004e8-9w
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNL-0004e0-9O
  for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001xn-NR
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iVcNJ-0001y1-T9
  for qemu-devel@nongnu.org; Fri, 15 Nov 2019 09:15:03 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47442)
+Received: from relay.sw.ru ([185.231.240.75]:47418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNG-0001rr-Db; Fri, 15 Nov 2019 09:14:58 -0500
+ id 1iVcNG-0001rz-GR; Fri, 15 Nov 2019 09:14:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iVcNB-0006WW-0n; Fri, 15 Nov 2019 17:14:53 +0300
+ id 1iVcNB-0006WW-8E; Fri, 15 Nov 2019 17:14:53 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [RFC 14/24] block/block-copy: More explicit call_state
-Date: Fri, 15 Nov 2019 17:14:34 +0300
-Message-Id: <20191115141444.24155-15-vsementsov@virtuozzo.com>
+Subject: [RFC 15/24] block/block-copy: implement block_copy_async
+Date: Fri, 15 Nov 2019 17:14:35 +0300
+Message-Id: <20191115141444.24155-16-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191115141444.24155-1-vsementsov@virtuozzo.com>
 References: <20191115141444.24155-1-vsementsov@virtuozzo.com>
@@ -54,120 +54,133 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refactor common path to use BlockCopyCallState pointer as parameter, to
-prepare it for use in asynchronous block-copy (at least, we'll need to
-run block-copy in a coroutine, passing the whole parameters as one
-pointer).
+We'll need async block-copy invocation to use in backup directly.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/block-copy.c | 50 +++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 38 insertions(+), 12 deletions(-)
+ include/block/block-copy.h | 13 +++++++++++
+ block/block-copy.c         | 48 +++++++++++++++++++++++++++++++++++---
+ 2 files changed, 58 insertions(+), 3 deletions(-)
 
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 753fa663ac..407de7e520 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -20,7 +20,10 @@
+ 
+ typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
+ typedef void (*ProgressResetCallbackFunc)(void *opaque);
++typedef void (*BlockCopyAsyncCallbackFunc)(int ret, bool error_is_read,
++                                           void *opaque);
+ typedef struct BlockCopyState BlockCopyState;
++typedef struct BlockCopyCallState BlockCopyCallState;
+ 
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+                                      int64_t cluster_size,
+@@ -41,6 +44,16 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+                             bool *error_is_read);
+ 
++/*
++ * Run block-copy in a coroutine, return state pointer. If finished early
++ * returns NULL (@cb is called anyway).
++ */
++BlockCopyCallState *block_copy_async(BlockCopyState *s,
++                                     int64_t offset, int64_t bytes,
++                                     bool ratelimit, int max_workers,
++                                     int64_t max_chunk,
++                                     BlockCopyAsyncCallbackFunc cb);
++
+ BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
+ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
+ 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index b2e7825b53..4b1a0cecbd 100644
+index 4b1a0cecbd..0b41afd30d 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -28,7 +28,15 @@
- #define BLOCK_COPY_MAX_WORKERS 64
+@@ -32,9 +32,11 @@ typedef struct BlockCopyCallState {
+     BlockCopyState *s;
+     int64_t offset;
+     int64_t bytes;
++    BlockCopyAsyncCallbackFunc cb;
  
- typedef struct BlockCopyCallState {
-+    /* IN parameters */
-+    BlockCopyState *s;
-+    int64_t offset;
-+    int64_t bytes;
-+
-+    /* State */
+     /* State */
      bool failed;
-+
-+    /* OUT parameters */
++    bool finished;
+ 
+     /* OUT parameters */
      bool error_is_read;
- } BlockCopyCallState;
+@@ -602,15 +604,17 @@ out:
  
-@@ -514,14 +522,16 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-  * Returns 1 if dirty clusters found and successfully copied, 0 if no dirty
-  * clusters found and -errno on failure.
-  */
--static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
--                                                  int64_t offset, int64_t bytes,
--                                                  bool *error_is_read)
-+static int coroutine_fn
-+block_copy_dirty_clusters(BlockCopyCallState *call_state)
+ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
  {
-+    BlockCopyState *s = call_state->s;
-+    int64_t offset = call_state->offset;
-+    int64_t bytes = call_state->bytes;
++    int ret = 0;
 +
-     int ret = 0;
-     bool found_dirty = false;
-     AioTaskPool *aio = NULL;
--    BlockCopyCallState call_state = {false, false};
- 
-     /*
-      * block_copy() user is responsible for keeping source and target in same
-@@ -546,7 +556,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
- 
-         found_dirty = true;
- 
--        task = block_copy_task_create(s, &call_state, offset, bytes);
-+        task = block_copy_task_create(s, call_state, offset, bytes);
- 
-         ret = block_copy_block_status(s, offset, task->bytes, &status_bytes);
-         block_copy_task_shrink(task, status_bytes);
-@@ -586,18 +596,14 @@ out:
-         }
-         g_free(aio);
-     }
--    if (error_is_read && ret < 0) {
--        *error_is_read = call_state.error_is_read;
--    }
- 
-     return ret < 0 ? ret : found_dirty;
- }
- 
--int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
--                            bool *error_is_read)
-+static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
- {
      while (true) {
--        int ret = block_copy_dirty_clusters(s, start, bytes, error_is_read);
-+        int ret = block_copy_dirty_clusters(call_state);
+-        int ret = block_copy_dirty_clusters(call_state);
++        ret = block_copy_dirty_clusters(call_state);
  
          if (ret < 0) {
              /*
-@@ -620,7 +626,9 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
-          * requested region.
-          */
- 
--        if (!block_copy_wait_one(s, start, bytes)) {
-+        if (!block_copy_wait_one(call_state->s, call_state->offset,
-+                                 call_state->bytes))
-+        {
-             /* No dirty bits and nothing to wait: the whole request is done */
-             break;
+              * IO operation failed, which means the whole block_copy request
+              * failed.
+              */
+-            return ret;
++            break;
          }
-@@ -629,6 +637,24 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
-     return 0;
- }
+         if (ret) {
+             /*
+@@ -634,7 +638,14 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+         }
+     }
  
-+int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
-+                            bool *error_is_read)
-+{
-+    BlockCopyCallState call_state = {
-+        .s = s,
-+        .offset = start,
-+        .bytes = bytes,
-+    };
-+
-+    int ret = block_copy_common(&call_state);
-+
-+    if (error_is_read && ret < 0) {
-+        *error_is_read = call_state.error_is_read;
+-    return 0;
++    if (call_state->cb) {
++        call_state->cb(ret, call_state->error_is_read,
++                       call_state->s->progress_opaque);
 +    }
 +
++    call_state->finished = true;
++
 +    return ret;
+ }
+ 
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+@@ -655,6 +666,37 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
+     return ret;
+ }
+ 
++static void coroutine_fn block_copy_async_co_entry(void *opaque)
++{
++    block_copy_common(opaque);
 +}
 +
++BlockCopyCallState *block_copy_async(BlockCopyState *s,
++                                     int64_t offset, int64_t bytes,
++                                     bool ratelimit, int max_workers,
++                                     int64_t max_chunk,
++                                     BlockCopyAsyncCallbackFunc cb)
++{
++    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
++    Coroutine *co = qemu_coroutine_create(block_copy_async_co_entry,
++                                          call_state);
++
++    *call_state = (BlockCopyCallState) {
++        .s = s,
++        .offset = offset,
++        .bytes = bytes,
++        .cb = cb,
++    };
++
++    qemu_coroutine_enter(co);
++
++    if (call_state->finished) {
++        g_free(call_state);
++        return NULL;
++    }
++
++    return call_state;
++}
  BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
  {
      return s->copy_bitmap;
