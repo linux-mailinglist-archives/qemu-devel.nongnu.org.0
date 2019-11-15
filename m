@@ -2,72 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C5DFE30A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:44:52 +0100 (CET)
-Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB009FE2E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 17:34:38 +0100 (CET)
+Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVeiJ-0003lN-40
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:44:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52301)
+	id 1iVeYO-0000RE-RX
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 11:34:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iVePw-0000Ik-CX
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:53 -0500
+ (envelope-from <clg@kaod.org>) id 1iVePA-0007TH-9Y
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iVePv-0000uu-84
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:52 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53955
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iVeP9-0000Zw-3e
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:04 -0500
+Received: from 9.mo179.mail-out.ovh.net ([46.105.76.148]:56980)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iVePv-0000uZ-43
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1573835150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=otxzYIfpCWpsQYyEylcULtfWltAjZadyTN7OYl8t4YQ=;
- b=CZ3tkNszIiHUhttJpGGrmzz3QES8T+BqtO0AGtCR+MXt3016YV4l5DAJaAK9taGdGvil8h
- EJlqAqa0qm2ntO2olQ5VnqsLq4hwZr/2hfzhHFZzzK/10JUmXFeLQrJYC6TSxZ2vxC3c+G
- SWsZeYGWlcCya5cpTrxeenA//NmUnwU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-_8dLqASWPEy5trTUSo89_Q-1; Fri, 15 Nov 2019 11:25:49 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4CEB8C980E;
- Fri, 15 Nov 2019 16:25:47 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-84.ams2.redhat.com
- [10.36.117.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B815A1036C81;
- Fri, 15 Nov 2019 16:25:39 +0000 (UTC)
-Subject: Re: [PATCH for-4.2] hw/i386: Fix compiler warning when CONFIG_IDE_ISA
- is disabled
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20191115145049.26868-1-thuth@redhat.com>
- <CAFEAcA-EuQVBtr=BCE5sdHo+LMv8XchHUSPM=CgSYxPVryWKZg@mail.gmail.com>
- <273a3123-9eef-c78e-5b83-833a21e3988c@redhat.com>
- <c7c45aed-76c0-9c17-72fb-6abceb9e5ff4@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <be453a76-d5fe-62c3-6954-447be7fe646a@redhat.com>
-Date: Fri, 15 Nov 2019 17:13:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iVeP8-0000ZH-TU
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 11:25:03 -0500
+Received: from player787.ha.ovh.net (unknown [10.109.146.82])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id E88BD14B655
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 17:25:00 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id 388C8C4446D4;
+ Fri, 15 Nov 2019 16:24:55 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH for-5.0 v5 02/23] ppc/xive: Introduce helpers for the NVT id
+Date: Fri, 15 Nov 2019 17:24:15 +0100
+Message-Id: <20191115162436.30548-3-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191115162436.30548-1-clg@kaod.org>
+References: <20191115162436.30548-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <c7c45aed-76c0-9c17-72fb-6abceb9e5ff4@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: _8dLqASWPEy5trTUSo89_Q-1
-X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 15085932855586491366
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudefhedgkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 46.105.76.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,82 +56,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/11/2019 17.13, Paolo Bonzini wrote:
-> On 15/11/19 16:54, Thomas Huth wrote:
->> On 15/11/2019 16.54, Peter Maydell wrote:
->>> On Fri, 15 Nov 2019 at 15:10, Thomas Huth <thuth@redhat.com> wrote:
->>>>
->>>> When CONFIG_IDE_ISA is disabled, compilation currently fails:
->>>>
->>>>  hw/i386/pc_piix.c: In function =E2=80=98pc_init1=E2=80=99:
->>>>  hw/i386/pc_piix.c:81:9: error: unused variable =E2=80=98i=E2=80=99 [-=
-Werror=3Dunused-variable]
->>>>
->>>> Move the variable declaration to the right code block to avoid
->>>> this problem.
->>>>
->>>> Fixes: 4501d317b50e ("hw/i386/pc: Extract pc_i8259_create()")
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>  hw/i386/pc_piix.c | 3 +--
->>>>  1 file changed, 1 insertion(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
->>>> index 2aefa3b8df..d187db761c 100644
->>>> --- a/hw/i386/pc_piix.c
->>>> +++ b/hw/i386/pc_piix.c
->>>> @@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
->>>>      X86MachineState *x86ms =3D X86_MACHINE(machine);
->>>>      MemoryRegion *system_memory =3D get_system_memory();
->>>>      MemoryRegion *system_io =3D get_system_io();
->>>> -    int i;
->>>>      PCIBus *pci_bus;
->>>>      ISABus *isa_bus;
->>>>      PCII440FXState *i440fx_state;
->>>> @@ -253,7 +252,7 @@ static void pc_init1(MachineState *machine,
->>>>      }
->>>>  #ifdef CONFIG_IDE_ISA
->>>>  else {
->>>> -        for(i =3D 0; i < MAX_IDE_BUS; i++) {
->>>> +        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
->>>>              ISADevice *dev;
->>>>              char busname[] =3D "ide.0";
->>>>              dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[=
-i],
->>>
->>> Don't put variable declarations inside 'for' statements,
->>> please. They should go at the start of a {} block.
->>
->> Why? We're using -std=3Dgnu99 now, so this should not be an issue anymor=
-e.
->=20
-> For now I can squash the following while we discuss coding standards. :)
->=20
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index fa62244f4d..0130b8fb4e 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -244,7 +244,8 @@ static void pc_init1(MachineState *machine,
->      }
->  #ifdef CONFIG_IDE_ISA
->  else {
-> -        for (int i =3D 0; i < MAX_IDE_BUS; i++) {
-> +        int i;
-> +        for (i =3D 0; i < MAX_IDE_BUS; i++) {
->              ISADevice *dev;
->              char busname[] =3D "ide.0";
->              dev =3D isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i],
+Each vCPU in the system is identified with an NVT identifier which is
+pushed in the OS CAM line (QW1W2) of the HW thread interrupt context
+register when the vCPU is dispatched on a HW thread. This identifier
+is used by the presenter subengine to find a matching target to notify
+of an event. It is also used to fetch the associate NVT structure
+which may contain pending interrupts that need a resend.
 
-Yes, please do. I guess we won't update CODING_STYLE.rst during the hard
-freeze anymore ;-)
+Add a couple of helpers for the NVT ids. The NVT space is 19 bits
+wide, giving a maximum of 512K per chip.
 
- Thomas
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/xive.h      |  5 -----
+ include/hw/ppc/xive_regs.h | 21 +++++++++++++++++++++
+ 2 files changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 8fd439ec9bba..fa7adf87feb2 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -418,11 +418,6 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xr=
+tr, Error **errp);
+ void xive_tctx_reset(XiveTCTX *tctx);
+ void xive_tctx_destroy(XiveTCTX *tctx);
+=20
+-static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+-{
+-    return (nvt_blk << 19) | nvt_idx;
+-}
+-
+ /*
+  * KVM XIVE device helpers
+  */
+diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+index 530f232b04f8..1a5622f8ded8 100644
+--- a/include/hw/ppc/xive_regs.h
++++ b/include/hw/ppc/xive_regs.h
+@@ -272,4 +272,25 @@ typedef struct XiveNVT {
+=20
+ #define xive_nvt_is_valid(nvt)    (be32_to_cpu((nvt)->w0) & NVT_W0_VALID=
+)
+=20
++/*
++ * The VP number space in a block is defined by the END_W6_NVT_INDEX
++ * field of the XIVE END
++ */
++#define XIVE_NVT_SHIFT                19
++
++static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
+dx)
++{
++    return (nvt_blk << XIVE_NVT_SHIFT) | nvt_idx;
++}
++
++static inline uint32_t xive_nvt_idx(uint32_t cam_line)
++{
++    return cam_line & ((1 << XIVE_NVT_SHIFT) - 1);
++}
++
++static inline uint32_t xive_nvt_blk(uint32_t cam_line)
++{
++    return (cam_line >> XIVE_NVT_SHIFT) & 0xf;
++}
++
+ #endif /* PPC_XIVE_REGS_H */
+--=20
+2.21.0
 
 
