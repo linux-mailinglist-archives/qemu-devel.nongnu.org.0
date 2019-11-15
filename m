@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B35CFDCD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:00:31 +0100 (CET)
-Received: from localhost ([::1]:38008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F4AFDCEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 13:03:49 +0100 (CET)
+Received: from localhost ([::1]:38048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVaH7-0006v8-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:00:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39837)
+	id 1iVaKK-0001v3-9L
+	for lists+qemu-devel@lfdr.de; Fri, 15 Nov 2019 07:03:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iVaAc-0001U1-UD
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:47 -0500
+ (envelope-from <groug@kaod.org>) id 1iVaAf-0001Yc-K3
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iVaAb-00069m-MY
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12126)
+ (envelope-from <groug@kaod.org>) id 1iVaAe-0006DP-D7
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:49 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58112
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVaAb-00065X-EE
- for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:45 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAFBqGVQ061019
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:37 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w9nup45ss-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iVaAe-0006Cr-8K
+ for qemu-devel@nongnu.org; Fri, 15 Nov 2019 06:53:48 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAFBq77I068915
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:46 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w9qmjgef2-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:37 -0500
+ for <qemu-devel@nongnu.org>; Fri, 15 Nov 2019 06:53:46 -0500
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 15 Nov 2019 11:53:35 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Fri, 15 Nov 2019 11:53:44 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 15 Nov 2019 11:53:32 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAFBrVWS48234516
+ Fri, 15 Nov 2019 11:53:43 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAFBrgDc55902346
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Nov 2019 11:53:31 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2FB4CA4062;
- Fri, 15 Nov 2019 11:53:31 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F16A2A4054;
- Fri, 15 Nov 2019 11:53:30 +0000 (GMT)
+ Fri, 15 Nov 2019 11:53:42 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E1AF4C04A;
+ Fri, 15 Nov 2019 11:53:42 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1BA224C040;
+ Fri, 15 Nov 2019 11:53:42 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.70.126])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 15 Nov 2019 11:53:30 +0000 (GMT)
-Subject: [PATCH for-5.0 1/8] xive: Link "cpu" property to XiveTCTX::cs pointer
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 15 Nov 2019 11:53:42 +0000 (GMT)
+Subject: [PATCH for-5.0 3/8] xive: Link "xive" property to
+ XiveEndSource::xrtr pointer
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>,
  =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Fri, 15 Nov 2019 12:53:30 +0100
+Date: Fri, 15 Nov 2019 12:53:41 +0100
 In-Reply-To: <157381880498.136087.3775284829737989585.stgit@bahia.lan>
 References: <157381880498.136087.3775284829737989585.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -65,20 +67,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19111511-0020-0000-0000-000003866CF6
+x-cbid: 19111511-4275-0000-0000-0000037DFA3A
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111511-0021-0000-0000-000021DC892C
-Message-Id: <157381881062.136087.15165493342975065530.stgit@bahia.lan>
+x-cbparentid: 19111511-4276-0000-0000-0000389163AA
+Message-Id: <157381882171.136087.11902736379070146922.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-15_03:2019-11-15,2019-11-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 spamscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=869 suspectscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 mlxscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ mlxlogscore=638 lowpriorityscore=0 phishscore=0 suspectscore=0
+ clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1911150112
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,79 +96,95 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TCTX object has both a pointer and a "cpu" property pointing to the
-vCPU object. Confusing bugs could arise if these ever go out of sync.
+The END source object has both a pointer and a "xive" property pointing to
+the router object. Confusing bugs could arise if these ever go out of sync.
 
 Change the property definition so that it explicitely sets the pointer.
+The property isn't optional : not being able to set the link is a bug
+and QEMU should rather abort than exit in this case.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/xive.c |   25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ hw/intc/pnv_xive.c   |    4 ++--
+ hw/intc/spapr_xive.c |    4 ++--
+ hw/intc/xive.c       |   20 ++++++++++----------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 9e23dc705dc3..6aa7aeed6f83 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -1705,8 +1705,8 @@ static void pnv_xive_realize(DeviceState *dev, Error **errp)
+ 
+     object_property_set_int(OBJECT(end_xsrc), PNV_XIVE_NR_ENDS, "nr-ends",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 10890aeeeb5b..729246e906c9 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -290,8 +290,8 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
+      */
+     object_property_set_int(OBJECT(end_xsrc), xive->nr_irqs, "nr-ends",
+                             &error_fatal);
+-    object_property_add_const_link(OBJECT(end_xsrc), "xive", OBJECT(xive),
+-                                   &error_fatal);
++    object_property_set_link(OBJECT(end_xsrc), OBJECT(xive), "xive",
++                             &error_abort);
+     object_property_set_bool(OBJECT(end_xsrc), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 75dce82fb205..5363fcaa416c 100644
+index b69bceb4d255..a32ce0d5bfc6 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -580,19 +580,11 @@ static void xive_tctx_realize(DeviceState *dev, Error **errp)
-     XiveTCTX *tctx = XIVE_TCTX(dev);
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
+@@ -1824,17 +1824,8 @@ static const MemoryRegionOps xive_end_source_ops = {
+ static void xive_end_source_realize(DeviceState *dev, Error **errp)
+ {
+     XiveENDSource *xsrc = XIVE_END_SOURCE(dev);
 -    Object *obj;
-     Error *local_err = NULL;
- 
--    obj = object_property_get_link(OBJECT(dev), "cpu", &local_err);
+-    Error *local_err = NULL;
+-
+-    obj = object_property_get_link(OBJECT(dev), "xive", &local_err);
 -    if (!obj) {
 -        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'cpu' not found: ");
+-        error_prepend(errp, "required link 'xive' not found: ");
 -        return;
 -    }
--
--    cpu = POWERPC_CPU(obj);
--    tctx->cs = CPU(obj);
-+    assert(tctx->cs);
  
-+    cpu = POWERPC_CPU(tctx->cs);
-     env = &cpu->env;
-     switch (PPC_INPUT(env)) {
-     case PPC_FLAGS_INPUT_POWER9:
-@@ -676,10 +668,19 @@ static void xive_tctx_class_init(ObjectClass *klass, void *data)
-     dc->user_creatable = false;
- }
+-    xsrc->xrtr = XIVE_ROUTER(obj);
++    assert(xsrc->xrtr);
  
-+static void xive_tctx_instance_init(Object *obj)
+     if (!xsrc->nr_ends) {
+         error_setg(errp, "Number of interrupt needs to be greater than 0");
+@@ -1863,6 +1854,14 @@ static Property xive_end_source_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static void xive_end_source_instance_init(Object *obj)
 +{
-+    object_property_add_link(obj, "cpu", TYPE_CPU,
-+                             (Object **) &XIVE_TCTX(obj)->cs,
++    object_property_add_link(obj, "xive", TYPE_XIVE_ROUTER,
++                             (Object **) &XIVE_END_SOURCE(obj)->xrtr,
 +                             qdev_prop_allow_set_link_before_realize,
 +                             OBJ_PROP_LINK_STRONG, &error_abort);
 +}
 +
- static const TypeInfo xive_tctx_info = {
-     .name          = TYPE_XIVE_TCTX,
-     .parent        = TYPE_DEVICE,
-     .instance_size = sizeof(XiveTCTX),
-+    .instance_init = xive_tctx_instance_init,
-     .class_init    = xive_tctx_class_init,
- };
- 
-@@ -691,8 +692,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
-     obj = object_new(TYPE_XIVE_TCTX);
-     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
-     object_unref(obj);
--    object_ref(cpu);
--    object_property_add_const_link(obj, "cpu", cpu, &error_abort);
-+    object_property_set_link(obj, cpu, "cpu", &error_abort);
-     object_property_set_bool(obj, true, "realized", &local_err);
-     if (local_err) {
-         goto error;
-@@ -710,7 +710,6 @@ void xive_tctx_destroy(XiveTCTX *tctx)
+ static void xive_end_source_class_init(ObjectClass *klass, void *data)
  {
-     Object *obj = OBJECT(tctx);
- 
--    object_unref(object_property_get_link(obj, "cpu", &error_abort));
-     object_unparent(obj);
- }
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -1881,6 +1880,7 @@ static const TypeInfo xive_end_source_info = {
+     .name          = TYPE_XIVE_END_SOURCE,
+     .parent        = TYPE_DEVICE,
+     .instance_size = sizeof(XiveENDSource),
++    .instance_init    = xive_end_source_instance_init,
+     .class_init    = xive_end_source_class_init,
+ };
  
 
 
