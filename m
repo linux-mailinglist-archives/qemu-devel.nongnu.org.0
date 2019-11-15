@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFD6FD376
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 04:38:19 +0100 (CET)
-Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E338FD37E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Nov 2019 04:48:28 +0100 (CET)
+Received: from localhost ([::1]:35216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iVSR8-00066x-8m
-	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 22:38:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44225)
+	id 1iVSax-0002iC-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 14 Nov 2019 22:48:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1iVSPu-0005ET-7k
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:37:03 -0500
+ (envelope-from <farman@linux.ibm.com>) id 1iVSZb-0001od-47
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:47:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farman@linux.ibm.com>) id 1iVSPs-0003fO-DD
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:37:02 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4230)
+ (envelope-from <farman@linux.ibm.com>) id 1iVSZa-0002Zg-1C
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:47:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7744)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
- id 1iVSPs-0003ey-5c
- for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:37:00 -0500
+ id 1iVSZZ-0002ZS-Pw
+ for qemu-devel@nongnu.org; Thu, 14 Nov 2019 22:47:01 -0500
 Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAF3YXCT110737
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:36:58 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w9jtsq86v-1
+ xAF3iTM4054759
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:47:01 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2w9jtsr5cb-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:36:56 -0500
+ for <qemu-devel@nongnu.org>; Thu, 14 Nov 2019 22:47:00 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
- Fri, 15 Nov 2019 03:34:41 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 15 Nov 2019 03:34:42 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Fri, 15 Nov 2019 03:34:39 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAF3Y1dq39125348
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xAF3YcrL39191026
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Nov 2019 03:34:01 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EFF6311C052;
- Fri, 15 Nov 2019 03:34:37 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DC2DA11C04A;
+ Fri, 15 Nov 2019 03:34:38 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0931542049;
+ Fri, 15 Nov 2019 03:34:38 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E80C742042;
  Fri, 15 Nov 2019 03:34:37 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
  Fri, 15 Nov 2019 03:34:37 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 9D1A5E01F2; Fri, 15 Nov 2019 04:34:37 +0100 (CET)
+ id 9F920E021D; Fri, 15 Nov 2019 04:34:37 +0100 (CET)
 From: Eric Farman <farman@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [RFC PATCH v1 3/8] linux-headers: update
-Date: Fri, 15 Nov 2019 04:34:32 +0100
+Subject: [RFC PATCH v1 4/8] vfio-ccw: Refactor cleanup of regions
+Date: Fri, 15 Nov 2019 04:34:33 +0100
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191115033437.37926-1-farman@linux.ibm.com>
 References: <20191115033437.37926-1-farman@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19111503-0028-0000-0000-000003B7041A
+x-cbid: 19111503-0008-0000-0000-0000032F2619
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111503-0029-0000-0000-0000247A13B3
-Message-Id: <20191115033437.37926-4-farman@linux.ibm.com>
+x-cbparentid: 19111503-0009-0000-0000-00004A4E36D6
+Message-Id: <20191115033437.37926-5-farman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-14_07:2019-11-14,2019-11-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 spamscore=0
- mlxlogscore=987 impostorscore=0 lowpriorityscore=0 phishscore=0
- bulkscore=0 mlxscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ mlxlogscore=717 impostorscore=0 lowpriorityscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 clxscore=1015 suspectscore=2 malwarescore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911150029
+ engine=8.12.0-1910280000 definitions=main-1911150031
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,61 +94,54 @@ Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Farhan Ali <alifm@linux.ibm.com>
+While we're at it, add a g_free() for the async_cmd_region that
+is the last thing currently created.  g_free() knows how to handle
+NULL pointers, so this makes it easier to remember what cleanups
+need to be performed when new regions are added.
 
-Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
 Signed-off-by: Eric Farman <farman@linux.ibm.com>
 ---
+ hw/vfio/ccw.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-Notes:
-    v0->v1: [EF]
-     - Run scripts/update-linux-headers.sh properly, but do not
-       add resulting changes to linux-headers/asm-mips/
-
- linux-headers/linux/vfio.h     |  3 +++
- linux-headers/linux/vfio_ccw.h | 10 ++++++++++
- 2 files changed, 13 insertions(+)
-
-diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
-index fb10370d29..9e227348b3 100644
---- a/linux-headers/linux/vfio.h
-+++ b/linux-headers/linux/vfio.h
-@@ -378,6 +378,8 @@ struct vfio_region_gfx_edid {
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index 0590a6f512..3e32bc1819 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -376,8 +376,7 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+     vcdev->io_region_size = info->size;
+     if (sizeof(*vcdev->io_region) != vcdev->io_region_size) {
+         error_setg(errp, "vfio: Unexpected size of the I/O region");
+-        g_free(info);
+-        return;
++        goto out_err;
+     }
  
- /* sub-types for VFIO_REGION_TYPE_CCW */
- #define VFIO_REGION_SUBTYPE_CCW_ASYNC_CMD	(1)
-+#define VFIO_REGION_SUBTYPE_CCW_SCHIB		(2)
-+#define VFIO_REGION_SUBTYPE_CCW_CRW		(3)
+     vcdev->io_region_offset = info->offset;
+@@ -390,15 +389,20 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+         vcdev->async_cmd_region_size = info->size;
+         if (sizeof(*vcdev->async_cmd_region) != vcdev->async_cmd_region_size) {
+             error_setg(errp, "vfio: Unexpected size of the async cmd region");
+-            g_free(vcdev->io_region);
+-            g_free(info);
+-            return;
++            goto out_err;
+         }
+         vcdev->async_cmd_region_offset = info->offset;
+         vcdev->async_cmd_region = g_malloc0(info->size);
+     }
  
- /*
-  * The MSIX mappable capability informs that MSIX data of a BAR can be mmapped
-@@ -577,6 +579,7 @@ enum {
- 
- enum {
- 	VFIO_CCW_IO_IRQ_INDEX,
-+	VFIO_CCW_CRW_IRQ_INDEX,
- 	VFIO_CCW_NUM_IRQS
- };
- 
-diff --git a/linux-headers/linux/vfio_ccw.h b/linux-headers/linux/vfio_ccw.h
-index fcc3e69ef5..8654c9afca 100644
---- a/linux-headers/linux/vfio_ccw.h
-+++ b/linux-headers/linux/vfio_ccw.h
-@@ -34,4 +34,14 @@ struct ccw_cmd_region {
- 	__u32 ret_code;
- } __attribute__((packed));
- 
-+struct ccw_schib_region {
-+#define SCHIB_AREA_SIZE 52
-+	__u8 schib_area[SCHIB_AREA_SIZE];
-+} __attribute__((packed));
+     g_free(info);
++    return;
 +
-+struct ccw_crw_region {
-+	__u32 crw0;
-+	__u32 crw1;
-+} __attribute__((packed));
-+
- #endif
++out_err:
++    g_free(vcdev->async_cmd_region);
++    g_free(vcdev->io_region);
++    g_free(info);
++    return;
+ }
+ 
+ static void vfio_ccw_put_region(VFIOCCWDevice *vcdev)
 -- 
 2.17.1
 
