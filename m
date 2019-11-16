@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FD6FF3F3
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Nov 2019 17:37:02 +0100 (CET)
-Received: from localhost ([::1]:48966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A62FF3F6
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Nov 2019 17:38:13 +0100 (CET)
+Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iW14H-0007f0-7B
-	for lists+qemu-devel@lfdr.de; Sat, 16 Nov 2019 11:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58854)
+	id 1iW15Q-0001Uh-Nf
+	for lists+qemu-devel@lfdr.de; Sat, 16 Nov 2019 11:38:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iW11i-00051u-Ec
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iW11i-000529-IN
  for qemu-devel@nongnu.org; Sat, 16 Nov 2019 11:34:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iW11h-0005TB-9L
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iW11h-0005TG-D3
  for qemu-devel@nongnu.org; Sat, 16 Nov 2019 11:34:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:37800)
+Received: from relay.sw.ru ([185.231.240.75]:37806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iW11f-0005RU-3r; Sat, 16 Nov 2019 11:34:19 -0500
+ id 1iW11f-0005RS-1m; Sat, 16 Nov 2019 11:34:19 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iW11Y-0005cn-GP; Sat, 16 Nov 2019 19:34:12 +0300
+ id 1iW11Y-0005cn-Ju; Sat, 16 Nov 2019 19:34:12 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/4] block/io: bdrv_common_block_status_above: support bs ==
- base
-Date: Sat, 16 Nov 2019 19:34:09 +0300
-Message-Id: <20191116163410.12129-4-vsementsov@virtuozzo.com>
+Subject: [PATCH 4/4] block/io: fix bdrv_is_allocated_above
+Date: Sat, 16 Nov 2019 19:34:10 +0300
+Message-Id: <20191116163410.12129-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191116163410.12129-1-vsementsov@virtuozzo.com>
 References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
@@ -53,34 +52,81 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to reuse bdrv_common_block_status_above in
-bdrv_is_allocated_above. bdrv_is_allocated_above may be called with
-include_base == false and still bs == base (for ex. from img_rebase()).
+bdrv_is_allocated_above wrongly handles short backing files: it reports
+after-EOF space as UNALLOCATED which is wrong, as on read the data is
+generated on the level of short backing file (if all overlays has
+unallocated area at that place).
 
-So, support this corner case.
+Reusing bdrv_common_block_status_above fixes the issue and unifies code
+path.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/io.c | 43 +++++--------------------------------------
+ 1 file changed, 5 insertions(+), 38 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index df3ecf2430..f05b2e8ecc 100644
+index f05b2e8ecc..6946120587 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2431,7 +2431,11 @@ static int coroutine_fn bdrv_co_block_status_above(BlockDriverState *bs,
-     int ret = 0;
-     bool first = true;
+@@ -2581,52 +2581,19 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+  * at 'offset + *pnum' may return the same allocation status (in other
+  * words, the result is not necessarily the maximum possible range);
+  * but 'pnum' will only be 0 when end of file is reached.
+- *
+  */
+ int bdrv_is_allocated_above(BlockDriverState *top,
+                             BlockDriverState *base,
+                             bool include_base, int64_t offset,
+                             int64_t bytes, int64_t *pnum)
+ {
+-    BlockDriverState *intermediate;
+-    int ret;
+-    int64_t n = bytes;
+-
+-    assert(base || !include_base);
+-
+-    intermediate = top;
+-    while (include_base || intermediate != base) {
+-        int64_t pnum_inter;
+-        int64_t size_inter;
+-
+-        assert(intermediate);
+-        ret = bdrv_is_allocated(intermediate, offset, bytes, &pnum_inter);
+-        if (ret < 0) {
+-            return ret;
+-        }
+-        if (ret) {
+-            *pnum = pnum_inter;
+-            return 1;
+-        }
+-
+-        size_inter = bdrv_getlength(intermediate);
+-        if (size_inter < 0) {
+-            return size_inter;
+-        }
+-        if (n > pnum_inter &&
+-            (intermediate == top || offset + pnum_inter < size_inter)) {
+-            n = pnum_inter;
+-        }
+-
+-        if (intermediate == base) {
+-            break;
+-        }
+-
+-        intermediate = backing_bs(intermediate);
++    int ret = bdrv_common_block_status_above(top, base, include_base, false,
++                                             offset, bytes, pnum, NULL, NULL);
++    if (ret < 0) {
++        return ret;
+     }
  
--    assert(include_base || bs != base);
-+    if (!include_base && bs == base) {
-+        *pnum = bytes;
-+        return 0;
-+    }
-+
-     for (p = bs; include_base || p != base; p = backing_bs(p)) {
-         ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
-                                    file);
+-    *pnum = n;
+-    return 0;
++    return !!(ret & BDRV_BLOCK_ALLOCATED);
+ }
+ 
+ typedef struct BdrvVmstateCo {
 -- 
 2.21.0
 
