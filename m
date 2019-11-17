@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8334DFF8A0
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Nov 2019 10:07:47 +0100 (CET)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC366FF8A2
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Nov 2019 10:08:52 +0100 (CET)
+Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWGX4-0005VH-Je
-	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 04:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55768)
+	id 1iWGY7-00072T-Q1
+	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 04:08:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55781)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iWGW0-0004b7-4i
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:40 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iWGW1-0004dD-LH
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iWGVz-0004Tk-7B
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:40 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43977)
+ (envelope-from <richard.henderson@linaro.org>) id 1iWGW0-0004Vs-KS
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:41 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45457)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iWGVz-0004TI-1J
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:39 -0500
-Received: by mail-wr1-x441.google.com with SMTP id n1so15884877wra.10
- for <qemu-devel@nongnu.org>; Sun, 17 Nov 2019 01:06:38 -0800 (PST)
+ id 1iWGW0-0004U8-ER
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 04:06:40 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z10so15893573wrs.12
+ for <qemu-devel@nongnu.org>; Sun, 17 Nov 2019 01:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=GBHzU6Z//QizyB6bDO7VHsofmNwhMhG9rJWVnZKGzow=;
- b=gvrhEGsUSn/iXKEwstQwEO77Uz2vHzCvyubwpzbVdV/gzzTZ75SemEFyAy5zK3Kv3p
- stbImImvfmCp5dRWiY8N8VRXUxrS6IDD5DevaaIWCnIjqWJjpY2cwPdkR9oTR/DGQP9s
- P/gU4sa2ChyWcx0c1JsV1KPb+ghyxQQvSEhtT2Fs8E/iyf/jQGDbSQ2mFrPISlSCpsXb
- /bUXHcx6ZCHGdqaVmr63efi2b/zaetQRax51our9CH8irlm8GIrh5zNrM9lGKoOlu9Ud
- dwR/2A2Q7Y3QCGya7h28Q5MXVN5pTaYCcXbfKCa1OhPUSjCnA8llVGgK4qCjSlJepe5B
- IshA==
+ bh=X1Vrnl0U1WStHfXGelt9HfqdmyYRaXH+N+hAEhNxwRQ=;
+ b=CbaOldtwUMerikJ/WPu12Q1PZINNTUNiunVTnlezW3yZ6mO5mvZ+EMe8BIOL4IUTPL
+ IGJVXSmJIXg8JegYPS6nvQki6e8ptwCcLJMxtBEc3ltczb0/Q3m0baj0hu6Jlmy53anc
+ 6GYMZbTPt4znPyykSVa8f/76PYqelsAKl4boBcr4vywU0jyh395O87Ex1GtUFUaaPfms
+ UDUXG9s/tJil/hrNVvkpv7BK2WFTbZl59xs5+kAQNjPS4XNK5thz3siZUleqCdfD67tB
+ ePR+/jlrULCZeOwxghNGSu4IuMheu+vhb082vD40XpgLiIpC65JhhPhLYbtab5mbXhSX
+ Plpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=GBHzU6Z//QizyB6bDO7VHsofmNwhMhG9rJWVnZKGzow=;
- b=QIsLVa0EQjzbbfPvXhw8QouUGdu45gYvZFo7s9yDWhidmrvXEDkfl1MI0yGdu/40RP
- /sor8n/UcMZdDchuLqoIIEtgQC/Y5oDlkWoV9Hz0/X12tgo5DEwvd7HPCzyztnuFv03r
- dCwhNNEtZ0JFeb12DB2TFyCDywynXwKtskml8aj1ax5mb8K7F7bwu8AsUnKjn7u9zKdD
- xCcTCmON2HrHORBoD9Fgl82oAtC3Va8oaMhMWpxx196JaWBq/3NNDsYBWZ69y3gIqcFP
- 2d+dmMMoPpxxgb3g4r+t8XeSor5mzZudXmTnZRPUEVmLLpw/EWWNGqzTNwld50qRCfCe
- cUJQ==
-X-Gm-Message-State: APjAAAVONy8G8wsEiPKmXekd9EYmpbg7ch7jtUWYZ+T2/286/3gn4E92
- f/B6PhNbt7li83u2zOUa4QKonq3Ns/MI3g==
-X-Google-Smtp-Source: APXvYqzLlz5eHpIysjWaHL2J0rzx/CAgVD60VGTXTmEqDOVmOlD20kCf2Gn/undafpE34+EyKRSllQ==
-X-Received: by 2002:adf:efcb:: with SMTP id i11mr3476142wrp.229.1573981597751; 
- Sun, 17 Nov 2019 01:06:37 -0800 (PST)
+ bh=X1Vrnl0U1WStHfXGelt9HfqdmyYRaXH+N+hAEhNxwRQ=;
+ b=LBrg8yw5Zba6q8KcwqsT9iAgNKpAr7sGt//vXLfZggCU/UYMeVr4cwCiuLkrsrl20B
+ kBpVBuLfnJ/7AjPf7fLvZiR5yDg9eg6loIbsLmU0rsZ4SaJvH4xwKoDRWAmpR4WnA9aA
+ WXcmr4wzJDUKD8f1OImViNFTU2k88RkA2VcbW+C2cG8IzyVmvmS6w1qLMtneJeWMP3uT
+ hnEVAhABq2ay3wt3eNYKoqhrCe2/94d+NEcAAh5I6y9dV5CO21v7kPpa2QpMQd39Frgl
+ HCwkdR9GqliLUJPIqY+AVl6nWv8XLS7d/FdBQfzIPiuy18F7GPXVP8KCqkxFiwGJqs9w
+ n9Ew==
+X-Gm-Message-State: APjAAAW5JWzwG9U2M5xDSblH38wqdFeflAuah8ayL6NQqjU2/BKprzKN
+ 7PYZQgfMlTQq966NiWYtc+7Q5SB0PwpGug==
+X-Google-Smtp-Source: APXvYqxvFEThtzhRuS34CHeVPEHv1waRZQBLOs0C8pUvW+objtS6w9HRgadL3jHUapP33arF1cfV+Q==
+X-Received: by 2002:adf:d091:: with SMTP id y17mr25498844wrh.182.1573981599222; 
+ Sun, 17 Nov 2019 01:06:39 -0800 (PST)
 Received: from localhost.localdomain (180.red-80-27-55.dynamicip.rima-tde.net.
  [80.27.55.180])
- by smtp.gmail.com with ESMTPSA id 91sm19773679wrm.42.2019.11.17.01.06.36
+ by smtp.gmail.com with ESMTPSA id 91sm19773679wrm.42.2019.11.17.01.06.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Nov 2019 01:06:37 -0800 (PST)
+ Sun, 17 Nov 2019 01:06:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] target/arm: Do not reject rt == rt2 for strexd
-Date: Sun, 17 Nov 2019 10:06:20 +0100
-Message-Id: <20191117090621.32425-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/2] target/arm: Relax r13 restriction for ldrex/strex for v8.0
+Date: Sun, 17 Nov 2019 10:06:21 +0100
+Message-Id: <20191117090621.32425-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191117090621.32425-1-richard.henderson@linaro.org>
 References: <20191117090621.32425-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +79,44 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was too much cut and paste between ldrexd and strexd,
-as ldrexd does prohibit two output registers the same.
+Armv8-A removes UNPREDICTABLE for R13 for these cases.
 
-Fixes: af288228995
-Reported-by: Michael Goffioul <michael.goffioul@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/translate.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 2ea9da7637..b285b23858 100644
+index b285b23858..3db8103966 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8934,7 +8934,7 @@ static bool op_strex(DisasContext *s, arg_STREX *a, MemOp mop, bool rel)
-         || (s->thumb && (a->rd == 13 || a->rt == 13))
+@@ -8931,11 +8931,11 @@ static bool op_strex(DisasContext *s, arg_STREX *a, MemOp mop, bool rel)
+     /* We UNDEF for these UNPREDICTABLE cases.  */
+     if (a->rd == 15 || a->rn == 15 || a->rt == 15
+         || a->rd == a->rn || a->rd == a->rt
+-        || (s->thumb && (a->rd == 13 || a->rt == 13))
++        || (!ENABLE_ARCH_8 && s->thumb && (a->rd == 13 || a->rt == 13))
          || (mop == MO_64
              && (a->rt2 == 15
--                || a->rd == a->rt2 || a->rt == a->rt2
-+                || a->rd == a->rt2
-                 || (s->thumb && a->rt2 == 13)))) {
+                 || a->rd == a->rt2
+-                || (s->thumb && a->rt2 == 13)))) {
++                || (!ENABLE_ARCH_8 && s->thumb && a->rt2 == 13)))) {
          unallocated_encoding(s);
          return true;
+     }
+@@ -9087,10 +9087,10 @@ static bool op_ldrex(DisasContext *s, arg_LDREX *a, MemOp mop, bool acq)
+ 
+     /* We UNDEF for these UNPREDICTABLE cases.  */
+     if (a->rn == 15 || a->rt == 15
+-        || (s->thumb && a->rt == 13)
++        || (!ENABLE_ARCH_8 && s->thumb && a->rt == 13)
+         || (mop == MO_64
+             && (a->rt2 == 15 || a->rt == a->rt2
+-                || (s->thumb && a->rt2 == 13)))) {
++                || (!ENABLE_ARCH_8 && s->thumb && a->rt2 == 13)))) {
+         unallocated_encoding(s);
+         return true;
+     }
 -- 
 2.17.1
 
