@@ -2,47 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420D310010E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 10:20:54 +0100 (CET)
-Received: from localhost ([::1]:59702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05FA10013F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 10:27:04 +0100 (CET)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWdDJ-0007YC-Al
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 04:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56733)
+	id 1iWdJH-00036E-I1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 04:27:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iWdC0-0006Tu-4f
+ (envelope-from <damien.hedde@greensocs.com>) id 1iWdC0-0006UE-Gt
  for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iWdBy-00069g-Rx
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:31 -0500
-Received: from 7.mo6.mail-out.ovh.net ([46.105.59.196]:48584)
+ (envelope-from <damien.hedde@greensocs.com>) id 1iWdBy-00069u-V5
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:32 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:36964)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iWdBy-00063p-M7
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1iWdBx-00062r-7G
  for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:30 -0500
-Received: from player776.ha.ovh.net (unknown [10.108.57.183])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 493831E3211
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 10:19:25 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player776.ha.ovh.net (Postfix) with ESMTPSA id 47570C30EEF0;
- Mon, 18 Nov 2019 09:19:20 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH] ppc/pnv: Add a LPC "ranges" property
-Date: Mon, 18 Nov 2019 10:19:08 +0100
-Message-Id: <20191118091908.15044-1-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id B6E1C96EF2;
+ Mon, 18 Nov 2019 09:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1574068764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gAspjyT43V2EbafcLGKjM94Dx0dnFP9MywVsHrFuncQ=;
+ b=jpK0ioT1L3HZ/fZa/dsNS1b6GfXpJ00zT4gVui6StpPLX8NemSA2gyKYpxdj3r6Kzo82Xt
+ /MqtIfHf1hRqNb9++drdOoGG+bahOmu1Ind4CC2N/Xta5QfaG0wKQWNtQDgonq8GpS3vp0
+ juw3Cin1AWQqylooIjlWOjTkDuES/kA=
+Subject: Re: [RFC PATCH 01/11] gdbstub: move allocation of GDBState to one
+ place
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191115173000.21891-1-alex.bennee@linaro.org>
+ <20191115173000.21891-2-alex.bennee@linaro.org>
+ <9f87f9e8-ecc6-398f-62b3-05a7f9af2366@linaro.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <422bfc5c-4d2d-a581-7bb2-8a2f8e113b35@greensocs.com>
+Date: Mon, 18 Nov 2019 10:19:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 7069525517583879142
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeghedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+In-Reply-To: <9f87f9e8-ecc6-398f-62b3-05a7f9af2366@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1574068764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gAspjyT43V2EbafcLGKjM94Dx0dnFP9MywVsHrFuncQ=;
+ b=FugR9RxUrNwDXHVfEoxRxYPv/kesJCxc0mVvadmXfphylACpeBgy226Ij2A+QslWyeY4XX
+ wLXuFWOKx5RUNOnpExK2evzlrMSlfMMF5yyyP4+wC513ITTCLBlCTWMNVApTV4nr3KHWd3
+ 61bil8BXWnUqhHcLa9GqhUKQtZfPlqo=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1574068764; a=rsa-sha256; cv=none;
+ b=6goFMNKoll4iZh3QC4BhY+22A/TzRIk/H1l1qy1+16n434bdiasr5rGlVRMyoksWOHaCgw
+ jDemPmQ9t7CMeVH1QUmdr/COcHZshtWDpDGpzk4XEt1oQwnZL/WL4QTqmT0gw2aFtynvco
+ IbbRxmL0aqUqpACzR+s1b9/XObDB+Js=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.59.196
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,60 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ luis.machado@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And fix a typo in the MEM address space definition.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/pnv_lpc.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index fb9f93032020..c5a85c38c783 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -86,7 +86,7 @@ enum {
- #define ISA_FW_SIZE             0x10000000
- #define LPC_IO_OPB_ADDR         0xd0010000
- #define LPC_IO_OPB_SIZE         0x00010000
--#define LPC_MEM_OPB_ADDR        0xe0010000
-+#define LPC_MEM_OPB_ADDR        0xe0000000
- #define LPC_MEM_OPB_SIZE        0x10000000
- #define LPC_FW_OPB_ADDR         0xf0000000
- #define LPC_FW_OPB_SIZE         0x10000000
-@@ -143,6 +143,16 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_of=
-fset)
-                             cpu_to_be32(PNV9_LPCM_SIZE >> 32),
-                             cpu_to_be32((uint32_t)PNV9_LPCM_SIZE),
-     };
-+    uint32_t lpc_ranges[12] =3D { 0, 0,
-+                                cpu_to_be32(LPC_MEM_OPB_ADDR),
-+                                cpu_to_be32(LPC_MEM_OPB_SIZE),
-+                                cpu_to_be32(1), 0,
-+                                cpu_to_be32(LPC_IO_OPB_ADDR),
-+                                cpu_to_be32(LPC_IO_OPB_SIZE),
-+                                cpu_to_be32(3), 0,
-+                                cpu_to_be32(LPC_FW_OPB_ADDR),
-+                                cpu_to_be32(LPC_FW_OPB_SIZE),
-+    };
-     uint32_t reg[2];
-=20
-     /*
-@@ -211,6 +221,8 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_off=
-set)
-     _FDT((fdt_setprop_cell(fdt, offset, "#size-cells", 1)));
-     _FDT((fdt_setprop(fdt, offset, "compatible", lpc_compat,
-                       sizeof(lpc_compat))));
-+    _FDT((fdt_setprop(fdt, offset, "ranges", lpc_ranges,
-+                      sizeof(lpc_ranges))));
-=20
-     return 0;
- }
---=20
-2.21.0
+On 11/18/19 8:41 AM, Richard Henderson wrote:
+> On 11/15/19 6:29 PM, Alex Benn=C3=A9e wrote:
+>> =20
+>>  static GDBState *gdbserver_state;
+>> =20
+>> +static GDBState *gdb_allocate_state(void)
+>> +{
+>> +    g_assert(!gdbserver_state);
+>> +    gdbserver_state =3D g_new0(GDBState, 1);
+>> +    return gdbserver_state;
+>> +}
+>> +
+>=20
+> Actually, if we're only going to have one, why are we allocating it
+> dynamically?  We might as well allocate it statically and drop the poin=
+ter
+> indirection.
 
+In use_gdb_syscalls(), we check if gdbserver_state is NULL:
+| /* -semihosting-config target=3Dauto */
+| /* On the first call check if gdb is connected and remember. */
+| if (gdb_syscall_mode =3D=3D GDB_SYS_UNKNOWN) {
+| gdb_syscall_mode =3D (gdbserver_state ? GDB_SYS_ENABLED
+|                                     : GDB_SYS_DISABLED);
+| }
+
+So we cannot drop the pointer or we have to add some flag to do this test=
+.
+
+Damien
 
