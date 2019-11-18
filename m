@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E76100C26
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 20:22:44 +0100 (CET)
-Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2E1100C06
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 20:12:11 +0100 (CET)
+Received: from localhost ([::1]:38388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWmbj-0006Sb-55
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 14:22:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
+	id 1iWmRW-0002uv-7X
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 14:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iWmZv-0005s2-EF
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1iWmQS-0002Ar-1o
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:11:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iWmZt-0002rv-TS
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39414)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iWmZt-0002qt-NQ
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iWmZr-0000LV-Ts
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 19:20:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D07172E80D3
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 19:20:47 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iWmQP-0000RN-L3
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:11:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34682
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iWmQP-0000R2-H6
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:11:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574104260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qm6I/9HoeccmQfckMhn6r50irmPDfJq+IHiFbKH7FHg=;
+ b=eAZr4QuNh0aH/NAxs6T+v4rKa1YI+Akdgsvd8iGWTxuD2/Bc/+fe9rhAGh/EwmOr4jSlVu
+ f/pqrmVyv5RNGFLwsCKtdP+5yem6mDWvuVHrjNkyi+u6m8HWf3rczf05o6V1CFzsZFQkDd
+ 7Y3homKpUW81jowrOjHDfuBg/V3E764=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-zJgvvYfUPMWquWkR6pR1Dg-1; Mon, 18 Nov 2019 14:10:59 -0500
+Received: by mail-wm1-f72.google.com with SMTP id y14so417411wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 11:10:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4rabmlt2wwhztostFxkTuciNLYT8XNH+8kZVapbVrs8=;
+ b=G3PqQuLX6YGv3+lL4leD7EWeBCIsxB2ULi8VFnGSEgEgB08vVbqcbGQJnVWgb+Kwzp
+ SkdPbQwT7GcEu8wC6SWAS7LsbqC2T3rHermPOV6gSq1GoEXwGU9IOyVQO1y4ViIvDTrx
+ wlbz3wdgg8u/GtzQ7aFRX6oyPZnU2v8bVmVnIEWYmkUdQCsAF0QgBGOnyamQYPsdik+L
+ dpZE2UgAkw5t/EfFKI/T+mx69jGmXbF0BVyDPxZmRMCNtvthXpUMst7jbNxqcr43Hg4+
+ exRiMPB0Ai+dQv49i4l26moAbzszM6lLdGHGOGKvK1x91K4b7fCis05NWBybxkwgZOdz
+ 9gLg==
+X-Gm-Message-State: APjAAAVKP5cB55E+8ecwyZa0aFKicbVGACm1cFl3KEicMAMgDvKo+0fi
+ SdnX77u5MYlIpjd1DRK2xTFWVmzqgZvl06zKklym/NukeYJ90AUngN6rLjOaCYTPCBTqJf929/p
+ Egjnfj1hlLz2Zhmk=
+X-Received: by 2002:adf:f442:: with SMTP id f2mr33323312wrp.289.1574104257891; 
+ Mon, 18 Nov 2019 11:10:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzctniBrexZ9hi2XFJ28h2DQ9QCHECz2edVUPnpolOy5q/JZpZJ5ZKFNUs+yEqyGRVEq+ldag==
+X-Received: by 2002:adf:f442:: with SMTP id f2mr33323267wrp.289.1574104257569; 
+ Mon, 18 Nov 2019 11:10:57 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id a6sm26695735wrh.69.2019.11.18.11.10.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Nov 2019 11:10:56 -0800 (PST)
+Subject: Re: [PATCH v2 2/3] hw/mips/gt64xxx: Remove dynamic field width from
+ trace events
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20191108144042.30245-1-philmd@redhat.com>
+ <20191108144042.30245-3-philmd@redhat.com>
+ <ead1eb4b-a0e0-edf9-8323-ce9f5a291547@redhat.com>
+ <bffde73d-cc1a-dcea-2e5d-7128bda7abf9@redhat.com>
+Message-ID: <0a1b0182-d91e-ac9f-3c4e-aad53ee794b8@redhat.com>
+Date: Mon, 18 Nov 2019 20:10:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <bffde73d-cc1a-dcea-2e5d-7128bda7abf9@redhat.com>
+Content-Language: en-US
+X-MC-Unique: zJgvvYfUPMWquWkR6pR1Dg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 Nov 2019 19:05:45 -0000
-From: Andrew Cloke <andrew.cloke@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Medium; 
- assignee=canonical-server; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=ubuntu-power-triage; 
-X-Launchpad-Bug-Tags: architecture-ppc64le bugnameltc-182496 severity-medium
- targetmilestone-inin18045
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bugproxy
-X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
-X-Launchpad-Bug-Modifier: Andrew Cloke (andrew-cloke)
-References: <157410285104.6190.4801607370836952199.malonedeb@gac.canonical.com>
-Message-Id: <157410394548.6785.17922258411239584942.launchpad@gac.canonical.com>
-Subject: [Bug 1853042] Re: Ubuntu 18.04 - vm disk i/o performance issue when
- using file system passthrough
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 400cca6808ff3eb1cfb1fa4eeddc39527a537a73
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,151 +94,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853042 <1853042@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Also affects: qemu
-   Importance: Undecided
-       Status: New
+On 11/14/19 10:24 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 11/8/19 4:58 PM, Eric Blake wrote:
+>> On 11/8/19 8:40 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> Since not all trace backends support dynamic field width in
+>>> format (dtrace via stap does not), replace by a static field
+>>> width instead.
+>>>
+>>> Reported-by: Eric Blake <eblake@redhat.com>
+>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>> v2: Do not update qemu_log_mask()
+>>> ---
+>>> =C2=A0 hw/mips/gt64xxx_pci.c | 16 ++++++++--------
+>>> =C2=A0 hw/mips/trace-events=C2=A0 |=C2=A0 4 ++--
+>>> =C2=A0 2 files changed, 10 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+>>> index 5cab9c1ee1..6743e7c929 100644
+>>> --- a/hw/mips/gt64xxx_pci.c
+>>> +++ b/hw/mips/gt64xxx_pci.c
+>>> @@ -642,19 +642,19 @@ static void gt64120_writel(void *opaque, hwaddr=
+=20
+>>> addr,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* not really im=
+plemented */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->regs[saddr] =
+=3D ~(~(s->regs[saddr]) | ~(val & 0xfffffffe));
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->regs[saddr] |=
+=3D !!(s->regs[saddr] & 0xfffffffe);
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_gt64120_write("INTRCA=
+USE", size << 1, val);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_gt64120_write("INTRCA=
+USE", size << 3, val);
+>>
+>> Again, this isn't mentioned in the commit message.=C2=A0 Why are you=20
+>> changing parameter values?
+>>
+>>
+>>> +++ b/hw/mips/trace-events
+>>> @@ -1,4 +1,4 @@
+>>> =C2=A0 # gt64xxx.c
+>>> -gt64120_read(const char *regname, int width, uint64_t value)=20
+>>> "gt64120 read %s value:0x%0*" PRIx64
+>>> -gt64120_write(const char *regname, int width, uint64_t value)=20
+>>> "gt64120 write %s value:0x%0*" PRIx64
+>>> +gt64120_read(const char *regname, int width, uint64_t value)=20
+>>> "gt64120 read %s width:%d value:0x%08" PRIx64
+>>> +gt64120_write(const char *regname, int width, uint64_t value)=20
+>>> "gt64120 write %s width:%d value:0x%08" PRIx64
+>>
+>> Huh, we were really broken - the old code (if passed to printf) would=20
+>> try to parse 4 parameters, even though it was only passed 3.=C2=A0 But i=
+t=20
+>> looks like you still need a v3.
+>=20
+> Oops. I am surprise the compiler doesn't emit a warning here...
 
-** Also affects: ubuntu-power-systems
-   Importance: Undecided
-       Status: New
+I'm sorry I can't see the 4th parameter.
 
-** No longer affects: qemu
+Before: "gt64120 read %s value:0x%0*" PRIx64
 
-** Changed in: ubuntu-power-systems
-     Assignee: (unassigned) =3D> Canonical Server Team (canonical-server)
+#1 's' for 'const char *regname'
+#2 '0*' for 'int width'
+#3 'x' for 'uint64_t value'
 
-** Changed in: ubuntu-power-systems
-   Importance: Undecided =3D> Medium
+After: "gt64120 read %s width:%d value:0x%08" PRIx64
 
--- =
+#1 's' for 'const char *regname'
+#2 'd' for 'int width'
+#3 '08x' for 'uint64_t value'
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853042
+Am I missing something?
 
-Title:
-  Ubuntu 18.04 - vm disk i/o performance issue when using file system
-  passthrough
-
-Status in The Ubuntu-power-systems project:
-  New
-Status in qemu package in Ubuntu:
-  New
-
-Bug description:
-  =3D=3D Comment: #0 - I-HSIN CHUNG <ihchung@us.ibm.com> - 2019-11-15 12:35=
-:05 =3D=3D
-  ---Problem Description---
-  Ubuntu 18.04 - vm disk i/o performance issue when using file system passt=
-hrough
-   =
-
-  Contact Information =3D ihchung@us.ibm.com =
-
-   =
-
-  ---uname output---
-  Linux css-host-22 4.15.0-1039-ibm-gt #41-Ubuntu SMP Wed Oct 2 10:52:25 UT=
-C 2019 ppc64le ppc64le ppc64le GNU/Linux (host) Linux ubuntu 4.15.0-65-gene=
-ric #74-Ubuntu SMP Tue Sep 17 17:08:54 UTC 2019 ppc64le ppc64le ppc64le GNU=
-/Linux (vm)
-   =
-
-  Machine Type =3D p9/ac922 =
-
-   =
-
-  ---Debugger---
-  A debugger is not configured
-   =
-
-  ---Steps to Reproduce---
-   1. Env: Ubuntu 18.04.3 LTS?Genesis kernel linux-ibm-gt - 4.15.0-1039.41?=
-qemu 1:2.11+dfsg-1ubuntu7.18 ibmcloud0.3 or 1:2.11+dfsg-1ubuntu7.19 ibm-clo=
-ud1?fio-3.15-4-g029b
-
-  2. execute run.sh to run fio benchmark:
-
-  2.1) run.sh:
-  #!/bin/bash
-    =
-
-  for bs in  4k 16m
-  do
-
-  for rwmixread in 0 25 50 75 100
-  do
-
-  for numjobs in 1 4 16 64
-  do
-  echo ./fio j1.txt --bs=3D$bs --rwmixread=3D$rwmixread --numjobs=3D$numjobs
-  ./fio j1.txt --bs=3D$bs --rwmixread=3D$rwmixread --numjobs=3D$numjobs
-
-  done
-  done
-  done
-
-  2.2) j1.txt:
-
-  [global]
-  direct=3D1
-  rw=3Drandrw
-  refill_buffers
-  norandommap
-  randrepeat=3D0
-  ioengine=3Dlibaio
-  iodepth=3D64
-  runtime=3D60
-
-  allow_mounted_write=3D1
-
-  [job2]
-  new_group
-  filename=3D/dev/vdb
-  filesize=3D1000g
-  cpus_allowed=3D0-63
-  numa_cpu_nodes=3D0
-  numa_mem_policy=3Dbind:0
-
-  3. performance profile:
-  device passthrough performance for the nvme: =
-
-  http://css-host-22.watson.ibm.com/rundir/nvme_vm_perf_vm/20191011-112156/=
-html/#/measurement/vm/ubuntu (I/O bandwidth achieved inside VM in GB/s rang=
-e)
-
-  file system passthrough
-  http://css-host-22.watson.ibm.com/rundir/nvme_vm_perf_vm/20191106-123613/=
-html/#/measurement/vm/ubuntu (I/o bandwidth achieved inside the VM is very =
-low)
-
-  desired performance when using file system passthrough should be similar =
-to the device passthrough
-   =
-
-  Userspace tool common name: fio =
-
-   =
-
-  The userspace tool has the following bit modes: should be 64 bit =
-
-
-  Userspace rpm: ?
-
-  Userspace tool obtained from project website:  na =
-
-   =
-
-  *Additional Instructions for ihchung@us.ibm.com: =
-
-  -Post a private note with access information to the machine that the bug =
-is occuring on.
-  -Attach ltrace and strace of userspace application.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/ubuntu-power-systems/+bug/1853042/+subscriptions
 
