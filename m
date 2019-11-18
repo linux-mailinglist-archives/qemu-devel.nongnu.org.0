@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E455100DA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:24:25 +0100 (CET)
-Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0FC100DA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:26:05 +0100 (CET)
+Received: from localhost ([::1]:39722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWoVU-0001S1-Kk
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:24:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36521)
+	id 1iWoX6-0003MP-L4
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:26:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iWoRU-0005Ey-Ed
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:20:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iWoTW-00080S-Sw
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:22:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iWoRQ-0000n7-Ss
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:20:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47625
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iWoRQ-0000mt-P9
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:20:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574112012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XEQc9GGzVfCgyalPiZuLfcDhEacdHWuMQLAmd9twLL0=;
- b=Xg0fDgG+uIEj7X1xxs0WdasgCfGyj8akOQ5/j5a4HI2TLmShM6ijlP3ZKIB1vhBlmb63h8
- 2SH/IbueBvwEj5SmPWMEoYsgpTRfkAedCDZLyrwFS9g0ncjnZh/lyU7l6hOSvyWmgbmjAv
- I0MDSzKgdcuf7UfQAxk3ptYRgaia3qs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-a_Ynj4_2P_ubmKxW7EcAXw-1; Mon, 18 Nov 2019 16:20:09 -0500
-Received: by mail-wr1-f71.google.com with SMTP id b4so16586506wrn.8
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:20:08 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iWoTU-0001nQ-UV
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:22:22 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38550)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iWoTT-0001mO-1F
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:22:20 -0500
+Received: by mail-oi1-x242.google.com with SMTP id a14so16764399oid.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jRDi7HYnf8c4TF3RQNVQKw+I2dKGd0rVFRaPLUds7no=;
+ b=Lfg/nDReTI+tpyP7sixHXhbL9lQAxCgx0jA+8oUGK9/zUO/tuaxZhAnkavQvbohn24
+ n6EgBDjblqU7n8Cp4wKA0uMHv+SDQqfMiaSZ7/RxOZy/f6RzBRsBuRFK8qqbnWgdDbeA
+ JWlylXIp2cwETXyChmDYLPihCx8hwqNh7TaTIcDWXaXbrbCRb4FIrgrAsFGTVuzKyZZF
+ HgS2eZyskUDnrIl8hskmqNT/dnihK9/rD5QVaf01fufjhOi+VHsvNulVLNsml1Pw+eNz
+ Lwz+14ao2+Z5CHlJvS+Cy+W54XZpxlAQlh9fsUBDougu2++JmLMx/cXJJXt1RvUmbyzQ
+ DC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UE6EDNxk6yJJwC1ODVz8xYg0z0mT9tmWkRSkmchqceI=;
- b=L9FjCSUzp1UCCXFKUdigmHL3Elx0OyRoD83BSG+2wfF731WwRzZJTYjbXu9qi2wKdL
- kT3nEeFcWLzLDIPmGEC07det7fawt88OGSYXQcSqW/Jj8ME+dIYNguC+DwvNhajG7fBM
- wZLazlCjIguwjXQ9ic1C9RCnr3YNfVv5AfBzgTLmEqXtKUvWHv90WP/eS2HTlZXZ9Grn
- pJYPBiAwgoDvA/FTRuXOQF32fZjMzT9DlzAR/LWlRTe9SPq0Ncap1L4u/h9DiyosZoDH
- Cq4rhd0mzBxJsAhudeS5QtbXOcvBOibRsFwWCRbmKW5yhTRR3RapgHlwM0N5QQ5f4clJ
- 8a9Q==
-X-Gm-Message-State: APjAAAX73V/dByqJqoZBd0WxyCqef/s9FKVQ48s07VRHM5K+ZYzNqk7K
- ALC4EcSJK4TQcwT01Wse79asrxFFkAgG43ilJ8sOvAtDlfBmeLa+oawZS1YcqAYkDSwvpWLXEUV
- mDJoxVYxU+dZeoW0=
-X-Received: by 2002:a5d:558e:: with SMTP id i14mr32392317wrv.140.1574112008059; 
- Mon, 18 Nov 2019 13:20:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwcXhU9edVPeNF/1OGXCQZgO02XAnD+EBjs31Ku5IKPG7GjUemOTZtDBiR6qhu3IDqtZXFjmg==
-X-Received: by 2002:a5d:558e:: with SMTP id i14mr32392291wrv.140.1574112007809; 
- Mon, 18 Nov 2019 13:20:07 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id c4sm24623432wrp.86.2019.11.18.13.20.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Nov 2019 13:20:07 -0800 (PST)
-Subject: Re: [PATCH-for-4.2 v3 1/3] hw/block/pflash: Remove dynamic field
- width from trace events
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20191118210458.11959-1-philmd@redhat.com>
- <20191118210458.11959-2-philmd@redhat.com>
- <833a3e22-2bbb-f646-eb9b-5c56dfeb43e6@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4a859ab8-a717-6b92-fb63-92ac6bb19fe8@redhat.com>
-Date: Mon, 18 Nov 2019 22:20:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jRDi7HYnf8c4TF3RQNVQKw+I2dKGd0rVFRaPLUds7no=;
+ b=WnYutsQaxzZwqc1wyQ4knOSRVQSOcasRiZoP3mJzqpymIBykUnAhJ4NP2MueZPnGd1
+ Dc7IyM0MDnPN3P05k8MlGsEPk2RYoAN5NIE83lE/T92NdieeHMm84d9zVcjOjqF89E0B
+ q710h6TmfZGjqRNjicFerIrIP0Svo4XwknzmkIRiyobekriUcABIxFtyixPHyCepkVki
+ vCQY9m2dfMM1O/4hqV0Ib0qdNFYYieRQ6LMH64ErKeu/YzguacanJnBpHiMGvLfhpyPp
+ lTVa1+WhrftrohelNvA37iGh0sA0ii3yPtwNMiufKXO/3VkbAMdbnx8VG4D4om0OWjQ0
+ dOTQ==
+X-Gm-Message-State: APjAAAWTFtM9FN/30912Gwmx6cjfOb6toOM7071FcSW/bFde++B8qdn/
+ UCif7MVaO+WEO0mGVNgGi3a7zHbj3QrF91xQtFqK3A==
+X-Google-Smtp-Source: APXvYqziMH9C1DI+STIDdxTRJhSXecI4wF6Z04VvjRtwyAbYAygNSUT2d/g+cYRqP/xLgKitHoNhpJM7FSK5IFpXyNc=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr911291oij.163.1574112138024; 
+ Mon, 18 Nov 2019 13:22:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <833a3e22-2bbb-f646-eb9b-5c56dfeb43e6@redhat.com>
-Content-Language: en-US
-X-MC-Unique: a_Ynj4_2P_ubmKxW7EcAXw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191117090621.32425-1-richard.henderson@linaro.org>
+ <20191117090621.32425-3-richard.henderson@linaro.org>
+ <CAFEAcA8FdT8R4_nwUQ1QLBMBST_K0xuHABER3f8kt6JY1vYojw@mail.gmail.com>
+ <f8071794-cb5f-d987-0e7d-11a70ba4d2bc@linaro.org>
+ <CAFEAcA_qF6e_4_7syRVomag31pMgX02=R7JJ7a5pW_r+MU-aaQ@mail.gmail.com>
+ <59a944f9-45f0-b78f-6ec3-5e96fe804767@linaro.org>
+In-Reply-To: <59a944f9-45f0-b78f-6ec3-5e96fe804767@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Nov 2019 21:22:10 +0000
+Message-ID: <CAFEAcA_f9bqh-d3=kZem_=SCokGgr-ZDeJnGkirBojYy58xExw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/arm: Relax r13 restriction for ldrex/strex for
+ v8.0
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,42 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/19 10:15 PM, Eric Blake wrote:
-> On 11/18/19 3:04 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> Since not all trace backends support dynamic field width in
->> format (dtrace via stap does not), replace by a static field
->> width instead.
->>
->> We previously passed to the trace API 'width << 1' as the number
->> of hex characters to display (the dynamic field width). We don't
->> need this anymore. Instead, display the size of bytes accessed.
->>
->> Reported-by: Eric Blake <eblake@redhat.com>
->> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> Is it worth a Fixes: XXX calling out the commit that introduced the '*'?
+On Mon, 18 Nov 2019 at 20:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 11/18/19 6:53 PM, Peter Maydell wrote:
+> > On Mon, 18 Nov 2019 at 13:16, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> On 11/18/19 2:10 PM, Peter Maydell wrote:
+> >>>>      /* We UNDEF for these UNPREDICTABLE cases.  */
+> >>>>      if (a->rn == 15 || a->rt == 15
+> >>>> -        || (s->thumb && a->rt == 13)
+> >>>> +        || (!ENABLE_ARCH_8 && s->thumb && a->rt == 13)
+> >>>>          || (mop == MO_64
+> >>>>              && (a->rt2 == 15 || a->rt == a->rt2
+> >>>> -                || (s->thumb && a->rt2 == 13)))) {
+> >>>> +                || (!ENABLE_ARCH_8 && s->thumb && a->rt2 == 13)))) {
+> >>>>          unallocated_encoding(s);
+> >>>>          return true;
+> >>>>      }
+> >>>
+> >>> These cases for r13 are indeed no longer UNPREDICTABLE in
+> >>> v8A, but they are still marked as UNPREDICTABLE for v8M...
+> >>
+> >> Ho hum.  I knew I should have looked at that doc as well...
+> >
+> > I would like to get this in for rc2 tomorrow, so I propose
+> > to squash in changes to give the following result (basically
+> > turning the ENABLE_ARCH_8 checks into checks on a new bool 'v8a'):
+> >
+> >
+> > diff --git a/target/arm/translate.c b/target/arm/translate.c
+> > index b285b23858e..4d5d4bd8886 100644
+> > --- a/target/arm/translate.c
+> > +++ b/target/arm/translate.c
+> > @@ -8927,15 +8927,17 @@ static bool trans_SWPB(DisasContext *s, arg_SWP *a)
+> >  static bool op_strex(DisasContext *s, arg_STREX *a, MemOp mop, bool rel)
+> >  {
+> >      TCGv_i32 addr;
+> > +    /* Some cases stopped being UNPREDICTABLE in v8A (but not v8M) */
+> > +    bool v8a = ENABLE_ARCH_8 && !arm_dc_feature(s, ARM_FEATURE_M);
+>
+> Sorry, I wrote the patch but got distracted with other bugs without getting
+> around to posting.  I had solved this with a new ENABLE_ARCH_8A, but this
+> version works for me as well.
 
-Yes, good idea.
+At some point we should decide whether we prefer these ENABLE
+macros or just to open-code arm_dc_feature() calls, because the
+current mix is a bit odd... (for code I've written I've tended to the
+arm_dc_feature() approach).
 
->=20
-> /me goes and searches
->=20
-> Fixes: e8aa2d95ea
-> Fixes: c1474acd5d
-
-Similarly the next patch (hw/mips/gt64xxx_pci.c) fixes ab6bff424f4.
-
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
-
+thanks
+-- PMM
 
