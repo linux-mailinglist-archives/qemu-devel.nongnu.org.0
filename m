@@ -2,45 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E83FFCFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 02:57:41 +0100 (CET)
-Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFF2FFCEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 02:49:43 +0100 (CET)
+Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWWIO-0006ca-LM
-	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 20:57:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34105)
+	id 1iWWAf-0002tq-Su
+	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 20:49:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iWVzl-00011i-RF
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:38:26 -0500
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iWW9p-0002Si-8u
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:48:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iWVzk-0003oF-Tn
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:38:25 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:37120 helo=huawei.com)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1iWW9n-0006PB-VR
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:48:49 -0500
+Received: from mga14.intel.com ([192.55.52.115]:4778)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iWVzi-0003jR-86; Sun, 17 Nov 2019 20:38:22 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id B3A27D43981738ABCBF8;
- Mon, 18 Nov 2019 09:38:12 +0800 (CST)
-Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 18 Nov 2019 09:38:06 +0800
-From: <pannengyuan@huawei.com>
-To: <clg@kaod.org>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
- <joel@jms.id.au>
-Subject: [QEMU-DEVEL][PATCH] gpio: fix memory leak in aspeed_gpio_init()
-Date: Mon, 18 Nov 2019 09:37:45 +0800
-Message-ID: <1574041065-34936-1-git-send-email-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.7.2.windows.1
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1iWW9n-0006ON-Nq
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:48:47 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2019 17:48:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195977620"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga007.jf.intel.com with ESMTP; 17 Nov 2019 17:48:39 -0800
+Date: Mon, 18 Nov 2019 09:48:29 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [PATCH 0/2] not use multifd during postcopy
+Message-ID: <20191118014829.GA4382@richard>
+References: <20191025232000.25857-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
-X-Mailman-Approved-At: Sun, 17 Nov 2019 20:55:23 -0500
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191025232000.25857-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,36 +56,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: PanNengyuan <pannengyuan@huawei.com>, qemu-arm@nongnu.org,
- kenny.zhangjun@huawei.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+Ping for comments.
 
-Address Sanitizer shows memory leak in hw/gpio/aspeed_gpio.c:875
+On Sat, Oct 26, 2019 at 07:19:58AM +0800, Wei Yang wrote:
+>We don't support multifd during postcopy, but user still could enable
+>both multifd and postcopy. This leads to migration failure.
+>
+>Patch 1 does proper cleanup, otherwise we may have data corruption.
+>Patch 2 does the main job.
+>
+>BTW, current multifd synchronization method needs a cleanup. Will send another
+>patch set.
+>
+>Wei Yang (2):
+>  migration/multifd: clean pages after filling packet
+>  migration/multifd: not use multifd during postcopy
+>
+> migration/ram.c | 15 ++++++++++-----
+> 1 file changed, 10 insertions(+), 5 deletions(-)
+>
+>-- 
+>2.17.1
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
----
- hw/gpio/aspeed_gpio.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 7acc5fa..41e11ea 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -876,6 +876,7 @@ static void aspeed_gpio_init(Object *obj)
-                                pin_idx % GPIOS_PER_GROUP);
-         object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
-                             aspeed_gpio_set_pin, NULL, NULL, NULL);
-+        g_free(name);
-     }
- }
- 
 -- 
-2.7.2.windows.1
-
-
+Wei Yang
+Help you, Help me
 
