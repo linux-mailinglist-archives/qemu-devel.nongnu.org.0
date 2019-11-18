@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54657100C10
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 20:18:02 +0100 (CET)
-Received: from localhost ([::1]:38440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72365100C2B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 20:23:36 +0100 (CET)
+Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWmXB-000524-3k
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 14:18:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44864)
+	id 1iWmcZ-0007OW-I2
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 14:23:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45680)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iWmVX-0004P7-Ee
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:16:23 -0500
+ (envelope-from <eblake@redhat.com>) id 1iWmag-0006Q4-9l
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:21:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iWmVQ-0001Mc-U3
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:16:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44173
+ (envelope-from <eblake@redhat.com>) id 1iWmaf-0003Kc-8P
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:21:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27608
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWmVP-0001Kh-3x
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:16:12 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWmaf-0003JU-48
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:21:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574104570;
+ s=mimecast20190719; t=1574104896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uK30JX6Z2udKG/Bv7ELiQEqwyQiQDMXgKoD6lGsidgQ=;
- b=Ks102XQbFPkldIrG3i3C9nWs0BCKYtT7V4R9MgtvfPgJAz6VCNPUDUM6o0HMk6TMPv1ZJ3
- GLpQI+LcI9b6J4Izpfx/x4lkbhMnJCWinUfKr0v7rEIeMjSvDWl0Mdsm/UeFxYm/hrJmXy
- E+BZyQTc0FZLEcJR7uLX8owBk2Uu/oo=
+ bh=IkFQbEAEYaOD0VoNOb7txWkiFxGfNdrovrkqrT1jUIE=;
+ b=hNhIrRWWSvFKyNCGutVJNpgUjlq6RuT0trSGBfDIj1XXEdWCHivH7OZlKnUYW7ICvbzr+4
+ WUtbDnVjLbxLfmQfzd7ZUIr6vp+GPQf8fPPbtBbfOaYIreGiOxtui0DFx6GZIaqW+9l/S3
+ ElvpDuJelPtnTl4EsUAKjUtNWglRjvg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-qSlJeuxzPrq_6Heez4LfKg-1; Mon, 18 Nov 2019 14:16:06 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-434-4TZ1eQJ2NXmXreLI8KLLfg-1; Mon, 18 Nov 2019 14:21:35 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC357802497;
- Mon, 18 Nov 2019 19:16:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69C7107ACE3;
+ Mon, 18 Nov 2019 19:21:33 +0000 (UTC)
 Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35CEC60603;
- Mon, 18 Nov 2019 19:15:55 +0000 (UTC)
-Subject: Re: [PATCH v2 2/3] hw/mips/gt64xxx: Remove dynamic field width from
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E38E260562;
+ Mon, 18 Nov 2019 19:21:27 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] hw/block/pflash: Remove dynamic field width from
  trace events
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20191108144042.30245-1-philmd@redhat.com>
- <20191108144042.30245-3-philmd@redhat.com>
- <ead1eb4b-a0e0-edf9-8323-ce9f5a291547@redhat.com>
- <bffde73d-cc1a-dcea-2e5d-7128bda7abf9@redhat.com>
- <0a1b0182-d91e-ac9f-3c4e-aad53ee794b8@redhat.com>
+ <20191108144042.30245-2-philmd@redhat.com>
+ <9e7990b7-87ed-84d4-5256-8397bc25a1f4@redhat.com>
+ <dd59a9d2-d5c8-b054-191b-bbbfd9d7b7b1@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <5840cd82-2494-e61b-f61d-4713594e00a9@redhat.com>
-Date: Mon, 18 Nov 2019 13:15:54 -0600
+Message-ID: <159b1679-72cf-bb0d-ca2f-0f626adebaf3@redhat.com>
+Date: Mon, 18 Nov 2019 13:21:27 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <0a1b0182-d91e-ac9f-3c4e-aad53ee794b8@redhat.com>
+In-Reply-To: <dd59a9d2-d5c8-b054-191b-bbbfd9d7b7b1@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qSlJeuxzPrq_6Heez4LfKg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 4TZ1eQJ2NXmXreLI8KLLfg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -88,60 +87,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Aleksandar Markovic <amarkovic@wavecomp.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/19 1:10 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+On 11/14/19 3:26 PM, Philippe Mathieu-Daud=C3=A9 wrote:
 
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_gt64120_write("INTRC=
-AUSE", size << 1, val);
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_gt64120_write("INTRC=
-AUSE", size << 3, val);
->>>
->>> Again, this isn't mentioned in the commit message.=C2=A0 Why are you=20
->>> changing parameter values?
->>>
->>>
->>>> +++ b/hw/mips/trace-events
->>>> @@ -1,4 +1,4 @@
->>>> =C2=A0 # gt64xxx.c
->>>> -gt64120_read(const char *regname, int width, uint64_t value)=20
->>>> "gt64120 read %s value:0x%0*" PRIx64
->>>> -gt64120_write(const char *regname, int width, uint64_t value)=20
->>>> "gt64120 write %s value:0x%0*" PRIx64
->>>> +gt64120_read(const char *regname, int width, uint64_t value)=20
->>>> "gt64120 read %s width:%d value:0x%08" PRIx64
->>>> +gt64120_write(const char *regname, int width, uint64_t value)=20
->>>> "gt64120 write %s width:%d value:0x%08" PRIx64
->>>
->>> Huh, we were really broken - the old code (if passed to printf) would=
-=20
->>> try to parse 4 parameters, even though it was only passed 3.=C2=A0 But =
-it=20
->>> looks like you still need a v3.
+>>> -=C2=A0=C2=A0=C2=A0 trace_pflash_data_read(offset, width << 1, ret);
+>>> +=C2=A0=C2=A0=C2=A0 trace_pflash_data_read(offset, width << 3, ret);
 >>
->> Oops. I am surprise the compiler doesn't emit a warning here...
+>> Umm, why is width changing?=C2=A0 That's not mentioned in the commit mes=
+sage.
 >=20
-> I'm sorry I can't see the 4th parameter.
+> Previously it was used to set the format width: [1, 2, 4] -> [2, 4, 8].
+>=20
+> We usually log the width in byte (accessed at memory location) or bits=20
+> (used by the bus). When using this device I'm custom to think in bus=20
+> access width.
+>=20
+> Regardless whichever format we prefer, a change is needed.
+>=20
 
-My fault for chasing a red herring.  I guess I was mixing the three %=20
-post-patch with the two % and one * pre-patch, and somehow mis-counting=20
-three % plus one * as four arguments.  But re-reading your confusion,=20
-yes, there were only three parameters being consumed.
+>=20
+> Do you prefer using a "-bit" suffix? As
+>=20
+> "offset:0x%04"PRIx64" width:%d-bit value:0x%04x cmd:0x%02x wcycle:%u"
+>=20
+> I can also simply remove this information. Ideally I'd revert this patch=
+=20
+> once the we get this format parsable by the SystemTap backend.
 
->=20
-> Before: "gt64120 read %s value:0x%0*" PRIx64
->=20
-> #1 's' for 'const char *regname'
-> #2 '0*' for 'int width'
-> #3 'x' for 'uint64_t value'
->=20
-> After: "gt64120 read %s width:%d value:0x%08" PRIx64
->=20
-> #1 's' for 'const char *regname'
-> #2 'd' for 'int width'
-> #3 '08x' for 'uint64_t value'
->=20
-> Am I missing something?
-
-Rather, I was.
+Reporting either 'width:8-bit'/'width:16-bit' (explicit bits) or=20
+'width:1'/'width:2' (implying byte) is fine by me.  Showing a bus width=20
+in bytes adequately explains why you are using <<3 (aka converting bits=20
+to bytes), and how it compares to the previous <<1 (converting bits to=20
+number of hex characters).  But whichever you pick (tracing bit width=20
+vs. byte width, and how it differs from previous usage of width as=20
+output-character count), documenting it in the commit message will make=20
+life easier to understand the change.
 
 --=20
 Eric Blake, Principal Software Engineer
