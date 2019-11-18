@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05FA10013F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 10:27:04 +0100 (CET)
-Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E62100131
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 10:23:40 +0100 (CET)
+Received: from localhost ([::1]:59726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWdJH-00036E-I1
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 04:27:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
+	id 1iWdFz-0001AO-7L
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 04:23:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iWdC0-0006UE-Gt
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:33 -0500
+ (envelope-from <clg@kaod.org>) id 1iWdF0-0000KL-2G
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:22:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iWdBy-00069u-V5
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:32 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:36964)
+ (envelope-from <clg@kaod.org>) id 1iWdEy-0008Ea-Me
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:22:38 -0500
+Received: from 4.mo68.mail-out.ovh.net ([46.105.59.63]:50020)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iWdBx-00062r-7G
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:19:30 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id B6E1C96EF2;
- Mon, 18 Nov 2019 09:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1574068764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gAspjyT43V2EbafcLGKjM94Dx0dnFP9MywVsHrFuncQ=;
- b=jpK0ioT1L3HZ/fZa/dsNS1b6GfXpJ00zT4gVui6StpPLX8NemSA2gyKYpxdj3r6Kzo82Xt
- /MqtIfHf1hRqNb9++drdOoGG+bahOmu1Ind4CC2N/Xta5QfaG0wKQWNtQDgonq8GpS3vp0
- juw3Cin1AWQqylooIjlWOjTkDuES/kA=
-Subject: Re: [RFC PATCH 01/11] gdbstub: move allocation of GDBState to one
- place
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20191115173000.21891-1-alex.bennee@linaro.org>
- <20191115173000.21891-2-alex.bennee@linaro.org>
- <9f87f9e8-ecc6-398f-62b3-05a7f9af2366@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <422bfc5c-4d2d-a581-7bb2-8a2f8e113b35@greensocs.com>
-Date: Mon, 18 Nov 2019 10:19:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iWdEy-0008E1-GK
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 04:22:36 -0500
+Received: from player796.ha.ovh.net (unknown [10.108.54.94])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 5808214CA92
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 10:22:34 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player796.ha.ovh.net (Postfix) with ESMTPSA id B3DF4C158129;
+ Mon, 18 Nov 2019 09:22:27 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH] ppc/pnv: Create BMC devices at machine init
+Date: Mon, 18 Nov 2019 10:22:22 +0100
+Message-Id: <20191118092222.15691-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <9f87f9e8-ecc6-398f-62b3-05a7f9af2366@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1574068764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gAspjyT43V2EbafcLGKjM94Dx0dnFP9MywVsHrFuncQ=;
- b=FugR9RxUrNwDXHVfEoxRxYPv/kesJCxc0mVvadmXfphylACpeBgy226Ij2A+QslWyeY4XX
- wLXuFWOKx5RUNOnpExK2evzlrMSlfMMF5yyyP4+wC513ITTCLBlCTWMNVApTV4nr3KHWd3
- 61bil8BXWnUqhHcLa9GqhUKQtZfPlqo=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1574068764; a=rsa-sha256; cv=none;
- b=6goFMNKoll4iZh3QC4BhY+22A/TzRIk/H1l1qy1+16n434bdiasr5rGlVRMyoksWOHaCgw
- jDemPmQ9t7CMeVH1QUmdr/COcHZshtWDpDGpzk4XEt1oQwnZL/WL4QTqmT0gw2aFtynvco
- IbbRxmL0aqUqpACzR+s1b9/XObDB+Js=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 7123005762017659878
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeghedgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 46.105.59.63
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,41 +54,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- luis.machado@linaro.org, alan.hayward@arm.com
+Cc: qemu-ppc@nongnu.org, Corey Minyard <cminyard@mvista.com>,
+ Oliver O'Halloran <oohall@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The BMC of the OpenPOWER systems monitors the machine state using
+sensors, controls the power and controls the access to the PNOR flash
+device containing the firmware image required to boot the host.
 
+QEMU models the power cycle process, access to the sensors and access
+to the PNOR device. But, for these features to be available, the QEMU
+PowerNV machine needs two extras devices on the command line, an IPMI
+BT device for communication and a BMC backend device:
 
-On 11/18/19 8:41 AM, Richard Henderson wrote:
-> On 11/15/19 6:29 PM, Alex Benn=C3=A9e wrote:
->> =20
->>  static GDBState *gdbserver_state;
->> =20
->> +static GDBState *gdb_allocate_state(void)
->> +{
->> +    g_assert(!gdbserver_state);
->> +    gdbserver_state =3D g_new0(GDBState, 1);
->> +    return gdbserver_state;
->> +}
->> +
->=20
-> Actually, if we're only going to have one, why are we allocating it
-> dynamically?  We might as well allocate it statically and drop the poin=
-ter
-> indirection.
+  -device ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10
 
-In use_gdb_syscalls(), we check if gdbserver_state is NULL:
-| /* -semihosting-config target=3Dauto */
-| /* On the first call check if gdb is connected and remember. */
-| if (gdb_syscall_mode =3D=3D GDB_SYS_UNKNOWN) {
-| gdb_syscall_mode =3D (gdbserver_state ? GDB_SYS_ENABLED
-|                                     : GDB_SYS_DISABLED);
-| }
+The BMC properties are then defined accordingly in the device tree and
+OPAL self adapts. If a BMC device and an IPMI BT device are not
+available, OPAL does not try to communicate with the BMC in any
+manner. This is not how real systems behave.
 
-So we cannot drop the pointer or we have to add some flag to do this test=
-.
+To be closer to the default behavior, create an IPMI BMC simulator
+device and an IPMI BT device at machine initialization time. We loose
+the ability to define an external BMC device but there are benefits:
 
-Damien
+  - a better match with real systems,
+  - a better test coverage of the OPAL code,
+  - system powerdown and reset commands that work,
+  - a QEMU device tree compliant with the specifications (*).
+
+(*) Still needs a MBOX device.
+
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/pnv.h |  2 +-
+ hw/ppc/pnv.c         | 33 ++++++++++++++++-----------------
+ hw/ppc/pnv_bmc.c     | 20 +++++++++++++++++---
+ 3 files changed, 34 insertions(+), 21 deletions(-)
+
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 07c56c05ad30..90f1343ed07c 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -198,7 +198,7 @@ static inline bool pnv_is_power9(PnvMachineState *pnv=
+)
+  */
+ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
+ void pnv_bmc_powerdown(IPMIBmc *bmc);
+-int pnv_bmc_hiomap(IPMIBmc *bmc);
++IPMIBmc *pnv_bmc_create(void);
+=20
+ /*
+  * POWER8 MMIO base addresses
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index c3ac0d6d5b4a..2117d879895c 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -551,27 +551,10 @@ static void pnv_powerdown_notify(Notifier *n, void =
+*opaque)
+=20
+ static void pnv_reset(MachineState *machine)
+ {
+-    PnvMachineState *pnv =3D PNV_MACHINE(machine);
+     void *fdt;
+-    Object *obj;
+=20
+     qemu_devices_reset();
+=20
+-    /*
+-     * OpenPOWER systems have a BMC, which can be defined on the
+-     * command line with:
+-     *
+-     *   -device ipmi-bmc-sim,id=3Dbmc0
+-     *
+-     * This is the internal simulator but it could also be an external
+-     * BMC.
+-     */
+-    obj =3D object_resolve_path_type("", "ipmi-bmc-sim", NULL);
+-    if (obj) {
+-        pnv->bmc =3D IPMI_BMC(obj);
+-        pnv_bmc_hiomap(pnv->bmc);
+-    }
+-
+     fdt =3D pnv_dt_create(machine);
+=20
+     /* Pack resulting tree */
+@@ -629,6 +612,16 @@ static bool pnv_match_cpu(const char *default_type, =
+const char *cpu_type)
+     return ppc_default->pvr_match(ppc_default, ppc->pvr);
+ }
+=20
++static void ipmi_bt_init(ISABus *bus, IPMIBmc *bmc, uint32_t irq)
++{
++    Object *obj;
++
++    obj =3D OBJECT(isa_create(bus, "isa-ipmi-bt"));
++    object_property_set_link(obj, OBJECT(bmc), "bmc", &error_fatal);
++    object_property_set_int(obj, irq, "irq", &error_fatal);
++    object_property_set_bool(obj, true, "realized", &error_fatal);
++}
++
+ static void pnv_init(MachineState *machine)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(machine);
+@@ -751,6 +744,9 @@ static void pnv_init(MachineState *machine)
+     }
+     g_free(chip_typename);
+=20
++    /* Create the machine BMC simulator */
++    pnv->bmc =3D pnv_bmc_create();
++
+     /* Instantiate ISA bus on chip 0 */
+     pnv->isa_bus =3D pnv_isa_create(pnv->chips[0], &error_fatal);
+=20
+@@ -760,6 +756,9 @@ static void pnv_init(MachineState *machine)
+     /* Create an RTC ISA device too */
+     mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
+=20
++    /* Create the IPMI BT device for communication with the BMC */
++    ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
++
+     /*
+      * OpenPOWER systems use a IPMI SEL Event message to notify the
+      * host to powerdown
+diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+index aa5c89586c63..07fa1e1c7e45 100644
+--- a/hw/ppc/pnv_bmc.c
++++ b/hw/ppc/pnv_bmc.c
+@@ -17,6 +17,8 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qapi/error.h"
+ #include "target/ppc/cpu.h"
+ #include "qemu/log.h"
+ #include "hw/ipmi/ipmi.h"
+@@ -211,8 +213,20 @@ static const IPMINetfn hiomap_netfn =3D {
+     .cmd_handlers =3D hiomap_cmds
+ };
+=20
+-int pnv_bmc_hiomap(IPMIBmc *bmc)
++/*
++ * Instantiate the machine BMC. PowerNV uses the QEMU internal
++ * simulator but it could also be external.
++ */
++IPMIBmc *pnv_bmc_create(void)
+ {
+-    return ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(bmc),
+-                                   IPMI_NETFN_OEM, &hiomap_netfn);
++    Object *obj;
++
++    obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
++    object_property_set_bool(obj, true, "realized", &error_fatal);
++
++    /* Install the HIOMAP protocol handlers to access the PNOR */
++    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
++                            &hiomap_netfn);
++
++    return IPMI_BMC(obj);
+ }
+--=20
+2.21.0
+
 
