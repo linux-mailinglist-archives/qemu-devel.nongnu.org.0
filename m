@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC35100D8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:20:54 +0100 (CET)
-Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FB3100D89
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:18:36 +0100 (CET)
+Received: from localhost ([::1]:39558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWoS5-0004js-09
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
+	id 1iWoPr-0001p9-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:18:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iWoN8-0008Q4-5z
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:49 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1iWoN8-0008R6-Rn
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iWoN3-0005hq-Ub
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:45 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33050)
+ (envelope-from <robert.foley@linaro.org>) id 1iWoN5-0005iU-1c
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:46 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33983)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iWoN3-0005hZ-Nt
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:41 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id ay6so10482166plb.0
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:41 -0800 (PST)
+ id 1iWoN4-0005hz-Sj
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:42 -0500
+Received: by mail-pg1-x544.google.com with SMTP id z188so10239807pgb.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qWgWHy/VsErSeqWDM+/otxG0psdTm5gcLYEEVbdKoW0=;
- b=GNMlAj2l1HjUUaJHvhBCslxnJ1KeT4MIy5WTjsaUqTpabvEf3lTB0yCZHCieirPFeO
- c5WHTJky81py5wkkE2GnMbpG8g3Jru2j59VMbbp7lQy6Cd6wQTPS8ZzlkFfejYpXs4f/
- 7nSwqpSu/rWlxLVNSA1tUNqVT9YNmZ/MWz1OOf3TUz2DM4w99sJixru24cwq9mb3itsl
- Jq8zILMc7Ik1FOU6ysLAK9ry4yXUjnJN1ItsnMXz5ldLGJ6h5hpDCbV3NAtf4cBipINl
- 5DfeEZHLBPRtpp4MawcqNZt1v6olbzC5gNtzfhb4Tv8VOQ2ThLH8nHh9O9g2/5EhGCtq
- u51w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=diXnF1IPkkxinXlGIqTBKK6HjgFjUcsfRfseHjAG8V0=;
+ b=h+2Qho2vTpunhRLfbyinfHSPOa+YoaWCod/ZWn6WgkDrMlTjLAmIGN/bNzgia5xPpk
+ YRk7BKwtye0qLaJijKZ+PfGxmnzlLWXYqbsv0Bk3hwxphR7kSPhEUt3+nyK3w3Z/p1fL
+ 1WtJMn6s0cGQ+pfsZW5C0KmmJ+QNXfbbQq/JRVQGl8Ao5WBxAlibD1bk+vnlpfMDAqn+
+ wlgj9DEZe0ZqnxsboGd8Qh/X+qVvbXWyAs765Mem3hW5tAGlbWn2YaX/kuDhEdjeAJGa
+ jXnnDaES1oFauz2IQ50oizgSXt+2az0+WcGe5Y4GDpUFm2nW35DUOhbo+ob1ucfi1Sp7
+ nHRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qWgWHy/VsErSeqWDM+/otxG0psdTm5gcLYEEVbdKoW0=;
- b=gSmJJfMO86SmQjlDhFE/3GE188QgPPQ4zwUwgNlldQ+HCh5EqZRcK3IAb6CtKF+7wa
- Uxi18buYO9jt0uAqxIV8MaVDr/y1m5czGuGXAWLB5ItZTy4s8v9lSnKB+qJ+VKjQENE9
- XYRPutvvZIKxqaECl55ZxMoPYJ6AqdmxY2Ji7nZDxoSd2b+N3y1TZHnXd6CLJtjicfhm
- xjL4Ruf0GY00c5IRgswfFDL28SZOa7n43QVBGRVQfuemuZOVGVoRm5IbYLA0zvimKFCV
- t2oSPIq61KFN1XKk19S4l6goMT4lm14Q/FOpoFTRoEhbGLkcxfNNA+zLVAxEDqIaEOYW
- 9P+g==
-X-Gm-Message-State: APjAAAUrZCmSiocGtj0mbLilrENQCjOPVXPF5dWxjpmajPPdXToSa2L0
- ijgkKsxcdsqy1Y4Hr6XnIW3V1E9vY4M=
-X-Google-Smtp-Source: APXvYqyJ1eClhvWpcS+dVg/JlhHxK+3WqdiadViKOaSnWfZjz1ehHMSWZIGRj73zLIH3GQ4nXviI6A==
-X-Received: by 2002:a17:90a:de4:: with SMTP id
- 91mr1366099pjv.113.1574111739882; 
- Mon, 18 Nov 2019 13:15:39 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=diXnF1IPkkxinXlGIqTBKK6HjgFjUcsfRfseHjAG8V0=;
+ b=Kt4hV26hjg51C4Pes0FkFZ30FKMR5GgshlenpSDinP9elN29Wq+h1jMvEU1XhuoMyY
+ xrPsiVJ0MKejaF9TOPognr9IB8/86/p/F2k3Gb+4PVYb1+JmB0APVuB4+C2QIlSqCDUn
+ Fw/e4tqbchS5Ke5ZZ93anbFFMn/JNfXj/vDIoaj34EHj5szbZGfoig6qU3FrtchN/pEU
+ EUnz+LPezvSirQVkeIqYCkPQz4KXcgMmjZoC6AJoaA0MUqF6+harEIENvyJ5oruiOlfP
+ chiju0tN+XedjgFZcQoUVeyc8NIUDphZPHVuAQV5XCsDmPme4oLcVJoeZACmgXEn/FQs
+ pFeA==
+X-Gm-Message-State: APjAAAWmCFfZ3gA8TtTiJ622D9f4Tf9qZoJVwYFjt4cXsXZDCfrkXTOu
+ Xuivo/zW79dst4aVyx4FE9aVglbKrko=
+X-Google-Smtp-Source: APXvYqy+2N1iB+YkTEY1Jy2gp5MiS4ziTHhcp2pczMV9uYFIrZPhC8TlbLsoA4y6y+5U9hJVQQ0m2A==
+X-Received: by 2002:a62:e914:: with SMTP id j20mr1510186pfh.245.1574111741581; 
+ Mon, 18 Nov 2019 13:15:41 -0800 (PST)
 Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.35
+ by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 13:15:37 -0800 (PST)
+ Mon, 18 Nov 2019 13:15:41 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/6] Make the qemu_logfile handle thread safe.
-Date: Mon, 18 Nov 2019 16:15:22 -0500
-Message-Id: <20191118211528.3221-1-robert.foley@linaro.org>
+Subject: [PATCH v3 1/6] Fix double free issue in qemu_set_log_filename().
+Date: Mon, 18 Nov 2019 16:15:23 -0500
+Message-Id: <20191118211528.3221-2-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191118211528.3221-1-robert.foley@linaro.org>
+References: <20191118211528.3221-1-robert.foley@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62f
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,76 +83,33 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds thread safety to the qemu_logfile handle.  This now
-allows changing the logfile while logging is active, and also solves 
-the issue of a seg fault while changing the logfile.
+After freeing the logfilename, we set logfilename to NULL, in case of an
+error which returns without setting logfilename.
 
-This patch adds use of RCU for handling the swap out of the 
-old qemu_logfile file descriptor.
-
-Also added a few tests for logfile including changing the logfile
-and closing the logfile.
-
-One change also added for a pre-existing double free issue in 
-qemu_set_log_filename() uncovered with the new test.
-
-We also cleaned up the flow of code in qemu_set_log().
----
-v3
-    - This version of the patch incorporates a few minor changes.
-    - Change patch which adds qemu_logfile_mutex to remove the
-      asserts that mutex is initialized, instead we will rely
-      on the constructor.
-    - Also added details to commit for patch adding mutex to explain some
-      unavoidable temporary ugliness that we cleanup in a later patch. 
-    - Change qemu_log_lock() to unconditionally hold the rcu_read_lock()
-      until qemu_log_unlock().  
-    - Also changed one use case in target/tilegx/translate.c
-      to eliminate use of qemu_log_lock()/unlock().
+Signed-off-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
 v2
-    - This version of the patch adds some cleanup of code in
-      qemu_set_log().
-    - Also changed the order of patches to move our fix for the
-      double free issue in qemu_set_log_filename() up to the beginning
-      of the patch.
+    - moved this change to the beginning of the patch series.
 ---
 v1
-    - This version of the patch incorporates changes 
-      from the first round of review.  
-    - It also includes a fix for an issue in
-      qemu_set_log_filename().  This issue was uncovered 
-      by the test added for this patch.
+    - This is new in the patch v1.
 ---
+ util/log.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Robert Foley (6):
-  Fix double free issue in qemu_set_log_filename().
-  Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
-  Add a mutex to guarantee single writer to qemu_logfile handle.
-  qemu_log_lock/unlock now preserves the qemu_logfile handle.
-  Add use of RCU for qemu_logfile.
-  Added tests for close and change of logfile.
-
- accel/tcg/cpu-exec.c          |   4 +-
- accel/tcg/translate-all.c     |   4 +-
- accel/tcg/translator.c        |   4 +-
- exec.c                        |   4 +-
- hw/net/can/can_sja1000.c      |   4 +-
- include/exec/log.h            |  33 +++++++++--
- include/qemu/log.h            |  48 +++++++++++++---
- net/can/can_socketcan.c       |   5 +-
- target/cris/translate.c       |   4 +-
- target/i386/translate.c       |   5 +-
- target/lm32/translate.c       |   4 +-
- target/microblaze/translate.c |   4 +-
- target/nios2/translate.c      |   4 +-
- target/tilegx/translate.c     |   6 --
- target/unicore32/translate.c  |   4 +-
- tcg/tcg.c                     |  28 ++++++----
- tests/test-logging.c          |  80 +++++++++++++++++++++++++++
- util/log.c                    | 100 ++++++++++++++++++++++++++--------
- 18 files changed, 268 insertions(+), 77 deletions(-)
-
+diff --git a/util/log.c b/util/log.c
+index 1ca13059ee..4316fe74ee 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -113,6 +113,7 @@ void qemu_set_log_filename(const char *filename, Error **errp)
+ {
+     char *pidstr;
+     g_free(logfilename);
++    logfilename = NULL;
+ 
+     pidstr = strstr(filename, "%");
+     if (pidstr) {
 -- 
 2.17.1
 
