@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5393B1009D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 17:57:42 +0100 (CET)
-Received: from localhost ([::1]:36884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4ED1009E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 18:08:08 +0100 (CET)
+Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWkLM-0007ZM-OR
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 11:57:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51679)
+	id 1iWkVS-0007JY-MO
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 12:08:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52703)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iWkIq-0005Q7-Au
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 11:55:05 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iWkQk-0003TJ-PK
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:03:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iWkIo-0006eJ-Kv
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 11:55:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24063
+ (envelope-from <kwolf@redhat.com>) id 1iWkQh-0002gY-SS
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:03:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22886
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iWkIM-0006OC-BW
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 11:55:02 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iWkQh-0002eW-LZ
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:03:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574096072;
+ s=mimecast20190719; t=1574096590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5LPa6o5UzWJBsxQP0X3O/kdN8KWxDiK92E+o3UYD0qU=;
- b=RJOVKq1qeaDbR8bUaYddAVCH5yiAjkGI6zOzj521NPxrp1xdMSCe/CJuYK6KtmHqeVZHWF
- euezRMtn61rlF5hTWJ9HBXTysKwE7Q7vxnSz5qhniaBVc70BinkadrdZG+TG75kXIBcyF0
- ch5RbpPViCncERbN0tGjTyY39UVLbTA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=da4fDKwA4prJWmrg9/29KN8KpBAXT7d8UykgKQb9FxU=;
+ b=LjChTgQrsT0Er45i03+LwZ+GYn8ab/4xf6G6zphuI5tUYA6WPk83RasnFgK56tSfWCzL9Q
+ 0S/79J2eXlU+p7cx1nhoPeX3MS9gLYwSa4VQUiyvbeRWUdbCU05J4onfAaHY3cWsHE1FZn
+ 0uTmmscz5EBAXHu+hxIEwJE/iNeMcnQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-HckrQ3gINyabPykNzjeW6Q-1; Mon, 18 Nov 2019 11:54:29 -0500
-X-MC-Unique: HckrQ3gINyabPykNzjeW6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-286-nmXInWj-MSaCVfLzz2rCgA-1; Mon, 18 Nov 2019 12:03:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0FB68F3C85;
- Mon, 18 Nov 2019 16:54:27 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 854545D9C9;
- Mon, 18 Nov 2019 16:54:27 +0000 (UTC)
-Date: Mon, 18 Nov 2019 16:54:26 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Micky Yun Chan <chanmickyyun@gmail.com>
-Subject: Re: [PATCH v2] Implement backend program convention command for
- vhost-user-blk
-Message-ID: <20191118165426.GB65432@stefanha-x1.localdomain>
-References: <20191118064519.16072-1-michan@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67AAC10054C5;
+ Mon, 18 Nov 2019 17:03:06 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-117-108.ams2.redhat.com
+ [10.36.117.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAD38608B5;
+ Mon, 18 Nov 2019 17:03:03 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/4] Block layer patches for 4.2.0-rc2
+Date: Mon, 18 Nov 2019 18:02:52 +0100
+Message-Id: <20191118170256.31477-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191118064519.16072-1-michan@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: nmXInWj-MSaCVfLzz2rCgA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,68 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michan <michan@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The following changes since commit bbe165740a96f67f48ecd3029dc26bdd7fd5192c=
+:
 
-On Mon, Nov 18, 2019 at 02:45:19PM +0800, Micky Yun Chan wrote:
-> +    context = g_option_context_new(NULL);
-> +    g_option_context_add_main_entries(context, entries, NULL);
-> +    if (!g_option_context_parse(context, &argc, &argv, &error)) {
-> +        g_printerr("Option parsing failed: %s\n", error->message);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +    if (opt_print_caps) {
-> +        g_option_context_get_help(context, true, NULL);
+  Merge remote-tracking branch 'remotes/vivier2/tags/ppc-for-4.2-pull-reque=
+st' into staging (2019-11-18 11:09:06 +0000)
 
-Where did the JSON from the previous patch go?
+are available in the Git repository at:
 
-> +        exit(EXIT_SUCCESS);
-> +    }
-> +
-> +    if (!opt_blk_file) {
-> +        g_option_context_get_help(context, true, NULL);
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
-Please check the documentation for this function:
-https://developer.gnome.org/glib/stable/glib-Commandline-option-parser.html#g-option-context-get-help
+for you to fetch changes up to b1f6a8e180367c945b67c6c9bbcec5c856be3779:
 
-It returns a newly allocated string and does not print it.
+  iotests: Test multiple blockdev-snapshot calls (2019-11-18 17:50:08 +0100=
+)
 
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    if (opt_socket_path) {
-> +        lsock = unix_sock_new(opt_socket_path);
-> +        if (lsock < 0) {
-> +           exit(EXIT_FAILURE);
->          }
-> +    } else if(opt_fdnum < 0){
-> +        g_option_context_get_help(context, true, NULL);
+----------------------------------------------------------------
+Block layer patches:
 
-Same here.
+- Fix HMP savevm with -blockdev
+- Minor iotests improvements
 
-exit(EXIT_FAILURE) is missing.
+----------------------------------------------------------------
+Kevin Wolf (3):
+      iotests: Fix "no qualified output" error path
+      block: Remove 'backing': null from bs->{explicit_,}options
+      iotests: Test multiple blockdev-snapshot calls
 
---aM3YZ0Iwxop3KEKx
-Content-Type: application/pgp-signature; name="signature.asc"
+Vladimir Sementsov-Ogievskiy (1):
+      qemu-iotests/iotests.py: improve assert_qmp message
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3SzMIACgkQnKSrs4Gr
-c8hyfgf/SLkve0jpAe7LCBIzt9j5dQpsP7etQ2iL2mxuHD2CGesaJYxn4JFTBQYj
-Kw3oojYcDUOl/3q8lA6HCI7o0AGM2Phj4AbFwaNdcKx+uWY5t8L/eecyES7aAqdh
-tacRA4+EhO39vuLZq06KfBba7aLOAxG7PQdFV/jX03zMt6o+HIFzwAuiE7CQ3y06
-fON1wDpnL4a3BVBAZdEqqlnqeR84mE1EiOpfGlf/fizDw/YtjZX279i0XRyXARlG
-khTTSVowlTgYyO1fKFjoVR+uCjtJ1sy/3KbLYO2fJ/ZxlgS+0lFShZmiH8CT5rH4
-mU2xDYWHF9AVLkYu0BqgtlDa0AHJpA==
-=rm6B
------END PGP SIGNATURE-----
-
---aM3YZ0Iwxop3KEKx--
+ block.c                       |   2 +
+ tests/qemu-iotests/273        |  76 ++++++++++
+ tests/qemu-iotests/273.out    | 337 ++++++++++++++++++++++++++++++++++++++=
+++++
+ tests/qemu-iotests/check      |   2 +-
+ tests/qemu-iotests/group      |   1 +
+ tests/qemu-iotests/iotests.py |   4 +-
+ 6 files changed, 419 insertions(+), 3 deletions(-)
+ create mode 100755 tests/qemu-iotests/273
+ create mode 100644 tests/qemu-iotests/273.out
 
 
