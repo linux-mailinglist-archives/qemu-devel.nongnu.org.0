@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A79100BE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 19:56:19 +0100 (CET)
-Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E76100C26
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 20:22:44 +0100 (CET)
+Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWmCA-00077G-5t
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 13:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
+	id 1iWmbj-0006Sb-55
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 14:22:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iWmAu-00060U-9D
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 13:55:01 -0500
+ (envelope-from <bounces@canonical.com>) id 1iWmZv-0005s2-EF
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iWmAt-00054W-4o
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 13:55:00 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36358
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iWmAt-00054P-0V
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 13:54:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574103298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lLJaR17OdpMM/MSrxIrdIGLU/eZlORloLpviZq+sMEU=;
- b=XpFWtRJ4F8IikqRdphb485bqWavPQ2W2JjLJnOGEisYk7nD1o6kv/MnAYY8pLm8TRY7Woz
- hQI88iC6E3oKNVvyfqp3XF9ttv6YkXLjGE3ivnZ1v8DjNOnsGnL8vygUjXHP8/JCaknNjr
- ipANDDUPVwh7FtrcQa3/Ss95NbAvIIo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-3YlGJxrRM2SPDYL5hM1OsQ-1; Mon, 18 Nov 2019 13:54:56 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA70A1883525;
- Mon, 18 Nov 2019 18:54:55 +0000 (UTC)
-Received: from localhost (ovpn-116-6.gru2.redhat.com [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EC7F19C4F;
- Mon, 18 Nov 2019 18:54:54 +0000 (UTC)
-Date: Mon, 18 Nov 2019 15:54:53 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Subject: Re: [PATCH v0 1/2] qdev-properties-system: extend set_pionter for
- unrealized devices
-Message-ID: <20191118185453.GC3812@habkost.net>
-References: <20191110190310.19799-1-dplotnikov@virtuozzo.com>
- <20191110190310.19799-2-dplotnikov@virtuozzo.com>
+ (envelope-from <bounces@canonical.com>) id 1iWmZt-0002rv-TS
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39414)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iWmZt-0002qt-NQ
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 14:20:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iWmZr-0000LV-Ts
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 19:20:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D07172E80D3
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 19:20:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191110190310.19799-2-dplotnikov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 3YlGJxrRM2SPDYL5hM1OsQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Mon, 18 Nov 2019 19:05:45 -0000
+From: Andrew Cloke <andrew.cloke@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=ubuntu-power-systems; status=New; importance=Medium; 
+ assignee=canonical-server; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=ubuntu-power-triage; 
+X-Launchpad-Bug-Tags: architecture-ppc64le bugnameltc-182496 severity-medium
+ targetmilestone-inin18045
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bugproxy
+X-Launchpad-Bug-Reporter: bugproxy (bugproxy)
+X-Launchpad-Bug-Modifier: Andrew Cloke (andrew-cloke)
+References: <157410285104.6190.4801607370836952199.malonedeb@gac.canonical.com>
+Message-Id: <157410394548.6785.17922258411239584942.launchpad@gac.canonical.com>
+Subject: [Bug 1853042] Re: Ubuntu 18.04 - vm disk i/o performance issue when
+ using file system passthrough
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 400cca6808ff3eb1cfb1fa4eeddc39527a537a73
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,113 +71,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
- den@virtuozzo.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, pbonzini@redhat.com
+Reply-To: Bug 1853042 <1853042@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Nov 10, 2019 at 10:03:09PM +0300, Denis Plotnikov wrote:
-> Some device's property can be changed if the device has been already
-> realized. For example, it could be "drive" property of a scsi disk device=
-.
->=20
-> So far, set_pointer could operate only on a relized device. The patch
-> extends its interface for operation on an unrealized device.
->=20
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> ---
->  hw/core/qdev-properties-system.c | 32 +++++++++++++++++++++-----------
->  1 file changed, 21 insertions(+), 11 deletions(-)
->=20
-> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-s=
-ystem.c
-> index ba412dd2ca..c534590dcd 100644
-> --- a/hw/core/qdev-properties-system.c
-> +++ b/hw/core/qdev-properties-system.c
-> @@ -38,9 +38,14 @@ static void get_pointer(Object *obj, Visitor *v, Prope=
-rty *prop,
->  }
-> =20
->  static void set_pointer(Object *obj, Visitor *v, Property *prop,
-> -                        void (*parse)(DeviceState *dev, const char *str,
-> -                                      void **ptr, const char *propname,
-> -                                      Error **errp),
-> +                        void (*parse_realized)(DeviceState *dev,
-> +                                               const char *str, void **p=
-tr,
-> +                                               const char *propname,
-> +                                               Error **errp),
-> +                        void (*parse_unrealized)(DeviceState *dev,
-> +                                                 const char *str, void *=
-*ptr,
-> +                                                 const char *propname,
-> +                                                 Error **errp),
->                          const char *name, Error **errp)
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
 
-Wouldn't it be simpler to just add a PropertyInfo::allow_set_after_realize
-bool field, and call the same setter function?  Then you can
-simply change do_parse_drive() to check if realized is true.
+** Also affects: ubuntu-power-systems
+   Importance: Undecided
+       Status: New
 
->  {
->      DeviceState *dev =3D DEVICE(obj);
-> @@ -48,11 +53,6 @@ static void set_pointer(Object *obj, Visitor *v, Prope=
-rty *prop,
->      void **ptr =3D qdev_get_prop_ptr(dev, prop);
->      char *str;
-> =20
-> -    if (dev->realized) {
-> -        qdev_prop_set_after_realize(dev, name, errp);
-> -        return;
-> -    }
-> -
->      visit_type_str(v, name, &str, &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
-> @@ -63,7 +63,17 @@ static void set_pointer(Object *obj, Visitor *v, Prope=
-rty *prop,
->          *ptr =3D NULL;
->          return;
->      }
-> -    parse(dev, str, ptr, prop->name, errp);
-> +
-> +    if (dev->realized) {
-> +        if (parse_realized) {
-> +            parse_realized(dev, str, ptr, prop->name, errp);
-> +        } else {
-> +            qdev_prop_set_after_realize(dev, name, errp);
-> +        }
-> +    } else {
-> +        parse_unrealized(dev, str, ptr, prop->name, errp);
-> +    }
-> +
->      g_free(str);
->  }
-> =20
-> @@ -178,13 +188,13 @@ static void get_drive(Object *obj, Visitor *v, cons=
-t char *name, void *opaque,
->  static void set_drive(Object *obj, Visitor *v, const char *name, void *o=
-paque,
->                        Error **errp)
->  {
-> -    set_pointer(obj, v, opaque, parse_drive, name, errp);
-> +    set_pointer(obj, v, opaque, NULL, parse_drive, name, errp);
->  }
-> =20
->  static void set_drive_iothread(Object *obj, Visitor *v, const char *name=
-,
->                                 void *opaque, Error **errp)
->  {
-> -    set_pointer(obj, v, opaque, parse_drive_iothread, name, errp);
-> +    set_pointer(obj, v, opaque, NULL, parse_drive_iothread, name, errp);
->  }
-> =20
->  const PropertyInfo qdev_prop_drive =3D {
-> --=20
-> 2.17.0
->=20
+** No longer affects: qemu
 
---=20
-Eduardo
+** Changed in: ubuntu-power-systems
+     Assignee: (unassigned) =3D> Canonical Server Team (canonical-server)
 
+** Changed in: ubuntu-power-systems
+   Importance: Undecided =3D> Medium
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853042
+
+Title:
+  Ubuntu 18.04 - vm disk i/o performance issue when using file system
+  passthrough
+
+Status in The Ubuntu-power-systems project:
+  New
+Status in qemu package in Ubuntu:
+  New
+
+Bug description:
+  =3D=3D Comment: #0 - I-HSIN CHUNG <ihchung@us.ibm.com> - 2019-11-15 12:35=
+:05 =3D=3D
+  ---Problem Description---
+  Ubuntu 18.04 - vm disk i/o performance issue when using file system passt=
+hrough
+   =
+
+  Contact Information =3D ihchung@us.ibm.com =
+
+   =
+
+  ---uname output---
+  Linux css-host-22 4.15.0-1039-ibm-gt #41-Ubuntu SMP Wed Oct 2 10:52:25 UT=
+C 2019 ppc64le ppc64le ppc64le GNU/Linux (host) Linux ubuntu 4.15.0-65-gene=
+ric #74-Ubuntu SMP Tue Sep 17 17:08:54 UTC 2019 ppc64le ppc64le ppc64le GNU=
+/Linux (vm)
+   =
+
+  Machine Type =3D p9/ac922 =
+
+   =
+
+  ---Debugger---
+  A debugger is not configured
+   =
+
+  ---Steps to Reproduce---
+   1. Env: Ubuntu 18.04.3 LTS?Genesis kernel linux-ibm-gt - 4.15.0-1039.41?=
+qemu 1:2.11+dfsg-1ubuntu7.18 ibmcloud0.3 or 1:2.11+dfsg-1ubuntu7.19 ibm-clo=
+ud1?fio-3.15-4-g029b
+
+  2. execute run.sh to run fio benchmark:
+
+  2.1) run.sh:
+  #!/bin/bash
+    =
+
+  for bs in  4k 16m
+  do
+
+  for rwmixread in 0 25 50 75 100
+  do
+
+  for numjobs in 1 4 16 64
+  do
+  echo ./fio j1.txt --bs=3D$bs --rwmixread=3D$rwmixread --numjobs=3D$numjobs
+  ./fio j1.txt --bs=3D$bs --rwmixread=3D$rwmixread --numjobs=3D$numjobs
+
+  done
+  done
+  done
+
+  2.2) j1.txt:
+
+  [global]
+  direct=3D1
+  rw=3Drandrw
+  refill_buffers
+  norandommap
+  randrepeat=3D0
+  ioengine=3Dlibaio
+  iodepth=3D64
+  runtime=3D60
+
+  allow_mounted_write=3D1
+
+  [job2]
+  new_group
+  filename=3D/dev/vdb
+  filesize=3D1000g
+  cpus_allowed=3D0-63
+  numa_cpu_nodes=3D0
+  numa_mem_policy=3Dbind:0
+
+  3. performance profile:
+  device passthrough performance for the nvme: =
+
+  http://css-host-22.watson.ibm.com/rundir/nvme_vm_perf_vm/20191011-112156/=
+html/#/measurement/vm/ubuntu (I/O bandwidth achieved inside VM in GB/s rang=
+e)
+
+  file system passthrough
+  http://css-host-22.watson.ibm.com/rundir/nvme_vm_perf_vm/20191106-123613/=
+html/#/measurement/vm/ubuntu (I/o bandwidth achieved inside the VM is very =
+low)
+
+  desired performance when using file system passthrough should be similar =
+to the device passthrough
+   =
+
+  Userspace tool common name: fio =
+
+   =
+
+  The userspace tool has the following bit modes: should be 64 bit =
+
+
+  Userspace rpm: ?
+
+  Userspace tool obtained from project website:  na =
+
+   =
+
+  *Additional Instructions for ihchung@us.ibm.com: =
+
+  -Post a private note with access information to the machine that the bug =
+is occuring on.
+  -Attach ltrace and strace of userspace application.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/ubuntu-power-systems/+bug/1853042/+subscriptions
 
