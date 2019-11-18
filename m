@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E202100388
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 12:09:10 +0100 (CET)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D213B100380
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 12:04:38 +0100 (CET)
+Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWeu5-0008BY-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 06:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45930)
+	id 1iWeph-00040Z-BU
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 06:04:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iWeko-0008Sb-HL
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:59:35 -0500
+ (envelope-from <groug@kaod.org>) id 1iWemq-00022u-Cq
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 06:01:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iWekn-0000oW-8W
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:59:34 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34828)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iWekn-0000oI-2m
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:59:33 -0500
-Received: by mail-ot1-x342.google.com with SMTP id c14so7128755oth.2
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 02:59:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TUB26YM/DVjXyeoAperdcdSrXEe4rvmsdYM15SPILSY=;
- b=fDiah+RuIlgrzo+pOEFVall4f5LDZaX3ymgiI2WMlj/zOuas/d1vio3Y268m3dfR4/
- y1KUEegqmOn44K7JYYLxFrCtZbw8+38IsdVXFhcn7cqcHHw6b0kNmzgSpufY7BdU5M2H
- P6N2nnaK6OeHBsDtBjZ+4dleVBcbD58zMfVoCUcnn63IOYbWavLYKkOOPpDSvYZoT3be
- Sf6tEOEPCHPVcXqJrRYRtUAnj7W5/CzCXj6R5K5/pc0hnsAjD96W1gTxWseCHvHIjp60
- h6YVVnCwG3d0WCU1uF8B6irxbSsKpKukvKO6oPRrzQDneyxg98mDfLkufLb5+FJMS7iH
- 2kgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TUB26YM/DVjXyeoAperdcdSrXEe4rvmsdYM15SPILSY=;
- b=ciAyWGcoQx4M6+wiomX0Ezo1COZdR8byHQ1ifvfjhJNY9ksqbiDhESe3GyoNwCwg0Y
- 9XsWE0jDfmQrypwXRAkxKwaFtccorlXR4UwXocNzSEQsyziHQRZtW4QAI4yBJZZveXMZ
- F5THKf5IvCugLWzWgbZV/nnc4kEGUzt0GXKT7dvQr+IIlom2U8MxL1PleHpkuMiWMLCh
- bA/8YS4MlYQWI1Z5PazNTJ+XvuYcyH+iVJy6bi56KAMfGNQwZVTX0/vCPbOCVIC817m9
- zNtEjY2tR03nNtQoSBJCaMoHtvl4vU+w8NvrnrxKusfRJ6znKTE+483vR1zWGcO8fJRQ
- HSzg==
-X-Gm-Message-State: APjAAAW0gE5/AucSj5zdEUMm3vNyQ4ges+ueoMdZetTeMw1l7Z889x62
- +Cy22XxHF2clLEfG8bkreqa5QF0tYy0GB3WggwDK1w==
-X-Google-Smtp-Source: APXvYqyDv5wC6DJbyKyws0CjRUcKMw37StcvTj+d2we8k2LSOxi/6D7Dqx/yw/VCjbnKDKO9S19QfGNUae25Elnpglc=
-X-Received: by 2002:a9d:7f12:: with SMTP id j18mr20215785otq.221.1574074771717; 
- Mon, 18 Nov 2019 02:59:31 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1iWemo-0001c3-Re
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 06:01:39 -0500
+Received: from 6.mo5.mail-out.ovh.net ([178.32.119.138]:52511)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iWemo-0001bh-Ju
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 06:01:38 -0500
+Received: from player692.ha.ovh.net (unknown [10.108.42.184])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 4826325A70D
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 12:01:36 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 58C80C1A342C;
+ Mon, 18 Nov 2019 11:01:29 +0000 (UTC)
+Date: Mon, 18 Nov 2019 12:01:28 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 for-5.0 0/8] ppc: Consolidate QOM links and pointers
+ to the same object
+Message-ID: <20191118120128.51701ccb@bahia.lan>
+In-Reply-To: <87zhgtwn63.fsf@dusky.pond.sub.org>
+References: <157383332103.165747.15204186097237659466.stgit@bahia.lan>
+ <87zhgtwn63.fsf@dusky.pond.sub.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20191108110714.7475-1-david@redhat.com>
- <CAFEAcA-mD3-Zg2JunGpMqbcaT1qboCenhqEFytZD0FmFcL2i9Q@mail.gmail.com>
- <5dd613c0-6d9e-b943-b64d-7ba1791cbefe@redhat.com>
- <CAFEAcA-4r53vM-K24WYr1OFSOufhZ7hDHeZBhnywyaJ0gpMO1g@mail.gmail.com>
- <20191108191057.GZ3812@habkost.net>
- <CAFEAcA_No5oAFtULbAOrPDeQE18HHgc0agXbs4m2AGZ+gK_ReQ@mail.gmail.com>
- <66c64c6d-b7c0-2cb1-2b29-4fdd9b369714@redhat.com>
- <CAFEAcA-Q7H9sZjN-PcMMDHQU41yN1RdXhNY5KqMh7E6xh0yjgA@mail.gmail.com>
- <3aa1d025-20a3-e813-2fe6-35518efedf2f@redhat.com>
-In-Reply-To: <3aa1d025-20a3-e813-2fe6-35518efedf2f@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Nov 2019 10:59:20 +0000
-Message-ID: <CAFEAcA-o_emMYWyewLD3Pn65pGrqW=5qy=+PqAED75JeSTLTxA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] s390x/cpumodel: Introduce "best" model variants
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 8795248598321699214
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeghedgvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 178.32.119.138
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,46 +58,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Michael Mueller <mimu@linux.ibm.com>,
- Jiri Denemark <jdenemar@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Nov 2019 at 10:56, David Hildenbrand <david@redhat.com> wrote:
->
-> On 18.11.19 11:53, Peter Maydell wrote:
-> > On Mon, 18 Nov 2019 at 10:47, David Hildenbrand <david@redhat.com> wrote:
-> >> My personal opinion: "max" really means "all features". If we want an
-> >> automatic way to specify something you requested ("give me something
-> >> that's going to work") we either have to change the definition of the
-> >> max model for alla rchitectures or introduce something that really
-> >> matches the "no -cpu specified" - e.g., "best".
+On Mon, 18 Nov 2019 10:26:12 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
+
+> Greg Kurz <groug@kaod.org> writes:
+> 
+> > There's a recurring pattern in the code where a const link is added to a
+> > newly instanciated object and the link is then used in the object's realize
+> > function to keep a pointer to the QOM entity which the link points to.
 > >
-> > I don't strongly object to 'max' including deprecated features,
-> > but I do definitely object to 'max' including by default any
-> > experimental (x- prefix) features. Those should never be
-> > enabled (whatever the '-cpu foo' name) unless the user has
-> > specifically opted into them: that's the point of the x- prefix.
-> > We need to be able to tell from the command line whether it's
-> > got any non-standard weirdness enabled.
->
-> I'll let Eduardo respond to that, as we don't really have experimental
-> features on s390x, especially under KVM ("host" corresponds to "max").
+> > void create_obj_b(Object *obj_a)
+> > {
+> >     Object *obj_b;
+> >
+> >     obj_b = object_new(TYPE_B);
+> >     object_property_add_const_link(obj_b, "link-to-a", obj_a, &error_abort);
+> >     object_property_set_bool(obj_b, true, "realized", &error_abort);
+> > }
+> >
+> > void object_b_realize(DeviceState *dev, Error **errp)
+> > {
+> >     Object *obj_a;
+> >
+> >     obj_a = object_property_get_link(OBJECT(dev), "link-to-a", errp);
+> >     if (!obj_a) {
+> >         return;
+> >     }
+> >
+> >     obj_b->obj_a = A(obj_a); // If obj_b->obj_a is changed, the link property
+> >                              // still points to the original obj_a that was
+> >                              // passed to object_property_add_const_link()
+> > }
+> >
+> > Confusing bugs could arise if the pointer and the link go out of sync for
+> > some reason. This can be avoided if the property is defined to directly use
+> > the pointer with the DEFINE_PROP_LINK() macro.
+> >
+> > This series just does that for all occurences of the fragile pattern in
+> > the XIVE and PNV code.
+> 
+> Have you looked for the pattern elsewhere?
+> 
 
-Yeah, I would expect that if the kernel has fixed the KVM
-interface to a feature then it wouldn't be experimental.
-Experimental mostly will apply to TCG, where we might
-have implementations based on a draft version of an
-architecture specification (like the riscv hypervisor spec)
-that could incompatibly change in future.
-
-thanks
--- PMM
+No I was focusing on the XICS/XIVE interrupt controller code for PPC machines
+only. I'll have a broader look.
 
