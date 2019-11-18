@@ -2,45 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E9FFCF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 02:56:44 +0100 (CET)
-Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64E6FFE21
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 06:51:20 +0100 (CET)
+Received: from localhost ([::1]:58232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWWHT-0005ci-Le
-	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 20:56:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34860)
+	id 1iWZwV-0000iF-NZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 00:51:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60788)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iWWBo-0003ZN-Fe
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:50:55 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iWZuS-0007cH-0v
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 00:49:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iWWBn-0006vG-CD
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:50:52 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:44354 helo=huawei.com)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iWZuQ-0005aW-TD
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 00:49:11 -0500
+Received: from relay.sw.ru ([185.231.240.75]:42494)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iWWBk-0006uK-KU; Sun, 17 Nov 2019 20:50:48 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 094F0E37F54E9B4B59E8;
- Mon, 18 Nov 2019 09:50:44 +0800 (CST)
-Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 18 Nov 2019 09:50:36 +0800
-From: <pannengyuan@huawei.com>
-To: <david@gibson.dropbear.id.au>
-Subject: [Qemu-devel][PATCH] ppc/spapr_events: fix potential NULL pointer
- dereference in rtas_event_log_dequeue
-Date: Mon, 18 Nov 2019 09:50:13 +0800
-Message-ID: <1574041813-35408-1-git-send-email-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.7.2.windows.1
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.35
-X-Mailman-Approved-At: Sun, 17 Nov 2019 20:55:24 -0500
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iWZuQ-0005a7-KS; Mon, 18 Nov 2019 00:49:10 -0500
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iWZuL-00029C-0V; Mon, 18 Nov 2019 08:49:05 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH v8 0/3] qcow2: advanced compression options
+Date: Mon, 18 Nov 2019 08:49:01 +0300
+Message-Id: <1574056144-625164-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,47 +44,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, PanNengyuan <pannengyuan@huawei.com>,
- kenny.zhangjun@huawei.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- kuhn.chenqun@huawei.com
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+The compression filter driver is introduced as suggested by Max.
+A sample usage of the filter can be found in the test #214.
+Now, multiple clusters can be written compressed.
+It is useful for the backup job.
 
-source is being dereferenced before it is null checked, hence there is a
-potential null pointer dereference.
+v8: The filter child was changed from the 'backing' to the 'file' one.
 
-This fixes:
-        360
-    CID 68911917: (NULL_RETURNS)
-        361. dereference: Dereferencing "source", which is known to be
-        "NULL".
-        361        if (source->mask & event_mask) {
-        362            break;
-        363        }
+  Discussed in the email thread with the message ID
+  <1573670589-229357-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
----
- hw/ppc/spapr_events.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Andrey Shinkevich (3):
+  block: introduce compress filter driver
+  qcow2: Allow writing compressed data of multiple clusters
+  tests/qemu-iotests: add case to write compressed data of multiple
+    clusters
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 0e4c195..febd2ef 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -358,7 +358,7 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(SpaprMachineState *spapr,
-             rtas_event_log_to_source(spapr,
-                                      spapr_event_log_entry_type(entry));
- 
--        if (source->mask & event_mask) {
-+        if (source && (source->mask & event_mask)) {
-             break;
-         }
-     }
+ block/Makefile.objs        |   1 +
+ block/filter-compress.c    | 201 +++++++++++++++++++++++++++++++++++++++++++++
+ block/qcow2.c              | 102 +++++++++++++++++------
+ qapi/block-core.json       |  10 ++-
+ tests/qemu-iotests/214     |  43 ++++++++++
+ tests/qemu-iotests/214.out |  14 ++++
+ 6 files changed, 340 insertions(+), 31 deletions(-)
+ create mode 100644 block/filter-compress.c
+
 -- 
-2.7.2.windows.1
-
+1.8.3.1
 
 
