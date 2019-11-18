@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F361000CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 09:52:42 +0100 (CET)
-Received: from localhost ([::1]:59470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6505B10009F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 09:44:00 +0100 (CET)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWcm1-0001p8-PS
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 03:52:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53230)
+	id 1iWcda-0001DX-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 03:43:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iWck5-0000As-61
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:50:42 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iWcbf-0008KL-8H
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:42:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iWck3-0004Cf-UM
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:50:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57046)
+ (envelope-from <richard.henderson@linaro.org>) id 1iWcbe-0007e1-3a
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:41:59 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44705)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iWck3-0004C2-Ob
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:50:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iWck2-0005Ta-Dn
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 08:50:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 675AE2E80C8
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 08:50:38 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iWcbd-0007dI-OZ
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:41:58 -0500
+Received: by mail-wr1-x441.google.com with SMTP id f2so18336569wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 00:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CzM2VI0idBWgtiGfAq6Zv0yTI6qF2bsxDrGTUD/vAro=;
+ b=oBadPYevT8fKQqJiBXlA+INjxrVybiuIDrugYv/ONDJ+JbfoICu4QeTyRCgK+GCF7T
+ lshDcOitjr3ztkHPv2Ea45wHG1/WUVS2YGppovKprk+76ESftDM+pYSPS7EUzdwOAuGd
+ oDdyjeiA8yf2c4Vpbin6n4ivAK8A+IcflRkftt0Bt3+n0zgQOFPiSSVjjOWIjqJQaP55
+ 8DIJZ5gOp+6lHyk1QzmmzflzgkaSAFSRm+kGIAizd6qkM6w0m+OMIKlpFCblYyKtWuuX
+ JtMclux1vjxw/F0htyFiTdpvhTf4w3wR+WGd5eejNJkJTMUeY5vwZJ2PWpvCSV+ZxccY
+ Z7Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CzM2VI0idBWgtiGfAq6Zv0yTI6qF2bsxDrGTUD/vAro=;
+ b=Qb/+g0qLyCeh2wms4nlqcoeS7RimuNjxAUZ3jwmvFLWxTqtjeBXogk9u/buG774oUh
+ VdD2pKs4r4J+PdObyYDPZFE0rnu3GYT2dMtdlwDWU2MGVeAEn64uWf1EU97OgnN90nK2
+ Qcveq38cwZGPqTnjaxF12LT0uQ5PL6Pg19hks2zmRRNrKnggfbQWmwiw4x0LZLgfruIh
+ vS12qj75dq8UjyKi8D3hP5kaKkPsduyCGwOOjNSeZ56qY/QyPedD2jGBm+QaSqwXETvX
+ y5eBgm6y6eFtw8z7Wq+PyMarEbQ8XRZAlqQqGb4jnElPakm3qEfaL83qv2PCIT4D7bwh
+ XS0w==
+X-Gm-Message-State: APjAAAWlnxpgCueXD2QMyKYRSz45LY3OeDDXeLjvNCYfx5LsOd2QW7Qn
+ 8GVbU0WwyB9LuFtv2al/2LlfBQ==
+X-Google-Smtp-Source: APXvYqwfuXWhOQ/+Ftbt4HEkYyX+Qk+RemfsHItJbleagb0H94bb64znOuJRgW3bPyWYv9uDdUlKyw==
+X-Received: by 2002:adf:e68d:: with SMTP id r13mr30535284wrm.199.1574066516544; 
+ Mon, 18 Nov 2019 00:41:56 -0800 (PST)
+Received: from [192.168.8.102] (65.red-79-149-41.dynamicip.rima-tde.net.
+ [79.149.41.65])
+ by smtp.gmail.com with ESMTPSA id n23sm19237841wmc.18.2019.11.18.00.41.44
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Nov 2019 00:41:55 -0800 (PST)
+Subject: Re: [RFC PATCH 08/11] gdbstub: extend GByteArray to read register
+ helpers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191115173000.21891-1-alex.bennee@linaro.org>
+ <20191115173000.21891-9-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <026f7fc7-082c-c277-bbfa-f51eb0c058c4@linaro.org>
+Date: Mon, 18 Nov 2019 09:41:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 Nov 2019 08:40:35 -0000
-From: Thomas Huth <1852781@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: colin-king paelzer th-huth
-X-Launchpad-Bug-Reporter: Colin Ian King (colin-king)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157384084797.7162.9983011521410421204.malonedeb@gac.canonical.com>
-Message-Id: <157406643584.31832.13192632503149493051.malone@wampee.canonical.com>
-Subject: [Bug 1852781] Re: qemu s390x on focal - applications breaking
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9cc25e0dd6a71c75b03ccd11abb7a1900ff2ef41
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20191115173000.21891-9-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,68 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852781 <1852781@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ luis.machado@linaro.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
+ alan.hayward@arm.com, "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ damien.hedde@greensocs.com,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you please test again with the latest QEMU 4.2 RC? There have been
-quite a lot of fixes in this area in the past months, so maybe this
-issue has already been resolved in 4.2.
+On 11/15/19 6:29 PM, Alex Bennée wrote:
+> +++ b/target/arm/helper.c
+> @@ -47,30 +47,27 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
+>  
+>  static void switch_mode(CPUARMState *env, int mode);
+>  
+> -static int vfp_gdb_get_reg(CPUARMState *env, uint8_t *buf, int reg)
+> +static int vfp_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
+>  {
+>      int nregs;
+>  
+>      /* VFP data registers are always little-endian.  */
+>      nregs = arm_feature(env, ARM_FEATURE_VFP3) ? 32 : 16;
+>      if (reg < nregs) {
+> -        stq_le_p(buf, *aa32_vfp_dreg(env, reg));
+> -        return 8;
+> +        return gdb_get_reg64(buf, *aa32_vfp_dreg(env, reg));
+>      }
+>      if (arm_feature(env, ARM_FEATURE_NEON)) {
+>          /* Aliases for Q regs.  */
+>          nregs += 16;
+>          if (reg < nregs) {
+>              uint64_t *q = aa32_vfp_qreg(env, reg - 32);
+> -            stq_le_p(buf, q[0]);
+> -            stq_le_p(buf + 8, q[1]);
+> -            return 16;
+> +            return gdb_get_reg128(buf, q[0], q[1]);
+>          }
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Mostly ok, except for this change, which has the same endianness problem that
+the other ARM change did.  Why is this not done in patch 6 with the other?
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852781
-
-Title:
-  qemu s390x on focal - applications breaking
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Running qemu-system-s390x (1:4.0+dfsg-0ubuntu10) on an x86-64 Focal
-  host with an upgrade of a Eoan s390x VM to a Focal s390x is triggering
-  random breakage, for example:
-
-  sudo apt-get update && sudo apt-get dist-upgrade
-
-  ...
-  ...
-
-  Unpacking debianutils (4.9) over (4.8.6.3) ...
-  Setting up debianutils (4.9) ...
-  Use of uninitialized value $ARGV[0] in string ne at /usr/sbin/update-mime=
- line 43.
-  (Reading database ... 83640 files and directories currently installed.)
-  Preparing to unpack .../bash_5.0-5ubuntu1_s390x.deb ...
-  Unpacking bash (5.0-5ubuntu1) over (5.0-4ubuntu1) ...
-  Setting up bash (5.0-5ubuntu1) ...
-  [12124.788618] User process fault: interruption code 0007 ilc:3 in bash[2=
-aa3d780000+149000]
-  dpkg: error processing package bash (--configure):
-   installed bash package post-installation script subprocess was killed by=
- signal (Floating point exception), core du
-  mped
-  Errors were encountered while processing:
-   bash
-  E: Sub-process /usr/bin/dpkg returned an error code (1)
-
-  And now bash is completely broken:
-
-  cking@eoan-s390x:~$ bash
-  [12676.204389] User process fault: interruption code 0007 ilc:3 in bash[2=
-aa14780000+149000]
-
-  Floating point exception (core dumped)
-
-  The upgrade works OK on a s390x, so I'm assuming it's something to do
-  with the qemu emulation.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852781/+subscriptions
+r~
 
