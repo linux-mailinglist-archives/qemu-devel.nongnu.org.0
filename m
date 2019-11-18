@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F788100DA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:24:59 +0100 (CET)
-Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A1C100D9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:23:25 +0100 (CET)
+Received: from localhost ([::1]:39670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWoW2-0002Hg-7P
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:24:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
+	id 1iWoUV-0008Kp-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:23:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iWoNI-0000F5-6L
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:16:00 -0500
+ (envelope-from <eblake@redhat.com>) id 1iWoP3-00026A-T6
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:17:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iWoNE-0005nz-AR
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:56 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:40687)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iWoNE-0005ne-4w
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:52 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id ep1so1854423pjb.7
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nB9UJp1tY01vA+O7nUtpyswqmIH2jEdG/Vc4ku6hyfs=;
- b=Dad+0U01jzs2l4tt+VDm7bNGm06VFMSN2gcaWsVewISGT50ZsTxtEMmdJoMNOBdLME
- 14wjs6q6YKCuP0/aS2uAlHSHbrJpmoXXG+m4oqjsRJr+LT2eGgIQ/eI3zdVRaBCfBeCU
- T6uVavywPilx9/22qrtXaVjThUjH67zAFdYRkoTfRFbAQehB2YeUghi5xhmV4S4eEQZE
- 3evmP65xUAmD7o2IaTnz35RkO8VVzmQvNqboJGZ57p4G/8QmcuroaGvjLNPp6IAt3xsm
- vE/ynRBl3wtJdw8Um/bo53S6L9eEzLSIvmM3OALDhEWB0dbiSncEsIDo3glWeNlewovV
- dAtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nB9UJp1tY01vA+O7nUtpyswqmIH2jEdG/Vc4ku6hyfs=;
- b=sQzpIcJOugrSKlag5rwSYQTDDe196/ChKazlpWI7co15+iUT7vMpA/5YRrwIP0mglW
- xOlyGgOrA5pWR/4z3WqpQRV56q+AGUinrJefAxwrw+zzcjpxq8Eu4fDhaRDY6+ltDGYL
- tYlJZFcsg3vRQmSi5dwIxWfb4XqwEuPO0bYE44RED/9u0QxIFZMSg3gIlPQ2rGiH3VoC
- DBJDULfq4Zi9VfRYUTy/9AWCwylRlWyjLvClN3ZkZ9BRZnWqyyDVye9/UAHfXatzz6s/
- KJS+9zGydmqOgXF+oFOvAxmKqmsyVnWQOVhf20ollQoIF8Q5IYvz4K62VPfoUHp7ucAT
- avIw==
-X-Gm-Message-State: APjAAAWBSJgT8udLscB0NrhZ38rTlhCmWO7lw6ZGTlkWXiU25FAXmrYk
- rETyMhpKVJnGjTmrXpBKeW88O+nJ4tU=
-X-Google-Smtp-Source: APXvYqyVtr2sZWVI2ooQO2n9rEbDfeDy8xJIbUlQkz5AY9NBYyNkxCyseL2TzspWPrZRhGvpPZV/sw==
-X-Received: by 2002:a17:90a:a405:: with SMTP id
- y5mr1439885pjp.102.1574111750942; 
- Mon, 18 Nov 2019 13:15:50 -0800 (PST)
-Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 13:15:50 -0800 (PST)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] Added tests for close and change of logfile.
-Date: Mon, 18 Nov 2019 16:15:28 -0500
-Message-Id: <20191118211528.3221-7-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191118211528.3221-1-robert.foley@linaro.org>
-References: <20191118211528.3221-1-robert.foley@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1iWoOz-000805-SI
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:17:45 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33790
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWoOz-0007zb-Mh
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:17:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574111861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=amk6rxLyaAB8a++vwdkJvdNbx85Yp5ACkAA4d8gdI0o=;
+ b=aRIeQAtOhovdOvfOl/fIgxhuod6uF/garogpv/TtIyUSiY9JmTHRlCeVL4W6Dcu0GEo+6r
+ 5jD+3QwJZRPMHThFEHFyM8UOsRoTfWUGSB+/YyYLf7eRGdzD1IWbNnl//EJxrZhsA2eFjM
+ HcZPxTIQHTCou5NE99M3VqVQR3t015k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-FL8IEw15OPKyzANkyljneA-1; Mon, 18 Nov 2019 16:17:37 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E1A100FE67;
+ Mon, 18 Nov 2019 21:17:36 +0000 (UTC)
+Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2B121CD;
+ Mon, 18 Nov 2019 21:17:29 +0000 (UTC)
+Subject: Re: [PATCH-for-4.2 v3 2/3] hw/mips/gt64xxx: Remove dynamic field
+ width from trace events
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191118210458.11959-1-philmd@redhat.com>
+ <20191118210458.11959-3-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <43305839-1edc-715e-26b1-a767b644df09@redhat.com>
+Date: Mon, 18 Nov 2019 15:17:29 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+In-Reply-To: <20191118210458.11959-3-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: FL8IEw15OPKyzANkyljneA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,126 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, alex.bennee@linaro.org,
- robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One test ensures that the logfile handle is still valid even if
-the logfile is changed during logging.
-The other test validates that the logfile handle remains valid under
-the logfile lock even if the logfile is closed.
+On 11/18/19 3:04 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since not all trace backends support dynamic field width in
+> format (dtrace via stap does not), replace by a static field
+> width instead.
+>=20
+> We previously passed to the trace API 'width << 1' as the number
+> of hex characters to display (the dynamic field width). We don't
+> need this anymore. Instead, display the size of bytes accessed.
+>=20
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
----
-v1
-    - Changes for first round of code review comments.
-    - Added in use of g_autofree, removed the g_free()s.
-    - Added in use of logfile2 and changed sequence of asserts.
----
- tests/test-logging.c | 80 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+Fixes: ab6bff424f
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index a12585f70a..1e646f045d 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -108,6 +108,82 @@ static void test_parse_path(gconstpointer data)
-     error_free_or_abort(&err);
- }
- 
-+static void test_logfile_write(gconstpointer data)
-+{
-+    QemuLogFile *logfile;
-+    QemuLogFile *logfile2;
-+    gchar const *dir = data;
-+    Error *err = NULL;
-+    g_autofree gchar *file_path;
-+    g_autofree gchar *file_path1;
-+    FILE *orig_fd;
-+
-+    /*
-+     * Before starting test, set log flags, to ensure the file gets
-+     * opened below with the call to qemu_set_log_filename().
-+     * In cases where a logging backend other than log is used,
-+     * this is needed.
-+     */
-+    qemu_set_log(CPU_LOG_TB_OUT_ASM);
-+    file_path = g_build_filename(dir, "qemu_test_log_write0.log", NULL);
-+    file_path1 = g_build_filename(dir, "qemu_test_log_write1.log", NULL);
-+
-+    /*
-+     * Test that even if an open file handle is changed,
-+     * our handle remains valid due to RCU.
-+     */
-+    qemu_set_log_filename(file_path, &err);
-+    g_assert(!err);
-+    rcu_read_lock();
-+    logfile = atomic_rcu_read(&qemu_logfile);
-+    orig_fd = logfile->fd;
-+    g_assert(logfile && logfile->fd);
-+    fprintf(logfile->fd, "%s 1st write to file\n", __func__);
-+    fflush(logfile->fd);
-+
-+    /* Change the logfile and ensure that the handle is still valid. */
-+    qemu_set_log_filename(file_path1, &err);
-+    g_assert(!err);
-+    logfile2 = atomic_rcu_read(&qemu_logfile);
-+    g_assert(logfile->fd == orig_fd);
-+    g_assert(logfile2->fd != logfile->fd);
-+    fprintf(logfile->fd, "%s 2nd write to file\n", __func__);
-+    fflush(logfile->fd);
-+    rcu_read_unlock();
-+}
-+
-+static void test_logfile_lock(gconstpointer data)
-+{
-+    FILE *logfile;
-+    gchar const *dir = data;
-+    Error *err = NULL;
-+    g_autofree gchar *file_path;
-+
-+    file_path = g_build_filename(dir, "qemu_test_logfile_lock0.log", NULL);
-+
-+    /*
-+     * Test the use of the logfile lock, such
-+     * that even if an open file handle is closed,
-+     * our handle remains valid for use due to RCU.
-+     */
-+    qemu_set_log_filename(file_path, &err);
-+    logfile = qemu_log_lock();
-+    g_assert(logfile);
-+    fprintf(logfile, "%s 1st write to file\n", __func__);
-+    fflush(logfile);
-+
-+    /*
-+     * Initiate a close file and make sure our handle remains
-+     * valid since we still have the logfile lock.
-+     */
-+    qemu_log_close();
-+    fprintf(logfile, "%s 2nd write to file\n", __func__);
-+    fflush(logfile);
-+    qemu_log_unlock(logfile);
-+
-+    g_assert(!err);
-+}
-+
- /* Remove a directory and all its entries (non-recursive). */
- static void rmdir_full(gchar const *root)
- {
-@@ -134,6 +210,10 @@ int main(int argc, char **argv)
- 
-     g_test_add_func("/logging/parse_range", test_parse_range);
-     g_test_add_data_func("/logging/parse_path", tmp_path, test_parse_path);
-+    g_test_add_data_func("/logging/logfile_write_path",
-+                         tmp_path, test_logfile_write);
-+    g_test_add_data_func("/logging/logfile_lock_path",
-+                         tmp_path, test_logfile_lock);
- 
-     rc = g_test_run();
- 
--- 
-2.17.1
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
