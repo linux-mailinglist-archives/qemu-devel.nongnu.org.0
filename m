@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248A7100D82
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:18:07 +0100 (CET)
-Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC35100D8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:20:54 +0100 (CET)
+Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWoPN-0001GM-63
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:18:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35664)
+	id 1iWoS5-0004js-09
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iWoMm-00085B-9v
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:25 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1iWoN8-0008Q4-5z
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iWoMk-0005Ty-NP
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52158
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWoMk-0005Tp-KN
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574111722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O2UsfxAmTPLYL+cGfqfSn8DXxf2oW74nMHRcKoQdDmk=;
- b=OApvwaXLtJ4NIQjyJYN7Olrbc2BnowGUBSNBjtAVzNdkRKQ5NNiN6bIqy+kzar0CZZO10a
- nxkwcwA0ASewGEESUjfMdOOV/VfXHpKTjD2K3RRh4XUrSlSiroFCA/RxeQF1n3r1+GP5qB
- 2cGjlioXg2EPrAjB49YjyYXvND+zQ+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-ekjv9PHaPNuYZiIljLbk6w-1; Mon, 18 Nov 2019 16:15:18 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D715107B103;
- Mon, 18 Nov 2019 21:15:16 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 877721BC76;
- Mon, 18 Nov 2019 21:15:10 +0000 (UTC)
-Subject: Re: [PATCH-for-4.2 v3 1/3] hw/block/pflash: Remove dynamic field
- width from trace events
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191118210458.11959-1-philmd@redhat.com>
- <20191118210458.11959-2-philmd@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <833a3e22-2bbb-f646-eb9b-5c56dfeb43e6@redhat.com>
-Date: Mon, 18 Nov 2019 15:15:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <robert.foley@linaro.org>) id 1iWoN3-0005hq-Ub
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:45 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33050)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1iWoN3-0005hZ-Nt
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:41 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id ay6so10482166plb.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qWgWHy/VsErSeqWDM+/otxG0psdTm5gcLYEEVbdKoW0=;
+ b=GNMlAj2l1HjUUaJHvhBCslxnJ1KeT4MIy5WTjsaUqTpabvEf3lTB0yCZHCieirPFeO
+ c5WHTJky81py5wkkE2GnMbpG8g3Jru2j59VMbbp7lQy6Cd6wQTPS8ZzlkFfejYpXs4f/
+ 7nSwqpSu/rWlxLVNSA1tUNqVT9YNmZ/MWz1OOf3TUz2DM4w99sJixru24cwq9mb3itsl
+ Jq8zILMc7Ik1FOU6ysLAK9ry4yXUjnJN1ItsnMXz5ldLGJ6h5hpDCbV3NAtf4cBipINl
+ 5DfeEZHLBPRtpp4MawcqNZt1v6olbzC5gNtzfhb4Tv8VOQ2ThLH8nHh9O9g2/5EhGCtq
+ u51w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qWgWHy/VsErSeqWDM+/otxG0psdTm5gcLYEEVbdKoW0=;
+ b=gSmJJfMO86SmQjlDhFE/3GE188QgPPQ4zwUwgNlldQ+HCh5EqZRcK3IAb6CtKF+7wa
+ Uxi18buYO9jt0uAqxIV8MaVDr/y1m5czGuGXAWLB5ItZTy4s8v9lSnKB+qJ+VKjQENE9
+ XYRPutvvZIKxqaECl55ZxMoPYJ6AqdmxY2Ji7nZDxoSd2b+N3y1TZHnXd6CLJtjicfhm
+ xjL4Ruf0GY00c5IRgswfFDL28SZOa7n43QVBGRVQfuemuZOVGVoRm5IbYLA0zvimKFCV
+ t2oSPIq61KFN1XKk19S4l6goMT4lm14Q/FOpoFTRoEhbGLkcxfNNA+zLVAxEDqIaEOYW
+ 9P+g==
+X-Gm-Message-State: APjAAAUrZCmSiocGtj0mbLilrENQCjOPVXPF5dWxjpmajPPdXToSa2L0
+ ijgkKsxcdsqy1Y4Hr6XnIW3V1E9vY4M=
+X-Google-Smtp-Source: APXvYqyJ1eClhvWpcS+dVg/JlhHxK+3WqdiadViKOaSnWfZjz1ehHMSWZIGRj73zLIH3GQ4nXviI6A==
+X-Received: by 2002:a17:90a:de4:: with SMTP id
+ 91mr1366099pjv.113.1574111739882; 
+ Mon, 18 Nov 2019 13:15:39 -0800 (PST)
+Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
+ by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Nov 2019 13:15:37 -0800 (PST)
+From: Robert Foley <robert.foley@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] Make the qemu_logfile handle thread safe.
+Date: Mon, 18 Nov 2019 16:15:22 -0500
+Message-Id: <20191118211528.3221-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191118210458.11959-2-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: ekjv9PHaPNuYZiIljLbk6w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::62f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,39 +77,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, qemu-trivial@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: richard.henderson@linaro.org, alex.bennee@linaro.org,
+ robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/19 3:04 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Since not all trace backends support dynamic field width in
-> format (dtrace via stap does not), replace by a static field
-> width instead.
->=20
-> We previously passed to the trace API 'width << 1' as the number
-> of hex characters to display (the dynamic field width). We don't
-> need this anymore. Instead, display the size of bytes accessed.
->=20
-> Reported-by: Eric Blake <eblake@redhat.com>
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1844817
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+This patch adds thread safety to the qemu_logfile handle.  This now
+allows changing the logfile while logging is active, and also solves 
+the issue of a seg fault while changing the logfile.
 
-Is it worth a Fixes: XXX calling out the commit that introduced the '*'?
+This patch adds use of RCU for handling the swap out of the 
+old qemu_logfile file descriptor.
 
-/me goes and searches
+Also added a few tests for logfile including changing the logfile
+and closing the logfile.
 
-Fixes: e8aa2d95ea
-Fixes: c1474acd5d
+One change also added for a pre-existing double free issue in 
+qemu_set_log_filename() uncovered with the new test.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+We also cleaned up the flow of code in qemu_set_log().
+---
+v3
+    - This version of the patch incorporates a few minor changes.
+    - Change patch which adds qemu_logfile_mutex to remove the
+      asserts that mutex is initialized, instead we will rely
+      on the constructor.
+    - Also added details to commit for patch adding mutex to explain some
+      unavoidable temporary ugliness that we cleanup in a later patch. 
+    - Change qemu_log_lock() to unconditionally hold the rcu_read_lock()
+      until qemu_log_unlock().  
+    - Also changed one use case in target/tilegx/translate.c
+      to eliminate use of qemu_log_lock()/unlock().
+---
+v2
+    - This version of the patch adds some cleanup of code in
+      qemu_set_log().
+    - Also changed the order of patches to move our fix for the
+      double free issue in qemu_set_log_filename() up to the beginning
+      of the patch.
+---
+v1
+    - This version of the patch incorporates changes 
+      from the first round of review.  
+    - It also includes a fix for an issue in
+      qemu_set_log_filename().  This issue was uncovered 
+      by the test added for this patch.
+---
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Robert Foley (6):
+  Fix double free issue in qemu_set_log_filename().
+  Cleaned up flow of code in qemu_set_log(), to simplify and clarify.
+  Add a mutex to guarantee single writer to qemu_logfile handle.
+  qemu_log_lock/unlock now preserves the qemu_logfile handle.
+  Add use of RCU for qemu_logfile.
+  Added tests for close and change of logfile.
+
+ accel/tcg/cpu-exec.c          |   4 +-
+ accel/tcg/translate-all.c     |   4 +-
+ accel/tcg/translator.c        |   4 +-
+ exec.c                        |   4 +-
+ hw/net/can/can_sja1000.c      |   4 +-
+ include/exec/log.h            |  33 +++++++++--
+ include/qemu/log.h            |  48 +++++++++++++---
+ net/can/can_socketcan.c       |   5 +-
+ target/cris/translate.c       |   4 +-
+ target/i386/translate.c       |   5 +-
+ target/lm32/translate.c       |   4 +-
+ target/microblaze/translate.c |   4 +-
+ target/nios2/translate.c      |   4 +-
+ target/tilegx/translate.c     |   6 --
+ target/unicore32/translate.c  |   4 +-
+ tcg/tcg.c                     |  28 ++++++----
+ tests/test-logging.c          |  80 +++++++++++++++++++++++++++
+ util/log.c                    | 100 ++++++++++++++++++++++++++--------
+ 18 files changed, 268 insertions(+), 77 deletions(-)
+
+-- 
+2.17.1
 
 
