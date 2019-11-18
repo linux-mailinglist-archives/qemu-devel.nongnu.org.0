@@ -2,45 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736B31000C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 09:51:23 +0100 (CET)
-Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124EF1000CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 09:54:42 +0100 (CET)
+Received: from localhost ([::1]:59493 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWckk-0000U2-Gs
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 03:51:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53007)
+	id 1iWcnx-0003IV-0K
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 03:54:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <its@irrelevant.dk>) id 1iWcii-00073X-4e
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:49:17 -0500
+ (envelope-from <thuth@redhat.com>) id 1iWcmH-0002k1-9M
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:52:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <its@irrelevant.dk>) id 1iWcig-0003Ki-U0
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:49:16 -0500
-Received: from charlie.dont.surf ([128.199.63.193]:35484)
+ (envelope-from <thuth@redhat.com>) id 1iWcmF-0005ak-EG
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:52:56 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49333
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <its@irrelevant.dk>)
- id 1iWcid-0003Fq-CR; Mon, 18 Nov 2019 03:49:11 -0500
-Received: from apples.localdomain (unknown [194.62.217.57])
- by charlie.dont.surf (Postfix) with ESMTPSA id 47E9DBF4E8;
- Mon, 18 Nov 2019 08:49:06 +0000 (UTC)
-Date: Mon, 18 Nov 2019 09:49:02 +0100
-From: Klaus Birkelund <its@irrelevant.dk>
-To: Beata Michalska <beata.michalska@linaro.org>
-Subject: Re: [PATCH v2 06/20] nvme: add support for the abort command
-Message-ID: <20191118084902.GA812803@apples.localdomain>
-References: <20191015103900.313928-1-its@irrelevant.dk>
- <20191015103900.313928-7-its@irrelevant.dk>
- <CADSWDzt2gjQ6pvzm2A29hqiNAf1RSD=qTwjELLB3fTD4Yjbryg@mail.gmail.com>
- <20191113061214.GA452722@apples.localdomain>
- <CADSWDztYzebjF0C9hh+OhTaFJT8aPCKvu+bY8xTi+4fQBm_=aA@mail.gmail.com>
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iWcmF-0005aR-B6
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 03:52:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574067174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uj//TRfL6/3wwgnBTxP9o2XPXQ/0l5M4gq/5/A9dFw8=;
+ b=irVtFRgYFevU53+PLc49QNcUivj7a+e7JMq5j3EFN2RuZYRkpNnhEchX4DQIid209ugO2E
+ e175S0PcxURdgm3fHqss3oWsHSNZjQ4AirW6fVTaJ1rwrcJvFZHTJ2P03FFY3B7L5RpR0U
+ t1KT28G63VsvFgxVy7U48YJRgpTMkn4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-Pcsma_RuOJ2Mmz3u4vfcAQ-1; Mon, 18 Nov 2019 03:52:52 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E099395B25;
+ Mon, 18 Nov 2019 08:52:50 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-200.ams2.redhat.com
+ [10.36.116.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFC5561073;
+ Mon, 18 Nov 2019 08:52:49 +0000 (UTC)
+Subject: Re: [PATCH] Modify tests to work with clang
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1574032465-12186-1-git-send-email-tsimpson@quicinc.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <bbad38fa-d2fa-2acd-7f01-eabae34fbc18@redhat.com>
+Date: Mon, 18 Nov 2019 09:52:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADSWDztYzebjF0C9hh+OhTaFJT8aPCKvu+bY8xTi+4fQBm_=aA@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1574032465-12186-1-git-send-email-tsimpson@quicinc.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Pcsma_RuOJ2Mmz3u4vfcAQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 128.199.63.193
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,122 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <keith.busch@intel.com>, Paul Durrant <Paul.Durrant@citrix.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 15, 2019 at 11:56:00AM +0000, Beata Michalska wrote:
-> Hi Klaus,
-> 
-> On Wed, 13 Nov 2019 at 06:12, Klaus Birkelund <its@irrelevant.dk> wrote:
-> >
-> > On Tue, Nov 12, 2019 at 03:04:38PM +0000, Beata Michalska wrote:
-> > > Hi Klaus
-> > >
-> >
-> > Hi Beata,
-> >
-> > Thank you very much for your thorough reviews! I'll start going through
-> > them one by one :) You might have seen that I've posted a v3, but I will
-> > make sure to consolidate between v2 and v3!
-> >
-> > > On Tue, 15 Oct 2019 at 11:41, Klaus Jensen <its@irrelevant.dk> wrote:
-> > > >
-> > > > Required for compliance with NVMe revision 1.2.1. See NVM Express 1.2.1,
-> > > > Section 5.1 ("Abort command").
-> > > >
-> > > > The Abort command is a best effort command; for now, the device always
-> > > > fails to abort the given command.
-> > > >
-> > > > Signed-off-by: Klaus Jensen <klaus.jensen@cnexlabs.com>
-> > > > ---
-> > > >  hw/block/nvme.c | 16 ++++++++++++++++
-> > > >  1 file changed, 16 insertions(+)
-> > > >
-> > > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > > > index daa2367b0863..84e4f2ea7a15 100644
-> > > > --- a/hw/block/nvme.c
-> > > > +++ b/hw/block/nvme.c
-> > > > @@ -741,6 +741,18 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
-> > > >      }
-> > > >  }
-> > > >
-> > > > +static uint16_t nvme_abort(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> > > > +{
-> > > > +    uint16_t sqid = le32_to_cpu(cmd->cdw10) & 0xffff;
-> > > > +
-> > > > +    req->cqe.result = 1;
-> > > > +    if (nvme_check_sqid(n, sqid)) {
-> > > > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > > > +    }
-> > > > +
-> > > Shouldn't we validate the CID as well ?
-> > >
-> >
-> > According to the specification it is "implementation specific if/when a
-> > controller chooses to complete the command when the command to abort is
-> > not found".
-> >
-> > I'm interpreting this to mean that, yes, an invalid command identifier
-> > could be given in the command, but this implementation does not care
-> > about that.
-> >
-> > I still think the controller should check the validity of the submission
-> > queue identifier though. It is a general invariant that the sqid should
-> > be valid.
-> >
-> > > > +    return NVME_SUCCESS;
-> > > > +}
-> > > > +
-> > > >  static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
-> > > >  {
-> > > >      trace_nvme_setfeat_timestamp(ts);
-> > > > @@ -859,6 +871,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> > > >          trace_nvme_err_invalid_setfeat(dw10);
-> > > >          return NVME_INVALID_FIELD | NVME_DNR;
-> > > >      }
-> > > > +
-> > > >      return NVME_SUCCESS;
-> > > >  }
-> > > >
-> > > > @@ -875,6 +888,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
-> > > >          return nvme_create_cq(n, cmd);
-> > > >      case NVME_ADM_CMD_IDENTIFY:
-> > > >          return nvme_identify(n, cmd);
-> > > > +    case NVME_ADM_CMD_ABORT:
-> > > > +        return nvme_abort(n, cmd, req);
-> > > >      case NVME_ADM_CMD_SET_FEATURES:
-> > > >          return nvme_set_feature(n, cmd, req);
-> > > >      case NVME_ADM_CMD_GET_FEATURES:
-> > > > @@ -1388,6 +1403,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-> > > >      id->ieee[2] = 0xb3;
-> > > >      id->ver = cpu_to_le32(0x00010201);
-> > > >      id->oacs = cpu_to_le16(0);
-> > > > +    id->acl = 3;
-> > > So we are setting the max number of concurrent commands
-> > > but there is no logic to enforce that and wrap up with the
-> > > status suggested by specification.
-> > >
-> >
-> > That is true, but because the controller always completes the Abort
-> > command immediately this cannot happen. If the controller did try to
-> > abort executing commands, the Abort command would need to linger in the
-> > controller state until a completion queue entry is posted for the
-> > command to be aborted before the completion queue entry can be posted
-> > for the Abort command. This takes up resources in the controller and is
-> > the reason for the Abort Command Limit.
-> >
-> > You could argue that we should set ACL to 0 then, but the specification
-> > recommends a value of 3 and I do not see any harm in conveying a
-> > "reasonable", though inconsequential, value.
-> 
-> Could we  potentially add some comment describing the above ?
-> 
+On 18/11/2019 00.14, Taylor Simpson wrote:
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  tests/tcg/multiarch/float_helpers.c | 2 --
+>  tests/tcg/multiarch/linux-test.c    | 6 +++++-
+>  2 files changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/tests/tcg/multiarch/float_helpers.c b/tests/tcg/multiarch/fl=
+oat_helpers.c
+> index 8ee7903..bc530e5 100644
+> --- a/tests/tcg/multiarch/float_helpers.c
+> +++ b/tests/tcg/multiarch/float_helpers.c
+> @@ -79,11 +79,9 @@ char *fmt_16(uint16_t num)
+> =20
+>  #ifndef SNANF
+>  /* Signaling NaN macros, if supported.  */
+> -# if __GNUC_PREREQ(3, 3)
+>  #  define SNANF (__builtin_nansf (""))
+>  #  define SNAN (__builtin_nans (""))
+>  #  define SNANL (__builtin_nansl (""))
+> -# endif
+>  #endif
+> =20
+>  static float f32_numbers[] =3D {
+> diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux=
+-test.c
+> index 673d7c8..8a7c15c 100644
+> --- a/tests/tcg/multiarch/linux-test.c
+> +++ b/tests/tcg/multiarch/linux-test.c
+> @@ -485,7 +485,11 @@ static void test_signal(void)
+>      act.sa_flags =3D SA_SIGINFO;
+>      chk_error(sigaction(SIGSEGV, &act, NULL));
+>      if (setjmp(jmp_env) =3D=3D 0) {
+> -        *(uint8_t *)0 =3D 0;
+> +        /*
+> +         * clang requires volatile or it will turn this into a
+> +         * call to abort() instead of forcing a SIGSEGV.
+> +         */
+> +        *(volatile uint8_t *)0 =3D 0;
+>      }
+> =20
+>      act.sa_handler =3D SIG_DFL;
+>=20
 
-Yes, absolutely! :)
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-
-Klaus
 
