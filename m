@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06227100302
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 11:55:35 +0100 (CET)
-Received: from localhost ([::1]:60478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A4210030C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 11:57:34 +0100 (CET)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWegv-00038c-S5
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 05:55:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42403)
+	id 1iWeir-00060H-Pj
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 05:57:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1iWef3-0001X0-Lb
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:38 -0500
+ (envelope-from <lvivier@redhat.com>) id 1iWef6-0001bT-II
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1iWef2-0004Qg-Ks
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39296
+ (envelope-from <lvivier@redhat.com>) id 1iWef5-0004RY-9F
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:40 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21989
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iWef2-0004QS-Gk
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:36 -0500
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iWef5-0004RM-59
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 05:53:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574074416;
+ s=mimecast20190719; t=1574074418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=152F3VsBW27j1IFKoVLVwCYJGK5KIGmsJlQ2TDMp0a8=;
- b=dxIWL68QRqTdmH+cc9oQHXjwniL4a7MCLomyLAnstO35kRNXtDMJILui9eMKsTRqivdkDa
- 1P+Wf1zxgqKWw+mxLWIdZ2QvqU0P7pWiya7nfB9NfVgL1qoSY+EaKc+6hxLbQ7TW/dHwFl
- EtBwmvKoD4lHRPaomQWh2mUQuu14+eE=
+ bh=AnX5Bp7pofx0wLQCrap7/m/Bi3qK71qWPkamm5SYI2Q=;
+ b=hcPOfFNBF3LI1qREKLjKG9GwAVi3DobdG0EOLyiNDcpdQEb8kUrvMWdkUe1fT7eJSp8M80
+ Z0ENuS4IksarKpQY2ViWX0fq9g3dRZo+uZchLe7yyd+qZ5JY8UWaz8B9sV8Wjxu+o6u3be
+ Qk0ZkPrcKJkXRLaWKIT+dSn9Nu9EAE8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-D9zpYNcJPm-cycoKrSRBNA-1; Mon, 18 Nov 2019 05:53:31 -0500
+ us-mta-371-xi8x2q9eNPi_H_AgQm4XkQ-1; Mon, 18 Nov 2019 05:53:35 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84CC7802688;
- Mon, 18 Nov 2019 10:53:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52DBA80268B;
+ Mon, 18 Nov 2019 10:53:33 +0000 (UTC)
 Received: from thinkpad.redhat.com (ovpn-117-32.ams2.redhat.com [10.36.117.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6D5660856;
- Mon, 18 Nov 2019 10:53:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D702260856;
+ Mon, 18 Nov 2019 10:53:30 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 3/6] ppc: Skip partially initialized vCPUs in 'info pic'
-Date: Mon, 18 Nov 2019 11:53:16 +0100
-Message-Id: <20191118105319.7658-4-lvivier@redhat.com>
+Subject: [PULL v2 4/6] spapr: Add /chosen to FDT only at reset time to
+ preserve kernel and initramdisk
+Date: Mon, 18 Nov 2019 11:53:17 +0100
+Message-Id: <20191118105319.7658-5-lvivier@redhat.com>
 In-Reply-To: <20191118105319.7658-1-lvivier@redhat.com>
 References: <20191118105319.7658-1-lvivier@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: D9zpYNcJPm-cycoKrSRBNA-1
+X-MC-Unique: xi8x2q9eNPi_H_AgQm4XkQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,76 +71,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-CPU_FOREACH() can race with vCPU hotplug/unplug on sPAPR machines, ie.
-we may try to print out info about a vCPU with a NULL presenter pointer.
+Since "spapr: Render full FDT on ibm,client-architecture-support" we build
+the entire flatten device tree (FDT) twice - at the reset time and
+when "ibm,client-architecture-support" (CAS) is called. The full FDT from
+CAS is then applied on top of the SLOF internal device tree.
 
-Check that in order to prevent QEMU from crashing.
+This is mostly ok, however there is a case when the QEMU is started with
+-initrd and for some reason the guest decided to move/unpack the init RAM
+disk image - the guest correctly notifies SLOF about the change but
+at CAS it is overridden with the QEMU initial location addresses and
+the guest may fail to boot if the original initrd memory was changed.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157192725327.3146912.12047076483178652551.stgit@bahia.lan>
+This fixes the problem by only adding the /chosen node at the reset time
+to prevent the original QEMU's linux,initrd-start/linux,initrd-end to
+override the updated addresses.
+
+This only treats /chosen differently as we know there is a special case
+already and it is unlikely anything else will need to change /chosen at CAS
+we are better off not touching /chosen after we handed it over to SLOF.
+
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20191024041308.5673-1-aik@ozlabs.ru>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- hw/intc/xics.c | 11 ++++++++++-
- hw/intc/xive.c | 11 ++++++++++-
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ hw/ppc/spapr.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-index 5f746079be46..e7ac9ba618fa 100644
---- a/hw/intc/xics.c
-+++ b/hw/intc/xics.c
-@@ -44,7 +44,16 @@
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 94f9d27096af..e076f6023c73 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -917,7 +917,7 @@ static bool spapr_hotplugged_dev_before_cas(void)
+     return false;
+ }
 =20
- void icp_pic_print_info(ICPState *icp, Monitor *mon)
+-static void *spapr_build_fdt(SpaprMachineState *spapr);
++static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset);
+=20
+ int spapr_h_cas_compose_response(SpaprMachineState *spapr,
+                                  target_ulong addr, target_ulong size,
+@@ -939,7 +939,7 @@ int spapr_h_cas_compose_response(SpaprMachineState *spa=
+pr,
+=20
+     size -=3D sizeof(hdr);
+=20
+-    fdt =3D spapr_build_fdt(spapr);
++    fdt =3D spapr_build_fdt(spapr, false);
+     _FDT((fdt_pack(fdt)));
+=20
+     if (fdt_totalsize(fdt) + sizeof(hdr) > size) {
+@@ -1197,7 +1197,7 @@ static void spapr_dt_hypervisor(SpaprMachineState *sp=
+apr, void *fdt)
+     }
+ }
+=20
+-static void *spapr_build_fdt(SpaprMachineState *spapr)
++static void *spapr_build_fdt(SpaprMachineState *spapr, bool reset)
  {
--    int cpu_index =3D icp->cs ? icp->cs->cpu_index : -1;
-+    int cpu_index;
-+
-+    /* Skip partially initialized vCPUs. This can happen on sPAPR when vCP=
-Us
-+     * are hot plugged or unplugged.
-+     */
-+    if (!icp) {
-+        return;
+     MachineState *machine =3D MACHINE(spapr);
+     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+@@ -1297,7 +1297,9 @@ static void *spapr_build_fdt(SpaprMachineState *spapr=
+)
+     spapr_dt_rtas(spapr, fdt);
+=20
+     /* /chosen */
+-    spapr_dt_chosen(spapr, fdt);
++    if (reset) {
++        spapr_dt_chosen(spapr, fdt);
 +    }
-+
-+    cpu_index =3D icp->cs ? icp->cs->cpu_index : -1;
 =20
-     if (!icp->output) {
-         return;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 952a461d5329..75dce82fb205 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -523,9 +523,18 @@ static const char * const xive_tctx_ring_names[] =3D {
+     /* /hypervisor */
+     if (kvm_enabled()) {
+@@ -1305,11 +1307,14 @@ static void *spapr_build_fdt(SpaprMachineState *spa=
+pr)
+     }
 =20
- void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon)
- {
--    int cpu_index =3D tctx->cs ? tctx->cs->cpu_index : -1;
-+    int cpu_index;
-     int i;
+     /* Build memory reserve map */
+-    if (spapr->kernel_size) {
+-        _FDT((fdt_add_mem_rsv(fdt, KERNEL_LOAD_ADDR, spapr->kernel_size)))=
+;
+-    }
+-    if (spapr->initrd_size) {
+-        _FDT((fdt_add_mem_rsv(fdt, spapr->initrd_base, spapr->initrd_size)=
+));
++    if (reset) {
++        if (spapr->kernel_size) {
++            _FDT((fdt_add_mem_rsv(fdt, KERNEL_LOAD_ADDR, spapr->kernel_siz=
+e)));
++        }
++        if (spapr->initrd_size) {
++            _FDT((fdt_add_mem_rsv(fdt, spapr->initrd_base,
++                                  spapr->initrd_size)));
++        }
+     }
 =20
-+    /* Skip partially initialized vCPUs. This can happen on sPAPR when vCP=
-Us
-+     * are hot plugged or unplugged.
-+     */
-+    if (!tctx) {
-+        return;
-+    }
-+
-+    cpu_index =3D tctx->cs ? tctx->cs->cpu_index : -1;
-+
-     if (kvm_irqchip_in_kernel()) {
-         Error *local_err =3D NULL;
+     /* ibm,client-architecture-support updates */
+@@ -1718,7 +1723,7 @@ static void spapr_machine_reset(MachineState *machine=
+)
+      */
+     fdt_addr =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FDT_MAX_SIZE;
+=20
+-    fdt =3D spapr_build_fdt(spapr);
++    fdt =3D spapr_build_fdt(spapr, true);
+=20
+     rc =3D fdt_pack(fdt);
 =20
 --=20
 2.23.0
