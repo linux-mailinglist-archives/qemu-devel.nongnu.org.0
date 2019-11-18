@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC00E1009F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 18:09:52 +0100 (CET)
-Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F731009FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 18:12:36 +0100 (CET)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWkX9-0001d5-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 12:09:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53031)
+	id 1iWkZn-0003xd-BM
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 12:12:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iWkRs-00041B-5c
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:04:26 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iWkUB-0006ZC-5c
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:06:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iWkRo-0003aD-Be
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:04:24 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31322
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iWkRn-0003XG-PE
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:04:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574096655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X1v8CJQdw3hRlCho3Nj+vtvfYmjtWDrdyBrr7HhXf/E=;
- b=hCLt05OKrR7Z0ZDacdA2bf1A3GBuqRzKBPwYnPgb1zIU4CMkxJd2n7hdxMt08XqW3T8mlg
- Cr4hxsy3+Ds6CXVBCLWbMuV6RECYGnxqOlPILkGQo+FS77hoKRsSn5UCJUtdzAb5iQG3Ma
- WygOjW7fXvMO8IfoqTplnFWqqjS5tds=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-h-TAObjXMUKYFSV1OENHsA-1; Mon, 18 Nov 2019 12:03:13 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E48D100ED88;
- Mon, 18 Nov 2019 17:03:12 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-108.ams2.redhat.com
- [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE45B608B5;
- Mon, 18 Nov 2019 17:03:10 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 4/4] iotests: Test multiple blockdev-snapshot calls
-Date: Mon, 18 Nov 2019 18:02:56 +0100
-Message-Id: <20191118170256.31477-5-kwolf@redhat.com>
-In-Reply-To: <20191118170256.31477-1-kwolf@redhat.com>
-References: <20191118170256.31477-1-kwolf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iWkU9-0004ZP-Kh
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:06:46 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:46670)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iWkU9-0004Z2-FT
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 12:06:45 -0500
+Received: by mail-ot1-x332.google.com with SMTP id n23so15124015otr.13
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 09:06:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qvxf8ueA5CJ5Vu/jLl820jIsDj/xmtDSGAs7zi/qLK4=;
+ b=sJpMgtcj5X2behjI6a6CZMk2vS65/XKsf/7q1p56T/N2WABUa+HafrV0PESXUe3MHT
+ /MRhmJL6jUJ9TGRKCds66fLXkKCl6Jpe9Wtty2vMoah+uLZfQECtZ/uqllDwBesuJcDq
+ EeXy5gLJ98Vdq2ccywRnjiAT9d13XD77INRJ2Dg2CRXCUK2JQUKeu7Oea/eyUSjicvb8
+ P81OhUnvkHr6y1Alot+CH4OkBBXugNcztCwIq0Jv8IjhbNKvgeSyHQODS2cH04Flj4Jx
+ cJ0HcWReZzX4AzyNQjiCbyjveS7FcenF0Sh6otjNKURI0Ns2ABi6rFzhhCRrRTPDZMLl
+ Aw1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qvxf8ueA5CJ5Vu/jLl820jIsDj/xmtDSGAs7zi/qLK4=;
+ b=ldgGtZmgOn3eiLGEuko5Sp8b8CrlgByxmFdAZyOrDPn5u2b2ZvqnXBxh7aX0qwGAE2
+ UE4bRjYyQ5nO1hDKvdaRUkg1q3FL1cuuJT3f0uMsRIeqe6pOQODUkyoquY2+akOLSnke
+ ii3LBZRJYpVZVJoCXcIZWUTQ3KTJCMFUN9rgrNpUe8nZ4gPwkYl5cRaOpACnpqqikX+Y
+ lcJ9ERpnQ64JUtKKf0n6YXMe5PZLqJObNbLPM9/ZIbmXxCDGepDt4ZBnyyXH7FxgDJKP
+ KraSktTWbcB+ANAV8+/gKx1S9OmEKYI8bI5ExwMIaJQOE3reCV7QwIRn4WbdG01ak5AG
+ ZNOw==
+X-Gm-Message-State: APjAAAXGaIFreF9qMCdBCMPbU8U+Aujuph+EkBwRZDn94upyvf2ERDSy
+ 9ASh502XT+sFY5/zZytskmwPtRTdSWg15jbWO+4i9A==
+X-Google-Smtp-Source: APXvYqzwjmDpeUfdCSIVSiPdgsIOptHVjEVgBuhaOKzM7i8IoMv3XX4HmSZt/7QRmTXbiYobx89f17bGA//Y6s4+VFw=
+X-Received: by 2002:a9d:12d2:: with SMTP id g76mr250500otg.232.1574096804533; 
+ Mon, 18 Nov 2019 09:06:44 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: h-TAObjXMUKYFSV1OENHsA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191118142407.6040-1-kraxel@redhat.com>
+In-Reply-To: <20191118142407.6040-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Nov 2019 17:06:32 +0000
+Message-ID: <CAFEAcA_Eg9MmdSiz8biQrckWoCTBBd0PTeeOxNYeWxG=WQY16A@mail.gmail.com>
+Subject: Re: [PULL 0/2] Seabios 20191118 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,468 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that doing a second blockdev-snapshot doesn't make the first
-overlay's backing file go away.
+On Mon, 18 Nov 2019 at 14:25, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 9f2ce35dfa4ea4a31dbb765dd02bed2500891887:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20191111' into staging (2019-11-11 16:54:16 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/seabios-20191118-pull-request
+>
+> for you to fetch changes up to 0285747737417a7d154ddc3e5adcf1fd665566fd:
+>
+>   seabios: update to pre-1.13 snapshot again (2019-11-18 15:04:19 +0100)
+>
+> ----------------------------------------------------------------
+> seabios: update to pre-1.13 snapshot again (lchs fixed)
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Peter Krempa <pkrempa@redhat.com>
----
- tests/qemu-iotests/273     |  76 +++++++++
- tests/qemu-iotests/273.out | 337 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 414 insertions(+)
- create mode 100755 tests/qemu-iotests/273
- create mode 100644 tests/qemu-iotests/273.out
 
-diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
-new file mode 100755
-index 0000000000..98a672516d
---- /dev/null
-+++ b/tests/qemu-iotests/273
-@@ -0,0 +1,76 @@
-+#!/usr/bin/env bash
-+#
-+# Test multiple blockdev-snapshot calls with 'backing': null
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename "$0")
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+# This is a qcow2 regression test
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+do_run_qemu()
-+{
-+    echo Testing: "$@"
-+    $QEMU -nographic -qmp-pretty stdio -nodefaults "$@"
-+    echo
-+}
-+
-+run_qemu()
-+{
-+    do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp |
-+        _filter_generated_node_ids | _filter_imgfmt | _filter_actual_image=
-_size
-+}
-+
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
-+TEST_IMG=3D"$TEST_IMG.mid" _make_test_img -b "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.mid"
-+
-+run_qemu \
-+    -blockdev file,node-name=3Dbase,filename=3D"$TEST_IMG.base" \
-+     -blockdev file,node-name=3Dmidf,filename=3D"$TEST_IMG.mid" \
-+     -blockdev '{"driver":"qcow2","node-name":"mid","file":"midf","backing=
-":null}' \
-+     -blockdev file,node-name=3Dtopf,filename=3D"$TEST_IMG" \
-+     -blockdev '{"driver":"qcow2","file":"topf","node-name":"top","backing=
-":null}' \
-+<<EOF
-+{"execute":"qmp_capabilities"}
-+{"execute":"blockdev-snapshot","arguments":{"node":"base","overlay":"mid"}=
-}
-+{"execute":"blockdev-snapshot","arguments":{"node":"mid","overlay":"top"}}
-+{"execute":"query-named-block-nodes"}
-+{"execute":"x-debug-query-block-graph"}
-+{"execute":"quit"}
-+EOF
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
-new file mode 100644
-index 0000000000..c410fee5c4
---- /dev/null
-+++ b/tests/qemu-iotests/273.out
-@@ -0,0 +1,337 @@
-+QA output created by 273
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+Formatting 'TEST_DIR/t.IMGFMT.mid', fmt=3DIMGFMT size=3D67108864 backing_f=
-ile=3DTEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.mid
-+Testing: -blockdev file,node-name=3Dbase,filename=3DTEST_DIR/t.IMGFMT.base=
- -blockdev file,node-name=3Dmidf,filename=3DTEST_DIR/t.IMGFMT.mid -blockdev=
- {"driver":"IMGFMT","node-name":"mid","file":"midf","backing":null} -blockd=
-ev file,node-name=3Dtopf,filename=3DTEST_DIR/t.IMGFMT -blockdev {"driver":"=
-IMGFMT","file":"topf","node-name":"top","backing":null}
-+{
-+    QMP_VERSION
-+}
-+{
-+    "return": {
-+    }
-+}
-+{
-+    "return": {
-+    }
-+}
-+{
-+    "return": {
-+    }
-+}
-+{
-+    "return": [
-+        {
-+            "iops_rd": 0,
-+            "detect_zeroes": "off",
-+            "image": {
-+                "backing-image": {
-+                    "backing-image": {
-+                        "virtual-size": 197120,
-+                        "filename": "TEST_DIR/t.IMGFMT.base",
-+                        "format": "file",
-+                        "actual-size": SIZE,
-+                        "dirty-flag": false
-+                    },
-+                    "backing-filename-format": "file",
-+                    "virtual-size": 67108864,
-+                    "filename": "TEST_DIR/t.IMGFMT.mid",
-+                    "cluster-size": 65536,
-+                    "format": "IMGFMT",
-+                    "actual-size": SIZE,
-+                    "format-specific": {
-+                        "type": "IMGFMT",
-+                        "data": {
-+                            "compat": "1.1",
-+                            "lazy-refcounts": false,
-+                            "refcount-bits": 16,
-+                            "corrupt": false
-+                        }
-+                    },
-+                    "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
-+                    "backing-filename": "TEST_DIR/t.IMGFMT.base",
-+                    "dirty-flag": false
-+                },
-+                "backing-filename-format": "IMGFMT",
-+                "virtual-size": 67108864,
-+                "filename": "TEST_DIR/t.IMGFMT",
-+                "cluster-size": 65536,
-+                "format": "IMGFMT",
-+                "actual-size": SIZE,
-+                "format-specific": {
-+                    "type": "IMGFMT",
-+                    "data": {
-+                        "compat": "1.1",
-+                        "lazy-refcounts": false,
-+                        "refcount-bits": 16,
-+                        "corrupt": false
-+                    }
-+                },
-+                "full-backing-filename": "TEST_DIR/t.IMGFMT.mid",
-+                "backing-filename": "TEST_DIR/t.IMGFMT.mid",
-+                "dirty-flag": false
-+            },
-+            "iops_wr": 0,
-+            "ro": false,
-+            "node-name": "top",
-+            "backing_file_depth": 2,
-+            "drv": "IMGFMT",
-+            "iops": 0,
-+            "bps_wr": 0,
-+            "write_threshold": 0,
-+            "backing_file": "TEST_DIR/t.IMGFMT.mid",
-+            "encrypted": false,
-+            "bps": 0,
-+            "bps_rd": 0,
-+            "cache": {
-+                "no-flush": false,
-+                "direct": false,
-+                "writeback": true
-+            },
-+            "file": "TEST_DIR/t.IMGFMT",
-+            "encryption_key_missing": false
-+        },
-+        {
-+            "iops_rd": 0,
-+            "detect_zeroes": "off",
-+            "image": {
-+                "virtual-size": 197120,
-+                "filename": "TEST_DIR/t.IMGFMT",
-+                "format": "file",
-+                "actual-size": SIZE,
-+                "dirty-flag": false
-+            },
-+            "iops_wr": 0,
-+            "ro": false,
-+            "node-name": "topf",
-+            "backing_file_depth": 0,
-+            "drv": "file",
-+            "iops": 0,
-+            "bps_wr": 0,
-+            "write_threshold": 0,
-+            "encrypted": false,
-+            "bps": 0,
-+            "bps_rd": 0,
-+            "cache": {
-+                "no-flush": false,
-+                "direct": false,
-+                "writeback": true
-+            },
-+            "file": "TEST_DIR/t.IMGFMT",
-+            "encryption_key_missing": false
-+        },
-+        {
-+            "iops_rd": 0,
-+            "detect_zeroes": "off",
-+            "image": {
-+                "backing-image": {
-+                    "virtual-size": 197120,
-+                    "filename": "TEST_DIR/t.IMGFMT.base",
-+                    "format": "file",
-+                    "actual-size": SIZE,
-+                    "dirty-flag": false
-+                },
-+                "backing-filename-format": "file",
-+                "virtual-size": 67108864,
-+                "filename": "TEST_DIR/t.IMGFMT.mid",
-+                "cluster-size": 65536,
-+                "format": "IMGFMT",
-+                "actual-size": SIZE,
-+                "format-specific": {
-+                    "type": "IMGFMT",
-+                    "data": {
-+                        "compat": "1.1",
-+                        "lazy-refcounts": false,
-+                        "refcount-bits": 16,
-+                        "corrupt": false
-+                    }
-+                },
-+                "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
-+                "backing-filename": "TEST_DIR/t.IMGFMT.base",
-+                "dirty-flag": false
-+            },
-+            "iops_wr": 0,
-+            "ro": true,
-+            "node-name": "mid",
-+            "backing_file_depth": 1,
-+            "drv": "IMGFMT",
-+            "iops": 0,
-+            "bps_wr": 0,
-+            "write_threshold": 0,
-+            "backing_file": "TEST_DIR/t.IMGFMT.base",
-+            "encrypted": false,
-+            "bps": 0,
-+            "bps_rd": 0,
-+            "cache": {
-+                "no-flush": false,
-+                "direct": false,
-+                "writeback": true
-+            },
-+            "file": "TEST_DIR/t.IMGFMT.mid",
-+            "encryption_key_missing": false
-+        },
-+        {
-+            "iops_rd": 0,
-+            "detect_zeroes": "off",
-+            "image": {
-+                "virtual-size": 197120,
-+                "filename": "TEST_DIR/t.IMGFMT.mid",
-+                "format": "file",
-+                "actual-size": SIZE,
-+                "dirty-flag": false
-+            },
-+            "iops_wr": 0,
-+            "ro": false,
-+            "node-name": "midf",
-+            "backing_file_depth": 0,
-+            "drv": "file",
-+            "iops": 0,
-+            "bps_wr": 0,
-+            "write_threshold": 0,
-+            "encrypted": false,
-+            "bps": 0,
-+            "bps_rd": 0,
-+            "cache": {
-+                "no-flush": false,
-+                "direct": false,
-+                "writeback": true
-+            },
-+            "file": "TEST_DIR/t.IMGFMT.mid",
-+            "encryption_key_missing": false
-+        },
-+        {
-+            "iops_rd": 0,
-+            "detect_zeroes": "off",
-+            "image": {
-+                "virtual-size": 197120,
-+                "filename": "TEST_DIR/t.IMGFMT.base",
-+                "format": "file",
-+                "actual-size": SIZE,
-+                "dirty-flag": false
-+            },
-+            "iops_wr": 0,
-+            "ro": true,
-+            "node-name": "base",
-+            "backing_file_depth": 0,
-+            "drv": "file",
-+            "iops": 0,
-+            "bps_wr": 0,
-+            "write_threshold": 0,
-+            "encrypted": false,
-+            "bps": 0,
-+            "bps_rd": 0,
-+            "cache": {
-+                "no-flush": false,
-+                "direct": false,
-+                "writeback": true
-+            },
-+            "file": "TEST_DIR/t.IMGFMT.base",
-+            "encryption_key_missing": false
-+        }
-+    ]
-+}
-+{
-+    "return": {
-+        "edges": [
-+            {
-+                "name": "file",
-+                "parent": 5,
-+                "shared-perm": [
-+                    "graph-mod",
-+                    "write-unchanged",
-+                    "consistent-read"
-+                ],
-+                "perm": [
-+                    "resize",
-+                    "write",
-+                    "consistent-read"
-+                ],
-+                "child": 4
-+            },
-+            {
-+                "name": "backing",
-+                "parent": 5,
-+                "shared-perm": [
-+                    "graph-mod",
-+                    "resize",
-+                    "write-unchanged",
-+                    "write",
-+                    "consistent-read"
-+                ],
-+                "perm": [
-+                ],
-+                "child": 3
-+            },
-+            {
-+                "name": "file",
-+                "parent": 3,
-+                "shared-perm": [
-+                    "graph-mod",
-+                    "write-unchanged",
-+                    "consistent-read"
-+                ],
-+                "perm": [
-+                    "consistent-read"
-+                ],
-+                "child": 2
-+            },
-+            {
-+                "name": "backing",
-+                "parent": 3,
-+                "shared-perm": [
-+                    "graph-mod",
-+                    "resize",
-+                    "write-unchanged",
-+                    "write",
-+                    "consistent-read"
-+                ],
-+                "perm": [
-+                ],
-+                "child": 1
-+            }
-+        ],
-+        "nodes": [
-+            {
-+                "name": "top",
-+                "type": "block-driver",
-+                "id": 5
-+            },
-+            {
-+                "name": "topf",
-+                "type": "block-driver",
-+                "id": 4
-+            },
-+            {
-+                "name": "mid",
-+                "type": "block-driver",
-+                "id": 3
-+            },
-+            {
-+                "name": "midf",
-+                "type": "block-driver",
-+                "id": 2
-+            },
-+            {
-+                "name": "base",
-+                "type": "block-driver",
-+                "id": 1
-+            }
-+        ]
-+    }
-+}
-+{
-+    "return": {
-+    }
-+}
-+{
-+    "timestamp": {
-+        "seconds":  TIMESTAMP,
-+        "microseconds":  TIMESTAMP
-+    },
-+    "event": "SHUTDOWN",
-+    "data": {
-+        "guest": false,
-+        "reason": "host-qmp-quit"
-+    }
-+}
-+
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 065040398d..c56bb69031 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -284,3 +284,4 @@
- 268 rw auto quick
- 270 rw backing quick
- 272 rw
-+273 backing quick
---=20
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
