@@ -2,83 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCA6FFC33
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 00:24:52 +0100 (CET)
-Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E83FFCFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 02:57:41 +0100 (CET)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWTuV-0002kF-Cl
-	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 18:24:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49865)
+	id 1iWWIO-0006ca-LM
+	for lists+qemu-devel@lfdr.de; Sun, 17 Nov 2019 20:57:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34105)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iWTqp-0006j2-6k
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 18:21:05 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1iWVzl-00011i-RF
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:38:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iWTqm-0007Ux-Un
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 18:21:02 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42672)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iWTqm-0007Ua-D2
- for qemu-devel@nongnu.org; Sun, 17 Nov 2019 18:21:00 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAHNCRi6028978
- for <qemu-devel@nongnu.org>; Sun, 17 Nov 2019 18:20:59 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wayf4dgs7-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Sun, 17 Nov 2019 18:20:59 -0500
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Sun, 17 Nov 2019 23:20:57 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Sun, 17 Nov 2019 23:20:54 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAHNKrj429360226
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 17 Nov 2019 23:20:53 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28E3CAE053;
- Sun, 17 Nov 2019 23:20:53 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03E43AE051;
- Sun, 17 Nov 2019 23:20:53 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.70.126])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Sun, 17 Nov 2019 23:20:52 +0000 (GMT)
-Subject: [PATCH for-5.0 4/4] spapr: Abort if XICS interrupt controller
- cannot be initialized
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 18 Nov 2019 00:20:52 +0100
-In-Reply-To: <157403283036.409804.13586263493813758117.stgit@bahia.lan>
-References: <157403283036.409804.13586263493813758117.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (envelope-from <pannengyuan@huawei.com>) id 1iWVzk-0003oF-Tn
+ for qemu-devel@nongnu.org; Sun, 17 Nov 2019 20:38:25 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37120 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1iWVzi-0003jR-86; Sun, 17 Nov 2019 20:38:22 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id B3A27D43981738ABCBF8;
+ Mon, 18 Nov 2019 09:38:12 +0800 (CST)
+Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 18 Nov 2019 09:38:06 +0800
+From: <pannengyuan@huawei.com>
+To: <clg@kaod.org>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <joel@jms.id.au>
+Subject: [QEMU-DEVEL][PATCH] gpio: fix memory leak in aspeed_gpio_init()
+Date: Mon, 18 Nov 2019 09:37:45 +0800
+Message-ID: <1574041065-34936-1-git-send-email-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.7.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19111723-0012-0000-0000-000003662F5E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111723-0013-0000-0000-000021A1B26D
-Message-Id: <157403285265.409804.8683093665795248192.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-17_05:2019-11-15,2019-11-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1034
- mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
- mlxlogscore=988 priorityscore=1501 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911170222
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Type: text/plain
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
+X-Mailman-Approved-At: Sun, 17 Nov 2019 20:55:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,55 +52,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: PanNengyuan <pannengyuan@huawei.com>, qemu-arm@nongnu.org,
+ kenny.zhangjun@huawei.com, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Failing to set any of the ICS property should really never happen:
-- object_property_add_child() always succeed unless the child object
-  already has a parent, which isn't the case here obviously since the
-  ICS has just been created with object_new()
-- the ICS has an "nr-irqs" property than can be set as long as the ICS
-  isn't realized
+From: PanNengyuan <pannengyuan@huawei.com>
 
-In both cases, an error indicates there is a bug in QEMU. Propagating the
-error, ie. exiting QEMU since spapr_irq_init() is called with &error_fatal
-doesn't make much sense. Abort instead. This is consistent with what is
-done with XIVE : both qdev_create() and qdev_prop_set_uint32() abort QEMU
-on error.
+Address Sanitizer shows memory leak in hw/gpio/aspeed_gpio.c:875
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
 ---
- hw/ppc/spapr_irq.c |   13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ hw/gpio/aspeed_gpio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 487c8ceb35a3..37f65dac9ca8 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -313,20 +313,11 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
-         Object *obj;
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index 7acc5fa..41e11ea 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -876,6 +876,7 @@ static void aspeed_gpio_init(Object *obj)
+                                pin_idx % GPIOS_PER_GROUP);
+         object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
+                             aspeed_gpio_set_pin, NULL, NULL, NULL);
++        g_free(name);
+     }
+ }
  
-         obj = object_new(TYPE_ICS_SPAPR);
--        object_property_add_child(OBJECT(spapr), "ics", obj, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
- 
-+        object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-         object_property_set_link(obj, OBJECT(spapr), ICS_PROP_XICS,
-                                  &error_abort);
--        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
--
-+        object_property_set_int(obj, smc->nr_xirqs, "nr-irqs", &error_abort);
-         object_property_set_bool(obj, true, "realized", &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
+-- 
+2.7.2.windows.1
+
 
 
