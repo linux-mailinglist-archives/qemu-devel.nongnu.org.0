@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FB3100D89
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:18:36 +0100 (CET)
-Received: from localhost ([::1]:39558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B965D100D90
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Nov 2019 22:21:23 +0100 (CET)
+Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWoPr-0001p9-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:18:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35764)
+	id 1iWoSX-0005W8-5b
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 16:21:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iWoN8-0008R6-Rn
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:50 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1iWoNA-0008T1-Rt
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iWoN5-0005iU-1c
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:46 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33983)
+ (envelope-from <robert.foley@linaro.org>) id 1iWoN6-0005jK-VE
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:48 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33300)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iWoN4-0005hz-Sj
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:42 -0500
-Received: by mail-pg1-x544.google.com with SMTP id z188so10239807pgb.1
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:42 -0800 (PST)
+ id 1iWoN6-0005iw-Pv
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 16:15:44 -0500
+Received: by mail-pg1-x542.google.com with SMTP id h27so10243136pgn.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 13:15:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=diXnF1IPkkxinXlGIqTBKK6HjgFjUcsfRfseHjAG8V0=;
- b=h+2Qho2vTpunhRLfbyinfHSPOa+YoaWCod/ZWn6WgkDrMlTjLAmIGN/bNzgia5xPpk
- YRk7BKwtye0qLaJijKZ+PfGxmnzlLWXYqbsv0Bk3hwxphR7kSPhEUt3+nyK3w3Z/p1fL
- 1WtJMn6s0cGQ+pfsZW5C0KmmJ+QNXfbbQq/JRVQGl8Ao5WBxAlibD1bk+vnlpfMDAqn+
- wlgj9DEZe0ZqnxsboGd8Qh/X+qVvbXWyAs765Mem3hW5tAGlbWn2YaX/kuDhEdjeAJGa
- jXnnDaES1oFauz2IQ50oizgSXt+2az0+WcGe5Y4GDpUFm2nW35DUOhbo+ob1ucfi1Sp7
- nHRQ==
+ bh=OGr2NFkF8BEM5m64tXfwHwGdKFCwpo8LWb1oMEbPg1U=;
+ b=w66FTDUtPihHMX2BHfUySI1lShJpsxlMXYzG5sImza+QNPvc9eHpRUKKkxTC51RCcL
+ BXkPNYuARmCHdBu3VcDrbaIUlOP+iIdUx491+bqhwY8qAGfyqUojCyAWjuIVGH9s6ZBT
+ +AJFfJtfDZ23z9IQ6PKu6GRB+CqyvFLuJXxoM/z+qmCQxq9438GZzTVBMJNV6pduxr4g
+ DChjbE2HoXNSjldpcuL1GOEgyz1l3XuNPsK8oyPEJsVkwUR1ifDGBWKqka4/F6di252+
+ qOAVfZRZK84/n30BA1o6Q0XTgcdnfre5QHEVYVbqrlPNwsOME/UNZSDb9YYu63leDmqh
+ +1kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=diXnF1IPkkxinXlGIqTBKK6HjgFjUcsfRfseHjAG8V0=;
- b=Kt4hV26hjg51C4Pes0FkFZ30FKMR5GgshlenpSDinP9elN29Wq+h1jMvEU1XhuoMyY
- xrPsiVJ0MKejaF9TOPognr9IB8/86/p/F2k3Gb+4PVYb1+JmB0APVuB4+C2QIlSqCDUn
- Fw/e4tqbchS5Ke5ZZ93anbFFMn/JNfXj/vDIoaj34EHj5szbZGfoig6qU3FrtchN/pEU
- EUnz+LPezvSirQVkeIqYCkPQz4KXcgMmjZoC6AJoaA0MUqF6+harEIENvyJ5oruiOlfP
- chiju0tN+XedjgFZcQoUVeyc8NIUDphZPHVuAQV5XCsDmPme4oLcVJoeZACmgXEn/FQs
- pFeA==
-X-Gm-Message-State: APjAAAWmCFfZ3gA8TtTiJ622D9f4Tf9qZoJVwYFjt4cXsXZDCfrkXTOu
- Xuivo/zW79dst4aVyx4FE9aVglbKrko=
-X-Google-Smtp-Source: APXvYqy+2N1iB+YkTEY1Jy2gp5MiS4ziTHhcp2pczMV9uYFIrZPhC8TlbLsoA4y6y+5U9hJVQQ0m2A==
-X-Received: by 2002:a62:e914:: with SMTP id j20mr1510186pfh.245.1574111741581; 
- Mon, 18 Nov 2019 13:15:41 -0800 (PST)
+ bh=OGr2NFkF8BEM5m64tXfwHwGdKFCwpo8LWb1oMEbPg1U=;
+ b=elwJ+pu7P8VVO/0gpFCrhaN8JwQYsj5y1UdOyDxLWqNsuQTokUOX+PVxXOv3kr4D0/
+ fMoulmFcvWTBB34UEGYT8cSoDca/Feo9kQVGLZk+tZH9eMcF2i39J9pPgxFc7YF5bGjn
+ 9z4oWgeJyf05fq1Li373QCY0Xy/tQV/IFgWEgpRa8nftKUpSy59DuHrfMPkEEr+zQ/x5
+ u7zxqpKPOmBC8LU52/j/j9tRznRCZyO/cRWph6D4ihCbsPMHNmvunDFfgLmtuKssMN7J
+ UkddtR9RxHz9QiF/ZZxZsrx6H2oRgD7p1SnJ5+Wv3yuRf50LX6yckKtpSJdsjfaqTV1g
+ wSvw==
+X-Gm-Message-State: APjAAAWADmuwkj34mGyzK0IkzDazVrSXjQY/5l/+8kGe1D4Kd7byjYDP
+ PwerKWh0pezSHIl95xFnT/G/fNIMKFI=
+X-Google-Smtp-Source: APXvYqyrMd7+Mlp5RhDXACe0AzWJjc7v4uZ3R1GFYEclSaR7/PqDg+yAvoSG9QW3wzeRh+TpvYXkPQ==
+X-Received: by 2002:a62:1ad6:: with SMTP id a205mr1556889pfa.64.1574111743374; 
+ Mon, 18 Nov 2019 13:15:43 -0800 (PST)
 Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.40
+ by smtp.gmail.com with ESMTPSA id v15sm22301728pfe.44.2019.11.18.13.15.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 13:15:41 -0800 (PST)
+ Mon, 18 Nov 2019 13:15:42 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] Fix double free issue in qemu_set_log_filename().
-Date: Mon, 18 Nov 2019 16:15:23 -0500
-Message-Id: <20191118211528.3221-2-robert.foley@linaro.org>
+Subject: [PATCH v3 2/6] Cleaned up flow of code in qemu_set_log(),
+ to simplify and clarify.
+Date: Mon, 18 Nov 2019 16:15:24 -0500
+Message-Id: <20191118211528.3221-3-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118211528.3221-1-robert.foley@linaro.org>
 References: <20191118211528.3221-1-robert.foley@linaro.org>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,33 +84,60 @@ Cc: richard.henderson@linaro.org, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After freeing the logfilename, we set logfilename to NULL, in case of an
-error which returns without setting logfilename.
+Also added some explanation of the reasoning behind the branches.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
 v2
-    - moved this change to the beginning of the patch series.
+    - This is new in patch v2.
 ---
-v1
-    - This is new in the patch v1.
----
- util/log.c | 1 +
- 1 file changed, 1 insertion(+)
+ util/log.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/util/log.c b/util/log.c
-index 1ca13059ee..4316fe74ee 100644
+index 4316fe74ee..417d16ec66 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -113,6 +113,7 @@ void qemu_set_log_filename(const char *filename, Error **errp)
+@@ -54,12 +54,25 @@ static bool log_uses_own_buffers;
+ /* enable or disable low levels log */
+ void qemu_set_log(int log_flags)
  {
-     char *pidstr;
-     g_free(logfilename);
-+    logfilename = NULL;
++    bool need_to_open_file = false;
+     qemu_loglevel = log_flags;
+ #ifdef CONFIG_TRACE_LOG
+     qemu_loglevel |= LOG_TRACE;
+ #endif
+-    if (!qemu_logfile &&
+-        (is_daemonized() ? logfilename != NULL : qemu_loglevel)) {
++    /*
++     * In all cases we only log if qemu_loglevel is set.
++     * Also:
++     *   If not daemonized we will always log either to stderr
++     *     or to a file (if there is a logfilename).
++     *   If we are daemonized,
++     *     we will only log if there is a logfilename.
++     */
++    if (qemu_loglevel && (!is_daemonized() || logfilename)) {
++        need_to_open_file = true;
++    }
++    if (qemu_logfile && !need_to_open_file) {
++        qemu_log_close();
++    } else if (!qemu_logfile && need_to_open_file) {
+         if (logfilename) {
+             qemu_logfile = fopen(logfilename, log_append ? "a" : "w");
+             if (!qemu_logfile) {
+@@ -93,10 +106,6 @@ void qemu_set_log(int log_flags)
+             log_append = 1;
+         }
+     }
+-    if (qemu_logfile &&
+-        (is_daemonized() ? logfilename == NULL : !qemu_loglevel)) {
+-        qemu_log_close();
+-    }
+ }
  
-     pidstr = strstr(filename, "%");
-     if (pidstr) {
+ void qemu_log_needs_buffers(void)
 -- 
 2.17.1
 
