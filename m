@@ -2,127 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8CA102ABA
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:24:14 +0100 (CET)
-Received: from localhost ([::1]:48292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC12D102ACF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:30:42 +0100 (CET)
+Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7Eb-00066S-2L
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:24:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1iX7Kr-0008RS-K4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:30:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1iX7D4-0005Aa-HB
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:22:39 -0500
+ (envelope-from <philmd@redhat.com>) id 1iX7Iv-0007i5-D2
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:28:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1iX7D3-00043G-3M
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:22:38 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:23038)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1iX7D2-00041J-JR
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:22:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1574184156; x=1605720156;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=AcjaQXr/4HihfiYJ9HG0PziRqUZBnZmWMqUbNygjOc8=;
- b=xyLSeM1UJ6T7TrA3ZK2T4n4LUnX+2sERpSRt+b/TPtDnDH8zUvYi5fXy
- cKV8cpkLzWpSqfAMUyXABzQa7ZjF3aweWvf3wlyDUMlCnevbddA352Jgi
- aH6Ar1ZyaXBPT1I4sM9Zxhu/4LT7EhuLKfT1FYIDZtDx0gvtd6pUKmN8B A=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Nov 2019 09:22:33 -0800
-IronPort-SDR: vdivo4LN7Wi4ovvth2NGAHd+y8V1nAdUuUoNZkPFugcnu+Or4goeRNteZcxj8QP/zveh8Qb8YF
- oqRvvWL0Y5Q2TfOEyYpgYH6a/Lqkg4p5JpWs2Axi7ymgmLGI9coR3Pg5PyzScc3kQ7cFbVzgej
- hHTAo7mMpgqjFwSbuw+Pl6RV+PogfwwDYwIFHUdD0nRavXRxzlXDXvESLv+pLeiMTLQ8z03Tsq
- g/dm9AFPegTRb0t9ZFoT62F5vAAtxvVxg40H/xVuwnV4Q92Zm7eRkug4Na7njqw08XDeRMG0eb
- xAThab13t/vX0+m4sT8xuUNx
-Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 19 Nov 2019 09:22:30 -0800
-Received: from nasanexm01a.na.qualcomm.com (10.85.0.81) by
- nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Tue, 19 Nov 2019 09:22:29 -0800
-Received: from NAM01-BN3-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm01a.na.qualcomm.com (10.85.0.81) with Microsoft SMTP Server (TLS)
- id 15.0.1473.3 via Frontend Transport; Tue, 19 Nov 2019 09:22:28 -0800
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
- BYAPR02MB4150.namprd02.prod.outlook.com (20.176.248.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2451.28; Tue, 19 Nov 2019 17:22:28 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::b0e0:a44a:3fc6:e2b9]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::b0e0:a44a:3fc6:e2b9%3]) with mapi id 15.20.2451.031; Tue, 19 Nov 2019
- 17:22:27 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- "laurent@vivier.eu" <laurent@vivier.eu>, "riku.voipio@iki.fi"
- <riku.voipio@iki.fi>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] Add minimal Hexagon target - First in a series of patches
- - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon -
- Files in target/hexagon/imported are from another project and therefore do
- not conform to qemu coding standards
-Thread-Topic: [PATCH] Add minimal Hexagon target - First in a series of
- patches - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon - Files in target/hexagon/imported are from another project
- and therefore do not conform to qemu coding standards
-Thread-Index: AQHVnmwob37h/DrHSkKsyb+krTkIzKeSnIAAgAAaZ7A=
-Date: Tue, 19 Nov 2019 17:22:27 +0000
-Message-ID: <BYAPR02MB488666AA94EBB57C2A318004DE4C0@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
- <a77ce406-5307-cee8-8e0b-7c08056fb0df@redhat.com>
-In-Reply-To: <a77ce406-5307-cee8-8e0b-7c08056fb0df@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [199.106.103.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3747e57a-2a54-4376-7e42-08d76d150d33
-x-ms-traffictypediagnostic: BYAPR02MB4150:
-x-microsoft-antispam-prvs: <BYAPR02MB4150FA553D27C37AEE2461AADE4C0@BYAPR02MB4150.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 022649CC2C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(346002)(376002)(366004)(39860400002)(13464003)(189003)(199004)(7696005)(6246003)(8676002)(81156014)(229853002)(316002)(2201001)(81166006)(9686003)(76176011)(71190400001)(25786009)(186003)(76116006)(5660300002)(8936002)(55016002)(33656002)(2501003)(486006)(66066001)(476003)(99286004)(53546011)(6506007)(6436002)(86362001)(66946007)(110136005)(11346002)(446003)(478600001)(14454004)(74316002)(6116002)(26005)(256004)(52536014)(2906002)(71200400001)(7736002)(3846002)(305945005)(64756008)(66556008)(66446008)(66476007)(102836004)(219693003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB4150;
- H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3EwoyWE/ZJ03LptE8WYj1ZSBlE0x3x4vXB1v0acV5+Y+nTjlrNeOQ3Pt3NCvQ16P3pfnSlLkEnAeWeewwwIHsO59XBiTi/pxe+2Y14ObT9O5KBvgxxI5coaMa18q/M3BRn//OajPP2CHzapEoYdk05EjlHX60bb8ZEe9gliLFWX7oCyfDQWZuTwGl0LYVK8eG+1Jiyesa8RklotF8GFAvvbO10K2gO3fYmlPpPQ3aBBlGb+c2OmMXfoMeI2jZAEaKbKwanzGnZGqbQ1elIL7ylQknIqeSjljNR2o1kV9f8cVuANphVvBJA5JbUld2JOzbc6rG599LbXwkHJ5WdBtsN5PxIrhGljEp1cQ+n3Up+9Px+sMBu7Oq9wGPbQioZbMSPIwOO6N6aTS5ev/C2eqM3i/5yqV0rWVB4qwb7ainaX8+g+aetV3Pn7NcGUA67I1
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sxc7IIHCfY/RRXcAS5B1D8rwe4DqkvZaWNMJeI5/11e3KapTwm9jvnhju3rtv0VDNDfpshDSSsJqZKUa0eQ8OrCw3Fs1tFKxbC0r2GAAsg4q5Djsm3NripOKywzU87Z0K4QkJiR4b9v4iqJeBWJgnp503MsItkCkHSSoMDbZVAw/xggP4V3vLzUP4vH1I60up1qMt3dhTxzNfOII7cSTunzcooL7BUsi187WoSg97672gNsJw2Xi7Xt+Svj0TfqePDuXppqyuG0GzAMvMmaVNS03elXkJzUt2476J2y/n1h1URhx7arYuSpmIeBlu+GZXDzTwMVttur+0crNotGUlw==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8rjb13eHhBXc6caKalpAjoK5jTuBOvmG75U8uY3TEE=;
- b=iqRmzcDF+TGuVn5lZ/st/St8WIdhQxNSpLnvJgdsP4HRYGvMp81ulImUkQBBMkuxoxI32Ey6yzUnwBJDgjaKwyVvnGA1Z5zn3Jrat5d+5cSjJjB1GjyluxGRgsyyfzAcQLEFE/UZCVNpsS1TzL292tNO5B6s9EzwWEv/6mDjJJAXwG/+3Oe3r3xXk4KPZivfJRBBoyFCpgkEJbuWYMD92aRKnAtpeLGQcqrliXW9rWze83uCU2+rA8s20ex3toOKZ7wP1xI37xuKkjTHbKSbEeWKJVxxprnW2QBbRY6zkjbuoLqUvvKC5sCbVq4y5z1gg7nrorfwlaurLNoxuHQ5Vg==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G8rjb13eHhBXc6caKalpAjoK5jTuBOvmG75U8uY3TEE=;
- b=d7GuQEbbKc30r4SXSen9xe9vrr0THUHDyWRerZnp894C9g6cAfuLLVy25HfMkwP+s5ciusX3bOc/7HoBDfkLmz9ASGp9ZtVOD50sFF7/lRIwKQdUPErtN21Ybt12z3xUSNosTrnZcfYld15wWkt+ooLOUsHS+/0jDmKMo3EhtWQ=
-x-ms-exchange-crosstenant-network-message-id: 3747e57a-2a54-4376-7e42-08d76d150d33
-x-ms-exchange-crosstenant-originalarrivaltime: 19 Nov 2019 17:22:27.7015 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: 3urwGiWYQsjdSj0Dj7TfMSB9JA+k4L3ZA8SX/kuG2L0WASmO+Pboa3XOndL4Nz9tETY63Lcy9uJzzvLUPzYSsw==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4150
-x-originatororg: quicinc.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philmd@redhat.com>) id 1iX7Is-000823-C8
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:28:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54496
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iX7Is-00081N-8R
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:28:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574184517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CPP5TJcKZY0opHcK3J1Fq7WtDbZVvfly1N9BrqSYJXs=;
+ b=DKbTVx3+fGG/IkMO82c1QEellDZOCTbNLM5CyC7ROEz/rcn+L9Ss86kqDo8enD2gsZ7lNj
+ f4XcVJY6uBmYEH1ciDNXWbgExeeqMI7yOof6AHVpjgMrn0kTZqhXrJgGYOwjAkVE3PPtCm
+ JeoQw0vxhv42l44ipCDG4J6WMm5609g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-HzhAl6g3Msq3VNtd8B1xIw-1; Tue, 19 Nov 2019 12:28:35 -0500
+Received: by mail-wm1-f69.google.com with SMTP id x16so3003972wmk.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:28:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q5/VoO7CS29nbGMdS4ApW/cjCAgW0FMUMXnKEJHEAJ8=;
+ b=elKGOyHBjePmlbsZJsgRPib6T8ypgXV4DHDrSLvoUqByEMyCTZfuwe3JXuotbLYXsG
+ YvjkGOWlrIyMypVnA/XDhQB/8fhWuhS7v757AUZATmGesOAj2obe7VKtZBFrfMIWy/Du
+ CscMUtk1EfaoWcFKnkaNEalLJzm4wiuR1LZ2QTwqGDQp2joAjzMLjP/1Jck9J0N+IJWF
+ npGW2R1IjYRDsvLBTmV/05hlCYTJHAv6x/hD3fc45HUKvGECPaBxEYQY48P+u3e8/Tj8
+ 4r7VabGVANtKheiD0lOBIUEkyefyYursU04yNN3oOAL5OuQmtv8QGwdHaS3lvOe0LHBZ
+ 1+QQ==
+X-Gm-Message-State: APjAAAV6qs4PhDFBL0gJppAJDEP1MImzNQaAyJQB3bpCa5hEcfO0pd0t
+ ceC2Cz+90SDH3nspkIfqISitnPA2nXksOuf9R9ytcnqVjKr1iThlBvhtbV9lOljIJYMFrpT1Dvg
+ nZvoMD/RHqRlwY24=
+X-Received: by 2002:adf:979a:: with SMTP id s26mr39556754wrb.92.1574184514680; 
+ Tue, 19 Nov 2019 09:28:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwqU+J1Ey3fKUiDKJ55ub90eQSN+qsU3xZv1V0yeiY30wmEmEK1TW27hJH6cnxzLWeV8QvniQ==
+X-Received: by 2002:adf:979a:: with SMTP id s26mr39556719wrb.92.1574184514377; 
+ Tue, 19 Nov 2019 09:28:34 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id c24sm32161763wrb.27.2019.11.19.09.28.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Nov 2019 09:28:33 -0800 (PST)
+Subject: Re: [PATCH 3/6] tests/hd-geo-test: Skip test when images can not be
+ created
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191119170822.45649-1-thuth@redhat.com>
+ <20191119170822.45649-4-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9aa4803a-9584-1af6-c49f-a8f08146c63c@redhat.com>
+Date: Tue, 19 Nov 2019 18:28:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.39
+In-Reply-To: <20191119170822.45649-4-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: HzhAl6g3Msq3VNtd8B1xIw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,64 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for all the feedback on the patch.  I'll summarize my TODO list here=
-.  Please let me know if there's anything I missed.
-- Add a README file in the imported directory to make it clear that the cod=
-e comes from another project.  Personally, I prefer keeping the name as "im=
-ported".  It was suggested by Richard at the meeting.  Also as a heads-up, =
-that is a small subset of the files that will be in that directory eventual=
-ly.  Right now, it is the minimum needed to build the skeleton target.
-- Work on the .checkpatchignore as Philippe suggested.
-- Split out the "[__SIGRTMAX - 1] =3D __SIGRTMIN + 1" into a separate patch=
-.
-- Clean up the long subject line.
-- Add license text to the new files.
-- Remove the DEBUG_HEX blocks.  In general the DEBUG_HEX macro controls a b=
-unch of debugging output as you'll see in later patches.  In the long run, =
-I think it should be replaces with a macro that is defined when configured =
-with --enable-debug and then an additional command-line argument.  I haven'=
-t looked into this, so any pointers would be appreciated.
-- Laurent suggested I split the patch into two parts: linux-user and target=
-/hexagon.  If I do that, which one should contain the changes to common fil=
-es (e.g., configure)?  Also, note that we won't be able to build until both=
- patches are merged.  Is that OK?
-
-Thanks,
-Taylor
-
-
------Original Message-----
-From: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-Sent: Tuesday, November 19, 2019 9:19 AM
-To: Taylor Simpson <tsimpson@quicinc.com>; laurent@vivier.eu; riku.voipio@i=
-ki.fi; qemu-devel@nongnu.org
-Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of patc=
-hes - linux-user changes + linux-user/hexagon + skeleton of target/hexagon =
-- Files in target/hexagon/imported are from another project and therefore d=
-o not conform to qemu coding standards
-
--------------------------------------------------------------------------
-CAUTION: This email originated from outside of the organization.
--------------------------------------------------------------------------
-
-On 11/19/19 12:58 AM, Taylor Simpson wrote:
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+On 11/19/19 6:08 PM, Thomas Huth wrote:
+> In certain environments like restricted containers, we can not create
+> huge test images. To be able to use "make check" in such container
+> environments, too, let's skip the hd-geo-test instead of failing when
+> the test images could not be created.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
-[...]
->   target/hexagon/imported/global_types.h      |  25 +++
->   target/hexagon/imported/iss_ver_registers.h | 183 +++++++++++++++
->   target/hexagon/imported/max.h               |  78 +++++++
->   target/hexagon/imported/regs.h              |  19 ++
+>   tests/hd-geo-test.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
+> index 7e86c5416c..a249800544 100644
+> --- a/tests/hd-geo-test.c
+> +++ b/tests/hd-geo-test.c
+> @@ -34,8 +34,13 @@ static char *create_test_img(int secs)
+>       fd =3D mkstemp(template);
+>       g_assert(fd >=3D 0);
+>       ret =3D ftruncate(fd, (off_t)secs * 512);
+> -    g_assert(ret =3D=3D 0);
+>       close(fd);
+> +
+> +    if (ret) {
+> +        free(template);
+> +        template =3D NULL;
+> +    }
+> +
+>       return template;
+>   }
+>  =20
+> @@ -934,6 +939,10 @@ int main(int argc, char **argv)
+>       for (i =3D 0; i < backend_last; i++) {
+>           if (img_secs[i] >=3D 0) {
+>               img_file_name[i] =3D create_test_img(img_secs[i]);
+> +            if (!img_file_name[i]) {
+> +                g_test_message("Could not create test images.");
+> +                goto test_add_done;
+> +            }
+>           } else {
+>               img_file_name[i] =3D NULL;
+>           }
+> @@ -965,6 +974,7 @@ int main(int argc, char **argv)
+>                          "skipping hd-geo/override/* tests");
+>       }
+>  =20
+> +test_add_done:
+>       ret =3D g_test_run();
+>  =20
+>       for (i =3D 0; i < backend_last; i++) {
+>=20
 
-Maybe you can rename this directory as:
-
-target/hexagon/dsp-sdk/
-
-and add a README "Files under this directory are imported from the SDK avai=
-lable once registered on developer.qualcomm.com ..."
-
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 
