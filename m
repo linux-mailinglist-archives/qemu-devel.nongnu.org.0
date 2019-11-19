@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBD3102ED4
+	by mail.lfdr.de (Postfix) with ESMTPS id 880EF102ED5
 	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 23:06:34 +0100 (CET)
-Received: from localhost ([::1]:52006 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXBdo-00044R-Uw
+	id 1iXBdo-00042p-SR
 	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 17:06:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35803)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iXBb3-0002IZ-1g
+ (envelope-from <dgibson@ozlabs.org>) id 1iXBb2-0002IY-VU
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 17:03:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iXBb1-0007pL-4z
+ (envelope-from <dgibson@ozlabs.org>) id 1iXBb0-0007p6-Pm
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 17:03:40 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36835 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:34459)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iXBb0-0007nG-Pi; Tue, 19 Nov 2019 17:03:39 -0500
+ id 1iXBaz-0007nH-9O; Tue, 19 Nov 2019 17:03:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47HfwP1FB9z9sPL; Wed, 20 Nov 2019 09:03:33 +1100 (AEDT)
+ id 47HfwP2YJQz9sPW; Wed, 20 Nov 2019 09:03:33 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1574201013;
- bh=bz3VgbM5bcPHwm4BRnE/W8qR+9GDx8v3N8D87H8bK5A=;
+ bh=66HDvuFwDEuPKV+KTZ6dV9LErJkqueGuG8ytAi8Xak0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Vq0aU6Lx2j7gMtSIxn/cOFqw17ApjVfEb4DCT30P+Qs1S1HL9TtPiKW8gxy+wJNX8
- wlptoKNe5noZMtUj9ZOa94SzRfsoZ0tAvushL5ZMMhwDBC7aoQ7rFYPSeDBgoCsXOk
- CBzgJB6bFy1cKnoaf52WbOB7AXrNW6dOf0Kf0F+g=
-Date: Wed, 20 Nov 2019 09:00:32 +1100
+ b=Kj3y/kJ95RZaSen7qBNXJ+yMIT2KCKT0l6+Yx0QxBib5a9clHZ8BGpKCqpgQVq7lb
+ 8voXTgEqXWRmkAL4G/l9FMcCWTPQ6fzEDIdVKbFVUYTyRqmcfo2Jb7UwsviiY1ah0l
+ oJocxbs0uVpzcKDEkzEkswYUEGUY0td45V8z0iuo=
+Date: Wed, 20 Nov 2019 09:02:26 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Balamuruhan S <bala24@linux.ibm.com>
 Subject: Re: [PATCH 2/5] hw/ppc/pnv_xscom: PBA bar mask values are incorrect
  with homer/occ sizes
-Message-ID: <20191119220032.GV5582@umbus.fritz.box>
+Message-ID: <20191119220226.GW5582@umbus.fritz.box>
 References: <20191119175056.32518-1-bala24@linux.ibm.com>
  <20191119175056.32518-3-bala24@linux.ibm.com>
  <20191119215618.GU5582@umbus.fritz.box>
+ <20191119220032.GV5582@umbus.fritz.box>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NHfequSh1hmJPP0s"
+ protocol="application/pgp-signature"; boundary="aKl9HDSa9q6Cj3fk"
 Content-Disposition: inline
-In-Reply-To: <20191119215618.GU5582@umbus.fritz.box>
+In-Reply-To: <20191119220032.GV5582@umbus.fritz.box>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,76 +64,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---NHfequSh1hmJPP0s
+--aKl9HDSa9q6Cj3fk
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 20, 2019 at 08:56:18AM +1100, David Gibson wrote:
-> On Tue, Nov 19, 2019 at 11:20:53PM +0530, Balamuruhan S wrote:
-> > homer/occ sizes are calculated in skiboot with `(mask | 0xfffff) + 1`,
-> > and from xscom access should return correct mask values instead of actu=
-al
-> > sizes.
+On Wed, Nov 20, 2019 at 09:00:32AM +1100, David Gibson wrote:
+> On Wed, Nov 20, 2019 at 08:56:18AM +1100, David Gibson wrote:
+> > On Tue, Nov 19, 2019 at 11:20:53PM +0530, Balamuruhan S wrote:
+> > > homer/occ sizes are calculated in skiboot with `(mask | 0xfffff) + 1`,
+> > > and from xscom access should return correct mask values instead of ac=
+tual
+> > > sizes.
+> > >=20
+> > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+> > > ---
+> > >  hw/ppc/pnv_xscom.c | 10 ++++++----
+> > >  1 file changed, 6 insertions(+), 4 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> > > index f01d788a65..cdd5fa356e 100644
+> > > --- a/hw/ppc/pnv_xscom.c
+> > > +++ b/hw/ppc/pnv_xscom.c
+> > > @@ -46,6 +46,10 @@
+> > >  #define P9_PBA_BARMASK0                 0x5012b04
+> > >  #define P9_PBA_BARMASK2                 0x5012b06
+> > > =20
+> > > +/* Mask to calculate Homer/Occ size */
+> > > +#define HOMER_SIZE_MASK                 0x0000000000300000ull
+> > > +#define OCC_SIZE_MASK                   0x0000000000700000ull
 > >=20
-> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
-> > ---
-> >  hw/ppc/pnv_xscom.c | 10 ++++++----
-> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-> > index f01d788a65..cdd5fa356e 100644
-> > --- a/hw/ppc/pnv_xscom.c
-> > +++ b/hw/ppc/pnv_xscom.c
-> > @@ -46,6 +46,10 @@
-> >  #define P9_PBA_BARMASK0                 0x5012b04
-> >  #define P9_PBA_BARMASK2                 0x5012b06
-> > =20
-> > +/* Mask to calculate Homer/Occ size */
-> > +#define HOMER_SIZE_MASK                 0x0000000000300000ull
-> > +#define OCC_SIZE_MASK                   0x0000000000700000ull
+> > Uuuhhhhh... AFAICT these defines have identical values to
+> > PNV_HOMER_SIZE and PNV_OCC_COMMON_AREA_SIZE, so I don't see what this
+> > patch is actually changing.
 >=20
-> Uuuhhhhh... AFAICT these defines have identical values to
-> PNV_HOMER_SIZE and PNV_OCC_COMMON_AREA_SIZE, so I don't see what this
-> patch is actually changing.
+> Oh, sorry, missed that the values were changed in 1/5.  Would have
+> been easier to follow if the two patches were folded together, but
+> never mind.  Applied.
 
-Oh, sorry, missed that the values were changed in 1/5.  Would have
-been easier to follow if the two patches were folded together, but
-never mind.  Applied.
-
->=20
->=20
-> >  static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
-> >  {
-> >      /*
-> > @@ -90,9 +94,8 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
-t32_t pcba)
-> >          return PNV_HOMER_BASE(chip);
-> > =20
-> >      case P9_PBA_BARMASK0: /* P9 homer region size */
-> > -        return PNV9_HOMER_SIZE;
-> >      case P8_PBA_BARMASK0: /* P8 homer region size */
-> > -        return PNV_HOMER_SIZE;
-> > +        return HOMER_SIZE_MASK;
-> > =20
-> >      case P9_PBA_BAR2: /* P9 occ common area */
-> >          return PNV9_OCC_COMMON_AREA(chip);
-> > @@ -100,9 +103,8 @@ static uint64_t xscom_read_default(PnvChip *chip, u=
-int32_t pcba)
-> >          return PNV_OCC_COMMON_AREA(chip);
-> > =20
-> >      case P9_PBA_BARMASK2: /* P9 occ common area size */
-> > -        return PNV9_OCC_COMMON_AREA_SIZE;
-> >      case P8_PBA_BARMASK2: /* P8 occ common area size */
-> > -        return PNV_OCC_COMMON_AREA_SIZE;
-> > +        return OCC_SIZE_MASK;
-> > =20
-> >      case 0x1010c00:     /* PIBAM FIR */
-> >      case 0x1010c03:     /* PIBAM FIR MASK */
->=20
-
-
+Ugh.. or not.  The first patch doesn't apply for me, looks like it
+needs a rebase (or you have something else in your tree I don't know
+about).
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -140,25 +113,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---NHfequSh1hmJPP0s
+--aKl9HDSa9q6Cj3fk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UZgAACgkQbDjKyiDZ
-s5JLtA/+Jo93ouDOCJ63bsiPmfyP910FeQtE/QvjjEVcS68LoAaV1V5hM8RJTVf/
-DYsszQWmCqwCSCIKaYdytATnwqQqFzo2RP8K6NxNOzeaBOTEQ+wfJFpHSaejEEU4
-ccnxAj9wBkvUxvyZQWK4gA9700trr4iGiFQGU7lQhQH+0/xEPrQwd4ODj8MRpquH
-3LTLVmHMHZGavxU02cPjxLXo+gnS2v8ApdTOsY111IXOoe6b17eYeC+dL5JNQtU5
-9TF8+vjb9PGh6cQEvdCSF1fnXc6myTcAgM9FJnSXKDdp/1/P0d6B9/9BJfbskPTH
-vgaMM5N3sx4r4SUbfozaDjMmdZNpb/DIWhpxu1zYL+NfbDfjN7CuuRmW7Ydt8lYT
-2nzJ/TzKRMBEYCB+ZY/mfWplouTnmBFie4ULKkzlw6IMw5P5FeBllvQhz7j7x0hT
-NW63gJbvr1/pHDWLw2RayjdPS68CLgAjMk70U7lOIVe+W+O7SqUkZ9ZYEbymP1f2
-TMYXmanas7X1JqG/oBkhGJl//CY1UQsmc1PJXA4/ZCmhKxJSGtpn60DPTLzALOW5
-qA91QCbTL3oxUy/clekhuRYFD/O3e0z8x2ynKnjKtKnWt5y/7Hw3lX6lOLFav5Rq
-ZnrrNOSWwtVvgft3/Rxyb1DEdOGAKad/q3A3lyJ0rUgxXp4wjnE=
-=braH
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UZnIACgkQbDjKyiDZ
+s5ISARAAh0Xp5n11uoDmEy9PY+YkzXm6iyiX9mrfK4kprNgbjD2g3db5F5O3lOtw
++u+ltFoQogpdNmu3wHrhwGAUFy1cp4U55Iemx8qf8idiHZ2BCqln1Uuh5wE6ILI2
+W2AjvR9Wb4s6lSxUODVCyLLPvKdp1APl5TKJ5w959u70WGohq5ZxtlT1PvoRKFJI
+dCuSwUj53XzFzMpw5QvrGvjRxrShiaKRp27JWaIURIUia4tHMrd5ZzB+JypWnlvc
+nOdhj/aATPM2E7RKlHD/VAwbZtuQ6I3MTyblK/e8G5OiUI5S8SPcsvg1RbHldxxM
+V6BOURN/oGSVN8DqeRJBU9W+cdevIcjJiI8pvQRLPNtlbexXH4DvHOVRTPGGCOSd
+O/b1Wl+RHjXFzToPDq+e5eRg42BZY7gKe4YONdmVMHZZWLP/2Dp5Piu2YyxVBFgO
+e6EaBDECvAKk35MNGTtRCa6Jf54avYdB8TUptjq+vfG49brhZURVnEyK+DQU+gti
+gAtcRdT/ly57mgvx3uWt5xluZL2GNMSw7auv6g8CpNf/dVJcE9eMT35ZSJEWBHKp
+wbj1Kp1N4tNpkT4P9enWPhPx3LSHeePG1ySBRN8UEuAQPH+AS8L5lsO+aA2pq79A
+c/iYeA6t6mZvI2Yn9LcFFeYhv2IuqfiVfGOsw7GRVaDVWpQsysI=
+=hkvN
 -----END PGP SIGNATURE-----
 
---NHfequSh1hmJPP0s--
+--aKl9HDSa9q6Cj3fk--
 
