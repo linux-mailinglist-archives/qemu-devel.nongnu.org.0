@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8595C102911
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:14:27 +0100 (CET)
-Received: from localhost ([::1]:47044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965191028FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:11:14 +0100 (CET)
+Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX693-000858-23
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:14:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
+	id 1iX65x-0003Qf-1R
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:11:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60659)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63j-0001im-GH
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:56 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63k-0001k2-Kp
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63i-00060c-IH
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:55 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37504)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63j-00062Q-LE
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:56 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37506)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63i-0005zy-Bx
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:54 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t1so24521354wrv.4
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:54 -0800 (PST)
+ id 1iX63j-00060n-FR
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t1so24521428wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=EjE2s4dLILThkxinnyee0kv/UUrrjl0KyE1AfYKWQZo=;
- b=XzApEN9PqChXErKLJf0sWsbQUCSOuFJNJn2yksaCeY0AivG905dNtSD1fcbmWGf5Mr
- SO3blEK5i/e8869phuDZqET76qL1+DeLb2Kwee/neOUjm/0JVCDN4lXfC+RDQeyuhE3i
- GJ0bDh4DMT+9OHoXsi6FL7cX/mal7/Z1mJHx3FTRX/5OCR6qRHypCmDCrzfLNkZdl+hF
- XeUZ6Ma3oKpoGrvO+/lJsxxgvTFOhEukYx3WlCLm+Q4hFoJruY7IU0Lh9kPAbOSHrB2w
- Ppx9Seb+3FB6o+XQWKvn167Sbyo8ExoQVq1ZAvab7D+UyCtBCHIILcvytVdQKQVAeSRE
- vaKw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=3iLhuLQVXfPXmdgg2LSG63xjVI9pM45wRFe4JLQs6+A=;
+ b=d8pago/jDfbLZZ+HPbpx2LkXGbpfxHc4LIkIG7awHRewvbJ5NC8RoAAQkSdzOwLo3S
+ 4wWBC0VTTkmnRyZsNu0ENKdhZCNAocz6wwLooTk+h8lbJ9ZojXjwj8W0ZwkEFagBh0Dm
+ 78rqsL/IbWMK9J+y4GiWg+7ABhfsqmhGP9SZdTrq5m2FGHYn7VZTrbJOvtF2M0YAh9Rx
+ 6jkIZBOQ+pS0FfeaFWN7c8lKSZz4HcPqjwsvhOPo8vZnqLu2hEq19uRlRf2woBJ2LK13
+ gdTLLf+EHTfw0RCCVqrhTc9EtIwjrD+Lm+DeEaXfUx3GuT0ssBg9xbt9B6ATGWlKHtKi
+ wsUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=EjE2s4dLILThkxinnyee0kv/UUrrjl0KyE1AfYKWQZo=;
- b=V2p3UfXcrZ5gwtlvIqYblHrNaOK7ddI2idc7JbxvNtdO1bqscgZrt7Ic2KKXtA7Y2s
- RA2UJ6W8fDIio1AirXm9/kDRWHbjzAe+CeT52eawO+yzwQ3OUYyCiwqR5QG47qWxYgRk
- fkkoAHAI85rFnLkbob1HJFXr6Uqg5vvLep4rWu+D6gAiqUX+z6MA2bWyyyrCjTFxw07L
- RYurBnR3Nbumh+szjXtrBlQ1bBw+xk1b/v8jYz/LpVxgVHorWw+MdSf67e8S5NAVZb+J
- I050kU4hogvSoHrM3bd6Vofi+ZNXKU/YcUUP5yJ5IWZxzEEkN+qOivvHq+VKNxiJZQg+
- 6XJA==
-X-Gm-Message-State: APjAAAXynZ5xUh6z4QUkckzUz3cTdYgX2IR2BU8N+ZFGLheGLSyCEhtc
- 608eA03Ls7nXn0kUfwYIn108hOgB
-X-Google-Smtp-Source: APXvYqxXjmGuZg5VN/SO1JffK/bZztsyuumCrQ1iNKymUG1m37NnoABf6VzIi8tA8wPR1lHgIO5oKA==
-X-Received: by 2002:a5d:522e:: with SMTP id i14mr23364679wra.27.1574179732826; 
- Tue, 19 Nov 2019 08:08:52 -0800 (PST)
+ bh=3iLhuLQVXfPXmdgg2LSG63xjVI9pM45wRFe4JLQs6+A=;
+ b=a97PQ39lIUVqjFy4pJ+8XIy9ruz/PuaCO0WBAb3qCyoy0eaL9Vjww/KyGE7fBZGGjk
+ xDTN1/dAbv4f1W2l2cXagdFdvv9DJBNMz1A0fYyeavTqPFUMRDqaHzQDUqSf0t4Q89qE
+ sZHHHh13o5jkLASkkif9X03mKks8DnhtuTNBcU4AXhLDqimacOYceBaM7CO5Rtfc2YgS
+ ku41sYu7Y4HtBGWh3gLZinTRcC2yltAIBgf/gBgJ28YOgzO4y65G7zjBQUzi9VhsUbSp
+ D5Mw0u2qyvstRUJFXgou+67aH0lTUQPoXGckxqAulWupg6zww8KyzHNZw3ev0+imZeac
+ geyw==
+X-Gm-Message-State: APjAAAVzv/9C/rd88PS9z4cd+ztAxuWZHJInNF6GJNGtGka9eB5VmNvA
+ is6YmAM68Q2T4FnfVAM3XNSn1Fp4
+X-Google-Smtp-Source: APXvYqzyB9RYsynBNv6Kf9XgHDG+BfBZaPpDJ8C5MxPvU7Bnjeq0eS680XGXC5yQ3ZZ8MMWP1+c72A==
+X-Received: by 2002:a5d:570a:: with SMTP id a10mr16805682wrv.107.1574179734119; 
+ Tue, 19 Nov 2019 08:08:54 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.51
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.52
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:08:51 -0800 (PST)
+ Tue, 19 Nov 2019 08:08:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] microvm: fix memory leak in microvm_fix_kernel_cmdline
-Date: Tue, 19 Nov 2019 17:08:38 +0100
-Message-Id: <1574179728-35535-3-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 03/12] target/i386: add PSCHANGE_NO bit for the
+ ARCH_CAPABILITIES MSR
+Date: Tue, 19 Nov 2019 17:08:39 +0100
+Message-Id: <1574179728-35535-4-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,38 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergio Lopez <slp@redhat.com>
+This is required to disable ITLB multihit mitigations in nested
+hypervisors.
 
-In microvm_fix_kernel_cmdline(), fw_cfg_modify_string() is duplicating
-cmdline instead of taking ownership of it. Free it afterwards to avoid
-leaking it.
-
-Reported-by: Coverity (CID 1407218)
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
-Message-Id: <20191112163423.91884-1-slp@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/microvm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 8aacd6c..def37e6 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -331,6 +331,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
- 
-     fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
-     fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
-+
-+    g_free(cmdline);
- }
- 
- static void microvm_machine_state_init(MachineState *machine)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a624163..2f60df3 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1204,7 +1204,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .type = MSR_FEATURE_WORD,
+         .feat_names = {
+             "rdctl-no", "ibrs-all", "rsba", "skip-l1dfl-vmentry",
+-            "ssb-no", "mds-no", NULL, NULL,
++            "ssb-no", "mds-no", "pschange-mc-no", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
 -- 
 1.8.3.1
 
