@@ -2,63 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D65610121A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:18:25 +0100 (CET)
-Received: from localhost ([::1]:41352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F5310120D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:15:40 +0100 (CET)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWu24-0005Ng-5z
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:18:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42845)
+	id 1iWtzP-0001tt-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:15:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iWtsK-0001xj-8o
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:21 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iWtvY-0006Qz-PA
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iWtsI-0004oK-IG
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:20 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41197
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iWtvX-00089T-3V
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:40 -0500
+Received: from mga04.intel.com ([192.55.52.120]:22050)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWtsI-0004ne-D3
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574132897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ujtplviA/x8uN9i/qtZrm2+sdifmXmyfmx4eOWXFTso=;
- b=K3w9L0Rpc1WtbKaZZLIzcJpHlwN3SJIhJgWax7Nc1FEL1zXMU8I+7iH75Ds9ihoWE/lDTm
- c6Bv7LHaVK+cKyqsHYx/SzAPeTzjlwzr1h3xKtYLh6V3IpND2RVwg7haAN0pOv98MxQqdK
- Eof6lc0mYry4ZP4DUM2pz1plahdF94E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-v8tF2K64OiGj27LLTKr1gA-1; Mon, 18 Nov 2019 22:08:16 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7661D2EDA;
- Tue, 19 Nov 2019 03:08:15 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01AC787B1;
- Tue, 19 Nov 2019 03:08:14 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] tests: More iotest 223 improvements
-Date: Mon, 18 Nov 2019 21:07:59 -0600
-Message-Id: <20191119030759.24907-11-eblake@redhat.com>
-In-Reply-To: <20191119030759.24907-1-eblake@redhat.com>
-References: <20191119030759.24907-1-eblake@redhat.com>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iWtvW-00085z-Q6
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:39 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2019 19:11:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="237174200"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.13])
+ ([10.239.197.13])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2019 19:11:34 -0800
+Subject: Re: [PATCH] target/i386: Remove monitor from some CPU model
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20191115083345.22638-1-tao3.xu@intel.com>
+ <20191118221030.GG3812@habkost.net>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <9c228e08-c95d-259a-1af3-96093d692b35@intel.com>
+Date: Tue, 19 Nov 2019 11:11:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: v8tF2K64OiGj27LLTKr1gA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+In-Reply-To: <20191118221030.GG3812@habkost.net>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,184 +58,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run the core of the test twice, once without iothreads, and again
-with, for more coverage of both setups.
+On 11/19/2019 6:10 AM, Eduardo Habkost wrote:
+> On Fri, Nov 15, 2019 at 04:33:45PM +0800, Tao Xu wrote:
+>> Add new version of Snowridge, Denverton, Opteron_G3, EPYC, and Dhyana
+>> CPU model to remove MONITOR/MWAIT feature.
+>>
+>> After QEMU/KVM use "-overcommit cpu-pm=on" to expose MONITOR/MWAIT
+>> (commit id 6f131f13e68d648a8e4f083c667ab1acd88ce4cd), the MONITOR/MWAIT
+>> feature in these CPU model is unused.
+>>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> ---
+>>   target/i386/cpu.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 58 insertions(+)
+>>
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index a624163ac2..7c5f1e8fe0 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -2770,6 +2770,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>>               MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY,
+>>           .xlevel = 0x80000008,
+>>           .model_id = "Intel Atom Processor (Denverton)",
+>> +        .versions = (X86CPUVersionDefinition[]) {
+>> +            { .version = 1 },
+>> +            {
+>> +                .version = 2,
+>> +                .props = (PropValue[]) {
+>> +                    { "monitor", "off" },
+>> +                    { "model-id",
+>> +                      "Intel Atom Processor (Denverton, no MONITOR)" },
+> 
+> We never changed model-id when adding/removing features in
+> machine-type code, and I don't see why we should start doing that
+> now.  This info might be helpful on "-cpu help", but probably
+> confusing for people looking at /proc/cpuinfo inside the VM.
+> 
+> If you think it is important to add extra info to "-cpu help", I
+> suggest you send a patch adding a separate field instead of
+> changing model ID on CPUID.
+> 
 
-Suggested-by: Nir Soffer <nsoffer@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20191114213415.23499-5-eblake@redhat.com>
----
- tests/qemu-iotests/223     | 16 ++++++-
- tests/qemu-iotests/223.out | 85 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 97 insertions(+), 4 deletions(-)
-
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index b5a80e50bbc1..ea69cd4b8b5e 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -117,10 +117,19 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabili=
-ties"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-   "arguments":{"driver":"qcow2", "node-name":"n",
-     "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
--_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
--  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"block-dirty-bitmap-disable",
-   "arguments":{"node":"n", "name":"b"}}' "return"
-+
-+for attempt in normal iothread; do
-+
-+echo
-+echo "=3D=3D=3D Set up NBD with $attempt access =3D=3D=3D"
-+echo
-+if [ $attempt =3D iothread ]; then
-+_send_qemu_cmd $QEMU_HANDLE '{"execute":"x-blockdev-set-iothread",
-+  "arguments":{"node-name":"n", "iothread":"io0"}}' "return"
-+fi
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-add",
-   "arguments":{"device":"n"}}' "error" # Attempt add without server
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-start",
-@@ -180,6 +189,9 @@ _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-rem=
-ove",
-   "arguments":{"name":"n2"}}' "error" # Attempt duplicate clean
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "return"
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"nbd-server-stop"}' "error" # Agai=
-n
-+
-+done
-+
- _send_qemu_cmd $QEMU_HANDLE '{"execute":"quit"}' "return"
- wait=3Dyes _cleanup_qemu
-
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 861ddbd9e0a4..f17559880268 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -28,10 +28,91 @@ wrote 2097152/2097152 bytes at offset 2097152
- {"return": {}}
- {"execute":"blockdev-add", "arguments":{"driver":"IMGFMT", "node-name":"n"=
-, "file":{"driver":"file", "filename":"TEST_DIR/t.IMGFMT"}}}
- {"return": {}}
--{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iothr=
-ead":"io0"}}
--{"return": {}}
- {"execute":"block-dirty-bitmap-disable", "arguments":{"node":"n", "name":"=
-b"}}
- {"return": {}}
-+
-+=3D=3D=3D Set up NBD with normal access =3D=3D=3D
-+
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd"}}}}
-+{"return": {}}
-+{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd1"}}}}
-+{"error": {"class": "GenericError", "desc": "NBD server already running"}}
-+exports available: 0
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "bitmap":"b"}}
-+{"return": {}}
-+{"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
-+{"error": {"class": "GenericError", "desc": "Cannot find device=3Dnosuch n=
-or node_name=3Dnosuch"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n"}}
-+{"error": {"class": "GenericError", "desc": "NBD server already has export=
- named 'n'"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitm=
-ap":"b2"}}
-+{"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompati=
-ble with readonly export"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitm=
-ap":"b3"}}
-+{"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
-+{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "writ=
-able":true, "bitmap":"b2"}}
-+{"return": {}}
-+exports available: 2
-+ export: 'n'
-+  size:  4194304
-+  flags: 0x58f ( readonly flush fua df multi cache )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b
-+ export: 'n2'
-+  size:  4194304
-+  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
-+  min block: 1
-+  opt block: 4096
-+  max block: 33554432
-+  available meta contexts: 2
-+   base:allocation
-+   qemu:dirty-bitmap:b2
-+
-+=3D=3D=3D Contrast normal status to large granularity dirty-bitmap =3D=3D=
-=3D
-+
-+read 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 524288/524288 bytes at offset 524288
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 2097152/2097152 bytes at offset 2097152
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "o=
-ffset": OFFSET},
-+{ "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": fals=
-e, "offset": OFFSET},
-+{ "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data": =
-true, "offset": OFFSET}]
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false},
-+{ "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": tr=
-ue, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": =
-false}]
-+
-+=3D=3D=3D Contrast to small granularity dirty-bitmap =3D=3D=3D
-+
-+[{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "of=
-fset": OFFSET},
-+{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
-+{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": tru=
-e, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": =
-false}]
-+
-+=3D=3D=3D End qemu NBD server =3D=3D=3D
-+
-+{"execute":"nbd-server-remove", "arguments":{"name":"n"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"return": {}}
-+{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
-+{"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
-+{"execute":"nbd-server-stop"}
-+{"return": {}}
-+{"execute":"nbd-server-stop"}
-+{"error": {"class": "GenericError", "desc": "NBD server not running"}}
-+
-+=3D=3D=3D Set up NBD with iothread access =3D=3D=3D
-+
-+{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iothr=
-ead":"io0"}}
-+{"return": {}}
- {"execute":"nbd-server-add", "arguments":{"device":"n"}}
- {"error": {"class": "GenericError", "desc": "NBD server not running"}}
- {"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":=
-{"path":"SOCK_DIR/nbd"}}}}
---=20
-2.21.0
-
+OK I will add a new info to do this.
 
