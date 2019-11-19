@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A6E102947
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:24:16 +0100 (CET)
-Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9396102925
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:18:44 +0100 (CET)
+Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX6IY-00032p-S4
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:24:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60751)
+	id 1iX6DD-00034P-Hb
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63t-0001y2-88
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:06 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63u-000207-DQ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63r-00068B-U8
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:05 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56265)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63t-00068v-4e
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:06 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34951)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63r-00067d-NS
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:03 -0500
-Received: by mail-wm1-x335.google.com with SMTP id b11so3787858wmb.5
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:03 -0800 (PST)
+ id 1iX63s-00068T-UQ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id 8so4365562wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=x/7dL5GKaLKKTQGfreBczzCpIjJHYavx06Q35HIG390=;
- b=TCf3KC0qFWAh0xKFRO1aICnowVi48ggU3kqnGK086BL9n8CxtURNgl33MjgnWfcCfS
- 11IdGh/KNEzM1Ex2dcIEaJxlbMcgq94DL6fRsI93VYBQp29SsVCqKm/RIYmqi65CwYcF
- Pkre4xgIisl53+qcgLCjnsKunoVtr4lRYIq3wShUGaGdacc10ZwgNZHS2ZkHhIDGtEup
- 2VomiIS4/sOdDXppw4TkVFZdKp6ZvHTSb9kEkWSuYafZFJ/yZqEBY44QWSyUY8s1Qxir
- LT0lPQVB/prsSzp2wC9ov+lx55hLmBP2BNBBp0KDcCcVzMRNcZ1Fjx85Zc6kdTMwqZ4G
- quGA==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references;
+ bh=84AXGKd0a/dx96HO4dm8J3dMCUNzIh5I2fM2rW+So9Q=;
+ b=r9t7UvUho1TLYTzhudNOQXO1MyL4i6b472qsm9NP4KyC8Qmel6V9mSn44HLQ3y+ad+
+ 9XUizctHpcdGPPM4+S3yAdgzVyGPNGXZyYJvQ0HomOUW7OH8YECbkYTnA0HZYSZU/VMX
+ FwXy+OriSXo211ibrgvT5fD4Cy7IEgxMp+jNwo5cj4NIn95UMweX0do2SVHzWBB6bCH2
+ sWnIpWvlJTQ/U5w+PQmDk86XObyKmXetHqD0tRw0mIyM9WvZgUE6/kllPsg0lypSQQ8M
+ 9lzlpBJIowd0LgqTpY5N25EU0xTN0tMKDpw0WvQlnHrSl6Zi+xL1mrJp7Ppq6keKkSFS
+ Q+pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=x/7dL5GKaLKKTQGfreBczzCpIjJHYavx06Q35HIG390=;
- b=OuezyzA277/kjf9YGpCu01E5rCblh0KeJra6v4jrPliu33UQBNaAs2o5AeAnytMid6
- 4kmPhVGolzcF7ipLJI0PJn3qDvTO8rIqhBxeiZrqQnc03FKfsxksXm23zpIgP4B7364n
- oSO378pcQ8tDE8oISMAxZY4nCurGvtMt9ON/tuzUmimeo6gDi8ZuA/f6B/AEx/8Zshe6
- s2sXLhbrXQEfv1PVbNpyVcdXrE6duhaJYemuYC7biXyfuJ1H0tReIVNDpn95d53bdMGb
- S+mt3RqWed2xtUkd6/B7FP4MohUr+Ag2Noun7BN1x/7q3jnmSn2gaxDbp6DAm/1YH7rO
- o8gQ==
-X-Gm-Message-State: APjAAAUUWFT1cZzA5g5Jsv0vY2xBdFB7TQbgA0z3fiJCzECmjG8Brqus
- Ocm2dTWTIcpHwUo4lerQwXuzpPxa
-X-Google-Smtp-Source: APXvYqwQehVMicSYylTIpO1o1FBNKYcTaIYZYtkjBXfK9aqFrSoKcoEKuYZrZ6X04o21HnedQw/1Sg==
-X-Received: by 2002:a1c:1b86:: with SMTP id b128mr4551301wmb.127.1574179742270; 
- Tue, 19 Nov 2019 08:09:02 -0800 (PST)
+ bh=84AXGKd0a/dx96HO4dm8J3dMCUNzIh5I2fM2rW+So9Q=;
+ b=eqglkvCOS9rTGO8XTekxJdMkcYtC29uYHjolo02U8LJC7Qkyxhg7Sj7f4ZhnJ82ktH
+ SPekfHwikV25ZQNcakriIzH+7WWS+9kEHWR6DWKdqdcdq+BxVh7S2hQGD3cIj7e/RlIY
+ WWUvBZP3GiCuB4NfCwCj7kWyaZkPNauCXzZjWcS9nnQcaD4vEV/xh28cRottUgwSG7lG
+ MiW0h2896/MyBjOJCPkK1JcWm/pi6GRoYjBj+OZu5HMk1eiUYw0DPlnxbfwg7MEhdCMh
+ F1q6IKMyaAU5+FkNyZx0HBOT8ozK3tbhSFFM2grvtS0n1eJKcMtIIRG6z/4EWd7GjKju
+ im/Q==
+X-Gm-Message-State: APjAAAUJmGhkLfgr1ivqf3DPotIDQj0lkDPDDoA6PdWZ9aSyxrJJUkk7
+ NXZYy27Lx/JPNr7XRIvhiA7WuBYX
+X-Google-Smtp-Source: APXvYqz7sECQOk7FW+4B8rlMM0MNLEtlzN10BBIM68Zd6gQxsMix+IIQmNDrQnn2ORhGp1YDbbE9wQ==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr6809842wmc.130.1574179743560; 
+ Tue, 19 Nov 2019 08:09:03 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.01
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.02
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:09:01 -0800 (PST)
+ Tue, 19 Nov 2019 08:09:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] hw/i386: Move save_tsc_khz from PCMachineClass to
- X86MachineClass
-Date: Tue, 19 Nov 2019 17:08:45 +0100
-Message-Id: <1574179728-35535-10-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 10/12] scsi: deprecate scsi-disk
+Date: Tue, 19 Nov 2019 17:08:46 +0100
+Message-Id: <1574179728-35535-11-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,150 +78,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liam Merwick <liam.merwick@oracle.com>
+It's an old compatibility shim that just delegates to scsi-cd or scsi-hd.
+Just like ide-drive, we don't need this.
 
-Attempting to migrate a VM using the microvm machine class results in the source
-QEMU aborting with the following message/backtrace:
-
-target/i386/machine.c:955:tsc_khz_needed: Object 0x555556608fa0 is not an
-instance of type generic-pc-machine
-
-abort()
-object_class_dynamic_cast_assert()
-vmstate_save_state_v()
-vmstate_save_state()
-vmstate_save()
-qemu_savevm_state_complete_precopy()
-migration_thread()
-migration_thread()
-migration_thread()
-qemu_thread_start()
-start_thread()
-clone()
-
-The access to the machine class returned by MACHINE_GET_CLASS() in
-tsc_khz_needed() is crashing as it is trying to dereference a different
-type of machine class object (TYPE_PC_MACHINE) to that of this microVM.
-
-This can be resolved by extending the changes in the following commit
-f0bb276bf8d5 ("hw/i386: split PCMachineState deriving X86MachineState from it")
-and moving the save_tsc_khz field in PCMachineClass to X86MachineClass.
-
-Fixes: f0bb276bf8d5 ("hw/i386: split PCMachineState deriving X86MachineState from it")
-Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <1574075605-25215-1-git-send-email-liam.merwick@oracle.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
+Acked-by: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc.c          | 1 -
- hw/i386/pc_piix.c     | 4 ++--
- hw/i386/pc_q35.c      | 4 ++--
- hw/i386/x86.c         | 1 +
- include/hw/i386/pc.h  | 2 --
- include/hw/i386/x86.h | 2 ++
- target/i386/machine.c | 4 ++--
- 7 files changed, 9 insertions(+), 9 deletions(-)
+ hw/scsi/scsi-bus.c            | 12 +++++++++++-
+ hw/scsi/scsi-disk.c           |  3 +++
+ qemu-deprecated.texi          |  5 +++++
+ tests/qemu-iotests/051.pc.out |  6 ++++--
+ 4 files changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 96715f8..ac08e63 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2195,7 +2195,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
-      * to be used at the moment, 32K should be enough for a while.  */
-     pcmc->acpi_data_size = 0x20000 + 0x8000;
--    pcmc->save_tsc_khz = true;
-     pcmc->linuxboot_dma_enabled = true;
-     pcmc->pvh_enabled = true;
-     assert(!mc->get_hotplug_handler);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 849ee12..1bd70d1 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -567,10 +567,10 @@ DEFINE_I440FX_MACHINE(v2_6, "pc-i440fx-2.6", NULL,
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 359d50d..ad0e7f6 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -254,8 +254,18 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+     char *name;
+     DeviceState *dev;
+     Error *err = NULL;
++    DriveInfo *dinfo;
  
- static void pc_i440fx_2_5_machine_options(MachineClass *m)
- {
--    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-+    X86MachineClass *x86mc = X86_MACHINE_CLASS(m);
+-    driver = blk_is_sg(blk) ? "scsi-generic" : "scsi-disk";
++    if (blk_is_sg(blk)) {
++        driver = "scsi-generic";
++    } else {
++        dinfo = blk_legacy_dinfo(blk);
++        if (dinfo && dinfo->media_cd) {
++            driver = "scsi-cd";
++        } else {
++            driver = "scsi-hd";
++        }
++    }
+     dev = qdev_create(&bus->qbus, driver);
+     name = g_strdup_printf("legacy[%d]", unit);
+     object_property_add_child(OBJECT(bus), name, OBJECT(dev), NULL);
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 07fb5eb..e44c61e 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2481,6 +2481,9 @@ static void scsi_disk_realize(SCSIDevice *dev, Error **errp)
+     DriveInfo *dinfo;
+     Error *local_err = NULL;
  
-     pc_i440fx_2_6_machine_options(m);
--    pcmc->save_tsc_khz = false;
-+    x86mc->save_tsc_khz = false;
-     m->legacy_fw_cfg_order = 1;
-     compat_props_add(m->compat_props, hw_compat_2_5, hw_compat_2_5_len);
-     compat_props_add(m->compat_props, pc_compat_2_5, pc_compat_2_5_len);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index d51f524..385e5cf 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -508,10 +508,10 @@ DEFINE_Q35_MACHINE(v2_6, "pc-q35-2.6", NULL,
++    warn_report("'scsi-disk' is deprecated, "
++                "please use 'scsi-hd' or 'scsi-cd' instead");
++
+     if (!dev->conf.blk) {
+         scsi_realize(dev, &local_err);
+         assert(local_err);
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 296bfc9..4b4b742 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -259,6 +259,11 @@ their usecases.
+ The 'ide-drive' device is deprecated. Users should use 'ide-hd' or
+ 'ide-cd' as appropriate to get an IDE hard disk or CD-ROM as needed.
  
- static void pc_q35_2_5_machine_options(MachineClass *m)
- {
--    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-+    X86MachineClass *x86mc = X86_MACHINE_CLASS(m);
++@subsection scsi-disk (since 4.2)
++
++The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
++'scsi-cd' as appropriate to get a SCSI hard disk or CD-ROM as needed.
++
+ @section System emulator machines
  
-     pc_q35_2_6_machine_options(m);
--    pcmc->save_tsc_khz = false;
-+    x86mc->save_tsc_khz = false;
-     m->legacy_fw_cfg_order = 1;
-     compat_props_add(m->compat_props, hw_compat_2_5, hw_compat_2_5_len);
-     compat_props_add(m->compat_props, pc_compat_2_5, pc_compat_2_5_len);
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index fd84b23..394edc2 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -763,6 +763,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     mc->get_default_cpu_node_id = x86_get_default_cpu_node_id;
-     mc->possible_cpu_arch_ids = x86_possible_cpu_arch_ids;
-     x86mc->compat_apic_id_mode = false;
-+    x86mc->save_tsc_khz = true;
-     nc->nmi_monitor_handler = x86_nmi;
+ @subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index 34849dd..0ea80d3 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -167,7 +167,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
  
-     object_class_property_add(oc, X86_MACHINE_MAX_RAM_BELOW_4G, "size",
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index e6fa841..1f86eba 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -116,8 +116,6 @@ typedef struct PCMachineClass {
-     bool enforce_aligned_dimm;
-     bool broken_reserved_end;
+ Testing: -drive if=none,id=disk -device lsi53c895a -device scsi-disk,drive=disk
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: -device scsi-disk,drive=disk: Device needs media, but drive is empty
++(qemu) QEMU_PROG: -device scsi-disk,drive=disk: warning: 'scsi-disk' is deprecated, please use 'scsi-hd' or 'scsi-cd' instead
++QEMU_PROG: -device scsi-disk,drive=disk: Device needs media, but drive is empty
  
--    /* TSC rate migration: */
--    bool save_tsc_khz;
-     /* generate legacy CPU hotplug AML */
-     bool legacy_cpu_hotplug;
+ Testing: -drive if=none,id=disk -device lsi53c895a -device scsi-hd,drive=disk
+ QEMU X.Y.Z monitor - type 'help' for more information
+@@ -238,7 +239,8 @@ QEMU X.Y.Z monitor - type 'help' for more information
  
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 82d09fd..4b84917 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -30,6 +30,8 @@ typedef struct {
+ Testing: -drive file=TEST_DIR/t.qcow2,if=none,id=disk,readonly=on -device lsi53c895a -device scsi-disk,drive=disk
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) quit
++(qemu) QEMU_PROG: -device scsi-disk,drive=disk: warning: 'scsi-disk' is deprecated, please use 'scsi-hd' or 'scsi-cd' instead
++quit
  
-     /*< public >*/
- 
-+    /* TSC rate migration: */
-+    bool save_tsc_khz;
-     /* Enables contiguous-apic-ID mode */
-     bool compat_apic_id_mode;
- } X86MachineClass;
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 6481f84..7bdeb78 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -988,8 +988,8 @@ static bool tsc_khz_needed(void *opaque)
-     X86CPU *cpu = opaque;
-     CPUX86State *env = &cpu->env;
-     MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
--    PCMachineClass *pcmc = PC_MACHINE_CLASS(mc);
--    return env->tsc_khz && pcmc->save_tsc_khz;
-+    X86MachineClass *x86mc = X86_MACHINE_CLASS(mc);
-+    return env->tsc_khz && x86mc->save_tsc_khz;
- }
- 
- static const VMStateDescription vmstate_tsc_khz = {
+ Testing: -drive file=TEST_DIR/t.qcow2,if=none,id=disk,readonly=on -device lsi53c895a -device scsi-hd,drive=disk
+ QEMU X.Y.Z monitor - type 'help' for more information
 -- 
 1.8.3.1
 
