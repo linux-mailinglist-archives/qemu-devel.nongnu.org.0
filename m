@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1E81011A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:12:06 +0100 (CET)
-Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83C11011F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:14:34 +0100 (CET)
+Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWtvx-0006D1-DF
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42708)
+	id 1iWtyL-0000hV-II
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:14:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iWtsF-0001sL-C7
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:16 -0500
+ (envelope-from <eblake@redhat.com>) id 1iWtsH-0001so-Eb
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iWtsD-0004fF-ED
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:15 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58666
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1iWtsG-0004kP-8n
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51275
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWtsD-0004e4-AQ
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:13 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWtsG-0004jm-3h
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574132891;
+ s=mimecast20190719; t=1574132895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k6TjX/L+saoePk/7FJ7wZ4ec27XNv3l1AI8xcJt9k9w=;
- b=RkjOxS9j3LVWo10j/EVyrHDRL/GAk9zv5WAqwgQE4huwKBXSl17LrCX7fvfj6mXRbCmXMF
- Iq1JlAr0l8vF7Kp7XHEuY9sMHKZD6w+4W84O0IIYasWLwz8crHGAfo4uJzxmXrcQ1EyGM2
- 4wLlbQoyBqCdf55+yBq6DbW040Okazk=
+ bh=doBTjuSf/M1WWLitWeCjA10upKFO1WL/k5NUkXIBqSQ=;
+ b=AS6CzNhytMdF/TJHTfjnHRFhlWETJuNatMTwMEvrWyHls3FIo+wmg5XgkwUmkuYLUp9RE7
+ fydxoh4Ff8S//MhF8aUx+Mk392e4g/fdsHq4waBCXgU3QimZ++qL3DFPYxVhrX0Kc7GbA7
+ DFP05OeYL4hZ7giKneKXj44IET9VVRs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-_zrnzMuHNriAMQzd4RPHSw-1; Mon, 18 Nov 2019 22:08:08 -0500
+ us-mta-237-P4jrU5TlMSaEmn-hwdIUaQ-1; Mon, 18 Nov 2019 22:08:12 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70153802682;
- Tue, 19 Nov 2019 03:08:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D9D1477;
+ Tue, 19 Nov 2019 03:08:11 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0A9560565;
- Tue, 19 Nov 2019 03:08:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC7BE60565;
+ Tue, 19 Nov 2019 03:08:07 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/10] nbd/server: Prefer heap over stack for parsing client
- names
-Date: Mon, 18 Nov 2019 21:07:52 -0600
-Message-Id: <20191119030759.24907-4-eblake@redhat.com>
+Subject: [PULL 04/10] bitmap: Enforce maximum bitmap name length
+Date: Mon, 18 Nov 2019 21:07:53 -0600
+Message-Id: <20191119030759.24907-5-eblake@redhat.com>
 In-Reply-To: <20191119030759.24907-1-eblake@redhat.com>
 References: <20191119030759.24907-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _zrnzMuHNriAMQzd4RPHSw-1
+X-MC-Unique: P4jrU5TlMSaEmn-hwdIUaQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,168 +72,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Maxim Levitsky <mlevitsk@redhat.com>
+ "open list:Dirty Bitmaps" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As long as we limit NBD names to 256 bytes (the bare minimum permitted
-by the standard), stack-allocation works for parsing a name received
-from the client.  But as mentioned in a comment, we eventually want to
-permit up to the 4k maximum of the NBD standard, which is too large
-for stack allocation; so switch everything in the server to use heap
-allocation.  For now, there is no change in actually supported name
-length.
+We document that for qcow2 persistent bitmaps, the name cannot exceed
+1023 bytes.  It is inconsistent if transient bitmaps do not have to
+abide by the same limit, and it is unlikely that any existing client
+even cares about using bitmap names this long.  It's time to codify
+that ALL bitmaps managed by qemu (whether persistent in qcow2 or not)
+have a documented maximum length.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20191114024635.11363-2-eblake@redhat.com>
-[eblake: fix uninit variable compile failure]
+Message-Id: <20191114024635.11363-3-eblake@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/nbd.h | 10 +++++-----
- nbd/server.c        | 25 +++++++++++++++----------
- 2 files changed, 20 insertions(+), 15 deletions(-)
+ qapi/block-core.json         |  2 +-
+ include/block/dirty-bitmap.h |  2 ++
+ block/dirty-bitmap.c         | 12 +++++++++---
+ block/qcow2-bitmap.c         |  2 ++
+ 4 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 316fd705a9e4..c306423dc85c 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -226,11 +226,11 @@ enum {
- /* Maximum size of a single READ/WRITE data buffer */
- #define NBD_MAX_BUFFER_SIZE (32 * 1024 * 1024)
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index aa97ee264112..0cf68fea1450 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2042,7 +2042,7 @@
+ #
+ # @node: name of device/node which the bitmap is tracking
+ #
+-# @name: name of the dirty bitmap
++# @name: name of the dirty bitmap (must be less than 1024 bytes)
+ #
+ # @granularity: the bitmap granularity, default is 64k for
+ #               block-dirty-bitmap-add
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 958e7474fb51..e2b20ecab9a3 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -14,6 +14,8 @@ typedef enum BitmapCheckFlags {
+                              BDRV_BITMAP_INCONSISTENT)
+ #define BDRV_BITMAP_ALLOW_RO (BDRV_BITMAP_BUSY | BDRV_BITMAP_INCONSISTENT)
 
--/* Maximum size of an export name. The NBD spec requires 256 and
-- * suggests that servers support up to 4096, but we stick to only the
-- * required size so that we can stack-allocate the names, and because
-- * going larger would require an audit of more code to make sure we
-- * aren't overflowing some other buffer. */
-+/*
-+ * Maximum size of an export name. The NBD spec requires a minimum of
-+ * 256 and recommends that servers support up to 4096; all users use
-+ * malloc so we can bump this constant without worry.
-+ */
- #define NBD_MAX_NAME_SIZE 256
++#define BDRV_BITMAP_MAX_NAME_SIZE 1023
++
+ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverState *bs,
+                                           uint32_t granularity,
+                                           const char *name,
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 4bbb251b2c9c..7039e8252009 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -104,9 +104,15 @@ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverS=
+tate *bs,
 
- /* Two types of reply structures */
-diff --git a/nbd/server.c b/nbd/server.c
-index d8d1e6245532..6bbeb98f8237 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -324,18 +324,20 @@ static int nbd_opt_skip(NBDClient *client, size_t siz=
-e, Error **errp)
-  *   uint32_t len     (<=3D NBD_MAX_NAME_SIZE)
-  *   len bytes string (not 0-terminated)
-  *
-- * @name should be enough to store NBD_MAX_NAME_SIZE+1.
-+ * On success, @name will be allocated.
-  * If @length is non-null, it will be set to the actual string length.
-  *
-  * Return -errno on I/O error, 0 if option was completely handled by
-  * sending a reply about inconsistent lengths, or 1 on success.
-  */
--static int nbd_opt_read_name(NBDClient *client, char *name, uint32_t *leng=
-th,
-+static int nbd_opt_read_name(NBDClient *client, char **name, uint32_t *len=
-gth,
-                              Error **errp)
- {
-     int ret;
-     uint32_t len;
-+    g_autofree char *local_name =3D NULL;
+     assert(is_power_of_2(granularity) && granularity >=3D BDRV_SECTOR_SIZE=
+);
 
-+    *name =3D NULL;
-     ret =3D nbd_opt_read(client, &len, sizeof(len), errp);
-     if (ret <=3D 0) {
-         return ret;
-@@ -347,15 +349,17 @@ static int nbd_opt_read_name(NBDClient *client, char =
-*name, uint32_t *length,
-                                "Invalid name length: %" PRIu32, len);
+-    if (name && bdrv_find_dirty_bitmap(bs, name)) {
+-        error_setg(errp, "Bitmap already exists: %s", name);
+-        return NULL;
++    if (name) {
++        if (bdrv_find_dirty_bitmap(bs, name)) {
++            error_setg(errp, "Bitmap already exists: %s", name);
++            return NULL;
++        }
++        if (strlen(name) > BDRV_BITMAP_MAX_NAME_SIZE) {
++            error_setg(errp, "Bitmap name too long: %s", name);
++            return NULL;
++        }
      }
+     bitmap_size =3D bdrv_getlength(bs);
+     if (bitmap_size < 0) {
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index ef9ef628a0d0..809bbc5d20c8 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -42,6 +42,8 @@
+ #define BME_MIN_GRANULARITY_BITS 9
+ #define BME_MAX_NAME_SIZE 1023
 
--    ret =3D nbd_opt_read(client, name, len, errp);
-+    local_name =3D g_malloc(len + 1);
-+    ret =3D nbd_opt_read(client, local_name, len, errp);
-     if (ret <=3D 0) {
-         return ret;
-     }
--    name[len] =3D '\0';
-+    local_name[len] =3D '\0';
-
-     if (length) {
-         *length =3D len;
-     }
-+    *name =3D g_steal_pointer(&local_name);
-
-     return 1;
- }
-@@ -427,7 +431,7 @@ static void nbd_check_meta_export(NBDClient *client)
- static int nbd_negotiate_handle_export_name(NBDClient *client, bool no_zer=
-oes,
-                                             Error **errp)
- {
--    char name[NBD_MAX_NAME_SIZE + 1];
-+    g_autofree char *name =3D NULL;
-     char buf[NBD_REPLY_EXPORT_NAME_SIZE] =3D "";
-     size_t len;
-     int ret;
-@@ -441,10 +445,11 @@ static int nbd_negotiate_handle_export_name(NBDClient=
- *client, bool no_zeroes,
-         [10 .. 133]   reserved     (0) [unless no_zeroes]
-      */
-     trace_nbd_negotiate_handle_export_name();
--    if (client->optlen >=3D sizeof(name)) {
-+    if (client->optlen > NBD_MAX_NAME_SIZE) {
-         error_setg(errp, "Bad length received");
-         return -EINVAL;
-     }
-+    name =3D g_malloc(client->optlen + 1);
-     if (nbd_read(client->ioc, name, client->optlen, "export name", errp) <=
- 0) {
-         return -EIO;
-     }
-@@ -533,7 +538,7 @@ static int nbd_reject_length(NBDClient *client, bool fa=
-tal, Error **errp)
- static int nbd_negotiate_handle_info(NBDClient *client, Error **errp)
- {
-     int rc;
--    char name[NBD_MAX_NAME_SIZE + 1];
-+    g_autofree char *name =3D NULL;
-     NBDExport *exp;
-     uint16_t requests;
-     uint16_t request;
-@@ -551,7 +556,7 @@ static int nbd_negotiate_handle_info(NBDClient *client,=
- Error **errp)
-         2 bytes: N, number of requests (can be 0)
-         N * 2 bytes: N requests
-     */
--    rc =3D nbd_opt_read_name(client, name, &namelen, errp);
-+    rc =3D nbd_opt_read_name(client, &name, &namelen, errp);
-     if (rc <=3D 0) {
-         return rc;
-     }
-@@ -957,7 +962,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client=
-,
-                                       NBDExportMetaContexts *meta, Error *=
-*errp)
- {
-     int ret;
--    char export_name[NBD_MAX_NAME_SIZE + 1];
-+    g_autofree char *export_name =3D NULL;
-     NBDExportMetaContexts local_meta;
-     uint32_t nb_queries;
-     int i;
-@@ -976,7 +981,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client=
-,
-
-     memset(meta, 0, sizeof(*meta));
-
--    ret =3D nbd_opt_read_name(client, export_name, NULL, errp);
-+    ret =3D nbd_opt_read_name(client, &export_name, NULL, errp);
-     if (ret <=3D 0) {
-         return ret;
-     }
++QEMU_BUILD_BUG_ON(BME_MAX_NAME_SIZE !=3D BDRV_BITMAP_MAX_NAME_SIZE);
++
+ #if BME_MAX_TABLE_SIZE * 8ULL > INT_MAX
+ #error In the code bitmap table physical size assumed to fit into int
+ #endif
 --=20
 2.21.0
 
