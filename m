@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A0710220C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 11:24:18 +0100 (CET)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639C2102223
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 11:34:58 +0100 (CET)
+Received: from localhost ([::1]:43674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX0gD-0002Oe-9j
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 05:24:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
+	id 1iX0qX-0006sW-9D
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 05:34:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1iX0f9-0001II-Lt
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:23:12 -0500
+ (envelope-from <mlureau@redhat.com>) id 1iX0oO-0005iJ-1O
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:32:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1iX0f8-0001xd-G3
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:23:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30073
+ (envelope-from <mlureau@redhat.com>) id 1iX0oM-0007Xd-DA
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:32:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56795
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iX0f8-0001xO-DC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:23:10 -0500
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iX0oM-0007Ww-39
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:32:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574158990;
+ s=mimecast20190719; t=1574159561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXBWRZBtRNpFMOmDiNKH/+l5cfB3RN+RKsFJito5LPc=;
- b=QxfmzxeIzhbjT/Sl+HIFZ3V6IXMaY7EpCdBvq5x4pyvAFCZ0jLt6iaro+Bmg3AOcwJ9wRv
- Ip99pIZCpORZoy5IJSL034Qk/tcZyW7ciUfiO+zVKYQLMlP2Fu9vutioJGkF1xN74oBtXm
- 2LWj9o5RIIuciWxF3PRECwEu4Ei2PYw=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-NwgExJauPCuFJJ22u_Ny9g-1; Tue, 19 Nov 2019 05:23:06 -0500
-Received: by mail-ot1-f71.google.com with SMTP id 9so10529344otf.16
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 02:23:05 -0800 (PST)
+ bh=3TUCNexgMfU/nLexGTBepoGvxwI+HbwU/fb1WjFGQUM=;
+ b=TcFSGEleymwvhlaW+MxNDm8S0ix/qpiKHotPibKz+Kefu7qeW3+Sa07OpA4TA+GRZK4k8/
+ m+en1arBiKg2/vH5WUa1vq7XQW15vHGgr/taHDT7lFOwILbj7hVpqg2f5iHPDwia/y/Kxx
+ l4+cs21+dAldX2HZv5mYY68GFEHcEIA=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-ZrctAoYvM1qI1O7H4KAtRw-1; Tue, 19 Nov 2019 05:32:40 -0500
+Received: by mail-ot1-f70.google.com with SMTP id h15so11755286otr.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 02:32:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=xXBWRZBtRNpFMOmDiNKH/+l5cfB3RN+RKsFJito5LPc=;
- b=Wz0+nADm7bg+Iy+fkxWu7WAiYzEvuJbsOfgdSZLYooUtFjXNLVF70isK/FYJPlb4kh
- cYjxSnjBjUrQ67cQncOWcy/qocMDo9GLWA/rKR/HBmVsA6WmKyQw/GhFdOV57a6mnW2n
- OyM5Olzf6kt7uP2kqNNMjqmIa/P7TmhwHQKNdG+UE/iZ8J3h40MoWzA52ncnxPTtgYYN
- o3J53rKsY465Sd+CEtmpTH6x7Go1cR7ZR/bE3vaJaI33xiF1I3tgEaJtUfUiw66EByK6
- bbFhL5tv8jRzF0xjQSedR2lz7V+uThDyDT4q6p1ri28ZLhCnCDAK0aLwIszjGZPEAJEt
- SQGQ==
-X-Gm-Message-State: APjAAAVHiBxPiSJIQo0dmtghkj/6iVLt1YRtaZyOlM3cI9ZFPuin9+cc
- bf2lUJcbm6NJ2mfbxFeLNGPsW6kfbHZVLnc8yd67bUQjJMFaV3l9UcFeSZUsonhRhfoK8AyDzFl
- cWUbH7kR5Mp/6ZNPmeygvK4R+p6u9fmw=
-X-Received: by 2002:aca:484e:: with SMTP id v75mr3452451oia.6.1574158985247;
- Tue, 19 Nov 2019 02:23:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyAW7u4+zVYTOVejuoZU12DxbH4wBq0IuuJJ3nI2VdhfiA7C9BZIt/eI1n+dqMwNMFkvQ5LtrEY4/JS05lD2+k=
-X-Received: by 2002:aca:484e:: with SMTP id v75mr3452425oia.6.1574158984991;
- Tue, 19 Nov 2019 02:23:04 -0800 (PST)
+ bh=3TUCNexgMfU/nLexGTBepoGvxwI+HbwU/fb1WjFGQUM=;
+ b=RRhbFmHMCLa+7dq7Gn5A1UHRYKQMBogUrZ7XwwP4nAvUiApTjVaM2uQ/VkC7pvR/S3
+ G7jMBc4abnaRIr2TW4p3mOf8CaMkt0LmFZwTKHY9D3tVbH5ZFwyhiQrmXDtzTOAzoNrD
+ ZxjHz9XOcVAJFgU8tGV7Wo2xH9PEsQxwGjyL0Htl+klxyyPjvhSIYh8TOO5eskCSgBaX
+ w+Ln2J/2Y6X5WRD96+Ynr/ZvKy9K53RZYCynw7+nM6ub1hPL4D4kPteVh1pGAtL3ZOuG
+ bujqsv+7EugBiw/8ASgtUc3lb6A3KT6cje6pcnDWCcUrAs4tYNH+ht7nn57j7EevIHuX
+ A7WA==
+X-Gm-Message-State: APjAAAWFEG4lVfhwmLKocgDP087Tb5NCSFw4OpZBMMt0X2uSEf43zzf6
+ u1YVy82IQo92XWIERpANeUGgPLSsM6rFi8i40d+70ursb/WGUBawvv8Io7gEfMqtEPKhBqzXIx6
+ 9WKG9okCqfeMTdMFMb9AdSQwCuiG2U2M=
+X-Received: by 2002:aca:62c6:: with SMTP id w189mr3532395oib.33.1574159559432; 
+ Tue, 19 Nov 2019 02:32:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyO80LdcPPYlOHRIiQrFrVWzKDf7gtRJ1CGykOdl7ILK0LcZNEJbJRgFyhSW+dyR4aKpnbBFLMKDc9drFinOqQ=
+X-Received: by 2002:aca:62c6:: with SMTP id w189mr3532349oib.33.1574159559117; 
+ Tue, 19 Nov 2019 02:32:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-8-marcandre.lureau@redhat.com>
- <CAFEAcA8GHqiaHSKdTjzTY_mWxYpDLZhXLYc98kjPGLUnzsG3oQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8GHqiaHSKdTjzTY_mWxYpDLZhXLYc98kjPGLUnzsG3oQ@mail.gmail.com>
+ <20191023173154.30051-11-marcandre.lureau@redhat.com>
+ <CAFEAcA-vhJZSKH8hDsBYVi9WKMNOFL19Q+XrwRvp94uXMbyNbA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-vhJZSKH8hDsBYVi9WKMNOFL19Q+XrwRvp94uXMbyNbA@mail.gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 19 Nov 2019 14:22:53 +0400
-Message-ID: <CAMxuvawcYnH4pp8PitMO6KcTz_GdwF7i=zJxepofsN1o9Yh65w@mail.gmail.com>
-Subject: Re: [PATCH v3 07/33] serial: register vmsd with DeviceClass
+Date: Tue, 19 Nov 2019 14:32:27 +0400
+Message-ID: <CAMxuvaxkHpowe8ZLBiNpnN5QXOGU711FsR3iwWFYGAEL2WVZOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/33] serial: add "instance-id" property
 To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: NwgExJauPCuFJJ22u_Ny9g-1
+X-MC-Unique: ZrctAoYvM1qI1O7H4KAtRw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,8 +89,7 @@ Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
  KONRAD Frederic <frederic.konrad@adacore.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Magnus Damm <magnus.damm@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
@@ -101,49 +100,57 @@ Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 18, 2019 at 6:22 PM Peter Maydell <peter.maydell@linaro.org> wr=
+Hi
+
+On Mon, Nov 18, 2019 at 6:30 PM Peter Maydell <peter.maydell@linaro.org> wr=
 ote:
 >
 > On Wed, 23 Oct 2019 at 18:33, Marc-Andr=C3=A9 Lureau
 > <marcandre.lureau@redhat.com> wrote:
 > >
-> > QOM-ify further.
+> > This property will be used to move common vmstate registration to
+> > device realize in following patch.
 > >
 > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > > ---
-> >  hw/char/serial.c | 13 ++++++++++---
-> >  1 file changed, 10 insertions(+), 3 deletions(-)
+> >  hw/char/serial.c         | 3 +++
+> >  include/hw/char/serial.h | 1 +
+> >  2 files changed, 4 insertions(+)
 > >
 > > diff --git a/hw/char/serial.c b/hw/char/serial.c
-> > index c839035fdd..4af8b0ce4c 100644
+> > index 069d8715d0..0b61a71e4e 100644
 > > --- a/hw/char/serial.c
 > > +++ b/hw/char/serial.c
-> > @@ -990,8 +990,7 @@ SerialState *serial_init(int base, qemu_irq irq, in=
+> > @@ -990,6 +990,7 @@ SerialState *serial_init(int base, qemu_irq irq, in=
 t baudbase,
-> >      s->baudbase =3D baudbase;
-> >      qemu_chr_fe_init(&s->chr, chr, &error_abort);
+> >      s->irq =3D irq;
+> >      qdev_prop_set_uint32(dev, "baudbase", baudbase);
+> >      qdev_prop_set_chr(dev, "chardev", chr);
+> > +    qdev_prop_set_int32(dev, "instance-id", base);
 > >      serial_realize_core(s, &error_fatal);
-> > -
-> > -    vmstate_register(NULL, base, &vmstate_serial, s);
-> > +    qdev_set_legacy_instance_id(dev, base, 2);
+> >      qdev_set_legacy_instance_id(dev, base, 2);
 > >      qdev_init_nofail(dev);
+> > @@ -1003,6 +1004,7 @@ SerialState *serial_init(int base, qemu_irq irq, =
+int baudbase,
+> >  static Property serial_properties[] =3D {
+> >      DEFINE_PROP_CHR("chardev", SerialState, chr),
+> >      DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
+> > +    DEFINE_PROP_INT32("instance-id", SerialState, instance_id, 0),
 >
-> Did you test whether migration still works from a QEMU
-> version without this patch to one with it? (The migration
+> This could use an explanatory comment, because I have no
+> idea what it does or when a user of the device would want
+> or need to set it... (I am guessing that part of the answer
+> may be "needed only by legacy users of this device that don't
+> want to break migration compatibility" ?)
 
-Yes, I thought I did test correctly, but I realized testing with x86
-isn't correct.
+That's right, I'll add that comment.
 
-So with arm/musicpal for ex, I can migrate from before->after, however
-after->before won't work. Is that ok?
-
-> vmstate code is too complicated for me to be able to figure
-> out whether passing the 'dev' pointer makes a difference
-> to whot it names the state sections and whether the
-> 'qdev_set_legacy_instance_id' suffices to avoid problems.)
-
-I don't see a way to fix after->before, because the instance id is
-initially 0 with the new code, and the old code expect a different
-value.
+>
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+>
+> thanks
+> -- PMM
+>
 
 
