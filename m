@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A90102B0B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:53:25 +0100 (CET)
-Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0388102B2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:55:17 +0100 (CET)
+Received: from localhost ([::1]:48694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7gq-0007P9-B5
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:53:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53361)
+	id 1iX7ie-0002Aj-R9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:55:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7ey-0005lc-3t
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:29 -0500
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7f0-0005o1-SF
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7ew-00058c-TM
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28346
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7ez-0005A7-LA
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:30 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40866)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1iX7ew-00057h-Oq
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:26 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1iX7ez-00059i-Da
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:29 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAJHlZUr140391
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:24 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf46aqq4-1
+ xAJHnTUI042096
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:28 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wbxncmy8j-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:24 -0500
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:28 -0500
 Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Tue, 19 Nov 2019 17:51:22 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Tue, 19 Nov 2019 17:51:26 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 19 Nov 2019 17:51:19 -0000
+ Tue, 19 Nov 2019 17:51:23 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAJHof5636700594
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAJHpMWa57999384
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Nov 2019 17:50:41 GMT
+ Tue, 19 Nov 2019 17:51:22 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A55174C04E;
- Tue, 19 Nov 2019 17:51:18 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5A8654C040;
+ Tue, 19 Nov 2019 17:51:22 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 414114C044;
- Tue, 19 Nov 2019 17:51:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 006024C04E;
+ Tue, 19 Nov 2019 17:51:21 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.84.11])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 19 Nov 2019 17:51:17 +0000 (GMT)
+ Tue, 19 Nov 2019 17:51:20 +0000 (GMT)
 From: Balamuruhan S <bala24@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] ppc/pnv: fix Homer/Occ mappings on multichip systems
-Date: Tue, 19 Nov 2019 23:20:51 +0530
+Subject: [PATCH 1/5] hw/ppc/pnv: incorrect homer and occ common area size
+Date: Tue, 19 Nov 2019 23:20:52 +0530
 X-Mailer: git-send-email 2.14.5
+In-Reply-To: <20191119175056.32518-1-bala24@linux.ibm.com>
+References: <20191119175056.32518-1-bala24@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19111917-0012-0000-0000-000003689B9E
+x-cbid: 19111917-0028-0000-0000-000003BBDD24
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111917-0013-0000-0000-000021A426BE
-Message-Id: <20191119175056.32518-1-bala24@linux.ibm.com>
+x-cbparentid: 19111917-0029-0000-0000-0000247EFBA7
+Message-Id: <20191119175056.32518-2-bala24@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-19_06:2019-11-15,2019-11-19 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=599 suspectscore=1 spamscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911190152
+ priorityscore=1501
+ lowpriorityscore=0 suspectscore=1 phishscore=0 mlxlogscore=846
+ clxscore=1015 adultscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1911190152
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id xAJHnTUI042096
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,37 +97,75 @@ Cc: Balamuruhan S <bala24@linux.ibm.com>, david@gibson.dropbear.id.au,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+Homer size is 4MB and OCC common area size is 8MB, but currently
+it is assigned with bar mask value. Also pass on the occ sram
+size 3 bits right shifted to initialize the size appropriately.
 
-PowerNV fails to boot in multichip systems due to some misinterpretation
-and mapping in Homer/Occ device models, this patchset fixes the
-following,
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
+---
+ hw/ppc/pnv_occ.c     | 2 +-
+ include/hw/ppc/pnv.h | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
- - Homer size is 4MB per chip and Occ common area size is 8MB
- - Bar masks are used to calculate sizes of Homer/Occ in skiboot so
-   return appropriate value
- - Occ common area is in BAR 3 on Power8 but wrongly mapped to BAR 2
-   currently
- - OCC common area is shared across chips and should be mapped only once
-   for multichip systems
-
-Request for your review and suggestions to make it better. I would like to
-thank Cedric for his time and help to figure out the issues.
-
-Balamuruhan S (5):
-  hw/ppc/pnv: incorrect homer and occ common area size
-  hw/ppc/pnv_xscom: PBA bar mask values are incorrect with homer/occ
-    sizes
-  hw/ppc/pnv_xscom: Power8 occ common area is in PBA BAR 3
-  hw/ppc/pnv_xscom: occ common area to be mapped only once
-  hw/ppc/pnv_xscom: add PBA BARs for Power8 slw image
-
- hw/ppc/pnv_occ.c     |  2 +-
- hw/ppc/pnv_xscom.c   | 37 +++++++++++++++++++++++++++----------
- include/hw/ppc/pnv.h | 12 ++++++++----
- 3 files changed, 36 insertions(+), 15 deletions(-)
-
--- 
+diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
+index 785653bb67..05c51c9de0 100644
+--- a/hw/ppc/pnv_occ.c
++++ b/hw/ppc/pnv_occ.c
+@@ -276,7 +276,7 @@ static void pnv_occ_realize(DeviceState *dev, Error *=
+*errp)
+=20
+     /* XScom region for OCC SRAM registers */
+     pnv_xscom_region_init(&occ->sram_regs, OBJECT(dev), poc->sram_ops,
+-                          occ, "occ-common-area", poc->sram_size);
++                          occ, "occ-common-area", poc->sram_size >> 3);
+ }
+=20
+ static void pnv_occ_class_init(ObjectClass *klass, void *data)
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 0b4c722e6b..e9ed8b928a 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -203,12 +203,12 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
+ #define PNV_XSCOM_BASE(chip)                                            =
+\
+     (0x0003fc0000000000ull + ((uint64_t)(chip)->chip_id) * PNV_XSCOM_SIZ=
+E)
+=20
+-#define PNV_OCC_COMMON_AREA_SIZE    0x0000000000700000ull
++#define PNV_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
+ #define PNV_OCC_COMMON_AREA(chip)                                       =
+\
+     (0x7fff800000ull + ((uint64_t)PNV_CHIP_INDEX(chip) * \
+                          PNV_OCC_COMMON_AREA_SIZE))
+=20
+-#define PNV_HOMER_SIZE              0x0000000000300000ull
++#define PNV_HOMER_SIZE              0x0000000000400000ull
+ #define PNV_HOMER_BASE(chip)                                            =
+\
+     (0x7ffd800000ull + ((uint64_t)PNV_CHIP_INDEX(chip)) * PNV_HOMER_SIZE=
+)
+=20
+@@ -271,12 +271,12 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
+ #define PNV9_XSCOM_SIZE              0x0000000400000000ull
+ #define PNV9_XSCOM_BASE(chip)        PNV9_CHIP_BASE(chip, 0x00603fc00000=
+000ull)
+=20
+-#define PNV9_OCC_COMMON_AREA_SIZE    0x0000000000700000ull
++#define PNV9_OCC_COMMON_AREA_SIZE    0x0000000000800000ull
+ #define PNV9_OCC_COMMON_AREA(chip)                                      =
+\
+     (0x203fff800000ull + ((uint64_t)PNV_CHIP_INDEX(chip) * \
+                            PNV9_OCC_COMMON_AREA_SIZE))
+=20
+-#define PNV9_HOMER_SIZE              0x0000000000300000ull
++#define PNV9_HOMER_SIZE              0x0000000000400000ull
+ #define PNV9_HOMER_BASE(chip)                                           =
+\
+     (0x203ffd800000ull + ((uint64_t)PNV_CHIP_INDEX(chip)) * PNV9_HOMER_S=
+IZE)
+ #endif /* PPC_PNV_H */
+--=20
 2.14.5
 
 
