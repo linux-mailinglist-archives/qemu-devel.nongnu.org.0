@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9631410256E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:31:04 +0100 (CET)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95809102580
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:35:40 +0100 (CET)
+Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX3ax-0002jZ-5v
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:31:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
+	id 1iX3fP-00059S-6c
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:35:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iX3Z8-0002Cx-5v
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:29:11 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bk-0003Lr-Rl
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iX3Z5-0002zT-H2
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:29:08 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57123
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iX3Z5-0002yj-47
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:29:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574170146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vhoktl710ry/nv8UC2vlGgQiruiGewe8/ZJ5NWl3BoA=;
- b=EesYJZvJwzlk+ejxADrnXqbzyitqhuYQzSApcGgeYA4NwHYraaNN4uy6DUXfq40H1wYhV8
- uQBTGdiXaajCs/HXlpn6398E22MoJOXCAdScVCtWC6eujhRzjj/CY7dcOmR99IJzVkyf7r
- QhCxWlu/OfiIwA5URIGoUOzxeOWsycI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-oBtK3aKaObamttp1AUolGQ-1; Tue, 19 Nov 2019 08:29:02 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 423D01005500;
- Tue, 19 Nov 2019 13:29:01 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-75.ams2.redhat.com [10.36.116.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE1E95E243;
- Tue, 19 Nov 2019 13:28:56 +0000 (UTC)
-Date: Tue, 19 Nov 2019 14:28:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/4] fix & merge block_status_above and is_allocated_above
-Message-ID: <20191119132855.GD5910@linux.fritz.box>
-References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
- <09d0bab1-ed7d-4fd7-555d-93075f10d497@redhat.com>
- <6b0811ec-822e-1c4a-1512-d6f3945645d2@openvz.org>
- <5c894f55-71ec-6ef2-856d-d2f0b859144b@redhat.com>
- <6cb1ffd6-3fa2-7828-fdf1-42d31974c85c@virtuozzo.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bj-00049y-1Q
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:52 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40940)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iX3bi-00049D-RP
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:50 -0500
+Received: by mail-wm1-x331.google.com with SMTP id f3so3603427wmc.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6PeGfh5MCg2KsIn9b3qx2FjkDH2ZN6ac4tJhf2EpZy4=;
+ b=GfA2wqpcjTBWIuyJENDwoJnn2m8Xu7I8igsfSnH0j+W1b3fM+5WsFGniGDPDukgkH2
+ 4bBdv8O66PoeIgeJ/16RbBUVgYfZUuk6K2eqhedtPY0NMZy7EAuShMWU/ruQuvamoCpY
+ EhvFKUpSfVBaGEB4M0n+VsUI3aJIAthH4Xp0TtSECSRPvBc3eTdpd3LV3/XDyua2xm+E
+ ymUxmlM3jkygm6Sk/hUdEVfPxWobfRMdTn7Kh2ro77WkTASxBBVOl0p2NB7hMwRUiQBh
+ 3/vBjO7MsEpXZV03kgxW/blybqzJcqbKpkRVAYB0GMD13yFOZIMFDuSl6BbfXuhj/NJX
+ 4efg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6PeGfh5MCg2KsIn9b3qx2FjkDH2ZN6ac4tJhf2EpZy4=;
+ b=ISMHOykmbF7WMOW8LT2x2y9ARC8jKUmdHBvK9/WdkafdWov0OFFLcf/x0M2FuEgeYb
+ QzbdOGZUwfQfWYd4tDAB8CD5E8kKQDok98Et4CKVLdKeK9lw9OQL/ltFj/odUWwshbM9
+ TOO7OlNIswTtbhZdQeniupqa+1ZrCTktiwuE9EnRZN6e7KLgqDTaBVoRoQYUOWjIz4qm
+ jUoPdZ8a7qHau3J/RBqgfVdygfx/yUpCdO24BRMlrjoK3OQZq7/hNQh0/gcV5y/K1FmB
+ Pu61tL++BgHEgVzmluBjjJ/Vbk3TFgZF4MRbch1+FGjLa/j70P+ip6yNp8y0W8BOquUK
+ Pc4Q==
+X-Gm-Message-State: APjAAAV7EBk/l6DZ1/9x2SPaeTnklWiWpGjx5jpQ4gpvGy1j80jSQ7He
+ AKxEs9PCjzPlPho2kIZlHJBAxYBzNaAW1A==
+X-Google-Smtp-Source: APXvYqydQWqmHta7YuZ+1P1sgcESQRC187yZhbsikWbJTRU1xAtDOWa3h7lo6ZawKY1EIYXcJH+ZtQ==
+X-Received: by 2002:a05:600c:3cc:: with SMTP id
+ z12mr6033866wmd.151.1574170308133; 
+ Tue, 19 Nov 2019 05:31:48 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g8sm3094905wmk.23.2019.11.19.05.31.46
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Nov 2019 05:31:47 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] target-arm queue
+Date: Tue, 19 Nov 2019 13:31:38 +0000
+Message-Id: <20191119133145.31466-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6cb1ffd6-3fa2-7828-fdf1-42d31974c85c@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: oBtK3aKaObamttp1AUolGQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,105 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.11.2019 um 13:30 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 19.11.2019 15:20, Max Reitz wrote:
-> > On 19.11.19 13:02, Denis V. Lunev wrote:
-> >> On 11/19/19 1:22 PM, Max Reitz wrote:
-> >>> On 16.11.19 17:34, Vladimir Sementsov-Ogievskiy wrote:
-> >>>> Hi all!
-> >>>>
-> >>>> I wanted to understand, what is the real difference between bdrv_blo=
-ck_status_above
-> >>>> and bdrv_is_allocated_above, IMHO bdrv_is_allocated_above should wor=
-k through
-> >>>> bdrv_block_status_above..
-> >>>>
-> >>>> And I found the problem: bdrv_is_allocated_above considers space aft=
-er EOF as
-> >>>> UNALLOCATED for intermediate nodes..
-> >>>>
-> >>>> UNALLOCATED is not about allocation at fs level, but about should we=
- go to backing or
-> >>>> not.. And it seems incorrect for me, as in case of short backing fil=
-e, we'll read
-> >>>> zeroes after EOF, instead of going further by backing chain.
-> >>> Should we, though?  It absolutely makes sense to me to consider post-=
-EOF
-> >>> space as unallocated because, well, it is as unallocated as it gets.
-> >>>
-> >>> So from my POV it would make more sense to fall back to the backing f=
-ile
-> >>> for post-EOF reads.
-> >>>
-> >>> OTOH, I don=E2=80=99t know whether changing that behavior would quali=
-fy as a
-> >>> possible security issue now, because maybe someone has sensitive
-> >>> information in the tail of some disk and then truncated the overlay s=
-o
-> >>> as to hide it?  But honestly, that seems ridiculous and I can=E2=80=
-=99t imagine
-> >>> people to do that.  (It would work only for the tail, and why not jus=
-t
-> >>> write zeroes there, which works everywhere?)  So in practice I don=E2=
-=80=99t
-> >>> believe that to be a problem.
-> >>>
-> >>> Max
-> >>
-> >> That seems to be wrong from my POW. Once we get block device truncated=
-,
-> >> it exposed that tail to the guest with all zeroes.
-> >>
-> >> Let us assume that we have virtual disk of length L. We create new top
-> >> delta of
-> >> length X (less then L) and new top delta after with length Y (more tha=
-n L),
-> >> like the following:
-> >>
-> >> [.........................] Y
-> >> [........] X
-> >> [...................] L
-> >>
-> >> Once the guest creates FS=C2=A0 on state Y it relies on the fact that =
-data from X
-> >> to Y is all zeroes.
-> >>
-> >> Any operations with backing chain must keep guest content to be tha sa=
-me,
-> >> i.e. if we commit from Y to L, virtual disk content should be preserve=
-d,
-> >> i.e.
-> >> read as all zero even if there is some data in L from X to L.
-> >>
-> >> If we commit from X to Y, the range from X to L should remain all zero=
-es.
-> >>
-> >> This is especially valid for backups, which can not be changed and are
-> >> validated by the software from time to time.
-> >>
-> >> Does this makes sense?
-> >=20
-> > All right then.  But then there=E2=80=99s the case of commit not shrink=
-ing the
-> > backing file, so the guest content won=E2=80=99t be the same if you com=
-mit a
-> > short overlay into a longer backing file.
->=20
-> Hmm. Isn't commit target truncated to source before operation?
+Target-arm queue for rc2 -- just some minor bugfixes.
 
-Only if the target is smaller than the source.
+thanks
+-- PMM
 
-Maybe we should change that, because I don't think it's expected that a
-guest sees a larger disk, where old data reappears, after resizing
-(shrinking) the active layer and then commiting it to the backing file.
+The following changes since commit 6e5d4999c761ffa082f60d72a14e5c953515b417:
 
-Kevin
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-11-19' into staging (2019-11-19 11:29:01 +0000)
 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191119
+
+for you to fetch changes up to 04c9c81b8fa2ee33f59a26265700fae6fc646062:
+
+  target/arm: Support EL0 v7m msr/mrs for CONFIG_USER_ONLY (2019-11-19 13:20:28 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Support EL0 v7m msr/mrs for CONFIG_USER_ONLY
+ * Relax r13 restriction for ldrex/strex for v8.0
+ * Do not reject rt == rt2 for strexd
+ * net/cadence_gem: Set PHY autonegotiation restart status
+ * ssi: xilinx_spips: Skip spi bus update for a few register writes
+ * pl031: Expose RTCICR as proper WC register
+
+----------------------------------------------------------------
+Alexander Graf (1):
+      pl031: Expose RTCICR as proper WC register
+
+Linus Ziegert (1):
+      net/cadence_gem: Set PHY autonegotiation restart status
+
+Richard Henderson (4):
+      target/arm: Merge arm_cpu_vq_map_next_smaller into sole caller
+      target/arm: Do not reject rt == rt2 for strexd
+      target/arm: Relax r13 restriction for ldrex/strex for v8.0
+      target/arm: Support EL0 v7m msr/mrs for CONFIG_USER_ONLY
+
+Sai Pavan Boddu (1):
+      ssi: xilinx_spips: Skip spi bus update for a few register writes
+
+ target/arm/cpu.h       |   5 +--
+ hw/net/cadence_gem.c   |   9 ++--
+ hw/rtc/pl031.c         |   6 +--
+ hw/ssi/xilinx_spips.c  |  22 ++++++++--
+ target/arm/cpu64.c     |  15 -------
+ target/arm/helper.c    |   9 +++-
+ target/arm/m_helper.c  | 114 ++++++++++++++++++++++++++++++-------------------
+ target/arm/translate.c |  14 +++---
+ 8 files changed, 113 insertions(+), 81 deletions(-)
 
