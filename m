@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE14102926
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:18:45 +0100 (CET)
-Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E44A102930
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:21:47 +0100 (CET)
+Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX6DD-00035E-Vs
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:18:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60771)
+	id 1iX6GA-0006Ad-8p
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63v-00021Y-AD
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:08 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63w-00023E-Be
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63u-00069S-21
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:07 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54364)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63v-0006AC-2Q
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:08 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38330)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63t-000695-RW
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:06 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id z26so3791999wmi.4
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:05 -0800 (PST)
+ id 1iX63u-00069n-SJ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:07 -0500
+Received: by mail-wm1-x343.google.com with SMTP id z19so4349990wmk.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=iIEhLJHGJyb/n0As6qSQK05whIAhohU7R9F3hYodbw0=;
- b=icVKQlmv2Y9HtY5+AT45kiySywerRLDixl1CG9V3SKDYtf//xFuaKxflsEk4qXmX+U
- LcLbedTX8RUpExn9RXIca0gX547aITz+oRR0qTNfTvXjsUZYmuPDxxcnAW5brk0bbKpd
- c1Gxx1jsE6hKJbXxfb4HiMKT4V42A2ierrt/++bB/oof2NEFFHfH6ylE49NU+2tobkJq
- A+U+TZ710YtAffh4wZ7hxNG5YwiTBs8vfwIMRZBKeXtV/ef5okLf4M+b4j7BHFvekCE+
- s8JoI0eZ/KhacGBL+1/yfc7W7y9QXhlr/6T5JwhM3bRQNbfxKw9JvB0RVhW3+Jsyx8Mc
- odOQ==
+ bh=qHpVdmqCzVmXoW2Mq3yTyYlL6lxGnPFe8HxZarA2NvA=;
+ b=ZW7VpqmJUX59VfNJeCJiGIUD9wixFMg4enTEmxRx65a17JZmTVIXZEiKJqQY19c3ez
+ TE/TKhkyHdETL283ydPNigupIzoeri33oUlwHsZ4BHYbK1xorhkJjlbtAMsvmljWwJwZ
+ azY+BAKufb293JaSj2gWCkopSXNes/uzxoE2quqaMXEjjv6hW/k024i9f0dFO1cb+V2h
+ A7rGUZS8W5Ai6+VycvN3icXanidg//QBic0K2M4nx67hjGonXqKzjf/ocO76WxgzfKwq
+ hCDJ3TNfGRsz7FFjpHphvYLkcfIoZ5GGlnPc12XKkEJQyLoOB9IEbLZoeG5z3GCyNx4F
+ Kl/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=iIEhLJHGJyb/n0As6qSQK05whIAhohU7R9F3hYodbw0=;
- b=HhgRVlzeAbhogxSJ5goaO2SjBRLXOa+zI1ETni7C0Sq3d3tZKrEb8guim6I2OQCbxU
- NAlud0cRNZTosFnciLw+/UcRDXl3kprjuSKHzBvQcPBCxZdMpGIcd3+evDfiUKa/LrDa
- TnqwWFhdE4siZH6Guq41DTWwPI+L8bGy0tseLJUcbYQo4mDq9UwONAYdsCvF6KCitWZM
- CywBdQlKFSLcV9OWeleB3WC64hZt3epQoU5+VtHj4NCHjMC+cKjPi8mDU0SZK6SRVYqj
- foXrOQOzVBBqESdDSXsDIlGmo259sQ/mfQ3L2gkaBPfdukRMQhg/nln9KVQDA2U1hQBE
- KhtA==
-X-Gm-Message-State: APjAAAUkMbC/R+D8nFb/HsTe2MwR/1JQluT0zHzvmtGhuhLTO8BZFfyC
- DZUl2pW3ZZA/3o9mKZE3Ip0gWSnt
-X-Google-Smtp-Source: APXvYqyqbarSik4UhQAnuYZwBlFyhLRn2+lXi0y+Mv6M6A4RD3Eaa6/1231M+eGZ/AIFDmSG8j7hnw==
-X-Received: by 2002:a1c:7905:: with SMTP id l5mr7040588wme.76.1574179744541;
- Tue, 19 Nov 2019 08:09:04 -0800 (PST)
+ bh=qHpVdmqCzVmXoW2Mq3yTyYlL6lxGnPFe8HxZarA2NvA=;
+ b=uAQX4HwuhN8nruTrZEnhLxW5lCb9O/pg9aN1Ch3AQIUwUUqQGAqlN85JZDC2qb341R
+ PKNmKBuEbVk3cwF29yeJJ9WY+czsMFqnJwXXYCLosYmb0Ukyy4XjklZ1p4EuK0uohSk5
+ AZJSGZ3DkFODca0x/7+AJEAZCHj3dDi3vc5fflEuGdjdDGikzErVqkanbXaQuOqGL2oa
+ wllGI+wxfH+XT0fs5btPOd1jbC0Kj6CvNNZ5HxSiaEOJaipCb9tBJlBSQrsSsjdbX72/
+ 4FshVBXle28BAkGDceM6mt2iG4ce8r1GOrfGWuGptC0MmZoUcEYRP8qXN6VhE1ptVohk
+ NuCQ==
+X-Gm-Message-State: APjAAAVOBLksIr5q1xJPKES9D0Pw64Yxeq60qn2KIrHJc+Ftfw82igSl
+ LQYVCNFMM/CslvrbjH/HxnIytQWv
+X-Google-Smtp-Source: APXvYqytz0VHqF0XISX51gSasBIAPPaFfiyd1x2B+B6LO5mhngt7itkC8n1VxtTYbyXWkHahmxY/Rw==
+X-Received: by 2002:a1c:720b:: with SMTP id n11mr6184568wmc.60.1574179745590; 
+ Tue, 19 Nov 2019 08:09:05 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.03
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:09:03 -0800 (PST)
+ Tue, 19 Nov 2019 08:09:04 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/12] Revert "mc146818rtc: fix timer interrupt reinjection"
-Date: Tue, 19 Nov 2019 17:08:47 +0100
-Message-Id: <1574179728-35535-12-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 12/12] mc146818rtc: fix timer interrupt reinjection again
+Date: Tue, 19 Nov 2019 17:08:48 +0100
+Message-Id: <1574179728-35535-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,104 +78,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit b429de730174b388ea5760e3debb0d542ea3c261, except
-that the reversal of the outer "if (period)" is left in.
+Commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
+reinjection when there is no period change by the guest.  In that
+case, old_period is 0, which ends up zeroing irq_coalesced (counter of
+reinjected interrupts).
 
+The consequence is Windows 7 is unable to synchronize time via NTP.
+Easily reproducible by playing a fullscreen video with cirrus and VNC.
+
+Fix by passing s->period when periodic_timer_update is called due to
+expiration of the timer.  With this change, old_period == 0 only
+means that the periodic timer was off.
+
+Reported-by: Marcelo Tosatti <mtosatti@redhat.com>
+Co-developed-by: Marcelo Tosatti <mtosatti@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/rtc/mc146818rtc.c | 67 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 33 insertions(+), 34 deletions(-)
+ hw/rtc/mc146818rtc.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index ee6bf82..9869dc5 100644
+index 9869dc5..74ae74b 100644
 --- a/hw/rtc/mc146818rtc.c
 +++ b/hw/rtc/mc146818rtc.c
-@@ -174,7 +174,6 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+@@ -168,12 +168,14 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+  * is just due to period adjustment.
+  */
+ static void
+-periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
++periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period, bool period_change)
+ {
+     uint32_t period;
      int64_t cur_clock, next_irq_clock, lost_clock = 0;
  
      period = rtc_periodic_clock_ticks(s);
--
++    s->period = period;
++
      if (!period) {
          s->irq_coalesced = 0;
          timer_del(s->periodic_timer);
-@@ -197,42 +196,42 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-         last_periodic_clock = next_periodic_clock - old_period;
-         lost_clock = cur_clock - last_periodic_clock;
-         assert(lost_clock >= 0);
-+    }
+@@ -188,7 +190,7 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+      * if the periodic timer's update is due to period re-configuration,
+      * we should count the clock since last interrupt.
+      */
+-    if (old_period) {
++    if (old_period && period_change) {
+         int64_t last_periodic_clock, next_periodic_clock;
  
-+    /*
-+     * s->irq_coalesced can change for two reasons:
-+     *
-+     * a) if one or more periodic timer interrupts have been lost,
-+     *    lost_clock will be more that a period.
-+     *
-+     * b) when the period may be reconfigured, we expect the OS to
-+     *    treat delayed tick as the new period.  So, when switching
-+     *    from a shorter to a longer period, scale down the missing,
-+     *    because the OS will treat past delayed ticks as longer
-+     *    (leftovers are put back into lost_clock).  When switching
-+     *    to a shorter period, scale up the missing ticks since the
-+     *    OS handler will treat past delayed ticks as shorter.
-+     */
-+    if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
-+        uint32_t old_irq_coalesced = s->irq_coalesced;
-+
-+        s->period = period;
-+        lost_clock += old_irq_coalesced * old_period;
-+        s->irq_coalesced = lost_clock / s->period;
-+        lost_clock %= s->period;
-+        if (old_irq_coalesced != s->irq_coalesced ||
-+            old_period != s->period) {
-+            DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
-+                      "period scaled from %d to %d\n", old_irq_coalesced,
-+                      s->irq_coalesced, old_period, s->period);
-+            rtc_coalesced_timer_update(s);
-+        }
-+    } else {
-         /*
--         * s->irq_coalesced can change for two reasons:
--         *
--         * a) if one or more periodic timer interrupts have been lost,
--         *    lost_clock will be more that a period.
--         *
--         * b) when the period may be reconfigured, we expect the OS to
--         *    treat delayed tick as the new period.  So, when switching
--         *    from a shorter to a longer period, scale down the missing,
--         *    because the OS will treat past delayed ticks as longer
--         *    (leftovers are put back into lost_clock).  When switching
--         *    to a shorter period, scale up the missing ticks since the
--         *    OS handler will treat past delayed ticks as shorter.
-+         * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
-+         * is not used, we should make the time progress anyway.
-          */
--        if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
--            uint32_t old_irq_coalesced = s->irq_coalesced;
--
--            s->period = period;
--            lost_clock += old_irq_coalesced * old_period;
--            s->irq_coalesced = lost_clock / s->period;
--            lost_clock %= s->period;
--            if (old_irq_coalesced != s->irq_coalesced ||
--                old_period != s->period) {
--                DPRINTF_C("cmos: coalesced irqs scaled from %d to %d, "
--                          "period scaled from %d to %d\n", old_irq_coalesced,
--                          s->irq_coalesced, old_period, s->period);
--                rtc_coalesced_timer_update(s);
--            }
--        } else {
--            /*
--             * no way to compensate the interrupt if LOST_TICK_POLICY_SLEW
--             * is not used, we should make the time progress anyway.
--             */
--            lost_clock = MIN(lost_clock, period);
--        }
-+        lost_clock = MIN(lost_clock, period);
+         next_periodic_clock = muldiv64(s->next_periodic_time,
+@@ -215,7 +217,6 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
+     if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
+         uint32_t old_irq_coalesced = s->irq_coalesced;
+ 
+-        s->period = period;
+         lost_clock += old_irq_coalesced * old_period;
+         s->irq_coalesced = lost_clock / s->period;
+         lost_clock %= s->period;
+@@ -245,7 +246,7 @@ static void rtc_periodic_timer(void *opaque)
+ {
+     RTCState *s = opaque;
+ 
+-    periodic_timer_update(s, s->next_periodic_time, 0);
++    periodic_timer_update(s, s->next_periodic_time, s->period, false);
+     s->cmos_data[RTC_REG_C] |= REG_C_PF;
+     if (s->cmos_data[RTC_REG_B] & REG_B_PIE) {
+         s->cmos_data[RTC_REG_C] |= REG_C_IRQF;
+@@ -511,7 +512,7 @@ static void cmos_ioport_write(void *opaque, hwaddr addr,
+ 
+             if (update_periodic_timer) {
+                 periodic_timer_update(s, qemu_clock_get_ns(rtc_clock),
+-                                      old_period);
++                                      old_period, true);
+             }
+ 
+             check_update_timer(s);
+@@ -550,7 +551,7 @@ static void cmos_ioport_write(void *opaque, hwaddr addr,
+ 
+             if (update_periodic_timer) {
+                 periodic_timer_update(s, qemu_clock_get_ns(rtc_clock),
+-                                      old_period);
++                                      old_period, true);
+             }
+ 
+             check_update_timer(s);
+@@ -794,6 +795,7 @@ static int rtc_post_load(void *opaque, int version_id)
+         s->offset = 0;
+         check_update_timer(s);
+     }
++    s->period = rtc_periodic_clock_ticks(s);
+ 
+     /* The periodic timer is deterministic in record/replay mode,
+      * so there is no need to update it after loading the vmstate.
+@@ -803,7 +805,7 @@ static int rtc_post_load(void *opaque, int version_id)
+         uint64_t now = qemu_clock_get_ns(rtc_clock);
+         if (now < s->next_periodic_time ||
+             now > (s->next_periodic_time + get_max_clock_jump())) {
+-            periodic_timer_update(s, qemu_clock_get_ns(rtc_clock), 0);
++            periodic_timer_update(s, qemu_clock_get_ns(rtc_clock), s->period, false);
+         }
      }
  
-     assert(lost_clock >= 0 && lost_clock <= period);
 -- 
 1.8.3.1
-
 
 
