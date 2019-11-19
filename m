@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC28102AE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:39:31 +0100 (CET)
-Received: from localhost ([::1]:48542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15202102B04
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:52:35 +0100 (CET)
+Received: from localhost ([::1]:48655 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7TO-0001am-Dz
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51373)
+	id 1iX7g1-00064I-Ja
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:52:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iX7ST-00016E-NC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:38:34 -0500
+ (envelope-from <berrange@redhat.com>) id 1iX7eZ-0005QP-4E
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iX7SR-0005e8-1r
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:38:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54167
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1iX7eV-00050d-Sw
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:01 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56116
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iX7SQ-0005c5-6c
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:38:30 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iX7eV-0004zx-I2
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:50:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574185105;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1574185857;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nh3ATgzvebpsn6nItHpxq8jIaWcFZVqf8c6dGhjLuIM=;
- b=UH9XtQ018sX4Bg5umbLnR9DJPwcapIJNOzCjgHqZSjMplB7H/4mfeN0JmVf4hKqY/mx4Nw
- ImbBPTbVXk6oLkaZe2i1377b/GSNRaDVGAyHQeiGwDm/4DoAb+Fg1j/oFlnSfT640Y+Apg
- l0JB7bOlCJoJCG05EQ7Hca3/eNDyvFs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-JLK1uAq7MbO9puOyzQXwhQ-1; Tue, 19 Nov 2019 12:38:23 -0500
-Received: by mail-wr1-f71.google.com with SMTP id l3so18906046wrx.21
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:38:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1phOG1ssO12HKIXibBja3UaCWvjQvuxSjByILtHR4xM=;
- b=MLb71bqdjY+TrvMJgqnyCuBJA9eDgXzoxfPB0rfXUpZAcRpXfjeq4MlxKVSejNTl+t
- J/gZPwlwdCnLKoPV7JAdVAxGEMzauLBz78+Q7lyGGkPeMgdCMc2aaUL/qQU4+VsStoYn
- veBkzi7HGs6fS7oR6L0Xe+q8+3Gcckhbu6T0hhitRaUqLCT4nwdNSHzvqb9rYGu1Tl2z
- Feclng0Sh/Q8//feMeSLMWt6X7V4sQcxkgMzh2lt7M08zzfLhsl0Yejr2+cL/nhbXd3D
- OAk7gS401I6kUzJaVPQuKg8yUErc9tgV5OtQR7/mkNoPhrq4uU+r8Sb2UPztgsaDQ8od
- AhgA==
-X-Gm-Message-State: APjAAAVrc0w8Lw3/yThu3W3vxtuyQ18br5tXrzfYAo3vCy+QhqgvJ8lc
- IUpiAe42j4r+ksheeQzG6LZXsFR0HreG3LsSVZhg0fmsngFsSxVWWqo4Kr07I8B/4IFSUxguojd
- lKQjSyC0Iri6tYBs=
-X-Received: by 2002:a05:600c:2257:: with SMTP id
- a23mr7547459wmm.143.1574185102206; 
- Tue, 19 Nov 2019 09:38:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxrGgXkrXX9ZK8AwiN/9A6YQoC5HTbcA2X2AyEcITxm7iYCLDx/KiU016woxbkd12ANaZNWpA==
-X-Received: by 2002:a05:600c:2257:: with SMTP id
- a23mr7547421wmm.143.1574185101987; 
- Tue, 19 Nov 2019 09:38:21 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id p25sm3811520wma.20.2019.11.19.09.38.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Nov 2019 09:38:21 -0800 (PST)
+ bh=iO25zAir3pb37M4tqQZWSaxbeYzYMskWLEXU8sSC4j4=;
+ b=SmAhQpJNpHrDVE+MqKi/q6XfcBVWm/gSLaz3vQPOpdQRQHuBeGlhWXho8UoWfWzjFKl5+f
+ UufGiw6k6iv+w41HdZxF+oMvaIy8g3wFn7olq3JEPFWX0oHwBrTggFQelI9B1l4RUmp8VE
+ N2IVBpgTtBXXrHJokpsdjlcm1dZthJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-KSVYjEpnOtKHAR3Om2rX6Q-1; Tue, 19 Nov 2019 12:50:55 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61F6E801E59;
+ Tue, 19 Nov 2019 17:50:54 +0000 (UTC)
+Received: from redhat.com (ovpn-112-61.ams2.redhat.com [10.36.112.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B0C0C18214;
+ Tue, 19 Nov 2019 17:50:47 +0000 (UTC)
+Date: Tue, 19 Nov 2019 17:50:44 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Subject: Re: [PATCH 2/6] iotests: Skip test 079 if it is not possible to
  create large files
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Message-ID: <20191119175044.GH2706053@redhat.com>
 References: <20191119170822.45649-1-thuth@redhat.com>
  <20191119170822.45649-3-thuth@redhat.com>
  <7242d268-6563-246f-4acc-2e714ebfd513@redhat.com>
  <06a31aff-e01b-74ae-3d9a-ff0f8ea2696b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1d32c8c3-1cc3-574d-e79f-4b5bc2f376d3@redhat.com>
-Date: Tue, 19 Nov 2019 18:38:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ <1d32c8c3-1cc3-574d-e79f-4b5bc2f376d3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <06a31aff-e01b-74ae-3d9a-ff0f8ea2696b@redhat.com>
-Content-Language: en-US
-X-MC-Unique: JLK1uAq7MbO9puOyzQXwhQ-1
+In-Reply-To: <1d32c8c3-1cc3-574d-e79f-4b5bc2f376d3@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: KSVYjEpnOtKHAR3Om2rX6Q-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,48 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/19 6:34 PM, Thomas Huth wrote:
-> On 19/11/2019 18.29, Philippe Mathieu-Daud=E9 wrote:
->> On 11/19/19 6:08 PM, Thomas Huth wrote:
->>> Test 079 fails in the arm64, s390x and ppc64le LXD containers, which
->>> apparently do not allow large files to be created. Test 079 tries to
->>> create a 4G sparse file, so check first whether we can really create
->>> such files before executing the test.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>  =A0 tests/qemu-iotests/079 | 6 ++++++
->>>  =A0 1 file changed, 6 insertions(+)
->>>
->>> diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
->>> index 81f0c21f53..e9b81419b7 100755
->>> --- a/tests/qemu-iotests/079
->>> +++ b/tests/qemu-iotests/079
->>> @@ -39,6 +39,12 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->>>  =A0 _supported_fmt qcow2
->>>  =A0 _supported_proto file nfs
->>>  =A0 +# Some containers (e.g. non-x86 on Travis) do not allow large fil=
-es
->>> +if ! truncate --size=3D4G "$TEST_IMG"; then
->>
->> Shouldn't we restrict that to Travis-CI by checking some environment var=
-?
+On Tue, Nov 19, 2019 at 06:38:20PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> On 11/19/19 6:34 PM, Thomas Huth wrote:
+> > On 19/11/2019 18.29, Philippe Mathieu-Daud=C3=A9 wrote:
+> > > On 11/19/19 6:08 PM, Thomas Huth wrote:
+> > > > Test 079 fails in the arm64, s390x and ppc64le LXD containers, whic=
+h
+> > > > apparently do not allow large files to be created. Test 079 tries t=
+o
+> > > > create a 4G sparse file, so check first whether we can really creat=
+e
+> > > > such files before executing the test.
+> > > >=20
+> > > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > > ---
+> > > >  =C2=A0 tests/qemu-iotests/079 | 6 ++++++
+> > > >  =C2=A0 1 file changed, 6 insertions(+)
+> > > >=20
+> > > > diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+> > > > index 81f0c21f53..e9b81419b7 100755
+> > > > --- a/tests/qemu-iotests/079
+> > > > +++ b/tests/qemu-iotests/079
+> > > > @@ -39,6 +39,12 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+> > > >  =C2=A0 _supported_fmt qcow2
+> > > >  =C2=A0 _supported_proto file nfs
+> > > >  =C2=A0 +# Some containers (e.g. non-x86 on Travis) do not allow la=
+rge files
+> > > > +if ! truncate --size=3D4G "$TEST_IMG"; then
+> > >=20
+> > > Shouldn't we restrict that to Travis-CI by checking some environment =
+var?
+> >=20
+> > I'd rather like to keep it independent from Travis environment
+> > variables, since somebody might want to run "make check" in other
+> > non-Travis containers or on weird filesystems, and then the test should
+> > ideally not fail, but simply skip, too.
 >=20
-> I'd rather like to keep it independent from Travis environment
-> variables, since somebody might want to run "make check" in other
-> non-Travis containers or on weird filesystems, and then the test should
-> ideally not fail, but simply skip, too.
+> I see. But it would be bad if we stop catching normal bugs with this test
+> because we restricted it to contained environments.
+>=20
+> Maybe we can add a generic is_contained() routine that only checks for
+> TRAVIS env var, and people using other containers can expand it.
 
-I see. But it would be bad if we stop catching normal bugs with this=20
-test because we restricted it to contained environments.
+"is_contained" is still expressing the environment.
 
-Maybe we can add a generic is_contained() routine that only checks for=20
-TRAVIS env var, and people using other containers can expand it.
+What we need is a way to express features, and be able to switch beteen
+autodetecting features & mandatory enablement.
+
+eg
+
+   if has_feature "large_file"
+   then
+       ...stuff using large files...
+   fi
+
+The "has_feature" helper would by default call out to
+"has_feature_large_file" todo automatic probing so that things
+"just work" according to whatever env the tests are run inside.
+
+There should, however, be a flag to "./check" which force enables
+the feature eg  "./check --require-feature large_file" will force
+execution and not attempt to probe for it.
+
+We could have "--require-feature :all" to force enable all optional
+bits.
+
+Any formal CI systems should use --require-feature to explicitly
+force testing of features that are expected to always work.
+
+so Travis x86 would use "--require-feature large_large", but
+the arch64 version would not pass this flag and so do probing
+which will auto-skip.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
