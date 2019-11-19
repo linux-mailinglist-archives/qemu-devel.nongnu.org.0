@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8B110249A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 13:38:27 +0100 (CET)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC181024A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 13:39:59 +0100 (CET)
+Received: from localhost ([::1]:44774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX2m2-000512-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 07:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56951)
+	id 1iX2nW-0006hW-Hh
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 07:39:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1iX2l5-0004BN-OS
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:28 -0500
+ (envelope-from <chen.zhang@intel.com>) id 1iX2l7-0004CA-HL
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1iX2l4-0001KE-H7
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:27 -0500
+ (envelope-from <chen.zhang@intel.com>) id 1iX2l6-0001Kw-2o
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:29 -0500
 Received: from mga11.intel.com ([192.55.52.93]:24785)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1iX2l4-0001JG-A1
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:26 -0500
+ id 1iX2l5-0001JG-PV
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 07:37:28 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2019 04:37:26 -0800
+ 19 Nov 2019 04:37:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="237316869"
+X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="237316877"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2019 04:37:24 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2019 04:37:26 -0800
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH V3 2/4] net/awd.c: Initailize input/output chardev
-Date: Tue, 19 Nov 2019 20:30:14 +0800
-Message-Id: <20191119123016.13740-3-chen.zhang@intel.com>
+Subject: [PATCH V3 3/4] net/awd.c: Load advanced watch dog worker thread job
+Date: Tue, 19 Nov 2019 20:30:15 +0800
+Message-Id: <20191119123016.13740-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191119123016.13740-1-chen.zhang@intel.com>
 References: <20191119123016.13740-1-chen.zhang@intel.com>
@@ -60,49 +60,221 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-Find and check the chardev awd_node and notification_node,
-The awd_node used for keep connect with outside(like VM client/other
-host/Remote server), and the notification_node used for do some
-operation when disconnect event occur.
+This patch load pulse_timer and timeout_timer in the new iothread.
+The pulse timer will send pulse info to awd_node, and the timeout timer
+will check the reply pulse from awd_node. If timeout occur, it will send
+opt_script's data to the notification_node.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/awd.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ net/awd.c | 193 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 193 insertions(+)
 
 diff --git a/net/awd.c b/net/awd.c
-index d42b4a7372..ad3d39c982 100644
+index ad3d39c982..04f40e7cc8 100644
 --- a/net/awd.c
 +++ b/net/awd.c
-@@ -42,6 +42,8 @@ typedef struct AwdState {
+@@ -40,17 +40,137 @@ typedef struct AwdState {
+     char *awd_node;
+     char *notification_node;
      char *opt_script;
++    char *opt_script_data;
      uint32_t pulse_interval;
      uint32_t timeout;
-+    CharBackend chr_awd_node;
-+    CharBackend chr_notification_node;
+     CharBackend chr_awd_node;
+     CharBackend chr_notification_node;
++    SocketReadState awd_rs;
++
++    QEMUTimer *pulse_timer;
++    QEMUTimer *timeout_timer;
      IOThread *iothread;
++    GMainContext *worker_context;
  } AwdState;
  
-@@ -175,9 +177,30 @@ out:
+ typedef struct AwdClass {
+     ObjectClass parent_class;
+ } AwdClass;
+ 
++static int awd_chr_send(AwdState *s,
++                        const uint8_t *buf,
++                        uint32_t size)
++{
++    int ret = 0;
++    uint32_t len = htonl(size);
++
++    if (!size) {
++        return 0;
++    }
++
++    ret = qemu_chr_fe_write_all(&s->chr_awd_node, (uint8_t *)&len,
++                                sizeof(len));
++    if (ret != sizeof(len)) {
++        goto err;
++    }
++
++    ret = qemu_chr_fe_write_all(&s->chr_awd_node, (uint8_t *)buf,
++                                size);
++    if (ret != size) {
++        goto err;
++    }
++
++    return 0;
++
++err:
++    return ret < 0 ? ret : -EIO;
++}
++
++static int awd_chr_can_read(void *opaque)
++{
++    return AWD_READ_LEN_MAX;
++}
++
++static void awd_node_in(void *opaque, const uint8_t *buf, int size)
++{
++    AwdState *s = AWD(opaque);
++    int ret;
++
++    ret = net_fill_rstate(&s->awd_rs, buf, size);
++    if (ret == -1) {
++        qemu_chr_fe_set_handlers(&s->chr_awd_node, NULL, NULL, NULL, NULL,
++                                 NULL, NULL, true);
++        error_report("advanced-watchdog get pulse error");
++    }
++}
++
++static void awd_send_pulse(void *opaque)
++{
++    AwdState *s = opaque;
++    char buf[] = "advanced-watchdog pulse";
++
++    awd_chr_send(s, (uint8_t *)buf, sizeof(buf));
++}
++
++static void awd_regular_pulse(void *opaque)
++{
++    AwdState *s = opaque;
++
++    awd_send_pulse(s);
++    timer_mod(s->pulse_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++              s->pulse_interval);
++}
++
++static void awd_timeout(void *opaque)
++{
++    AwdState *s = opaque;
++    int ret = 0;
++
++    ret = qemu_chr_fe_write_all(&s->chr_notification_node,
++                                (uint8_t *)s->opt_script_data,
++                                strlen(s->opt_script_data));
++    if (ret) {
++        error_report("advanced-watchdog notification failure");
++    }
++}
++
++static void awd_timer_init(AwdState *s)
++{
++    AioContext *ctx = iothread_get_aio_context(s->iothread);
++
++    s->timeout_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL, SCALE_MS,
++                                     awd_timeout, s);
++
++    s->pulse_timer = aio_timer_new(ctx, QEMU_CLOCK_VIRTUAL, SCALE_MS,
++                                      awd_regular_pulse, s);
++
++    if (!s->pulse_interval) {
++        s->pulse_interval = AWD_PULSE_INTERVAL_DEFAULT;
++    }
++
++    if (!s->timeout) {
++        s->timeout = AWD_TIMEOUT_DEFAULT;
++    }
++
++    timer_mod(s->pulse_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++              s->pulse_interval);
++}
++
++static void awd_timer_del(AwdState *s)
++{
++    if (s->pulse_timer) {
++        timer_del(s->pulse_timer);
++        timer_free(s->pulse_timer);
++        s->pulse_timer = NULL;
++    }
++
++    if (s->timeout_timer) {
++        timer_del(s->timeout_timer);
++        timer_free(s->timeout_timer);
++        s->timeout_timer = NULL;
++    }
++ }
++
+ static char *awd_get_node(Object *obj, Error **errp)
+ {
+     AwdState *s = AWD(obj);
+@@ -177,6 +297,22 @@ out:
      error_propagate(errp, local_err);
  }
  
-+static int find_and_check_chardev(Chardev **chr,
-+                                  char *chr_name,
-+                                  Error **errp)
++static void awd_rs_finalize(SocketReadState *awd_rs)
 +{
-+    *chr = qemu_chr_find(chr_name);
-+    if (*chr == NULL) {
-+        error_setg(errp, "Device '%s' not found",
-+                   chr_name);
-+        return 1;
++    AwdState *s = container_of(awd_rs, AwdState, awd_rs);
++
++    if (!s->server) {
++        char buf[] = "advanced-watchdog reply pulse";
++
++        awd_chr_send(s, (uint8_t *)buf, sizeof(buf));
 +    }
 +
-+    if (!qemu_chr_has_feature(*chr, QEMU_CHAR_FEATURE_RECONNECTABLE)) {
-+        error_setg(errp, "chardev \"%s\" is not reconnectable",
-+                   chr_name);
-+        return 1;
++    timer_mod(s->timeout_timer, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
++              s->timeout);
++
++    error_report("advanced-watchdog got message : %s", awd_rs->buf);
++}
++
+ static int find_and_check_chardev(Chardev **chr,
+                                   char *chr_name,
+                                   Error **errp)
+@@ -197,6 +333,46 @@ static int find_and_check_chardev(Chardev **chr,
+     return 0;
+ }
+ 
++static void awd_iothread(AwdState *s)
++{
++    object_ref(OBJECT(s->iothread));
++    s->worker_context = iothread_get_g_main_context(s->iothread);
++
++    qemu_chr_fe_set_handlers(&s->chr_awd_node, awd_chr_can_read,
++                             awd_node_in, NULL, NULL,
++                             s, s->worker_context, true);
++
++    awd_timer_init(s);
++}
++
++static int get_opt_script_data(AwdState *s)
++{
++    FILE *opt_fd;
++    long fsize;
++
++    opt_fd = fopen(s->opt_script, "r");
++    if (opt_fd == NULL) {
++        error_report("advanced-watchdog can't open "
++                     "opt_script: %s", s->opt_script);
++        return -1;
 +    }
++
++    fseek(opt_fd, 0, SEEK_END);
++    fsize = ftell(opt_fd);
++    fseek(opt_fd, 0, SEEK_SET);
++    s->opt_script_data = malloc(fsize + 1);
++
++    if (!fread(s->opt_script_data, 1, fsize, opt_fd)) {
++        error_report("advanced-watchdog can't read "
++                     "opt_script: %s", s->opt_script);
++        return -1;
++    }
++
++    fclose(opt_fd);
 +
 +    return 0;
 +}
@@ -110,31 +282,37 @@ index d42b4a7372..ad3d39c982 100644
  static void awd_complete(UserCreatable *uc, Error **errp)
  {
      AwdState *s = AWD(uc);
-+    Chardev *chr;
- 
-     if (!s->awd_node || !s->iothread ||
-         !s->notification_node || !s->opt_script) {
-@@ -187,6 +210,20 @@ static void awd_complete(UserCreatable *uc, Error **errp)
+@@ -224,6 +400,16 @@ static void awd_complete(UserCreatable *uc, Error **errp)
          return;
      }
  
-+    if (find_and_check_chardev(&chr, s->awd_node, errp) ||
-+        !qemu_chr_fe_init(&s->chr_awd_node, chr, errp)) {
-+        error_setg(errp, "advanced-watchdog can't find chardev awd_node: %s",
-+                   s->awd_node);
++    if (get_opt_script_data(s)) {
++        error_setg(errp, "advanced-watchdog can't get "
++                   "opt script data: %s", s->opt_script);
 +        return;
 +    }
 +
-+    if (find_and_check_chardev(&chr, s->notification_node, errp) ||
-+        !qemu_chr_fe_init(&s->chr_notification_node, chr, errp)) {
-+        error_setg(errp, "advanced-watchdog can't find "
-+                   "chardev notification_node: %s", s->notification_node);
-+        return;
-+    }
++    net_socket_rs_init(&s->awd_rs, awd_rs_finalize, false);
++
++    awd_iothread(s);
 +
      return;
  }
  
+@@ -272,6 +458,13 @@ static void awd_finalize(Object *obj)
+ {
+     AwdState *s = AWD(obj);
+ 
++    qemu_chr_fe_deinit(&s->chr_awd_node, false);
++    qemu_chr_fe_deinit(&s->chr_notification_node, false);
++
++    if (s->iothread) {
++        awd_timer_del(s);
++    }
++
+     g_free(s->awd_node);
+     g_free(s->notification_node);
+ }
 -- 
 2.17.1
 
