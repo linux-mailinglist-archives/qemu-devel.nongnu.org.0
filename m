@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8782F102AB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:19:19 +0100 (CET)
-Received: from localhost ([::1]:48238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634A7102A92
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:14:07 +0100 (CET)
+Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX79q-0001Yn-Et
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:19:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47235)
+	id 1iX74n-0002eB-Nh
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:14:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iX6zZ-0005R9-F7
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:42 -0500
+ (envelope-from <thuth@redhat.com>) id 1iX6za-0005Rf-34
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iX6zX-0004Iq-PC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56514
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iX6zX-0004JJ-Te
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44631
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6zV-0004Gb-Q6
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:38 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6zX-0004IX-Pa
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574183317;
+ s=mimecast20190719; t=1574183319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g64psGGRmKBLb4/hri+5uIdTiIG+yWcY+l9qZO/+XtA=;
- b=UfmmXtXs8V15g/C0TuxuJOl/HkgjZuhp/4A9sSJZuU2QG5qbRGOuFsSaRik5X43S7Jj0Nu
- wN7kezJxMoihkJvAGyYuHIcs+WR5/MJJdts3np+JAW/nJj3wgaI1GHUQpuGK8AAJYSQohr
- uVBCK/gouqzmZtrhsxT8aE7wvf8ut7I=
+ bh=aYii4P4+JrYKFNwRdLteVtAWIb9yFmCttIZd+wgqyNE=;
+ b=QO19XdTl4dlrwpSqCvHTTtTlQGdgS4V/2zt248WCC/7Luc1XsZ0mvRkaSwwi0O3DPJSUGy
+ 75o2yfSNmAUO1A3FwYk+kTps77GiygY9wDAro9d+afg2gL1U7w44tnPNPAygstjFIGvjz0
+ WnhtIOd/f2H1URyQQ+aZ5NQki2ISKt0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-yBfZCSMtNX2Un-jBBsVRmQ-1; Tue, 19 Nov 2019 12:08:35 -0500
+ us-mta-305-HQfPu86CPAqJhErcV0TuzA-1; Tue, 19 Nov 2019 12:08:37 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72DF18A2129;
- Tue, 19 Nov 2019 17:08:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A76CD802CDD;
+ Tue, 19 Nov 2019 17:08:36 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A21C5ED2C;
- Tue, 19 Nov 2019 17:08:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1C635E7A6;
+ Tue, 19 Nov 2019 17:08:34 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 3/6] tests/hd-geo-test: Skip test when images can not be
- created
-Date: Tue, 19 Nov 2019 18:08:18 +0100
-Message-Id: <20191119170822.45649-4-thuth@redhat.com>
+Subject: [PATCH 4/6] tests/test-util-filemonitor: Skip test on non-x86 Travis
+ containers
+Date: Tue, 19 Nov 2019 18:08:19 +0100
+Message-Id: <20191119170822.45649-5-thuth@redhat.com>
 In-Reply-To: <20191119170822.45649-1-thuth@redhat.com>
 References: <20191119170822.45649-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: yBfZCSMtNX2Un-jBBsVRmQ-1
+X-MC-Unique: HQfPu86CPAqJhErcV0TuzA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,54 +82,41 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In certain environments like restricted containers, we can not create
-huge test images. To be able to use "make check" in such container
-environments, too, let's skip the hd-geo-test instead of failing when
-the test images could not be created.
+test-util-filemonitor fails in restricted non-x86 Travis containers
+since they apparently blacklisted some required system calls there.
+Let's simply skip the test if we detect such an environment.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/hd-geo-test.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/test-util-filemonitor.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
-index 7e86c5416c..a249800544 100644
---- a/tests/hd-geo-test.c
-+++ b/tests/hd-geo-test.c
-@@ -34,8 +34,13 @@ static char *create_test_img(int secs)
-     fd =3D mkstemp(template);
-     g_assert(fd >=3D 0);
-     ret =3D ftruncate(fd, (off_t)secs * 512);
--    g_assert(ret =3D=3D 0);
-     close(fd);
-+
-+    if (ret) {
-+        free(template);
-+        template =3D NULL;
+diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
+index 301cd2db61..45009c69f4 100644
+--- a/tests/test-util-filemonitor.c
++++ b/tests/test-util-filemonitor.c
+@@ -406,10 +406,21 @@ test_file_monitor_events(void)
+     char *pathdst =3D NULL;
+     QFileMonitorTestData data;
+     GHashTable *ids =3D g_hash_table_new(g_int64_hash, g_int64_equal);
++    char *travis_arch;
+=20
+     qemu_mutex_init(&data.lock);
+     data.records =3D NULL;
+=20
++    /*
++     * This test does not work on Travis LXD containers since some
++     * syscalls are blocked in that environment.
++     */
++    travis_arch =3D getenv("TRAVIS_ARCH");
++    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
++        g_test_skip("Test does not work on non-x86 Travis containers.");
++        return;
 +    }
 +
-     return template;
- }
-=20
-@@ -934,6 +939,10 @@ int main(int argc, char **argv)
-     for (i =3D 0; i < backend_last; i++) {
-         if (img_secs[i] >=3D 0) {
-             img_file_name[i] =3D create_test_img(img_secs[i]);
-+            if (!img_file_name[i]) {
-+                g_test_message("Could not create test images.");
-+                goto test_add_done;
-+            }
-         } else {
-             img_file_name[i] =3D NULL;
-         }
-@@ -965,6 +974,7 @@ int main(int argc, char **argv)
-                        "skipping hd-geo/override/* tests");
-     }
-=20
-+test_add_done:
-     ret =3D g_test_run();
-=20
-     for (i =3D 0; i < backend_last; i++) {
+     /*
+      * The file monitor needs the main loop running in
+      * order to receive events from inotify. We must
 --=20
 2.23.0
 
