@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48333101060
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 01:54:18 +0100 (CET)
-Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7987E101069
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 02:02:26 +0100 (CET)
+Received: from localhost ([::1]:40836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWrmR-0003Lv-CK
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 19:54:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60223)
+	id 1iWruO-0007Oc-F4
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 20:02:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iWrlA-0002B2-K5
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 19:52:50 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iWrsX-0006pQ-KV
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 20:00:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iWrl8-0005rG-BU
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 19:52:48 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53685 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iWrsW-0001qY-Dv
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 20:00:25 -0500
+Received: from ozlabs.org ([203.11.71.1]:56115)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iWrl5-0005mE-P1; Mon, 18 Nov 2019 19:52:45 -0500
+ id 1iWrsW-0001oz-2A; Mon, 18 Nov 2019 20:00:24 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47H6jz4M3Nz9sPW; Tue, 19 Nov 2019 11:52:39 +1100 (AEDT)
+ id 47H6tq5YhSz9sPV; Tue, 19 Nov 2019 12:00:19 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574124759;
- bh=kezO9pO44swx7qELErF8jMfL0M3/Dw9zWvpWdVJ0Dzk=;
+ d=gibson.dropbear.id.au; s=201602; t=1574125219;
+ bh=PsSDjfi61zbflZICabmIrHcXIAPqJQq/L2+4OMfn2nE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QpV690RWVLpF/EpPLvyJzlYJ/R3tMt2flLeqfTBTVFBBXabM1UfzjbrdXhWGvdeYs
- iRcr6dOzhogczj/OmYX6ZUYnQIN0kVMZNZ2b0ogCe15x2Xb0CkEIjMXINgUu52PoUa
- rNzuxTFEqusr9L645x1JCWfgOBjF0vJxuknI4AqI=
-Date: Tue, 19 Nov 2019 11:52:32 +1100
+ b=Iy22A/3Sc4EJUbGUcrcTMHXfDTWA15hJvKZ/ssM3vhx+BZ6KGDfSIrMDQyYjg+XT5
+ V3aVJmyMm8w226k1Ewi+O1tQaBpaWgoWTqSXrzZdau1uIMC4GuT0IFBex6lFVN9YpA
+ MbLtUGWqwID/p1A3mwS2JxEmp5VDzs6+689lra0Y=
+Date: Tue, 19 Nov 2019 12:00:12 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Create BMC devices at machine init
-Message-ID: <20191119005232.GH5582@umbus.fritz.box>
-References: <20191118092222.15691-1-clg@kaod.org>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Fix VSMT mode when it is not supported by the
+ kernel
+Message-ID: <20191119010012.GI5582@umbus.fritz.box>
+References: <20191108154035.12913-1-lvivier@redhat.com>
+ <20191108174759.2d4040f1@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VbfcI4OLZ4XW0yH2"
+ protocol="application/pgp-signature"; boundary="Az4VpBrmI9+OyhK/"
 Content-Disposition: inline
-In-Reply-To: <20191118092222.15691-1-clg@kaod.org>
+In-Reply-To: <20191108174759.2d4040f1@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,177 +57,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Corey Minyard <cminyard@mvista.com>,
- Oliver O'Halloran <oohall@gmail.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VbfcI4OLZ4XW0yH2
-Content-Type: text/plain; charset=iso-8859-1
+--Az4VpBrmI9+OyhK/
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 18, 2019 at 10:22:22AM +0100, C=E9dric Le Goater wrote:
-> The BMC of the OpenPOWER systems monitors the machine state using
-> sensors, controls the power and controls the access to the PNOR flash
-> device containing the firmware image required to boot the host.
+On Fri, Nov 08, 2019 at 05:47:59PM +0100, Greg Kurz wrote:
+> On Fri,  8 Nov 2019 16:40:35 +0100
+> Laurent Vivier <lvivier@redhat.com> wrote:
 >=20
-> QEMU models the power cycle process, access to the sensors and access
-> to the PNOR device. But, for these features to be available, the QEMU
-> PowerNV machine needs two extras devices on the command line, an IPMI
-> BT device for communication and a BMC backend device:
+> > Commit 29cb4187497d sets by default the VSMT to smp_threads,
+> > but older kernels (< 4.13) don't support that.
+> >=20
+> > We can reasonably restore previous behavior with this kernel
+> > to allow to run QEMU as before.
+> >=20
+> > If VSMT is not supported, VSMT will be set to MAX(8, smp_threads)
+> > as it is done for previous machine types (< pseries-4.2)
+> >=20
 >=20
->   -device ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10
->=20
-> The BMC properties are then defined accordingly in the device tree and
-> OPAL self adapts. If a BMC device and an IPMI BT device are not
-> available, OPAL does not try to communicate with the BMC in any
-> manner. This is not how real systems behave.
->=20
-> To be closer to the default behavior, create an IPMI BMC simulator
-> device and an IPMI BT device at machine initialization time. We loose
-> the ability to define an external BMC device but there are benefits:
->=20
->   - a better match with real systems,
->   - a better test coverage of the OPAL code,
->   - system powerdown and reset commands that work,
->   - a QEMU device tree compliant with the specifications (*).
->=20
-> (*) Still needs a MBOX device.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> It is usually _bad_ to base the machine behavior on host capabilities.
+> What happens if we migrate between an older kernel and a recent one ?
 
-This doesn't apply to ppc-for-5.0 for me.  I'm not sure which change
-in there it's conflicting with, but there seems to be something.
+Right.  We're really trying to remove instaces of such behaviour.  I'd
+prefer to completely revert Greg's original patch than to re-introduce
+host configuration dependency into the guest configuration..
 
-> ---
->  include/hw/ppc/pnv.h |  2 +-
->  hw/ppc/pnv.c         | 33 ++++++++++++++++-----------------
->  hw/ppc/pnv_bmc.c     | 20 +++++++++++++++++---
->  3 files changed, 34 insertions(+), 21 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 07c56c05ad30..90f1343ed07c 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -198,7 +198,7 @@ static inline bool pnv_is_power9(PnvMachineState *pnv)
->   */
->  void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
->  void pnv_bmc_powerdown(IPMIBmc *bmc);
-> -int pnv_bmc_hiomap(IPMIBmc *bmc);
-> +IPMIBmc *pnv_bmc_create(void);
-> =20
->  /*
->   * POWER8 MMIO base addresses
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index c3ac0d6d5b4a..2117d879895c 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -551,27 +551,10 @@ static void pnv_powerdown_notify(Notifier *n, void =
-*opaque)
-> =20
->  static void pnv_reset(MachineState *machine)
->  {
-> -    PnvMachineState *pnv =3D PNV_MACHINE(machine);
->      void *fdt;
-> -    Object *obj;
-> =20
->      qemu_devices_reset();
-> =20
-> -    /*
-> -     * OpenPOWER systems have a BMC, which can be defined on the
-> -     * command line with:
-> -     *
-> -     *   -device ipmi-bmc-sim,id=3Dbmc0
-> -     *
-> -     * This is the internal simulator but it could also be an external
-> -     * BMC.
-> -     */
-> -    obj =3D object_resolve_path_type("", "ipmi-bmc-sim", NULL);
-> -    if (obj) {
-> -        pnv->bmc =3D IPMI_BMC(obj);
-> -        pnv_bmc_hiomap(pnv->bmc);
-> -    }
-> -
->      fdt =3D pnv_dt_create(machine);
-> =20
->      /* Pack resulting tree */
-> @@ -629,6 +612,16 @@ static bool pnv_match_cpu(const char *default_type, =
-const char *cpu_type)
->      return ppc_default->pvr_match(ppc_default, ppc->pvr);
->  }
-> =20
-> +static void ipmi_bt_init(ISABus *bus, IPMIBmc *bmc, uint32_t irq)
-> +{
-> +    Object *obj;
-> +
-> +    obj =3D OBJECT(isa_create(bus, "isa-ipmi-bt"));
-> +    object_property_set_link(obj, OBJECT(bmc), "bmc", &error_fatal);
-> +    object_property_set_int(obj, irq, "irq", &error_fatal);
-> +    object_property_set_bool(obj, true, "realized", &error_fatal);
-> +}
-> +
->  static void pnv_init(MachineState *machine)
->  {
->      PnvMachineState *pnv =3D PNV_MACHINE(machine);
-> @@ -751,6 +744,9 @@ static void pnv_init(MachineState *machine)
->      }
->      g_free(chip_typename);
-> =20
-> +    /* Create the machine BMC simulator */
-> +    pnv->bmc =3D pnv_bmc_create();
-> +
->      /* Instantiate ISA bus on chip 0 */
->      pnv->isa_bus =3D pnv_isa_create(pnv->chips[0], &error_fatal);
-> =20
-> @@ -760,6 +756,9 @@ static void pnv_init(MachineState *machine)
->      /* Create an RTC ISA device too */
->      mc146818_rtc_init(pnv->isa_bus, 2000, NULL);
-> =20
-> +    /* Create the IPMI BT device for communication with the BMC */
-> +    ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
-> +
->      /*
->       * OpenPOWER systems use a IPMI SEL Event message to notify the
->       * host to powerdown
-> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-> index aa5c89586c63..07fa1e1c7e45 100644
-> --- a/hw/ppc/pnv_bmc.c
-> +++ b/hw/ppc/pnv_bmc.c
-> @@ -17,6 +17,8 @@
->   */
-> =20
->  #include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qapi/error.h"
->  #include "target/ppc/cpu.h"
->  #include "qemu/log.h"
->  #include "hw/ipmi/ipmi.h"
-> @@ -211,8 +213,20 @@ static const IPMINetfn hiomap_netfn =3D {
->      .cmd_handlers =3D hiomap_cmds
->  };
-> =20
-> -int pnv_bmc_hiomap(IPMIBmc *bmc)
-> +/*
-> + * Instantiate the machine BMC. PowerNV uses the QEMU internal
-> + * simulator but it could also be external.
-> + */
-> +IPMIBmc *pnv_bmc_create(void)
->  {
-> -    return ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(bmc),
-> -                                   IPMI_NETFN_OEM, &hiomap_netfn);
-> +    Object *obj;
-> +
-> +    obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
-> +    object_property_set_bool(obj, true, "realized", &error_fatal);
-> +
-> +    /* Install the HIOMAP protocol handlers to access the PNOR */
-> +    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
-> +                            &hiomap_netfn);
-> +
-> +    return IPMI_BMC(obj);
->  }
+> I understand this is to fix tests/migration-test on older kernels.
+> Couldn't this be achieved with migration-test doing some introspection
+> and maybe pass vsmt=3D8 on the QEMU command line ?
+
+=2E.adjusting the test case like this might be a better idea, though.
+
+What's the test setup where we're using the old kernel?  I really only
+applied the original patch on the guess that we didn't really care
+about kernels that old.  The fact you've hit this in practice makes me
+doubt that assumption.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -233,25 +109,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---VbfcI4OLZ4XW0yH2
+--Az4VpBrmI9+OyhK/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TPNAACgkQbDjKyiDZ
-s5Ir8A//fEGQUJEn4vIbVV0Bp0UNdclaDvpQ/GMxfRTySHh97xjB5ZO4AamPx4sX
-YvenEenwWUd6ZsomOQmr2GXkmKwPyxZpsLF8+zKr6AoCLTGhTbczBgCxHZzCKYBP
-+J82CgRwAu158P9cvzRssX9bqL634mg+QSGdJ+DOBmt5suaIjOZEYUpQaIY6Zkil
-NdxyEEXUxOAFQM7srpkrF6cCs8R1yNOcFBQpauU1PsQSU5D5n/0KXctIdQIKA2NR
-NRHfXCViMfthIGT7Z7cRLbBYExkk0Nm0Ztm5OjEAoRTvX+MVFQsamEw3Sk3z3RqA
-HEE/Hd0U/+36GOvDQK7/R2lWAOLyibOf7HxmpHAaN5wkcEuxKl1SgxZ4DYAxjLZQ
-AmWrTMFJgrIx44JioA9e6DYsioV8+dkzNKRV/bcRwuT6YMVDPhmHChJLhxEF9h+q
-f2wXu8J4SfSRaRwHhe+N39EpBFpX5PYXGqeqY0S9/PQZ/6WJC9Ioz7Bz4YHtBlHe
-IkOGQ1ka2zYuwXWZxFigtN+vLPyrZ8LVSCWfDbttXWJkqPY5GP6CoMGLJwhpuj32
-vSbuZGqLa/l4uZLVABxp8nO5sk3IAdvKdLt60dycR483IEVSK6R3sfNt/oEatSzv
-uJA+G8OEu8ID0nNtd4vBk1DkM76AUqbMXQ+qCuMdOQ80aWxAGCI=
-=FTuV
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TPpwACgkQbDjKyiDZ
+s5Lh2w//elWGoxSXj8vo1T1pxDrgVMgVp70k40oilWPHE4faKFP/jfTq+OpGIxQP
+yLHyMnKQLITtC6ITjhThfJ6pwlYetumbIeI0SRqHgHnPIHJCMnOeV2V61Ly93IVK
+e/9pPwI/BzT/P9MXOOcOz1vl4aMRKAFoj75mgiFl1Dujy1XRK21YJgIh0ziSfyPW
+IczycAOMzPw0Q2MkAlTlHJWRpxP3mh0LHTOpC4tiZxTWxruwQ+mBGKF3ea+UMVXk
+AcWjGZdGfnPJCyn69q9hiexNSW3BnqF7cO7R7YpEo3hG97aNyjIeI0CM4aGBUpUG
+8x1/bp7V6U8s1ztLHhNVUgNGiuNr8/N4DFnkOwU0ek15mRaeDsvS44j9knwiC7Pm
+rx6xy7GdK1irVePC+MZJHIju5XY+tnSgfBx4qxh7Iy4yqtxEJUvl7BjA9QN88OE2
+yrMTyRIwwYqrd/T8plju+OIpe4GUmbesnT1IMNlp9E4hhwt4DyHoIO+ns7C0Hl8/
+FF3dScf4g4DUpH90HCiT77Xxew2Jzpcxr3TU0e4oaCeecFzkwqyt8HZCC69fFZMA
+UQYX4iOFIA5A1xAFvaAgqldGR036w7D0Od0PWYg9s4W0+lOkrfNcr/w8WywwNYot
+DHLnFhNz910GS9A2aTibkFf96cNNyi31bbPq2MsCPKdA1+gt++Q=
+=p1Tk
 -----END PGP SIGNATURE-----
 
---VbfcI4OLZ4XW0yH2--
+--Az4VpBrmI9+OyhK/--
 
