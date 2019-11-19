@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4039102B43
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:56:58 +0100 (CET)
-Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB183102B47
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:58:32 +0100 (CET)
+Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7kH-0004W5-SP
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:56:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53989)
+	id 1iX7ln-0006Ad-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:58:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iX7ih-0002y4-SK
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:55:21 -0500
+ (envelope-from <philmd@redhat.com>) id 1iX7kj-0005ef-Ba
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:57:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iX7if-0006O9-On
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:55:19 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45080)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iX7if-0006Ny-F5
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:55:17 -0500
-Received: by mail-ot1-x344.google.com with SMTP id r24so18652061otk.12
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:55:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KBCbvwUyyEHorx64ktyEHnRish8S63TuqIFZzqEjtXg=;
- b=Y/H55hP8Oq5Y1eSJKlpOxikPPQyqR04IQ5kcqKah6LxWNCnUWhcCF6QsTJ815gCxD/
- /3+hiKUu24kUsmELjyc5WzZmdpiSgk5OPSMbhvqsUiN16NYFQYhvAcPRRHQC1CCaOLtA
- lCvHqGMN796uXIwUMps3y7rNxq6/ute6JVysrP6CY1hSqA5yrLewsm6g9A5QKkldyD/k
- MhWbR2FlBJ0u6tifVUrJwAmcvfHUtB40PyNBzlsS3im8iHJKmpWHxXxH6B+BUxmHIoAi
- qQfTp69vZxVFroQH+5AYSqKWJl9WBthzvw5KD6VRz/CUzlSgG/3CYtNOQp3qdDFikWSe
- l8Xw==
+ (envelope-from <philmd@redhat.com>) id 1iX7kg-0006qO-NU
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:57:24 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60571
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iX7kg-0006q9-J9
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:57:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574186241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=en3Lm7igYDO8KQtJ9xK8FSriql8b9idQhOTE6syD70Y=;
+ b=ZdW6AxBrwl4ODzglFQB819zM/3wURX1dUnYfLfCQ18OsNzcAUke9sJSlm8i1o41ZrgLprI
+ YfjFWJexpLMCkRCgmonjYgtftOw+BW/8GhkzApcklldiEvpW8EQ/tOWGzotE/UEqglvq0g
+ yYbaqIE1BWE3eAjI9+Sd/uh1hWop1t8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-xVQ58Q3XNFWOAjWwCMD-ww-1; Tue, 19 Nov 2019 12:57:19 -0500
+Received: by mail-wm1-f69.google.com with SMTP id y133so2847392wmd.8
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:57:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KBCbvwUyyEHorx64ktyEHnRish8S63TuqIFZzqEjtXg=;
- b=mw20yc2UwH1d/bMkXngropcf8AyOitxDjgs9L8tSGoHU/zfG/xQg7j3OCalX9/l/DW
- lVO7wNVtZlfbeSN0SRvlt6XwgzCnLiC1HTMzYuGTySBKC7y5Bg6Ay/cUw7zCtJAt4l5z
- a7D39jcAJ499tC557YT+CUml0gT5FitPTGttvJxqbCe+g/0VUKGloSvEV5Iy90FqGBTS
- TJ7DiOmcsxfLQTa5o3saH+l8zvcRZ3FiyT4W79H+vQlys+fjdnmtSU10EYUGzZI9z3cz
- 6h/pTkJhGiNGM4yRLlizcwdLwM2XaYa2hJD/9ceB0C5o8xPOdD6MCS4lVkhKs23bYrK8
- 8uqg==
-X-Gm-Message-State: APjAAAWrFV2wkSsiQrPzR8cKJosV1VSMcw50MZkFPe+2wyMHf/FRNPeE
- T3xsyY1eZP26+l2BauV+wE9imGN46eiV/4yiZzKq1A==
-X-Google-Smtp-Source: APXvYqwfdGUekoQxvgxFUiY7W/b7/XhihzapEOclBzP9/Sky/ZAIsSlazI3IbVYTSzsktOA4wfEiu/2WjAob+gTCxD4=
-X-Received: by 2002:a9d:68cc:: with SMTP id i12mr4404569oto.97.1574186116366; 
- Tue, 19 Nov 2019 09:55:16 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gOmh8+HDZkLPTm1M+wWd2bclxfW2aiET6OmnJR/6X58=;
+ b=b+qY2M5+BwMntTf6ZE8RVSfVQLzKHJa7+wI/dWME+YtZ6SxTKbiH0XOnIY2NUzd4bc
+ hO13RHyMD3IW9mh1LpOTfMKDYGunzCNA78QNE1hxBK7zFYTnPX1khDVA9UC92W1y+I5X
+ z0+JG+fXWkDv/9ZAzz6Hmcia/2m5UH+CymhnvVqlRbQTrkZ65bMC9eDulxkk64Du9PIX
+ jqi9qV/dNb3nhZjKTAJZFdbJ+VaubmqvN/1M3osqfv8pr64YSeDv+dqJf8RKeuVVPgjW
+ E9MuNiEoheTnCno4phaQt6vyQoFhHyPodEYToe58a/Y75w6bMpN1pCZQl017Yv7/qJzQ
+ T5iw==
+X-Gm-Message-State: APjAAAUrNlzBhLLjfuRwgYcf+xjUzTy4RUg0gDpMjMomghVXzoZYdxlW
+ NfHru0DrTn1qq0vdXEfUMUbW1x5QTghF0rgFGF1JoRtkZmoidKn+n7CpXHjpSWdcXMdrDQ5fV5m
+ orK1KQRlQuCm395M=
+X-Received: by 2002:a1c:a548:: with SMTP id o69mr7086286wme.31.1574186238368; 
+ Tue, 19 Nov 2019 09:57:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxtpXcH3Y15nrcFF72f6CLs406XX1s+91X+dk28L0HyEHAEQ8t90+Iu0PNfg6Y03Rz28Zb9hQ==
+X-Received: by 2002:a1c:a548:: with SMTP id o69mr7086266wme.31.1574186238013; 
+ Tue, 19 Nov 2019 09:57:18 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id 62sm31279607wre.38.2019.11.19.09.57.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Nov 2019 09:57:17 -0800 (PST)
+Subject: Re: [PATCH] misc/pca9552: Add qom set and get
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
+References: <20191118061757.52550-1-joel@jms.id.au>
+ <42f378d5-e7ea-11ce-11d5-9589fe7194d2@kaod.org>
+ <9f810374-97d4-8162-c92d-a1513c1a23a0@redhat.com>
+ <817b83f1-f534-9886-2054-4de6cd04a899@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c7dea2b9-376f-c7cf-fe2e-792e3d8a17c2@redhat.com>
+Date: Tue, 19 Nov 2019 18:57:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <CAFEAcA88YR0mU2N=-immpWVFCnnU6fJsorZYHSyerfMO72iZaA@mail.gmail.com>
- <CAFEAcA9vHZc=s+2f7-a88DsLPph=PE2noz+ai+q5tM+KGabkSg@mail.gmail.com>
- <CAFEAcA_cAaJ7Q=FNf8dZJuGAjjuCANW2QkMFFjfSLaSAFBN6Vw@mail.gmail.com>
- <f4cfc080-2084-0da5-e3ad-2f65aaed41d5@redhat.com>
-In-Reply-To: <f4cfc080-2084-0da5-e3ad-2f65aaed41d5@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Nov 2019 17:55:05 +0000
-Message-ID: <CAFEAcA-aq-0_QuHyiqpjWMKcxSaadyyfgcvg5bKPUChpSbGmvA@mail.gmail.com>
-Subject: Re: test-aio-multithread assertion
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+In-Reply-To: <817b83f1-f534-9886-2054-4de6cd04a899@kaod.org>
+Content-Language: en-US
+X-MC-Unique: xVQ58Q3XNFWOAjWwCMD-ww-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,177 +94,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Oct 2019 at 11:50, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 14/10/19 12:26, Peter Maydell wrote:
-> > On Thu, 5 Sep 2019 at 14:17, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >> Here's a different intermittent assertion on Netbsd from test-aio-multithread:
-> >>
-> >> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-> >> tests/test-aio-multithread -m=quick
-> >> -k --tap < /dev/null | ./scripts/tap-driver.pl
-> >> --test-name="test-aio-multithread"
-> >> PASS 1 test-aio-multithread /aio/multi/lifecycle
-> >> PASS 2 test-aio-multithread /aio/multi/schedule
-> >> assertion "QSLIST_EMPTY(&ctx->scheduled_coroutines)" failed: file
-> >> "util/async.c", line 279, function "
-> >> aio_ctx_finalize"
-> >> ERROR - too few tests run (expected 5, got 2)
-> >
-> > Just saw this QSLIST_EMPTY(&ctx->scheduled_coroutines) assertion
-> > from FreeBSD as well, so it's still around as a definite
-> > intermittent.
->
-> This could be similar to what Stefan fixed in commit 2362a28ea1, only in
-> the test infrastructure.
+On 11/19/19 5:27 PM, C=C3=A9dric Le Goater wrote:
+> On 18/11/2019 18:48, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Odd... I only received C=C3=A9dric answer, not Joel patch.
+>>
+>> On 11/18/19 11:00 AM, C=C3=A9dric Le Goater wrote:
+>>> On 18/11/2019 07:17, Joel Stanley wrote:
+>>>> Following the pattern of the work recently done with the ASPEED GPIO
+>>>> model, this adds support for inspecting and modifying the PCA9552 LEDs
+>>>> from the monitor.
+>>>>
+>>>>  =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 on
+>>>>  =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>>  =C2=A0 "on"
+>>>>
+>>>>  =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 off
+>>>>  =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>>  =C2=A0 "off"
+>>>>
+>>>>  =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 pwm0
+>>>>  =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>>  =C2=A0 "pwm0"
+>>>>
+>>>>  =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 pwm1
+>>>>  =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>>  =C2=A0 "pwm1"
+>>>
+>>> It would be nice to revive the QOM get patchset from David.
+>>>
+>>>  =C2=A0=C2=A0=C2=A0=C2=A0http://patchwork.ozlabs.org/patch/666458/
+>>>
+>>> Did we reach some consensus ?
+>>>
+>>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>>
+>>> Some comments below.
+>>>
+>>>> ---
+>>>> The qom device in mainline qemu is a different path. Using the monitor
+>>>> examine `info qom-tree /machine/unattached/` to discover it.
+>>>>
+>>>> This can be tested with a Witherspoon image.
+>>>>
+>>>> $ wget https://openpower.xyz/job/openbmc-build/distro=3Dubuntu,label=
+=3Dbuilder,target=3Dwitherspoon/lastSuccessfulBuild/artifact/deploy/images/=
+witherspoon/obmc-phosphor-image-witherspoon.ubi.mtd
+>>>>
+>>>> $ qemu-system-arm -M witherspoon-bmc -serial pty -monitor pty -nograph=
+ic \
+>>>>  =C2=A0 -drive file=3Dobmc-phosphor-image-witherspoon.ubi.mtd,format=
+=3Draw,if=3Dmtd
+>>>> char device redirected to /dev/pts/5 (label compat_monitor0)
+>>>> char device redirected to /dev/pts/10 (label serial0)
+>>>>
+>>>> $ screen /dev/pts/5
+>>>> QEMU 4.1.91 monitor - type 'help' for more information
+>>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>> "off"
+>>>>
+>>>> $ screen /dev/pts/19
+>>>> root@witherspoon:~# cd /sys/class/gpio/
+>>>> root@witherspoon:/sys/class/gpio# echo 248 > export
+>>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>>> 0
+>>>>
+>>>> (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 on
+>>>>
+>>>> root@witherspoon:/sys/class/gpio# echo out > gpio248/direction
+>>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>>> 1
+>>>>
+>>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>> "on"
+>>>>
+>>>> (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 off
+>>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>>> "off"
+>>>>
+>>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>>> 0
+>>
+>> I am assuming this is 5.0 material.
+>>
+>> This is a good starting point, and is useful.
+>>
+>> However this would be useful for other boards/devices too.
+>>
+>> What about defining a InterfaceInfo[] for external GPIOs?
+>=20
+> The code below is very specific to pca9552.
 
-Here's a gdb backtrace from as assertion failure under NetBSD
-when running ./tests/test-aio-multithread -p /aio/multi/mutex/contended
-(which is pretty replicable for me); does it look like the same
-thing as the commit 2362a28ea1 issue? (Apologies for all the
-"optimized out" stuff in the backtraces; I'll try to rerun with
-a --enable-debug build.)
+Yes, sorry if I was unclear, I don't want to delay this series, I was=20
+just thinking about other uses.
 
-Thread 7 (LWP 2):
-#0  0x00007e4b44499c0a in ___lwp_park60 () from /usr/lib/libc.so.12
-#1  0x00007e4b44809ee3 in pthread_cond_timedwait () from
-/usr/lib/libpthread.so.1
-#2  0x00000000004c0862 in qemu_futex_wait (val=4294967295, ev=0x760c00
-<rcu_call_ready_event>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-thread-posix.c:364
-#3  qemu_event_wait (ev=ev@entry=0x760c00 <rcu_call_ready_event>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-thread-posix.c:459
-#4  0x00000000004ce825 in call_rcu_thread (opaque=opaque@entry=0x0)
-    at /home/qemu/qemu-test.0WfUNX/src/util/rcu.c:260
-#5  0x00000000004bfd17 in qemu_thread_start (args=0x7e4b47b22c00)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-thread-posix.c:519
-#6  0x00007e4b4480b8b5 in ?? () from /usr/lib/libpthread.so.1
-#7  0x00007e4b44481e20 in ?? () from /usr/lib/libc.so.12
-#8  0x00010102464c457f in ?? ()
-#9  0x0000000000000000 in ?? ()
+> What kind of interface do you have in mind more precisely ?
+> which handlers ?
 
-Thread 6 (LWP 3):
-#0  0x00007e4b4443e02a in write () from /usr/lib/libc.so.12
-#1  0x00007e4b44807561 in write () from /usr/lib/libpthread.so.1
-#2  0x00000000004beae0 in event_notifier_set (e=e@entry=0x7e4b46f01214)
-    at /home/qemu/qemu-test.0WfUNX/src/util/event_notifier-posix.c:100
-#3  0x00000000004bb66c in aio_notify (ctx=0x7e4b46f01120)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:350
-#4  0x00000000004bb936 in aio_co_schedule (ctx=0x7e4b46f01120,
-co=0x7e4b46b01280)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:473
-#5  0x00000000004cf226 in qemu_co_mutex_wake (mutex=0x75fc00
-<comutex>, co=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:198
-#6  qemu_co_mutex_unlock (mutex=mutex@entry=0x75fc00 <comutex>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:301
-#7  0x000000000040b33b in test_multi_co_mutex_entry (opaque=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:208
-#8  0x00000000004cff6b in coroutine_trampoline (i0=<optimized out>,
-i1=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/coroutine-ucontext.c:115
-#9  0x00007e4b4445dba0 in ?? () from /usr/lib/libc.so.12
-#10 0x00010102464c457f in ?? ()
-#11 0x0000000000000000 in ?? ()
+Here we expose the devices GPIOs (as output) so they can be modified via=20
+QMP.
 
-Thread 5 (LWP 4):
-#0  0x000000000040b34a in test_multi_co_mutex_entry (opaque=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:205
-#1  0x00000000004cff6b in coroutine_trampoline (i0=<optimized out>,
-i1=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/coroutine-ucontext.c:115
-#2  0x00007e4b4445dba0 in ?? () from /usr/lib/libc.so.12
-#3  0x00010102464c457f in ?? ()
-#4  0x0000000000000000 in ?? ()
+A QMP client could subscribe to GPIOs input events (or IRQ triggered).
 
-Thread 4 (LWP 5):
-#0  0x00007e4b4443e02a in write () from /usr/lib/libc.so.12
-#1  0x00007e4b44807561 in write () from /usr/lib/libpthread.so.1
-#2  0x00000000004beae0 in event_notifier_set (e=e@entry=0x7e4b47701384)
-    at /home/qemu/qemu-test.0WfUNX/src/util/event_notifier-posix.c:100
-#3  0x00000000004bb66c in aio_notify (ctx=0x7e4b47701290)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:350
-#4  0x00000000004bb936 in aio_co_schedule (ctx=0x7e4b47701290,
-co=0x7e4b46b01420)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:473
-#5  0x00000000004cf226 in qemu_co_mutex_wake (mutex=0x75fc00
-<comutex>, co=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:198
-#6  qemu_co_mutex_unlock (mutex=mutex@entry=0x75fc00 <comutex>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:301
-#7  0x000000000040b33b in test_multi_co_mutex_entry (opaque=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:208
-#8  0x00000000004cff6b in coroutine_trampoline (i0=<optimized out>,
-i1=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/coroutine-ucontext.c:115
-#9  0x00007e4b4445dba0 in ?? () from /usr/lib/libc.so.12
-#10 0x00010102464c457f in ?? ()
-#11 0x0000000000000000 in ?? ()
+(The PCA9552 can also use the 16 lines as input, but Joel added a "input=20
+line behaviour not modeled" comment below).
 
-Thread 3 (LWP 7):
-#0  0x00000000004cf200 in qemu_co_mutex_unlock
-(mutex=mutex@entry=0x75fc00 <comutex>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:291
-#1  0x000000000040b33b in test_multi_co_mutex_entry (opaque=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:208
-#2  0x00000000004cff6b in coroutine_trampoline (i0=<optimized out>,
-i1=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/coroutine-ucontext.c:115
-#3  0x00007e4b4445dba0 in ?? () from /usr/lib/libc.so.12
-#4  0x00010102464c457f in ?? ()
-#5  0x0000000000000000 in ?? ()
+Maybe the PCA9552 isn't the best example for my generic use case,=20
+because it is already "out of the soc/board" being on a bus.
 
-Thread 2 (LWP 6):
-#0  0x00007e4b444fe7ea in _lwp_kill () from /usr/lib/libc.so.12
-#1  0x00007e4b444fe092 in abort () from /usr/lib/libc.so.12
-#2  0x00007e4b4449fd57 in __assert13 () from /usr/lib/libc.so.12
-#3  0x00000000004bb3e0 in aio_ctx_finalize (source=0x7e4b47701290)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:279
-#4  0x00007e4b46445596 in g_source_unref_internal () from
-/usr/pkg/lib/libglib-2.0.so.0
-#5  0x00000000004bb93e in aio_context_unref (ctx=0x7e4b47701290)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:516
-#6  aio_co_schedule (ctx=0x7e4b47701290, co=0x7e4b46b01420)
-    at /home/qemu/qemu-test.0WfUNX/src/util/async.c:475
-#7  0x00000000004cf226 in qemu_co_mutex_wake (mutex=0x75fc00
-<comutex>, co=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:198
-#8  qemu_co_mutex_unlock (mutex=mutex@entry=0x75fc00 <comutex>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/qemu-coroutine-lock.c:301
-#9  0x000000000040b33b in test_multi_co_mutex_entry (opaque=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:208
-#10 0x00000000004cff6b in coroutine_trampoline (i0=<optimized out>,
-i1=<optimized out>)
-    at /home/qemu/qemu-test.0WfUNX/src/util/coroutine-ucontext.c:115
-#11 0x00007e4b4445dba0 in ?? () from /usr/lib/libc.so.12
-#12 0x00010102464c457f in ?? ()
-#13 0x0000000000000000 in ?? ()
+I'm more concerned about a generic QMP way to access GPIOs from a SoC=20
+exposed to a physical user of a board.
 
-Thread 1 (LWP 1):
-#0  0x00007e4b4443e2ea in _sys___nanosleep50 () from /usr/lib/libc.so.12
-#1  0x00007e4b44807287 in __nanosleep50 () from /usr/lib/libpthread.so.1
-#2  0x00007e4b4646e511 in g_usleep () from /usr/pkg/lib/libglib-2.0.so.0
-#3  0x000000000040b72e in test_multi_co_mutex (threads=<optimized
-out>, seconds=1)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:237
-#4  0x00007e4b4646bd15 in g_test_run_suite_internal () from
-/usr/pkg/lib/libglib-2.0.so.0
-#5  0x00007e4b4646bc3e in g_test_run_suite_internal () from
-/usr/pkg/lib/libglib-2.0.so.0
-#6  0x00007e4b4646bc3e in g_test_run_suite_internal () from
-/usr/pkg/lib/libglib-2.0.so.0
-#7  0x00007e4b4646bc3e in g_test_run_suite_internal () from
-/usr/pkg/lib/libglib-2.0.so.0
-#8  0x00007e4b4646c1a0 in g_test_run_suite () from /usr/pkg/lib/libglib-2.0.so.0
-#9  0x00007e4b4646c1e8 in g_test_run () from /usr/pkg/lib/libglib-2.0.so.0
-#10 0x00000000004dbcdc in main (argc=1, argv=0x7f7fffd572f8)
-    at /home/qemu/qemu-test.0WfUNX/src/tests/test-aio-multithread.c:459
+>> Shouldn't we use the qemu_irq type for that then?
+>>
+>>>>
+>>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>>> ---
+>>>>  =C2=A0 hw/misc/pca9552.c | 91 +++++++++++++++++++++++++++++++++++++++=
+++++++++
+>>>>  =C2=A0 1 file changed, 91 insertions(+)
+>>>>
+>>>> diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+>>>> index 73be28d9369c..0362aac8c862 100644
+>>>> --- a/hw/misc/pca9552.c
+>>>> +++ b/hw/misc/pca9552.c
+>>>> @@ -15,12 +15,16 @@
+>>>>  =C2=A0 #include "hw/misc/pca9552.h"
+>>>>  =C2=A0 #include "hw/misc/pca9552_regs.h"
+>>>>  =C2=A0 #include "migration/vmstate.h"
+>>>> +#include "qapi/error.h"
+>>>> +#include "qapi/visitor.h"
+>>>>  =C2=A0 =C2=A0 #define PCA9552_LED_ON=C2=A0=C2=A0 0x0
+>>>>  =C2=A0 #define PCA9552_LED_OFF=C2=A0 0x1
+>>>>  =C2=A0 #define PCA9552_LED_PWM0 0x2
+>>>>  =C2=A0 #define PCA9552_LED_PWM1 0x3
+>>>>  =C2=A0 +static const char *led_state[] =3D {"on", "off", "pwm0", "pwm=
+1"};
+>>
+>> BTW "pwm0/pwm1" as "state" is confuse, but I understand this is how the =
+PCA9552 datasheet describes it.
+>>
+>>>> +
+>>>>  =C2=A0 static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin=
+)
+>>>>  =C2=A0 {
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t reg=C2=A0=C2=A0 =3D PCA9552_LS=
+0 + (pin / 4);
+>>>> @@ -169,6 +173,84 @@ static int pca9552_event(I2CSlave *i2c, enum i2c_=
+event event)
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>  =C2=A0 }
+>>>>  =C2=A0 +static void pca9552_get_led(Object *obj, Visitor *v, const ch=
+ar *name,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>>> +=C2=A0=C2=A0=C2=A0 int led, rc, reg;
+>>>> +=C2=A0=C2=A0=C2=A0 char *str;
+>>>> +=C2=A0=C2=A0=C2=A0 uint8_t state;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 rc =3D sscanf(name, "led%2d", &led);
+>>>> +=C2=A0=C2=A0=C2=A0 if (rc !=3D 1) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s: erro=
+r reading %s", __func__, name);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 if (led < 0 || led > s->nr_leds) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inval=
+id led %s", __func__, name);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 /*
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Get the LSx register as the qom interface =
+should expose the device
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * state, not the modeled 'input line' behavi=
+our which would come from
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * reading the INPUTx reg
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>> +=C2=A0=C2=A0=C2=A0 reg =3D PCA9552_LS0 + led / 4;
+>>>> +=C2=A0=C2=A0=C2=A0 state =3D (pca9552_read(s, reg) >> (led % 8)) & 0x=
+3;
+>>>
+>>> Could we add accessors to extract the register fields and to clarify
+>>> the layout ?
+>>>
+>>>> +=C2=A0=C2=A0=C2=A0 str =3D g_strdup(led_state[state]);
+>>>> +=C2=A0=C2=A0=C2=A0 visit_type_str(v, name, &str, errp);
+>>>> +}
+>>>> +
+>>>> +/*
+>>>> + * Return an LED selector register value based on an existing one, wi=
+th
+>>>> + * the appropriate 2-bit state value set for the given LED number (0-=
+3).
+>>>> + */
+>>>> +static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, int=
+ state)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (oldval & (~(0x3 <<=
+ (led_num << 1)))) |
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ((state & 0x3) << (led_num << 1));
+>>>> +}
+>>>> +
+>>>> +static void pca9552_set_led(Object *obj, Visitor *v, const char *name=
+,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>>> +=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
+>>>> +=C2=A0=C2=A0=C2=A0 int led, rc, reg, val;
+>>>> +=C2=A0=C2=A0=C2=A0 uint8_t state;
+>>>> +=C2=A0=C2=A0=C2=A0 char *state_str;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 visit_type_str(v, name, &state_str, &local_err);
+>>>> +=C2=A0=C2=A0=C2=A0 if (local_err) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp, loca=
+l_err);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 rc =3D sscanf(name, "led%2d", &led);
+>>>> +=C2=A0=C2=A0=C2=A0 if (rc !=3D 1) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s: erro=
+r reading %s", __func__, name);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 if (led < 0 || led > s->nr_leds) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inval=
+id led %s", __func__, name);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 for (state =3D 0; state < ARRAY_SIZE(led_state); s=
+tate++) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!strcmp(state_str, led=
+_state[state])) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 if (state >=3D ARRAY_SIZE(led_state)) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inval=
+id led state %s", __func__, state_str);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 reg =3D PCA9552_LS0 + led / 4;
+>>>> +=C2=A0=C2=A0=C2=A0 val =3D pca9552_read(s, reg);
+>>>> +=C2=A0=C2=A0=C2=A0 val =3D pca955x_ledsel(val, led % 4, state);
+>>>> +=C2=A0=C2=A0=C2=A0 pca9552_write(s, reg, val);
+>>>> +}
+>>>> +
+>>>>  =C2=A0 static const VMStateDescription pca9552_vmstate =3D {
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "PCA9552",
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .version_id =3D 0,
+>>>> @@ -204,6 +286,7 @@ static void pca9552_reset(DeviceState *dev)
+>>>>  =C2=A0 static void pca9552_initfn(Object *obj)
+>>>>  =C2=A0 {
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>>> +=C2=A0=C2=A0=C2=A0 int led;
+>>>>  =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* If support for the other PCA=
+955X devices are implemented, these
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * constant values might be part =
+of class structure describing the
+>>>> @@ -211,6 +294,14 @@ static void pca9552_initfn(Object *obj)
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->max_reg =3D PCA9552_LS3;
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->nr_leds =3D 16;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 for (led =3D 0; led < s->nr_leds; led++) {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *name;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 name =3D g_strdup_printf("=
+led%d", led);
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_add(obj, n=
+ame, "bool", pca9552_get_led, pca9552_set_led,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 NULL, NULL, NULL);
+>>>
+>>> It misses a :
+>>>
+>>>  =C2=A0=C2=A0=C2=A0 g_free(name)
+>>>
+>>> C.
+>>>
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>>  =C2=A0 }
+>>>>  =C2=A0 =C2=A0 static void pca9552_class_init(ObjectClass *klass, void=
+ *data)
+>>>>
+>>>
+>>>
+>>
+>=20
 
-thanks
--- PMM
 
