@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA223101173
+	by mail.lfdr.de (Postfix) with ESMTPS id E25A6101172
 	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:48:54 +0100 (CET)
-Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWtZT-0004Q5-JY
+	id 1iWtZV-0004PM-Ie
 	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:48:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41131)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iWtWm-0002y2-0h
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:05 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtWm-0002y4-1B
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iWtWj-0004Dy-Be
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtWj-0004E6-G9
  for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:03 -0500
-Received: from ozlabs.org ([203.11.71.1]:34895)
+Received: from ozlabs.org ([203.11.71.1]:36945)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iWtWi-0004D4-Bz; Mon, 18 Nov 2019 21:46:01 -0500
+ id 1iWtWi-0004D5-LZ; Mon, 18 Nov 2019 21:46:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47H9Dg2ZT5z9sPf; Tue, 19 Nov 2019 13:45:54 +1100 (AEDT)
+ id 47H9Dg53RZz9sPc; Tue, 19 Nov 2019 13:45:55 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1574131555;
- bh=YZN0Iu4nZQyT8DXeFV5XydaSs3ISnj/FgOoS4wVdKzU=;
+ bh=R7oyII1nFWsjg/K5ZAOmiC29M4tDYE28eE2xnFjv2UE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fYwyQB36i6AKT0+byeGnLd5gvRva+4poKY06bxfdY5in8M3pxKNezNNfaI2YNcoYS
- Ccy2W9fVD+5ULBLLT6hf8ebE6lLrBnNxaZy8s5Udido6ZGZeFqxtN6THd/ECytH/JF
- 0wHCSDXvo8zyrywC9rmkiiv49c8QmvtI3Qy+YV4w=
-Date: Tue, 19 Nov 2019 13:39:32 +1100
+ b=UHBVCqFw0A4ShhjvyZqHbMLztAmOnmVKYCTuuQlePRXWyWKidwGi1tOgaqNLxrmsN
+ dm+jUcjedXjb+2OBgnmp2KVS6/C2ir33qCeGjtGeT8dTPwyXrdQ60VtTMk7V2PxtZ3
+ hIdIvkPFYNUpgi22vPx3XoipMc0C6XsRoPcIFLVk=
+Date: Tue, 19 Nov 2019 13:45:14 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Ganesh Goudar <ganeshgr@linux.ibm.com>
-Subject: Re: [PATCH v17 5/7] ppc: spapr: Handle "ibm,nmi-register" and
- "ibm,nmi-interlock" RTAS calls
-Message-ID: <20191119023932.GL5582@umbus.fritz.box>
+Subject: Re: [PATCH v17 6/7] migration: Include migration support for machine
+ check handling
+Message-ID: <20191119024514.GM5582@umbus.fritz.box>
 References: <20191024074307.22821-1-ganeshgr@linux.ibm.com>
- <20191024074307.22821-6-ganeshgr@linux.ibm.com>
+ <20191024074307.22821-7-ganeshgr@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KjSGHOmKKB2VUiQn"
+ protocol="application/pgp-signature"; boundary="WkHPBKJ2pKcVUM5H"
 Content-Disposition: inline
-In-Reply-To: <20191024074307.22821-6-ganeshgr@linux.ibm.com>
+In-Reply-To: <20191024074307.22821-7-ganeshgr@linux.ibm.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -63,187 +63,209 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KjSGHOmKKB2VUiQn
+--WkHPBKJ2pKcVUM5H
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 01:13:05PM +0530, Ganesh Goudar wrote:
+On Thu, Oct 24, 2019 at 01:13:06PM +0530, Ganesh Goudar wrote:
 > From: Aravinda Prasad <arawinda.p@gmail.com>
 >=20
-> This patch adds support in QEMU to handle "ibm,nmi-register"
-> and "ibm,nmi-interlock" RTAS calls.
+> This patch includes migration support for machine check
+> handling. Especially this patch blocks VM migration
+> requests until the machine check error handling is
+> complete as these errors are specific to the source
+> hardware and is irrelevant on the target hardware.
 >=20
-> The machine check notification address is saved when the
-> OS issues "ibm,nmi-register" RTAS call.
->=20
-> This patch also handles the case when multiple processors
-> experience machine check at or about the same time by
-> handling "ibm,nmi-interlock" call. In such cases, as per
-> PAPR, subsequent processors serialize waiting for the first
-> processor to issue the "ibm,nmi-interlock" call. The second
-> processor that also received a machine check error waits
-> till the first processor is done reading the error log.
-> The first processor issues "ibm,nmi-interlock" call
-> when the error log is consumed.
->=20
-> [Move fwnmi registeration to .apply hook]
-
-s/registeration/registration/
-
+> [Do not set FWNMI cap in post_load, now its done in .apply hook]
 > Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
 > Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
 > ---
->  hw/ppc/spapr_caps.c    |  9 +++++--
->  hw/ppc/spapr_rtas.c    | 57 ++++++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  5 +++-
->  3 files changed, 68 insertions(+), 3 deletions(-)
+>  hw/ppc/spapr.c         | 41 +++++++++++++++++++++++++++++++++++++++++
+>  hw/ppc/spapr_events.c  | 16 +++++++++++++++-
+>  hw/ppc/spapr_rtas.c    |  2 ++
+>  include/hw/ppc/spapr.h |  2 ++
+>  4 files changed, 60 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 976d709210..1675ebd45e 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -509,9 +509,14 @@ static void cap_fwnmi_mce_apply(SpaprMachineState *s=
-papr, uint8_t val,
->           * of software injected faults like duplicate SLBs).
->           */
->          warn_report("Firmware Assisted Non-Maskable Interrupts not suppo=
-rted in TCG");
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 346ec5ba6c..e0d0f95ec0 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -46,6 +46,7 @@
+>  #include "migration/qemu-file-types.h"
+>  #include "migration/global_state.h"
+>  #include "migration/register.h"
+> +#include "migration/blocker.h"
+>  #include "mmu-hash64.h"
+>  #include "mmu-book3s-v3.h"
+>  #include "cpu-models.h"
+> @@ -1751,6 +1752,8 @@ static void spapr_machine_reset(MachineState *machi=
+ne)
+> =20
+>      /* Signal all vCPUs waiting on this condition */
+>      qemu_cond_broadcast(&spapr->mc_delivery_cond);
+> +
+> +    migrate_del_blocker(spapr->fwnmi_migration_blocker);
+>  }
+> =20
+>  static void spapr_create_nvram(SpaprMachineState *spapr)
+> @@ -2041,6 +2044,43 @@ static const VMStateDescription vmstate_spapr_dtb =
+=3D {
+>      },
+>  };
+> =20
+> +static bool spapr_fwnmi_needed(void *opaque)
+> +{
+> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
+> +
+> +    return spapr->guest_machine_check_addr !=3D -1;
+> +}
+> +
+> +static int spapr_fwnmi_pre_save(void *opaque)
+> +{
+> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
+> +
+> +    /*
+> +     * With -only-migratable QEMU option, we cannot block migration.
+> +     * Hence check if machine check handling is in progress and print
+> +     * a warning message.
+> +     */
 
-This logic still isn't quite right.  To start with the warn_report()
-above possible wants to be more weakly worded.  With TCG, FWNMI won't
-generally *do* anything, and there are some edge cases where the
-behaviour is arguably incorrect.  However there's no reason we can't
-make the RTAS calls work basically as expected and in almost all cases
-things will behave correctly - at least according to the case where no
-fwnmi events are delivered...
+IIUC the logic below this could also occur in the case where the fwnmi
+event occurs after a migration has started, but before it completes,
+not just with -only-migratable.  Is that correct?
 
-> -    } else if (kvm_enabled() && (kvmppc_set_fwnmi() !=3D 0)) {
-> -        error_setg(errp,
-> +    } else if (kvm_enabled()) {
-> +        if (!kvmppc_set_fwnmi()) {
-> +            /* Register ibm,nmi-register and ibm,nmi-interlock RTAS call=
-s */
-> +            spapr_fwnmi_register();
-
-=2E.but here you only register the RTAS calls in the KVM case, which
-breaks that.  If there really is a strong reason to do this, then the
-warn_report() above should be error_setg() and fail the apply.
-
-> +        } else {
-> +            error_setg(errp,
->  "Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap=
--fwnmi-mce=3Doff");
-> +        }
+> +    if (spapr->mc_status !=3D -1) {
+> +        warn_report("A machine check is being handled during migration. =
+The"
+> +                "handler may run and log hardware error on the destinati=
+on");
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_spapr_machine_check =3D {
+> +    .name =3D "spapr_machine_check",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D spapr_fwnmi_needed,
+> +    .pre_save =3D spapr_fwnmi_pre_save,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+>  static const VMStateDescription vmstate_spapr =3D {
+>      .name =3D "spapr",
+>      .version_id =3D 3,
+> @@ -2075,6 +2115,7 @@ static const VMStateDescription vmstate_spapr =3D {
+>          &vmstate_spapr_cap_large_decr,
+>          &vmstate_spapr_cap_ccf_assist,
+>          &vmstate_spapr_cap_fwnmi,
+> +        &vmstate_spapr_machine_check,
+>          NULL
 >      }
+>  };
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index db44e09154..30d9371c88 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -43,6 +43,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "hw/ppc/spapr_ovec.h"
+>  #include <libfdt.h>
+> +#include "migration/blocker.h"
+> =20
+>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>  #define   RTAS_LOG_VERSION_6                    0x06000000
+> @@ -842,6 +843,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
+red)
+>  {
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+>      CPUState *cs =3D CPU(cpu);
+> +    int ret;
+> +    Error *local_err =3D NULL;
+> =20
+>      if (spapr->guest_machine_check_addr =3D=3D -1) {
+>          /*
+> @@ -871,8 +874,19 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recov=
+ered)
+>              return;
+>          }
+>      }
+> -    spapr->mc_status =3D cpu->vcpu_id;
+> =20
+> +    ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_e=
+rr);
+> +    if (ret =3D=3D -EBUSY) {
+> +        /*
+> +         * We don't want to abort so we let the migration to continue.
+> +         * In a rare case, the machine check handler will run on the tar=
+get.
+> +         * Though this is not preferable, it is better than aborting
+> +         * the migration or killing the VM.
+> +         */
+> +        warn_report_err(local_err);
+
+I suspect the error message in local_err won't be particularly
+meaningful on its own.  Perhaps you need to add a prefix to clarify
+that the problem is you've received a fwnmi after migration has
+commenced?
+
+> +    }
+> +
+> +    spapr->mc_status =3D cpu->vcpu_id;
+>      spapr_mce_dispatch_elog(cpu, recovered);
 >  }
 > =20
 > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 2c066a372d..0328b1f341 100644
+> index 0328b1f341..c78d96ee7e 100644
 > --- a/hw/ppc/spapr_rtas.c
 > +++ b/hw/ppc/spapr_rtas.c
-> @@ -400,6 +400,55 @@ static void rtas_get_power_level(PowerPCCPU *cpu, Sp=
-aprMachineState *spapr,
->      rtas_st(rets, 1, 100);
+> @@ -50,6 +50,7 @@
+>  #include "hw/ppc/fdt.h"
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+> +#include "migration/blocker.h"
+> =20
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -446,6 +447,7 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>       */
+>      spapr->mc_status =3D -1;
+>      qemu_cond_signal(&spapr->mc_delivery_cond);
+> +    migrate_del_blocker(spapr->fwnmi_migration_blocker);
+
+Oh... damn.  I suggested using a static fwnmi_migration_blocker
+instance, but I just realized there's a problem with it.
+
+If we do receive multiple fwnmi events on different cpus at roughly
+the same time, this will break: I think we'll try to add the same
+migration blocker instance multiple times, which won't be good.  Even
+if that doesn't do anything *too* bad, then we'll unblock the
+migration on the first interlock, rather than waiting for all pending
+fwnmi events to complete.
+
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
 >  }
 > =20
-> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> +                                  SpaprMachineState *spapr,
-> +                                  uint32_t token, uint32_t nargs,
-> +                                  target_ulong args,
-> +                                  uint32_t nret, target_ulong rets)
-> +{
-> +    hwaddr rtas_addr =3D spapr_get_rtas_addr();
-> +
-> +    if (!rtas_addr) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    }
-> +
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-
-Actually, since you explicitly test for the cap being enabled here,
-there's no reason not to *always* register this RTAS call.  Also this
-test for the feature flag should go first, before delving into the
-device tree for the RTAS address.
-
-> +        return;
-> +    }
-> +
-> +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +}
-> +
-> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-> +                                   SpaprMachineState *spapr,
-> +                                   uint32_t token, uint32_t nargs,
-> +                                   target_ulong args,
-> +                                   uint32_t nret, target_ulong rets)
-> +{
-> +    if (spapr->guest_machine_check_addr =3D=3D -1) {
-> +        /* NMI register not called */
-> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> +        return;
-> +    }
-> +
-> +    if (spapr->mc_status !=3D cpu->vcpu_id) {
-> +        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
-> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> +     * hence unset mc_status.
-> +     */
-> +    spapr->mc_status =3D -1;
-> +    qemu_cond_signal(&spapr->mc_delivery_cond);
-> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +}
-> +
->  static struct rtas_call {
->      const char *name;
->      spapr_rtas_fn fn;
-> @@ -503,6 +552,14 @@ hwaddr spapr_get_rtas_addr(void)
->      return (hwaddr)fdt32_to_cpu(*rtas_data);
->  }
-> =20
-> +void spapr_fwnmi_register(void)
-> +{
-> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
-> +                        rtas_ibm_nmi_register);
-> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
-> +                        rtas_ibm_nmi_interlock);
-> +}
-> +
->  static void core_rtas_register_types(void)
->  {
->      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
 > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 4afa8d4d09..86f0fc8fdd 100644
+> index 86f0fc8fdd..290abd6328 100644
 > --- a/include/hw/ppc/spapr.h
 > +++ b/include/hw/ppc/spapr.h
-> @@ -653,8 +653,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target=
-_ulong opcode,
->  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
->  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
->  #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
-> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2B)
-> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2C)
+> @@ -215,6 +215,8 @@ struct SpaprMachineState {
 > =20
-> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
-> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2D)
+>      unsigned gpu_numa_id;
+>      SpaprTpmProxy *tpm_proxy;
+> +
+> +    Error *fwnmi_migration_blocker;
+>  };
 > =20
->  /* RTAS ibm,get-system-parameter token values */
->  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
-> @@ -907,4 +909,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
-waddr pagesize,
-> =20
->  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
->  hwaddr spapr_get_rtas_addr(void);
-> +void spapr_fwnmi_register(void);
->  #endif /* HW_SPAPR_H */
+>  #define H_SUCCESS         0
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -251,25 +273,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KjSGHOmKKB2VUiQn
+--WkHPBKJ2pKcVUM5H
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TVeEACgkQbDjKyiDZ
-s5J3NxAAv5G3N3+eUEeW/YDKtDDhzlEjBxOE5BJ2pWv/4fpOU3pwCLTgdLlr24Yi
-eFRANjs331+NSNBPeUS2IKhgEtdzLlqR07gnOJoUASgOot9qKpewAL/0aInNenIp
-n66nP8EJQuxqofVpi7PYqj7wD8p068cfpUk77U7qX6ZeIOGpPNfC2/qyj5z7lo+y
-Utfh89SVvvJI69kibp9Z/2B77SNSK2cpIkiS/79IIHbV7EPUFyooMutUeWsda287
-qsOk7uQ6dkx56KaDz239+ZqT9QrEFoG9zSzDhuTVBS6jXPZ96Tw+4uvrO9l0RIpw
-ERoN6VQBjXJfQURPalirIB4mSKDefLNxh3/aja5ZQ6rVYYTbEBalUFyrg/aHsoGn
-zzH8M/i3JAgcT2VnX3rfkCUArME0+IOcdLVQHJKBmVoB5TnM0Az8m4d5KhbRDsAL
-5PnpcjDIhaBdlW/UPLj0KBvlaIf41j5coD4EfjxXE+yLtTCW/bEHYMhmtfANyJA+
-FsKoZfs4ozC9PUjVolROBfvvLbFSNuxOfcMjEBWrQYA3qv/MFmm4BzX37HsuSA2I
-KJpRmxeBKwDa7BE2UNdLn+JtSN2K5jcp6x78R4yioUeIQ0LSAJnq1OETBotNN2Ns
-x3hTmDB/aaxK6g72P+69H/eaEPLEfGtRi9XtqJstMbqFbGo5RAs=
-=TTMR
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TVzkACgkQbDjKyiDZ
+s5IQ8xAA0lzUL9uYqr7bv0A8CXGe1R3yXglG6X8zrYsl4vlnlFmyss+Mcfn/2W5x
+JOO8jq9ZVU3TdFmninOfzn/5bCkvfet4ituCIYXqGG7tNvpTyseWV+UmRJsHGNOk
+PzZ3AkmH22rV/r30Gl/T/BsYytJAx9ty3TaeprneT4fqTy/CEo8FeG6ieHOVifQa
+ZvlIgjiHBILyXLjm/3kQrB+4HAJFmfDyf40NoIF4GZj6++k3RigHXLP6bNYdU3Tu
+n7mCmMlSUwKU6v0vj74S4hrC3hsWPl9eDkJrMbxG3uHmjiI+VEljakYOneowPdXv
+LcLWiUgpezZKoZr1qE3feSuhtlZhVFU0vhXx08mJe9G7XQkuWZqabB7BYH52Z20y
+ou++eIxkMM/zmM+dFxugSvf7aYGliIE+acovmMYagkxlKFXsXl1yPOKQnUWIPV7W
+YuOzlvnA25ck4B3H7sIObg8ygoKmh/0c+Gt7VtfTr/uXSU5GsdmVtDLbTFLrKL3Q
+MCd7Vfg29L/wQyLlQE+C1pmc5m3B1ig1oqIxlRwZWYCMQ6yCBmsIHaQH9MAG6Q9c
+ivO72YC7UXkV4HmMK+BO0Tp7Rk2j8hOkiX4GwnZZJuiRNIr52HnoZ8XmAFtSI68I
+8wIyhf/cgIIN28Zag63l4Hx6F5Jki5eDTbZBVQN7jHuYjBmV1x8=
+=61sK
 -----END PGP SIGNATURE-----
 
---KjSGHOmKKB2VUiQn--
+--WkHPBKJ2pKcVUM5H--
 
