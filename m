@@ -2,49 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B4E10267C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:21:43 +0100 (CET)
-Received: from localhost ([::1]:46022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD57C102698
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:26:19 +0100 (CET)
+Received: from localhost ([::1]:46066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX4Nv-0006LX-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:21:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42359)
+	id 1iX4SQ-0003aZ-Qi
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:26:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iX4HD-00085p-LL
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:46 -0500
+ (envelope-from <eblake@redhat.com>) id 1iX4Gk-0007ZB-SP
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iX4HC-00068H-3p
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:43 -0500
-Received: from 9.mo5.mail-out.ovh.net ([178.32.96.204]:37906)
+ (envelope-from <eblake@redhat.com>) id 1iX4Gh-0005lQ-TV
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37003
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX4HB-00067P-DD
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:41 -0500
-Received: from player795.ha.ovh.net (unknown [10.108.54.119])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 1F09E25ABEE
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 15:14:40 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: clg@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id 4A546C18B22A;
- Tue, 19 Nov 2019 14:14:32 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 17/17] aspeed: Change the "nic" property definition
-Date: Tue, 19 Nov 2019 15:12:11 +0100
-Message-Id: <20191119141211.25716-18-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191119141211.25716-1-clg@kaod.org>
-References: <20191119141211.25716-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iX4Gh-0005kk-I1
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:14:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574172849;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R0Qs8W37DwO3DW6+z2souvY6iSbz4VMSbVtKZlZQ2As=;
+ b=JezTq0Tj0eA5rhh+gOOe43es/LV8rqyqvNo8U5P6pSZrZlq2PXPe+SFjIcCkLdjPb3lrcQ
+ /Q4OG4CKQ7PJ1i2/zGF5uBRE22Qnsx92CK1U6DN9Q94cBaJzI99gQbHXHjvo+BUu0TvykQ
+ shun/nJ5OWTamDSqJwihzaPxhx2Th1I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-yEWClf3oNOyrX5MLlM-evg-1; Tue, 19 Nov 2019 09:14:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748AF107B008;
+ Tue, 19 Nov 2019 14:14:02 +0000 (UTC)
+Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E5074D;
+ Tue, 19 Nov 2019 14:14:01 +0000 (UTC)
+Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of patches
+ - linux-user changes + linux-user/hexagon + skeleton of
+ target/hexagon -
+ Files in target/hexagon/imported are from another project and therefore do
+ not conform to qemu coding standards
+To: Taylor Simpson <tsimpson@quicinc.com>, laurent@vivier.eu,
+ riku.voipio@iki.fi, qemu-devel@nongnu.org
+References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <811eb939-d793-a03a-4ea9-0579d8babe52@redhat.com>
+Date: Tue, 19 Nov 2019 08:14:01 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 17928830118870682385
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeej
+In-Reply-To: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: yEWClf3oNOyrX5MLlM-evg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.96.204
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,105 +79,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Aspeed MII model has a link pointing to its associated FTGMAC100
-NIC in the machine.
+On 11/18/19 5:58 PM, Taylor Simpson wrote:
 
-Change the "nic" property definition so that it explicitly sets the
-pointer. The property isn't optional : not being able to set the link
-is a bug and QEMU should rather abort than exit in this case.
+In addition to what others have said, you have an atypical and long=20
+subject line. You'll want to rewrite it to match more typical subject=20
+lines (around 65 characters) then a blank line then the additional=20
+details.  'git shortlog -30' might give you some ideas on how to do it;=20
+you'll probably want to use 'hexagon:' as your prefix.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed_ast2600.c |  5 ++---
- hw/net/ftgmac100.c      | 19 +++++++++----------
- 2 files changed, 11 insertions(+), 13 deletions(-)
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 810fd7de0c06..be88005dab8f 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -183,9 +183,6 @@ static void aspeed_soc_ast2600_init(Object *obj)
-=20
-         sysbus_init_child_obj(obj, "mii[*]", &s->mii[i], sizeof(s->mii[i=
-]),
-                               TYPE_ASPEED_MII);
--        object_property_add_const_link(OBJECT(&s->mii[i]), "nic",
--                                       OBJECT(&s->ftgmac100[i]),
--                                       &error_abort);
-     }
-=20
-     sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma)=
-,
-@@ -441,6 +438,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *d=
-ev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100[i]), 0,
-                            aspeed_soc_get_irq(s, ASPEED_ETH1 + i));
-=20
-+        object_property_set_link(OBJECT(&s->mii[i]), OBJECT(&s->ftgmac10=
-0[i]),
-+                                 "nic", &error_abort);
-         object_property_set_bool(OBJECT(&s->mii[i]), true, "realized",
-                                  &err);
-         if (err) {
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index eb8b441461a1..86ac25894a89 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -1204,17 +1204,8 @@ static void aspeed_mii_realize(DeviceState *dev, E=
-rror **errp)
- {
-     AspeedMiiState *s =3D ASPEED_MII(dev);
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
--    Object *obj;
--    Error *local_err =3D NULL;
-=20
--    obj =3D object_property_get_link(OBJECT(dev), "nic", &local_err);
--    if (!obj) {
--        error_propagate(errp, local_err);
--        error_prepend(errp, "required link 'nic' not found: ");
--        return;
--    }
--
--    s->nic =3D FTGMAC100(obj);
-+    assert(s->nic);
-=20
-     memory_region_init_io(&s->iomem, OBJECT(dev), &aspeed_mii_ops, s,
-                           TYPE_ASPEED_MII, 0x8);
-@@ -1231,6 +1222,13 @@ static const VMStateDescription vmstate_aspeed_mii=
- =3D {
-         VMSTATE_END_OF_LIST()
-     }
- };
-+
-+static Property aspeed_mii_properties[] =3D {
-+    DEFINE_PROP_LINK("nic", AspeedMiiState, nic, TYPE_FTGMAC100,
-+                     FTGMAC100State *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void aspeed_mii_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -1239,6 +1237,7 @@ static void aspeed_mii_class_init(ObjectClass *klas=
-s, void *data)
-     dc->reset =3D aspeed_mii_reset;
-     dc->realize =3D aspeed_mii_realize;
-     dc->desc =3D "Aspeed MII controller";
-+    dc->props =3D aspeed_mii_properties;
- }
-=20
- static const TypeInfo aspeed_mii_info =3D {
+>   31 files changed, 2184 insertions(+)
+
+That's a big patch.  How much of it is copied verbatim from elsewhere=20
+and how much is new code? Splitting the patch along those lines makes=20
+review of the non-copied portion easier.
+
 --=20
-2.21.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
