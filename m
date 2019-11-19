@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25A6101172
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:48:54 +0100 (CET)
-Received: from localhost ([::1]:41128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A226101176
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:52:19 +0100 (CET)
+Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWtZV-0004PM-Ie
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:48:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
+	id 1iWtco-0006wT-JS
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:52:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iWtWm-0002y4-1B
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:06 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtbw-0006HJ-HQ
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:51:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iWtWj-0004E6-G9
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:03 -0500
-Received: from ozlabs.org ([203.11.71.1]:36945)
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtbs-0005jN-Ei
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:51:24 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:41459)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iWtWi-0004D5-LZ; Mon, 18 Nov 2019 21:46:01 -0500
+ id 1iWtbj-0005dw-SD; Mon, 18 Nov 2019 21:51:12 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47H9Dg53RZz9sPc; Tue, 19 Nov 2019 13:45:55 +1100 (AEDT)
+ id 47H9Lf4QsLz9sPZ; Tue, 19 Nov 2019 13:51:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574131555;
- bh=R7oyII1nFWsjg/K5ZAOmiC29M4tDYE28eE2xnFjv2UE=;
+ d=gibson.dropbear.id.au; s=201602; t=1574131866;
+ bh=Io8NkImnh9AdZNZoBfrONNL2FoNsbKtSbbX7y66QYaM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UHBVCqFw0A4ShhjvyZqHbMLztAmOnmVKYCTuuQlePRXWyWKidwGi1tOgaqNLxrmsN
- dm+jUcjedXjb+2OBgnmp2KVS6/C2ir33qCeGjtGeT8dTPwyXrdQ60VtTMk7V2PxtZ3
- hIdIvkPFYNUpgi22vPx3XoipMc0C6XsRoPcIFLVk=
-Date: Tue, 19 Nov 2019 13:45:14 +1100
+ b=A/d6Q2HHwXzLiaLlFtcf6FC57hEX7K+A1sKZpGrSKyoPNFqTukEPUwysQvt9PMP5E
+ eD9tb88lhApqH/89Hg9KONW0nAFxyOofo30ImpSRMvJreiENYDhIMxaas34VF7WbRx
+ xC5Cv1JbT5V1oQBFa4rArr09NoF++kFNPVff2prs=
+Date: Tue, 19 Nov 2019 13:50:58 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Ganesh Goudar <ganeshgr@linux.ibm.com>
-Subject: Re: [PATCH v17 6/7] migration: Include migration support for machine
- check handling
-Message-ID: <20191119024514.GM5582@umbus.fritz.box>
-References: <20191024074307.22821-1-ganeshgr@linux.ibm.com>
- <20191024074307.22821-7-ganeshgr@linux.ibm.com>
+To: pannengyuan@huawei.com
+Subject: Re: [Qemu-devel][PATCH] ppc/spapr_events: fix potential NULL pointer
+ dereference in rtas_event_log_dequeue
+Message-ID: <20191119025058.GN5582@umbus.fritz.box>
+References: <1574041813-35408-1-git-send-email-pannengyuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WkHPBKJ2pKcVUM5H"
+ protocol="application/pgp-signature"; boundary="lRF4gxo9Z9M++D0O"
 Content-Disposition: inline
-In-Reply-To: <20191024074307.22821-7-ganeshgr@linux.ibm.com>
+In-Reply-To: <1574041813-35408-1-git-send-email-pannengyuan@huawei.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,215 +56,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: kuhn.chenqun@huawei.com, qemu-arm@nongnu.org, kenny.zhangjun@huawei.com,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---WkHPBKJ2pKcVUM5H
+--lRF4gxo9Z9M++D0O
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2019 at 01:13:06PM +0530, Ganesh Goudar wrote:
-> From: Aravinda Prasad <arawinda.p@gmail.com>
+On Mon, Nov 18, 2019 at 09:50:13AM +0800, pannengyuan@huawei.com wrote:
+> From: PanNengyuan <pannengyuan@huawei.com>
 >=20
-> This patch includes migration support for machine check
-> handling. Especially this patch blocks VM migration
-> requests until the machine check error handling is
-> complete as these errors are specific to the source
-> hardware and is irrelevant on the target hardware.
+> source is being dereferenced before it is null checked, hence there is a
+> potential null pointer dereference.
 >=20
-> [Do not set FWNMI cap in post_load, now its done in .apply hook]
-> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
-> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+> This fixes:
+>         360
+>     CID 68911917: (NULL_RETURNS)
+>         361. dereference: Dereferencing "source", which is known to be
+>         "NULL".
+>         361        if (source->mask & event_mask) {
+>         362            break;
+>         363        }
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+
+I don't think this is the right solution.  The only events we ever
+generated are LOG_TYPE_EPOW and LOG_TYPE_HOTPLUG, so in fact source
+should never be NULL.
+
+I think the correct way to satisfy Coverity here is to have
+rtas_event_log_to_source() do an assert(), rather than returning NULL
+for other event types.
+
 > ---
->  hw/ppc/spapr.c         | 41 +++++++++++++++++++++++++++++++++++++++++
->  hw/ppc/spapr_events.c  | 16 +++++++++++++++-
->  hw/ppc/spapr_rtas.c    |  2 ++
->  include/hw/ppc/spapr.h |  2 ++
->  4 files changed, 60 insertions(+), 1 deletion(-)
+>  hw/ppc/spapr_events.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 346ec5ba6c..e0d0f95ec0 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -46,6 +46,7 @@
->  #include "migration/qemu-file-types.h"
->  #include "migration/global_state.h"
->  #include "migration/register.h"
-> +#include "migration/blocker.h"
->  #include "mmu-hash64.h"
->  #include "mmu-book3s-v3.h"
->  #include "cpu-models.h"
-> @@ -1751,6 +1752,8 @@ static void spapr_machine_reset(MachineState *machi=
-ne)
-> =20
->      /* Signal all vCPUs waiting on this condition */
->      qemu_cond_broadcast(&spapr->mc_delivery_cond);
-> +
-> +    migrate_del_blocker(spapr->fwnmi_migration_blocker);
->  }
-> =20
->  static void spapr_create_nvram(SpaprMachineState *spapr)
-> @@ -2041,6 +2044,43 @@ static const VMStateDescription vmstate_spapr_dtb =
-=3D {
->      },
->  };
-> =20
-> +static bool spapr_fwnmi_needed(void *opaque)
-> +{
-> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
-> +
-> +    return spapr->guest_machine_check_addr !=3D -1;
-> +}
-> +
-> +static int spapr_fwnmi_pre_save(void *opaque)
-> +{
-> +    SpaprMachineState *spapr =3D (SpaprMachineState *)opaque;
-> +
-> +    /*
-> +     * With -only-migratable QEMU option, we cannot block migration.
-> +     * Hence check if machine check handling is in progress and print
-> +     * a warning message.
-> +     */
-
-IIUC the logic below this could also occur in the case where the fwnmi
-event occurs after a migration has started, but before it completes,
-not just with -only-migratable.  Is that correct?
-
-> +    if (spapr->mc_status !=3D -1) {
-> +        warn_report("A machine check is being handled during migration. =
-The"
-> +                "handler may run and log hardware error on the destinati=
-on");
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_spapr_machine_check =3D {
-> +    .name =3D "spapr_machine_check",
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .needed =3D spapr_fwnmi_needed,
-> +    .pre_save =3D spapr_fwnmi_pre_save,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
-> +        VMSTATE_INT32(mc_status, SpaprMachineState),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
->  static const VMStateDescription vmstate_spapr =3D {
->      .name =3D "spapr",
->      .version_id =3D 3,
-> @@ -2075,6 +2115,7 @@ static const VMStateDescription vmstate_spapr =3D {
->          &vmstate_spapr_cap_large_decr,
->          &vmstate_spapr_cap_ccf_assist,
->          &vmstate_spapr_cap_fwnmi,
-> +        &vmstate_spapr_machine_check,
->          NULL
->      }
->  };
 > diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index db44e09154..30d9371c88 100644
+> index 0e4c195..febd2ef 100644
 > --- a/hw/ppc/spapr_events.c
 > +++ b/hw/ppc/spapr_events.c
-> @@ -43,6 +43,7 @@
->  #include "qemu/main-loop.h"
->  #include "hw/ppc/spapr_ovec.h"
->  #include <libfdt.h>
-> +#include "migration/blocker.h"
+> @@ -358,7 +358,7 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(Spa=
+prMachineState *spapr,
+>              rtas_event_log_to_source(spapr,
+>                                       spapr_event_log_entry_type(entry));
 > =20
->  #define RTAS_LOG_VERSION_MASK                   0xff000000
->  #define   RTAS_LOG_VERSION_6                    0x06000000
-> @@ -842,6 +843,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
-red)
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
->      CPUState *cs =3D CPU(cpu);
-> +    int ret;
-> +    Error *local_err =3D NULL;
-> =20
->      if (spapr->guest_machine_check_addr =3D=3D -1) {
->          /*
-> @@ -871,8 +874,19 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recov=
-ered)
->              return;
+> -        if (source->mask & event_mask) {
+> +        if (source && (source->mask & event_mask)) {
+>              break;
 >          }
 >      }
-> -    spapr->mc_status =3D cpu->vcpu_id;
-> =20
-> +    ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_e=
-rr);
-> +    if (ret =3D=3D -EBUSY) {
-> +        /*
-> +         * We don't want to abort so we let the migration to continue.
-> +         * In a rare case, the machine check handler will run on the tar=
-get.
-> +         * Though this is not preferable, it is better than aborting
-> +         * the migration or killing the VM.
-> +         */
-> +        warn_report_err(local_err);
-
-I suspect the error message in local_err won't be particularly
-meaningful on its own.  Perhaps you need to add a prefix to clarify
-that the problem is you've received a fwnmi after migration has
-commenced?
-
-> +    }
-> +
-> +    spapr->mc_status =3D cpu->vcpu_id;
->      spapr_mce_dispatch_elog(cpu, recovered);
->  }
-> =20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 0328b1f341..c78d96ee7e 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -50,6 +50,7 @@
->  #include "hw/ppc/fdt.h"
->  #include "target/ppc/mmu-hash64.h"
->  #include "target/ppc/mmu-book3s-v3.h"
-> +#include "migration/blocker.h"
-> =20
->  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
-papr,
->                                     uint32_t token, uint32_t nargs,
-> @@ -446,6 +447,7 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->       */
->      spapr->mc_status =3D -1;
->      qemu_cond_signal(&spapr->mc_delivery_cond);
-> +    migrate_del_blocker(spapr->fwnmi_migration_blocker);
-
-Oh... damn.  I suggested using a static fwnmi_migration_blocker
-instance, but I just realized there's a problem with it.
-
-If we do receive multiple fwnmi events on different cpus at roughly
-the same time, this will break: I think we'll try to add the same
-migration blocker instance multiple times, which won't be good.  Even
-if that doesn't do anything *too* bad, then we'll unblock the
-migration on the first interlock, rather than waiting for all pending
-fwnmi events to complete.
-
->      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->  }
-> =20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 86f0fc8fdd..290abd6328 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -215,6 +215,8 @@ struct SpaprMachineState {
-> =20
->      unsigned gpu_numa_id;
->      SpaprTpmProxy *tpm_proxy;
-> +
-> +    Error *fwnmi_migration_blocker;
->  };
-> =20
->  #define H_SUCCESS         0
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -273,25 +118,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---WkHPBKJ2pKcVUM5H
+--lRF4gxo9Z9M++D0O
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TVzkACgkQbDjKyiDZ
-s5IQ8xAA0lzUL9uYqr7bv0A8CXGe1R3yXglG6X8zrYsl4vlnlFmyss+Mcfn/2W5x
-JOO8jq9ZVU3TdFmninOfzn/5bCkvfet4ituCIYXqGG7tNvpTyseWV+UmRJsHGNOk
-PzZ3AkmH22rV/r30Gl/T/BsYytJAx9ty3TaeprneT4fqTy/CEo8FeG6ieHOVifQa
-ZvlIgjiHBILyXLjm/3kQrB+4HAJFmfDyf40NoIF4GZj6++k3RigHXLP6bNYdU3Tu
-n7mCmMlSUwKU6v0vj74S4hrC3hsWPl9eDkJrMbxG3uHmjiI+VEljakYOneowPdXv
-LcLWiUgpezZKoZr1qE3feSuhtlZhVFU0vhXx08mJe9G7XQkuWZqabB7BYH52Z20y
-ou++eIxkMM/zmM+dFxugSvf7aYGliIE+acovmMYagkxlKFXsXl1yPOKQnUWIPV7W
-YuOzlvnA25ck4B3H7sIObg8ygoKmh/0c+Gt7VtfTr/uXSU5GsdmVtDLbTFLrKL3Q
-MCd7Vfg29L/wQyLlQE+C1pmc5m3B1ig1oqIxlRwZWYCMQ6yCBmsIHaQH9MAG6Q9c
-ivO72YC7UXkV4HmMK+BO0Tp7Rk2j8hOkiX4GwnZZJuiRNIr52HnoZ8XmAFtSI68I
-8wIyhf/cgIIN28Zag63l4Hx6F5Jki5eDTbZBVQN7jHuYjBmV1x8=
-=61sK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TWJIACgkQbDjKyiDZ
+s5L6EhAAjbCe7FFJrWWbJe/cSwnSQ25e9aO+lPxny0T1elJbRhQGt1HpWW7TXnHZ
+/eYvgFRKZuXJKKpRyNbpSENWQc8mP2YVh6phNan++NRLLIPVBAz0SsXc1Nd6r/kP
+53OYhDCLUQ8DxWl/tyPJCg4BNYtNvmSAJfQkDrOByMnNYQ/GzrzsBbPo7OKgcm9Z
+yHr5ZS1EV3zgXBYR54BGdK7kRWw5/eUyNFBmnHUeACIld7gHxBAtvNPakh/byDxC
+i3y9MiN9iKqCsENMbO/0374duSlG6JdI8liAd5TBelM7212jJcNWBa/J2v5L9t8u
+PQFOo4EK2oBgr64FewTCDfHp+lloYvigfUuFQ1myV6HtuJZXro21tfQ03Bmhj3a5
+GKFX0HAfwHV7WjJAL3BFG3BkjCLE41g5SXOXvXeqlQH7OEwOdYEWTyrlgzdeu6IL
+GkLNrJJ9b9Run1maA1ZDn/jfNeNrhfNAsZfifOQq0KaDaBhh0CTbRZN/I7H8VKQv
+MufRT0OOqiyt56JwPdnCFKSuLCaXFeh0sZ4+DW0HM03voru6QMrGFZ1I7+WbdngL
+o0LcI60y1hf4uiCfrdtFNx7HLHZ6u2rDxgmWeae79WcC8ayE7SdFiUha1xBUg1pA
+ZjnRwliensFeICZfnM8dyRsOC+XF7SvuGWdEXsKPQrJoIMpv2sY=
+=Cx4x
 -----END PGP SIGNATURE-----
 
---WkHPBKJ2pKcVUM5H--
+--lRF4gxo9Z9M++D0O--
 
