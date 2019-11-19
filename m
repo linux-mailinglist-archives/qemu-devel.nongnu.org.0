@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6AB101116
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:03:24 +0100 (CET)
-Received: from localhost ([::1]:41034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA223101173
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:48:54 +0100 (CET)
+Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWsrT-00032D-NU
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:03:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37743)
+	id 1iWtZT-0004Q5-JY
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:48:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <706701795@qq.com>) id 1iWsqA-0002Xy-W0
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:02:04 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtWm-0002y2-0h
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <706701795@qq.com>) id 1iWsq2-0003e9-8J
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:01:56 -0500
-Received: from smtpbg503.qq.com ([203.205.250.57]:37947 helo=smtpbg.qq.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iWtWj-0004Dy-Be
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:46:03 -0500
+Received: from ozlabs.org ([203.11.71.1]:34895)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <706701795@qq.com>) id 1iWsq1-0003bM-0h
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:01:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1574128298; bh=WQ2DgKrrwA1Dt8FKBstVcOrXNT+3obYmXRbp1xksZqU=;
- h=From:To:Subject:Date:Message-Id;
- b=bDld48iVL1IQxct4VOBg9VIeZ8A20IbfVO3ZZE6SdjvqM++H+qZM2DYCN4XZMGJ1B
- vtWWokBkGzXt25kvhcmEPiqxptxZrmR7moEOFvmrvCJy2vocFUttn7SF7LNGquq/nm
- ltr+jx7rU2XGmYtSCKxnMkLP5JRbVhcH7tTLkuTQ=
-X-QQ-mid: esmtp6t1574128297t4culn2fj
-Received: from CentOS.localdomain (unknown [218.85.80.138])
- by esmtp4.qq.com (ESMTP) with 
- id ; Tue, 19 Nov 2019 09:51:31 +0800 (CST)
-X-QQ-SSF: B1000000000000B0RF101F00000000Q
-X-QQ-FEAT: s5D6j/nU2lJS/V7pPust6/VeUIuKVgPZNgZVPNIfUroJi/Q/r4djN/kM+h+JV
- FigX4HEwDOmjt/BVFzEmTS6EGCU2NOGc09PPoTW0EuL16XysezykcLRjEDjNN1VraGIpl+5
- ESQuwgyM9OKWmZ2VC+0r5qLoc4t6y56Vgv8jC8rGuDRuIM6MC222VlEh9VVsVey2QP7JSWZ
- VOjih0Kvl1RJNfb2KIMIGv4QiXXXUPxDVWUgW1umgMF85OI35tkmY9/V+Z0CU5ARhebAQ+M
- TDM7HUI9e9+4CAHd2iZvoAzi7YONRy+FGeBA==
-X-QQ-GoodBg: 0
-From: lichun <706701795@qq.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] i440FX-pcihost: add 'allow-hotplug' property for configuring
- whether to expose the BSEL to the guest.
-Date: Tue, 19 Nov 2019 17:51:20 +0800
-Message-Id: <1574157080-7724-1-git-send-email-706701795@qq.com>
-X-Mailer: git-send-email 1.8.3.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtp:qq.com:bgweb:bgweb1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 203.205.250.57
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iWtWi-0004D4-Bz; Mon, 18 Nov 2019 21:46:01 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47H9Dg2ZT5z9sPf; Tue, 19 Nov 2019 13:45:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574131555;
+ bh=YZN0Iu4nZQyT8DXeFV5XydaSs3ISnj/FgOoS4wVdKzU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fYwyQB36i6AKT0+byeGnLd5gvRva+4poKY06bxfdY5in8M3pxKNezNNfaI2YNcoYS
+ Ccy2W9fVD+5ULBLLT6hf8ebE6lLrBnNxaZy8s5Udido6ZGZeFqxtN6THd/ECytH/JF
+ 0wHCSDXvo8zyrywC9rmkiiv49c8QmvtI3Qy+YV4w=
+Date: Tue, 19 Nov 2019 13:39:32 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Ganesh Goudar <ganeshgr@linux.ibm.com>
+Subject: Re: [PATCH v17 5/7] ppc: spapr: Handle "ibm,nmi-register" and
+ "ibm,nmi-interlock" RTAS calls
+Message-ID: <20191119023932.GL5582@umbus.fritz.box>
+References: <20191024074307.22821-1-ganeshgr@linux.ibm.com>
+ <20191024074307.22821-6-ganeshgr@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KjSGHOmKKB2VUiQn"
+Content-Disposition: inline
+In-Reply-To: <20191024074307.22821-6-ganeshgr@linux.ibm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,78 +57,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, 706701795@qq.com, mst@redhat.com
+Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
+ paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: lichun <706701795@qq.com>
----
- hw/acpi/pcihp.c              |  2 +-
- hw/pci-host/i440fx.c         | 11 +++++++++++
- include/hw/pci-host/i440fx.h |  1 +
- 3 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 8413348..4f5e0d3 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -98,7 +98,7 @@ static void acpi_set_pci_info(void)
-     bsel_is_set = true;
- 
-     bus = find_i440fx(); /* TODO: Q35 support */
--    if (bus) {
-+    if (bus && i440fx_allow_hotplug()) {
-         /* Scan all PCI buses. Set property to enable acpi based hotplug. */
-         pci_for_each_bus_depth_first(bus, acpi_set_bsel, NULL, &bsel_alloc);
-     }
-diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
-index f271311..32bf9bf 100644
---- a/hw/pci-host/i440fx.c
-+++ b/hw/pci-host/i440fx.c
-@@ -49,6 +49,7 @@ typedef struct I440FXState {
-     uint64_t pci_hole64_size;
-     bool pci_hole64_fix;
-     uint32_t short_root_bus;
-+    bool allow_hotplug;
- } I440FXState;
- 
- #define I440FX_PCI_DEVICE(obj) \
-@@ -354,6 +355,15 @@ PCIBus *find_i440fx(void)
-     return s ? s->bus : NULL;
- }
- 
-+bool i440fx_allow_hotplug(void)
-+{
-+    I440FXState *s;
-+
-+    s = I440FX_PCI_HOST_BRIDGE(object_resolve_path("/machine/i440fx", NULL));
-+
-+    return s ? s->allow_hotplug : true;
-+}
-+
- static void i440fx_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -487,6 +497,7 @@ static Property i440fx_props[] = {
-                      pci_hole64_size, I440FX_PCI_HOST_HOLE64_SIZE_DEFAULT),
-     DEFINE_PROP_UINT32("short_root_bus", I440FXState, short_root_bus, 0),
-     DEFINE_PROP_BOOL("x-pci-hole64-fix", I440FXState, pci_hole64_fix, true),
-+    DEFINE_PROP_BOOL("allow-hotplug", I440FXState, allow_hotplug, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-index f54e646..4a607e9 100644
---- a/include/hw/pci-host/i440fx.h
-+++ b/include/hw/pci-host/i440fx.h
-@@ -32,5 +32,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
-                     MemoryRegion *ram_memory);
- 
- PCIBus *find_i440fx(void);
-+bool i440fx_allow_hotplug(void);
- 
- #endif
--- 
-1.8.3.1
+--KjSGHOmKKB2VUiQn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Oct 24, 2019 at 01:13:05PM +0530, Ganesh Goudar wrote:
+> From: Aravinda Prasad <arawinda.p@gmail.com>
+>=20
+> This patch adds support in QEMU to handle "ibm,nmi-register"
+> and "ibm,nmi-interlock" RTAS calls.
+>=20
+> The machine check notification address is saved when the
+> OS issues "ibm,nmi-register" RTAS call.
+>=20
+> This patch also handles the case when multiple processors
+> experience machine check at or about the same time by
+> handling "ibm,nmi-interlock" call. In such cases, as per
+> PAPR, subsequent processors serialize waiting for the first
+> processor to issue the "ibm,nmi-interlock" call. The second
+> processor that also received a machine check error waits
+> till the first processor is done reading the error log.
+> The first processor issues "ibm,nmi-interlock" call
+> when the error log is consumed.
+>=20
+> [Move fwnmi registeration to .apply hook]
+
+s/registeration/registration/
+
+> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+> ---
+>  hw/ppc/spapr_caps.c    |  9 +++++--
+>  hw/ppc/spapr_rtas.c    | 57 ++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h |  5 +++-
+>  3 files changed, 68 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 976d709210..1675ebd45e 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -509,9 +509,14 @@ static void cap_fwnmi_mce_apply(SpaprMachineState *s=
+papr, uint8_t val,
+>           * of software injected faults like duplicate SLBs).
+>           */
+>          warn_report("Firmware Assisted Non-Maskable Interrupts not suppo=
+rted in TCG");
+
+This logic still isn't quite right.  To start with the warn_report()
+above possible wants to be more weakly worded.  With TCG, FWNMI won't
+generally *do* anything, and there are some edge cases where the
+behaviour is arguably incorrect.  However there's no reason we can't
+make the RTAS calls work basically as expected and in almost all cases
+things will behave correctly - at least according to the case where no
+fwnmi events are delivered...
+
+> -    } else if (kvm_enabled() && (kvmppc_set_fwnmi() !=3D 0)) {
+> -        error_setg(errp,
+> +    } else if (kvm_enabled()) {
+> +        if (!kvmppc_set_fwnmi()) {
+> +            /* Register ibm,nmi-register and ibm,nmi-interlock RTAS call=
+s */
+> +            spapr_fwnmi_register();
+
+=2E.but here you only register the RTAS calls in the KVM case, which
+breaks that.  If there really is a strong reason to do this, then the
+warn_report() above should be error_setg() and fail the apply.
+
+> +        } else {
+> +            error_setg(errp,
+>  "Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap=
+-fwnmi-mce=3Doff");
+> +        }
+>      }
+>  }
+> =20
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 2c066a372d..0328b1f341 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -400,6 +400,55 @@ static void rtas_get_power_level(PowerPCCPU *cpu, Sp=
+aprMachineState *spapr,
+>      rtas_st(rets, 1, 100);
+>  }
+> =20
+> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+> +                                  SpaprMachineState *spapr,
+> +                                  uint32_t token, uint32_t nargs,
+> +                                  target_ulong args,
+> +                                  uint32_t nret, target_ulong rets)
+> +{
+> +    hwaddr rtas_addr =3D spapr_get_rtas_addr();
+> +
+> +    if (!rtas_addr) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> +        return;
+> +    }
+> +
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_OFF) {
+> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+
+Actually, since you explicitly test for the cap being enabled here,
+there's no reason not to *always* register this RTAS call.  Also this
+test for the feature flag should go first, before delving into the
+device tree for the RTAS address.
+
+> +        return;
+> +    }
+> +
+> +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +}
+> +
+> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> +                                   SpaprMachineState *spapr,
+> +                                   uint32_t token, uint32_t nargs,
+> +                                   target_ulong args,
+> +                                   uint32_t nret, target_ulong rets)
+> +{
+> +    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> +        /* NMI register not called */
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
+> +    }
+> +
+> +    if (spapr->mc_status !=3D cpu->vcpu_id) {
+> +        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlock" */
+> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> +     * hence unset mc_status.
+> +     */
+> +    spapr->mc_status =3D -1;
+> +    qemu_cond_signal(&spapr->mc_delivery_cond);
+> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +}
+> +
+>  static struct rtas_call {
+>      const char *name;
+>      spapr_rtas_fn fn;
+> @@ -503,6 +552,14 @@ hwaddr spapr_get_rtas_addr(void)
+>      return (hwaddr)fdt32_to_cpu(*rtas_data);
+>  }
+> =20
+> +void spapr_fwnmi_register(void)
+> +{
+> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
+> +                        rtas_ibm_nmi_register);
+> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
+> +                        rtas_ibm_nmi_interlock);
+> +}
+> +
+>  static void core_rtas_register_types(void)
+>  {
+>      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 4afa8d4d09..86f0fc8fdd 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -653,8 +653,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target=
+_ulong opcode,
+>  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
+>  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
+>  #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + 0x2A)
+> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2B)
+> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2C)
+> =20
+> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2B)
+> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2D)
+> =20
+>  /* RTAS ibm,get-system-parameter token values */
+>  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
+> @@ -907,4 +909,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+> =20
+>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>  hwaddr spapr_get_rtas_addr(void);
+> +void spapr_fwnmi_register(void);
+>  #endif /* HW_SPAPR_H */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--KjSGHOmKKB2VUiQn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3TVeEACgkQbDjKyiDZ
+s5J3NxAAv5G3N3+eUEeW/YDKtDDhzlEjBxOE5BJ2pWv/4fpOU3pwCLTgdLlr24Yi
+eFRANjs331+NSNBPeUS2IKhgEtdzLlqR07gnOJoUASgOot9qKpewAL/0aInNenIp
+n66nP8EJQuxqofVpi7PYqj7wD8p068cfpUk77U7qX6ZeIOGpPNfC2/qyj5z7lo+y
+Utfh89SVvvJI69kibp9Z/2B77SNSK2cpIkiS/79IIHbV7EPUFyooMutUeWsda287
+qsOk7uQ6dkx56KaDz239+ZqT9QrEFoG9zSzDhuTVBS6jXPZ96Tw+4uvrO9l0RIpw
+ERoN6VQBjXJfQURPalirIB4mSKDefLNxh3/aja5ZQ6rVYYTbEBalUFyrg/aHsoGn
+zzH8M/i3JAgcT2VnX3rfkCUArME0+IOcdLVQHJKBmVoB5TnM0Az8m4d5KhbRDsAL
+5PnpcjDIhaBdlW/UPLj0KBvlaIf41j5coD4EfjxXE+yLtTCW/bEHYMhmtfANyJA+
+FsKoZfs4ozC9PUjVolROBfvvLbFSNuxOfcMjEBWrQYA3qv/MFmm4BzX37HsuSA2I
+KJpRmxeBKwDa7BE2UNdLn+JtSN2K5jcp6x78R4yioUeIQ0LSAJnq1OETBotNN2Ns
+x3hTmDB/aaxK6g72P+69H/eaEPLEfGtRi9XtqJstMbqFbGo5RAs=
+=TTMR
+-----END PGP SIGNATURE-----
+
+--KjSGHOmKKB2VUiQn--
 
