@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFC2102B31
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:55:18 +0100 (CET)
-Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D48102B0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:53:47 +0100 (CET)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7if-0002CU-Au
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:55:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53491)
+	id 1iX7hB-00080C-QN
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7f8-0005z6-4t
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:39 -0500
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7fB-00063N-1k
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7f7-0005DU-1O
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:38 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11796
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7f9-0005Ef-QD
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:40 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1iX7f6-0005DG-Sz
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:36 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAJHnDcB116347
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:36 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wcf7u1mft-1
+ id 1iX7f9-0005EP-IQ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:39 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAJHmr0n004479
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:38 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf592pkp-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:36 -0500
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:38 -0500
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Tue, 19 Nov 2019 17:51:34 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Tue, 19 Nov 2019 17:51:36 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 19 Nov 2019 17:51:31 -0000
+ Tue, 19 Nov 2019 17:51:34 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAJHpUP923593174
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAJHpXHD54198398
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Nov 2019 17:51:30 GMT
+ Tue, 19 Nov 2019 17:51:33 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 713904C059;
- Tue, 19 Nov 2019 17:51:30 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id F13CD4C04E;
+ Tue, 19 Nov 2019 17:51:32 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17CEE4C040;
- Tue, 19 Nov 2019 17:51:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A10414C044;
+ Tue, 19 Nov 2019 17:51:31 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.84.11])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 19 Nov 2019 17:51:28 +0000 (GMT)
+ Tue, 19 Nov 2019 17:51:31 +0000 (GMT)
 From: Balamuruhan S <bala24@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/ppc/pnv_xscom: occ common area to be mapped only once
-Date: Tue, 19 Nov 2019 23:20:55 +0530
+Subject: [PATCH 5/5] hw/ppc/pnv_xscom: add PBA BARs for Power8 slw image
+Date: Tue, 19 Nov 2019 23:20:56 +0530
 X-Mailer: git-send-email 2.14.5
 In-Reply-To: <20191119175056.32518-1-bala24@linux.ibm.com>
 References: <20191119175056.32518-1-bala24@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19111917-0008-0000-0000-00000333FD5A
+x-cbid: 19111917-0012-0000-0000-000003689BD2
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111917-0009-0000-0000-00004A531D2C
-Message-Id: <20191119175056.32518-5-bala24@linux.ibm.com>
+x-cbparentid: 19111917-0013-0000-0000-000021A426F8
+Message-Id: <20191119175056.32518-6-bala24@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-19_06:2019-11-15,2019-11-19 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- mlxscore=0 suspectscore=1 priorityscore=1501 clxscore=1015 spamscore=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=935
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911190152
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id xAJHnDcB116347
+ malwarescore=0 suspectscore=1
+ mlxlogscore=907 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911190152
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,47 +92,76 @@ Cc: Balamuruhan S <bala24@linux.ibm.com>, david@gibson.dropbear.id.au,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-occ common area should be mapped once and disable it for every
-other chip.
+slw base and size mask are accessed during boot in homer_init_chip(),
+so include BAR2 and BARMASK2 for Power8.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
 ---
- hw/ppc/pnv_xscom.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ hw/ppc/pnv_xscom.c   | 10 ++++++++--
+ include/hw/ppc/pnv.h |  4 ++++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index cb6d6bbcfc..f797a5ec7d 100644
+index f797a5ec7d..828a2e2a5a 100644
 --- a/hw/ppc/pnv_xscom.c
 +++ b/hw/ppc/pnv_xscom.c
-@@ -98,13 +98,22 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
-t32_t pcba)
-         return HOMER_SIZE_MASK;
-=20
-     case P9_PBA_BAR2: /* P9 occ common area */
--        return PNV9_OCC_COMMON_AREA(chip);
-+        if (!PNV_CHIP_INDEX(chip)) {
-+            return PNV9_OCC_COMMON_AREA(chip);
-+        }
-+        return 0;
-     case P8_PBA_BAR3: /* P8 occ common area */
--        return PNV_OCC_COMMON_AREA(chip);
-+        if (!PNV_CHIP_INDEX(chip)) {
-+            return PNV_OCC_COMMON_AREA(chip);
-+        }
-+        return 0;
-=20
-     case P9_PBA_BARMASK2: /* P9 occ common area size */
-     case P8_PBA_BARMASK3: /* P8 occ common area size */
--        return OCC_SIZE_MASK;
-+        if (!PNV_CHIP_INDEX(chip)) {
-+            return OCC_SIZE_MASK;
-+        }
-+        return 0;
-=20
+@@ -38,8 +38,10 @@
+ 
+ /* PBA BARs */
+ #define P8_PBA_BAR0                     0x2013f00
++#define P8_PBA_BAR2                     0x2013f02
+ #define P8_PBA_BAR3                     0x2013f03
+ #define P8_PBA_BARMASK0                 0x2013f04
++#define P8_PBA_BARMASK2                 0x2013f06
+ #define P8_PBA_BARMASK3                 0x2013f07
+ #define P9_PBA_BAR0                     0x5012b00
+ #define P9_PBA_BAR2                     0x5012b02
+@@ -49,6 +51,7 @@
+ /* Mask to calculate Homer/Occ size */
+ #define HOMER_SIZE_MASK                 0x0000000000300000ull
+ #define OCC_SIZE_MASK                   0x0000000000700000ull
++#define SLW_SIZE_MASK                   0x0
+ 
+ static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
+ {
+@@ -115,6 +118,11 @@ static uint64_t xscom_read_default(PnvChip *chip, uint32_t pcba)
+         }
+         return 0;
+ 
++    case P8_PBA_BAR2: /* P8 slw image */
++        return PNV_SLW_IMAGE_BASE(chip);
++    case P8_PBA_BARMASK2: /* P8 slw image size is 1MB and mask is zero*/
++        return SLW_SIZE_MASK;
++
      case 0x1010c00:     /* PIBAM FIR */
      case 0x1010c03:     /* PIBAM FIR MASK */
---=20
+ 
+@@ -135,9 +143,7 @@ static uint64_t xscom_read_default(PnvChip *chip, uint32_t pcba)
+     case 0x202000f:     /* ADU stuff, receive status register*/
+         return 0;
+     case 0x2013f01:     /* PBA stuff */
+-    case 0x2013f02:     /* PBA stuff */
+     case 0x2013f05:     /* PBA stuff */
+-    case 0x2013f06:     /* PBA stuff */
+         return 0;
+     case 0x2013028:     /* CAPP stuff */
+     case 0x201302a:     /* CAPP stuff */
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index e9ed8b928a..bd22dbf8a9 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -212,6 +212,10 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
+ #define PNV_HOMER_BASE(chip)                                            \
+     (0x7ffd800000ull + ((uint64_t)PNV_CHIP_INDEX(chip)) * PNV_HOMER_SIZE)
+ 
++#define PNV_SLW_SIZE                0x0000000000100000ull
++#define PNV_SLW_IMAGE_BASE(chip)                                        \
++    (0x2ffda00000ull + ((uint64_t)PNV_CHIP_INDEX(chip)) * PNV_SLW_SIZE)
++
+ 
+ /*
+  * XSCOM 0x20109CA defines the ICP BAR:
+-- 
 2.14.5
 
 
