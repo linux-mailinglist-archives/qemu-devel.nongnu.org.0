@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2489102659
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:18:21 +0100 (CET)
-Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D2102673
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:19:26 +0100 (CET)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX4Ki-0002S6-Ky
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:18:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41867)
+	id 1iX4Lj-0003P4-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iX4FW-0005mq-E3
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:00 -0500
+ (envelope-from <clg@kaod.org>) id 1iX4Fg-00062I-0B
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iX4FU-0005EI-IK
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:12:58 -0500
-Received: from 1.mo7.mail-out.ovh.net ([178.33.45.51]:57623)
+ (envelope-from <clg@kaod.org>) id 1iX4Fe-0005Ia-8l
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:07 -0500
+Received: from 10.mo3.mail-out.ovh.net ([87.98.165.232]:60009)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX4FU-0005Da-BP
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:12:56 -0500
-Received: from player795.ha.ovh.net (unknown [10.108.42.174])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 9378713E349
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 15:12:54 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX4Fe-0005Hj-2V
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:06 -0500
+Received: from player795.ha.ovh.net (unknown [10.108.54.59])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 3581F22CCA3
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 15:13:03 +0100 (CET)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id BF1F2C18A8E3;
- Tue, 19 Nov 2019 14:12:46 +0000 (UTC)
+ by player795.ha.ovh.net (Postfix) with ESMTPSA id 9C17CC18A976;
+ Tue, 19 Nov 2019 14:12:54 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 04/17] aspeed/i2c: Add support for DMA transfers
-Date: Tue, 19 Nov 2019 15:11:58 +0100
-Message-Id: <20191119141211.25716-5-clg@kaod.org>
+Subject: [PATCH 05/17] aspeed/i2c: Add trace events
+Date: Tue, 19 Nov 2019 15:11:59 +0100
+Message-Id: <20191119141211.25716-6-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191119141211.25716-1-clg@kaod.org>
 References: <20191119141211.25716-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 17898993770433973009
+X-Ovh-Tracer-Id: 17901527044910648081
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.45.51
+X-Received-From: 87.98.165.232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,377 +59,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
  Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The I2C controller of the Aspeed AST2500 and AST2600 SoCs supports DMA
-transfers to and from DRAM.
-
-A pair of registers defines the buffer address and the length of the
-DMA transfer. The address should be aligned on 4 bytes and the maximum
-length should not exceed 4K. The receive or transmit DMA transfer can
-then be initiated with specific bits in the Command/Status register of
-the controller.
-
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 Tested-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/i2c/aspeed_i2c.h |   5 ++
- hw/arm/aspeed_ast2600.c     |   5 ++
- hw/arm/aspeed_soc.c         |   5 ++
- hw/i2c/aspeed_i2c.c         | 126 +++++++++++++++++++++++++++++++++++-
- 4 files changed, 138 insertions(+), 3 deletions(-)
+ hw/i2c/aspeed_i2c.c | 93 ++++++++++++++++++++++++++++++++++++++-------
+ hw/i2c/trace-events |  9 +++++
+ 2 files changed, 89 insertions(+), 13 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 7a555072dfbf..f1b9e5bf91e2 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -52,6 +52,8 @@ typedef struct AspeedI2CBus {
-     uint32_t cmd;
-     uint32_t buf;
-     uint32_t pool_ctrl;
-+    uint32_t dma_addr;
-+    uint32_t dma_len;
- } AspeedI2CBus;
-=20
- typedef struct AspeedI2CState {
-@@ -66,6 +68,8 @@ typedef struct AspeedI2CState {
-     uint8_t pool[ASPEED_I2C_MAX_POOL_SIZE];
-=20
-     AspeedI2CBus busses[ASPEED_I2C_NR_BUSSES];
-+    MemoryRegion *dram_mr;
-+    AddressSpace dram_as;
- } AspeedI2CState;
-=20
- #define ASPEED_I2C_CLASS(klass) \
-@@ -85,6 +89,7 @@ typedef struct AspeedI2CClass {
-     hwaddr pool_base;
-     uint8_t *(*bus_pool_base)(AspeedI2CBus *);
-     bool check_sram;
-+    bool has_dma;
-=20
- } AspeedI2CClass;
-=20
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index a403c2aae067..0881eb25983e 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -343,6 +343,11 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
-     }
-=20
-     /* I2C */
-+    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram"=
-, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->i2c), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index dd1ee0e3336d..b01c97744196 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -311,6 +311,11 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
-or **errp)
-     }
-=20
-     /* I2C */
-+    object_property_set_link(OBJECT(&s->i2c), OBJECT(s->dram_mr), "dram"=
-, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-     object_property_set_bool(OBJECT(&s->i2c), true, "realized", &err);
-     if (err) {
-         error_propagate(errp, err);
 diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index c7929aa2850f..030d9c56be65 100644
+index 030d9c56be65..2da04a4bff30 100644
 --- a/hw/i2c/aspeed_i2c.c
 +++ b/hw/i2c/aspeed_i2c.c
-@@ -23,8 +23,11 @@
- #include "migration/vmstate.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
+@@ -28,6 +28,7 @@
  #include "hw/i2c/aspeed_i2c.h"
  #include "hw/irq.h"
-+#include "hw/qdev-properties.h"
+ #include "hw/qdev-properties.h"
++#include "trace.h"
 =20
  /* I2C Global Register */
 =20
-@@ -138,7 +141,8 @@
- #define   I2CD_BYTE_BUF_TX_MASK            0xff
- #define   I2CD_BYTE_BUF_RX_SHIFT           8
- #define   I2CD_BYTE_BUF_RX_MASK            0xff
--
-+#define I2CD_DMA_ADDR           0x24       /* DMA Buffer Address */
-+#define I2CD_DMA_LEN            0x28       /* DMA Transfer Length < 4KB =
-*/
-=20
- static inline bool aspeed_i2c_bus_is_master(AspeedI2CBus *bus)
+@@ -158,6 +159,13 @@ static inline void aspeed_i2c_bus_raise_interrupt(As=
+peedI2CBus *bus)
  {
-@@ -165,6 +169,7 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hwa=
-ddr offset,
-                                     unsigned size)
+     AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(bus->controller);
+=20
++    trace_aspeed_i2c_bus_raise_interrupt(bus->intr_status,
++          bus->intr_status & I2CD_INTR_TX_NAK ? "nak|" : "",
++          bus->intr_status & I2CD_INTR_TX_ACK ? "ack|" : "",
++          bus->intr_status & I2CD_INTR_RX_DONE ? "done|" : "",
++          bus->intr_status & I2CD_INTR_NORMAL_STOP ? "normal|" : "",
++          bus->intr_status & I2CD_INTR_ABNORMAL ? "abnormal" : "");
++
+     bus->intr_status &=3D bus->intr_ctrl;
+     if (bus->intr_status) {
+         bus->controller->intr_status |=3D 1 << bus->id;
+@@ -170,41 +178,57 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, h=
+waddr offset,
  {
      AspeedI2CBus *bus =3D opaque;
-+    AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(bus->controller);
+     AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(bus->controller);
++    uint64_t value =3D -1;
 =20
      switch (offset) {
      case I2CD_FUN_CTRL_REG:
-@@ -183,6 +188,18 @@ static uint64_t aspeed_i2c_bus_read(void *opaque, hw=
-addr offset,
-         return bus->buf;
+-        return bus->ctrl;
++        value =3D bus->ctrl;
++        break;
+     case I2CD_AC_TIMING_REG1:
+-        return bus->timing[0];
++        value =3D bus->timing[0];
++        break;
+     case I2CD_AC_TIMING_REG2:
+-        return bus->timing[1];
++        value =3D bus->timing[1];
++        break;
+     case I2CD_INTR_CTRL_REG:
+-        return bus->intr_ctrl;
++        value =3D bus->intr_ctrl;
++        break;
+     case I2CD_INTR_STS_REG:
+-        return bus->intr_status;
++        value =3D bus->intr_status;
++        break;
+     case I2CD_POOL_CTRL_REG:
+-        return bus->pool_ctrl;
++        value =3D bus->pool_ctrl;
++        break;
+     case I2CD_BYTE_BUF_REG:
+-        return bus->buf;
++        value =3D bus->buf;
++        break;
      case I2CD_CMD_REG:
-         return bus->cmd | (i2c_bus_busy(bus->bus) << 16);
-+    case I2CD_DMA_ADDR:
-+        if (!aic->has_dma) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
+-        return bus->cmd | (i2c_bus_busy(bus->bus) << 16);
++        value =3D bus->cmd | (i2c_bus_busy(bus->bus) << 16);
++        break;
+     case I2CD_DMA_ADDR:
+         if (!aic->has_dma) {
+             qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
 nc__);
-+            return -1;
-+        }
-+        return bus->dma_addr;
-+    case I2CD_DMA_LEN:
-+        if (!aic->has_dma) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
+-            return -1;
++            break;
+         }
+-        return bus->dma_addr;
++        value =3D bus->dma_addr;
++        break;
+     case I2CD_DMA_LEN:
+         if (!aic->has_dma) {
+             qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
 nc__);
-+            return -1;
-+        }
-+        return bus->dma_len;
+-            return -1;
++            break;
+         }
+-        return bus->dma_len;
++        value =3D bus->dma_len;
++        break;
++
      default:
          qemu_log_mask(LOG_GUEST_ERROR,
                        "%s: Bad offset 0x%" HWADDR_PRIx "\n", __func__, o=
 ffset);
-@@ -201,6 +218,24 @@ static uint8_t aspeed_i2c_get_state(AspeedI2CBus *bu=
-s)
-     return (bus->cmd >> I2CD_TX_STATE_SHIFT) & I2CD_TX_STATE_MASK;
+-        return -1;
++        value =3D -1;
++        break;
+     }
++
++    trace_aspeed_i2c_bus_read(bus->id, offset, size, value);
++    return value;
  }
 =20
-+static int aspeed_i2c_dma_read(AspeedI2CBus *bus, uint8_t *data)
-+{
-+    MemTxResult result;
-+    AspeedI2CState *s =3D bus->controller;
-+
-+    result =3D address_space_read(&s->dram_as, bus->dma_addr,
-+                                MEMTXATTRS_UNSPECIFIED, data, 1);
-+    if (result !=3D MEMTX_OK) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM read failed @%08x\n",
-+                      __func__, bus->dma_addr);
-+        return -1;
-+    }
-+
-+    bus->dma_addr++;
-+    bus->dma_len--;
-+    return 0;
-+}
-+
- static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uint8_t pool_start)
- {
-     AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(bus->controller);
-@@ -217,6 +252,16 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, ui=
-nt8_t pool_start)
-             }
+ static void aspeed_i2c_set_state(AspeedI2CBus *bus, uint8_t state)
+@@ -246,6 +270,9 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uin=
+t8_t pool_start)
+         for (i =3D pool_start; i < I2CD_POOL_TX_COUNT(bus->pool_ctrl); i=
+++) {
+             uint8_t *pool_base =3D aic->bus_pool_base(bus);
+=20
++            trace_aspeed_i2c_bus_send("BUF", i + 1,
++                                      I2CD_POOL_TX_COUNT(bus->pool_ctrl)=
+,
++                                      pool_base[i]);
+             ret =3D i2c_send(bus->bus, pool_base[i]);
+             if (ret) {
+                 break;
+@@ -256,6 +283,7 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uin=
+t8_t pool_start)
+         while (bus->dma_len) {
+             uint8_t data;
+             aspeed_i2c_dma_read(bus, &data);
++            trace_aspeed_i2c_bus_send("DMA", bus->dma_len, bus->dma_len,=
+ data);
+             ret =3D i2c_send(bus->bus, data);
+             if (ret) {
+                 break;
+@@ -263,6 +291,7 @@ static int aspeed_i2c_bus_send(AspeedI2CBus *bus, uin=
+t8_t pool_start)
          }
-         bus->cmd &=3D ~I2CD_TX_BUFF_ENABLE;
-+    } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+        while (bus->dma_len) {
-+            uint8_t data;
-+            aspeed_i2c_dma_read(bus, &data);
-+            ret =3D i2c_send(bus->bus, data);
-+            if (ret) {
-+                break;
-+            }
-+        }
-+        bus->cmd &=3D ~I2CD_TX_DMA_ENABLE;
+         bus->cmd &=3D ~I2CD_TX_DMA_ENABLE;
      } else {
++        trace_aspeed_i2c_bus_send("BYTE", pool_start, 1, bus->buf);
          ret =3D i2c_send(bus->bus, bus->buf);
      }
-@@ -242,6 +287,24 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
-         bus->pool_ctrl &=3D ~(0xff << 24);
-         bus->pool_ctrl |=3D (i & 0xff) << 24;
-         bus->cmd &=3D ~I2CD_RX_BUFF_ENABLE;
-+    } else if (bus->cmd & I2CD_RX_DMA_ENABLE) {
-+        uint8_t data;
-+
-+        while (bus->dma_len) {
-+            MemTxResult result;
-+
-+            data =3D i2c_recv(bus->bus);
-+            result =3D address_space_write(&s->dram_as, bus->dma_addr,
-+                                         MEMTXATTRS_UNSPECIFIED, &data, =
+=20
+@@ -281,6 +310,9 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+=20
+         for (i =3D 0; i < I2CD_POOL_RX_SIZE(bus->pool_ctrl); i++) {
+             pool_base[i] =3D i2c_recv(bus->bus);
++            trace_aspeed_i2c_bus_recv("BUF", i + 1,
++                                      I2CD_POOL_RX_SIZE(bus->pool_ctrl),
++                                      pool_base[i]);
+         }
+=20
+         /* Update RX count */
+@@ -294,6 +326,7 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+             MemTxResult result;
+=20
+             data =3D i2c_recv(bus->bus);
++            trace_aspeed_i2c_bus_recv("DMA", bus->dma_len, bus->dma_len,=
+ data);
+             result =3D address_space_write(&s->dram_as, bus->dma_addr,
+                                          MEMTXATTRS_UNSPECIFIED, &data, =
 1);
-+            if (result !=3D MEMTX_OK) {
-+                qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM write failed @%=
-08x\n",
-+                              __func__, bus->dma_addr);
-+                return;
-+            }
-+            bus->dma_addr++;
-+            bus->dma_len--;
-+        }
-+        bus->cmd &=3D ~I2CD_RX_DMA_ENABLE;
+             if (result !=3D MEMTX_OK) {
+@@ -307,6 +340,7 @@ static void aspeed_i2c_bus_recv(AspeedI2CBus *bus)
+         bus->cmd &=3D ~I2CD_RX_DMA_ENABLE;
      } else {
          data =3D i2c_recv(bus->bus);
++        trace_aspeed_i2c_bus_recv("BYTE", 1, 1, bus->buf);
          bus->buf =3D (data & I2CD_BYTE_BUF_RX_MASK) << I2CD_BYTE_BUF_RX_=
 SHIFT;
-@@ -268,6 +331,11 @@ static uint8_t aspeed_i2c_get_addr(AspeedI2CBus *bus=
-)
-         uint8_t *pool_base =3D aic->bus_pool_base(bus);
-=20
-         return pool_base[0];
-+    } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+        uint8_t data;
-+
-+        aspeed_i2c_dma_read(bus, &data);
-+        return data;
-     } else {
-         return bus->buf;
-     }
-@@ -344,6 +412,10 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *=
-bus, uint64_t value)
-                  */
-                 pool_start++;
-             }
-+        } else if (bus->cmd & I2CD_TX_DMA_ENABLE) {
-+            if (bus->dma_len =3D=3D 0) {
-+                bus->cmd &=3D ~I2CD_M_TX_CMD;
-+            }
-         } else {
-             bus->cmd &=3D ~I2CD_M_TX_CMD;
-         }
-@@ -447,9 +519,35 @@ static void aspeed_i2c_bus_write(void *opaque, hwadd=
-r offset,
-             break;
-         }
-=20
-+        if (!aic->has_dma &&
-+            value & (I2CD_RX_DMA_ENABLE | I2CD_TX_DMA_ENABLE)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
-nc__);
-+            break;
-+        }
-+
-         aspeed_i2c_bus_handle_cmd(bus, value);
-         aspeed_i2c_bus_raise_interrupt(bus);
-         break;
-+    case I2CD_DMA_ADDR:
-+        if (!aic->has_dma) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
-nc__);
-+            break;
-+        }
-+
-+        bus->dma_addr =3D value & 0xfffffffc;
-+        break;
-+
-+    case I2CD_DMA_LEN:
-+        if (!aic->has_dma) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No DMA support\n",  __fu=
-nc__);
-+            break;
-+        }
-+
-+        bus->dma_len =3D value & 0xfff;
-+        if (!bus->dma_len) {
-+            qemu_log_mask(LOG_UNIMP, "%s: invalid DMA length\n",  __func=
-__);
-+        }
-+        break;
-=20
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIx =
-"\n",
-@@ -542,8 +640,8 @@ static const MemoryRegionOps aspeed_i2c_pool_ops =3D =
-{
-=20
- static const VMStateDescription aspeed_i2c_bus_vmstate =3D {
-     .name =3D TYPE_ASPEED_I2C,
--    .version_id =3D 2,
--    .minimum_version_id =3D 2,
-+    .version_id =3D 3,
-+    .minimum_version_id =3D 3,
-     .fields =3D (VMStateField[]) {
-         VMSTATE_UINT8(id, AspeedI2CBus),
-         VMSTATE_UINT32(ctrl, AspeedI2CBus),
-@@ -553,6 +651,8 @@ static const VMStateDescription aspeed_i2c_bus_vmstat=
-e =3D {
-         VMSTATE_UINT32(cmd, AspeedI2CBus),
-         VMSTATE_UINT32(buf, AspeedI2CBus),
-         VMSTATE_UINT32(pool_ctrl, AspeedI2CBus),
-+        VMSTATE_UINT32(dma_addr, AspeedI2CBus),
-+        VMSTATE_UINT32(dma_len, AspeedI2CBus),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -584,6 +684,8 @@ static void aspeed_i2c_reset(DeviceState *dev)
-         s->busses[i].intr_status =3D 0;
-         s->busses[i].cmd =3D 0;
-         s->busses[i].buf =3D 0;
-+        s->busses[i].dma_addr =3D 0;
-+        s->busses[i].dma_len =3D 0;
-         i2c_end_transfer(s->busses[i].bus);
      }
  }
-@@ -640,14 +742,30 @@ static void aspeed_i2c_realize(DeviceState *dev, Er=
-ror **errp)
-     memory_region_init_io(&s->pool_iomem, OBJECT(s), &aspeed_i2c_pool_op=
-s, s,
-                           "aspeed.i2c-pool", aic->pool_size);
-     memory_region_add_subregion(&s->iomem, aic->pool_base, &s->pool_iome=
-m);
+@@ -364,6 +398,33 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+     return true;
+ }
+=20
++static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
++{
++    g_autofree char *cmd_flags;
++    uint32_t count;
 +
-+    if (aic->has_dma) {
-+        if (!s->dram_mr) {
-+            error_setg(errp, TYPE_ASPEED_I2C ": 'dram' link not set");
-+            return;
-+        }
-+
-+        address_space_init(&s->dram_as, s->dram_mr, "dma-dram");
++    if (bus->cmd & (I2CD_RX_BUFF_ENABLE | I2CD_RX_BUFF_ENABLE)) {
++        count =3D I2CD_POOL_TX_COUNT(bus->pool_ctrl);
++    } else if (bus->cmd & (I2CD_RX_DMA_ENABLE | I2CD_RX_DMA_ENABLE)) {
++        count =3D bus->dma_len;
++    } else { /* BYTE mode */
++        count =3D 1;
 +    }
- }
-=20
-+static Property aspeed_i2c_properties[] =3D {
-+    DEFINE_PROP_LINK("dram", AspeedI2CState, dram_mr,
-+                     TYPE_MEMORY_REGION, MemoryRegion *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
 +
- static void aspeed_i2c_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
++    cmd_flags =3D g_strdup_printf("%s%s%s%s%s%s%s%s%s",
++                                bus->cmd & I2CD_M_START_CMD ? "start|" :=
+ "",
++                                bus->cmd & I2CD_RX_DMA_ENABLE ? "rxdma|"=
+ : "",
++                                bus->cmd & I2CD_TX_DMA_ENABLE ? "txdma|"=
+ : "",
++                                bus->cmd & I2CD_RX_BUFF_ENABLE ? "rxbuf|=
+" : "",
++                                bus->cmd & I2CD_TX_BUFF_ENABLE ? "txbuf|=
+" : "",
++                                bus->cmd & I2CD_M_TX_CMD ? "tx|" : "",
++                                bus->cmd & I2CD_M_RX_CMD ? "rx|" : "",
++                                bus->cmd & I2CD_M_S_RX_CMD_LAST ? "last|=
+" : "",
++                                bus->cmd & I2CD_M_STOP_CMD ? "stop" : ""=
+);
++
++    trace_aspeed_i2c_bus_cmd(bus->cmd, cmd_flags, count, bus->intr_statu=
+s);
++}
++
+ /*
+  * The state machine needs some refinement. It is only used to track
+  * invalid STOP commands for the moment.
+@@ -379,6 +440,10 @@ static void aspeed_i2c_bus_handle_cmd(AspeedI2CBus *=
+bus, uint64_t value)
+         return;
+     }
 =20
-     dc->vmsd =3D &aspeed_i2c_vmstate;
-     dc->reset =3D aspeed_i2c_reset;
-+    dc->props =3D aspeed_i2c_properties;
-     dc->realize =3D aspeed_i2c_realize;
-     dc->desc =3D "Aspeed I2C Controller";
- }
-@@ -721,6 +839,7 @@ static void aspeed_2500_i2c_class_init(ObjectClass *k=
-lass, void *data)
-     aic->pool_base =3D 0x200;
-     aic->bus_pool_base =3D aspeed_2500_i2c_bus_pool_base;
-     aic->check_sram =3D true;
-+    aic->has_dma =3D true;
- }
++    if (trace_event_get_state_backends(TRACE_ASPEED_I2C_BUS_CMD)) {
++        aspeed_i2c_bus_cmd_dump(bus);
++    }
++
+     if (bus->cmd & I2CD_M_START_CMD) {
+         uint8_t state =3D aspeed_i2c_get_state(bus) & I2CD_MACTIVE ?
+             I2CD_MSTARTR : I2CD_MSTART;
+@@ -465,6 +530,8 @@ static void aspeed_i2c_bus_write(void *opaque, hwaddr=
+ offset,
+     AspeedI2CClass *aic =3D ASPEED_I2C_GET_CLASS(bus->controller);
+     bool handle_rx;
 =20
- static const TypeInfo aspeed_2500_i2c_info =3D {
-@@ -753,6 +872,7 @@ static void aspeed_2600_i2c_class_init(ObjectClass *k=
-lass, void *data)
-     aic->pool_size =3D 0x200;
-     aic->pool_base =3D 0xC00;
-     aic->bus_pool_base =3D aspeed_2600_i2c_bus_pool_base;
-+    aic->has_dma =3D true;
- }
-=20
- static const TypeInfo aspeed_2600_i2c_info =3D {
++    trace_aspeed_i2c_bus_write(bus->id, offset, size, value);
++
+     switch (offset) {
+     case I2CD_FUN_CTRL_REG:
+         if (value & I2CD_SLAVE_EN) {
+diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+index e1c810d5bd08..08db8fa68924 100644
+--- a/hw/i2c/trace-events
++++ b/hw/i2c/trace-events
+@@ -5,3 +5,12 @@
+ i2c_event(const char *event, uint8_t address) "%s(addr:0x%02x)"
+ i2c_send(uint8_t address, uint8_t data) "send(addr:0x%02x) data:0x%02x"
+ i2c_recv(uint8_t address, uint8_t data) "recv(addr:0x%02x) data:0x%02x"
++
++# aspeed_i2c.c
++
++aspeed_i2c_bus_cmd(uint32_t cmd, const char *cmd_flags, uint32_t count, =
+uint32_t intr_status) "handling cmd=3D0x%x %s count=3D%d intr=3D0x%x"
++aspeed_i2c_bus_raise_interrupt(uint32_t intr_status, const char *str1, c=
+onst char *str2, const char *str3, const char *str4, const char *str5) "h=
+andled intr=3D0x%x %s%s%s%s%s"
++aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint=
+64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uin=
+t64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
++aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%=
+s send %d/%d 0x%02x"
++aspeed_i2c_bus_recv(const char *mode, int i, int count, uint8_t byte) "%=
+s recv %d/%d 0x%02x"
 --=20
 2.21.0
 
