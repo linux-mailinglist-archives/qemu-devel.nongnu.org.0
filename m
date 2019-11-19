@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8847102682
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:22:40 +0100 (CET)
-Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC6510268D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 15:23:44 +0100 (CET)
+Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX4Ot-0007DB-LF
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:22:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41969)
+	id 1iX4Pv-0007yi-4C
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 09:23:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42005)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iX4Fn-0006GS-TC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:16 -0500
+ (envelope-from <clg@kaod.org>) id 1iX4Fy-0006Qp-L7
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iX4Fm-0005NW-Pd
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:15 -0500
-Received: from 15.mo4.mail-out.ovh.net ([91.121.62.11]:46214)
+ (envelope-from <clg@kaod.org>) id 1iX4Fw-0005R3-Hb
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:26 -0500
+Received: from 5.mo1.mail-out.ovh.net ([178.33.45.107]:60327)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX4Fm-0005Mo-JX
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:14 -0500
-Received: from player795.ha.ovh.net (unknown [10.108.57.76])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 985F220DAF2
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 15:13:12 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX4Fv-0005Po-Hu
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 09:13:24 -0500
+Received: from player795.ha.ovh.net (unknown [10.108.57.211])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 85C9319BC9B
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 15:13:20 +0100 (CET)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player795.ha.ovh.net (Postfix) with ESMTPSA id EEE2AC18AA3E;
- Tue, 19 Nov 2019 14:13:03 +0000 (UTC)
+ by player795.ha.ovh.net (Postfix) with ESMTPSA id 9BA1DC18AAE1;
+ Tue, 19 Nov 2019 14:13:12 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 06/17] aspeed/sdmc: Make ast2600 default 1G
-Date: Tue, 19 Nov 2019 15:12:00 +0100
-Message-Id: <20191119141211.25716-7-clg@kaod.org>
+Subject: [PATCH 07/17] aspeed/scu: Fix W1C behavior
+Date: Tue, 19 Nov 2019 15:12:01 +0100
+Message-Id: <20191119141211.25716-8-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191119141211.25716-1-clg@kaod.org>
 References: <20191119141211.25716-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 17904060320515590929
+X-Ovh-Tracer-Id: 17906312122056477457
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.121.62.11
+X-Received-From: 178.33.45.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,34 +65,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-Most boards have this much.
+This models the clock write one to clear registers, and fixes up some
+incorrect behavior in all of the write to clear registers.
+
+There was also a typo in one of the register definitions.
 
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Signed-off-by: Joel Stanley <joel@jms.id.au>
+[clg: checkpatch.pl fixes ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/misc/aspeed_sdmc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/misc/aspeed_scu.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index f3a63a2e01db..2df3244b53c8 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -208,10 +208,10 @@ static int ast2600_rambits(AspeedSDMCState *s)
-     }
-=20
-     /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
-+    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
-                 s->ram_size);
--    s->ram_size =3D 512 << 20;
--    return ASPEED_SDMC_AST2600_512MB;
-+    s->ram_size =3D 1024 << 20;
-+    return ASPEED_SDMC_AST2600_1024MB;
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index 717509bc5460..f62fa25e3474 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -98,7 +98,7 @@
+ #define AST2600_CLK_STOP_CTRL     TO_REG(0x80)
+ #define AST2600_CLK_STOP_CTRL_CLR TO_REG(0x84)
+ #define AST2600_CLK_STOP_CTRL2     TO_REG(0x90)
+-#define AST2600_CLK_STOP_CTR2L_CLR TO_REG(0x94)
++#define AST2600_CLK_STOP_CTRL2_CLR TO_REG(0x94)
+ #define AST2600_SDRAM_HANDSHAKE   TO_REG(0x100)
+ #define AST2600_HPLL_PARAM        TO_REG(0x200)
+ #define AST2600_HPLL_EXT          TO_REG(0x204)
+@@ -532,11 +532,13 @@ static uint64_t aspeed_ast2600_scu_read(void *opaqu=
+e, hwaddr offset,
+     return s->regs[reg];
  }
 =20
- static void aspeed_sdmc_reset(DeviceState *dev)
+-static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset, uint64=
+_t data,
+-                                     unsigned size)
++static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,
++                                     uint64_t data64, unsigned size)
+ {
+     AspeedSCUState *s =3D ASPEED_SCU(opaque);
+     int reg =3D TO_REG(offset);
++    /* Truncate here so bitwise operations below behave as expected */
++    uint32_t data =3D data64;
+=20
+     if (reg >=3D ASPEED_AST2600_SCU_NR_REGS) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -563,15 +565,22 @@ static void aspeed_ast2600_scu_write(void *opaque, =
+hwaddr offset, uint64_t data,
+         /* fall through */
+     case AST2600_SYS_RST_CTRL:
+     case AST2600_SYS_RST_CTRL2:
++    case AST2600_CLK_STOP_CTRL:
++    case AST2600_CLK_STOP_CTRL2:
+         /* W1S (Write 1 to set) registers */
+         s->regs[reg] |=3D data;
+         return;
+     case AST2600_SYS_RST_CTRL_CLR:
+     case AST2600_SYS_RST_CTRL2_CLR:
++    case AST2600_CLK_STOP_CTRL_CLR:
++    case AST2600_CLK_STOP_CTRL2_CLR:
+     case AST2600_HW_STRAP1_CLR:
+     case AST2600_HW_STRAP2_CLR:
+-        /* W1C (Write 1 to clear) registers */
+-        s->regs[reg] &=3D ~data;
++        /*
++         * W1C (Write 1 to clear) registers are offset by one address fr=
+om
++         * the data register
++         */
++        s->regs[reg - 1] &=3D ~data;
+         return;
+=20
+     case AST2600_RNG_DATA:
 --=20
 2.21.0
 
