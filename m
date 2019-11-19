@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D663A102150
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:56:43 +0100 (CET)
-Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EBF10212A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:51:31 +0100 (CET)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX0FW-00084Y-MN
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:56:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34775)
+	id 1iX0AU-0005Fr-1T
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:51:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iX0Ed-0007OR-Bo
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:55:50 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iX09L-0004SN-Sw
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iX0EZ-00007j-Pv
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:55:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58748)
+ (envelope-from <peter.maydell@linaro.org>) id 1iX09H-0004wU-Cp
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:19 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38123)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iX0EZ-00007T-KJ
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:55:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iX0EY-0007I8-4q
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:55:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 15CC42E80C8
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:55:42 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iX09H-0004wF-7L
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:15 -0500
+Received: by mail-oi1-x241.google.com with SMTP id a14so18320608oid.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 01:50:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y4SuE2xg68j/eA79AQrvLVGegerOzUsaDYhxMDwOTRU=;
+ b=zdJZ4BplflonYJtKtGDGW+cDHK2CWNgCmGRZc9tuaixZpofBA6y6KjUrcBgI4JeiFE
+ z3UDUhYWUZ30NSnMb3Wj8xdpkQ7D6dEPRu+cOA0vJMK6OfAubhMQDpW8FrKpOk6w1P5Z
+ exKxT9e+HyC0OeS+ypQF61OO/JFR70Z+Jnvo/MP7ou5iSmQVJ62Imn9091d4VSqtwiUX
+ SNAn9Lehcbpftn+oZQUBU53hRjxw0/3OlBOJsdHS4jpKMAOeLq2mZXYp5P3vWj4LNYsM
+ nT0+inLbMNbeOimDWPS4zbiqy09XVDZPHWy5f2CQhEO0Y/f+WNtHKRcIgELn1vfimA8Q
+ 4gZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y4SuE2xg68j/eA79AQrvLVGegerOzUsaDYhxMDwOTRU=;
+ b=Ma+6xxPS98v3sBcnoPxuhLlpgu6I17J+vyZ7X1ct+JS5Eqv8BTxjCx0SQhc8bzJmMk
+ OaxBNFBTexzzBAHq5Qv3ZsIhlLJzdh6W6rJetDdD5ttCupPD2rX5WKIRXekSPeXEClt1
+ HGbfEnoMXjOIUiSJgZc4BasW7SLzQMAxPmaBLrn02Agj8qamTWPBtt34dZ5XgRt/NeWQ
+ RNkEyhO14mUN21OZ8YOmgXFx40CgXtT5bLcKVyoHoYjTTYAt9LqC0013cJVoJh9DmDj8
+ qHWZn5f3APerAPMgxRXgPl7K6TU4MjtV77ghI4y+wwLoG+ccUzofhZEHR2VZmJGKXG6L
+ TyEw==
+X-Gm-Message-State: APjAAAWNG27/MdiEAyo6xHy1RO92YBj3bOMSFcCZq8yD9o+FfsqiB6ns
+ w6dl50c46xTAiRQlxbm8+2y4G2f0p1KZ4fltLzUY+Q==
+X-Google-Smtp-Source: APXvYqyqJtt/XpQTHu+kJzAupH1hNDNFnoXFSaq2kwh4sp5QLwxJdaUdsKOBiZPQZ+p6FTiuWmy4OWcdvwXGUKIM+rs=
+X-Received: by 2002:aca:a9d4:: with SMTP id s203mr3205374oie.146.1574157014139; 
+ Tue, 19 Nov 2019 01:50:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Nov 2019 09:41:17 -0000
-From: wzis <wzis@hotmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth wzis
-X-Launchpad-Bug-Reporter: wzis (wzis)
-X-Launchpad-Bug-Modifier: wzis (wzis)
-References: <157413352600.6824.7282626865462030571.malonedeb@gac.canonical.com>
-Message-Id: <157415647710.22364.18289540129864084510.malone@chaenomeles.canonical.com>
-Subject: [Bug 1853083] Re: qemu ppc64 4.0 boot AIX5.1 hung
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 19f68624bf0046ca912732930f94eb2b409d77d5
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+References: <20191118194916.3670-1-richard.henderson@linaro.org>
+In-Reply-To: <20191118194916.3670-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Nov 2019 09:50:03 +0000
+Message-ID: <CAFEAcA86i=q7oBVEEmKGvb-7ckcPm8MWAJ3=0kLc-ZUDfSsfPw@mail.gmail.com>
+Subject: Re: [PATCH for-4.2] target/arm: Support EL0 v7m msr/mrs for
+ CONFIG_USER_ONLY
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,30 +72,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853083 <1853083@bugs.launchpad.net>
+Cc: Christophe Lyon <christophe.lyon@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What I don't understand is ppc64 for IBM machine emulation, but qemu
-ppc64 can't support AIX most of the time, but can support Linux on power
-very well.
+On Mon, 18 Nov 2019 at 19:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Simply moving the non-stub helper_v7m_mrs/msr outside of
+> !CONFIG_USER_ONLY is not an option, because of all of the
+> other system-mode helpers that are called.
+>
+> But we can split out a few subroutines to handle the few
+> EL0 accessible registers without duplicating code.
+>
+> Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h      |   2 +
+>  target/arm/m_helper.c | 110 ++++++++++++++++++++++++++----------------
+>  2 files changed, 70 insertions(+), 42 deletions(-)
+>
+>  /* These should probably raise undefined insn exceptions.  */
 
--- =
+This comment is now wrong -- all the 'dummy version for user
+mode' helpers below it are either "known to never be called" or
+have a "works for user-mode" implementation, so we can just delete it.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853083
+> -void HELPER(v7m_msr)(CPUARMState *env, uint32_t reg, uint32_t val)
+> +void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+>  {
+> -    ARMCPU *cpu = env_archcpu(env);
+> +    uint32_t mask = extract32(maskreg, 8, 4);
+> +    uint32_t reg = extract32(maskreg, 0, 8);
+>
+> -    cpu_abort(CPU(cpu), "v7m_msr %d\n", reg);
+> +    switch (reg) {
+> +    case 0 ... 7: /* xPSR sub-fields */
+> +        v7m_msr_xpsr(env, mask, reg, val);
+> +        break;
+> +    case 20: /* CONTROL */
+> +        /* There are no sub-fields that are actually writable from EL0. */
+> +        break;
 
-Title:
-  qemu ppc64 4.0 boot AIX5.1 hung
+I feel like somebody's static analysis is probably going to complain
+if we don't have a default case here:
+   default:
+        /* Writes to all other registers from EL0 are ignored */
+        break;
 
-Status in QEMU:
-  Incomplete
+Looks good otherwise, so I'll apply it to target-arm.next with those fixups.
 
-Bug description:
-  When boot AIX5.1 from cdrom device, qemu hung there, no further info
-  is displayed and cpu consumption is high.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853083/+subscriptions
+thanks
+-- PMM
 
