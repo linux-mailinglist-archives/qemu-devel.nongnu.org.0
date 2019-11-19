@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477D310126F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 05:29:59 +0100 (CET)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21207101272
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 05:30:28 +0100 (CET)
+Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWv9J-0000ZQ-W5
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 23:29:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49320)
+	id 1iWv9n-0001G2-5w
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 23:30:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qi1.zhang@intel.com>) id 1iWv7k-0007fL-RQ
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:23 -0500
+ (envelope-from <qi1.zhang@intel.com>) id 1iWv6k-0006BF-Gt
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:27:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qi1.zhang@intel.com>) id 1iWv7j-00035R-Kt
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:20 -0500
-Received: from mga06.intel.com ([134.134.136.31]:38422)
+ (envelope-from <qi1.zhang@intel.com>) id 1iWv6j-0002gG-9k
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:27:18 -0500
+Received: from mga05.intel.com ([192.55.52.43]:34957)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qi1.zhang@intel.com>) id 1iWv7j-00034I-Dd
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:19 -0500
+ (Exim 4.71) (envelope-from <qi1.zhang@intel.com>) id 1iWv6j-0002c8-1E
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:27:17 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2019 20:28:19 -0800
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2019 20:27:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="215444130"
+X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="209068499"
 Received: from a23004-02.sh.intel.com ([10.239.9.129])
- by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2019 20:28:17 -0800
+ by orsmga003.jf.intel.com with ESMTP; 18 Nov 2019 20:27:08 -0800
 From: qi1.zhang@intel.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] intel_iommu: TM field should not be in reserved bits
-Date: Tue, 19 Nov 2019 20:28:14 +0800
+Subject: [PATCH 2/2] intel_iommu: TM field should not be in reserved bits
+Date: Tue, 19 Nov 2019 20:27:02 +0800
 Message-Id: <758ae02ef3a36b2790a7e61018bb55379ceeb450.1570503331.git.qi1.zhang@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1570503331.git.qi1.zhang@intel.com>
@@ -41,7 +41,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
+X-Received-From: 192.55.52.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
