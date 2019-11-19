@@ -2,85 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1272C101ACE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:03:00 +0100 (CET)
-Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F0D101C11
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:18:18 +0100 (CET)
+Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWyTT-0004E9-4t
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:02:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47397)
+	id 1iWyiH-0002Nx-00
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:18:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iWyS6-0003Lb-0G
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:01:34 -0500
+ (envelope-from <clg@kaod.org>) id 1iWygD-0001HI-VV
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iWyS4-0005NW-VA
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:01:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26039
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iWygC-0006MS-JD
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:09 -0500
+Received: from 10.mo1.mail-out.ovh.net ([178.32.96.102]:59268)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iWyS4-0005N6-Qz
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:01:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574150492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EnC/TQfazeDor2kYnNw8O6s8n6I4iOG1JpgWF0W3w0Q=;
- b=N00qXOCMzKKHGz1Q84Q1/gnPOYsfcrVMdVosYPeLqBlDkQhqWQtERasS+ZCOCf/G5TInbi
- mbZHMlwCLVqtHriohYHDZFOPE71EhnjeO2C0GikYVEftYcekQ+gJxbyeFux8W8kbSfhzx6
- Vlm7ppjsnBv0KqhhsClTnFlwIOABmEs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-ojmCSdaNNbefROaPqEx4EA-1; Tue, 19 Nov 2019 03:01:31 -0500
-Received: by mail-wm1-f71.google.com with SMTP id v8so1858610wml.4
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 00:01:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SxoKSkTJi8LNoDT3DjR5Se2NbqgjY1GLJXYX8RfxC7c=;
- b=R2s0SJ4VBgmY97SMSXGDZDux0GuslwAwlZP7anG34ZYFZf6l5vXC1KfTL1OaKisi7C
- ry5np1DdwtZmim8aQuF7K8xlaw1MSNhPXwO9h5DkwHj4iknPxjXGzyPZ0ecO991a2go2
- 6zmVtFWVDr055w4SnsX5OoRJ+XoXa8HtEkMwXLQ599u8kLHRwpqq5ToeKiELx01q6Fii
- PWU+K+BNK1tTKo+Bbz2mUrAew2slcWRKaQ4fbZnpPMx1Nxo1S9qB5g4vyT4DjyJZHm7E
- hxW8neqRfKbVoaH7MwBLCrZ4fAYdQd4cWMOj7YPTzAPppMQI752/2SObGfmHlMUt+c++
- sYgw==
-X-Gm-Message-State: APjAAAXwVz4/aaC3/ykglQzMCCoiB1nox8oyhDtz2nPdIC7SiFHqELDq
- ty35Cmkd0vi5pluBCvd9xDEAxW6LEYPE6BOOIbVm1kw3G/5c+b9TEPCexcf5G3addZdfN23HZM4
- ywjFmjP95jAhQcTU=
-X-Received: by 2002:a1c:2846:: with SMTP id o67mr3875255wmo.7.1574150489576;
- Tue, 19 Nov 2019 00:01:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyhKPdQsO26d9Qcjn/qC+Myf75/FoE2Z9aoCIp15Wc9Dqk2W0lkfAsGoIAgLRLyDk2cmPHdlQ==
-X-Received: by 2002:a1c:2846:: with SMTP id o67mr3875229wmo.7.1574150489379;
- Tue, 19 Nov 2019 00:01:29 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id z15sm1295964wmi.12.2019.11.19.00.01.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Nov 2019 00:01:28 -0800 (PST)
-Subject: Re: [PATCH] audio: fix audio recording
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?=
- <DirtY.iCE.hu@gmail.com>
-References: <2fc947cf-7b42-de68-3f11-cbcf1c096be9@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a9ed793b-ebe7-b9da-3181-af246e16a59a@redhat.com>
-Date: Tue, 19 Nov 2019 09:01:28 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iWygC-00064O-Cc
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:08 -0500
+Received: from player778.ha.ovh.net (unknown [10.108.42.23])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 0DB10195A90
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:15:57 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player778.ha.ovh.net (Postfix) with ESMTPSA id 7807FC32B1ED;
+ Tue, 19 Nov 2019 08:15:53 +0000 (UTC)
+Subject: Re: [PATCH for-5.0] xive/kvm: Trigger interrupts from userspace
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <157408992731.494439.3405812941731584740.stgit@bahia.lan>
+ <f81b87b2-c6c9-9c12-2929-adbb341cd391@kaod.org>
+ <20191119004713.GF5582@umbus.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
+Date: Tue, 19 Nov 2019 09:15:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <2fc947cf-7b42-de68-3f11-cbcf1c096be9@t-online.de>
+In-Reply-To: <20191119004713.GF5582@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-X-MC-Unique: ojmCSdaNNbefROaPqEx4EA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Ovh-Tracer-Id: 11870644193856490323
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 178.32.96.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,43 +60,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Zolt=C3=A1n.
-
-On 11/19/19 7:58 AM, Volker R=C3=BCmelin wrote:
-> With current code audio recording with all audio backends
-> except PulseAudio and DirectSound is broken. The generic audio
-> recording buffer management forgot to update the current read
-> position after a read.
+On 19/11/2019 01:47, David Gibson wrote:
+> On Mon, Nov 18, 2019 at 04:37:16PM +0100, C=E9dric Le Goater wrote:
+>> On 18/11/2019 16:12, Greg Kurz wrote:
+>>> When using the XIVE KVM device, the trigger page is directly accessib=
+le
+>>> in QEMU. Unlike with XICS, no need to ask KVM to fire the interrupt. =
+A
+>>> simple store on the trigger page does the job.
+>>>
+>>> Just call xive_esb_trigger().
+>>
+>> Yes but the KVM XIVE device does a few other checks.=20
+>>
+>> It checks that the interrupt was correctly initialized at the KVM devi=
+ce
+>> level. We should be fine in QEMU which has similar checks.
+>>
+>> It caches the LSI assertion level. We should be fine also because it i=
+s
+>> useless in KVM when using the XIVE native exploitation mode.
+>>
+>> It checks it is not a passthru interrupt. Any idea on how to check thi=
+s=20
+>> condition under QEMU ?=20
+>> =20
+>>> This may improve performance of emulated devices that go through
+>>> qemu_set_irq(), eg. virtio devices created with ioeventfd=3Doff or
+>>> configured by the guest to use LSI interrupts, which aren't really
+>>> recommended setups.
+>>
+>> LGTM.
 >=20
-> Fixes: ff095e5231 "audio: api for mixeng code free backends"
->=20
-> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> ---
->   audio/audio.c | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 7fc3aa9d16..56fae55047 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -1390,6 +1390,7 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, si=
-ze_t *size)
->           size_t read =3D hw->pcm_ops->read(hw, hw->buf_emul + hw->pos_em=
-ul,
->                                           read_len);
->           hw->pending_emul +=3D read;
-> +        hw->pos_emul =3D (hw->pos_emul + read) % hw->size_emul;
+> Ok, between the comments above and this, I'm not sure if this is ready
+> to merge or not.
 
-Anyway since read() can return a negative value, both previous=20
-assignments should go after this if/break check...
+I think it is.=20
 
->           if (read < read_len) {
->               break;
->           }
+With this change, we are loosing a check on passthrough interrupts but=20
+I am not sure how critical this is given that QEMU can anyhow bypass=20
+KVM and trigger the interrupt using a store on the ESB page.=20
+
+>> Any figures to share ?=20
+
+I am torturing Greg to have numbers :) but he resisted well.
+
+>> C.
+>>
+>>> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Let's move on.
+
+Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+
+C.
+
+>>> ---
+>>>  hw/intc/spapr_xive_kvm.c |   16 ++--------------
+>>>  1 file changed, 2 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+>>> index 08012ac7cd76..69e73552f1ef 100644
+>>> --- a/hw/intc/spapr_xive_kvm.c
+>>> +++ b/hw/intc/spapr_xive_kvm.c
+>>> @@ -354,32 +354,20 @@ static void kvmppc_xive_source_get_state(XiveSo=
+urce *xsrc)
+>>>  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
+>>>  {
+>>>      XiveSource *xsrc =3D opaque;
+>>> -    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>>> -    struct kvm_irq_level args;
+>>> -    int rc;
+>>> -
+>>> -    /* The KVM XIVE device should be in use */
+>>> -    assert(xive->fd !=3D -1);
+>>> =20
+>>> -    args.irq =3D srcno;
+>>>      if (!xive_source_irq_is_lsi(xsrc, srcno)) {
+>>>          if (!val) {
+>>>              return;
+>>>          }
+>>> -        args.level =3D KVM_INTERRUPT_SET;
+>>>      } else {
+>>>          if (val) {
+>>>              xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
+>>> -            args.level =3D KVM_INTERRUPT_SET_LEVEL;
+>>>          } else {
+>>>              xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
+>>> -            args.level =3D KVM_INTERRUPT_UNSET;
+>>>          }
+>>>      }
+>>> -    rc =3D kvm_vm_ioctl(kvm_state, KVM_IRQ_LINE, &args);
+>>> -    if (rc < 0) {
+>>> -        error_report("XIVE: kvm_irq_line() failed : %s", strerror(er=
+rno));
+>>> -    }
+>>> +
+>>> +    xive_esb_trigger(xsrc, srcno);
+>>>  }
+>>
+>>
 >=20
 
 
