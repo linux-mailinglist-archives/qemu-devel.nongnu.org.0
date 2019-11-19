@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A342B102C5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 20:07:49 +0100 (CET)
-Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B211102CBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 20:34:06 +0100 (CET)
+Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX8qq-00012i-5C
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 14:07:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42291)
+	id 1iX9GG-00013T-HT
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 14:34:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@qualcomm.com>) id 1iX8pp-0000YM-Bf
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:06:46 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iX9E5-0000YN-UN
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:31:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@qualcomm.com>) id 1iX8pn-0008I6-NH
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:06:44 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:19369)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@qualcomm.com>)
- id 1iX8pn-0008HV-Dc
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:06:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1574190403; x=1605726403;
- h=from:to:cc:subject:date:message-id;
- bh=PYXD3LMVpdTJrs53IfRJalXicG3S5UDu4I0R342xWBI=;
- b=rPGKHichijC2nBm/v7tRe7SXa2zrAJplVIMc1Ig1w0lJfJscLVo5T4wG
- UZRMPkEoTthx2CMIvhsw2ZqLnD8X+T7QMcl7bog3xibPYQCf+H/1P/Vh9
- rbzaTNFn8T0vr2g8LJm/EF8Bso0usi9r8m7bxNASw/Sj2HvEa6jrnFLMA c=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 19 Nov 2019 11:06:42 -0800
-IronPort-SDR: 7Ft8vCzXgxrt/OaPaalXolbjA73IJB2P4Z0BFs2vNeKG4FUGazWvuAL4/AR08fHe+wzF30grm1
- fhmbYuCh91pq6oAhPfpbVkS8hiau9vzMvqWX0m+rDnTIsygwI5jsIG52lye1hciZqafqZs1MY9
- vZctmH4PnJC4Ha2Nsw0BhorTWWmjlscaiE+Sd9Kwb+i3PriDEcY9Nk3gEwjuS9I47YdKBLkG5B
- CidSnp9x29opQcWnr5M3LdMtXDjbbtSohhlMShdcPkg2ZUJGc8BkpjHoJRfkIAAy2PMyoOC0hn
- xqw85I3yNuoTaU5YbLSsxqF/
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg02-sd.qualcomm.com with ESMTP; 19 Nov 2019 11:06:41 -0800
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id EBD1BFFE; Tue, 19 Nov 2019 13:06:39 -0600 (CST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: riku.voipio@iki.fi,
-	laurent@vivier.eu,
-	qemu-devel@nongnu.org
-Subject: [PATCH] Hexagon: Swap SIGRGMAX-1 and SIGRTMIN+1
-Date: Tue, 19 Nov 2019 13:06:28 -0600
-Message-Id: <1574190388-12605-1-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+ (envelope-from <peter.maydell@linaro.org>) id 1iX9E3-0003W6-72
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:31:49 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43671)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iX9E1-0003Tn-I5
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 14:31:46 -0500
+Received: by mail-oi1-x243.google.com with SMTP id l20so20062534oie.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 11:31:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cbKcKRKbwQtv9Ci+cPhasDK8gmHv4/LOTNE1WwRIn6s=;
+ b=iscwv2nD88BuQhp6dazs+iQVVKNb4H0Nu8nwcdoFeJQy0m/6KU4OlgoPGguqQr+4O9
+ uMkvzHCB03cPku5pqyAVJErHwqbJgKPHCXLdZnmqLhCtI0Al5lOUpDRsVndxR8b+14mY
+ xmF578DnjtzPWZhvby9vnFcv62aqJncsu+Jff9ika3Hynp7UC2KWPEzPpDLkcCXKfzFD
+ voGTZ0rTi0wrhXB4GX5ruye1e6FwhEZCgNtJCEPCUhQsn2AgkEGpBgPfcRoRr4MEZUTD
+ VjHAMgb9/W5ptSurQiEDG89r0M0A1p+yl9U1YRTyGtM6vYpOzQVGqzvXetXWbugA8toj
+ 5D4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cbKcKRKbwQtv9Ci+cPhasDK8gmHv4/LOTNE1WwRIn6s=;
+ b=oGr4MBXMRN89ynEqjJQKbPXXf0/1LWcu11ZN9iH8BpoG8gm+5mfR7+UZbHiKFgsJ84
+ JOP5LvgytoX04AwO3HjGqJvTAvIGI3xjVUrsS6uss2ZUdcIP/F3e1wUMzZjXJTv2x5Z9
+ 63lBg5/2pwIDsMEb7+ZlXX5TSRrYsp/h1lfyyjmz5RnuMBIBbWyqExJyJeo64AyWSpl6
+ Et4nvEKpboqW9AoHrmIGjgGvUR0TtmqFzkfJIA38zCk8YLlGDp1+z6uKfGiPzqlbRD/u
+ WFMAkHDss50UA8uzH/+MoT9qQBahRjAK2Za7lxHAk2fDwgas85x0OG3EZS86XH8L+i3Q
+ 780w==
+X-Gm-Message-State: APjAAAV4ygU4oqjg/1w+gGJ3UIx6XAtekOCMPXIDC/eyGyfYKK4epIC2
+ bnl+7ff5VozuarwGWLULzMOnDyAspWsYOiCI/lJdMw==
+X-Google-Smtp-Source: APXvYqwWqKeBc2J5hPW4Io53QZtui5veR0zDiv//8G6/wQvu0fC+WVXztjalI7WNfOq9HRxv/zH925TGug2pi62WL6Y=
+X-Received: by 2002:aca:4945:: with SMTP id w66mr5790666oia.98.1574191899230; 
+ Tue, 19 Nov 2019 11:31:39 -0800 (PST)
+MIME-Version: 1.0
+References: <1574190388-12605-1-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1574190388-12605-1-git-send-email-tsimpson@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Nov 2019 19:31:28 +0000
+Message-ID: <CAFEAcA8AeTgY+3GaN9ZUi-5XtX5jxhqpdOhr3ixYwouWhQOQ5g@mail.gmail.com>
+Subject: Re: [PATCH] Hexagon: Swap SIGRGMAX-1 and SIGRTMIN+1
+To: Taylor Simpson <tsimpson@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,35 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
----
- linux-user/signal.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Tue, 19 Nov 2019 at 19:07, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>  linux-user/signal.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 5ca6d62..ce3d27f 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -72,6 +72,14 @@ static uint8_t host_to_target_signal_table[_NSIG] = {
+>         over a single host signal.  */
+>      [__SIGRTMIN] = __SIGRTMAX,
+>      [__SIGRTMAX] = __SIGRTMIN,
+> +#ifdef TARGET_HEXAGON
+> +    /*
+> +     * Hexagon uses the same signal for pthread cancel as the host pthreads,
+> +     * so cannot be overridden.
+> +     * Therefore, we map Hexagon signal to a different host signal.
+> +     */
+> +    [__SIGRTMAX - 1] = __SIGRTMIN + 1,
+> +#endif
+>  };
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 5ca6d62..ce3d27f 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -72,6 +72,14 @@ static uint8_t host_to_target_signal_table[_NSIG] = {
-        over a single host signal.  */
-     [__SIGRTMIN] = __SIGRTMAX,
-     [__SIGRTMAX] = __SIGRTMIN,
-+#ifdef TARGET_HEXAGON
-+    /*
-+     * Hexagon uses the same signal for pthread cancel as the host pthreads,
-+     * so cannot be overridden.
-+     * Therefore, we map Hexagon signal to a different host signal.
-+     */
-+    [__SIGRTMAX - 1] = __SIGRTMIN + 1,
-+#endif
- };
- static uint8_t target_to_host_signal_table[_NSIG];
- 
--- 
-2.7.4
+This breaks other stuff, unfortunately, like Go binaries.
+(Also, you now have two host signals mapped to the same
+target signal; notice that the existing RTMAX/RTMIN
+is a swap of the two slots.)
 
+We need a generic solution for this, Hexagon is not the
+only one with the problem. There's a patchset on list
+from ages back that had a suggested approach, but
+it needed review and work.
+
+thanks
+-- PMM
 
