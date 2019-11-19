@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4003101F48
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:05:33 +0100 (CET)
-Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3770A101F0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:02:44 +0100 (CET)
+Received: from localhost ([::1]:42938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWzS0-0006gQ-V9
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:05:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
+	id 1iWzPH-0004hn-1n
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:02:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iWzNQ-0004G6-7k
+ (envelope-from <armbru@redhat.com>) id 1iWzNQ-0004G7-4n
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aT-RY
+ (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aa-VP
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:47 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34275
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26197
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aH-JV
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aN-RO
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574154043;
+ s=mimecast20190719; t=1574154044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HNhLQgHHasV7jBYpL0FGXN27Gp9jfAgPM/xC+EEItW8=;
- b=O3ya9g3QM8Wo29Q6PlGG0ANwDIvcONUP0MtR2ga3kafdzBTvgriBQc00EmylR9toZ7jI4H
- YqQzNYmcMi5wHE18ful3xrP+zEw5yesE1gddtxVBRYbEb344uodpkxbUbnQHjYCGhI8jLr
- wcE+uWodgkxRyJNElkjtV9gyRjLfd6k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lb4urd+nF2hDkjxdjOka4SIZOYV6dszILUzz7uCOTds=;
+ b=bzR1JQm7uqwymQJr2uSvABsmIsMlKSKW3R+H1c9e5XipLULEFWhQuVcUY9pdNsXwgqNf5f
+ QUDb3M/wiFN1n+u1M12wDbd3bcBJAWaIKqem9U8aiN/rtGbQyDryf1Qh7sU1rqCwCn9G+b
+ 0BrJYUko+uKMbGMY8MgKlUdjAgWWoq4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-gYUTzuduNem3DBcc0NxfZw-1; Tue, 19 Nov 2019 04:00:40 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-409-93E6CYsfPOymbDTMosQv-g-1; Tue, 19 Nov 2019 04:00:40 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FD5F801FD2;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2EC3107ACFA;
  Tue, 19 Nov 2019 09:00:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.36.118.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 149A45E243;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 299A6610B0;
  Tue, 19 Nov 2019 09:00:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 71E331138606; Tue, 19 Nov 2019 10:00:37 +0100 (CET)
+ id 7706411385C7; Tue, 19 Nov 2019 10:00:37 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] Monitor patches for 2019-11-19
-Date: Tue, 19 Nov 2019 10:00:36 +0100
-Message-Id: <20191119090037.21686-1-armbru@redhat.com>
+Subject: [PULL 1/1] monitor/qmp: resume monitor when clearing its queue
+Date: Tue, 19 Nov 2019 10:00:37 +0100
+Message-Id: <20191119090037.21686-2-armbru@redhat.com>
+In-Reply-To: <20191119090037.21686-1-armbru@redhat.com>
+References: <20191119090037.21686-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: gYUTzuduNem3DBcc0NxfZw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 93E6CYsfPOymbDTMosQv-g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,39 +76,95 @@ Cc: w.bumiller@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'd like to propose this bug fix for -rc2.  Certain usage of QMP can
-leave the monitor permanently wedged (depends on event timing).
-Libvirt does not use it this way as far as I know.  I understand it
-affects other applications.  It's not a a regression in 4.2.
+From: Wolfgang Bumiller <w.bumiller@proxmox.com>
 
-If it's too late for fixing it in 4.2, we'll punt to 5.0 with cc:
-qemu-stable.
+When a monitor's queue is filled up in handle_qmp_command()
+it gets suspended. It's the dispatcher bh's job currently to
+resume the monitor, which it does after processing an event
+from the queue. However, it is possible for a
+CHR_EVENT_CLOSED event to be processed before before the bh
+is scheduled, which will clear the queue without resuming
+the monitor, thereby preventing the dispatcher from reaching
+the resume() call.
+Any new connections to the qmp socket will be accept()ed and
+show the greeting, but will not respond to any messages sent
+afterwards (as they will not be read from the
+still-suspended socket).
+Fix this by resuming the monitor when clearing a queue which
+was filled up.
 
-The following changes since commit a5c2a235103ab366ad5318636ec138e52c6dcfa4=
-:
-
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
-ng (2019-11-18 17:06:17 +0000)
-
-are available in the Git repository at:
-
-  git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-11-19
-
-for you to fetch changes up to 2895aaa139b3f916b3650ca516b35dceb9c0d4c4:
-
-  monitor/qmp: resume monitor when clearing its queue (2019-11-19 08:21:47 =
-+0100)
-
-----------------------------------------------------------------
-Monitor patches for 2019-11-19
-
-----------------------------------------------------------------
-Wolfgang Bumiller (1):
-      monitor/qmp: resume monitor when clearing its queue
-
+Signed-off-by: Wolfgang Bumiller <w.bumiller@proxmox.com>
+Message-Id: <20191115085914.21287-1-w.bumiller@proxmox.com>
+---
  monitor/qmp.c | 36 +++++++++++++++++++++++++++++++-----
  1 file changed, 31 insertions(+), 5 deletions(-)
 
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 9d9e5d8b27..b67a8e7d1f 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -75,10 +75,35 @@ static void monitor_qmp_cleanup_req_queue_locked(Monito=
+rQMP *mon)
+     }
+ }
+=20
+-static void monitor_qmp_cleanup_queues(MonitorQMP *mon)
++static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
+ {
+     qemu_mutex_lock(&mon->qmp_queue_lock);
++
++    /*
++     * Same condition as in monitor_qmp_bh_dispatcher(), but before
++     * removing an element from the queue (hence no `- 1`).
++     * Also, the queue should not be empty either, otherwise the
++     * monitor hasn't been suspended yet (or was already resumed).
++     */
++    bool need_resume =3D (!qmp_oob_enabled(mon) ||
++        mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX)
++        && !g_queue_is_empty(mon->qmp_requests);
++
+     monitor_qmp_cleanup_req_queue_locked(mon);
++
++    if (need_resume) {
++        /*
++         * handle_qmp_command() suspended the monitor because the
++         * request queue filled up, to be resumed when the queue has
++         * space again.  We just emptied it; resume the monitor.
++         *
++         * Without this, the monitor would remain suspended forever
++         * when we get here while the monitor is suspended.  An
++         * unfortunately timed CHR_EVENT_CLOSED can do the trick.
++         */
++        monitor_resume(&mon->common);
++    }
++
+     qemu_mutex_unlock(&mon->qmp_queue_lock);
+ }
+=20
+@@ -263,9 +288,10 @@ static void handle_qmp_command(void *opaque, QObject *=
+req, Error *err)
+=20
+     /*
+      * Suspend the monitor when we can't queue more requests after
+-     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() will resume
+-     * it.  Note that when OOB is disabled, we queue at most one
+-     * command, for backward compatibility.
++     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
++     * monitor_qmp_cleanup_queue_and_resume() will resume it.
++     * Note that when OOB is disabled, we queue at most one command,
++     * for backward compatibility.
+      */
+     if (!qmp_oob_enabled(mon) ||
+         mon->qmp_requests->length =3D=3D QMP_REQ_QUEUE_LEN_MAX - 1) {
+@@ -332,7 +358,7 @@ static void monitor_qmp_event(void *opaque, int event)
+          * stdio, it's possible that stdout is still open when stdin
+          * is closed.
+          */
+-        monitor_qmp_cleanup_queues(mon);
++        monitor_qmp_cleanup_queue_and_resume(mon);
+         json_message_parser_destroy(&mon->parser);
+         json_message_parser_init(&mon->parser, handle_qmp_command,
+                                  mon, NULL);
 --=20
 2.21.0
 
