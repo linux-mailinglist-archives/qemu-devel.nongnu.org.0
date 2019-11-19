@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295691028FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:11:18 +0100 (CET)
-Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8595C102911
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:14:27 +0100 (CET)
+Received: from localhost ([::1]:47044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX660-0003XR-TL
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:11:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
+	id 1iX693-000858-23
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:14:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63i-0001iT-I1
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:55 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63j-0001im-GH
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63h-0005zg-BC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:54 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39334)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63i-00060c-IH
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:55 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63h-0005zE-59
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:53 -0500
-Received: by mail-wr1-x441.google.com with SMTP id l7so24518693wrp.6
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:53 -0800 (PST)
+ id 1iX63i-0005zy-Bx
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:54 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id t1so24521354wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IxNe+PRA4UNUXRxlwBF/Lxfbz/p8jdQxx9siBVgywJQ=;
- b=icAa2MzC4t1MNIhDwGn3NHE9S4tsUulOXoVzxbmIp9456X0ucSSQhJsp/VbrcQDpyF
- w9Yfm1tyzi5T+/Fz6vCe+OgJvDGJoEWwBjRkDAhGRO51NAzAznJQX+Zn6mI1zEM5b5Jx
- bkAhqsfFpjkxChaQAhvs4h9V2oa/FhhVclp/V1YuhQ4N07jUFzz/NSIb6n1veIhlK2A6
- HIYr5abSMeTMM/ZAeIVoTRKFWEF4bHIFtA3CQONhFE5f83YT4mC4xQeUb0ZxLgobsjNn
- MxeiwoecQ5oO5J4LzXhH+dC1uV8X9riBF03GFRB7Vg77dUezlG76h4hhvbITkkFXiP5J
- QYCA==
+ bh=EjE2s4dLILThkxinnyee0kv/UUrrjl0KyE1AfYKWQZo=;
+ b=XzApEN9PqChXErKLJf0sWsbQUCSOuFJNJn2yksaCeY0AivG905dNtSD1fcbmWGf5Mr
+ SO3blEK5i/e8869phuDZqET76qL1+DeLb2Kwee/neOUjm/0JVCDN4lXfC+RDQeyuhE3i
+ GJ0bDh4DMT+9OHoXsi6FL7cX/mal7/Z1mJHx3FTRX/5OCR6qRHypCmDCrzfLNkZdl+hF
+ XeUZ6Ma3oKpoGrvO+/lJsxxgvTFOhEukYx3WlCLm+Q4hFoJruY7IU0Lh9kPAbOSHrB2w
+ Ppx9Seb+3FB6o+XQWKvn167Sbyo8ExoQVq1ZAvab7D+UyCtBCHIILcvytVdQKQVAeSRE
+ vaKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=IxNe+PRA4UNUXRxlwBF/Lxfbz/p8jdQxx9siBVgywJQ=;
- b=YOAvSXKDaSTJEwz/wQXhM3hA0/GfrUI4mVxuGpLxXOTQTOglYIh5Wud2xlt13HdLsp
- d6910uvnce9hwAOqncaJPMvup4j2890ZvZQTsWZelVJjkscLjiFuRF+GMxGv4TbnOwuC
- FbPPoUMug4d9kbIKR+UOXlNHJP/ZN2KLa8xmTsNsRPxfLXsBW6GP90/1axczheNpMMqT
- WVPwA3t690fyTpO55qjiqmq7jKKpVo0/wUL1cgzFvVK1LAJjoFM1asM99TGAUcGPry3t
- VYOmGKaXJdWrigPG3elYtQmnzFAsjsa9VDrRjgUuj24im3CfVnOUX6x+k1ljOYgkYF5T
- p4KQ==
-X-Gm-Message-State: APjAAAUDGH25ejvtZpsmosBiMof96OjiTDstl6NpHVCske/rAb4vkjxG
- tW3No3bplF8sCxN04Ey9sQYJWUjx
-X-Google-Smtp-Source: APXvYqx77y8Q97mzu3TUCd1Ed+NqhQGmI1MLYOUi/wTaiBJF+ZPwYefR0Y9dBytOYXnHFZZKMI4dbQ==
-X-Received: by 2002:adf:ec4b:: with SMTP id w11mr36827280wrn.243.1574179731619; 
- Tue, 19 Nov 2019 08:08:51 -0800 (PST)
+ bh=EjE2s4dLILThkxinnyee0kv/UUrrjl0KyE1AfYKWQZo=;
+ b=V2p3UfXcrZ5gwtlvIqYblHrNaOK7ddI2idc7JbxvNtdO1bqscgZrt7Ic2KKXtA7Y2s
+ RA2UJ6W8fDIio1AirXm9/kDRWHbjzAe+CeT52eawO+yzwQ3OUYyCiwqR5QG47qWxYgRk
+ fkkoAHAI85rFnLkbob1HJFXr6Uqg5vvLep4rWu+D6gAiqUX+z6MA2bWyyyrCjTFxw07L
+ RYurBnR3Nbumh+szjXtrBlQ1bBw+xk1b/v8jYz/LpVxgVHorWw+MdSf67e8S5NAVZb+J
+ I050kU4hogvSoHrM3bd6Vofi+ZNXKU/YcUUP5yJ5IWZxzEEkN+qOivvHq+VKNxiJZQg+
+ 6XJA==
+X-Gm-Message-State: APjAAAXynZ5xUh6z4QUkckzUz3cTdYgX2IR2BU8N+ZFGLheGLSyCEhtc
+ 608eA03Ls7nXn0kUfwYIn108hOgB
+X-Google-Smtp-Source: APXvYqxXjmGuZg5VN/SO1JffK/bZztsyuumCrQ1iNKymUG1m37NnoABf6VzIi8tA8wPR1lHgIO5oKA==
+X-Received: by 2002:a5d:522e:: with SMTP id i14mr23364679wra.27.1574179732826; 
+ Tue, 19 Nov 2019 08:08:52 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.50
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.51
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:08:50 -0800 (PST)
+ Tue, 19 Nov 2019 08:08:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] scripts: Detect git worktrees for get_maintainer.pl --git
-Date: Tue, 19 Nov 2019 17:08:37 +0100
-Message-Id: <1574179728-35535-2-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 02/12] microvm: fix memory leak in microvm_fix_kernel_cmdline
+Date: Tue, 19 Nov 2019 17:08:38 +0100
+Message-Id: <1574179728-35535-3-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,39 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc: Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+From: Sergio Lopez <slp@redhat.com>
 
-Recent git versions support worktrees where .git is not a directory but
-a file with a path to the .git repository; however the get_maintainer.pl
-script only recognises the .git directory, let's fix it.
+In microvm_fix_kernel_cmdline(), fw_cfg_modify_string() is duplicating
+cmdline instead of taking ownership of it. Free it afterwards to avoid
+leaking it.
 
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20191112034532.69079-1-aik@ozlabs.ru>
+Reported-by: Coverity (CID 1407218)
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+Message-Id: <20191112163423.91884-1-slp@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/get_maintainer.pl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/microvm.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 71415e3..27991eb 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -81,7 +81,7 @@ my %VCS_cmds;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 8aacd6c..def37e6 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -331,6 +331,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
  
- my %VCS_cmds_git = (
-     "execute_cmd" => \&git_execute_cmd,
--    "available" => '(which("git") ne "") && (-d ".git")',
-+    "available" => '(which("git") ne "") && (-e ".git")',
-     "find_signers_cmd" =>
- 	"git log --no-color --follow --since=\$email_git_since " .
- 	    '--format="GitCommit: %H%n' .
+     fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
+     fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
++
++    g_free(cmdline);
+ }
+ 
+ static void microvm_machine_state_init(MachineState *machine)
 -- 
 1.8.3.1
 
