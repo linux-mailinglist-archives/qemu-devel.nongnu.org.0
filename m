@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F0D101C11
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:18:18 +0100 (CET)
-Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C79E101E1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:42:48 +0100 (CET)
+Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWyiH-0002Nx-00
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:18:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
+	id 1iWz5z-0003wU-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:42:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iWygD-0001HI-VV
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:11 -0500
+ (envelope-from <bounces@canonical.com>) id 1iWz44-00029S-8P
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:40:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iWygC-0006MS-JD
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:09 -0500
-Received: from 10.mo1.mail-out.ovh.net ([178.32.96.102]:59268)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iWygC-00064O-Cc
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:16:08 -0500
-Received: from player778.ha.ovh.net (unknown [10.108.42.23])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id 0DB10195A90
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:15:57 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player778.ha.ovh.net (Postfix) with ESMTPSA id 7807FC32B1ED;
- Tue, 19 Nov 2019 08:15:53 +0000 (UTC)
-Subject: Re: [PATCH for-5.0] xive/kvm: Trigger interrupts from userspace
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <157408992731.494439.3405812941731584740.stgit@bahia.lan>
- <f81b87b2-c6c9-9c12-2929-adbb341cd391@kaod.org>
- <20191119004713.GF5582@umbus.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
-Date: Tue, 19 Nov 2019 09:15:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iWz42-0004JM-8w
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:40:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iWz42-0004Iu-3J
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:40:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iWz40-0006qO-Od
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:40:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 717122E80C8
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:40:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191119004713.GF5582@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-X-Ovh-Tracer-Id: 11870644193856490323
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeejkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Nov 2019 08:33:49 -0000
+From: wzis <wzis@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth wzis
+X-Launchpad-Bug-Reporter: wzis (wzis)
+X-Launchpad-Bug-Modifier: wzis (wzis)
+References: <157413352600.6824.7282626865462030571.malonedeb@gac.canonical.com>
+Message-Id: <157415242943.22184.13702767292439004465.malone@chaenomeles.canonical.com>
+Subject: [Bug 1853083] Re: qemu ppc64 4.0 boot AIX5.1 hung
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a5538b5a2dad8b3987178baf278daa0190de5307
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.96.102
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,110 +66,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Reply-To: Bug 1853083 <1853083@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/11/2019 01:47, David Gibson wrote:
-> On Mon, Nov 18, 2019 at 04:37:16PM +0100, C=E9dric Le Goater wrote:
->> On 18/11/2019 16:12, Greg Kurz wrote:
->>> When using the XIVE KVM device, the trigger page is directly accessib=
-le
->>> in QEMU. Unlike with XICS, no need to ask KVM to fire the interrupt. =
-A
->>> simple store on the trigger page does the job.
->>>
->>> Just call xive_esb_trigger().
->>
->> Yes but the KVM XIVE device does a few other checks.=20
->>
->> It checks that the interrupt was correctly initialized at the KVM devi=
-ce
->> level. We should be fine in QEMU which has similar checks.
->>
->> It caches the LSI assertion level. We should be fine also because it i=
-s
->> useless in KVM when using the XIVE native exploitation mode.
->>
->> It checks it is not a passthru interrupt. Any idea on how to check thi=
-s=20
->> condition under QEMU ?=20
->> =20
->>> This may improve performance of emulated devices that go through
->>> qemu_set_irq(), eg. virtio devices created with ioeventfd=3Doff or
->>> configured by the guest to use LSI interrupts, which aren't really
->>> recommended setups.
->>
->> LGTM.
->=20
-> Ok, between the comments above and this, I'm not sure if this is ready
-> to merge or not.
+No, this happened when I tried to install the AIX5.1 on qemu ppc64.
 
-I think it is.=20
+-- =
 
-With this change, we are loosing a check on passthrough interrupts but=20
-I am not sure how critical this is given that QEMU can anyhow bypass=20
-KVM and trigger the interrupt using a store on the ESB page.=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853083
 
->> Any figures to share ?=20
+Title:
+  qemu ppc64 4.0 boot AIX5.1 hung
 
-I am torturing Greg to have numbers :) but he resisted well.
+Status in QEMU:
+  Incomplete
 
->> C.
->>
->>> Signed-off-by: Greg Kurz <groug@kaod.org>
+Bug description:
+  When boot AIX5.1 from cdrom device, qemu hung there, no further info
+  is displayed and cpu consumption is high.
 
-Let's move on.
-
-Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-
-C.
-
->>> ---
->>>  hw/intc/spapr_xive_kvm.c |   16 ++--------------
->>>  1 file changed, 2 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
->>> index 08012ac7cd76..69e73552f1ef 100644
->>> --- a/hw/intc/spapr_xive_kvm.c
->>> +++ b/hw/intc/spapr_xive_kvm.c
->>> @@ -354,32 +354,20 @@ static void kvmppc_xive_source_get_state(XiveSo=
-urce *xsrc)
->>>  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
->>>  {
->>>      XiveSource *xsrc =3D opaque;
->>> -    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
->>> -    struct kvm_irq_level args;
->>> -    int rc;
->>> -
->>> -    /* The KVM XIVE device should be in use */
->>> -    assert(xive->fd !=3D -1);
->>> =20
->>> -    args.irq =3D srcno;
->>>      if (!xive_source_irq_is_lsi(xsrc, srcno)) {
->>>          if (!val) {
->>>              return;
->>>          }
->>> -        args.level =3D KVM_INTERRUPT_SET;
->>>      } else {
->>>          if (val) {
->>>              xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
->>> -            args.level =3D KVM_INTERRUPT_SET_LEVEL;
->>>          } else {
->>>              xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
->>> -            args.level =3D KVM_INTERRUPT_UNSET;
->>>          }
->>>      }
->>> -    rc =3D kvm_vm_ioctl(kvm_state, KVM_IRQ_LINE, &args);
->>> -    if (rc < 0) {
->>> -        error_report("XIVE: kvm_irq_line() failed : %s", strerror(er=
-rno));
->>> -    }
->>> +
->>> +    xive_esb_trigger(xsrc, srcno);
->>>  }
->>
->>
->=20
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1853083/+subscriptions
 
