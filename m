@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2FF102ADD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:36:40 +0100 (CET)
-Received: from localhost ([::1]:48487 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B4D102AEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:42:53 +0100 (CET)
+Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7Qd-0005T6-D8
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:36:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50439)
+	id 1iX7We-0002rl-IV
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iX7Mj-0002VI-Bo
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:32:38 -0500
+ (envelope-from <bounces@canonical.com>) id 1iX7VR-0002RK-F9
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iX7Mi-0002Mp-4e
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:32:37 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40395)
+ (envelope-from <bounces@canonical.com>) id 1iX7VP-00075z-WD
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iX7Mh-0002MW-Sr
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:32:36 -0500
-Received: by mail-oi1-x243.google.com with SMTP id d22so12760191oic.7
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uGZ209V/4VBhCA0wFn9wY0wY0qbDWQuHpGPekvq+T2I=;
- b=Vk+vq6XrpiP713LCrqyzXM1v44TKwQOybLOXnApM1BPqhXot2R/UequZG3ZaFOVzbi
- ZDpZDhGQW/4tYHfNYATSICBUmS9P2GUSXN/a3o3PJlXIovlg2iY4EA1cxKxyOOmXmrqo
- u76Lc5gj/7NN4w1o8kWH410s7f1kb3XUl9oVnX9qWUglkn4kRBgVsRzuCy6LtryPRNJx
- tpEchdAiSKfSr5rO40vZ4j4lWzTAxgtXkN09eoXVbHG7dZ8GybXPe7n/QALyR55vcskp
- xpVtoR9Xx1jXYDsL07ydO8WYaiF+PgdG9z9YESjSlWaVUYYSTlcVTR5BGqKiqObsiFZb
- qUiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uGZ209V/4VBhCA0wFn9wY0wY0qbDWQuHpGPekvq+T2I=;
- b=NGBz5oLcsbf8vr0jER/O6pnzUJpLunbiX955UquaPPpxcb+R9ZYTsar3FP5pcTBX7t
- uuf+Nz2kvuPTacBc5CY5+ZoGQfVU/cL8wbSiP7hhQ951+HYkNOSTptgvHP5rNfsFMzB2
- lfE3xTuH1UyXukAtkLYRhQo/ZqRemOJBiG2TRt8fybqVYZtaw1aRzZKPClELx/mjhHpv
- Q3+zg7CrIiIDbhQWkNKTlWOE+FfACJj/t1Z2W3EuJwvh3HmuvisyeGE0qEUtwB1dh8u8
- E3LlziUAXjcPNkc4ur+v+YykbJev1F1UjwMs6zhL4jIyGYWXEoL1bJuwnMPzTJuPYkzh
- X2ig==
-X-Gm-Message-State: APjAAAUhWmcu5H2wRrihiYk64FZWmQLEXo6pfFTGxK0thd4qErBqyHrh
- uw7KOLk/HmZjfVeWUKVWywFMjm4tNaBXEkLd2mug7w==
-X-Google-Smtp-Source: APXvYqy1hKDC74SJiPnwBqVILfhoSUs2rg23045PSuejfbXO2s82uvk1ODvQYPSVnJvMdaIv3x/y1aLWkT1a/8zrjR0=
-X-Received: by 2002:aca:a9d4:: with SMTP id s203mr5014672oie.146.1574184754984; 
- Tue, 19 Nov 2019 09:32:34 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iX7VO-00074u-0P
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iX7VL-0006Fa-AF
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:41:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 377192E80C8
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:41:31 +0000 (UTC)
 MIME-Version: 1.0
-References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
- <a77ce406-5307-cee8-8e0b-7c08056fb0df@redhat.com>
- <BYAPR02MB488666AA94EBB57C2A318004DE4C0@BYAPR02MB4886.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB488666AA94EBB57C2A318004DE4C0@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Nov 2019 17:32:23 +0000
-Message-ID: <CAFEAcA8ZADX2KyTii0Pmgc0jtnvV0pac_NyB31-vvvdC=FJLzQ@mail.gmail.com>
-Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of patches
- - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon -
- Files in target/hexagon/imported are from another project and therefore do
- not conform to qemu coding standards
-To: Taylor Simpson <tsimpson@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Date: Tue, 19 Nov 2019 17:32:33 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1844817@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: trace
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <156899449679.4991.3377250373042418918.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157418475460.22889.11571924051490673056.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1844817] Re: trace: dynamic width format syntax not validated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7dbd2ce52cc73f3c24f4d3883c49ad2d60390d40
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,44 +69,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "laurent@vivier.eu" <laurent@vivier.eu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1844817 <1844817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Nov 2019 at 17:23, Taylor Simpson <tsimpson@quicinc.com> wrote:
-> - Laurent suggested I split the patch into two parts: linux-user and targ=
-et/hexagon.  If I do that, which one should contain the changes to common f=
-iles (e.g., configure)?  Also, note that we won't be able to build until bo=
-th patches are merged.  Is that OK?
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-Rule of thumb -- patches should generally be 200 lines
-or less (less is good!), with exceptions where something
-is very mechanical/repetitive and there's no point
-splitting it up (eg there's no need to have the new
-syscall_nr.h additions split into multiple patches).
-Judging purely by the "2184 insertions" summary you
-should probably be looking to split this into somewhere
-between 5 and 10 patches, where each patch is a coherent
-chunk with a commit message describing it.
+-- =
 
-Typically a new port is a complete patchset consisting
-of multiple patches which are intended to be applied in
-sequence. (They should be sent to the mailing list so
-they appear as a cover letter plus a set of patch
-emails each of which is a follow-up/reply to the cover
-letter. git-send-email can do this kind of thing for you.)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1844817
 
-The requirement for a patch series like that is that
-at each intermediate point QEMU should still build
-and pass 'make check'; but the new port will obviously
-not be completely functional until all the parts are
-present. You can probably look at how the initial
-commits for various other recent ports were structured
-to see the general idea.
+Title:
+  trace: dynamic width format syntax not validated
 
-thanks
--- PMM
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  The dtrace via stap backend cannot support the dynamic '*' width
+  format.
+
+  Eric noted in https://lists.gnu.org/archive/html/qemu-
+  devel/2019-09/msg04720.html:
+
+    https://sourceware.org/systemtap/langref.pdf
+
+    section 9.2 printf, states:
+
+    "The printf formatting directives are similar to those of C, except that
+    they are fully checked for type by the translator."
+
+    and does NOT list handling for '*' under precision or width.
+
+  Some trace events have been merged without checking this:
+
+  $ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
+  hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int f=
+mt_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64=
+" width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
+  hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int =
+fmt_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d v=
+alue:0x%0*x wcycle:%u"
+  hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uin=
+t32_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
+  hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, ui=
+nt32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x cou=
+nter:0x%016"PRIx64
+  hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint6=
+4_t value) "gt64120 read %s value:0x%0*" PRIx64
+  hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint=
+64_t value) "gt64120 write %s value:0x%0*" PRIx64
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1844817/+subscriptions
 
