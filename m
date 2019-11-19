@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6CD1011A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:11:01 +0100 (CET)
-Received: from localhost ([::1]:41258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91253101213
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:16:51 +0100 (CET)
+Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWtuu-0004UY-3n
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:11:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42769)
+	id 1iWu0Y-0003bB-JE
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42757)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iWtsH-0001t2-PK
+ (envelope-from <eblake@redhat.com>) id 1iWtsH-0001sm-E0
  for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iWtsF-0004jE-MW
+ (envelope-from <eblake@redhat.com>) id 1iWtsG-0004kV-8r
  for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47791
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39346
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWtsF-0004hY-Gj
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:15 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iWtsG-0004jJ-4W
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:08:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574132894;
+ s=mimecast20190719; t=1574132895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3vkggM0AK/j9YNOIYCu4VAnSxct234IkL8KRBv3z/kI=;
- b=hNwEqSRG9FQXUQrXoZFfnjMQcSnPuEjHvyeRx0b4zT5arBY1ZAJ+caYcBno4JITKJxWEmv
- FaY25LCRhgS0quYz/jELJ1PDGpQKHT01yAc3CZklXQsyqqQfE1jbYUXcOBCVEG2qTp2gA6
- Bck7csOSG6n1ejnADdvwco0u72VFjM8=
+ bh=nfIoFOf/0kvgP0rGEl7KBvgxBIHoXfQ0xlCxSK6ElbU=;
+ b=QifE2GN3D7BMTNnXcBhxqIkHUNqEH9y1DJU+WIDqvunT9XzTTwJyurajfIIL59t3qgjpV9
+ 7lElitVNF0q+Ryb/BcMeKf1Z/hX/LXzM0LeEj1jn1fdetrJ2WZMpT2HOY/xaV+zVGFpXcO
+ ozVhupFqKEsMpWrtYveU53n24s1eOIc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-8hJNiWWtOg27QGPlcxjMhg-1; Mon, 18 Nov 2019 22:08:13 -0500
+ us-mta-354-waqXY2_yPWu94T4iruaucA-1; Mon, 18 Nov 2019 22:08:13 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDC5D1005500;
- Tue, 19 Nov 2019 03:08:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625F01005502;
+ Tue, 19 Nov 2019 03:08:12 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B5F460565;
- Tue, 19 Nov 2019 03:08:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1140E60565;
+ Tue, 19 Nov 2019 03:08:12 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] nbd: Don't send oversize strings
-Date: Mon, 18 Nov 2019 21:07:54 -0600
-Message-Id: <20191119030759.24907-6-eblake@redhat.com>
+Subject: [PULL 06/10] MAINTAINERS: add more bitmap-related to Dirty Bitmaps
+ section
+Date: Mon, 18 Nov 2019 21:07:55 -0600
+Message-Id: <20191119030759.24907-7-eblake@redhat.com>
 In-Reply-To: <20191119030759.24907-1-eblake@redhat.com>
 References: <20191119030759.24907-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 8hJNiWWtOg27QGPlcxjMhg-1
+X-MC-Unique: waqXY2_yPWu94T4iruaucA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,338 +71,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu as server currently won't accept export names larger than 256
-bytes, nor create dirty bitmap names longer than 1023 bytes, so most
-uses of qemu as client or server have no reason to get anywhere near
-the NBD spec maximum of a 4k limit per string.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-However, we weren't actually enforcing things, ignoring when the
-remote side violates the protocol on input, and also having several
-code paths where we send oversize strings on output (for example,
-qemu-nbd --description could easily send more than 4k).  Tighten
-things up as follows:
+Let's add bitmaps persistence qcow2 feature and postcopy bitmaps
+migration to Dirty Bitmaps section.
 
-client:
-- Perform bounds check on export name and dirty bitmap request prior
-  to handing it to server
-- Validate that copied server replies are not too long (ignoring
-  NBD_INFO_* replies that are not copied is not too bad)
-server:
-- Perform bounds check on export name and description prior to
-  advertising it to client
-- Reject client name or metadata query that is too long
-- Adjust things to allow full 4k name limit rather than previous
-  256 byte limit
-
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20191026165655.14112-1-vsementsov@virtuozzo.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20191114024635.11363-4-eblake@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/nbd.h |  8 ++++----
- block/nbd.c         | 10 ++++++++++
- blockdev-nbd.c      |  5 +++++
- nbd/client.c        | 18 +++++++++++++++---
- nbd/server.c        | 20 +++++++++++++++-----
- qemu-nbd.c          |  9 +++++++++
- 6 files changed, 58 insertions(+), 12 deletions(-)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index c306423dc85c..7f46932d80f1 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -227,11 +227,11 @@ enum {
- #define NBD_MAX_BUFFER_SIZE (32 * 1024 * 1024)
-
- /*
-- * Maximum size of an export name. The NBD spec requires a minimum of
-- * 256 and recommends that servers support up to 4096; all users use
-- * malloc so we can bump this constant without worry.
-+ * Maximum size of a protocol string (export name, meta context name,
-+ * etc.).  Use malloc rather than stack allocation for storage of a
-+ * string.
-  */
--#define NBD_MAX_NAME_SIZE 256
-+#define NBD_MAX_STRING_SIZE 4096
-
- /* Two types of reply structures */
- #define NBD_SIMPLE_REPLY_MAGIC      0x67446698
-diff --git a/block/nbd.c b/block/nbd.c
-index 123976171cf4..5f18f78a9471 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1832,6 +1832,10 @@ static int nbd_process_options(BlockDriverState *bs,=
- QDict *options,
-     }
-
-     s->export =3D g_strdup(qemu_opt_get(opts, "export"));
-+    if (s->export && strlen(s->export) > NBD_MAX_STRING_SIZE) {
-+        error_setg(errp, "export name too long to send to server");
-+        goto error;
-+    }
-
-     s->tlscredsid =3D g_strdup(qemu_opt_get(opts, "tls-creds"));
-     if (s->tlscredsid) {
-@@ -1849,6 +1853,11 @@ static int nbd_process_options(BlockDriverState *bs,=
- QDict *options,
-     }
-
-     s->x_dirty_bitmap =3D g_strdup(qemu_opt_get(opts, "x-dirty-bitmap"));
-+    if (s->x_dirty_bitmap && strlen(s->x_dirty_bitmap) > NBD_MAX_STRING_SI=
-ZE) {
-+        error_setg(errp, "x-dirty-bitmap query too long to send to server"=
-);
-+        goto error;
-+    }
-+
-     s->reconnect_delay =3D qemu_opt_get_number(opts, "reconnect-delay", 0)=
-;
-
-     ret =3D 0;
-@@ -1859,6 +1868,7 @@ static int nbd_process_options(BlockDriverState *bs, =
-QDict *options,
-         qapi_free_SocketAddress(s->saddr);
-         g_free(s->export);
-         g_free(s->tlscredsid);
-+        g_free(s->x_dirty_bitmap);
-     }
-     qemu_opts_del(opts);
-     return ret;
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index 6a8b206e1d74..8c20baa4a4b9 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -162,6 +162,11 @@ void qmp_nbd_server_add(const char *device, bool has_n=
-ame, const char *name,
-         name =3D device;
-     }
-
-+    if (strlen(name) > NBD_MAX_STRING_SIZE) {
-+        error_setg(errp, "export name '%s' too long", name);
-+        return;
-+    }
-+
-     if (nbd_export_find(name)) {
-         error_setg(errp, "NBD server already has export named '%s'", name)=
-;
-         return;
-diff --git a/nbd/client.c b/nbd/client.c
-index f6733962b49b..ba173108baab 100644
---- a/nbd/client.c
-+++ b/nbd/client.c
-@@ -289,8 +289,8 @@ static int nbd_receive_list(QIOChannel *ioc, char **nam=
-e, char **description,
-         return -1;
-     }
-     len -=3D sizeof(namelen);
--    if (len < namelen) {
--        error_setg(errp, "incorrect option name length");
-+    if (len < namelen || namelen > NBD_MAX_STRING_SIZE) {
-+        error_setg(errp, "incorrect name length in server's list response"=
-);
-         nbd_send_opt_abort(ioc);
-         return -1;
-     }
-@@ -303,6 +303,12 @@ static int nbd_receive_list(QIOChannel *ioc, char **na=
-me, char **description,
-     local_name[namelen] =3D '\0';
-     len -=3D namelen;
-     if (len) {
-+        if (len > NBD_MAX_STRING_SIZE) {
-+            error_setg(errp, "incorrect description length in server's "
-+                       "list response");
-+            nbd_send_opt_abort(ioc);
-+            return -1;
-+        }
-         local_desc =3D g_malloc(len + 1);
-         if (nbd_read(ioc, local_desc, len, "export description", errp) < 0=
-) {
-             nbd_send_opt_abort(ioc);
-@@ -479,6 +485,10 @@ static int nbd_opt_info_or_go(QIOChannel *ioc, uint32_=
-t opt,
-             break;
-
-         default:
-+            /*
-+             * Not worth the bother to check if NBD_INFO_NAME or
-+             * NBD_INFO_DESCRIPTION exceed NBD_MAX_STRING_SIZE.
-+             */
-             trace_nbd_opt_info_unknown(type, nbd_info_lookup(type));
-             if (nbd_drop(ioc, len, errp) < 0) {
-                 error_prepend(errp, "Failed to read info payload: ");
-@@ -645,9 +655,11 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32=
-_t opt,
-     char *p;
-
-     data_len =3D sizeof(export_len) + export_len + sizeof(queries);
-+    assert(export_len <=3D NBD_MAX_STRING_SIZE);
-     if (query) {
-         query_len =3D strlen(query);
-         data_len +=3D sizeof(query_len) + query_len;
-+        assert(query_len <=3D NBD_MAX_STRING_SIZE);
-     } else {
-         assert(opt =3D=3D NBD_OPT_LIST_META_CONTEXT);
-     }
-@@ -1009,7 +1021,7 @@ int nbd_receive_negotiate(AioContext *aio_context, QI=
-OChannel *ioc,
-     bool zeroes;
-     bool base_allocation =3D info->base_allocation;
-
--    assert(info->name);
-+    assert(info->name && strlen(info->name) <=3D NBD_MAX_STRING_SIZE);
-     trace_nbd_receive_negotiate_name(info->name);
-
-     result =3D nbd_start_negotiate(aio_context, ioc, tlscreds, hostname, o=
-utioc,
-diff --git a/nbd/server.c b/nbd/server.c
-index 6bbeb98f8237..24ebc1a80571 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -321,7 +321,7 @@ static int nbd_opt_skip(NBDClient *client, size_t size,=
- Error **errp)
- /* nbd_opt_read_name
-  *
-  * Read a string with the format:
-- *   uint32_t len     (<=3D NBD_MAX_NAME_SIZE)
-+ *   uint32_t len     (<=3D NBD_MAX_STRING_SIZE)
-  *   len bytes string (not 0-terminated)
-  *
-  * On success, @name will be allocated.
-@@ -344,7 +344,7 @@ static int nbd_opt_read_name(NBDClient *client, char **=
-name, uint32_t *length,
-     }
-     len =3D cpu_to_be32(len);
-
--    if (len > NBD_MAX_NAME_SIZE) {
-+    if (len > NBD_MAX_STRING_SIZE) {
-         return nbd_opt_invalid(client, errp,
-                                "Invalid name length: %" PRIu32, len);
-     }
-@@ -379,6 +379,7 @@ static int nbd_negotiate_send_rep_list(NBDClient *clien=
-t, NBDExport *exp,
-     trace_nbd_negotiate_send_rep_list(name, desc);
-     name_len =3D strlen(name);
-     desc_len =3D strlen(desc);
-+    assert(name_len <=3D NBD_MAX_STRING_SIZE && desc_len <=3D NBD_MAX_STRI=
-NG_SIZE);
-     len =3D name_len + desc_len + sizeof(len);
-     ret =3D nbd_negotiate_send_rep_len(client, NBD_REP_SERVER, len, errp);
-     if (ret < 0) {
-@@ -445,7 +446,7 @@ static int nbd_negotiate_handle_export_name(NBDClient *=
-client, bool no_zeroes,
-         [10 .. 133]   reserved     (0) [unless no_zeroes]
-      */
-     trace_nbd_negotiate_handle_export_name();
--    if (client->optlen > NBD_MAX_NAME_SIZE) {
-+    if (client->optlen > NBD_MAX_STRING_SIZE) {
-         error_setg(errp, "Bad length received");
-         return -EINVAL;
-     }
-@@ -613,6 +614,7 @@ static int nbd_negotiate_handle_info(NBDClient *client,=
- Error **errp)
-     if (exp->description) {
-         size_t len =3D strlen(exp->description);
-
-+        assert(len <=3D NBD_MAX_STRING_SIZE);
-         rc =3D nbd_negotiate_send_info(client, NBD_INFO_DESCRIPTION,
-                                      len, exp->description, errp);
-         if (rc < 0) {
-@@ -757,6 +759,7 @@ static int nbd_negotiate_send_meta_context(NBDClient *c=
-lient,
-         {.iov_base =3D (void *)context, .iov_len =3D strlen(context)}
-     };
-
-+    assert(iov[1].iov_len <=3D NBD_MAX_STRING_SIZE);
-     if (client->opt =3D=3D NBD_OPT_LIST_META_CONTEXT) {
-         context_id =3D 0;
-     }
-@@ -905,7 +908,7 @@ static int nbd_meta_qemu_query(NBDClient *client, NBDEx=
-portMetaContexts *meta,
-  * Parse namespace name and call corresponding function to parse body of t=
-he
-  * query.
-  *
-- * The only supported namespace now is 'base'.
-+ * The only supported namespaces are 'base' and 'qemu'.
-  *
-  * The function aims not wasting time and memory to read long unknown name=
-space
-  * names.
-@@ -931,6 +934,10 @@ static int nbd_negotiate_meta_query(NBDClient *client,
-     }
-     len =3D cpu_to_be32(len);
-
-+    if (len > NBD_MAX_STRING_SIZE) {
-+        trace_nbd_negotiate_meta_query_skip("length too long");
-+        return nbd_opt_skip(client, len, errp);
-+    }
-     if (len < ns_len) {
-         trace_nbd_negotiate_meta_query_skip("length too short");
-         return nbd_opt_skip(client, len, errp);
-@@ -1492,7 +1499,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint6=
-4_t dev_offset,
-      * access since the export could be available before migration handove=
-r.
-      * ctx was acquired in the caller.
-      */
--    assert(name);
-+    assert(name && strlen(name) <=3D NBD_MAX_STRING_SIZE);
-     ctx =3D bdrv_get_aio_context(bs);
-     bdrv_invalidate_cache(bs, NULL);
-
-@@ -1518,6 +1525,7 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint6=
-4_t dev_offset,
-     assert(dev_offset <=3D INT64_MAX);
-     exp->dev_offset =3D dev_offset;
-     exp->name =3D g_strdup(name);
-+    assert(!desc || strlen(desc) <=3D NBD_MAX_STRING_SIZE);
-     exp->description =3D g_strdup(desc);
-     exp->nbdflags =3D (NBD_FLAG_HAS_FLAGS | NBD_FLAG_SEND_FLUSH |
-                      NBD_FLAG_SEND_FUA | NBD_FLAG_SEND_CACHE);
-@@ -1564,8 +1572,10 @@ NBDExport *nbd_export_new(BlockDriverState *bs, uint=
-64_t dev_offset,
-
-         bdrv_dirty_bitmap_set_busy(bm, true);
-         exp->export_bitmap =3D bm;
-+        assert(strlen(bitmap) <=3D BDRV_BITMAP_MAX_NAME_SIZE);
-         exp->export_bitmap_context =3D g_strdup_printf("qemu:dirty-bitmap:=
-%s",
-                                                      bitmap);
-+        assert(strlen(exp->export_bitmap_context) < NBD_MAX_STRING_SIZE);
-     }
-
-     exp->close =3D close;
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index caacf0ed7379..108a51f7eb01 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -833,9 +833,18 @@ int main(int argc, char **argv)
-             break;
-         case 'x':
-             export_name =3D optarg;
-+            if (strlen(export_name) > NBD_MAX_STRING_SIZE) {
-+                error_report("export name '%s' too long", export_name);
-+                exit(EXIT_FAILURE);
-+            }
-             break;
-         case 'D':
-             export_description =3D optarg;
-+            if (strlen(export_description) > NBD_MAX_STRING_SIZE) {
-+                error_report("export description '%s' too long",
-+                             export_description);
-+                exit(EXIT_FAILURE);
-+            }
-             break;
-         case 'v':
-             verbose =3D 1;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ff8d0d29f4b6..dfb7932608d5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1869,6 +1869,8 @@ F: util/hbitmap.c
+ F: block/dirty-bitmap.c
+ F: include/qemu/hbitmap.h
+ F: include/block/dirty-bitmap.h
++F: qcow2-bitmap.c
++F: migration/block-dirty-bitmap.c
+ F: tests/test-hbitmap.c
+ F: docs/interop/bitmaps.rst
+ T: git https://github.com/jnsnow/qemu.git bitmaps
 --=20
 2.21.0
 
