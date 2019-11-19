@@ -2,52 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F655101221
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:20:32 +0100 (CET)
-Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2F4101226
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:26:55 +0100 (CET)
+Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWu47-0007Gt-8F
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:20:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43397)
+	id 1iWuAI-0000OH-R1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:26:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iWtvw-0007EX-86
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:12:05 -0500
+ (envelope-from <bounces@canonical.com>) id 1iWu98-0008Lw-28
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:25:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iWtvv-0000DV-4E
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:12:04 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2266 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iWtvs-0008To-CA; Mon, 18 Nov 2019 22:12:00 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 271B4698BAD516829071;
- Tue, 19 Nov 2019 11:11:53 +0800 (CST)
-Received: from [127.0.0.1] (10.120.177.99) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Tue, 19 Nov 2019
- 11:11:44 +0800
-Subject: Re: [Qemu-devel][PATCH] ppc/spapr_events: fix potential NULL pointer
- dereference in rtas_event_log_dequeue
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <1574041813-35408-1-git-send-email-pannengyuan@huawei.com>
- <20191119025058.GN5582@umbus.fritz.box>
-From: pannengyuan <pannengyuan@huawei.com>
-Message-ID: <3e289453-cde4-cb9c-882f-88a5a2e78b36@huawei.com>
-Date: Tue, 19 Nov 2019 11:11:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1iWu97-0004Ar-06
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:25:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58346)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iWu96-00047i-K2
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:25:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iWu95-0003Fl-07
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 03:25:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EBF8A2E80C7
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 03:25:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191119025058.GN5582@umbus.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.120.177.99]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Nov 2019 03:18:45 -0000
+From: wzis <wzis@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: wzis
+X-Launchpad-Bug-Reporter: wzis (wzis)
+X-Launchpad-Bug-Modifier: wzis (wzis)
+Message-Id: <157413352600.6824.7282626865462030571.malonedeb@gac.canonical.com>
+Subject: [Bug 1853083] [NEW] qemu ppc64 4.0 boot AIX5.1 hung
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f7d9571b71b6ea0b2201a228d7f964c816c6879e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,58 +64,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, qemu-arm@nongnu.org, kenny.zhangjun@huawei.com,
- qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
+Reply-To: Bug 1853083 <1853083@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for you reply.
-I think you are right, I will send a new version later.
+Public bug reported:
 
-On 2019/11/19 10:50, David Gibson wrote:
-> On Mon, Nov 18, 2019 at 09:50:13AM +0800, pannengyuan@huawei.com wrote:
->> From: PanNengyuan <pannengyuan@huawei.com>
->>
->> source is being dereferenced before it is null checked, hence there is a
->> potential null pointer dereference.
->>
->> This fixes:
->>         360
->>     CID 68911917: (NULL_RETURNS)
->>         361. dereference: Dereferencing "source", which is known to be
->>         "NULL".
->>         361        if (source->mask & event_mask) {
->>         362            break;
->>         363        }
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-> 
-> I don't think this is the right solution.  The only events we ever
-> generated are LOG_TYPE_EPOW and LOG_TYPE_HOTPLUG, so in fact source
-> should never be NULL.
-> 
-> I think the correct way to satisfy Coverity here is to have
-> rtas_event_log_to_source() do an assert(), rather than returning NULL
-> for other event types.
-> 
->> ---
->>  hw/ppc/spapr_events.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
->> index 0e4c195..febd2ef 100644
->> --- a/hw/ppc/spapr_events.c
->> +++ b/hw/ppc/spapr_events.c
->> @@ -358,7 +358,7 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(SpaprMachineState *spapr,
->>              rtas_event_log_to_source(spapr,
->>                                       spapr_event_log_entry_type(entry));
->>  
->> -        if (source->mask & event_mask) {
->> +        if (source && (source->mask & event_mask)) {
->>              break;
->>          }
->>      }
-> 
+When boot AIX5.1 from cdrom device, qemu hung there, no further info is
+displayed and cpu consumption is high.
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853083
+
+Title:
+  qemu ppc64 4.0 boot AIX5.1 hung
+
+Status in QEMU:
+  New
+
+Bug description:
+  When boot AIX5.1 from cdrom device, qemu hung there, no further info
+  is displayed and cpu consumption is high.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1853083/+subscriptions
 
