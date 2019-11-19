@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD11F10297A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:33:50 +0100 (CET)
-Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F50E10297B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:34:39 +0100 (CET)
+Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX6Rp-0004Yd-GI
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:33:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
+	id 1iX6Sb-0005Ag-MO
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:34:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1iX6Fh-0006o0-Pc
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:18 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iX6Fp-0006z2-1l
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1iX6Fg-0005dq-9I
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:17 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59927
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1iX6Fm-0005gV-Ih
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50035
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iX6Fg-0005dO-5B
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:16 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iX6Fm-0005g2-FD
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:21:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574180475;
+ s=mimecast20190719; t=1574180481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hrcLuZBIhmc2gp7jpHS7Xt1cPZ3P7rf618i1CBZD37w=;
- b=OCmZP2zPwDfuj9bQUIU1bVAzPin3XIfr7QKGVlhqgOJqoMmo2+uVnQo4Tbvr3Mk9p0eIzJ
- ji8pSQZfcCnhi02dOeTuzXgsgbACWYhbTSkYb/O1TzzTKhXJHumJtTVmLJk2Cl2BKgFuX9
- wHoFUDmr0TZ/P4Wx8C1+IZ72R3ib0fc=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-kM2DIN9YO0OcFYgQe5vD_g-1; Tue, 19 Nov 2019 11:21:13 -0500
-Received: by mail-qt1-f199.google.com with SMTP id h15so14943045qtn.6
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:21:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=exJax9A/OGuqm+LJoGkeuH8cEK3c1x7vOQFhq5CexLY=;
- b=jd/kj4Ivg4uxw71XtNDwU1VwgBtyiFSxT/oz8KJibNIZwRTohTL7ze/kHNAVCcrSrK
- mi2qXklB0v/zAYYycZ524o5dOu9HpIknuZEXd5jPJ3ENIQIlOMhzbiNbS/8a50e8qBw2
- +PhfHWCjpchO1zy99efIhaoiLCw5PSTNpPIUx450DZ7o+8YIcYk94fnqZdYUHZIpPtKq
- pPaMKvTwDIMeiqT6Jl7qLSvYgpw5i2N5Gt718c7+y6aIOq66DTuX0kXQnUIGApFLtNEL
- KRH/r9QjEw+tFSqCihtN35NrMWUh5EKp2RZ4XwW0VYSlXkRBAWYsRHVgtRA2QrqF1M16
- QBSg==
-X-Gm-Message-State: APjAAAWQnDt8hfcZNKNfTaXtfOprS+/2TBCtd7Mvd1UuwrIZ2SfgL8rS
- 0zDq2yPlkFp1kVB8VVZC6/lA5iByqa9CuBCjD02BhrrnidUNiP3g0saHRQVimsOowesL5M5Gfdz
- 3tUGk/RkDs5YiJOE=
-X-Received: by 2002:ac8:53c1:: with SMTP id c1mr15910373qtq.328.1574180472758; 
- Tue, 19 Nov 2019 08:21:12 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxsGxbYvxlPlSQyAwWwlK7/Q/fKLC15TWw775I2qdi9nZkLjUtzWoLioMALmFvBEdNbeqG7kg==
-X-Received: by 2002:ac8:53c1:: with SMTP id c1mr15910351qtq.328.1574180472569; 
- Tue, 19 Nov 2019 08:21:12 -0800 (PST)
-Received: from xz-x1 ([104.156.64.74])
- by smtp.gmail.com with ESMTPSA id q204sm10555034qke.39.2019.11.19.08.21.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Nov 2019 08:21:11 -0800 (PST)
-Date: Tue, 19 Nov 2019 11:21:10 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 0/2] TM field check failed
-Message-ID: <20191119162110.GL9053@xz-x1>
-References: <cover.1570503331.git.qi1.zhang@intel.com>
- <20191119060259-mutt-send-email-mst@kernel.org>
+ bh=qF4T07IIgo0DnEu78N1pSXmtuZ7OF5jsZbBnH3/S1WE=;
+ b=dtBPZFINmfFVEO7o9iMmpbgT6D27vEKE0jGCDqMZdb17RSow7sZ6mkw5g4TQNSFZsQAfbP
+ RIjX9vg+6Ftydmp1W5Mwofq/7ZRjOMI+9rnsBXOKwU/+fW8DFp+X9WIZYgz0sPWKR+evFl
+ 3m2wolt9PT05qId+0aRbxbL+Z6+Z6fI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-vBvHEoamO2GOh25j17aUjw-1; Tue, 19 Nov 2019 11:21:18 -0500
+X-MC-Unique: vBvHEoamO2GOh25j17aUjw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96BC2800686;
+ Tue, 19 Nov 2019 16:21:16 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D02191B41E;
+ Tue, 19 Nov 2019 16:21:13 +0000 (UTC)
+Date: Tue, 19 Nov 2019 16:21:12 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 0/2] hw: Remove dynamic field width from trace events
+Message-ID: <20191119162112.GC229732@stefanha-x1.localdomain>
+References: <20191118222746.31467-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191119060259-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-MC-Unique: kM2DIN9YO0OcFYgQe5vD_g-1
+In-Reply-To: <20191118222746.31467-1-philmd@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wxDdMuZNg1r63Hyj"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,36 +71,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qi1.zhang@intel.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, yadong.qi@intel.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 19, 2019 at 06:05:11AM -0500, Michael S. Tsirkin wrote:
-> On Tue, Nov 19, 2019 at 08:28:12PM +0800, qi1.zhang@intel.com wrote:
-> > From: "Zhang, Qi" <qi1.zhang@intel.com>
-> >=20
-> > spilt the reserved fields arrays and remove TM field from reserved=20
-> >  bits
+--wxDdMuZNg1r63Hyj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Nov 18, 2019 at 11:27:44PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> This series fixes LP#1844817 [2].
 >=20
-> Looks good to me.
-> Also Cc Peter Xu.
-> Also I wonder - do we need to version this change
-> with the machine type? Peter what's your take?
+> (Eric noted in [1] the dtrace via stap backend can not support
+> the dynamic '*' width format.)
+>=20
+> If they are trivial/block/tracing pull in preparation, this
+> series will be happy to be taken, else it will go via mips-next.
+>=20
+> Thanks,
+>=20
+> Phil.
+>=20
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04720.html
+> [2] https://bugs.launchpad.net/qemu/+bug/1844817
+>=20
+> Philippe Mathieu-Daud=E9 (2):
+>   hw/block/pflash: Remove dynamic field width from trace events
+>   hw/mips/gt64xxx: Remove dynamic field width from trace events
+>=20
+>  hw/block/pflash_cfi01.c |  8 ++++----
+>  hw/block/pflash_cfi02.c |  8 ++++----
+>  hw/mips/gt64xxx_pci.c   | 16 ++++++++--------
+>  hw/block/trace-events   |  8 ++++----
+>  hw/mips/trace-events    |  4 ++--
+>  5 files changed, 22 insertions(+), 22 deletions(-)
+>=20
+> --=20
+> 2.21.0
+>=20
 
-It should be a bugfix to me.  With the patchset we check even less
-reserved bits, then imho it shouldn't break any existing good users.
-So we can probably skip versioning this change.
+Will send a pull request today.
 
-> Also, Peter, how about we create a MAINTAINERS entry for IOMMUs
-> and add everyone involved, this way people will
-> remember to CC you?
+Thanks, applied to my tracing tree:
+https://github.com/stefanha/qemu/commits/tracing
 
-Sure, I'll be fine with either way.
+Stefan
 
-Thanks,
+--wxDdMuZNg1r63Hyj
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Peter Xu
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3UFngACgkQnKSrs4Gr
+c8hb+QgApzAB6OB9tFcqcictmaTP4f/jIgfxKX5vHYS/0SN1GSy1teAP8mZi4QYs
+q46G7r2Ke8JRvsVq2SgYVM7f65JM/a6/ZRthJV5Fxp5Zhb7Ne0di9fF0DrXhzRKM
+GTgalo5HSCKtC+uQp2WJspPgco/NeotlHJsCmsd4X5JyVhBpr8axKhxsHpyIAKi3
+a95wgqV1+GAvu6H+YxdRZaa39gEUu5J3IwPa8WW1UwRU8CXscwk6Wqicy2oFrs24
+QI+hdnVXZid8JC+2uD6LayyquEMwEMHTlvNlg0DUTQkvoDlIAkWp0ZPFc9OXScWd
+f68W+aBEO9nC3EpV7rS02EUL00FmbA==
+=PJtq
+-----END PGP SIGNATURE-----
+
+--wxDdMuZNg1r63Hyj--
 
 
