@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE89D102AB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:22:31 +0100 (CET)
-Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D57102A93
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:14:36 +0100 (CET)
+Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7Cw-0004OB-Jx
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:22:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
+	id 1iX75G-0003RC-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iX6ze-0005ZV-UT
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:48 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iX6zd-0004Ng-Nh
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41989
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6zd-0004NE-Jp
+ (envelope-from <groug@kaod.org>) id 1iX6zb-0005T4-4X
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574183325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rp05Z/k6BqB5bTYRSrt9R9ui2PL+kBdRh3ppU5tGS7k=;
- b=DP4PAizTjs80wwdnRwFYwLdOwGKmCXmzSfP3BY/ggVLjyPyAVtVMYuM0ZDa2oDvCL0h2kD
- GRbp2PPGLFhV/NrOjLgCbKQ3iPfP8Jq8G5EzhIUPUahTKKepGO/KgGhT8FQkPlr7tQd/x9
- PNQSkuDJ7TZd0L6LBln0e4zpIo4pUNw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-5d9T9t3oPQydYnK972LkmA-1; Tue, 19 Nov 2019 12:08:42 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21B74A0F2E;
- Tue, 19 Nov 2019 17:08:41 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-181.ams2.redhat.com
- [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38CA95E7A6;
- Tue, 19 Nov 2019 17:08:39 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 6/6] travis.yml: Enable builds on arm64, ppc64le and s390x
-Date: Tue, 19 Nov 2019 18:08:21 +0100
-Message-Id: <20191119170822.45649-7-thuth@redhat.com>
-In-Reply-To: <20191119170822.45649-1-thuth@redhat.com>
-References: <20191119170822.45649-1-thuth@redhat.com>
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <groug@kaod.org>) id 1iX6zZ-0004KK-FP
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:42 -0500
+Received: from 5.mo5.mail-out.ovh.net ([87.98.173.103]:44586)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iX6zY-0004Hn-Bo
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:40 -0500
+Received: from player711.ha.ovh.net (unknown [10.108.35.27])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id DF87825AC6E
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 18:08:37 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: groug@kaod.org)
+ by player711.ha.ovh.net (Postfix) with ESMTPSA id F41CBC2F13E1;
+ Tue, 19 Nov 2019 17:08:32 +0000 (UTC)
+Date: Tue, 19 Nov 2019 18:08:30 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC v5 054/126] virtio-9p: introduce ERRP_AUTO_PROPAGATE
+Message-ID: <20191119180830.080b8107@bahia.lan>
+In-Reply-To: <aef514db-f55a-bc5d-f9d2-b9a54d9e1ce7@virtuozzo.com>
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <20191011160552.22907-55-vsementsov@virtuozzo.com>
+ <20191119175644.058cce0b@bahia.lan>
+ <aef514db-f55a-bc5d-f9d2-b9a54d9e1ce7@virtuozzo.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 5d9T9t3oPQydYnK972LkmA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 2419840377140779347
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 87.98.173.103
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,126 +59,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Travis recently added the possibility to test on these architectures,
-too, so let's enable them in our travis.yml file to extend our test
-coverage.
+On Tue, 19 Nov 2019 16:59:23 +0000
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-Unfortunately, the libssh in this Ubuntu version (bionic) is in a pretty
-unusable Frankenstein state and libspice-server-dev is not available here,
-so we can not use the global list of packages to install, but have to
-provide individual package lists instead.
+> 19.11.2019 19:56, Greg Kurz wrote:
+> > Sorry for the late review...
+> > 
+> > On Fri, 11 Oct 2019 19:04:40 +0300
+> > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> > 
+> >> If we want to add some info to errp (by error_prepend() or
+> >> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
+> >> Otherwise, this info will not be added when errp == &fatal_err
+> > 
+> > s/fatal_err/error_fatal/
+> > 
+> >> (the program will exit prior to the error_append_hint() or
+> >> error_prepend() call).  Fix such cases.
+> >>
+> >> If we want to check error after errp-function call, we need to
+> >> introduce local_err and than propagate it to errp. Instead, use
+> > 
+> > s/than/then
+> > 
+> >> ERRP_AUTO_PROPAGATE macro, benefits are:
+> >> 1. No need of explicit error_propagate call
+> >> 2. No need of explicit local_err variable: use errp directly
+> >> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
+> >>     &error_fatel, this means that we don't break error_abort
+> > 
+> > s/error_fatel/error_fatal
+> > 
+> >>     (we'll abort on error_set, not on error_propagate)
+> >>
+> >> This commit (together with its neighbors) was generated by
+> >>
+> >> for f in $(git grep -l errp \*.[ch]); do \
+> >>      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+> >>      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
+> >> done;
+> >>
+> >> then fix a bit of compilation problems: coccinelle for some reason
+> >> leaves several
+> >> f() {
+> >>      ...
+> >>      goto out;
+> >>      ...
+> >>      out:
+> >> }
+> >> patterns, with "out:" at function end.
+> >>
+> >> then
+> >> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
+> >>
+> >> (auto-msg was a file with this commit message)
+> >>
+> >> Still, for backporting it may be more comfortable to use only the first
+> >> command and then do one huge commit.
+> >>
+> >> Reported-by: Kevin Wolf <kwolf@redhat.com>
+> >> Reported-by: Greg Kurz <groug@kaod.org>
+> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> ---
+> >>   hw/9pfs/9p-local.c | 8 ++++----
+> >>   hw/9pfs/9p.c       | 1 +
+> >>   2 files changed, 5 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+> >> index 35635e7e7e..aac7989f16 100644
+> >> --- a/hw/9pfs/9p-local.c
+> >> +++ b/hw/9pfs/9p-local.c
+> >> @@ -1477,9 +1477,9 @@ static void error_append_security_model_hint(Error **errp_in)
+> >>   
+> >>   static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+> >>   {
+> >> +    ERRP_AUTO_PROPAGATE();
+> >>       const char *sec_model = qemu_opt_get(opts, "security_model");
+> >>       const char *path = qemu_opt_get(opts, "path");
+> >> -    Error *local_err = NULL;
+> >>   
+> >>       if (!sec_model) {
+> >>           error_setg(errp, "security_model property not set");
+> >> @@ -1507,9 +1507,9 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
+> >>           return -1;
+> >>       }
+> >>   
+> >> -    fsdev_throttle_parse_opts(opts, &fse->fst, &local_err);
+> >> -    if (local_err) {
+> >> -        error_propagate_prepend(errp, local_err,
+> >> +    fsdev_throttle_parse_opts(opts, &fse->fst, errp);
+> >> +    if (*errp) {
+> >> +        error_prepend(errp,
+> >>                                   "invalid throttle configuration: ");
+> > 
+> > The change looks good, apart from the funky indentation.
+> > 
+> >>           return -1;
+> >>       }
+> >> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> >> index cce2366219..1df2749e03 100644
+> >> --- a/hw/9pfs/9p.c
+> >> +++ b/hw/9pfs/9p.c
+> >> @@ -3552,6 +3552,7 @@ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr)
+> >>   int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+> >>                                  Error **errp)
+> >>   {
+> >> +    ERRP_AUTO_PROPAGATE();
+> > 
+> > I don't know coccinelle so I'm not sure why ERRP_AUTO_PROPAGATE() was
+> > added here... but it's definitely not needed in this function.
+> 
+> 
+> Because this function calls error_prepend()
+> 
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .travis.yml | 83 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+My bad, sorry for the noise and:
 
-diff --git a/.travis.yml b/.travis.yml
-index c09b6a0014..cf48ee452c 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -360,6 +360,89 @@ matrix:
-         - TEST_CMD=3D"make -j3 check-tcg V=3D1"
-         - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
-=20
-+    - arch: arm64
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+      env:
-+        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
-ser"
-+
-+    - arch: ppc64le
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+      env:
-+        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
-ser"
-+
-+    - arch: s390x
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+      env:
-+        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
-ser"
-=20
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start=
- with a 'v'.
---=20
-2.23.0
+Acked-by: Greg Kurz <groug@kaod.org>
+
+> > 
+> >>       int i, len;
+> >>       struct stat stat;
+> >>       FsDriverEntry *fse;
+> > 
+> 
+> 
 
 
