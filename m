@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032CB102913
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:14:38 +0100 (CET)
-Received: from localhost ([::1]:47050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2C910292F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:21:22 +0100 (CET)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX69D-0008L8-TD
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:14:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
+	id 1iX6Fk-0005rS-Vv
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:21:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63q-0001tO-KT
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:03 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63r-0001vI-Ph
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63p-00066m-JJ
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:02 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51286)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63q-00067T-Mm
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:03 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34951)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63p-00065t-D6
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:01 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id q70so3803822wme.1
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:01 -0800 (PST)
+ id 1iX63q-00066y-Gb
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:02 -0500
+Received: by mail-wm1-x334.google.com with SMTP id 8so4365327wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=CTwwXQwwlbADAhtITpXxTkXx7WnAbK2L+Hoi9QvzJec=;
- b=vfJGUr+AF2qZ5xtiVbrHxp92JVMCWE3fHTQW37AhtCte0hEoLSt9MXm7W0nOpDYVyn
- kEA+F0cO/JBrluhWspDgegfb54ID1FW5qzVH03Ud8+84zZ1Go4ijNoZlgZIU5FzxovTP
- cRrlTAtKwabWQQylQVgIf13vQ1ur89Cja57RXHKYcKpHeQMy6QAjEjRqGKI9MSz3QM3r
- 2yxVtVHf6dbNoW+FZtxv3ciHuoJAJZj0a8YcsYeft2kcwjreSc5avE4he5hAvdCL0c1B
- D2+A0caqhLDSJCknfnjZcPlElNH0zgqV5dLtGRrjsyWlmDFZq9ZlJYLF0BPPUt8NxreR
- 3Qqg==
+ bh=ep9NciRh5AxFxbZ8BVLC6AZ8AyyeFsDsKi2zTRHiEDs=;
+ b=q34olN5e+B7fBP5OyGWSbN52OFQFEIUCQDHMnC5q4RYWebkTba4S6FVHqFqU/XLLl7
+ D5YVKGYdUjMeN8qoIU1BJXnBX2S0geCXRugaeDeTMAs5yCgZHkMNRppT0m30y1THlcVn
+ 6zECr3NT+NhO4opw0DifKQd8CcpP0HGUZpQv2pIKqrdajAjvhHmyJVeVWHiAk7AZXd3L
+ ffZmQPXhopTjXBPAnt6Q9a69BXBFZ+nwppkOUIQ8p0CqYuH1LTT83C/yS2wL2AIKupZv
+ lYagvPEC7AD3FOK5rPTW03+1MMNnL7BOLoVrAJUCcuzRw1mcBS9HG3j9R8LmUH6b8IS/
+ 0odg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=CTwwXQwwlbADAhtITpXxTkXx7WnAbK2L+Hoi9QvzJec=;
- b=pWz+wyB54wWPPNF4l5Tl993cX2lfs5mBOUn1DNwDFn1Ra892uI9/OoRpaQqVHLX709
- 05BwPz4J3e1ssTiTLWXO7yi6sJDdVTc/B1tpGg8Z7o3lSnmPTUKdcMnntdFm+SebPgnY
- b7NPULN1NWsQlch41vk7xKLa8R5U08nf3182jU4UWXn89+LBozIu0xFcfo55gco/2Grc
- 4K27b61M39J+F/UQHrHrPHo3pCDXgRRVs8WFwDN3rnJfI5x4BIda15aGq4MQ7XpTWQLo
- lJ8eoRnYn7pqEA24+knVqTmuZJUabH+kGbj88g6GPt0x9r1nWmju9l6PUnIURmho+RQv
- ErQA==
-X-Gm-Message-State: APjAAAXaQ5RHRezgFahdBvoCisZdscYdu9CY3O1ONL1EJ+BaSN5lNclO
- s/rfrV5s8L8oShcDcl2uF/Yf7ePy
-X-Google-Smtp-Source: APXvYqwjCQncQYK3InuYyRpo3Wm322hApFEDxoRIItzYCyaNOOx8eGrwbXsnE1HQOLa5tITzOjwGXg==
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr6412953wma.71.1574179738618; 
- Tue, 19 Nov 2019 08:08:58 -0800 (PST)
+ bh=ep9NciRh5AxFxbZ8BVLC6AZ8AyyeFsDsKi2zTRHiEDs=;
+ b=tAKfl7o1RGni8Gg4jU4q2U0MVL+xxIEoK4iJX7XepjXf81xx6vxdoWAvUN5CHOD3Z1
+ MEYe0+eR64ATYAjwbGYl5nqni6YgaWn5tgAK/+F6Eki4OM2l9go41BiSHhHOhNB+EgxL
+ ch5k6RY8VIaLAOCsQVU8rCT8D51C74HVq87YXzrjnJ9RN4rtEmKJEGSCMbLZ4xCmSFjq
+ OSSyNT91lpUy3T38eitUXCRLwOvPJrHzxwX8+bWw4B9L5+QcQAESYCcXYj4pPTosiZKz
+ gPKNn1u0cg0Ju8StcI9duqCySAMwBOF9Pxpko+xnDxagjJEJZE/JJmvRcIRouW/mR4r3
+ 4iLQ==
+X-Gm-Message-State: APjAAAWnpM5dtJjciDd/oZS5d/61Xk6oCdLBR+qxHjj6aLvWHQaR/XLE
+ CbeAGmqRJIHAEVVP9gOwe1DU0h2F
+X-Google-Smtp-Source: APXvYqwqvmvvn6lKZWrIrchwmY8QrF876Ief37m6UjixFm1q+1SHHwPrC0APaauYWQ77dIK2pHnOBQ==
+X-Received: by 2002:a1c:e157:: with SMTP id y84mr6275554wmg.59.1574179741090; 
+ Tue, 19 Nov 2019 08:09:01 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.57
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.00
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:08:57 -0800 (PST)
+ Tue, 19 Nov 2019 08:09:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/12] docs/microvm.rst: fix alignment in "Limitations"
-Date: Tue, 19 Nov 2019 17:08:43 +0100
-Message-Id: <1574179728-35535-8-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 08/12] docs/microvm.rst: add instructions for shutting down the
+ guest
+Date: Tue, 19 Nov 2019 17:08:44 +0100
+Message-Id: <1574179728-35535-9-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,32 +81,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sergio Lopez <slp@redhat.com>
 
-Fix the alignment of the items in the "Limitations" section.
+Add a new section explaining the particularities of the microvm
+machine type for triggering a guest-initiated shut down.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
-Message-Id: <20191115161338.42864-2-slp@redhat.com>
+Message-Id: <20191115161338.42864-3-slp@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/microvm.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ docs/microvm.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/docs/microvm.rst b/docs/microvm.rst
-index aae811a..4cf8474 100644
+index 4cf8474..fcf41fc 100644
 --- a/docs/microvm.rst
 +++ b/docs/microvm.rst
-@@ -33,9 +33,9 @@ Limitations
- 
- Currently, microvm does *not* support the following features:
- 
-- - PCI-only devices.
-- - Hotplug of any kind.
-- - Live migration across QEMU versions.
-+- PCI-only devices.
-+- Hotplug of any kind.
-+- Live migration across QEMU versions.
- 
- 
- Using the microvm machine type
+@@ -106,3 +106,24 @@ disabled::
+      -device virtio-blk-device,drive=test \
+      -netdev tap,id=tap0,script=no,downscript=no \
+      -device virtio-net-device,netdev=tap0
++
++
++Triggering a guest-initiated shut down
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++As the microvm machine type includes just a small set of system
++devices, some x86 mechanisms for rebooting or shutting down the
++system, like sending a key sequence to the keyboard or writing to an
++ACPI register, doesn't have any effect in the VM.
++
++The recommended way to trigger a guest-initiated shut down is by
++generating a ``triple-fault``, which will cause the VM to initiate a
++reboot. Additionally, if the ``-no-reboot`` argument is present in the
++command line, QEMU will detect this event and terminate its own
++execution gracefully.
++
++Linux does support this mechanism, but by default will only be used
++after other options have been tried and failed, causing the reboot to
++be delayed by a small number of seconds. It's possible to instruct it
++to try the triple-fault mechanism first, by adding ``reboot=t`` to the
++kernel's command line.
 -- 
 1.8.3.1
 
