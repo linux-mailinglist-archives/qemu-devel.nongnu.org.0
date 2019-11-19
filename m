@@ -2,52 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D57102A93
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:14:36 +0100 (CET)
-Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DF8102AB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:24:13 +0100 (CET)
+Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX75G-0003RC-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:14:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
+	id 1iX7Ea-00067R-QV
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iX6zb-0005T4-4X
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:45 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iX72C-0000OH-2Z
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:11:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iX6zZ-0004KK-FP
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:42 -0500
-Received: from 5.mo5.mail-out.ovh.net ([87.98.173.103]:44586)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iX6zY-0004Hn-Bo
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:40 -0500
-Received: from player711.ha.ovh.net (unknown [10.108.35.27])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id DF87825AC6E
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 18:08:37 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: groug@kaod.org)
- by player711.ha.ovh.net (Postfix) with ESMTPSA id F41CBC2F13E1;
- Tue, 19 Nov 2019 17:08:32 +0000 (UTC)
-Date: Tue, 19 Nov 2019 18:08:30 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC v5 054/126] virtio-9p: introduce ERRP_AUTO_PROPAGATE
-Message-ID: <20191119180830.080b8107@bahia.lan>
-In-Reply-To: <aef514db-f55a-bc5d-f9d2-b9a54d9e1ce7@virtuozzo.com>
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <20191011160552.22907-55-vsementsov@virtuozzo.com>
- <20191119175644.058cce0b@bahia.lan>
- <aef514db-f55a-bc5d-f9d2-b9a54d9e1ce7@virtuozzo.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iX729-0006Q2-Nv
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:11:23 -0500
+Received: from mail-eopbgr40094.outbound.protection.outlook.com
+ ([40.107.4.94]:29223 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iX727-0006MJ-O1; Tue, 19 Nov 2019 12:11:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e1JsqMl7S6qy9l5TMrnEquVxtrw0ohQ0m19vfVSB3pgn/aM8xT37nAIw3b8AfIf4FFyR5fsK3Pjzaa3pyi15ixoY/owvo9EjFpiBfAGCxx+TizvPrx0sqExSHmVjtsyu/5TL1AmsYNCmkR5yPX3hAvrkQn3Bfnr4VaUXSE4+tqAt46Lfovva5YCPNX6XDdP6kI/TjRDsXUFCSZipgD04om523hIZ+os5NCDqVJOZWQEumbwu9jBCVePAqsHacO/esRq8kEtZ9t2lp/Iza+0QkQfNfTAXonOT1ADXfYRqeVfcjEBxsEgTzK4+M+nUduwBVwLwvEeT1qrtm4IhEq+Qgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sn5nY4uV2UrIYqWC93yb/PzVCuvgO1L5w6IgTffFo/g=;
+ b=NMUkpAbyVHaNZPoCdGDN5+F9mE8gAJ/fX2l8B6Zn3cDd2aHnPqj15MUi3N79MuTxcaPPfwELK7mPvNE69k8nk5LVlbIgjHbUWqQEtTplcjvxMqLEDrLMzScsE+Oiu5HIcgP+3T2OwXE5f69p1VK1VgqsjjYLKxQOMYgQOxiQnqwBgWHD5lW89yuKZCCbQAd9ZqMjUlukOcDi2LO+FzVL71Q9RKHmoGLb9Q9tPGhuPyGj3NbHjC0yyxgx2VRUbBEtPLFC1sqmXjdBNwXtog/H9ofToIV1uoNjENXbIusM6mL0tnfgxHaTgcsc++OANzl5VMvvbpoNx9lcShDhcmf8CA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sn5nY4uV2UrIYqWC93yb/PzVCuvgO1L5w6IgTffFo/g=;
+ b=IqMzU7kfVyZIPB0qJuMWTttLki1MsIDFbPY/H39/lexMG4hNNHZh7Hp1WtanW/xt8OCNRTstJarwMuDCYL5Nrp8fK9bN4WfAX+JEmbb5W5Jv4nC7CvzrQNDD3k8IYr/PTkjJmd9ynXPPR39XDaW8WqmdhFmlQO+ZFTg5+ECMYuk=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4936.eurprd08.prod.outlook.com (10.255.122.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2451.22; Tue, 19 Nov 2019 17:11:15 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2451.031; Tue, 19 Nov 2019
+ 17:11:15 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/4] fix & merge block_status_above and is_allocated_above
+Thread-Topic: [PATCH 0/4] fix & merge block_status_above and is_allocated_above
+Thread-Index: AQHVnJu0qDM7Hy9Fo0iUR1ci8onW5KeSu8mAgAADrwA=
+Date: Tue, 19 Nov 2019 17:11:14 +0000
+Message-ID: <ab2be956-0b44-f737-4416-322ca4024d9b@virtuozzo.com>
+References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
+ <20191119165801.GF229732@stefanha-x1.localdomain>
+In-Reply-To: <20191119165801.GF229732@stefanha-x1.localdomain>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P195CA0023.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::33)
+ To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191119201112587
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e85eb2a9-fa4d-4925-61c0-08d76d137bc8
+x-ms-traffictypediagnostic: AM6PR08MB4936:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR08MB4936E2E720E1EA4EE8274D87C14C0@AM6PR08MB4936.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 022649CC2C
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(366004)(396003)(346002)(376002)(39850400004)(53754006)(199004)(189003)(66066001)(25786009)(107886003)(52116002)(486006)(6246003)(7736002)(305945005)(36756003)(478600001)(6916009)(99286004)(54906003)(316002)(8676002)(81156014)(81166006)(8936002)(4326008)(6116002)(6512007)(14454004)(66946007)(3846002)(76176011)(5660300002)(31686004)(31696002)(6506007)(66476007)(26005)(66556008)(229853002)(6486002)(6436002)(186003)(2906002)(256004)(2616005)(11346002)(71200400001)(64756008)(102836004)(66446008)(386003)(476003)(86362001)(446003)(14444005)(71190400001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4936;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1h5/xCJmfmq6c3xxtC+XTlHlQ8dHD9VVuA7KfPL8AJ28R0Z6S3hlxp0/wjBmICy0qj9HPiBiEqbH2q6kg55UX/FjiBd7nejFNwH8728IYvi/WvEZqBzsPER+FY7yD4xwtqFLPCXgmTXN1h6hs0vaxesTXkq1SNFE1LQhJipi5IDDjVFpRxzKoGAKtzL8DbYBwnNY9gMtn4jzRDv3ppdrd+0hLNE7O/HSetI6vY3+KmknzEaM7n5ryGzuyUsoz17Ifcdnd8u1m64Q2FEIB27wz4g7zptEOvE040M1nKLHeJxe1QwJ1Y81WBspkzqerTGEoD19kvRB0doYLGQ48ZCDWpWY5fLBzVjUtRHrafspSIPZ3HvmrYuXOUMQ3NbP/AcL+fwTTENOtaPH10S1f/ofKvoeKXKolHpC8katwVuZlrK2jDjY9edDcLHPRGDObvnD
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <54BEE21FC4EC3C4EA8C745D2E1A01F77@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2419840377140779347
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 87.98.173.103
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e85eb2a9-fa4d-4925-61c0-08d76d137bc8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2019 17:11:14.7179 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: y711X+1abQOrgyUZ+RClohGgWzR8TTLSz5O7fIU90DLccY1x+cFee09gpoxmsBE0bsElK7mX7JoruoQKsYDqJnkF3EwyjxTDoSo4z7zZhy4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4936
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,136 +108,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Nov 2019 16:59:23 +0000
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+19.11.2019 19:58, Stefan Hajnoczi wrote:
+> On Sat, Nov 16, 2019 at 07:34:06PM +0300, Vladimir Sementsov-Ogievskiy wr=
+ote:
+>> Hi all!
+>>
+>> I wanted to understand, what is the real difference between bdrv_block_s=
+tatus_above
+>> and bdrv_is_allocated_above, IMHO bdrv_is_allocated_above should work th=
+rough
+>> bdrv_block_status_above..
+>>
+>> And I found the problem: bdrv_is_allocated_above considers space after E=
+OF as
+>> UNALLOCATED for intermediate nodes..
+>>
+>> UNALLOCATED is not about allocation at fs level, but about should we go =
+to backing or
+>> not.. And it seems incorrect for me, as in case of short backing file, w=
+e'll read
+>> zeroes after EOF, instead of going further by backing chain.
+>>
+>> This leads to the following effect:
+>>
+>> ./qemu-img create -f qcow2 base.qcow2 2M
+>> ./qemu-io -c "write -P 0x1 0 2M" base.qcow2
+>>
+>> ./qemu-img create -f qcow2 -b base.qcow2 mid.qcow2 1M
+>> ./qemu-img create -f qcow2 -b mid.qcow2 top.qcow2 2M
+>>
+>> Region 1M..2M is shadowed by short middle image, so guest sees zeroes:
+>> ./qemu-io -c "read -P 0 1M 1M" top.qcow2
+>> read 1048576/1048576 bytes at offset 1048576
+>> 1 MiB, 1 ops; 00.00 sec (22.795 GiB/sec and 23341.5807 ops/sec)
+>>
+>> But after commit guest visible state is changed, which seems wrong for m=
+e:
+>> ./qemu-img commit top.qcow2 -b mid.qcow2
+>>
+>> ./qemu-io -c "read -P 0 1M 1M" mid.qcow2
+>> Pattern verification failed at offset 1048576, 1048576 bytes
+>> read 1048576/1048576 bytes at offset 1048576
+>> 1 MiB, 1 ops; 00.00 sec (4.981 GiB/sec and 5100.4794 ops/sec)
+>>
+>> ./qemu-io -c "read -P 1 1M 1M" mid.qcow2
+>> read 1048576/1048576 bytes at offset 1048576
+>> 1 MiB, 1 ops; 00.00 sec (3.365 GiB/sec and 3446.1606 ops/sec)
+>>
+>>
+>> I don't know, is it a real bug, as I don't know, do we support backing f=
+ile larger than
+>> its parent. Still, I'm not sure that this behavior of bdrv_is_allocated_=
+above don't lead
+>> to other problems.
+>=20
+> It seems correct that a backing file limits the virtual disk size of its
+> backing chain.
+>=20
+> The "qemu-img commit" behavior seems counter-intuitive at first, but the
+> problem there is that the top-most image file is larger than its backing
+> file - not that the backing chain has differing sizes.  Committing
+> should not lose data, mid.qcow2 will be grown and then you get the
+> result you've observed.
+>=20
+> I consider this a little weird but not a bug.  Does anyone else have
+> opinions?
+>=20
 
-> 19.11.2019 19:56, Greg Kurz wrote:
-> > Sorry for the late review...
-> > 
-> > On Fri, 11 Oct 2019 19:04:40 +0300
-> > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> > 
-> >> If we want to add some info to errp (by error_prepend() or
-> >> error_append_hint()), we must use the ERRP_AUTO_PROPAGATE macro.
-> >> Otherwise, this info will not be added when errp == &fatal_err
-> > 
-> > s/fatal_err/error_fatal/
-> > 
-> >> (the program will exit prior to the error_append_hint() or
-> >> error_prepend() call).  Fix such cases.
-> >>
-> >> If we want to check error after errp-function call, we need to
-> >> introduce local_err and than propagate it to errp. Instead, use
-> > 
-> > s/than/then
-> > 
-> >> ERRP_AUTO_PROPAGATE macro, benefits are:
-> >> 1. No need of explicit error_propagate call
-> >> 2. No need of explicit local_err variable: use errp directly
-> >> 3. ERRP_AUTO_PROPAGATE leaves errp as is if it's not NULL or
-> >>     &error_fatel, this means that we don't break error_abort
-> > 
-> > s/error_fatel/error_fatal
-> > 
-> >>     (we'll abort on error_set, not on error_propagate)
-> >>
-> >> This commit (together with its neighbors) was generated by
-> >>
-> >> for f in $(git grep -l errp \*.[ch]); do \
-> >>      spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
-> >>      --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff $f; \
-> >> done;
-> >>
-> >> then fix a bit of compilation problems: coccinelle for some reason
-> >> leaves several
-> >> f() {
-> >>      ...
-> >>      goto out;
-> >>      ...
-> >>      out:
-> >> }
-> >> patterns, with "out:" at function end.
-> >>
-> >> then
-> >> ./python/commit-per-subsystem.py MAINTAINERS "$(< auto-msg)"
-> >>
-> >> (auto-msg was a file with this commit message)
-> >>
-> >> Still, for backporting it may be more comfortable to use only the first
-> >> command and then do one huge commit.
-> >>
-> >> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> >> Reported-by: Greg Kurz <groug@kaod.org>
-> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >> ---
-> >>   hw/9pfs/9p-local.c | 8 ++++----
-> >>   hw/9pfs/9p.c       | 1 +
-> >>   2 files changed, 5 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> >> index 35635e7e7e..aac7989f16 100644
-> >> --- a/hw/9pfs/9p-local.c
-> >> +++ b/hw/9pfs/9p-local.c
-> >> @@ -1477,9 +1477,9 @@ static void error_append_security_model_hint(Error **errp_in)
-> >>   
-> >>   static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
-> >>   {
-> >> +    ERRP_AUTO_PROPAGATE();
-> >>       const char *sec_model = qemu_opt_get(opts, "security_model");
-> >>       const char *path = qemu_opt_get(opts, "path");
-> >> -    Error *local_err = NULL;
-> >>   
-> >>       if (!sec_model) {
-> >>           error_setg(errp, "security_model property not set");
-> >> @@ -1507,9 +1507,9 @@ static int local_parse_opts(QemuOpts *opts, FsDriverEntry *fse, Error **errp)
-> >>           return -1;
-> >>       }
-> >>   
-> >> -    fsdev_throttle_parse_opts(opts, &fse->fst, &local_err);
-> >> -    if (local_err) {
-> >> -        error_propagate_prepend(errp, local_err,
-> >> +    fsdev_throttle_parse_opts(opts, &fse->fst, errp);
-> >> +    if (*errp) {
-> >> +        error_prepend(errp,
-> >>                                   "invalid throttle configuration: ");
-> > 
-> > The change looks good, apart from the funky indentation.
-> > 
-> >>           return -1;
-> >>       }
-> >> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> >> index cce2366219..1df2749e03 100644
-> >> --- a/hw/9pfs/9p.c
-> >> +++ b/hw/9pfs/9p.c
-> >> @@ -3552,6 +3552,7 @@ void pdu_submit(V9fsPDU *pdu, P9MsgHeader *hdr)
-> >>   int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
-> >>                                  Error **errp)
-> >>   {
-> >> +    ERRP_AUTO_PROPAGATE();
-> > 
-> > I don't know coccinelle so I'm not sure why ERRP_AUTO_PROPAGATE() was
-> > added here... but it's definitely not needed in this function.
-> 
-> 
-> Because this function calls error_prepend()
-> 
+I thing, that the fact that read and block_status treats space after EOF
+in different ways is a bug anyway.
 
-My bad, sorry for the noise and:
+Also, block_status behavior don't correspond to our definition of
+BDRV_BLOCK_ALLOCATED (see Kevin's response)
 
-Acked-by: Greg Kurz <groug@kaod.org>
+Also, as I explained in parallel branch, such situation is possible for exa=
+mple
+when we interleave incremental backup creation with vm disk resize.
 
-> > 
-> >>       int i, len;
-> >>       struct stat stat;
-> >>       FsDriverEntry *fse;
-> > 
-> 
-> 
+So, then, we have incremental backup chain with different sizes like in
+example. Assume we want to merge some sequential incremental backups into
+one (aka, remove incremental backup), it may be done with help of commit.
+And we get final image, where we see data from base backup instead of
+zeros. This is illegal, vm should not get access to this data.
 
+Possibly, similar thing is possible with snapshots.
+
+--=20
+Best regards,
+Vladimir
 
