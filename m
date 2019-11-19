@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95809102580
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F69102581
 	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:35:40 +0100 (CET)
-Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX3fP-00059S-6c
+	id 1iX3fP-00059c-Ae
 	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:35:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36115)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iX3bk-0003Lr-Rl
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bm-0003MC-Fl
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iX3bj-00049y-1Q
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:52 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40940)
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bk-0004Al-Lb
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:54 -0500
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:44292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iX3bi-00049D-RP
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:50 -0500
-Received: by mail-wm1-x331.google.com with SMTP id f3so3603427wmc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:31:49 -0800 (PST)
+ id 1iX3bk-0004A5-H9
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:52 -0500
+Received: by mail-oi1-x233.google.com with SMTP id s71so18862986oih.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:31:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6PeGfh5MCg2KsIn9b3qx2FjkDH2ZN6ac4tJhf2EpZy4=;
- b=GfA2wqpcjTBWIuyJENDwoJnn2m8Xu7I8igsfSnH0j+W1b3fM+5WsFGniGDPDukgkH2
- 4bBdv8O66PoeIgeJ/16RbBUVgYfZUuk6K2eqhedtPY0NMZy7EAuShMWU/ruQuvamoCpY
- EhvFKUpSfVBaGEB4M0n+VsUI3aJIAthH4Xp0TtSECSRPvBc3eTdpd3LV3/XDyua2xm+E
- ymUxmlM3jkygm6Sk/hUdEVfPxWobfRMdTn7Kh2ro77WkTASxBBVOl0p2NB7hMwRUiQBh
- 3/vBjO7MsEpXZV03kgxW/blybqzJcqbKpkRVAYB0GMD13yFOZIMFDuSl6BbfXuhj/NJX
- 4efg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j94kPqL9zr1XVm95VWDprVduFHs3GpgzezLfnloFCAI=;
+ b=mL9kNmlZrBdufOw+qSiFTkmfkqkUKmBUfj+He8oKIN5fO+8/qj4pFLD9CjzICSsVo8
+ AtDfuGyHdNb2MnsIeFgrpTZsEPu7Cuyo57H8lJFasQXhHnATByEiBkXFCf+LEsqnPB8O
+ A5IvOiQ8TBA8OzPpX5H5xbGUrZOr97NkXKtdrsjf7B36IarFHeXO21qQkWbT7L6h4ObL
+ cEux7lbmMRbXM+DJfnSh1+kx6bUhz7feR3MnhKBQAscbiB1MJLcwm7dsxa3mKbHuzbvw
+ OPTVkQANQ7Q+Pp+YAKvdxXOY75AM6g2ZzeFkCIsZVA9KLwQfkyy8rbK1XzeBiTyZS4ev
+ KTlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6PeGfh5MCg2KsIn9b3qx2FjkDH2ZN6ac4tJhf2EpZy4=;
- b=ISMHOykmbF7WMOW8LT2x2y9ARC8jKUmdHBvK9/WdkafdWov0OFFLcf/x0M2FuEgeYb
- QzbdOGZUwfQfWYd4tDAB8CD5E8kKQDok98Et4CKVLdKeK9lw9OQL/ltFj/odUWwshbM9
- TOO7OlNIswTtbhZdQeniupqa+1ZrCTktiwuE9EnRZN6e7KLgqDTaBVoRoQYUOWjIz4qm
- jUoPdZ8a7qHau3J/RBqgfVdygfx/yUpCdO24BRMlrjoK3OQZq7/hNQh0/gcV5y/K1FmB
- Pu61tL++BgHEgVzmluBjjJ/Vbk3TFgZF4MRbch1+FGjLa/j70P+ip6yNp8y0W8BOquUK
- Pc4Q==
-X-Gm-Message-State: APjAAAV7EBk/l6DZ1/9x2SPaeTnklWiWpGjx5jpQ4gpvGy1j80jSQ7He
- AKxEs9PCjzPlPho2kIZlHJBAxYBzNaAW1A==
-X-Google-Smtp-Source: APXvYqydQWqmHta7YuZ+1P1sgcESQRC187yZhbsikWbJTRU1xAtDOWa3h7lo6ZawKY1EIYXcJH+ZtQ==
-X-Received: by 2002:a05:600c:3cc:: with SMTP id
- z12mr6033866wmd.151.1574170308133; 
- Tue, 19 Nov 2019 05:31:48 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm3094905wmk.23.2019.11.19.05.31.46
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Nov 2019 05:31:47 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] target-arm queue
-Date: Tue, 19 Nov 2019 13:31:38 +0000
-Message-Id: <20191119133145.31466-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j94kPqL9zr1XVm95VWDprVduFHs3GpgzezLfnloFCAI=;
+ b=sQARnol/r5lbEwMdUBtEgh7q1ZGZlq7Qkc/sGKp3ChQ1deQWLy9qlJCdOO6HiF3nLI
+ sSqpW+IBwywStKRHTqtQdBGO8VgFiJQSb/fCayO7EB3eqwJSFTX6NYMbGz9AqEAAwJoq
+ /7EWPy46Q5y4S08FelgGZogoqUUUPUW2hQM1kECAvoi9I5mVcMPNFFFCj2ry5JMiBAz7
+ fTLB+ntswiiXh8aNFs/TJabiRSQaL86gG7bdusU9HKEGcn5oHzMBNU1vDPyvDQxFNkgi
+ o/DGfLfdx/eKLBzMy4K+Yxn/w56OeySDBuN5N2CDoAAIuzoQk06FiA5INVM0gaW2Nh7z
+ wXAg==
+X-Gm-Message-State: APjAAAVHyChj6XlM3YkuTEFW8ci7R1x6rVliyr5SVD/UzOGHw49QRmoU
+ Qs5TO3iNjdvuu2NyKVjkY2FXyTyLOQPNc3j+1ly8FA==
+X-Google-Smtp-Source: APXvYqyWXZxc+CQC9UhUqt/G96XCk1QllkI+uvSAG+IxHNK/TI33rkB7yR+0Q1+j6PVrCXWWN4GX3vDdFn5eQo2+l/Y=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr4146436oij.163.1574170310742; 
+ Tue, 19 Nov 2019 05:31:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191119090037.21686-1-armbru@redhat.com>
+In-Reply-To: <20191119090037.21686-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Nov 2019 13:31:39 +0000
+Message-ID: <CAFEAcA-eY+61O4W=Sn0o9CSeszBn=LU=WHNvK8h_w3xtDWzp7Q@mail.gmail.com>
+Subject: Re: [PULL 0/1] Monitor patches for 2019-11-19
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2607:f8b0:4864:20::233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,58 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Target-arm queue for rc2 -- just some minor bugfixes.
+On Tue, 19 Nov 2019 at 09:05, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> I'd like to propose this bug fix for -rc2.  Certain usage of QMP can
+> leave the monitor permanently wedged (depends on event timing).
+> Libvirt does not use it this way as far as I know.  I understand it
+> affects other applications.  It's not a a regression in 4.2.
+>
+> If it's too late for fixing it in 4.2, we'll punt to 5.0 with cc:
+> qemu-stable.
+>
+> The following changes since commit a5c2a235103ab366ad5318636ec138e52c6dcfa4:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-11-18 17:06:17 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-11-19
+>
+> for you to fetch changes up to 2895aaa139b3f916b3650ca516b35dceb9c0d4c4:
+>
+>   monitor/qmp: resume monitor when clearing its queue (2019-11-19 08:21:47 +0100)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2019-11-19
+>
+> ----------------------------------------------------------------
+> Wolfgang Bumiller (1):
+>       monitor/qmp: resume monitor when clearing its queue
 
-thanks
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
 -- PMM
-
-The following changes since commit 6e5d4999c761ffa082f60d72a14e5c953515b417:
-
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-11-19' into staging (2019-11-19 11:29:01 +0000)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191119
-
-for you to fetch changes up to 04c9c81b8fa2ee33f59a26265700fae6fc646062:
-
-  target/arm: Support EL0 v7m msr/mrs for CONFIG_USER_ONLY (2019-11-19 13:20:28 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Support EL0 v7m msr/mrs for CONFIG_USER_ONLY
- * Relax r13 restriction for ldrex/strex for v8.0
- * Do not reject rt == rt2 for strexd
- * net/cadence_gem: Set PHY autonegotiation restart status
- * ssi: xilinx_spips: Skip spi bus update for a few register writes
- * pl031: Expose RTCICR as proper WC register
-
-----------------------------------------------------------------
-Alexander Graf (1):
-      pl031: Expose RTCICR as proper WC register
-
-Linus Ziegert (1):
-      net/cadence_gem: Set PHY autonegotiation restart status
-
-Richard Henderson (4):
-      target/arm: Merge arm_cpu_vq_map_next_smaller into sole caller
-      target/arm: Do not reject rt == rt2 for strexd
-      target/arm: Relax r13 restriction for ldrex/strex for v8.0
-      target/arm: Support EL0 v7m msr/mrs for CONFIG_USER_ONLY
-
-Sai Pavan Boddu (1):
-      ssi: xilinx_spips: Skip spi bus update for a few register writes
-
- target/arm/cpu.h       |   5 +--
- hw/net/cadence_gem.c   |   9 ++--
- hw/rtc/pl031.c         |   6 +--
- hw/ssi/xilinx_spips.c  |  22 ++++++++--
- target/arm/cpu64.c     |  15 -------
- target/arm/helper.c    |   9 +++-
- target/arm/m_helper.c  | 114 ++++++++++++++++++++++++++++++-------------------
- target/arm/translate.c |  14 +++---
- 8 files changed, 113 insertions(+), 81 deletions(-)
 
