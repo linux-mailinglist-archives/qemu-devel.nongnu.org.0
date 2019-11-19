@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C5B102912
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:14:36 +0100 (CET)
-Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397F31028FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:11:22 +0100 (CET)
+Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX69D-0008Kw-EA
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:14:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60689)
+	id 1iX664-0003dz-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:11:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60697)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63n-0001no-Ag
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63o-0001ot-0j
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63m-00063v-1c
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63n-00064Z-1L
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:59 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36305)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40927)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63l-00063P-Rg
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:57 -0500
-Received: by mail-wm1-x331.google.com with SMTP id c22so4362898wmd.1
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:57 -0800 (PST)
+ id 1iX63m-000645-R9
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:58 -0500
+Received: by mail-wm1-x343.google.com with SMTP id f3so4324703wmc.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sBQlJETMYugVSeDk54+9qbskMtGOF34Hx0TwffurVig=;
- b=WQsAbqbzJCKVssGPbRpeEdaidHG+YJpwbUQ2u5MufL9cje89zhlfhguUe/jWZVWPVK
- 40DiQVbb3P2QHVD9r+1iV+gyaHy9JE29a9ZTUV4FKBlphj7QZVNUBJrzaAMez1YQomcP
- y0RG5UHZJaNqtCLmfH37kbWlbvJFnXs3Ai2Q9c5hyzPNWeb69i9HG0dx9quY+erqud2S
- KDiN+iZawRWvaUxOnbGQ8hjnvCl7GgfX5ON4rXUV2flDWsU3VIVS1hsqJxx/AMhHjYfl
- gIm4DWS9m+JVjYAKUA9xR6fRocA3AthxMJ/GfRdadkB6yyrN7OLEBuDBJr8/Un44yayx
- zvBA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=7UO6xeR8ytjGjoYuV7yLmVYHg1zyTHVjoP2SmInf7fQ=;
+ b=OWocVGEMgTWyU5pwdAYmFzwvEj5BGT3M0NeZ9loh3+VZqBLluS3yVH1hbARUjl07YV
+ W56cLRsCy4BgYNwcDZHzyZFw3jlKV2TYU/eqbtHDqogCA2WS2pH5ymQ4xRe0q/eWDCTl
+ bspZ9no+PL9KP9zadBV0ksoIx0+Dv9aDVd5XIYiKIr4D95Spfqi/g1Fc/sbLUhuzO/yF
+ Y2XvY/RoV3kXbc71IoaKDxvDicKWHCUXA4zOdTCGJlIOK/aeJNBEwe3JKe2G0uQu+iD8
+ GItEZhwdEQkobcKJcpfDFV1bHXC/tr01FQHa7RfHgN7OHoSG5mKeXFGnE5e7NM0duXdf
+ W9kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sBQlJETMYugVSeDk54+9qbskMtGOF34Hx0TwffurVig=;
- b=a+t/VOMSELeDxMe8pOARko2bgBfMBPlpMOX2M6s8nEYGyGqUcRQ8GlEivqedNtNCqj
- CdcU0QxEx2TPf7hyY3fRdulkBVcGNn5LOkBun3Uta1TXtV3goseJJ/BDCYM8Xf0xDCHR
- bPS8vHkJvG/cZhzyItF9vZN3EbE+MM962kQEONaq27jhHEGE/a282V1cgdFIZxwBHzfI
- TCizOAGppBrms+c1jnzH6M+gSwArB45l6fyGeEksefrjHXcHIpCbNzu6VRUEKkiFhPpK
- zRn+oybg7gb2GHDx6It7W1gWKLji4Y1Ed9OyjdeX4DytDicrxKqmh2Kvfav9SeFx4/AO
- vssg==
-X-Gm-Message-State: APjAAAURuG5zR79dKYwkRgYfoz2Q05zR8g0lk/KO2w1fzJpMoUvooyql
- bgo7CRjj3sp7DSdCoZo+pS+13UZp
-X-Google-Smtp-Source: APXvYqwNpZWeTZWy4Pg6dg9vk05jArKssdsqKsfk5SfsGGzQ+oMdfBHUMgtvGH69aO6NZQ9Zzw6Ayw==
-X-Received: by 2002:a05:600c:2102:: with SMTP id
- u2mr6600993wml.49.1574179736546; 
- Tue, 19 Nov 2019 08:08:56 -0800 (PST)
+ :in-reply-to:references;
+ bh=7UO6xeR8ytjGjoYuV7yLmVYHg1zyTHVjoP2SmInf7fQ=;
+ b=WNXun65R53ywCNZaJmacmcVMwU9/qJCeV7PjNWvqTtOVf5HC2Kda1L0zUnTUpuOSDJ
+ 4SQ2ab5pqXJg/J9xbcV6bIjPbX+pAsJfCIUn/kmyt5QT67Pjz+jmCop2JK+ZGoczDZ7p
+ z1y7v87onl9npQZbvqCAegojgUdAKOhRdaraKelfQPGDLGan5KwCwPyu+avWZHHM/WZ3
+ yPCOhl5x1kwqiVXKgJJGPjA++NoqZDWOJBwxH3v/ic4QYMzFOWiddBW3Ke4+rbo8REaM
+ RpBjoF9nlcrCsLSubZkD8HAKdqid/6FLaNgdUQOOWrNKuoDcyCh//JJYLFOG4QHTVmiw
+ M7fA==
+X-Gm-Message-State: APjAAAXNRv7ZW+uW9qNF0I7KLwNFITYc2SAdTFqcuB/bC7LVUS2lv8qG
+ EioOu6TCloh2Sb2DbshCcWonWI6f
+X-Google-Smtp-Source: APXvYqwZjv08OlvUE8whr5mIbwcV9Hn4mhS/5gUU6tmipw4019zPRhM6ac0MviEkFrNEe8lLF1/txQ==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr6809211wmc.130.1574179737579; 
+ Tue, 19 Nov 2019 08:08:57 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.55
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.56
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:08:55 -0800 (PST)
+ Tue, 19 Nov 2019 08:08:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] hw/i386: Fix compiler warning when CONFIG_IDE_ISA is
- disabled
-Date: Tue, 19 Nov 2019 17:08:41 +0100
-Message-Id: <1574179728-35535-6-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 06/12] vfio: vfio-pci requires EDID
+Date: Tue, 19 Nov 2019 17:08:42 +0100
+Message-Id: <1574179728-35535-7-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,51 +74,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+hw/vfio/display.c needs the EDID subsystem, select it.
 
-When CONFIG_IDE_ISA is disabled, compilation currently fails:
-
- hw/i386/pc_piix.c: In function ‘pc_init1’:
- hw/i386/pc_piix.c:81:9: error: unused variable ‘i’ [-Werror=unused-variable]
-
-Move the variable declaration to the right code block to avoid
-this problem.
-
-Fixes: 4501d317b50e ("hw/i386/pc: Extract pc_i8259_create()")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191115145049.26868-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc_piix.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/vfio/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 2aefa3b..849ee12 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -78,7 +78,6 @@ static void pc_init1(MachineState *machine,
-     X86MachineState *x86ms = X86_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
-     MemoryRegion *system_io = get_system_io();
--    int i;
-     PCIBus *pci_bus;
-     ISABus *isa_bus;
-     PCII440FXState *i440fx_state;
-@@ -253,7 +252,8 @@ static void pc_init1(MachineState *machine,
-     }
- #ifdef CONFIG_IDE_ISA
- else {
--        for(i = 0; i < MAX_IDE_BUS; i++) {
-+        int i;
-+        for (i = 0; i < MAX_IDE_BUS; i++) {
-             ISADevice *dev;
-             char busname[] = "ide.0";
-             dev = isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i],
+diff --git a/hw/vfio/Kconfig b/hw/vfio/Kconfig
+index 34da2a3..f0eaa75 100644
+--- a/hw/vfio/Kconfig
++++ b/hw/vfio/Kconfig
+@@ -6,6 +6,7 @@ config VFIO_PCI
+     bool
+     default y
+     select VFIO
++    select EDID
+     depends on LINUX && PCI
+ 
+ config VFIO_CCW
 -- 
 1.8.3.1
 
