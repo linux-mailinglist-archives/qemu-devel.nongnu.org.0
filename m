@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CAE102E48
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 22:36:43 +0100 (CET)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0517A102ED6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 23:06:35 +0100 (CET)
+Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXBAw-0008Ki-8a
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 16:36:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60491)
+	id 1iXBdp-00043q-Q7
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 17:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXB9w-0007ti-Ua
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:35:42 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iXBb3-0002IX-0D
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 17:03:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXB9v-0003wK-NZ
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:35:40 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38493)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iXB9v-0003w2-Ip; Tue, 19 Nov 2019 16:35:39 -0500
-Received: by mail-oi1-x244.google.com with SMTP id a14so20461619oid.5;
- Tue, 19 Nov 2019 13:35:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=otk+rBTnVVseVaVDCP5qr8KGPdAqhcdvC79IPBEKfLA=;
- b=DpXNqtgmozC3UoS8CoCJP8NGNAsVj7JVs1lgosqPR0t/IB7xKCd1dJBmkhRzK1/f3N
- ZBHDBNlun/as7MzGFUgQxpPPB/phTpmZCQZQwLCtn4nuYgbyyHx+3RyTI7uutgijVajc
- 3emjmZeW1oFlVWiDgIIlViVzn4treY/nNgP/TdQMDuH3MzLaTZ1XCFdxSH0IZ9JQWu1A
- /1Mfc9Z1Kze6d743fAAJlp54KFrSZbQcQ1WBW4ELxICX0wYZIjmvWbL32CSfUx7THfaR
- U7qMaVHP7ooQQVrINqQ35M2yoKISMpo9pFaUZtJEoJCroXagSmndgnCcMfFO0DcikJuH
- rwlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=otk+rBTnVVseVaVDCP5qr8KGPdAqhcdvC79IPBEKfLA=;
- b=Huc9DTFXa+/qdkBg2nCOo7AqBIgST3/nLzvzPPQrC2OhI7EjETlew6X9DBCu+C60Xh
- Sxr72XVdzVk+tkL1EKg4P4FjNBNVNuCO7nUYO7pN9oshFh4OIKziii/K5WJa9f3DJ5yG
- bVTnAFYCyoRCqebyk/WcY2JFLEZLtA53NM/KEQ7dzz78MuNG0A9vMbYimbEDyO8mrMV7
- 5YajtGjMNKEo5znVPlB+4AHrbVLGoM5JBOFDoVU6w+2rGdSXa3cnaDoY8/G56D+VQsf+
- 2tUaHFSVXgzFK1a6yRMIX1vSj55LRig90vWOEN1F3RzgrsXMzC/rNrQb9CBsTNYC0nRm
- VJoQ==
-X-Gm-Message-State: APjAAAUzz7t2OgJGoGC6of0YNiVRlyeJAW6Oh3fVTfGEGPHqof6vvZBM
- 4cRfNqp0EkzpmnCCVsrZaBpZAxZNVuNZP2AEnjg=
-X-Google-Smtp-Source: APXvYqwJ/8cj+bFJJ3AcK794aR9LMVokdOzDwC6kys+Bz9mq3AEIGKsuRP6b+ZfFLdt5r6nTSDn0gwi/gZ+GJ0ierKs=
-X-Received: by 2002:aca:484f:: with SMTP id v76mr6175179oia.62.1574199338641; 
- Tue, 19 Nov 2019 13:35:38 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1iXBb1-0007pR-66
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 17:03:40 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45689 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iXBb0-0007nF-QA; Tue, 19 Nov 2019 17:03:39 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47HfwP0b5mz9sPV; Wed, 20 Nov 2019 09:03:33 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574201013;
+ bh=/mD7CGW7/rYFAPyyHxHGSXYZMYX0p6LQfbfLh4dNVm0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=agQNzygw07RfGJZG3uOEql+llKW+0u2q2OpGVplSl8RMj2vNAWcj6iH4EAgTPT39c
+ Gj/so6uE5EaukpNUGiLszZUSijh6RM4aHY0dHmnj2TD25+F/2/dRhb/nVZkD0tTpzZ
+ F/Il7VOUXw878tQdtlErnfZHKaPcIvcQ+dFAtVlI=
+Date: Wed, 20 Nov 2019 08:52:15 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-5.0] xive/kvm: Trigger interrupts from userspace
+Message-ID: <20191119215215.GT5582@umbus.fritz.box>
+References: <157408992731.494439.3405812941731584740.stgit@bahia.lan>
+ <f81b87b2-c6c9-9c12-2929-adbb341cd391@kaod.org>
+ <20191119004713.GF5582@umbus.fritz.box>
+ <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
 MIME-Version: 1.0
-References: <20191119204551.240792-1-stefanha@redhat.com>
- <CAL1e-=ibQBWUzUZvsvSWCZ5SwFk5T+b2P94D068W8G_taWVASg@mail.gmail.com>
-In-Reply-To: <CAL1e-=ibQBWUzUZvsvSWCZ5SwFk5T+b2P94D068W8G_taWVASg@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 19 Nov 2019 22:35:27 +0100
-Message-ID: <CAL1e-=iEN9GEGDzEvoYM9q477Le4rs-mQZEgxOdzr51ZxLJd0w@mail.gmail.com>
-Subject: Re: [PULL for-4.2-rc2 0/2] Tracing patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l4+/aJnPlhOv5JVj"
+Content-Disposition: inline
+In-Reply-To: <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,93 +58,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:bochs" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 19, 2019 at 10:14 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
-> On Tue, Nov 19, 2019 at 9:46 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >
-> > The following changes since commit f086f22d6c068ba151b0f6e81e75a64f130d=
-f712:
-> >
-> >   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-fixes-201911=
-18.0' into staging (2019-11-18 21:35:48 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/stefanha/qemu.git tags/tracing-pull-request
-> >
-> > for you to fetch changes up to 6b904f1a528a6d8c21f7fbdeab13b9603d1b6df7=
-:
-> >
-> >   hw/mips/gt64xxx: Remove dynamic field width from trace events (2019-1=
-1-19 16:17:05 +0000)
-> >
-> > ----------------------------------------------------------------
-> > Pull request
-> >
-> > Tracing fixes for MIPS.
-> >
-> > ----------------------------------------------------------------
-> >
->
-> Hello, Stefan, Philippe, Peter.
->
-> This appears to be a duplicate of the pull request sent today by Philippe
-> (and already applied by Peter just hours ago):
->
-> https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg02894.html
->
-> The patches from the two pull requests appear to be identical, except
-> some minor details in commit messages: Stefan's versions contain
-> "Message-Id:" identifiers, while Philippe's don't (my suggestion to
-> Philippe is to include "Message-Id:" for all patches that are part of any
-> pull request in future; this can be achieved effortlessly/automatically
-> by applying patches using patchwork).
->
-> In summary, for this very situation, it looks to me we are all set, no ne=
-ed
-> for Peter to process this pull request.
->
 
-And just another really friendly advice for Philippe: When you apply
-some patches or a series to your pull request, just inform others
-about that by replying to the patches or a series: "I applied XXX to
-my queue/pull request" - this helps avoiding duplicate efforts like
-it happened here. This is also reminder to me too, I didn't do it in
-all cases of my applying to my my pull requests, and I should have,
-but I will improve too.
+--l4+/aJnPlhOv5JVj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for these fixes!
+On Tue, Nov 19, 2019 at 09:15:52AM +0100, C=E9dric Le Goater wrote:
+> On 19/11/2019 01:47, David Gibson wrote:
+> > On Mon, Nov 18, 2019 at 04:37:16PM +0100, C=E9dric Le Goater wrote:
+> >> On 18/11/2019 16:12, Greg Kurz wrote:
+> >>> When using the XIVE KVM device, the trigger page is directly accessib=
+le
+> >>> in QEMU. Unlike with XICS, no need to ask KVM to fire the interrupt. A
+> >>> simple store on the trigger page does the job.
+> >>>
+> >>> Just call xive_esb_trigger().
+> >>
+> >> Yes but the KVM XIVE device does a few other checks.=20
+> >>
+> >> It checks that the interrupt was correctly initialized at the KVM devi=
+ce
+> >> level. We should be fine in QEMU which has similar checks.
+> >>
+> >> It caches the LSI assertion level. We should be fine also because it is
+> >> useless in KVM when using the XIVE native exploitation mode.
+> >>
+> >> It checks it is not a passthru interrupt. Any idea on how to check thi=
+s=20
+> >> condition under QEMU ?=20
+> >> =20
+> >>> This may improve performance of emulated devices that go through
+> >>> qemu_set_irq(), eg. virtio devices created with ioeventfd=3Doff or
+> >>> configured by the guest to use LSI interrupts, which aren't really
+> >>> recommended setups.
+> >>
+> >> LGTM.
+> >=20
+> > Ok, between the comments above and this, I'm not sure if this is ready
+> > to merge or not.
+>=20
+> I think it is.=20
+>=20
+> With this change, we are loosing a check on passthrough interrupts but=20
+> I am not sure how critical this is given that QEMU can anyhow bypass=20
+> KVM and trigger the interrupt using a store on the ESB page.=20
+>=20
+> >> Any figures to share ?=20
+>=20
+> I am torturing Greg to have numbers :) but he resisted well.
+>=20
+> >> C.
+> >>
+> >>> Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> Let's move on.
+>=20
+> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
 
-Aleksandar
+Works for me.  Applied.
 
-> Regards,
-> Aleksandar
->
-> > Philippe Mathieu-Daud=C3=A9 (2):
-> >   hw/block/pflash: Remove dynamic field width from trace events
-> >   hw/mips/gt64xxx: Remove dynamic field width from trace events
-> >
-> >  hw/block/pflash_cfi01.c |  8 ++++----
-> >  hw/block/pflash_cfi02.c |  8 ++++----
-> >  hw/block/trace-events   |  8 ++++----
-> >  hw/mips/gt64xxx_pci.c   | 16 ++++++++--------
-> >  hw/mips/trace-events    |  4 ++--
-> >  5 files changed, 22 insertions(+), 22 deletions(-)
-> >
-> > --
-> > 2.23.0
-> >
-> >
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--l4+/aJnPlhOv5JVj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UZA8ACgkQbDjKyiDZ
+s5JY7Q//WFxXpx7cw2B4pCVNEWCcv1UxmbKX96H5J1mXaMwmYHFv9axTmRCWAcs6
+M+G/HZSOx2bB1o9NW0HwIzaKspzVaO6YO3xLqikCH/vYRykKkijhlPpaT//Ak11S
+d6tGzwgxgIq0tTWxN056zanjMoBhUzAuzSNevIyD7HdzPYMkAIQ1SxRj1dlH3K14
+gcJR+upmdS6ik3PjGdte70KshP48G7hYmBjQuEXNTiyBF6WtdHbHUwA201avvl5D
+j07pombTyTrPpTqq28TiDVjVg1dqiLrrC73vjYARBQuGUxgiaHZzbY1e/vi2kXyA
+Mwg6CxLtnEtBGoChD5DGjhVisYZ03NtoGw96g3qknr7W/ecpicwNtfeJ6vFRnEEq
+IyfFJQc+FBP2s8Vzxiz4VU947rEV0wx1VcOQXzwqXQOaAew/ZfIZRAguxcCwTC5Z
+tnwGKCfTadzONm7LTJT9YiG+WHFKjIOLY+pJBbYc0DlHK3MPMqNEUMY+2tIDtvE2
+59XApxE2Ji/FnosT07k0dXhU7h7ulVSySEo1PF/D068s6DvlI2mS68O4OVJsg9PZ
+NNwHqbJt2lSAAq9U4B8nDl67H0MU4Rzjk7Too+WmoexogMPK4juDECGEL59a8P6D
+kqYag0RqZNmvWP09WacBQ6iisgaC7UGdAQF8bTKfM/KXb5rfkIU=
+=xpPh
+-----END PGP SIGNATURE-----
+
+--l4+/aJnPlhOv5JVj--
 
