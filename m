@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1175A10112E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:17:32 +0100 (CET)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D79101153
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:27:54 +0100 (CET)
+Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWt58-0005xF-RT
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:17:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1iWtFA-0008NF-UU
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:27:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chanmickyyun@gmail.com>) id 1iWt3r-0005VC-BL
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:12 -0500
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWtEG-0007an-M8
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:26:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chanmickyyun@gmail.com>) id 1iWt3p-0000cm-IO
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:11 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38751)
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWtEF-0002od-Bx
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:26:56 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40902)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <chanmickyyun@gmail.com>)
- id 1iWt3n-0000c9-FF
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:08 -0500
-Received: by mail-pg1-x541.google.com with SMTP id 15so10559194pgh.5
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 18:16:06 -0800 (PST)
+ id 1iWtEF-0002oX-4D
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:26:55 -0500
+Received: by mail-pl1-x641.google.com with SMTP id e3so10882462plt.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 18:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=a6jCuCAelSuIndEzbgorEPQx5AkNha1h9EkMyOLHxpk=;
- b=gmPHndJUhWiSiqlDmkiNOVwMtMVAV/MIjHcbotE4GXOmzsqMikUkW89C4tc8MgLCaX
- AMjJcp+Wf1V64+pOpAj6UJpnkhhd55TWBGHYdPtI92Xeao346vTTP6QUKt8XvnKyo5gg
- zFhfP7YzrrsyGPKgXdeGpUg69N73u9nifjiDk5Zojfpf8Sdk24jUNqJjeyDJMydHpEp8
- 9JZ43PGXMN7nOGBlJZhUZRRDLnhZ4VrgCEWiG55qjyUbFgfQvPYo2wCLr/Wa1GAskAjp
- QhUjWU+vBs4Yh0NMUmJZZ0EStFr+tlVo/QGP5FM0Ox17H2iXfDqPuFCQDtfrojfJ1VVG
- zCAw==
+ bh=i2r/mOApj4LAQtxgh1li1SATnPX6DmW2po1B+XTx69E=;
+ b=MOKBYVcTOvhT4CJoT3QNDu5O0c3DNgwu52SL3u8ddPSJ3/aEcz7lAP49veU+7SoFEX
+ +lIxFJtKm2KYl83GtYFTt5rFGs0I1Zp17AQF28JF8l6Y8CAsjOoPefB+dQiD9BtsQfHf
+ gkGZIHw/Ik6ljsW2uOWMw3eClmBxex+LZfxCdZOclSY5QpJe1CG1GNzqnzacGEVoJaQb
+ MNcz8fjf2GuBtQmAcPmPzEGJe6Ufwf2RNmXqMcRYuScOfL6KmNjHkI1kiBAwR6Cu/ay6
+ Ra/KZDCgij+rgeoPaIMeR9ZdzKKvwbsyzDix6QOI/0cZ7f7BBrLamKRkp0V2kNkouIpY
+ mNZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=a6jCuCAelSuIndEzbgorEPQx5AkNha1h9EkMyOLHxpk=;
- b=qnoBzkXA0KlGnkS8ZwcRogmD6jr6jTmiPZIcpFby1+r+Hhb0gqiWbbwl5049eIsjUh
- RzNk6KPToYplFiX2E/G5eaTBHmhkNNoUQTaxQzGWtaN49EkK49hxk+Vkvch3xuH8MDiJ
- zeb9MqSu7hv8AuVeyy5oBHOh4uUHkMpK5mHchRTTCIANUo9vPi2m9xWY6vbqxKxYXC1N
- vUPus+hdbpciX7DfSA/sq3UOw/47EWno+4E1w/rZi57KTfDXDXQnm4zPW39bJdohSfTS
- BBm/bI5XOjpr9+2YpOB0iIizaCQbgSaGZ0VV16XiQ0Y+7/PJNZJEjKkqV1C2M2xtr+qs
- +Q5w==
-X-Gm-Message-State: APjAAAVJdTb76XWjZuFDMeM5b9gMyoRFxFpw5+co0xAO15AmnBqqUsum
- AiGYHDiJe4VUCKv1InsCPWm1Ia6hfz/i6+cI
-X-Google-Smtp-Source: APXvYqxU3m8tVGSrv58DSkyeEr3Hl/TgDtLz2I/jHmpzpReBJ/Sx/y+j1Ic/sZD54Z6V+T4qMybhuA==
-X-Received: by 2002:aa7:8690:: with SMTP id d16mr2751619pfo.117.1574129765119; 
- Mon, 18 Nov 2019 18:16:05 -0800 (PST)
+ bh=i2r/mOApj4LAQtxgh1li1SATnPX6DmW2po1B+XTx69E=;
+ b=EUsbeLJ4kfD80Xh9jOrmW+7U6E8phkYOYwq6/5SMnqI6aYwLSjQsw2NTitlq+FG08T
+ APauDPcLnmtd60MLY195/meH7hz0834oTnXv8V/1iAcP+dMIsChNkaY0YqI3LY/9nbAx
+ zlGhF74EVfQ0lqw5Cfuv0HKiilaudJmEZpmbtJ8drMaYdMS1t/aCW7deyYopT77o4vdk
+ 4sj0MbJ4Eyuc0PZvv4Yq9Ik46f66tTQ/54iRo6OHO6SWYUne2CB7QKG/27Qpj1zxtwmO
+ 0XeRkY24sDXJKUvoF8onfjTHk3gojCGRFs8q6ySg2LIBqrdGZiPUrQBh/qf1+8wkME3w
+ z7dQ==
+X-Gm-Message-State: APjAAAWlX65wJMLBOtrz0jZ1VCH7sFeLgmsTCWJ3vyduhrCcALcyPpRC
+ mIBFIDmfanHLxgeAlXISTJWtFKBvpy14S8jV
+X-Google-Smtp-Source: APXvYqyx+oCOkkk5OEdo/K/Ru7eppXdZqzmG1rPLaY0wDnx+ISlOUXaRXM1hyvZAwvdUXdzuW4mmmw==
+X-Received: by 2002:a17:90a:348c:: with SMTP id
+ p12mr2910677pjb.105.1574130413428; 
+ Mon, 18 Nov 2019 18:26:53 -0800 (PST)
 Received: from localhost.localdomain.com ([209.132.188.80])
- by smtp.googlemail.com with ESMTPSA id h9sm7169247pgk.84.2019.11.18.18.16.02
+ by smtp.googlemail.com with ESMTPSA id i2sm21912113pgt.34.2019.11.18.18.26.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 18:16:04 -0800 (PST)
+ Mon, 18 Nov 2019 18:26:52 -0800 (PST)
 From: Micky Yun Chan <chanmickyyun@gmail.com>
 X-Google-Original-From: Micky Yun Chan <michan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] Implement backend program convention command for
+Subject: [PATCH v4] Implement backend program convention command for
  vhost-user-blk
-Date: Tue, 19 Nov 2019 10:15:48 +0800
-Message-Id: <20191119021548.10101-1-michan@redhat.com>
+Date: Tue, 19 Nov 2019 10:26:40 +0800
+Message-Id: <20191119022640.11021-1-michan@redhat.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,7 +94,7 @@ Signed-off-by: Micky Yun Chan (michiboo) <chanmickyyun@gmail.com>
  1 file changed, 65 insertions(+), 44 deletions(-)
 
 diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index ae61034656..c26a0214a5 100644
+index ae61034656..a226148bdc 100644
 --- a/contrib/vhost-user-blk/vhost-user-blk.c
 +++ b/contrib/vhost-user-blk/vhost-user-blk.c
 @@ -576,70 +576,91 @@ vub_new(char *blk_file)
@@ -165,7 +166,7 @@ index ae61034656..c26a0214a5 100644
 +    }
 +
 +    if (!opt_blk_file) {
-+        g_print("%s", g_option_context_get_help(context, true, NULL));
++        g_print("%s\n", g_option_context_get_help(context, true, NULL));
 +        exit(EXIT_FAILURE);
 +    }
 +
@@ -175,7 +176,7 @@ index ae61034656..c26a0214a5 100644
 +           exit(EXIT_FAILURE);
          }
 +    } else if(opt_fdnum < 0){
-+        g_print("%s", g_option_context_get_help(context, true, NULL));
++        g_print("%s\n", g_option_context_get_help(context, true, NULL));
 +        exit(EXIT_FAILURE);
 +    } else {
 +        lsock = opt_fdnum;
