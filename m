@@ -2,108 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A858101E0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:41:28 +0100 (CET)
-Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861F4101E95
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:52:01 +0100 (CET)
+Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWz4e-000238-VP
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:41:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52893)
+	id 1iWzEu-0007x1-Bf
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:52:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iWz3F-0001Pc-Rq
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:40:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1iWzE5-0007Rp-EF
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:51:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iWz3C-0003ve-9Q
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:39:57 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:51203)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iWz3B-0003u1-WD
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:39:54 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MUGNZ-1iNOP7075H-00RFsZ; Tue, 19 Nov 2019 09:39:26 +0100
-To: Taylor Simpson <tsimpson@quicinc.com>, riku.voipio@iki.fi,
- qemu-devel@nongnu.org
-References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of patches
- - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon -
- Files in target/hexagon/imported are from another project and therefore do
- not conform to qemu coding standards
-Message-ID: <20ff3dba-2ee8-8ef2-aa50-ecbd52092c4d@vivier.eu>
-Date: Tue, 19 Nov 2019 09:39:19 +0100
+ (envelope-from <philmd@redhat.com>) id 1iWzE2-0001Q7-86
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:51:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35033
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iWzE2-0001Pp-4h
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:51:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574153465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CczLV09iKD4aLxtz2/ywTzTYGw0hJAYIJM6eUhi4yW4=;
+ b=PdaNFX6/AWTkyQhGDfsdMB75EFDGrfvPKiHBTZmoeecRvXbioB/O4Xoqe21Ikb+oxESuj9
+ i5t2R3pL4cDLZ7FK+WMKN9k3eLCJqa+76+vnayp8tINETmq7fN/M8f5Y2SKMwGANtOq3cS
+ 5pmODCLWeFkUVYkvijiRyT4JkghFu8g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-xfredVy_MUGdUyE3o5LibA-1; Tue, 19 Nov 2019 03:51:03 -0500
+Received: by mail-wm1-f72.google.com with SMTP id y14so2057163wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 00:51:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QCVPJn3vzbNqj86wHiCCIYdkrkhcCMR8A+0CTluzjlg=;
+ b=i6TlYrD2bckCvCvRkDszxoxPB7ajSS2r6WzmfN328h4VaxjzDiN/M0xsadsjxrCKf0
+ CqH7xJGdqOKs/EHHf95gkbMPSBOJ/1cdJBEw242PWfuUUog3pE1FjyxlbDYWEGPl2R8v
+ 6vU3GrlgeBGlHtuueH5uom/ne/rceL3bxvr8TQW/Xtz8ARcq1WQP4y3TVQSWNa98291o
+ tpnIK2+aZOfnFUPo3kfV0YfUvu7lGornkwUvVzxHooPFWoXte/rGkjT+F+V3RH4YjxT3
+ FAE7STJg+lwA5QHJDBva/TqesgSoojyXlTQU+MGn06rYeNu14dk7EWC0Z+eHO05iKHKN
+ Q3YQ==
+X-Gm-Message-State: APjAAAVQeKop0RVQmodACVpe1P824OJvtvbVH69dXSkEEawyR1V+ApYM
+ jiGeYdpBp2ZqG1Ub7MdGRFOtG3IkW/nF8g9xr+pvEWTidWg5E/QzQn/kCpunao7Ko7Z5cKvk6av
+ zLHF9ckVZsqEnRZI=
+X-Received: by 2002:a1c:22c6:: with SMTP id i189mr4341540wmi.51.1574153462026; 
+ Tue, 19 Nov 2019 00:51:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqySsnJvYpm5KgH65Y9jnFXN8TAlKejjh8T5V3ce90oieiaSWgX+fxr4YCkvEaeGR2iUcRoLKg==
+X-Received: by 2002:a1c:22c6:: with SMTP id i189mr4341509wmi.51.1574153461790; 
+ Tue, 19 Nov 2019 00:51:01 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id o1sm26476146wrs.50.2019.11.19.00.51.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Nov 2019 00:51:01 -0800 (PST)
+Subject: Exclude paths from checkpatch (was: Re: [PATCH] Add minimal Hexagon
+ target)
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
+References: <157412709300.27250.5531224491109755641@37313f22b938>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7851e556-a5f2-9059-faf7-3d2a4e32958c@redhat.com>
+Date: Tue, 19 Nov 2019 09:51:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <157412709300.27250.5531224491109755641@37313f22b938>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pVI2HmNwtic/IjbB/hTj/6gBHYiXxqeUvDs+n128W2mz+sPNz6R
- 2H9Au+j9pzbmFEbIvKCc8qjrKF12v63w/f29mGLjoa5ArUva7BsGDj2mJkd947E98y8tSXo
- 0laZT8O7EDIy9/osFtyD8g5H6Z08T952aRqKc0zpMWIGK1XD2bIZnSSSsyybn6/bhuiiWdf
- knqaj8eYhnjlJhkvoO3kQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Rkzhds3DqIc=:XzRCBcotaUpOPWWhwCO5Uy
- Uyj6/oezwitr2Sltmz9T7F1vfgHELVrkcri6JSS7qoLthpILhM/UGt6pLq/2qu6mPxuMwqF1W
- 4w25zX20w8Ev1OVP8YkzS7Ckz1IytSzWFw8ycC5zgM/ZTljJCJypS1i4pnT6hihZp2P82Bv46
- 25J5LtHUlKe8LXft6TzBFfr6KIFohkAkXfiZUqIGh9zD+GVwuYyv9X0ItXBV6uq4hWKM1nk/d
- CScyBHodh7jKh0ako77IqtTKZepkqwT99leDVXRNDvVpdTrEJI883rI2DH2kuqMvwo0Fhw4sg
- yYQJsU8NPBn3ei1mJY/7kzgHQzc7dIAlTyLT0oUx3m+EF2rooXIHW9eM3/uJUOzykL7737/j/
- 6oacaW2yEkZzfEaG8DIygp88Sl53WecX6DUSHzyUK7MLKVHmmvDmkVJ4ew2z/hQB5z7O64yTH
- NWDTVOuSaihNaadv/UZbHx2W4K43rnYg13eybsO3bM2xC6SiTe6uYCk5IfS0+BWZ7PqalNTyD
- /HXK0x3JnizcqT76Gtpgf2Bsl7fSw09RraLDwTIrM7MXtxVCUbRFB7zH2jdLRRlGQidO0mYQw
- RIv3B12lSxDDiT7n55NS/NyPp6zYFT7lHrYJ3Xll57rbdnI5ZIxyqxaBB8O9S2fbyuhD7ZBvM
- EOIM5MW/SjHbkTNDQNXnolKS+d2XRyjiCmzfV0KAPCI1UVWuZPTimkFndTNqpg6HddLg5oAis
- iOr5H9OEZZCZFwwxkWYPOzPPttXT38O3cWU/KUXGxe7taw07gykTcydZ/NzvB4lT6ZiS9m1OM
- EJjUHqz4QAlEBt6bni2aIf5wnKSX4z+FI6sg3gbCgRJ+PNbvvt2jCYUekg4Qv/52mbIM2VWrn
- JfsbSfyt1mtwkeeXpfET4qd7k55++q7pMs0FeQWTo=
+X-MC-Unique: xfredVy_MUGdUyE3o5LibA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.13
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,95 +93,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, tsimpson@quicinc.com, riku.voipio@iki.fi,
+ qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 11/19/19 2:31 AM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/1574121497-2433-1-git-send-email-ts=
+impson@quicinc.com/
+>=20
+>=20
+>=20
+> Hi,
+>=20
+> This series seems to have some coding style problems. See output below fo=
+r
+> more information:
+>=20
+> Subject: [PATCH] Add minimal Hexagon target - First in a series of patche=
+s - linux-user changes + linux-user/hexagon + skeleton of target/hexagon - =
+Files in target/hexagon/imported are from another project and therefore do =
+not conform to qemu coding standards
+> Type: series
+> Message-id: 1574121497-2433-1-git-send-email-tsimpson@quicinc.com
+>=20
+> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+>=20
+> Switched to a new branch 'test'
+> 7744509 Add minimal Hexagon target - First in a series of patches - linux=
+-user changes + linux-user/hexagon + skeleton of target/hexagon - Files in =
+target/hexagon/imported are from another project and therefore do not confo=
+rm to qemu coding standards
+>=20
+> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #38:
+> new file mode 100644
+>=20
+> ERROR: do not use C99 // comments
+> #1922: FILE: target/hexagon/imported/iss_ver_registers.h:80:
+> +// New interrupts, keep old defines for the time being
 
-thank you for your contribution.
+I tried this quick way to filter some file/directory out of=20
+checkpatch.pl, and it works nicely:
 
-I think we need some little changes:
+$ cat .git/hooks/pre-commit
+#!/bin/bash
+exec git diff --cached -- ':(top)' $(test -e .checkpatchignore && sed=20
+-ne '/^\(#.*\|$\)/ ! s/.*/:(exclude)\0/p' < .checkpatchignore) |=20
+scripts/checkpatch.pl --no-signoff -q -
 
-- fix the errors reported by patchew (you can check your patch with
-scripts/checkpatch.pl)
+$ cat .checkpatchignore
+# A line starting with # serves as a comment.
+# A blank line matches no files, so it can serve as a separator for=20
+readability.
+include/standard-headers
+target/xtensa/core-*
+target/hexagon/imported
 
-- split the patch in two parts: one to add the target, one to add the
-linux-user part,
+Would this be acceptable to reduce patchew false positives?
 
-- add the license header in files where it is missing.
-  (you can use the SPDX tag)
+git exclude pathspec trick from:
+https://stackoverflow.com/questions/39931781/git-diff-stat-exclude-certain-=
+files/39937070#39937070
 
-- I think you can remove the "DEBUG_HEX" in cpu_loop() as most of the
-information can be displayed by QEMU_STRACE env variable. The one in
-hexagon_tr_translate_packet() can be done using QEMU_SINGLESTEP (if I
-understand the purpose),
-
-- The "[__SIGRTMAX - 1] = __SIGRTMIN + 1" part must be in a separate
-patch. As I said at KVM Forum, I agree with this change if it doesn't
-break anything else but it can be controversial.
-
-Thanks,
-Laurent
-
-Le 19/11/2019 à 00:58, Taylor Simpson a écrit :
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  configure                                   |   9 +
->  default-configs/hexagon-linux-user.mak      |   1 +
->  include/elf.h                               |   2 +
->  linux-user/elfload.c                        |  16 ++
->  linux-user/hexagon/cpu_loop.c               | 103 +++++++++
->  linux-user/hexagon/signal.c                 | 276 +++++++++++++++++++++++
->  linux-user/hexagon/sockbits.h               |   3 +
->  linux-user/hexagon/syscall_nr.h             | 331 ++++++++++++++++++++++++++++
->  linux-user/hexagon/target_cpu.h             |  35 +++
->  linux-user/hexagon/target_elf.h             |  24 ++
->  linux-user/hexagon/target_fcntl.h           |   3 +
->  linux-user/hexagon/target_signal.h          |  19 ++
->  linux-user/hexagon/target_structs.h         |  31 +++
->  linux-user/hexagon/target_syscall.h         |  17 ++
->  linux-user/hexagon/termbits.h               | 231 +++++++++++++++++++
->  linux-user/signal.c                         |   8 +
->  linux-user/syscall.c                        |   2 +
->  linux-user/syscall_defs.h                   |  33 +++
->  target/hexagon/Makefile.objs                |   6 +
->  target/hexagon/cpu-param.h                  |  11 +
->  target/hexagon/cpu.c                        | 283 ++++++++++++++++++++++++
->  target/hexagon/cpu.h                        | 146 ++++++++++++
->  target/hexagon/cpu_bits.h                   |  15 ++
->  target/hexagon/helper.h                     |   3 +
->  target/hexagon/imported/global_types.h      |  25 +++
->  target/hexagon/imported/iss_ver_registers.h | 183 +++++++++++++++
->  target/hexagon/imported/max.h               |  78 +++++++
->  target/hexagon/imported/regs.h              |  19 ++
->  target/hexagon/op_helper.c                  |  29 +++
->  target/hexagon/translate.c                  | 220 ++++++++++++++++++
->  target/hexagon/translate.h                  |  22 ++
->  31 files changed, 2184 insertions(+)
->  create mode 100644 default-configs/hexagon-linux-user.mak
->  create mode 100644 linux-user/hexagon/cpu_loop.c
->  create mode 100644 linux-user/hexagon/signal.c
->  create mode 100644 linux-user/hexagon/sockbits.h
->  create mode 100644 linux-user/hexagon/syscall_nr.h
->  create mode 100644 linux-user/hexagon/target_cpu.h
->  create mode 100644 linux-user/hexagon/target_elf.h
->  create mode 100644 linux-user/hexagon/target_fcntl.h
->  create mode 100644 linux-user/hexagon/target_signal.h
->  create mode 100644 linux-user/hexagon/target_structs.h
->  create mode 100644 linux-user/hexagon/target_syscall.h
->  create mode 100644 linux-user/hexagon/termbits.h
->  create mode 100644 target/hexagon/Makefile.objs
->  create mode 100644 target/hexagon/cpu-param.h
->  create mode 100644 target/hexagon/cpu.c
->  create mode 100644 target/hexagon/cpu.h
->  create mode 100644 target/hexagon/cpu_bits.h
->  create mode 100644 target/hexagon/helper.h
->  create mode 100644 target/hexagon/imported/global_types.h
->  create mode 100644 target/hexagon/imported/iss_ver_registers.h
->  create mode 100644 target/hexagon/imported/max.h
->  create mode 100644 target/hexagon/imported/regs.h
->  create mode 100644 target/hexagon/op_helper.c
->  create mode 100644 target/hexagon/translate.c
->  create mode 100644 target/hexagon/translate.h
-> 
 
