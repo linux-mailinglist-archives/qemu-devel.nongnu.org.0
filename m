@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FB9101EAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 09:54:47 +0100 (CET)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4003101F48
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:05:33 +0100 (CET)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWzHa-00015J-Rx
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 03:54:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
+	id 1iWzS0-0006gQ-V9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:05:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iWzGj-0000YB-8l
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:53:56 -0500
+ (envelope-from <armbru@redhat.com>) id 1iWzNQ-0004G6-7k
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iWzGf-00029m-DR
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:53:52 -0500
-Received: from 17.mo7.mail-out.ovh.net ([188.165.35.227]:36418)
+ (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aT-RY
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:47 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34275
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iWzGf-000284-6t
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 03:53:49 -0500
-Received: from player791.ha.ovh.net (unknown [10.108.54.38])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id B073B135490
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 09:53:39 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player791.ha.ovh.net (Postfix) with ESMTPSA id 61453C24E22A;
- Tue, 19 Nov 2019 08:53:33 +0000 (UTC)
-Date: Tue, 19 Nov 2019 09:53:31 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-5.0] xive/kvm: Trigger interrupts from userspace
-Message-ID: <20191119095331.2491e48e@bahia.lan>
-In-Reply-To: <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
-References: <157408992731.494439.3405812941731584740.stgit@bahia.lan>
- <f81b87b2-c6c9-9c12-2929-adbb341cd391@kaod.org>
- <20191119004713.GF5582@umbus.fritz.box>
- <50ff4d1f-6576-0fc3-e1d5-9600cdbef5e4@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iWzNM-0004aH-JV
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:00:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574154043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HNhLQgHHasV7jBYpL0FGXN27Gp9jfAgPM/xC+EEItW8=;
+ b=O3ya9g3QM8Wo29Q6PlGG0ANwDIvcONUP0MtR2ga3kafdzBTvgriBQc00EmylR9toZ7jI4H
+ YqQzNYmcMi5wHE18ful3xrP+zEw5yesE1gddtxVBRYbEb344uodpkxbUbnQHjYCGhI8jLr
+ wcE+uWodgkxRyJNElkjtV9gyRjLfd6k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-gYUTzuduNem3DBcc0NxfZw-1; Tue, 19 Nov 2019 04:00:40 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FD5F801FD2;
+ Tue, 19 Nov 2019 09:00:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.118.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 149A45E243;
+ Tue, 19 Nov 2019 09:00:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71E331138606; Tue, 19 Nov 2019 10:00:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] Monitor patches for 2019-11-19
+Date: Tue, 19 Nov 2019 10:00:36 +0100
+Message-Id: <20191119090037.21686-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: gYUTzuduNem3DBcc0NxfZw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 12507340592312916363
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejledurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.35.227
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,122 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: w.bumiller@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Nov 2019 09:15:52 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+I'd like to propose this bug fix for -rc2.  Certain usage of QMP can
+leave the monitor permanently wedged (depends on event timing).
+Libvirt does not use it this way as far as I know.  I understand it
+affects other applications.  It's not a a regression in 4.2.
 
-> On 19/11/2019 01:47, David Gibson wrote:
-> > On Mon, Nov 18, 2019 at 04:37:16PM +0100, C=C3=A9dric Le Goater wrote:
-> >> On 18/11/2019 16:12, Greg Kurz wrote:
-> >>> When using the XIVE KVM device, the trigger page is directly accessib=
-le
-> >>> in QEMU. Unlike with XICS, no need to ask KVM to fire the interrupt. A
-> >>> simple store on the trigger page does the job.
-> >>>
-> >>> Just call xive_esb_trigger().
-> >>
-> >> Yes but the KVM XIVE device does a few other checks.=20
-> >>
-> >> It checks that the interrupt was correctly initialized at the KVM devi=
-ce
-> >> level. We should be fine in QEMU which has similar checks.
-> >>
-> >> It caches the LSI assertion level. We should be fine also because it is
-> >> useless in KVM when using the XIVE native exploitation mode.
-> >>
-> >> It checks it is not a passthru interrupt. Any idea on how to check thi=
-s=20
-> >> condition under QEMU ?=20
-> >> =20
-> >>> This may improve performance of emulated devices that go through
-> >>> qemu_set_irq(), eg. virtio devices created with ioeventfd=3Doff or
-> >>> configured by the guest to use LSI interrupts, which aren't really
-> >>> recommended setups.
-> >>
-> >> LGTM.
-> >=20
-> > Ok, between the comments above and this, I'm not sure if this is ready
-> > to merge or not.
->=20
-> I think it is.=20
->=20
-> With this change, we are loosing a check on passthrough interrupts but=20
-> I am not sure how critical this is given that QEMU can anyhow bypass=20
-> KVM and trigger the interrupt using a store on the ESB page.=20
->=20
+If it's too late for fixing it in 4.2, we'll punt to 5.0 with cc:
+qemu-stable.
 
-True. Thinking a bit more about this: nothing prevents such a store to
-be the result of a bug somewhere else in QEMU, eg. some dangling pointer
-with the same value, in a much easier way than doing the KVM ioctl. Is
-it a concern we should take into account ?
+The following changes since commit a5c2a235103ab366ad5318636ec138e52c6dcfa4=
+:
 
-> >> Any figures to share ?=20
->=20
-> I am torturing Greg to have numbers :) but he resisted well.
->=20
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
+ng (2019-11-18 17:06:17 +0000)
 
-Maybe a _liquid_ bribe or two can be convincing enough :-)
+are available in the Git repository at:
 
-> >> C.
-> >>
-> >>> Signed-off-by: Greg Kurz <groug@kaod.org>
->=20
-> Let's move on.
->=20
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
-> C.
->=20
-> >>> ---
-> >>>  hw/intc/spapr_xive_kvm.c |   16 ++--------------
-> >>>  1 file changed, 2 insertions(+), 14 deletions(-)
-> >>>
-> >>> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> >>> index 08012ac7cd76..69e73552f1ef 100644
-> >>> --- a/hw/intc/spapr_xive_kvm.c
-> >>> +++ b/hw/intc/spapr_xive_kvm.c
-> >>> @@ -354,32 +354,20 @@ static void kvmppc_xive_source_get_state(XiveSo=
-urce *xsrc)
-> >>>  void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
-> >>>  {
-> >>>      XiveSource *xsrc =3D opaque;
-> >>> -    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
-> >>> -    struct kvm_irq_level args;
-> >>> -    int rc;
-> >>> -
-> >>> -    /* The KVM XIVE device should be in use */
-> >>> -    assert(xive->fd !=3D -1);
-> >>> =20
-> >>> -    args.irq =3D srcno;
-> >>>      if (!xive_source_irq_is_lsi(xsrc, srcno)) {
-> >>>          if (!val) {
-> >>>              return;
-> >>>          }
-> >>> -        args.level =3D KVM_INTERRUPT_SET;
-> >>>      } else {
-> >>>          if (val) {
-> >>>              xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
-> >>> -            args.level =3D KVM_INTERRUPT_SET_LEVEL;
-> >>>          } else {
-> >>>              xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
-> >>> -            args.level =3D KVM_INTERRUPT_UNSET;
-> >>>          }
-> >>>      }
-> >>> -    rc =3D kvm_vm_ioctl(kvm_state, KVM_IRQ_LINE, &args);
-> >>> -    if (rc < 0) {
-> >>> -        error_report("XIVE: kvm_irq_line() failed : %s", strerror(er=
-rno));
-> >>> -    }
-> >>> +
-> >>> +    xive_esb_trigger(xsrc, srcno);
-> >>>  }
-> >>
-> >>
-> >=20
->=20
+  git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-11-19
+
+for you to fetch changes up to 2895aaa139b3f916b3650ca516b35dceb9c0d4c4:
+
+  monitor/qmp: resume monitor when clearing its queue (2019-11-19 08:21:47 =
++0100)
+
+----------------------------------------------------------------
+Monitor patches for 2019-11-19
+
+----------------------------------------------------------------
+Wolfgang Bumiller (1):
+      monitor/qmp: resume monitor when clearing its queue
+
+ monitor/qmp.c | 36 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 31 insertions(+), 5 deletions(-)
+
+--=20
+2.21.0
 
 
