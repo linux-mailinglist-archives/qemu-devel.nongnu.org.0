@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8500101271
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 05:30:26 +0100 (CET)
-Received: from localhost ([::1]:41736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EC110197F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 07:41:12 +0100 (CET)
+Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWv9l-0001Dm-M1
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 23:30:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49316)
+	id 1iWxCI-0000nr-QT
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 01:41:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qi1.zhang@intel.com>) id 1iWv7k-0007fK-IV
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:21 -0500
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWxAf-0008OG-Bl
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qi1.zhang@intel.com>) id 1iWv7j-00035J-EX
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:20 -0500
-Received: from mga06.intel.com ([134.134.136.31]:38424)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qi1.zhang@intel.com>) id 1iWv7j-00034e-7E
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 23:28:19 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2019 20:28:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="215444125"
-Received: from a23004-02.sh.intel.com ([10.239.9.129])
- by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2019 20:28:16 -0800
-From: qi1.zhang@intel.com
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWxAe-0002fL-1q
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:29 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38385)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chanmickyyun@gmail.com>)
+ id 1iWxAd-0002ct-Pj
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:27 -0500
+Received: by mail-pg1-x542.google.com with SMTP id 15so10864274pgh.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 22:39:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+RJtGG6EMm+0AGgsAyLmBlQAelRZh9D77sVdnuuQ+xY=;
+ b=JuO2u1IkffOqquWnjMIF44381DHRN6jMvP6NdHbdcfZCQdwGWXbQHyfzK9a1APmzav
+ hhjfbPbuP68fSKasDAbEKNWR50QmLhB0asr3+6/9PelplmaEyt8Le5pTX42RvWAAJeIT
+ LeUoW88vxb3DqTrLDVS+lhmjH+zONULyTe2Ih1UrgaOwf7YU/ZfO2BffC8EZveUBM1Yd
+ SWvqliR6RycvUnU0izv1ElgvyuVmldSx9kVUW4WxIxt6tsBXhPlbchPZ0BGnMiauVMQS
+ h0q4G/LBa0eFRKgQv3KGjjd90/pMMEFvOBzEiox50493fSs7s0i0eSN1/rNBnCsq57B8
+ VMRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+RJtGG6EMm+0AGgsAyLmBlQAelRZh9D77sVdnuuQ+xY=;
+ b=fk02tYLD3s+FVlT2OYLH3yydzGVID7cu7/iS6wXRnD1GuqG74Ki1kNowMmVimMYmT3
+ Pg6oIJSFmYiFX7QPzpj9zm2hmZrFZkbEgntK+AT/TCKqPH4JuR2dd4OsggkRxEPMj0B/
+ CXF+JQA+9TL1aaSSkbnlC4gkZ/ajfMlW4xpYSXo5Zf0TWjtGQFQa4ySlF8ulTZDCo/y3
+ 6pZWHOi6WqLs/tyVhLobBda6+ismUEbhRPavWTRLZkXOIBSKZN3EkDW4XuZQ1CoXtfp8
+ UoPWlIaZAEYj6N7MqNm0sI7hYIzwm2PDQvZ9KZIc0h1Y2ud+3Va2iWfsyH7O0PKd5mzE
+ 2stg==
+X-Gm-Message-State: APjAAAV91AQ0zLN/X7A7+3eZRphGo6tFmfpgS4aQwaxfh8BMnPYUgWXE
+ 4hVUNsXTnTddAUYjtwmFCKckCUsfy/0pWnbD
+X-Google-Smtp-Source: APXvYqzIuhjpewPh8fqhqP0dC4FLhMKbDlVajq7yuT9x9+psiUS0tcZgZjl01k+pPJ4EFgiVyLjEYA==
+X-Received: by 2002:a63:8249:: with SMTP id w70mr3811553pgd.54.1574145566111; 
+ Mon, 18 Nov 2019 22:39:26 -0800 (PST)
+Received: from localhost.localdomain.com ([209.132.188.80])
+ by smtp.googlemail.com with ESMTPSA id k17sm19223222pgb.64.2019.11.18.22.39.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Nov 2019 22:39:25 -0800 (PST)
+From: Micky Yun Chan <chanmickyyun@gmail.com>
+X-Google-Original-From: Micky Yun Chan <michan@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] intel_iommu: split the resevred fields arrays into two
- ones
-Date: Tue, 19 Nov 2019 20:28:13 +0800
-Message-Id: <d3aa65ad0510cdafd5d7dcbc54bc250feb6aa59b.1570503331.git.qi1.zhang@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1570503331.git.qi1.zhang@intel.com>
-References: <cover.1570503331.git.qi1.zhang@intel.com>
+Subject: [PATCH v5] Implement backend program convention command for
+ vhost-user-blk
+Date: Tue, 19 Nov 2019 14:39:11 +0800
+Message-Id: <20191119063911.18888-1-michan@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.31
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,75 +77,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qi1.zhang@intel.com, ehabkost@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, yadong.qi@intel.com, rth@twiddle.net
+Cc: michan <michan@redhat.com>, Micky Yun Chan <chanmickyyun@gmail.com>,
+ stefanha@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Zhang, Qi" <qi1.zhang@intel.com>
+From: michan <michan@redhat.com>
 
-Signed-off-by: Zhang, Qi <qi1.zhang@intel.com>
+This patch is to add standard commands defined in docs/interop/vhost-user.rst
+For vhost-user-* program
+
+Signed-off-by: Micky Yun Chan (michiboo) <chanmickyyun@gmail.com>
 ---
- hw/i386/intel_iommu.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ contrib/vhost-user-blk/vhost-user-blk.c | 109 ++++++++++++++----------
+ 1 file changed, 65 insertions(+), 44 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index f1de8fdb75..a118efaeaf 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -910,18 +910,19 @@ static dma_addr_t vtd_get_iova_pgtbl_base(IntelIOMMUState *s,
- 
- /*
-  * Rsvd field masks for spte:
-- *     Index [1] to [4] 4k pages
-- *     Index [5] to [8] large pages
-+ *     vtd_spte_rsvd 4k pages
-+ *     vtd_spte_rsvd_large large pages
-  */
--static uint64_t vtd_paging_entry_rsvd_field[9];
-+static uint64_t vtd_spte_rsvd[5];
-+static uint64_t vtd_spte_rsvd_large[5];
- 
- static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
- {
-     if (slpte & VTD_SL_PT_PAGE_SIZE_MASK) {
-         /* Maybe large page */
--        return slpte & vtd_paging_entry_rsvd_field[level + 4];
-+        return slpte & vtd_spte_rsvd_large[level];
-     } else {
--        return slpte & vtd_paging_entry_rsvd_field[level];
-+        return slpte & vtd_spte_rsvd[level];
-     }
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index ae61034656..96c43bb58d 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -576,70 +576,91 @@ vub_new(char *blk_file)
+     return vdev_blk;
  }
  
-@@ -3547,15 +3548,17 @@ static void vtd_init(IntelIOMMUState *s)
-     /*
-      * Rsvd field masks for spte
-      */
--    vtd_paging_entry_rsvd_field[0] = ~0ULL;
--    vtd_paging_entry_rsvd_field[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[4] = VTD_SPTE_PAGE_L4_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[5] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[6] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[7] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits);
--    vtd_paging_entry_rsvd_field[8] = VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd[0] = ~0ULL;
-+    vtd_spte_rsvd[1] = VTD_SPTE_PAGE_L1_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd[2] = VTD_SPTE_PAGE_L2_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd[3] = VTD_SPTE_PAGE_L3_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd[4] = VTD_SPTE_PAGE_L4_RSVD_MASK(s->aw_bits);
++static int opt_fdnum = -1;
++static char *opt_socket_path;
++static char *opt_blk_file;
++static gboolean opt_print_caps;
++static gboolean opt_read_only;
 +
-+    vtd_spte_rsvd_large[0] = ~0ULL;
-+    vtd_spte_rsvd_large[1] = VTD_SPTE_LPAGE_L1_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd_large[2] = VTD_SPTE_LPAGE_L2_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd_large[3] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits);
-+    vtd_spte_rsvd_large[4] = VTD_SPTE_LPAGE_L4_RSVD_MASK(s->aw_bits);
++
++static GOptionEntry entries[] = {
++    { "print-capabilities", 'c', 0, G_OPTION_ARG_NONE, &opt_print_caps,
++      "Print capabilities", NULL },
++    { "fd", 'f', 0, G_OPTION_ARG_INT, &opt_fdnum,
++      "Use inherited fd socket", "FDNUM" },
++    { "socket-path", 's', 0, G_OPTION_ARG_FILENAME, &opt_socket_path,
++      "Use UNIX socket path", "PATH" },
++    {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
++     "block device or file path", "PATH"},
++    { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
++      "Enable read-only", NULL }
++};
++
+ int main(int argc, char **argv)
+ {
+-    int opt;
+-    char *unix_socket = NULL;
+-    char *blk_file = NULL;
+-    bool enable_ro = false;
+     int lsock = -1, csock = -1;
+     VubDev *vdev_blk = NULL;
++    GError *error = NULL;
++    GOptionContext *context;
  
-     if (x86_iommu_ir_supported(x86_iommu)) {
-         s->ecap |= VTD_ECAP_IR | VTD_ECAP_MHMV;
+-    while ((opt = getopt(argc, argv, "b:rs:h")) != -1) {
+-        switch (opt) {
+-        case 'b':
+-            blk_file = g_strdup(optarg);
+-            break;
+-        case 's':
+-            unix_socket = g_strdup(optarg);
+-            break;
+-        case 'r':
+-            enable_ro = true;
+-            break;
+-        case 'h':
+-        default:
+-            printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
+-                   " | -r Enable read-only ] | [ -h ]\n", argv[0]);
+-            return 0;
++    context = g_option_context_new(NULL);
++    g_option_context_add_main_entries(context, entries, NULL);
++    if (!g_option_context_parse(context, &argc, &argv, &error)) {
++        g_printerr("Option parsing failed: %s\n", error->message);
++        exit(EXIT_FAILURE);
++    }
++    if (opt_print_caps) {
++        g_print("{\n");
++        g_print("  \"type\": \"blk\",\n");
++        g_print("  \"features\": [\n");
++        g_print("    \"read-only\",\n");
++        g_print("    \"blk-file\"\n");
++        g_print("  ]\n");
++        g_print("}\n");
++        exit(EXIT_SUCCESS);
++    }
++
++    if (!opt_blk_file) {
++        g_print("%s\n", g_option_context_get_help(context, true, NULL));
++        exit(EXIT_FAILURE);
++    }
++
++    if (opt_socket_path) {
++        lsock = unix_sock_new(opt_socket_path);
++        if (lsock < 0) {
++            exit(EXIT_FAILURE);
+         }
++    } else if (opt_fdnum < 0) {
++        g_print("%s\n", g_option_context_get_help(context, true, NULL));
++        exit(EXIT_FAILURE);
++    } else {
++        lsock = opt_fdnum;
+     }
+ 
+-    if (!unix_socket || !blk_file) {
+-        printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
+-               " | -r Enable read-only ] | [ -h ]\n", argv[0]);
+-        return -1;
+-    }
+-
+-    lsock = unix_sock_new(unix_socket);
+-    if (lsock < 0) {
+-        goto err;
+-    }
+-
+-    csock = accept(lsock, (void *)0, (void *)0);
++    csock = accept(lsock, NULL, NULL);
+     if (csock < 0) {
+-        fprintf(stderr, "Accept error %s\n", strerror(errno));
+-        goto err;
++        g_printerr("Accept error %s\n", strerror(errno));
++        exit(EXIT_FAILURE);
+     }
+ 
+-    vdev_blk = vub_new(blk_file);
++    vdev_blk = vub_new(opt_blk_file);
+     if (!vdev_blk) {
+-        goto err;
++        exit(EXIT_FAILURE);
+     }
+-    if (enable_ro) {
++    if (opt_read_only) {
+         vdev_blk->enable_ro = true;
+     }
+ 
+     if (!vug_init(&vdev_blk->parent, VHOST_USER_BLK_MAX_QUEUES, csock,
+                   vub_panic_cb, &vub_iface)) {
+-        fprintf(stderr, "Failed to initialized libvhost-user-glib\n");
+-        goto err;
++        g_printerr("Failed to initialize libvhost-user-glib\n");
++        exit(EXIT_FAILURE);
+     }
+ 
+     g_main_loop_run(vdev_blk->loop);
+-
++    g_main_loop_unref(vdev_blk->loop);
++    g_option_context_free(context);
+     vug_deinit(&vdev_blk->parent);
+-
+-err:
+     vub_free(vdev_blk);
+     if (csock >= 0) {
+         close(csock);
+@@ -647,8 +668,8 @@ err:
+     if (lsock >= 0) {
+         close(lsock);
+     }
+-    g_free(unix_socket);
+-    g_free(blk_file);
++    g_free(opt_socket_path);
++    g_free(opt_blk_file);
+ 
+     return 0;
+ }
 -- 
-2.20.1
+2.21.0
 
 
