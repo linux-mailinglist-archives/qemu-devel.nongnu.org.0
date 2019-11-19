@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8D91028F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:11:11 +0100 (CET)
-Received: from localhost ([::1]:46986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295691028FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:11:18 +0100 (CET)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX65t-0003KE-Ux
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:11:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60620)
+	id 1iX660-0003XR-TL
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:11:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63h-0001iN-Ia
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:54 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63i-0001iT-I1
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63g-0005zI-Fe
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:53 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54362)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iX63h-0005zg-BC
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:54 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39334)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63g-0005yd-9f
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:52 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id z26so3791187wmi.4
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:52 -0800 (PST)
+ id 1iX63h-0005zE-59
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:08:53 -0500
+Received: by mail-wr1-x441.google.com with SMTP id l7so24518693wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PcsaUmrFboxMwEL+NRAsGIRXtl2In4OwFymjzWGFU+c=;
- b=U8+bHlUHYZxRzHEX9tvkRrsVTooooZhGqRzcpDMT2j2m3uRVCj2JzHEJRhI+GxlT1Y
- vCRDHMBLDfSo5w9nGTXOkWYMFbSpqnFKlLTnzfWHqYR4dvUaPZw/sXgU39ise1Hav/Hc
- JJIbMEazJs0uEo4FsfDvq8TAuFEoDhIf0G/AZABhWN5pisxodcmAFYqujP5gwC5+/nEs
- dATzf7PRzFrSuBD6KmRdXiW5RDhFNxzRCIGqA5wPmVwtgVsHZPMeMmGrEgnEeWbMPa4p
- LIp90A51f/PpiNad7givuT6iGQqE415F8hKsYtKO+qwruWXN3YsE+TYOQ5e3fTi9DDkz
- qcvw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=IxNe+PRA4UNUXRxlwBF/Lxfbz/p8jdQxx9siBVgywJQ=;
+ b=icAa2MzC4t1MNIhDwGn3NHE9S4tsUulOXoVzxbmIp9456X0ucSSQhJsp/VbrcQDpyF
+ w9Yfm1tyzi5T+/Fz6vCe+OgJvDGJoEWwBjRkDAhGRO51NAzAznJQX+Zn6mI1zEM5b5Jx
+ bkAhqsfFpjkxChaQAhvs4h9V2oa/FhhVclp/V1YuhQ4N07jUFzz/NSIb6n1veIhlK2A6
+ HIYr5abSMeTMM/ZAeIVoTRKFWEF4bHIFtA3CQONhFE5f83YT4mC4xQeUb0ZxLgobsjNn
+ MxeiwoecQ5oO5J4LzXhH+dC1uV8X9riBF03GFRB7Vg77dUezlG76h4hhvbITkkFXiP5J
+ QYCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=PcsaUmrFboxMwEL+NRAsGIRXtl2In4OwFymjzWGFU+c=;
- b=WX7eTkUNkp2cO//zmg2mNJSlwLPUtI0TJg/Q9RoaSwrGLzBX8shFRoI1CJtMTbAfKz
- zXDIQGK6/zUVxl6XlbPoE1MhGvNcBgGx/8MqwZE1JoXOPxDjZB8o/dZF6H8zlD+XGlfh
- OIAdcdZnEUEg2e6dRwPKeVpaE4SSJb9NgT0N3FuN1Nj4BQ8JROUmyqS4PEbb42FUjlCl
- aYvdjTE+LJFfZvYyhY5KCiQO5uxJ1kHos3DLwfNPX0HYPpbSByoM07XuQJxHAzmXEtW1
- uBhksGx4F4GsYU76vyJ/YBdqW7DBv+tC2KikgbA6ANr7f8G97Vb0l/IPiZiALYE88k8q
- ip8w==
-X-Gm-Message-State: APjAAAUiInFNL1GGjFwOgV9o8PBDxzG6lz1u0SRgLV1vuToCRopY2G0G
- Euh2oF3hpF70TwunR1kwXETAE164
-X-Google-Smtp-Source: APXvYqxQU7cQFn4h275LOddHFelukwZKgNQpg2jhuZzIPERg8SpX/Ay/M0Hn2nYhzXr8p/zGPd6rZw==
-X-Received: by 2002:a1c:ab0a:: with SMTP id u10mr7057935wme.0.1574179730301;
- Tue, 19 Nov 2019 08:08:50 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=IxNe+PRA4UNUXRxlwBF/Lxfbz/p8jdQxx9siBVgywJQ=;
+ b=YOAvSXKDaSTJEwz/wQXhM3hA0/GfrUI4mVxuGpLxXOTQTOglYIh5Wud2xlt13HdLsp
+ d6910uvnce9hwAOqncaJPMvup4j2890ZvZQTsWZelVJjkscLjiFuRF+GMxGv4TbnOwuC
+ FbPPoUMug4d9kbIKR+UOXlNHJP/ZN2KLa8xmTsNsRPxfLXsBW6GP90/1axczheNpMMqT
+ WVPwA3t690fyTpO55qjiqmq7jKKpVo0/wUL1cgzFvVK1LAJjoFM1asM99TGAUcGPry3t
+ VYOmGKaXJdWrigPG3elYtQmnzFAsjsa9VDrRjgUuj24im3CfVnOUX6x+k1ljOYgkYF5T
+ p4KQ==
+X-Gm-Message-State: APjAAAUDGH25ejvtZpsmosBiMof96OjiTDstl6NpHVCske/rAb4vkjxG
+ tW3No3bplF8sCxN04Ey9sQYJWUjx
+X-Google-Smtp-Source: APXvYqx77y8Q97mzu3TUCd1Ed+NqhQGmI1MLYOUi/wTaiBJF+ZPwYefR0Y9dBytOYXnHFZZKMI4dbQ==
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr36827280wrn.243.1574179731619; 
+ Tue, 19 Nov 2019 08:08:51 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.49
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.08.50
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:08:49 -0800 (PST)
+ Tue, 19 Nov 2019 08:08:50 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] Misc patches for QEMU 4.2-rc
-Date: Tue, 19 Nov 2019 17:08:36 +0100
-Message-Id: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 01/12] scripts: Detect git worktrees for get_maintainer.pl --git
+Date: Tue, 19 Nov 2019 17:08:37 +0100
+Message-Id: <1574179728-35535-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
+References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,73 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 369e8f5bbd8a5301bde6fae22b93fe9288c552a5:
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-  buildfix: update texinfo menu (2019-11-18 10:33:29 +0000)
+Recent git versions support worktrees where .git is not a directory but
+a file with a path to the .git repository; however the get_maintainer.pl
+script only recognises the .git directory, let's fix it.
 
-are available in the git repository at:
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20191112034532.69079-1-aik@ozlabs.ru>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/get_maintainer.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 7a3e29b12f5afe0106a5713bb4db6e23dc66ef91:
-
-  mc146818rtc: fix timer interrupt reinjection again (2019-11-19 10:02:13 +0100)
-
-----------------------------------------------------------------
-* microvm docs and fixes (Sergio, Liam)
-* New processor features for Intel errata (myself, Pawan)
-* Kconfig fixes (myself, Thomas)
-* Revert mc146818rtc change (myself)
-* Deprecate scsi-disk (myself)
-* RTC fix (myself, Marcelo)
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      scripts: Detect git worktrees for get_maintainer.pl --git
-
-Liam Merwick (1):
-      hw/i386: Move save_tsc_khz from PCMachineClass to X86MachineClass
-
-Paolo Bonzini (5):
-      target/i386: add PSCHANGE_NO bit for the ARCH_CAPABILITIES MSR
-      vfio: vfio-pci requires EDID
-      scsi: deprecate scsi-disk
-      Revert "mc146818rtc: fix timer interrupt reinjection"
-      mc146818rtc: fix timer interrupt reinjection again
-
-Pawan Gupta (1):
-      target/i386: Export TAA_NO bit to guests
-
-Sergio Lopez (3):
-      microvm: fix memory leak in microvm_fix_kernel_cmdline
-      docs/microvm.rst: fix alignment in "Limitations"
-      docs/microvm.rst: add instructions for shutting down the guest
-
-Thomas Huth (1):
-      hw/i386: Fix compiler warning when CONFIG_IDE_ISA is disabled
-
- docs/microvm.rst              | 27 +++++++++++++--
- hw/i386/microvm.c             |  2 ++
- hw/i386/pc.c                  |  1 -
- hw/i386/pc_piix.c             |  8 ++---
- hw/i386/pc_q35.c              |  4 +--
- hw/i386/x86.c                 |  1 +
- hw/rtc/mc146818rtc.c          | 79 ++++++++++++++++++++++---------------------
- hw/scsi/scsi-bus.c            | 12 ++++++-
- hw/scsi/scsi-disk.c           |  3 ++
- hw/vfio/Kconfig               |  1 +
- include/hw/i386/pc.h          |  2 --
- include/hw/i386/x86.h         |  2 ++
- qemu-deprecated.texi          |  5 +++
- scripts/get_maintainer.pl     |  2 +-
- target/i386/cpu.c             |  4 +--
- target/i386/machine.c         |  4 +--
- tests/qemu-iotests/051.pc.out |  6 ++--
- 17 files changed, 104 insertions(+), 59 deletions(-)
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index 71415e3..27991eb 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -81,7 +81,7 @@ my %VCS_cmds;
+ 
+ my %VCS_cmds_git = (
+     "execute_cmd" => \&git_execute_cmd,
+-    "available" => '(which("git") ne "") && (-d ".git")',
++    "available" => '(which("git") ne "") && (-e ".git")',
+     "find_signers_cmd" =>
+ 	"git log --no-color --follow --since=\$email_git_since " .
+ 	    '--format="GitCommit: %H%n' .
 -- 
 1.8.3.1
+
 
 
