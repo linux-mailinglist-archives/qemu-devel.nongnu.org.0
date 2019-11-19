@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568D7102582
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:35:42 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721F810258E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:38:09 +0100 (CET)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX3fQ-0005Bh-Ok
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:35:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36164)
+	id 1iX3ho-0000Hv-7j
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:38:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36183)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iX3bo-0003Nf-Ny
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:58 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bq-0003Nm-AW
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iX3bn-0004Bt-HU
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:56 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45871)
+ (envelope-from <peter.maydell@linaro.org>) id 1iX3bo-0004Ck-Qs
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:58 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43405)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iX3bn-0004Ba-BM
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:55 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z10so23823812wrs.12
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:31:55 -0800 (PST)
+ id 1iX3bo-0004C8-L5
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:31:56 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id n1so23814796wra.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6sVtcsXVTj567xQbM+Cap2mzh1eDz0KNX+fPLM9xQRI=;
- b=y2EjhJopOcbgtfvuPu48S/Zf26HmoYAqvOmEswb6rYbtYx0Uq8nBU4Eg3HWICB91wN
- nRQeiIUYXf9Hl/VMOegvwQdGUnD8NNC7a5Spi2cVMDwhotXBZigsdtJYSoNY0fKqJMov
- fTO+yNLJyzJqi7adS6+1xhq9sHeOpaMtSXF0P+KvYoWf0qW0hRsSHKU2iF6yc8x43xUH
- gKX+XdXQHR/7bA/X6LTTQz3dfGSOva2hjkKfAFk8gnDytMKGGBTPNRVdtG1BNTJTx2N8
- tx+d7OIeBQ3EKcfjRvLRw0FGRvSeoxIVSH5M/FDi8sCuvz7Yjmxhpqrjv2McFv7XyHqD
- gkYA==
+ bh=y2M3WHGY+Q1Ah8M4tb/j4vEz9JAnBUgll0Pz7NMzIJ8=;
+ b=ZA1tm6+tl4AfOzzUBuCyJSnvBPnYK6u8D36c3B0nTMk7/9Oadnxvde6jkrS3EJqHKV
+ UPLx8mVgeGO3AYle6pXpVj+F7Jbp9PV2NR5YTH4wMOX+tr3MbeE9QbiCsokuz3V7Yv2n
+ vLk3nOJ9BLUXAf7s6RGe/FJKVHnl3Rf2SCa44ebaLBMNAJwOpG7ybvvZuF6HmA8YXD0R
+ E9xybEWSkHAI4vouhYsNpADY11CoyLwmd7/9fOW3ZknyMkZyTIrwaVjtqVVe1Uhzp6M7
+ TxVnUJSXvhtNPWqwWb7pKxBr4PrcdvLgIayhuIRoQ8G6Vp3zxSI2xDe6ra7A8/laa5/t
+ W1Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6sVtcsXVTj567xQbM+Cap2mzh1eDz0KNX+fPLM9xQRI=;
- b=X1iW24FUc1GIVblLDJkRMXSx7ZmArcimED9L68DFXXb2fJH7ZvFfHsD/0qC6PZzW9M
- 0iI4GlamSm2N5ltuIv+OtmgZ00qMU24euGasahjaMKvi40g46hRAXi2bTcgGA9g1uPIn
- 5w4q/R3uDw93+OkrCt+HceacDOZl7mUSdCWs3SA6PIjftgdldGP2GgnNMAkcMaoifWON
- ioYew1jKUeU7b119DthC2vkK73RbKZALPexua2l0N2U52194Di6CBwbX0ZKH1aCOLKbe
- RWvit0qxzyHUfogXCWJvSrlWDd/Goe87o3gxbEIO1eVbiaGZL8+QSsdlJyhg6iEqzgLF
- mIFA==
-X-Gm-Message-State: APjAAAVloMsBMDXJn0A7DNHvSojRKZmcm+YwEkpF1MW2wvjemW7FYMDq
- 0d3S/sUT9UQRSC+K8Waq7L/OpZosv2lEwQ==
-X-Google-Smtp-Source: APXvYqxz5mQwfKps79YUHPI8G+qIold8yDqfTyPbMQ7pCMvduWA4w6wU3uF0wvFwIboOCQ+k9Q1/ZA==
-X-Received: by 2002:a5d:460b:: with SMTP id t11mr38750489wrq.185.1574170314125; 
- Tue, 19 Nov 2019 05:31:54 -0800 (PST)
+ bh=y2M3WHGY+Q1Ah8M4tb/j4vEz9JAnBUgll0Pz7NMzIJ8=;
+ b=AOtEIdgQYA0Ja7qohPjtkbRmBqpjXonDJ1uKsHjTZ4k5jiblAcJ8LVD1B2oNEOvADr
+ ffxYSRER06LWkg73MY72TKrFKeNsNHadmPM6fhliiyheqA7oDHY4pdjFMvGCRetAvYZ/
+ zDGHDAO7sbSpIJst+te9SJlZ2RHDgjV0dct4Yh346x4iNYbhkllG1K+nrttTJXZE+ZKy
+ 0qXCvYVj1AXZFkFRi2qzuhsA2qCievTnZ+89d+w9S6GWAwQVYN2ArCtDhwAhTsUPv/7b
+ 2Jd1BIC4Rh/EvX0+k729xsmbFw2gleyHn2L0t2kxrKU0fXGXzRrXtDjmGlG7kVgXpRJu
+ wkWA==
+X-Gm-Message-State: APjAAAV4cCG5eILntgPcjAVH+DuU6ib4WKcc92SWLG8IC+JMW13pZOic
+ mQsLRmRNy5cT0ezRWqE9+5tqfGmjttxTIw==
+X-Google-Smtp-Source: APXvYqzv3hwCaHqUzsTaAjZp+ZDvCX7AlDpjKXMxUiRh3nPVhsfcrOClSi0Je/S/RQQwLuGB5HcZ6w==
+X-Received: by 2002:a05:6000:18c:: with SMTP id
+ p12mr9329155wrx.154.1574170315356; 
+ Tue, 19 Nov 2019 05:31:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm3094905wmk.23.2019.11.19.05.31.53
+ by smtp.gmail.com with ESMTPSA id g8sm3094905wmk.23.2019.11.19.05.31.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Nov 2019 05:31:53 -0800 (PST)
+ Tue, 19 Nov 2019 05:31:54 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/7] net/cadence_gem: Set PHY autonegotiation restart status
-Date: Tue, 19 Nov 2019 13:31:42 +0000
-Message-Id: <20191119133145.31466-5-peter.maydell@linaro.org>
+Subject: [PULL 5/7] target/arm: Do not reject rt == rt2 for strexd
+Date: Tue, 19 Nov 2019 13:31:43 +0000
+Message-Id: <20191119133145.31466-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191119133145.31466-1-peter.maydell@linaro.org>
 References: <20191119133145.31466-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,55 +82,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Linus Ziegert <linus.ziegert+qemu@holoplot.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The Linux kernel PHY driver sets AN_RESTART in the BMCR of the
-PHY when autonegotiation is started.
-Recently the kernel started to read back the PHY's AN_RESTART
-bit and now checks whether the autonegotiation is complete and
-the bit was cleared [1]. Otherwise the link status is down.
+There was too much cut and paste between ldrexd and strexd,
+as ldrexd does prohibit two output registers the same.
 
-The emulated PHY needs to clear AN_RESTART immediately to inform
-the kernel driver about the completion of autonegotiation phase.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c36757eb9dee
-
-Signed-off-by: Linus Ziegert <linus.ziegert+qemu@holoplot.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20191104181604.21943-1-linus.ziegert+qemu@holoplot.com
-Cc: qemu-stable@nongnu.org
+Fixes: af288228995
+Reported-by: Michael Goffioul <michael.goffioul@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20191117090621.32425-2-richard.henderson@linaro.org
+Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/net/cadence_gem.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/arm/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 7f9cb5ab955..b8be73dc558 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -271,9 +271,10 @@
- #define PHY_REG_EXT_PHYSPCFC_ST   27
- #define PHY_REG_CABLE_DIAG   28
- 
--#define PHY_REG_CONTROL_RST  0x8000
--#define PHY_REG_CONTROL_LOOP 0x4000
--#define PHY_REG_CONTROL_ANEG 0x1000
-+#define PHY_REG_CONTROL_RST       0x8000
-+#define PHY_REG_CONTROL_LOOP      0x4000
-+#define PHY_REG_CONTROL_ANEG      0x1000
-+#define PHY_REG_CONTROL_ANRESTART 0x0200
- 
- #define PHY_REG_STATUS_LINK     0x0004
- #define PHY_REG_STATUS_ANEGCMPL 0x0020
-@@ -1345,7 +1346,7 @@ static void gem_phy_write(CadenceGEMState *s, unsigned reg_num, uint16_t val)
-         }
-         if (val & PHY_REG_CONTROL_ANEG) {
-             /* Complete autonegotiation immediately */
--            val &= ~PHY_REG_CONTROL_ANEG;
-+            val &= ~(PHY_REG_CONTROL_ANEG | PHY_REG_CONTROL_ANRESTART);
-             s->phy_regs[PHY_REG_STATUS] |= PHY_REG_STATUS_ANEGCMPL;
-         }
-         if (val & PHY_REG_CONTROL_LOOP) {
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 2ea9da7637b..b285b23858e 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -8934,7 +8934,7 @@ static bool op_strex(DisasContext *s, arg_STREX *a, MemOp mop, bool rel)
+         || (s->thumb && (a->rd == 13 || a->rt == 13))
+         || (mop == MO_64
+             && (a->rt2 == 15
+-                || a->rd == a->rt2 || a->rt == a->rt2
++                || a->rd == a->rt2
+                 || (s->thumb && a->rt2 == 13)))) {
+         unallocated_encoding(s);
+         return true;
 -- 
 2.20.1
 
