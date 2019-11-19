@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634A7102A92
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:14:07 +0100 (CET)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B82B102A9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:17:03 +0100 (CET)
+Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX74n-0002eB-Nh
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:14:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47246)
+	id 1iX77e-0008RM-7L
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:17:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iX6za-0005Rf-34
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:43 -0500
+ (envelope-from <thuth@redhat.com>) id 1iX6zf-0005Zs-78
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iX6zX-0004JJ-Te
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:41 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44631
+ (envelope-from <thuth@redhat.com>) id 1iX6ze-0004O5-6M
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27247
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6zX-0004IX-Pa
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:39 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6ze-0004Nm-2X
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574183319;
+ s=mimecast20190719; t=1574183325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aYii4P4+JrYKFNwRdLteVtAWIb9yFmCttIZd+wgqyNE=;
- b=QO19XdTl4dlrwpSqCvHTTtTlQGdgS4V/2zt248WCC/7Luc1XsZ0mvRkaSwwi0O3DPJSUGy
- 75o2yfSNmAUO1A3FwYk+kTps77GiygY9wDAro9d+afg2gL1U7w44tnPNPAygstjFIGvjz0
- WnhtIOd/f2H1URyQQ+aZ5NQki2ISKt0=
+ bh=Dobyugg5ybakk5iMGwm4Jb6ml7KmvDKYGCYl6FkJhaU=;
+ b=CXV8t9RSeraRwGl8crcsX7+QrWD8H61RN0s6IydTMug2VpjamgQy88FIjLpm2pTGtYumhs
+ +saqFGi+mQ4uC/PVw9wxaLHg5I4MQJqYfSvP56maW53nwa2kA1tFwY2JV39lUlK5aKkENH
+ Zv+HB3mBigoEUV/E7X9BP7w1uZdc+2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-HQfPu86CPAqJhErcV0TuzA-1; Tue, 19 Nov 2019 12:08:37 -0500
+ us-mta-323-k_Us7OhiN_aUuzkDt7PjMg-1; Tue, 19 Nov 2019 12:08:40 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A76CD802CDD;
- Tue, 19 Nov 2019 17:08:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E060B801E5A;
+ Tue, 19 Nov 2019 17:08:38 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1C635E7A6;
- Tue, 19 Nov 2019 17:08:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01DB95ED2C;
+ Tue, 19 Nov 2019 17:08:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 4/6] tests/test-util-filemonitor: Skip test on non-x86 Travis
- containers
-Date: Tue, 19 Nov 2019 18:08:19 +0100
-Message-Id: <20191119170822.45649-5-thuth@redhat.com>
+Subject: [PATCH 5/6] travis.yml: drop 32 bit systems from MAIN_SOFTMMU_TARGETS
+Date: Tue, 19 Nov 2019 18:08:20 +0100
+Message-Id: <20191119170822.45649-6-thuth@redhat.com>
 In-Reply-To: <20191119170822.45649-1-thuth@redhat.com>
 References: <20191119170822.45649-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: HQfPu86CPAqJhErcV0TuzA-1
+X-MC-Unique: k_Us7OhiN_aUuzkDt7PjMg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -82,41 +81,36 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-util-filemonitor fails in restricted non-x86 Travis containers
-since they apparently blacklisted some required system calls there.
-Let's simply skip the test if we detect such an environment.
+From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+The older clangs are still struggling to build and run everything
+withing the 50 minute timeout so lets lighten the load a bit more. We
+still have coverage for GCC and hopefully no obscure 32 bit guest only
+breakages slip through the cracks.
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/test-util-filemonitor.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/test-util-filemonitor.c b/tests/test-util-filemonitor.c
-index 301cd2db61..45009c69f4 100644
---- a/tests/test-util-filemonitor.c
-+++ b/tests/test-util-filemonitor.c
-@@ -406,10 +406,21 @@ test_file_monitor_events(void)
-     char *pathdst =3D NULL;
-     QFileMonitorTestData data;
-     GHashTable *ids =3D g_hash_table_new(g_int64_hash, g_int64_equal);
-+    char *travis_arch;
+diff --git a/.travis.yml b/.travis.yml
+index b9a026c8ee..c09b6a0014 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -79,7 +79,7 @@ env:
+     - BASE_CONFIG=3D"--disable-docs --disable-tools"
+     - TEST_CMD=3D"make check V=3D1"
+     # This is broadly a list of "mainline" softmmu targets which have supp=
+ort across the major distros
+-    - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,arm-softmmu,i386-softmmu,mip=
+s-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64=
+-softmmu"
++    - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,mips64-softmmu,ppc64-softmmu=
+,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
+     - CCACHE_SLOPPINESS=3D"include_file_ctime,include_file_mtime"
+     - CCACHE_MAXSIZE=3D1G
 =20
-     qemu_mutex_init(&data.lock);
-     data.records =3D NULL;
-=20
-+    /*
-+     * This test does not work on Travis LXD containers since some
-+     * syscalls are blocked in that environment.
-+     */
-+    travis_arch =3D getenv("TRAVIS_ARCH");
-+    if (travis_arch && !g_str_equal(travis_arch, "x86_64")) {
-+        g_test_skip("Test does not work on non-x86 Travis containers.");
-+        return;
-+    }
-+
-     /*
-      * The file monitor needs the main loop running in
-      * order to receive events from inotify. We must
 --=20
 2.23.0
 
