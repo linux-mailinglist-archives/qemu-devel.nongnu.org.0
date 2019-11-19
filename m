@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E0F1010C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 02:34:09 +0100 (CET)
-Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1175A10112E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 03:17:32 +0100 (CET)
+Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWsPA-0005H0-CH
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 20:34:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1iWt58-0005xF-RT
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 21:17:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iWsND-0004fi-5L
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 20:32:08 -0500
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWt3r-0005VC-BL
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iWsNB-0004ph-8P
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 20:32:06 -0500
-Resent-Date: Mon, 18 Nov 2019 20:32:06 -0500
-Resent-Message-Id: <E1iWsNB-0004ph-8P@eggs.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iWsNA-0004nk-VX
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 20:32:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1574127096; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ajKFhIZiPgRDq4kd8dF08hM0xDv6VbBEUZu97zrg6wV2eBqlBJKAhzForxK7t8/86YSGsL1XurxhOmDUR2cfXuPCa5+gJiQ+IHkdFTIHSLqqTSfJ8VfY+bbgt9q+GYEuolb3c5tXfZgpEUGn0eoaW/T4Qsiuhl+0xcHQjr6MlVw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1574127096;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=pm+SnG58t87KB7EY5U4CPPjjK4QOLhksszGGyG85i2c=; 
- b=asQ7kI/ydBJY6Ak1QGHU+uTwAWEvi/sGRCyspE3yLS+sKTMeXy2YcIeVvSdhFreZOO4AVBqIrkeKjkuGb6tNcRlX1mzHyfqaoZRURm0ft4O/eNQB+BdyI+a9u8YxRP5dyzSrtaayrLPeYf8NAngiwNdH8cVEuuenXHXW/8O/tbY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1574127094280952.2316666589521;
- Mon, 18 Nov 2019 17:31:34 -0800 (PST)
-In-Reply-To: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
-Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of patches
- - linux-user changes + linux-user/hexagon + skeleton of target/hexagon -
- Files in target/hexagon/imported are from another project and therefore do
- not conform to qemu coding standards
-Message-ID: <157412709300.27250.5531224491109755641@37313f22b938>
+ (envelope-from <chanmickyyun@gmail.com>) id 1iWt3p-0000cm-IO
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:11 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38751)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chanmickyyun@gmail.com>)
+ id 1iWt3n-0000c9-FF
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 21:16:08 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 15so10559194pgh.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 18:16:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=a6jCuCAelSuIndEzbgorEPQx5AkNha1h9EkMyOLHxpk=;
+ b=gmPHndJUhWiSiqlDmkiNOVwMtMVAV/MIjHcbotE4GXOmzsqMikUkW89C4tc8MgLCaX
+ AMjJcp+Wf1V64+pOpAj6UJpnkhhd55TWBGHYdPtI92Xeao346vTTP6QUKt8XvnKyo5gg
+ zFhfP7YzrrsyGPKgXdeGpUg69N73u9nifjiDk5Zojfpf8Sdk24jUNqJjeyDJMydHpEp8
+ 9JZ43PGXMN7nOGBlJZhUZRRDLnhZ4VrgCEWiG55qjyUbFgfQvPYo2wCLr/Wa1GAskAjp
+ QhUjWU+vBs4Yh0NMUmJZZ0EStFr+tlVo/QGP5FM0Ox17H2iXfDqPuFCQDtfrojfJ1VVG
+ zCAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=a6jCuCAelSuIndEzbgorEPQx5AkNha1h9EkMyOLHxpk=;
+ b=qnoBzkXA0KlGnkS8ZwcRogmD6jr6jTmiPZIcpFby1+r+Hhb0gqiWbbwl5049eIsjUh
+ RzNk6KPToYplFiX2E/G5eaTBHmhkNNoUQTaxQzGWtaN49EkK49hxk+Vkvch3xuH8MDiJ
+ zeb9MqSu7hv8AuVeyy5oBHOh4uUHkMpK5mHchRTTCIANUo9vPi2m9xWY6vbqxKxYXC1N
+ vUPus+hdbpciX7DfSA/sq3UOw/47EWno+4E1w/rZi57KTfDXDXQnm4zPW39bJdohSfTS
+ BBm/bI5XOjpr9+2YpOB0iIizaCQbgSaGZ0VV16XiQ0Y+7/PJNZJEjKkqV1C2M2xtr+qs
+ +Q5w==
+X-Gm-Message-State: APjAAAVJdTb76XWjZuFDMeM5b9gMyoRFxFpw5+co0xAO15AmnBqqUsum
+ AiGYHDiJe4VUCKv1InsCPWm1Ia6hfz/i6+cI
+X-Google-Smtp-Source: APXvYqxU3m8tVGSrv58DSkyeEr3Hl/TgDtLz2I/jHmpzpReBJ/Sx/y+j1Ic/sZD54Z6V+T4qMybhuA==
+X-Received: by 2002:aa7:8690:: with SMTP id d16mr2751619pfo.117.1574129765119; 
+ Mon, 18 Nov 2019 18:16:05 -0800 (PST)
+Received: from localhost.localdomain.com ([209.132.188.80])
+ by smtp.googlemail.com with ESMTPSA id h9sm7169247pgk.84.2019.11.18.18.16.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Nov 2019 18:16:04 -0800 (PST)
+From: Micky Yun Chan <chanmickyyun@gmail.com>
+X-Google-Original-From: Micky Yun Chan <michan@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] Implement backend program convention command for
+ vhost-user-blk
+Date: Tue, 19 Nov 2019 10:15:48 +0800
+Message-Id: <20191119021548.10101-1-michan@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: tsimpson@quicinc.com
-Date: Mon, 18 Nov 2019 17:31:34 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.54
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,113 +77,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, riku.voipio@iki.fi, laurent@vivier.eu,
- qemu-devel@nongnu.org
+Cc: michan <michan@redhat.com>, Micky Yun Chan <chanmickyyun@gmail.com>,
+ stefanha@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTc0MTIxNDk3LTI0MzMtMS1n
-aXQtc2VuZC1lbWFpbC10c2ltcHNvbkBxdWljaW5jLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIXSBBZGQgbWluaW1hbCBIZXhh
-Z29uIHRhcmdldCAtIEZpcnN0IGluIGEgc2VyaWVzIG9mIHBhdGNoZXMgLSBsaW51eC11c2VyIGNo
-YW5nZXMgKyBsaW51eC11c2VyL2hleGFnb24gKyBza2VsZXRvbiBvZiB0YXJnZXQvaGV4YWdvbiAt
-IEZpbGVzIGluIHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkIGFyZSBmcm9tIGFub3RoZXIgcHJvamVj
-dCBhbmQgdGhlcmVmb3JlIGRvIG5vdCBjb25mb3JtIHRvIHFlbXUgY29kaW5nIHN0YW5kYXJkcwpU
-eXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTU3NDEyMTQ5Ny0yNDMzLTEtZ2l0LXNlbmQtZW1haWwt
-dHNpbXBzb25AcXVpY2luYy5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjc3NDQ1MDkgQWRkIG1pbmltYWwgSGV4
-YWdvbiB0YXJnZXQgLSBGaXJzdCBpbiBhIHNlcmllcyBvZiBwYXRjaGVzIC0gbGludXgtdXNlciBj
-aGFuZ2VzICsgbGludXgtdXNlci9oZXhhZ29uICsgc2tlbGV0b24gb2YgdGFyZ2V0L2hleGFnb24g
-LSBGaWxlcyBpbiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZCBhcmUgZnJvbSBhbm90aGVyIHByb2pl
-Y3QgYW5kIHRoZXJlZm9yZSBkbyBub3QgY29uZm9ybSB0byBxZW11IGNvZGluZyBzdGFuZGFyZHMK
-Cj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMTkyMjogRklMRTog
-dGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvaXNzX3Zlcl9yZWdpc3RlcnMuaDo4MDoKKy8vIE5ldyBp
-bnRlcnJ1cHRzLCBrZWVwIG9sZCBkZWZpbmVzIGZvciB0aGUgdGltZSBiZWluZwoKRVJST1I6IHRy
-YWlsaW5nIHdoaXRlc3BhY2UKIzE5MjQ6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL2lz
-c192ZXJfcmVnaXN0ZXJzLmg6ODI6CisjZGVmaW5lIEhFWF9SRUdfR1NSIDgxICQKCkVSUk9SOiBk
-byBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMjAwMzogRklMRTogdGFyZ2V0L2hleGFnb24vaW1w
-b3J0ZWQvaXNzX3Zlcl9yZWdpc3RlcnMuaDoxNjE6CisvLyBHUkVHX0FWUyByZW5hbWVkIHRvIEdS
-RUdfUkdEUjIgaW4gdjY3CgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMjAzODogRklMRTog
-dGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvbWF4Lmg6NzoKKyAqICQKCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzIwNDY6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9y
-dGVkL21heC5oOjE1OgorI2RlZmluZSBJTlNUUlVDVElPTlNfTUFYIDdeSV5JLyogMiBwYWlycyAr
-IGxvb3BlbmQgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMy
-MDUxOiBGSUxFOiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDoyMDoKKyNkZWZpbmUgTUFY
-X0NPUkVTIDReSV5JXkleSS8qIENvcmVzIHBlciBzaGFyZWQgTDIgKi8kCgpFUlJPUjogbGluZSBv
-dmVyIDkwIGNoYXJhY3RlcnMKIzIwNTQ6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21h
-eC5oOjIzOgorI2RlZmluZSBUSFJFQURTX1BFUl9DT1JFIChNQVhfQ0xVU1RFUlMgKiBNQVhfVEhS
-RUFEU19QRVJfQ0xVU1RFUikgICAgICAgICAgICAgIC8qIEhXIHRocmVhZHMgaW4gYSBjb3JlICov
-CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyMDU0OiBGSUxFOiB0
-YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDoyMzoKKyNkZWZpbmUgVEhSRUFEU19QRVJfQ09S
-RSAoTUFYX0NMVVNURVJTICogTUFYX1RIUkVBRFNfUEVSX0NMVVNURVIpXkleSS8qIEhXIHRocmVh
-ZHMgaW4gYSBjb3JlICovJAoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMyMDU2
-OiBGSUxFOiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDoyNToKKyNkZWZpbmUgRE1BX01B
-WCBUSFJFQURTX01BWCAgLy8gRE1BOiBtYWtlIHRoaXMgaW5kZXBlbmRlbnQKCkVSUk9SOiBjb2Rl
-IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzIwNjQ6IEZJTEU6IHRhcmdldC9oZXhhZ29u
-L2ltcG9ydGVkL21heC5oOjMzOgorI2RlZmluZSBSRUdfV1JJVEVTX01BWCAzMl5JXkkvKj8/ICov
-JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMjA2NTogRklMRTog
-dGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvbWF4Lmg6MzQ6CisjZGVmaW5lIFBSRURfV1JJVEVTX01B
-WCA1XkleSS8qIDQgaW5zbnMgKyBlbmRsb29wICovJAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
-YXJhY3RlcnMKIzIwNzQ6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21heC5oOjQzOgor
-I2RlZmluZSBNQVhfTl9HUkFOVUxFUyA0ICAgICAgICAgICAgICAgLyogTWF4IG9mIG51bWJlciBv
-ZiBncmFudWxlcyBvZiBhbGwgY2FjaGVzICovCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiMyMDc0OiBGSUxFOiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDo0
-MzoKKyNkZWZpbmUgTUFYX05fR1JBTlVMRVMgNF5JXkkvKiBNYXggb2YgbnVtYmVyIG9mIGdyYW51
-bGVzIG9mIGFsbCBjYWNoZXMgKi8kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiMyMDgwOiBGSUxFOiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDo0OToKKyNk
-ZWZpbmUgSUlDX1RBR1NfTUFYICgxMDI0KjEyOCleSS8qIDFNQiA9IDJeMjAgYnl0ZXMgKi8kCgpF
-UlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzIwODA6IEZJ
-TEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21heC5oOjQ5OgorI2RlZmluZSBJSUNfVEFHU19N
-QVggKDEwMjQqMTI4KSAgICAgICAgLyogMU1CID0gMl4yMCBieXRlcyAqLwogICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAo
-Y3R4OlZ4VikKIzIwODE6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21heC5oOjUwOgor
-I2RlZmluZSBJSUNfREFUQV9JTl9CWVRFU19NQVggKDEwMjQqMTAyNCo0KQogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
-aGF0ICcqJyAoY3R4OlZ4VikKIzIwODE6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21h
-eC5oOjUwOgorI2RlZmluZSBJSUNfREFUQV9JTl9CWVRFU19NQVggKDEwMjQqMTAyNCo0KQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBjb2RlIGluZGVu
-dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzIwODM6IEZJTEU6IHRhcmdldC9oZXhhZ29uL2ltcG9y
-dGVkL21heC5oOjUyOgorI2RlZmluZSBNQVhfVExCX0dVRVNTX0VOVFJJRVMgKDEwMjQpXkkvLyBw
-b3dlciBvZiAyJAoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNvbW1lbnRzCiMyMDgzOiBGSUxF
-OiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tYXguaDo1MjoKKyNkZWZpbmUgTUFYX1RMQl9HVUVT
-U19FTlRSSUVTICgxMDI0KSAgIC8vIHBvd2VyIG9mIDIKCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
-YXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMjA4ODogRklMRTogdGFyZ2V0L2hleGFnb24vaW1w
-b3J0ZWQvbWF4Lmg6NTc6CisjZGVmaW5lIElJQ1RMQl9QQUdFX1NJWkUgKDEwMjQqNCkKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5k
-IHRoYXQgJyonIChjdHg6VnhWKQojMjA5MTogRklMRTogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQv
-bWF4Lmg6NjA6CisjZGVmaW5lIE1BWF9MMVNfU0laRSAoMTAyNCoxMDI0KQogICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjA5NDog
-RklMRTogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvbWF4Lmg6NjM6CisjZGVmaW5lIFNVQl9JTU1F
-RFNfTUFYIDQgICAgICAgICAgICAgICAvKiBudW1iZXIgb2YgaW1tZWRpYXRlIGZyYWdtZW50cyB3
-aXRoaW4gaW5zbiAqLwoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
-MjA5NDogRklMRTogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvbWF4Lmg6NjM6CisjZGVmaW5lIFNV
-Ql9JTU1FRFNfTUFYIDReSV5JLyogbnVtYmVyIG9mIGltbWVkaWF0ZSBmcmFnbWVudHMgd2l0aGlu
-IGluc24gKi8kCgpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVudHMKIzIxMDE6IEZJTEU6
-IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21heC5oOjcwOgorLy8jZGVmaW5lIFFUUkFDRV9IRUFE
-RVJfU0laRV9NQVggNTAgLyogYXQgbW9zdCA1MCBjaGFycyBpbiBoZWFkZXIgKi8KCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzIxMDk6IEZJTEU6IHRhcmdldC9oZXhh
-Z29uL2ltcG9ydGVkL21heC5oOjc4OgorI2VuZGlmXkleSV5JXkleSV5JXkkvKiBfTUFYX0ggKi8k
-Cgp0b3RhbDogMjMgZXJyb3JzLCAzIHdhcm5pbmdzLCAyMjMyIGxpbmVzIGNoZWNrZWQKCkNvbW1p
-dCA3NzQ0NTA5NzE0ZDcgKEFkZCBtaW5pbWFsIEhleGFnb24gdGFyZ2V0IC0gRmlyc3QgaW4gYSBz
-ZXJpZXMgb2YgcGF0Y2hlcyAtIGxpbnV4LXVzZXIgY2hhbmdlcyArIGxpbnV4LXVzZXIvaGV4YWdv
-biArIHNrZWxldG9uIG9mIHRhcmdldC9oZXhhZ29uIC0gRmlsZXMgaW4gdGFyZ2V0L2hleGFnb24v
-aW1wb3J0ZWQgYXJlIGZyb20gYW5vdGhlciBwcm9qZWN0IGFuZCB0aGVyZWZvcmUgZG8gbm90IGNv
-bmZvcm0gdG8gcWVtdSBjb2Rpbmcgc3RhbmRhcmRzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-Lgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTc0
-MTIxNDk3LTI0MzMtMS1naXQtc2VuZC1lbWFpbC10c2ltcHNvbkBxdWljaW5jLmNvbS90ZXN0aW5n
-LmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
-bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
-ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+From: michan <michan@redhat.com>
+
+This patch is to add standard commands defined in docs/interop/vhost-user.rst
+For vhost-user-* program
+
+Signed-off-by: Micky Yun Chan (michiboo) <chanmickyyun@gmail.com>
+---
+ contrib/vhost-user-blk/vhost-user-blk.c | 109 ++++++++++++++----------
+ 1 file changed, 65 insertions(+), 44 deletions(-)
+
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index ae61034656..c26a0214a5 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -576,70 +576,91 @@ vub_new(char *blk_file)
+     return vdev_blk;
+ }
+ 
++static int opt_fdnum = -1;
++static char *opt_socket_path;
++static char *opt_blk_file;
++static gboolean opt_print_caps;
++static gboolean opt_read_only;
++
++
++static GOptionEntry entries[] = {
++    { "print-capabilities", 'c', 0, G_OPTION_ARG_NONE, &opt_print_caps,
++      "Print capabilities", NULL },
++    { "fd", 'f', 0, G_OPTION_ARG_INT, &opt_fdnum,
++      "Use inherited fd socket", "FDNUM" },
++    { "socket-path", 's', 0, G_OPTION_ARG_FILENAME, &opt_socket_path,
++      "Use UNIX socket path", "PATH" },
++    {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
++     "block device or file path", "PATH"},
++    { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
++      "Enable read-only", NULL }
++};
++
+ int main(int argc, char **argv)
+ {
+-    int opt;
+-    char *unix_socket = NULL;
+-    char *blk_file = NULL;
+-    bool enable_ro = false;
+     int lsock = -1, csock = -1;
+     VubDev *vdev_blk = NULL;
++    GError *error = NULL;
++    GOptionContext *context;
+ 
+-    while ((opt = getopt(argc, argv, "b:rs:h")) != -1) {
+-        switch (opt) {
+-        case 'b':
+-            blk_file = g_strdup(optarg);
+-            break;
+-        case 's':
+-            unix_socket = g_strdup(optarg);
+-            break;
+-        case 'r':
+-            enable_ro = true;
+-            break;
+-        case 'h':
+-        default:
+-            printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
+-                   " | -r Enable read-only ] | [ -h ]\n", argv[0]);
+-            return 0;
++    context = g_option_context_new(NULL);
++    g_option_context_add_main_entries(context, entries, NULL);
++    if (!g_option_context_parse(context, &argc, &argv, &error)) {
++        g_printerr("Option parsing failed: %s\n", error->message);
++        exit(EXIT_FAILURE);
++    }
++    if (opt_print_caps) {
++        g_print("{\n");
++        g_print("  \"type\": \"blk\",\n");
++        g_print("  \"features\": [\n");
++        g_print("    \"read-only\",\n");
++        g_print("    \"blk-file\"\n");
++        g_print("  ]\n");
++        g_print("}\n");
++        exit(EXIT_SUCCESS);
++    }
++
++    if (!opt_blk_file) {
++        g_print("%s", g_option_context_get_help(context, true, NULL));
++        exit(EXIT_FAILURE);
++    }
++
++    if (opt_socket_path) {
++        lsock = unix_sock_new(opt_socket_path);
++        if (lsock < 0) {
++           exit(EXIT_FAILURE);
+         }
++    } else if(opt_fdnum < 0){
++        g_print("%s", g_option_context_get_help(context, true, NULL));
++        exit(EXIT_FAILURE);
++    } else {
++        lsock = opt_fdnum;
+     }
+ 
+-    if (!unix_socket || !blk_file) {
+-        printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
+-               " | -r Enable read-only ] | [ -h ]\n", argv[0]);
+-        return -1;
+-    }
+-
+-    lsock = unix_sock_new(unix_socket);
+-    if (lsock < 0) {
+-        goto err;
+-    }
+-
+-    csock = accept(lsock, (void *)0, (void *)0);
++    csock = accept(lsock, NULL, NULL);
+     if (csock < 0) {
+-        fprintf(stderr, "Accept error %s\n", strerror(errno));
+-        goto err;
++        g_printerr("Accept error %s\n", strerror(errno));
++        exit(EXIT_FAILURE);
+     }
+ 
+-    vdev_blk = vub_new(blk_file);
++    vdev_blk = vub_new(opt_blk_file);
+     if (!vdev_blk) {
+-        goto err;
++        exit(EXIT_FAILURE);
+     }
+-    if (enable_ro) {
++    if (opt_read_only) {
+         vdev_blk->enable_ro = true;
+     }
+ 
+     if (!vug_init(&vdev_blk->parent, VHOST_USER_BLK_MAX_QUEUES, csock,
+                   vub_panic_cb, &vub_iface)) {
+-        fprintf(stderr, "Failed to initialized libvhost-user-glib\n");
+-        goto err;
++        g_printerr("Failed to initialize libvhost-user-glib\n");
++        exit(EXIT_FAILURE);
+     }
+ 
+     g_main_loop_run(vdev_blk->loop);
+-
++    g_main_loop_unref(vdev_blk->loop);
++    g_option_context_free(context);
+     vug_deinit(&vdev_blk->parent);
+-
+-err:
+     vub_free(vdev_blk);
+     if (csock >= 0) {
+         close(csock);
+@@ -647,8 +668,8 @@ err:
+     if (lsock >= 0) {
+         close(lsock);
+     }
+-    g_free(unix_socket);
+-    g_free(blk_file);
++    g_free(opt_socket_path);
++    g_free(opt_blk_file);
+ 
+     return 0;
+ }
+-- 
+2.21.0
 
 
