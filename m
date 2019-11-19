@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BEB102B2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:54:31 +0100 (CET)
-Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55D8102B44
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:57:01 +0100 (CET)
+Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7hu-0000Ya-Qe
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:54:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
+	id 1iX7kK-0004eZ-VR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:57:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7f2-0005og-2X
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:33 -0500
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7f7-0005xi-B5
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1iX7f0-0005Az-U5
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:31 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17640
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <bala24@linux.ibm.com>) id 1iX7f6-0005D1-7W
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1iX7f0-0005AZ-P5
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:30 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAJHnCaQ116317
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:30 -0500
+ id 1iX7f5-0005CZ-Vx
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:51:36 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAJHlTcU096158
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:35 -0500
 Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wcf7u1mb7-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wcencbvst-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:30 -0500
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 12:51:34 -0500
 Received: from localhost
  by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Tue, 19 Nov 2019 17:51:28 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ Tue, 19 Nov 2019 17:51:32 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
  by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 19 Nov 2019 17:51:25 -0000
+ Tue, 19 Nov 2019 17:51:28 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAJHolQg30933434
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAJHpSu248496796
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Nov 2019 17:50:47 GMT
+ Tue, 19 Nov 2019 17:51:28 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A91F4C050;
- Tue, 19 Nov 2019 17:51:25 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 082AF4C04A;
+ Tue, 19 Nov 2019 17:51:28 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A46DD4C040;
- Tue, 19 Nov 2019 17:51:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A0B434C052;
+ Tue, 19 Nov 2019 17:51:26 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.85.84.11])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 19 Nov 2019 17:51:23 +0000 (GMT)
+ Tue, 19 Nov 2019 17:51:26 +0000 (GMT)
 From: Balamuruhan S <bala24@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/ppc/pnv_xscom: PBA bar mask values are incorrect with
- homer/occ sizes
-Date: Tue, 19 Nov 2019 23:20:53 +0530
+Subject: [PATCH 3/5] hw/ppc/pnv_xscom: Power8 occ common area is in PBA BAR 3
+Date: Tue, 19 Nov 2019 23:20:54 +0530
 X-Mailer: git-send-email 2.14.5
 In-Reply-To: <20191119175056.32518-1-bala24@linux.ibm.com>
 References: <20191119175056.32518-1-bala24@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-TM-AS-GCONF: 00
-x-cbid: 19111917-0020-0000-0000-0000038B2B07
+x-cbid: 19111917-0020-0000-0000-0000038B2B14
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19111917-0021-0000-0000-000021E158B6
-Message-Id: <20191119175056.32518-3-bala24@linux.ibm.com>
+x-cbparentid: 19111917-0021-0000-0000-000021E158C3
+Message-Id: <20191119175056.32518-4-bala24@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-19_06:2019-11-15,2019-11-19 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- mlxscore=0 suspectscore=1 priorityscore=1501 clxscore=1015 spamscore=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=1 malwarescore=0
+ phishscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ impostorscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1911190152
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id xAJHnCaQ116317
+ mx0a-001b2d01.pphosted.com id xAJHlTcU096158
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,55 +97,67 @@ Cc: Balamuruhan S <bala24@linux.ibm.com>, david@gibson.dropbear.id.au,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-homer/occ sizes are calculated in skiboot with `(mask | 0xfffff) + 1`,
-and from xscom access should return correct mask values instead of actual
-sizes.
+Fix incorrect PBA BAR and BARMASK value for Power8 occ common area
+region where skiboot enum declaration have it in BAR 3 and BARMASK
+is calculated BARMASK0 + BAR,
+
+enum P8_BAR {
+        P8_BAR_HOMER =3D 0,
+        P8_BAR_CENTAUR =3D 1,
+        P8_BAR_SLW =3D 2,
+        P8_BAR_OCC_COMMON =3D 3,
+};
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
 ---
- hw/ppc/pnv_xscom.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/ppc/pnv_xscom.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index f01d788a65..cdd5fa356e 100644
+index cdd5fa356e..cb6d6bbcfc 100644
 --- a/hw/ppc/pnv_xscom.c
 +++ b/hw/ppc/pnv_xscom.c
-@@ -46,6 +46,10 @@
+@@ -38,9 +38,9 @@
+=20
+ /* PBA BARs */
+ #define P8_PBA_BAR0                     0x2013f00
+-#define P8_PBA_BAR2                     0x2013f02
++#define P8_PBA_BAR3                     0x2013f03
+ #define P8_PBA_BARMASK0                 0x2013f04
+-#define P8_PBA_BARMASK2                 0x2013f06
++#define P8_PBA_BARMASK3                 0x2013f07
+ #define P9_PBA_BAR0                     0x5012b00
+ #define P9_PBA_BAR2                     0x5012b02
  #define P9_PBA_BARMASK0                 0x5012b04
- #define P9_PBA_BARMASK2                 0x5012b06
-=20
-+/* Mask to calculate Homer/Occ size */
-+#define HOMER_SIZE_MASK                 0x0000000000300000ull
-+#define OCC_SIZE_MASK                   0x0000000000700000ull
-+
- static void xscom_complete(CPUState *cs, uint64_t hmer_bits)
- {
-     /*
-@@ -90,9 +94,8 @@ static uint64_t xscom_read_default(PnvChip *chip, uint3=
-2_t pcba)
-         return PNV_HOMER_BASE(chip);
-=20
-     case P9_PBA_BARMASK0: /* P9 homer region size */
--        return PNV9_HOMER_SIZE;
-     case P8_PBA_BARMASK0: /* P8 homer region size */
--        return PNV_HOMER_SIZE;
-+        return HOMER_SIZE_MASK;
+@@ -99,11 +99,11 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
+t32_t pcba)
 =20
      case P9_PBA_BAR2: /* P9 occ common area */
          return PNV9_OCC_COMMON_AREA(chip);
-@@ -100,9 +103,8 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
-t32_t pcba)
+-    case P8_PBA_BAR2: /* P8 occ common area */
++    case P8_PBA_BAR3: /* P8 occ common area */
          return PNV_OCC_COMMON_AREA(chip);
 =20
      case P9_PBA_BARMASK2: /* P9 occ common area size */
--        return PNV9_OCC_COMMON_AREA_SIZE;
-     case P8_PBA_BARMASK2: /* P8 occ common area size */
--        return PNV_OCC_COMMON_AREA_SIZE;
-+        return OCC_SIZE_MASK;
+-    case P8_PBA_BARMASK2: /* P8 occ common area size */
++    case P8_PBA_BARMASK3: /* P8 occ common area size */
+         return OCC_SIZE_MASK;
 =20
      case 0x1010c00:     /* PIBAM FIR */
-     case 0x1010c03:     /* PIBAM FIR MASK */
+@@ -126,9 +126,9 @@ static uint64_t xscom_read_default(PnvChip *chip, uin=
+t32_t pcba)
+     case 0x202000f:     /* ADU stuff, receive status register*/
+         return 0;
+     case 0x2013f01:     /* PBA stuff */
+-    case 0x2013f03:     /* PBA stuff */
++    case 0x2013f02:     /* PBA stuff */
+     case 0x2013f05:     /* PBA stuff */
+-    case 0x2013f07:     /* PBA stuff */
++    case 0x2013f06:     /* PBA stuff */
+         return 0;
+     case 0x2013028:     /* CAPP stuff */
+     case 0x201302a:     /* CAPP stuff */
 --=20
 2.14.5
 
