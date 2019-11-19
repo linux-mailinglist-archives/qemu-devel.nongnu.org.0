@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D26102211
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 11:26:38 +0100 (CET)
-Received: from localhost ([::1]:43578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C181021EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 11:19:24 +0100 (CET)
+Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX0iT-0003kb-Nk
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 05:26:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1iX0bT-0006tc-2P
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 05:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iX0hd-0003KX-Uh
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:25:49 -0500
+ (envelope-from <quintela@redhat.com>) id 1iX0aG-0006QL-3J
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:18:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iX0ha-0003DZ-BY
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:25:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34628)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iX0ha-0003CY-5G
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:25:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iX0hY-00020r-B3
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 10:25:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F1D72E80C0
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 10:25:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Nov 2019 10:16:34 -0000
-From: Leonid Myravjev <1853123@bugs.launchpad.net>
+ (envelope-from <quintela@redhat.com>) id 1iX0aE-0000JA-AN
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:18:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38656
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iX0aC-0000Im-BC
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 05:18:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574158682;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/JGN8bGskQM8YpgZ33w4EN+sral+6l6V3FhQpUqjnaw=;
+ b=XxB78LQ0VDTuFHSXeYx+BYucY1Ay1B6iEWXstUG6rBcuvy+5Rbcty+OwZfUu65l+Ju03WD
+ gJNqvukbLEBX61IhewjkzEZX+otHMt7Q7+xy32laly83B8Fj4MX2Dgg8XCDyAx0fqqeVzm
+ cKRH0ImAIZZGtfUXmi/JtKFiGsYTGqc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-mMSDT5iKO1ecfW7I0UHJjg-1; Tue, 19 Nov 2019 05:18:00 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 376E11005516;
+ Tue, 19 Nov 2019 10:17:59 +0000 (UTC)
+Received: from redhat.com (ovpn-116-161.ams2.redhat.com [10.36.116.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C53094D703;
+ Tue, 19 Nov 2019 10:17:58 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ffasm
-X-Launchpad-Bug-Reporter: Leonid Myravjev (ffasm)
-X-Launchpad-Bug-Modifier: Leonid Myravjev (ffasm)
-Message-Id: <157415859481.31407.14877522937916803487.malonedeb@wampee.canonical.com>
-Subject: [Bug 1853123] [NEW] Memory synchronization error between kvm and
- target, e1000(dpdk)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9ce58656c9586bf86efd1179638305252c6fa7b8
+Subject: Re: Call for agenda for 2019-11-19 KVM call
+In-Reply-To: <87d0dvaghw.fsf@trasno.org> (Juan Quintela's message of "Wed, 13
+ Nov 2019 17:27:39 +0100")
+References: <87d0dvaghw.fsf@trasno.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Tue, 19 Nov 2019 11:17:54 +0100
+Message-ID: <87r224gofh.fsf@trasno.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: mMSDT5iKO1ecfW7I0UHJjg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,128 +73,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853123 <1853123@bugs.launchpad.net>
+Reply-To: quintela@redhat.com
+Cc: kvm-devel <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
 
-Hi folks.
+Hi folks
 
-I use linux with dpdk drivers on the target system, and e1000 emulation dev=
-ice with tap interface for host. I use kvm for accelerate.
-Version qemu 4.0.94 and master (Nov 12 10:14:33 2019)
-Version dpdk stable-17.11.4
-Version linux host 4.15.0-66-generic (ubuntu 18.04)
+as there are no agenda, call gets cancelled.
 
-I type command "ping <target ip> -f" and wait about 1-2 minutes. Network
-subsystem freezes.
+Happy hacking and see you in two weeks.
 
-For receive the eth pack from host system (tap interface) to host system
-the e1000 using ring buffer.
-
-The e1000 write body of eth pack, set E1000_RXD_STAT_DD flag and move RDH (=
-Ring Device Head).
-(file hw/net/e1000.c function e1000_receive_iov() )
-
-The dpdk driver is reading from E1000_RXD_STAT_DD flags (ignoring RDH), if =
-flag is set: read buffer, unset flag E1000_RXD_STAT_DD and move RDT (Ring D=
-evice Tail).
-(source drivers/net/e1000/em_rxtx.c function eth_em_recv_scattered_pkts() )
-
-I see what the driver unet E1000_RXD_STAT_DD (rxdp->status =3D 0; ), but
-sometimes rxdp->status remains equal to 7. On the next cycle, this this
-buffer is read, RDT moved to far. RDH becomes equal RDT and network is
-freezes.
-
-If I insert some delay after unset E1000_RXD_STAT_DD, and repeatedly unset =
-E1000_RXD_STAT_DD (if rxdp->status =3D=3D 7 ), then all work fine.
-If check E1000_RXD_STAT_DD without delay, status rxdp->status always valid.
-
-This only appears on kvm. If I use tcg all works fine.
-
-I trying set watchpoint for memory on the qemu (for tcg), and see, that
-for one package cycle of set/unse STAT_DD repeated once.
-
-I trying set watchpoint for memory on the qemu (for kvm), and see, that
-rxdp->status changed to 0(unset) only once, but is changes immediately
-before set flag.
+Later, Juan.
 
 
-Please help me with advice on how to catch and fix this error. =
+>
+> Please, send any topic that you are interested in covering.
+>
+> At the end of Monday I will send an email with the agenda or the
+> cancellation of the call, so hurry up.
+>
+> After discussions on the QEMU Summit, we are going to have always open a
+> KVM call where you can add topics.
+>
+>  Call details:
+>
+> By popular demand, a google calendar public entry with it
+>
+>   https://www.google.com/calendar/embed?src=3DdG9iMXRqcXAzN3Y4ZXZwNzRoMHE=
+4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+>
+> (Let me know if you have any problems with the calendar entry.  I just
+> gave up about getting right at the same time CEST, CET, EDT and DST).
+>
+> If you need phone number details,  contact me privately
+>
+> Thanks, Juan.    =20
 
-Theoretically, it would help me to trace the memory access when writing to =
-E1000_RXD_STAT_DD, RHD and RDT, both from the target and the host system. B=
-ut I have no idea how this can be done.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853123
-
-Title:
-  Memory synchronization error between kvm and target, e1000(dpdk)
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi folks.
-
-  I use linux with dpdk drivers on the target system, and e1000 emulation d=
-evice with tap interface for host. I use kvm for accelerate.
-  Version qemu 4.0.94 and master (Nov 12 10:14:33 2019)
-  Version dpdk stable-17.11.4
-  Version linux host 4.15.0-66-generic (ubuntu 18.04)
-
-  I type command "ping <target ip> -f" and wait about 1-2 minutes.
-  Network subsystem freezes.
-
-  For receive the eth pack from host system (tap interface) to host
-  system the e1000 using ring buffer.
-
-  The e1000 write body of eth pack, set E1000_RXD_STAT_DD flag and move RDH=
- (Ring Device Head).
-  (file hw/net/e1000.c function e1000_receive_iov() )
-
-  The dpdk driver is reading from E1000_RXD_STAT_DD flags (ignoring RDH), i=
-f flag is set: read buffer, unset flag E1000_RXD_STAT_DD and move RDT (Ring=
- Device Tail).
-  (source drivers/net/e1000/em_rxtx.c function eth_em_recv_scattered_pkts()=
- )
-
-  I see what the driver unet E1000_RXD_STAT_DD (rxdp->status =3D 0; ), but
-  sometimes rxdp->status remains equal to 7. On the next cycle, this
-  this buffer is read, RDT moved to far. RDH becomes equal RDT and
-  network is freezes.
-
-  If I insert some delay after unset E1000_RXD_STAT_DD, and repeatedly unse=
-t E1000_RXD_STAT_DD (if rxdp->status =3D=3D 7 ), then all work fine.
-  If check E1000_RXD_STAT_DD without delay, status rxdp->status always vali=
-d.
-
-  This only appears on kvm. If I use tcg all works fine.
-
-  I trying set watchpoint for memory on the qemu (for tcg), and see,
-  that for one package cycle of set/unse STAT_DD repeated once.
-
-  I trying set watchpoint for memory on the qemu (for kvm), and see,
-  that rxdp->status changed to 0(unset) only once, but is changes
-  immediately before set flag.
-
-  =
-
-  Please help me with advice on how to catch and fix this error. =
-
-  Theoretically, it would help me to trace the memory access when writing t=
-o E1000_RXD_STAT_DD, RHD and RDT, both from the target and the host system.=
- But I have no idea how this can be done.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853123/+subscriptions
 
