@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A02D102E1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 22:15:50 +0100 (CET)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B106102E28
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 22:19:27 +0100 (CET)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXAqi-0000ip-R2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 16:15:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57834)
+	id 1iXAuE-0002Hr-F9
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 16:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXApZ-0000F0-S7
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:14:38 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXAtG-0001tA-MV
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:18:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXApY-0000fQ-QC
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:14:37 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33309)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXAtF-0002en-Ow
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:18:26 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37177)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iXApY-0000ew-Ls; Tue, 19 Nov 2019 16:14:36 -0500
-Received: by mail-ot1-x342.google.com with SMTP id u13so19267899ote.0;
- Tue, 19 Nov 2019 13:14:36 -0800 (PST)
+ id 1iXAtF-0002eX-I7
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 16:18:25 -0500
+Received: by mail-oi1-x243.google.com with SMTP id y194so20439573oie.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 13:18:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5kLHM8TQ5/O7kPY4swsk0dWV0XDJjoLYUtMLArDZwz0=;
- b=YIkORf4qZdW5paTDVJvN54lP16h2Zh2wFfykZ/hjAUCTW6TT/k0gfUlFrK9gQjfoSZ
- gQfXtgci9iV82cWMJvRGQMRn22iUTKk3Tp+q+kT4BHDgeXO2tHsIWBVfyMUBIcmB8K/A
- r/pZm2JJQHvSmnrJ1HWbllcuLlLx9oSnKbjXQtQRpCkxM/answOqu051xiB6M3jIkoe0
- FawpG1Idf167iPaYH0ncZKOEYK4W0x2qgLBw+Qq6bE/XovEbCrOqV/tN5ThpjFvdI89Z
- E2IO1Z9OxkfVp/t8NDcNtsLLziaIEWBkrf5Go89+IuUNjFXxCUfjiTbNPoLWrTF+TEMT
- La5A==
+ :cc; bh=QjMNz+4TePyGkHe+ygN/OynQIxVDQA/Cce3RiDNY9Bs=;
+ b=eXCRRnArudFhBWR/jFuVsOIAdJxGBgnJu577jW31xzdYt0jgNEjbtHpGBi8d+6r8qy
+ a8nzKfuZ2VPxJRu8+br1v0pJDyJ6BBuL0kqCEBonSbc2TT1dJVhKQl+ZI2R60OrMghOI
+ aRZWu08xGYASqfQ/sE00kUVGj+AGKEjjsJBj/6gOdGx5tsKX4Bwv8buSxqIylRje3WPZ
+ u+kI+FTPJ3ISsk6i+2D5MdgPPEEMjU7OHYz0Im4SHgpQsQmMvBAFDmQyR2cpQ7Fatar/
+ QDFqX8vvseyIGO0eyWMhRw2x5bpKhkFip0GosPaCgqyKRT002mrzM8xSIZDd5WtC3xmQ
+ idFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5kLHM8TQ5/O7kPY4swsk0dWV0XDJjoLYUtMLArDZwz0=;
- b=kP54gtv+YOUYaaoIEogHYT4miQ+caJR7Yx0FrMFrHP7pbWn8QP44rsqgdOauWhR71Z
- 4snXhMMKNwXbk8hHC8JTKI4Pi9C56Luprq8+j5/r32ZSFzNZcEfvzD7blj8kykDV7VqD
- JwGrrqDZsMmsDvZ44qSIOlKvCqgqYb69fHlkdl/mmoh++9tp+g2racbGcK3h6Uyc1d77
- 621Q1mX5UL6HdsMBPkHYiAkO3pXaPltR0hM/KJqKH1Q5Pb78P2c5x49DNrjwmqqJSbU9
- N0os4ZLjNNWqELXUeSfsKTWm106ngWSIglU/pLKhWQzfGYdpcebg5UN0piUBDAfsHsMU
- jRlQ==
-X-Gm-Message-State: APjAAAXch8mn1ZaTCBrTtxkk5IB8j3EHTD6ZWV2i1zRXXZuZEMEweavF
- VEvXiEGrXg4gkzwUPILlkPGBxzQFZojr4B1kKpw=
-X-Google-Smtp-Source: APXvYqzeMVtuz+45anvPbjuByBE2lwRk6WORf5+jyfOhVn95JKtpSxR21NS2Yz2H3URJW7QtmqnNtT8+mty/KZfjlVw=
-X-Received: by 2002:a05:6830:81:: with SMTP id a1mr5258027oto.64.1574198075451; 
- Tue, 19 Nov 2019 13:14:35 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=QjMNz+4TePyGkHe+ygN/OynQIxVDQA/Cce3RiDNY9Bs=;
+ b=HQb1wdvS2eIArEBcJryeXvlH7OOi4h1KpRXitVVVrzMQybdssQf76AIPXc1q+uwKAC
+ h9cx7KJ+WxExadGGsG/PItwP2pv8ctxjtmlIzTd0L5C1gEcAK6cJsGajT1RTpj0rQags
+ Sfq4hQDJeVWHRATsoHTRVE9G6oFH3BjPThy4OK4GCYThzGRuyzyNJOwU8PPfRmXtoz26
+ VHfRTyvKYj2kGZj1sI58YltcbXa3lpWqlY2mkbxYVAl+xkv56Qp7w/NuSN989MuoAcMK
+ xPgYlMl3pWDIZDfw2rTaSSSTnWxO7rCOPP6ccL1t54mxevG3EC0CsUgUiokubiQVUDNd
+ Ca7g==
+X-Gm-Message-State: APjAAAUIpdoJH1OsnOo7SGCHDUMnYb14Dyui3hLM+z9MarvlwAv4Olip
+ yUfAPzBlWq7XW5jfP22eUCQhMlgjiqaBxzHFelc=
+X-Google-Smtp-Source: APXvYqxN/Uzy2QHdCjwsH8fwdt9+rbbP/g8B7Q1qlX+GYc3VrSpVAb7fbrYa2WN+UkWQJ+NXcF1CxSta0IdUO+Lc4Ic=
+X-Received: by 2002:aca:670b:: with SMTP id z11mr5767576oix.79.1574198304693; 
+ Tue, 19 Nov 2019 13:18:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20191119204551.240792-1-stefanha@redhat.com>
-In-Reply-To: <20191119204551.240792-1-stefanha@redhat.com>
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-6-mrolnik@gmail.com>
+ <CAL1e-=gKGJC4X9aNtj1SL7+s5UryNtEF81YcG4kvhjPNP247Kw@mail.gmail.com>
+ <CAL1e-=gXr5KJ7W3_bnuBaupuz6jYr0LnAX7FXJ8+F8rJ=ARKxw@mail.gmail.com>
+ <14d51697-9415-14b9-8f92-3ae3de2fca58@linaro.org>
+ <CAL1e-=g6ctnzUSgq3eRn98nOMPJ88ucUNX7xc5MxCr6J=k4YMg@mail.gmail.com>
+ <CAK4993j1a6Eo+FjM7rrOZgL7u955-fTXboyOWR2BriCcyFmCuw@mail.gmail.com>
+In-Reply-To: <CAK4993j1a6Eo+FjM7rrOZgL7u955-fTXboyOWR2BriCcyFmCuw@mail.gmail.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 19 Nov 2019 22:14:24 +0100
-Message-ID: <CAL1e-=ibQBWUzUZvsvSWCZ5SwFk5T+b2P94D068W8G_taWVASg@mail.gmail.com>
-Subject: Re: [PULL for-4.2-rc2 0/2] Tracing patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Tue, 19 Nov 2019 22:18:14 +0100
+Message-ID: <CAL1e-=gQF3CDiYnim6NCQu=n8=S8V4J0Ej8fMaWC7bzLJKFjjA@mail.gmail.com>
+Subject: Re: [PATCH v35 05/13] target/avr: Add instruction translation -
+ Arithmetic and Logic Instructions
+To: Michael Rolnik <mrolnik@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,75 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:bochs" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 19, 2019 at 9:46 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
+On Tue, Nov 19, 2019 at 9:09 PM Michael Rolnik <mrolnik@gmail.com> wrote:
 >
-> The following changes since commit f086f22d6c068ba151b0f6e81e75a64f130df7=
-12:
+> Hi Aleksandar et al.
 >
->   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-fixes-20191118=
-.0' into staging (2019-11-18 21:35:48 +0000)
+> how is it going? should I rebase or not?
 >
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/tracing-pull-request
->
-> for you to fetch changes up to 6b904f1a528a6d8c21f7fbdeab13b9603d1b6df7:
->
->   hw/mips/gt64xxx: Remove dynamic field width from trace events (2019-11-=
-19 16:17:05 +0000)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> Tracing fixes for MIPS.
->
-> ----------------------------------------------------------------
+> Michael
 >
 
-Hello, Stefan, Philippe, Peter.
+I am just in the process of taking a detailed look to the whole series.
 
-This appears to be a duplicate of the pull request sent today by Philippe
-(and already applied by Peter just hours ago):
+I don't have any serious objection so far, I may just suggest a couple
+of things that will improve readability of the code - so nothing of some
+really serious nature.
 
-https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg02894.html
+Stay tuned (and be patient). Will hear from me soon.
 
-The patches from the two pull requests appear to be identical, except
-some minor details in commit messages: Stefan's versions contain
-"Message-Id:" identifiers, while Philippe's don't (my suggestion to
-Philippe is to include "Message-Id:" for all patches that are part of any
-pull request in future; this can be achieved effortlessly/automatically
-by applying patches using patchwork).
-
-In summary, for this very situation, it looks to me we are all set, no need
-for Peter to process this pull request.
-
-Regards,
-Aleksandar
-
-> Philippe Mathieu-Daud=C3=A9 (2):
->   hw/block/pflash: Remove dynamic field width from trace events
->   hw/mips/gt64xxx: Remove dynamic field width from trace events
->
->  hw/block/pflash_cfi01.c |  8 ++++----
->  hw/block/pflash_cfi02.c |  8 ++++----
->  hw/block/trace-events   |  8 ++++----
->  hw/mips/gt64xxx_pci.c   | 16 ++++++++--------
->  hw/mips/trace-events    |  4 ++--
->  5 files changed, 22 insertions(+), 22 deletions(-)
->
-> --
-> 2.23.0
->
->
+Yours, Aleksandar
 
