@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EC110197F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 07:41:12 +0100 (CET)
-Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE8F10198F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 07:52:00 +0100 (CET)
+Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWxCI-0000nr-QT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 01:41:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33527)
+	id 1iWxMl-00055x-S3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 01:51:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chanmickyyun@gmail.com>) id 1iWxAf-0008OG-Bl
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:30 -0500
+ (envelope-from <clg@kaod.org>) id 1iWxLa-0004FN-2C
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:50:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chanmickyyun@gmail.com>) id 1iWxAe-0002fL-1q
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:29 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38385)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chanmickyyun@gmail.com>)
- id 1iWxAd-0002ct-Pj
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:39:27 -0500
-Received: by mail-pg1-x542.google.com with SMTP id 15so10864274pgh.5
- for <qemu-devel@nongnu.org>; Mon, 18 Nov 2019 22:39:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+RJtGG6EMm+0AGgsAyLmBlQAelRZh9D77sVdnuuQ+xY=;
- b=JuO2u1IkffOqquWnjMIF44381DHRN6jMvP6NdHbdcfZCQdwGWXbQHyfzK9a1APmzav
- hhjfbPbuP68fSKasDAbEKNWR50QmLhB0asr3+6/9PelplmaEyt8Le5pTX42RvWAAJeIT
- LeUoW88vxb3DqTrLDVS+lhmjH+zONULyTe2Ih1UrgaOwf7YU/ZfO2BffC8EZveUBM1Yd
- SWvqliR6RycvUnU0izv1ElgvyuVmldSx9kVUW4WxIxt6tsBXhPlbchPZ0BGnMiauVMQS
- h0q4G/LBa0eFRKgQv3KGjjd90/pMMEFvOBzEiox50493fSs7s0i0eSN1/rNBnCsq57B8
- VMRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+RJtGG6EMm+0AGgsAyLmBlQAelRZh9D77sVdnuuQ+xY=;
- b=fk02tYLD3s+FVlT2OYLH3yydzGVID7cu7/iS6wXRnD1GuqG74Ki1kNowMmVimMYmT3
- Pg6oIJSFmYiFX7QPzpj9zm2hmZrFZkbEgntK+AT/TCKqPH4JuR2dd4OsggkRxEPMj0B/
- CXF+JQA+9TL1aaSSkbnlC4gkZ/ajfMlW4xpYSXo5Zf0TWjtGQFQa4ySlF8ulTZDCo/y3
- 6pZWHOi6WqLs/tyVhLobBda6+ismUEbhRPavWTRLZkXOIBSKZN3EkDW4XuZQ1CoXtfp8
- UoPWlIaZAEYj6N7MqNm0sI7hYIzwm2PDQvZ9KZIc0h1Y2ud+3Va2iWfsyH7O0PKd5mzE
- 2stg==
-X-Gm-Message-State: APjAAAV91AQ0zLN/X7A7+3eZRphGo6tFmfpgS4aQwaxfh8BMnPYUgWXE
- 4hVUNsXTnTddAUYjtwmFCKckCUsfy/0pWnbD
-X-Google-Smtp-Source: APXvYqzIuhjpewPh8fqhqP0dC4FLhMKbDlVajq7yuT9x9+psiUS0tcZgZjl01k+pPJ4EFgiVyLjEYA==
-X-Received: by 2002:a63:8249:: with SMTP id w70mr3811553pgd.54.1574145566111; 
- Mon, 18 Nov 2019 22:39:26 -0800 (PST)
-Received: from localhost.localdomain.com ([209.132.188.80])
- by smtp.googlemail.com with ESMTPSA id k17sm19223222pgb.64.2019.11.18.22.39.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Nov 2019 22:39:25 -0800 (PST)
-From: Micky Yun Chan <chanmickyyun@gmail.com>
-X-Google-Original-From: Micky Yun Chan <michan@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5] Implement backend program convention command for
- vhost-user-blk
-Date: Tue, 19 Nov 2019 14:39:11 +0800
-Message-Id: <20191119063911.18888-1-michan@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <clg@kaod.org>) id 1iWxLZ-0003Im-0D
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:50:45 -0500
+Received: from 3.mo3.mail-out.ovh.net ([46.105.44.175]:33571)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iWxEW-000682-Ur
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 01:43:29 -0500
+Received: from player789.ha.ovh.net (unknown [10.109.146.240])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id A3FC42319E8
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 07:43:25 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id 02D57C3701A4;
+ Tue, 19 Nov 2019 06:43:21 +0000 (UTC)
+Subject: Re: [PATCH] ppc/pnv: Add a LPC "ranges" property
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20191118091908.15044-1-clg@kaod.org>
+ <20191119004938.GG5582@umbus.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <087a43b4-a376-f593-b23f-391b3779e466@kaod.org>
+Date: Tue, 19 Nov 2019 07:43:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+In-Reply-To: <20191119004938.GG5582@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+X-Ovh-Tracer-Id: 10307895122580769619
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.44.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,171 +59,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michan <michan@redhat.com>, Micky Yun Chan <chanmickyyun@gmail.com>,
- stefanha@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: michan <michan@redhat.com>
+On 19/11/2019 01:49, David Gibson wrote:
+> On Mon, Nov 18, 2019 at 10:19:08AM +0100, C=E9dric Le Goater wrote:
+>> And fix a typo in the MEM address space definition.
+>>
+>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+>=20
+> Applied to ppc-for-5.0.  AFAICT this is a bugfix (amongst other
+> things), but I don't think pnv is widely used enough to put this into
+> 4.2 during hard freeze.
 
-This patch is to add standard commands defined in docs/interop/vhost-user.rst
-For vhost-user-* program
+yes. I am trying to fix the dtc warnings before and after OPAL runs.=20
 
-Signed-off-by: Micky Yun Chan (michiboo) <chanmickyyun@gmail.com>
----
- contrib/vhost-user-blk/vhost-user-blk.c | 109 ++++++++++++++----------
- 1 file changed, 65 insertions(+), 44 deletions(-)
-
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index ae61034656..96c43bb58d 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -576,70 +576,91 @@ vub_new(char *blk_file)
-     return vdev_blk;
- }
- 
-+static int opt_fdnum = -1;
-+static char *opt_socket_path;
-+static char *opt_blk_file;
-+static gboolean opt_print_caps;
-+static gboolean opt_read_only;
-+
-+
-+static GOptionEntry entries[] = {
-+    { "print-capabilities", 'c', 0, G_OPTION_ARG_NONE, &opt_print_caps,
-+      "Print capabilities", NULL },
-+    { "fd", 'f', 0, G_OPTION_ARG_INT, &opt_fdnum,
-+      "Use inherited fd socket", "FDNUM" },
-+    { "socket-path", 's', 0, G_OPTION_ARG_FILENAME, &opt_socket_path,
-+      "Use UNIX socket path", "PATH" },
-+    {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
-+     "block device or file path", "PATH"},
-+    { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
-+      "Enable read-only", NULL }
-+};
-+
- int main(int argc, char **argv)
- {
--    int opt;
--    char *unix_socket = NULL;
--    char *blk_file = NULL;
--    bool enable_ro = false;
-     int lsock = -1, csock = -1;
-     VubDev *vdev_blk = NULL;
-+    GError *error = NULL;
-+    GOptionContext *context;
- 
--    while ((opt = getopt(argc, argv, "b:rs:h")) != -1) {
--        switch (opt) {
--        case 'b':
--            blk_file = g_strdup(optarg);
--            break;
--        case 's':
--            unix_socket = g_strdup(optarg);
--            break;
--        case 'r':
--            enable_ro = true;
--            break;
--        case 'h':
--        default:
--            printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
--                   " | -r Enable read-only ] | [ -h ]\n", argv[0]);
--            return 0;
-+    context = g_option_context_new(NULL);
-+    g_option_context_add_main_entries(context, entries, NULL);
-+    if (!g_option_context_parse(context, &argc, &argv, &error)) {
-+        g_printerr("Option parsing failed: %s\n", error->message);
-+        exit(EXIT_FAILURE);
-+    }
-+    if (opt_print_caps) {
-+        g_print("{\n");
-+        g_print("  \"type\": \"blk\",\n");
-+        g_print("  \"features\": [\n");
-+        g_print("    \"read-only\",\n");
-+        g_print("    \"blk-file\"\n");
-+        g_print("  ]\n");
-+        g_print("}\n");
-+        exit(EXIT_SUCCESS);
-+    }
-+
-+    if (!opt_blk_file) {
-+        g_print("%s\n", g_option_context_get_help(context, true, NULL));
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    if (opt_socket_path) {
-+        lsock = unix_sock_new(opt_socket_path);
-+        if (lsock < 0) {
-+            exit(EXIT_FAILURE);
-         }
-+    } else if (opt_fdnum < 0) {
-+        g_print("%s\n", g_option_context_get_help(context, true, NULL));
-+        exit(EXIT_FAILURE);
-+    } else {
-+        lsock = opt_fdnum;
-     }
- 
--    if (!unix_socket || !blk_file) {
--        printf("Usage: %s [ -b block device or file, -s UNIX domain socket"
--               " | -r Enable read-only ] | [ -h ]\n", argv[0]);
--        return -1;
--    }
--
--    lsock = unix_sock_new(unix_socket);
--    if (lsock < 0) {
--        goto err;
--    }
--
--    csock = accept(lsock, (void *)0, (void *)0);
-+    csock = accept(lsock, NULL, NULL);
-     if (csock < 0) {
--        fprintf(stderr, "Accept error %s\n", strerror(errno));
--        goto err;
-+        g_printerr("Accept error %s\n", strerror(errno));
-+        exit(EXIT_FAILURE);
-     }
- 
--    vdev_blk = vub_new(blk_file);
-+    vdev_blk = vub_new(opt_blk_file);
-     if (!vdev_blk) {
--        goto err;
-+        exit(EXIT_FAILURE);
-     }
--    if (enable_ro) {
-+    if (opt_read_only) {
-         vdev_blk->enable_ro = true;
-     }
- 
-     if (!vug_init(&vdev_blk->parent, VHOST_USER_BLK_MAX_QUEUES, csock,
-                   vub_panic_cb, &vub_iface)) {
--        fprintf(stderr, "Failed to initialized libvhost-user-glib\n");
--        goto err;
-+        g_printerr("Failed to initialize libvhost-user-glib\n");
-+        exit(EXIT_FAILURE);
-     }
- 
-     g_main_loop_run(vdev_blk->loop);
--
-+    g_main_loop_unref(vdev_blk->loop);
-+    g_option_context_free(context);
-     vug_deinit(&vdev_blk->parent);
--
--err:
-     vub_free(vdev_blk);
-     if (csock >= 0) {
-         close(csock);
-@@ -647,8 +668,8 @@ err:
-     if (lsock >= 0) {
-         close(lsock);
-     }
--    g_free(unix_socket);
--    g_free(blk_file);
-+    g_free(opt_socket_path);
-+    g_free(opt_blk_file);
- 
-     return 0;
- }
--- 
-2.21.0
+C.
+=20
+>> ---
+>>  hw/ppc/pnv_lpc.c | 14 +++++++++++++-
+>>  1 file changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+>> index fb9f93032020..c5a85c38c783 100644
+>> --- a/hw/ppc/pnv_lpc.c
+>> +++ b/hw/ppc/pnv_lpc.c
+>> @@ -86,7 +86,7 @@ enum {
+>>  #define ISA_FW_SIZE             0x10000000
+>>  #define LPC_IO_OPB_ADDR         0xd0010000
+>>  #define LPC_IO_OPB_SIZE         0x00010000
+>> -#define LPC_MEM_OPB_ADDR        0xe0010000
+>> +#define LPC_MEM_OPB_ADDR        0xe0000000
+>>  #define LPC_MEM_OPB_SIZE        0x10000000
+>>  #define LPC_FW_OPB_ADDR         0xf0000000
+>>  #define LPC_FW_OPB_SIZE         0x10000000
+>> @@ -143,6 +143,16 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root=
+_offset)
+>>                              cpu_to_be32(PNV9_LPCM_SIZE >> 32),
+>>                              cpu_to_be32((uint32_t)PNV9_LPCM_SIZE),
+>>      };
+>> +    uint32_t lpc_ranges[12] =3D { 0, 0,
+>> +                                cpu_to_be32(LPC_MEM_OPB_ADDR),
+>> +                                cpu_to_be32(LPC_MEM_OPB_SIZE),
+>> +                                cpu_to_be32(1), 0,
+>> +                                cpu_to_be32(LPC_IO_OPB_ADDR),
+>> +                                cpu_to_be32(LPC_IO_OPB_SIZE),
+>> +                                cpu_to_be32(3), 0,
+>> +                                cpu_to_be32(LPC_FW_OPB_ADDR),
+>> +                                cpu_to_be32(LPC_FW_OPB_SIZE),
+>> +    };
+>>      uint32_t reg[2];
+>> =20
+>>      /*
+>> @@ -211,6 +221,8 @@ int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_=
+offset)
+>>      _FDT((fdt_setprop_cell(fdt, offset, "#size-cells", 1)));
+>>      _FDT((fdt_setprop(fdt, offset, "compatible", lpc_compat,
+>>                        sizeof(lpc_compat))));
+>> +    _FDT((fdt_setprop(fdt, offset, "ranges", lpc_ranges,
+>> +                      sizeof(lpc_ranges))));
+>> =20
+>>      return 0;
+>>  }
+>=20
 
 
