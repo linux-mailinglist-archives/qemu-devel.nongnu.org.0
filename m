@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C30103061
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 00:41:38 +0100 (CET)
-Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68299103064
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 00:43:10 +0100 (CET)
+Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXD7p-0004Ua-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 18:41:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
+	id 1iXD9J-0006Rd-FA
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 18:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iXD6b-0003RF-5f
+ (envelope-from <dgibson@ozlabs.org>) id 1iXD6a-0003RG-VX
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 18:40:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iXD6Z-00022x-IE
+ (envelope-from <dgibson@ozlabs.org>) id 1iXD6Z-000235-Ji
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 18:40:20 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:35349)
+Received: from ozlabs.org ([2401:3900:2:1::2]:59287)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iXD6Z-00020P-6Y; Tue, 19 Nov 2019 18:40:19 -0500
+ id 1iXD6Z-00020T-8V; Tue, 19 Nov 2019 18:40:19 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47Hj3y6sJrz9sPT; Wed, 20 Nov 2019 10:40:14 +1100 (AEDT)
+ id 47Hj3z0M7Hz9sPL; Wed, 20 Nov 2019 10:40:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574206814;
- bh=Lpl7SdEVqaXUWtR6xcA1wfxgTUWucIR+HgvpxuFAVis=;
+ d=gibson.dropbear.id.au; s=201602; t=1574206815;
+ bh=yVzvDR/MMi+Fxp2MoS1bHIxuOIGKj/50GIN1W/Ib+jY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jMLwJ2IizDrBGv22j0bw/fVmQqEHGI2qSk+of0zaRIF3nK4s2Hs7EuOAquSIaYb37
- gLf8X5QgaAoaZklizefU1ZjlZ9D+NfpqpaFMAk9CY6XCGarUbMR9K3fOQBscFxHOTs
- rooF7SGFd4poIYGJA3MPxMSPS+m3i7g6Ti6EWvCU=
-Date: Wed, 20 Nov 2019 09:05:07 +1100
+ b=noyllbJFFrKAtLVd10iv0zbUpYfeE35wSQKzA6WgUCjtEa9DEhVzYOVsqldWeUcyC
+ azp3Ju0QfESXCDn50h12zkHfwefvuRfHWu0xWGd2j6vLMKAZeVi4sG1KoDP3wID//f
+ d6wjZTRBO0ij4cn4tAAdSa5efBOC7FKzhdvBxQQs=
+Date: Wed, 20 Nov 2019 09:06:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/pnv: Create BMC devices at machine init
-Message-ID: <20191119220507.GX5582@umbus.fritz.box>
-References: <20191118092222.15691-1-clg@kaod.org>
- <20191119005232.GH5582@umbus.fritz.box>
- <2c2dfb82-e5cd-ef94-3542-8ec92b1ef001@kaod.org>
+Subject: Re: [PATCH for-5.0 v5 04/23] ppc/pnv: Dump the XIVE NVT table
+Message-ID: <20191119220655.GY5582@umbus.fritz.box>
+References: <20191115162436.30548-1-clg@kaod.org>
+ <20191115162436.30548-5-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KH9S6eoVXLBawpUJ"
+ protocol="application/pgp-signature"; boundary="lBR2yNlwcY132B3M"
 Content-Disposition: inline
-In-Reply-To: <2c2dfb82-e5cd-ef94-3542-8ec92b1ef001@kaod.org>
+In-Reply-To: <20191115162436.30548-5-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -57,72 +56,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Corey Minyard <cminyard@mvista.com>,
- Oliver O'Halloran <oohall@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---KH9S6eoVXLBawpUJ
+--lBR2yNlwcY132B3M
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 19, 2019 at 07:49:33AM +0100, C=E9dric Le Goater wrote:
-> On 19/11/2019 01:52, David Gibson wrote:
-> > On Mon, Nov 18, 2019 at 10:22:22AM +0100, C=E9dric Le Goater wrote:
-> >> The BMC of the OpenPOWER systems monitors the machine state using
-> >> sensors, controls the power and controls the access to the PNOR flash
-> >> device containing the firmware image required to boot the host.
-> >>
-> >> QEMU models the power cycle process, access to the sensors and access
-> >> to the PNOR device. But, for these features to be available, the QEMU
-> >> PowerNV machine needs two extras devices on the command line, an IPMI
-> >> BT device for communication and a BMC backend device:
-> >>
-> >>   -device ipmi-bmc-sim,id=3Dbmc0 -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D=
-10
-> >>
-> >> The BMC properties are then defined accordingly in the device tree and
-> >> OPAL self adapts. If a BMC device and an IPMI BT device are not
-> >> available, OPAL does not try to communicate with the BMC in any
-> >> manner. This is not how real systems behave.
-> >>
-> >> To be closer to the default behavior, create an IPMI BMC simulator
-> >> device and an IPMI BT device at machine initialization time. We loose
-> >> the ability to define an external BMC device but there are benefits:
-> >>
-> >>   - a better match with real systems,
-> >>   - a better test coverage of the OPAL code,
-> >>   - system powerdown and reset commands that work,
-> >>   - a QEMU device tree compliant with the specifications (*).
-> >>
-> >> (*) Still needs a MBOX device.
-> >>
-> >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> >=20
-> > This doesn't apply to ppc-for-5.0 for me.  I'm not sure which change
-> > in there it's conflicting with, but there seems to be something.
+On Fri, Nov 15, 2019 at 05:24:17PM +0100, C=E9dric Le Goater wrote:
+> This is useful to dump the saved contexts of the vCPUs : configuration
+> of the base END index of the vCPU and the Interrupt Pending Buffer
+> register, which is updated when an interrupt can not be presented.
 >=20
-> Sorry I should have been more precise.
+> When dumping the NVT table, we skip empty indirect pages which are not
+> necessarily allocated.
 >=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> ---
+>  include/hw/ppc/xive_regs.h |  2 ++
+>  hw/intc/pnv_xive.c         | 30 ++++++++++++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
 >=20
-> This is because we need an IPMI patch to be merged first in=20
-> Corey's tree :
->=20
->   ipmi: Add support to customize OEM functions
->   http://patchwork.ozlabs.org/patch/1185187/
->=20
-> and another one merged in the PPC tree:=20
->=20
->   ppc/pnv: Add HIOMAP commands
->   http://patchwork.ozlabs.org/patch/1185185/
->=20
->=20
-> David, if Corey agrees, I think it would be simpler if you took=20
-> them all.
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index 1a5622f8ded8..94338b4b551e 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -252,6 +252,8 @@ typedef struct XiveNVT {
+>          uint32_t        w0;
+>  #define NVT_W0_VALID             PPC_BIT32(0)
+>          uint32_t        w1;
+> +#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
+> +#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
+>          uint32_t        w2;
+>          uint32_t        w3;
+>          uint32_t        w4;
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index a4d80fd5e79c..02faf4135e48 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -1554,6 +1554,27 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
+>      },
+>  };
+> =20
+> +/*
+> + * skiboot uses an indirect NVT table with 64k subpages
+> + */
+> +#define XIVE_NVT_COUNT          (1 << XIVE_NVT_SHIFT)
+> +#define XIVE_NVT_PER_PAGE       (0x10000 / sizeof(XiveNVT))
 
-Ok.  Corey, could I get an Acked-by from you?
+Hrm.  So skiboot uses 64kiB pages, but how does the hardware know
+that?  Is the hw fixed to 64kiB pages, or is there some register
+controlling the subpage size?  In which case shouldn't you be looking
+at that rather than assuming 64kiB?
+
+> +static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
+> +                                    Monitor *mon)
+> +{
+> +    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
+> +    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
+> +
+> +    if (!xive_nvt_is_valid(nvt)) {
+> +        return;
+> +    }
+> +
+> +    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
+> +                   eq_blk, eq_idx,
+> +                   xive_get_field32(NVT_W4_IPB, nvt->w4));
+> +}
+> +
+>  void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
+>  {
+>      XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+> @@ -1562,6 +1583,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
+ *mon)
+>      uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
+>      XiveEAS eas;
+>      XiveEND end;
+> +    XiveNVT nvt;
+>      int i;
+> =20
+>      monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
+> @@ -1590,6 +1612,14 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
+r *mon)
+>      while (!xive_router_get_end(xrtr, blk, i, &end)) {
+>          xive_end_eas_pic_print_info(&end, i++, mon);
+>      }
+> +
+> +    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0,
+> +                   XIVE_NVT_COUNT - 1);
+> +    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D XIVE_NVT_PER_PAGE) {
+> +        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
+> +            xive_nvt_pic_print_info(&nvt, i++, mon);
+> +        }
+> +    }
+>  }
+> =20
+>  static void pnv_xive_reset(void *dev)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -130,25 +162,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---KH9S6eoVXLBawpUJ
+--lBR2yNlwcY132B3M
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UZxMACgkQbDjKyiDZ
-s5JYrg/5AZ7XjpwZGtTjWoRouC1OZ3aHSTpJlv+V3Nx8SXyZ3pQvIXSENHscOQ2z
-xTjS8bbpAV3Y5gfGfqJWONme/qI9eOFhc/LOASll7UqjiZvJbHs18HNrOf2VCtJG
-b2XrftAAyuRWPRQEw53GIG1k8JdCp5DE3cLQaVSbcnHvqQsXJRHzgOINQzb1y0+E
-hhjGMmJgZ+58EDrDqvrsAH/7COUwFZb9qnezidngZi4IwnvAn5mBBRtH6vvG12gX
-ODudJi2sBS16anVwN9pLI1VeSjvpX83XtkyUhsbmWoClAwBbR/ZLQAfB0sHXUyy/
-gf6l36YNe/jwHQGfbPDXjWXFXL/5Uf0H86hNncl7G3Gqhjxkd9M9SMOO1p0izqDY
-qdCfVXdT1g1KYJ+2MVqwH1WuQKtUcLfOH0/AOVVC6z86shpttAfqVJRsI3bMNXGb
-luilXF5gx4ng+hqQlS8UGn07cH5IdiPgQLk0ZPZ8IWyeL5ANTS+Y+jlENv7Y4lMp
-3jAn0SwawbWyONLIK8yAsE2wdsq4Y9wVwNcePz7ox7fyaEjlTtZpPI4F4QPTCo+d
-QHo3lczMkyYzrPyAkis4LiBnptLWV7GMEyLV9ht8cMmW362+wYxVV8RAuATUw49s
-oE28Kcb9UiyZoHqxfFLgc0i9f6DVyP8vOgMjoSRCj4Ij1CjjMb4=
-=fQl9
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UZ38ACgkQbDjKyiDZ
+s5IWDg//apnneVeenVr/ZxfeC4j5TMFE4En1sOh8xKjct5n2k9kwOy7wibcGZUcO
+GUEK6062ND8lbl11KSp+F11gDKk8mEYAj2uB7HOR/HDlDYAFT6JuWxBjVPlsLtNV
+oPKfZRHIfoegYB3nGzLCSdMP0IJpJWZ8C75xC7zkkk1YnSi5xmoGAeO0mORRxUoO
+UT8d1zNghNT968CQGE2EpGVYVxCbVOEpei6A1gkSITJLlDoxKZHhp5OU1vF3KWl5
+vPXLwOliUFlsakr/fnAmvbaMwr2aTauQnXvNuxVX/3gm/Zu5DlFd+gWHBhgXpfQ5
+9UnCWBho+9o2KR653moxG8VJvIhViAGfPvQaxtR6x8joEyoSEKN2hq5Tv2BQ7ITs
+iuAiAhaXdN5sE/QCeHyzeJZXZYHQjCuxNe9DIFOQwaI2SN7piCNgXLKuwxcWPMfw
+F63h76yX4+4GzUEwPkhJoda6p/VpmF5QgfBJp8aiCzheiDlSYbLE5yvdmgbgGXoE
+OBCau6/8J3/ld49gir/Xe/dHnbQ7LzQIoTHZ2ZF5LogeD9zDCAL09LLZhPMBfhg4
+8/MJXfrqC3A3UmkEV0SHkc3PfbHD/VFpZNwgXvTZc7Ky2Vlkx4o9eh75sbBmVC1J
+uOtPUv2tRuX15exqBtbC9jIW/TYlAs1L/I12ZS/4GRR/tAtzumU=
+=ZpqZ
 -----END PGP SIGNATURE-----
 
---KH9S6eoVXLBawpUJ--
+--lBR2yNlwcY132B3M--
 
