@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E44A102930
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:21:47 +0100 (CET)
-Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D8410294B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:24:47 +0100 (CET)
+Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX6GA-0006Ad-8p
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:21:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60791)
+	id 1iX6J3-0004jj-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:24:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63w-00023E-Be
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:09 -0500
+ (envelope-from <clg@kaod.org>) id 1iX66y-0007C1-5A
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:12:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iX63v-0006AC-2Q
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:08 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38330)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iX63u-00069n-SJ
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:09:07 -0500
-Received: by mail-wm1-x343.google.com with SMTP id z19so4349990wmk.3
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:09:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=qHpVdmqCzVmXoW2Mq3yTyYlL6lxGnPFe8HxZarA2NvA=;
- b=ZW7VpqmJUX59VfNJeCJiGIUD9wixFMg4enTEmxRx65a17JZmTVIXZEiKJqQY19c3ez
- TE/TKhkyHdETL283ydPNigupIzoeri33oUlwHsZ4BHYbK1xorhkJjlbtAMsvmljWwJwZ
- azY+BAKufb293JaSj2gWCkopSXNes/uzxoE2quqaMXEjjv6hW/k024i9f0dFO1cb+V2h
- A7rGUZS8W5Ai6+VycvN3icXanidg//QBic0K2M4nx67hjGonXqKzjf/ocO76WxgzfKwq
- hCDJ3TNfGRsz7FFjpHphvYLkcfIoZ5GGlnPc12XKkEJQyLoOB9IEbLZoeG5z3GCyNx4F
- Kl/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=qHpVdmqCzVmXoW2Mq3yTyYlL6lxGnPFe8HxZarA2NvA=;
- b=uAQX4HwuhN8nruTrZEnhLxW5lCb9O/pg9aN1Ch3AQIUwUUqQGAqlN85JZDC2qb341R
- PKNmKBuEbVk3cwF29yeJJ9WY+czsMFqnJwXXYCLosYmb0Ukyy4XjklZ1p4EuK0uohSk5
- AZJSGZ3DkFODca0x/7+AJEAZCHj3dDi3vc5fflEuGdjdDGikzErVqkanbXaQuOqGL2oa
- wllGI+wxfH+XT0fs5btPOd1jbC0Kj6CvNNZ5HxSiaEOJaipCb9tBJlBSQrsSsjdbX72/
- 4FshVBXle28BAkGDceM6mt2iG4ce8r1GOrfGWuGptC0MmZoUcEYRP8qXN6VhE1ptVohk
- NuCQ==
-X-Gm-Message-State: APjAAAVOBLksIr5q1xJPKES9D0Pw64Yxeq60qn2KIrHJc+Ftfw82igSl
- LQYVCNFMM/CslvrbjH/HxnIytQWv
-X-Google-Smtp-Source: APXvYqytz0VHqF0XISX51gSasBIAPPaFfiyd1x2B+B6LO5mhngt7itkC8n1VxtTYbyXWkHahmxY/Rw==
-X-Received: by 2002:a1c:720b:: with SMTP id n11mr6184568wmc.60.1574179745590; 
- Tue, 19 Nov 2019 08:09:05 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id n13sm3442203wmi.25.2019.11.19.08.09.04
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:09:04 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] mc146818rtc: fix timer interrupt reinjection again
-Date: Tue, 19 Nov 2019 17:08:48 +0100
-Message-Id: <1574179728-35535-13-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
-References: <1574179728-35535-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+ (envelope-from <clg@kaod.org>) id 1iX66w-0008GS-Qn
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:12:15 -0500
+Received: from 9.mo6.mail-out.ovh.net ([87.98.171.146]:46078)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX66w-0008En-I1
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:12:14 -0500
+Received: from player786.ha.ovh.net (unknown [10.109.146.32])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id A04A81ED15F
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:12:10 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player786.ha.ovh.net (Postfix) with ESMTPSA id 3D157C5F4A84;
+ Tue, 19 Nov 2019 16:12:06 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v5 02/23] ppc/xive: Introduce helpers for the NVT
+ id
+To: Greg Kurz <groug@kaod.org>
+References: <20191115162436.30548-1-clg@kaod.org>
+ <20191115162436.30548-3-clg@kaod.org> <20191119150403.02a78ace@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <384b6e95-feda-de56-4131-43da3165b3d8@kaod.org>
+Date: Tue, 19 Nov 2019 17:12:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191119150403.02a78ace@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 1466484632900111187
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 87.98.171.146
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,110 +60,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 369b41359af46bded5799c9ef8be2b641d92e043 broke timer interrupt
-reinjection when there is no period change by the guest.  In that
-case, old_period is 0, which ends up zeroing irq_coalesced (counter of
-reinjected interrupts).
+On 19/11/2019 15:04, Greg Kurz wrote:
+> On Fri, 15 Nov 2019 17:24:15 +0100
+> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>=20
+>> Each vCPU in the system is identified with an NVT identifier which is
+>> pushed in the OS CAM line (QW1W2) of the HW thread interrupt context
+>> register when the vCPU is dispatched on a HW thread. This identifier
+>> is used by the presenter subengine to find a matching target to notify
+>> of an event. It is also used to fetch the associate NVT structure
+>> which may contain pending interrupts that need a resend.
+>>
+>> Add a couple of helpers for the NVT ids. The NVT space is 19 bits
+>> wide, giving a maximum of 512K per chip.
+>>
+>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>> ---
+>>  include/hw/ppc/xive.h      |  5 -----
+>>  include/hw/ppc/xive_regs.h | 21 +++++++++++++++++++++
+>>  2 files changed, 21 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+>> index 8fd439ec9bba..fa7adf87feb2 100644
+>> --- a/include/hw/ppc/xive.h
+>> +++ b/include/hw/ppc/xive.h
+>> @@ -418,11 +418,6 @@ Object *xive_tctx_create(Object *cpu, XiveRouter =
+*xrtr, Error **errp);
+>>  void xive_tctx_reset(XiveTCTX *tctx);
+>>  void xive_tctx_destroy(XiveTCTX *tctx);
+>> =20
+>> -static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nv=
+t_idx)
+>> -{
+>> -    return (nvt_blk << 19) | nvt_idx;
+>> -}
+>> -
+>>  /*
+>>   * KVM XIVE device helpers
+>>   */
+>> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+>> index 530f232b04f8..1a5622f8ded8 100644
+>> --- a/include/hw/ppc/xive_regs.h
+>> +++ b/include/hw/ppc/xive_regs.h
+>> @@ -272,4 +272,25 @@ typedef struct XiveNVT {
+>> =20
+>>  #define xive_nvt_is_valid(nvt)    (be32_to_cpu((nvt)->w0) & NVT_W0_VA=
+LID)
+>> =20
+>> +/*
+>> + * The VP number space in a block is defined by the END_W6_NVT_INDEX
+>> + * field of the XIVE END
+>> + */
+>> +#define XIVE_NVT_SHIFT                19
+>> +
+>> +static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nv=
+t_idx)
+>> +{
+>> +    return (nvt_blk << XIVE_NVT_SHIFT) | nvt_idx;
+>=20
+> Shouldn't we ensure nvt_idx fits in the 19 bits ?
 
-The consequence is Windows 7 is unable to synchronize time via NTP.
-Easily reproducible by playing a fullscreen video with cirrus and VNC.
+yes. We should use the END_W6_NVT_INDEX mask. We are fine today because
+the NVT index is extracted from the end w6 using xive_get_field32() or=20
+computed from the PIR using the appropriate mask.
 
-Fix by passing s->period when periodic_timer_update is called due to
-expiration of the timer.  With this change, old_period == 0 only
-means that the periodic timer was off.
+Something to improve.=20
 
-Reported-by: Marcelo Tosatti <mtosatti@redhat.com>
-Co-developed-by: Marcelo Tosatti <mtosatti@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/rtc/mc146818rtc.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 9869dc5..74ae74b 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -168,12 +168,14 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
-  * is just due to period adjustment.
-  */
- static void
--periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-+periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period, bool period_change)
- {
-     uint32_t period;
-     int64_t cur_clock, next_irq_clock, lost_clock = 0;
- 
-     period = rtc_periodic_clock_ticks(s);
-+    s->period = period;
-+
-     if (!period) {
-         s->irq_coalesced = 0;
-         timer_del(s->periodic_timer);
-@@ -188,7 +190,7 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-      * if the periodic timer's update is due to period re-configuration,
-      * we should count the clock since last interrupt.
-      */
--    if (old_period) {
-+    if (old_period && period_change) {
-         int64_t last_periodic_clock, next_periodic_clock;
- 
-         next_periodic_clock = muldiv64(s->next_periodic_time,
-@@ -215,7 +217,6 @@ periodic_timer_update(RTCState *s, int64_t current_time, uint32_t old_period)
-     if (s->lost_tick_policy == LOST_TICK_POLICY_SLEW) {
-         uint32_t old_irq_coalesced = s->irq_coalesced;
- 
--        s->period = period;
-         lost_clock += old_irq_coalesced * old_period;
-         s->irq_coalesced = lost_clock / s->period;
-         lost_clock %= s->period;
-@@ -245,7 +246,7 @@ static void rtc_periodic_timer(void *opaque)
- {
-     RTCState *s = opaque;
- 
--    periodic_timer_update(s, s->next_periodic_time, 0);
-+    periodic_timer_update(s, s->next_periodic_time, s->period, false);
-     s->cmos_data[RTC_REG_C] |= REG_C_PF;
-     if (s->cmos_data[RTC_REG_B] & REG_B_PIE) {
-         s->cmos_data[RTC_REG_C] |= REG_C_IRQF;
-@@ -511,7 +512,7 @@ static void cmos_ioport_write(void *opaque, hwaddr addr,
- 
-             if (update_periodic_timer) {
-                 periodic_timer_update(s, qemu_clock_get_ns(rtc_clock),
--                                      old_period);
-+                                      old_period, true);
-             }
- 
-             check_update_timer(s);
-@@ -550,7 +551,7 @@ static void cmos_ioport_write(void *opaque, hwaddr addr,
- 
-             if (update_periodic_timer) {
-                 periodic_timer_update(s, qemu_clock_get_ns(rtc_clock),
--                                      old_period);
-+                                      old_period, true);
-             }
- 
-             check_update_timer(s);
-@@ -794,6 +795,7 @@ static int rtc_post_load(void *opaque, int version_id)
-         s->offset = 0;
-         check_update_timer(s);
-     }
-+    s->period = rtc_periodic_clock_ticks(s);
- 
-     /* The periodic timer is deterministic in record/replay mode,
-      * so there is no need to update it after loading the vmstate.
-@@ -803,7 +805,7 @@ static int rtc_post_load(void *opaque, int version_id)
-         uint64_t now = qemu_clock_get_ns(rtc_clock);
-         if (now < s->next_periodic_time ||
-             now > (s->next_periodic_time + get_max_clock_jump())) {
--            periodic_timer_update(s, qemu_clock_get_ns(rtc_clock), 0);
-+            periodic_timer_update(s, qemu_clock_get_ns(rtc_clock), s->period, false);
-         }
-     }
- 
--- 
-1.8.3.1
+>=20
+>> +}
+>> +
+>> +static inline uint32_t xive_nvt_idx(uint32_t cam_line)
+>> +{
+>> +    return cam_line & ((1 << XIVE_NVT_SHIFT) - 1);
+>> +}
+>> +
+>> +static inline uint32_t xive_nvt_blk(uint32_t cam_line)
+>> +{
+>> +    return (cam_line >> XIVE_NVT_SHIFT) & 0xf;
+>> +}
+>> +
+>>  #endif /* PPC_XIVE_REGS_H */
+>=20
 
 
