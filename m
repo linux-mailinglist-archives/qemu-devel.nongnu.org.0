@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B82B102A9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:17:03 +0100 (CET)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE89D102AB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:22:31 +0100 (CET)
+Received: from localhost ([::1]:48264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX77e-0008RM-7L
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:17:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
+	id 1iX7Cw-0004OB-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:22:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iX6zf-0005Zs-78
+ (envelope-from <thuth@redhat.com>) id 1iX6ze-0005ZV-UT
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iX6ze-0004O5-6M
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27247
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6ze-0004Nm-2X
+ (envelope-from <thuth@redhat.com>) id 1iX6zd-0004Ng-Nh
  for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:46 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41989
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX6zd-0004NE-Jp
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:08:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1574183325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dobyugg5ybakk5iMGwm4Jb6ml7KmvDKYGCYl6FkJhaU=;
- b=CXV8t9RSeraRwGl8crcsX7+QrWD8H61RN0s6IydTMug2VpjamgQy88FIjLpm2pTGtYumhs
- +saqFGi+mQ4uC/PVw9wxaLHg5I4MQJqYfSvP56maW53nwa2kA1tFwY2JV39lUlK5aKkENH
- Zv+HB3mBigoEUV/E7X9BP7w1uZdc+2Q=
+ bh=Rp05Z/k6BqB5bTYRSrt9R9ui2PL+kBdRh3ppU5tGS7k=;
+ b=DP4PAizTjs80wwdnRwFYwLdOwGKmCXmzSfP3BY/ggVLjyPyAVtVMYuM0ZDa2oDvCL0h2kD
+ GRbp2PPGLFhV/NrOjLgCbKQ3iPfP8Jq8G5EzhIUPUahTKKepGO/KgGhT8FQkPlr7tQd/x9
+ PNQSkuDJ7TZd0L6LBln0e4zpIo4pUNw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-k_Us7OhiN_aUuzkDt7PjMg-1; Tue, 19 Nov 2019 12:08:40 -0500
+ us-mta-248-5d9T9t3oPQydYnK972LkmA-1; Tue, 19 Nov 2019 12:08:42 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E060B801E5A;
- Tue, 19 Nov 2019 17:08:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21B74A0F2E;
+ Tue, 19 Nov 2019 17:08:41 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01DB95ED2C;
- Tue, 19 Nov 2019 17:08:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38CA95E7A6;
+ Tue, 19 Nov 2019 17:08:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 5/6] travis.yml: drop 32 bit systems from MAIN_SOFTMMU_TARGETS
-Date: Tue, 19 Nov 2019 18:08:20 +0100
-Message-Id: <20191119170822.45649-6-thuth@redhat.com>
+Subject: [PATCH 6/6] travis.yml: Enable builds on arm64, ppc64le and s390x
+Date: Tue, 19 Nov 2019 18:08:21 +0100
+Message-Id: <20191119170822.45649-7-thuth@redhat.com>
 In-Reply-To: <20191119170822.45649-1-thuth@redhat.com>
 References: <20191119170822.45649-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: k_Us7OhiN_aUuzkDt7PjMg-1
+X-MC-Unique: 5d9T9t3oPQydYnK972LkmA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,36 +81,118 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Travis recently added the possibility to test on these architectures,
+too, so let's enable them in our travis.yml file to extend our test
+coverage.
 
-The older clangs are still struggling to build and run everything
-withing the 50 minute timeout so lets lighten the load a bit more. We
-still have coverage for GCC and hopefully no obscure 32 bit guest only
-breakages slip through the cracks.
+Unfortunately, the libssh in this Ubuntu version (bionic) is in a pretty
+unusable Frankenstein state and libspice-server-dev is not available here,
+so we can not use the global list of packages to install, but have to
+provide individual package lists instead.
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .travis.yml | 83 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
 diff --git a/.travis.yml b/.travis.yml
-index b9a026c8ee..c09b6a0014 100644
+index c09b6a0014..cf48ee452c 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -79,7 +79,7 @@ env:
-     - BASE_CONFIG=3D"--disable-docs --disable-tools"
-     - TEST_CMD=3D"make check V=3D1"
-     # This is broadly a list of "mainline" softmmu targets which have supp=
-ort across the major distros
--    - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,arm-softmmu,i386-softmmu,mip=
-s-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64=
--softmmu"
-+    - MAIN_SOFTMMU_TARGETS=3D"aarch64-softmmu,mips64-softmmu,ppc64-softmmu=
-,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-     - CCACHE_SLOPPINESS=3D"include_file_ctime,include_file_mtime"
-     - CCACHE_MAXSIZE=3D1G
+@@ -360,6 +360,89 @@ matrix:
+         - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+         - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
 =20
++    - arch: arm64
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libbrlapi-dev
++          - libcap-dev
++          - libcap-ng-dev
++          - libgcrypt20-dev
++          - libgnutls28-dev
++          - libgtk-3-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - libncurses5-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libpng-dev
++          - librados-dev
++          - libsdl2-dev
++          - libseccomp-dev
++          - liburcu-dev
++          - libusb-1.0-0-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++      env:
++        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
+ser"
++
++    - arch: ppc64le
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libbrlapi-dev
++          - libcap-dev
++          - libcap-ng-dev
++          - libgcrypt20-dev
++          - libgnutls28-dev
++          - libgtk-3-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - libncurses5-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libpng-dev
++          - librados-dev
++          - libsdl2-dev
++          - libseccomp-dev
++          - liburcu-dev
++          - libusb-1.0-0-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++      env:
++        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
+ser"
++
++    - arch: s390x
++      addons:
++        apt_packages:
++          - libaio-dev
++          - libattr1-dev
++          - libbrlapi-dev
++          - libcap-dev
++          - libcap-ng-dev
++          - libgcrypt20-dev
++          - libgnutls28-dev
++          - libgtk-3-dev
++          - libiscsi-dev
++          - liblttng-ust-dev
++          - libncurses5-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libpixman-1-dev
++          - libpng-dev
++          - librados-dev
++          - libsdl2-dev
++          - libseccomp-dev
++          - liburcu-dev
++          - libusb-1.0-0-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++      env:
++        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux-u=
+ser"
+=20
+     # Release builds
+     # The make-release script expect a QEMU version, so our tag must start=
+ with a 'v'.
 --=20
 2.23.0
 
