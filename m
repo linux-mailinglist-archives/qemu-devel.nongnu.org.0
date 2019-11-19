@@ -2,86 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E540102986
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:38:28 +0100 (CET)
-Received: from localhost ([::1]:47418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA5210296B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 17:31:32 +0100 (CET)
+Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX6WI-0000Kj-UY
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38238)
+	id 1iX6Pa-00033I-MU
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 11:31:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iX6IY-0004ms-6y
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:24:15 -0500
+ (envelope-from <clg@kaod.org>) id 1iX6M9-0000yx-6m
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:28:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iX6IW-0007Q3-TB
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:24:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35906
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iX6M7-0001rI-5i
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:27:57 -0500
+Received: from 1.mo177.mail-out.ovh.net ([178.33.107.143]:44256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iX6IW-0007Oq-PS
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:24:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574180652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xjysQALhk+U9MIs4/dyzD9AOC+F1VbKkNCYM+APDpgs=;
- b=SIwJ+wG2FMT3+yJmndGpeql0gZYrozaQ/oBMvAHxua/9pfXKruEqqGWyO0qjyEVP8ojXI+
- 6fojMH+I+kLkeNkTe9534tGbPi7LkeYphdtUbxIoZiJhrB9HAkD720VU0syV09+6g+fBV7
- ByBkWNZrI0ofy/HeXGEpkq17nu2x+xA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-jdeeMzRuNuqM86EQ1mv3tw-1; Tue, 19 Nov 2019 11:24:09 -0500
-Received: by mail-wm1-f72.google.com with SMTP id f16so2585913wmb.2
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 08:24:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jKRhxYVddBJ4HfBKN9Vv6aCtn3nJZeIh4nl5sSKteJs=;
- b=f4qLGontj+6ijrH2y3ORqF51FleGHRAc43K3Wk5U+ub4yHmXKIrU8V2Hc7mU+qrveP
- 1EJOiaghVrZxr/IiuEvrIdjPQJHPXBBvKZflYnB6SqIISRKwA2kvpTXtkkmsbUICrGva
- 9PkaWkVCKlJWlDW1bQlA4cmyeg8jdzevf9lHOQEbp0+bMdppLoyHe61ODdWKv6H+0qd0
- CBYzgb4oM6A2Pl1vcg4ldI7vCZCuivaSoYg2ZUj98sFJiAMneW/KjhGyFZeuuiZK1hCc
- 17HExtBdQMetRrfkrhmbF5znnmHCchoX5tuq+Fl3UrZUWniO8KFFm+JwAIUHH3lhzk5H
- QQfw==
-X-Gm-Message-State: APjAAAVacxBrQV/5/C0b5b4LrD9BMzegzB6Zdx0LNdEUdAmzgUpRw1vn
- 0ZnHnBEhc8+X5B/9/s59lpTN2Jf1Mcr0iBOOVa1b/ruvFVXQ8INOpEctscOzihHc9ItSzUyykDj
- RJmuPE9Cr7EOQCRU=
-X-Received: by 2002:a05:600c:294e:: with SMTP id
- n14mr6562062wmd.18.1574180648796; 
- Tue, 19 Nov 2019 08:24:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzwuwCf32+G1yVoTW4lxfXbu8F7JhgX8kaHWDQXhJeelptkKnvfjYYMwxJKCQDrHC9Qp/0haw==
-X-Received: by 2002:a05:600c:294e:: with SMTP id
- n14mr6562027wmd.18.1574180648612; 
- Tue, 19 Nov 2019 08:24:08 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id x8sm27445666wrm.7.2019.11.19.08.24.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Nov 2019 08:24:08 -0800 (PST)
-Subject: Re: [PATCH v4 0/2] hw: Remove dynamic field width from trace events
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20191118222746.31467-1-philmd@redhat.com>
- <20191119162112.GC229732@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f2a3704c-da84-5f88-14a3-74c0d6bd38c3@redhat.com>
-Date: Tue, 19 Nov 2019 17:24:06 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iX6M5-0001jk-BT
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 11:27:54 -0500
+Received: from player692.ha.ovh.net (unknown [10.108.35.59])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 1E07E113FBA
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:27:49 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 9575FC2C8C00;
+ Tue, 19 Nov 2019 16:27:40 +0000 (UTC)
+Subject: Re: [PATCH] misc/pca9552: Add qom set and get
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
+References: <20191118061757.52550-1-joel@jms.id.au>
+ <42f378d5-e7ea-11ce-11d5-9589fe7194d2@kaod.org>
+ <9f810374-97d4-8162-c92d-a1513c1a23a0@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <817b83f1-f534-9886-2054-4de6cd04a899@kaod.org>
+Date: Tue, 19 Nov 2019 17:27:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191119162112.GC229732@stefanha-x1.localdomain>
+In-Reply-To: <9f810374-97d4-8162-c92d-a1513c1a23a0@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: jdeeMzRuNuqM86EQ1mv3tw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+X-Ovh-Tracer-Id: 1730789633458932500
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -83
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegkedgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdludejmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehophgvnhhpohifvghrrdighiiipdhoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 178.33.107.143
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,50 +61,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/19 5:21 PM, Stefan Hajnoczi wrote:
-> On Mon, Nov 18, 2019 at 11:27:44PM +0100, Philippe Mathieu-Daud=E9 wrote:
->> This series fixes LP#1844817 [2].
+On 18/11/2019 18:48, Philippe Mathieu-Daud=C3=A9 wrote:
+> Odd... I only received C=C3=A9dric answer, not Joel patch.
+>=20
+> On 11/18/19 11:00 AM, C=C3=A9dric Le Goater wrote:
+>> On 18/11/2019 07:17, Joel Stanley wrote:
+>>> Following the pattern of the work recently done with the ASPEED GPIO
+>>> model, this adds support for inspecting and modifying the PCA9552 LED=
+s
+>>> from the monitor.
+>>>
+>>> =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 on
+>>> =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> =C2=A0 "on"
+>>>
+>>> =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 off
+>>> =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> =C2=A0 "off"
+>>>
+>>> =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 pwm0
+>>> =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> =C2=A0 "pwm0"
+>>>
+>>> =C2=A0 (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 pwm1
+>>> =C2=A0 (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> =C2=A0 "pwm1"
 >>
->> (Eric noted in [1] the dtrace via stap backend can not support
->> the dynamic '*' width format.)
+>> It would be nice to revive the QOM get patchset from David.
 >>
->> If they are trivial/block/tracing pull in preparation, this
->> series will be happy to be taken, else it will go via mips-next.
+>> =C2=A0=C2=A0=C2=A0=C2=A0http://patchwork.ozlabs.org/patch/666458/
 >>
->> Thanks,
+>> Did we reach some consensus ?
 >>
->> Phil.
+>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
 >>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-09/msg04720.html
->> [2] https://bugs.launchpad.net/qemu/+bug/1844817
+>> Some comments below.
 >>
->> Philippe Mathieu-Daud=E9 (2):
->>    hw/block/pflash: Remove dynamic field width from trace events
->>    hw/mips/gt64xxx: Remove dynamic field width from trace events
+>>> ---
+>>> The qom device in mainline qemu is a different path. Using the monito=
+r
+>>> examine `info qom-tree /machine/unattached/` to discover it.
+>>>
+>>> This can be tested with a Witherspoon image.
+>>>
+>>> $ wget https://openpower.xyz/job/openbmc-build/distro=3Dubuntu,label=3D=
+builder,target=3Dwitherspoon/lastSuccessfulBuild/artifact/deploy/images/w=
+itherspoon/obmc-phosphor-image-witherspoon.ubi.mtd
+>>>
+>>> $ qemu-system-arm -M witherspoon-bmc -serial pty -monitor pty -nograp=
+hic \
+>>> =C2=A0 -drive file=3Dobmc-phosphor-image-witherspoon.ubi.mtd,format=3D=
+raw,if=3Dmtd
+>>> char device redirected to /dev/pts/5 (label compat_monitor0)
+>>> char device redirected to /dev/pts/10 (label serial0)
+>>>
+>>> $ screen /dev/pts/5
+>>> QEMU 4.1.91 monitor - type 'help' for more information
+>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> "off"
+>>>
+>>> $ screen /dev/pts/19
+>>> root@witherspoon:~# cd /sys/class/gpio/
+>>> root@witherspoon:/sys/class/gpio# echo 248 > export
+>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>> 0
+>>>
+>>> (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 on
+>>>
+>>> root@witherspoon:/sys/class/gpio# echo out > gpio248/direction
+>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>> 1
+>>>
+>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> "on"
+>>>
+>>> (qemu) qom-set=C2=A0 /machine/unattached/device[17] led0 off
+>>> (qemu) qom-get=C2=A0 /machine/unattached/device[17] led0
+>>> "off"
+>>>
+>>> root@witherspoon:/sys/class/gpio# cat gpio248/value
+>>> 0
+>=20
+> I am assuming this is 5.0 material.
+>=20
+> This is a good starting point, and is useful.
+>=20
+> However this would be useful for other boards/devices too.
+>=20
+> What about defining a InterfaceInfo[] for external GPIOs?
+
+The code below is very specific to pca9552.
+
+What kind of interface do you have in mind more precisely ?=20
+which handlers ?
+
+Thanks
+
+C.
+
+> Shouldn't we use the qemu_irq type for that then?
+>=20
+>>>
+>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>> ---
+>>> =C2=A0 hw/misc/pca9552.c | 91 +++++++++++++++++++++++++++++++++++++++=
+++++++++
+>>> =C2=A0 1 file changed, 91 insertions(+)
+>>>
+>>> diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+>>> index 73be28d9369c..0362aac8c862 100644
+>>> --- a/hw/misc/pca9552.c
+>>> +++ b/hw/misc/pca9552.c
+>>> @@ -15,12 +15,16 @@
+>>> =C2=A0 #include "hw/misc/pca9552.h"
+>>> =C2=A0 #include "hw/misc/pca9552_regs.h"
+>>> =C2=A0 #include "migration/vmstate.h"
+>>> +#include "qapi/error.h"
+>>> +#include "qapi/visitor.h"
+>>> =C2=A0 =C2=A0 #define PCA9552_LED_ON=C2=A0=C2=A0 0x0
+>>> =C2=A0 #define PCA9552_LED_OFF=C2=A0 0x1
+>>> =C2=A0 #define PCA9552_LED_PWM0 0x2
+>>> =C2=A0 #define PCA9552_LED_PWM1 0x3
+>>> =C2=A0 +static const char *led_state[] =3D {"on", "off", "pwm0", "pwm=
+1"};
+>=20
+> BTW "pwm0/pwm1" as "state" is confuse, but I understand this is how the=
+ PCA9552 datasheet describes it.
+>=20
+>>> +
+>>> =C2=A0 static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin=
+)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t reg=C2=A0=C2=A0 =3D PCA9552_LS=
+0 + (pin / 4);
+>>> @@ -169,6 +173,84 @@ static int pca9552_event(I2CSlave *i2c, enum i2c=
+_event event)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> =C2=A0 }
+>>> =C2=A0 +static void pca9552_get_led(Object *obj, Visitor *v, const ch=
+ar *name,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>> +=C2=A0=C2=A0=C2=A0 int led, rc, reg;
+>>> +=C2=A0=C2=A0=C2=A0 char *str;
+>>> +=C2=A0=C2=A0=C2=A0 uint8_t state;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 rc =3D sscanf(name, "led%2d", &led);
+>>> +=C2=A0=C2=A0=C2=A0 if (rc !=3D 1) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s: err=
+or reading %s", __func__, name);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 if (led < 0 || led > s->nr_leds) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inva=
+lid led %s", __func__, name);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 /*
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Get the LSx register as the qom interface=
+ should expose the device
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * state, not the modeled 'input line' behav=
+iour which would come from
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * reading the INPUTx reg
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> +=C2=A0=C2=A0=C2=A0 reg =3D PCA9552_LS0 + led / 4;
+>>> +=C2=A0=C2=A0=C2=A0 state =3D (pca9552_read(s, reg) >> (led % 8)) & 0=
+x3;
 >>
->>   hw/block/pflash_cfi01.c |  8 ++++----
->>   hw/block/pflash_cfi02.c |  8 ++++----
->>   hw/mips/gt64xxx_pci.c   | 16 ++++++++--------
->>   hw/block/trace-events   |  8 ++++----
->>   hw/mips/trace-events    |  4 ++--
->>   5 files changed, 22 insertions(+), 22 deletions(-)
+>> Could we add accessors to extract the register fields and to clarify
+>> the layout ?
 >>
->> --=20
->> 2.21.0
+>>> +=C2=A0=C2=A0=C2=A0 str =3D g_strdup(led_state[state]);
+>>> +=C2=A0=C2=A0=C2=A0 visit_type_str(v, name, &str, errp);
+>>> +}
+>>> +
+>>> +/*
+>>> + * Return an LED selector register value based on an existing one, w=
+ith
+>>> + * the appropriate 2-bit state value set for the given LED number (0=
+-3).
+>>> + */
+>>> +static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, in=
+t state)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (oldval & (~(0x3 <=
+< (led_num << 1)))) |
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ((state & 0x3) << (led_num << 1));
+>>> +}
+>>> +
+>>> +static void pca9552_set_led(Object *obj, Visitor *v, const char *nam=
+e,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>> +=C2=A0=C2=A0=C2=A0 Error *local_err =3D NULL;
+>>> +=C2=A0=C2=A0=C2=A0 int led, rc, reg, val;
+>>> +=C2=A0=C2=A0=C2=A0 uint8_t state;
+>>> +=C2=A0=C2=A0=C2=A0 char *state_str;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 visit_type_str(v, name, &state_str, &local_err);
+>>> +=C2=A0=C2=A0=C2=A0 if (local_err) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp, loc=
+al_err);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 rc =3D sscanf(name, "led%2d", &led);
+>>> +=C2=A0=C2=A0=C2=A0 if (rc !=3D 1) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s: err=
+or reading %s", __func__, name);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 if (led < 0 || led > s->nr_leds) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inva=
+lid led %s", __func__, name);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 for (state =3D 0; state < ARRAY_SIZE(led_state); =
+state++) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!strcmp(state_str, le=
+d_state[state])) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b=
+reak;
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +=C2=A0=C2=A0=C2=A0 if (state >=3D ARRAY_SIZE(led_state)) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "%s inva=
+lid led state %s", __func__, state_str);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 reg =3D PCA9552_LS0 + led / 4;
+>>> +=C2=A0=C2=A0=C2=A0 val =3D pca9552_read(s, reg);
+>>> +=C2=A0=C2=A0=C2=A0 val =3D pca955x_ledsel(val, led % 4, state);
+>>> +=C2=A0=C2=A0=C2=A0 pca9552_write(s, reg, val);
+>>> +}
+>>> +
+>>> =C2=A0 static const VMStateDescription pca9552_vmstate =3D {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "PCA9552",
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .version_id =3D 0,
+>>> @@ -204,6 +286,7 @@ static void pca9552_reset(DeviceState *dev)
+>>> =C2=A0 static void pca9552_initfn(Object *obj)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCA9552State *s =3D PCA9552(obj);
+>>> +=C2=A0=C2=A0=C2=A0 int led;
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* If support for the other PCA=
+955X devices are implemented, these
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * constant values might be part =
+of class structure describing the
+>>> @@ -211,6 +294,14 @@ static void pca9552_initfn(Object *obj)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->max_reg =3D PCA9552_LS3;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->nr_leds =3D 16;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 for (led =3D 0; led < s->nr_leds; led++) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *name;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 name =3D g_strdup_printf(=
+"led%d", led);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_add(obj, =
+name, "bool", pca9552_get_led, pca9552_set_led,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 NULL, NULL, NULL);
+>>
+>> It misses a :
+>>
+>> =C2=A0=C2=A0=C2=A0 g_free(name)
+>>
+>> C.
+>>
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0 }
+>>> =C2=A0 =C2=A0 static void pca9552_class_init(ObjectClass *klass, void=
+ *data)
+>>>
+>>
 >>
 >=20
-> Will send a pull request today.
-
-Oh thanks Stefan, but it was getting late for the RC tag so I sent a=20
-pull for these patches via mips-next a pair of hours ago:
-https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg02894.html
 
 
