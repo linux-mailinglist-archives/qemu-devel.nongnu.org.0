@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959181025B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:44:49 +0100 (CET)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339EB1025B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 14:46:13 +0100 (CET)
+Received: from localhost ([::1]:45648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX3oG-0006un-Kb
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:44:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37019)
+	id 1iX3pc-0000NW-9R
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 08:46:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iX3hl-00015T-49
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:38:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1iX3kg-0003TJ-3H
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:41:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iX3hj-0006nE-RR
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:38:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33115
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iX3ke-00085t-UJ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:41:05 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41440
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iX3hj-0006mw-NL
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:38:03 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iX3ke-00085E-RD
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 08:41:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574170682;
+ s=mimecast20190719; t=1574170864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5JG/ysw3bE6Epdk0PvBZpr8YCrHDNhJi2HiwOWJe+t8=;
- b=gV7Aoo9soLTnL1nj+CpiMD4CF7Gh3tj5HMz11UjoC1ijnkczm28xri4FBPcowkp3WHfX6m
- Nw1xNZ1un1P2zcSyh4S2jPhTe7EWyjdlMfamGFQ7TOOmzApdKkLtsnE3IGojTFz42uuYwu
- Iyd5ZTY94v71ZpB9gR89JBvmRsUmDuc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-XuvIwB0QNPGzBlFIOH3row-1; Tue, 19 Nov 2019 08:37:58 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8192B80269B;
- Tue, 19 Nov 2019 13:37:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-83.gru2.redhat.com
- [10.97.116.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC4465F92C;
- Tue, 19 Nov 2019 13:37:51 +0000 (UTC)
-Subject: Re: [PATCH] travis.yml: Remove the redundant
- clang-with-MAIN_SOFTMMU_TARGETS entry
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191119092147.4260-1-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <53459e38-4866-254a-17ed-08931edd14f1@redhat.com>
-Date: Tue, 19 Nov 2019 11:37:50 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ bh=uvLEma868VerfcY9cGL/XZHbyX6+aMoYXkvfMFpv2HA=;
+ b=jDRoDKFD5vWVYpca5zQ9eRx15xCuM1RLvEa82ov2SfUdeqq00My4v2lFPE6VCJDcxSz2i9
+ XdxLwArOoHlSUfwwzNUUc/dI2Z/PWbz4+P6KdGDdQsk3m+F1wTHAWqLZUczzAugxABO2pM
+ U/PlRrd/zDaVJ2kZfJEkBXT6e/prjTM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-Q0xfBkXqP_CGs6K6I6ISTA-1; Tue, 19 Nov 2019 08:41:00 -0500
+Received: by mail-wm1-f70.google.com with SMTP id m68so2431641wme.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 05:41:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=caSvQYXVu5p8CaLM5JD5sNI7gfZU9ArDc9kdEyBZJFo=;
+ b=jlhJ8FQ8ac5mwwJdoar0MgPblgiAzrZcJOe3QBIjTVeAykB3KoDG4jIIMH3kDETTiA
+ 6lZi21mVfBFvZt12oqD6HHWGdSRexErf4hMfkpsNKV1p4lfdt06W8UHggTs5m0boXXKj
+ vunVsXkRQZjyIMtPu2oCOPt4UtDZzPD13YsVqtaIm1CfoWf1U5ENuEDK7dNGMSlGjLlN
+ i3fQ4oV6hSHXi5Ti1fSnn26egM0A7j4Ufuzf5WCapOFSSLmM2CUGe3XzKpwpsXqllGBv
+ K6W9UigqLvpvuk0jhT7o3BtouOHz053PvXs8VsNzLG87UrwI8s3C/Du9qa6y3GG2YQIn
+ ZfTA==
+X-Gm-Message-State: APjAAAXc8/hmyVCDMeZd4MzKjuGxV3ms+UgAeSRVhbJO4tN3bSHcZa/j
+ FKo+jiEXVJYb7dCvFVofn5jfWJI8WUCyYVdkRs3A+poAZ9XgNsHVv83tRQghHOHmIvkDTP7DkQZ
+ /2fCOb7aQIEIvBKk=
+X-Received: by 2002:a5d:4142:: with SMTP id c2mr10102720wrq.60.1574170859302; 
+ Tue, 19 Nov 2019 05:40:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxXbxF8Szt+fFPoBeKoGCW5nMpyrJ/yJhyiGso0sfxuG0PmRNjMm4NW1NSUN2Q/6Kd/jjYugg==
+X-Received: by 2002:a5d:4142:: with SMTP id c2mr10102700wrq.60.1574170859128; 
+ Tue, 19 Nov 2019 05:40:59 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id w19sm3089247wmk.36.2019.11.19.05.40.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Nov 2019 05:40:58 -0800 (PST)
+Subject: Re: [PATCH] monitor: Remove unused define
+To: Yury Kotov <yury-kotov@yandex-team.ru>, qemu-devel@nongnu.org
+References: <20191119110709.13827-1-yury-kotov@yandex-team.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1368c05d-a7ba-4a62-8325-8d49d33f6e84@redhat.com>
+Date: Tue, 19 Nov 2019 14:40:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191119092147.4260-1-thuth@redhat.com>
+In-Reply-To: <20191119110709.13827-1-yury-kotov@yandex-team.ru>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: XuvIwB0QNPGzBlFIOH3row-1
+X-MC-Unique: Q0xfBkXqP_CGs6K6I6ISTA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,46 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 11/19/19 7:21 AM, Thomas Huth wrote:
-> We test clang with the MAIN_SOFTMMU_TARGETS twice, once without
-> sanitizers and once with sanitizers enabled. That's somewhat redundant
-> since if compilation and tests succeeded with sanitizers enabled, it
-> should also work fine without sanitizers. Thus remove the clang entry
-> without sanitizers to speed up the CI testing a little bit.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 11/19/19 12:07 PM, Yury Kotov wrote:
+> Remove the definition of QMP_ACCEPT_UNKNOWNS as it is unused since
+> refactoring 5c678ee8d940
+>=20
+> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 > ---
->   .travis.yml | 6 ------
->   1 file changed, 6 deletions(-)
-
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
->
-> diff --git a/.travis.yml b/.travis.yml
-> index b9a026c8ee..47875bdafe 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -181,12 +181,6 @@ matrix:
->         compiler: clang
+>   monitor/misc.c | 3 ---
+>   1 file changed, 3 deletions(-)
+>=20
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index 3baa15f3bf..6680734ea1 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -106,9 +106,6 @@ struct MonFdset {
+>       QLIST_ENTRY(MonFdset) next;
+>   };
 >  =20
->  =20
-> -    - env:
-> -        - CONFIG=3D"--disable-user --target-list=3D${MAIN_SOFTMMU_TARGET=
-S}"
-> -        - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-default"
-> -      compiler: clang
+> -/* QMP checker flags */
+> -#define QMP_ACCEPT_UNKNOWNS 1
 > -
-> -
->       - env:
->           - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS} "
->           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-clang-sanitize"
+>   /* Protects mon_fdsets */
+>   static QemuMutex mon_fdsets_lock;
+>   static QLIST_HEAD(, MonFdset) mon_fdsets;
+>=20
+
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 
