@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F5310120D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:15:40 +0100 (CET)
-Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F655101221
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 04:20:32 +0100 (CET)
+Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iWtzP-0001tt-Nu
-	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:15:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
+	id 1iWu47-0007Gt-8F
+	for lists+qemu-devel@lfdr.de; Mon, 18 Nov 2019 22:20:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iWtvY-0006Qz-PA
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:41 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1iWtvw-0007EX-86
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:12:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iWtvX-00089T-3V
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:40 -0500
-Received: from mga04.intel.com ([192.55.52.120]:22050)
+ (envelope-from <pannengyuan@huawei.com>) id 1iWtvv-0000DV-4E
+ for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:12:04 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2266 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iWtvW-00085z-Q6
- for qemu-devel@nongnu.org; Mon, 18 Nov 2019 22:11:39 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2019 19:11:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="237174200"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.13])
- ([10.239.197.13])
- by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2019 19:11:34 -0800
-Subject: Re: [PATCH] target/i386: Remove monitor from some CPU model
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20191115083345.22638-1-tao3.xu@intel.com>
- <20191118221030.GG3812@habkost.net>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <9c228e08-c95d-259a-1af3-96093d692b35@intel.com>
-Date: Tue, 19 Nov 2019 11:11:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1iWtvs-0008To-CA; Mon, 18 Nov 2019 22:12:00 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 271B4698BAD516829071;
+ Tue, 19 Nov 2019 11:11:53 +0800 (CST)
+Received: from [127.0.0.1] (10.120.177.99) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Tue, 19 Nov 2019
+ 11:11:44 +0800
+Subject: Re: [Qemu-devel][PATCH] ppc/spapr_events: fix potential NULL pointer
+ dereference in rtas_event_log_dequeue
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <1574041813-35408-1-git-send-email-pannengyuan@huawei.com>
+ <20191119025058.GN5582@umbus.fritz.box>
+From: pannengyuan <pannengyuan@huawei.com>
+Message-ID: <3e289453-cde4-cb9c-882f-88a5a2e78b36@huawei.com>
+Date: Tue, 19 Nov 2019 11:11:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191118221030.GG3812@habkost.net>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+In-Reply-To: <20191119025058.GN5582@umbus.fritz.box>
+Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.120
+X-Originating-IP: [10.120.177.99]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,52 +56,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "rth@twiddle.net" <rth@twiddle.net>
+Cc: kuhn.chenqun@huawei.com, qemu-arm@nongnu.org, kenny.zhangjun@huawei.com,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/2019 6:10 AM, Eduardo Habkost wrote:
-> On Fri, Nov 15, 2019 at 04:33:45PM +0800, Tao Xu wrote:
->> Add new version of Snowridge, Denverton, Opteron_G3, EPYC, and Dhyana
->> CPU model to remove MONITOR/MWAIT feature.
+Thanks for you reply.
+I think you are right, I will send a new version later.
+
+On 2019/11/19 10:50, David Gibson wrote:
+> On Mon, Nov 18, 2019 at 09:50:13AM +0800, pannengyuan@huawei.com wrote:
+>> From: PanNengyuan <pannengyuan@huawei.com>
 >>
->> After QEMU/KVM use "-overcommit cpu-pm=on" to expose MONITOR/MWAIT
->> (commit id 6f131f13e68d648a8e4f083c667ab1acd88ce4cd), the MONITOR/MWAIT
->> feature in these CPU model is unused.
+>> source is being dereferenced before it is null checked, hence there is a
+>> potential null pointer dereference.
 >>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> This fixes:
+>>         360
+>>     CID 68911917: (NULL_RETURNS)
+>>         361. dereference: Dereferencing "source", which is known to be
+>>         "NULL".
+>>         361        if (source->mask & event_mask) {
+>>         362            break;
+>>         363        }
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+> 
+> I don't think this is the right solution.  The only events we ever
+> generated are LOG_TYPE_EPOW and LOG_TYPE_HOTPLUG, so in fact source
+> should never be NULL.
+> 
+> I think the correct way to satisfy Coverity here is to have
+> rtas_event_log_to_source() do an assert(), rather than returning NULL
+> for other event types.
+> 
 >> ---
->>   target/i386/cpu.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 58 insertions(+)
+>>  hw/ppc/spapr_events.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index a624163ac2..7c5f1e8fe0 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -2770,6 +2770,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
->>               MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY,
->>           .xlevel = 0x80000008,
->>           .model_id = "Intel Atom Processor (Denverton)",
->> +        .versions = (X86CPUVersionDefinition[]) {
->> +            { .version = 1 },
->> +            {
->> +                .version = 2,
->> +                .props = (PropValue[]) {
->> +                    { "monitor", "off" },
->> +                    { "model-id",
->> +                      "Intel Atom Processor (Denverton, no MONITOR)" },
-> 
-> We never changed model-id when adding/removing features in
-> machine-type code, and I don't see why we should start doing that
-> now.  This info might be helpful on "-cpu help", but probably
-> confusing for people looking at /proc/cpuinfo inside the VM.
-> 
-> If you think it is important to add extra info to "-cpu help", I
-> suggest you send a patch adding a separate field instead of
-> changing model ID on CPUID.
+>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>> index 0e4c195..febd2ef 100644
+>> --- a/hw/ppc/spapr_events.c
+>> +++ b/hw/ppc/spapr_events.c
+>> @@ -358,7 +358,7 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(SpaprMachineState *spapr,
+>>              rtas_event_log_to_source(spapr,
+>>                                       spapr_event_log_entry_type(entry));
+>>  
+>> -        if (source->mask & event_mask) {
+>> +        if (source && (source->mask & event_mask)) {
+>>              break;
+>>          }
+>>      }
 > 
 
-OK I will add a new info to do this.
 
