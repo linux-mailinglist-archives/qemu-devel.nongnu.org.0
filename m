@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B4D102AEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:42:53 +0100 (CET)
-Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AE3102ADE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 18:36:52 +0100 (CET)
+Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX7We-0002rl-IV
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:42:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52024)
+	id 1iX7Qp-0005of-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 12:36:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iX7VR-0002RK-F9
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:38 -0500
+ (envelope-from <thuth@redhat.com>) id 1iX7Oe-0004I5-8Y
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:34:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iX7VP-00075z-WD
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39108)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iX7VO-00074u-0P
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:41:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iX7VL-0006Fa-AF
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:41:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 377192E80C8
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 17:41:31 +0000 (UTC)
+ (envelope-from <thuth@redhat.com>) id 1iX7Od-0003VK-7O
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:34:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45451
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iX7Od-0003V1-3l
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 12:34:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574184874;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z2Pir5K/w8ZUPavb0dlj/mAqFdzq8b7/QL6WoRwXbhY=;
+ b=E7bJOCcgBgTD8NCLdBzQZCsI96za1CQCK0MJ8c3qbBOnhF/v/v2jbnYzew8hfvUNV4NC5F
+ u4FBy7JKSNQ5XvpV/EY7mqvq+Y1DBUFenXaZ14H0cXyw7ujOJZt2YtY60aBDsAj7f0lffy
+ 8eh8hQRh3K0qHhvx65H8bafc1O19+yU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-389-LZy46tYIPU6oX1hk6WSGEQ-1; Tue, 19 Nov 2019 12:34:31 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42928802A60;
+ Tue, 19 Nov 2019 17:34:30 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-181.ams2.redhat.com
+ [10.36.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1351E6919B;
+ Tue, 19 Nov 2019 17:34:23 +0000 (UTC)
+Subject: Re: [PATCH 2/6] iotests: Skip test 079 if it is not possible to
+ create large files
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20191119170822.45649-1-thuth@redhat.com>
+ <20191119170822.45649-3-thuth@redhat.com>
+ <7242d268-6563-246f-4acc-2e714ebfd513@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <06a31aff-e01b-74ae-3d9a-ff0f8ea2696b@redhat.com>
+Date: Tue, 19 Nov 2019 18:34:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <7242d268-6563-246f-4acc-2e714ebfd513@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: LZy46tYIPU6oX1hk6WSGEQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Nov 2019 17:32:33 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1844817@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: trace
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <156899449679.4991.3377250373042418918.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157418475460.22889.11571924051490673056.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1844817] Re: trace: dynamic width format syntax not validated
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7dbd2ce52cc73f3c24f4d3883c49ad2d60390d40
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,60 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844817 <1844817@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+On 19/11/2019 18.29, Philippe Mathieu-Daud=E9 wrote:
+> On 11/19/19 6:08 PM, Thomas Huth wrote:
+>> Test 079 fails in the arm64, s390x and ppc64le LXD containers, which
+>> apparently do not allow large files to be created. Test 079 tries to
+>> create a 4G sparse file, so check first whether we can really create
+>> such files before executing the test.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>> =A0 tests/qemu-iotests/079 | 6 ++++++
+>> =A0 1 file changed, 6 insertions(+)
+>>
+>> diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+>> index 81f0c21f53..e9b81419b7 100755
+>> --- a/tests/qemu-iotests/079
+>> +++ b/tests/qemu-iotests/079
+>> @@ -39,6 +39,12 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+>> =A0 _supported_fmt qcow2
+>> =A0 _supported_proto file nfs
+>> =A0 +# Some containers (e.g. non-x86 on Travis) do not allow large files
+>> +if ! truncate --size=3D4G "$TEST_IMG"; then
+>=20
+> Shouldn't we restrict that to Travis-CI by checking some environment var?
 
--- =
+I'd rather like to keep it independent from Travis environment
+variables, since somebody might want to run "make check" in other
+non-Travis containers or on weird filesystems, and then the test should
+ideally not fail, but simply skip, too.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844817
+ Thomas
 
-Title:
-  trace: dynamic width format syntax not validated
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  The dtrace via stap backend cannot support the dynamic '*' width
-  format.
-
-  Eric noted in https://lists.gnu.org/archive/html/qemu-
-  devel/2019-09/msg04720.html:
-
-    https://sourceware.org/systemtap/langref.pdf
-
-    section 9.2 printf, states:
-
-    "The printf formatting directives are similar to those of C, except that
-    they are fully checked for type by the translator."
-
-    and does NOT list handling for '*' under precision or width.
-
-  Some trace events have been merged without checking this:
-
-  $ git ls-files|fgrep trace-event|xargs git grep '*\("\|x\)'
-  hw/block/trace-events:11:pflash_io_read(uint64_t offset, int width, int f=
-mt_width, uint32_t value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64=
-" width:%d value:0x%0*x cmd:0x%02x wcycle:%u"
-  hw/block/trace-events:12:pflash_io_write(uint64_t offset, int width, int =
-fmt_width, uint32_t value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d v=
-alue:0x%0*x wcycle:%u"
-  hw/block/trace-events:13:pflash_data_read(uint64_t offset, int width, uin=
-t32_t value) "data offset:0x%04"PRIx64" value:0x%0*x"
-  hw/block/trace-events:14:pflash_data_write(uint64_t offset, int width, ui=
-nt32_t value, uint64_t counter) "data offset:0x%04"PRIx64" value:0x%0*x cou=
-nter:0x%016"PRIx64
-  hw/mips/trace-events:2:gt64120_read(const char *regname, int width, uint6=
-4_t value) "gt64120 read %s value:0x%0*" PRIx64
-  hw/mips/trace-events:3:gt64120_write(const char *regname, int width, uint=
-64_t value) "gt64120 write %s value:0x%0*" PRIx64
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844817/+subscriptions
 
