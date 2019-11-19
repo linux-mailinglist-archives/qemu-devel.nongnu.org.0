@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86EBF10212A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 10:51:31 +0100 (CET)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFE0102173
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Nov 2019 11:00:18 +0100 (CET)
+Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iX0AU-0005Fr-1T
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 04:51:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
+	id 1iX0Iz-0001dA-51
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 05:00:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iX09L-0004SN-Sw
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:20 -0500
+ (envelope-from <david@redhat.com>) id 1iX0Hy-0001BL-VQ
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:59:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iX09H-0004wU-Cp
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:19 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38123)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iX09H-0004wF-7L
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:50:15 -0500
-Received: by mail-oi1-x241.google.com with SMTP id a14so18320608oid.5
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 01:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Y4SuE2xg68j/eA79AQrvLVGegerOzUsaDYhxMDwOTRU=;
- b=zdJZ4BplflonYJtKtGDGW+cDHK2CWNgCmGRZc9tuaixZpofBA6y6KjUrcBgI4JeiFE
- z3UDUhYWUZ30NSnMb3Wj8xdpkQ7D6dEPRu+cOA0vJMK6OfAubhMQDpW8FrKpOk6w1P5Z
- exKxT9e+HyC0OeS+ypQF61OO/JFR70Z+Jnvo/MP7ou5iSmQVJ62Imn9091d4VSqtwiUX
- SNAn9Lehcbpftn+oZQUBU53hRjxw0/3OlBOJsdHS4jpKMAOeLq2mZXYp5P3vWj4LNYsM
- nT0+inLbMNbeOimDWPS4zbiqy09XVDZPHWy5f2CQhEO0Y/f+WNtHKRcIgELn1vfimA8Q
- 4gZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Y4SuE2xg68j/eA79AQrvLVGegerOzUsaDYhxMDwOTRU=;
- b=Ma+6xxPS98v3sBcnoPxuhLlpgu6I17J+vyZ7X1ct+JS5Eqv8BTxjCx0SQhc8bzJmMk
- OaxBNFBTexzzBAHq5Qv3ZsIhlLJzdh6W6rJetDdD5ttCupPD2rX5WKIRXekSPeXEClt1
- HGbfEnoMXjOIUiSJgZc4BasW7SLzQMAxPmaBLrn02Agj8qamTWPBtt34dZ5XgRt/NeWQ
- RNkEyhO14mUN21OZ8YOmgXFx40CgXtT5bLcKVyoHoYjTTYAt9LqC0013cJVoJh9DmDj8
- qHWZn5f3APerAPMgxRXgPl7K6TU4MjtV77ghI4y+wwLoG+ccUzofhZEHR2VZmJGKXG6L
- TyEw==
-X-Gm-Message-State: APjAAAWNG27/MdiEAyo6xHy1RO92YBj3bOMSFcCZq8yD9o+FfsqiB6ns
- w6dl50c46xTAiRQlxbm8+2y4G2f0p1KZ4fltLzUY+Q==
-X-Google-Smtp-Source: APXvYqyqJtt/XpQTHu+kJzAupH1hNDNFnoXFSaq2kwh4sp5QLwxJdaUdsKOBiZPQZ+p6FTiuWmy4OWcdvwXGUKIM+rs=
-X-Received: by 2002:aca:a9d4:: with SMTP id s203mr3205374oie.146.1574157014139; 
- Tue, 19 Nov 2019 01:50:14 -0800 (PST)
+ (envelope-from <david@redhat.com>) id 1iX0Hw-0001RZ-Sm
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:59:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26806
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iX0Hw-0001R2-Nn
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 04:59:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574157552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dP3vWiKP9TSPoer7coDxttsww5yKhJDxscwnpTkXDcQ=;
+ b=B4iOCqh99S6hLpqxW6Y1Ztd06vxZzbFNVupY8u9v8O8WL8fSyGwYfpNKWzNB9k4mMQOzNz
+ BpOURaQEYGcjwT5IHg97+1XfdyvwKQnRG8NG5uaLpiOdMMqXAv1ml+3XjSSWXubabt2cQs
+ 0xx5l6GGsuRpqAsYreFry5wC/Lv0M/A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-Bi_ZxeQ6P6KYk7WNxyLsow-1; Tue, 19 Nov 2019 04:59:09 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A7F85B6FE;
+ Tue, 19 Nov 2019 09:59:07 +0000 (UTC)
+Received: from [10.36.117.126] (ovpn-117-126.ams2.redhat.com [10.36.117.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E27810375D5;
+ Tue, 19 Nov 2019 09:59:00 +0000 (UTC)
+Subject: Re: [PATCH v1 0/2] s390x/cpumodel: Introduce "best" model variants
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <CAFEAcA-mD3-Zg2JunGpMqbcaT1qboCenhqEFytZD0FmFcL2i9Q@mail.gmail.com>
+ <5dd613c0-6d9e-b943-b64d-7ba1791cbefe@redhat.com>
+ <CAFEAcA-4r53vM-K24WYr1OFSOufhZ7hDHeZBhnywyaJ0gpMO1g@mail.gmail.com>
+ <20191108191057.GZ3812@habkost.net>
+ <CAFEAcA_No5oAFtULbAOrPDeQE18HHgc0agXbs4m2AGZ+gK_ReQ@mail.gmail.com>
+ <66c64c6d-b7c0-2cb1-2b29-4fdd9b369714@redhat.com>
+ <CAFEAcA-Q7H9sZjN-PcMMDHQU41yN1RdXhNY5KqMh7E6xh0yjgA@mail.gmail.com>
+ <3aa1d025-20a3-e813-2fe6-35518efedf2f@redhat.com>
+ <20191118184906.GB3812@habkost.net>
+ <CAFEAcA_iTX2TKh20DB9ZMtDLuPm=OvoyP==KRhfVh99BqDnrzA@mail.gmail.com>
+ <20191118220417.GF3812@habkost.net>
+ <CAFEAcA8XoyeAfHuKe0AEvecCzo748Yk1VD1+VD=C3ACZdfzwsw@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <ca517ad9-46bb-c0ac-2227-a64ab8fe5e15@redhat.com>
+Date: Tue, 19 Nov 2019 10:58:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191118194916.3670-1-richard.henderson@linaro.org>
-In-Reply-To: <20191118194916.3670-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Nov 2019 09:50:03 +0000
-Message-ID: <CAFEAcA86i=q7oBVEEmKGvb-7ckcPm8MWAJ3=0kLc-ZUDfSsfPw@mail.gmail.com>
-Subject: Re: [PATCH for-4.2] target/arm: Support EL0 v7m msr/mrs for
- CONFIG_USER_ONLY
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <CAFEAcA8XoyeAfHuKe0AEvecCzo748Yk1VD1+VD=C3ACZdfzwsw@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Bi_ZxeQ6P6KYk7WNxyLsow-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,58 +86,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Lyon <christophe.lyon@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Michael Mueller <mimu@linux.ibm.com>,
+ Jiri Denemark <jdenemar@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Nov 2019 at 19:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Simply moving the non-stub helper_v7m_mrs/msr outside of
-> !CONFIG_USER_ONLY is not an option, because of all of the
-> other system-mode helpers that are called.
->
-> But we can split out a few subroutines to handle the few
-> EL0 accessible registers without duplicating code.
->
-> Reported-by: Christophe Lyon <christophe.lyon@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h      |   2 +
->  target/arm/m_helper.c | 110 ++++++++++++++++++++++++++----------------
->  2 files changed, 70 insertions(+), 42 deletions(-)
->
->  /* These should probably raise undefined insn exceptions.  */
+On 19.11.19 10:22, Peter Maydell wrote:
+> On Mon, 18 Nov 2019 at 22:04, Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
+>>
+>> On Mon, Nov 18, 2019 at 09:19:55PM +0000, Peter Maydell wrote:
+>>> Why should it matter whether a feature is enabled
+>>> or disabled by default in the CPU type? It ought to be probeable
+>>> by QMP either way (ie there is a difference between
+>>> "this CPU has this feature switch and it is on by default",
+>>> "this CPU has this feature switch and it is off by default"
+>>> and "this CPU does not have this feature switch at all",
+>>> and presumably libvirt needs to distinguish them).
+>>
+>> Its use case is neither "this CPU has this feature switch" or for
+>> "it is on|off by default".  We use it to probe for "this feature
+>> can be enabled in this host hardware+kernel+QEMU combination".
+>=20
+> OK. Well, the answer to that depends on the name of the CPU,
+> in general. So you can't use a fake CPU name to try to answer
+> the question.
+>=20
+>> In other words, in x86 and s390x "max" is just a reserved name
+>> for the query-cpu-model-expansion command arguments in s390x and
+>> x86.  The fact that it is visible to users can be considered a
+>> bug, and we can fix that.
+>=20
+> I think 'max' is useful to users, and we've provided it to users,
+> so removing it again would be a compatibility break. I'm not
+> entirely sure where we go from here...
 
-This comment is now wrong -- all the 'dummy version for user
-mode' helpers below it are either "known to never be called" or
-have a "works for user-mode" implementation, so we can just delete it.
+I agree, right now on s390x "-cpu max" behaves almost like "-cpu=20
+qemu"/"-cpu host", but you don't have to care about the accelerator.=20
+Removing it might we evil. Removing it is not really an option.
 
-> -void HELPER(v7m_msr)(CPUARMState *env, uint32_t reg, uint32_t val)
-> +void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
->  {
-> -    ARMCPU *cpu = env_archcpu(env);
-> +    uint32_t mask = extract32(maskreg, 8, 4);
-> +    uint32_t reg = extract32(maskreg, 0, 8);
->
-> -    cpu_abort(CPU(cpu), "v7m_msr %d\n", reg);
-> +    switch (reg) {
-> +    case 0 ... 7: /* xPSR sub-fields */
-> +        v7m_msr_xpsr(env, mask, reg, val);
-> +        break;
-> +    case 20: /* CONTROL */
-> +        /* There are no sub-fields that are actually writable from EL0. */
-> +        break;
+>=20
+>> If you still don't like how query-cpu-model-expansion works, we
+>> can also discuss that.  But I'm not sure it would be a good use
+>> of our (and libvirt developers') time.
+>=20
+> I don't hugely care about query-cpu-model-expansion. I
+> just don't want it to have bad effects on the semantics
+> of user-facing stuff like x- properties.
 
-I feel like somebody's static analysis is probably going to complain
-if we don't have a default case here:
-   default:
-        /* Writes to all other registers from EL0 are ignored */
-        break;
+IMHO, max should really include all features (yes, also the bad=20
+x-features on arm :) ) and we should have a way to give users the=20
+opportunity to specify "just give me the best model independent of the=20
+accelerator" - something like a "best" model, but I don't care about the=20
+name.
 
-Looks good otherwise, so I'll apply it to target-arm.next with those fixups.
+E.g., we could introduce a new model for that purpose and start warning=20
+if "-cpu max" is used (and recommend them to use the other model) to run=20
+a VM and not simply to query model properties via the qmp interfaces.=20
+The users are aware of the model restrictions and can switch.
 
-thanks
--- PMM
+--=20
+
+Thanks,
+
+David / dhildenb
+
 
