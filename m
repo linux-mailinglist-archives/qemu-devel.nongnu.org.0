@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DEC104383
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:36:08 +0100 (CET)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B63104384
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:36:45 +0100 (CET)
+Received: from localhost ([::1]:33426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXUpi-00047Z-OA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:36:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38235)
+	id 1iXUqK-00057N-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:36:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iXUmI-0002pP-QA
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:32:38 -0500
+ (envelope-from <groug@kaod.org>) id 1iXUn0-0003OJ-W0
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:33:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iXUmG-0002Kg-4s
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:32:34 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59292
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1iXUmz-0002da-Ri
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:33:18 -0500
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:60199)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iXUmF-0002Jw-W4
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:32:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574274750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7yQlhOU4APWoh8M8gTudTDL7BcyCVKy8j1Lytr3YEo=;
- b=AGzHjF3N57XbsehvAfVBDib5jQVNDZWfYSGpLHs6pIZrfg8jb2EDz9V56sO7INJZnJkhdY
- tvP7tWHnuZynfRnuMc3NUf2wS1O6aIld0pzqaj3ZQCSDlgyKGzBeEoRBX/i4ROZMjPAxQu
- gyecXj9BhdRVnhovIKr3TCzowXh/ycI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-re7q_0PlOV-hso9ejtQvHg-1; Wed, 20 Nov 2019 13:32:27 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B3F1005502;
- Wed, 20 Nov 2019 18:32:24 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E9B960BBC;
- Wed, 20 Nov 2019 18:32:17 +0000 (UTC)
-Date: Wed, 20 Nov 2019 18:32:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v9 QEMU 12/15] vfio: Add load state functions to
- SaveVMHandlers
-Message-ID: <20191120183214.GE2858@work-vm>
-References: <1573578324-8389-1-git-send-email-kwankhede@nvidia.com>
- <1573578324-8389-13-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iXUmz-0002d8-LU
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:33:17 -0500
+Received: from player726.ha.ovh.net (unknown [10.108.42.88])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id C78161ED22A
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 19:33:15 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player726.ha.ovh.net (Postfix) with ESMTPSA id A581AC47BD6D;
+ Wed, 20 Nov 2019 18:33:07 +0000 (UTC)
+Date: Wed, 20 Nov 2019 19:33:06 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] pseries: disable migration-test if /dev/kvm cannot be used
+Message-ID: <20191120193306.253f28a9@bahia.lan>
+In-Reply-To: <20191120170955.242900-1-lvivier@redhat.com>
+References: <20191120170955.242900-1-lvivier@redhat.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1573578324-8389-13-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: re7q_0PlOV-hso9ejtQvHg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 9721864224642799910
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehtddguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 46.105.56.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,269 +56,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Cole Robinson <crobinso@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kirti Wankhede (kwankhede@nvidia.com) wrote:
-> Sequence  during _RESUMING device state:
-> While data for this device is available, repeat below steps:
-> a. read data_offset from where user application should write data.
-> b. write data of data_size to migration region from data_offset.
-> c. write data_size which indicates vendor driver that data is written in
->    staging buffer.
->=20
-> For user, data is opaque. User should write data in the same order as
-> received.
->=20
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
+On Wed, 20 Nov 2019 18:09:55 +0100
+Laurent Vivier <lvivier@redhat.com> wrote:
+
+> On ppc64, migration-test only works with kvm_hv, and we already
+> have a check to verify the module is loaded.
+> 
+> kvm_hv module can be loaded in memory and /sys/module/kvm_hv exists,
+> but on some systems (like build systems) /dev/kvm can be missing
+> (by administrators choice).
+> 
+> And as kvm_hv exists test-migration is started but QEMU falls back to
+> TCG because it cannot be used:
+> 
+>     Could not access KVM kernel module: No such file or directory
+>     failed to initialize KVM: No such file or directory
+>     Back to tcg accelerator
+> 
+> And as the test is done with TCG, it fails.
+> 
+> As for s390x, we must check for the existence and the access rights
+> of /dev/kvm.
+> 
+> Reported-by: Cole Robinson <crobinso@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > ---
->  hw/vfio/migration.c  | 170 +++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  hw/vfio/trace-events |   3 +
->  2 files changed, 173 insertions(+)
->=20
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index f890e864e174..16e12586fe8b 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -251,6 +251,33 @@ static int vfio_save_device_config_state(QEMUFile *f=
-, void *opaque)
->      return qemu_file_get_error(f);
->  }
-> =20
-> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev =3D opaque;
-> +    uint64_t data;
-> +
-> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-> +        int ret;
-> +
-> +        ret =3D vbasedev->ops->vfio_load_config(vbasedev, f);
-> +        if (ret) {
-> +            error_report("%s: Failed to load device config space",
-> +                         vbasedev->name);
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    data =3D qemu_get_be64(f);
-> +    if (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
-> +        error_report("%s: Failed loading device config space, "
-> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, dat=
-a);
-> +        return -EINVAL;
-> +    }
-> +
-> +    trace_vfio_load_device_config_state(vbasedev->name);
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  /* ---------------------------------------------------------------------=
-- */
-> =20
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> @@ -410,12 +437,155 @@ static int vfio_save_complete_precopy(QEMUFile *f,=
- void *opaque)
->      return ret;
->  }
-> =20
-> +static int vfio_load_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev =3D opaque;
-> +    VFIOMigration *migration =3D vbasedev->migration;
-> +    int ret =3D 0;
-> +
-> +    if (migration->region.mmaps) {
-> +        ret =3D vfio_region_mmap(&migration->region);
-> +        if (ret) {
-> +            error_report("%s: Failed to mmap VFIO migration region %d: %=
-s",
-> +                         vbasedev->name, migration->region.nr,
-> +                         strerror(-ret));
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    ret =3D vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RESUMIN=
-G, 0);
-> +    if (ret) {
-> +        error_report("%s: Failed to set state RESUMING", vbasedev->name)=
-;
-> +    }
-> +    return ret;
-> +}
-> +
-> +static int vfio_load_cleanup(void *opaque)
-> +{
-> +    vfio_save_cleanup(opaque);
-> +    return 0;
-> +}
-> +
-> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-> +{
-> +    VFIODevice *vbasedev =3D opaque;
-> +    VFIOMigration *migration =3D vbasedev->migration;
-> +    int ret =3D 0;
-> +    uint64_t data, data_size;
-> +
-> +    data =3D qemu_get_be64(f);
-> +    while (data !=3D VFIO_MIG_FLAG_END_OF_STATE) {
-> +
-> +        trace_vfio_load_state(vbasedev->name, data);
-> +
-> +        switch (data) {
-> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-> +        {
-> +            ret =3D vfio_load_device_config_state(f, opaque);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-> +        {
-> +            data =3D qemu_get_be64(f);
-> +            if (data =3D=3D VFIO_MIG_FLAG_END_OF_STATE) {
-> +                return ret;
-> +            } else {
-> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-> +                             vbasedev->name, data);
-> +                return -EINVAL;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-> +        {
-> +            VFIORegion *region =3D &migration->region;
-> +            void *buf =3D NULL;
-> +            bool buffer_mmaped =3D false;
-> +            uint64_t data_offset =3D 0;
-> +
-> +            data_size =3D qemu_get_be64(f);
-> +            if (data_size =3D=3D 0) {
-> +                break;
-> +            }
-> +
-> +            ret =3D pread(vbasedev->fd, &data_offset, sizeof(data_offset=
-),
-> +                        region->fd_offset +
-> +                        offsetof(struct vfio_device_migration_info,
-> +                        data_offset));
-> +            if (ret !=3D sizeof(data_offset)) {
-> +                error_report("%s:Failed to get migration buffer data off=
-set %d",
-> +                             vbasedev->name, ret);
-> +                return -EINVAL;
-> +            }
-> +
-> +            if (region->mmaps) {
-> +                buf =3D find_data_region(region, data_offset, data_size)=
-;
-> +            }
-> +
-> +            buffer_mmaped =3D (buf !=3D NULL) ? true : false;
-> +
-> +            if (!buffer_mmaped) {
-> +                buf =3D g_try_malloc0(data_size);
-> +                if (!buf) {
-> +                    error_report("%s: Error allocating buffer ", __func_=
-_);
-> +                    return -ENOMEM;
-> +                }
-> +            }
-> +
-> +            qemu_get_buffer(f, buf, data_size);
-> +
-> +            if (!buffer_mmaped) {
-> +                ret =3D pwrite(vbasedev->fd, buf, data_size,
-> +                             region->fd_offset + data_offset);
-> +                g_free(buf);
-> +
-> +                if (ret !=3D data_size) {
-> +                    error_report("%s: Failed to set migration buffer %d"=
-,
-> +                                 vbasedev->name, ret);
-> +                    return -EINVAL;
-> +                }
-> +            }
-> +
-> +            ret =3D pwrite(vbasedev->fd, &data_size, sizeof(data_size),
-> +                         region->fd_offset +
-> +                       offsetof(struct vfio_device_migration_info, data_=
-size));
-> +            if (ret !=3D sizeof(data_size)) {
-> +                error_report("%s: Failed to set migration buffer data si=
-ze %d",
-> +                             vbasedev->name, ret);
-> +                if (!buffer_mmaped) {
-> +                    g_free(buf);
-> +                }
-> +                return -EINVAL;
-> +            }
-> +
-> +            trace_vfio_load_state_device_data(vbasedev->name, data_offse=
-t,
-> +                                              data_size);
-> +            break;
-> +        }
-> +        }
-> +
-> +        ret =3D qemu_file_get_error(f);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +        data =3D qemu_get_be64(f);
 
-It might be useful to check the error flag here as well; since if you've
-not really read data then the next case iteration is going to go wrong.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Dave
-
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static SaveVMHandlers savevm_vfio_handlers =3D {
->      .save_setup =3D vfio_save_setup,
->      .save_cleanup =3D vfio_save_cleanup,
->      .save_live_pending =3D vfio_save_pending,
->      .save_live_iterate =3D vfio_save_iterate,
->      .save_live_complete_precopy =3D vfio_save_complete_precopy,
-> +    .load_setup =3D vfio_load_setup,
-> +    .load_cleanup =3D vfio_load_cleanup,
-> +    .load_state =3D vfio_load_state,
->  };
-> =20
->  /* ---------------------------------------------------------------------=
-- */
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index bdf40ba368c7..ac065b559f4e 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -157,3 +157,6 @@ vfio_save_device_config_state(char *name) " (%s)"
->  vfio_save_pending(char *name, uint64_t precopy, uint64_t postcopy, uint6=
-4_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible =
-0x%"PRIx64
->  vfio_save_iterate(char *name, int data_size) " (%s) data_size %d"
->  vfio_save_complete_precopy(char *name) " (%s)"
-> +vfio_load_device_config_state(char *name) " (%s)"
-> +vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
-> +vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t d=
-ata_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> --=20
-> 2.7.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  tests/migration-test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/migration-test.c b/tests/migration-test.c
+> index ac780dffdaad..2b25ba6d77f6 100644
+> --- a/tests/migration-test.c
+> +++ b/tests/migration-test.c
+> @@ -1349,7 +1349,8 @@ int main(int argc, char **argv)
+>       * some reason)
+>       */
+>      if (g_str_equal(qtest_get_arch(), "ppc64") &&
+> -        access("/sys/module/kvm_hv", F_OK)) {
+> +        (access("/sys/module/kvm_hv", F_OK) ||
+> +         access("/dev/kvm", R_OK | W_OK))) {
+>          g_test_message("Skipping test: kvm_hv not available");
+>          return g_test_run();
+>      }
 
 
