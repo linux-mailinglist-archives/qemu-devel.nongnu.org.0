@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE62C103EF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:40:27 +0100 (CET)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10C8103EEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:38:59 +0100 (CET)
+Received: from localhost ([::1]:59480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXS5i-0000K5-IU
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:40:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34449)
+	id 1iXS4I-0006Zo-IA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:38:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34472)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRtr-0002oJ-AR
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:14 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRu4-0002vd-KX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRtp-0007e9-4T
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39341
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRu2-0007gt-JI
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:24 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20993
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRtp-0007e5-0T
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:09 -0500
+ id 1iXRu2-0007gn-Fe
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263688;
+ s=mimecast20190719; t=1574263701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UbcWoS77MS308nhs/EYL+REEJBDycowRW+RjCA4LhNM=;
- b=M+8x7RYaYBSjxBMOe6hfxLh45R9KezkQ2/3+yj0ON1uxpnIaIytm4Knq57JgTQJqmWiEA1
- MfVXjAHXXCIblpCS8K90ssKbb2DwmJ7mjkSo9okEUjjRpnL2uwdGDqhC0eroXpK28ZbBNi
- 8KWQv29341646hZFCFCA1aoOnAh1TZ4=
+ bh=okXJeLKz+niu3AWqdAnxc46BIRuy+WmL0ZI6jG2x6+4=;
+ b=IInskYLBumjMb0Lgz47gHK5RLXVpLwxfcg4YWGj7On3yiGSfwL2K19oxcEmAqGqnTl11U9
+ vymNTgerRR/iXYWJ8HQ3dhn68tvX5RN4Qv+biKwtHBZq24aWqSCqIDPpmsoAOzkMy4OuP5
+ EZC0K348JgUyj/5+k4TpugidR/NEpFE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-3H8fl38bO1eiA-SRSayLVQ-1; Wed, 20 Nov 2019 10:28:07 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-268-XOfURSPbO0qDnt1ao2Q7ug-1; Wed, 20 Nov 2019 10:28:20 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A050D1005513;
- Wed, 20 Nov 2019 15:28:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB321005502;
+ Wed, 20 Nov 2019 15:28:19 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFE3660BB5;
- Wed, 20 Nov 2019 15:27:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 792E76BF86;
+ Wed, 20 Nov 2019 15:28:12 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/37] serial: make SerialIO a sysbus device
-Date: Wed, 20 Nov 2019 19:24:21 +0400
-Message-Id: <20191120152442.26657-17-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 17/37] mips: inline serial_init()
+Date: Wed, 20 Nov 2019 19:24:22 +0400
+Message-Id: <20191120152442.26657-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 3H8fl38bO1eiA-SRSayLVQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: XOfURSPbO0qDnt1ao2Q7ug-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,131 +72,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make serial IO a proper sysbus device, similar to serial MM.
+The function is specific to mipssim, let's inline it.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/char/serial.c         | 59 ++++++++++++++++++++++++++++++++--------
- include/hw/char/serial.h | 13 +++++++--
- 2 files changed, 59 insertions(+), 13 deletions(-)
+ hw/char/serial.c         | 16 ----------------
+ hw/mips/mips_mipssim.c   | 15 ++++++++++++---
+ include/hw/char/serial.h |  2 --
+ 3 files changed, 12 insertions(+), 21 deletions(-)
 
 diff --git a/hw/char/serial.c b/hw/char/serial.c
-index e0f1a99e8b..164146ede8 100644
+index 164146ede8..23f0b02516 100644
 --- a/hw/char/serial.c
 +++ b/hw/char/serial.c
-@@ -985,22 +985,58 @@ const MemoryRegionOps serial_io_ops =3D {
-     .endianness =3D DEVICE_LITTLE_ENDIAN,
+@@ -1023,22 +1023,6 @@ static const TypeInfo serial_io_info =3D {
+     .class_init =3D serial_io_class_init,
  };
 =20
--SerialState *serial_init(int base, qemu_irq irq, int baudbase,
+-SerialIO *serial_init(int base, qemu_irq irq, int baudbase,
 -                         Chardev *chr, MemoryRegion *system_io)
-+static void serial_io_realize(DeviceState *dev, Error **errp)
- {
--    DeviceState *dev =3D DEVICE(object_new(TYPE_SERIAL));
--    SerialState *s =3D SERIAL(dev);
-+    SerialIO *sio =3D SERIAL_IO(dev);
-+    SerialState *s =3D &sio->serial;
-=20
--    s->irq =3D irq;
--    qdev_prop_set_uint32(dev, "baudbase", baudbase);
--    qdev_prop_set_chr(dev, "chardev", chr);
--    qdev_set_legacy_instance_id(dev, base, 2);
--    qdev_init_nofail(dev);
-+    qdev_init_nofail(DEVICE(s));
-=20
-     memory_region_init_io(&s->io, NULL, &serial_io_ops, s, "serial", 8);
--    memory_region_add_subregion(system_io, base, &s->io);
-+    sysbus_init_irq(SYS_BUS_DEVICE(sio), &s->irq);
-+}
-+
-+static void serial_io_class_init(ObjectClass *klass, void* data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+
-+    dc->realize =3D serial_io_realize;
-+    /* No dc->vmsd: class has no migratable state */
-+}
-+
-+static void serial_io_instance_init(Object *o)
-+{
-+    SerialIO *sio =3D SERIAL_IO(o);
-+
-+    object_initialize_child(o, "serial", &sio->serial, sizeof(sio->serial)=
-,
-+                            TYPE_SERIAL, &error_abort, NULL);
-+
-+    qdev_alias_all_properties(DEVICE(&sio->serial), o);
-+}
-+
-+
-+static const TypeInfo serial_io_info =3D {
-+    .name =3D TYPE_SERIAL_IO,
-+    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(SerialIO),
-+    .instance_init =3D serial_io_instance_init,
-+    .class_init =3D serial_io_class_init,
-+};
-+
-+SerialIO *serial_init(int base, qemu_irq irq, int baudbase,
-+                         Chardev *chr, MemoryRegion *system_io)
-+{
-+    SerialIO *sio =3D SERIAL_IO(qdev_create(NULL, TYPE_SERIAL_IO));
-+
-+    qdev_prop_set_uint32(DEVICE(sio), "baudbase", baudbase);
-+    qdev_prop_set_chr(DEVICE(sio), "chardev", chr);
-+    qdev_set_legacy_instance_id(DEVICE(sio), base, 2);
-+    qdev_init_nofail(DEVICE(sio));
-+
-+    sysbus_connect_irq(SYS_BUS_DEVICE(sio), 0, irq);
-+    memory_region_add_subregion(system_io, base, &sio->serial.io);
-=20
--    return s;
-+    return sio;
- }
-=20
+-{
+-    SerialIO *sio =3D SERIAL_IO(qdev_create(NULL, TYPE_SERIAL_IO));
+-
+-    qdev_prop_set_uint32(DEVICE(sio), "baudbase", baudbase);
+-    qdev_prop_set_chr(DEVICE(sio), "chardev", chr);
+-    qdev_set_legacy_instance_id(DEVICE(sio), base, 2);
+-    qdev_init_nofail(DEVICE(sio));
+-
+-    sysbus_connect_irq(SYS_BUS_DEVICE(sio), 0, irq);
+-    memory_region_add_subregion(system_io, base, &sio->serial.io);
+-
+-    return sio;
+-}
+-
  static Property serial_properties[] =3D {
-@@ -1142,6 +1178,7 @@ static const TypeInfo serial_mm_info =3D {
- static void serial_register_types(void)
- {
-     type_register_static(&serial_info);
-+    type_register_static(&serial_io_info);
-     type_register_static(&serial_mm_info);
- }
+     DEFINE_PROP_CHR("chardev", SerialState, chr),
+     DEFINE_PROP_UINT32("baudbase", SerialState, baudbase, 115200),
+diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
+index 282bbecb24..bfafa4d7e9 100644
+--- a/hw/mips/mips_mipssim.c
++++ b/hw/mips/mips_mipssim.c
+@@ -40,6 +40,7 @@
+ #include "hw/loader.h"
+ #include "elf.h"
+ #include "hw/sysbus.h"
++#include "hw/qdev-properties.h"
+ #include "exec/address-spaces.h"
+ #include "qemu/error-report.h"
+ #include "sysemu/qtest.h"
+@@ -219,9 +220,17 @@ mips_mipssim_init(MachineState *machine)
+      * A single 16450 sits at offset 0x3f8. It is attached to
+      * MIPS CPU INT2, which is interrupt 4.
+      */
+-    if (serial_hd(0))
+-        serial_init(0x3f8, env->irq[4], 115200, serial_hd(0),
+-                    get_system_io());
++    if (serial_hd(0)) {
++        DeviceState *dev =3D qdev_create(NULL, TYPE_SERIAL_IO);
++
++        qdev_prop_set_uint32(DEVICE(dev), "baudbase", 115200);
++        qdev_prop_set_chr(dev, "chardev", serial_hd(0));
++        qdev_set_legacy_instance_id(dev, 0x3f8, 2);
++        qdev_init_nofail(dev);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
++        memory_region_add_subregion(get_system_io(), 0x3f8,
++                                    &SERIAL_IO(dev)->serial.io);
++    }
 =20
+     if (nd_table[0].used)
+         /* MIPSnet uses the MIPS CPU INT0, which is interrupt 2. */
 diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
-index d586924937..d356ba838c 100644
+index d356ba838c..535fa23a2b 100644
 --- a/include/hw/char/serial.h
 +++ b/include/hw/char/serial.h
-@@ -88,6 +88,12 @@ typedef struct SerialMM {
-     uint8_t endianness;
- } SerialMM;
-=20
-+typedef struct SerialIO {
-+    SysBusDevice parent;
-+
-+    SerialState serial;
-+} SerialIO;
-+
- extern const VMStateDescription vmstate_serial;
- extern const MemoryRegionOps serial_io_ops;
-=20
-@@ -99,8 +105,11 @@ void serial_set_frequency(SerialState *s, uint32_t freq=
+@@ -108,8 +108,6 @@ void serial_set_frequency(SerialState *s, uint32_t freq=
 uency);
- #define TYPE_SERIAL_MM "serial-mm"
- #define SERIAL_MM(s) OBJECT_CHECK(SerialMM, (s), TYPE_SERIAL_MM)
+ #define TYPE_SERIAL_IO "serial-io"
+ #define SERIAL_IO(s) OBJECT_CHECK(SerialIO, (s), TYPE_SERIAL_IO)
 =20
--SerialState *serial_init(int base, qemu_irq irq, int baudbase,
--                         Chardev *chr, MemoryRegion *system_io);
-+#define TYPE_SERIAL_IO "serial-io"
-+#define SERIAL_IO(s) OBJECT_CHECK(SerialIO, (s), TYPE_SERIAL_IO)
-+
-+SerialIO *serial_init(int base, qemu_irq irq, int baudbase,
-+                      Chardev *chr, MemoryRegion *system_io);
+-SerialIO *serial_init(int base, qemu_irq irq, int baudbase,
+-                      Chardev *chr, MemoryRegion *system_io);
  SerialMM *serial_mm_init(MemoryRegion *address_space,
                           hwaddr base, int regshift,
                           qemu_irq irq, int baudbase,
