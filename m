@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2D31031F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 04:19:06 +0100 (CET)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96455103217
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 04:44:18 +0100 (CET)
+Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXGWG-0001ID-Td
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 22:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
+	id 1iXGuf-00006p-MF
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 22:44:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bala24@linux.ibm.com>) id 1iXGUY-0000iZ-2t
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:17:19 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iXGsG-00063B-0R
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:41:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bala24@linux.ibm.com>) id 1iXGUU-0001UP-UL
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:17:16 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13846)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bala24@linux.ibm.com>)
- id 1iXGUS-0001Iy-50
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:17:13 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAK38bwt103864
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 22:17:02 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wcencxhwd-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 22:17:01 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <bala24@linux.ibm.com>;
- Wed, 20 Nov 2019 03:16:59 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 03:16:56 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAK3Gtpc60948518
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 03:16:55 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2AAB14205E;
- Wed, 20 Nov 2019 03:16:55 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E483142042;
- Wed, 20 Nov 2019 03:16:53 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.199.42.238])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed, 20 Nov 2019 03:16:53 +0000 (GMT)
-Date: Wed, 20 Nov 2019 08:46:51 +0530
-From: Balamuruhan S <bala24@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 2/5] hw/ppc/pnv_xscom: PBA bar mask values are incorrect
- with homer/occ sizes
-References: <20191119175056.32518-1-bala24@linux.ibm.com>
- <20191119175056.32518-3-bala24@linux.ibm.com>
- <20191119215618.GU5582@umbus.fritz.box>
- <20191119220032.GV5582@umbus.fritz.box>
- <20191119220226.GW5582@umbus.fritz.box>
- <20191120030103.GA689@localhost.localdomain>
+ (envelope-from <dgibson@ozlabs.org>) id 1iXGsE-00021K-NC
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:41:47 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:38463 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iXGsD-0001v8-QQ; Tue, 19 Nov 2019 22:41:46 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47HpQV1B6lz9sPc; Wed, 20 Nov 2019 14:41:38 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574221298;
+ bh=U9r94QcT51aPkfy/98WTED2MeDyzd757wj9exxH8b7g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e1FuiWGxeqaubP8souy6Gy1nBmsWfgjJiIIb88vh9vlHOl6bS3p+Md98e3LPBwss6
+ 0M330pHFRUt3ChXoEEEPhejSBhyOLOfaq1/tWP6V39z3uzCcC/SNzldi47BwXFe5uN
+ ZXeDRh+l/HG0w46mvGghyxuaZLnI4JlfeRWA0xq4=
+Date: Wed, 20 Nov 2019 14:24:52 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-5.0 v5 06/23] ppc/xive: Introduce OS CAM line helpers
+Message-ID: <20191120032452.GA5582@umbus.fritz.box>
+References: <20191115162436.30548-1-clg@kaod.org>
+ <20191115162436.30548-7-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Tg5qL4DubmxJEzuM"
 Content-Disposition: inline
-In-Reply-To: <20191120030103.GA689@localhost.localdomain>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19112003-0008-0000-0000-0000033497C2
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112003-0009-0000-0000-00004A53B907
-Message-Id: <20191120031651.GB689@localhost.localdomain>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-19_08:2019-11-15,2019-11-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- phishscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
- impostorscore=0 mlxlogscore=999 priorityscore=1501 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911200028
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0a-001b2d01.pphosted.com id xAK38bwt103864
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+In-Reply-To: <20191115162436.30548-7-clg@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,76 +56,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, qemu-ppc@nongnu.org, groug@kaod.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 20, 2019 at 08:31:03AM +0530, Balamuruhan S wrote:
-> On Wed, Nov 20, 2019 at 09:02:26AM +1100, David Gibson wrote:
-> > On Wed, Nov 20, 2019 at 09:00:32AM +1100, David Gibson wrote:
-> > > On Wed, Nov 20, 2019 at 08:56:18AM +1100, David Gibson wrote:
-> > > > On Tue, Nov 19, 2019 at 11:20:53PM +0530, Balamuruhan S wrote:
-> > > > > homer/occ sizes are calculated in skiboot with `(mask | 0xfffff=
-) + 1`,
-> > > > > and from xscom access should return correct mask values instead=
- of actual
-> > > > > sizes.
-> > > > >=20
-> > > > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > > > Signed-off-by: Balamuruhan S <bala24@linux.ibm.com>
-> > > > > ---
-> > > > >  hw/ppc/pnv_xscom.c | 10 ++++++----
-> > > > >  1 file changed, 6 insertions(+), 4 deletions(-)
-> > > > >=20
-> > > > > diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-> > > > > index f01d788a65..cdd5fa356e 100644
-> > > > > --- a/hw/ppc/pnv_xscom.c
-> > > > > +++ b/hw/ppc/pnv_xscom.c
-> > > > > @@ -46,6 +46,10 @@
-> > > > >  #define P9_PBA_BARMASK0                 0x5012b04
-> > > > >  #define P9_PBA_BARMASK2                 0x5012b06
-> > > > > =20
-> > > > > +/* Mask to calculate Homer/Occ size */
-> > > > > +#define HOMER_SIZE_MASK                 0x0000000000300000ull
-> > > > > +#define OCC_SIZE_MASK                   0x0000000000700000ull
-> > > >=20
-> > > > Uuuhhhhh... AFAICT these defines have identical values to
-> > > > PNV_HOMER_SIZE and PNV_OCC_COMMON_AREA_SIZE, so I don't see what =
-this
-> > > > patch is actually changing.
-> > >=20
-> > > Oh, sorry, missed that the values were changed in 1/5.  Would have
-> > > been easier to follow if the two patches were folded together, but
-> > > never mind.  Applied.
-> >=20
-> > Ugh.. or not.  The first patch doesn't apply for me, looks like it
-> > needs a rebase (or you have something else in your tree I don't know
-> > about).
->=20
-> I checked out from upstream master (commit: 8937f17249 ) and worked on
-                                                 ^
-						 |
-ignore this its my first patch commit id (1/5)----
 
-> it.
+--Tg5qL4DubmxJEzuM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-upstream commit id: f086f22d6c (VFIO fixes 2019-11-18), please let me
-know if you would like me to respin the patches after rebase with v4.2.0
-rc2 release.
+On Fri, Nov 15, 2019 at 05:24:19PM +0100, C=E9dric Le Goater wrote:
+> The OS CAM line has a special encoding exploited by the HW. Provide
+> helper routines to hide the details to the TIMA command handlers. This
+> also clarifies the endianness of different variables : 'qw1w2' is
+> big-endian and 'cam' is native.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
--- Bala
+Applied, thanks.
 
+> ---
+>  hw/intc/xive.c | 41 ++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 38 insertions(+), 3 deletions(-)
 >=20
-> -- Bala
-> >=20
-> > --=20
-> > David Gibson			| I'll have my music baroque, and my code
-> > david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _o=
-ther_
-> > 				| _way_ _around_!
-> > http://www.ozlabs.org/~dgibson
->=20
->=20
->=20
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 177663d2b43e..42e9a11ef731 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -337,14 +337,49 @@ static void xive_tm_set_os_pending(XiveTCTX *tctx, =
+hwaddr offset,
+>      xive_tctx_notify(tctx, TM_QW1_OS);
+>  }
+> =20
+> +static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
+> +                               uint32_t *nvt_idx, bool *vo)
+> +{
+> +    if (nvt_blk) {
+> +        *nvt_blk =3D xive_nvt_blk(cam);
+> +    }
+> +    if (nvt_idx) {
+> +        *nvt_idx =3D xive_nvt_idx(cam);
+> +    }
+> +    if (vo) {
+> +        *vo =3D !!(cam & TM_QW1W2_VO);
+> +    }
+> +}
+> +
+> +static uint32_t xive_tctx_get_os_cam(XiveTCTX *tctx, uint8_t *nvt_blk,
+> +                                     uint32_t *nvt_idx, bool *vo)
+> +{
+> +    uint32_t qw1w2 =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+> +    uint32_t cam =3D be32_to_cpu(qw1w2);
+> +
+> +    xive_os_cam_decode(cam, nvt_blk, nvt_idx, vo);
+> +    return qw1w2;
+> +}
+> +
+> +static void xive_tctx_set_os_cam(XiveTCTX *tctx, uint32_t qw1w2)
+> +{
+> +    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+> +}
+> +
+>  static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, hwaddr offset,
+>                                      unsigned size)
+>  {
+> -    uint32_t qw1w2_prev =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
+>      uint32_t qw1w2;
+> +    uint32_t qw1w2_new;
+> +    uint8_t nvt_blk;
+> +    uint32_t nvt_idx;
+> +    bool vo;
+> =20
+> -    qw1w2 =3D xive_set_field32(TM_QW1W2_VO, qw1w2_prev, 0);
+> -    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
+> +    qw1w2 =3D xive_tctx_get_os_cam(tctx, &nvt_blk, &nvt_idx, &vo);
+> +
+> +    /* Invalidate CAM line */
+> +    qw1w2_new =3D xive_set_field32(TM_QW1W2_VO, qw1w2, 0);
+> +    xive_tctx_set_os_cam(tctx, qw1w2_new);
+>      return qw1w2;
+>  }
+> =20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Tg5qL4DubmxJEzuM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UsgIACgkQbDjKyiDZ
+s5JCGxAAzIHGsmZm6u0XndjdzfzBBopioqSkMyYxy6aaCctG0UVJczQTsfKFlJnW
+kPMGGlrYfptngvvBHlPm4laaQQyIYRC0IIM0y767jJJn4LQqMDf404EPoaSeZWVB
+HJZPdl9b4EAApqHE8ML0InDnZ/3qw+rLtQifbEQJQoiB0YZDFlAOQbv35WNx1eo0
+wcWEZynkKUVIyQDc1tSIS75iO7PENM+AfCM9A9cUZ+B+o4IuVuKbs4XZwUXljAO0
+s1Cmz4LsCCgopO0+y4MaEKtl5rXFfVkx873wyIr1+ibPOojaPnc1ZOYLA07mEKJf
+zkuF7b9xSvrcRKPx6Cfm73A0FDEqM09nqQGVxTK5fNu72k/aIgk5K0E7zEcz3xv5
+aDFnJJtpvxjhL92ReoYyuLDN2jXXuVEjafY3Au01VGE5BX0QdaQNtJnQpuWjFJ5K
+66CDBOQJTt2NBxYN8dlxVHbSUIMqf7p1Go34Pi+hUfNAb2AbuHTA5kGyXyse5ine
+qjaJZ4CM59R0CtffB9Fn44VX29mGV71TynRL6dnZGRn0AL6Lm+b0mPwswsOdmzCI
+yDVh5lMKynQZEPsOj/liPUlLjR6Pg9gcoSmWZEvaaT5PrmTeDGk2dFEmsGpEoh+Q
+5CMYXc4E0ZkG3MOguglllcP2pgDu6KpibO9AVzkrwrpj5Ti39cQ=
+=dt4r
+-----END PGP SIGNATURE-----
+
+--Tg5qL4DubmxJEzuM--
 
