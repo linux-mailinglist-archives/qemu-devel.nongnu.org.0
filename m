@@ -2,40 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AEF1040BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:25:57 +0100 (CET)
-Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351DD1040C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:28:43 +0100 (CET)
+Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXSnk-0000pf-OI
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:25:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
+	id 1iXSqQ-0002yj-2Y
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:28:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iXSmC-00073x-3i
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:21 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iXSmq-0008CB-6R
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:25:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iXSmA-0003ZU-PX
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:20 -0500
-Received: from relay.sw.ru ([185.231.240.75]:53030)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iXSm7-0003XS-7E; Wed, 20 Nov 2019 11:24:15 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iXSlu-0007ga-Ps; Wed, 20 Nov 2019 19:24:02 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 5/4] iotests: add commit top->base cases to 274
-Date: Wed, 20 Nov 2019 19:24:02 +0300
-Message-Id: <20191120162402.24707-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191116163410.12129-1-vsementsov@virtuozzo.com>
-References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iXSmo-0003kR-GW
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:59 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52132)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iXSmo-0003k6-7u
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:58 -0500
+Received: by mail-wm1-x343.google.com with SMTP id q70so238454wme.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:24:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=+4TVRGp4SHHLp9u5QDmtdvvixLjJO1dkEfdf96ZmQJY=;
+ b=peFyEVuH8LsTp+u99vePYzTDKoJ6KNuQEQPIaK5o1d9cDgFpPcj2khCS78ENilPqIb
+ drDMlavQu3o7ShxAIQvXD21nGU4DhdLoZt1PnzqkBvj6OTNnlUuCa/RGRVf4NtyqtkTy
+ ImiFKoQRF22krYkxlqh/baV1fn7bcXkylJ9d4oJQXXQJMe9uj5d74yt3EFLQRfKorFxh
+ 75AtsxJqEds8GLCHlPTnh5BzLEKnTUJTdiBsU61EQ9vfokkJ47UbJP+u6KkKxRdhZNWq
+ SVCsDGI4SVJ63QGs0iotD0nWVv0uGXk/29l7IjEhgrsi258DxT7VNZ60hkzu0OwP1KaW
+ urww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=+4TVRGp4SHHLp9u5QDmtdvvixLjJO1dkEfdf96ZmQJY=;
+ b=jImmuCQlUolxb1k+N2W/DfCncjEW/i800zGpZrC5qnfNGR0eVwgB69Zh8lkrzZ1FC1
+ 3bJDjfCV2vZ456aCtFSrBG4Y+FbKVoSPSV/+DjKcLBhpMm0V7x3hPcm5Fh5RjW1t7k/k
+ OW6/kPEwumABLuvlVs+vyhezm7+u32U7nxrsh5ZVOBN73075LdmhlGb+rY52g4Ev2Ifc
+ qJdiT0dIKrhK3Lid1XnwhMQEuX8BsgLUp+3CQaXNQPbrdLDDtMwWPMVFxH2J1qXQ8DjV
+ y8zooRzvLe/wHsseP5JbiWESdQmFYPQlG19sEDByk/i1OIQTP7CJRXiMTzv49xeMl5Ou
+ YPNA==
+X-Gm-Message-State: APjAAAVpTmeZvy65IISM15Qh+C4RGrFpxPg1JFnKOtPRyJB8P3Qip285
+ 8pDxYrRpPn/3CBTJlZ3pA2u6wg==
+X-Google-Smtp-Source: APXvYqwgk4zKwijHkxMe/674mxOYJJF5ESLi/ffZnQeVr/0DxeXv8wcD5Kk9C+/AS/hU5JkR9XUipg==
+X-Received: by 2002:a1c:3b44:: with SMTP id i65mr4179429wma.1.1574267096614;
+ Wed, 20 Nov 2019 08:24:56 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u203sm7269454wme.34.2019.11.20.08.24.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Nov 2019 08:24:55 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2E7761FF87;
+ Wed, 20 Nov 2019 16:24:54 +0000 (GMT)
+References: <20191120125444.31365-1-marcandre.lureau@redhat.com>
+ <bb4b636d-99d0-4fbe-c4bb-ec3d5c480a03@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] RFC: CODING_STYLE: describe "self" variable convention
+In-reply-to: <bb4b636d-99d0-4fbe-c4bb-ec3d5c480a03@redhat.com>
+Date: Wed, 20 Nov 2019 16:24:54 +0000
+Message-ID: <87pnhmfrc9.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,126 +82,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These cases are fixed by previous patches around block_status and
-is_allocated.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/274     | 20 ++++++++++++
- tests/qemu-iotests/274.out | 63 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 83 insertions(+)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
-index f3b71e2859..492fc7b251 100755
---- a/tests/qemu-iotests/274
-+++ b/tests/qemu-iotests/274
-@@ -115,6 +115,26 @@ with iotests.FilePath('base') as base, \
-     iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
-     iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
- 
-+    iotests.log('=== Testing qemu-img commit (top -> base) ===')
-+
-+    create_chain()
-+    iotests.qemu_img_log('commit', '-b', base, top)
-+    iotests.img_info_log(base)
-+    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
-+    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
-+
-+    iotests.log('=== Testing QMP active commit (top -> base) ===')
-+
-+    create_chain()
-+    with create_vm() as vm:
-+        vm.launch()
-+        vm.qmp_log('block-commit', device='top', base_node='base',
-+                   job_id='job0', auto_dismiss=False)
-+        vm.run_job('job0', wait=5)
-+
-+    iotests.img_info_log(mid)
-+    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
-+    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
- 
-     iotests.log('== Resize tests ==')
- 
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index def0ac7d27..8f59a4a123 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -126,6 +126,69 @@ read 1048576/1048576 bytes at offset 0
- read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
-+=== Testing qemu-img commit (top -> base) ===
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+Image committed.
-+
-+image: TEST_IMG
-+file format: IMGFMT
-+virtual size: 2 MiB (2097152 bytes)
-+cluster_size: 65536
-+Format specific information:
-+    compat: 1.1
-+    lazy refcounts: false
-+    refcount bits: 16
-+    corrupt: false
-+
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing QMP active commit (top -> base) ===
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+{"execute": "block-commit", "arguments": {"auto-dismiss": false, "base-node": "base", "device": "top", "job-id": "job0"}}
-+{"return": {}}
-+{"execute": "job-complete", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+image: TEST_IMG
-+file format: IMGFMT
-+virtual size: 1 MiB (1048576 bytes)
-+cluster_size: 65536
-+backing file: TEST_DIR/PID-base
-+Format specific information:
-+    compat: 1.1
-+    lazy refcounts: false
-+    refcount bits: 16
-+    corrupt: false
-+
-+read 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+read 1048576/1048576 bytes at offset 1048576
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
- == Resize tests ==
- Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=6442450944 cluster_size=65536 lazy_refcounts=off refcount_bits=16
- 
--- 
-2.21.0
+> On 11/20/19 1:54 PM, Marc-Andr=C3=A9 Lureau wrote:
+>> Following the discussion in thread "[PATCH v3 13/33] serial: start
+>> making SerialMM a sysbus device", I'd like to recommend the usage of
+>> "self" variable to reference to the OOP-style method instance, as
+>> commonly done in various languages and in GObject world.
+>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>   CODING_STYLE.rst | 38 ++++++++++++++++++++++++++++++++------
+>>   1 file changed, 32 insertions(+), 6 deletions(-)
+>> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
+>> index 427699e0e4..cb6635af71 100644
+>> --- a/CODING_STYLE.rst
+>> +++ b/CODING_STYLE.rst
+>> @@ -102,12 +102,38 @@ Rationale:
+>>   Naming
+>>   =3D=3D=3D=3D=3D=3D
+>>   -Variables are lower_case_with_underscores; easy to type and read.
+>> Structured
+>> -type names are in CamelCase; harder to type but standing out.  Enum type
+>> -names and function type names should also be in CamelCase.  Scalar type
+>> -names are lower_case_with_underscores_ending_with_a_t, like the POSIX
+>> -uint64_t and family.  Note that this last convention contradicts POSIX
+>> -and is therefore likely to be changed.
+>> +Variables are lower_case_with_underscores; easy to type and read.
+>> +
+>> +The most common naming for a variable is an abbreviation of the type
+>> +name.  Some common examples:
+>> +
+>> +.. code-block:: c
+>> +
+>> +    Object *obj;
+>> +    QVirtioSCSI *scsi;
+>> +    SerialMM *smm;
+>> +
+>> +When writing QOM/OOP-style function, a "self" variable allows to refer
+>> +without ambiguity to the instance of the method that is being
+>> +implemented (this is not very common in QEMU code base, but it is
+>> +often a good option to increase the readability and consistency,
+>> +making further refactoring easier as well).  Example:
+>> +
+>> +.. code-block:: c
+>> +
+>> +    serial_mm_flush(SerialMM *self);
+>> +
+>> +    serial_mm_instance_init(Object *o) {
+>> +        SerialMM *self =3D SERIAL_MM(o);
+>> +        ..
+>> +    }
+>> +
+>> +Structured type names are in CamelCase; harder to type but standing
+>> +out.  Enum type names and function type names should also be in
+>> +CamelCase.  Scalar type names are
+>> +lower_case_with_underscores_ending_with_a_t, like the POSIX uint64_t
+>> +and family.  Note that this last convention contradicts POSIX and is
+>> +therefore likely to be changed.
+>>     When wrapping standard library functions, use the prefix
+>> ``qemu_`` to alert
+>>   readers that they are seeing a wrapped version; otherwise avoid this p=
+refix.
+>>
+>
+> So in this example:
+>
+> static void pci_unin_agp_init(Object *obj)
+> {
+>     UNINHostState *s =3D UNI_NORTH_AGP_HOST_BRIDGE(obj);
 
+Using *s for the contextually appropriate state holding structure is
+certainly common enough in the code base. Maybe we should should
+document that too?
+
+>     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+>     PCIHostState *h =3D PCI_HOST_BRIDGE(obj);
+>
+>     /* Uninorth AGP bus */
+>     memory_region_init_io(&h->conf_mem, OBJECT(h),
+>                           &pci_host_conf_le_ops,
+>                           obj, "unin-agp-conf-idx", 0x1000);
+>     memory_region_init_io(&h->data_mem, OBJECT(h),
+>                           &pci_host_data_le_ops,
+>                           obj, "unin-agp-conf-data", 0x1000);
+>
+>     object_property_add_link(obj, "pic", TYPE_OPENPIC,
+>                              (Object **) &s->pic,
+>                              qdev_prop_allow_set_link_before_realize,
+>                              0, NULL);
+>
+>     sysbus_init_mmio(sbd, &h->conf_mem);
+>     sysbus_init_mmio(sbd, &h->data_mem);
+> }
+>
+> You would change 'Object *obj' -> 'Object *self'?
+
+I would have read it as:
+
+  SysBusDevice *self =3D SYS_BUS_DEVICE(obj);
+
+as the only device object in the example. But perhaps this is a complex
+example?
+
+>
+> But here we want to keep 'klass', right?
+>
+> static void gpex_host_class_init(ObjectClass *klass, void *data)
+> {
+>     DeviceClass *dc =3D DEVICE_CLASS(klass);
+>     PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(klass);
+>
+>     hc->root_bus_path =3D gpex_host_root_bus_path;
+>     dc->realize =3D gpex_host_realize;
+>     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>     dc->fw_name =3D "pci";
+> }
+>
+> Maybe we should restrict 'self' as name of Object type only?
+> But your example is with SerialMM, so no?
+
+
+--
+Alex Benn=C3=A9e
 
