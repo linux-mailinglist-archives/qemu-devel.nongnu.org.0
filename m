@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F391037C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:43:21 +0100 (CET)
-Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62D31037D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:45:23 +0100 (CET)
+Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNSC-0000jq-NA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:43:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
+	id 1iXNUA-0003AZ-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:45:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iXNQH-0007XT-LN
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:41:22 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNSk-0001tG-TX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iXNQG-0008RO-7q
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:41:21 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47070
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iXNQG-0008QC-2x
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:41:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574246479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FnkbYX6g2LRanVgSQjVwjlcwp9f2PUUS0iWHhK22b4c=;
- b=FI9+yDZvkUUhnEkNkDojfrkunnxCyWrJQ/Ndk0fRY+sWdYQvq0fBn1lCrwrvsU1wYuBWLI
- ZMZsoOj8saMC+ogDuWrwtBuxXRPrSkNnRq+0PBhUYvmwk/SD7FolMnylRmY6/0GXTfKyJ9
- xE0/DFLP+1iGh4l7zDwQwqN+bt7I5SM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-YDCPFCg1OkChKo6VnUH2eQ-1; Wed, 20 Nov 2019 05:41:17 -0500
-X-MC-Unique: YDCPFCg1OkChKo6VnUH2eQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2F14801E74;
- Wed, 20 Nov 2019 10:41:15 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C0F55F79D;
- Wed, 20 Nov 2019 10:41:12 +0000 (UTC)
-Date: Wed, 20 Nov 2019 10:41:11 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PULL for-4.2-rc2 0/2] Tracing patches
-Message-ID: <20191120104111.GA242924@stefanha-x1.localdomain>
-References: <20191119204551.240792-1-stefanha@redhat.com>
- <CAL1e-=ibQBWUzUZvsvSWCZ5SwFk5T+b2P94D068W8G_taWVASg@mail.gmail.com>
- <CAL1e-=iEN9GEGDzEvoYM9q477Le4rs-mQZEgxOdzr51ZxLJd0w@mail.gmail.com>
- <02d25aa5-d913-947d-3ccd-5057bc516fd2@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNSj-0003Zu-Oa
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:54 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45090)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iXNSj-0003Y7-IA
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:53 -0500
+Received: by mail-oi1-x242.google.com with SMTP id 14so22028580oir.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:43:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MpVCv9Ixf6/DfcBFJ+SNRHUVUUgICqu7sWMbrPHm8Ag=;
+ b=piXVvh64DuFi5ZFJf2NwQAE/AqhwJbRnyoZsgW+bditlhziDCl2dnXxZSnUzMVE367
+ NAzn32Ak58HTs+udYOOShW0uuIIu1qJO3WVVgFL7IwbmrvHC7rL1I1ruqLP4USxHN3KR
+ so7IiP7MRaSH9e0WKYmAccSf/bApxr9uAwgcjv9JMaa+tsWlNG/jzm2IwuadQoMqM+8y
+ ndjrS/kpOIiaRmlyk1agDBb0n3TvLhBHzC9+UGgg9gkeL4WFRPbJVp1f2t6mfaA0ez9i
+ gXx8r8p51Cql9+RBlqoiqllgBywQHVfDhIDGZybkJncuoxxE9kVc3FYRuvgSjNbFj4cw
+ frxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MpVCv9Ixf6/DfcBFJ+SNRHUVUUgICqu7sWMbrPHm8Ag=;
+ b=E/FP4TN8+mAPAr5wMngCfqj8X8tgxIbvT08fSELQ/7Z47H2Dz59stK2W0Myv2Ocrkj
+ uxyOnSVjguYiAc8jVU74n/fq7RzBjg8YnhWm3T3JuYoXLuetndNmn6OYoNeMO/+RVUbW
+ hLARNzHYXDQ7cE8RfmjcJ757ZLoEOCq7D2N6LQHV8wp3uWj8DXDIvZ0Pt5L9XN4veLVv
+ 8/DGXRX0Gv+cbT/4t8hPcaiypRhcv/c6Eq+UeFrXN69jYNui8pUqTRFpGzL8xMWtmd1Y
+ 1MDYtMwHFx3sdG+4LXD7A/K6oEC/ftscqRICrvBpTweQTOJFqoCu+EWAJOgjnTAfBc0s
+ Ydiw==
+X-Gm-Message-State: APjAAAWNi5vIvLHO69m9Ux8QoKJJAA8QPGzD1ESUWs3aEG07uKYcK8Yb
+ GCFNqwO4yh7Xcj6NKXxe5DC9BH0ztJdsQkpZXOQBlQ==
+X-Google-Smtp-Source: APXvYqzuSDc0HHtWY3DF3dcIbP2LdOYOhWkQqYgURc+NGwFliWi9ucvWfJv8qyuyU7MJze+j0jPtZn305uGerkFhPZ0=
+X-Received: by 2002:aca:a9d4:: with SMTP id s203mr2126160oie.146.1574246632670; 
+ Wed, 20 Nov 2019 02:43:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <02d25aa5-d913-947d-3ccd-5057bc516fd2@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-15-marcandre.lureau@redhat.com>
+ <CAFEAcA_2ct-fOfBGgNExjCrjg7WKb-Xp44GghHWXiW2+3HjWbg@mail.gmail.com>
+ <CAMxuvayTGh6d5H_JXnKRoG7E1MeY-dsw5XqSeR59fdM7njPVeQ@mail.gmail.com>
+In-Reply-To: <CAMxuvayTGh6d5H_JXnKRoG7E1MeY-dsw5XqSeR59fdM7njPVeQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 20 Nov 2019 10:43:41 +0000
+Message-ID: <CAFEAcA90uuQnWXjq=1RjiU5949vxaSuuy7EPFGjMJjpqmY7wMg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/33] serial-mm: add "regshift" property
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,109 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:bochs" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---liOOAslEiF7prFVr
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 20 Nov 2019 at 07:54, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi
+>
+> On Mon, Nov 18, 2019 at 6:54 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >
+> > On Wed, 23 Oct 2019 at 18:34, Marc-Andr=C3=A9 Lureau
+> > <marcandre.lureau@redhat.com> wrote:
+> > > +static Property serial_mm_properties[] =3D {
+> > > +    DEFINE_PROP_UINT8("regshift", SerialMM, regshift, 0),
+> >
+> > This could use a comment describing what the property does.
+>
+> "Set the register shift value"? Half-kidding, do you have better
+> comment to make? Otherwise, it's probably not worth.
+>
+> From what I understand, it's just applying a shift on the IO addr,
+> probably for alignment/access arch-specific reasons. You probably know
+> better than me ;)
 
-On Wed, Nov 20, 2019 at 10:33:35AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 11/19/19 10:35 PM, Aleksandar Markovic wrote:
-> > On Tue, Nov 19, 2019 at 10:14 PM Aleksandar Markovic
-> > <aleksandar.m.mail@gmail.com> wrote:
-> > >=20
-> > > On Tue, Nov 19, 2019 at 9:46 PM Stefan Hajnoczi <stefanha@redhat.com>=
- wrote:
-> > > >=20
-> > > > The following changes since commit f086f22d6c068ba151b0f6e81e75a64f=
-130df712:
-> > > >=20
-> > > >    Merge remote-tracking branch 'remotes/awilliam/tags/vfio-fixes-2=
-0191118.0' into staging (2019-11-18 21:35:48 +0000)
-> > > >=20
-> > > > are available in the Git repository at:
-> > > >=20
-> > > >    https://github.com/stefanha/qemu.git tags/tracing-pull-request
-> > > >=20
-> > > > for you to fetch changes up to 6b904f1a528a6d8c21f7fbdeab13b9603d1b=
-6df7:
-> > > >=20
-> > > >    hw/mips/gt64xxx: Remove dynamic field width from trace events (2=
-019-11-19 16:17:05 +0000)
-> > > >=20
-> > > > ----------------------------------------------------------------
-> > > > Pull request
-> > > >=20
-> > > > Tracing fixes for MIPS.
-> > > >=20
-> > > > ----------------------------------------------------------------
-> > > >=20
-> > >=20
-> > > Hello, Stefan, Philippe, Peter.
-> > >=20
-> > > This appears to be a duplicate of the pull request sent today by Phil=
-ippe
-> > > (and already applied by Peter just hours ago):
-> > >=20
-> > > https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg02894.html
-> > >=20
-> > > The patches from the two pull requests appear to be identical, except
-> > > some minor details in commit messages: Stefan's versions contain
-> > > "Message-Id:" identifiers, while Philippe's don't (my suggestion to
-> > > Philippe is to include "Message-Id:" for all patches that are part of=
- any
-> > > pull request in future; this can be achieved effortlessly/automatical=
-ly
-> > > by applying patches using patchwork).
-> > >=20
-> > > In summary, for this very situation, it looks to me we are all set, n=
-o need
-> > > for Peter to process this pull request.
-> > >=20
-> >=20
-> > And just another really friendly advice for Philippe: When you apply
-> > some patches or a series to your pull request, just inform others
-> > about that by replying to the patches or a series: "I applied XXX to
-> > my queue/pull request" - this helps avoiding duplicate efforts like
-> > it happened here. This is also reminder to me too, I didn't do it in
-> > all cases of my applying to my my pull requests, and I should have,
-> > but I will improve too.
->=20
-> You are totally correct, in a rush to get these patches merged before the
-> release candidate get tagged, I neglected to reply to my series and let
-> Stefan waste his time.
->=20
-> Stefan, I sincerely apologize and will make efforts so this won't happen
-> again.
+What this is doing is defining the spacing between adjacent
+registers. Some MMIO-based 16550 implementations have the registers
+at byte offsets from each other (that's regshift 0). Some have
+them at halfword offsets (regshift 1); and some use 4-byte
+offsets (regshift 2). Something like this will do:
 
-No problem, I just wanted to make sure we don't miss these patches.
+ /*
+  * Set the spacing between adjacent memory-mapped UART registers.
+  * Each register will be at (1 << regshift) bytes after the previous one.
+  */
 
-Stefan
+(basically the comment bridges the gap between what I know as
+somebody trying to use the 16550 model, ie the behaviour of
+the hardware I'm trying to model, and what I need to do to configure
+the QEMU code to give that behaviour.)
 
---liOOAslEiF7prFVr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3VGEcACgkQnKSrs4Gr
-c8i+3Qf+KCw2rx3z9jXf18TS/Md2IfXyWT4SZpZGabtaeBF/AF8FYhFLskcaGBqg
-a5+sdzPBNMLAwASr+hP26z6N37mQCIXMHpsR7DqoDWb0METnCmVbE+YGqkPxdPd+
-Unl2EHghdro7WQbWBqmiOKWduvsZziRBY5fvoDIyzSO1yiFpWi7TyKfzifw7SDjz
-e0+ylncFjpLgdS38Kfr53farbVWGL0+Dbzc0bvxAOr9kACywgEa1Ltl10QvRoNgV
-9sy6oX4Ro5l0sR4so2ZOOvpxkOffVcdW8g/+Uaq6IDz2dEttd1N/P5oRYxiQBIsh
-SvOKDK187u1bIK0RGwuuu9igHyUNIQ==
-=dhne
------END PGP SIGNATURE-----
-
---liOOAslEiF7prFVr--
-
+thanks
+-- PMM
 
