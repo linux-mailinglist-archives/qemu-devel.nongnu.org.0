@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16229104037
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:01:26 +0100 (CET)
-Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB202104041
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:04:23 +0100 (CET)
+Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXSQ1-0003B4-0c
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:01:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35199)
+	id 1iXSSs-0001c3-IQ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:04:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35231)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRxa-0007XL-LJ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:03 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRxw-00081B-JU
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRxZ-0001j6-DF
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:02 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44805
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRxv-0001xz-9n
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54686
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRxZ-0001ix-9G
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:01 -0500
+ id 1iXRxv-0001xo-5u
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:32:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263920;
+ s=mimecast20190719; t=1574263942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SlnrVNfRLNjcjw1Xl9TECTlnAVbkO5jdhxvztSBIVuY=;
- b=JbumeeiIusZqg4BlhCJvl1+4H6jZskn7VkKd30DXVHNObzZNkRGFRT4N7A8NpFBbrNhRfI
- yed9H76GtTxL+0EHnHsZ4GRfFQ5shHY7MOGXRWQXPNdTVMxC7jIZAqqLUDT/SrYn5OnTek
- Nr75S4atczH087VPY3+Rp5HGTD+z1Ew=
+ bh=k5kNqIgkaawfSi2YqfCX/8DjAdLrxNrjCKnSySD3uvw=;
+ b=TcnY/z3Irb4w6zphBhPeofCPDs5CdzlIZQH5gx8phd64omE6SLQSTjMgT/jE3xyCFhUR5Q
+ 9RoCi4UNoSjLhMRaIKnUKsGWrAya74jUufLEO0ImhXgCPh9JgrAXq9XLf2i52vtLBqJhuT
+ BTzY1mBAwEnQC63FqC9klf/RAAiPSC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-VHpoeeayMU6Zs9w9koS5Lw-1; Wed, 20 Nov 2019 10:31:58 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-42-DA5B1klZNNWfs4FrZ_es2w-1; Wed, 20 Nov 2019 10:32:16 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F249C8024CC;
- Wed, 20 Nov 2019 15:31:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03E8818B6391;
+ Wed, 20 Nov 2019 15:32:16 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE7C568882;
- Wed, 20 Nov 2019 15:31:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70B0B104B529;
+ Wed, 20 Nov 2019 15:32:06 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 36/37] qdev: remove QDEV_PROP_PTR
-Date: Wed, 20 Nov 2019 19:24:41 +0400
-Message-Id: <20191120152442.26657-37-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 37/37] qdev/qom: remove some TODO limitations now that
+ PROP_PTR is gone
+Date: Wed, 20 Nov 2019 19:24:42 +0400
+Message-Id: <20191120152442.26657-38-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: VHpoeeayMU6Zs9w9koS5Lw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: DA5B1klZNNWfs4FrZ_es2w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,101 +79,54 @@ Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No longer used in the tree. The comment about user_creatable is still
-quite relevant, but there is already a similar comment in qdev-core.h.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/core/qdev-properties.c    | 18 ------------------
- include/hw/qdev-properties.h | 22 ----------------------
- 2 files changed, 40 deletions(-)
+ hw/core/qdev.c     |  8 --------
+ qom/qom-qmp-cmds.c | 10 ----------
+ 2 files changed, 18 deletions(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index be4cb01f0b..6271169d7d 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -469,13 +469,6 @@ const PropertyInfo qdev_prop_string =3D {
-     .set   =3D set_string,
- };
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index c79befc865..c7b3f0dec5 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -736,14 +736,6 @@ void qdev_property_add_static(DeviceState *dev, Proper=
+ty *prop,
+     if (prop->info->create) {
+         prop->info->create(obj, prop, &local_err);
+     } else {
+-        /*
+-         * TODO qdev_prop_ptr does not have getters or setters.  It must
+-         * go now that it can be replaced with links.  The test should be
+-         * removed along with it: all static properties are read/write.
+-         */
+-        if (!prop->info->get && !prop->info->set) {
+-            return;
+-        }
+         object_property_add(obj, prop->name, prop->info->name,
+                             prop->info->get, prop->info->set,
+                             prop->info->release,
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 236e8e41dd..f4494f98ac 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -142,16 +142,6 @@ static ObjectPropertyInfo *make_device_property_info(O=
+bjectClass *klass,
+                 continue;
+             }
 =20
--/* --- pointer --- */
+-            /*
+-             * TODO Properties without a parser are just for dirty hacks.
+-             * qdev_prop_ptr is the only such PropertyInfo.  It's marked
+-             * for removal.  This conditional should be removed along with
+-             * it.
+-             */
+-            if (!prop->info->set && !prop->info->create) {
+-                return NULL;           /* no way to set it, don't show */
+-            }
 -
--/* Not a proper property, just for dirty hacks.  TODO Remove it!  */
--const PropertyInfo qdev_prop_ptr =3D {
--    .name  =3D "ptr",
--};
--
- /* --- mac address --- */
-=20
- /*
-@@ -1133,17 +1126,6 @@ void qdev_prop_set_enum(DeviceState *dev, const char=
- *name, int value)
-                             name, &error_abort);
- }
-=20
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value)
--{
--    Property *prop;
--    void **ptr;
--
--    prop =3D qdev_prop_find(dev, name);
--    assert(prop && prop->info =3D=3D &qdev_prop_ptr);
--    ptr =3D qdev_get_prop_ptr(dev, prop);
--    *ptr =3D value;
--}
--
- static GPtrArray *global_props(void)
- {
-     static GPtrArray *gp;
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 5bba033b7b..a708c3870b 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -17,7 +17,6 @@ extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
- extern const PropertyInfo qdev_prop_chr;
- extern const PropertyInfo qdev_prop_tpm;
--extern const PropertyInfo qdev_prop_ptr;
- extern const PropertyInfo qdev_prop_macaddr;
- extern const PropertyInfo qdev_prop_on_off_auto;
- extern const PropertyInfo qdev_prop_losttickpolicy;
-@@ -168,25 +167,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-=20
--/*
-- * Please avoid pointer properties.  If you must use them, you must
-- * cover them in their device's class init function as follows:
-- *
-- * - If the property must be set, the device cannot be used with
-- *   device_add, so add code like this:
-- *   |* Reason: pointer property "NAME-OF-YOUR-PROP" *|
-- *   DeviceClass *dc =3D DEVICE_CLASS(class);
-- *   dc->user_creatable =3D false;
-- *
-- * - If the property may safely remain null, document it like this:
-- *   |*
-- *    * Note: pointer property "interrupt_vector" may remain null, thus
-- *    * no need for dc->user_creatable =3D false;
-- *    *|
-- */
--#define DEFINE_PROP_PTR(_n, _s, _f)             \
--    DEFINE_PROP(_n, _s, _f, qdev_prop_ptr, void*)
--
- #define DEFINE_PROP_CHR(_n, _s, _f)             \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
- #define DEFINE_PROP_STRING(_n, _s, _f)             \
-@@ -259,8 +239,6 @@ void qdev_prop_set_drive(DeviceState *dev, const char *=
-name,
- void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-                            const uint8_t *value);
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
--/* FIXME: Remove opaque pointer properties.  */
--void qdev_prop_set_ptr(DeviceState *dev, const char *name, void *value);
-=20
- void qdev_prop_register_global(GlobalProperty *prop);
- int qdev_prop_check_globals(void);
+             info =3D g_malloc0(sizeof(*info));
+             info->name =3D g_strdup(prop->name);
+             info->type =3D default_type ? g_strdup(default_type)
 --=20
 2.24.0
 
