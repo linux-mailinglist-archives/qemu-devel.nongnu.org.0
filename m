@@ -2,68 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2288610387D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:17:43 +0100 (CET)
-Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936181038B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:29:56 +0100 (CET)
+Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNzS-0006UH-8E
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:17:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38204)
+	id 1iXOBH-0003b7-EU
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:29:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40915)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iXNxo-0005cN-GJ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:16:02 -0500
+ (envelope-from <lvivier@redhat.com>) id 1iXO9s-0002ZL-TF
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:28:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iXNxk-0005EW-OD
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:15:58 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34396
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <lvivier@redhat.com>) id 1iXO9q-0000cs-IA
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:28:27 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23829
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iXNxk-0005DK-JG
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:15:56 -0500
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iXO9q-0000ao-75
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:28:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574248555;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1574249305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PR8m2SO4fnVa017ElZk4lMTFCozB5FQwf/2c1yxPaZY=;
- b=dOzxNtObJXGb1k1LUSFt46D99oE5TSr4vPzsFHomAO6O9mD21PKok4Cei+Bm1/O4sTZAha
- 5ZFXCMI6zOVLvfZ2HJwpb0FaI1NUO6bv3O6mF0GPYl9cLiEe6dAFiRhfAR4X+9FQf4NnyJ
- M/J8k+5uTc2EhkQ0yzBHHn5LG0Wtf7k=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=IKEkz3Hp5LQtebBAEHdxQ2uO23dpUj2SRFcYOXahYR4=;
+ b=OmkSeVAIvhdr+r9e183Zl4ka9dz5Z2y3YXQCBA1/uDuSEqnZ0bHpHPJ40P0oT5RkN6G0ol
+ DyoLLxBtA8U4lBT8bB8xAmZTB+7WHSLxKTgTy1AUGw81AXlZ2ebahRGDv4NfIEqHUj+XZY
+ bxgzbJ5iZHQNS5kjKDN6HpBk2Veesgw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-nZ-85HWmPzGviMKYsjNeCQ-1; Wed, 20 Nov 2019 06:15:52 -0500
+ us-mta-19-Fkw1T6VIPBOX6-q52qhM-w-1; Wed, 20 Nov 2019 06:28:23 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 974991802CFC;
- Wed, 20 Nov 2019 11:15:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13B8460493;
- Wed, 20 Nov 2019 11:15:50 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] Fix incorrect int->float conversions caught by clang
- -Wimplicit-int-float-conversion
-In-Reply-To: <87tv6z7vb0.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 19 Nov 2019 16:14:11 +0100")
-References: <20191116010731.3jdxozzfpsqsrcc4@google.com>
- <87tv6z7vb0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Wed, 20 Nov 2019 12:15:46 +0100
-Message-ID: <87pnhmol25.fsf@trasno.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 539EC107ACC7;
+ Wed, 20 Nov 2019 11:28:22 +0000 (UTC)
+Received: from [10.36.116.216] (ovpn-116-216.ams2.redhat.com [10.36.116.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEED7600C9;
+ Wed, 20 Nov 2019 11:28:19 +0000 (UTC)
+Subject: Re: [PATCH] spapr: Fix VSMT mode when it is not supported by the
+ kernel
+From: Laurent Vivier <lvivier@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20191108154035.12913-1-lvivier@redhat.com>
+ <20191108174759.2d4040f1@bahia.lan> <20191119010012.GI5582@umbus.fritz.box>
+ <caa35299-c928-a968-83b5-842d000f0242@redhat.com>
+ <20191119164526.0e980a37@bahia.lan> <20191120043653.GG5582@umbus.fritz.box>
+ <cb8f7dc7-d6db-6bd9-e825-1ade7d89cdd9@redhat.com>
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
+Message-ID: <0c1f57ac-0823-4268-429b-d1aee8f7f8d5@redhat.com>
+Date: Wed, 20 Nov 2019 12:28:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <cb8f7dc7-d6db-6bd9-e825-1ade7d89cdd9@redhat.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: nZ-85HWmPzGviMKYsjNeCQ-1
+X-MC-Unique: Fkw1T6VIPBOX6-q52qhM-w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,112 +132,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fangrui Song <i@maskray.me>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> Fangrui Song <i@maskray.me> writes:
->
->> The warning will be enabled by default in clang 10. It is not
->> available for clang <=3D 9.
+On 20/11/2019 10:00, Laurent Vivier wrote:
+> On 20/11/2019 05:36, David Gibson wrote:
+>> On Tue, Nov 19, 2019 at 04:45:26PM +0100, Greg Kurz wrote:
+>>> On Tue, 19 Nov 2019 15:06:51 +0100
+>>> Laurent Vivier <lvivier@redhat.com> wrote:
+>>>
+>>>> On 19/11/2019 02:00, David Gibson wrote:
+>>>>> On Fri, Nov 08, 2019 at 05:47:59PM +0100, Greg Kurz wrote:
+>>>>>> On Fri,  8 Nov 2019 16:40:35 +0100
+>>>>>> Laurent Vivier <lvivier@redhat.com> wrote:
+>>>>>>
+>>>>>>> Commit 29cb4187497d sets by default the VSMT to smp_threads,
+>>>>>>> but older kernels (< 4.13) don't support that.
+>>>>>>>
+>>>>>>> We can reasonably restore previous behavior with this kernel
+>>>>>>> to allow to run QEMU as before.
+>>>>>>>
+>>>>>>> If VSMT is not supported, VSMT will be set to MAX(8, smp_threads)
+>>>>>>> as it is done for previous machine types (< pseries-4.2)
+>>>>>>>
+>>>>>>
+>>>>>> It is usually _bad_ to base the machine behavior on host capabilitie=
+s.
+>>>>>> What happens if we migrate between an older kernel and a recent one =
+?
+>>>>>
+>>>>> Right.  We're really trying to remove instaces of such behaviour.  I'=
+d
+>>>>> prefer to completely revert Greg's original patch than to re-introduc=
+e
+>>>>> host configuration dependency into the guest configuration..
+>>>>>
+>>>>>> I understand this is to fix tests/migration-test on older kernels.
+>>>>>> Couldn't this be achieved with migration-test doing some introspecti=
+on
+>>>>>> and maybe pass vsmt=3D8 on the QEMU command line ?
+>>>>>
+>>>>> ..adjusting the test case like this might be a better idea, though.
+>>>>>
+>>>>> What's the test setup where we're using the old kernel?  I really onl=
+y
+>>>>> applied the original patch on the guess that we didn't really care
+>>>>> about kernels that old.  The fact you've hit this in practice makes m=
+e
+>>>>> doubt that assumption.
+>>>>>
+>>>>
+>>>> The way to fix the tests is to add "-smp threads=3D8" on the command l=
+ine
+>>>> (for all tests, so basically in qtest_init_without_qmp_handshake(), an=
+d
+>>>> it will impact all the machine types), and we have to check if it is
+>>>
+>>> Ohhh... it isn't possible to initialize Qtest with machine specific
+>>> properties ? That's a bit unfortunate :-\
 >>
->> qemu/migration/migration.c:2038:24: error: implicit conversion from
->> 'long' to 'double' changes value from 9223372036854775807 to
->> 9223372036854775808 [-Werror,-Wimplicit-int-float-conversion]
->> ...
->> qemu/util/cutils.c:245:23: error: implicit conversion from 'unsigned
->> long' to 'double' changes value from 18446744073709550592 to
->> 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
->>
->> Signed-off-by: Fangrui Song <i@maskray.me>
->> ---
->>   migration/migration.c | 4 ++--
->>   util/cutils.c         | 4 ++--
->>   2 files changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 354ad072fa..ac3ea2934a 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -53,6 +53,7 @@
->>   #include "monitor/monitor.h"
->>   #include "net/announce.h"
->>   #include "qemu/queue.h"
->> +#include <math.h>
->>  =20
->>   #define MAX_THROTTLE  (32 << 20)      /* Migration transfer speed thro=
-ttling */
->>  =20
->> @@ -2035,11 +2036,10 @@ void qmp_migrate_set_downtime(double value, Erro=
-r **errp)
->         if (value < 0 || value > MAX_MIGRATE_DOWNTIME_SECONDS) {
->             error_setg(errp, "Parameter 'downtime_limit' expects an integ=
-er in "
->                              "the range of 0 to %d seconds",
->                              MAX_MIGRATE_DOWNTIME_SECONDS);
->             return;
->>       }
->
-> @value is now in [0,2000].
->
->>  =20
->>       value *=3D 1000; /* Convert to milliseconds */
->
-> @value is in [0,2000000]
->
->> -    value =3D MAX(0, MIN(INT64_MAX, value));
->
-> This does nothing.
->
->>  =20
->>       MigrateSetParameters p =3D {
->>           .has_downtime_limit =3D true,
->> -        .downtime_limit =3D value,
->> +        .downtime_limit =3D (int64_t)fmin(value, nextafter(0x1p63, 0)),
->
-> This does nothing and is hard to read :)
->
-> Can we simply drop the offending line statement instead?
+>> Uhh... I don't see why we can't.  Couldn't we just put either -machine
+>> vsmt=3D8 or -smp 8 into the cmd_src / cmd_dst printfs() in the
+>> strcmp(arch, "ppc64") case?
+>=20
+> Yes, but we need to do that to all other tests that fail. test-migration
+> is not the only one impacted by the problem (we have also pxe-test), so
+> it's why I thought to fix the problem in a generic place.
+>=20
+> But it seems there are only this couple of tests that are impacted so I
+> can modify both instead. I think only tests that really start CPU have
+> the problem.
+>=20
+> I'm going to send a patch to fix that.
 
-Agreed aboutdropping the whole bussines for migration.
+And again, it's a little bit more complicated than expected: setting
+vsmt to 8 works only with kvm_hv, but breaks in case of TCG or kvm_pr.
+So the test must check what is in use...
 
-
->>       };
->>  =20
->>       qmp_migrate_set_parameters(&p, errp);
->> diff --git a/util/cutils.c b/util/cutils.c
->> index fd591cadf0..2b4484c015 100644
->> --- a/util/cutils.c
->> +++ b/util/cutils.c
->> @@ -239,10 +239,10 @@ static int do_strtosz(const char *nptr, const char=
- **end,
->>           goto out;
->>       }
->>       /*
->> -     * Values >=3D 0xfffffffffffffc00 overflow uint64_t after their tri=
-p
->> +     * Values > nextafter(0x1p64, 0) overflow uint64_t after their trip
->>        * through double (53 bits of precision).
->>        */
->> -    if ((val * mul >=3D 0xfffffffffffffc00) || val < 0) {
->> +    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
->>           retval =3D -ERANGE;
->>           goto out;
->>       }
-
-This comment was really bad (it says the same that the code).
-On the other hand, I can *kind of* understand what does 0xffff<more
-f's here>.
-
-But I am at a complete loss about what value is:
-
-nextafter(0x1p64, 0).
-
-Can we put what value is that instead?
-
-Thanks, Juan.
+Thanks,
+Laurent
 
 
