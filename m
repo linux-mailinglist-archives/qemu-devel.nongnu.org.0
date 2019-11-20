@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9301037E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:50:22 +0100 (CET)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFC31037EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:50:40 +0100 (CET)
+Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNYz-0007iP-NZ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:50:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60031)
+	id 1iXNZH-00081h-65
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:50:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iXNVX-0005cs-9A
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:46:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNVu-0005uO-Nn
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:47:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iXNVV-0007tr-4s
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:46:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28916
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXNVU-0007s3-OG
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:46:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574246803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qlYk5aiU5D3CLRGn4femP/PU33DFKMQIxAmvsPw8iQI=;
- b=IbcRMndfxDP41/VcZjK9Crfgtt6JTy9rFEJesptLBMzpjbka480f+po1he231MgPZqyNuS
- K8HdyEmqrg7Gwf+W+OublPxWIDrGiCJP7DAdZvprYqotZFZyYHaqrxKGh9x3oA4RewcMXW
- 5aui1nYCFiyh8Rlbp6K9yZ/LjHZYNVE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-Mgk6ErinN5m1YLeUXtVHWg-1; Wed, 20 Nov 2019 05:46:42 -0500
-Received: by mail-qv1-f71.google.com with SMTP id y24so16888896qvh.1
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:46:42 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNVt-0000Dz-NH
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:47:10 -0500
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:34331)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iXNVt-0000DD-HI
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:47:09 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id l202so22099304oig.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xSdl2SeYHvgvJ5ZbpK7zx/2E11p/fPQL+s40eFSsUDk=;
+ b=LQ8EGEqzFA8YglAYBIiVexBqTLiAfefgLc5Xf5Kgz5xPhzle0yB/affBBtTOehJ0Lw
+ xsYilaK8o9N9n/42ptgV0400/3NkHls7ZjW07VF4OHbM69CVpgL33kNtVdJ9UKlUIDAX
+ /IwcvMrYSNi/cbZ4n8V5lTyxgWhP3fWj9xExuEl2qzjpDjuvO7PPjLNcW97u6ukmpQ1e
+ t40KuNLzejcKc1BMxmNNkJ54KjEHJXtjbfJhl2ok8R3uTGfFzjsynMO1QB7+9Uc+NGKw
+ 1+TAbVbwiC6tFBpELQVEjnBaaFLk0VZ34033uccepOkBp87vPaoAoHDm4ybNZ3C99mZR
+ MDmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=St9Kj3sk8x7KkZcLZTATy8n1jzO3UEeae88tUu3WDXo=;
- b=VmBstFJFrVPl21kptpYxcNLwYMr53iO4dIeARLJnGT991gccwoVTkWRmiaYjxU9bP3
- iyISrOFxpyzC0IlCaLRyxblVUuTZZzQYLnyocfMa7/ljS6xbyoaK1Z4f1BICW/dzBsNR
- IFkCwL2DhDLEVewJmoDdXCes0X9xrmO8z0UqoZSxpara7vv8h3S5z96UXWKediDbMAmS
- 4IvPsIArLHnaVpTJPjh8Pl8vaFve5Lq50vLPFy4OLa9+dDzSx7nxJEtox4DN7dKcLIkD
- NrwO9vkCjKEF4oen7eedNfCLhoXeQlKj/Fx2YaGeP62QXDXqZp8iWzbNiTjPXSCb7xQK
- k6xA==
-X-Gm-Message-State: APjAAAV39gUE5Iw6ud0tlvGhvNmDnSGTPR5ZOnABh2qqBshRDrr3STs7
- 1XCh5auIAY+tI8a+aQrsyFW16wNGMCVQDuA/mgsi4a4S2nqeqSFUBmPbERGSCyjRLA5FYnRB8Yd
- UVRZw2UCZ4lFWZzY=
-X-Received: by 2002:ac8:458c:: with SMTP id l12mr1929792qtn.300.1574246801682; 
- Wed, 20 Nov 2019 02:46:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwmfT+tdUThuVJGx4Sp9SDvBWdMkfqI/UmnCwpIkeeCuoNZ5jJDEU5qm/KpnqUFaNyltGX87A==
-X-Received: by 2002:ac8:458c:: with SMTP id l12mr1929767qtn.300.1574246801509; 
- Wed, 20 Nov 2019 02:46:41 -0800 (PST)
-Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id t2sm11634838qkt.95.2019.11.20.02.46.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 02:46:40 -0800 (PST)
-Date: Wed, 20 Nov 2019 05:46:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Subject: Re: [PATCH 3/4] net/virtio: avoid passing NULL to qdev_set_parent_bus
-Message-ID: <20191120054036-mutt-send-email-mst@kernel.org>
-References: <20191114141613.15804-1-jfreimann@redhat.com>
- <20191114141613.15804-3-jfreimann@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xSdl2SeYHvgvJ5ZbpK7zx/2E11p/fPQL+s40eFSsUDk=;
+ b=af7sAglNCJwgBvof/Vi4cjV15wVZ/mvd57yEJ5tUL55cQKvSLKdqjl70nJDjT7cI9O
+ XxPVMy7Kx+z/X15vTTskLAV/1cDJhtOpPZkwtpel7OiZqqb/OneT5z7nlHUkBI53aS7Y
+ CbLRx3AxWxQ48PcPW5WP9RLVZqeSGVw3c7BuumDnqRUojHNUzKnMhxW69tndijhtnhmq
+ kCtuh6k77MxaiRvNcS1QQzKt4vGFgO8mu2bXsjTbM06dDooY8n5+Vv6gjEVfRh+hRdUZ
+ WAZiLMPOW/SntHBFOd2tkEHNznQgdH/JXA7o2MSw7Gean4v0Iko3rAej5jRuKxQ1iGrg
+ USWQ==
+X-Gm-Message-State: APjAAAWDSRz802X04tJumdM80bmjxT1NYnWQ9RpV999SzPjEskEQMxNK
+ dt0P+GdZXLFH22ge9e2LiyeCG/eCLPTVeRRc/L6m8A==
+X-Google-Smtp-Source: APXvYqwgNP5MIpVw/5rAm1snLCPv4NXJXwbIovvuff5mFC9I2kFGW4CsRRuY+bRb6fCAc6srtSg/1NVOZJVZpOtg4gs=
+X-Received: by 2002:aca:a9d4:: with SMTP id s203mr2136400oie.146.1574246828696; 
+ Wed, 20 Nov 2019 02:47:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191114141613.15804-3-jfreimann@redhat.com>
-X-MC-Unique: Mgk6ErinN5m1YLeUXtVHWg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-17-marcandre.lureau@redhat.com>
+ <CAFEAcA-dShnHHGEYrsmc+27aUrH7WUMn3=Pvn92B8XH=qtYFBQ@mail.gmail.com>
+ <CAMxuvayKZXnkm_v5V1L=dE2-dJgMjcSBy0aufVjmGhLkuZW0hw@mail.gmail.com>
+In-Reply-To: <CAMxuvayKZXnkm_v5V1L=dE2-dJgMjcSBy0aufVjmGhLkuZW0hw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 20 Nov 2019 10:46:57 +0000
+Message-ID: <CAFEAcA8RZFDv4njYWyhor3b75Y+N9NfJdkpGGj86gu=mCLoU+g@mail.gmail.com>
+Subject: Re: [PATCH v3 16/33] serial-mm: use sysbus facilities
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,95 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 14, 2019 at 03:16:12PM +0100, Jens Freimann wrote:
-> Make sure no arguments for qdev_set_parent_bus are NULL.
-> This fixes CID 1407224.
->=20
-> Fixes: 9711cd0dfc3f ("net/virtio: add failover support")
-> Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-> ---
->  hw/net/virtio-net.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index ac4d19109e..81650d4dc0 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2809,8 +2809,16 @@ static bool failover_replug_primary(VirtIONet *n, =
-Error **errp)
->      if (n->primary_device_opts) {
->          if (n->primary_dev) {
->              n->primary_bus =3D n->primary_dev->parent_bus;
-> +            if (n->primary_bus) {
-> +                qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-> +            } else  {
-> +                error_setg(errp, "virtio_net: couldn't set bus for prima=
-ry");
-> +                goto out;
-> +            }
-> +        } else {
-> +            error_setg(errp, "virtio_net: couldn't find primary device")=
-;
-> +            goto out;
->          }
+On Wed, 20 Nov 2019 at 08:30, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi
+>
+> On Mon, Nov 18, 2019 at 7:09 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> > Otherwise
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Does your r-b stands if I keep "self"? Or do you feel strongly about it?
 
+Yes, I do strongly think you need to change that (see argument in other thr=
+ead).
 
-A bit less messy:
-
-if (!n->primary_dev) {
-            error_setg(errp, "virtio_net: couldn't find primary device");
-            goto err;
-}
-
-n->primary_bus =3D n->primary_dev->parent_bus;
-if (!n->primary_bus) {
-      error_setg(errp, "virtio_net: couldn't find primary device");
-          goto err;
-}
-
-qdev_set_parent_bus(n->primary_dev, n->primary_bus);
-
-err:
-=09return false;
-
-also is it valid for primary_device_opts to not be present at all?
-Maybe we should check that too.
-
-
-
-> -        qdev_set_parent_bus(n->primary_dev, n->primary_bus);
->          n->primary_should_be_hidden =3D false;
->          qemu_opt_set_bool(n->primary_device_opts,
->                  "partially_hotplugged", true, errp);
-> @@ -2819,10 +2827,8 @@ static bool failover_replug_primary(VirtIONet *n, =
-Error **errp)
->              hotplug_handler_pre_plug(hotplug_ctrl, n->primary_dev, errp)=
-;
->              hotplug_handler_plug(hotplug_ctrl, n->primary_dev, errp);
->          }
-> -        if (!n->primary_dev) {
-> -            error_setg(errp, "virtio_net: couldn't find primary device")=
-;
-> -        }
->      }
-> +out:
->      return *errp !=3D NULL;
->  }
-
-I'd handle errors separately from good path.
-BTW I don't understand something here:
-*errp !=3D NULL is true on error, no?
-Why are we returning success?
-Confused.
-Just return true would be cleaner imho.
-
-> =20
-> --=20
-> 2.21.0
-
+thanks
+-- PMM
 
