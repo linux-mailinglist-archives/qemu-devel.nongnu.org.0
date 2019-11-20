@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D188103730
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:04:00 +0100 (CET)
-Received: from localhost ([::1]:55534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D472103726
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:01:20 +0100 (CET)
+Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXMq7-0007tR-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:03:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50491)
+	id 1iXMnX-0004tx-DX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:01:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iXMpE-0007Bi-A8
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:03:05 -0500
+ (envelope-from <mst@redhat.com>) id 1iXMm7-0003sf-Kc
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iXMpD-00072k-B6
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:03:04 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29515
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iXMm6-0004qb-L7
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56578
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXMpD-00072S-7A
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:03:03 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXMm6-0004qO-HX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574244182;
+ s=mimecast20190719; t=1574243990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1N0YO9aq8dPMLduzr+NixeVuzUQBBWmON9U10Qp9kz8=;
- b=MLxH4U2HQT5gzd4cVsnbjrePREWpjVMO6KGm+O6xF11j4N5hP2t5bNSraaAcH4ZDGdP4jV
- 1/TMhjqhwRGxCAApBJTK1NXb4gJpKsAFnX4LfA+fn8DOc/Jrk8bHcNssAe/GRW+PCMO2Mq
- LKtwXQCId8LDOhv/2p1KCSbhQgon2eM=
+ bh=BZskGUfyn7jaYYd2DvEDC0RMUYMrzQsxfievlb9z0CI=;
+ b=Zy11f+mpwhOMAd9e3CN5girSX5C/OkkTqwdYmbd0KQvkQZsnUEN7AsxtNNedHRg1fuBeXH
+ imfS+Auuf6px9ma9N+bEpPYafcIyHdLODMkZ2a4SCAKDgTUBL4ZM5es7UjMLL80PhszYh9
+ PGgfz9qJCAIwcJAziIlbhNsoYmlXz9o=
 Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
  [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-UGAP9IPKOYSbI54x7D4wow-1; Wed, 20 Nov 2019 04:59:43 -0500
-Received: by mail-qt1-f199.google.com with SMTP id h15so16692216qtn.6
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 01:59:43 -0800 (PST)
+ us-mta-213-gtZULBH2MjGt6fOweS5Duw-1; Wed, 20 Nov 2019 04:59:48 -0500
+Received: by mail-qt1-f199.google.com with SMTP id r12so16664567qtp.21
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 01:59:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OQFdwkIthF4kIPw5/zTWhuJUEuuTMGScbyEP0azu+ZE=;
- b=BEbshRgd41idHM4uKO1wbW5b742gJID9k4zI1ClBgVFjzHoOXW6DkKNcMgikZZcwF/
- 9KO/4ku7G+gVMTGg/NzllYN9sZd4jbHD2j9RL0XbeHBPoaQ6HYasown1Y/x60hFbEVMX
- uIsalWrs3b4v2EVRieQvwXu/esvgBW2zkUOQcAiJREjIPtaPPL+9TXuX2hKsWNfNCrCg
- akL7N6aDO+6QiY0VNNOUYm7wNW21sTK88l5JD7GS2XyyHgIV4Ik3y68/VNefVRaZXvaL
- USgOUAr4MiApKVfgY9bZE2w54kA6FhQRkkbjfOOteEroYOai4jpwBs5grR0YUIG+KsQN
- evPw==
-X-Gm-Message-State: APjAAAUSdrTeH1DFR/6oN4KZRo0igNZi3B3vPXLKZ9OiXKZBfzpQThwq
- 7zdVAu816/K4NYGpMZWSBNJ7xT+CBSFhGMRY63PYMUERv0vFxyg/grn674v6PNrOXNMXwrKmr2d
- QE+Bsf7CNJmHEfOQ=
-X-Received: by 2002:ac8:53c1:: with SMTP id c1mr1702393qtq.328.1574243982692; 
- Wed, 20 Nov 2019 01:59:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwi6pSI+nCkSX+Xo7OQWjcSYlb7mj5Ad8yKiZozFAemOMhtyZA/hEpop2vEmDwBfySsI6FmzA==
-X-Received: by 2002:ac8:53c1:: with SMTP id c1mr1702382qtq.328.1574243982542; 
- Wed, 20 Nov 2019 01:59:42 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=udlnRDFsi+KkBvtwSXFal5HYXw9hrZuZTWTmkZClDRA=;
+ b=d0mtSZjPOrkLqGHOIKT+cKQqDEqR40Ww+yweniuoUoq6T54ZPU/VitKZQhp29jpeVd
+ heW9K2tHlu7uxaK8zTIPNUNlhQL7+Ks6A5MvpYlJwrG6z+Wm2BW6MvsdMmqB9SPbQaNK
+ W24UVsDo2LJcAsw2+xyaQmOQrSbRv4Eoa70A4dWjKiQr8g6X8jyrbUqloRazQeIbUxqd
+ vsgOfQmj7lbQ3DwzZOSiMc3JiY6U0r1U1XZNvZ6MDbdPlwPIoOJAVP+yB250yBOJP2Hg
+ DsP7VUcLU+fo4hkD7jDCwyrk774bnP7Tra7Al06TcMckyVqMX3zrMzuNv2Ik/L6tBKe+
+ qWcw==
+X-Gm-Message-State: APjAAAUsFWwBORD5EZ/F20KmN3VdLHAdHSiQu9SdadBgrzQIX4NouEXV
+ iaZoFqznqM/t/A9hgAkCzmTwZZdIgY3jueNu31vmMovJ19I8pm8Huc7kJ+WWC7q+O9FZTIeV0IX
+ 4GAtFWQSsM53CRiI=
+X-Received: by 2002:a37:a00f:: with SMTP id j15mr1551955qke.103.1574243988040; 
+ Wed, 20 Nov 2019 01:59:48 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz9cBCiWJEKY2AIJhD/SsJc4F1TmMBwH6bEFAQanVevdLCGq68OEa2EW4k9dNp9pEqK2VrPyg==
+X-Received: by 2002:a37:a00f:: with SMTP id j15mr1551949qke.103.1574243987806; 
+ Wed, 20 Nov 2019 01:59:47 -0800 (PST)
 Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id m186sm634642qkc.39.2019.11.20.01.59.40
+ by smtp.gmail.com with ESMTPSA id z3sm13956555qtu.83.2019.11.20.01.59.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 01:59:41 -0800 (PST)
-Date: Wed, 20 Nov 2019 04:59:37 -0500
+ Wed, 20 Nov 2019 01:59:47 -0800 (PST)
+Date: Wed, 20 Nov 2019 04:59:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] vhost-user-input: use free(elem) instead of g_free(elem)
-Message-ID: <20191120095904.11384-3-mst@redhat.com>
+Subject: [PULL 3/3] tests: acpi: always retain dumped ACPI tables in case of
+ error
+Message-ID: <20191120095904.11384-4-mst@redhat.com>
 References: <20191120095904.11384-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20191120095904.11384-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
-X-MC-Unique: UGAP9IPKOYSbI54x7D4wow-1
+X-MC-Unique: gtZULBH2MjGt6fOweS5Duw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,52 +89,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-The virtqueue element returned by vu_queue_pop() is allocated using
-malloc(3) by virtqueue_alloc_element().  Use the matching free(3)
-function instead of glib's g_free().
+If IASL wasn't able to parse expected file, test will just
+print warning
+  "Warning! iasl couldn't parse the expected aml\n"
+and remove temporary table dumped from guest.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20191119111626.112206-1-stefanha@redhat.com>
+Typically expected tables are always valid, with an exception
+when patchset introduces new tables.
+Make sure dumped tables are retained even if expected files
+are not valid, so one could have a chance to manualy check new
+tables.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1574240560-12538-1-git-send-email-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- contrib/vhost-user-input/main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/bios-tables-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/mai=
-n.c
-index 449fd2171a..ef4b7769f2 100644
---- a/contrib/vhost-user-input/main.c
-+++ b/contrib/vhost-user-input/main.c
-@@ -77,7 +77,7 @@ static void vi_input_send(VuInput *vi, struct virtio_inpu=
-t_event *event)
-         len =3D iov_from_buf(elem->in_sg, elem->in_num,
-                            0, &vi->queue[i].event, sizeof(virtio_input_eve=
-nt));
-         vu_queue_push(dev, vq, elem, len);
--        g_free(elem);
-+        free(elem);
-     }
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 0b33fb265f..79f5da092f 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -437,11 +437,11 @@ static void test_acpi_asl(test_data *data)
+         g_assert(!err || exp_err);
 =20
-     vu_queue_notify(&vi->dev.parent, vq);
-@@ -153,7 +153,7 @@ static void vi_handle_sts(VuDev *dev, int qidx)
-                          0, &event, sizeof(event));
-         vi_handle_status(vi, &event);
-         vu_queue_push(dev, vq, elem, len);
--        g_free(elem);
-+        free(elem);
-     }
-=20
-     vu_queue_notify(&vi->dev.parent, vq);
+         if (g_strcmp0(asl->str, exp_asl->str)) {
++            sdt->tmp_files_retain =3D true;
+             if (exp_err) {
+                 fprintf(stderr,
+                         "Warning! iasl couldn't parse the expected aml\n")=
+;
+             } else {
+-                sdt->tmp_files_retain =3D true;
+                 exp_sdt->tmp_files_retain =3D true;
+                 fprintf(stderr,
+                         "acpi-test: Warning! %.4s mismatch. "
 --=20
 MST
 
