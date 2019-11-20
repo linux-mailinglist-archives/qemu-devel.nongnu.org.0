@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF901043A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:49:50 +0100 (CET)
-Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE7B1043B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:52:43 +0100 (CET)
+Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXV2w-0006SR-RQ
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:49:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
+	id 1iXV5m-0001jU-JE
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:52:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iXUyi-00046i-Kb
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:26 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iXUym-0004BL-RP
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iXUyh-0005w4-CQ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:24 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34073
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iXUyl-0005wx-Sk
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27801
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXUyh-0005vw-9Z
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:23 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXUyk-0005wg-Pz
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574275522;
+ s=mimecast20190719; t=1574275526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9VChUaYDMKgOfJYiyiAjNsc7dnP3cRxMNS3wRwVjtGM=;
- b=cwFMVtEhUyYnseeOFAEBrBXc0sEhZqNhNkLJGEgu9NVlanZFI0CzyQEvzsfhK5ZODDVYd3
- d0Qct8iXmNQMHrs6oKD+cjf+IU6UYzQeVyjHtqppmToJKBW1qhAyLG4wv2VzVg4NSyG/5q
- LGj0ADhh3LanP8w2Jjkxndx09Qr38IM=
+ bh=mjmPaqmUuUTdBnjDEELsejgBcvneILBRa+zAo4pVu2M=;
+ b=L6mlGWdA0qwLPlbIMxKvpFIA7UEQ8b9/kaiSUa3H5Q4Ut/s/G+28n3+3RecoWpiYR9WtNm
+ aPhPN6xZEtoO8BHS4RdGVPF4t8jJa9PkiF7A8rJvLcUYcX9MjBIdUGmqdxTbhqCikfBtnL
+ olQO8kEcKaWWBocgBvv+3qIVk0AnHZA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-UiNYszBnMrmFwl84Mq6NnQ-1; Wed, 20 Nov 2019 13:45:19 -0500
+ us-mta-227-rz2O9RBMOF-64trxxoI55A-1; Wed, 20 Nov 2019 13:45:21 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85695100550E;
- Wed, 20 Nov 2019 18:45:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67A961005502;
+ Wed, 20 Nov 2019 18:45:20 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F05D01042B7D;
- Wed, 20 Nov 2019 18:45:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1A351042B7D;
+ Wed, 20 Nov 2019 18:45:18 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/6] block: truncate: Don't make backing file data visible
-Date: Wed, 20 Nov 2019 19:44:57 +0100
-Message-Id: <20191120184501.28159-3-kwolf@redhat.com>
+Subject: [PATCH v2 3/6] iotests: Add qemu_io_log()
+Date: Wed, 20 Nov 2019 19:44:58 +0100
+Message-Id: <20191120184501.28159-4-kwolf@redhat.com>
 In-Reply-To: <20191120184501.28159-1-kwolf@redhat.com>
 References: <20191120184501.28159-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: UiNYszBnMrmFwl84Mq6NnQ-1
+X-MC-Unique: rz2O9RBMOF-64trxxoI55A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,98 +75,33 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When extending the size of an image that has a backing file larger than
-its old size, make sure that the backing file data doesn't become
-visible in the guest, but the added area is properly zeroed out.
-
-Consider the following scenario where the overlay is shorter than its
-backing file:
-
-    base.qcow2:     AAAAAAAA
-    overlay.qcow2:  BBBB
-
-When resizing (extending) overlay.qcow2, the new blocks should not stay
-unallocated and make the additional As from base.qcow2 visible like
-before this patch, but zeros should be read.
-
-A similar case happens with the various variants of a commit job when an
-intermediate file is short (- for unallocated):
-
-    base.qcow2:     A-A-AAAA
-    mid.qcow2:      BB-B
-    top.qcow2:      C--C--C-
-
-After commit top.qcow2 to mid.qcow2, the following happens:
-
-    mid.qcow2:      CB-C00C0 (correct result)
-    mid.qcow2:      CB-C--C- (before this fix)
-
-Without the fix, blocks that previously read as zeros on top.qcow2
-suddenly turn into A.
+Add a function that runs qemu-io and logs the output with the
+appropriate filters applied.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ tests/qemu-iotests/iotests.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 003f4ea38c..6a5144f8d2 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3385,12 +3385,44 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child,=
- int64_t offset, bool exact,
-     ret =3D refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Could not refresh total sector count=
-");
-+        goto fail_refresh_total_sectors;
-     } else {
-         offset =3D bs->total_sectors * BDRV_SECTOR_SIZE;
-     }
-+
-+    /*
-+     * If the image has a backing file that is large enough that it would
-+     * provide data for the new area, we cannot leave it unallocated becau=
-se
-+     * then the backing file content would become visible. Instead, zero-f=
-ill
-+     * the area where backing file and new area overlap.
-+     *
-+     * Note that if the image has a backing file, but was opened without t=
-he
-+     * backing file, taking care of keeping things consistent with that ba=
-cking
-+     * file is the user's responsibility.
-+     */
-+    if (new_bytes && bs->backing && prealloc =3D=3D PREALLOC_MODE_OFF) {
-+        int64_t backing_len;
-+
-+        backing_len =3D bdrv_getlength(backing_bs(bs));
-+        if (backing_len < 0) {
-+            ret =3D backing_len;
-+            goto out;
-+        }
-+
-+        if (backing_len > old_size) {
-+            ret =3D bdrv_co_do_pwrite_zeroes(
-+                    bs, old_size, MIN(new_bytes, backing_len - old_size),
-+                    BDRV_REQ_ZERO_WRITE | BDRV_REQ_MAY_UNMAP);
-+            if (ret < 0) {
-+                goto out;
-+            }
-+        }
-+    }
-+
-     /* It's possible that truncation succeeded but refresh_total_sectors
-      * failed, but the latter doesn't affect how we should finish the requ=
-est.
-      * Pass 0 as the last parameter so that dirty bitmaps etc. are handled=
-. */
-+fail_refresh_total_sectors:
-     bdrv_co_write_req_finish(child, offset - new_bytes, new_bytes, &req, 0=
-);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 6a248472b9..330681ad02 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -157,6 +157,11 @@ def qemu_io(*args):
+         sys.stderr.write('qemu-io received signal %i: %s\n' % (-exitcode, =
+' '.join(args)))
+     return subp.communicate()[0]
 =20
- out:
++def qemu_io_log(*args):
++    result =3D qemu_io(*args)
++    log(result, filters=3D[filter_testfiles, filter_qemu_io])
++    return result
++
+ def qemu_io_silent(*args):
+     '''Run qemu-io and return the exit code, suppressing stdout'''
+     args =3D qemu_io_args + list(args)
 --=20
 2.20.1
 
