@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4871043B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:54:22 +0100 (CET)
-Received: from localhost ([::1]:33584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177881043BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:56:50 +0100 (CET)
+Received: from localhost ([::1]:33614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXV7N-0003bo-Ri
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:54:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40159)
+	id 1iXV9l-0005XH-5F
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:56:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iXUyy-0004Sr-UC
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:41 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iXV7n-0004hA-Hp
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:54:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iXUyx-00061m-QH
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:40 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43162
+ (envelope-from <dgilbert@redhat.com>) id 1iXV7l-0000qD-Df
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:54:46 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45754
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iXUyx-00061S-MT
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:45:39 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iXV7k-0000pi-Fr
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:54:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574275539;
+ s=mimecast20190719; t=1574276083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z94xinx2+GD6eweKLda0ZSwWRKBK/RFn22QUeVIj6kI=;
- b=BCgT/1ZVHVBlq9+I+bnMbixTHKeqLDlnm81eHeI8/k7avjKKc3Sr+BkQHW9CKZvRmQvoSm
- 2OJBkc9gT/aqSC1sFcVK+EoWI8BqOuq32jcoze3uN5KUwEYjwMcSC1bUdGUzq5sp2SukPx
- VrnP8XaPNneCqi3ev1RvzuZkwOEsiNI=
+ bh=ibW3iAYZrucLJDK3NWPHH3vAO7MrS557DPqcE2f94zw=;
+ b=PtxrBSLDoUb8eMGZdknKQEwRq1QcZIGZgP1wtdK2KmhH7oA3Ccokq0XrcsX/OihtNis0pR
+ SuMk1yjN2mxv1W5VW1veTtYbu0R1P9YYlNQl4VYD2H4DiywnRchWGCSaecXIsdJP8M0D5Z
+ QJJJXDmwlG7eppHwRLbEJlLqi5xHh00=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-ynJftSw6PASW2oYfhQfA4A-1; Wed, 20 Nov 2019 13:45:35 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-294-I88dyjnYOWWW4Nm8nDdoFg-1; Wed, 20 Nov 2019 13:54:42 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D459A107ACC5
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 18:45:34 +0000 (UTC)
-Received: from localhost (ovpn-116-6.gru2.redhat.com [10.97.116.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6828B68434;
- Wed, 20 Nov 2019 18:45:34 +0000 (UTC)
-Date: Wed, 20 Nov 2019 15:45:33 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] target/i386: add VMX features to named CPU models
-Message-ID: <20191120184533.GT3812@habkost.net>
-References: <20191120173753.8894-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 259938024C2;
+ Wed, 20 Nov 2019 18:54:39 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74D336E3F1;
+ Wed, 20 Nov 2019 18:54:22 +0000 (UTC)
+Date: Wed, 20 Nov 2019 18:54:20 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v3 07/33] serial: register vmsd with DeviceClass
+Message-ID: <20191120185420.GF2858@work-vm>
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-8-marcandre.lureau@redhat.com>
+ <CAFEAcA8GHqiaHSKdTjzTY_mWxYpDLZhXLYc98kjPGLUnzsG3oQ@mail.gmail.com>
+ <CAMxuvawcYnH4pp8PitMO6KcTz_GdwF7i=zJxepofsN1o9Yh65w@mail.gmail.com>
+ <CAFEAcA9Ee950esqNT4PJgGU0txnv_oFJWvQ+8oOn0FS9PBt=-w@mail.gmail.com>
+ <CAJ+F1CKYriLP=FK5s2u=azk-rfUCAG-gR6_keXDSOPS4D0Mq3A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191120173753.8894-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ynJftSw6PASW2oYfhQfA4A-1
+In-Reply-To: <CAJ+F1CKYriLP=FK5s2u=azk-rfUCAG-gR6_keXDSOPS4D0Mq3A@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: I88dyjnYOWWW4Nm8nDdoFg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -71,23 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Corey Minyard <cminyard@mvista.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Paul Burton <pburton@wavecomp.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 20, 2019 at 06:37:53PM +0100, Paolo Bonzini wrote:
-> This allows using "-cpu Haswell,+vmx", which we did not really want to
-> support in QEMU but was produced by Libvirt when using the "host-model"
-> CPU model.
+* Marc-Andr=E9 Lureau (marcandre.lureau@gmail.com) wrote:
+> On Tue, Nov 19, 2019 at 2:35 PM Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >
+> > On Tue, 19 Nov 2019 at 10:23, Marc-Andr=E9 Lureau
+> > <marcandre.lureau@redhat.com> wrote:
+> > > On Mon, Nov 18, 2019 at 6:22 PM Peter Maydell <peter.maydell@linaro.o=
+rg> wrote:
+> > > > Did you test whether migration still works from a QEMU
+> > > > version without this patch to one with it? (The migration
+> > >
+> > > Yes, I thought I did test correctly, but I realized testing with x86
+> > > isn't correct.
+> > >
+> > > So with arm/musicpal for ex, I can migrate from before->after, howeve=
+r
+> > > after->before won't work. Is that ok?
+> >
+> > Broadly speaking, the only case where we care about not
+> > breaking cross-version migration is where we have a versioned
+> > machine type. So musicpal doesn't matter too much. Beyond
+> > that, yes, generally before->after is more important than
+> > after->before. I have a feeling Red Hat downstream cares about
+> > after->before migration at least for x86 but you or your colleagues
+> > would know that better than me :-)
+> >
+> > > > vmstate code is too complicated for me to be able to figure
+> > > > out whether passing the 'dev' pointer makes a difference
+> > > > to whot it names the state sections and whether the
+> > > > 'qdev_set_legacy_instance_id' suffices to avoid problems.)
+> > >
+> > > I don't see a way to fix after->before, because the instance id is
+> > > initially 0 with the new code, and the old code expect a different
+> > > value.
+> >
+> > Can you explain how the instance ID stuff works? I was
+> > expecting that the result of setting the legacy instance ID
+> > would just be that the new version would always have
+> > the older setting, so if it works for old->new it would also
+> > work for new->old. But as I say I don't understand this bit
+> > of the migration code.
+>=20
+> From what I understand, the alias_id is only used in
+> savevm.c:find_se(), and thus can only be used to match against
+> "legacy" instance id values. On new code, instance_id is generated
+> incrementally from 0 with calculate_new_instance_id(), based on
+> "qdev-path/vmsd-name".
 
-I understand guest ABI compatibility is not a concern, but I
-don't remember how we guarantee it won't break by accident if
-somebody tries to live migrate a VM.
+I think there are cases here there's no qdev path that's viable;
+e.g. for ISA devices, the ID is set to the ISA IO base:
 
-What is supposed to happen today if trying to live migrate a VM
-using "-cpu Haswell,+vmx"?
+hw/char/serial-isa.c
+79:    qdev_set_legacy_instance_id(dev, isa->iobase, 3);
 
---=20
-Eduardo
+(In serial_isa_realizefn )
+
+but to be honest I'd have to trace this out and see what values the
+devices are actually using to be sure.
+
+(And yes, please don't break backwards migration; otherwise I'll
+end up having to figure out a fix).
+
+Dave
+
+>=20
+>=20
+> --=20
+> Marc-Andr=E9 Lureau
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
