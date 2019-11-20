@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16065103988
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:07:18 +0100 (CET)
-Received: from localhost ([::1]:57036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98CE103969
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:01:53 +0100 (CET)
+Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOlQ-0003EO-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:07:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1iXOgC-0006TK-RC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:01:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOPH-0003jQ-3x
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:24 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOP7-0003S8-Gx
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOPG-00041u-19
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:23 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34286)
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOP6-0003iI-5b
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:13 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30426
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iXOPF-0003g3-Ps
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:21 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAKBfxGQ019667
+ id 1iXOP6-0003hI-0s
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:12 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAKBhRd6132053
  for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:11 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf5a6vb3-1
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wcf4867jf-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:10 -0500
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:11 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 20 Nov 2019 11:44:08 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Wed, 20 Nov 2019 11:44:09 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 11:44:05 -0000
+ Wed, 20 Nov 2019 11:44:07 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAKBi4B457082010
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAKBi5xL41812022
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 11:44:04 GMT
+ Wed, 20 Nov 2019 11:44:05 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5B0704C052;
+ by IMSVA (Postfix) with ESMTP id ADE434C046;
+ Wed, 20 Nov 2019 11:44:05 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 940BA4C040;
  Wed, 20 Nov 2019 11:44:04 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42C1B4C04E;
- Wed, 20 Nov 2019 11:44:03 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.152.224.205])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Nov 2019 11:44:03 +0000 (GMT)
+ Wed, 20 Nov 2019 11:44:04 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/15] s390x: protvirt: Move diag 308 data over SIDAD
-Date: Wed, 20 Nov 2019 06:43:32 -0500
+Subject: [PATCH 14/15] s390x: protvirt: Disable address checks for PV guest IO
+ emulation
+Date: Wed, 20 Nov 2019 06:43:33 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120114334.2287-1-frankja@linux.ibm.com>
 References: <20191120114334.2287-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19112011-4275-0000-0000-00000383E084
+x-cbid: 19112011-0016-0000-0000-000002C9CC58
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112011-4276-0000-0000-000038975985
-Message-Id: <20191120114334.2287-14-frankja@linux.ibm.com>
+x-cbparentid: 19112011-0017-0000-0000-0000332B8B84
+Message-Id: <20191120114334.2287-15-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-20_03:2019-11-15,2019-11-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=1
- mlxlogscore=825 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 bulkscore=0 spamscore=0 mlxscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=613
+ spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ suspectscore=1 phishscore=0 clxscore=1015 priorityscore=1501 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
  definitions=main-1911200107
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,72 +96,131 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For protected guests the IPIB is written/read to/from the sattelite
-block, so we need to make those accesses virtual to make them go
-through KBM mem ops.
+IO instruction data is routed through SIDAD for protected guests, so
+adresses do not need to be checked, as this is kernel memory.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- target/s390x/diag.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ target/s390x/ioinst.c | 46 +++++++++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index db6d79cef3..d96d8bdc6c 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -88,6 +88,7 @@ static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
- void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+index c437a1d8c6..d3bd422ddd 100644
+--- a/target/s390x/ioinst.c
++++ b/target/s390x/ioinst.c
+@@ -110,11 +110,13 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+     int cssid, ssid, schid, m;
+     SubchDev *sch;
+     SCHIB schib;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     CPUS390XState *env = &cpu->env;
+-    uint8_t ar;
++    uint8_t ar = 0;
+ 
+-    addr = decode_basedisp_s(env, ipb, &ar);
++    if (!env->pv) {
++        addr = decode_basedisp_s(env, ipb, &ar);
++    }
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -167,11 +169,13 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+     int cssid, ssid, schid, m;
+     SubchDev *sch;
+     ORB orig_orb, orb;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     CPUS390XState *env = &cpu->env;
+-    uint8_t ar;
++    uint8_t ar = 0;
+ 
+-    addr = decode_basedisp_s(env, ipb, &ar);
++    if (!env->pv) {
++        addr = decode_basedisp_s(env, ipb, &ar);
++    }
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -198,12 +202,14 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+ void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
  {
-     CPUState *cs = env_cpu(env);
-+    S390CPU *cpu = S390_CPU(cs);
-     uint64_t addr =  env->regs[r1];
-     uint64_t subcode = env->regs[r3];
-     IplParameterBlock *iplb;
-@@ -118,14 +119,27 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
-         if (diag308_parm_check(env, r1, addr, ra, false)) {
-             return;
-         }
-+
-         iplb = g_new0(IplParameterBlock, 1);
--        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-+        if (!env->pv) {
-+            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-+        } else {
-+            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, sizeof(iplb->len));
-+            s390_cpu_virt_mem_handle_exc(cpu, ra);
-+        }
-+
-         if (!iplb_valid_len(iplb)) {
-             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
-             goto out;
-         }
+     CRW crw;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     int cc;
+     CPUS390XState *env = &cpu->env;
+-    uint8_t ar;
++    uint8_t ar = 0;
  
--        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-+        if (!env->pv) {
-+            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-+        } else {
-+            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, be32_to_cpu(iplb->len));
-+            s390_cpu_virt_mem_handle_exc(cpu, ra);
-+        }
-+
+-    addr = decode_basedisp_s(env, ipb, &ar);
++    if (!env->pv) {
++        addr = decode_basedisp_s(env, ipb, &ar);
++    }
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -228,13 +234,15 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
+ {
+     int cssid, ssid, schid, m;
+     SubchDev *sch;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     int cc;
+     SCHIB schib;
+     CPUS390XState *env = &cpu->env;
+-    uint8_t ar;
++    uint8_t ar = 0;
  
-         if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb) &&
-             !(iplb_valid_se(iplb) && s390_ipl_pv_check_comp(iplb) >= 0)) {
-@@ -149,7 +163,13 @@ out:
-             iplb = s390_ipl_get_iplb();
-         }
-         if (iplb) {
--            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-+            if (!env->pv) {
-+                cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
-+            } else {
-+                s390_cpu_virt_mem_write(cpu, 0, 0, iplb,
-+                                        be32_to_cpu(iplb->len));
-+                s390_cpu_virt_mem_handle_exc(cpu, ra);
-+            }
-             env->regs[r1 + 1] = DIAG_308_RC_OK;
-         } else {
-             env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
+-    addr = decode_basedisp_s(env, ipb, &ar);
++    if (!env->pv) {
++        addr = decode_basedisp_s(env, ipb, &ar);
++    }
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -294,16 +302,18 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
+     int cssid, ssid, schid, m;
+     SubchDev *sch;
+     IRB irb;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     int cc, irb_len;
+-    uint8_t ar;
++    uint8_t ar = 0;
+ 
+     if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid)) {
+         s390_program_interrupt(env, PGM_OPERAND, ra);
+         return -EIO;
+     }
+     trace_ioinst_sch_id("tsch", cssid, ssid, schid);
+-    addr = decode_basedisp_s(env, ipb, &ar);
++    if (!env->pv) {
++        addr = decode_basedisp_s(env, ipb, &ar);
++    }
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return -EIO;
+@@ -601,7 +611,7 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+ {
+     ChscReq *req;
+     ChscResp *res;
+-    uint64_t addr;
++    uint64_t addr = 0;
+     int reg;
+     uint16_t len;
+     uint16_t command;
+@@ -610,7 +620,9 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+ 
+     trace_ioinst("chsc");
+     reg = (ipb >> 20) & 0x00f;
+-    addr = env->regs[reg];
++    if (!env->pv) {
++        addr = env->regs[reg];
++    }
+     /* Page boundary? */
+     if (addr & 0xfff) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
 -- 
 2.20.1
 
