@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9707E103725
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:01:05 +0100 (CET)
-Received: from localhost ([::1]:55396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D018110372D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:02:36 +0100 (CET)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXMnI-0004RI-GR
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:01:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
+	id 1iXMoS-0006Cj-H5
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:02:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iXMlr-0003cd-NA
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:36 -0500
+ (envelope-from <mst@redhat.com>) id 1iXMlx-0003jV-OB
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iXMlq-0004fx-LE
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:35 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20782
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iXMlw-0004id-KS
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27742
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXMlq-0004fl-HO
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:34 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXMlw-0004i1-GO
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574243974;
+ s=mimecast20190719; t=1574243979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Z2xd3M3tiXP0Dqy8cIxALAd/wWaz02NtNyCEX6zrE08=;
- b=bUIcqQTmH77Q7uZGmXRTlYni8f1dkwqEGlxg0dkdfYKqj0AZpFB/QdTIL6soqz/FXJJL4g
- d6OTkZpPTG7o5mhRN5EwoU18LKXfSQ9BRrOeJMvMM3Y6bjNGYRk+P1qvVWEO3wfzM/eqUN
- vdE7kW0aYAWUNIy4b4O1ZzQRScHVQ8c=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-Eg3HlL5ZOn6DMd-23TUapQ-1; Wed, 20 Nov 2019 04:59:33 -0500
-Received: by mail-qv1-f70.google.com with SMTP id w2so16735573qvz.10
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 01:59:32 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oarDnP90Afnb43mO4u2yKQgzH/TrOzm1gjqPWa9S4BA=;
+ b=BY1AejRafo0ae4SUow8+XRgkPBlJcLSzYx/YyQrHHL7qlWCF3kcM5YwouV7miAx+CxFYjW
+ Ne7Ml8CofXkj4v11dsGleTj7+LK7HTZuk05H2yCW+rG/4KuVwrrdcSdJCvXz4i5rV6kN1L
+ DKOW2Okda0/kpIDTvYRxnuD9PplykNA=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-65zqoU0HPuKmRQV__Ywj3w-1; Wed, 20 Nov 2019 04:59:38 -0500
+Received: by mail-qt1-f198.google.com with SMTP id x50so16740478qth.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 01:59:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=/t2R2phiaDkjRZIymqwYoEV3HWCER9tcdkBnsMPy1Mg=;
- b=k6TG546uUm9f4xA1nESpT9STQImqCMPfXNcoBdvxMUs12ctMoUS1GnGVhWSxmaaamm
- rUHMf4MrJWx1sJnDZ2AS8MLl5NNIc/TDsQXCHsyL9/YyileB98ne2j02UMzPa6Evrh2F
- LzAe/Vn3Uvk6Qdelp7pPSjAkV3CmSc6968JLRr7Lr0KJOIALMS3ntnFGJ0F/k5f2Ak1x
- 8uMyoqt8IWCdLye4y4BZta6V3ylJmpeHMBRygPnFD2gNizbBhFvdTyLpxbt1vJqfItkh
- vsnp1roTzDkpGaXBBxdWRB0pSUohov1rN6ca2DYvR+vj49MQ8m3krCmmDHotOoIZ/N2f
- 0BPA==
-X-Gm-Message-State: APjAAAVRqVCuxdRGXhtAsk/kR71PoRgNKF27S1LSY2m7/sp2ypmrR+iG
- VGdjWYLK0gY5D1a1OaKlpuyOc8q3sndi0Qrnu/sEECGrr/gjKWqO2n5ajgUE+vN8IcAbO+TDKLT
- KCNilOkhZ2doVb6E=
-X-Received: by 2002:ac8:7943:: with SMTP id r3mr1749080qtt.49.1574243972296;
- Wed, 20 Nov 2019 01:59:32 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwvk3uIMGUtQbNSPZx5SUe2+Xej/adS5qrOGKX2GnHAFGszmdesh8BrrYO+jqtpG5843+MXEQ==
-X-Received: by 2002:ac8:7943:: with SMTP id r3mr1749071qtt.49.1574243972114;
- Wed, 20 Nov 2019 01:59:32 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3AVbLd6xjAB+NFS8fzE/fQA+6B5PATtOwgAshllb0wE=;
+ b=OwIdoa3hltuEomEHvQjoXSftQSfqB+dp00McKovTBPqQpZnIVOXWWNANwAmwz1q+gz
+ HXzMsJIcX5fjf0EUjNMqDfLT2rXBvrjPHRtxuzNuCuhkGNnbq/mpD7Ea6akeudUr0+/o
+ Nngh/g5i5MLfVP49WRGV/iMQh0t9AQrofomN7EqolMTFH5SpWukTsRtMf8o0AiSOpVMp
+ bjxloxxcim0X45JVBugB//CF5OQPkHXk1MsRXi5d18ChQhudg5aELry4qbp/JE+VhZW6
+ 5dXuM3+c5dExYclEcfMgaZLn6K8RPeXyiqhxH4th5jdnvf0W9uVOB8HpBUIL3YGIvH1k
+ r3Uw==
+X-Gm-Message-State: APjAAAWPN+SG5tOFfK2bPdhXihfQVCmXwRbZ7oU+TIyrePfKwz8ic87x
+ oeINyLb3OIB5RUC4dQlewcSE5WsBEicWyjTd4nEEXxa4kvzVaingzdk8oKVUo7Sah4zMEXBKRzJ
+ W03g/wJBUrhwdxCs=
+X-Received: by 2002:ac8:6bd9:: with SMTP id b25mr1739559qtt.295.1574243977495; 
+ Wed, 20 Nov 2019 01:59:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwaiVgul7wa2lB1BaRr2O9QMlmBf+3jyAeSOOLLuchvCrd62ve+1hvxDkOBmMDqr29s2f+dLA==
+X-Received: by 2002:ac8:6bd9:: with SMTP id b25mr1739553qtt.295.1574243977353; 
+ Wed, 20 Nov 2019 01:59:37 -0800 (PST)
 Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id j89sm13699358qte.72.2019.11.20.01.59.29
+ by smtp.gmail.com with ESMTPSA id p59sm13945623qtd.2.2019.11.20.01.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 01:59:31 -0800 (PST)
-Date: Wed, 20 Nov 2019 04:59:27 -0500
+ Wed, 20 Nov 2019 01:59:36 -0800 (PST)
+Date: Wed, 20 Nov 2019 04:59:32 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] virtio, acpi: fixes
-Message-ID: <20191120095904.11384-1-mst@redhat.com>
+Subject: [PULL 1/3] libvhost-user: Zero memory allocated for
+ VuVirtqInflightDesc
+Message-ID: <20191120095904.11384-2-mst@redhat.com>
+References: <20191120095904.11384-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20191120095904.11384-1-mst@redhat.com>
 X-Mailer: git-send-email 2.22.0.678.g13338e74b8
 X-Mutt-Fcc: =sent
-X-MC-Unique: Eg3HlL5ZOn6DMd-23TUapQ-1
+X-MC-Unique: 65zqoU0HPuKmRQV__Ywj3w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,44 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Xie Yongji <xieyongji@baidu.com>,
+ Zhang Yu <zhangyu31@baidu.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 39e2821077e6dcf788b7c2a9ef50970ec7995437=
-:
+From: Xie Yongji <xieyongji@baidu.com>
 
-  Update version for v4.2.0-rc2 release (2019-11-19 19:34:10 +0000)
+Use a zero-initialized VuVirtqInflightDesc struct to avoid
+that scan-build reports that vq->resubmit_list[0].counter may
+be garbage value in vu_check_queue_inflights().
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 6c77aa909e0eec6531e2398d0e9e60ec6a9339c6:
-
-  tests: acpi: always retain dumped ACPI tables in case of error (2019-11-2=
-0 04:57:22 -0500)
-
-----------------------------------------------------------------
-virtio, acpi: fixes
-
-A couple of bugfixes.
-
+Fixes: 5f9ff1eff ("libvhost-user: Support tracking inflight I/O in
+shared memory")
+Reported-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+Message-Id: <20191119075759.4334-1-xieyongji@baidu.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-Igor Mammedov (1):
-      tests: acpi: always retain dumped ACPI tables in case of error
-
-Stefan Hajnoczi (1):
-      vhost-user-input: use free(elem) instead of g_free(elem)
-
-Xie Yongji (1):
-      libvhost-user: Zero memory allocated for VuVirtqInflightDesc
-
+---
  contrib/libvhost-user/libvhost-user.c | 2 +-
- contrib/vhost-user-input/main.c       | 4 ++--
- tests/bios-tables-test.c              | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
+libvhost-user.c
+index 68c27136ae..ec27b78ff1 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -992,7 +992,7 @@ vu_check_queue_inflights(VuDev *dev, VuVirtq *vq)
+     vq->shadow_avail_idx =3D vq->last_avail_idx =3D vq->inuse + vq->used_i=
+dx;
+=20
+     if (vq->inuse) {
+-        vq->resubmit_list =3D malloc(sizeof(VuVirtqInflightDesc) * vq->inu=
+se);
++        vq->resubmit_list =3D calloc(vq->inuse, sizeof(VuVirtqInflightDesc=
+));
+         if (!vq->resubmit_list) {
+             return -1;
+         }
+--=20
+MST
 
 
