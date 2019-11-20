@@ -2,72 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304001040B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:25:29 +0100 (CET)
-Received: from localhost ([::1]:60218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AEF1040BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:25:57 +0100 (CET)
+Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXSnI-0007s9-3A
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:25:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44149)
+	id 1iXSnk-0000pf-OI
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:25:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <flukshun@gmail.com>) id 1iXSlS-0005gi-Ff
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:23:36 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXSmC-00073x-3i
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <flukshun@gmail.com>) id 1iXSlR-0003Me-1d
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:23:34 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36628)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <flukshun@gmail.com>) id 1iXSlQ-0003M2-NT
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:23:32 -0500
-Received: by mail-oi1-x232.google.com with SMTP id j7so300539oib.3
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:mime-version:content-transfer-encoding:to:from:in-reply-to
- :cc:references:message-id:user-agent:subject:date;
- bh=qdhNuzi/payofw7XQewUqB9bumo/LSHmhAc9iCwjmGw=;
- b=Fw2PULsWzNJhOL2HLlJvjh2uCT+WRwoWLa7DANu30fJOspZ93HMGLR921bDXKUwXwG
- nESCwF5kqqSVKh9M4r/u8xwpcBxPucwzef5RCsPICuuVgAZ4MxgyX7XcQKA/Ps4zCGCi
- H2jMYa0M46bKfxsvREn1Wv3CAXyoPwXG+SK5PxCWmThNG1gU0SXQ9wCTN88I/RS59uAS
- Lsrlnk/8XeTdJNUXFdTxci37yd0RXSKHuxdSmOgyYLUKkrMHOTNlqqnN61iTzzYbjFRS
- UuwkNN16JDaLndZJuGxbXkMowiRtcivxyYGJArJBQdb6pz1VkvdBOa+g0hb3pBol7pC+
- sddg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:mime-version:content-transfer-encoding:to
- :from:in-reply-to:cc:references:message-id:user-agent:subject:date;
- bh=qdhNuzi/payofw7XQewUqB9bumo/LSHmhAc9iCwjmGw=;
- b=meObpq71eTwJllzs8GQV/vZMdGDiaple4OIixrUzoqtyzg9SuXKbQ55XucoE1W8FH/
- LhwgInVgKTbTVQKBBiY2uOr456E3ZvaR4p89wUf9g+hXH49P2uzBsRibmxVTogMaNDuz
- 7s9XUxU3P5RomInwqcZ550bukM9NMexgOWATlgK9bdG1lg1E7PK2rc2AnuuA/HehOUGH
- /+zJB7NuOkpEz2Gp8A230w+2FCNv7GboMF4uOSj5rn2Zgdf30H/ny9m0Kuz2Xk0DNjUy
- wdNWOdYppq0vsgjU1Diip/js/9A7isk/EG8jyVgsMja3HfaZ50cX4FNjehwGHRJfIQLr
- E9MA==
-X-Gm-Message-State: APjAAAUvtcL00sIf3xPXL7gl7XMhjrEQ8glwmFSc1qsrxi30MwoOsD++
- 7hzM9vVnm52O1SlDXqxHfgQ=
-X-Google-Smtp-Source: APXvYqyg78/zZZ9pe55zwj981zp9i/ImcB6uOjlxGe6WOKV4L3D4mvoGeGm0yIIGuJe9V2v9OD9j3g==
-X-Received: by 2002:aca:d496:: with SMTP id l144mr3663625oig.56.1574267010498; 
- Wed, 20 Nov 2019 08:23:30 -0800 (PST)
-Received: from localhost (76-251-165-188.lightspeed.austtx.sbcglobal.net.
- [76.251.165.188])
- by smtp.gmail.com with ESMTPSA id 63sm8569371oty.58.2019.11.20.08.23.29
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 20 Nov 2019 08:23:29 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXSmA-0003ZU-PX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:24:20 -0500
+Received: from relay.sw.ru ([185.231.240.75]:53030)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iXSm7-0003XS-7E; Wed, 20 Nov 2019 11:24:15 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iXSlu-0007ga-Ps; Wed, 20 Nov 2019 19:24:02 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 5/4] iotests: add commit top->base cases to 274
+Date: Wed, 20 Nov 2019 19:24:02 +0300
+Message-Id: <20191120162402.24707-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191116163410.12129-1-vsementsov@virtuozzo.com>
+References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: no-reply@patchew.org, qemu-devel@nongnu.org
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <157423033042.2797.15950947649776190513@37313f22b938>
-References: <157423033042.2797.15950947649776190513@37313f22b938>
-Message-ID: <157426700550.3335.16748606368540493053@sif>
-User-Agent: alot/0.7
-Subject: Re: [PATCH v2] virtio-pci: disable vring processing when
- bus-mastering is disabled
-Date: Wed, 20 Nov 2019 10:23:25 -0600
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,86 +47,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, david@gibson.dropbear.id.au, qemu-devel@nongnu.org,
- dgilbert@redhat.com, mst@redhat.com
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting no-reply@patchew.org (2019-11-20 00:12:11)
-> Patchew URL: https://patchew.org/QEMU/20191120005003.27035-1-mdroth@linux=
-.vnet.ibm.com/
-> =
+These cases are fixed by previous patches around block_status and
+is_allocated.
 
-> =
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/274     | 20 ++++++++++++
+ tests/qemu-iotests/274.out | 63 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 83 insertions(+)
 
-> =
+diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+index f3b71e2859..492fc7b251 100755
+--- a/tests/qemu-iotests/274
++++ b/tests/qemu-iotests/274
+@@ -115,6 +115,26 @@ with iotests.FilePath('base') as base, \
+     iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+     iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), mid)
+ 
++    iotests.log('=== Testing qemu-img commit (top -> base) ===')
++
++    create_chain()
++    iotests.qemu_img_log('commit', '-b', base, top)
++    iotests.img_info_log(base)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
++
++    iotests.log('=== Testing QMP active commit (top -> base) ===')
++
++    create_chain()
++    with create_vm() as vm:
++        vm.launch()
++        vm.qmp_log('block-commit', device='top', base_node='base',
++                   job_id='job0', auto_dismiss=False)
++        vm.run_job('job0', wait=5)
++
++    iotests.img_info_log(mid)
++    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, base)
++    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_diff), base)
+ 
+     iotests.log('== Resize tests ==')
+ 
+diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+index def0ac7d27..8f59a4a123 100644
+--- a/tests/qemu-iotests/274.out
++++ b/tests/qemu-iotests/274.out
+@@ -126,6 +126,69 @@ read 1048576/1048576 bytes at offset 0
+ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
++=== Testing qemu-img commit (top -> base) ===
++Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++Image committed.
++
++image: TEST_IMG
++file format: IMGFMT
++virtual size: 2 MiB (2097152 bytes)
++cluster_size: 65536
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=== Testing QMP active commit (top -> base) ===
++Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
++
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++{"execute": "block-commit", "arguments": {"auto-dismiss": false, "base-node": "base", "device": "top", "job-id": "job0"}}
++{"return": {}}
++{"execute": "job-complete", "arguments": {"id": "job0"}}
++{"return": {}}
++{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_READY", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "job0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"execute": "job-dismiss", "arguments": {"id": "job0"}}
++{"return": {}}
++image: TEST_IMG
++file format: IMGFMT
++virtual size: 1 MiB (1048576 bytes)
++cluster_size: 65536
++backing file: TEST_DIR/PID-base
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 1048576/1048576 bytes at offset 1048576
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
+ == Resize tests ==
+ Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=6442450944 cluster_size=65536 lazy_refcounts=off refcount_bits=16
+ 
+-- 
+2.21.0
 
-> Hi,
-> =
-
-> This series failed the docker-quick@centos7 build test. Please find the t=
-esting commands and
-> their output below. If you have Docker installed, you can probably reprod=
-uce it
-> locally.
-> =
-
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> make docker-image-centos7 V=3D1 NETWORK=3D1
-> time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
-> =
-
->   TEST    check-unit: tests/test-thread-pool
-> wait_for_migration_fail: unexpected status status=3Dwait-unplug allow_act=
-ive=3D1
-> **
-> ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wait_for_migration_fa=
-il: assertion failed: (result)
-> ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wai=
-t_for_migration_fail: assertion failed: (result)
-
-Seems to be an unrelated issue noted in this thread:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg01326.html
-
-I'm running the centos docker test in a loop but haven't been able to repro=
-duce
-so far after 7 attempts
-
-> make: *** [check-qtest-aarch64] Error 1
-> make: *** Waiting for unfinished jobs....
->   TEST    check-unit: tests/test-hbitmap
->   TEST    check-unit: tests/test-bdrv-drain
-> ---
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '=
---label', 'com.qemu.instance.uuid=3Dc863e15882a747a88c290575505cc1de', '-u'=
-, '1001', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_L=
-IST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e=
-', 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', =
-'-v', '/home/patchew/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/=
-var/tmp/patchew-tester-tmp-wg70rgpu/src/docker-src.2019-11-20-01.02.57.1241=
-2:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']' =
-returned non-zero exit status 2.
-> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3Dc863e15882a747a88c29=
-0575505cc1de
-> make[1]: *** [docker-run] Error 1
-> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-wg70rgpu/src'
-> make: *** [docker-run-test-quick@centos7] Error 2
-> =
-
-> real    9m13.236s
-> user    0m8.131s
-> =
-
-> =
-
-> The full log is available at
-> http://patchew.org/logs/20191120005003.27035-1-mdroth@linux.vnet.ibm.com/=
-testing.docker-quick@centos7/?type=3Dmessage.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
 
