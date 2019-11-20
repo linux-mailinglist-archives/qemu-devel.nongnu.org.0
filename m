@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6760310410C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:42:06 +0100 (CET)
-Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36CF10413E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:46:26 +0100 (CET)
+Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXT3N-0008AG-79
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:42:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47130)
+	id 1iXT7Z-0003wV-CI
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:46:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iXT2L-0007Q9-Du
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:41:02 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iXT2U-0007bA-EN
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:41:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iXT2H-00005j-Ij
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:41:00 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37417)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iXT2H-0008WT-96
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:40:57 -0500
-Received: by mail-wm1-x342.google.com with SMTP id b17so322748wmj.2
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:40:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Fzw6AvuhTdSk7eMKis7RGWNJuPHFoaP+GEfOD5+BxlU=;
- b=fs8jQQbN7wh6is5PZIl9wRheguT0rDLUJMsLpxj9ZbwQsDyN3ct7YIfWGcaC8X7uU5
- St3/IKra5tB0ladroDKuGQhJeuhshTJ0enuS+XmwzzAAz4okR4Bur5w6j7AZEb4cMj4d
- TkEczCNCZL955TUn4rcqicaxd29eIzjUUfWPQ6NukgumTsCumvMGDIUVqT3TAxeDM/SK
- fv8wqRpOWeGuBRYAbSiPKSg3ABE6Zb4GpIS8okl5dJBNhEEbLFxs7vzTC6DgO21f549k
- DMDcxMjMkRr2R420+Ouiewb7AaWml81BJxI0S8PC3UTO98vbRDMDBegEgH/UEgKkScWM
- U3Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Fzw6AvuhTdSk7eMKis7RGWNJuPHFoaP+GEfOD5+BxlU=;
- b=FaltaLV/bp2R5MztiNG2FkDt5jtpaw7WGBkxMDJSI1MVGRQKKtuvVjI2XLn+59fBya
- Z7p+wm0cOiSDGLsss1pWimLBBlgqGlQbMuBCZYghcHv4FR39zgXUdsOoQXq3/TJ/98LC
- AHw+2odWlEc9OHLMfrQkxQilN8vscOXokh3EuS0D68z+1ugArVuHAR5l76OzeQsKMYMb
- QAS40Bf4nDq/a+jVYMfjzBeFj99f1v1inFhuVIvC57nUw8a9yWWAGCHT3plKz3T+FTuW
- dI9ixR5wECfFvDigDI6kIwws9/VR1kezIWolp0oShxQMIoHDecnu2oZprx2vVcwr4eFf
- QjiA==
-X-Gm-Message-State: APjAAAXWg5JOJ1v3iJVbZwtnEldcnEXJTe5sm3FuIBpDm7IK7kqDpZ41
- DRUmRG4f79FvtGAyH77U/t2cvA==
-X-Google-Smtp-Source: APXvYqzuPA9+3uyYBUPbWfEwLg0VJEf29UYNOPipBqNVxDHjm6FoEk0I/wuyJpU7BmL/FDy3XMdtwQ==
-X-Received: by 2002:a1c:2d4b:: with SMTP id t72mr4534872wmt.112.1574268055434; 
- Wed, 20 Nov 2019 08:40:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h140sm7614813wme.22.2019.11.20.08.40.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 08:40:53 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BCC931FF87;
- Wed, 20 Nov 2019 16:40:52 +0000 (GMT)
-References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
- <a77ce406-5307-cee8-8e0b-7c08056fb0df@redhat.com>
- <BYAPR02MB488666AA94EBB57C2A318004DE4C0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <8c92b107-b707-b8a7-6284-5b1ed8e95897@vivier.eu>
- <BYAPR02MB4886E559B9286FE580C28556DE4F0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <98464579-194a-2b96-5cb9-3b7a7d9e680d@vivier.eu>
- <42954e4f-11cd-6c95-e74c-9dbec2f90d56@linaro.org>
- <BYAPR02MB48867C73CDE23CA70FEE5369DE4F0@BYAPR02MB4886.namprd02.prod.outlook.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of
- patches - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon - Files in target/hexagon/imported are from another project
- and therefore do not conform to qemu coding standards
-In-reply-to: <BYAPR02MB48867C73CDE23CA70FEE5369DE4F0@BYAPR02MB4886.namprd02.prod.outlook.com>
-Date: Wed, 20 Nov 2019 16:40:52 +0000
-Message-ID: <87k17ufqln.fsf@linaro.org>
+ (envelope-from <dgilbert@redhat.com>) id 1iXT2S-0000ED-Lu
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:41:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30172
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iXT2S-0000Dk-Hp
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:41:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574268067;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+04ApiQitCXocLjL7A2pQ36+TcsC+4h7V84Cey+GE8w=;
+ b=h+YJYm+scEZ/ibCDJ7/pOJPG7KpAe9Tws4fbmwypg+BIG8unrn0efA0egYGMwgA0AIn5p/
+ qa/CpnFIsCXPXbZvOkt+WjI70Ni0AhOU6uvGHU+nLya/+mITOs0MIfideIufuh0WR9ulC8
+ Z7C+nabOz05HaSZRTzBs/W1em5wCCq4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-65-uGynr_RkOkGv3BXDRzQ4yg-1; Wed, 20 Nov 2019 11:41:03 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44343107ACC7;
+ Wed, 20 Nov 2019 16:41:02 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D651F1001902;
+ Wed, 20 Nov 2019 16:40:55 +0000 (UTC)
+Date: Wed, 20 Nov 2019 16:40:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2] virtio-pci: disable vring processing when
+ bus-mastering is disabled
+Message-ID: <20191120164053.GC2858@work-vm>
+References: <157423033042.2797.15950947649776190513@37313f22b938>
+ <157426700550.3335.16748606368540493053@sif>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <157426700550.3335.16748606368540493053@sif>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: uGynr_RkOkGv3BXDRzQ4yg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,78 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: no-reply@patchew.org, aik@ozlabs.ru, david@gibson.dropbear.id.au,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Michael Roth (mdroth@linux.vnet.ibm.com) wrote:
+> Quoting no-reply@patchew.org (2019-11-20 00:12:11)
+> > Patchew URL: https://patchew.org/QEMU/20191120005003.27035-1-mdroth@lin=
+ux.vnet.ibm.com/
+> >=20
+> >=20
+> >=20
+> > Hi,
+> >=20
+> > This series failed the docker-quick@centos7 build test. Please find the=
+ testing commands and
+> > their output below. If you have Docker installed, you can probably repr=
+oduce it
+> > locally.
+> >=20
+> > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
+> > #!/bin/bash
+> > make docker-image-centos7 V=3D1 NETWORK=3D1
+> > time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
+> > =3D=3D=3D TEST SCRIPT END =3D=3D=3D
+> >=20
+> >   TEST    check-unit: tests/test-thread-pool
+> > wait_for_migration_fail: unexpected status status=3Dwait-unplug allow_a=
+ctive=3D1
+> > **
+> > ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wait_for_migration_=
+fail: assertion failed: (result)
+> > ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:w=
+ait_for_migration_fail: assertion failed: (result)
+>=20
+> Seems to be an unrelated issue noted in this thread:
+>=20
+>   https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg01326.html
 
-Taylor Simpson <tsimpson@quicinc.com> writes:
+Yeh, Jens has a patch series that's fixing that.
 
-> Is there a precedent for this?  I'm OK with DEBUG_HEX, but I assumed revi=
-ewers wouldn't approve
-> #ifdef FIXME
-> #define DEBUG_HEX
-> #endif
+Dave
 
-We are trying to phase out this style of #define as it's prone to
-bitrot. What you can do if define a debug helper like:
-
-#define D(fmt, ..) \
-  if (DEBUG_HEXAGON) { \
-      qemu_log(fmt, ## __VA_ARGS__); \
-  }
-
-So the debug will still be built (and format strings checked etc) but
-with DEBUG_HEXAGON as 0 things get dead coded away.
-
->
-> Taylor
->
->
-> -----Original Message-----
-> From: Richard Henderson <richard.henderson@linaro.org>
-> Sent: Wednesday, November 20, 2019 3:02 AM
-> To: Laurent Vivier <laurent@vivier.eu>; Taylor Simpson <tsimpson@quicinc.=
-com>; Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>; riku.voipio@iki.fi; =
-qemu-devel@nongnu.org
-> Subject: Re: [PATCH] Add minimal Hexagon target - First in a series of pa=
-tches - linux-user changes + linux-user/hexagon + skeleton of target/hexago=
-n - Files in target/hexagon/imported are from another project and therefore=
- do not conform to qemu coding standards
->
->
-> On 11/20/19 9:33 AM, Laurent Vivier wrote:
->> Le 20/11/2019 =C3=A0 05:48, Taylor Simpson a =C3=A9crit :
->>> For the general DEBUG_HEX messages, I think the trace infrastructure is=
-n't quite what I'm looking for.
->>>
->>> Here's a sample of what it prints
->>> Start packet: pc =3D 0x4002f0
->>> Packet committed: pc =3D 0x4002f0
->>> Regs written
->>>         r18 =3D -69420 (0xfffef0d4)
->>>         r19 =3D -69412 (0xfffef0dc)
->>> Stores
->>>         memd[0xfffef0b0] =3D 0 (0x0000000000000000) Next PC =3D 0x4002f8
->>> Exec counters: pkt =3D 17, insn =3D 24, hvx =3D 0
->
-> For something like this, I'd keep DEBUG_HEX.
->
->>>     if (qemu_loglevel_maks(CPU_LOG_EXEC)) {
->
-> CPU_LOG_EXEC already has a specific structure, listing the TranslationBlo=
-cks that are executed.  It shouldn't be hijacked for something else.
->
-> If you really want a runtime flag for this, we should add a new CPU_LOG_*=
- flag.
->
->
-> r~
-
-
+> I'm running the centos docker test in a loop but haven't been able to rep=
+roduce
+> so far after 7 attempts
+>=20
+> > make: *** [check-qtest-aarch64] Error 1
+> > make: *** Waiting for unfinished jobs....
+> >   TEST    check-unit: tests/test-hbitmap
+> >   TEST    check-unit: tests/test-bdrv-drain
+> > ---
+> >     raise CalledProcessError(retcode, cmd)
+> > subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run',=
+ '--label', 'com.qemu.instance.uuid=3Dc863e15882a747a88c290575505cc1de', '-=
+u', '1001', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET=
+_LIST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '=
+-e', 'DEBUG=3D', '-e', 'SHOW_ENV=3D1', '-e', 'CCACHE_DIR=3D/var/tmp/ccache'=
+, '-v', '/home/patchew/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', =
+'/var/tmp/patchew-tester-tmp-wg70rgpu/src/docker-src.2019-11-20-01.02.57.12=
+412:/var/tmp/qemu:z,ro', 'qemu:centos7', '/var/tmp/qemu/run', 'test-quick']=
+' returned non-zero exit status 2.
+> > filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3Dc863e15882a747a88c=
+290575505cc1de
+> > make[1]: *** [docker-run] Error 1
+> > make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-wg70rgpu/src'
+> > make: *** [docker-run-test-quick@centos7] Error 2
+> >=20
+> > real    9m13.236s
+> > user    0m8.131s
+> >=20
+> >=20
+> > The full log is available at
+> > http://patchew.org/logs/20191120005003.27035-1-mdroth@linux.vnet.ibm.co=
+m/testing.docker-quick@centos7/?type=3Dmessage.
+> > ---
+> > Email generated automatically by Patchew [https://patchew.org/].
+> > Please send your feedback to patchew-devel@redhat.com
+>=20
 --
-Alex Benn=C3=A9e
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
