@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8611043DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 20:02:59 +0100 (CET)
-Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159471043F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 20:08:23 +0100 (CET)
+Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXVFi-0000m8-03
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 14:02:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42207)
+	id 1iXVKw-0006aC-3C
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 14:08:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iXVCD-00072S-Hx
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:23 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iXVCD-00071i-6N
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iXVC6-0002Sj-6p
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49508
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iXVCB-0002Wu-NS
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:20 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30830
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iXVC6-0002SX-3l
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:14 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iXVC7-0002U9-DS
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574276353;
+ s=mimecast20190719; t=1574276354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gJ2Qszn2R04VC6j3FnQMB3gCgXKq6qD9jkiwXRirU9U=;
- b=D0Nv7KfOTx7PZYBCTszqsu/+yCPg6+i8qR+7EN63jBzbPjht0KMO6bVpdAokm6MI/1jIb9
- DN2k8EcXt55NElJaXrWXUtYI7iKTEF+3U5SXA7YLUScE0a8oI1uQEvv66vi4emeXHIpOtw
- kKwd8MNW6ohn0f98pZPkalW59cKYibU=
+ bh=Bg+QxGnWgAGLhQ/w5EbbApoaMWMmtldCtQd70JohfpA=;
+ b=PFnhhBILvImVj/kvR8N/8aFG9fjll5OSqGFTBrJqD79vOkP5nrEvTMMJLLDbry8m7AuwrO
+ tCj8qt+iCR5BGRvq6v7sx0P7Zow2T7uh3em1s+lISHTXwQA6to06pglXrk6GyT8Zj8+htv
+ b95fq3MNy/pLhoi+PM0NNKEG2rwwSuo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-rBhv_bQ7NCizFeiCU327vQ-1; Wed, 20 Nov 2019 13:59:10 -0500
+ us-mta-266-bl2HaCHQOG6qIFLxAUpFLQ-1; Wed, 20 Nov 2019 13:59:12 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D69F184CAA4;
- Wed, 20 Nov 2019 18:59:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC862DB61;
+ Wed, 20 Nov 2019 18:59:11 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A6D0263647;
- Wed, 20 Nov 2019 18:59:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D930A63647;
+ Wed, 20 Nov 2019 18:59:09 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/9] monitor: move hmp_snapshot_* to blockdev-hmp-cmds.c
-Date: Wed, 20 Nov 2019 20:58:47 +0200
-Message-Id: <20191120185850.18986-7-mlevitsk@redhat.com>
+Subject: [PATCH 7/9] monitor: move remaining hmp_block* functions to
+ blockdev-hmp-cmds.c
+Date: Wed, 20 Nov 2019 20:58:48 +0200
+Message-Id: <20191120185850.18986-8-mlevitsk@redhat.com>
 In-Reply-To: <20191120185850.18986-1-mlevitsk@redhat.com>
 References: <20191120185850.18986-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: rBhv_bQ7NCizFeiCU327vQ-1
+X-MC-Unique: bl2HaCHQOG6qIFLxAUpFLQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,128 +79,175 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- blockdev-hmp-cmds.c | 47 +++++++++++++++++++++++++++++++++++++++++++++
- monitor/hmp-cmds.c  | 46 --------------------------------------------
- 2 files changed, 47 insertions(+), 46 deletions(-)
+ blockdev-hmp-cmds.c | 63 ++++++++++++++++++++++++++++++++++++++++++++
+ monitor/hmp-cmds.c  | 64 ---------------------------------------------
+ 2 files changed, 63 insertions(+), 64 deletions(-)
 
 diff --git a/blockdev-hmp-cmds.c b/blockdev-hmp-cmds.c
-index e333de27b1..f3d22c7dd3 100644
+index f3d22c7dd3..76951352b1 100644
 --- a/blockdev-hmp-cmds.c
 +++ b/blockdev-hmp-cmds.c
-@@ -290,3 +290,50 @@ void hmp_block_job_complete(Monitor *mon, const QDict =
-*qdict)
-=20
-     hmp_handle_error(mon, &error);
+@@ -337,3 +337,66 @@ void hmp_snapshot_delete_blkdev_internal(Monitor *mon,=
+ const QDict *qdict)
+                                                true, name, &err);
+     hmp_handle_error(mon, &err);
  }
 +
-+void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
++void hmp_block_resize(Monitor *mon, const QDict *qdict)
 +{
 +    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *filename =3D qdict_get_try_str(qdict, "snapshot-file");
-+    const char *format =3D qdict_get_try_str(qdict, "format");
-+    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
-+    enum NewImageMode mode;
++    int64_t size =3D qdict_get_int(qdict, "size");
 +    Error *err =3D NULL;
 +
-+    if (!filename) {
-+        /* In the future, if 'snapshot-file' is not specified, the snapsho=
-t
-+           will be taken internally. Today it's actually required. */
-+        error_setg(&err, QERR_MISSING_PARAMETER, "snapshot-file");
-+        hmp_handle_error(mon, &err);
-+        return;
++    qmp_block_resize(true, device, false, NULL, size, &err);
++    hmp_handle_error(mon, &err);
++}
++
++void hmp_block_stream(Monitor *mon, const QDict *qdict)
++{
++    Error *error =3D NULL;
++    const char *device =3D qdict_get_str(qdict, "device");
++    const char *base =3D qdict_get_try_str(qdict, "base");
++    int64_t speed =3D qdict_get_try_int(qdict, "speed", 0);
++
++    qmp_block_stream(true, device, device, base !=3D NULL, base, false, NU=
+LL,
++                     false, NULL, qdict_haskey(qdict, "speed"), speed, tru=
+e,
++                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, false,
++                     &error);
++
++    hmp_handle_error(mon, &error);
++}
++
++void hmp_block_passwd(Monitor *mon, const QDict *qdict)
++{
++    const char *device =3D qdict_get_str(qdict, "device");
++    const char *password =3D qdict_get_str(qdict, "password");
++    Error *err =3D NULL;
++
++    qmp_block_passwd(true, device, false, NULL, password, &err);
++    hmp_handle_error(mon, &err);
++}
++
++void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
++{
++    Error *err =3D NULL;
++    char *device =3D (char *) qdict_get_str(qdict, "device");
++    BlockIOThrottle throttle =3D {
++        .bps =3D qdict_get_int(qdict, "bps"),
++        .bps_rd =3D qdict_get_int(qdict, "bps_rd"),
++        .bps_wr =3D qdict_get_int(qdict, "bps_wr"),
++        .iops =3D qdict_get_int(qdict, "iops"),
++        .iops_rd =3D qdict_get_int(qdict, "iops_rd"),
++        .iops_wr =3D qdict_get_int(qdict, "iops_wr"),
++    };
++
++    /* qmp_block_set_io_throttle has separate parameters for the
++     * (deprecated) block device name and the qdev ID but the HMP
++     * version has only one, so we must decide which one to pass. */
++    if (blk_by_name(device)) {
++        throttle.has_device =3D true;
++        throttle.device =3D device;
++    } else {
++        throttle.has_id =3D true;
++        throttle.id =3D device;
 +    }
 +
-+    mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PAT=
-HS;
-+    qmp_blockdev_snapshot_sync(true, device, false, NULL,
-+                               filename, false, NULL,
-+                               !!format, format,
-+                               true, mode, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
-+void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict)
-+{
-+    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *name =3D qdict_get_str(qdict, "name");
-+    Error *err =3D NULL;
-+
-+    qmp_blockdev_snapshot_internal_sync(device, name, &err);
-+    hmp_handle_error(mon, &err);
-+}
-+
-+void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
-+{
-+    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *name =3D qdict_get_str(qdict, "name");
-+    const char *id =3D qdict_get_try_str(qdict, "id");
-+    Error *err =3D NULL;
-+
-+    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
-+                                               true, name, &err);
++    qmp_block_set_io_throttle(&throttle, &err);
 +    hmp_handle_error(mon, &err);
 +}
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 326276cced..2acdcd6e1e 100644
+index 2acdcd6e1e..8be48e0af6 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1338,52 +1338,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdi=
-ct)
+@@ -1309,16 +1309,6 @@ void hmp_set_link(Monitor *mon, const QDict *qdict)
      hmp_handle_error(mon, &err);
  }
 =20
--void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
+-void hmp_block_passwd(Monitor *mon, const QDict *qdict)
 -{
 -    const char *device =3D qdict_get_str(qdict, "device");
--    const char *filename =3D qdict_get_try_str(qdict, "snapshot-file");
--    const char *format =3D qdict_get_try_str(qdict, "format");
--    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
--    enum NewImageMode mode;
+-    const char *password =3D qdict_get_str(qdict, "password");
 -    Error *err =3D NULL;
 -
--    if (!filename) {
--        /* In the future, if 'snapshot-file' is not specified, the snapsho=
-t
--           will be taken internally. Today it's actually required. */
--        error_setg(&err, QERR_MISSING_PARAMETER, "snapshot-file");
--        hmp_handle_error(mon, &err);
--        return;
--    }
--
--    mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PAT=
-HS;
--    qmp_blockdev_snapshot_sync(true, device, false, NULL,
--                               filename, false, NULL,
--                               !!format, format,
--                               true, mode, &err);
+-    qmp_block_passwd(true, device, false, NULL, password, &err);
 -    hmp_handle_error(mon, &err);
 -}
 -
--void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict)
--{
--    const char *device =3D qdict_get_str(qdict, "device");
--    const char *name =3D qdict_get_str(qdict, "name");
--    Error *err =3D NULL;
--
--    qmp_blockdev_snapshot_internal_sync(device, name, &err);
--    hmp_handle_error(mon, &err);
--}
--
--void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
--{
--    const char *device =3D qdict_get_str(qdict, "device");
--    const char *name =3D qdict_get_str(qdict, "name");
--    const char *id =3D qdict_get_try_str(qdict, "id");
--    Error *err =3D NULL;
--
--    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
--                                               true, name, &err);
--    hmp_handle_error(mon, &err);
--}
+ void hmp_balloon(Monitor *mon, const QDict *qdict)
+ {
+     int64_t value =3D qdict_get_int(qdict, "value");
+@@ -1328,17 +1318,6 @@ void hmp_balloon(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, &err);
+ }
 =20
+-void hmp_block_resize(Monitor *mon, const QDict *qdict)
+-{
+-    const char *device =3D qdict_get_str(qdict, "device");
+-    int64_t size =3D qdict_get_int(qdict, "size");
+-    Error *err =3D NULL;
+-
+-    qmp_block_resize(true, device, false, NULL, size, &err);
+-    hmp_handle_error(mon, &err);
+-}
+-
+-
  void hmp_loadvm(Monitor *mon, const QDict *qdict)
  {
+     int saved_vm_running  =3D runstate_is_running();
+@@ -1887,49 +1866,6 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, &err);
+ }
+=20
+-void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
+-{
+-    Error *err =3D NULL;
+-    char *device =3D (char *) qdict_get_str(qdict, "device");
+-    BlockIOThrottle throttle =3D {
+-        .bps =3D qdict_get_int(qdict, "bps"),
+-        .bps_rd =3D qdict_get_int(qdict, "bps_rd"),
+-        .bps_wr =3D qdict_get_int(qdict, "bps_wr"),
+-        .iops =3D qdict_get_int(qdict, "iops"),
+-        .iops_rd =3D qdict_get_int(qdict, "iops_rd"),
+-        .iops_wr =3D qdict_get_int(qdict, "iops_wr"),
+-    };
+-
+-    /* qmp_block_set_io_throttle has separate parameters for the
+-     * (deprecated) block device name and the qdev ID but the HMP
+-     * version has only one, so we must decide which one to pass. */
+-    if (blk_by_name(device)) {
+-        throttle.has_device =3D true;
+-        throttle.device =3D device;
+-    } else {
+-        throttle.has_id =3D true;
+-        throttle.id =3D device;
+-    }
+-
+-    qmp_block_set_io_throttle(&throttle, &err);
+-    hmp_handle_error(mon, &err);
+-}
+-
+-void hmp_block_stream(Monitor *mon, const QDict *qdict)
+-{
+-    Error *error =3D NULL;
+-    const char *device =3D qdict_get_str(qdict, "device");
+-    const char *base =3D qdict_get_try_str(qdict, "base");
+-    int64_t speed =3D qdict_get_try_int(qdict, "speed", 0);
+-
+-    qmp_block_stream(true, device, device, base !=3D NULL, base, false, NU=
+LL,
+-                     false, NULL, qdict_haskey(qdict, "speed"), speed, tru=
+e,
+-                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, false,
+-                     &error);
+-
+-    hmp_handle_error(mon, &error);
+-}
+-
+ typedef struct HMPMigrationStatus
+ {
+     QEMUTimer *timer;
 --=20
 2.17.2
 
