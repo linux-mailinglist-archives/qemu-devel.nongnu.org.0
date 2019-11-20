@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BA1103FF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:48:16 +0100 (CET)
-Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EB0104004
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:51:38 +0100 (CET)
+Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXSDH-0000D1-9q
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:48:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
+	id 1iXSGX-0004qf-F1
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:51:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRwp-0006vq-2p
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:16 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRx9-00075Y-3y
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRwn-0000mr-OP
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54333
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRx1-0000z8-2E
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43644
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRwm-0000mM-JC
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:12 -0500
+ id 1iXRwz-0000wg-3e
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:31:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263872;
+ s=mimecast20190719; t=1574263883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XySNkd+pWlCPo3QUalxb3KSKywGnvH/8IOsNraVJSBM=;
- b=YxNkOauwRDYnKTjO5W7EHehw+7rScKmnT6hiADGwxJNNSzGHIgqOrhXohvPqnq+E+Wjd/T
- gf8FFwpYvKBuuVln38Lo3IIszomkzUQaIbtwH3GCNMMItSMuVKYFJkf65/FYdx1PsTknlW
- U7z15jZyRuwSEODCWhGIw9HnQ+38kCU=
+ bh=PurGUxzBofordEzQ/Xn6ypIugdPqz6DRHCdALTotyNE=;
+ b=hiuw9kCfDy9b5iuVx6f7s3yTRWKaFnFLyiN1ekE9NZXN0glhjTnULoBq7u7h6P+GS3WVSP
+ ss+MxW2yWIjcRn36hCvrVFMfdX5D8lCmnzrS5hTQY6knZhoYX7sU5tme/HAQ95mf/EVPkU
+ Z7kxqvBU/xSJWpC4FiYEOr7cX3iJXpY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-NYtjh59mNPKgD-R5mLEPAA-1; Wed, 20 Nov 2019 10:31:10 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-152-WoHeQrGNO7KV_-1Udi-cdQ-1; Wed, 20 Nov 2019 10:31:21 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE59780268E;
- Wed, 20 Nov 2019 15:31:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 292D0188352C;
+ Wed, 20 Nov 2019 15:31:20 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A64E1037ADA;
- Wed, 20 Nov 2019 15:31:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 908095C1D4;
+ Wed, 20 Nov 2019 15:31:14 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 32/37] omap-intc: remove PROP_PTR
-Date: Wed, 20 Nov 2019 19:24:37 +0400
-Message-Id: <20191120152442.26657-33-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 33/37] omap-i2c: remove PROP_PTR
+Date: Wed, 20 Nov 2019 19:24:38 +0400
+Message-Id: <20191120152442.26657-34-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: NYtjh59mNPKgD-R5mLEPAA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: WoHeQrGNO7KV_-1Udi-cdQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,131 +79,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Since clocks are not QOM objects, replace PROP_PTR of clocks with
 setters methods.
 
-(in theory there should probably be different methods for omap1 &
-omap2 intc, but this is left as a future improvement)
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/arm/omap1.c        |  4 ++--
- hw/arm/omap2.c        |  4 ++--
- hw/intc/omap_intc.c   | 17 ++++++++++-------
- include/hw/arm/omap.h | 14 ++++++++++++++
- 4 files changed, 28 insertions(+), 11 deletions(-)
+ hw/arm/omap1.c        |  2 +-
+ hw/arm/omap2.c        |  8 ++++----
+ hw/i2c/omap_i2c.c     | 19 ++++++++++++-------
+ include/hw/arm/omap.h | 13 +++++++++++++
+ 4 files changed, 30 insertions(+), 12 deletions(-)
 
 diff --git a/hw/arm/omap1.c b/hw/arm/omap1.c
-index 6ce038a453..1afd1d3d7f 100644
+index 1afd1d3d7f..807e5f70d1 100644
 --- a/hw/arm/omap1.c
 +++ b/hw/arm/omap1.c
-@@ -3889,7 +3889,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
+@@ -4030,7 +4030,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
 n *dram,
 =20
-     s->ih[0] =3D qdev_create(NULL, "omap-intc");
-     qdev_prop_set_uint32(s->ih[0], "size", 0x100);
--    qdev_prop_set_ptr(s->ih[0], "clk", omap_findclk(s, "arminth_ck"));
-+    omap_intc_set_iclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "arminth_ck"))=
-;
-     qdev_init_nofail(s->ih[0]);
-     busdev =3D SYS_BUS_DEVICE(s->ih[0]);
-     sysbus_connect_irq(busdev, 0,
-@@ -3899,7 +3899,7 @@ struct omap_mpu_state_s *omap310_mpu_init(MemoryRegio=
-n *dram,
-     sysbus_mmio_map(busdev, 0, 0xfffecb00);
-     s->ih[1] =3D qdev_create(NULL, "omap-intc");
-     qdev_prop_set_uint32(s->ih[1], "size", 0x800);
--    qdev_prop_set_ptr(s->ih[1], "clk", omap_findclk(s, "arminth_ck"));
-+    omap_intc_set_iclk(OMAP_INTC(s->ih[1]), omap_findclk(s, "arminth_ck"))=
-;
-     qdev_init_nofail(s->ih[1]);
-     busdev =3D SYS_BUS_DEVICE(s->ih[1]);
-     sysbus_connect_irq(busdev, 0,
+     s->i2c[0] =3D qdev_create(NULL, "omap_i2c");
+     qdev_prop_set_uint8(s->i2c[0], "revision", 0x11);
+-    qdev_prop_set_ptr(s->i2c[0], "fclk", omap_findclk(s, "mpuper_ck"));
++    omap_i2c_set_fclk(OMAP_I2C(s->i2c[0]), omap_findclk(s, "mpuper_ck"));
+     qdev_init_nofail(s->i2c[0]);
+     busdev =3D SYS_BUS_DEVICE(s->i2c[0]);
+     sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(s->ih[1], OMAP_INT_I2C)=
+);
 diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
-index 457f152bac..1d7cc435ef 100644
+index 1d7cc435ef..171e2d0472 100644
 --- a/hw/arm/omap2.c
 +++ b/hw/arm/omap2.c
-@@ -2308,8 +2308,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
+@@ -2425,8 +2425,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
 on *sdram,
-     /* Actually mapped at any 2K boundary in the ARM11 private-peripheral =
-if */
-     s->ih[0] =3D qdev_create(NULL, "omap2-intc");
-     qdev_prop_set_uint8(s->ih[0], "revision", 0x21);
--    qdev_prop_set_ptr(s->ih[0], "fclk", omap_findclk(s, "mpu_intc_fclk"));
--    qdev_prop_set_ptr(s->ih[0], "iclk", omap_findclk(s, "mpu_intc_iclk"));
-+    omap_intc_set_fclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "mpu_intc_fclk=
-"));
-+    omap_intc_set_iclk(OMAP_INTC(s->ih[0]), omap_findclk(s, "mpu_intc_iclk=
-"));
-     qdev_init_nofail(s->ih[0]);
-     busdev =3D SYS_BUS_DEVICE(s->ih[0]);
-     sysbus_connect_irq(busdev, 0,
-diff --git a/hw/intc/omap_intc.c b/hw/intc/omap_intc.c
-index 854b709ca0..73bb1c2af4 100644
---- a/hw/intc/omap_intc.c
-+++ b/hw/intc/omap_intc.c
-@@ -38,10 +38,6 @@ struct omap_intr_handler_bank_s {
-     unsigned char priority[32];
- };
 =20
--#define TYPE_OMAP_INTC "common-omap-intc"
--#define OMAP_INTC(obj) \
--    OBJECT_CHECK(struct omap_intr_handler_s, (obj), TYPE_OMAP_INTC)
+     s->i2c[0] =3D qdev_create(NULL, "omap_i2c");
+     qdev_prop_set_uint8(s->i2c[0], "revision", 0x34);
+-    qdev_prop_set_ptr(s->i2c[0], "iclk", omap_findclk(s, "i2c1.iclk"));
+-    qdev_prop_set_ptr(s->i2c[0], "fclk", omap_findclk(s, "i2c1.fclk"));
++    omap_i2c_set_iclk(OMAP_I2C(s->i2c[0]), omap_findclk(s, "i2c1.iclk"));
++    omap_i2c_set_fclk(OMAP_I2C(s->i2c[0]), omap_findclk(s, "i2c1.fclk"));
+     qdev_init_nofail(s->i2c[0]);
+     busdev =3D SYS_BUS_DEVICE(s->i2c[0]);
+     sysbus_connect_irq(busdev, 0,
+@@ -2437,8 +2437,8 @@ struct omap_mpu_state_s *omap2420_mpu_init(MemoryRegi=
+on *sdram,
+=20
+     s->i2c[1] =3D qdev_create(NULL, "omap_i2c");
+     qdev_prop_set_uint8(s->i2c[1], "revision", 0x34);
+-    qdev_prop_set_ptr(s->i2c[1], "iclk", omap_findclk(s, "i2c2.iclk"));
+-    qdev_prop_set_ptr(s->i2c[1], "fclk", omap_findclk(s, "i2c2.fclk"));
++    omap_i2c_set_iclk(OMAP_I2C(s->i2c[1]), omap_findclk(s, "i2c2.iclk"));
++    omap_i2c_set_fclk(OMAP_I2C(s->i2c[1]), omap_findclk(s, "i2c2.fclk"));
+     qdev_init_nofail(s->i2c[1]);
+     busdev =3D SYS_BUS_DEVICE(s->i2c[1]);
+     sysbus_connect_irq(busdev, 0,
+diff --git a/hw/i2c/omap_i2c.c b/hw/i2c/omap_i2c.c
+index 3ba965a58f..3ccbd5cc2c 100644
+--- a/hw/i2c/omap_i2c.c
++++ b/hw/i2c/omap_i2c.c
+@@ -28,10 +28,7 @@
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+=20
+-#define TYPE_OMAP_I2C "omap_i2c"
+-#define OMAP_I2C(obj) OBJECT_CHECK(OMAPI2CState, (obj), TYPE_OMAP_I2C)
 -
- struct omap_intr_handler_s {
+-typedef struct OMAPI2CState {
++struct OMAPI2CState {
      SysBusDevice parent_obj;
 =20
-@@ -391,9 +387,18 @@ static void omap_intc_realize(DeviceState *dev, Error =
+     MemoryRegion iomem;
+@@ -56,7 +53,7 @@ typedef struct OMAPI2CState {
+     uint8_t divider;
+     uint8_t times[2];
+     uint16_t test;
+-} OMAPI2CState;
++};
+=20
+ #define OMAP2_INTR_REV=090x34
+ #define OMAP2_GC_REV=090x34
+@@ -504,10 +501,18 @@ static void omap_i2c_realize(DeviceState *dev, Error =
 **errp)
      }
  }
 =20
-+void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk)
++void omap_i2c_set_iclk(OMAPI2CState *i2c, omap_clk clk)
 +{
-+    intc->iclk =3D clk;
++    i2c->iclk =3D clk;
 +}
 +
-+void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk)
++void omap_i2c_set_fclk(OMAPI2CState *i2c, omap_clk clk)
 +{
-+    intc->fclk =3D clk;
++    i2c->fclk =3D clk;
 +}
 +
- static Property omap_intc_properties[] =3D {
-     DEFINE_PROP_UINT32("size", struct omap_intr_handler_s, size, 0x100),
--    DEFINE_PROP_PTR("clk", struct omap_intr_handler_s, iclk),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
-@@ -647,8 +652,6 @@ static void omap2_intc_realize(DeviceState *dev, Error =
-**errp)
- static Property omap2_intc_properties[] =3D {
-     DEFINE_PROP_UINT8("revision", struct omap_intr_handler_s,
-     revision, 0x21),
--    DEFINE_PROP_PTR("iclk", struct omap_intr_handler_s, iclk),
--    DEFINE_PROP_PTR("fclk", struct omap_intr_handler_s, fclk),
+ static Property omap_i2c_properties[] =3D {
+     DEFINE_PROP_UINT8("revision", OMAPI2CState, revision, 0),
+-    DEFINE_PROP_PTR("iclk", OMAPI2CState, iclk),
+-    DEFINE_PROP_PTR("fclk", OMAPI2CState, fclk),
      DEFINE_PROP_END_OF_LIST(),
  };
 =20
 diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
-index f3aa670036..bcecf19f89 100644
+index bcecf19f89..39a295ba20 100644
 --- a/include/hw/arm/omap.h
 +++ b/include/hw/arm/omap.h
-@@ -67,6 +67,20 @@ void omap_clk_setrate(omap_clk clk, int divide, int mult=
-iply);
- int64_t omap_clk_getrate(omap_clk clk);
- void omap_clk_reparent(omap_clk clk, omap_clk parent);
+@@ -81,6 +81,19 @@ typedef struct omap_intr_handler_s omap_intr_handler;
+ void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
+ void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
 =20
-+/* omap_intc.c */
-+#define TYPE_OMAP_INTC "common-omap-intc"
-+#define OMAP_INTC(obj)                                              \
-+    OBJECT_CHECK(omap_intr_handler, (obj), TYPE_OMAP_INTC)
++/* omap_i2c.c */
++#define TYPE_OMAP_I2C "omap_i2c"
++#define OMAP_I2C(obj) OBJECT_CHECK(OMAPI2CState, (obj), TYPE_OMAP_I2C)
 +
-+typedef struct omap_intr_handler_s omap_intr_handler;
++typedef struct OMAPI2CState OMAPI2CState;
 +
 +/*
 + * TODO: Ideally we should have a clock framework that
 + * let us wire these clocks up with QOM properties or links.
 + */
-+void omap_intc_set_iclk(omap_intr_handler *intc, omap_clk clk);
-+void omap_intc_set_fclk(omap_intr_handler *intc, omap_clk clk);
++void omap_i2c_set_iclk(OMAPI2CState *i2c, omap_clk clk);
++void omap_i2c_set_fclk(OMAPI2CState *i2c, omap_clk clk);
 +
  /* OMAP2 l4 Interconnect */
  struct omap_l4_s;
