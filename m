@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7DA103216
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 04:43:10 +0100 (CET)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEA310320D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 04:37:52 +0100 (CET)
+Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXGtZ-0007Ci-Va
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 22:43:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
+	id 1iXGoQ-0004zA-Vt
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 22:37:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iXGsG-00063C-1X
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:41:49 -0500
+ (envelope-from <mlureau@redhat.com>) id 1iXGnD-0004Mp-J9
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iXGsE-00020k-J7
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:41:47 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:38515)
+ (envelope-from <mlureau@redhat.com>) id 1iXGnB-00052C-Iw
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:34 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42508
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iXGsD-0001vv-RH; Tue, 19 Nov 2019 22:41:46 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47HpQV2ngLz9sPf; Wed, 20 Nov 2019 14:41:38 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574221298;
- bh=+4M7v6QcHPgr8jDHobnTfot9DkUYJ8C0PIZQx9eEHOQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RXT8G0N9eAFp4rW8umgwY252V+6lXVzWAJoQE3FOjd1dOiNBKf4F7EV+b6EhSD3bs
- 6hWyTE9UzFYeKUHHUApEmP4pLwhJbiTUocP6TvneWaY2Kgrug4KxRvoMOn7htPHQBm
- sv4T4HqQmGcGUuzQf8EYgR3e6erWL7nHFourMK5s=
-Date: Wed, 20 Nov 2019 14:34:12 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC 3/5] vfio/pci: Respond to KVM irqchip change notifier
-Message-ID: <20191120033412.GC5582@umbus.fritz.box>
-References: <20191017054218.8876-1-david@gibson.dropbear.id.au>
- <20191017054218.8876-4-david@gibson.dropbear.id.au>
- <20191017142845.5d4d9121@x1.home>
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iXGnA-00050E-Rn
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574220992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wSKl4ZjlxedUP+FlAu7TIdnnUEwTf0V/UY+HsjFaX0Y=;
+ b=J/GRzHwI0Fgh5t4H3XtX+CrrZzlABSyde2YZTZ72XSv97h66f9eyLM++rpBxzVdVGRpMfI
+ ODg9vkql7hcfiSVzKhJGENAZYekUEZIYcPYS81lD8fV7U/ZrLO3dAG8kkg2Hf9B5fhnLCw
+ OdW1C4x5qEwWKiVsaOih8AohJ6/e1MA=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-XwLi3qtsNmWvZkkgNBlnOw-1; Tue, 19 Nov 2019 22:36:31 -0500
+Received: by mail-ot1-f71.google.com with SMTP id w14so13243395otk.21
+ for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 19:36:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wSKl4ZjlxedUP+FlAu7TIdnnUEwTf0V/UY+HsjFaX0Y=;
+ b=sWMuwkGyNbYXecNiUqLUt0WPHVJJd8e9/KlLyrAq3dSKe+ltH4PL9VokvGxPnBp6pk
+ 7D7KAnmnZpdMKgsnWmWORbJ45per/vpQoO95EoVyqatcQi5JB68UOsHzGykhDJPGNSd2
+ +TOU174e7F2kFxRC+Wy/r6czEtePvU6F46QkzbHOyqiFiDWvod9bAFjlrLi55TT6Y37U
+ ZHnN/BNE1sT844tPXjw+9Z4Q1mgqxU+LrTynE0v4ZQiLBJ3HhwEI76z+7U8Ukx0GHJwM
+ GFxlG8TnNzeGzF7sIbwUe6tbmCSNF/AejvWzcFH1L21p5DiDUqyodOWj03LziU0D4goK
+ HWAw==
+X-Gm-Message-State: APjAAAXigS88RpSJ9Z+zJVbAs/oZ04X5QjIl/Yhxr+S8wWW5/xRipTkk
+ 5v9ZUPlberJE5N0jy3+y5KnKu5WR93uN4rqamrSj92j0KeCX1NOTIqswsXRuKRanyyHbbrHvSpj
+ peHWapXs23gn4+sWVGb1m4WoZ4SZF9vk=
+X-Received: by 2002:a9d:5cc7:: with SMTP id r7mr242481oti.331.1574220990115;
+ Tue, 19 Nov 2019 19:36:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw82NQM/pmr2xgUxYC2sgYieQzIzLuS3ak0Mf9DL9kH75KKaKGHOUN34nR6V/4tQiQcOrRA1+o05VCt77a1pm4=
+X-Received: by 2002:a9d:5cc7:: with SMTP id r7mr242448oti.331.1574220989481;
+ Tue, 19 Nov 2019 19:36:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YLwdFo+Xu6B7B0Yp"
-Content-Disposition: inline
-In-Reply-To: <20191017142845.5d4d9121@x1.home>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-2-marcandre.lureau@redhat.com>
+ <CAFEAcA_k9TqzRJZ4=Q1jQP46SajiaMLEciSHZ83_CicMv__oiA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_k9TqzRJZ4=Q1jQP46SajiaMLEciSHZ83_CicMv__oiA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 20 Nov 2019 07:36:18 +0400
+Message-ID: <CAMxuvawFVf=6-GLO59T=v+W0vrhYVYuj0w30Oi6c7Zsen7Ri4g@mail.gmail.com>
+Subject: Re: [PATCH v3 01/33] qdev: remove unused qdev_prop_int64
+To: Peter Maydell <peter.maydell@linaro.org>
+X-MC-Unique: XwLi3qtsNmWvZkkgNBlnOw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,146 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- groug@kaod.org
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi
 
---YLwdFo+Xu6B7B0Yp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 17, 2019 at 02:28:45PM -0600, Alex Williamson wrote:
-> On Thu, 17 Oct 2019 16:42:16 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > VFIO PCI devices already respond to the pci intx routing notifier, in o=
-rder
-> > to update kernel irqchip mappings when routing is updated.  However this
-> > won't handle the case where the irqchip itself is replaced by a differe=
-nt
-> > model while retaining the same routing.  This case can happen on
-> > the pseries machine type due to PAPR feature negotiation.
-> >=20
-> > To handle that case, add a handler for the irqchip change notifier, whi=
-ch
-> > does much the same thing as the routing notifier, but is unconditional,
-> > rather than being a no-op when the routing hasn't changed.
-> >=20
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+On Mon, Nov 18, 2019 at 6:01 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Wed, 23 Oct 2019 at 18:32, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@redhat.com> wrote:
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > > ---
-> >  hw/vfio/pci.c | 12 ++++++++++++
-> >  hw/vfio/pci.h |  2 ++
-> >  2 files changed, 14 insertions(+)
-> >=20
-> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > index 529ad13908..6aa806baff 100644
-> > --- a/hw/vfio/pci.c
-> > +++ b/hw/vfio/pci.c
-> > @@ -255,6 +255,14 @@ static void vfio_intx_routing_notifier(PCIDevice *=
-pdev)
-> >      }
-> >  }
-> > =20
-> > +static void vfio_irqchip_change(Notifier *notify, void *data)
-> > +{
-> > +    VFIOPCIDevice *vdev =3D container_of(notify, VFIOPCIDevice,
-> > +                                       irqchip_change_notifier);
-> > +
-> > +    vfio_intx_update(vdev, &vdev->intx.route);
-> > +}
-> > +
-> >  static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
-> >  {
-> >      uint8_t pin =3D vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PI=
-N, 1);
-> > @@ -2960,6 +2968,8 @@ static void vfio_realize(PCIDevice *pdev, Error *=
-*errp)
-> >                                                    vfio_intx_mmap_enabl=
-e, vdev);
-> >          pci_device_set_intx_routing_notifier(&vdev->pdev,
-> >                                               vfio_intx_routing_notifie=
-r);
-> > +        vdev->irqchip_change_notifier.notify =3D vfio_irqchip_change;
-> > +        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier=
-);
-> >          ret =3D vfio_intx_enable(vdev, errp);
-> >          if (ret) {
-> >              goto out_teardown;
-> > @@ -3009,6 +3019,7 @@ static void vfio_realize(PCIDevice *pdev, Error *=
-*errp)
-> > =20
-> >  out_teardown:
-> >      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-> > +    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
->=20
-> We can get here without having added the irqchip notifier and I don't
-> think QLIST_REMOVE is very friendly with gratuitous calls.
+> >  hw/core/qdev-properties.c    | 32 --------------------------------
+> >  include/hw/qdev-properties.h |  3 ---
+> >  2 files changed, 35 deletions(-)
+>
+> I think I'd rather keep this. It's weird to not have a symmetric
+> set of properties for the common integer types, and annoying
+> for whoever next runs into a need for an int64 property to
+> have to reinstate the deleted code. (Yes, I know we don't
+> currently have int8 or int16.)
+>
 
-Good point, adjusted.
+I don't think we should aim at being complete. Whenever we identify
+dead code, unused for a long while, we should clean it up.
 
+In this case, it is even worse, this has never been used since its
+introduction in commit 07d1d063d3235c02f60dc92ec174d419e6f8a750, in
+2017.
 
-> >      vfio_teardown_msi(vdev);
-> >      vfio_bars_exit(vdev);
-> >  error:
-> > @@ -3042,6 +3053,7 @@ static void vfio_exitfn(PCIDevice *pdev)
-> >      vfio_unregister_req_notifier(vdev);
-> >      vfio_unregister_err_notifier(vdev);
-> >      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-> > +    kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
->=20
-> Same here.  Otherwise the approach looks sane to me.  Thanks,
->=20
-> Alex
->=20
-> >      vfio_disable_interrupts(vdev);
-> >      if (vdev->intx.mmap_timer) {
-> >          timer_free(vdev->intx.mmap_timer);
-> > diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> > index 834a90d646..11324f28ce 100644
-> > --- a/hw/vfio/pci.h
-> > +++ b/hw/vfio/pci.h
-> > @@ -168,6 +168,8 @@ typedef struct VFIOPCIDevice {
-> >      bool no_vfio_ioeventfd;
-> >      bool enable_ramfb;
-> >      VFIODisplay *dpy;
-> > +
-> > +    Notifier irqchip_change_notifier;
-> >  } VFIOPCIDevice;
-> > =20
-> >  uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---YLwdFo+Xu6B7B0Yp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UtDQACgkQbDjKyiDZ
-s5JSoQ//Y54FHdHeMarLaFRjpgqL5QHDvpHlBpGDPpL2V/JbgJg7afRIOyaFmDc+
-pbROcZ01Ey2cIqY1kgW/gADLUvJUMKd2vGXaLxaVcs1m/kWRrzSkp1Ote48OLNVz
-ug9VIZz9EoJ5u6J9lJUDUebblLs4VlAu81X00qUUubdBOZeFgZ0/6WofADRj6IPY
-iQt5F6i9RrYrPKZfMSou3rahjjtbEcHPW6Nn8OpjZjusP4bAf7WPY7Hr77vvU/ns
-Wti3ZeV271I9g2Yjnjj9fnbe489JgrPvUFvrFfpRkx8kuoy1BVbWrsvFkWE/Jew/
-iRMMgkuWULZ0UPMFryPON4sDCasbGoU2JS/uU56aC9RanmuNSWPi/Q1u3dSYZSwK
-QyPFwQ4M4DlkOLHH+YiJ5dscUm2zJjBvhA3wN0CTq0WYZWCzgi2z3YU1WOZyWxgt
-hMcfu1AOdHDddfCoz6l2odG7TQ3UTmFWKknCH5FiurmHPutAL8AherYfb5hu/Cid
-9heosyZ6AUSMQMu50inJ+gQFsm/RC8bd63YHNU5j8j4P4a00aD697yCDt+/6Zwb4
-bCun3qUWQbTBzRPtITalbLSI7K/7vcREiHHVhO7fxPriPUAuZ9yCqgEG/kuvZCcJ
-9fJvMI7fjihRMxH0v+NEm2fxlzRCKSX7/4S8ZmgfLtPlg4kM4VI=
-=Wzxg
------END PGP SIGNATURE-----
-
---YLwdFo+Xu6B7B0Yp--
 
