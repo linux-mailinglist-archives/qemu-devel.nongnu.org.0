@@ -2,85 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F1A1040C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:28:36 +0100 (CET)
-Received: from localhost ([::1]:60258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CA51040D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 17:31:14 +0100 (CET)
+Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXSqJ-0002mJ-0O
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:28:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44581)
+	id 1iXSsr-0006EW-SS
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 11:31:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45225)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iXSnm-0001N1-JR
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:25:59 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXSrM-00053G-5r
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:29:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iXSnk-000433-Ul
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:25:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58991
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iXSnk-00042n-RQ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:25:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574267155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MwEoHJoG+l4SNOgZJD5gdpz2dPJF6TN8SpJk93ofdj4=;
- b=NyUO8t6eWblg0u5InZ2N8hLJr1fjjR+czakCMuyTFPX3HcMtrDLiaxw7AVAOa/HzRQ7x2H
- 1FcAKoSBrzEa9zh03ixnuMIoq0kQLemE9krsVcAXweyYCS0uoow4q0nFGjfkfurgkvSZ8j
- ZU/nQVm8OmnTYf1fWNzAigQVLeW8PCw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361--t8AjOECO9mcPpKOjaC4Lw-1; Wed, 20 Nov 2019 11:25:52 -0500
-Received: by mail-wm1-f70.google.com with SMTP id d140so3139752wmd.1
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:25:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i9l5BqjLUUMCBOLMcLu21WjsMNZp/sJLPl5FzacZQyI=;
- b=WiGuBvwCCXV+uo42ooigm1+Uj8+l9l7fnzhPfQV1OJfy+Sf+DxC1itaia5uVlf9LUO
- sEb03YXGco0+Mmf2No7mDMLUK0JRWKIktCpkCZUxMsDMmr8twEFbwqUuoj5ujdCEdy2k
- R04jMzAQng+rl+hwtLXLlexGwRdZzSiswTeCdU8y7uOebFe2jby5OmUK4MGw8aDMqpRU
- eTyrGm6tBqvaObF4tqYVhw4Sm2Q3qWEAbZpgNycRBEZ/PeKkxyybgp896y48Er4v0iOl
- xQ8wFx7NfyguojHco6LKVIpIDlm/pNuv/Iqf1jm6zyTo2ivBwUNGD5K2IyOaYA9EenPW
- Hvbw==
-X-Gm-Message-State: APjAAAWj8HKqCzpnSYYlgyJb9KoaDGG6NZ1ngegCCerBKpV3wEDR7Ewz
- StOtLDhamAAWMCnk9T8g9+L+VY3bTjKgGnMg8TUGviOPZQchq8N3ldUzPBnFdhIOymk/AfTmKc0
- XmhuelhhicSs709Y=
-X-Received: by 2002:a5d:570a:: with SMTP id a10mr4356246wrv.107.1574267149638; 
- Wed, 20 Nov 2019 08:25:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqymVsTsCtWl8BQZe82IAslvBvxKGs3d5gte32wxkuaxv55paWa1Jsym/HDBFbyZe2IY9aTXKg==
-X-Received: by 2002:a5d:570a:: with SMTP id a10mr4356225wrv.107.1574267149442; 
- Wed, 20 Nov 2019 08:25:49 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id y8sm6827871wmi.9.2019.11.20.08.25.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Nov 2019 08:25:48 -0800 (PST)
-Subject: Re: [PATCH v4 28/37] qdev: use g_strcmp0() instead of open-coding it
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <20191120152442.26657-29-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c6506012-cbae-bbf0-a373-398635f98692@redhat.com>
-Date: Wed, 20 Nov 2019 17:25:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191120152442.26657-29-marcandre.lureau@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXSrI-0005Dm-OU
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 11:29:39 -0500
+Received: from mail-he1eur01on0725.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1e::725]:5603
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iXSrH-0005DD-QT; Wed, 20 Nov 2019 11:29:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CJcVUZNoKIeOYcNijxOzEo20Mnl8EPziITqydYUPTcGb2S3/86v7ofMGsSimY566TcNjdEx7yvDRKyS0fRYKbal4wJaUEs4eHcvqJkH9pwBWNfoGbt82slZgzc1w2MoNE/9Rkr2uB8qGZX4N3TgI8OwVo+qA+dpzmLZlp+f0YnL/SKGZ8LQAZi4YSoPEHw2J/NQMrBFPvqm46OnVd7xaDy7FAjmqxbagyOL01LP+Xs05gahzXjBP0VFxVbL4Cqi1r2ackBgn1tbe2LwTOp25TD2Cfs9UYzdwQfzezm0uO6WbqjgbcdvjSy3qqVYfP28fopPyO5UDtH3iHzx83d3jrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/xtmo9gjeLiu5cPmnj8+iznFNnbAhNOgDOppsPoG6g8=;
+ b=awHpnNECCKcaLNe/KQchBfPSdOSh3lCoWs0jIKmMuvcyxonVtmd9Rlsv60RyOwd8Aah/vJKVFSHdqzJwGkkt5oK73S1nz9UMrtjlfufl3gQBjw8Z/UrB+reIs+WSnXK5j4cMewNfjqD/cNnFy+4efLaCPCkZdfXkuBEatFZPpW5r0ey1QKQtz0xES4kZUC0N02kqzu86cHyMEvP5XUhPAmfR2Fo8A5NfmCYS4U/6+p6LUDf5J+UUqX27QpuKEC6cBpiaH/ntNIxGOW2tue0WZTQYtNPZjZlo0Sx/c3cyk3d8CtHu65rsp79U1v6tDh7qDXBki8Y0AAvjh5jknAjGdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/xtmo9gjeLiu5cPmnj8+iznFNnbAhNOgDOppsPoG6g8=;
+ b=naLrr6YLh2cSSYM2mUIxbzS4i7ZZsOK73uORDx2U2HGkpz7YI314qHKjlJIVFHhjOVnLLbaD26m+QTdoAuBGRUysDJUFA8YE5dvmccLKy9m2RNGNxmcIyzdU1uUBWqikp/zad7rMF7/vjWuEBqiU8efSSjGm9hxk/3hGGcg0e/c=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3510.eurprd08.prod.outlook.com (20.177.114.30) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.17; Wed, 20 Nov 2019 16:29:31 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2451.031; Wed, 20 Nov 2019
+ 16:29:31 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 6/6] iotests: Test committing to short backing file
+Thread-Topic: [PATCH 6/6] iotests: Test committing to short backing file
+Thread-Index: AQHVn6tcQgTd8h0BOUCr2B20a33R1qeUZOgA///V+wCAAAUhAA==
+Date: Wed, 20 Nov 2019 16:29:31 +0000
+Message-ID: <48896017-4e6e-6eb7-0c96-d53d2a02a993@virtuozzo.com>
+References: <20191120140319.1505-1-kwolf@redhat.com>
+ <20191120140319.1505-7-kwolf@redhat.com>
+ <b5f3fb13-7467-d87e-07db-45bd014c6464@virtuozzo.com>
+ <20191120161106.GE5779@linux.fritz.box>
+In-Reply-To: <20191120161106.GE5779@linux.fritz.box>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-MC-Unique: -t8AjOECO9mcPpKOjaC4Lw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0701CA0054.eurprd07.prod.outlook.com
+ (2603:10a6:3:9e::22) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191120192928839
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e3be2e83-7834-415d-9cca-08d76dd6d212
+x-ms-traffictypediagnostic: AM6PR08MB3510:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM6PR08MB35102F5E9435B53E709A00D4C14F0@AM6PR08MB3510.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:497;
+x-forefront-prvs: 02272225C5
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(979002)(366004)(189003)(199004)(6116002)(102836004)(256004)(66946007)(14444005)(305945005)(446003)(3846002)(54906003)(6506007)(386003)(81166006)(6512007)(36756003)(2906002)(14454004)(11346002)(6246003)(71200400001)(71190400001)(7736002)(64756008)(66476007)(66446008)(66556008)(486006)(31686004)(476003)(2616005)(31696002)(52116002)(81156014)(99286004)(5660300002)(186003)(8936002)(6306002)(76176011)(6916009)(25786009)(6436002)(229853002)(86362001)(4326008)(66066001)(8676002)(26005)(498600001)(6486002)(21314003)(2004002)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3510;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9gFtKciVrftnph7ENTtGoUMTleOlBOJ7TC9tppb82msGsZ/RinbFqhMx+bWcY6a6WnrcnQYqAYF+eLN9e/NimURhOs9/eYBiCOQF/+KvgafihfCyjpYnmaqPYJn3WFfVCaGlef2nnMefaOg7zgtrREU9wwei5ws6fVwWg+0WfSJyEOT9HcvlIq8PrxSeLfLN2y96cWtHfKrvij1QbRNhQ0M9OfDY7tlMyT4FXboIPpksIEOv78/m4pBUUqxX6ngs21YXw5Mb7HIPEi6Vids4rn3CMY2+cnsJEFJov6za4LE3QShhKKjKwUyQgQn7R5covQMk97j600ptMTBFbyCydILzYlyKnCpxuY35PEmzQot8OzxWmdmgY/UmmcymXR5hkZKAH9PAzHmQQId9yqCyq0Kcy45vwrXIyzuTqBzhBvxm5XyABKwFjFpzAegVUV5R24l4WkGEbscb2mir+vQnVuAiYd2EgYk+PwfBVmb8vFU=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <06DB9FF568A70E4F9CE52CB73F88838E@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3be2e83-7834-415d-9cca-08d76dd6d212
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2019 16:29:31.2427 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Pk9MLBbP7DTNcXcqGShyvv5mHuEyk1P80YZXRfRDZTFvB8dIw9dI1X9qN4KYCbLvcIfkDrdpDOFlcI4PGEDQregc6NyCI/VOVP0RH+ec8pI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3510
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe1e::725
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,45 +112,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/19 4:24 PM, Marc-Andr=C3=A9 Lureau wrote:
-> Minor code simplification.
+20.11.2019 19:11, Kevin Wolf wrote:
+> Am 20.11.2019 um 16:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 20.11.2019 17:03, Kevin Wolf wrote:
+>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>> ---
+>>>    tests/qemu-iotests/274        | 131 +++++++++++++++++++++++++++++
+>>>    tests/qemu-iotests/274.out    | 150 ++++++++++++++++++++++++++++++++=
+++
+>>>    tests/qemu-iotests/group      |   1 +
+>>>    tests/qemu-iotests/iotests.py |   2 +-
+>>>    4 files changed, 283 insertions(+), 1 deletion(-)
+>>>    create mode 100755 tests/qemu-iotests/274
+>>>    create mode 100644 tests/qemu-iotests/274.out
+>>>
+>>> diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+>>> new file mode 100755
+>>> index 0000000000..f3b71e2859
+>>> --- /dev/null
+>>> +++ b/tests/qemu-iotests/274
+>>> @@ -0,0 +1,131 @@
+>>> +#!/usr/bin/env python
+>>> +#
+>>> +# Copyright (C) 2019 Red Hat, Inc.
+>>> +#
+>>> +# This program is free software; you can redistribute it and/or modify
+>>> +# it under the terms of the GNU General Public License as published by
+>>> +# the Free Software Foundation; either version 2 of the License, or
+>>> +# (at your option) any later version.
+>>> +#
+>>> +# This program is distributed in the hope that it will be useful,
+>>> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>> +# GNU General Public License for more details.
+>>> +#
+>>> +# You should have received a copy of the GNU General Public License
+>>> +# along with this program.  If not, see <http://www.gnu.org/licenses/>=
+.
+>>> +#
+>>> +# Creator/Owner: Kevin Wolf <kwolf@redhat.com>
+>>> +#
+>>> +# Some tests for short backing files and short overlays
+>>> +
+>>> +import iotests
+>>> +import os
+>>> +
+>>> +iotests.verify_image_format(supported_fmts=3D['qcow2'])
+>>> +iotests.verify_platform(['linux'])
+>>> +
+>>> +size_short =3D 1 * 1024 * 1024
+>>> +size_long =3D 2 * 1024 * 1024
+>>> +size_diff =3D size_long - size_short
+>>> +
+>>> +def create_chain():
+>>> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base,
+>>> +                         str(size_long))
+>>> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, m=
+id,
+>>> +                         str(size_short))
+>>> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', mid, to=
+p,
+>>> +                         str(size_long))
+>>> +
+>>> +    iotests.qemu_io_log('-c', 'write -P 1 0 %d' % size_long, base)
+>>> +
+>>> +def create_vm():
+>>> +    vm =3D iotests.VM()
+>>> +    vm.add_blockdev('file,filename=3D%s,node-name=3Dbase-file' % (base=
+))
+>>> +    vm.add_blockdev('%s,file=3Dbase-file,node-name=3Dbase' % (iotests.=
+imgfmt))
+>>> +    vm.add_blockdev('file,filename=3D%s,node-name=3Dmid-file' % (mid))
+>>> +    vm.add_blockdev('%s,file=3Dmid-file,node-name=3Dmid,backing=3Dbase=
+' % (iotests.imgfmt))
+>>> +    vm.add_drive(top, 'backing=3Dmid,node-name=3Dtop')
+>>> +    return vm
+>>> +
+>>> +with iotests.FilePath('base') as base, \
+>>> +     iotests.FilePath('mid') as mid, \
+>>> +     iotests.FilePath('top') as top:
+>>> +
+>>> +    iotests.log('=3D=3D Commit tests =3D=3D')
+>>> +
+>>> +    create_chain()
+>>> +
+>>> +    iotests.log('=3D=3D=3D Check visible data =3D=3D=3D')
+>>> +
+>>> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, top)
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_di=
+ff), top)
+>>> +
+>>> +    iotests.log('=3D=3D=3D Checking allocation status =3D=3D=3D')
+>>> +
+>>> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
+>>> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
+>>> +                        base)
+>>> +
+>>> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
+>>> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
+>>> +                        mid)
+>>> +
+>>> +    iotests.qemu_io_log('-c', 'alloc 0 %d' % size_short,
+>>> +                        '-c', 'alloc %d %d' % (size_short, size_diff),
+>>> +                        top)
+>>> +
+>>> +    iotests.log('=3D=3D=3D Checking map =3D=3D=3D')
+>>> +
+>>> +    iotests.qemu_img_log('map', '--output=3Djson', base)
+>>> +    iotests.qemu_img_log('map', '--output=3Dhuman', base)
+>>> +    iotests.qemu_img_log('map', '--output=3Djson', mid)
+>>> +    iotests.qemu_img_log('map', '--output=3Dhuman', mid)
+>>> +    iotests.qemu_img_log('map', '--output=3Djson', top)
+>>> +    iotests.qemu_img_log('map', '--output=3Dhuman', top)
+>>> +
+>>> +    iotests.log('=3D=3D=3D Testing qemu-img commit (top -> mid) =3D=3D=
+=3D')
+>>> +
+>>> +    iotests.qemu_img_log('commit', top)
+>>> +    iotests.img_info_log(mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_di=
+ff), mid)
+>>> +
+>>> +    iotests.log('=3D=3D=3D Testing HMP commit (top -> mid) =3D=3D=3D')
+>>> +
+>>> +    create_chain()
+>>> +    with create_vm() as vm:
+>>> +        vm.launch()
+>>> +        vm.qmp_log('human-monitor-command', command_line=3D'commit dri=
+ve0')
+>>> +
+>>> +    iotests.img_info_log(mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_di=
+ff), mid)
+>>> +
+>>> +    iotests.log('=3D=3D=3D Testing QMP active commit (top -> mid) =3D=
+=3D=3D')
+>>> +
+>>> +    create_chain()
+>>> +    with create_vm() as vm:
+>>> +        vm.launch()
+>>> +        vm.qmp_log('block-commit', device=3D'top', base_node=3D'mid',
+>>> +                   job_id=3D'job0', auto_dismiss=3DFalse)
+>>> +        vm.run_job('job0', wait=3D5)
+>>> +
+>>> +    iotests.img_info_log(mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 1 0 %d' % size_short, mid)
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 %d %d' % (size_short, size_di=
+ff), mid)
+>>> +
+>>> +
+>>> +    iotests.log('=3D=3D Resize tests =3D=3D')
+>>> +
+>>> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, base, '6G')
+>>> +    iotests.qemu_img_log('create', '-f', iotests.imgfmt, '-b', base, t=
+op, '1G')
+>>> +    iotests.qemu_io_log('-c', 'write -P 1 3G 64k', base)
+>>> +    iotests.qemu_io_log('-c', 'write -P 2 5G 64k', base)
+>>> +
+>>> +    # After this, 0 to 6 GB should be allocated/zeroed
+>>> +    # 6 GB to 8 BG should be unallocated
+>>
+>> Hmm, the problem is that the following qemu-img map can't show it, as it=
+ merges
+>> 1G..6G and 6G..8G into one chunk..
 >=20
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->   hw/core/qdev.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
+> Hm, true, because it's more about the content of the blocks than about
+> the allocation status. I'll add a qemu-io 'map' call, which display the
+> actual allocation status:
 >=20
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index cf1ba28fe3..c79befc865 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -394,11 +394,8 @@ static NamedGPIOList *qdev_get_named_gpio_list(Devic=
-eState *dev,
->       NamedGPIOList *ngl;
->  =20
->       QLIST_FOREACH(ngl, &dev->gpios, node) {
-> -        /* NULL is a valid and matchable name, otherwise do a normal
-> -         * strcmp match.
-> -         */
-> -        if ((!ngl->name && !name) ||
-> -                (name && ngl->name && strcmp(name, ngl->name) =3D=3D 0))=
- {
-> +        /* NULL is a valid and matchable name. */
-> +        if (g_strcmp0(name, ngl->name) =3D=3D 0) {
-
-Cocci pattern?
-
->               return ngl;
->           }
->       }
+> 1 GiB (0x40000000) bytes not allocated at offset 0 bytes (0x0)
+> 5 GiB (0x140000000) bytes     allocated at offset 1 GiB (0x40000000)
+> 2 GiB (0x80000000) bytes not allocated at offset 6 GiB (0x180000000)
+>=20
+>>> +    iotests.qemu_img_log('resize', '-f', iotests.imgfmt, top, '8G')
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 3G 64k', top)
+>>> +    iotests.qemu_io_log('-c', 'read -P 0 5G 64k', top)
+>>> +    iotests.qemu_img_log('map', '--output=3Djson', top)
+>>> diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+>>> new file mode 100644
+>>> index 0000000000..def0ac7d27
+>>> --- /dev/null
+>>> +++ b/tests/qemu-iotests/274.out
+>>> @@ -0,0 +1,150 @@
+>>> +=3D=3D Commit tests =3D=3D
+>>> +Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D2097152 cluster_siz=
+e=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+>>> +
+>>> +Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 size=3D1048576 backing_file=
+=3DTEST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bit=
+s=3D16
+>>> +
+>>> +Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D2097152 backing_file=
+=3DTEST_DIR/PID-mid cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=
+=3D16
+>>> +
+>>> +wrote 2097152/2097152 bytes at offset 0
+>>> +2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>>> +
+>>> +=3D=3D=3D Check visible data =3D=3D=3D
+>>> +read 1048576/1048576 bytes at offset 0
+>>> +1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>>> +
+>>> +read 1048576/1048576 bytes at offset 1048576
+>>> +1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+>>> +
+>>> +=3D=3D=3D Checking allocation status =3D=3D=3D
+>>> +1048576/1048576 bytes allocated at offset 0 bytes
+>>> +1048576/1048576 bytes allocated at offset 1 MiB
+>>> +
+>>> +0/1048576 bytes allocated at offset 0 bytes
+>>> +0/0 bytes allocated at offset 1 MiB
+>>> +
+>>> +0/1048576 bytes allocated at offset 0 bytes
+>>> +0/1048576 bytes allocated at offset 1 MiB
+>>> +
+>>> +=3D=3D=3D Checking map =3D=3D=3D
+>>> +[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": t=
+rue, "offset": 327680}]
+>>> +
+>>> +Offset          Length          Mapped to       File
+>>> +0               0x200000        0x50000         TEST_DIR/PID-base
+>>> +
+>>> +[{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": t=
+rue, "offset": 327680}]
+>>> +
+>>> +Offset          Length          Mapped to       File
+>>> +0               0x100000        0x50000         TEST_DIR/PID-base
+>>> +
+>>> +[{ "start": 0, "length": 1048576, "depth": 2, "zero": false, "data": t=
+rue, "offset": 327680},
+>>> +{ "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "data=
+": false}]
+>>
+>> I think depth of second chunk should be 1, not 0.. But this is for
+>> another fixing series.
+>=20
+> The part from 1 GB to 6 GB should be 0 without any question, this is
+> where we wrote zeros into the overlay.
+>=20
+> The part from 7 GB to 8 GB is a bit more open to interpretation because
+> this is unallocated in the overlay and reads zeros because the backing
+> file is shorter. I think 0 makes sense, but it's debatable.
+>=20
+> Kevin
 >=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Here I'm not about last test-case but about "depth" in second element of ma=
+p, which covers [1M,2M) region.
+Zeroes comes from second layer (after EOF), not from first. On first this a=
+re is unallocated in all possible meanings.
+Still, I doubt that "depth" in qemu-img map output is something well-docume=
+nted, so it's not significant.
 
+--=20
+Best regards,
+Vladimir
 
