@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98CE103969
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:01:53 +0100 (CET)
-Received: from localhost ([::1]:56974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C8210398F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:08:51 +0100 (CET)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOgC-0006TK-RC
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:01:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43548)
+	id 1iXOmw-0005hQ-G3
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:08:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOP7-0003S8-Gx
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:14 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iXOPG-0003iO-GS
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOP6-0003iI-5b
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:13 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30426
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iXOP6-0003hI-0s
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:12 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAKBhRd6132053
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:11 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wcf4867jf-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:11 -0500
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 20 Nov 2019 11:44:09 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 11:44:07 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAKBi5xL41812022
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 11:44:05 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADE434C046;
- Wed, 20 Nov 2019 11:44:05 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 940BA4C040;
- Wed, 20 Nov 2019 11:44:04 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.152.224.205])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Nov 2019 11:44:04 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/15] s390x: protvirt: Disable address checks for PV guest IO
- emulation
-Date: Wed, 20 Nov 2019 06:43:33 -0500
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191120114334.2287-1-frankja@linux.ibm.com>
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ (envelope-from <kwolf@redhat.com>) id 1iXOPD-0003yK-Uf
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:22 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53587
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXOPD-0003wS-Qf
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574250259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SKmIu6xhnGRasg21dUm80DoX/OMdwS345NZAMpx8R34=;
+ b=BsVn89BUVcxjzY98Cj/wpEexfTwdduP/2oRhfOAEnQMngAZID38W3gGZuEpF9BqjC+qBt0
+ MtQhN1TFh6dhk4IpoM4WnfL87ha/i6IclMv3NFLmcNQa+SeUn0BrVybPm/FyZxV8SspX1k
+ +rTph2euLItK0jY6mVzZjdDNQ76p02c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-Vtc-xzikPyKnNjF9pi7MZA-1; Wed, 20 Nov 2019 06:44:16 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A811E801FCF;
+ Wed, 20 Nov 2019 11:44:14 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71DC91036C84;
+ Wed, 20 Nov 2019 11:44:10 +0000 (UTC)
+Date: Wed, 20 Nov 2019 12:44:08 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 0/4] fix & merge block_status_above and is_allocated_above
+Message-ID: <20191120114408.GA5779@linux.fritz.box>
+References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
+ <7f8574a2-8fd2-9724-a197-d67d3c69d538@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112011-0016-0000-0000-000002C9CC58
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112011-0017-0000-0000-0000332B8B84
-Message-Id: <20191120114334.2287-15-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-20_03:2019-11-15,2019-11-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=613
- spamscore=0 malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- suspectscore=1 phishscore=0 clxscore=1015 priorityscore=1501 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911200107
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <7f8574a2-8fd2-9724-a197-d67d3c69d538@virtuozzo.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Vtc-xzikPyKnNjF9pi7MZA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,137 +73,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IO instruction data is routed through SIDAD for protected guests, so
-adresses do not need to be checked, as this is kernel memory.
+Am 20.11.2019 um 11:20 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 16.11.2019 19:34, Vladimir Sementsov-Ogievskiy wrote:
+> > Hi all!
+> >=20
+> > I wanted to understand, what is the real difference between bdrv_block_=
+status_above
+> > and bdrv_is_allocated_above, IMHO bdrv_is_allocated_above should work t=
+hrough
+> > bdrv_block_status_above..
+> >=20
+> > And I found the problem: bdrv_is_allocated_above considers space after =
+EOF as
+> > UNALLOCATED for intermediate nodes..
+> >=20
+> > UNALLOCATED is not about allocation at fs level, but about should we go=
+ to backing or
+> > not.. And it seems incorrect for me, as in case of short backing file, =
+we'll read
+> > zeroes after EOF, instead of going further by backing chain.
+> >=20
+> > This leads to the following effect:
+> >=20
+> > ./qemu-img create -f qcow2 base.qcow2 2M
+> > ./qemu-io -c "write -P 0x1 0 2M" base.qcow2
+> >=20
+> > ./qemu-img create -f qcow2 -b base.qcow2 mid.qcow2 1M
+> > ./qemu-img create -f qcow2 -b mid.qcow2 top.qcow2 2M
+> >=20
+> > Region 1M..2M is shadowed by short middle image, so guest sees zeroes:
+> > ./qemu-io -c "read -P 0 1M 1M" top.qcow2
+> > read 1048576/1048576 bytes at offset 1048576
+> > 1 MiB, 1 ops; 00.00 sec (22.795 GiB/sec and 23341.5807 ops/sec)
+> >=20
+> > But after commit guest visible state is changed, which seems wrong for =
+me:
+> > ./qemu-img commit top.qcow2 -b mid.qcow2
+> >=20
+> > ./qemu-io -c "read -P 0 1M 1M" mid.qcow2
+> > Pattern verification failed at offset 1048576, 1048576 bytes
+> > read 1048576/1048576 bytes at offset 1048576
+> > 1 MiB, 1 ops; 00.00 sec (4.981 GiB/sec and 5100.4794 ops/sec)
+> >=20
+> > ./qemu-io -c "read -P 1 1M 1M" mid.qcow2
+> > read 1048576/1048576 bytes at offset 1048576
+> > 1 MiB, 1 ops; 00.00 sec (3.365 GiB/sec and 3446.1606 ops/sec)
+> >=20
+> >=20
+> > I don't know, is it a real bug, as I don't know, do we support backing =
+file larger than
+> > its parent. Still, I'm not sure that this behavior of bdrv_is_allocated=
+_above don't lead
+> > to other problems.
+> >=20
+> > =3D=3D=3D=3D=3D
+> >=20
+> > Hmm, bdrv_block_allocated_above behaves strange too:
+> >=20
+> > with want_zero=3Dtrue, it may report unallocated zeroes because of shor=
+t backing files, which
+> > are actually "allocated" in POV of backing chains. But I see this may i=
+nfluence only
+> > qemu-img compare, and I don't see can it trigger some bug..
+> >=20
+> > with want_zero=3Dfalse, it may do no progress because of short backing =
+file. Moreover it may
+> > report EOF in the middle!! But want_zero=3Dfalse used only in bdrv_is_a=
+llocated, which considers
+> > onlyt top layer, so it seems OK.
+> >=20
+> > =3D=3D=3D=3D=3D
+> >=20
+> > So, I propose these series, still I'm not sure is there a real bug.
+> >=20
+> > Vladimir Sementsov-Ogievskiy (4):
+> >    block/io: fix bdrv_co_block_status_above
+> >    block/io: bdrv_common_block_status_above: support include_base
+> >    block/io: bdrv_common_block_status_above: support bs =3D=3D base
+> >    block/io: fix bdrv_is_allocated_above
+> >=20
+> >   block/io.c                 | 104 ++++++++++++++++++------------------=
+-
+> >   tests/qemu-iotests/154.out |   4 +-
+> >   2 files changed, 53 insertions(+), 55 deletions(-)
+> >=20
+>=20
+>=20
+> Interesting that the problem illustrated here is not fixed by the series,=
+ it's actually
+> relates to the fact that mirror does truncation with PREALLOC_MODE_OFF, w=
+hich leads
+> to unallocated qcow2 clusters, which I think should be fixed too.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- target/s390x/ioinst.c | 46 +++++++++++++++++++++++++++----------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+Yes, this is what I posted yesterday. (With a suggested quick fix, but
+it turns out it was not quite correct, see below.)
 
-diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
-index c437a1d8c6..d3bd422ddd 100644
---- a/target/s390x/ioinst.c
-+++ b/target/s390x/ioinst.c
-@@ -110,11 +110,13 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
-     int cssid, ssid, schid, m;
-     SubchDev *sch;
-     SCHIB schib;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     CPUS390XState *env = &cpu->env;
--    uint8_t ar;
-+    uint8_t ar = 0;
- 
--    addr = decode_basedisp_s(env, ipb, &ar);
-+    if (!env->pv) {
-+        addr = decode_basedisp_s(env, ipb, &ar);
-+    }
-     if (addr & 3) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return;
-@@ -167,11 +169,13 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
-     int cssid, ssid, schid, m;
-     SubchDev *sch;
-     ORB orig_orb, orb;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     CPUS390XState *env = &cpu->env;
--    uint8_t ar;
-+    uint8_t ar = 0;
- 
--    addr = decode_basedisp_s(env, ipb, &ar);
-+    if (!env->pv) {
-+        addr = decode_basedisp_s(env, ipb, &ar);
-+    }
-     if (addr & 3) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return;
-@@ -198,12 +202,14 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
- void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
- {
-     CRW crw;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     int cc;
-     CPUS390XState *env = &cpu->env;
--    uint8_t ar;
-+    uint8_t ar = 0;
- 
--    addr = decode_basedisp_s(env, ipb, &ar);
-+    if (!env->pv) {
-+        addr = decode_basedisp_s(env, ipb, &ar);
-+    }
-     if (addr & 3) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return;
-@@ -228,13 +234,15 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
- {
-     int cssid, ssid, schid, m;
-     SubchDev *sch;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     int cc;
-     SCHIB schib;
-     CPUS390XState *env = &cpu->env;
--    uint8_t ar;
-+    uint8_t ar = 0;
- 
--    addr = decode_basedisp_s(env, ipb, &ar);
-+    if (!env->pv) {
-+        addr = decode_basedisp_s(env, ipb, &ar);
-+    }
-     if (addr & 3) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return;
-@@ -294,16 +302,18 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
-     int cssid, ssid, schid, m;
-     SubchDev *sch;
-     IRB irb;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     int cc, irb_len;
--    uint8_t ar;
-+    uint8_t ar = 0;
- 
-     if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid)) {
-         s390_program_interrupt(env, PGM_OPERAND, ra);
-         return -EIO;
+> To illustrate the problem fixed by the series, we should commit to base:
+>=20
+> # ./qemu-img commit top.qcow2 -b base.qcow2
+> Image committed.
+> # ./qemu-io -c "read -P 0 1M 1M" base.qcow2
+> Pattern verification failed at offset 1048576, 1048576 bytes
+> read 1048576/1048576 bytes at offset 1048576
+> 1 MiB, 1 ops; 00.00 sec (5.366 GiB/sec and 5494.4149 ops/sec)
+
+Ok, I'll try that later.
+
+> Hmm, but how to fix the problem about truncate? I think truncate must
+> not make underlying backing available for read.. Discard operation
+> doesn't do it.
+>=20
+> So, actually on PREALLOC_MODE_OFF we must allocated L2 tables and mark
+> new clusters as ZERO?
+
+Yes, we need to write zeroes to the new area if the backing file covers
+it. We need to do this not only in mirror/commit/bdrv_commit(), but in
+fact for all truncate operations: Berto mentioned on IRC yesterday that
+you can get into the same situation with 'block_resize' monitor
+commands.
+
+So I tried to fix this yesterday, and I thought that I had a fix, when I
+noticed that bdrv_co_do_zero_pwritev() takes a 32 bit bytes parameter.
+So I'll still need to fix this. Other than that, I suppose the following
+fix should work (but is probably a bit too invasive for -rc3).
+
+Kevin
+
+diff --git a/block/io.c b/block/io.c
+index f75777f5ea..4118bf0118 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3382,6 +3382,32 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, =
+int64_t offset, bool exact,
+         goto out;
      }
-     trace_ioinst_sch_id("tsch", cssid, ssid, schid);
--    addr = decode_basedisp_s(env, ipb, &ar);
-+    if (!env->pv) {
-+        addr = decode_basedisp_s(env, ipb, &ar);
+
++    /*
++     * If the image has a backing file that is large enough that it would
++     * provide data for the new area, we cannot leave it unallocated becau=
+se
++     * then the backing file content would become visible. Instead, zero-f=
+ill
++     * the area where backing file and new area overlap.
++     */
++    if (new_bytes && bs->backing && prealloc =3D=3D PREALLOC_MODE_OFF) {
++        int64_t backing_len;
++
++        backing_len =3D bdrv_getlength(backing_bs(bs));
++        if (backing_len < 0) {
++            ret =3D backing_len;
++            goto out;
++        }
++
++        if (backing_len > old_size) {
++            /* FIXME bytes parameter is 32 bits */
++            ret =3D bdrv_co_do_zero_pwritev(child, old_size,
++                                          MIN(new_bytes, backing_len - old=
+_size),
++                                          BDRV_REQ_ZERO_WRITE | BDRV_REQ_M=
+AY_UNMAP, &req);
++            if (ret < 0) {
++                goto out;
++            }
++        }
 +    }
-     if (addr & 3) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-         return -EIO;
-@@ -601,7 +611,7 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
- {
-     ChscReq *req;
-     ChscResp *res;
--    uint64_t addr;
-+    uint64_t addr = 0;
-     int reg;
-     uint16_t len;
-     uint16_t command;
-@@ -610,7 +620,9 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
- 
-     trace_ioinst("chsc");
-     reg = (ipb >> 20) & 0x00f;
--    addr = env->regs[reg];
-+    if (!env->pv) {
-+        addr = env->regs[reg];
-+    }
-     /* Page boundary? */
-     if (addr & 0xfff) {
-         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
--- 
-2.20.1
++
+     ret =3D refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
+     if (ret < 0) {
+         error_setg_errno(errp, -ret, "Could not refresh total sector count=
+");
 
 
