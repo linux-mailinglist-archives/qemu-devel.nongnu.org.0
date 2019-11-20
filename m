@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C57103A17
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:31:22 +0100 (CET)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4484E103A1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:34:40 +0100 (CET)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXP8k-0001KP-2t
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:31:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
+	id 1iXPBv-0003Db-9W
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iXP7i-0000ov-GM
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:30:23 -0500
+ (envelope-from <philmd@redhat.com>) id 1iXP9l-000215-86
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:32:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iXP7g-00022e-0m
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:30:16 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36158
+ (envelope-from <philmd@redhat.com>) id 1iXP9k-00047P-3a
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:32:25 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20394
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iXP7f-00021O-Ts
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:30:15 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iXP9k-000424-02
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:32:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574253015;
+ s=mimecast20190719; t=1574253135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GIUMQtrHNZpI/9PaLvL+otHLoRzB/YO7UJibWyNCwuI=;
- b=LY0RzlGKy1RfJfyS7H2U8Yla9zgxvKTDHqIcm/bP1oMF4XMobNLBAF5NAVh1Zu18QeCSlF
- Mg+F+0c+jts55LHo4xOR94UEndNOTg9elk6vraU0SDWB9WMGXx9aQYewQXOcAtIbKPxDZG
- 0kcyKrq5E9UH4/1Cu9hgxTYwwa2kY0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-BTPm3sR5PMiECZguCglBvA-1; Wed, 20 Nov 2019 07:30:11 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D004780268A;
- Wed, 20 Nov 2019 12:30:09 +0000 (UTC)
-Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC74A28988;
- Wed, 20 Nov 2019 12:30:08 +0000 (UTC)
-Date: Wed, 20 Nov 2019 13:30:07 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>
-Subject: Re: [RFC PATCH v1 6/8] vfio-ccw: Add support for the crw region
-Message-ID: <20191120133007.19778c66.cohuck@redhat.com>
-In-Reply-To: <20191115033437.37926-7-farman@linux.ibm.com>
-References: <20191115033437.37926-1-farman@linux.ibm.com>
- <20191115033437.37926-7-farman@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=HNr91VHOHr+EjZehfhxVDFvZzrBBHC3X4uXRcPLqpE0=;
+ b=fSIEDpohNEF6lVcGUneLvau9Auy1hkCZ6AvPTSDP/h0oD6xNwMIyeKWKuWGeMDbr5IYbIY
+ u3kStb7KYQ9SAgEZqlyHQ4r5BA8a3rViXsrrXlANoFKLFN5leAIKgCG/vptdawdQuVwPmK
+ TzryKSkrAY0b/g0wiHVFeGIZjHZ9qdg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-Excm-KMrPnq4Z63jUMplvQ-1; Wed, 20 Nov 2019 07:32:14 -0500
+Received: by mail-wr1-f69.google.com with SMTP id k15so21074177wrp.22
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 04:32:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fyra5V6iUSdWSbfZeV/HRb8fo7AY542XDy1yURjY304=;
+ b=VSbzj6XzUWkolFgDI/yUgD/k1aDy5ZgxsBxC7Q8ZqeHq1UTrILA8PJ2fePdaLWnZIS
+ 0ZFowG0xF4q/TnOxchDiH6PFHUf7CRzKMk0CWTd/9Zdcrj5jt3vEC/wnzcF3oIS4R0xD
+ tDccrHIsVBe850b99L0/XOXfrI5quK9Xqv4MmYySt0aNQV6VADmdi8T+95mEUAqHPNTi
+ 4JEb2V7C33LIwc/dPSrGmDHy8GnOIuQiwXUQKJ6910nutFN6AbJvkDX0CqFXJOU5H/yx
+ 1ibSSYQ26LBrw0oyos9xyI3NhCeMsxVz1Sw29JXsfuN5KVHuBxjFYoTzFHgNtUTWWz2f
+ Hw0w==
+X-Gm-Message-State: APjAAAViBIu/T/Tyxd9rI+cAZBqO7598bRjwQHAiTt5s1QjVlj7lLWWW
+ UFELH6RDOANHIZi/6hAgtusDBVe5ry8HlPlqAZxLc365ECeHYLQC6I0zOGrYV34i5lR5Vm2BCem
+ 0v2f9XNTxOWyT6sU=
+X-Received: by 2002:adf:9323:: with SMTP id 32mr3022949wro.15.1574253133119;
+ Wed, 20 Nov 2019 04:32:13 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwKq4UqQiCDcAplWhMEJXbGM/xR269ds7Zc2uF1Ap6RLkV7dUnTlk5OfOT54RCk+dk5XUN4lw==
+X-Received: by 2002:adf:9323:: with SMTP id 32mr3022903wro.15.1574253132875;
+ Wed, 20 Nov 2019 04:32:12 -0800 (PST)
+Received: from [10.201.33.134] ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id g138sm6672647wmg.11.2019.11.20.04.32.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Nov 2019 04:32:12 -0800 (PST)
+Subject: Re: [PATCH v3 12/33] serial: replace serial_exit_core() with unrealize
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-13-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <58a2eeb4-9241-2beb-d5fd-41e306f5376e@redhat.com>
+Date: Wed, 20 Nov 2019 13:32:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: BTPm3sR5PMiECZguCglBvA-1
+In-Reply-To: <20191023173154.30051-13-marcandre.lureau@redhat.com>
+Content-Language: en-US
+X-MC-Unique: Excm-KMrPnq4Z63jUMplvQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -72,34 +91,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Nov 2019 04:34:35 +0100
-Eric Farman <farman@linux.ibm.com> wrote:
-
-> From: Farhan Ali <alifm@linux.ibm.com>
+On 10/23/19 7:31 PM, Marc-Andr=C3=A9 Lureau wrote:
+> Instead of calling serial_exit_core() directly, use the QDev unrealize
+> callback.
 >=20
-> The crw region can be used to obtain information about
-> Channel Report Words (CRW) from vfio-ccw driver.
->=20
-> Currently only channel path related CRWs are passed to
-> QEMU from vfio-ccw driver.
->=20
-> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
+>   hw/char/serial-pci-multi.c | 2 +-
+>   hw/char/serial-pci.c       | 2 +-
+>   hw/char/serial.c           | 5 ++++-
+>   include/hw/char/serial.h   | 1 -
+>   4 files changed, 6 insertions(+), 4 deletions(-)
 >=20
-> Notes:
->     v0->v1: [EF]
->      - Fixed copy/paste error in error message (s/schib/CRW)
+> diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+> index 60c1c948b8..a3200555aa 100644
+> --- a/hw/char/serial-pci-multi.c
+> +++ b/hw/char/serial-pci-multi.c
+> @@ -56,7 +56,7 @@ static void multi_serial_pci_exit(PCIDevice *dev)
+>  =20
+>       for (i =3D 0; i < pci->ports; i++) {
+>           s =3D pci->state + i;
+> -        serial_exit_core(s);
+> +        object_property_set_bool(OBJECT(s), false, "realized", NULL);
+>           memory_region_del_subregion(&pci->iobar, &s->io);
+>           g_free(pci->name[i]);
+>       }
+> diff --git a/hw/char/serial-pci.c b/hw/char/serial-pci.c
+> index 35a8552674..54bdd98325 100644
+> --- a/hw/char/serial-pci.c
+> +++ b/hw/char/serial-pci.c
+> @@ -69,7 +69,7 @@ static void serial_pci_exit(PCIDevice *dev)
+>       PCISerialState *pci =3D DO_UPCAST(PCISerialState, dev, dev);
+>       SerialState *s =3D &pci->state;
+>  =20
+> -    serial_exit_core(s);
+> +    object_property_set_bool(OBJECT(s), false, "realized", NULL);
+>       qemu_free_irq(s->irq);
+>   }
+>  =20
+> diff --git a/hw/char/serial.c b/hw/char/serial.c
+> index bf34d9594e..667570e310 100644
+> --- a/hw/char/serial.c
+> +++ b/hw/char/serial.c
+> @@ -951,8 +951,10 @@ static void serial_realize(DeviceState *dev, Error *=
+*errp)
+>       qdev_set_legacy_instance_id(dev, s->instance_id, 2);
+>   }
+>  =20
+> -void serial_exit_core(SerialState *s)
+> +static void serial_unrealize(DeviceState *dev, Error **errp)
+>   {
+> +    SerialState *s =3D SERIAL(dev);
+> +
+>       qemu_chr_fe_deinit(&s->chr, false);
+>  =20
+>       timer_del(s->modem_status_poll);
+> @@ -1014,6 +1016,7 @@ static void serial_class_init(ObjectClass *klass, v=
+oid* data)
+>       DeviceClass *dc =3D DEVICE_CLASS(klass);
+>  =20
+>       dc->realize =3D serial_realize;
+> +    dc->unrealize =3D serial_unrealize;
+>       dc->vmsd =3D &vmstate_serial;
+>       dc->props =3D serial_properties;
+>   }
+> diff --git a/include/hw/char/serial.h b/include/hw/char/serial.h
+> index b445df5951..7cc6304f1d 100644
+> --- a/include/hw/char/serial.h
+> +++ b/include/hw/char/serial.h
+> @@ -84,7 +84,6 @@ typedef struct SerialState {
+>   extern const VMStateDescription vmstate_serial;
+>   extern const MemoryRegionOps serial_io_ops;
+>  =20
+> -void serial_exit_core(SerialState *s);
+>   void serial_set_frequency(SerialState *s, uint32_t frequency);
+>  =20
+>   #define TYPE_SERIAL "serial"
 >=20
->  hw/vfio/ccw.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
 
-Looks sane.
+Nice.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
