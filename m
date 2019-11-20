@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E371042A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 18:57:15 +0100 (CET)
-Received: from localhost ([::1]:33128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7FC1042B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 18:59:05 +0100 (CET)
+Received: from localhost ([::1]:33146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXUE5-0007W3-TL
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 12:57:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59987)
+	id 1iXUFs-0000bc-I0
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 12:59:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60585)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iXUAa-0005fs-Gu
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:53:37 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iXUEN-00085t-3M
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:57:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iXUAZ-000397-0v
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:53:36 -0500
-Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:56550)
+ (envelope-from <pbonzini@redhat.com>) id 1iXUEK-0004lg-6O
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:57:30 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44890
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iXUAY-00037V-R4
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:53:34 -0500
-Received: from player758.ha.ovh.net (unknown [10.108.42.174])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 6F7181ED579
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 18:53:32 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player758.ha.ovh.net (Postfix) with ESMTPSA id E1A41C611612;
- Wed, 20 Nov 2019 17:53:25 +0000 (UTC)
-Date: Wed, 20 Nov 2019 18:53:24 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-5.0 v5 14/23] ppc/spapr: Implement the XiveFabric
- interface
-Message-ID: <20191120185324.7f859d39@bahia.lan>
-In-Reply-To: <20191115162436.30548-15-clg@kaod.org>
-References: <20191115162436.30548-1-clg@kaod.org>
- <20191115162436.30548-15-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iXUEI-0004ks-FI
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 12:57:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574272644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=dVw7FIuwWuu5Lv16m2dUbd1e10+dUzgzRSWIrKXWEE4=;
+ b=jEHQEfMDAzIjYuOXwsip8yKxEdNpMf31moYfP/9XsLLwbS+40HYkbQlT0kpTfqMWUqvLnk
+ KX/rt8cPcfHne4SHncDvf4Xy7rjkZb/q14XQJHaLx1A+ZhW5nlZnNySzk56x5tV1Q/ZTWn
+ EtepaW+PfMTyF19rO85nwh/9FsGh1fU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-FrqS5s0GOh2BSrMYQ2oYkA-1; Wed, 20 Nov 2019 12:57:22 -0500
+Received: by mail-wr1-f72.google.com with SMTP id u14so170175wrq.19
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 09:57:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Er4o4nLlj40R13NAP6NYkJvne9nq+eiHa2N172eW2n0=;
+ b=WhTXV1mrg5tLKC5Yv2+3ZKS/CSaqtVxvhw+oF1wfT+jpig19hW2sR6N26zbUUvNPhw
+ 7HF/dgMAUSs/HMHzaDwmg72m9NqhYnhxubQcyZNhuq3NFxFG/Ls0Nl3aI6huacLGhnWX
+ 7/i7nh4UEnBa+LgwOfHGEwuQz5xSD5feyQlIn0JWDo6WGfeZY/XgWT7L1vhCPGYPp4VV
+ 6ALplTnGbcDm6VWqNBiLAGr71CaW2zMbr4I1MF7tWiJrR08IMHbv/GGT3Rn6ZUhMhEJo
+ 6uf9o0vwl1Dptt+3VGF2Ig+OksyM8IqOfr6fsobhnxe0bSGi6daKA9VuC7X/QPn1vA1l
+ QQjw==
+X-Gm-Message-State: APjAAAWHaLI8448lo2XfWir34njVzr/E2rQ06telHa21J5gpc0Ih8SBA
+ veekRtrw/rs3DjavP4jgLJkO2iym+i0jJG5EZjGVr+KVvM70pVrhAE719OdcdWuCCBfJwcMo6ai
+ 8m7IMhXY10atkxSs=
+X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5451833wrt.260.1574272641687; 
+ Wed, 20 Nov 2019 09:57:21 -0800 (PST)
+X-Google-Smtp-Source: APXvYqypjAOWgTT7J8IW3FjHWVVQR/QNLscRZHzG/BrakdJ4QQuWhkcnbGanawopIW+ZBmS3TxAWUQ==
+X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5451784wrt.260.1574272641397; 
+ Wed, 20 Nov 2019 09:57:21 -0800 (PST)
+Received: from [192.168.178.40] ([151.48.115.61])
+ by smtp.gmail.com with ESMTPSA id y6sm53316wrr.19.2019.11.20.09.57.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Nov 2019 09:57:20 -0800 (PST)
+Subject: Re: [PATCH] target/i386: add VMX features to named CPU models
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191120173753.8894-1-pbonzini@redhat.com>
+ <20191120175002.GP2785116@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7e1b3701-8c5a-409c-8c8f-29cb673da3ac@redhat.com>
+Date: Wed, 20 Nov 2019 18:57:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20191120175002.GP2785116@redhat.com>
+Content-Language: en-US
+X-MC-Unique: FrqS5s0GOh2BSrMYQ2oYkA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 9051109355180300683
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehtddguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.124.17
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,109 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Nov 2019 17:24:27 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-
-> The CAM line matching sequence in the pseries machine does not change
-> much apart from the use of the new QOM interfaces. There is an extra
-> indirection because of the sPAPR IRQ backend of the machine. Only the
-> XIVE backend implements the new 'match_nvt' handler.
+On 20/11/19 18:50, Daniel P. Berrang=C3=A9 wrote:
+> On Wed, Nov 20, 2019 at 06:37:53PM +0100, Paolo Bonzini wrote:
+>> This allows using "-cpu Haswell,+vmx", which we did not really want to
+>> support in QEMU but was produced by Libvirt when using the "host-model"
+>> CPU model.
+> Can you say what is currently broken ?  If I launch my current QEMU (I ha=
+ve
+> 4.1.1 on Fedora 31):
+>=20
+>  qemu-system-x86_64 -cpu Haswell,+vmx
+>=20
+> ... I don't get any reported errors.
 >=20
 
-The changelog needs an update since you dropped the indirection you had
-in v4.
+KVM does not load in the guest, though?
 
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/ppc/spapr.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 94f9d27096af..a8f5850f65bb 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4270,6 +4270,39 @@ static void spapr_pic_print_info(InterruptStatsPro=
-vider *obj,
->                     kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
->  }
-> =20
-> +static int spapr_xive_match_nvt(XiveFabric *xfb, uint8_t format,
-> +                                uint8_t nvt_blk, uint32_t nvt_idx,
-> +                                bool cam_ignore, uint8_t priority,
-> +                                uint32_t logic_serv, XiveTCTXMatch *matc=
-h)
-> +{
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
-> +    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
-> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-> +    int count;
-> +
-
-As suggested by David, you should probably assert() that XIVE is in use
-for extra paran^Wsafety.
-
-With these fixed,
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
-> +                           priority, logic_serv, match);
-> +    if (count < 0) {
-> +        return count;
-> +    }
-> +
-> +    /*
-> +     * When we implement the save and restore of the thread interrupt
-> +     * contexts in the enter/exit CPU handlers of the machine and the
-> +     * escalations in QEMU, we should be able to handle non dispatched
-> +     * vCPUs.
-> +     *
-> +     * Until this is done, the sPAPR machine should find at least one
-> +     * matching context always.
-> +     */
-> +    if (count =3D=3D 0) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is not dispatche=
-d\n",
-> +                      nvt_blk, nvt_idx);
-> +    }
-> +
-> +    return count;
-> +}
-> +
->  int spapr_get_vcpu_id(PowerPCCPU *cpu)
->  {
->      return cpu->vcpu_id;
-> @@ -4366,6 +4399,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      PPCVirtualHypervisorClass *vhc =3D PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
->      XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
->      InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
-(oc);
-> +    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
-> =20
->      mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
->      mc->ignore_boot_device_suffixes =3D true;
-> @@ -4442,6 +4476,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      smc->linux_pci_probe =3D true;
->      smc->smp_threads_vsmt =3D true;
->      smc->nr_xirqs =3D SPAPR_NR_XIRQS;
-> +    xfc->match_nvt =3D spapr_xive_match_nvt;
->  }
-> =20
->  static const TypeInfo spapr_machine_info =3D {
-> @@ -4460,6 +4495,7 @@ static const TypeInfo spapr_machine_info =3D {
->          { TYPE_PPC_VIRTUAL_HYPERVISOR },
->          { TYPE_XICS_FABRIC },
->          { TYPE_INTERRUPT_STATS_PROVIDER },
-> +        { TYPE_XIVE_FABRIC },
->          { }
->      },
->  };
+Paolo
 
 
