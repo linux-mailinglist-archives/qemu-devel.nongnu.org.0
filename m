@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97AA103ECA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:33:29 +0100 (CET)
-Received: from localhost ([::1]:59428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0B5103EE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:37:15 +0100 (CET)
+Received: from localhost ([::1]:59460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXRyy-0007qi-GA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:33:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33950)
+	id 1iXS2c-0004A3-H5
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:37:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRr9-0006tc-FC
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:24 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRs0-000860-1i
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:26:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRr8-00062b-DZ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:23 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56881
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRry-0007BA-R0
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:26:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22018
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRr8-000619-9K
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:22 -0500
+ id 1iXRrW-0006zh-QT
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:26:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263521;
+ s=mimecast20190719; t=1574263546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3mf236o4Q1vWCoYU4IYZ8YS4BnDMpC15gQm/zl+Bmt4=;
- b=Z/vO+nrIBFIfc+crHzkXSkTMJBJiBuU+WXagGjSzX3QXDby/BkOEfr3jqBWeptwj8xyFrK
- sTmYRiJ4pTp9RW/hFqjRk4v7lbqvE9r15uSWxV0Fm9u1g1tH5DOJ5HSrWhu7LSflnHV/7U
- f4tLvGJgTXaH02Nd448A/7uweMw23mA=
+ bh=MOXHFY3Tm5V2wXOd5gCynSSWkrmkIgzTADlcxxofe3c=;
+ b=H4AgC4TOTLihbbQf6tOlO2CyoxdmKGg6jJMTIgaWUevelVEr2A4sqlxMMA2SPzQr9vXKrx
+ RWed2UPq/rwNzux/92hsIR0HraD4t5xn4d1DbVs3n45qrdPPVJ6j8slFS1LQx6j/q8/UcT
+ /YnEOo49qgOUuHa9BhOxVEAjtGHX084=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-MqghrysfPhaVRs6xFR1z-A-1; Wed, 20 Nov 2019 10:25:20 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-129-O5AFAA3zNG6WejbNb5dljQ-1; Wed, 20 Nov 2019 10:25:43 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15A92100550E;
- Wed, 20 Nov 2019 15:25:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 287E88024D4;
+ Wed, 20 Nov 2019 15:25:42 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91B2C46E76;
- Wed, 20 Nov 2019 15:25:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8D4C6B8EF;
+ Wed, 20 Nov 2019 15:25:34 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/37] sysbus: remove outdated comment
-Date: Wed, 20 Nov 2019 19:24:08 +0400
-Message-Id: <20191120152442.26657-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 05/37] serial-pci-multi: factor out
+ multi_serial_get_port_count()
+Date: Wed, 20 Nov 2019 19:24:10 +0400
+Message-Id: <20191120152442.26657-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: MqghrysfPhaVRs6xFR1z-A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: O5AFAA3zNG6WejbNb5dljQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -71,37 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
+Cc: peter.maydell@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The init callback is no more since commit
-817a17fc60f44e29a1944b60d32f45ea127f0cf9 ("core/sysbus: remove the
-SysBusDeviceClass::init path")
+Common function to be reused in next patch.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/hw/sysbus.h | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/char/serial-pci-multi.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 2eb0484388..c4a1c0adfa 100644
---- a/include/hw/sysbus.h
-+++ b/include/hw/sysbus.h
-@@ -24,10 +24,6 @@ typedef struct SysBusDevice SysBusDevice;
+diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+index 5f13b5663b..5c553c30d0 100644
+--- a/hw/char/serial-pci-multi.c
++++ b/hw/char/serial-pci-multi.c
+@@ -77,33 +77,34 @@ static void multi_serial_irq_mux(void *opaque, int n, i=
+nt level)
+     pci_set_irq(&pci->dev, pending);
+ }
 =20
- /**
-  * SysBusDeviceClass:
-- * @init: Callback function invoked when the #DeviceState.realized propert=
-y
-- * is changed to %true. Deprecated, new types inheriting directly from
-- * TYPE_SYS_BUS_DEVICE should use #DeviceClass.realize instead, new leaf
-- * types should consult their respective parent type.
-  *
-  * SysBusDeviceClass is not overriding #DeviceClass.realize, so derived
-  * classes overriding it are not required to invoke its implementation.
++static size_t multi_serial_get_port_count(PCIDeviceClass *pc)
++{
++    switch (pc->device_id) {
++    case 0x0003:
++        return 2;
++    case 0x0004:
++        return 4;
++    }
++
++    g_assert_not_reached();
++}
++
++
+ static void multi_serial_pci_realize(PCIDevice *dev, Error **errp)
+ {
+     PCIDeviceClass *pc =3D PCI_DEVICE_GET_CLASS(dev);
+     PCIMultiSerialState *pci =3D DO_UPCAST(PCIMultiSerialState, dev, dev);
+     SerialState *s;
+     Error *err =3D NULL;
+-    int i, nr_ports =3D 0;
+-
+-    switch (pc->device_id) {
+-    case 0x0003:
+-        nr_ports =3D 2;
+-        break;
+-    case 0x0004:
+-        nr_ports =3D 4;
+-        break;
+-    }
+-    assert(nr_ports > 0);
+-    assert(nr_ports <=3D PCI_SERIAL_MAX_PORTS);
++    size_t i, nports =3D multi_serial_get_port_count(pc);
+=20
+     pci->dev.config[PCI_CLASS_PROG] =3D pci->prog_if;
+     pci->dev.config[PCI_INTERRUPT_PIN] =3D 0x01;
+-    memory_region_init(&pci->iobar, OBJECT(pci), "multiserial", 8 * nr_por=
+ts);
++    memory_region_init(&pci->iobar, OBJECT(pci), "multiserial", 8 * nports=
+);
+     pci_register_bar(&pci->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &pci->iobar)=
+;
+-    pci->irqs =3D qemu_allocate_irqs(multi_serial_irq_mux, pci,
+-                                   nr_ports);
++    pci->irqs =3D qemu_allocate_irqs(multi_serial_irq_mux, pci, nports);
+=20
+-    for (i =3D 0; i < nr_ports; i++) {
++    for (i =3D 0; i < nports; i++) {
+         s =3D pci->state + i;
+         s->baudbase =3D 115200;
+         serial_realize_core(s, &err);
+@@ -113,7 +114,7 @@ static void multi_serial_pci_realize(PCIDevice *dev, Er=
+ror **errp)
+             return;
+         }
+         s->irq =3D pci->irqs[i];
+-        pci->name[i] =3D g_strdup_printf("uart #%d", i + 1);
++        pci->name[i] =3D g_strdup_printf("uart #%zu", i + 1);
+         memory_region_init_io(&s->io, OBJECT(pci), &serial_io_ops, s,
+                               pci->name[i], 8);
+         memory_region_add_subregion(&pci->iobar, 8 * i, &s->io);
 --=20
 2.24.0
 
