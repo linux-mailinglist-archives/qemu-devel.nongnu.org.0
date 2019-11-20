@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3DC103907
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:46:57 +0100 (CET)
-Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E22E103938
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:56:59 +0100 (CET)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXORk-0004sp-KR
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:46:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43284)
+	id 1iXObS-0000iI-7h
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:56:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOOu-00036F-13
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:01 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOv-00038P-DT
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOOs-00035o-0k
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:43:59 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59490)
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOt-0003Bp-VS
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3790)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iXOOq-0002yI-1z
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:43:57 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ id 1iXOOr-00031M-VX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:43:59 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAKBgEbV094689
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:53 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf57cwqs-1
+ xAKBfvb0089577
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:55 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wbxndrtjq-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:52 -0500
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:55 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 20 Nov 2019 11:43:50 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Wed, 20 Nov 2019 11:43:53 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 11:43:48 -0000
+ Wed, 20 Nov 2019 11:43:49 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAKBhkeg16318646
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id xAKBhmo947120820
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 11:43:46 GMT
+ Wed, 20 Nov 2019 11:43:48 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D19C4C04E;
+ by IMSVA (Postfix) with ESMTP id EA6744C044;
+ Wed, 20 Nov 2019 11:43:47 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C6B4D4C040;
  Wed, 20 Nov 2019 11:43:46 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C4664C050;
- Wed, 20 Nov 2019 11:43:45 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.152.224.205])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Nov 2019 11:43:45 +0000 (GMT)
+ Wed, 20 Nov 2019 11:43:46 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/15] s390x: Protected Virtualization support
-Date: Wed, 20 Nov 2019 06:43:19 -0500
+Subject: [PATCH 01/15] s390x: Cleanup cpu resets
+Date: Wed, 20 Nov 2019 06:43:20 -0500
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191120114334.2287-1-frankja@linux.ibm.com>
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19112011-4275-0000-0000-00000383E080
+x-cbid: 19112011-0016-0000-0000-000002C9CC51
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112011-4276-0000-0000-000038975980
-Message-Id: <20191120114334.2287-1-frankja@linux.ibm.com>
+x-cbparentid: 19112011-0017-0000-0000-0000332B8B7D
+Message-Id: <20191120114334.2287-2-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-20_03:2019-11-15,2019-11-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=751
- priorityscore=1501 suspectscore=1 spamscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911200107
+ priorityscore=1501
+ lowpriorityscore=0 suspectscore=1 phishscore=0 mlxlogscore=999
+ clxscore=1015 adultscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1911200107
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,58 +94,181 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the QEMU changes for PV are related to the new IPL type with
-subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
-IPL secure guests. Note that we can only boot into secure mode from
-normal mode, i.e. stfle 161 is not active in secure mode.
+Let's move the resets into one function and switch by type, so we can
+use fallthroughs for shared reset actions.
 
-The other changes related to data gathering for emulation and
-disabling addressing checks in secure mode, as well as CPU resets.
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ hw/s390x/s390-virtio-ccw.c |   3 +
+ target/s390x/cpu.c         | 111 ++++++++++++++++---------------------
+ 2 files changed, 52 insertions(+), 62 deletions(-)
 
-While working on this I sprinkled in some cleanups, as we sometimes
-significantly increase line count of some functions and they got
-unreadable.
-
-Janosch Frank (15):
-  s390x: Cleanup cpu resets
-  s390x: Beautify diag308 handling
-  s390x: protvirt: Add diag308 subcodes 8 - 10
-  Header sync protvirt
-  s390x: protvirt: Sync PV state
-  s390x: protvirt: Support unpack facility
-  s390x: protvirt: Handle diag 308 subcodes 0,1,3,4
-  s390x: protvirt: KVM intercept changes
-  s390x: protvirt: SCLP interpretation
-  s390x: protvirt: Add new VCPU reset functions
-  RFC: s390x: Exit on vcpu reset error
-  s390x: protvirt: Set guest IPL PSW
-  s390x: protvirt: Move diag 308 data over SIDAD
-  s390x: protvirt: Disable address checks for PV guest IO emulation
-  s390x: protvirt: Handle SIGP store status correctly
-
- hw/s390x/Makefile.objs              |   1 +
- hw/s390x/ipl.c                      |  81 +++++++++++++++++-
- hw/s390x/ipl.h                      |  35 ++++++++
- hw/s390x/pv.c                       | 123 +++++++++++++++++++++++++++
- hw/s390x/pv.h                       |  27 ++++++
- hw/s390x/s390-virtio-ccw.c          |  79 ++++++++++++++---
- hw/s390x/sclp.c                     |  16 ++++
- include/hw/s390x/sclp.h             |   2 +
- linux-headers/asm-s390/kvm.h        |   4 +-
- linux-headers/linux/kvm.h           |  43 ++++++++++
- target/s390x/cpu.c                  | 127 ++++++++++++++--------------
- target/s390x/cpu.h                  |   1 +
- target/s390x/cpu_features_def.inc.h |   1 +
- target/s390x/diag.c                 | 108 +++++++++++++++++------
- target/s390x/ioinst.c               |  46 ++++++----
- target/s390x/kvm-stub.c             |  10 ++-
- target/s390x/kvm.c                  |  58 +++++++++++--
- target/s390x/kvm_s390x.h            |   4 +-
- target/s390x/sigp.c                 |   7 +-
- 19 files changed, 640 insertions(+), 133 deletions(-)
- create mode 100644 hw/s390x/pv.c
- create mode 100644 hw/s390x/pv.h
-
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index d3edeef0ad..c1d1440272 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machine)
+         break;
+     case S390_RESET_LOAD_NORMAL:
+         CPU_FOREACH(t) {
++            if (t == cs) {
++                continue;
++            }
+             run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
+         }
+         subsystem_reset();
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 3abe7e80fd..10d5b915d8 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -82,67 +82,53 @@ static void s390_cpu_load_normal(CPUState *s)
+ }
+ #endif
+ 
+-/* S390CPUClass::cpu_reset() */
+-static void s390_cpu_reset(CPUState *s)
++enum {
++    S390_CPU_RESET_NORMAL,
++    S390_CPU_RESET_INITIAL,
++    S390_CPU_RESET_CLEAR,
++};
++
++static void s390_cpu_reset(CPUState *s, uint8_t type)
+ {
+     S390CPU *cpu = S390_CPU(s);
+     S390CPUClass *scc = S390_CPU_GET_CLASS(cpu);
+     CPUS390XState *env = &cpu->env;
+ 
+-    env->pfault_token = -1UL;
+-    env->bpbc = false;
+     scc->parent_reset(s);
+     cpu->env.sigp_order = 0;
+     s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
+-}
+ 
+-/* S390CPUClass::initial_reset() */
+-static void s390_cpu_initial_reset(CPUState *s)
+-{
+-    S390CPU *cpu = S390_CPU(s);
+-    CPUS390XState *env = &cpu->env;
++    /* Set initial values after clearing */
++    switch (type) {
++    case S390_CPU_RESET_CLEAR:
++        /* Fallthrough will clear the rest */
++        memset(env, 0, offsetof(CPUS390XState, start_initial_reset_fields));
++        /* Fallthrough */
++    case S390_CPU_RESET_INITIAL:
++        memset(&env->start_initial_reset_fields, 0,
++               offsetof(CPUS390XState, end_reset_fields) -
++               offsetof(CPUS390XState, start_initial_reset_fields));
++        /* architectured initial values for CR 0 and 14 */
++        env->cregs[0] = CR0_RESET;
++        env->cregs[14] = CR14_RESET;
+ 
+-    s390_cpu_reset(s);
+-    /* initial reset does not clear everything! */
+-    memset(&env->start_initial_reset_fields, 0,
+-        offsetof(CPUS390XState, end_reset_fields) -
+-        offsetof(CPUS390XState, start_initial_reset_fields));
+-
+-    /* architectured initial values for CR 0 and 14 */
+-    env->cregs[0] = CR0_RESET;
+-    env->cregs[14] = CR14_RESET;
+-
+-    /* architectured initial value for Breaking-Event-Address register */
+-    env->gbea = 1;
+-
+-    env->pfault_token = -1UL;
+-
+-    /* tininess for underflow is detected before rounding */
+-    set_float_detect_tininess(float_tininess_before_rounding,
+-                              &env->fpu_status);
++        /* architectured initial value for Breaking-Event-Address register */
++        env->gbea = 1;
++        /* tininess for underflow is detected before rounding */
++        set_float_detect_tininess(float_tininess_before_rounding,
++                                  &env->fpu_status);
++        /* Fallthrough */
++    case S390_CPU_RESET_NORMAL:
++        env->pfault_token = -1UL;
++        env->bpbc = false;
++        break;
++    }
+ 
+     /* Reset state inside the kernel that we cannot access yet from QEMU. */
+-    if (kvm_enabled()) {
+-        kvm_s390_reset_vcpu(cpu);
++    if (kvm_enabled() && (type == S390_CPU_RESET_CLEAR ||
++                          type == S390_CPU_RESET_INITIAL)) {
++            kvm_s390_reset_vcpu(cpu);
+     }
+-}
+-
+-/* CPUClass:reset() */
+-static void s390_cpu_full_reset(CPUState *s)
+-{
+-    S390CPU *cpu = S390_CPU(s);
+-    S390CPUClass *scc = S390_CPU_GET_CLASS(cpu);
+-    CPUS390XState *env = &cpu->env;
+-
+-    scc->parent_reset(s);
+-    cpu->env.sigp_order = 0;
+-    s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
+-
+-    memset(env, 0, offsetof(CPUS390XState, end_reset_fields));
+-
+-    /* architectured initial values for CR 0 and 14 */
+-    env->cregs[0] = CR0_RESET;
+-    env->cregs[14] = CR14_RESET;
+ 
+ #if defined(CONFIG_USER_ONLY)
+     /* user mode should always be allowed to use the full FPU */
+@@ -151,20 +137,21 @@ static void s390_cpu_full_reset(CPUState *s)
+         env->cregs[0] |= CR0_VECTOR;
+     }
+ #endif
++}
+ 
+-    /* architectured initial value for Breaking-Event-Address register */
+-    env->gbea = 1;
++static void s390_cpu_reset_normal(CPUState *s)
++{
++    return s390_cpu_reset(s, S390_CPU_RESET_NORMAL);
++}
+ 
+-    env->pfault_token = -1UL;
++static void s390_cpu_reset_initial(CPUState *s)
++{
++    return s390_cpu_reset(s, S390_CPU_RESET_INITIAL);
++}
+ 
+-    /* tininess for underflow is detected before rounding */
+-    set_float_detect_tininess(float_tininess_before_rounding,
+-                              &env->fpu_status);
+-
+-    /* Reset state inside the kernel that we cannot access yet from QEMU. */
+-    if (kvm_enabled()) {
+-        kvm_s390_reset_vcpu(cpu);
+-    }
++static void s390_cpu_reset_clear(CPUState *s)
++{
++    return s390_cpu_reset(s, S390_CPU_RESET_CLEAR);
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
+@@ -473,9 +460,9 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+ #if !defined(CONFIG_USER_ONLY)
+     scc->load_normal = s390_cpu_load_normal;
+ #endif
+-    scc->cpu_reset = s390_cpu_reset;
+-    scc->initial_cpu_reset = s390_cpu_initial_reset;
+-    cc->reset = s390_cpu_full_reset;
++    scc->cpu_reset = s390_cpu_reset_normal;
++    scc->initial_cpu_reset = s390_cpu_reset_initial;
++    cc->reset = s390_cpu_reset_clear;
+     cc->class_by_name = s390_cpu_class_by_name,
+     cc->has_work = s390_cpu_has_work;
+ #ifdef CONFIG_TCG
 -- 
 2.20.1
 
