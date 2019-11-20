@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D472103726
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:01:20 +0100 (CET)
-Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1723910373B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:11:09 +0100 (CET)
+Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXMnX-0004tx-DX
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:01:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49569)
+	id 1iXMx1-0001fc-SG
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:11:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iXMm7-0003sf-Kc
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:52 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iXMvt-000192-44
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:09:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iXMm6-0004qb-L7
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56578
+ (envelope-from <imammedo@redhat.com>) id 1iXMvq-0002SJ-BN
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:09:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42048
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iXMm6-0004qO-HX
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 04:59:50 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iXMvq-0002Pu-7I
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:09:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574243990;
+ s=mimecast20190719; t=1574244592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BZskGUfyn7jaYYd2DvEDC0RMUYMrzQsxfievlb9z0CI=;
- b=Zy11f+mpwhOMAd9e3CN5girSX5C/OkkTqwdYmbd0KQvkQZsnUEN7AsxtNNedHRg1fuBeXH
- imfS+Auuf6px9ma9N+bEpPYafcIyHdLODMkZ2a4SCAKDgTUBL4ZM5es7UjMLL80PhszYh9
- PGgfz9qJCAIwcJAziIlbhNsoYmlXz9o=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-gtZULBH2MjGt6fOweS5Duw-1; Wed, 20 Nov 2019 04:59:48 -0500
-Received: by mail-qt1-f199.google.com with SMTP id r12so16664567qtp.21
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 01:59:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=udlnRDFsi+KkBvtwSXFal5HYXw9hrZuZTWTmkZClDRA=;
- b=d0mtSZjPOrkLqGHOIKT+cKQqDEqR40Ww+yweniuoUoq6T54ZPU/VitKZQhp29jpeVd
- heW9K2tHlu7uxaK8zTIPNUNlhQL7+Ks6A5MvpYlJwrG6z+Wm2BW6MvsdMmqB9SPbQaNK
- W24UVsDo2LJcAsw2+xyaQmOQrSbRv4Eoa70A4dWjKiQr8g6X8jyrbUqloRazQeIbUxqd
- vsgOfQmj7lbQ3DwzZOSiMc3JiY6U0r1U1XZNvZ6MDbdPlwPIoOJAVP+yB250yBOJP2Hg
- DsP7VUcLU+fo4hkD7jDCwyrk774bnP7Tra7Al06TcMckyVqMX3zrMzuNv2Ik/L6tBKe+
- qWcw==
-X-Gm-Message-State: APjAAAUsFWwBORD5EZ/F20KmN3VdLHAdHSiQu9SdadBgrzQIX4NouEXV
- iaZoFqznqM/t/A9hgAkCzmTwZZdIgY3jueNu31vmMovJ19I8pm8Huc7kJ+WWC7q+O9FZTIeV0IX
- 4GAtFWQSsM53CRiI=
-X-Received: by 2002:a37:a00f:: with SMTP id j15mr1551955qke.103.1574243988040; 
- Wed, 20 Nov 2019 01:59:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz9cBCiWJEKY2AIJhD/SsJc4F1TmMBwH6bEFAQanVevdLCGq68OEa2EW4k9dNp9pEqK2VrPyg==
-X-Received: by 2002:a37:a00f:: with SMTP id j15mr1551949qke.103.1574243987806; 
- Wed, 20 Nov 2019 01:59:47 -0800 (PST)
-Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
- by smtp.gmail.com with ESMTPSA id z3sm13956555qtu.83.2019.11.20.01.59.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 01:59:47 -0800 (PST)
-Date: Wed, 20 Nov 2019 04:59:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] tests: acpi: always retain dumped ACPI tables in case of
- error
-Message-ID: <20191120095904.11384-4-mst@redhat.com>
-References: <20191120095904.11384-1-mst@redhat.com>
+ bh=Mtn7tBdlPUYqNOBcP+SG27VFhWIvdk0RvbVJWkD9Zqc=;
+ b=gkq+u1dAuxljxlA01PHDsmhr+e9kX++ckqMWRg+yl8SXt8XKMHZKZIveNn+nR1ZltfbDEN
+ Fb6fXXiGCQvBpVi8SkBYiQgus12CtMiaZwDuX6Dj2Eai40znlTUTz9oH7enhxZ6gaRjaMq
+ LzsZrSnoBfdCFqdoVhrGNY5mqJR61lM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-LjuLkPESPXKGno2Ig5S_2g-1; Wed, 20 Nov 2019 05:09:48 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD7051005510;
+ Wed, 20 Nov 2019 10:09:46 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FC6B13AB8;
+ Wed, 20 Nov 2019 10:09:41 +0000 (UTC)
+Date: Wed, 20 Nov 2019 11:09:39 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v16 11/14] hmat acpi: Build System Locality Latency and
+ Bandwidth Information Structure(s)
+Message-ID: <20191120110939.7c60b184@redhat.com>
+In-Reply-To: <20191115075352.17734-12-tao3.xu@intel.com>
+References: <20191115075352.17734-1-tao3.xu@intel.com>
+ <20191115075352.17734-12-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191120095904.11384-1-mst@redhat.com>
-X-Mailer: git-send-email 2.22.0.678.g13338e74b8
-X-Mutt-Fcc: =sent
-X-MC-Unique: gtZULBH2MjGt6fOweS5Duw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: LjuLkPESPXKGno2Ig5S_2g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -89,52 +72,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, jingqi.liu@intel.com, fan.du@intel.com,
+ mdroth@linux.vnet.ibm.com, armbru@redhat.com, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+On Fri, 15 Nov 2019 15:53:49 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-If IASL wasn't able to parse expected file, test will just
-print warning
-  "Warning! iasl couldn't parse the expected aml\n"
-and remove temporary table dumped from guest.
+> From: Liu Jingqi <jingqi.liu@intel.com>
+>=20
+> This structure describes the memory access latency and bandwidth
+> information from various memory access initiator proximity domains.
+> The latency and bandwidth numbers represented in this structure
+> correspond to rated latency and bandwidth for the platform.
+> The software could use this information as hint for optimization.
+>=20
+> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+>=20
+> Changes in v16:
+>     - Add more description for lb_length (Igor)
+>     - Drop entry_list and calculate entries in this patch (Igor)
+>=20
+> Changes in v13:
+>     - Calculate the entries in a new patch.
+> ---
+>  hw/acpi/hmat.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 104 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
+> index 9ff79308a4..ed19ebed2f 100644
+> --- a/hw/acpi/hmat.c
+> +++ b/hw/acpi/hmat.c
+> @@ -25,8 +25,10 @@
+>   */
+> =20
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "sysemu/numa.h"
+>  #include "hw/acpi/hmat.h"
+> +#include "qemu/error-report.h"
 
-Typically expected tables are always valid, with an exception
-when patchset introduces new tables.
-Make sure dumped tables are retained even if expected files
-are not valid, so one could have a chance to manualy check new
-tables.
+do you really need this header in this patch?
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1574240560-12538-1-git-send-email-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/bios-tables-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 0b33fb265f..79f5da092f 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -437,11 +437,11 @@ static void test_acpi_asl(test_data *data)
-         g_assert(!err || exp_err);
-=20
-         if (g_strcmp0(asl->str, exp_asl->str)) {
-+            sdt->tmp_files_retain =3D true;
-             if (exp_err) {
-                 fprintf(stderr,
-                         "Warning! iasl couldn't parse the expected aml\n")=
-;
-             } else {
--                sdt->tmp_files_retain =3D true;
-                 exp_sdt->tmp_files_retain =3D true;
-                 fprintf(stderr,
-                         "acpi-test: Warning! %.4s mismatch. "
---=20
-MST
+modulo above nit, patch looks good so
+with above fixed (if necessary)
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> =20
+>  /*
+>   * ACPI 6.3:
+> @@ -67,11 +69,89 @@ static void build_hmat_mpda(GArray *table_data, uint1=
+6_t flags,
+>      build_append_int_noprefix(table_data, 0, 8);
+>  }
+> =20
+> +/*
+> + * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Information
+> + * Structure: Table 5-146
+> + */
+> +static void build_hmat_lb(GArray *table_data, HMAT_LB_Info *hmat_lb,
+> +                          uint32_t num_initiator, uint32_t num_target,
+> +                          uint32_t *initiator_list)
+> +{
+> +    int i, index;
+> +    HMAT_LB_Data *lb_data;
+> +    uint16_t *entry_list;
+> +    uint32_t base;
+> +    /* Length in bytes for entire structure */
+> +    uint32_t lb_length
+> +        =3D 32 /* Table length upto and including Entry Base Unit */
+> +        + 4 * num_initiator /* Initiator Proximity Domain List */
+> +        + 4 * num_target /* Target Proximity Domain List */
+> +        + 2 * num_initiator * num_target; /* Latency or Bandwidth Entrie=
+s */
+> +
+> +    /* Type */
+> +    build_append_int_noprefix(table_data, 1, 2);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* Length */
+> +    build_append_int_noprefix(table_data, lb_length, 4);
+> +    /* Flags: Bits [3:0] Memory Hierarchy, Bits[7:4] Reserved */
+> +    assert(!(hmat_lb->hierarchy >> 4));
+> +    build_append_int_noprefix(table_data, hmat_lb->hierarchy, 1);
+> +    /* Data Type */
+> +    build_append_int_noprefix(table_data, hmat_lb->data_type, 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* Number of Initiator Proximity Domains (s) */
+> +    build_append_int_noprefix(table_data, num_initiator, 4);
+> +    /* Number of Target Proximity Domains (t) */
+> +    build_append_int_noprefix(table_data, num_target, 4);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 4);
+> +
+> +    /* Entry Base Unit */
+> +    if (hmat_lb->data_type <=3D HMAT_LB_DATA_WRITE_LATENCY) {
+> +        /* Convert latency base from nanoseconds to picosecond */
+> +        base =3D hmat_lb->base * 1000;
+> +    } else {
+> +        /* Convert bandwidth base from Byte to Megabyte */
+> +        base =3D hmat_lb->base / MiB;
+> +    }
+> +    build_append_int_noprefix(table_data, base, 8);
+> +
+> +    /* Initiator Proximity Domain List */
+> +    for (i =3D 0; i < num_initiator; i++) {
+> +        build_append_int_noprefix(table_data, initiator_list[i], 4);
+> +    }
+> +
+> +    /* Target Proximity Domain List */
+> +    for (i =3D 0; i < num_target; i++) {
+> +        build_append_int_noprefix(table_data, i, 4);
+> +    }
+> +
+> +    /* Latency or Bandwidth Entries */
+> +    entry_list =3D g_malloc0(hmat_lb->list->len * sizeof(uint16_t));
+> +    for (i =3D 0; i < hmat_lb->list->len; i++) {
+> +        lb_data =3D &g_array_index(hmat_lb->list, HMAT_LB_Data, i);
+> +        index =3D lb_data->initiator * num_target + lb_data->target;
+> +
+> +        entry_list[index] =3D (uint16_t)(lb_data->data / hmat_lb->base);
+> +    }
+> +
+> +    for (i =3D 0; i < num_initiator * num_target; i++) {
+> +        build_append_int_noprefix(table_data, entry_list[i], 2);
+> +    }
+> +
+> +    g_free(entry_list);
+> +}
+> +
+>  /* Build HMAT sub table structures */
+>  static void hmat_build_table_structs(GArray *table_data, NumaState *numa=
+_state)
+>  {
+>      uint16_t flags;
+> -    int i;
+> +    uint32_t num_initiator =3D 0;
+> +    uint32_t initiator_list[MAX_NODES];
+> +    int i, hierarchy, type;
+> +    HMAT_LB_Info *hmat_lb;
+> =20
+>      for (i =3D 0; i < numa_state->num_nodes; i++) {
+>          flags =3D 0;
+> @@ -82,6 +162,29 @@ static void hmat_build_table_structs(GArray *table_da=
+ta, NumaState *numa_state)
+> =20
+>          build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiato=
+r, i);
+>      }
+> +
+> +    for (i =3D 0; i < numa_state->num_nodes; i++) {
+> +        if (numa_state->nodes[i].has_cpu) {
+> +            initiator_list[num_initiator++] =3D i;
+> +        }
+> +    }
+> +
+> +    /*
+> +     * ACPI 6.3: 5.2.27.4 System Locality Latency and Bandwidth Informat=
+ion
+> +     * Structure: Table 5-146
+> +     */
+> +    for (hierarchy =3D HMAT_LB_MEM_MEMORY;
+> +         hierarchy <=3D HMAT_LB_MEM_CACHE_3RD_LEVEL; hierarchy++) {
+> +        for (type =3D HMAT_LB_DATA_ACCESS_LATENCY;
+> +             type <=3D HMAT_LB_DATA_WRITE_BANDWIDTH; type++) {
+> +            hmat_lb =3D numa_state->hmat_lb[hierarchy][type];
+> +
+> +            if (hmat_lb) {
+> +                build_hmat_lb(table_data, hmat_lb, num_initiator,
+> +                              numa_state->num_nodes, initiator_list);
+> +            }
+> +        }
+> +    }
+>  }
+> =20
+>  void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_=
+state)
 
 
