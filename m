@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A6A103837
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:05:46 +0100 (CET)
-Received: from localhost ([::1]:56406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1B610382F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:03:48 +0100 (CET)
+Received: from localhost ([::1]:56366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNnt-00066v-1t
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:05:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34151)
+	id 1iXNly-0003JN-VV
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:03:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iXNgX-000702-Md
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:12 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iXNga-00070O-LC
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iXNgW-0006w0-KF
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:09 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55350)
+ (envelope-from <alex.bennee@linaro.org>) id 1iXNgZ-00072B-9d
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:12 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38598)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iXNgW-0006tP-Dy
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:08 -0500
-Received: by mail-wm1-x329.google.com with SMTP id b11so6474129wmb.5
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:58:08 -0800 (PST)
+ id 1iXNgY-0006zw-Sp
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:11 -0500
+Received: by mail-wr1-x431.google.com with SMTP id i12so27602461wro.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:58:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oWcIQ/2bWz6obkCCFTgR8jDb7UZS56VNJ8y1/fSAgYM=;
- b=Oe5fUASkYLzvvtdtEtmJbLRU+Ym8z48MF65yA0mvfud5gYE46G3mPC5T/5DBFH6GrJ
- aNWmTdUOFpoDR7RVY36Jlhhq+MMM2gN1vyL6pJm5dsCuWkMr6ubWXrmCKyZv1SL1Jd4S
- +pPUYCjkOnxCDFOctffRdhL4FuQpo/DbNpsGUyBDMppaFwCbubCfX7l/sDidzlw/nVtn
- 5E4oztFYHKn/IA/q+aant9okp39c/o0HNX7RLDjeB33DDARD/RuUKRexPSZ2IBLXWZZ2
- nU9/SpNLphOei6Wu10UIoJr1d42LmVD6M7X7Bz12Vu1Tk5E6dGKEHJDJBl0PIxr1SyD6
- Osig==
+ bh=NY5Huuw32tJm6WEnS0WeU/lG0oOqGgFOecOoWzPIhZo=;
+ b=ZEvSkosHC7vUHeaLNNN7RqZlililn2T3fnn78bfdiNfg2sW3OVdvY2T9wf8mDBDtHg
+ JiKgyN0RyCJSYgpDcqxA/XZ/FUJFPlpKLVJmtJGoIm0IF4VWGGmZMxLT8wG8r/IuysEN
+ kYrc0of9n/3lPNM0Y65PKarqJLnOHu0srpikaLWSlFy3dBHJY01iyLtOntpbdrcrYrpL
+ bixs5MaNhl4heP89N41Ak5foapD8Jc515jA+m0SvDa2ZdEpnEIRBRGT9vKwn8nQhV8n5
+ i23DhON90gbGMYVKZMs1M3zWb74xkxlcoz4WXGEO3g/e0yQIVquGDIrGJOgNDgkzHsk2
+ UfPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oWcIQ/2bWz6obkCCFTgR8jDb7UZS56VNJ8y1/fSAgYM=;
- b=IwlJDs40shifc3IZ33NilcdyUOu+F6gYW0yzJgEwxM863Txk2u6d+7eVYrq3iLnKdr
- yXiz61L2q3GG7iNzkYRwiCi40e7PA4vcnwW79p3SDK0z29KtmswLk5Q+LIrdDWpQrvLc
- E0AQ85WfEjgkukxr4IGpLxfJwVp9rQqcqjT6nWBVXzlyMnFdF9r7DtzY5T6V+1W1EP3T
- pntfZ6xeJCEyjK9wlrz+5iVfmY3khiMccu6JwA9QbZS+CvaKoSng+Ur5M8qtSQdV2bps
- hArPIsTk3EHidLWaGAjBAX6QorpDhHlzVbd/s2JT4sY2doJDWKQNBUfGqLBQGEOAdGSG
- v44w==
-X-Gm-Message-State: APjAAAXsn/V11KCeFzx6hUUY5zwnifpSolr2KkHAuIxU4ez60Mo99DjX
- qEB1D5BxVGqPFklyKxfg8vTaIQ==
-X-Google-Smtp-Source: APXvYqwV9aIVVfqf3DQPUQ+/OdJhLqs9w+WIxyLdFYj1tJC9ku+bzwDIHZ6P4xdUiBII9ysjuJ7ylw==
-X-Received: by 2002:a05:600c:22cb:: with SMTP id
- 11mr2428072wmg.117.1574247487115; 
- Wed, 20 Nov 2019 02:58:07 -0800 (PST)
+ bh=NY5Huuw32tJm6WEnS0WeU/lG0oOqGgFOecOoWzPIhZo=;
+ b=s6SCTve6o6DvNuJDbDwUKL+t4D+A1m9r1+2puQ3oau7thKC7ROWhWx7XiouKP2BnS6
+ X0H3qxJN+OAAQtI5PYwYNprFhAJIQ/57vkF6rdvRmpjAvOUaI4WWXefrSLC6QE7hhESo
+ U91jfrwsoL83oaT/dWvL9+AGhGsHcwQ7MRGAqnfHZ9yNi7wWQL1nZRe4P2xHVuaEAL3q
+ yVgwrogrwY7csCFwSp05WHzkR0CHC/AK9OPH+OcCbFlaAa+J4IDqrgQmWC8WnCRDZk8i
+ XrwqBoxoGqM9X2v+zijyhm9FOi81RAd6BPgmpXh5XlUXWTf7WpJxC8i4pl9Bau47mlT0
+ YWXQ==
+X-Gm-Message-State: APjAAAVOIgYRsMKH0NDo4a/gtsL9mFFOOCfqbNVfCFPfamFLIf/oA/n5
+ Q+91gN5m3ziU33tVNoivm5nx8Q==
+X-Google-Smtp-Source: APXvYqxnv/2FgHZt7VA/2JAtfQXJKzJKtd47ErMD70FSydoD6//nmKlDE1JITg/rhnEjo8j0Xy82Kw==
+X-Received: by 2002:a5d:6789:: with SMTP id v9mr2428093wru.344.1574247489614; 
+ Wed, 20 Nov 2019 02:58:09 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j63sm6434509wmj.46.2019.11.20.02.58.01
+ by smtp.gmail.com with ESMTPSA id l4sm6198890wml.33.2019.11.20.02.58.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 02:58:02 -0800 (PST)
+ Wed, 20 Nov 2019 02:58:07 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 83A921FF90;
+ by zen.linaroharston (Postfix) with ESMTP id AE5021FF92;
  Wed, 20 Nov 2019 10:58:01 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 3/5] docs/devel: update tcg-plugins.rst with API versioning
- details
-Date: Wed, 20 Nov 2019 10:57:59 +0000
-Message-Id: <20191120105801.2735-4-alex.bennee@linaro.org>
+Subject: [PULL 5/5] tests/tcg: modify multiarch tests to work with clang
+Date: Wed, 20 Nov 2019 10:58:01 +0000
+Message-Id: <20191120105801.2735-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120105801.2735-1-alex.bennee@linaro.org>
 References: <20191120105801.2735-1-alex.bennee@linaro.org>
@@ -71,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,66 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Robert Foley <robert.foley@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we are at it fix up the quoted code sections with the inline ::
-approach.
+From: Taylor Simpson <tsimpson@quicinc.com>
 
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <1574032465-12186-1-git-send-email-tsimpson@quicinc.com>
+[AJB: tweak header line]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index b18fb6729e3..718eef00f22 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -25,6 +25,23 @@ process. However the project reserves the right to change or break the
- API should it need to do so. The best way to avoid this is to submit
- your plugin upstream so they can be updated if/when the API changes.
+diff --git a/tests/tcg/multiarch/float_helpers.c b/tests/tcg/multiarch/float_helpers.c
+index 8ee7903c785..bc530e5732d 100644
+--- a/tests/tcg/multiarch/float_helpers.c
++++ b/tests/tcg/multiarch/float_helpers.c
+@@ -79,11 +79,9 @@ char *fmt_16(uint16_t num)
  
-+API versioning
-+--------------
-+
-+All plugins need to declare a symbol which exports the plugin API
-+version they were built against. This can be done simply by::
-+
-+  QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+The core code will refuse to load a plugin that doesn't export a
-+`qemu_plugin_version` symbol or if plugin version is outside of QEMU's
-+supported range of API versions.
-+
-+Additionally the `qemu_info_t` structure which is passed to the
-+`qemu_plugin_install` method of a plugin will detail the minimum and
-+current API versions supported by QEMU. The API version will be
-+incremented if new APIs are added. The minimum API version will be
-+incremented if existing APIs are changed or removed.
+ #ifndef SNANF
+ /* Signaling NaN macros, if supported.  */
+-# if __GNUC_PREREQ(3, 3)
+ #  define SNANF (__builtin_nansf (""))
+ #  define SNAN (__builtin_nans (""))
+ #  define SNANL (__builtin_nansl (""))
+-# endif
+ #endif
  
- Exposure of QEMU internals
- --------------------------
-@@ -40,16 +57,14 @@ instructions and events are opaque to the plugins themselves.
- Usage
- =====
+ static float f32_numbers[] = {
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index 673d7c8a1c2..8a7c15cd312 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -485,7 +485,11 @@ static void test_signal(void)
+     act.sa_flags = SA_SIGINFO;
+     chk_error(sigaction(SIGSEGV, &act, NULL));
+     if (setjmp(jmp_env) == 0) {
+-        *(uint8_t *)0 = 0;
++        /*
++         * clang requires volatile or it will turn this into a
++         * call to abort() instead of forcing a SIGSEGV.
++         */
++        *(volatile uint8_t *)0 = 0;
+     }
  
--The QEMU binary needs to be compiled for plugin support:
-+The QEMU binary needs to be compiled for plugin support::
- 
--::
--    configure --enable-plugins
-+  configure --enable-plugins
- 
- Once built a program can be run with multiple plugins loaded each with
--their own arguments:
-+their own arguments::
- 
--::
--    $QEMU $OTHER_QEMU_ARGS \
-+  $QEMU $OTHER_QEMU_ARGS \
-       -plugin tests/plugin/libhowvec.so,arg=inline,arg=hint \
-       -plugin tests/plugin/libhotblocks.so
- 
+     act.sa_handler = SIG_DFL;
 -- 
 2.20.1
 
