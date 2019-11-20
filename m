@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0D1103865
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:15:27 +0100 (CET)
-Received: from localhost ([::1]:56506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B69103880
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:17:47 +0100 (CET)
+Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNxG-0004lL-Ih
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:15:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35791)
+	id 1iXNzW-0006ZY-1W
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:17:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iXNmJ-0004Uf-KX
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:04:08 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iXNvb-0003tG-0w
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:13:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iXNmI-0006RU-9H
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:04:07 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:32785)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iXNmH-0006PZ-U3; Wed, 20 Nov 2019 06:04:06 -0500
-Received: by mail-wr1-x442.google.com with SMTP id w9so27624999wrr.0;
- Wed, 20 Nov 2019 03:04:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xGQ7+jRsYcLEubH7JDX88uX5w//TbVg1n/VU/GJV+6A=;
- b=nwcAtTHPOas25yEfzXaBNA5ZUsfe0lhg/0tpJ1CQxXh9X2a/PoJiUNSXbJ3F1uXXz2
- XF8atO68hdB5d8PsO6SsR6PkebXA+xh9wOVC52G8rUBkWiE4tMRkVaLox0zL9jUuF+U9
- qNdwmL/amlZH60EZNnzei7vRgbrdxX+81xsx/jobZIE/5L0wYgJ2Wo/Mn3PqQ8JRR4zV
- /820ee2Dn1ng7v5ArSaDww7BpRpIQ6Oorc39+8YNwc6eC1XLfWVMqGmBvZt4T3cNPdmF
- FShxuFBJndFcF43DTXS0vdkoiUAPkHRDWX+yAFRU8uiOHtM9UF7R/ugXQEUZbI5Wf2vR
- 7enw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xGQ7+jRsYcLEubH7JDX88uX5w//TbVg1n/VU/GJV+6A=;
- b=sH22vr93/SLxZqpZvW+3pp5TzElaU3zXl0XnRZaQndtvG1vaSp6tBCPYiwTs5is/TF
- VuS5tjMXJYls+5No28+Coxc/wnsUcgAgmbIdKBxrEMsOkDkYXyuZRVJprSnnogF5cnop
- M7z2hk6Q2+jF4jShp2xm0qhRerfS6FKsaccAF8sJV62fbuPyn03KBe7YnZGoRGX2ChDS
- KTZ459iqncUDP/B9jWqSUzK+SxwPcQFaF53FrJyIo3MI9bB9Cls+pIZUwi4FYrx4ykfj
- UMoq1j0Y92gDTKhq4KdXy1YZej/+Rww2PEU4d284YDfoUFoDgmZlZ0Xv/dTMO7FUPNZV
- 57pw==
-X-Gm-Message-State: APjAAAV+qbn7MgCayEV9cTmrIbBDAMO7Ook2wij8+AGviMf9oUjyanVJ
- pWL1ufHIC1Rqsl/aoMmm4cmAhS9JZVSi5YBowQA=
-X-Google-Smtp-Source: APXvYqzpWeGq0pz1SK5KT66O/Wd4vxDpZHY5Kj6anWnvWohoLcM9Ht59wQWv9u34cYQyej2KKqU25BeFlYdIgPs66IE=
-X-Received: by 2002:a5d:4ad2:: with SMTP id y18mr2440828wrs.396.1574247843169; 
- Wed, 20 Nov 2019 03:04:03 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1iXNvY-0002WT-21
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:13:41 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36618
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iXNvX-0002Uc-PD
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:13:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574248418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VVnVO4xXZNqXtsjZBbz+uQETpkJE+xnbTPbRBQUNx7w=;
+ b=LJudRw9dZDIcaHh2JSqLRZjnYlmgPRlzeBuGOwBsVTPMFNMn1VJh5PNbBdq5Y6kLXq7CyM
+ wh2BlQtm26moNn4xm9lb4WRzy08taI3VRJXCN8hZ2xY/3qj1cQziJ855SmyLHpNG7ZSjMo
+ bttbfBaCnuncs96NLH7WwPuKq+pGxo4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-hipqXshMNruWyRvCeeapUw-1; Wed, 20 Nov 2019 06:13:37 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C96CE107ACFE;
+ Wed, 20 Nov 2019 11:13:35 +0000 (UTC)
+Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98CEC5F785;
+ Wed, 20 Nov 2019 11:13:34 +0000 (UTC)
+Date: Wed, 20 Nov 2019 12:13:29 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [RFC PATCH v1 5/8] vfio-ccw: Add support for the schib region
+Message-ID: <20191120121329.73dbddc2.cohuck@redhat.com>
+In-Reply-To: <20191115033437.37926-6-farman@linux.ibm.com>
+References: <20191115033437.37926-1-farman@linux.ibm.com>
+ <20191115033437.37926-6-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-14-marcandre.lureau@redhat.com>
- <CAFEAcA9Cq_MkAzqAjt5uPNu3HDUfxO0hyVWtqEiAashPEEq3=g@mail.gmail.com>
- <CAMxuvawroZ0jrQTJCbakft21Lgk2cHrE9VyihiUvYBVp+AXgXw@mail.gmail.com>
- <CAFEAcA97LxS0LhCN-uqmO++D2U3dXBn3KctW7n-4tA-b50xKcw@mail.gmail.com>
- <CAJ+F1CJGHeb2aT+8t7vEdB0bKZ8r6OAnnqpDdnkGbfDRcV=JjA@mail.gmail.com>
- <CAFEAcA-_fexNrzgdqwoaJVEyHMG-GAPZkEawiE59EX9+u_Kr5Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-_fexNrzgdqwoaJVEyHMG-GAPZkEawiE59EX9+u_Kr5Q@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 20 Nov 2019 15:03:50 +0400
-Message-ID: <CAJ+F1CL00TcaKz5LmC41urBULcO7meJuzuxW8nHmLQ6hG66tHg@mail.gmail.com>
-Subject: Re: [PATCH v3 13/33] serial: start making SerialMM a sysbus device
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: hipqXshMNruWyRvCeeapUw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,94 +72,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Magnus Damm <magnus.damm@gmail.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Fri, 15 Nov 2019 04:34:34 +0100
+Eric Farman <farman@linux.ibm.com> wrote:
 
-On Wed, Nov 20, 2019 at 2:58 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Wed, 20 Nov 2019 at 10:40, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> > On Wed, Nov 20, 2019 at 2:36 PM Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> > > There are two problems here:
-> > >  (1) "self" gives no hint at all about whether it's the Object*,
-> > > the DeviceState*, or the SerialMM*. All of those are the
-> > > object the method is operating on, but the type differences matter.
-> >
-> > "self" should have the type of the object that is being implemented.
-> >
-> > serial_mm_instance_init ->  SerialMM *self
->
-> In a typical device implementation, some functions take the
-> object as a "SerialMM" or other specific pointer. Some take
-> an Object*. Some take a DeviceState*. Some take void*.
-> Which of those is "the type of the object that is being implemented" ?
+> From: Farhan Ali <alifm@linux.ibm.com>
+>=20
+> The schib region can be used to obtain the latest SCHIB from the host
+> passthrough subchannel. Since the guest SCHIB is virtualized,
+> we currently only update the path related information so that the
+> guest is aware of any path related changes when it issues the
+> 'stsch' instruction.
 
-In OOP, you implement methods for a specific type. "self" is of the
-type that is being implemented.
+One important information here is that you tweak the generic stsch
+handling, although the behaviour remains the same for non-vfio
+subchannels.
 
-serial_mm_foo(SerialMM *self);
+>=20
+> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+>=20
+> Notes:
+>     v0->v1: [EF]
+>      - Change various incarnations of "update chp status" to
+>        "handle_store", to reflect the STSCH instruction that will
+>        drive this code
+>      - Remove temporary variable for casting/testing purposes in
+>        s390_ccw_store(), and add a block comment of WHY its there.
+>      - Add a few comments to vfio_ccw_handle_store()
+>=20
+>  hw/s390x/css.c              |  8 ++++--
+>  hw/s390x/s390-ccw.c         | 20 +++++++++++++
+>  hw/vfio/ccw.c               | 57 +++++++++++++++++++++++++++++++++++++
+>  include/hw/s390x/css.h      |  3 +-
+>  include/hw/s390x/s390-ccw.h |  1 +
+>  target/s390x/ioinst.c       |  3 +-
+>  6 files changed, 87 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+> index 844caab408..6ee6a96d75 100644
+> --- a/hw/s390x/css.c
+> +++ b/hw/s390x/css.c
+> @@ -1335,11 +1335,15 @@ static void copy_schib_to_guest(SCHIB *dest, cons=
+t SCHIB *src)
+>      }
+>  }
+> =20
+> -int css_do_stsch(SubchDev *sch, SCHIB *schib)
+> +IOInstEnding css_do_stsch(SubchDev *sch, SCHIB *schib)
+>  {
+> +    int ret =3D IOINST_CC_EXPECTED;
 
-serial_mm_instance_init(Object *o) {
-  SerialMM *self =3D SERIAL_MM(o);
-  ..
-}
+It's a bit useless initializing ret here, given that you use it right
+below :)
 
+> +
 
-If you have a generic function, not tied to a specific class, this
-rule doesn't apply.
+Maybe add a comment here:
 
-do_this(some arg, SerialMM *smm)
+       /*
+        * For some subchannels, we may want to update parts of
+        * the schib (e.g. update path masks from the host device
+        * for passthrough subchannels).
+        */
 
->
-> > > (2) *Absolutely nobody anywhere else in any other device model
-> > > is using the 'self' argument name*. It's not a convention if
-> > > only this one file is using it, and adopting it here gives us
-> > > absolutely no consistency -- exactly the opposite.
-> >
-> > Since there is no clear convention, then adding "self" isn't breaking
-> > any convention.
->
-> There is a clear convention, which I explained to you already
-> (variable is named with some abbreviation/initialism of
-> the type name, or sometimes just 's' for "state"). You are trying
-> to write code which ignores that convention and does something
-> else *which no other code is doing*. Please stop doing that -- in
-> particular, don't do it in one device in the middle of a refactoring
-> series.
->
-> If you want to argue that we should change our convention for
-> how we write QOM code, feel free -- but that should be a separate
-> discussion and probably ought to come with a plan for how
-> to do a general update of the codebase to avoid a weird
-> mix of styles.
->
+> +    ret =3D s390_ccw_store(sch);
+> +
+>      /* Use current status. */
+>      copy_schib_to_guest(schib, &sch->curr_status);
+> -    return 0;
+> +    return ret;
+>  }
+> =20
+>  static void copy_pmcw_from_guest(PMCW *dest, const PMCW *src)
+> diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+> index 0c5a5b60bd..be0b379338 100644
+> --- a/hw/s390x/s390-ccw.c
+> +++ b/hw/s390x/s390-ccw.c
+> @@ -51,6 +51,26 @@ int s390_ccw_clear(SubchDev *sch)
+>      return cdc->handle_clear(sch);
+>  }
+> =20
+> +IOInstEnding s390_ccw_store(SubchDev *sch)
+> +{
+> +    S390CCWDeviceClass *cdc =3D NULL;
+> +    int ret =3D IOINST_CC_EXPECTED;
+> +
+> +    /*
+> +     * This only applies to passthrough devices, so we can't uncondition=
+ally
+> +     * set this variable like we would for halt/clear.
 
-Fair enough
+Hm, can we maybe handle this differently? We have a generic ccw_cb in
+the subchannel structure for ccw interpretation; would it make sense to
+add a generic callback for stsch there as well?
 
-We can only change things incrementally, and while doing refactoring
-is the right moment to write better and more readable code.
+(This works fine, though. Might want to add the check for halt/clear as
+well, but that might be a bit overkill.)
 
+> +     */
+> +    if (object_dynamic_cast(OBJECT(sch->driver_data), TYPE_S390_CCW)) {
+> +        cdc =3D S390_CCW_DEVICE_GET_CLASS(sch->driver_data);
+> +    }
+> +
+> +    if (cdc && cdc->handle_store) {
+> +        ret =3D cdc->handle_store(sch);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static void s390_ccw_get_dev_info(S390CCWDevice *cdev,
+>                                    char *sysfsdev,
+>                                    Error **errp)
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 3e32bc1819..2ff223470f 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -41,6 +41,9 @@ struct VFIOCCWDevice {
+>      uint64_t async_cmd_region_size;
+>      uint64_t async_cmd_region_offset;
+>      struct ccw_cmd_region *async_cmd_region;
+> +    uint64_t schib_region_size;
+> +    uint64_t schib_region_offset;
+> +    struct ccw_schib_region *schib_region;
+>      EventNotifier io_notifier;
+>      bool force_orb_pfch;
+>      bool warned_orb_pfch;
+> @@ -124,6 +127,45 @@ again:
+>      }
+>  }
+> =20
+> +static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+> +{
+> +    S390CCWDevice *cdev =3D sch->driver_data;
+> +    VFIOCCWDevice *vcdev =3D DO_UPCAST(VFIOCCWDevice, cdev, cdev);
+> +    SCHIB *schib =3D &sch->curr_status;
+> +    struct ccw_schib_region *region =3D vcdev->schib_region;
+> +    SCHIB *s =3D (SCHIB *)region->schib_area;
 
---=20
-Marc-Andr=C3=A9 Lureau
+You probably don't want to access region until after you checked it's
+not NULL :)
+
+> +    int ret;
+> +
+> +    /* schib region not available so nothing else to do */
+> +    if (!region) {
+> +        return IOINST_CC_EXPECTED;
+> +    }
+> +
+> +    memset(region, 0, sizeof(*region));
+> +    ret =3D pread(vcdev->vdev.fd, region, vcdev->schib_region_size,
+> +                vcdev->schib_region_offset);
+> +
+> +    if (ret =3D=3D -1) {
+> +        /* Assume device is damaged, regardless of errno */
+> +        return IOINST_CC_NOT_OPERATIONAL;
+
+Not sure that's correct; cc 3 for stsch indicates that there are no
+more subchannels with higher ids?
+
+> +    }
+> +
+> +    /*
+> +     * Selectively copy path-related bits of the SCHIB,
+> +     * rather than copying the entire struct.
+> +     */
+> +    schib->pmcw.pnom =3D s->pmcw.pnom;
+> +    schib->pmcw.lpum =3D s->pmcw.lpum;
+> +    schib->pmcw.pam =3D s->pmcw.pam;
+> +    schib->pmcw.pom =3D s->pmcw.pom;
+> +
+> +    if (s->scsw.flags & SCSW_FLAGS_MASK_PNO) {
+> +        schib->scsw.flags |=3D SCSW_FLAGS_MASK_PNO;
+> +    }
+> +
+> +    return IOINST_CC_EXPECTED;
+> +}
+> +
+
+The rest of the patch looks good to me.
+
 
