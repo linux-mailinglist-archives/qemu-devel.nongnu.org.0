@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1B5103E8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:29:42 +0100 (CET)
-Received: from localhost ([::1]:59352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5AB1103E4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:27:52 +0100 (CET)
+Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXRvJ-0003mk-6Z
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
+	id 1iXRtX-0000oe-3G
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:27:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRr5-0006ne-OY
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:20 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRrR-00077p-Sx
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRr4-0005jr-DI
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43670
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRrM-0006g8-6x
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:41 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34209
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRr4-0005jH-9J
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:18 -0500
+ id 1iXRrL-0006ap-Op
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:25:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263517;
+ s=mimecast20190719; t=1574263533;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SCIHkErHSSoSWDMJ1OgKa6RHVXoIeiy7vwBxRZ/q9ko=;
- b=g/xu8nVqWvuFspM5wnYk9YwaH/pYCttGg3EvBXZuU7wWX6fU772u2jqH4HpVDrS7e4wAkl
- frPXYq5/q55+vRGlbScJ4WFM2ZAe0gMpQqh7wFAN9QWPxgeO2olSYWHF3g87WS2d9ADjCz
- vH6U6hfxJnFl8ytP8nVijOP12tfq7JA=
+ bh=fae3iBDM19A/6ARPABRe33z+Jn2FArFvGx2KIL+7C1k=;
+ b=iVYP27RinJ2cpiUpOG44eMxrpV0Zgv/eyQGl0FnF2LSmPivbFhZo5lNTL9iCpWffR5jCLF
+ eOUfm+pM8QQslJQe6Sfw+g3/3z7lQ5OI8lIiEJjYyXspeKG0GQgIakD+Kiwtp2qkcWI4eh
+ CU+VQncKCE/+NEMDRlqTf5WWB7fRBZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-m45mLv_oMp2H292fsqW_fA-1; Wed, 20 Nov 2019 10:25:13 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-182-1pwVK3LhNtmQ4l9TSZuV_w-1; Wed, 20 Nov 2019 10:25:30 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63B641852E41;
- Wed, 20 Nov 2019 15:25:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477F4801E5B;
+ Wed, 20 Nov 2019 15:25:29 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74A125195A;
- Wed, 20 Nov 2019 15:25:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 178B060499;
+ Wed, 20 Nov 2019 15:25:24 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/37] sysbus: remove unused sysbus_try_create*
-Date: Wed, 20 Nov 2019 19:24:07 +0400
-Message-Id: <20191120152442.26657-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 04/37] chardev: generate an internal id when none given
+Date: Wed, 20 Nov 2019 19:24:09 +0400
+Message-Id: <20191120152442.26657-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: m45mLv_oMp2H292fsqW_fA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 1pwVK3LhNtmQ4l9TSZuV_w-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,108 +71,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/core/sysbus.c    | 32 --------------------------------
- hw/i386/pc.c        |  1 -
- include/hw/sysbus.h |  9 +--------
- 3 files changed, 1 insertion(+), 41 deletions(-)
+Internally, qemu may create chardev without ID. Those will not be
+looked up with qemu_chr_find(), which prevents using qdev_prop_set_chr().
 
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 9e69c83aed..08b0311c5f 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -250,38 +250,6 @@ DeviceState *sysbus_create_varargs(const char *name,
-     return dev;
+Use id_generate(), to generate an internal name (prefixed with #), so
+no conflict exist with user-named chardev.
+
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ chardev/char.c    | 32 ++++++++++++++++++++++++--------
+ include/qemu/id.h |  1 +
+ util/id.c         |  1 +
+ 3 files changed, 26 insertions(+), 8 deletions(-)
+
+diff --git a/chardev/char.c b/chardev/char.c
+index 7b6b2cb123..e7e7492b0e 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -37,6 +37,7 @@
+ #include "qemu/help_option.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/id.h"
+=20
+ #include "chardev/char-mux.h"
+=20
+@@ -944,10 +945,10 @@ void qemu_chr_set_feature(Chardev *chr,
+     return set_bit(feature, chr->features);
  }
 =20
--DeviceState *sysbus_try_create_varargs(const char *name,
--                                       hwaddr addr, ...)
--{
--    DeviceState *dev;
--    SysBusDevice *s;
--    va_list va;
--    qemu_irq irq;
--    int n;
--
--    dev =3D qdev_try_create(NULL, name);
--    if (!dev) {
--        return NULL;
--    }
--    s =3D SYS_BUS_DEVICE(dev);
--    qdev_init_nofail(dev);
--    if (addr !=3D (hwaddr)-1) {
--        sysbus_mmio_map(s, 0, addr);
--    }
--    va_start(va, addr);
--    n =3D 0;
--    while (1) {
--        irq =3D va_arg(va, qemu_irq);
--        if (!irq) {
--            break;
--        }
--        sysbus_connect_irq(s, n, irq);
--        n++;
--    }
--    va_end(va);
--    return dev;
--}
--
- static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+-Chardev *qemu_chardev_new(const char *id, const char *typename,
+-                          ChardevBackend *backend,
+-                          GMainContext *gcontext,
+-                          Error **errp)
++static Chardev *chardev_new(const char *id, const char *typename,
++                            ChardevBackend *backend,
++                            GMainContext *gcontext,
++                            Error **errp)
  {
-     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ac08e63604..49e2259327 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1399,7 +1399,6 @@ void pc_basic_device_init(ISABus *isa_bus, qemu_irq *=
-gsi,
-      * when the HPET wants to take over. Thus we have to disable the latte=
-r.
-      */
-     if (!no_hpet && (!kvm_irqchip_in_kernel() || kvm_has_pit_state2())) {
--        /* In order to set property, here not using sysbus_try_create_simp=
-le */
-         hpet =3D qdev_try_create(NULL, TYPE_HPET);
-         if (hpet) {
-             /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
-diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 27e80881da..2eb0484388 100644
---- a/include/hw/sysbus.h
-+++ b/include/hw/sysbus.h
-@@ -117,8 +117,7 @@ void foreach_dynamic_sysbus_device(FindSysbusDeviceFunc=
- *func, void *opaque);
- /* Legacy helper function for creating devices.  */
- DeviceState *sysbus_create_varargs(const char *name,
-                                  hwaddr addr, ...);
--DeviceState *sysbus_try_create_varargs(const char *name,
--                                       hwaddr addr, ...);
-+
- static inline DeviceState *sysbus_create_simple(const char *name,
-                                               hwaddr addr,
-                                               qemu_irq irq)
-@@ -126,11 +125,5 @@ static inline DeviceState *sysbus_create_simple(const =
-char *name,
-     return sysbus_create_varargs(name, addr, irq, NULL);
+     Object *obj;
+     Chardev *chr =3D NULL;
+@@ -991,6 +992,21 @@ end:
+     return chr;
  }
 =20
--static inline DeviceState *sysbus_try_create_simple(const char *name,
--                                                    hwaddr addr,
--                                                    qemu_irq irq)
--{
--    return sysbus_try_create_varargs(name, addr, irq, NULL);
--}
++Chardev *qemu_chardev_new(const char *id, const char *typename,
++                          ChardevBackend *backend,
++                          GMainContext *gcontext,
++                          Error **errp)
++{
++    g_autofree char *genid =3D NULL;
++
++    if (!id) {
++        genid =3D id_generate(ID_CHR);
++        id =3D genid;
++    }
++
++    return chardev_new(id, typename, backend, gcontext, errp);
++}
++
+ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+                                Error **errp)
+ {
+@@ -1003,8 +1019,8 @@ ChardevReturn *qmp_chardev_add(const char *id, Charde=
+vBackend *backend,
+         return NULL;
+     }
 =20
- #endif /* HW_SYSBUS_H */
+-    chr =3D qemu_chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                           backend, NULL, errp);
++    chr =3D chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
++                      backend, NULL, errp);
+     if (!chr) {
+         return NULL;
+     }
+@@ -1061,8 +1077,8 @@ ChardevReturn *qmp_chardev_change(const char *id, Cha=
+rdevBackend *backend,
+         return NULL;
+     }
+=20
+-    chr_new =3D qemu_chardev_new(NULL, object_class_get_name(OBJECT_CLASS(=
+cc)),
+-                               backend, chr->gcontext, errp);
++    chr_new =3D chardev_new(NULL, object_class_get_name(OBJECT_CLASS(cc)),
++                          backend, chr->gcontext, errp);
+     if (!chr_new) {
+         return NULL;
+     }
+diff --git a/include/qemu/id.h b/include/qemu/id.h
+index 40c70103e4..b55c406e69 100644
+--- a/include/qemu/id.h
++++ b/include/qemu/id.h
+@@ -4,6 +4,7 @@
+ typedef enum IdSubSystems {
+     ID_QDEV,
+     ID_BLOCK,
++    ID_CHR,
+     ID_MAX      /* last element, used as array size */
+ } IdSubSystems;
+=20
+diff --git a/util/id.c b/util/id.c
+index af1c5f1b81..5addb4460e 100644
+--- a/util/id.c
++++ b/util/id.c
+@@ -34,6 +34,7 @@ bool id_wellformed(const char *id)
+ static const char *const id_subsys_str[ID_MAX] =3D {
+     [ID_QDEV]  =3D "qdev",
+     [ID_BLOCK] =3D "block",
++    [ID_CHR] =3D "chr",
+ };
+=20
+ /*
 --=20
 2.24.0
 
