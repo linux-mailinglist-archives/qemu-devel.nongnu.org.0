@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE871037A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:33:44 +0100 (CET)
-Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11A71037B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:37:41 +0100 (CET)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNIt-0001kb-1X
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:33:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56710)
+	id 1iXNMi-0004kL-Km
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:37:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iXNHM-0000ms-1c
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:32:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNLk-00044j-AM
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:36:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iXNHJ-0002Xo-Uc
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:32:06 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45949)
+ (envelope-from <peter.maydell@linaro.org>) id 1iXNLj-0001Lv-7E
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:36:40 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45441)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iXNHH-0002Lk-Nn
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:32:05 -0500
-Received: by mail-oi1-x241.google.com with SMTP id 14so22000520oir.12
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:32:00 -0800 (PST)
+ id 1iXNLj-0001JZ-2m
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:36:39 -0500
+Received: by mail-ot1-x344.google.com with SMTP id r24so20741182otk.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MyULrr8n1VFQYQPL12Jw2hqL20N+48hCyExX/wzvy9g=;
- b=L0TsPE5LEkZjg/SNpJEInZPax4kluEZFgr+NUmNbsJSCe90jvr8pVBkYXAymlE/SuR
- GhTaZGdk8xgdpenMNUj2Wh331hpUkfqsNLsym+/VYcybu2vXyQUZbfOBiw1cJDTMrv6z
- PbR3+q9dgf7UsqbbyOQIL3S0c+10s0Wp+YqD4VmTdQtc14+Bb8V3OV0J/52VAG0jyzae
- qWdVVKH8QBRHkBxhQ20kDrGhxMdkj1Iwsa2Xj4bH669FhEvDgN8e4Bca2PxFLkmOye6U
- l4H7bLEKuWzdh9KaiLbc13D26BQok5exYyhWHr6UB6bTRRGGREBT4NLeiPZR8pnza6CG
- WRGA==
+ :cc:content-transfer-encoding;
+ bh=RtIxhKscXKv9SP0Cu/koEsS13Uo3TXhTms6kVgHWxfM=;
+ b=aPUmXQVx5y2DHnk1t0Ty2KlnD2IZfB8Rpe3NwBxyQEFZZ1qUIJZ+0DjKEWJmZc8FCX
+ UP4Nwtg671PhLvAVYfTsC2xyA8uwqs3sbVZBXV7u2yt1X0Yq6HXQiAGw4TtN8ZSUwpCi
+ FUMGEhgcSUDbbezkebqEAVwSwBrp0ebrimD/Ufn4bcNKHIJg7CfFfkv8W9uiuPjqw9BH
+ AgvV0vJlD1AD3pQUJG2dgFrLldLWyka74A5qMYQ5ufuUvRfbPt08+I/eol1r9VvybXja
+ MN2pc8an0Paj07p+bYPfxuLsA/1hJ0+Iu2ik36GhcajXx1mjOJaU7Prre2HGYOfm9zJr
+ Eh1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MyULrr8n1VFQYQPL12Jw2hqL20N+48hCyExX/wzvy9g=;
- b=GmYujVPtUqWGypOg7jDkC7LoHd86kRojRdMJ/vRdHt4RKYYNNW4hsQP1xLQm+O6iF8
- OkEH0ubarKjslxkQIeSwaH8xhUSzeBTAQneA+0sgb2pHo53U3W0PTJwA2ZOLYzRMaF11
- YWVKp91P/ACvm5ZUtuqtM6CT2NYZG57QE/2ZohSuEPBA9v+Sxfic3Dn/CcSwXHmFbpIp
- HZM/MnUyZKPeqjYypMoBJIKUwy8KjG9Rl1M7qIxrOu4DSMIgy69IcNeYMBjfPH/60pWX
- Ntm00LcQS/bKA4sEDBX9EkyOQ//S7fD6qxbCf7HEkNz042xIgLMav0ASKEBC6DdZtpDX
- jLBQ==
-X-Gm-Message-State: APjAAAVs7oNEozwjv49XcbsgmiA2qckMcOPvv/leN88h49T53tk95vjn
- fhL0ICcQWCo8VGQB2mYPcJIWhER88IDBDKBvSfU4CA==
-X-Google-Smtp-Source: APXvYqxvdzLVL73peJgyzdgheAXGmfBxNtEqnNYXdzlL/RLIpS2tcVrl3tMjsr3HcONRujQz8IpUViWEGkYv5dtOuNo=
-X-Received: by 2002:aca:4945:: with SMTP id w66mr2219891oia.98.1574245919164; 
- Wed, 20 Nov 2019 02:31:59 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RtIxhKscXKv9SP0Cu/koEsS13Uo3TXhTms6kVgHWxfM=;
+ b=Krb6MhKtrFpPhyHuTcGXYpcH0eDzFYlJwP87JhJD6XGEdHw7Iw53jfUiaOj7/0k1h0
+ DYlTIOXJq30lD7LWBSf5cd8yikgrZPQKlRhkRZel+hLh7aABvr4+xaSLzbufI7RH9F+N
+ 5+0PaxnJjjJWMQ5XyObLLxbeGNGcKktltjT10bLRNKq0zaDbJpiPSyjZ0WctAnuYxoFA
+ zBbN3JCFlLNT1LkDvDB8Km6fcoLydbhwqTLsQ2EaAFJnz9mkNpEG+Psg1dKt3LRSeUkq
+ BdLfqxOvc5+QCNK9WD/YcSJCs76jLQmbvSAq7g5BKNj7ozj/V4nGq63l1VZ3Cmct0Awy
+ qbEQ==
+X-Gm-Message-State: APjAAAUUSt9/oJoW85cRfsE1iOIeRD0j7y1sdnW5Fx6VsRoOT6tVg4Sk
+ Q6k8hoyihLRfI3mpprp1d7uucHyPrl0t7Y8+NZ0bwQ==
+X-Google-Smtp-Source: APXvYqyqt07XwBVBcqg3/5c/xONwchsIoXER2UlWTw+Pw79rpR1H6r3jxBPqcbj25VKfYlZU9HvO5BWALHZUY79SGmM=
+X-Received: by 2002:a9d:7ac2:: with SMTP id m2mr1431546otn.135.1574246197642; 
+ Wed, 20 Nov 2019 02:36:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20191004025509.3012-1-david@gibson.dropbear.id.au>
- <CAFEAcA9soWUfyfvV5Onyy0wP842Gq698_sZ+E1xGwkmnrLHnJg@mail.gmail.com>
- <20191120052701.GJ5582@umbus.fritz.box>
-In-Reply-To: <20191120052701.GJ5582@umbus.fritz.box>
+References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
+ <20191023173154.30051-14-marcandre.lureau@redhat.com>
+ <CAFEAcA9Cq_MkAzqAjt5uPNu3HDUfxO0hyVWtqEiAashPEEq3=g@mail.gmail.com>
+ <CAMxuvawroZ0jrQTJCbakft21Lgk2cHrE9VyihiUvYBVp+AXgXw@mail.gmail.com>
+In-Reply-To: <CAMxuvawroZ0jrQTJCbakft21Lgk2cHrE9VyihiUvYBVp+AXgXw@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Nov 2019 10:31:48 +0000
-Message-ID: <CAFEAcA-2B=tLfc9y3ri_p9nOWBAaiDkhgRQ9r-hjdmYbpzbBiA@mail.gmail.com>
-Subject: Re: [PATCH] exynos4210_gic: Suppress gcc9 format-truncation warnings
-To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 20 Nov 2019 10:36:26 +0000
+Message-ID: <CAFEAcA97LxS0LhCN-uqmO++D2U3dXBn3KctW7n-4tA-b50xKcw@mail.gmail.com>
+Subject: Re: [PATCH v3 13/33] serial: start making SerialMM a sysbus device
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,28 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paul Burton <pburton@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Nov 2019 at 05:27, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> On Mon, Oct 14, 2019 at 01:51:39PM +0100, Peter Maydell wrote:
-> > If we assert() that num_cpu is always <= EXYNOS4210_NCPUS
-> > is that sufficient to clue gcc in that the buffer can't overflow?
->
-> Interestingly, assert(s->num_cpu <= EXYNOS$210_NCPUS) is *not*
-> sufficient, but assert(i <= EXYNOS4210_NCPUS) within the loop *is*
-> enough.  I've updated my patch accordingly.
->
-> This isn't 4.2 material, obviously.  Should I just sit on it until 5.0
-> opens, or does one of you have someplace to stage the patch in the
-> meanwhile?
+On Wed, 20 Nov 2019 at 07:34, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
 
-Easy fixes for compiler warnings aren't inherently out of scope
-for 4.2. I'm also collecting stuff for 5.0 anyway so I suggest you
-just send the patch.
+> > > +static void serial_mm_instance_init(Object *o)
+> > > +{
+> > > +    SerialMM *self =3D SERIAL_MM(o);
+> >
+> > 'self' is not idiomatic for the name of the variable containing
+> > the pointer to the object in QOM code ("git grep '\Wself\W' hw"
+> > shows no uses of it at all, which is quite unusual for us --
+> > usually the codebase has at least a few uses of any non-standard
+> > way of writing something ;-))
+> >
+> > Usually we use something approximating to the abbreviation
+> > of the type name, so here 'smm' would do.
+>
+> I would prefer something more straightforward than having to come up
+> with various name mangling.
+>
+> Imho, we loose some readability, consistency & semantic by not naming
+> the object argument of the method "self"
 
+There are two problems here:
+ (1) "self" gives no hint at all about whether it's the Object*,
+the DeviceState*, or the SerialMM*. All of those are the
+object the method is operating on, but the type differences matter.
+
+(2) *Absolutely nobody anywhere else in any other device model
+is using the 'self' argument name*. It's not a convention if
+only this one file is using it, and adopting it here gives us
+absolutely no consistency -- exactly the opposite.
+
+Item (1) is part of why we do things the way we do; item (2)
+is why we should not make the 16550 UART some weird
+exception from the way we do things.
+
+thanks
 -- PMM
 
