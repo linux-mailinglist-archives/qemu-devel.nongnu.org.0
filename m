@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4282103828
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:01:55 +0100 (CET)
-Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5890B103831
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:04:20 +0100 (CET)
+Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNkA-0001k8-G3
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:01:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34115)
+	id 1iXNmU-0003ob-PC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:04:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iXNgW-0006yk-ER
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:09 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iXNgU-0006x7-1b
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iXNgV-0006sa-7Q
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:08 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38602)
+ (envelope-from <alex.bennee@linaro.org>) id 1iXNgS-0006oL-Tg
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:05 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40727)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iXNgU-0006qh-Us
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:07 -0500
-Received: by mail-wr1-x436.google.com with SMTP id i12so27602225wro.5
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:58:06 -0800 (PST)
+ id 1iXNgS-0006lO-Lx
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:58:04 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id y5so1112570wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:58:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8t5kqmOG1TchdK98D192qu2xreWTn22UibKxxRh5FTw=;
- b=YPuLurvi0pYCdiGZsXvJHM0FRTDktG+pTHbzeQinSm+2cZm22+hS70vW5M5VeFliAi
- uwoaifoRo1XMjYz9C59Q+osvTq6jrf8Ans87c0+pk4Wx8Z7GmrR+B2uLPl7Mscdoyakl
- WMp7dDh6CadEPX9w7icT9gBUTtdX2S+SW13o+NUa5QzWbAhGJVM7TISAxAsjlBX8sEWk
- 5o2djDLn/EiuFoK3lldy6NOYbBKRRBCjOf94mJbgN4IvLMaumNsHkuhtqCa4n1HDREbY
- yfd1zdaqyavOZJb3d5T2ZQq5AAIqAu/5Jy91DOG5RX2/L9L9HVq270pYZf1BeMRD+iNd
- rbpA==
+ bh=LEjZwaiT7NBJ0U3NNZiqFvcTWTL2UsFeD0o79C2EwzQ=;
+ b=zTC4yWUxqeWCnJqA0H3IRgfLvT5O6yOXqylifZo9LGaCgYndaPjJMpD89L7r6XvTF0
+ I0NohXoJr9Xp38EiBObtq0TeQq6G87MajE3BbqTt0gSMA31nvGUBPpaNJaTtiYUjRR6B
+ KtNGWLNXCIW1KGbJMPTAU5/3tKFcOAs+BKzjJcbjfZw8pNzgxDIB5tP5f5HJNGICio4w
+ ndapbhq+Reh7/X2de5vX7yonNgmDHJDbOWYOLwm64rXQBSLZliE2uzKaHPecvfN5yzFF
+ 5j4A7ZJa7ekJRIwY3CTl+KV/m7+TtcDjgi43I2ajeycMFjnAUBRoJytr7fTpJTCaSVhg
+ A++g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8t5kqmOG1TchdK98D192qu2xreWTn22UibKxxRh5FTw=;
- b=UF/zoUzRgRqL0R2eey80KOciIaEm9KIn/Vh5YoVzXQV/5PdSYxXsgmo0+i0UfBYSoy
- 4mFjU8CD1TkK08XnCFCv0WQ28l2CMPlZ4nAVZwP/JFZ+reWqtkrKPmGCm5HA0N9ohTSY
- fRoghZ6UfvkJV/vIGVJTlxOhX3wh3mDeHp7du0P0PLE8mKUiiAB0rkT2ZHKSafbfZtUn
- v4WOJpNLythSE8rsxyJ7tTOKGZNFyhU7OofQQt4iWBTUgVbRQ0ppVXBpRi9tGPO4oPt/
- tMll/IplVA9duw1baSh3vyXUwGzbYNWD99HCBzOkRXszwowgZylmHaWHH4rhezbxZhN0
- Okbg==
-X-Gm-Message-State: APjAAAUic60fos0735b18C32OVVl85v2PluKgHAHcyni1VIwMi5XxRUE
- /Ahqxa702+44jKK7tXdhf7rLIFFlulQ=
-X-Google-Smtp-Source: APXvYqxNGbL73gVjdhchKqXq5hJO8cLBiI7FPmoqid7MDkA8sXXV9QWAwK+vG74ayD/hfmpuWQGJpw==
-X-Received: by 2002:adf:f4c9:: with SMTP id h9mr2408400wrp.354.1574247485817; 
- Wed, 20 Nov 2019 02:58:05 -0800 (PST)
+ bh=LEjZwaiT7NBJ0U3NNZiqFvcTWTL2UsFeD0o79C2EwzQ=;
+ b=HMBFSElsPGfIM7+T4ZG8upaCNN3XyDyvCpHMbUeqUvFaXU0OG0TuLfzO609lT23ASi
+ jUSZFD3Ni0+Zi94RieY6DkAZ7oqXBK6TVC65o3ggAY20R2zt1/zAP7Alme7mu0bvXceJ
+ LFLNTQLFzU1PuLZSQqi3Ta4OJR4Gd55odW0kmeS1WV6fuRVLKmWy7QVQ8rThaqx9ngKk
+ Yo1B1LPglH/y5Xyt+AUVx1KNEfjd3m9E01V5JTXoGi2Anjd16sId+UFwm0z9D6WUZLcD
+ ytzQwVjVtHf1bsApUemYHd1h6jKM8H8U5H0MEdo1zgU78ArGVJZGDmrPX6rjubKllZy9
+ h5Bw==
+X-Gm-Message-State: APjAAAWmbvpOkCdoTp13DuUW96XaGx+9yih4DSs1ywnIv6VlPIoeuS/N
+ OtublmS0wxfafM4WNJR5J+7JmA==
+X-Google-Smtp-Source: APXvYqyP+CFTveu0lm4GmCYX4yxoJ8MQY/mySiWc8A0w2ddlTvjP77ZoCJBXTtNNJ77+800auE2Q3g==
+X-Received: by 2002:a1c:6486:: with SMTP id y128mr2285036wmb.148.1574247483165; 
+ Wed, 20 Nov 2019 02:58:03 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h124sm6644615wmf.30.2019.11.20.02.58.01
+ by smtp.gmail.com with ESMTPSA id z4sm6258708wmf.36.2019.11.20.02.58.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 Nov 2019 02:58:02 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 58E4C1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 6F9711FF8F;
  Wed, 20 Nov 2019 10:58:01 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/5] tests/vm: make --interactive (and therefore DEBUG=1)
- unconditional
-Date: Wed, 20 Nov 2019 10:57:57 +0000
-Message-Id: <20191120105801.2735-2-alex.bennee@linaro.org>
+Subject: [PULL 2/5] docs/devel: rename plugins.rst to tcg-plugins.rst
+Date: Wed, 20 Nov 2019 10:57:58 +0000
+Message-Id: <20191120105801.2735-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120105801.2735-1-alex.bennee@linaro.org>
 References: <20191120105801.2735-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,35 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the concept of only dropping to ssh if a test fails is nice it
-is more useful for this to be unconditional. You usually just want to
-get the build up and running and then noodle around debugging or
-attempting to replicate.
+This makes it a bit clearer what this is about.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 91a9226026d..0b8c1b26576 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -403,7 +403,7 @@ def main(vmcls):
-     exitcode = 0
-     if vm.ssh(*cmd) != 0:
-         exitcode = 3
--    if exitcode != 0 and args.interactive:
-+    if args.interactive:
-         vm.ssh()
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 2ff058bae38..c86a3cdff2f 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -22,4 +22,4 @@ Contents:
+    decodetree
+    secure-coding-practices
+    tcg
+-   plugins
++   tcg-plugins
+diff --git a/docs/devel/plugins.rst b/docs/devel/tcg-plugins.rst
+similarity index 100%
+rename from docs/devel/plugins.rst
+rename to docs/devel/tcg-plugins.rst
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dfb7932608d..5e5e3e52d61 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2371,6 +2371,7 @@ F: tcg/
+ TCG Plugins
+ M: Alex Bennée <alex.bennee@linaro.org>
+ S: Maintained
++F: docs/devel/tcg-plugins.rst
+ F: plugins/
+ F: tests/plugin
  
-     if not args.snapshot:
 -- 
 2.20.1
 
