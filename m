@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEA310320D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 04:37:52 +0100 (CET)
-Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBE5103288
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 05:30:05 +0100 (CET)
+Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXGoQ-0004zA-Vt
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 22:37:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
+	id 1iXHcy-0001ES-RZ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 23:30:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1iXGnD-0004Mp-J9
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:36 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iXHb8-0000M8-Du
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:28:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1iXGnB-00052C-Iw
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:34 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42508
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iXHb6-0007Qf-4k
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:28:10 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59369 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iXGnA-00050E-Rn
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 22:36:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574220992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wSKl4ZjlxedUP+FlAu7TIdnnUEwTf0V/UY+HsjFaX0Y=;
- b=J/GRzHwI0Fgh5t4H3XtX+CrrZzlABSyde2YZTZ72XSv97h66f9eyLM++rpBxzVdVGRpMfI
- ODg9vkql7hcfiSVzKhJGENAZYekUEZIYcPYS81lD8fV7U/ZrLO3dAG8kkg2Hf9B5fhnLCw
- OdW1C4x5qEwWKiVsaOih8AohJ6/e1MA=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-XwLi3qtsNmWvZkkgNBlnOw-1; Tue, 19 Nov 2019 22:36:31 -0500
-Received: by mail-ot1-f71.google.com with SMTP id w14so13243395otk.21
- for <qemu-devel@nongnu.org>; Tue, 19 Nov 2019 19:36:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wSKl4ZjlxedUP+FlAu7TIdnnUEwTf0V/UY+HsjFaX0Y=;
- b=sWMuwkGyNbYXecNiUqLUt0WPHVJJd8e9/KlLyrAq3dSKe+ltH4PL9VokvGxPnBp6pk
- 7D7KAnmnZpdMKgsnWmWORbJ45per/vpQoO95EoVyqatcQi5JB68UOsHzGykhDJPGNSd2
- +TOU174e7F2kFxRC+Wy/r6czEtePvU6F46QkzbHOyqiFiDWvod9bAFjlrLi55TT6Y37U
- ZHnN/BNE1sT844tPXjw+9Z4Q1mgqxU+LrTynE0v4ZQiLBJ3HhwEI76z+7U8Ukx0GHJwM
- GFxlG8TnNzeGzF7sIbwUe6tbmCSNF/AejvWzcFH1L21p5DiDUqyodOWj03LziU0D4goK
- HWAw==
-X-Gm-Message-State: APjAAAXigS88RpSJ9Z+zJVbAs/oZ04X5QjIl/Yhxr+S8wWW5/xRipTkk
- 5v9ZUPlberJE5N0jy3+y5KnKu5WR93uN4rqamrSj92j0KeCX1NOTIqswsXRuKRanyyHbbrHvSpj
- peHWapXs23gn4+sWVGb1m4WoZ4SZF9vk=
-X-Received: by 2002:a9d:5cc7:: with SMTP id r7mr242481oti.331.1574220990115;
- Tue, 19 Nov 2019 19:36:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw82NQM/pmr2xgUxYC2sgYieQzIzLuS3ak0Mf9DL9kH75KKaKGHOUN34nR6V/4tQiQcOrRA1+o05VCt77a1pm4=
-X-Received: by 2002:a9d:5cc7:: with SMTP id r7mr242448oti.331.1574220989481;
- Tue, 19 Nov 2019 19:36:29 -0800 (PST)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iXHb5-0007Hq-9I; Tue, 19 Nov 2019 23:28:08 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47HqS20YMrz9sPf; Wed, 20 Nov 2019 15:28:01 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574224082;
+ bh=nRvb++ts/tGXhbShZEi935HrnhbLY9DIgA4tHNv4Gv4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NsYNbW1Gl4z/fC5c1t1rgCwsVhXid+CXe31AQXiNig8fmf2/MmQb5ebBAGAXWq+TP
+ vhRjLIF1A4S8QdLe7EpLaBFowN/jQ1581vTtdrugN4eOnevCDfbsf42WR4ARUvGS+2
+ 1RzFudORr2aRgef5ZI72XIOQD5lIvus2fJKydoNQ=
+Date: Wed, 20 Nov 2019 15:17:39 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [RFC 5/5] spapr: Work around spurious warnings from vfio INTx
+ initialization
+Message-ID: <20191120041739.GE5582@umbus.fritz.box>
+References: <20191017054218.8876-1-david@gibson.dropbear.id.au>
+ <20191017054218.8876-6-david@gibson.dropbear.id.au>
+ <3cded480-ce51-eef7-dc75-686022a18726@kaod.org>
+ <2319e683-983c-2c40-3234-c4c43555c657@kaod.org>
 MIME-Version: 1.0
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-2-marcandre.lureau@redhat.com>
- <CAFEAcA_k9TqzRJZ4=Q1jQP46SajiaMLEciSHZ83_CicMv__oiA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_k9TqzRJZ4=Q1jQP46SajiaMLEciSHZ83_CicMv__oiA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 20 Nov 2019 07:36:18 +0400
-Message-ID: <CAMxuvawFVf=6-GLO59T=v+W0vrhYVYuj0w30Oi6c7Zsen7Ri4g@mail.gmail.com>
-Subject: Re: [PATCH v3 01/33] qdev: remove unused qdev_prop_int64
-To: Peter Maydell <peter.maydell@linaro.org>
-X-MC-Unique: XwLi3qtsNmWvZkkgNBlnOw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pmKUVAsxJ35RhmJn"
+Content-Disposition: inline
+In-Reply-To: <2319e683-983c-2c40-3234-c4c43555c657@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,50 +59,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: aik@ozlabs.ru, alex.williamson@redhat.com, qemu-ppc@nongnu.org,
+ groug@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
 
-On Mon, Nov 18, 2019 at 6:01 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Wed, 23 Oct 2019 at 18:32, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@redhat.com> wrote:
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  hw/core/qdev-properties.c    | 32 --------------------------------
-> >  include/hw/qdev-properties.h |  3 ---
-> >  2 files changed, 35 deletions(-)
->
-> I think I'd rather keep this. It's weird to not have a symmetric
-> set of properties for the common integer types, and annoying
-> for whoever next runs into a need for an int64 property to
-> have to reinstate the deleted code. (Yes, I know we don't
-> currently have int8 or int16.)
->
+--pmKUVAsxJ35RhmJn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I don't think we should aim at being complete. Whenever we identify
-dead code, unused for a long while, we should clean it up.
+On Thu, Oct 17, 2019 at 03:42:06PM +0200, C=E9dric Le Goater wrote:
+> On 17/10/2019 10:43, C=E9dric Le Goater wrote:
+> > On 17/10/2019 07:42, David Gibson wrote:
+> >> Traditional PCI INTx for vfio devices can only perform well if using
+> >> an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
+> >> if an in kernel irqchip is not available.
+> >>
+> >> We usually do have an in-kernel irqchip available for pseries machines
+> >> on POWER hosts.  However, because the platform allows feature
+> >> negotiation of what interrupt controller model to use, we don't
+> >> currently initialize it until machine reset.  vfio_intx_update() is
+> >> called (first) from vfio_realize() before that, so it can issue a
+> >> spurious warning, even if we will have an in kernel irqchip by the
+> >> time we need it.
+> >>
+> >> To workaround this, make a call to spapr_irq_update_active_intc() from
+> >> spapr_irq_init() which is called at machine realize time, before the
+> >> vfio realize.  This call will be pretty much obsoleted by the later
+> >> call at reset time, but it serves to suppress the spurious warning
+> >> from VFIO.
+> >>
+> >> Cc: Alex Williamson <alex.williamson@redhat.com>
+> >> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+> >>
+> >> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >> ---
+> >>  hw/ppc/spapr_irq.c | 11 ++++++++++-
+> >>  1 file changed, 10 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> >> index 45544b8976..bb91c61fa0 100644
+> >> --- a/hw/ppc/spapr_irq.c
+> >> +++ b/hw/ppc/spapr_irq.c
+> >> @@ -345,6 +345,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Err=
+or **errp)
+> >> =20
+> >>      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
+> >>                                        smc->nr_xirqs + SPAPR_XIRQ_BASE=
+);
+> >> +
+> >> +    /*
+> >> +     * Mostly we don't actually need this until reset, except that not
+> >> +     * having this set up can cause VFIO devices to issue a
+> >> +     * false-positive warning during realize(), because they don't yet
+> >> +     * have an in-kernel irq chip.
+> >> +     */
+> >> +    spapr_irq_update_active_intc(spapr);
+> >=20
+> > This will call the de/activate hooks of the irq chip very early=20
+> > before reset and CAS, and won't call them at reset if the intc
+> > pointers are the same (xive only for instance). It breaks very=20
+> > obviously the emulated XIVE device which won't reset the OS CAM=20
+> > line with the CPU id values and CPU notification will be broken.
+> >=20
+> > We have to find something else.
+>=20
+> Here is a possible fix for the (re)setting of the OS CAM line.=20
+>=20
+> Removing spapr_xive_set_tctx_os_cam() is a good thing but this solution
+> shows some issues in our modeling of hot-plugged CPUS with a reset()=20
+> being called at realize().
 
-In this case, it is even worse, this has never been used since its
-introduction in commit 07d1d063d3235c02f60dc92ec174d419e6f8a750, in
-2017.
+Ok, I've applied the patch below now.  Does that mean that my 5/5
+patch should be good now?
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--pmKUVAsxJ35RhmJn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UvmAACgkQbDjKyiDZ
+s5JxAw//bUzIPJkS2S/ulZKE8cLDCiAo/c6NohMJc4H4tD/ECaHhThT4yBHnf6H5
+Xb49FbRm30Oqvwt2EKsWQ9C/9l6znT2k5FDETyT0kOZdZHbR7d/xXgw0m5OJ+FEk
+UMc8hVuy3nwoDUy7eDKaB2Ujk9qWP/N/aPz0lH+1KkP0gO8ca9v41f02kj/cCEiL
+dm6+IqG5ioFyJUpMBGuBfOuLc1SkgRmSP2b1oBMA4esYYXJ6HmDzCQHHVEmBd6HT
+D5VQ1AsplXew1528rHi0rW0mbLJHSqovDkUkbqHmOKwDdvepcRbfe+LgWaQcEqjl
+NYgMZrnSlTKobUdL9Qg/2iJrio8FMIKibWlXICMB8TKJy3Du22jGHhYT51y+4gk5
+gkQMz00BNv6c23XHGyeogZByOPwQC7q+o0cDLUAE3ZNHuTBNqdu0hdGsx9PdfllU
+9CYE8eLcFgLWFI6prQOVdaR7+TrFX7oaNJv0KTiHgGnwXY44HVLDN3H0oqvPjUjO
+JfkByv6ELmpi198XrN2jg1vdCQRjtHHmiKPyyXFy6R9xI8tYvCziKT2wQggghLMr
+bbpKAefS7Zwi+9JbLkOMTCM0nAN3c5i9Srlg9F1DFoQFi0HR7IE+/k8A/gSbBLxA
+ThRHyPA+C3qn9H8FPeZb1d7vdxwG3T+SRdUYOfgVv2XBio+fceY=
+=W3bB
+-----END PGP SIGNATURE-----
+
+--pmKUVAsxJ35RhmJn--
 
