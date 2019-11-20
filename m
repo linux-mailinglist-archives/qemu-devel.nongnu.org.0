@@ -2,133 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF724103A96
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 14:00:44 +0100 (CET)
-Received: from localhost ([::1]:57452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9085103A9E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 14:02:52 +0100 (CET)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXPb9-0003J4-3n
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 08:00:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33464)
+	id 1iXPdD-0005Ow-IB
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 08:02:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1iXPZW-0002ID-4R
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:59:03 -0500
+ (envelope-from <eblake@redhat.com>) id 1iXPae-0003ZB-IM
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 08:00:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1iXPZV-0008JW-0X
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:59:02 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:33143)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1iXPZU-0008J8-Oe
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:59:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1574254740; x=1605790740;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=Cziv/P1QtRgCB7x3NZLpRwV/neBFr6on2/ic3XjUous=;
- b=flhUlrP/7LN8GDY6m5baIQW7d+XycbuRFMEusFdRTcs8XvMzzYToR8WL
- 9v1n1wVj49Kw8P4ZW+I7muUAmPc03MsmCO5Bn3r8KQYtKCrtgXJt8HnXW
- 8BOW5zAHNNOOoSTyMvtY0yEsO8xWIgvwT3FgByJAqSkPSf/0Paw2PS5QT E=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 20 Nov 2019 04:58:59 -0800
-IronPort-SDR: WK/Av9AVEbVkd9cspP5WkPGHB+5EfND0rUkBphW7oUOrPk11re6H9g8kL24MRQc7VNCRjwjEzk
- SoVxKyoUZy7XT63ztPqo47yxwa/mFiBnc=
-Received: from nasanexm01h.na.qualcomm.com ([10.85.0.34])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 20 Nov 2019 04:58:59 -0800
-Received: from eusanexr01e.eu.qualcomm.com (10.85.0.100) by
- NASANEXM01H.na.qualcomm.com (10.85.0.34) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Wed, 20 Nov 2019 04:58:59 -0800
-Received: from nasanexm03a.na.qualcomm.com (10.85.0.103) by
- eusanexr01e.eu.qualcomm.com (10.85.0.100) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Wed, 20 Nov 2019 04:58:57 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS)
- id 15.0.1473.3 via Frontend Transport; Wed, 20 Nov 2019 04:58:57 -0800
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
- BYAPR02MB4501.namprd02.prod.outlook.com (52.135.238.157) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.17; Wed, 20 Nov 2019 12:58:54 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::b0e0:a44a:3fc6:e2b9]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::b0e0:a44a:3fc6:e2b9%3]) with mapi id 15.20.2474.018; Wed, 20 Nov 2019
- 12:58:54 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Laurent Vivier
- <laurent@vivier.eu>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
- <philmd@redhat.com>, "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ (envelope-from <eblake@redhat.com>) id 1iXPac-0000JQ-Uy
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 08:00:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45905
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iXPac-0000Ih-QC
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 08:00:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574254809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rzXyhKN6JI07guKLYgMixvCs/MyYGuc0l5Klz8/DR+E=;
+ b=PkDbiE5m5gdAA9bs68o3nr6spiUm26r1A3BvLxF1cMVy5tuCSA5nSS4pi2pz1etyy53qho
+ PRCLnUrG94l90auThK7WScsbNocWXGYPxv3XIJII3cdmiqwo54WNTusGYSvPJrarP6cxJb
+ 16Qg750AbZStWm6UCiI+/K5yXsso2Gs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-tkrQfcfNNXSPOST1rxoQEw-1; Wed, 20 Nov 2019 08:00:03 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1397191220;
+ Wed, 20 Nov 2019 12:59:59 +0000 (UTC)
+Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DEAB69300;
+ Wed, 20 Nov 2019 12:59:16 +0000 (UTC)
+Subject: Re: [RFC v5 000/126] error: auto propagated local_err
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] Add minimal Hexagon target - First in a series of patches
- - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon -
- Files in target/hexagon/imported are from another project and therefore do
- not conform to qemu coding standards
-Thread-Topic: [PATCH] Add minimal Hexagon target - First in a series of
- patches - linux-user changes + linux-user/hexagon + skeleton of
- target/hexagon - Files in target/hexagon/imported are from another project
- and therefore do not conform to qemu coding standards
-Thread-Index: AQHVnmwob37h/DrHSkKsyb+krTkIzKeSnIAAgAAaZ7CAABZUgIAArEoAgABEEwCAAAftAIAAQQIA
-Date: Wed, 20 Nov 2019 12:58:54 +0000
-Message-ID: <BYAPR02MB48867C73CDE23CA70FEE5369DE4F0@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <1574121497-2433-1-git-send-email-tsimpson@quicinc.com>
- <a77ce406-5307-cee8-8e0b-7c08056fb0df@redhat.com>
- <BYAPR02MB488666AA94EBB57C2A318004DE4C0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <8c92b107-b707-b8a7-6284-5b1ed8e95897@vivier.eu>
- <BYAPR02MB4886E559B9286FE580C28556DE4F0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <98464579-194a-2b96-5cb9-3b7a7d9e680d@vivier.eu>
- <42954e4f-11cd-6c95-e74c-9dbec2f90d56@linaro.org>
-In-Reply-To: <42954e4f-11cd-6c95-e74c-9dbec2f90d56@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [2605:6000:ee9b:a300:81a3:9afc:12b:5482]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b7afbcdb-bd0a-497e-9073-08d76db9663d
-x-ms-traffictypediagnostic: BYAPR02MB4501:
-x-microsoft-antispam-prvs: <BYAPR02MB450135B8C5B58C3CCA761808DE4F0@BYAPR02MB4501.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 02272225C5
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39860400002)(396003)(136003)(376002)(346002)(13464003)(189003)(199004)(7736002)(186003)(6246003)(5660300002)(11346002)(25786009)(8676002)(86362001)(7696005)(81156014)(6116002)(478600001)(71190400001)(52536014)(71200400001)(256004)(14454004)(9686003)(33656002)(305945005)(2906002)(55016002)(2201001)(110136005)(6436002)(446003)(81166006)(66446008)(74316002)(64756008)(476003)(229853002)(76116006)(2501003)(6506007)(53546011)(76176011)(46003)(66556008)(66476007)(66946007)(99286004)(8936002)(102836004)(316002)(486006)(219693003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB4501;
- H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EnGA3TqDg1jc0crtRbtIVmAETeKwdwxZm0BOn/4XCUGeF45ONVwCXZ75ox4ZBIUMzVVl9MAIUM9i+auy0aSeCfHdotE3OWDB+VcwOGiOSNBhLOuoyAEGp0lKrjhgQ4Hv53bNhEal8fMe0hsVt+XcQjDzeB6VpKGCUmJPUC3d1REujpUpGjizyc7e1ZK1CgM49BuS+hFwOvKO6/TCJC5hpzW5wAgDhanEfeDFaYkEJcfipUl7xBwpR8Dqjdm6h9U+DPxOf1Z3qg78F1RWGpWecOIJtrYbCE3WuT5UIpGsHNWkwlAZWPBoeP5T9QhhoCwZq/zploagj0nMZEa+59qiUXQYMCGz5AIWq+3W+LsZ35T1dVn19Nly/y4LGHeuHXrv4/m+fHba0HGnEOjXVBrv5Z37hiicPqnzmiSvMZU7uLGAOZW6jdL/YnB7dHYUxS2/
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ij7MgjDTZ6QTgLhcgQ/osOkRCdvSg/T1G3bkAWbj2L8l+rF8lcbPIyFnqaT6XYOTt1jHRmg9CpNjkdWJK6uJ0LhwTuE20E5c4gVrvTot+fbZLjp9ElDC8BjtO4l0eHsas3eDcBPYgEaaiQEIj3qg1Knw23D/T59HS5OL+Lgfl74sJQuShrqWVvmBBXcNvDGg3s8xF2RRmUXZcV0ADTuZDL+0P47ZJGnexC1Ansrxi3lLE4TeelF1oDd5cEeAtKKG1GKg7lmIxs9dL8AozcF9SFm9qINSOAxPaS7gGJOpuzRiz9/Wa8sCuWFKzdt0JgTSuLHrJ2xeC+3WL3TEHnT3qw==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jf8LbEowQDZIFHAQRshuaJ4vEI8cBPdVW0v8+abvVxw=;
- b=hb5XRhM9b4ur7m3NshL60G4kuG4Q2R/ridf6ON1BW202WZrPuot1egCRIAWUHZtNh4Gi6MFhwVgSGeRi/33MYei6Y5rtuOVVIOiiAe1C6UuRJN+9O+6ShT2TgClobevZYRvsLVzpmAj180YS1Oj7dwuNzJCzHsQ22vslRmTsAO5BoVotwdo0tRjJBJARoEW/9ebgqOtnCcAdvwzJhrnArGsdDNkdZsKiRDC6ODpBkn1d4Chx1syCJyui1KKFkXazBxQnIVB5N8FM95FA/pxB1gWM9TaqZV8S7AE4+vn6BBpkF1D42sEemo9YZ5OMNeMegLU+Pxe4wca+9SPGVvy9LQ==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jf8LbEowQDZIFHAQRshuaJ4vEI8cBPdVW0v8+abvVxw=;
- b=iYOYp6qO/CbuiOr4Fpn5XYMp6l3Ccf2xoukZmGU82kEqYO4qJkCK4WG3gEp+swyN1EW/7f7nIPOexl2BSJKW5mralfTsUBUlXM6RAIqj1P5KmkXhXVc3+DNH/aOknie03Rhtx0kSKjkXAReHKuKj19Z61HcLwZAd1TftcZW47Rc=
-x-ms-exchange-crosstenant-network-message-id: b7afbcdb-bd0a-497e-9073-08d76db9663d
-x-ms-exchange-crosstenant-originalarrivaltime: 20 Nov 2019 12:58:54.6633 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: VeiTeKmJJdLM+U3tOc7CnX8KOM68aZ4f0rP3rr8akqHxzcGLup3MbD6/Vi+PaI6yM0zHAzwaYgvDKF8s/Rq5kQ==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4501
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
+ <d1756cd0-8ad7-1e6c-b127-59ed24c5e512@virtuozzo.com>
+ <538354c8-7ba9-8b1c-476e-5733c418207b@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <606dbe22-0d1e-66bb-aba9-681ca7961623@redhat.com>
+Date: Wed, 20 Nov 2019 06:59:15 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+In-Reply-To: <538354c8-7ba9-8b1c-476e-5733c418207b@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: tkrQfcfNNXSPOST1rxoQEw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -140,35 +77,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Alberto Garcia <berto@igalia.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Anthony Green <green@moxielogic.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Peter Lieven <pl@kamp.de>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Chris Wulff <crwulff@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Michael Walle <michael@walle.cc>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Igor Mammedov <imammedo@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "sheepdog@lists.wpkg.org" <sheepdog@lists.wpkg.org>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Palmer Dabbelt <palmer@sifive.com>, Thomas Huth <thuth@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Hannes Reinecke <hare@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Liu Yuan <namei.unix@gmail.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
+ Amit Shah <amit@kernel.org>, Stefan Weil <sw@weilnetz.de>,
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia@oracle.com>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stafford Horne <shorne@gmail.com>,
+ "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <pburton@wavecomp.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
+ Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Joel Stanley <joel@jms.id.au>,
+ Jason Dillaman <dillaman@redhat.com>, Antony Pavlov <antonynpavlov@gmail.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "integration@gluster.org" <integration@gluster.org>,
+ Laszlo Ersek <lersek@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, Max Reitz <mreitz@redhat.com>,
+ Denis Lunev <den@virtuozzo.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Marek Vasut <marex@denx.de>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SXMgdGhlcmUgYSBwcmVjZWRlbnQgZm9yIHRoaXM/ICBJJ20gT0sgd2l0aCBERUJVR19IRVgsIGJ1
-dCBJIGFzc3VtZWQgcmV2aWV3ZXJzIHdvdWxkbid0IGFwcHJvdmUNCiNpZmRlZiBGSVhNRQ0KI2Rl
-ZmluZSBERUJVR19IRVgNCiNlbmRpZg0KDQpUYXlsb3INCg0KDQotLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLQ0KRnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFy
-by5vcmc+DQpTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDIwLCAyMDE5IDM6MDIgQU0NClRvOiBM
-YXVyZW50IFZpdmllciA8bGF1cmVudEB2aXZpZXIuZXU+OyBUYXlsb3IgU2ltcHNvbiA8dHNpbXBz
-b25AcXVpY2luYy5jb20+OyBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQHJlZGhhdC5j
-b20+OyByaWt1LnZvaXBpb0Bpa2kuZmk7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KU3ViamVjdDog
-UmU6IFtQQVRDSF0gQWRkIG1pbmltYWwgSGV4YWdvbiB0YXJnZXQgLSBGaXJzdCBpbiBhIHNlcmll
-cyBvZiBwYXRjaGVzIC0gbGludXgtdXNlciBjaGFuZ2VzICsgbGludXgtdXNlci9oZXhhZ29uICsg
-c2tlbGV0b24gb2YgdGFyZ2V0L2hleGFnb24gLSBGaWxlcyBpbiB0YXJnZXQvaGV4YWdvbi9pbXBv
-cnRlZCBhcmUgZnJvbSBhbm90aGVyIHByb2plY3QgYW5kIHRoZXJlZm9yZSBkbyBub3QgY29uZm9y
-bSB0byBxZW11IGNvZGluZyBzdGFuZGFyZHMNCg0KDQpPbiAxMS8yMC8xOSA5OjMzIEFNLCBMYXVy
-ZW50IFZpdmllciB3cm90ZToNCj4gTGUgMjAvMTEvMjAxOSDDoCAwNTo0OCwgVGF5bG9yIFNpbXBz
-b24gYSDDqWNyaXQgOg0KPj4gRm9yIHRoZSBnZW5lcmFsIERFQlVHX0hFWCBtZXNzYWdlcywgSSB0
-aGluayB0aGUgdHJhY2UgaW5mcmFzdHJ1Y3R1cmUgaXNuJ3QgcXVpdGUgd2hhdCBJJ20gbG9va2lu
-ZyBmb3IuDQo+Pg0KPj4gSGVyZSdzIGEgc2FtcGxlIG9mIHdoYXQgaXQgcHJpbnRzDQo+PiBTdGFy
-dCBwYWNrZXQ6IHBjID0gMHg0MDAyZjANCj4+IFBhY2tldCBjb21taXR0ZWQ6IHBjID0gMHg0MDAy
-ZjANCj4+IFJlZ3Mgd3JpdHRlbg0KPj4gICAgICAgICByMTggPSAtNjk0MjAgKDB4ZmZmZWYwZDQp
-DQo+PiAgICAgICAgIHIxOSA9IC02OTQxMiAoMHhmZmZlZjBkYykNCj4+IFN0b3Jlcw0KPj4gICAg
-ICAgICBtZW1kWzB4ZmZmZWYwYjBdID0gMCAoMHgwMDAwMDAwMDAwMDAwMDAwKSBOZXh0IFBDID0g
-MHg0MDAyZjgNCj4+IEV4ZWMgY291bnRlcnM6IHBrdCA9IDE3LCBpbnNuID0gMjQsIGh2eCA9IDAN
-Cg0KRm9yIHNvbWV0aGluZyBsaWtlIHRoaXMsIEknZCBrZWVwIERFQlVHX0hFWC4NCg0KPj4gICAg
-IGlmIChxZW11X2xvZ2xldmVsX21ha3MoQ1BVX0xPR19FWEVDKSkgew0KDQpDUFVfTE9HX0VYRUMg
-YWxyZWFkeSBoYXMgYSBzcGVjaWZpYyBzdHJ1Y3R1cmUsIGxpc3RpbmcgdGhlIFRyYW5zbGF0aW9u
-QmxvY2tzIHRoYXQgYXJlIGV4ZWN1dGVkLiAgSXQgc2hvdWxkbid0IGJlIGhpamFja2VkIGZvciBz
-b21ldGhpbmcgZWxzZS4NCg0KSWYgeW91IHJlYWxseSB3YW50IGEgcnVudGltZSBmbGFnIGZvciB0
-aGlzLCB3ZSBzaG91bGQgYWRkIGEgbmV3IENQVV9MT0dfKiBmbGFnLg0KDQoNCnJ+DQo=
+On 11/20/19 3:50 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Okay...
+>=20
+> I think that:
+>=20
+> 1. A lot of efforts (not only my, I think reviewing is already exceeded g=
+eneration efforts)
+>     are made, it would be sad to lose them.
+>=20
+> 2. It's safe enough to apply only part of generated patches: we just fix =
+error_abort/error_fatal
+>     in more popular subsystems, what's wrong with that? Why not to cover =
+80% cases by 20% efforts?
+>=20
+> 3. It's obviously impossible to merge the whole series. A lot of time pas=
+sed, series diverges.
+>=20
+>=20
+> So I propose the following plan:
+>=20
+> 1. I resend small separate series of preparation patches per maintainer. =
+They are good anyway.
+>=20
+> 2. We commit patch with macro (changing MUST to SHOULD in documentation) =
+and coccinelle script.
+>      (or that may be combined with the first series from [3.])
+>=20
+> 3. When one of preparations taken to maintainer's tree, I send generated =
+patches for
+>      its maintainer.
+
+I'd still prefer waiting for direction from Markus.  We've been tied up=20
+by other things (KVM Forum, 4.2 release), but now that we are in freeze,=20
+this is actually a GOOD time for Markus to finally get back to this=20
+series, and there is going to be less rebasing needed if we can apply=20
+the entire cleanup right as 5.0 development opens in a couple of weeks.
+
+
+>=20
+>=20
+> If no objections during a week, I'll start that plan, hope someone will s=
+upport it.
+>=20
+>=20
+
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
