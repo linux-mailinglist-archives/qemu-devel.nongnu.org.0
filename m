@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321151034A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 07:57:27 +0100 (CET)
-Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7DE10349C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 07:51:57 +0100 (CET)
+Received: from localhost ([::1]:53988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXJvZ-0004FX-Tg
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 01:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43119)
+	id 1iXJqG-0001G8-8Z
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 01:51:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iXJtr-0003Ib-VB
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:55:40 -0500
+ (envelope-from <clg@kaod.org>) id 1iXJot-0000ka-1B
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:50:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iXJtq-0007TK-Ru
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:55:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57296)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iXJtq-0007SK-M3
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:55:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iXJtp-0007E0-9s
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:55:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 494672E80C3
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:55:37 +0000 (UTC)
+ (envelope-from <clg@kaod.org>) id 1iXJor-0001wD-Cy
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:50:30 -0500
+Received: from 2.mo68.mail-out.ovh.net ([46.105.52.162]:38826)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXJor-0001tJ-67
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 01:50:29 -0500
+Received: from player694.ha.ovh.net (unknown [10.108.35.158])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id A68C6148C1A
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 07:50:26 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player694.ha.ovh.net (Postfix) with ESMTPSA id 183E3C3CE109;
+ Wed, 20 Nov 2019 06:50:18 +0000 (UTC)
+Subject: Re: [RFC 5/5] spapr: Work around spurious warnings from vfio INTx
+ initialization
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20191017054218.8876-1-david@gibson.dropbear.id.au>
+ <20191017054218.8876-6-david@gibson.dropbear.id.au>
+ <3cded480-ce51-eef7-dc75-686022a18726@kaod.org>
+ <2319e683-983c-2c40-3234-c4c43555c657@kaod.org>
+ <20191120041739.GE5582@umbus.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <652c50bf-a6ce-4dff-77a1-413c615ed519@kaod.org>
+Date: Wed, 20 Nov 2019 07:50:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191120041739.GE5582@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+X-Ovh-Tracer-Id: 16299090005006781248
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegledguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 Nov 2019 06:46:54 -0000
-From: Thomas Huth <1853083@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth wzis
-X-Launchpad-Bug-Reporter: wzis (wzis)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157413352600.6824.7282626865462030571.malonedeb@gac.canonical.com>
-Message-Id: <157423241431.22400.12571488631413867685.malone@chaenomeles.canonical.com>
-Subject: [Bug 1853083] Re: qemu ppc64 4.0 boot AIX5.1 hung
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 46eafc8cdd0a323dbf114bc9258a2666ba53701d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 46.105.52.162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,33 +63,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853083 <1853083@bugs.launchpad.net>
+Cc: aik@ozlabs.ru, alex.williamson@redhat.com, qemu-ppc@nongnu.org,
+ groug@kaod.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AIX 5.1 is quite a bit older than POWER8, so I don't think that it will
-run with this processor anymore. You could try "power5" or "970fx" as
-CPU (maybe even the "40p" machine instead of "pseries"), but I guess it
-won't make a big difference - the QEMU pseries machine has been written
-for later operating systems in mind, there was never a big effort to get
-older operating systems running with it.
+On 20/11/2019 05:17, David Gibson wrote:
+> On Thu, Oct 17, 2019 at 03:42:06PM +0200, C=E9dric Le Goater wrote:
+>> On 17/10/2019 10:43, C=E9dric Le Goater wrote:
+>>> On 17/10/2019 07:42, David Gibson wrote:
+>>>> Traditional PCI INTx for vfio devices can only perform well if using
+>>>> an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warnin=
+g
+>>>> if an in kernel irqchip is not available.
+>>>>
+>>>> We usually do have an in-kernel irqchip available for pseries machin=
+es
+>>>> on POWER hosts.  However, because the platform allows feature
+>>>> negotiation of what interrupt controller model to use, we don't
+>>>> currently initialize it until machine reset.  vfio_intx_update() is
+>>>> called (first) from vfio_realize() before that, so it can issue a
+>>>> spurious warning, even if we will have an in kernel irqchip by the
+>>>> time we need it.
+>>>>
+>>>> To workaround this, make a call to spapr_irq_update_active_intc() fr=
+om
+>>>> spapr_irq_init() which is called at machine realize time, before the
+>>>> vfio realize.  This call will be pretty much obsoleted by the later
+>>>> call at reset time, but it serves to suppress the spurious warning
+>>>> from VFIO.
+>>>>
+>>>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>>>> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>>>
+>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>>>> ---
+>>>>  hw/ppc/spapr_irq.c | 11 ++++++++++-
+>>>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+>>>> index 45544b8976..bb91c61fa0 100644
+>>>> --- a/hw/ppc/spapr_irq.c
+>>>> +++ b/hw/ppc/spapr_irq.c
+>>>> @@ -345,6 +345,14 @@ void spapr_irq_init(SpaprMachineState *spapr, E=
+rror **errp)
+>>>> =20
+>>>>      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
+>>>>                                        smc->nr_xirqs + SPAPR_XIRQ_BA=
+SE);
+>>>> +
+>>>> +    /*
+>>>> +     * Mostly we don't actually need this until reset, except that =
+not
+>>>> +     * having this set up can cause VFIO devices to issue a
+>>>> +     * false-positive warning during realize(), because they don't =
+yet
+>>>> +     * have an in-kernel irq chip.
+>>>> +     */
+>>>> +    spapr_irq_update_active_intc(spapr);
+>>>
+>>> This will call the de/activate hooks of the irq chip very early=20
+>>> before reset and CAS, and won't call them at reset if the intc
+>>> pointers are the same (xive only for instance). It breaks very=20
+>>> obviously the emulated XIVE device which won't reset the OS CAM=20
+>>> line with the CPU id values and CPU notification will be broken.
+>>>
+>>> We have to find something else.
+>>
+>> Here is a possible fix for the (re)setting of the OS CAM line.=20
+>>
+>> Removing spapr_xive_set_tctx_os_cam() is a good thing but this solutio=
+n
+>> shows some issues in our modeling of hot-plugged CPUS with a reset()=20
+>> being called at realize().
+>=20
+> Ok, I've applied the patch below now.=20
 
--- =
+Yes. this was replaced by :
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853083
+  http://patchwork.ozlabs.org/cover/1181522/
 
-Title:
-  qemu ppc64 4.0 boot AIX5.1 hung
+> Does that mean that my 5/5 patch should be good now?
 
-Status in QEMU:
-  Incomplete
+We should.
 
-Bug description:
-  When boot AIX5.1 from cdrom device, qemu hung there, no further info
-  is displayed and cpu consumption is high.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853083/+subscriptions
+C.
 
