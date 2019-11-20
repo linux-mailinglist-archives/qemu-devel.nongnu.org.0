@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAD01038FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:43:17 +0100 (CET)
-Received: from localhost ([::1]:56774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3DC103907
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:46:57 +0100 (CET)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOOC-0001ms-8E
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:43:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
+	id 1iXORk-0004sp-KR
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:46:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1iXOMl-0000tj-C5
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:41:48 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOu-00036F-13
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1iXOMj-00076c-MJ
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:41:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27077
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iXOMj-00075Q-BX
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:41:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574250104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zalnQXLaPowJs7MLSHDtEvpAbA/8e+NyuWkugn7g8YE=;
- b=HUyFBTbEW0ktLkp8vok6d1lBRDQOwHkRmeIqgpxCuoqFaOY5gqwqM4PvWiUqdU0v6nYzH9
- DxtALlF8BCDeNPCGIhFG0mVV+swY3nAhF0RVcT0hMMttRfTgMrwG0bOWcGnKCmZ/avKVax
- ogi9GjzQshGhWY8ug+uPdCDCj5wLjkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-rP8yJImzMwy4YXQuOyF7qQ-1; Wed, 20 Nov 2019 06:41:43 -0500
-X-MC-Unique: rP8yJImzMwy4YXQuOyF7qQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99419802689
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 11:41:42 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F22DE600C9;
- Wed, 20 Nov 2019 11:41:32 +0000 (UTC)
-Date: Wed, 20 Nov 2019 11:41:32 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] vhost-user-input: use free(elem) instead of g_free(elem)
-Message-ID: <20191120114132.GD242924@stefanha-x1.localdomain>
-References: <20191119111626.112206-1-stefanha@redhat.com>
- <6b45458f-386f-3be0-c3d8-20c88ca37a2b@redhat.com>
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOs-00035o-0k
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:43:59 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59490)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1iXOOq-0002yI-1z
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:43:57 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAKBgEbV094689
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:53 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf57cwqs-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:52 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Wed, 20 Nov 2019 11:43:50 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 20 Nov 2019 11:43:48 -0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAKBhkeg16318646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Nov 2019 11:43:46 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8D19C4C04E;
+ Wed, 20 Nov 2019 11:43:46 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5C4664C050;
+ Wed, 20 Nov 2019 11:43:45 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.152.224.205])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 20 Nov 2019 11:43:45 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/15] s390x: Protected Virtualization support
+Date: Wed, 20 Nov 2019 06:43:19 -0500
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6b45458f-386f-3be0-c3d8-20c88ca37a2b@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112011-4275-0000-0000-00000383E080
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112011-4276-0000-0000-000038975980
+Message-Id: <20191120114334.2287-1-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-20_03:2019-11-15,2019-11-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=751
+ priorityscore=1501 suspectscore=1 spamscore=0 impostorscore=0
+ clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911200107
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,45 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ylS2wUBXLOxYXZFQ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Most of the QEMU changes for PV are related to the new IPL type with
+subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
+IPL secure guests. Note that we can only boot into secure mode from
+normal mode, i.e. stfle 161 is not active in secure mode.
 
-On Wed, Nov 20, 2019 at 10:37:35AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 11/19/19 12:16 PM, Stefan Hajnoczi wrote:
-> > The virtqueue element returned by vu_queue_pop() is allocated using
-> > malloc(3) by virtqueue_alloc_element().  Use the matching free(3)
-> > function instead of glib's g_free().
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> Fixes: 06914c97d3a ?
+The other changes related to data gathering for emulation and
+disabling addressing checks in secure mode, as well as CPU resets.
 
-Good idea, I should have included that.
+While working on this I sprinkled in some cleanups, as we sometimes
+significantly increase line count of some functions and they got
+unreadable.
 
-Stefan
+Janosch Frank (15):
+  s390x: Cleanup cpu resets
+  s390x: Beautify diag308 handling
+  s390x: protvirt: Add diag308 subcodes 8 - 10
+  Header sync protvirt
+  s390x: protvirt: Sync PV state
+  s390x: protvirt: Support unpack facility
+  s390x: protvirt: Handle diag 308 subcodes 0,1,3,4
+  s390x: protvirt: KVM intercept changes
+  s390x: protvirt: SCLP interpretation
+  s390x: protvirt: Add new VCPU reset functions
+  RFC: s390x: Exit on vcpu reset error
+  s390x: protvirt: Set guest IPL PSW
+  s390x: protvirt: Move diag 308 data over SIDAD
+  s390x: protvirt: Disable address checks for PV guest IO emulation
+  s390x: protvirt: Handle SIGP store status correctly
 
---ylS2wUBXLOxYXZFQ
-Content-Type: application/pgp-signature; name="signature.asc"
+ hw/s390x/Makefile.objs              |   1 +
+ hw/s390x/ipl.c                      |  81 +++++++++++++++++-
+ hw/s390x/ipl.h                      |  35 ++++++++
+ hw/s390x/pv.c                       | 123 +++++++++++++++++++++++++++
+ hw/s390x/pv.h                       |  27 ++++++
+ hw/s390x/s390-virtio-ccw.c          |  79 ++++++++++++++---
+ hw/s390x/sclp.c                     |  16 ++++
+ include/hw/s390x/sclp.h             |   2 +
+ linux-headers/asm-s390/kvm.h        |   4 +-
+ linux-headers/linux/kvm.h           |  43 ++++++++++
+ target/s390x/cpu.c                  | 127 ++++++++++++++--------------
+ target/s390x/cpu.h                  |   1 +
+ target/s390x/cpu_features_def.inc.h |   1 +
+ target/s390x/diag.c                 | 108 +++++++++++++++++------
+ target/s390x/ioinst.c               |  46 ++++++----
+ target/s390x/kvm-stub.c             |  10 ++-
+ target/s390x/kvm.c                  |  58 +++++++++++--
+ target/s390x/kvm_s390x.h            |   4 +-
+ target/s390x/sigp.c                 |   7 +-
+ 19 files changed, 640 insertions(+), 133 deletions(-)
+ create mode 100644 hw/s390x/pv.c
+ create mode 100644 hw/s390x/pv.h
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3VJmsACgkQnKSrs4Gr
-c8iU8AgAjCH4yzbFhW6jh7iMfcADOu25yyP+aYBf6KRiBC7iUq+8wp7+qwzkeFu5
-j1QD824m8L1I9J0WF6illuJnCrAKB+rZhDMJZplzoPxJB0dR8KiUKp8+kLftTLOS
-pD8a2y1k8poznSaDy/qK8iIfXc8gTClqRkwhEwxUonWAWCkXEF6loUOOkQwTQXHt
-HNTTur6NIoPmmlDlFzw4fD30G0VT5CBIBhKbyEDTlg51ud92cRjY//6FKFkjbFTs
-fXQ66RBDtzt5ZDVKn52cDXtYG0QEC0BTepfZCj0tWcqN8XunDIvQtzdgNsHZ3rDc
-bmmvvcvHGNYDjZp8TCBvqudiR8UGVg==
-=yV3o
------END PGP SIGNATURE-----
-
---ylS2wUBXLOxYXZFQ--
+-- 
+2.20.1
 
 
