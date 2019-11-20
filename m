@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBDC1043E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 20:05:48 +0100 (CET)
-Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C001043D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 20:02:40 +0100 (CET)
+Received: from localhost ([::1]:33692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXVIR-0003Vr-0q
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 14:05:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
+	id 1iXVFP-0000H1-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 14:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iXVBu-0006bG-Re
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:08 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iXVC2-0006hW-7l
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iXVBs-0002Mf-S8
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:02 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39508
+ (envelope-from <mlevitsk@redhat.com>) id 1iXVBz-0002OW-5z
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:10 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47919
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iXVBs-0002Lq-Nt
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:00 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iXVBv-0002NV-C0
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:59:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574276338;
+ s=mimecast20190719; t=1574276342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N71bCkeEmFSODmHaBuaJPIbj18h0+RvLK7sZTaIwMuU=;
- b=GqxbI0kehDmSR1UEDoOrzixGygAkfoGHAtJBWvTVlDizUFNq3RkndogovZWP2r4aywRqPo
- 0FztWzyxbQF4R/9cDH203YTkP9U5eUPNJmUEm1iUruZX6WGVD2YSYW+HgLZL/lNw04+44b
- E7Vm8PsKK6/bxq2qO/BVzhcukMuT0jw=
+ bh=s7Dn6ysPT3UhQYqSStW1/9KhDEFomQbpGWosePoxc6s=;
+ b=EAZxOCsM6DpgBYz+eN03tfqwUItNPbCAVLfyn+wAyKAm6TNOk8WlEiu7PVossql0vN5ff8
+ brgkZc2n50XEMeVLEXAFPLk8iA2Yg9Gagh1T4dTZcL08pqzsJGywoCxefiTYTCCnwJasyT
+ FytszambaCCZgVmn2vV9g9i67iC3xiU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-uZ8LHJb4PyiLadgYsflPkg-1; Wed, 20 Nov 2019 13:58:57 -0500
+ us-mta-36-fWhitb7vOlSopqglEa_AWw-1; Wed, 20 Nov 2019 13:58:59 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E48ADB63;
- Wed, 20 Nov 2019 18:58:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCFF800054;
+ Wed, 20 Nov 2019 18:58:58 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAECD1838A;
- Wed, 20 Nov 2019 18:58:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAB7A1838A;
+ Wed, 20 Nov 2019 18:58:56 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] monitor: uninline add_init_drive
-Date: Wed, 20 Nov 2019 20:58:42 +0200
-Message-Id: <20191120185850.18986-2-mlevitsk@redhat.com>
+Subject: [PATCH 2/9] monitor: rename device-hotplug.c to blockdev-hmp-cmds.c
+Date: Wed, 20 Nov 2019 20:58:43 +0200
+Message-Id: <20191120185850.18986-3-mlevitsk@redhat.com>
 In-Reply-To: <20191120185850.18986-1-mlevitsk@redhat.com>
 References: <20191120185850.18986-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: uZ8LHJb4PyiLadgYsflPkg-1
+X-MC-Unique: fWhitb7vOlSopqglEa_AWw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,76 +76,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is only used by hmp_drive_add.
-The code is just a bit shorter this way.
-
-No functional changes
+These days device-hotplug.c only contains the hmp_drive_add
+In the next patch, rest of hmp_drive* functions will be moved
+there.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- device-hotplug.c | 33 +++++++++++++--------------------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+ MAINTAINERS                             | 1 +
+ Makefile.objs                           | 4 ++--
+ device-hotplug.c =3D> blockdev-hmp-cmds.c | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+ rename device-hotplug.c =3D> blockdev-hmp-cmds.c (98%)
 
-diff --git a/device-hotplug.c b/device-hotplug.c
-index f01d53774b..5ce73f0cff 100644
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dfb7932608..658c38edf4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1855,6 +1855,7 @@ Block QAPI, monitor, command line
+ M: Markus Armbruster <armbru@redhat.com>
+ S: Supported
+ F: blockdev.c
++F: blockdev-hmp-cmds.c
+ F: block/qapi.c
+ F: qapi/block*.json
+ F: qapi/transaction.json
+diff --git a/Makefile.objs b/Makefile.objs
+index 11ba1a36bd..cb33c1873c 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -43,13 +43,13 @@ io-obj-y =3D io/
+ # single QEMU executable should support all CPUs and machines.
+=20
+ ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-y =3D blockdev.o blockdev-nbd.o block/
++common-obj-y =3D blockdev.o blockdev-nbd.o blockdev-hmp-cmds.o block/
+ common-obj-y +=3D bootdevice.o iothread.o
+ common-obj-y +=3D dump/
+ common-obj-y +=3D job-qmp.o
+ common-obj-y +=3D monitor/
+ common-obj-y +=3D net/
+-common-obj-y +=3D qdev-monitor.o device-hotplug.o
++common-obj-y +=3D qdev-monitor.o
+ common-obj-$(CONFIG_WIN32) +=3D os-win32.o
+ common-obj-$(CONFIG_POSIX) +=3D os-posix.o
+=20
+diff --git a/device-hotplug.c b/blockdev-hmp-cmds.c
+similarity index 98%
+rename from device-hotplug.c
+rename to blockdev-hmp-cmds.c
+index 5ce73f0cff..21ff6fa9a9 100644
 --- a/device-hotplug.c
-+++ b/device-hotplug.c
-@@ -34,42 +34,35 @@
- #include "monitor/monitor.h"
- #include "block/block_int.h"
-=20
--static DriveInfo *add_init_drive(const char *optstr)
-+
-+void hmp_drive_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
--    DriveInfo *dinfo;
-+    DriveInfo *dinfo =3D NULL;
-     QemuOpts *opts;
-     MachineClass *mc;
-+    const char *optstr =3D qdict_get_str(qdict, "opts");
-+    bool node =3D qdict_get_try_bool(qdict, "node", false);
-+
-+    if (node) {
-+        hmp_drive_add_node(mon, optstr);
-+        return;
-+    }
-=20
-     opts =3D drive_def(optstr);
-     if (!opts)
--        return NULL;
-+        return;
-=20
-     mc =3D MACHINE_GET_CLASS(current_machine);
-     dinfo =3D drive_new(opts, mc->block_default_type, &err);
-     if (err) {
-         error_report_err(err);
-         qemu_opts_del(opts);
--        return NULL;
--    }
--
--    return dinfo;
--}
--
--void hmp_drive_add(Monitor *mon, const QDict *qdict)
--{
--    DriveInfo *dinfo =3D NULL;
--    const char *opts =3D qdict_get_str(qdict, "opts");
--    bool node =3D qdict_get_try_bool(qdict, "node", false);
--
--    if (node) {
--        hmp_drive_add_node(mon, opts);
--        return;
-+        goto err;
-     }
-=20
--    dinfo =3D add_init_drive(opts);
-     if (!dinfo) {
--        goto err;
-+        return;
-     }
-=20
-     switch (dinfo->type) {
++++ b/blockdev-hmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU device hotplug helpers
++ * Blockdev HMP commands
+  *
+  * Copyright (c) 2004 Fabrice Bellard
+  *
 --=20
 2.17.2
 
