@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9618E103621
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 09:40:47 +0100 (CET)
-Received: from localhost ([::1]:54836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C481103640
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 09:57:04 +0100 (CET)
+Received: from localhost ([::1]:54908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXLXa-0005Xn-Lu
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 03:40:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34332)
+	id 1iXLnL-0002Ie-2r
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 03:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iXLWj-0004WM-PG
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:39:55 -0500
+ (envelope-from <bounces@canonical.com>) id 1iXLmD-0001st-08
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:55:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iXLWi-0000El-E3
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:39:53 -0500
-Received: from 13.mo1.mail-out.ovh.net ([178.33.253.128]:32862)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXLWi-0000E1-7a
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:39:52 -0500
-Received: from player734.ha.ovh.net (unknown [10.108.57.18])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id DCE3719C12A
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 09:39:48 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player734.ha.ovh.net (Postfix) with ESMTPSA id BD0CCC3E00B7;
- Wed, 20 Nov 2019 08:39:43 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v5 04/23] ppc/pnv: Dump the XIVE NVT table
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20191115162436.30548-1-clg@kaod.org>
- <20191115162436.30548-5-clg@kaod.org> <20191119220655.GY5582@umbus.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a0a83e1a-a861-2644-a7bf-854fd5cdde77@kaod.org>
-Date: Wed, 20 Nov 2019 09:39:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iXLmB-0002D5-OX
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:55:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47602)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iXLmB-0002CO-Iw
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 03:55:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iXLmA-0002q5-0U
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:55:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DBC892E80C8
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 08:55:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191119220655.GY5582@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-X-Ovh-Tracer-Id: 18146128798643227475
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudegledguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 20 Nov 2019 08:41:09 -0000
+From: wzis <wzis@hotmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth wzis
+X-Launchpad-Bug-Reporter: wzis (wzis)
+X-Launchpad-Bug-Modifier: wzis (wzis)
+References: <157413352600.6824.7282626865462030571.malonedeb@gac.canonical.com>
+Message-Id: <157423926917.6529.2045468605161224800.malone@gac.canonical.com>
+Subject: [Bug 1853083] Re: qemu ppc64 4.0 boot AIX5.1 hung
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a8e6e2326145a2a49ff7a00853b1bb8d03e45323
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.253.128
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,155 +66,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Reply-To: Bug 1853083 <1853083@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/11/2019 23:06, David Gibson wrote:
-> On Fri, Nov 15, 2019 at 05:24:17PM +0100, C=E9dric Le Goater wrote:
->> This is useful to dump the saved contexts of the vCPUs : configuration
->> of the base END index of the vCPU and the Interrupt Pending Buffer
->> register, which is updated when an interrupt can not be presented.
->>
->> When dumping the NVT table, we skip empty indirect pages which are not
->> necessarily allocated.
->>
->> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
->> ---
->>  include/hw/ppc/xive_regs.h |  2 ++
->>  hw/intc/pnv_xive.c         | 30 ++++++++++++++++++++++++++++++
->>  2 files changed, 32 insertions(+)
->>
->> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
->> index 1a5622f8ded8..94338b4b551e 100644
->> --- a/include/hw/ppc/xive_regs.h
->> +++ b/include/hw/ppc/xive_regs.h
->> @@ -252,6 +252,8 @@ typedef struct XiveNVT {
->>          uint32_t        w0;
->>  #define NVT_W0_VALID             PPC_BIT32(0)
->>          uint32_t        w1;
->> +#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
->> +#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
->>          uint32_t        w2;
->>          uint32_t        w3;
->>          uint32_t        w4;
->> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
->> index a4d80fd5e79c..02faf4135e48 100644
->> --- a/hw/intc/pnv_xive.c
->> +++ b/hw/intc/pnv_xive.c
->> @@ -1554,6 +1554,27 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D=
- {
->>      },
->>  };
->> =20
->> +/*
->> + * skiboot uses an indirect NVT table with 64k subpages
->> + */
->> +#define XIVE_NVT_COUNT          (1 << XIVE_NVT_SHIFT)
->> +#define XIVE_NVT_PER_PAGE       (0x10000 / sizeof(XiveNVT))
+With
+qemu-system-ppc64 -cpu power5+ -machine pseries -m 2048 -serial mon:stdio  =
+-hda aix-hdd.qcow2 -cdrom /Download/AIX5.1/VOLUME1.iso -prom-env boot-comma=
+nd=3D'boot cdrom: -s verbose'
 
-First of all, this is an optimization to skip ranges of NVTs when=20
-an indirect page is empty. two assumptions are made : indirect table
-and page size.
+got:
+VNC server running on ::1:5900
 
-> Hrm.  So skiboot uses 64kiB pages, but how does the hardware know
-> that? Is the hw fixed to 64kiB pages, or is there some register
-> controlling the subpage size? =20
 
-The indirect page size is a field of the VSD structure describing the
-pages.
+SLOF **********************************************************************
+QEMU Starting
+ Build Date =3D Jul  3 2019 12:26:14
+ FW Version =3D git-ba1ab360eebe6338
+ Press "s" to enter Open Firmware.
 
-> In which case shouldn't you be looking at that rather than assuming
-> 64kiB?
+Populating /vdevice methods
+Populating /vdevice/vty@71000000
+Populating /vdevice/nvram@71000001
+Populating /vdevice/l-lan@71000002
+Populating /vdevice/v-scsi@71000003
+       SCSI: Looking for devices
+          8000000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+          8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
+Populating /pci@800000020000000
+                     00 0000 (D) : 1234 1111    qemu vga
+                     00 0800 (D) : 1033 0194    serial bus [ usb-xhci ]
+Installing QEMU fb
 
-Something cleaner would be :=20
 
-+static uint64_t pnv_xive_vst_per_page(PnvXive *xive, uint32_t type)
-+{
-+    uint8_t blk =3D pnv_xive_block_id(xive);
-+    uint64_t vsd =3D xive->vsds[type][blk];
-+    const XiveVstInfo *info =3D &vst_infos[type];
-+    uint64_t vsd_addr;
-+    uint32_t page_shift;
-+
-+    /* Get the page size of the indirect table. */
-+    vsd_addr =3D vsd & VSD_ADDRESS_MASK;
-+    vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-+
-+    if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-+        xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
-;
-+#endif
-+        return 0;
-+    }
-+
-+    page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
-+
-+    if (!pnv_xive_vst_page_size_allowed(page_shift)) {
-+        xive_error(xive, "VST: invalid %s page shift %d", info->name,
-+                   page_shift);
-+        return 0;
-+    }
-+
-+    return (1ull << page_shift) / info->size;
-+}
-+
-+
- #define XIVE_NVT_COUNT          (1 << XIVE_NVT_SHIFT)
--#define XIVE_NVT_PER_PAGE       (0x10000 / sizeof(XiveNVT))
-+#define XIVE_NVT_PER_PAGE(xive) pnv_xive_vst_per_page(xive, VST_TSEL_VPD=
-T)
-=20
+Scanning USB
+  XHCI: Initializing
 
-I will rework that patch and try to keep the info pic command simple.=20
 
-C.
+( 700 ) Program Exception [ fff ]
 
->> +static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
->> +                                    Monitor *mon)
->> +{
->> +    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
->> +    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
->> +
->> +    if (!xive_nvt_is_valid(nvt)) {
->> +        return;
->> +    }
->> +
->> +    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
->> +                   eq_blk, eq_idx,
->> +                   xive_get_field32(NVT_W4_IPB, nvt->w4));
->> +}
->> +
->>  void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
->>  {
->>      XiveRouter *xrtr =3D XIVE_ROUTER(xive);
->> @@ -1562,6 +1583,7 @@ void pnv_xive_pic_print_info(PnvXive *xive, Moni=
-tor *mon)
->>      uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
->>      XiveEAS eas;
->>      XiveEND end;
->> +    XiveNVT nvt;
->>      int i;
->> =20
->>      monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0=
-,
->> @@ -1590,6 +1612,14 @@ void pnv_xive_pic_print_info(PnvXive *xive, Mon=
-itor *mon)
->>      while (!xive_router_get_end(xrtr, blk, i, &end)) {
->>          xive_end_eas_pic_print_info(&end, i++, mon);
->>      }
->> +
->> +    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0,
->> +                   XIVE_NVT_COUNT - 1);
->> +    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D XIVE_NVT_PER_PAGE) {
->> +        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
->> +            xive_nvt_pic_print_info(&nvt, i++, mon);
->> +        }
->> +    }
->>  }
->> =20
->>  static void pnv_xive_reset(void *dev)
->=20
 
+    R0 .. R7           R8 .. R15         R16 .. R23         R24 .. R31
+000000007dbf36f4   000000007e4594a8   0000000000000000   000000007dc06400
+000000007e669dc0   0000000000000100   0000000000000000   000000007dc0ae70
+000000007dc10700   000000007e45c000   000000007e466010   000000007e459488
+000000007e45c000   000000007dc50700   000000007dc0b040   0000200081021000
+0000000000000000   000000007e436000   0000000000008000   0000200081020040
+0000000000000fff   0000000000000000   000000000000f003   0000200081020070
+000000007e466008   0000000000000000   0000000000000006   0000000000000002
+0000000001180000   0000000000000000   000000007e66a050   000000007e459488
+
+    CR / XER           LR / CTR          SRR0 / SRR1        DAR / DSISR
+        80000408   000000007dbf3650   000000007dbf366c   0000000000000000
+0000000000000000   0000000000000000   8000000000080000           00000000
+
+
+1 >
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853083
+
+Title:
+  qemu ppc64 4.0 boot AIX5.1 hung
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  When boot AIX5.1 from cdrom device, qemu hung there, no further info
+  is displayed and cpu consumption is high.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1853083/+subscriptions
 
