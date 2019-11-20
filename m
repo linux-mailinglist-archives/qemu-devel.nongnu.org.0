@@ -2,65 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF6710437B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:32:20 +0100 (CET)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA121104382
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 19:36:06 +0100 (CET)
+Received: from localhost ([::1]:33424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXUm3-0002Ni-Np
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:32:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37059)
+	id 1iXUph-0004DO-9y
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 13:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iXUfx-0003EK-R2
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:26:03 -0500
+ (envelope-from <groug@kaod.org>) id 1iXUk0-0000vW-Et
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:30:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iXUfw-00084e-EE
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:26:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33960
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1iXUjy-00011V-Ni
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:30:12 -0500
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:39418)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iXUfw-00084D-AS
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:26:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574274360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hGhXnaiFPl9PqMADtLA8BuS4WbaOomCFEFwNdyl6g9k=;
- b=b/VwbKuVLQLIN42h+lmMgfWtMP6EE4M9ArRZ9ze76UdZ8NyG0psW4OjfjOtGa6TKpHjHMf
- 6DPsQZ8zPOURKZUkeM/UoysInFVUfpDMyrOshjK2U9fzxTNhxKPdMbw9PToC4qaXqqyJlV
- 4titPQl3j4KE8SfNFsV1ZNLsuBfRpNg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-Y3HQNCosNwKiodo8FJCwYA-1; Wed, 20 Nov 2019 13:25:57 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1E69107ACCC;
- Wed, 20 Nov 2019 18:25:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.118.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C2D251962;
- Wed, 20 Nov 2019 18:25:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 640F511366D5; Wed, 20 Nov 2019 19:25:51 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] qapi: Fix code generation for empty modules
-Date: Wed, 20 Nov 2019 19:25:50 +0100
-Message-Id: <20191120182551.23795-6-armbru@redhat.com>
-In-Reply-To: <20191120182551.23795-1-armbru@redhat.com>
-References: <20191120182551.23795-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iXUjy-0000zc-HI
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 13:30:10 -0500
+Received: from player711.ha.ovh.net (unknown [10.109.143.246])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 064BE1ECA62
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 19:30:07 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player711.ha.ovh.net (Postfix) with ESMTPSA id 37449C3BC99B;
+ Wed, 20 Nov 2019 18:30:03 +0000 (UTC)
+Date: Wed, 20 Nov 2019 19:30:01 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-5.0 v5 15/23] ppc/xive: Use the XiveFabric and
+ XivePresenter interfaces
+Message-ID: <20191120193001.5b9229a2@bahia.lan>
+In-Reply-To: <20191115162436.30548-16-clg@kaod.org>
+References: <20191115162436.30548-1-clg@kaod.org>
+ <20191115162436.30548-16-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: Y3HQNCosNwKiodo8FJCwYA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 9668946925167876491
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehtddgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejuddurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.56.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,167 +58,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, kwolf@pond.sub.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a sub-module doesn't contain any definitions, we don't generate
-code for it, but we do generate the #include.
+On Fri, 15 Nov 2019 17:24:28 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-We generate code only for modules that get visited.
-QAPISchema.visit() visits only modules that have definitions.  It can
-visit modules multiple times.
+> Now that the machines have handlers implementing the XiveFabric and
+> XivePresenter interfaces, remove xive_presenter_match() and make use
+> of the 'match_nvt' handler of the machine.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/intc/xive.c | 48 +++++++++++++++++-------------------------------
+>  1 file changed, 17 insertions(+), 31 deletions(-)
+>=20
 
-Clean this up as follows.  Collect entities in their QAPISchemaModule.
-Have QAPISchema.visit() call QAPISchemaModule.visit() for each module.
-Have QAPISchemaModule.visit() call .visit_module() for itself, and
-QAPISchemaEntity.visit() for each of its entities.  This way, we visit
-each module exactly once.
+Nice diffstat :)
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/schema.py                   | 24 +++++++++++++-----------
- tests/qapi-schema/empty.out              |  1 +
- tests/qapi-schema/include-repetition.out |  6 ++----
- tests/qapi-schema/qapi-schema-test.out   | 24 ++++++++++--------------
- 4 files changed, 26 insertions(+), 29 deletions(-)
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 1c9e58f8deac..ab62bda85788 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1423,30 +1423,6 @@ int xive_presenter_tctx_match(XivePresenter *xptr,=
+ XiveTCTX *tctx,
+>      return -1;
+>  }
+> =20
+> -static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
+> -                                 uint8_t nvt_blk, uint32_t nvt_idx,
+> -                                 bool cam_ignore, uint8_t priority,
+> -                                 uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+> -{
+> -    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
+> -    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+> -    int count;
+> -
+> -    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
+> -                           priority, logic_serv, match);
+> -    if (count < 0) {
+> -        return false;
+> -    }
+> -
+> -    if (!match->tctx) {
+> -        qemu_log_mask(LOG_UNIMP, "XIVE: NVT %x/%x is not dispatched\n",
+> -                      nvt_blk, nvt_idx);
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 0f2e0dcfce..0bfc5256fb 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -68,6 +68,7 @@ class QAPISchemaEntity(object):
-     def _set_module(self, schema, info):
-         assert self._checked
-         self._module =3D schema.module_by_fname(info and info.fname)
-+        self._module.add_entity(self)
-=20
-     def set_module(self, schema):
-         self._set_module(schema, self.info)
-@@ -77,11 +78,6 @@ class QAPISchemaEntity(object):
-         assert self._checked
-         return self._ifcond
-=20
--    @property
--    def module(self):
--        assert self._module or not self.info
--        return self._module
--
-     def is_implicit(self):
-         return not self.info
-=20
-@@ -142,6 +138,16 @@ class QAPISchemaVisitor(object):
- class QAPISchemaModule(object):
-     def __init__(self, name):
-         self.name =3D name
-+        self._entity_list =3D []
-+
-+    def add_entity(self, ent):
-+        self._entity_list.append(ent)
-+
-+    def visit(self, visitor):
-+        visitor.visit_module(self.name)
-+        for entity in self._entity_list:
-+            if visitor.visit_needed(entity):
-+                entity.visit(visitor)
-=20
-=20
- class QAPISchemaInclude(QAPISchemaEntity):
-@@ -1093,10 +1099,6 @@ class QAPISchema(object):
-     def visit(self, visitor):
-         visitor.visit_begin(self)
-         module =3D None
--        for entity in self._entity_list:
--            if visitor.visit_needed(entity):
--                if entity.module !=3D module:
--                    module =3D entity.module
--                    visitor.visit_module(module.name)
--                entity.visit(visitor)
-+        for mod in self._module_dict.values():
-+            mod.visit(visitor)
-         visitor.visit_end()
-diff --git a/tests/qapi-schema/empty.out b/tests/qapi-schema/empty.out
-index 5b53d00702..69666c39ad 100644
---- a/tests/qapi-schema/empty.out
-+++ b/tests/qapi-schema/empty.out
-@@ -9,3 +9,4 @@ enum QType
-     member qdict
-     member qlist
-     member qbool
-+module empty.json
-diff --git a/tests/qapi-schema/include-repetition.out b/tests/qapi-schema/i=
-nclude-repetition.out
-index 5423983239..0b654ddebb 100644
---- a/tests/qapi-schema/include-repetition.out
-+++ b/tests/qapi-schema/include-repetition.out
-@@ -11,15 +11,13 @@ enum QType
-     member qbool
- module include-repetition.json
- include comments.json
-+include include-repetition-sub.json
-+include comments.json
- module comments.json
- enum Status
-     member good
-     member bad
-     member ugly
--module include-repetition.json
--include include-repetition-sub.json
- module include-repetition-sub.json
- include comments.json
- include comments.json
--module include-repetition.json
--include comments.json
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qap=
-i-schema-test.out
-index 3660e75a48..9bd3c4a490 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -153,9 +153,6 @@ object q_obj_sizeList-wrapper
-     member data: sizeList optional=3DFalse
- object q_obj_anyList-wrapper
-     member data: anyList optional=3DFalse
--module sub-sub-module.json
--array StatusList Status
--module qapi-schema-test.json
- object q_obj_StatusList-wrapper
-     member data: StatusList optional=3DFalse
- enum UserDefListUnionKind
-@@ -193,17 +190,6 @@ object UserDefListUnion
-     case any: q_obj_anyList-wrapper
-     case user: q_obj_StatusList-wrapper
- include include/sub-module.json
--module include/sub-module.json
--include sub-sub-module.json
--module sub-sub-module.json
--enum Status
--    member good
--    member bad
--    member ugly
--module include/sub-module.json
--object SecondArrayRef
--    member s: StatusList optional=3DFalse
--module qapi-schema-test.json
- command user_def_cmd None -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
- object q_obj_user_def_cmd1-arg
-@@ -435,3 +421,13 @@ command test-command-cond-features3 None -> None
-     gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfig=
-=3DFalse
-     feature feature1
-         if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
-+module include/sub-module.json
-+include sub-sub-module.json
-+object SecondArrayRef
-+    member s: StatusList optional=3DFalse
-+module sub-sub-module.json
-+array StatusList Status
-+enum Status
-+    member good
-+    member bad
-+    member ugly
---=20
-2.21.0
+Maybe keep this trace...
+
+> -        return false;
+> -    }
+> -
+> -    return true;
+> -}
+> -
+>  /*
+>   * This is our simple Xive Presenter Engine model. It is merged in the
+>   * Router as it does not require an extra object.
+> @@ -1462,22 +1438,32 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+>   *
+>   * The parameters represent what is sent on the PowerBus
+>   */
+> -static bool xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
+> +static bool xive_presenter_notify(uint8_t format,
+>                                    uint8_t nvt_blk, uint32_t nvt_idx,
+>                                    bool cam_ignore, uint8_t priority,
+>                                    uint32_t logic_serv)
+>  {
+> +    XiveFabric *xfb =3D XIVE_FABRIC(qdev_get_machine());
+> +    XiveFabricClass *xfc =3D XIVE_FABRIC_GET_CLASS(xfb);
+>      XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+> -    bool found;
+> +    int count;
+> =20
+> -    found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
+gnore,
+> -                                 priority, logic_serv, &match);
+> -    if (found) {
+> +    /*
+> +     * Ask the machine to scan the interrupt controllers for a match
+> +     */
+> +    count =3D xfc->match_nvt(xfb, format, nvt_blk, nvt_idx, cam_ignore,
+> +                           priority, logic_serv, &match);
+> +    if (count < 0) {
+> +        return false;
+> +    }
+> +
+> +    /* handle CPU exception delivery */
+> +    if (count) {
+>          ipb_update(&match.tctx->regs[match.ring], priority);
+>          xive_tctx_notify(match.tctx, match.ring);
+>      }
+
+... in an else block here ^^ ?
+
+> =20
+> -    return found;
+> +    return count;
+
+Implicit cast is ok I guess, but !!count would ensure no paranoid
+compiler ever complains.
+
+>  }
+> =20
+>  /*
+> @@ -1590,7 +1576,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+>          return;
+>      }
+> =20
+> -    found =3D xive_presenter_notify(xrtr, format, nvt_blk, nvt_idx,
+> +    found =3D xive_presenter_notify(format, nvt_blk, nvt_idx,
+>                            xive_get_field32(END_W7_F0_IGNORE, end.w7),
+>                            priority,
+>                            xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
+w7));
 
 
