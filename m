@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDA810392E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:54:57 +0100 (CET)
-Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C64103908
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 12:47:00 +0100 (CET)
+Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOZU-0005Sg-3C
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:54:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1iXORn-0004xD-DJ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 06:46:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOOv-00038u-MD
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOw-0003A9-DA
  for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iXOOu-0003Ds-8m
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:01 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23126)
+ (envelope-from <frankja@linux.ibm.com>) id 1iXOOv-0003Hl-4M
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33438
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iXOOt-00039F-Us
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:00 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ id 1iXOOu-0003FZ-VP
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 06:44:01 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAKBfvGC089583
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:58 -0500
+ xAKBg0Cl017319
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:00 -0500
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wbxndrtn0-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wcf47duxj-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:43:58 -0500
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 06:44:00 -0500
 Received: from localhost
  by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Wed, 20 Nov 2019 11:43:56 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ Wed, 20 Nov 2019 11:43:58 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
  by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 20 Nov 2019 11:43:53 -0000
+ Wed, 20 Nov 2019 11:43:55 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAKBhqwT36176082
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAKBhrvO58785966
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Nov 2019 11:43:52 GMT
+ Wed, 20 Nov 2019 11:43:53 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2E9244C040;
+ by IMSVA (Postfix) with ESMTP id 7873C4C04A;
+ Wed, 20 Nov 2019 11:43:53 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67C7C4C046;
  Wed, 20 Nov 2019 11:43:52 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15EC34C044;
- Wed, 20 Nov 2019 11:43:51 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.152.224.205])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Nov 2019 11:43:50 +0000 (GMT)
+ Wed, 20 Nov 2019 11:43:52 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/15] Header sync protvirt
-Date: Wed, 20 Nov 2019 06:43:23 -0500
+Subject: [PATCH 05/15] s390x: protvirt: Sync PV state
+Date: Wed, 20 Nov 2019 06:43:24 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120114334.2287-1-frankja@linux.ibm.com>
 References: <20191120114334.2287-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19112011-0008-0000-0000-00000335273E
+x-cbid: 19112011-0008-0000-0000-00000335273F
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112011-0009-0000-0000-00004A544B71
-Message-Id: <20191120114334.2287-5-frankja@linux.ibm.com>
+x-cbparentid: 19112011-0009-0000-0000-00004A544B72
+Message-Id: <20191120114334.2287-6-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-20_03:2019-11-15,2019-11-20 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 suspectscore=1 phishscore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 malwarescore=0 spamscore=0 mlxscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1911200107
+ bulkscore=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=957 suspectscore=1 spamscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911200107
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,88 +95,59 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's sync all the protvirt header changes
+We do not always have the SIE intercept code handy at each place where
+we do emulation. Unfortunately emulation for secure guests often
+differ slightly from normal emulation and we need to make decisions
+based on the protected state of the VCPU.
+
+Let's sync the protected state and make it available.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- linux-headers/asm-s390/kvm.h |  3 ++-
- linux-headers/linux/kvm.h    | 42 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ linux-headers/asm-s390/kvm.h | 1 +
+ target/s390x/cpu.h           | 1 +
+ target/s390x/kvm.c           | 4 ++++
+ 3 files changed, 6 insertions(+)
 
 diff --git a/linux-headers/asm-s390/kvm.h b/linux-headers/asm-s390/kvm.h
-index 03ab5968c7..41976d33f0 100644
+index 41976d33f0..7c46cf6078 100644
 --- a/linux-headers/asm-s390/kvm.h
 +++ b/linux-headers/asm-s390/kvm.h
-@@ -255,7 +255,8 @@ struct kvm_sync_regs {
- 	__u8  reserved[512];	/* for future vector expansion */
- 	__u32 fpc;		/* valid on KVM_SYNC_VRS or KVM_SYNC_FPRS */
- 	__u8 bpbc : 1;		/* bp mode */
--	__u8 reserved2 : 7;
-+	__u8 pv : 1;		/* pv mode */
-+	__u8 reserved2 : 6;
- 	__u8 padding1[51];	/* riccb needs to be 64byte aligned */
- 	__u8 riccb[64];		/* runtime instrumentation controls block */
- 	__u8 padding2[192];	/* sdnx needs to be 256byte aligned */
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 18892d6541..d031051601 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -995,6 +995,8 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_ARM_SVE 170
- #define KVM_CAP_ARM_PTRAUTH_ADDRESS 171
- #define KVM_CAP_ARM_PTRAUTH_GENERIC 172
-+#define KVM_CAP_S390_PROTECTED 180
-+#define KVM_CAP_S390_VCPU_RESETS 181
+@@ -231,6 +231,7 @@ struct kvm_guest_debug_arch {
+ #define KVM_SYNC_GSCB   (1UL << 9)
+ #define KVM_SYNC_BPBC   (1UL << 10)
+ #define KVM_SYNC_ETOKEN (1UL << 11)
++#define KVM_SYNC_PV	(1UL << 12)
+ /* length and alignment of the sdnx as a power of two */
+ #define SDNXC 8
+ #define SDNXL (1UL << SDNXC)
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 17460ed7b3..a787221772 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -116,6 +116,7 @@ struct CPUS390XState {
  
- #ifdef KVM_CAP_IRQ_ROUTING
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
++    bool pv; /* protected virtualization */
  
-@@ -1453,6 +1455,46 @@ struct kvm_enc_region {
- /* Available with KVM_CAP_ARM_SVE */
- #define KVM_ARM_VCPU_FINALIZE	  _IOW(KVMIO,  0xc2, int)
+ #if !defined(CONFIG_USER_ONLY)
+     uint32_t core_id; /* PoP "CPU address", same as cpu_index */
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index c24c869e77..418154ccfe 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -676,6 +676,10 @@ int kvm_arch_get_registers(CPUState *cs)
+         env->etoken_extension = cs->kvm_run->s.regs.etoken_extension;
+     }
  
-+struct kvm_s390_pv_sec_parm {
-+	__u64	origin;
-+	__u64	length;
-+};
++    if (can_sync_regs(cs, KVM_SYNC_PV)) {
++        env->pv = !!cs->kvm_run->s.regs.pv;
++    }
 +
-+struct kvm_s390_pv_unp {
-+	__u64 addr;
-+	__u64 size;
-+	__u64 tweak;
-+};
-+
-+enum pv_cmd_id {
-+	KVM_PV_VM_CREATE,
-+	KVM_PV_VM_DESTROY,
-+	KVM_PV_VM_SET_SEC_PARMS,
-+	KVM_PV_VM_UNPACK,
-+	KVM_PV_VM_VERIFY,
-+	KVM_PV_VM_PERF_CLEAR_RESET,
-+	KVM_PV_VM_UNSHARE,
-+	KVM_PV_VCPU_CREATE,
-+	KVM_PV_VCPU_DESTROY,
-+};
-+
-+struct kvm_pv_cmd {
-+	__u32	cmd;
-+	__u16	rc;
-+	__u16	rrc;
-+	__u64	data;
-+};
-+
-+/* Available with KVM_CAP_S390_PROTECTED */
-+#define KVM_S390_PV_COMMAND		_IOW(KVMIO, 0xc3, struct kvm_pv_cmd)
-+#define KVM_S390_PV_COMMAND_VCPU	_IOW(KVMIO, 0xc4, struct kvm_pv_cmd)
-+
-+#define KVM_S390_VCPU_RESET_NORMAL	0
-+#define KVM_S390_VCPU_RESET_INITIAL	1
-+#define KVM_S390_VCPU_RESET_CLEAR	2
-+
-+#define KVM_S390_VCPU_RESET    _IO(KVMIO,   0xc5)
-+
- /* Secure Encrypted Virtualization command */
- enum sev_cmd_id {
- 	/* Guest initialization commands */
+     /* pfault parameters */
+     if (can_sync_regs(cs, KVM_SYNC_PFAULT)) {
+         env->pfault_token = cs->kvm_run->s.regs.pft;
 -- 
 2.20.1
 
