@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4637E103CED
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 15:05:41 +0100 (CET)
-Received: from localhost ([::1]:58442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05BA103CF2
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 15:07:01 +0100 (CET)
+Received: from localhost ([::1]:58464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXQbz-0007r8-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 09:05:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47266)
+	id 1iXQdI-0001sc-Od
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 09:07:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iXQaD-0006MV-71
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:51 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iXQaF-0006Mk-Jy
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iXQaB-0000rO-8S
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54075
+ (envelope-from <kwolf@redhat.com>) id 1iXQaE-0000sO-Hp
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25123
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXQaB-0000rF-5D
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:47 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXQaE-0000s5-Ec
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 09:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574258626;
+ s=mimecast20190719; t=1574258629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kmSz5I3iQu8nBCc4Tx2gBHa6XFQ3euGJ0RJ0tEksSC0=;
- b=RxEoKVPzn2rUvcfBoOKw7SGBgm34I6XuglbkUnltobK5hLtlcPWrwRbKs3ouT1ZsjGD/SM
- lp3Q6K6dnzOQqrBrk6C919bHatANhxhsy0J0s2H+3n+G4uMNbezNZsVsqevYgSGE++/PRM
- pxJAu9Ia97zP5PErqJt+zxO5BFwq26c=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CvE56udzdiFxJQ+oY8narTyNFfDLyHm1vvqTbdJj7/E=;
+ b=VEai6lSiGZiSfk4dxDUL1YUMQF4vevAGcXq2cEgcvrBVZgRaNRk52KGG+V/GBvsKZCxlTq
+ WYnTlyfSc6ImGjUdnexFC384kAHNMkF6eaaVwyJQATy+OSYEHCZTlpExS12pXG8hScLJ+m
+ o14H5y32SZR8PwXWYAkySgaLZNNvKQA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-5vpkOQnAO9KhpHPSM8_4KQ-1; Wed, 20 Nov 2019 09:03:43 -0500
+ us-mta-328-Y_ReeR6MNnSO7bts3Al6TA-1; Wed, 20 Nov 2019 09:03:46 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8445F8024E1;
- Wed, 20 Nov 2019 14:03:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 211561005502;
+ Wed, 20 Nov 2019 14:03:45 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43A9E60499;
- Wed, 20 Nov 2019 14:03:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D099C60493;
+ Wed, 20 Nov 2019 14:03:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-4.2? 0/6] block: Fix resize (extending) of short overlays
-Date: Wed, 20 Nov 2019 15:03:13 +0100
-Message-Id: <20191120140319.1505-1-kwolf@redhat.com>
+Subject: [PATCH 1/6] block: bdrv_co_do_pwrite_zeroes: 64 bit 'bytes' parameter
+Date: Wed, 20 Nov 2019 15:03:14 +0100
+Message-Id: <20191120140319.1505-2-kwolf@redhat.com>
+In-Reply-To: <20191120140319.1505-1-kwolf@redhat.com>
+References: <20191120140319.1505-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 5vpkOQnAO9KhpHPSM8_4KQ-1
+X-MC-Unique: Y_ReeR6MNnSO7bts3Al6TA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -72,48 +75,50 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Consider the following scenario where the overlay is shorter than its
-backing file:
+bdrv_co_do_pwrite_zeroes() can already cope with maximum request sizes
+by calling the driver in a loop until everything is done. Make the small
+remaining change that is necessary to let it accept a 64 bit byte count.
 
-    base.qcow2:     AAAAAAAA
-    overlay.qcow2:  BBBB
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/io.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-When resizing (extending) overlay.qcow2, the new blocks should not stay
-unallocated and make the additional As from base.qcow2 visible like
-before this series, but zeros should be read.
-
-A similar case happens with the various variants of a commit job when an
-intermediate file is short (- for unallocated):
-
-    base.qcow2:     A-A-AAAA
-    mid.qcow2:      BB-B
-    top.qcow2:      C--C--C-
-
-After commit top.qcow2 to mid.qcow2, the following happens:
-
-    mid.qcow2:      CB-C00C0 (correct result)
-    mid.qcow2:      CB-C--C- (before this fix)
-
-Without the fix, blocks that previously read as zeros on top.qcow2
-suddenly turn into A.
-
-Kevin Wolf (6):
-  block: bdrv_co_do_pwrite_zeroes: 64 bit 'bytes' parameter
-  block: truncate: Don't make backing file data visible
-  iotests: Add qemu_io_log()
-  iotests: Fix timeout in run_job()
-  iotests: Support job-complete in run_job()
-  iotests: Test committing to short backing file
-
- block/io.c                    |  31 ++++++-
- tests/qemu-iotests/274        | 131 +++++++++++++++++++++++++++++
- tests/qemu-iotests/274.out    | 150 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group      |   1 +
- tests/qemu-iotests/iotests.py |  11 ++-
- 5 files changed, 319 insertions(+), 5 deletions(-)
- create mode 100755 tests/qemu-iotests/274
- create mode 100644 tests/qemu-iotests/274.out
-
+diff --git a/block/io.c b/block/io.c
+index f75777f5ea..003f4ea38c 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -42,7 +42,7 @@
+=20
+ static void bdrv_parent_cb_resize(BlockDriverState *bs);
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+-    int64_t offset, int bytes, BdrvRequestFlags flags);
++    int64_t offset, int64_t bytes, BdrvRequestFlags flags);
+=20
+ static void bdrv_parent_drained_begin(BlockDriverState *bs, BdrvChild *ign=
+ore,
+                                       bool ignore_bds_parents)
+@@ -1730,7 +1730,7 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child=
+,
+ }
+=20
+ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+-    int64_t offset, int bytes, BdrvRequestFlags flags)
++    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
+ {
+     BlockDriver *drv =3D bs->drv;
+     QEMUIOVector qiov;
+@@ -1760,7 +1760,7 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(Bloc=
+kDriverState *bs,
+     assert(max_write_zeroes >=3D bs->bl.request_alignment);
+=20
+     while (bytes > 0 && !ret) {
+-        int num =3D bytes;
++        int num =3D MIN(bytes, BDRV_REQUEST_MAX_BYTES);
+=20
+         /* Align request.  Block drivers can expect the "bulk" of the requ=
+est
+          * to be aligned, and that unaligned requests do not cross cluster
 --=20
 2.20.1
 
