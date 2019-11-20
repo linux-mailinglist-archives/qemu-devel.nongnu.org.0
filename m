@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62D31037D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:45:23 +0100 (CET)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B96D1037EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 11:50:35 +0100 (CET)
+Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXNUA-0003AZ-Ji
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:45:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59205)
+	id 1iXNZC-0007sr-5i
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 05:50:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iXNSk-0001tG-TX
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:55 -0500
+ (envelope-from <clg@kaod.org>) id 1iXNUZ-0004Ra-5X
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:45:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iXNSj-0003Zu-Oa
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:54 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45090)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iXNSj-0003Y7-IA
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:43:53 -0500
-Received: by mail-oi1-x242.google.com with SMTP id 14so22028580oir.12
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 02:43:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MpVCv9Ixf6/DfcBFJ+SNRHUVUUgICqu7sWMbrPHm8Ag=;
- b=piXVvh64DuFi5ZFJf2NwQAE/AqhwJbRnyoZsgW+bditlhziDCl2dnXxZSnUzMVE367
- NAzn32Ak58HTs+udYOOShW0uuIIu1qJO3WVVgFL7IwbmrvHC7rL1I1ruqLP4USxHN3KR
- so7IiP7MRaSH9e0WKYmAccSf/bApxr9uAwgcjv9JMaa+tsWlNG/jzm2IwuadQoMqM+8y
- ndjrS/kpOIiaRmlyk1agDBb0n3TvLhBHzC9+UGgg9gkeL4WFRPbJVp1f2t6mfaA0ez9i
- gXx8r8p51Cql9+RBlqoiqllgBywQHVfDhIDGZybkJncuoxxE9kVc3FYRuvgSjNbFj4cw
- frxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MpVCv9Ixf6/DfcBFJ+SNRHUVUUgICqu7sWMbrPHm8Ag=;
- b=E/FP4TN8+mAPAr5wMngCfqj8X8tgxIbvT08fSELQ/7Z47H2Dz59stK2W0Myv2Ocrkj
- uxyOnSVjguYiAc8jVU74n/fq7RzBjg8YnhWm3T3JuYoXLuetndNmn6OYoNeMO/+RVUbW
- hLARNzHYXDQ7cE8RfmjcJ757ZLoEOCq7D2N6LQHV8wp3uWj8DXDIvZ0Pt5L9XN4veLVv
- 8/DGXRX0Gv+cbT/4t8hPcaiypRhcv/c6Eq+UeFrXN69jYNui8pUqTRFpGzL8xMWtmd1Y
- 1MDYtMwHFx3sdG+4LXD7A/K6oEC/ftscqRICrvBpTweQTOJFqoCu+EWAJOgjnTAfBc0s
- Ydiw==
-X-Gm-Message-State: APjAAAWNi5vIvLHO69m9Ux8QoKJJAA8QPGzD1ESUWs3aEG07uKYcK8Yb
- GCFNqwO4yh7Xcj6NKXxe5DC9BH0ztJdsQkpZXOQBlQ==
-X-Google-Smtp-Source: APXvYqzuSDc0HHtWY3DF3dcIbP2LdOYOhWkQqYgURc+NGwFliWi9ucvWfJv8qyuyU7MJze+j0jPtZn305uGerkFhPZ0=
-X-Received: by 2002:aca:a9d4:: with SMTP id s203mr2126160oie.146.1574246632670; 
- Wed, 20 Nov 2019 02:43:52 -0800 (PST)
+ (envelope-from <clg@kaod.org>) id 1iXNUX-0006Oa-0K
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:45:46 -0500
+Received: from 9.mo69.mail-out.ovh.net ([46.105.56.78]:58811)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXNUV-0006FF-Eb
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 05:45:44 -0500
+Received: from player732.ha.ovh.net (unknown [10.108.54.74])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id 4BBE872A7B
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 11:45:36 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player732.ha.ovh.net (Postfix) with ESMTPSA id CF530C38123E;
+ Wed, 20 Nov 2019 10:45:31 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v5 09/23] ppc/xive: Implement the XivePresenter
+ interface
+To: Greg Kurz <groug@kaod.org>
+References: <20191115162436.30548-1-clg@kaod.org>
+ <20191115162436.30548-10-clg@kaod.org> <20191120111852.6bd519c2@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <625d0e83-671a-8d28-0b90-2f004bab30f7@kaod.org>
+Date: Wed, 20 Nov 2019 11:45:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191023173154.30051-1-marcandre.lureau@redhat.com>
- <20191023173154.30051-15-marcandre.lureau@redhat.com>
- <CAFEAcA_2ct-fOfBGgNExjCrjg7WKb-Xp44GghHWXiW2+3HjWbg@mail.gmail.com>
- <CAMxuvayTGh6d5H_JXnKRoG7E1MeY-dsw5XqSeR59fdM7njPVeQ@mail.gmail.com>
-In-Reply-To: <CAMxuvayTGh6d5H_JXnKRoG7E1MeY-dsw5XqSeR59fdM7njPVeQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Nov 2019 10:43:41 +0000
-Message-ID: <CAFEAcA90uuQnWXjq=1RjiU5949vxaSuuy7EPFGjMJjpqmY7wMg@mail.gmail.com>
-Subject: Re: [PATCH v3 14/33] serial-mm: add "regshift" property
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191120111852.6bd519c2@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 1823676377487018835
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehtddgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfedvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.56.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,61 +60,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paul Burton <pburton@wavecomp.com>, Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Nov 2019 at 07:54, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi
->
-> On Mon, Nov 18, 2019 at 6:54 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >
-> > On Wed, 23 Oct 2019 at 18:34, Marc-Andr=C3=A9 Lureau
-> > <marcandre.lureau@redhat.com> wrote:
-> > > +static Property serial_mm_properties[] =3D {
-> > > +    DEFINE_PROP_UINT8("regshift", SerialMM, regshift, 0),
-> >
-> > This could use a comment describing what the property does.
->
-> "Set the register shift value"? Half-kidding, do you have better
-> comment to make? Otherwise, it's probably not worth.
->
-> From what I understand, it's just applying a shift on the IO addr,
-> probably for alignment/access arch-specific reasons. You probably know
-> better than me ;)
+On 20/11/2019 11:18, Greg Kurz wrote:
+> On Fri, 15 Nov 2019 17:24:22 +0100
+> C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>=20
+>> Each XIVE Router model, sPAPR and PowerNV, now implements the 'match_n=
+vt'
+>> handler of the XivePresenter QOM interface. This is simply moving code
+>> and taking into account the new API.
+>>
+>> To be noted that the xive_router_get_tctx() helper is not used anymore
+>> when doing CAM matching and will be removed later on after other chang=
+es.
+>>
+>> The XIVE presenter model is still too simple for the PowerNV machine
+>> and the CAM matching algo is not correct on multichip system. Subseque=
+nt
+>> patches will introduce more changes to scan all chips of the system.
+>>
+>> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+>> ---
+>>  hw/intc/pnv_xive.c   | 41 +++++++++++++++++++++++++++++++++++
+>>  hw/intc/spapr_xive.c | 49 ++++++++++++++++++++++++++++++++++++++++++
+>>  hw/intc/xive.c       | 51 ++++++-------------------------------------=
+-
+>>  3 files changed, 97 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+>> index a394331ddd6a..087cbfbaad48 100644
+>> --- a/hw/intc/pnv_xive.c
+>> +++ b/hw/intc/pnv_xive.c
+>> @@ -372,6 +372,45 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uin=
+t8_t blk, uint32_t idx,
+>>      return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
+>>  }
+>> =20
+>> +static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+>> +                              uint8_t nvt_blk, uint32_t nvt_idx,
+>> +                              bool cam_ignore, uint8_t priority,
+>> +                              uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+>> +{
+>> +    CPUState *cs;
+>> +    int count =3D 0;
+>> +
+>> +    CPU_FOREACH(cs) {
+>> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>> +        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+>> +        int ring;
+>> +
+>=20
+> I guess it's ok not to check tctx here because the powernv machine type
+> doesn't support cpu hotplug.
 
-What this is doing is defining the spacing between adjacent
-registers. Some MMIO-based 16550 implementations have the registers
-at byte offsets from each other (that's regshift 0). Some have
-them at halfword offsets (regshift 1); and some use 4-byte
-offsets (regshift 2). Something like this will do:
+patch 10 and patch 11 add some more changes in that area.
 
- /*
-  * Set the spacing between adjacent memory-mapped UART registers.
-  * Each register will be at (1 << regshift) bytes after the previous one.
-  */
+C.
 
-(basically the comment bridges the gap between what I know as
-somebody trying to use the 16550 model, ie the behaviour of
-the hardware I'm trying to model, and what I need to do to configure
-the QEMU code to give that behaviour.)
+>=20
+> LGTM despite the non-strict CamelCase type :)
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+>> +        /*
+>> +         * Check the thread context CAM lines and record matches.
+>> +         */
+>> +        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_bl=
+k, nvt_idx,
+>> +                                         cam_ignore, logic_serv);
+>> +        /*
+>> +         * Save the context and follow on to catch duplicates, that w=
+e
+>> +         * don't support yet.
+>> +         */
+>> +        if (ring !=3D -1) {
+>> +            if (match->tctx) {
+>> +                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a=
+ "
+>> +                              "thread context NVT %x/%x\n",
+>> +                              nvt_blk, nvt_idx);
+>> +                return -1;
+>> +            }
+>> +
+>> +            match->ring =3D ring;
+>> +            match->tctx =3D tctx;
+>> +            count++;
+>> +        }
+>> +    }
+>> +
+>> +    return count;
+>> +}
+>> +
+>>  static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+>>  {
+>>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>> @@ -1810,6 +1849,7 @@ static void pnv_xive_class_init(ObjectClass *kla=
+ss, void *data)
+>>      PnvXScomInterfaceClass *xdc =3D PNV_XSCOM_INTERFACE_CLASS(klass);
+>>      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+>>      XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
+>> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+>> =20
+>>      xdc->dt_xscom =3D pnv_xive_dt_xscom;
+>> =20
+>> @@ -1825,6 +1865,7 @@ static void pnv_xive_class_init(ObjectClass *kla=
+ss, void *data)
+>>      xrc->get_tctx =3D pnv_xive_get_tctx;
+>> =20
+>>      xnc->notify =3D pnv_xive_notify;
+>> +    xpc->match_nvt  =3D pnv_xive_match_nvt;
+>>  };
+>> =20
+>>  static const TypeInfo pnv_xive_info =3D {
+>> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+>> index 729246e906c9..bb3b2dfdb77f 100644
+>> --- a/hw/intc/spapr_xive.c
+>> +++ b/hw/intc/spapr_xive.c
+>> @@ -405,6 +405,52 @@ static XiveTCTX *spapr_xive_get_tctx(XiveRouter *=
+xrtr, CPUState *cs)
+>>      return spapr_cpu_state(cpu)->tctx;
+>>  }
+>> =20
+>> +static int spapr_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+>> +                                uint8_t nvt_blk, uint32_t nvt_idx,
+>> +                                bool cam_ignore, uint8_t priority,
+>> +                                uint32_t logic_serv, XiveTCTXMatch *m=
+atch)
+>> +{
+>> +    CPUState *cs;
+>> +    int count =3D 0;
+>> +
+>> +    CPU_FOREACH(cs) {
+>> +        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>> +        XiveTCTX *tctx =3D spapr_cpu_state(cpu)->tctx;
+>> +        int ring;
+>> +
+>> +        /*
+>> +         * Skip partially initialized vCPUs. This can happen when
+>> +         * vCPUs are hotplugged.
+>> +         */
+>> +        if (!tctx) {
+>> +            continue;
+>> +        }
+>> +
+>> +        /*
+>> +         * Check the thread context CAM lines and record matches.
+>> +         */
+>> +        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_bl=
+k, nvt_idx,
+>> +                                         cam_ignore, logic_serv);
+>> +        /*
+>> +         * Save the matching thread interrupt context and follow on t=
+o
+>> +         * check for duplicates which are invalid.
+>> +         */
+>> +        if (ring !=3D -1) {
+>> +            if (match->tctx) {
+>> +                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a=
+ thread "
+>> +                              "context NVT %x/%x\n", nvt_blk, nvt_idx=
+);
+>> +                return -1;
+>> +            }
+>> +
+>> +            match->ring =3D ring;
+>> +            match->tctx =3D tctx;
+>> +            count++;
+>> +        }
+>> +    }
+>> +
+>> +    return count;
+>> +}
+>> +
+>>  static const VMStateDescription vmstate_spapr_xive_end =3D {
+>>      .name =3D TYPE_SPAPR_XIVE "/end",
+>>      .version_id =3D 1,
+>> @@ -684,6 +730,7 @@ static void spapr_xive_class_init(ObjectClass *kla=
+ss, void *data)
+>>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>>      XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+>>      SpaprInterruptControllerClass *sicc =3D SPAPR_INTC_CLASS(klass);
+>> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
+>> =20
+>>      dc->desc    =3D "sPAPR XIVE Interrupt Controller";
+>>      dc->props   =3D spapr_xive_properties;
+>> @@ -708,6 +755,8 @@ static void spapr_xive_class_init(ObjectClass *kla=
+ss, void *data)
+>>      sicc->print_info =3D spapr_xive_print_info;
+>>      sicc->dt =3D spapr_xive_dt;
+>>      sicc->post_load =3D spapr_xive_post_load;
+>> +
+>> +    xpc->match_nvt  =3D spapr_xive_match_nvt;
+>>  }
+>> =20
+>>  static const TypeInfo spapr_xive_info =3D {
+>> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+>> index 344bb3f3bc4b..da6196ca958f 100644
+>> --- a/hw/intc/xive.c
+>> +++ b/hw/intc/xive.c
+>> @@ -1428,51 +1428,14 @@ static bool xive_presenter_match(XiveRouter *x=
+rtr, uint8_t format,
+>>                                   bool cam_ignore, uint8_t priority,
+>>                                   uint32_t logic_serv, XiveTCTXMatch *=
+match)
+>>  {
+>> -    CPUState *cs;
+>> +    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
+>> +    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+>> +    int count;
+>> =20
+>> -    /*
+>> -     * TODO (PowerNV): handle chip_id overwrite of block field for
+>> -     * hardwired CAM compares
+>> -     */
+>> -
+>> -    CPU_FOREACH(cs) {
+>> -        XiveTCTX *tctx =3D xive_router_get_tctx(xrtr, cs);
+>> -        int ring;
+>> -
+>> -        /*
+>> -         * Skip partially initialized vCPUs. This can happen when
+>> -         * vCPUs are hotplugged.
+>> -         */
+>> -        if (!tctx) {
+>> -            continue;
+>> -        }
+>> -
+>> -        /*
+>> -         * HW checks that the CPU is enabled in the Physical Thread
+>> -         * Enable Register (PTER).
+>> -         */
+>> -
+>> -        /*
+>> -         * Check the thread context CAM lines and record matches. We
+>> -         * will handle CPU exception delivery later
+>> -         */
+>> -        ring =3D xive_presenter_tctx_match(XIVE_PRESENTER(xrtr), tctx=
+, format,
+>> -                                         nvt_blk, nvt_idx,
+>> -                                         cam_ignore, logic_serv);
+>> -        /*
+>> -         * Save the context and follow on to catch duplicates, that w=
+e
+>> -         * don't support yet.
+>> -         */
+>> -        if (ring !=3D -1) {
+>> -            if (match->tctx) {
+>> -                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a=
+ thread "
+>> -                              "context NVT %x/%x\n", nvt_blk, nvt_idx=
+);
+>> -                return false;
+>> -            }
+>> -
+>> -            match->ring =3D ring;
+>> -            match->tctx =3D tctx;
+>> -        }
+>> +    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_igno=
+re,
+>> +                           priority, logic_serv, match);
+>> +    if (count < 0) {
+>> +        return false;
+>>      }
+>> =20
+>>      if (!match->tctx) {
+>=20
 
-thanks
--- PMM
 
