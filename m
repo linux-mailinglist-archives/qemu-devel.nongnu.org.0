@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833A1104592
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 22:15:31 +0100 (CET)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30EAA104594
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 22:17:04 +0100 (CET)
+Received: from localhost ([::1]:34506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXXJy-0003fa-3z
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 16:15:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36837)
+	id 1iXXLT-0004mG-AW
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 16:17:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXXIU-0003D6-T8
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:14:00 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1iXXK3-00047a-I0
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:15:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXXIT-0003VN-Fv
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:13:58 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43887)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iXXIT-0003VA-Ao
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:13:57 -0500
-Received: by mail-oi1-x241.google.com with SMTP id l20so1120591oie.10
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 13:13:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GICfgc/FTnY8cYs5PHBvsDmSnnixQyrO63BYZtPps9k=;
- b=nqo01E1X5dF4r4TuxaxVnn2DmWhmnJG3Maw1iewx8aUqmpchVMVef/K2vOcx+6llce
- zO4I/ah2kak+rA6d46Q6JALgAqFH7EQXY27hSvKtSHZaAlatVejxT7aNsbnHRVeugdCX
- XHeb4IWyO6i3FZ2knYCv7kXeN5v6QuDtit8q0AraGm69/NgXy69EWnIE6v/ruaz/2hQS
- Dya3X4OjWslzy33VktHfGPNmBHYbxIoFiFsJ4ts9SLTf6X4cEhd5A2zHt8DsWbFXgu9Q
- Q/hu+c121HwFfa/WHq5bFYBQcK/SelDlp0FwKO0ojYuZ9vdrfYxOYHWIsElwqO4BMvrH
- 5iLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GICfgc/FTnY8cYs5PHBvsDmSnnixQyrO63BYZtPps9k=;
- b=GFpIxP9BSorpBBt+uI93uGGfYYd0bRJRe9ZZ+oDLIZPla9rVcZNRECgBqkacKtLRhw
- M5RhA8IZWgnRe8eYIEy8qOojap0NGwnd1zi3/i3PJ4kwBEHizvD2rQiGog1dZdp4ov29
- vxN1haOToQNzgu6V/ElS54nIXOuNJx7nTs28OvH0wTsnEB2m0jlq1kFEgFFZn0UouER4
- SKf1ZZiWeKZ7iqSObp/Ell+EybU2+3A9xEIHn92WQi0I/ymjBuw3tYQfo9VXK7tde8jo
- rCzVo4gBhpF3oRVi4qzM/z2OwSDor8wn1PE+tgnzqggs4XNXe+Cl5dMGf+5pY6uOzX3M
- mmSg==
-X-Gm-Message-State: APjAAAXahp+5QI/lSo2O8AG6hGdsBT8XvlU/PbaHUR5ydosKmBpmdiq0
- iZp3Utg/banKmzPVA+5jw5n5xv5vSj8yfJC48fw=
-X-Google-Smtp-Source: APXvYqzZxdqI/Vvb9k7S5p/1PK039s4SEoxxPrZaj5kazOBwJhiPB9l19+vEptQYFYZRvFXCbQdm7tnazp7CK44KB18=
-X-Received: by 2002:aca:d17:: with SMTP id 23mr4697806oin.136.1574284436433;
- Wed, 20 Nov 2019 13:13:56 -0800 (PST)
+ (envelope-from <ehabkost@redhat.com>) id 1iXXK0-0004UC-40
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:15:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50431
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iXXJz-0004TX-VN
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 16:15:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574284530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sCHylDoTOCDh2/74EP4GlrAAibOkWr9Em0viVdsUg2M=;
+ b=djnHHZd7pMwwC3F+TA2ceo3kn9dCDrsazSLOpQefNyS+5CpKfj4nkRnGvb8oZk9D+kKOrx
+ PsAqB224oE57PaAknKbUe7jCGA/rGLSHg5x8n905HMl8dEqvtaWoLSMlUloUgK+CMGbvDv
+ RyYyHflbsNExT7BW+XPcF2InTcRD2Sk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-dA8tHQCBM8eZvzeNEp6rFA-1; Wed, 20 Nov 2019 16:15:29 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FDFB10509F7
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 21:15:28 +0000 (UTC)
+Received: from localhost (ovpn-116-6.gru2.redhat.com [10.97.116.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0CA85F761;
+ Wed, 20 Nov 2019 21:15:27 +0000 (UTC)
+Date: Wed, 20 Nov 2019 18:15:26 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] target/i386: add VMX features to named CPU models
+Message-ID: <20191120211526.GW3812@habkost.net>
+References: <20191120173753.8894-1-pbonzini@redhat.com>
+ <20191120184533.GT3812@habkost.net>
+ <a86d16e7-c738-9b4b-e29a-518d94f174e0@redhat.com>
 MIME-Version: 1.0
-References: <20191120145724.GA15677@ls3530.fritz.box>
-In-Reply-To: <20191120145724.GA15677@ls3530.fritz.box>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 20 Nov 2019 22:13:45 +0100
-Message-ID: <CAL1e-=jqoV0v0NdpeL3NUTOfURNJ9qmD6FcCjV30pXsdBeCD=Q@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-user/strace: Improve output of various syscalls
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <a86d16e7-c738-9b4b-e29a-518d94f174e0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: dA8tHQCBM8eZvzeNEp6rFA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,182 +73,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Jiri Denemark <jdenemar@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 20, 2019 at 3:58 PM Helge Deller <deller@gmx.de> wrote:
->
-> Improve strace output of various syscalls which either have none
-> or only int-type parameters.
->
-> Signed-off-by: Helge Deller <deller@gmx.de>
->
+On Wed, Nov 20, 2019 at 09:49:35PM +0100, Paolo Bonzini wrote:
+> On 20/11/19 19:45, Eduardo Habkost wrote:
+> > On Wed, Nov 20, 2019 at 06:37:53PM +0100, Paolo Bonzini wrote:
+> >> This allows using "-cpu Haswell,+vmx", which we did not really want to
+> >> support in QEMU but was produced by Libvirt when using the "host-model=
+"
+> >> CPU model.
+> >=20
+> > I understand guest ABI compatibility is not a concern, but I
+> > don't remember how we guarantee it won't break by accident if
+> > somebody tries to live migrate a VM.
+>=20
+> I'm not sure I understand the question, but I can answer the second part:
+>=20
+> > What is supposed to happen today if trying to live migrate a VM
+> > using "-cpu Haswell,+vmx"?
+>=20
+> Before 4.2: same guest ABI compatibility as "-cpu host".
 
-It would be nice if you included a history of the patch (after the line
-"---", as it is customary for single patch submission). You changed
-only ioctl() in v2, right?
+Oh, I forgot that FEAT_KVM_* is recent and is not in QEMU 4.1.
+If host-independent guest ABI was never guaranteed before, we're
+not making it worse.
 
-I missed your v2, but responded with several hints to v1.
+For how long was this broken?  Jiri, was libvirt including +vmx
+in mode=3Dhost-model for a long time, or is this something recent?
 
-Yours,
-Aleksandar
 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 1de4319dcf..add53b1734 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -26,7 +26,7 @@
->  { TARGET_NR_afs_syscall, "afs_syscall" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_alarm
-> -{ TARGET_NR_alarm, "alarm" , NULL, NULL, NULL },
-> +{ TARGET_NR_alarm, "alarm" , "%s(%d)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_aplib
->  { TARGET_NR_aplib, "aplib" , NULL, NULL, NULL },
-> @@ -116,13 +116,13 @@
->  { TARGET_NR_dipc, "dipc" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_dup
-> -{ TARGET_NR_dup, "dup" , NULL, NULL, NULL },
-> +{ TARGET_NR_dup, "dup" , "%s(%d)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_dup2
-> -{ TARGET_NR_dup2, "dup2" , NULL, NULL, NULL },
-> +{ TARGET_NR_dup2, "dup2" , "%s(%d,%d)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_dup3
-> -{ TARGET_NR_dup3, "dup3" , NULL, NULL, NULL },
-> +{ TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_epoll_create
->  { TARGET_NR_epoll_create, "epoll_create" , NULL, NULL, NULL },
-> @@ -191,7 +191,7 @@
->  { TARGET_NR_fanotify_mark, "fanotify_mark" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_fchdir
-> -{ TARGET_NR_fchdir, "fchdir" , NULL, NULL, NULL },
-> +{ TARGET_NR_fchdir, "fchdir" , "%s(%d)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_fchmod
->  { TARGET_NR_fchmod, "fchmod" , "%s(%d,%#o)", NULL, NULL },
-> @@ -287,7 +287,7 @@
->  { TARGET_NR_getdtablesize, "getdtablesize" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getegid
-> -{ TARGET_NR_getegid, "getegid" , NULL, NULL, NULL },
-> +{ TARGET_NR_getegid, "getegid" , "%s()", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getegid32
->  { TARGET_NR_getegid32, "getegid32" , NULL, NULL, NULL },
-> @@ -299,7 +299,7 @@
->  { TARGET_NR_geteuid32, "geteuid32" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getgid
-> -{ TARGET_NR_getgid, "getgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_getgid, "getgid" , "%s()", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getgid32
->  { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
-> @@ -329,10 +329,10 @@
->  { TARGET_NR_getpeername, "getpeername" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getpgid
-> -{ TARGET_NR_getpgid, "getpgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_getpgid, "getpgid" , "%s(%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getpgrp
-> -{ TARGET_NR_getpgrp, "getpgrp" , NULL, NULL, NULL },
-> +{ TARGET_NR_getpgrp, "getpgrp" , "%s()", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_getpid
->  { TARGET_NR_getpid, "getpid" , "%s()", NULL, NULL },
-> @@ -432,7 +432,7 @@
->  { TARGET_NR_io_cancel, "io_cancel" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_ioctl
-> -{ TARGET_NR_ioctl, "ioctl" , NULL, NULL, NULL },
-> +{ TARGET_NR_ioctl, "ioctl" , "%s(%d,%#x,%#x)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_io_destroy
->  { TARGET_NR_io_destroy, "io_destroy" , NULL, NULL, NULL },
-> @@ -1257,22 +1257,22 @@
->  { TARGET_NR_setdomainname, "setdomainname" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setfsgid
-> -{ TARGET_NR_setfsgid, "setfsgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setfsgid, "setfsgid" , "%s(%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setfsgid32
-> -{ TARGET_NR_setfsgid32, "setfsgid32" , NULL, NULL, NULL },
-> +{ TARGET_NR_setfsgid32, "setfsgid32" , "%s(%u)" , NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setfsuid
-> -{ TARGET_NR_setfsuid, "setfsuid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setfsuid, "setfsuid" , "%s(%u)" , NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setfsuid32
->  { TARGET_NR_setfsuid32, "setfsuid32" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setgid
-> -{ TARGET_NR_setgid, "setgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setgid, "setgid" , "%s(%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setgid32
-> -{ TARGET_NR_setgid32, "setgid32" , NULL, NULL, NULL },
-> +{ TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setgroups
->  { TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
-> @@ -1296,7 +1296,7 @@
->  { TARGET_NR_setns, "setns" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setpgid
-> -{ TARGET_NR_setpgid, "setpgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setpgid, "setpgid" , "%s(%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setpgrp
->  { TARGET_NR_setpgrp, "setpgrp" , NULL, NULL, NULL },
-> @@ -1311,22 +1311,22 @@
->  { TARGET_NR_setregid32, "setregid32" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setresgid
-> -{ TARGET_NR_setresgid, "setresgid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setresgid, "setresgid" , "%s(%u,%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setresgid32
->  { TARGET_NR_setresgid32, "setresgid32" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setresuid
-> -{ TARGET_NR_setresuid, "setresuid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setresuid, "setresuid" , "%s(%u,%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setresuid32
-> -{ TARGET_NR_setresuid32, "setresuid32" , NULL, NULL, NULL },
-> +{ TARGET_NR_setresuid32, "setresuid32" , "%s(%u,%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setreuid
-> -{ TARGET_NR_setreuid, "setreuid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setreuid, "setreuid" , "%s(%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setreuid32
-> -{ TARGET_NR_setreuid32, "setreuid32" , NULL, NULL, NULL },
-> +{ TARGET_NR_setreuid32, "setreuid32" , "%s(%u,%u)", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setrlimit
->  { TARGET_NR_setrlimit, "setrlimit" , NULL, NULL, NULL },
-> @@ -1335,7 +1335,7 @@
->  { TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setsid
-> -{ TARGET_NR_setsid, "setsid" , NULL, NULL, NULL },
-> +{ TARGET_NR_setsid, "setsid" , "%s()", NULL, NULL },
->  #endif
->  #ifdef TARGET_NR_setsockopt
->  { TARGET_NR_setsockopt, "setsockopt" , NULL, NULL, NULL },
->
+>=20
+> 4.2+: ABI compatibility is preserved, because each named CPU model can
+> be given a precise set of features that are matched against the host
+> (and are subject to check/enforce).
+
+Good.
+
+>=20
+> 4.1->4.2: the ABI *should* be preserved if you're running "-cpu
+> SandyBridge,+vmx" on an actual Sandy Bridge, but some VMX features will
+> disappear after live migration if e.g. you're running "-cpu
+> SandyBridge,+vmx" on a Haswell.  Host-model should be fine though.
+
+That was the case I was worried about.
+
+So, host-model should be fine in theory, because the CPU model
+chosen by libvirt is supposed to match the host CPU.  Good.
+
+All the other cases already had an unpredictable host-dependent
+guest ABI, and can't be fixed.  Bad, but I don't think we can do
+anything about it.
+
+So:
+
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+
+
+It would be nice if we at least printed a warning when using +vmx
+with pc-*-4.1 and older, so people know their configuration is
+likely to be broken.
+
+--=20
+Eduardo
+
 
