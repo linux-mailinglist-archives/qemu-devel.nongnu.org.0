@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769EF1039C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:14:13 +0100 (CET)
-Received: from localhost ([::1]:57098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC88C1039DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:16:36 +0100 (CET)
+Received: from localhost ([::1]:57134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOs8-0002M5-Hf
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:14:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48589)
+	id 1iXOuR-0004cD-Rf
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:16:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iXOqN-00011c-Em
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:12:24 -0500
+ (envelope-from <tfiga@chromium.org>) id 1iXOra-0002QG-SG
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:13:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iXOqK-0002Nc-Pf
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:12:22 -0500
-Received: from mail-eopbgr70108.outbound.protection.outlook.com
- ([40.107.7.108]:23878 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iXOqK-0002L5-IM
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:12:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0ActY/YxILrhSqEa09Gz05b+Pey9/pZdweS6E/+vcnRPmMV3mB9FhmBhcVwIBgTGx2n0akM5urEQBzVtovOgwaSXlMEjN+d2zVbmLp6zjKEXNvzjd/IU5RQhGTm9gqCwuZURFZTuxOarTd2EhdVgXmYoUjZCDSXdXMnMclDQqgLhnd5LVyKlbG6wiTiMxVs4+2EdYkdTj4rIRaAhh1zkcYwW02A4p463E3QkJNdsxeFO/OmGgUDB5CejknqQp8NIfHyqKWNKX0IfcNTuTN9xnIq3X/LrmmH4ehTqy7Y7WTXuhlOYImaZEsWPD1jf55w7bj/I7pcLfXF2Xrx1t3wrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9p4svWRarmcs6eugkJIcCNqQPTxoIl42FLMn0JIDWZE=;
- b=lG4hHNcNvOzlv0bvm5MOlkVVT2INJqtroesN94aBBcX/0Xm9zWnWPVfwZoaJVT5WgDpDAsmxCHWK7j5gVGOTV5cfl3bCsiLlQJ2A8g7Sj7JrsVlBZ159C8bkXPdd7IwCcz43I9u503e3MoPmTDV9XupYfyijCNT1mxQ+TefrkrkgNmNB+Y7J4bzEUdXfzgcdy29sl+Lg50YL5Q6t9Q3vot5uMuPfUyuQBUsA7/NW02Rv3RhWpkp6cYXB8iJknttlMuZuYdFoppxoLXpU4mxpSc57c4i+DBkkLTuRmppvxfxk1/n3xG3E+pNimzAqi66qGTwxW2SL5Tk4+MEdGbbChw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9p4svWRarmcs6eugkJIcCNqQPTxoIl42FLMn0JIDWZE=;
- b=RYtWiIltbxztigyAGZ0UrrxQ0jsClndtVFlYf6md3fcyR87+XpmqbHftRUd7vh7Pibk9iSAy6BNdVW8gRx+MwnKfezPzyEXO++ttGdw2HwUU3OLscagQA6RQyaCFpgMRA1eAYhrQ3HbJb7f4yfdoHfjYWT5LuUYYoKlLQwtmb80=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4674.eurprd08.prod.outlook.com (10.255.97.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.17; Wed, 20 Nov 2019 12:12:17 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2451.031; Wed, 20 Nov 2019
- 12:12:17 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC v5 000/126] error: auto propagated local_err
-Thread-Topic: [RFC v5 000/126] error: auto propagated local_err
-Thread-Index: AQHVgE3dlsNxBDOk202dFu/C5nZLkaeBkkIAgBJ9GACAAB0bAIAACm2A
-Date: Wed, 20 Nov 2019 12:12:17 +0000
-Message-ID: <4a75a927-323b-0d33-8236-224fe94cf26e@virtuozzo.com>
-References: <20191011160552.22907-1-vsementsov@virtuozzo.com>
- <d1756cd0-8ad7-1e6c-b127-59ed24c5e512@virtuozzo.com>
- <538354c8-7ba9-8b1c-476e-5733c418207b@virtuozzo.com>
- <20191120110614.11049f9f@bahia.lan>
-In-Reply-To: <20191120110614.11049f9f@bahia.lan>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0030.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::19)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191120151215544
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 02dcaf8f-68b3-472e-4642-08d76db2e303
-x-ms-traffictypediagnostic: AM6PR08MB4674:
-x-microsoft-antispam-prvs: <AM6PR08MB46746C4A53E1AA1AABE19B5EC14F0@AM6PR08MB4674.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 02272225C5
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(39850400004)(396003)(366004)(346002)(136003)(51444003)(189003)(199004)(14454004)(66066001)(476003)(229853002)(316002)(99286004)(486006)(11346002)(446003)(2616005)(186003)(26005)(102836004)(31686004)(6246003)(8936002)(31696002)(4326008)(6436002)(6486002)(6506007)(81166006)(81156014)(8676002)(386003)(71190400001)(66556008)(66476007)(36756003)(66946007)(66446008)(64756008)(6512007)(5660300002)(25786009)(256004)(7736002)(478600001)(86362001)(76176011)(2906002)(6916009)(52116002)(3846002)(6116002)(305945005)(71200400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4674;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vuOazF+xsyr4Xb2RyYhAAx5nhS/cQkEBiaDxpdKzxJGZGLrrTKx5vmtfdcIcsGX/kEElQDEuNLePPglTM43yzd5zIIuQhS8hz0eI8eJgQo7s7tGcHph/WtSBXWKgOWmocw+sEk4pmdl6862Dj5OEQRC2aRo2xr70sRbDj/R2oGyPwehuKlDINUcgs8bVbIxrfmMeYv8pelJC11c3GhRfWYyQSMIyHogASIhk61zL/n84Jll55pFy6K16wtilS1fYZFw+MD/JEioB6U2UmQIve8rLck+qSeOiUfqDnUMblkOJ+v1/W1MDudArAIdzpDiPiTJ4mnMo50p4QFmfw2Yd9VEPckdJNUEA8qu5H/DltOFiEupCxMycYSRduqQMFobOxOV574mm85eauIE/aNsdKUv2W6L3eIi/7rAHy11Y9luEjRwHEbwmU/UWZF87bFCp
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <84B6B32ED1F7D94F8B0A68F8ECB78C9F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <tfiga@chromium.org>) id 1iXOrZ-00048z-0f
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:13:38 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:33455)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tfiga@chromium.org>) id 1iXOrY-00048E-QD
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:13:36 -0500
+Received: by mail-ed1-x536.google.com with SMTP id a24so20085148edt.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 04:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mGcmhF1AeGlRclaIsN+R7xnqH8qeuJyrlBhHK9eKZzE=;
+ b=kAUV3zjbKnavIr46v61GGUitObrj1k4aJWZWZL08fkeRNDfTi4HxKZ6wOpMLrmUehd
+ LZGpxuQx6PaBWD4GLhQ4UsPy4/HULeEbqBj+rmZN48r5ucBqQ2BVPRO7We5q8uAFhsnv
+ 6ao+GGaWWzRmK1un6Cw+h4cvU2UpePizNCNMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mGcmhF1AeGlRclaIsN+R7xnqH8qeuJyrlBhHK9eKZzE=;
+ b=N2eTpoBkVvrD0GJezYKvMoxW6isubu5fqEQ9A49DiGfHtGqBMgIuG/zZ9qBNafCjSO
+ aaddykXfmT+Bekc+uLmrV+8x/C9JiE1+Fm62gJ7ENOHEunJIoN32DYA2BiXW15cmktYg
+ 9nLjT5GinPi2VKECaAermY7HIaSfgXbDtUt7BfifV7P8rCFmKtl8l8JwPDeZ3sqnBVkX
+ /LWlWauNHGhdcZY8uxkKVP55seXtou7tv+MvQbFvzhJFt1hej6xrNjnIR7+vA4NaQpUO
+ 7pLudVyZ3ZI8MK/OdlvqzEg/6pR+QpnXbYQTXbOycBRZ3LgGjhBSG4VJRW8M2H+NVQu3
+ aZlA==
+X-Gm-Message-State: APjAAAWuuRRula+nKXWYMC7VG1FjzCzAQln7F2mcf9N1SuJG6DSOqV4t
+ kHRAFw9ZUyCNFjNXPduzyWNc3Ky5rVHW8Q==
+X-Google-Smtp-Source: APXvYqxe+GTKCYRCVgkfb+U8pT8sPN7PJImz6UDRclR/h4jaCyCrcKI2TLZkYAMXl5h45Y8lk9FicQ==
+X-Received: by 2002:a17:906:c57:: with SMTP id
+ t23mr5088011ejf.240.1574252015671; 
+ Wed, 20 Nov 2019 04:13:35 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
+ [209.85.221.53])
+ by smtp.gmail.com with ESMTPSA id x31sm1366345ede.0.2019.11.20.04.13.32
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Nov 2019 04:13:35 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id t1so27866451wrv.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 04:13:32 -0800 (PST)
+X-Received: by 2002:a05:6000:1206:: with SMTP id
+ e6mr2899864wrx.113.1574252011420; 
+ Wed, 20 Nov 2019 04:13:31 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02dcaf8f-68b3-472e-4642-08d76db2e303
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2019 12:12:17.8142 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Q25XVLCyPi0rd4hLL+CeVqYucw8G4xdzRTnHmC3QxkUAeJiD/R2p9RMD96aoEjx7Ob5wNdoivD6gmaVtQMzA2yLmUnzNoeaM8Hx6s5xffwQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4674
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.108
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
+ <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org>
+ <72712fe048af1489368f7416faa92c45@hostfission.com>
+In-Reply-To: <72712fe048af1489368f7416faa92c45@hostfission.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 20 Nov 2019 21:13:18 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+Message-ID: <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To: Geoffrey McRae <geoff@hostfission.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::536
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,35 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Alex Lau <alexlau@chromium.org>,
+ Alexandre Courbot <acourbot@chromium.org>, virtio-dev@lists.oasis-open.org,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Keiichi Watanabe <keiichiw@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>, David Stevens <stevensd@chromium.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjAuMTEuMjAxOSAxNDozNCwgR3JlZyBLdXJ6IHdyb3RlOg0KPiBPbiBXZWQsIDIwIE5vdiAyMDE5
-IDA5OjUwOjU0ICswMDAwDQo+IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXk8dnNlbWVudHNv
-dkB2aXJ0dW96em8uY29tPiAgd3JvdGU6DQo+IA0KPj4gT2theS4uLg0KPj4NCj4+IEkgdGhpbmsg
-dGhhdDoNCj4+DQo+PiAxLiBBIGxvdCBvZiBlZmZvcnRzIChub3Qgb25seSBteSwgSSB0aGluayBy
-ZXZpZXdpbmcgaXMgYWxyZWFkeSBleGNlZWRlZCBnZW5lcmF0aW9uIGVmZm9ydHMpDQo+PiAgICAg
-YXJlIG1hZGUsIGl0IHdvdWxkIGJlIHNhZCB0byBsb3NlIHRoZW0uDQo+Pg0KPj4gMi4gSXQncyBz
-YWZlIGVub3VnaCB0byBhcHBseSBvbmx5IHBhcnQgb2YgZ2VuZXJhdGVkIHBhdGNoZXM6IHdlIGp1
-c3QgZml4IGVycm9yX2Fib3J0L2Vycm9yX2ZhdGFsDQo+PiAgICAgaW4gbW9yZSBwb3B1bGFyIHN1
-YnN5c3RlbXMsIHdoYXQncyB3cm9uZyB3aXRoIHRoYXQ/IFdoeSBub3QgdG8gY292ZXIgODAlIGNh
-c2VzIGJ5IDIwJSBlZmZvcnRzPw0KPj4NCj4+IDMuIEl0J3Mgb2J2aW91c2x5IGltcG9zc2libGUg
-dG8gbWVyZ2UgdGhlIHdob2xlIHNlcmllcy4gQSBsb3Qgb2YgdGltZSBwYXNzZWQsIHNlcmllcyBk
-aXZlcmdlcy4NCj4+DQo+Pg0KPj4gU28gSSBwcm9wb3NlIHRoZSBmb2xsb3dpbmcgcGxhbjoNCj4+
-DQo+PiAxLiBJIHJlc2VuZCBzbWFsbCBzZXBhcmF0ZSBzZXJpZXMgb2YgcHJlcGFyYXRpb24gcGF0
-Y2hlcyBwZXIgbWFpbnRhaW5lci4gVGhleSBhcmUgZ29vZCBhbnl3YXkuDQo+Pg0KPj4gMi4gV2Ug
-Y29tbWl0IHBhdGNoIHdpdGggbWFjcm8gKGNoYW5naW5nIE1VU1QgdG8gU0hPVUxEIGluIGRvY3Vt
-ZW50YXRpb24pIGFuZCBjb2NjaW5lbGxlIHNjcmlwdC4NCj4+ICAgICAgKG9yIHRoYXQgbWF5IGJl
-IGNvbWJpbmVkIHdpdGggdGhlIGZpcnN0IHNlcmllcyBmcm9tIFszLl0pDQo+Pg0KPj4gMy4gV2hl
-biBvbmUgb2YgcHJlcGFyYXRpb25zIHRha2VuIHRvIG1haW50YWluZXIncyB0cmVlLCBJIHNlbmQg
-Z2VuZXJhdGVkIHBhdGNoZXMgZm9yDQo+PiAgICAgIGl0cyBtYWludGFpbmVyLg0KPj4NCj4+DQo+
-PiBJZiBubyBvYmplY3Rpb25zIGR1cmluZyBhIHdlZWssIEknbGwgc3RhcnQgdGhhdCBwbGFuLCBo
-b3BlIHNvbWVvbmUgd2lsbCBzdXBwb3J0IGl0Lg0KPj4NCj4gSGkgVmxhZGltaXIsDQo+IA0KPiBJ
-IHN1cHBvcnQgeW91ciBwbGFuIGFuZCBJIHdpbGwgaGVscCB0aGlzIHRvIGdvIGZvcndhcmQgZm9y
-IDlwZnMsIFBvd2VyUEMNCj4gYW5kIFhJVkUuIEknbGwgc3RhcnQgd2l0aCBwdXNoaW5nIHRoZSBw
-cmVwYXJhdG9yeSBwYXRjaCBmb3IgOXBmcyB0byBteQ0KPiA5cC1uZXh0IGJyYW5jaCByaWdodCBh
-d2F5Lg0KPiANCj4gW1JGQyB2NSAwMDkvMTI2XSA5cGZzOiB3ZWxsIGZvcm0gZXJyb3IgaGludCBo
-ZWxwZXJzDQo+IA0KPiBDaGVlcnMsDQoNClRoYW5rIHlvdSBHcmVnIQ0KDQotLSANCkJlc3QgcmVn
-YXJkcywNClZsYWRpbWlyDQo=
+Hi Geoffrey,
+
+On Thu, Nov 7, 2019 at 7:28 AM Geoffrey McRae <geoff@hostfission.com> wrote:
+>
+>
+>
+> On 2019-11-06 23:41, Gerd Hoffmann wrote:
+> > On Wed, Nov 06, 2019 at 05:36:22PM +0900, David Stevens wrote:
+> >> > (1) The virtio device
+> >> > =====================
+> >> >
+> >> > Has a single virtio queue, so the guest can send commands to register
+> >> > and unregister buffers.  Buffers are allocated in guest ram.  Each buffer
+> >> > has a list of memory ranges for the data. Each buffer also has some
+> >>
+> >> Allocating from guest ram would work most of the time, but I think
+> >> it's insufficient for many use cases. It doesn't really support things
+> >> such as contiguous allocations, allocations from carveouts or <4GB,
+> >> protected buffers, etc.
+> >
+> > If there are additional constrains (due to gpu hardware I guess)
+> > I think it is better to leave the buffer allocation to virtio-gpu.
+>
+> The entire point of this for our purposes is due to the fact that we can
+> not allocate the buffer, it's either provided by the GPU driver or
+> DirectX. If virtio-gpu were to allocate the buffer we might as well
+> forget
+> all this and continue using the ivshmem device.
+
+I don't understand why virtio-gpu couldn't allocate those buffers.
+Allocation doesn't necessarily mean creating new memory. Since the
+virtio-gpu device on the host talks to the GPU driver (or DirectX?),
+why couldn't it return one of the buffers provided by those if
+BIND_SCANOUT is requested?
+
+>
+> Our use case is niche, and the state of things may change if vendors
+> like
+> AMD follow through with their promises and give us SR-IOV on consumer
+> GPUs, but even then we would still need their support to achieve the
+> same
+> results as the same issue would still be present.
+>
+> Also don't forget that QEMU already has a non virtio generic device
+> (IVSHMEM). The only difference is, this device doesn't allow us to
+> attain
+> zero-copy transfers.
+>
+> Currently IVSHMEM is used by two projects that I am aware of, Looking
+> Glass and SCREAM. While Looking Glass is solving a problem that is out
+> of
+> scope for QEMU, SCREAM is working around the audio problems in QEMU that
+> have been present for years now.
+>
+> While I don't agree with SCREAM being used this way (we really need a
+> virtio-sound device, and/or intel-hda needs to be fixed), it again is an
+> example of working around bugs/faults/limitations in QEMU by those of us
+> that are unable to fix them ourselves and seem to have low priority to
+> the
+> QEMU project.
+>
+> What we are trying to attain is freedom from dual boot Linux/Windows
+> systems, not migrate-able enterprise VPS configurations. The Looking
+> Glass project has brought attention to several other bugs/problems in
+> QEMU, some of which were fixed as a direct result of this project (i8042
+> race, AMD NPT).
+>
+> Unless there is another solution to getting the guest GPUs frame-buffer
+> back to the host, a device like this will always be required. Since the
+> landscape could change at any moment, this device should not be a LG
+> specific device, but rather a generic device to allow for other
+> workarounds like LG to be developed in the future should they be
+> required.
+>
+> Is it optimal? no
+> Is there a better solution? not that I am aware of
+>
+> >
+> > virtio-gpu can't do that right now, but we have to improve virtio-gpu
+> > memory management for vulkan support anyway.
+> >
+> >> > properties to carry metadata, some fixed (id, size, application), but
+> >>
+> >> What exactly do you mean by application?
+> >
+> > Basically some way to group buffers.  A wayland proxy for example would
+> > add a "application=wayland-proxy" tag to the buffers it creates in the
+> > guest, and the host side part of the proxy could ask qemu (or another
+> > vmm) to notify about all buffers with that tag.  So in case multiple
+> > applications are using the device in parallel they don't interfere with
+> > each other.
+> >
+> >> > also allow free form (name = value, framebuffers would have
+> >> > width/height/stride/format for example).
+> >>
+> >> Is this approach expected to handle allocating buffers with
+> >> hardware-specific constraints such as stride/height alignment or
+> >> tiling? Or would there need to be some alternative channel for
+> >> determining those values and then calculating the appropriate buffer
+> >> size?
+> >
+> > No parameter negotiation.
+> >
+> > cheers,
+> >   Gerd
 
