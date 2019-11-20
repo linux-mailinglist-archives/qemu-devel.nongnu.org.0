@@ -2,47 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832921039C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:14:23 +0100 (CET)
-Received: from localhost ([::1]:57100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9511039C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 13:13:35 +0100 (CET)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXOsI-0002Xg-JX
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:14:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47415)
+	id 1iXOrW-0001PI-NI
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 07:13:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1iXOl0-0003N7-4p
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:06:51 -0500
+ (envelope-from <tfiga@chromium.org>) id 1iXOpV-0000Kh-MN
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:11:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1iXOku-0002DG-Sw
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:06:49 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:59358)
+ (envelope-from <tfiga@chromium.org>) id 1iXOpU-0001AM-AQ
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:11:29 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38414)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1iXOku-0001mL-8s; Wed, 20 Nov 2019 07:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date;
- bh=flWOy6ZChyrVs55xNxIg8bD/jLXSHTlmtrRtlV17dxc=; 
- b=QRLWEskMgWNzl9OotikSFs2GXg+pjBt/nQhM2k4tPLeOxOoHc7o10iS6aupTnZgtWCMnSJetRNa8y4/SXo0cPUlYiUE0xz+8EtG4RasFyxsGUoUB5ek+hVTL2dzcchmdJONMsflu1QHzZ3P/q6o3KWNGXybIs70VcZ54akMF/Spamx0VE6WSEXq+bsBsao67nNKYBZhEk0B4W3I3Q0JBiZS1oUJUOn7OV+oE7S6N6QnwyWQ/XTTxTuJgZ2lYHm2Wbt8fMdb6K6Zz4ozDZcmSWzQerEK13PCuqBgIDG4feuEY8dKuMTTqGtLXvd3qCPyTGe4AERFZ9DnJRAWATFA5dw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1iXOkc-0007I2-1I; Wed, 20 Nov 2019 13:06:26 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1iXOkb-0007pY-V1; Wed, 20 Nov 2019 13:06:25 +0100
-Date: Wed, 20 Nov 2019 13:06:25 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: qcow2 preallocation and backing files
-Message-ID: <20191120120625.GA25497@igalia.com>
+ (Exim 4.71) (envelope-from <tfiga@chromium.org>) id 1iXOpU-00018V-02
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 07:11:28 -0500
+Received: by mail-ed1-x536.google.com with SMTP id s10so20062930edi.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 04:11:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GJbs7n+zbw4hCGFWh3KaaayfoAgFwo37GAAN1vh7zzY=;
+ b=YZcP4atgYjSzIfOqrZjvHul/q9RDnRbhtxo/pWadKnmoSONh9KRg4NqnYnwBhiHuaJ
+ YP/KHX7xe5/MnrJWF9bp6hEZOQhnRIkDMrs7z7mXmkM2Xue+TrBSRD+8PbB3w7wN4Rxi
+ QfEu2ZEwh+A02vUs6VeBP2NoVs6omlpzekwdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GJbs7n+zbw4hCGFWh3KaaayfoAgFwo37GAAN1vh7zzY=;
+ b=LWRsQcxHHNUJvtpUAZl2wccFgY16xqmLl/pezoZ7H0l9aXZk1ZZcmkNcJQMR6Bw5+t
+ ymh8OZYJEBCSv9Rc9gc6j35Yl3fsDWWnxz7uaWOwrZEdIo+UM43YKbcNOhsIvPKGpnY8
+ iOWqJj+VcCpPkndr7irFQTA6b8hEYFLcQGWeisph4ym3DcSch1sPP0dXhbn/fF98iKPd
+ uKeg6drzNqNd6cOwOYlfZroawZlFbHYZljARfE0r5Sn9homZnvQnbn0VlBdXuAsJImzL
+ wIki+lpHgJAH/2rngQVnUKXJPJxOfAosRPcLzLvOcgXWoVsLs8n/LGM4m1RwCBKroLit
+ dhHw==
+X-Gm-Message-State: APjAAAX5Fk2gFjBwBo4XD3klWoTJSnbhfBP8VXGYcTg6et2CpFpcNyzm
+ GOMyJGIjIB+EPvNGPTuoOq5uLhh8Xi5FZQ==
+X-Google-Smtp-Source: APXvYqzuBRuOxk/AV/Byfq482U7Y0gL9Md+jnPlNHg6hIWOv4SL0wwAORUYDQj9DX8bipNuigG/bsQ==
+X-Received: by 2002:a17:906:c293:: with SMTP id
+ r19mr5016435ejz.69.1574251886197; 
+ Wed, 20 Nov 2019 04:11:26 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
+ [209.85.128.41])
+ by smtp.gmail.com with ESMTPSA id e13sm1382746edv.42.2019.11.20.04.11.24
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Nov 2019 04:11:25 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id b11so6710729wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 04:11:24 -0800 (PST)
+X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr2863103wmd.10.1574251884421; 
+ Wed, 20 Nov 2019 04:11:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain>
+ <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+In-Reply-To: <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 20 Nov 2019 21:11:12 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BVXv7SU2JWf_pa__tWydd6UqNpMo6aQHLDjjU+Vch75A@mail.gmail.com>
+Message-ID: <CAAFQd5BVXv7SU2JWf_pa__tWydd6UqNpMo6aQHLDjjU+Vch75A@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::536
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,67 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+ Alex Lau <alexlau@chromium.org>, Alexandre Courbot <acourbot@chromium.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Keiichi Watanabe <keiichiw@chromium.org>,
+ David Stevens <stevensd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ Dylan Reid <dgreid@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+ Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Wed, Nov 6, 2019 at 6:51 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > > Reason is:  Meanwhile I'm wondering whenever "just use virtio-gpu
+> > > resources" is really a good answer for all the different use cases
+> > > we have collected over time.  Maybe it is better to have a dedicated
+> > > buffer sharing virtio device?  Here is the rough idea:
+> >
+> > My concern is that buffer sharing isn't a "device".  It's a primitive
+> > used in building other devices.  When someone asks for just buffer
+> > sharing it's often because they do not intend to upstream a
+> > specification for their device.
+>
+> Well, "vsock" isn't a classic device (aka nic/storage/gpu/...) either.
+> It is more a service to allow communication between host and guest
+>
+> That buffer sharing device falls into the same category.  Maybe it even
+> makes sense to build that as virtio-vsock extension.  Not sure how well
+> that would work with the multi-transport architecture of vsock though.
+>
+> > If this buffer sharing device's main purpose is for building proprietary
+> > devices without contributing to VIRTIO, then I don't think it makes
+> > sense for the VIRTIO community to assist in its development.
+>
+> One possible use case would be building a wayland proxy, using vsock for
+> the wayland protocol messages and virtio-buffers for the shared buffers
+> (wayland client window content).
+>
+> It could also simplify buffer sharing between devices (feed decoded
+> video frames from decoder to gpu), although in that case it is less
+> clear that it'll actually simplify things because virtio-gpu is
+> involved anyway.
+>
+> We can't prevent people from using that for proprietary stuff (same goes
+> for vsock).
+>
+> There is the option to use virtio-gpu instead, i.e. add support to qemu
+> to export dma-buf handles for virtio-gpu resources to other processes
+> (such as a wayland proxy).  That would provide very similar
+> functionality (and thereby create the same loophole).
+>
+> > VIRTIO recently gained a shared memory resource concept for access to
+> > host memory.  It is being used in virtio-pmem and virtio-fs (and
+> > virtio-gpu?).
+>
+> virtio-gpu is in progress still unfortunately (all kinds of fixes for
+> the qemu drm drivers and virtio-gpu guest driver refactoring kept me
+> busy for quite a while ...).
+>
+> > If another flavor of shared memory is required it can be
+> > added to the spec and new VIRTIO device types can use it.  But it's not
+> > clear why this should be its own device.
+>
+> This is not about host memory, buffers are in guest ram, everything else
+> would make sharing those buffers between drivers inside the guest (as
+> dma-buf) quite difficult.
 
-as we discussed yesterday on IRC there's an inconsistency in the way
-qcow2 preallocation works.
+I wonder if we're not forgetting about the main reason we ended up
+with all this chaos - the host-allocated buffers. ;)
 
-Let's create an image and fill it with data:
+Do we really have an issue with sharing guest memory between different
+virtio devices? Each of those devices could just accept a scatterlist
+of guest pages and import that memory to whatever host component it's
+backed by.
 
-   $ qemu-img create -f raw base.img 1M
-   $ qemu-io -f raw -c 'write -P 0xFF 0 1M' base.img
+The case that really needs some support from VIRTIO is when the
+buffers are allocated in the host. Sharing buffers from virtio-gpu
+with a virtio video decoder or Wayland (be it a dedicated virtio
+device or vsock) are some of the examples.
 
-Now QEMU won't let us create a new image backed by base.img using
-preallocation:
-
-   $ qemu-img create -f qcow2 -b base.img -o preallocation=metadata active.img
-   qemu-img: active.img: Backing file and preallocation cannot be used at the same time
-
-The reason is that once a cluster is preallocated (i.e. it has a valid
-L2 entry pointing to a host offset) the guest won't see the contents
-of the backing file, so those options conflict with each other.
-
-It is possible however to create an image that is smaller than
-the backing file and then resize it using preallocation. In this
-case qemu-img will happily accept any --preallocation option, with
-different results from the guest's point of view:
-
-   # This reads as 0xFF (the data comes from base.img)
-   $ qemu-img create -f qcow2 -b base.img active.img 512K
-
-   # The second half of the image also reads as 0xFF
-   $ qemu-img resize --preallocation=off active.img 1M
-
-   # Here the second half reads as zeroes
-   $ qemu-img resize --preallocation=metadata active.img 1M
-
-Apart from "qemu-img resize", the QMP block-resize command can also
-extend an image like this, although it always uses PREALLOC_MODE_OFF
-and the user cannot change that.
-
-It does not seem right that the guest-visible data changes depending
-on the preallocation mode. This could be solved by returning an error
-when (backing_bs(blk_bs(blk)) && prealloc != PREALLOC_MODE_OFF) on
-img_resize().
-
-The important question is however: what behavior is the right one?
-Should growing an image that was smaller than the backing file return
-zeroes, or data from the backing file? I would opt for the latter, for
-simplicity and consistency with the current behavior of block-resize,
-although it was pointed out that this could be a security problem (I'm
-not sure that I agree with that, but we can discuss it).
-
-This also has a consequence on how preallocation should be implemented
-for images with subclusters. Extended L2 entries allow us to allocate
-a cluster but leave each one of its subclusters unallocated. That
-would allow us to have a cluster that is simultaneously allocated but
-whose data is read from the backing file. But it's up to us to decide
-if that's what we should do when resizing an image.
-
-Berto
+Best regards,
+Tomasz
 
