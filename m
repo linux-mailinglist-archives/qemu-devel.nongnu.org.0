@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54085103287
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 05:30:05 +0100 (CET)
-Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E8410329A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 05:42:14 +0100 (CET)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXHcx-0001EO-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 23:30:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
+	id 1iXHoi-0005fB-PZ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Nov 2019 23:42:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iXHb7-0000M7-Vy
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:28:12 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iXHml-0004fg-JL
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:40:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iXHb6-0007QB-0x
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:28:09 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40313 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1iXHmj-0004n3-9s
+ for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:40:11 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:37183)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iXHb5-0007I9-4m
- for qemu-devel@nongnu.org; Tue, 19 Nov 2019 23:28:07 -0500
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iXHmf-0004ca-Jt; Tue, 19 Nov 2019 23:40:08 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47HqS21Nf8z9sPc; Wed, 20 Nov 2019 15:28:02 +1100 (AEDT)
+ id 47Hqjr0dG7z9sPc; Wed, 20 Nov 2019 15:39:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574224082;
- bh=LaH01KzXUG8osJf+FKzF3QRxkjm9zL46s4Srl7HjQoc=;
+ d=gibson.dropbear.id.au; s=201602; t=1574224800;
+ bh=x5t2+xcStYX8kS1dWXeJSZDbqhKSmP1vO0Pnz5dtZwc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BYGmKxs4qkqt04SO11Mw73RB3d6ihXaPKcpXsZPh/faswGUo+hmDImBaC88Xj+YYa
- f444AvqgTlEAzl5xy19ZvJcf1FmSyqhaZt1P38yLL5htzuzKYfodPHRBN+0f4bzdkf
- 8Dgo0Vk7dN/01FZy3uJ0KFIOqJbICyDSwSSF7Mxo=
-Date: Wed, 20 Nov 2019 15:27:52 +1100
+ b=HqquU5j6PlD/yH8YyTqsn6CfusRdBw7V4GQ7Gz8KgrY7ofl14F2q486XpQ1rghDpO
+ H2/DLPectrIdvuheryXNZbaO7UAOgQX9WUJ3UpQMUGp0GXWgj3wJx8BOV2f66goeW3
+ IG/u7E8S+JesQQ+Jh0dQJB/om83jUG8oF8J7yNKE=
+Date: Wed, 20 Nov 2019 15:36:53 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [RFC v2 09/22] vfio/pci: add iommu_context notifier for pasid
- alloc/free
-Message-ID: <20191120042752.GF5582@umbus.fritz.box>
-References: <1571920483-3382-1-git-send-email-yi.l.liu@intel.com>
- <1571920483-3382-10-git-send-email-yi.l.liu@intel.com>
- <20191029121544.GS3552@umbus.metropole.lan>
- <A2975661238FB949B60364EF0F2C25743A0EF2CE@SHSMSX104.ccr.corp.intel.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Fix VSMT mode when it is not supported by the
+ kernel
+Message-ID: <20191120043653.GG5582@umbus.fritz.box>
+References: <20191108154035.12913-1-lvivier@redhat.com>
+ <20191108174759.2d4040f1@bahia.lan>
+ <20191119010012.GI5582@umbus.fritz.box>
+ <caa35299-c928-a968-83b5-842d000f0242@redhat.com>
+ <20191119164526.0e980a37@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hNrJFWHEm0TKGkuH"
+ protocol="application/pgp-signature"; boundary="4VcSvkf+hAuPXtVJ"
 Content-Disposition: inline
-In-Reply-To: <A2975661238FB949B60364EF0F2C25743A0EF2CE@SHSMSX104.ccr.corp.intel.com>
+In-Reply-To: <20191119164526.0e980a37@bahia.lan>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,177 +60,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---hNrJFWHEm0TKGkuH
+--4VcSvkf+hAuPXtVJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 06, 2019 at 12:14:50PM +0000, Liu, Yi L wrote:
-> > From: David Gibson [mailto:david@gibson.dropbear.id.au]
-> > Sent: Tuesday, October 29, 2019 8:16 PM
-> > To: Liu, Yi L <yi.l.liu@intel.com>
-> > Subject: Re: [RFC v2 09/22] vfio/pci: add iommu_context notifier for pa=
-sid alloc/free
-> >=20
-> > On Thu, Oct 24, 2019 at 08:34:30AM -0400, Liu Yi L wrote:
-> > > This patch adds pasid alloc/free notifiers for vfio-pci. It is
-> > > supposed to be fired by vIOMMU. VFIO then sends PASID allocation
-> > > or free request to host.
-> > >
-> > > Cc: Kevin Tian <kevin.tian@intel.com>
-> > > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > > Cc: Peter Xu <peterx@redhat.com>
-> > > Cc: Eric Auger <eric.auger@redhat.com>
-> > > Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> > > Cc: David Gibson <david@gibson.dropbear.id.au>
-> > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > > ---
-> > >  hw/vfio/common.c         |  9 ++++++
-> > >  hw/vfio/pci.c            | 81
-> > ++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  include/hw/iommu/iommu.h | 15 +++++++++
-> > >  3 files changed, 105 insertions(+)
-> > >
-> > > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > > index d418527..e6ad21c 100644
-> > > --- a/hw/vfio/common.c
-> > > +++ b/hw/vfio/common.c
-> > > @@ -1436,6 +1436,7 @@ static void vfio_disconnect_container(VFIOGroup
-> > *group)
-> > >      if (QLIST_EMPTY(&container->group_list)) {
-> > >          VFIOAddressSpace *space =3D container->space;
-> > >          VFIOGuestIOMMU *giommu, *tmp;
-> > > +        VFIOIOMMUContext *giommu_ctx, *ctx;
-> > >
-> > >          QLIST_REMOVE(container, next);
-> > >
-> > > @@ -1446,6 +1447,14 @@ static void vfio_disconnect_container(VFIOGroup
-> > *group)
-> > >              g_free(giommu);
-> > >          }
-> > >
-> > > +        QLIST_FOREACH_SAFE(giommu_ctx, &container->iommu_ctx_list,
-> > > +                                                   iommu_ctx_next, c=
-tx) {
-> > > +            iommu_ctx_notifier_unregister(giommu_ctx->iommu_ctx,
-> > > +                                                      &giommu_ctx->n=
-);
-> > > +            QLIST_REMOVE(giommu_ctx, iommu_ctx_next);
-> > > +            g_free(giommu_ctx);
-> > > +        }
-> > > +
-> > >          trace_vfio_disconnect_container(container->fd);
-> > >          close(container->fd);
-> > >          g_free(container);
-> > > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > > index 12fac39..8721ff6 100644
-> > > --- a/hw/vfio/pci.c
-> > > +++ b/hw/vfio/pci.c
-> > > @@ -2699,11 +2699,80 @@ static void
-> > vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
-> > >      vdev->req_enabled =3D false;
-> > >  }
-> > >
-> > > +static void vfio_register_iommu_ctx_notifier(VFIOPCIDevice *vdev,
-> > > +                                             IOMMUContext *iommu_ctx,
-> > > +                                             IOMMUCTXNotifyFn fn,
-> > > +                                             IOMMUCTXEvent event)
-> > > +{
-> > > +    VFIOContainer *container =3D vdev->vbasedev.group->container;
-> > > +    VFIOIOMMUContext *giommu_ctx;
-> > > +
-> > > +    giommu_ctx =3D g_malloc0(sizeof(*giommu_ctx));
-> > > +    giommu_ctx->container =3D container;
-> > > +    giommu_ctx->iommu_ctx =3D iommu_ctx;
-> > > +    QLIST_INSERT_HEAD(&container->iommu_ctx_list,
-> > > +                      giommu_ctx,
-> > > +                      iommu_ctx_next);
-> > > +    iommu_ctx_notifier_register(iommu_ctx,
-> > > +                                &giommu_ctx->n,
-> > > +                                fn,
-> > > +                                event);
-> > > +}
-> > > +
-> > > +static void vfio_iommu_pasid_alloc_notify(IOMMUCTXNotifier *n,
-> > > +                                          IOMMUCTXEventData *event_d=
-ata)
-> > > +{
-> > > +    VFIOIOMMUContext *giommu_ctx =3D container_of(n, VFIOIOMMUContex=
-t, n);
-> > > +    VFIOContainer *container =3D giommu_ctx->container;
-> > > +    IOMMUCTXPASIDReqDesc *pasid_req =3D
-> > > +                              (IOMMUCTXPASIDReqDesc *) event_data->d=
-ata;
-> > > +    struct vfio_iommu_type1_pasid_request req;
-> > > +    unsigned long argsz;
-> > > +    int pasid;
-> > > +
-> > > +    argsz =3D sizeof(req);
-> > > +    req.argsz =3D argsz;
-> > > +    req.flag =3D VFIO_IOMMU_PASID_ALLOC;
-> > > +    req.min_pasid =3D pasid_req->min_pasid;
-> > > +    req.max_pasid =3D pasid_req->max_pasid;
-> > > +
-> > > +    pasid =3D ioctl(container->fd, VFIO_IOMMU_PASID_REQUEST, &req);
-> > > +    if (pasid < 0) {
-> > > +        error_report("%s: %d, alloc failed", __func__, -errno);
-> > > +    }
-> > > +    pasid_req->alloc_result =3D pasid;
-> >=20
-> > Altering the event data from the notifier doesn't make sense.  By
-> > definition there can be multiple notifiers on the chain, so in that
-> > case which one is responsible for updating the writable field?
+On Tue, Nov 19, 2019 at 04:45:26PM +0100, Greg Kurz wrote:
+> On Tue, 19 Nov 2019 15:06:51 +0100
+> Laurent Vivier <lvivier@redhat.com> wrote:
 >=20
-> I guess you mean multiple pasid_alloc nofitiers. right?
+> > On 19/11/2019 02:00, David Gibson wrote:
+> > > On Fri, Nov 08, 2019 at 05:47:59PM +0100, Greg Kurz wrote:
+> > >> On Fri,  8 Nov 2019 16:40:35 +0100
+> > >> Laurent Vivier <lvivier@redhat.com> wrote:
+> > >>
+> > >>> Commit 29cb4187497d sets by default the VSMT to smp_threads,
+> > >>> but older kernels (< 4.13) don't support that.
+> > >>>
+> > >>> We can reasonably restore previous behavior with this kernel
+> > >>> to allow to run QEMU as before.
+> > >>>
+> > >>> If VSMT is not supported, VSMT will be set to MAX(8, smp_threads)
+> > >>> as it is done for previous machine types (< pseries-4.2)
+> > >>>
+> > >>
+> > >> It is usually _bad_ to base the machine behavior on host capabilitie=
+s.
+> > >> What happens if we migrate between an older kernel and a recent one ?
+> > >=20
+> > > Right.  We're really trying to remove instaces of such behaviour.  I'd
+> > > prefer to completely revert Greg's original patch than to re-introduce
+> > > host configuration dependency into the guest configuration..
+> > >=20
+> > >> I understand this is to fix tests/migration-test on older kernels.
+> > >> Couldn't this be achieved with migration-test doing some introspecti=
+on
+> > >> and maybe pass vsmt=3D8 on the QEMU command line ?
+> > >=20
+> > > ..adjusting the test case like this might be a better idea, though.
+> > >=20
+> > > What's the test setup where we're using the old kernel?  I really only
+> > > applied the original patch on the guess that we didn't really care
+> > > about kernels that old.  The fact you've hit this in practice makes me
+> > > doubt that assumption.
+> > >=20
+> >=20
+> > The way to fix the tests is to add "-smp threads=3D8" on the command li=
+ne
+> > (for all tests, so basically in qtest_init_without_qmp_handshake(), and
+> > it will impact all the machine types), and we have to check if it is
 >=20
-> It works for VT-d now, as Intel vIOMMU maintains the IOMMUContext
-> per-bdf. And there will be only 1 pasid_alloc notifier in the chain. But,=
- I
-> agree it is not good if other module just share an IOMMUConext across
-> devices. Definitely, it would have multiple pasid_alloc notifiers.
+> Ohhh... it isn't possible to initialize Qtest with machine specific
+> properties ? That's a bit unfortunate :-\
 
-Right.
+Uhh... I don't see why we can't.  Couldn't we just put either -machine
+vsmt=3D8 or -smp 8 into the cmd_src / cmd_dst printfs() in the
+strcmp(arch, "ppc64") case?
 
-> How about enforcing IOMMUContext layer to only invoke one successful
-> pasid_alloc/free notifier if PASID_ALLOC/FREE event comes? pasid
-> alloc/free are really special as it requires feedback. And a potential
-> benefit is that the pasid_alloc/free will not be affected by hot plug
-> scenario. There will be always a notifier to work for pasid_alloc/free
-> work unless all passthru devices are hot plugged. How do you think? Or
-> if any other idea?
-
-Hrm, that still doesn't seem right to me.  I don't think a notifier is
-really the right mechanism for something that needs to return values.
-This seems like something where you need to find a _single_
-responsible object and call a method / callback on that specifically.
-
-But it seems to me there's a more fundamental problem here.  AIUI the
-idea is that a single IOMMUContext could hold multiple devices.  But
-if the devices are responsible for assigning their own pasid values
-(by passing that decisionon to the host through vfio) then that really
-can't work.
-
-I'm assuming it's impossible from the hardware side to virtualize the
-pasids (so that we could assign them from qemu without host
-intervention).
-
-If so, then the pasid allocation really has to be a Context level, not
-device level operation.  We'd have to wire the VFIO backend up to the
-context itself, not a device... I'm not immediately sure how to do
-that, though.
+> > ppc64/pseries to do that, and there it becomes a little bit complicated
+> > for a so small piece of code.
+> >=20
+> > So I think the best to do is to revert Greg's patch.
+> >=20
+>=20
+> I'm okay with that since this patch doesn't bring much for the moment.
+>=20
+> But soon, ie. linux-5.5 hopefully, KVM will allow to configure the number
+> of presenters in the XIVE and XICS-on-XIVE devices on POWER9. Combined
+> with this patch, it will allow to drastically reduce the consumption of
+> resources in the XIVE HW, which currently limits the number of VMs that
+> can run concurrently with an in-kernel irqchip. So I hope the 'make check'
+> you're willing to fix is worth it :-), and BTW you didn't answer David's
+> question about the test setup.
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -237,25 +149,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---hNrJFWHEm0TKGkuH
+--4VcSvkf+hAuPXtVJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UwMEACgkQbDjKyiDZ
-s5KZsA//XoelIlgONN7f19PheYAfU+DR8erhYyZtmWqzjeD9DmyWMXY+R2IRUWFd
-Pm8XaGqVAgL030DECHdv8LubB/qXT9+6Vj1mgMYE5jsAds/+UpVmtTZyKyKBKJkx
-pU6TwW9nzdOrHoz1tWF5RNbrLV850F+qVIHEuuEeB8DHunxf4iNos9hSGQ3eisZ1
-cNxWzmB64CknY0TuVBTvUm9oe0/UXIFCdx+Tvy/hHfKFXV+M6b6YisYfR4yIKmyo
-UUV9jJePXgSv1j4/94KnUxGgvu7XVr+bFccb2jsA4qaHDV3QK+QB6SymdrUJIF7Y
-9u/R8Ju6tE4joENQZh4/XhiZs2rR9DtboBdBFryeASy7UN3Exw1lHQiaC0bGgGCY
-q4nmM3Oj2kpjEXO1SHVG/pQv4G5U3uq8XPfMHSdTObLwwnehQlLWgk3ZQlpG0H44
-NI3xhQnCsHoiUmXbI7IKxEqdJ4wjT/KN0axZIz+Gz8tZXTF6y1vtNg47ow75+ZNF
-6KzwGB4EVkqKTp5kTNFPg27bXSXPbv9Pyc8+J0sQnhUL/0PfsHxaUvf1dPD3c8Iu
-4sBh4siqZ1wlBtOdjyynehUUTIBw3/snScdKZ2YTR8YrSfLJWcJaoX0Tm32yuy75
-XPfPvQyoRs8U+gYRbkqqns+YTprs6Uk89e/us17fbdV+AR7Oew8=
-=5vxW
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3UwuUACgkQbDjKyiDZ
+s5LYuA/+P6OUp6gZkgDY+IfHqSgxwcx6Z/+d5geI47uQZsYTWZWZ4AkY9X/gQKKi
+mUWZx0L3DYZHcfTWPsLPwIZhTw0Xes5Hef+6IQuPcLcRgCEHVMEIBT5mnS1zT7zl
+n5MDRIo9HH4xVwd13Tq//TU3zBzJqNL4UoxMV4lfLyKsvTl+VbxqlWI38XqE72Xk
+Dg8W5EefN/FzkiU4ARBeof4NSJvWgGxsLx/2UyV7TQPDccmpsCICezbYs28uEDix
+7rE36nc3OxIwRLvuLszjd73cWK7k32+hJcYPC3bT7sZOnXeh5SbRVsIMRIlRSkAA
+BlOH2nq6PNfn+afoxC5vFQVDPBZeCom06mBfcbEQDO2f3T4dbOHiXD9UTBM+LF0l
+XtItC+V5gfp+FK+V4FpnVbxTuoR/4LnjCGFAi8vBpUHq6+8D73fCMlLNh81rj54Q
+PB/247vfOL0IVB6f0bJBV3XGfSmy2CoVWT6x3qfsrQJgqizRw8hElsYZS1rdPoho
+IYxEw4bjL7M8c7DNc+sFFcP1chOXzFSdE5J4mIwDRyTs3yVh22VpzaZSBwBCB6n5
+VWuUoHJAc8XR6ZRCpEpOFjK+7LBf56NheDPo8QFRvvh7SJ40/WKMT33fNLT0ncid
+WC5qF2p4gc0WHhA0MZR4pN7qX5K0NFTjghPpMnMdjy9ImPVVQRc=
+=lfHV
 -----END PGP SIGNATURE-----
 
---hNrJFWHEm0TKGkuH--
+--4VcSvkf+hAuPXtVJ--
 
