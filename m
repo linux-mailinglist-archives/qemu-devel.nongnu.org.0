@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B659103EF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:39:06 +0100 (CET)
-Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564EB103F50
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Nov 2019 16:43:01 +0100 (CET)
+Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXS4P-0006jX-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:39:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34501)
+	id 1iXS8C-0002nZ-40
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 10:43:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRuF-0003F8-Oj
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:36 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRuN-0003SC-Pb
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXRuE-0007iv-Nw
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58351
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iXRuM-0007kF-OL
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:43 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34012
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXRuE-0007ip-KU
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:34 -0500
+ id 1iXRuM-0007jy-0V
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 10:28:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574263714;
+ s=mimecast20190719; t=1574263721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R8dyC9yt8o2qjOQgTxme+zzYF9X/JQkRUMrF/lFPTG0=;
- b=NKWJUxzVKHJ69zD5BKA9qTK+KAHStk5T49ovm3fzTW9CwRDBR2wcLG7STxrs+d/qvJ6qV7
- flbwOTPhoeFhg9IprY1bbAptBWmcwjy9p5BbWyHs63/3oOYWfbJfdkSb0MqqoFeJLzeGiA
- UlXZ3MB5raApDdo0MdLnlFp7XY5akJE=
+ bh=w8uoM7gE5y4TexCfjvS2IpPWEIfhUUTlM3grH/x8v8s=;
+ b=RCMjWflL8fbr7B7aAwkbc4CsjKt+W4qXU9Yg2VT1OPwGjHWKxfB2HrTmuSB91QUV14nbDw
+ i1/4rLOd1LJsD0fkQFM1amVY/AMTDqL92Ot3BWap84k3olNI/Xb6P9vNWG4Dlgu7nJo1Ey
+ xsyBcE2pqNhbCYOlSUZuV+5ayRl3NuE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-4AWDb5c_MwO23qrcdj3fOw-1; Wed, 20 Nov 2019 10:28:30 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-240-1TMLIdLPOOqdRdRjS7Jlyw-1; Wed, 20 Nov 2019 10:28:40 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39441005502;
- Wed, 20 Nov 2019 15:28:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C620F801E74;
+ Wed, 20 Nov 2019 15:28:38 +0000 (UTC)
 Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE6DF60499;
- Wed, 20 Nov 2019 15:28:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6080106F955;
+ Wed, 20 Nov 2019 15:28:34 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/37] mips: baudbase is 115200 by default
-Date: Wed, 20 Nov 2019 19:24:23 +0400
-Message-Id: <20191120152442.26657-19-marcandre.lureau@redhat.com>
+Subject: [PATCH v4 19/37] mips: use sysbus_add_io()
+Date: Wed, 20 Nov 2019 19:24:24 +0400
+Message-Id: <20191120152442.26657-20-marcandre.lureau@redhat.com>
 In-Reply-To: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 4AWDb5c_MwO23qrcdj3fOw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 1TMLIdLPOOqdRdRjS7Jlyw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,21 +80,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/mips/mips_mipssim.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/mips/mips_mipssim.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-index bfafa4d7e9..3cd0e6eb33 100644
+index 3cd0e6eb33..2c2c7f25b2 100644
 --- a/hw/mips/mips_mipssim.c
 +++ b/hw/mips/mips_mipssim.c
-@@ -223,7 +223,6 @@ mips_mipssim_init(MachineState *machine)
-     if (serial_hd(0)) {
-         DeviceState *dev =3D qdev_create(NULL, TYPE_SERIAL_IO);
-=20
--        qdev_prop_set_uint32(DEVICE(dev), "baudbase", 115200);
-         qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+@@ -227,8 +227,7 @@ mips_mipssim_init(MachineState *machine)
          qdev_set_legacy_instance_id(dev, 0x3f8, 2);
          qdev_init_nofail(dev);
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
+-        memory_region_add_subregion(get_system_io(), 0x3f8,
+-                                    &SERIAL_IO(dev)->serial.io);
++        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8, &SERIAL_IO(dev)->serial.=
+io);
+     }
+=20
+     if (nd_table[0].used)
 --=20
 2.24.0
 
