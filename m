@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4133105390
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 14:52:57 +0100 (CET)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8D410539C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 14:54:35 +0100 (CET)
+Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXmtE-0003DP-FG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 08:52:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34023)
+	id 1iXmuo-0006Bw-EP
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 08:54:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iXmrb-0001t0-F7
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:16 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iXmro-00024A-8M
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iXmra-0003DR-0t
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:15 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56000)
+ (envelope-from <peter.maydell@linaro.org>) id 1iXmrn-0003S4-5p
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:28 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iXmrZ-0003Bn-QD
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:13 -0500
-Received: by mail-wm1-x343.google.com with SMTP id b11so3780173wmb.5
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 05:51:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=KaerfimaGLiAfJXhZnCR1Lc2dMjYR45xPb2iWPC4faE=;
- b=IykNunYbUUg/02YQDZiviDqdmEO5B3RicRcWm7XRnRXWY9dxNnFtDx1MFzNwRI5v7t
- gCjhMlzsffFJtI89z/D2kM9Xj5ho0tQMysK91432zYt2B4GO6sm/JV/45CA/ur6LBd+c
- LLo7hYB25uOFAUJ1oNldFMIL5c8wiUOqb8LkNRJ4WDn0Zcmwb6sy8LHR27HSu9guVCJ7
- gMXtCrDVeuj5tY5L4Drf2JH56rMg5a057NsdbfO5PmrWyh+mgT+MjLq+l8rBF50vFOUa
- w8olUluDcRU9aUEHu3KU1YhP00cXU9ogK9fUZVh7S33Mh4/8eitnCaYbSbNOgP2EBSbg
- TdEw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iXmrm-0003RJ-W4
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:51:27 -0500
+Received: by mail-ot1-x343.google.com with SMTP id r24so2916693otk.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 05:51:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Uo6TYPbqUjmNcoj/a2xEUCpBiEzNJmC9PXXQWFYm704=;
+ b=HX2GmjTXR1hwhPiJ4no4dtX81Z+Ecb+vQLYQ50sOEU7dmLMX55HKzT1TiqZqGfx0Ym
+ Pej8ixOxZHy3uuZtdZbnlG4TE9tspA4z8UpI9CSfSkwjjOQzvK6UTHIj0/S52me2lHqQ
+ +7Y7vW97pBbDDR1drb5r8PE+ueUSaguDVO1XeaT9Bc6aEH+fvm5EOYE+Xi7r1ojsSc28
+ HYKHeU9cnOvMkNH15epxIraC6CISNTkVZi/i+gG8Gh2IGR6f8jDckGT9f3fmtxZJy/Hs
+ gfTJ+ET2MLXD0WJRiEYrfw7UEXqlLhWbVpw3Sw09dLbTAz9uvf+pvl3B5sdNjalhU3MU
+ 7MpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KaerfimaGLiAfJXhZnCR1Lc2dMjYR45xPb2iWPC4faE=;
- b=SP1AixIgI3aAx4ZaS9j6Ix/ZaToW0PEuC0s7jb61YvOJqI1rTOWTWs1GHwGi0pt4k4
- UAOfTfvAkoaZcZeOinXud4gorgk25gsnYS79WVmjXwOdQU0y4LCmTya9JLGNL8K9WrkU
- ERk+vjHksrJe0jcvN0gJvl8e5RU7NEc37txFaXbRF/Cy9nMvh4MKzY4Qr2tmIAthf5hF
- tnCpKX0B+FWOqbKjzBo47prAwFNYfxbRe17E2WiqLR+gLUkDgwgNdWgC79m1W8zu+8N+
- c9l48Pbfnf/DKEZ4s6mx2Lp2eDILIuyTL+zADrCJ8tNNFCXDF6MoHFiecPIu+rSCeldh
- RScg==
-X-Gm-Message-State: APjAAAXadm+87qWteSb38jrMDiyvKoHmWtBw5jNMonFNgmgCJM67kQPB
- Ux873G6c+GVM5wMsN5MGIls=
-X-Google-Smtp-Source: APXvYqynesBaN8v5Y403+D1Hu+lBrEbr9NINY2qZXJ2cxYotNJ82pYKz3eA3wQkVcufMu/Z3bRMEBA==
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr10296891wmj.84.1574344272142; 
- Thu, 21 Nov 2019 05:51:12 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id c15sm3633656wrx.78.2019.11.21.05.51.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2019 05:51:10 -0800 (PST)
-Date: Thu, 21 Nov 2019 13:51:09 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] vhost-user-input: use free(elem) instead of g_free(elem)
-Message-ID: <20191121135109.GW439743@stefanha-x1.localdomain>
-References: <20191119111626.112206-1-stefanha@redhat.com>
- <20191120114856.GG2785116@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Uo6TYPbqUjmNcoj/a2xEUCpBiEzNJmC9PXXQWFYm704=;
+ b=Tt+327m50OJwfYPQHevklvS+Y5yez/kzSYkIKUuqtE6FqpP3GLGvMptWtOHP+4BNF2
+ JiSVCV9KSJKBx7yDfS+9iANYiBXvz+DrQC2NAbt/HeJnzMoG5O7ueev3+4WRT5IvGMXn
+ tih2mZiXUqzqohISEp/p3nhZzVlNMqJfmAEF0fLJb7TQ9RdwOEUWAiKc976S2NpSXW2p
+ tbkAp80hs85xrifgStuIFEqdq2cAQe8/lVQENH+F9mh9Dg6TYkuRcxb2fmei2czEZqGO
+ cOjfjjsgqKwDq6fBnWZDzE65Ll3SGGtS/hSJn+HGS4o8iu5KT5FUece/UvKDt1i9rzji
+ qROA==
+X-Gm-Message-State: APjAAAV8/sRBvqI2VZmXXOmkKTtA7ciMq3vkq9kbK4eC3v5EFtVTNt/c
+ oRfYQ4O21Pg4FBvOtxuCn1J41e79u6JEtyzjZuvl4A==
+X-Google-Smtp-Source: APXvYqzSb99thWn5iJywce3MXZOPFoB9/MmiWOg6BiguZ00FKWucgjAIUCQom5yEVXepvY+rIMtO3eM0clLN6Jft71A=
+X-Received: by 2002:a9d:7ac2:: with SMTP id m2mr6538888otn.135.1574344286190; 
+ Thu, 21 Nov 2019 05:51:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HACzHn9G0kmbdSJa"
-Content-Disposition: inline
-In-Reply-To: <20191120114856.GG2785116@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-28-marcandre.lureau@redhat.com>
+In-Reply-To: <20191120152442.26657-28-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 Nov 2019 13:51:15 +0000
+Message-ID: <CAFEAcA-k5tHOzAoUERk2MGx8BPjHUvWELgvgONfLS_UQMmJRuA@mail.gmail.com>
+Subject: Re: [PATCH v4 27/37] leon3: use qdev gpio facilities for the PIL
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,62 +74,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 20 Nov 2019 at 15:30, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  hw/sparc/leon3.c   | 6 ++++--
+>  target/sparc/cpu.h | 1 -
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+> index cac987373e..1a89d44e57 100644
+> --- a/hw/sparc/leon3.c
+> +++ b/hw/sparc/leon3.c
+> @@ -230,8 +230,10 @@ static void leon3_generic_hw_init(MachineState *mach=
+ine)
+>
+>      /* Allocate IRQ manager */
+>      dev =3D qdev_create(NULL, TYPE_GRLIB_IRQMP);
+> -    env->pil_irq =3D qemu_allocate_irq(leon3_set_pil_in, env, 0);
+> -    qdev_connect_gpio_out_named(dev, "grlib-irq", 0, env->pil_irq);
+> +    qdev_init_gpio_in_named_with_opaque(DEVICE(env), leon3_set_pil_in,
+> +                                        env, "pil", 1);
+> +    qdev_connect_gpio_out_named(dev, "grlib-irq", 0,
+> +                                qdev_get_gpio_in_named(DEVICE(env), "pil=
+", 0));
+>      qdev_init_nofail(dev);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_IRQMP_OFFSET);
+>      env->irq_manager =3D dev;
 
---HACzHn9G0kmbdSJa
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On Wed, Nov 20, 2019 at 11:48:56AM +0000, Daniel P. Berrang=E9 wrote:
-> On Tue, Nov 19, 2019 at 11:16:26AM +0000, Stefan Hajnoczi wrote:
-> > The virtqueue element returned by vu_queue_pop() is allocated using
-> > malloc(3) by virtqueue_alloc_element().  Use the matching free(3)
-> > function instead of glib's g_free().
->=20
-> Just as an FYI, since glib 2.46  g_malloc is hardcoded to use the
-> system allocator, so it is now guaranteed that g_malloc/malloc
-> and g_free/free are safely interchangable. I recently got this
-> clarified in the glib docs:
->=20
->   https://gitlab.gnome.org/GNOME/glib/merge_requests/1099//diffs
->=20
-> QEMU mandates 2.48 so we are now safe in that regard
->=20
-> For readability/sanity sake I'd still suggest matching functions
-> but it is not a functional danger any more. Even when it was a
-> risk, that risk only arose if you called GLib's API for installing
-> a custom allocator callback which QEMU never did, so it was always
-> a non-issue.
+Creating a gpio pin on some object that isn't yourself
+looks a bit odd, but all this leon3 code is modifying
+the CPU object from the outside anyway. Someday we might
+tidy it up, but not today.
 
-You are right, although QEMU did use g_mem_set_vtable().  The custom
-functions still used malloc() underneath though so it would be safe
-anyway:
-
-  commit 98cf48f60aa4999f5b2808569a193a401a390e6a
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Wed Sep 16 17:38:44 2015 +0200
-
-      trace: remove malloc tracing
-
---HACzHn9G0kmbdSJa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3Wlk0ACgkQnKSrs4Gr
-c8jruAf+IuZwBb3rykhFL8wlFVdMbgMyksJXqQ+nGdRPjePaFMb2P/j2iSzEO5DR
-1Mc68R8g/Xqj/36SDE57hQyaaXAmEnrfsSeze+97SdrNBiUhnpKIS5X597XWEX0h
-ZYe2XIbPipKdAZ+DCRJlGiRV2vDQJBq6aUMPuiedVfURr0V70fuYHthS9+8gUmry
-ng/vHpPyyaGTdRRmfj4tHaXNQX9uv7kIGPqxRLxdCpq2gTAmwcwNnrE2ya6tj12r
-UJhSRjb4UC/gNPqEmkHyWOJKWsUimqpEjOAyhBs1D6Kyg3UIy8oq1mrCF0zcHypb
-OFHS3RbnkZRbrP7g5QKupLqY5f9gFA==
-=DOro
------END PGP SIGNATURE-----
-
---HACzHn9G0kmbdSJa--
+thanks
+-- PMM
 
