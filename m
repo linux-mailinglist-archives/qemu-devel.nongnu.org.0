@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E045110540A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:13:02 +0100 (CET)
-Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D591053F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:09:14 +0100 (CET)
+Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXnCf-0007EB-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:13:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36576)
+	id 1iXn8z-0003Yq-4D
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:09:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1iXn58-0000O4-53
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:05:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iXn78-0002Hb-Nl
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:07:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1iXn52-0000Ix-23
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:05:13 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40155)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iXn51-0000HS-R7
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:05:08 -0500
-Received: by mail-wr1-x441.google.com with SMTP id 4so1237900wro.7
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 06:05:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=eaL6TIbv2OnLy9IWunp9cYuTXz3N2vnIHj2Vs0jxT2E=;
- b=fQbNcsrf+HzSDSbmvEwF84Y+sZELoIWX1KS13ld0NAHIh/rWnGMzds4rqAS3rVSqdg
- ND5oKp3cgVrSZi4w2uBvkKlwwgNykGoS4g2kKlUqOkAUfUJQXJ+Zyf7jhJMqd2y5+j/i
- mtF9bLAQN8JAbJE4nxgvd2VQUV7f5NkWml5/rcX7Nu7xPWChfzlgmaGhpin+zUTUaA0x
- NlC8DQ7EgZddY3PRcp0+H8ii2XDEKFrvpPxdhr3fN/EYocBenpfp/ULlrYyyQm4FY4uY
- iKUvT3BLCZCGZ0OdFC7E86toNfQ6dH2s5u0yrZCKaiZeDYD8lDgJmGql/k9hXMmiwrPR
- gn4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=eaL6TIbv2OnLy9IWunp9cYuTXz3N2vnIHj2Vs0jxT2E=;
- b=Fea78wSKsgiAXNIKZfMazZfGy12zEkctjvM+cTKtZm9jPPulA6+6sqfpChyhnPrtjO
- 019Yb8mMbrv6sZPqLXbwnxtG5yImpw+qHLN2CaPaaPjU5wBXxIHjECpogyGq3TP8jJWd
- 8aeV4Ban2mccb3dMi3GkHtdL4EK90wmWrfICuzn440ngxspgzcYa3rig2qkHfOMZm1kv
- +CtkpjhCoosLTpa8xH4Hl/HigG3ktzbYmdYCY+tVkTcvytHLl1PFEUABt2UOUqnt9a65
- XG0BBRxogDXMU99Y2jYZpNowJ4nb2q3xpiosah0lA/YGXAwIc5WYo29t8kel0q0OZnxR
- zQhg==
-X-Gm-Message-State: APjAAAXIVyBIh4KwKixFQ6jYlGRkWYuSqcmSGlDflPIAWdj0bHWQJGX9
- T6eWq7bzBgp0c7PpZHYzkwUNruVRwTg=
-X-Google-Smtp-Source: APXvYqyhR8/1chuTxCTJ0Yjo/agCDr1McAaVU6H3BfZ9H7B91TPTpIXzkTzDmEcqhEzd3mZyyExZcw==
-X-Received: by 2002:adf:e545:: with SMTP id z5mr10724067wrm.321.1574345105489; 
- Thu, 21 Nov 2019 06:05:05 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id h97sm366065wrh.56.2019.11.21.06.05.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2019 06:05:04 -0800 (PST)
-Date: Thu, 21 Nov 2019 14:05:02 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: ASM <asm@asm.pp.ru>
-Subject: Re: PCI memory sync question (kvm,dpdk,e1000,packet stalled)
-Message-ID: <20191121140502.GX439743@stefanha-x1.localdomain>
-References: <CAMmAVbWzrYWZBXwKxSd-f5SXmq6qP1ok8abvyKJhp3=REEaMPA@mail.gmail.com>
- <CAMmAVbXNMjk=FasuySEcUa0U8CqGkCghehsJsWbVV2VHCAPA-w@mail.gmail.com>
+ (envelope-from <cohuck@redhat.com>) id 1iXn76-0002UF-NE
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:07:17 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32716
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iXn76-0002To-Iu
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:07:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574345235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dkvZ1w22jHCmGzCKE7i29gRYzALFF0sEi7DXEkYPW8c=;
+ b=DvYBoJKT2YzqY0mtxuGDK3aWwTXcraV4uKg2d6dnDO4rkRNUEMzwjlmvJu5nGjjwbRBF2k
+ 60NZ22YERMpdjp+bkHPncYI4bSki6blS75q+X60wzPHNtGTYQJ3dd06yEm+VCISQko64cP
+ VTIE75kzs6Ky/d602SPxs2hibmw8ft8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-uiSBstdbM4iiFmxoI4OBNg-1; Thu, 21 Nov 2019 09:07:12 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23C281800D45;
+ Thu, 21 Nov 2019 14:07:11 +0000 (UTC)
+Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3399A692AE;
+ Thu, 21 Nov 2019 14:07:07 +0000 (UTC)
+Date: Thu, 21 Nov 2019 15:07:04 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 08/15] s390x: protvirt: KVM intercept changes
+Message-ID: <20191121150704.4d5a09ef.cohuck@redhat.com>
+In-Reply-To: <20191120114334.2287-9-frankja@linux.ibm.com>
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-9-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="i6WX/W6h5xa4jqsd"
-Content-Disposition: inline
-In-Reply-To: <CAMmAVbXNMjk=FasuySEcUa0U8CqGkCghehsJsWbVV2VHCAPA-w@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: uiSBstdbM4iiFmxoI4OBNg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,96 +72,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 20 Nov 2019 06:43:27 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
---i6WX/W6h5xa4jqsd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 20, 2019 at 08:36:32PM +0300, ASM wrote:
-> I trying solve the problem, with packets stopping (e1000,tap,kvm).
-> My studies led to the following:
-> 1. From flatview_write_continue() I see, what e1000 writes the number
-> "7" to the STAT register.
-> 2. The driver from target OS reads STAT register with number "7" and
-> writes to the register the number "0".
-> 3. From flatview_write_continue() (I make edits):
->             memcpy(ptr, buf, l);
->             new1=3Dptr[0xc];
->             usleep(100);
->             new2=3Dptr[0xc];
->             invalidate_and_set_dirty(mr, addr1, l);
->             new3=3Dptr[0xc];
-> printf("Old: %i, new1, %i, new2: %i, new3: %i\n", old,new1,new2,new3);
+> Secure guests no longer intercept with code 4 for an instruction
+> interception. Instead they have codes 104 and 108 for secure
+> instruction interception and secure instruction notification
+> respectively.
 >=20
-> I see what memory in first printf is "7", but after usleep() is "0".
-> Do I understand correctly that this should not be? Or RCU lock
-> suggests the ability to the multiple writers?
+> The 104 mirrors the 4, but the 108 is a notification, that something
+> happened and the hypervisor might need to adjust its tracking data to
+> that fact. An example for that is the set prefix notification
+> interception, where KVM only reads the new prefix, but does not update
+> the prefix in the state description.
 >=20
-> The problem is that qemu(e1000) writes the number 7, after which
-> target(dpdk driver) reads 7, on the basis of this it writes the number
-> 0, but as a result (extremely rarely), the value STATUS still remains
-> 7. Therefore, packet processing is interrupted. This behavior is
-> observed only on kvm (it is not observed on tcg).
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  target/s390x/kvm.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >=20
-> Please help with advice or ideas.
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 418154ccfe..58251c0229 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -115,6 +115,8 @@
+>  #define ICPT_CPU_STOP                   0x28
+>  #define ICPT_OPEREXC                    0x2c
+>  #define ICPT_IO                         0x40
+> +#define ICPT_PV_INSTR                   0x68
+> +#define ICPT_PV_INSTR_NOT               0x6c
 
-Hi Leonid,
-Could you be seeing weird behavior with KVM due to MMIO write
-coalescing?
+_NOTIF ?
 
-  static void e1000_mmio_setup(E1000State *d)
-  {
-      int i;
-      const uint32_t excluded_regs[] =3D {
-          E1000_MDIC, E1000_ICR, E1000_ICS, E1000_IMS,
-          E1000_IMC, E1000_TCTL, E1000_TDT, PNPMMIO_SIZE
-      };
+> =20
+>  #define NR_LOCAL_IRQS 32
+>  /*
+> @@ -151,6 +153,7 @@ static int cap_s390_irq;
+>  static int cap_ri;
+>  static int cap_gs;
+>  static int cap_hpage_1m;
+> +static int cap_protvirt;
+> =20
+>  static int active_cmma;
+> =20
+> @@ -336,6 +339,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      cap_async_pf =3D kvm_check_extension(s, KVM_CAP_ASYNC_PF);
+>      cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+>      cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
+> +    cap_protvirt =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
 
-      memory_region_init_io(&d->mmio, OBJECT(d), &e1000_mmio_ops, d,
-                            "e1000-mmio", PNPMMIO_SIZE);
-      memory_region_add_coalescing(&d->mmio, 0, excluded_regs[0]);
-      for (i =3D 0; excluded_regs[i] !=3D PNPMMIO_SIZE; i++)
-          memory_region_add_coalescing(&d->mmio, excluded_regs[i] + 4,
-                                       excluded_regs[i+1] - excluded_regs[i=
-] - 4);
-      memory_region_init_io(&d->io, OBJECT(d), &e1000_io_ops, d, "e1000-io"=
-, IOPORT_SIZE);
-  }
+You don't seem to do anything with this yet?
 
-MMIO write coalescing means that QEMU doesn't see the register writes
-immediately.  Instead kvm.ko records them into a ring buffer and QEMU
-processes the ring when the next ioctl(KVM_RUN) exit occurs.
+> =20
+>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
+>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
+> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
+>              (long)cs->kvm_run->psw_addr);
+>      switch (icpt_code) {
+>          case ICPT_INSTRUCTION:
+> +        case ICPT_PV_INSTR:
+> +        case ICPT_PV_INSTR_NOT:
+>              r =3D handle_instruction(cpu, run);
 
-See Linux Documentation/virt/kvm/api.txt "4.116
-KVM_(UN)REGISTER_COALESCED_MMIO" for more details.
+Doesn't handle_instruction() want to know whether it got a request for
+emulation vs a notification?
 
-I don't really understand your printf debugging explanation.  It would
-help to see the DPDK code and the exact printf() output.
+>              break;
+>          case ICPT_PROGRAM:
 
-Also, is DPDK accessing the e1000 device from more than 1 vCPU?
-
-Stefan
-
---i6WX/W6h5xa4jqsd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3WmY4ACgkQnKSrs4Gr
-c8guZAgAidNinR5kQfnYuEShoI1Q3gDx/CClSdDu+5b7KKXF9TQ4gwFz+1Y0cSZa
-yz2Bz+lUwJol4K0MfmMkoHLIo0Xts0X/9fanWzYR6qYhY5bgqPVRz2uiy6kOLVL8
-37Sj/qFZj0aZTggi+KezwEX1rnxDHpZo6IA/jiCc8GpYWbN/qgz5KlVeVMkpyUho
-1MVMhQnCNHO6/AjLb9Jq8g09wsAC4ND4nciYoKKr9qNPLWSnsam7SsLJ8C3CQCZz
-TbUG8n2tuQoil9vp92D3yP9oRVFnlSZj8CDj7VF5GaBib9WlJbONuLbvz9tcft1K
-C5tvv1b96R80G7YDY+kVQ5mixO0y2A==
-=ZQiR
------END PGP SIGNATURE-----
-
---i6WX/W6h5xa4jqsd--
 
