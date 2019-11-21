@@ -2,83 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FC3105726
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:36:21 +0100 (CET)
-Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918CF105735
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:39:03 +0100 (CET)
+Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXpRM-0003Ph-7v
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:36:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60676)
+	id 1iXpTy-0007DB-LL
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:39:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iXpPY-0002rl-Hq
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:34:29 -0500
+ (envelope-from <clg@kaod.org>) id 1iXpQS-0003Ng-K6
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iXpPW-0003MM-LF
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:34:27 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41836
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iXpQR-00046I-I8
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:24 -0500
+Received: from 6.mo178.mail-out.ovh.net ([46.105.53.132]:40263)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iXpPW-0003M6-Hs
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:34:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574354065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N+ziACe92S7Dz27GKtoh+aKNMOQv49VtWVAUKXA0tlU=;
- b=Ox06IR1ipdZAUKoSUbyp1oGZYkc2qWPBECm8E711qsiurrsq2a9IHn3tu+SBOzBQlwck5s
- h26KUshWQtzUchotnbUxfxL4l0M1QfDU5BQaHGJPdzKxW2XVW14bLY6My/tGOzVZU8qDmJ
- 4fE1ObfU+ON07LBk3QE5IEoo94GoxDA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-2t9yfV_DNqmiplIpJ11T1g-1; Thu, 21 Nov 2019 11:34:24 -0500
-Received: by mail-wm1-f69.google.com with SMTP id g13so4410540wme.0
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 08:34:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7UBG/fF0d2aaQQK5Nor+C1oyiW6gVKvtprtAflswiK8=;
- b=jURRzbL9RMKBFvGxKqhFpLGZKc0S7jNyE6XzN2s+7ipYkQ/SIvWgPLD17PutaNH8SJ
- aC63WSbkYIl0k65C85qfQMSB3iNSDAwHv2NAqrybm36yOZ+OyOKXY2DmBPCtvohJ9yzf
- Wrfmg6TNGYVO5EDNahdUU4/rBkUuitRiqsF6mtKEXRQzit+tK+p73OqGcwxffYqK3wXj
- U3Ft433tS6xHkwj9vyyiJomWAckvJwfijpO1JIzF2NTvBmP1VwkC+a0C31ojV9Q7G/g+
- RSXO+n8+3cM9tr+Vxp9RzLge91w2Bi5QgInGgOnMRUhaUfjmFpFNgyn4P5dAp4av1SEE
- GhCQ==
-X-Gm-Message-State: APjAAAW6knw/ikkFr//dA5q6xyLTJgizJOwTQktUr4OllBM/XC7PI6uT
- fcrtGheckm9E7WhoJx5AKQwoCnicA0z1iJ8Qbc3pFUesNphXxa7T+K96r6W+LqVaZpi/BaRAenV
- tnzSG16+V0TbPGJ4=
-X-Received: by 2002:a5d:4b08:: with SMTP id v8mr11207265wrq.338.1574354063098; 
- Thu, 21 Nov 2019 08:34:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyBjOFbN6bSsbmJ8SlKqCHz+P5ejw9KX1EU8TWYuohUPpRvyfRdamMTpkxbCbBZYeuztu7VlA==
-X-Received: by 2002:a5d:4b08:: with SMTP id v8mr11207245wrq.338.1574354062932; 
- Thu, 21 Nov 2019 08:34:22 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id s9sm158855wmj.22.2019.11.21.08.34.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Nov 2019 08:34:22 -0800 (PST)
-Subject: Re: [PATCH v2] linux-user/strace: Add missing signal strings
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20191120145555.GA15154@ls3530.fritz.box>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <373cddd6-d448-a130-bc01-20fb1272b5f6@redhat.com>
-Date: Thu, 21 Nov 2019 17:34:21 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXpQR-00045e-BY
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:23 -0500
+Received: from player759.ha.ovh.net (unknown [10.108.54.94])
+ by mo178.mail-out.ovh.net (Postfix) with ESMTP id A5C4482E53
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 17:35:21 +0100 (CET)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+ (Authenticated sender: clg@kaod.org)
+ by player759.ha.ovh.net (Postfix) with ESMTPSA id 30959C6C33A6;
+ Thu, 21 Nov 2019 16:35:03 +0000 (UTC)
+Subject: Re: [PATCH 4/5] spapr: Handle irq backend changes with VFIO PCI
+ devices
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <20191121005607.274347-1-david@gibson.dropbear.id.au>
+ <20191121005607.274347-5-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <30d4fd1d-61f7-ebe2-a593-0917d187cab5@kaod.org>
+Date: Thu, 21 Nov 2019 17:35:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191120145555.GA15154@ls3530.fritz.box>
+In-Reply-To: <20191121005607.274347-5-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: 2t9yfV_DNqmiplIpJ11T1g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+X-Ovh-Tracer-Id: 13603122676374014965
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehvddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 46.105.53.132
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,43 +61,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, groug@kaod.org,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/19 3:55 PM, Helge Deller wrote:
-> Add the textual representations of some missing target signals.
+On 21/11/2019 01:56, David Gibson wrote:
+> pseries machine type can have one of two different interrupt controller=
+s in
+> use depending on feature negotiation with the guest.  Usually this is
+> invisible to devices, because they route to a common set of qemu_irqs w=
+hich
+> in turn dispatch to the correct back end.
 >=20
-> Signed-off-by: Helge Deller <deller@gmx.de>
+> VFIO passthrough devices, however, wire themselves up directly to the K=
+VM
+> irqchip for performance, which means they are affected by this change i=
+n
+> interrupt controller.  To get them to adjust correctly for the change i=
+n
+> irqchip, we need to fire the kvm irqchip change notifier.
 >=20
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 3d4d684450..de43238fa4 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -146,6 +146,19 @@ print_signal(abi_ulong arg, int last)
->       case TARGET_SIGSTOP: signal_name =3D "SIGSTOP"; break;
->       case TARGET_SIGTTIN: signal_name =3D "SIGTTIN"; break;
->       case TARGET_SIGTTOU: signal_name =3D "SIGTTOU"; break;
-> +    case TARGET_SIGIO: signal_name =3D "SIGIO"; break;
-> +    case TARGET_SIGBUS: signal_name =3D "SIGBUS"; break;
-> +    case TARGET_SIGPWR: signal_name =3D "SIGPWR"; break;
-> +    case TARGET_SIGURG: signal_name =3D "SIGURG"; break;
-> +    case TARGET_SIGSYS: signal_name =3D "SIGSYS"; break;
-> +    case TARGET_SIGTRAP: signal_name =3D "SIGTRAP"; break;
-> +    case TARGET_SIGXCPU: signal_name =3D "SIGXCPU"; break;
-> +    case TARGET_SIGPROF: signal_name =3D "SIGPROF"; break;
-> +    case TARGET_SIGTSTP: signal_name =3D "SIGTSTP"; break;
-> +    case TARGET_SIGXFSZ: signal_name =3D "SIGXFSZ"; break;
-> +    case TARGET_SIGWINCH: signal_name =3D "SIGWINCH"; break;
-> +    case TARGET_SIGVTALRM: signal_name =3D "SIGVTALRM"; break;
-> +    case TARGET_SIGSTKFLT: signal_name =3D "SIGSTKFLT"; break;
->       }
->       if (signal_name =3D=3D NULL) {
->           print_raw_param("%ld", arg, last);
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 >=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  hw/ppc/spapr_irq.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 168044be85..1d27034962 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -508,6 +508,12 @@ static void set_active_intc(SpaprMachineState *spa=
+pr,
+>      }
+> =20
+>      spapr->active_intc =3D new_intc;
+> +
+> +    /*
+> +     * We've changed the kernel irqchip, let VFIO devices know they
+> +     * need to readjust.
+> +     */
+> +    kvm_irqchip_change_notify();
+>  }
+> =20
+>  void spapr_irq_update_active_intc(SpaprMachineState *spapr)
+>=20
 
 
