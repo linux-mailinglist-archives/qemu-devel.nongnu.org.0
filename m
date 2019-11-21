@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7680710590C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 19:06:20 +0100 (CET)
-Received: from localhost ([::1]:43370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910C610595E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 19:18:32 +0100 (CET)
+Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXqqR-0008Fn-9z
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 13:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44849)
+	id 1iXr2E-0004aZ-7a
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 13:18:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46421)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iXqpJ-0007dJ-U3
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:05:14 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iXqzb-0003Uh-O0
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:15:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iXqpH-0001Uf-LJ
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:05:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41862
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iXqpG-0001Tn-To
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:05:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574359505;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8jlFK5Yy+zkY0w/kMZJ8nP/nLBvbCZQn/gPw7+sEmQs=;
- b=KNYL5jZHEqpsLQssxYGNhQy6SRM+qE7e07yhAmizfCtTDphlDzGSwl+/daENO9EVMhQhz0
- o2wqfFeDJGqit2GSusmn302GBfhsYQDvbRjirsu/1rVUFKfsNLGNBD+YQ5/gWkDbGh1FTp
- h1oVqIyKqp+idPG2o4JPrOAsNaai0aE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-CpugOwuEPPGaEasKmRuOEA-1; Thu, 21 Nov 2019 13:05:02 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C62B8024C9;
- Thu, 21 Nov 2019 18:05:01 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7743B2AAAF;
- Thu, 21 Nov 2019 18:04:59 +0000 (UTC)
-Subject: Re: [PATCH 1/4] block/quorum.c: stable children names
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-References: <cover.1574356137.git.lukasstraub2@web.de>
- <ce10f8cf2bb9ae8a1505b59bbc2199f7b4966990.1574356137.git.lukasstraub2@web.de>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <2ce1be55-010b-d3c3-9df4-e8e02eb522f9@redhat.com>
-Date: Thu, 21 Nov 2019 12:04:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iXqza-0008AA-PE
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:15:47 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53439)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iXqza-00089g-HF
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:15:46 -0500
+Received: by mail-wm1-x344.google.com with SMTP id u18so4818185wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 10:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=PHVWNq2aFAGh+oBslV7lj5urUTg8KyGhkS6wQArelrU=;
+ b=Yn2d/dFJcxvZ7a1OXyHPyP58PN969b+PWoPR8/mVlozAil8k2GM2CwRDjf806hKs5R
+ z+uJwuDUuJK8kwrm9TNryb5bexms/fGxVHc9lBbdwR/EomgUNffcu6TLko2xd/k9xPUY
+ DaKkJdCtrXarejNFQg/zjC89IpV0wVcb39KK9aid/mQE4KPYAhDhg6f6cIVx+rHNMc/t
+ E07Zt9oz+WA0FevtsICjPHi/QUUo2YhZzf+PdX4ICTTIZlgHew6dQVH7XSWcK15sCTMe
+ RroSTUyY9uwj1HCJ8LqTj1e8EPEPeQY8HhUzW2+bWtADzuAA7LqIvXV1sbENaAqoxvGb
+ kl5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=PHVWNq2aFAGh+oBslV7lj5urUTg8KyGhkS6wQArelrU=;
+ b=BcG+WZYqMKvdAdT3yqU69N2uG6hatu24vclaw6sA9Brn4sZv6Syez1eZWSxE/HTQ3K
+ KUeIQhTE6A+XZxZKoALu5FgOW/1NqFVWtwCTzZFetrwkW1R9mubkHKXwYgZ6Kynv1ARz
+ ErRlkqIBCn0qdrzqBHBpcu9FU3t/OltQUgeBogoJJwUifUmEBIa/T4OXKe+eRAv4sgVH
+ 8Bkck46kkEQgfdHlQM5pr9G8A8vFBiANIF+0xX/IC4mbDiqRJEoQyLNf7Dr1xQ6cgi6r
+ f09L/ymluJ1OG36UwbsYXXizLTNPtJOYo3dAwkAtkSzq2FCaqvIzA8uWxuCxwafLUBEg
+ DaOQ==
+X-Gm-Message-State: APjAAAVRk+DB2MQjF6nBIanHbvv3ULHr3i53MWodgMI7BhSkYbPReQt0
+ 7/+F2xgOQRJbgvzSn/7uOC3lqj+ViZCw/60Aa9k=
+X-Google-Smtp-Source: APXvYqyJNSznKYkvfxohF/L95fsq73Dz8JA0kcKMdVOECf35ANK5u9LeFL+UfdDfbGwiTPzFpWCg6yqMiOaHH6Nfl/U=
+X-Received: by 2002:a1c:9e10:: with SMTP id h16mr11588383wme.91.1574360144900; 
+ Thu, 21 Nov 2019 10:15:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ce10f8cf2bb9ae8a1505b59bbc2199f7b4966990.1574356137.git.lukasstraub2@web.de>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: CpugOwuEPPGaEasKmRuOEA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-13-marcandre.lureau@redhat.com>
+ <CAFEAcA8aj71ue1Y_o1PphD8+iAZeOgqo647hgXS0Z22T9Qa8yg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8aj71ue1Y_o1PphD8+iAZeOgqo647hgXS0Z22T9Qa8yg@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 21 Nov 2019 22:15:31 +0400
+Message-ID: <CAJ+F1CJhaQxrceCqPpPULN5RUUQ+jTVaRa912jX0Ct8MM0ucaw@mail.gmail.com>
+Subject: Re: [PATCH v4 12/37] serial: start making SerialMM a sysbus device
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Alberto Garcia <berto@igalia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/19 11:49 AM, Lukas Straub wrote:
-> If we remove the child with the highest index from the quorum,
-> decrement s->next_child_index. This way we get stable children
-> names as long as we only remove the last child.
->=20
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->   block/quorum.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->=20
-> diff --git a/block/quorum.c b/block/quorum.c
-> index df68adcfaa..6100d4108a 100644
-> --- a/block/quorum.c
-> +++ b/block/quorum.c
-> @@ -1054,6 +1054,12 @@ static void quorum_del_child(BlockDriverState *bs,=
- BdrvChild *child,
->       /* We know now that num_children > threshold, so blkverify must be =
-false */
->       assert(!s->is_blkverify);
->=20
-> +    unsigned child_id;
-> +    sscanf(child->name, "children.%u", &child_id);
+On Thu, Nov 21, 2019 at 5:47 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Wed, 20 Nov 2019 at 15:27, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@redhat.com> wrote:
+> >
+> > Memory mapped serial device is in fact a sysbus device. The following
+> > patches will make use of sysbus facilities for resource and
+> > registration. In particular, "serial-mm: use sysbus facilities" will
+> > move internal serial realization to serial_mm_realize callback to
+> > follow qdev best practices.
+>
+> What goes wrong if you just put the realize of smm->serial in
+> the right place to start with ?
 
-sscanf() cannot detect overflow. Do we trust our input enough to ignore=20
-this shortfall in the interface, or should we be using saner interfaces=20
-like qemu_strtoul()?  For that matter, why do we have to reparse=20
-something; is it not already available somewhere in numerical form?
+You mean squash the following patches?
+Sometime I go too fast, sometime it's too slow.
 
-> +    if (child_id =3D=3D s->next_child_index - 1) {
-> +        s->next_child_index--;
-> +    }
-> +
->       bdrv_drained_begin(bs);
->=20
->       /* We can safely remove this child now */
-> --
-> 2.20.1
->=20
->=20
+Decide what you prefer, this doesnt' matter much to me.
+
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Marc-Andr=C3=A9 Lureau
 
