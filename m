@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8F81047D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 02:01:26 +0100 (CET)
-Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0F81047DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 02:08:39 +0100 (CET)
+Received: from localhost ([::1]:35544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXaqb-0002ug-9K
-	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 20:01:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33931)
+	id 1iXaxa-0000OF-T7
+	for lists+qemu-devel@lfdr.de; Wed, 20 Nov 2019 20:08:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iXao5-0001Qf-Rj
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 19:58:50 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iXawn-0008OP-WB
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 20:07:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iXao4-0001s0-Fe
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 19:58:49 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57659 helo=ozlabs.org)
+ (envelope-from <tao3.xu@intel.com>) id 1iXawm-0001rh-6B
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 20:07:49 -0500
+Received: from mga03.intel.com ([134.134.136.65]:25813)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iXao4-0001r2-51; Wed, 20 Nov 2019 19:58:48 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47JLm43p1Sz9sQp; Thu, 21 Nov 2019 11:58:44 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574297924;
- bh=kjLCHlKyKt7jP0NFe7tI8vqbJnysCqs9Js2O7NlIAAQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d5Yl8X8jt5f6X3VYPrSZIeC4Sr8ahHtnfT9r4tRoBX95XiR92/bUGI6IPEAELp+p/
- gj4PkS/PiYEpGg2AlbgHsnkezWv9MlYEin1RnA0QOdA8ICddY5MvLGDgMhrae1DmfQ
- tN1PBz0gCD0y8oOnF1ZySK7+BH5GU5e+myP++TYw=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alex Williamson <alex.williamson@redhat.com>,
-	clg@kaod.org
-Subject: [PATCH 5/5] spapr: Work around spurious warnings from vfio INTx
- initialization
-Date: Thu, 21 Nov 2019 11:56:07 +1100
-Message-Id: <20191121005607.274347-6-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191121005607.274347-1-david@gibson.dropbear.id.au>
-References: <20191121005607.274347-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iXawl-0001q2-LR
+ for qemu-devel@nongnu.org; Wed, 20 Nov 2019 20:07:48 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2019 17:07:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,223,1571727600"; d="scan'208";a="357631513"
+Received: from unknown (HELO [10.239.197.13]) ([10.239.197.13])
+ by orsmga004.jf.intel.com with ESMTP; 20 Nov 2019 17:07:41 -0800
+Subject: Re: [PATCH v16 08/14] numa: Extend CLI to provide memory latency and
+ bandwidth information
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20191115075352.17734-1-tao3.xu@intel.com>
+ <20191115075352.17734-9-tao3.xu@intel.com>
+ <20191119120302.6ff9e61e@redhat.com>
+ <f82a9d01-e9cb-902e-34bd-c81fab380995@intel.com>
+ <20191120135612.58f3bd01@redhat.com>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <aa817879-cccd-7fbd-4d05-22e1ecd3b8ef@intel.com>
+Date: Thu, 21 Nov 2019 09:07:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191120135612.58f3bd01@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Received-From: 134.134.136.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,75 +61,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, groug@kaod.org,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "Liu, Jingqi" <jingqi.liu@intel.com>, "Du, Fan" <fan.du@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "armbru@redhat.com" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Traditional PCI INTx for vfio devices can only perform well if using
-an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
-if an in kernel irqchip is not available.
-
-We usually do have an in-kernel irqchip available for pseries machines
-on POWER hosts.  However, because the platform allows feature
-negotiation of what interrupt controller model to use, we don't
-currently initialize it until machine reset.  vfio_intx_update() is
-called (first) from vfio_realize() before that, so it can issue a
-spurious warning, even if we will have an in kernel irqchip by the
-time we need it.
-
-To workaround this, make a call to spapr_irq_update_active_intc() from
-spapr_irq_init() which is called at machine realize time, before the
-vfio realize.  This call will be pretty much obsoleted by the later
-call at reset time, but it serves to suppress the spurious warning
-from VFIO.
-
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_irq.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 1d27034962..d6bb7fd2d6 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -373,6 +373,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Error =
-**errp)
-=20
-     spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
-                                       smc->nr_xirqs + SPAPR_XIRQ_BASE);
-+
-+    /*
-+     * Mostly we don't actually need this until reset, except that not
-+     * having this set up can cause VFIO devices to issue a
-+     * false-positive warning during realize(), because they don't yet
-+     * have an in-kernel irq chip.
-+     */
-+    spapr_irq_update_active_intc(spapr);
- }
-=20
- int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error *=
-*errp)
-@@ -528,7 +536,8 @@ void spapr_irq_update_active_intc(SpaprMachineState *=
-spapr)
-          * this.
-          */
-         new_intc =3D SPAPR_INTC(spapr->xive);
--    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-+    } else if (spapr->ov5_cas
-+               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-         new_intc =3D SPAPR_INTC(spapr->xive);
-     } else {
-         new_intc =3D SPAPR_INTC(spapr->ics);
---=20
-2.23.0
-
+On 11/20/2019 8:56 PM, Igor Mammedov wrote:
+> On Wed, 20 Nov 2019 15:55:04 +0800
+> Tao Xu <tao3.xu@intel.com> wrote:
+> 
+>> On 11/19/2019 7:03 PM, Igor Mammedov wrote:
+>>> On Fri, 15 Nov 2019 15:53:46 +0800
+>>> Tao Xu <tao3.xu@intel.com> wrote:
+>>>    
+>>>> From: Liu Jingqi <jingqi.liu@intel.com>
+>>>>
+>>>> Add -numa hmat-lb option to provide System Locality Latency and
+>>>> Bandwidth Information. These memory attributes help to build
+>>>> System Locality Latency and Bandwidth Information Structure(s)
+>>>> in ACPI Heterogeneous Memory Attribute Table (HMAT).
+>>>>
+>>>> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
+>>>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>>>
+>>> looks good to me, so
+>>>
+>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>>>
+>>>
+>>> PS:
+>>> also see question below
+>>>    
+>> [...]
+>>>> +
+>>>> +        hmat_lb->range_bitmap |= node->bandwidth;
+>>>> +        first_bit = ctz64(hmat_lb->range_bitmap);
+>>>> +        hmat_lb->base = UINT64_C(1) << first_bit;
+>>>> +        max_entry = node->bandwidth / hmat_lb->base;
+>>>> +        last_bit = 64 - clz64(hmat_lb->range_bitmap);
+>>>> +
+>>>> +        /*
+>>>> +         * For bandwidth, first_bit record the base unit of bandwidth bits,
+>>>> +         * last_bit record the last bit of the max bandwidth. The max compressed
+>>>> +         * bandwidth should be less than 0xFFFF (UINT16_MAX)
+>>>> +         */
+>>>> +        if ((last_bit - first_bit) > UINT16_BITS || max_entry >= UINT16_MAX) {
+>>>                                                          ^^^^^^^^^^^^^^^^^^^
+>>> what bandwidth combination is going to trigger above condition?
+>>>    
+>> Only use (last_bit - first_bit) > UINT16_BITS, we can't trigger error if
+>> the max compressed bandwidth is 0xFFFF. Because in that condition,
+>> "last_bit - first_bit == UINT16_BITS". So I add "max_entry >=
+>> UINT16_MAX" to catch 0xFFFF. For example:
+>>
+>> Combination 1 (Error):
+>> bandwidth1   = ...0000 1111 1111 1111 1110 0000... (max_entry 32767)
+>> range_bitmap = ...0000 1111 1111 1111 1110 0000... (range is 15 bits)
+>> bandwidth2   = ...0000 1111 1111 1111 1111 0000... (max_entry 65535)
+>> range_bitmap = ...0000 1111 1111 1111 1111 0000... (range is 16 bits)
+>>
+>> Combination 2 (Error):
+>> bandwidth1   = ...0000 1111 1111 1111 1110 0000... (max_entry 32767)
+>> range_bitmap = ...0000 1111 1111 1111 1110 0000... (range is 15 bits)
+>> bandwidth2   = ...0001 1111 1111 1111 1110 0000... (max_entry 65535)
+>> range_bitmap = ...0001 1111 1111 1111 1110 0000... (range is 16 bits)
+>>
+>> Combination 3 (OK, because bandwidth1 will be compressed to 65534):
+>> bandwidth1   = ...0000 1111 1111 1111 1110 0000... (max_entry 32767)
+>> range_bitmap = ...0000 1111 1111 1111 1110 0000... (range is 15 bits)
+>> bandwidth2   = ...0000 0111 1111 1111 1111 0000... (max_entry 32767)
+>> range_bitmap = ...0000 1111 1111 1111 1111 0000... (range is 16 bits)
+>>
+>> Combination 4 (Error):
+>> bandwidth1   = ...0000 1111 1111 1111 1111 0000... (max_entry 65535)
+>> range_bitmap = ...0000 1111 1111 1111 1111 0000... (range is 16 bits)
+> 
+> ok, I'd use in max/min possible values in bios-tables-test,
+> to make sure that we are testing whole range and would be able
+> to detect a error in case the valid ranges regressed (shrink)
+> and x-fail tests I've asked for in QMP test should detect
+> error other way around.
+> 
+OK I will add these tests.
 
