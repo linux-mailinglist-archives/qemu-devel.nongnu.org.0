@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FB3105451
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:25:34 +0100 (CET)
-Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB80105457
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:27:25 +0100 (CET)
+Received: from localhost ([::1]:41242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXnOn-0008K8-GJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:25:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39307)
+	id 1iXnQa-0001kH-0o
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iXnMm-00071v-MP
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:23:29 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iXnNe-0007iZ-Rc
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:24:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iXnMl-00040Y-Bg
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:23:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4840)
+ (envelope-from <frankja@linux.ibm.com>) id 1iXnNd-0004S6-Ke
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:24:22 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6876)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iXnMl-00040J-6n
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:23:27 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1iXnNd-0004Ru-Bi
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:24:21 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xALEM707022069
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:23:26 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wact9hsm3-1
+ xALEMGbg081217
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:24:20 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wd5s202tp-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:23:25 -0500
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:24:20 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 21 Nov 2019 14:23:15 -0000
+ Thu, 21 Nov 2019 14:24:17 -0000
 Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 21 Nov 2019 14:23:11 -0000
+ Thu, 21 Nov 2019 14:24:14 -0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xALENAvA15270360
+ id xALEOD9h5439938
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Nov 2019 14:23:10 GMT
+ Thu, 21 Nov 2019 14:24:13 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 263BDAE045;
- Thu, 21 Nov 2019 14:23:10 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 65181AE055;
+ Thu, 21 Nov 2019 14:24:13 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5830AE051;
- Thu, 21 Nov 2019 14:23:09 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EE9DEAE045;
+ Thu, 21 Nov 2019 14:24:12 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.70.129])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Nov 2019 14:23:09 +0000 (GMT)
-Subject: Re: [PATCH 07/15] s390x: protvirt: Handle diag 308 subcodes 0,1,3,4
+ Thu, 21 Nov 2019 14:24:12 +0000 (GMT)
+Subject: Re: [PATCH 09/15] s390x: protvirt: SCLP interpretation
 To: Cornelia Huck <cohuck@redhat.com>
 References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-8-frankja@linux.ibm.com>
- <20191121145001.5e7a182d.cohuck@redhat.com>
- <2919845b-531d-8c79-fb16-36f67fa29789@linux.ibm.com>
- <20191121151737.58f9b513.cohuck@redhat.com>
+ <20191120114334.2287-10-frankja@linux.ibm.com>
+ <20191121151118.4caa8523.cohuck@redhat.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -104,29 +102,29 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Date: Thu, 21 Nov 2019 15:23:09 +0100
+Date: Thu, 21 Nov 2019 15:24:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191121151737.58f9b513.cohuck@redhat.com>
+In-Reply-To: <20191121151118.4caa8523.cohuck@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="DwkXAcHC4EEbfq0V6Vt6UGeBavKtTqCnC"
+ boundary="BjMmfdvJN9MGZbEXHqri4inDm9VjZTDSf"
 X-TM-AS-GCONF: 00
-x-cbid: 19112114-4275-0000-0000-000003847253
+x-cbid: 19112114-0012-0000-0000-0000036A58FE
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112114-4276-0000-0000-00003897EFEE
-Message-Id: <c421e4e6-c29f-5005-a5e8-bc032ad0af2d@linux.ibm.com>
+x-cbparentid: 19112114-0013-0000-0000-000021A5ED83
+Message-Id: <509daeba-7c4f-0514-6122-fadbe65776a1@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-21_03:2019-11-21,2019-11-21 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 phishscore=0 mlxlogscore=831 suspectscore=0
- adultscore=0 mlxscore=0 bulkscore=0 clxscore=1015 spamscore=0
- malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1911210131
+ adultscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=848
+ spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911210131
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -145,87 +143,134 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---DwkXAcHC4EEbfq0V6Vt6UGeBavKtTqCnC
-Content-Type: multipart/mixed; boundary="s5bVODSw1lIXkViLC3odQ8vhKVHEABLtS"
+--BjMmfdvJN9MGZbEXHqri4inDm9VjZTDSf
+Content-Type: multipart/mixed; boundary="lhcrAMKWzzP27OvdpCeuewpBup7iHayEI"
 
---s5bVODSw1lIXkViLC3odQ8vhKVHEABLtS
+--lhcrAMKWzzP27OvdpCeuewpBup7iHayEI
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 11/21/19 3:17 PM, Cornelia Huck wrote:
-> On Thu, 21 Nov 2019 15:04:31 +0100
+On 11/21/19 3:11 PM, Cornelia Huck wrote:
+> On Wed, 20 Nov 2019 06:43:28 -0500
 > Janosch Frank <frankja@linux.ibm.com> wrote:
 >=20
->> On 11/21/19 2:50 PM, Cornelia Huck wrote:
->>> On Wed, 20 Nov 2019 06:43:26 -0500
->>> Janosch Frank <frankja@linux.ibm.com> wrote: =20
+>> SCLP for a protected guest is done over the SIDAD, so we need to use
+>> the s390_cpu_virt_mem_* functions to access the SIDAD instead of guest=
+
+>> memory when reading/writing SCBs.
 >>
->>>  =20
->>>>          run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
->>>>          break;
->>>>      case S390_RESET_LOAD_NORMAL: /* Subcode 1*/ =20
->>>
->>> missing blank before */ (introduced in a previous patch)
->>>
->>>  =20
->>>> +        subsystem_reset();
->>>> +        s390_pv_prepare_reset(env);
->>>>          CPU_FOREACH(t) {
->>>>              if (t =3D=3D cs) {
->>>>                  continue;
->>>>              }
->>>>              run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
->>>>          }
->>>> -        subsystem_reset();
->>>>          run_on_cpu(cs, s390_do_cpu_initial_reset, RUN_ON_CPU_NULL);=
-
->>>>          run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
->>>>          break;
->>>>      case S390_RESET_EXTERNAL: =20
->>>
->>> Annotate this with the subcode as well? (in the patch introducing it)=
- =20
+>> To not confuse the sclp emulation, we set 0x42000 as the address, but
+>> ignore it for reading/writing the SCCB.
 >>
->> I think this has no diag 308 subcode and is triggered by qemu
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  hw/s390x/sclp.c         | 16 ++++++++++++++++
+>>  include/hw/s390x/sclp.h |  2 ++
+>>  target/s390x/kvm.c      |  8 +++++++-
+>>  3 files changed, 25 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+>> index f57ce7b739..00d08adc7f 100644
+>> --- a/hw/s390x/sclp.c
+>> +++ b/hw/s390x/sclp.c
+>> @@ -193,6 +193,22 @@ static void sclp_execute(SCLPDevice *sclp, SCCB *=
+sccb, uint32_t code)
+>>      }
+>>  }
+>> =20
+>> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>> +                                uint32_t code)
+>> +{
+>> +    SCLPDevice *sclp =3D get_sclp_device();
+>> +    SCLPDeviceClass *sclp_c =3D SCLP_GET_CLASS(sclp);
+>> +    SCCB work_sccb;
+>> +    hwaddr sccb_len =3D sizeof(SCCB);
+>> +
+>> +    s390_cpu_virt_mem_read(env_archcpu(env), 0, 0, &work_sccb, sccb_l=
+en);
+>> +    sclp_c->execute(sclp, &work_sccb, code);
+>> +    s390_cpu_virt_mem_write(env_archcpu(env), 0, 0, &work_sccb,
+>> +                            be16_to_cpu(work_sccb.h.length));
+>> +    sclp_c->service_interrupt(sclp, sccb);
+>> +    return 0;
+>> +}
+>> +
+>>  int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t cod=
+e)
+>>  {
+>>      SCLPDevice *sclp =3D get_sclp_device();
+>> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
+>> index c54413b78c..c0a3faa37d 100644
+>> --- a/include/hw/s390x/sclp.h
+>> +++ b/include/hw/s390x/sclp.h
+>> @@ -217,5 +217,7 @@ void s390_sclp_init(void);
+>>  void sclp_service_interrupt(uint32_t sccb);
+>>  void raise_irq_cpu_hotplug(void);
+>>  int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t cod=
+e);
+>> +int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>> +                                uint32_t code);
+>> =20
+>>  #endif
+>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>> index 58251c0229..0f2458b553 100644
+>> --- a/target/s390x/kvm.c
+>> +++ b/target/s390x/kvm.c
+>> @@ -1172,7 +1172,13 @@ static int kvm_sclp_service_call(S390CPU *cpu, =
+struct kvm_run *run,
+>>      sccb =3D env->regs[ipbh0 & 0xf];
+>>      code =3D env->regs[(ipbh0 & 0xf0) >> 4];
+>> =20
+>> -    r =3D sclp_service_call(env, sccb, code);
+>> +    if (run->s390_sieic.icptcode =3D=3D ICPT_PV_INSTR ||
+>> +        run->s390_sieic.icptcode =3D=3D ICPT_PV_INSTR_NOT) {
+>> +        r =3D sclp_service_call_protected(env, 0x42000, code);
 >=20
-> -ENOCOFFE
+> I fear that confuses the reader instead of the emulation :)
 >=20
-> But even more reason to annotate this with the fact that this is
-> triggered by QEMU :)
+> Especially as you end up passing that value to
+> sclp_c->service_interrupt()...
+
+Pierre has some more opinions on that, so I'll let him present his
+planned changes to this patch :)
+
+>=20
+>> +    } else {
+>> +        r =3D sclp_service_call(env, sccb, code);
+>> +    }
+>> +
+>>      if (r < 0) {
+>>          kvm_s390_program_interrupt(cpu, -r);
+>>      } else {
 >=20
 
-You're too late with that idea :)
-I just split out the reordering and the annotation into a new commit:
-
-https://github.com/frankjaa/qemu/commit/8c53d5c8a6bbcc53496c7a2877c7cbffc=
-435b708
 
 
---s5bVODSw1lIXkViLC3odQ8vhKVHEABLtS--
+--lhcrAMKWzzP27OvdpCeuewpBup7iHayEI--
 
---DwkXAcHC4EEbfq0V6Vt6UGeBavKtTqCnC
+--BjMmfdvJN9MGZbEXHqri4inDm9VjZTDSf
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3Wnc0ACgkQ41TmuOI4
-ufgJhxAAggpbibBVAGKyEys3DkrASuJTLhomXmu+zd45DfYObRaducVeJHQl6Ekt
-9BOarBTaP2FlS/KASK3hS51st+JV7Fl0LzOAsn/4LIJrPeFxGoRuzsapPjaCq/3M
-6/JyACgdDfxjUaJ/15+GsDbQda2pNIVQBrQlOaWO9Gjjzk6G2tOmAIMSE8bIGcET
-Mmzrb6I4rSf0fyVOXVkfqAojC/5LgOkd+PkAxYCiuwXMh96bK/TWnKMHR0C5jIRN
-ZJ/rBM8aZf7YpFzkxrzqCAxSlkJRAUGCbS6n85dSa4ivRmwtj8IXiZcutl4i2BR3
-HI1tc/8sgZ99RiLsO1XFGlvjVlsZLMJ4r+u2ORIFOZb6w8k/w/Hr0yassl73Lqyw
-Max3pe1sGdhfxWtL2ySnDls+V25BBb3hkfqbGNOXxPvhxMGPQOEj7+X+b/vPb2/S
-h/m0aHRPfP5Upn3af3FEUz9lfMj9ISTqnKRLnag+WOrMqI14h4xxRdDM9adHpgxS
-FT2+Sz3Xtz6pHV6HqzB3id5qQnytHDcZ+73+Bu7g577NunU7i2k8TcGJ9hR+kmeB
-pT6QjXVJRLudH1wLArJbka8+D0kEJCJ8fBfh2uBhg1e2va/sYmNBRDa/+UWpZbEw
-BBnDGGOLvFvAsgw206xrEF+/Y5hURyyIJvHLKGj4CyjApw8zZ78=
-=7DMQ
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3WngwACgkQ41TmuOI4
+ufgGUQ//Ywq8H82Ff0nnL0VhbVZu7gw+LoTbMwRd551ohcWZP3UyCS/wx/mqEKoI
+f0xi3VwrYbufd8zzduDQfYPcARrwGS1Xg/lCOTHIEgOkefzyjfhR6gMz43Uz+9jO
+c6R3/7LNA3ApR6DcEcJuuat/ZYXeA3XOlu80W8E8vBgf4ihQxkhOS5iohdL4tc3H
++kSRh3XxEvvszJ8ReK5Qe6lXlvKLjhJBKAny1joy8oxTOdeCDl1x6+JWkusU69Cx
+cxaF9EgwbCYHcgxk+HFtQM18Uw5hgWxqnKMyiGz39HvySwafPcW1i1TRccImlDZ9
+fNzwzOyypQT6by9CP52bsGEj+zVxRA259NHwUy0RjCIrGcPMhVaclStQYUD5Mka3
+hHqTvTwjgl8+lmyNxEfH3zmukanH4mJJYLga/v63lFYOdO4ZVE8dm/6HaQ0ton6A
+fYAsJ06uVGo/eMp+b3gLbwVHg7pFukjeGViQYjRQ4dhN9qqA7MP5j/wwyZdVwsnF
+rpQT/alJSlMsYBPifvbzPHu5A7YV8TM221qas6YWxYWgwX5JjHPJSQ8WUdjtWt/3
+n1Ptlxl2IfNqotLZZX77WaFkVy2OXpq7SjoeBtew8p4Ikx32cTqn0YensnMF+tZt
+4DRrg4RQdlmUNG9/XKGYH1vIkoNfhj7cio2S+llcSkevDXp7YyU=
+=BufN
 -----END PGP SIGNATURE-----
 
---DwkXAcHC4EEbfq0V6Vt6UGeBavKtTqCnC--
+--BjMmfdvJN9MGZbEXHqri4inDm9VjZTDSf--
 
 
