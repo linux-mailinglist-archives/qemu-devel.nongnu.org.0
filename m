@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA5E1058DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 18:55:10 +0100 (CET)
-Received: from localhost ([::1]:43284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499EB1058FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 19:00:40 +0100 (CET)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXqfd-00026h-C7
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 12:55:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
+	id 1iXqkw-000544-P0
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 13:00:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1iXqap-0000HW-ME
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:12 -0500
+ (envelope-from <lukasstraub2@web.de>) id 1iXqae-0000Es-VU
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1iXqao-0007GW-Mb
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:11 -0500
-Received: from mout.web.de ([212.227.17.11]:52839)
+ (envelope-from <lukasstraub2@web.de>) id 1iXqae-00073e-46
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:00 -0500
+Received: from mout.web.de ([212.227.15.3]:38935)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1iXqao-0007EP-Da
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:10 -0500
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1iXqad-000728-R9
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:50:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1574358586;
- bh=827P9uVe6YhRWzCuWJVs9esq/yZNcNZoevzRX72rGsM=;
+ s=dbaedf251592; t=1574358569;
+ bh=/tWQRuIu4SR7FaDWRPHY2EoqGlYDYuB7/4qetBCJls0=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=NODxjq/i393jMDSdIDVnlAXzuct3wPjub5XxwFPknAK6MTi694px4693v/oIcOZh2
- 2LxTQIGUwXe9nCVOIulu1af0HAYuZDkPKg/PIsKYDuc90E4L+l2pwepVVL6stTQbj6
- //oR3iQwV1ryflZSMDUc7k0djhdShksy426fQoys=
+ b=nTWHOfm+2sSk+XdI2d0ISmtpBkEhGngKui5Ir3sWpJX39x8SKt4dEBPMidcwavEEI
+ 8SMVzXbukXUwkIRW2O/A6Bh9kMtPT+qF7jLQaP3amO+/Q2Fh2Mj3kxmecWoQvqcyHv
+ vl1kab2vYuLBhnROlG7sP+aYy/MmnxrSimPIqs2I=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.160]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MMEmv-1iUpNP2M3R-0082Fl; Thu, 21
- Nov 2019 18:49:46 +0100
-Date: Thu, 21 Nov 2019 18:49:42 +0100
+Received: from luklap ([89.247.255.160]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MP2Sl-1iS5IE1mMB-006QdI; Thu, 21
+ Nov 2019 18:49:29 +0100
+Date: Thu, 21 Nov 2019 18:49:24 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 4/4] MAINTAINERS: Add myself as maintainer for COLO resource
- agent
-Message-ID: <56f06c61bfea6f36bbf190bcc6db8f0c3245e6c4.1574356137.git.lukasstraub2@web.de>
+Subject: [PATCH 1/4] block/quorum.c: stable children names
+Message-ID: <ce10f8cf2bb9ae8a1505b59bbc2199f7b4966990.1574356137.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1574356137.git.lukasstraub2@web.de>
 References: <cover.1574356137.git.lukasstraub2@web.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sHYHMKOSI21+Wr7kHh+QpkLudZo14bWDu3tKwV0QmHcyC6NEGgP
- WwxpCoCEVZS3Thy+tgJ8SeNMTo5HWwEXk9LcJoRxogB/PWlScWMemARtNz1/JtJx36+Awie
- oyPLd6t0G8BF/Q4Hc3OTa4F3BILDab6C5B3HYQ0z13+6bdxkXI9dgw+314U1fsIVwaiV4gL
- cILLPYNx1dGW9ituJTafA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uzQ+apF56xU=:JaHNpqWl9XQJ2zFx5ZmYQS
- sgc5kd8rjHm3kx86y3/mEzeUlbZRvWJiOLtacNsGAgztmYVRdi39E0lEsmg1Wm/Q2xtX4I8gi
- jIa3Gr4GeyfLgxi85mz5HDJiWcNXaWPecG9lX4OXAsnJ7fCcUtgFi3mXU5KEhBaJ8BjKbpx8g
- TqoTGEdJ0lbDgU+OpuEkZsEWP+MRUaTsC/VvlInl+qaSzt7hfLkn0yiz0QN1LIliYVP4N5juq
- LAV2pdi2UmDtcfHPxf0Z+rqQf5Atu/RkdGQk0jkDvJRTTV2zjwyhdqYxgWpOoiRSdw4HdsXD3
- PJrBn3vVVx7hVl0VCx25DjkCF9R10N9sKOXfPJdxw8v3oqtZ8uStmB4N8vxZzfodOGBJ4cdL3
- 0y5gQlnCCvJsdzG6nA0UtoIhzX6UzRyATjpoLn4LiBaAnCyXfLdZtO4mScm0eTBoCPWBfCTYQ
- uEMKiKOYwGpX3Vd0bPZOIO7BWuzXWyrRSSM+djcW6YLtyQPZ4tlUUJSxeFeD958u6JwtHlxOw
- Ppm00kk+KouPGPqohvkdALOqtmsar7DXpsHZ/pZVjiz5+Sinyy8x/zynPCCN3kwcNMSSDT0o3
- p7OYpEf0rbLZU6/gsvy1T4AO60QpidPT7SbGHKbuKs8Zhn/29gUZ/EAWujn2QCKXDvWmUQkeR
- Fc/5fS0LOzDkDX9U7P3//bjR+lsP9cIzUdOKkess5etr1nUybWfA5kISBKcE6GwdUiSjSbtNU
- 32G29DuImnm69hkb7SzaYNcrI/qoM5EEWNcKLxki78QvpCgZtWNvNuWQIAXavFhAemClvLPBA
- cnO82Bx4a/arOqqzu8AiMrcIyKefB8wWY0PMqKipAX+S67rSGLud22UwZ9zvLJ9UbUvABZjJo
- 5a1D6C+DiqKWhQhtrggpKIPDL2bJCRgOao1ph1skwjupsVVhBeR7n/QVARZrJOpp4X4d9dMuP
- XXi/iy3d2GkUAjKHVTiu2QS/KcNdtDWRW7Y6Y0H6ql+H4g9R66r0lUfrN0f0Pbg41cANF1DqP
- vtoxRqUbGnJ5NhS69kv8K7te95Luah4IKFXwUAqcqhctxyex2SgpP8wo+cPKYmNTptpgwQ2Bn
- klxavovVZXGuR2E9DJMLaHDTLrV/m1vyPknhZcTGHuIU4ggl/V8bR7oy5SAH0LiE65Nok25RW
- HUsnMEj8/dpKX1+b0opZb4+SFuh5IJcz3s2JrohVZKCyievfkgEF788oUb3ScldmqpcUCtWfv
- zeG9I90Ctt4TQYBEr+nvmMaoKsCxi47pan3qy4DB8KebIC8+Q9zhZUSZaaIk=
+X-Provags-ID: V03:K1:+QrQyax3xz6u5ZUK7gqFU8+jrbwvqLzy/3g+LfT4UXkF+aAouY9
+ 4XaTokmPEaiwucyueROhWtkLxWC6QGp69R2AoC83JlThb0n+f0exXZEOd5gylghQPkzrnYx
+ megDTVBEEatB8WGd9GE8Qktmmgly5ec9XWgHfmY+XEBMATXT6uN2mXrt9P2r21Msq53K1mk
+ /1PpvnuqOsCRfn1zY6XOA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DzyybryLu1U=:wOwLHO64xJ/H5IOJSZbUIp
+ xdU8C/3I/UckyQl21rGB6ojsLUBN33vYtR4FdnQZacLq860RM47b+LBiC72jtQw6uTYho5jNU
+ +V3TibSUOH5HugF9yOw9zBFkNhLHbhTTSClJrORvKZz2cFVk302frynx8AfOxqAhqSyrEHUJO
+ qUr4dnPFni2APZ2S6CG+42XKSRU48yrCl60c5LxJ2uV0bBBKn6zi0aV5PRdW/RT3Tq1FL5TBj
+ UR9t5xzSNnxWJqN6UKlYqG8akDoLj41AnH7xcfSLmwc8pPfU1ZfiYCGzG/bOqMn7/TIp9jExx
+ bSCTQLyA9DAc6q5omlXazxSUCz0mQK8n2GHzQZDkIo0tR7KipeNA6JwJ46Aa+o8UQaPu4S7Rx
+ h4ygqjU/X1owkS91TXPV8xUebcCKgOO4KYe2Zkcvz0Cp3Yo8ikHDXLtLV46nGpx86GZyb66wD
+ 7g4IV9mox2hayx/WB/M4n0M5bUwSsyAvVeZV9XjEW86vd+n1cWjaJVYD/1/9iq4tN5ilQAY1U
+ WvhsBg1I2pE1c5pAhEiCZyoMTYu1OezmgjZo1y2KaGqpEyt+OXgTcP390WzaZsre+DB7aXj9n
+ GiV6eVttHt2+UxeRnzA/yphNp13hqSK2cE+K94bf1+3j2gFyStzTaslr1oxBDNt2pxj//0KxU
+ g+cKvXldkmE6Fng7DkJnanBZiLPZ9yf3VotEEokFc3ZcDqw7jeoDIP8lhFm9OFJ6YxJORmxRU
+ /817fuPZSar6cxThBQi8K7uNuoolzRoFu6syp9fZp7pTdx2GNhGJN51qiL0nm3NFvO/YlXMiZ
+ AJOnl3o+zjkEWt4b57iDzPWWF+ppUtahBFMB4jMUc8MQll/keHP+5DPbGWzKkL45wbEjjPe1n
+ EiaZC05tUH2yxegGtjPzPtBoPdqaTR2EE1VgYASbDoIn+rbhLpegUwQ94PsmShkdi4ws1fRrc
+ pLh7pkJYdlaYctNL5V8ukhyGEIqN2pH8YB6hTzUrYVx0cyIp+lW91IipZlIkQ3P6nu37GISnC
+ xDN65A7s6L8/ceKLOZi8bUjHvAfSxsanOWIaUQkn67OxLaEXywMuWEizwIsOQeabSUGUqedHd
+ qvaZGyffJPze3+mQKm8KL9/tdxxhv8khf867eaL1ju3hfunRxc+Dsg4zd7kCf2IV4NFXApAlW
+ 2L7gbcMxxdhEs46gX8/xJWuL9PnqCqm6ReKVmAdmO7EgUKqOy6rcM23i2mGKZTyP9Dt/WddXN
+ D/NkhvOH/daL2NnALQnczNpV0wRXIzqxVCt14u+o9L990LHOZia5fJ+WKUPs=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.11
+X-Received-From: 212.227.15.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,31 +84,35 @@ Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While I'm not going to have much time for this, I'll still
-try to test and review patches.
+If we remove the child with the highest index from the quorum,
+decrement s->next_child_index. This way we get stable children
+names as long as we only remove the last child.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 =2D--
- MAINTAINERS | 6 ++++++
+ block/quorum.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d6de200453..aad8356149 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2239,6 +2239,12 @@ F: net/colo*
- F: net/filter-rewriter.c
- F: net/filter-mirror.c
+diff --git a/block/quorum.c b/block/quorum.c
+index df68adcfaa..6100d4108a 100644
+=2D-- a/block/quorum.c
++++ b/block/quorum.c
+@@ -1054,6 +1054,12 @@ static void quorum_del_child(BlockDriverState *bs, =
+BdrvChild *child,
+     /* We know now that num_children > threshold, so blkverify must be fa=
+lse */
+     assert(!s->is_blkverify);
 
-+COLO resource agent and testing
-+M: Lukas Straub <lukasstraub2@web.de>
-+S: Odd fixes
-+F: scripts/colo-resource-agent/*
-+F: tests/acceptance/colo.py
++    unsigned child_id;
++    sscanf(child->name, "children.%u", &child_id);
++    if (child_id =3D=3D s->next_child_index - 1) {
++        s->next_child_index--;
++    }
 +
- Record/replay
- M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
- R: Paolo Bonzini <pbonzini@redhat.com>
+     bdrv_drained_begin(bs);
+
+     /* We can safely remove this child now */
 =2D-
 2.20.1
+
 
