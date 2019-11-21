@@ -2,66 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C518105060
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 11:19:33 +0100 (CET)
-Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3EA105079
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 11:25:35 +0100 (CET)
+Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXjYh-0000Ri-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 05:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42249)
+	id 1iXjeZ-0007EU-1J
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 05:25:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iXjVl-0007Bj-GC
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:30 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXjdh-0006lL-3N
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:24:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iXjVk-0007VT-Cm
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59426
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iXjVk-0007Uy-4g
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574331387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfCpqtfoaFd+zElyHybnucVvilp1YJOV0xQeGdTYA5c=;
- b=egZK3IRzVxaYHPt5Wft14VpBfyoP3TU4KGD4KvFweBJ06roECpt7UfcBrUsvl3hh/ne58E
- s8HqNg8vUuHvE1OBRhA/uqiKyzqpeF+M10i+capcPkJgWQZDc7fimYEqhPnX5GSJwUwHtd
- fG9zjXe1KX3ZQ3ABZw0mgfcy88lrn3o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-7IQ6cPg5MVefhgO7UnPu9g-1; Thu, 21 Nov 2019 05:16:24 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B594DBA6;
- Thu, 21 Nov 2019 10:16:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D4D0101F6CE;
- Thu, 21 Nov 2019 10:16:19 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9D7E59D45; Thu, 21 Nov 2019 11:16:18 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] ui/gtk: fix gettext message's charset.
-Date: Thu, 21 Nov 2019 11:16:18 +0100
-Message-Id: <20191121101618.29289-4-kraxel@redhat.com>
-In-Reply-To: <20191121101618.29289-1-kraxel@redhat.com>
-References: <20191121101618.29289-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 7IQ6cPg5MVefhgO7UnPu9g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iXjdf-0003SF-6l
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:24:40 -0500
+Received: from mail-eopbgr150117.outbound.protection.outlook.com
+ ([40.107.15.117]:7662 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iXjde-0003QY-Bk; Thu, 21 Nov 2019 05:24:39 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hNOdMB2CucbtPnbNAK89IYXNAxhPE6U9wbCbK5eNvoK4kN0WF2UxQUiOsqVVYnVmrJqMcPIgw4QoWT5fzft7/VOF53+/cZVchK13wnENtrhdCOuMAIomEjGwCa8nXPMUNy8uZjmzXftO/2F9Ai0+x+BLNTylwFNZiyd8L9mCQIVaCNE9zz4PlVqNdwlOkbbqr+tHELKVSlhXdM1Nbh5YgdXy/84yO/l412LHWDfFeonVTcW4Zko4BogzQaSe+12hnCrqOStozdEGgIOjawmRRtlLpMwe4EXENMoi5r0LrfClsdKmOYpLWOtJlfyOLjY60s+QpCBe2+S+baoFHduAbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YsuSf1R8ctPnKaC5lo4ZrCj4aGNk+wYvh8WFNlPYNT0=;
+ b=MO52bs3hH5mvUTPAQmNCOYNbcEcMJZ/xzGmX4oJD0e7jCsJW1n5gvzQoRlOhRvg4oQhbqZdkn1b7Tqbyj3rnHgxMkUqwDnxRv108P5I26jJxWJPCNRWEXTTTccNCSLqR6N/kZZbrlvw0bermaBgsRhe3q3hUT7EuEdk7NXMo4Tcl0ndxvMULLnKb8vyd5kKEtbbGrlYlS5FmCU5mZ4q0dA3+q9cEW9EWUByxJs8ssgNSCsiswSH7Oh6EhuUiEHI1Ow18sg8j6QmIMqRpRFZQ+SZPib6mILRccswQA8i9PD7fAmbsr4hrfHw1KLmPAofNndN6TwJpf0hKEQCdX3Cmfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YsuSf1R8ctPnKaC5lo4ZrCj4aGNk+wYvh8WFNlPYNT0=;
+ b=eUsDIRKa+BmjB5AKDFwp9bIggp2gbehn0b0okHqI7LPGX0y+VEqypAtdn75yyU+JJLQ+diDRV8zcNQRqU1yjJV8N1c8GYiZnS3U43Nhgej4ER2RLL4ywB+H+S0B+EF9iY21ag3WXSI8DSW3xiwIex6o118k3wNChmEP4aseAtas=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3320.eurprd08.prod.outlook.com (52.135.165.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.16; Thu, 21 Nov 2019 10:24:35 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2474.019; Thu, 21 Nov 2019
+ 10:24:35 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 6/6] iotests: Test committing to short backing file
+Thread-Topic: [PATCH v2 6/6] iotests: Test committing to short backing file
+Thread-Index: AQHVn9KxRltA7uNPbUqM02ssz4EKHKeVbBaA
+Date: Thu, 21 Nov 2019 10:24:35 +0000
+Message-ID: <10cfda6f-0d42-3ef3-950b-e4c3e3b13e39@virtuozzo.com>
+References: <20191120184501.28159-1-kwolf@redhat.com>
+ <20191120184501.28159-7-kwolf@redhat.com>
+In-Reply-To: <20191120184501.28159-7-kwolf@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0167.eurprd05.prod.outlook.com
+ (2603:10a6:3:f8::15) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191121132433194
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 80c962ac-f86c-4bc3-d153-08d76e6d0172
+x-ms-traffictypediagnostic: AM6PR08MB3320:
+x-microsoft-antispam-prvs: <AM6PR08MB3320CB739104EDFD8BB8D293C14E0@AM6PR08MB3320.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:400;
+x-forefront-prvs: 0228DDDDD7
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39840400004)(346002)(366004)(136003)(376002)(396003)(189003)(199004)(316002)(81166006)(2906002)(102836004)(81156014)(25786009)(86362001)(31696002)(256004)(446003)(2616005)(66476007)(66556008)(186003)(66446008)(64756008)(26005)(14454004)(99286004)(8936002)(305945005)(8676002)(66946007)(7736002)(6246003)(6512007)(478600001)(66066001)(5660300002)(76176011)(52116002)(2501003)(229853002)(36756003)(110136005)(71190400001)(71200400001)(3846002)(6116002)(11346002)(31686004)(6486002)(4326008)(54906003)(558084003)(386003)(6436002)(6506007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3320;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2wH3K/QVe2n7ITCNUpsCY13H2nS97doxn570dOjNOuijF64wldwF6EjPmYEE5UGIvHY/YUFD2gvmJUUPLrVHPSbbK/dsO8g5+jfnLz+ZDckLHyeRmq6IS9XSg2O3z9PqzHy9094i0uBKh24jWdgBTYubT8EQy5hin0drww/QA4ZhDmHo0TISOvfdNfxASHhlv6c7DFk5xbrJjCPLzfOMjqU4KApDrq2B4tf0XMUHKRQNpLaKVsDVQlzAc2yYpC/n/fgEU+xN8rH+rA7CilUT4U2W9oQR56nmNJglEenjBtV9gFtAf5FtOnZux/o1HqX5dy4etKjniclq7toRZ4VQmjsU60aWsbDJhyOgt4tjUoCNsJ3Vnb+FxE7A68AlbJSB7ng0gZRjlHiI7n8zaFCzfhm/XyVWX0PeNBg3SPkUovd1fkc20YDTBt+BYJgd+6/u
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <2A9FFBED1648C44B91E00C9691AD8C6C@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80c962ac-f86c-4bc3-d153-08d76e6d0172
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2019 10:24:35.2646 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rOqZ4SMv0Uey2utqJOoyO27lE1miWEp0ucDQkHm3hIlEk0sunP/pAZLV+ufYVvkXyJiIXHpUI3j1upzIVNQvzqs84qwQnNXEUIQsm7KtYd8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3320
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.117
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +109,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, yanminhui <yanminhui163@163.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: yanminhui <yanminhui163@163.com>
+20.11.2019 21:45, Kevin Wolf wrote:
+> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
 
-Signed-off-by: yanminhui <yanminhui163@163.com>
-Message-Id: <20191116031037.1207-1-yanminhui163@163.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/gtk.c    | 1 +
- po/zh_CN.po | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 2f23922afc6a..692ccc7bbb90 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2215,6 +2215,7 @@ static void gtk_display_init(DisplayState *ds, Displa=
-yOptions *opts)
-     setlocale(LC_MESSAGES, "");
-     setlocale(LC_CTYPE, "C.UTF-8");
-     bindtextdomain("qemu", CONFIG_QEMU_LOCALEDIR);
-+    bind_textdomain_codeset("qemu", "UTF-8");
-     textdomain("qemu");
-=20
-     window_display =3D gtk_widget_get_display(s->window);
-diff --git a/po/zh_CN.po b/po/zh_CN.po
-index b25e8e3c0207..38de6a4f2a7f 100644
---- a/po/zh_CN.po
-+++ b/po/zh_CN.po
-@@ -66,7 +66,7 @@ msgid "Detach Tab"
- msgstr "=E5=88=86=E7=A6=BB=E6=A0=87=E7=AD=BE=E9=A1=B5"
-=20
- msgid "Show Menubar"
--msgstr ""
-+msgstr "=E6=98=BE=E7=A4=BA=E8=8F=9C=E5=8D=95=E6=A0=8F"
-=20
- msgid "_Machine"
- msgstr "=E8=99=9A=E6=8B=9F=E6=9C=BA(_M)"
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
 --=20
-2.18.1
-
+Best regards,
+Vladimir
 
