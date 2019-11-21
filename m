@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918CF105735
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:39:03 +0100 (CET)
-Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2794105728
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:37:20 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXpTy-0007DB-LL
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60917)
+	id 1iXpSJ-0004u6-WC
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iXpQS-0003Ng-K6
+ (envelope-from <clg@kaod.org>) id 1iXpQS-0003ND-FD
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iXpQR-00046I-I8
+ (envelope-from <clg@kaod.org>) id 1iXpQQ-00045w-Tr
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:24 -0500
-Received: from 6.mo178.mail-out.ovh.net ([46.105.53.132]:40263)
+Received: from 6.mo3.mail-out.ovh.net ([188.165.43.173]:37137)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXpQR-00045e-BY
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:23 -0500
-Received: from player759.ha.ovh.net (unknown [10.108.54.94])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id A5C4482E53
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 17:35:21 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXpQQ-00043M-N4
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:22 -0500
+Received: from player694.ha.ovh.net (unknown [10.108.42.196])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 1D43B22C686
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 17:35:19 +0100 (CET)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player759.ha.ovh.net (Postfix) with ESMTPSA id 30959C6C33A6;
- Thu, 21 Nov 2019 16:35:03 +0000 (UTC)
-Subject: Re: [PATCH 4/5] spapr: Handle irq backend changes with VFIO PCI
- devices
+ by player694.ha.ovh.net (Postfix) with ESMTPSA id 79604C51FA12;
+ Thu, 21 Nov 2019 16:35:04 +0000 (UTC)
+Subject: Re: [PATCH 5/5] spapr: Work around spurious warnings from vfio INTx
+ initialization
 To: David Gibson <david@gibson.dropbear.id.au>,
  Alex Williamson <alex.williamson@redhat.com>
 References: <20191121005607.274347-1-david@gibson.dropbear.id.au>
- <20191121005607.274347-5-david@gibson.dropbear.id.au>
+ <20191121005607.274347-6-david@gibson.dropbear.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <30d4fd1d-61f7-ebe2-a593-0917d187cab5@kaod.org>
-Date: Thu, 21 Nov 2019 17:35:01 +0100
+Message-ID: <0819835c-c066-af2f-79dd-a094d4d281ae@kaod.org>
+Date: Thu, 21 Nov 2019 17:35:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191121005607.274347-5-david@gibson.dropbear.id.au>
+In-Reply-To: <20191121005607.274347-6-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 13603122676374014965
+X-Ovh-Tracer-Id: 13602841201740909557
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehvddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehvddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.53.132
+X-Received-From: 188.165.43.173
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,51 +71,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21/11/2019 01:56, David Gibson wrote:
-> pseries machine type can have one of two different interrupt controller=
-s in
-> use depending on feature negotiation with the guest.  Usually this is
-> invisible to devices, because they route to a common set of qemu_irqs w=
-hich
-> in turn dispatch to the correct back end.
+> Traditional PCI INTx for vfio devices can only perform well if using
+> an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
+> if an in kernel irqchip is not available.
 >=20
-> VFIO passthrough devices, however, wire themselves up directly to the K=
-VM
-> irqchip for performance, which means they are affected by this change i=
-n
-> interrupt controller.  To get them to adjust correctly for the change i=
-n
-> irqchip, we need to fire the kvm irqchip change notifier.
+> We usually do have an in-kernel irqchip available for pseries machines
+> on POWER hosts.  However, because the platform allows feature
+> negotiation of what interrupt controller model to use, we don't
+> currently initialize it until machine reset.  vfio_intx_update() is
+> called (first) from vfio_realize() before that, so it can issue a
+> spurious warning, even if we will have an in kernel irqchip by the
+> time we need it.
+>=20
+> To workaround this, make a call to spapr_irq_update_active_intc() from
+> spapr_irq_init() which is called at machine realize time, before the
+> vfio realize.  This call will be pretty much obsoleted by the later
+> call at reset time, but it serves to suppress the spurious warning
+> from VFIO.
 >=20
 > Cc: Alex Williamson <alex.williamson@redhat.com>
 > Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 >=20
 > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 > ---
->  hw/ppc/spapr_irq.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  hw/ppc/spapr_irq.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 168044be85..1d27034962 100644
+> index 1d27034962..d6bb7fd2d6 100644
 > --- a/hw/ppc/spapr_irq.c
 > +++ b/hw/ppc/spapr_irq.c
-> @@ -508,6 +508,12 @@ static void set_active_intc(SpaprMachineState *spa=
-pr,
->      }
+> @@ -373,6 +373,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Erro=
+r **errp)
 > =20
->      spapr->active_intc =3D new_intc;
+>      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
+>                                        smc->nr_xirqs + SPAPR_XIRQ_BASE)=
+;
 > +
 > +    /*
-> +     * We've changed the kernel irqchip, let VFIO devices know they
-> +     * need to readjust.
+> +     * Mostly we don't actually need this until reset, except that not
+> +     * having this set up can cause VFIO devices to issue a
+> +     * false-positive warning during realize(), because they don't yet
+> +     * have an in-kernel irq chip.
 > +     */
-> +    kvm_irqchip_change_notify();
+> +    spapr_irq_update_active_intc(spapr);
 >  }
 > =20
->  void spapr_irq_update_active_intc(SpaprMachineState *spapr)
+>  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
+ **errp)
+> @@ -528,7 +536,8 @@ void spapr_irq_update_active_intc(SpaprMachineState=
+ *spapr)
+>           * this.
+>           */
+>          new_intc =3D SPAPR_INTC(spapr->xive);
+> -    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
+> +    } else if (spapr->ov5_cas
+> +               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
+>          new_intc =3D SPAPR_INTC(spapr->xive);
+>      } else {
+>          new_intc =3D SPAPR_INTC(spapr->ics);
 >=20
 
 
