@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5B7105368
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 14:43:08 +0100 (CET)
-Received: from localhost ([::1]:40594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F713105370
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 14:45:32 +0100 (CET)
+Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXmjj-0004SU-I7
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 08:43:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60223)
+	id 1iXmm3-0005u3-63
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 08:45:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iXmhA-0002O6-T3
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:40:29 -0500
+ (envelope-from <stefanha@gmail.com>) id 1iXmkX-0005Cj-Ky
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:43:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iXmh9-0003Ww-S5
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:40:28 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33715)
+ (envelope-from <stefanha@gmail.com>) id 1iXmkW-0007lW-NT
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:43:57 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53916)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iXmh7-0003QV-Uj
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:40:27 -0500
-Received: by mail-ot1-x342.google.com with SMTP id u13so2967220ote.0
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 05:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ufUC7Hrdp01lUaI7/yPjPIzKGNZ/PGaWg+Z8DWu+6nI=;
- b=y/yhtfvsN8HxZwWABR4pdHfl6LcVWYh9FwiPY2YJgv+S6ngayEmj5wpC/lMsvKMRQX
- xc/dbyQqY3ONZz7blgLEc2tgQHC9tWy+Y6DVPfGrXKZwXaFblF+g2IJDJs7pGN9nSo4c
- Xtj82I/q1JM0pQDpW+r3oKFFOS3YTwORFmpYh6MFLJ54FBAUQMBXfMjVPj9UMIQuN5N4
- HC9TJkPM3MMwFOrU3XGKbmVzm1ND/Y3KyChsIPin7HUt9ujPZTT6W8RTBSpMR0vr/MmD
- aNnf9pgY7/sTOqk5Zw+TxAY6NB1HzuIARC91PDRdYn+fN6Kc0cFRCtQsMD6r6SWHa/3W
- +L7Q==
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iXmkW-0007jk-GP
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 08:43:56 -0500
+Received: by mail-wm1-x342.google.com with SMTP id u18so3772962wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 05:43:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=7Mdlj/m0wAidu8wbBTgtlWZywovb0IgKfmWD9Wybjjg=;
+ b=nqQLqzNbYQqjSA62U1iEVS0IKVevNWoZYGO8dknt33yXTeHzlq17oDDJ2VX+9GjNzy
+ Oes7Ok9CYCaJN5oeXv5jQQ6vvUs6ral6J084G8Jgvaa0Xk3Qh8z8CaYaZfZeQwemSbKL
+ UjeMpd1XkyRNoojRITfIty0cHRWknhKqJ040ShPypeAMWiT8L+nzzgqRko8OlG0F2vnc
+ oVmCsQRnxbmOZqXXAQ/E1oGngTwqJ67b+zFq1TLhjvTwQwi1zD1v525i7xEXKMAUi5YT
+ B+AxeFx7gu1K6ZVkKVlVmAGDIuKfIOYcgCJDyeEH/Vzkx8y8ltIjtreebmBhby88HHEZ
+ ljuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ufUC7Hrdp01lUaI7/yPjPIzKGNZ/PGaWg+Z8DWu+6nI=;
- b=GE3y/TomjWzIjioHHEFdrjFVufH8hKYhOdP3j4ZJexulW0195h1ilPqplxfKex/qwq
- H0QZz2bCG2CKxYjAav1od109Yz9zLDhHuDfK6dGPW5C1SBaXbhIUQy9XTzgVcRMFdPWN
- FNmqPA0pbyR1DQMCzCGIQ8yr3onEEcYg/XPaVu1arp4gD3meTBpRdMMUyt/7ong3tUl4
- nSJ+EOutJj6AEpdGwaB/DBza9Hcq52ouzKv2DW+BueURpEHz7Hae+TQvPpR7WjYfQael
- pXstZownb2bOKqSYChKOxqaqjSyr7sosXaqw/tL8HPJ9/MJ+5SXNSgBXceS41VTQ7ulY
- eIRA==
-X-Gm-Message-State: APjAAAViwdNhlnq+5mXBfe7YUGAjoSIlh7zobDXDSL8YzHvgByO3yKRc
- CEucxmFH1pwu4eyeGa4DGy1psGlw4V4+u9HtPDipVg==
-X-Google-Smtp-Source: APXvYqzJG4ZvDQ/wFNUCnA0TgjNI/RxCOqhaN/UZyQJm23l4Q/BIPeQXbojdkZkp7APuU7oyyVpwaFdLqLPH6xzB1VE=
-X-Received: by 2002:a9d:7ac2:: with SMTP id m2mr6504426otn.135.1574343618098; 
- Thu, 21 Nov 2019 05:40:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=7Mdlj/m0wAidu8wbBTgtlWZywovb0IgKfmWD9Wybjjg=;
+ b=dGSPXgNblM99i8uG0kud09tpdHl4Gc1O7G4Hkln/eq01o/zyFlY4m8Clkp31G1pLgt
+ v48CFz1jhDBZ97WRHMtlcUn1RkBFG0kKcoqSvlJ++jogeVE+gVtEo64ALpWEfgiq8S/v
+ a9z80QSsCkc7GNyruVebSFyhhr3c4YQMHIKPIZrCt6x6zu/aJ4BpAXQv76friV7pt2Co
+ XbUrZCIHpJUoQe1/6rcDw9Sw7/vRxbp066ArvlMeFitscLVXcCeW5Tk0mMYwuH2U14vy
+ BfLhUleczUrn69Q3C9w6W9YjOLdt6/1ipSnEtJzpYSUri3KNil/KejFI6dX/HMkGjUyZ
+ rpvg==
+X-Gm-Message-State: APjAAAWxjcBvcpSCxYZ7H9F6gtoOFVlkmhjv50M7dMZbI4kVdnM9p/f2
+ Vx2d2I5lQl3RsLg38SclwBc=
+X-Google-Smtp-Source: APXvYqzXzHjH7e0yJ88yHeHlGwjgZA3jBHmbWkBRuT1B4tI+7dVNPdPJBPy6iEdwKkjfxpEGBRENSw==
+X-Received: by 2002:a7b:cd0b:: with SMTP id f11mr10525173wmj.26.1574343834707; 
+ Thu, 21 Nov 2019 05:43:54 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id w7sm3329806wru.62.2019.11.21.05.43.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Nov 2019 05:43:53 -0800 (PST)
+Date: Thu, 21 Nov 2019 13:43:52 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH] vhost-user-fs: remove "vhostfd" property
+Message-ID: <20191121134352.GV439743@stefanha-x1.localdomain>
+References: <20191116112016.14872-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <20191120152442.26657-20-marcandre.lureau@redhat.com>
-In-Reply-To: <20191120152442.26657-20-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Nov 2019 13:40:07 +0000
-Message-ID: <CAFEAcA9GEng0pQqk8cfUJvKMuxSMrdG-rkDOC3_srg5qS9V=jg@mail.gmail.com>
-Subject: Re: [PATCH v4 19/37] mips: use sysbus_add_io()
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XDqeUMnLaDfDQgU1"
+Content-Disposition: inline
+In-Reply-To: <20191116112016.14872-1-marcandre.lureau@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,40 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Nov 2019 at 15:28, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+--XDqeUMnLaDfDQgU1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Nov 16, 2019 at 03:20:16PM +0400, Marc-Andr=E9 Lureau wrote:
+> The property doesn't make much sense for a vhost-user device.
+>=20
+> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/mips/mips_mipssim.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-> index 3cd0e6eb33..2c2c7f25b2 100644
-> --- a/hw/mips/mips_mipssim.c
-> +++ b/hw/mips/mips_mipssim.c
-> @@ -227,8 +227,7 @@ mips_mipssim_init(MachineState *machine)
->          qdev_set_legacy_instance_id(dev, 0x3f8, 2);
->          qdev_init_nofail(dev);
->          sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, env->irq[4]);
-> -        memory_region_add_subregion(get_system_io(), 0x3f8,
-> -                                    &SERIAL_IO(dev)->serial.io);
-> +        sysbus_add_io(SYS_BUS_DEVICE(dev), 0x3f8, &SERIAL_IO(dev)->seria=
-l.io);
->      }
->
->      if (nd_table[0].used)
-> --
+>  hw/virtio/vhost-user-fs.c         | 1 -
+>  include/hw/virtio/vhost-user-fs.h | 1 -
+>  2 files changed, 2 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+It was never implemented either :).
 
-thanks
--- PMM
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--XDqeUMnLaDfDQgU1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3WlJgACgkQnKSrs4Gr
+c8jGhAf/Tcjh2/cQp4KVUL4dhyk8BTj8fvgeoqvmMVdLZMqAJhSsKr6FutxYMClx
+q0k3YmZ/skbZmr5Jgj/KDHRsA7Kiwp/zRDA++mhBBJp/Shf6elpMwnQCQkpIWw0N
+Idl3H+QLrfDZNtFeXq5aXuRd2qKKsmeS7vvYgbGSwu74/E7/9jhZ115XsD3rNZpm
+4Q/H4IWrCPB5eQRf+Ovjh9ciHLs1PXYNM/fNuHrQxnzNVHP5YQjVKbjwdgAG+1ZB
+gbGLiR3nqvMHS6+26sYZsAWU2dsE1N9s5DPXnQcb9sVF2zt8C1ES3asl7YljXeTZ
+No9nyHuGwxQOTJBzJQtdhlOnqVkQOw==
+=+jev
+-----END PGP SIGNATURE-----
+
+--XDqeUMnLaDfDQgU1--
 
