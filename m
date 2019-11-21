@@ -2,54 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2794105728
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:37:20 +0100 (CET)
-Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE18105733
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:38:54 +0100 (CET)
+Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXpSJ-0004u6-WC
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60907)
+	id 1iXpTp-0006sh-53
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:38:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iXpQS-0003ND-FD
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:25 -0500
+ (envelope-from <philmd@redhat.com>) id 1iXpSH-0005fH-CC
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:37:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iXpQQ-00045w-Tr
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:24 -0500
-Received: from 6.mo3.mail-out.ovh.net ([188.165.43.173]:37137)
+ (envelope-from <philmd@redhat.com>) id 1iXpSE-00054O-Ce
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:37:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34150
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iXpQQ-00043M-N4
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:35:22 -0500
-Received: from player694.ha.ovh.net (unknown [10.108.42.196])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 1D43B22C686
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 17:35:19 +0100 (CET)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: clg@kaod.org)
- by player694.ha.ovh.net (Postfix) with ESMTPSA id 79604C51FA12;
- Thu, 21 Nov 2019 16:35:04 +0000 (UTC)
-Subject: Re: [PATCH 5/5] spapr: Work around spurious warnings from vfio INTx
- initialization
-To: David Gibson <david@gibson.dropbear.id.au>,
- Alex Williamson <alex.williamson@redhat.com>
-References: <20191121005607.274347-1-david@gibson.dropbear.id.au>
- <20191121005607.274347-6-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <0819835c-c066-af2f-79dd-a094d4d281ae@kaod.org>
-Date: Thu, 21 Nov 2019 17:35:03 +0100
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iXpSD-00052u-SU
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:37:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574354233;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qsXWsjdt0679tr2vRQUdzkBKAFyQ0vXUTb6ndCkBtgI=;
+ b=VRJkjmBw9S6TPm+AwU6z1IlBSZcZ+dTfrNKefQOvlT/tKEsSBx4Qgswtb2g8tKXCk/UssR
+ nDhCF/Yitfs8z78a+E/Dbztm/VXpZ8hnhgiJJj7t2+MM5vbbmrTov/k+7ai4iWjRJ5eTRh
+ d/GqSv4ETppMJpRG9PVQNZY+o5cWoNc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-5xThmW5dNAeCzMUWaF46YA-1; Thu, 21 Nov 2019 11:37:11 -0500
+Received: by mail-wr1-f70.google.com with SMTP id a3so2364931wrn.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 08:37:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MDRBO739PHOjVF4FV2MmIh8mGFI2SvN8tJfBN8rfJiY=;
+ b=Gp7o8ijRC0ChgURizTZ3ePU+8xxqDYuU9hoaANP2OzA+/tN/DX2hHF6g2BDTcOg9nB
+ fZYBIfF41YbVrp3e0pGp8V2mNSBnI5DR1Z1cqmQuv2uSwoyH+dOYLzmA8cmFx/VWIgPN
+ GyEdYU1ogyT1cdJaiilEDN0XN9OFBYcjuRTGr+HorhQ5VV+fvAyUCBuxk4v8v+uMhPXM
+ TP+3Tetu2GJ65XQoqSpVbUJKUQxFKm+I2aGyFm0ATTiwxMtkw6BDTgLNgE4W+WSc2tnk
+ P9/MAZapVglCs1myp+Tgk+vUQVR84FWByCLOxzu0b9u+3epYvKGz4ohy3VBKjFnIPIhN
+ erPA==
+X-Gm-Message-State: APjAAAUStAMgG7ZJoDOcq6oHCqLzaZCezmaA54fOChc814Jlsn8rK4Fg
+ TJdId1rYfFM1QLA4uPIddC5XPpTOjXKIVrFt59wFq6dxA43IpA5jHbJDzCSjo7zuuObLFeYIDUB
+ pVfQS3msbJqpYCqs=
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr11676434wrn.243.1574354230742; 
+ Thu, 21 Nov 2019 08:37:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxpGyXr82FzfaBPLMoRd7P+EQDkXoKJ0SXeBTrAKt18aPbOnZ8HuK0sDJNpzPDh4kJ50kFndw==
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr11676407wrn.243.1574354230546; 
+ Thu, 21 Nov 2019 08:37:10 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id a11sm163165wmh.40.2019.11.21.08.37.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Nov 2019 08:37:10 -0800 (PST)
+Subject: Re: [PATCH v2] linux-user/strace: Improve output of various syscalls
+To: Helge Deller <deller@gmx.de>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20191120145724.GA15677@ls3530.fritz.box>
+ <CAL1e-=jqoV0v0NdpeL3NUTOfURNJ9qmD6FcCjV30pXsdBeCD=Q@mail.gmail.com>
+ <CAL1e-=gOHZOTnyB0=HOAqzqS4gBF1YkB7x3yQYGJvi5qWg20Kg@mail.gmail.com>
+ <015ab947-57ba-6d73-d99d-2e3263226c02@gmx.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f7f4ff93-fad0-3d72-a224-c19302dff9e0@redhat.com>
+Date: Thu, 21 Nov 2019 17:37:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191121005607.274347-6-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <015ab947-57ba-6d73-d99d-2e3263226c02@gmx.de>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 13602841201740909557
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehvddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpudelhedrvdduvddrvdelrdduieeinecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-MC-Unique: 5xThmW5dNAeCzMUWaF46YA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.43.173
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,78 +94,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, groug@kaod.org,
- Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/11/2019 01:56, David Gibson wrote:
-> Traditional PCI INTx for vfio devices can only perform well if using
-> an in-kernel irqchip.  Therefore, vfio_intx_update() issues a warning
-> if an in kernel irqchip is not available.
+On 11/21/19 9:19 AM, Helge Deller wrote:
+> On 20.11.19 23:20, Aleksandar Markovic wrote:
+>> On Wed, Nov 20, 2019 at 10:13 PM Aleksandar Markovic
+>> <aleksandar.m.mail@gmail.com> wrote:
+>>>
+>>> On Wed, Nov 20, 2019 at 3:58 PM Helge Deller <deller@gmx.de> wrote:
+>>>>
+>>>> Improve strace output of various syscalls which either have none
+>>>> or only int-type parameters.
+>>>
+>>> It would be nice if you included a history of the patch (after the line
+>>> "---", as it is customary for single patch submission). You changed
+>>> only ioctl() in v2, right?
 >=20
-> We usually do have an in-kernel irqchip available for pseries machines
-> on POWER hosts.  However, because the platform allows feature
-> negotiation of what interrupt controller model to use, we don't
-> currently initialize it until machine reset.  vfio_intx_update() is
-> called (first) from vfio_realize() before that, so it can issue a
-> spurious warning, even if we will have an in kernel irqchip by the
-> time we need it.
+> Yes. Will add history in next round.
 >=20
-> To workaround this, make a call to spapr_irq_update_active_intc() from
-> spapr_irq_init() which is called at machine realize time, before the
-> vfio realize.  This call will be pretty much obsoleted by the later
-> call at reset time, but it serves to suppress the spurious warning
-> from VFIO.
+>>> I missed your v2, but responded with several hints to v1.
 >=20
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Yes, I saw all your mails.
+> Thanks for your feedback!
 >=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> userfaultfd(), membarrier(), mlock2()... - all could be included into
+>> your patch.
+>=20
+> I think there are quite some more which I didn't included.
+> That's why I wrote "*various*" and not "*all*" in my changelog.
+> I'm debugging other code, and the ones I fixed are the ones I
+> actually tested with my code.
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-> ---
->  hw/ppc/spapr_irq.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index 1d27034962..d6bb7fd2d6 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -373,6 +373,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Erro=
-r **errp)
-> =20
->      spapr->qirqs =3D qemu_allocate_irqs(spapr_set_irq, spapr,
->                                        smc->nr_xirqs + SPAPR_XIRQ_BASE)=
-;
-> +
-> +    /*
-> +     * Mostly we don't actually need this until reset, except that not
-> +     * having this set up can cause VFIO devices to issue a
-> +     * false-positive warning during realize(), because they don't yet
-> +     * have an in-kernel irq chip.
-> +     */
-> +    spapr_irq_update_active_intc(spapr);
->  }
-> =20
->  int spapr_irq_claim(SpaprMachineState *spapr, int irq, bool lsi, Error=
- **errp)
-> @@ -528,7 +536,8 @@ void spapr_irq_update_active_intc(SpaprMachineState=
- *spapr)
->           * this.
->           */
->          new_intc =3D SPAPR_INTC(spapr->xive);
-> -    } else if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-> +    } else if (spapr->ov5_cas
-> +               && spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
->          new_intc =3D SPAPR_INTC(spapr->xive);
->      } else {
->          new_intc =3D SPAPR_INTC(spapr->ics);
->=20
+If you don't have handy way to test the other syscalls, I'll rather=20
+restrict your patch to the one you tested, at least you are certain you=20
+didn't introduced regressions. Unless their implementation is trivial,=20
+of course.
 
 
