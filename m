@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5E61057A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 17:59:32 +0100 (CET)
-Received: from localhost ([::1]:42680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411521057DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 18:06:12 +0100 (CET)
+Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXpnn-0006u7-VN
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 11:59:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35479)
+	id 1iXpuE-00051y-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 12:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35950)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iXpmF-0005nx-2j
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:57:56 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXppM-0000ja-0C
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:01:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iXpmD-0005fy-VD
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:57:55 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20157
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iXpmD-0005fh-Rz
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 11:57:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574355472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wPj1m6+drg+oILMh2H+/BPr6fP5ZP3kQTJLdsJy7moo=;
- b=Z212VZc9mmNjCYYHWoko3aGzFMCaQWBdFMelmZfF+XiS6CG2SslQdqMlCwbOCjvMqPV3KE
- x6nOg6zwKdldHPGOIs5ELDUS/Rpb+ZVhSg9cN9HlZjBJhqpEs7dg8yjXOlncSODGLCubwd
- d/xKyDN5dBokYl2Bt3740EaVr62gYFE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-C8vod6QUMlWe2SJwRlZISg-1; Thu, 21 Nov 2019 11:57:51 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAD1BDBF5;
- Thu, 21 Nov 2019 16:57:48 +0000 (UTC)
-Received: from x1.home (ovpn-116-56.phx2.redhat.com [10.3.116.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D62860556;
- Thu, 21 Nov 2019 16:57:39 +0000 (UTC)
-Date: Thu, 21 Nov 2019 09:57:38 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 0/5] vfio/spapr: Handle changes of master irq chip for
- VFIO devices
-Message-ID: <20191121095738.71f90700@x1.home>
-In-Reply-To: <20191121005607.274347-1-david@gibson.dropbear.id.au>
-References: <20191121005607.274347-1-david@gibson.dropbear.id.au>
-Organization: Red Hat
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXppG-0000I4-4t
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:01:07 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38209)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iXppF-0000HW-VV
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 12:01:02 -0500
+Received: by mail-oi1-x244.google.com with SMTP id a14so3840096oid.5
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:01:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=yaCmnMnCIcA6nWBfOP2YZs1sc7JCavrOolsdGFN0ggs=;
+ b=gcuwH85QNSI8lKMJmHwVy/iXivo3vf41zmmcmJoih8zHdZqrNc+wkvDyAsruXUiAlH
+ 3pdwsIaz5EVMRPbC2Gg5cy3XC644RDmK/RChJ3ytbfbdPgczp3yUFe+l/hMEGMqPOejq
+ 517Sjf4R+WSqoCfuwoRKH0M9sypU/MKlHNkMxhN/7X0cAToiLA053xVPiTbMdG6M+mes
+ wYCNbZ4cveUZguDL8iSbasHcZJ7jfi/FPHwrcc0WxZVwCDg0PGt8BkIW5w2qbZfnbkpC
+ CuQunwnDBM2JtW24wQSSAYAifWXwS/HcELwj4nUqNvm/8fQgRA3j4VJq91HjoDRypnYV
+ mN3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=yaCmnMnCIcA6nWBfOP2YZs1sc7JCavrOolsdGFN0ggs=;
+ b=gYnaevOFgzl90verUaEd6thl9bkcWqHWkr4WLKJ5tE/mFZKbjxoRSkYXLSbU/bKRAz
+ 9cCthyzaq94J8C6mBI0Ydx1647st7O/KLwTcaEEgBVjkGIZPf71eb869YuiTL9PtyyNa
+ b3tsoIjGP9qLUFHSRTIf4D2RHWVUaLqNfbN4L8zq1mwV9yZUKQa62EpnWlreSKsuG8zL
+ uhZgvnT3rLV5+s2Zq+/ECNGJnOLkIiNX64Me70JyQopD4YimeiaidVKMOPxkwHSEcHqE
+ im0KM/CiB1umxS7FiLQ5SyEd4ZNWFS2Xrg6MNhXyFHJ3vdRYTtv1OM2dOezUaddmlGw2
+ XGRw==
+X-Gm-Message-State: APjAAAUKE5Si33l5vxJzJ1EL9vhc7tgn7PwWpS5rUBYRUylOLPvLEvzd
+ ny/FsQQT76r+h/wq3nL97VtxZQkIZeDcwxL8VLw=
+X-Google-Smtp-Source: APXvYqw4rka+IMuZNYfhvgxSVOpkXUHFUZuQq5ejTxWkuRcpY3berMTSyYUGPfVAmOmWXTXwYGdxraHRrE93Oyxho+I=
+X-Received: by 2002:aca:484f:: with SMTP id v76mr8593659oia.62.1574355659961; 
+ Thu, 21 Nov 2019 09:00:59 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: C8vod6QUMlWe2SJwRlZISg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Thu, 21 Nov 2019 09:00:59
+ -0800 (PST)
+In-Reply-To: <f7f4ff93-fad0-3d72-a224-c19302dff9e0@redhat.com>
+References: <20191120145724.GA15677@ls3530.fritz.box>
+ <CAL1e-=jqoV0v0NdpeL3NUTOfURNJ9qmD6FcCjV30pXsdBeCD=Q@mail.gmail.com>
+ <CAL1e-=gOHZOTnyB0=HOAqzqS4gBF1YkB7x3yQYGJvi5qWg20Kg@mail.gmail.com>
+ <015ab947-57ba-6d73-d99d-2e3263226c02@gmx.de>
+ <f7f4ff93-fad0-3d72-a224-c19302dff9e0@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 21 Nov 2019 18:00:59 +0100
+Message-ID: <CAL1e-=hHFfkJ3bmOLhk5bBCExvnazA4NgmoCJtN+X3KQ8=9Pjw@mail.gmail.com>
+Subject: Re: [PATCH v2] linux-user/strace: Improve output of various syscalls
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000dcb8ac0597de3d49"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,65 +77,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- groug@kaod.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- clg@kaod.org,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Helge Deller <deller@gmx.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Nov 2019 11:56:02 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+--000000000000dcb8ac0597de3d49
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Due to the way feature negotiation works in PAPR (which is a
-> paravirtualized platform), we can end up changing the global irq chip
-> at runtime, including it's KVM accelerate model.  That causes
-> complications for VFIO devices with INTx, which wire themselves up
-> directly to the KVM irqchip for performance.
->=20
-> This series introduces a new notifier to let VFIO devices (and
-> anything else that needs to in the future) know about changes to the
-> master irqchip.  It modifies VFIO to respond to the notifier,
-> reconnecting itself to the new KVM irqchip as necessary.
->=20
-> In particular this removes a misleading (though not wholly inaccurate)
-> warning that occurs when using VFIO devices on a pseries machine type
-> guest.
->=20
-> Open question: should this go into qemu-4.2 or wait until 5.0?  It's
-> has medium complexity / intrusiveness, but it *is* a bugfix that I
-> can't see a simpler way to fix.  It's effectively a regression from
-> qemu-4.0 to qemu-4.1 (because that introduced XIVE support by
-> default), although not from 4.1 to 4.2.
+=C5=AB
 
-Looks reasonable to me for 4.2, the vfio changes are not as big as they
-appear.  If Paolo approves this week, I can send a pull request,
-otherwise I can leave my ack for someone else as I'll be on PTO/holiday
-next week.  Thanks,
+On Thursday, November 21, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
-Alex
-=20
-> Changes since RFC:
->  * Fixed some incorrect error paths pointed by aw in 3/5
->  * 5/5 had some problems previously, but they have been obsoleted by
->    other changes merged in the meantime
->=20
-> David Gibson (5):
->   kvm: Introduce KVM irqchip change notifier
->   vfio/pci: Split vfio_intx_update()
->   vfio/pci: Respond to KVM irqchip change notifier
->   spapr: Handle irq backend changes with VFIO PCI devices
->   spapr: Work around spurious warnings from vfio INTx initialization
->=20
->  accel/kvm/kvm-all.c    | 18 ++++++++++++
->  accel/stubs/kvm-stub.c | 12 ++++++++
->  hw/ppc/spapr_irq.c     | 17 +++++++++++-
->  hw/vfio/pci.c          | 62 +++++++++++++++++++++++++++---------------
->  hw/vfio/pci.h          |  1 +
->  include/sysemu/kvm.h   |  5 ++++
->  6 files changed, 92 insertions(+), 23 deletions(-)
->=20
+> On 11/21/19 9:19 AM, Helge Deller wrote:
+>
+>> On 20.11.19 23:20, Aleksandar Markovic wrote:
+>>
+>>> On Wed, Nov 20, 2019 at 10:13 PM Aleksandar Markovic
+>>> <aleksandar.m.mail@gmail.com> wrote:
+>>>
+>>>>
+>>>> On Wed, Nov 20, 2019 at 3:58 PM Helge Deller <deller@gmx.de> wrote:
+>>>>
+>>>>>
+>>>>> Improve strace output of various syscalls which either have none
+>>>>> or only int-type parameters.
+>>>>>
+>>>>
+>>>> It would be nice if you included a history of the patch (after the lin=
+e
+>>>> "---", as it is customary for single patch submission). You changed
+>>>> only ioctl() in v2, right?
+>>>>
+>>>
+>> Yes. Will add history in next round.
+>>
+>> I missed your v2, but responded with several hints to v1.
+>>>>
+>>>
+>> Yes, I saw all your mails.
+>> Thanks for your feedback!
+>>
+>> userfaultfd(), membarrier(), mlock2()... - all could be included into
+>>> your patch.
+>>>
+>>
+>> I think there are quite some more which I didn't included.
+>> That's why I wrote "*various*" and not "*all*" in my changelog.
+>> I'm debugging other code, and the ones I fixed are the ones I
+>> actually tested with my code.
+>>
+>
+> If you don't have handy way to test the other syscalls, I'll rather
+> restrict your patch to the one you tested, at least you are certain you
+> didn't introduced regressions. Unless their implementation is trivial, of
+> course.
+>
+>
+What can be handier than writing a program that contains a single system
+call?
 
+--000000000000dcb8ac0597de3d49
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=C5=AB<br><br>On Thursday, November 21, 2019, Philippe Mathieu-Daud=C3=A9 &=
+lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">On 11/21/19 9:19 AM, Helge Deller wrote:<br=
+>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On 20.11.19 23:20, Aleksandar Markovic wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Wed, Nov 20, 2019 at 10:13 PM Aleksandar Markovic<br>
+&lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com" target=3D"_blank">aleksa=
+ndar.m.mail@gmail.com</a>&gt; wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+On Wed, Nov 20, 2019 at 3:58 PM Helge Deller &lt;<a href=3D"mailto:deller@g=
+mx.de" target=3D"_blank">deller@gmx.de</a>&gt; wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+Improve strace output of various syscalls which either have none<br>
+or only int-type parameters.<br>
+</blockquote>
+<br>
+It would be nice if you included a history of the patch (after the line<br>
+&quot;---&quot;, as it is customary for single patch submission). You chang=
+ed<br>
+only ioctl() in v2, right?<br>
+</blockquote></blockquote>
+<br>
+Yes. Will add history in next round.<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+I missed your v2, but responded with several hints to v1.<br>
+</blockquote></blockquote>
+<br>
+Yes, I saw all your mails.<br>
+Thanks for your feedback!<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+userfaultfd(), membarrier(), mlock2()... - all could be included into<br>
+your patch.<br>
+</blockquote>
+<br>
+I think there are quite some more which I didn&#39;t included.<br>
+That&#39;s why I wrote &quot;*various*&quot; and not &quot;*all*&quot; in m=
+y changelog.<br>
+I&#39;m debugging other code, and the ones I fixed are the ones I<br>
+actually tested with my code.<br>
+</blockquote>
+<br>
+If you don&#39;t have handy way to test the other syscalls, I&#39;ll rather=
+ restrict your patch to the one you tested, at least you are certain you di=
+dn&#39;t introduced regressions. Unless their implementation is trivial, of=
+ course.<br>
+<br>
+</blockquote><div><br></div><div>What can be handier than writing a program=
+ that contains a single system call?</div><div><br></div><div>=C2=A0</div>
+
+--000000000000dcb8ac0597de3d49--
 
