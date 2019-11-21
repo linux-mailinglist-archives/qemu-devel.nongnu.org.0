@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F78105CD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 23:45:51 +0100 (CET)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9930105CE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 23:57:46 +0100 (CET)
+Received: from localhost ([::1]:46314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXvCw-0001pR-6q
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 17:45:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58375)
+	id 1iXvOT-0005zJ-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 17:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cminyard@mvista.com>) id 1iXvBB-000199-Gb
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:44:02 -0500
+ (envelope-from <dirty@apple.com>) id 1iXvLs-00048b-CR
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cminyard@mvista.com>) id 1iXvB5-0005eL-S4
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:44:00 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35185)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <cminyard@mvista.com>) id 1iXvB5-0005dO-5r
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:43:55 -0500
-Received: by mail-oi1-x242.google.com with SMTP id n16so4804182oig.2
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 14:43:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=BkkLzhTGLvvWR8YyT9RE4Rw8elFkW5WmNdKvMfJQewQ=;
- b=tvCZONOLrNS4GBZ/Z8aXXgvHbwainuDUkMOVZO1AygyB16xOkGt9p1Dxp8jl25c1Fc
- dSMqu7hwAn4R5q0JBB8qV6xVJHFXSb9Hs5b0VDPDiUNikx3Je0fG7c5bJcOaUkH6Mj5j
- EA8MHg/gex+dgZNFM8SkkvEEHcoNpMhU8wnW1w0rqKXCZzgufwuFJX5V3CAtMGGd17Ff
- cZ3u64mLk1C6z8g9E3Io0cf7qaXw3A/DY+7tpMVKgqey5160J0YZQS26beVxtyctB0yV
- Dm5L/Z1vs1RAUgrVon0v5GRCSM79kVhSvMs6nLekohfYr+65tDdf0rP6bc2lSAAeGWDJ
- nNgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=BkkLzhTGLvvWR8YyT9RE4Rw8elFkW5WmNdKvMfJQewQ=;
- b=aetu1apz6B7uVb90CaanMoMrJonrsNJ7PM8z5tNoI2SSz/m1RQd1cIywqfEd+GNbDZ
- vOzI97xmUqQ4aQpLtNts8th3pLtOVdmidKUbTQ5xJrl1qiTdOnT7U1KUBQgBPioCZoPF
- xWQTnnTWzEikG08LxOEyuC/hZqF2ezawBWD1WLfhppkZ/yvztvOcjWuqU4gGLFoaTxDp
- SK7bbivqexpStCARGKsxH7IG5i2OHH7R72zUmjZqSaXtV0qvQCfYElrZVnPP/BbxPQA+
- 7Y+M13HTl5gSDewZq20vPnYnVY0mMZru3OkJErZmN57VfIfM42gCPrul4BS6j8RE9CwZ
- nkNg==
-X-Gm-Message-State: APjAAAW/IQqltA0KiITuf3V4UwnPPZNNoPKXiaQV8ay6Z5cM9bXhv5OR
- 7p6yE4FwqA/fbb0HoON6YYm8LA==
-X-Google-Smtp-Source: APXvYqyexo4JqBz7E88NSUOX1/fRyNcFOiLcqU/dguFdowp95v9vm53dHeI4qsJemG5isDs64osPQw==
-X-Received: by 2002:aca:4a0e:: with SMTP id x14mr9340136oia.123.1574376233648; 
- Thu, 21 Nov 2019 14:43:53 -0800 (PST)
-Received: from minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id o2sm1399938oih.19.2019.11.21.14.43.52
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 21 Nov 2019 14:43:53 -0800 (PST)
-Date: Thu, 21 Nov 2019 16:43:51 -0600
-From: Corey Minyard <cminyard@mvista.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v4 31/37] smbus-eeprom: remove PROP_PTR
-Message-ID: <20191121224351.GN3556@minyard.net>
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <20191120152442.26657-32-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191120152442.26657-32-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+ (envelope-from <dirty@apple.com>) id 1iXvLq-0004aV-Ab
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:04 -0500
+Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:57348)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1iXvLq-0004ZE-5i
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:02 -0500
+Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp03.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ xALMppVQ004638; Thu, 21 Nov 2019 14:54:56 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=sender : from : to :
+ cc : subject : date : message-id : mime-version :
+ content-transfer-encoding; s=20180706;
+ bh=hgGNnJQh4TNcIGTmg8mO7JRsuaL2R7iBTXF9PIpWx6k=;
+ b=LHr/BOA4Gx8xkGOsf9/RXIWJ905LB/XZOOeCrSyGpdtsQgcJPFhXuz1v5DRUtO3wCqZm
+ xmriqA5LTpMLF30tJ0KW6VYooL9iigUOl234ILcxvFalTPGWe7GDST7oR4VWLIfDORvz
+ U2ALCp7ExzfPlcIHEeLT2Xf05obAcg6an0phbPdEAE/GVpHmGoaZ1lKWLLZtvLRD66DJ
+ dw2JwAF/PAQjfYPoTWFgmmxIq9KCehRo9RxQ3lBnJgvhmux9h8vCpJaot9B4JApJyiun
+ s+G3JxN1BflJ0a6Nrq2JwDyYsnyCpj30xX0q4qJeeLg7MB4BHu3cv1aglpC+Vmv1vFA5 +A== 
+Received: from ma1-mtap-s02.corp.apple.com (ma1-mtap-s02.corp.apple.com
+ [17.40.76.6])
+ by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 2wah00wd8y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Thu, 21 Nov 2019 14:54:56 -0800
+Received: from nwk-mmpp-sz11.apple.com
+ (nwk-mmpp-sz11.apple.com [17.128.115.155]) by ma1-mtap-s02.corp.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) with ESMTPS id <0Q1C00F8GCZFA3G0@ma1-mtap-s02.corp.apple.com>; Thu,
+ 21 Nov 2019 14:54:56 -0800 (PST)
+Received: from process_milters-daemon.nwk-mmpp-sz11.apple.com by
+ nwk-mmpp-sz11.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) id <0Q1C00J00CBT3A00@nwk-mmpp-sz11.apple.com>; Thu,
+ 21 Nov 2019 14:54:55 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
+X-Va-E-CD: 58435c279151d9bc975021d8ad7e82fa
+X-Va-R-CD: 56ec2124625bc00b2f307d8ece216fe1
+X-Va-CD: 0
+X-Va-ID: eb450ccd-f3ca-4cd4-8f8a-f3653f1c154e
+X-V-A: 
+X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
+X-V-E-CD: 58435c279151d9bc975021d8ad7e82fa
+X-V-R-CD: 56ec2124625bc00b2f307d8ece216fe1
+X-V-CD: 0
+X-V-ID: 123ad1f8-9616-4e51-9404-8b88770b108f
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
+ definitions=2019-11-21_06:,, signatures=0
+Received: from pontoon.com (unknown [17.193.42.199]) by nwk-mmpp-sz11.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) with ESMTPSA id <0Q1C00JWACZIHUA0@nwk-mmpp-sz11.apple.com>; Thu,
+ 21 Nov 2019 14:54:54 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com
+Subject: [PATCH 0/5] hvf: stability fixes for HVF
+Date: Thu, 21 Nov 2019 14:54:49 -0800
+Message-id: <cover.1574375668.git.dirty@apple.com>
+X-Mailer: git-send-email 2.24.0
+MIME-version: 1.0
+Content-transfer-encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-21_06:, , signatures=0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 17.171.2.72
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,83 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Cameron Esfahani <dirty@apple.com>
+From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-On Wed, Nov 20, 2019 at 07:24:36PM +0400, Marc-André Lureau wrote:
-> Instead, set the initial data field directly.
-> 
-> (the initial data is an array of 256 bytes. As I don't know if it may
-> change over time, I keep the pointer to original buffer as is, but it
-> might be worth to consider to copy it instead)
+The following patches fix stability issues with running QEMU on Apple
+Hypervisor Framework (HVF):
+- non-RAM, non-ROMD areas need to trap so accesses can be correctly
+  emulated.
+- Current TSC synchronization implementation is insufficient: when
+  running with more than 1 core, TSC values can go backwards.  Until
+  a correct implementation can be written, remove calls to
+  hv_vm_sync_tsc().  Pass through TSC to guest OS.
+- Fix REX emulation in relation to legacy prefixes.
+- More correctly match SDM when setting CR0 and PDPTE registers.
+- Save away exception type as well as vector in hvf_store_events() so
+  they can be correctly reinjected in hvf_inject_interrupts().  Under
+  heavy loads, exceptions got misrouted.
 
-This looks ok to me, I can add it to my tree.  I think we are in hard
-freeze now, so this will have to wait until that's done.
+Cameron Esfahani (5):
+  hvf: non-RAM, non-ROMD memory ranges are now correctly mapped in
+  hvf: remove TSC synchronization code because it isn't fully complete
+  hvf: correctly handle REX prefix in relation to legacy prefixes
+  hvf: more accurately match SDM when setting CR0 and PDPTE registers
+  hvf: save away type as well as vector so we can reinject them
 
--corey
+ target/i386/hvf/hvf.c        | 74 +++++++++++++++++++++++++-----------
+ target/i386/hvf/vmx.h        | 18 +++++----
+ target/i386/hvf/x86_decode.c | 55 ++++++++++++++-------------
+ target/i386/hvf/x86_decode.h | 16 ++++----
+ target/i386/hvf/x86_emu.c    |  3 --
+ target/i386/hvf/x86hvf.c     | 26 +++++--------
+ 6 files changed, 108 insertions(+), 84 deletions(-)
 
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/i2c/smbus_eeprom.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
-> index 54c86a0112..533c728b3b 100644
-> --- a/hw/i2c/smbus_eeprom.c
-> +++ b/hw/i2c/smbus_eeprom.c
-> @@ -44,7 +44,7 @@
->  typedef struct SMBusEEPROMDevice {
->      SMBusDevice smbusdev;
->      uint8_t data[SMBUS_EEPROM_SIZE];
-> -    void *init_data;
-> +    uint8_t *init_data;
->      uint8_t offset;
->      bool accessed;
->  } SMBusEEPROMDevice;
-> @@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
->  
->  static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
->  {
-> +    SMBusEEPROMDevice *eeprom = SMBUS_EEPROM(dev);
-> +
->      smbus_eeprom_reset(dev);
-> +    if (eeprom->init_data == NULL) {
-> +        error_setg(errp, "init_data cannot be NULL");
-> +    }
->  }
->  
-> -static Property smbus_eeprom_properties[] = {
-> -    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
-> -    DEFINE_PROP_END_OF_LIST(),
-> -};
-> -
->  static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
->      dc->reset = smbus_eeprom_reset;
->      sc->receive_byte = eeprom_receive_byte;
->      sc->write_data = eeprom_write_data;
-> -    dc->props = smbus_eeprom_properties;
->      dc->vmsd = &vmstate_smbus_eeprom;
-> -    /* Reason: pointer property "data" */
-> +    /* Reason: init_data */
->      dc->user_creatable = false;
->  }
->  
-> @@ -172,7 +171,7 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t *eeprom_buf)
->  
->      dev = qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
->      qdev_prop_set_uint8(dev, "address", address);
-> -    qdev_prop_set_ptr(dev, "data", eeprom_buf);
-> +    SMBUS_EEPROM(dev)->init_data = eeprom_buf;
->      qdev_init_nofail(dev);
->  }
->  
-> -- 
-> 2.24.0
-> 
+-- 
+2.24.0
+
 
