@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E56105A5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 20:25:51 +0100 (CET)
-Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DEB105A80
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 20:39:38 +0100 (CET)
+Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXs5O-0002xz-Il
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 14:25:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
+	id 1iXsIj-000497-8o
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 14:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXs46-0000YH-47
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:24:31 -0500
+ (envelope-from <deller@gmx.de>) id 1iXsDM-0004To-G0
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:34:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iXs44-0007mG-Mc
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:24:29 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43669)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iXs44-0007lG-I6
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:24:28 -0500
-Received: by mail-ot1-x344.google.com with SMTP id l14so3966458oti.10
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 11:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J2kzxGLp/1FxxdzbLEhjibieFyFLnQTNg6gLOCmTn2E=;
- b=a83/ebG37rfW4VDrgC+teobHEXsVE2m+bnRxh+HboPwdyNv7zvAFWykCYbw79REYZb
- fGEIJuFMWhrmdLcUSDP0W/LGroxhKu9epFQ4TaufA1bZ6hoYbeC1/9p+MniheFiOblWq
- DVffhG14hbfgRimwwNicfRLBmNkeoAa/BsKtrT4u3Yt2EddeFHZa7dKZqnicNpl9swU2
- 76WeZkRSCJxhja1EHxMg0fHdASdkcjSF0VWQ16kikWSEWoXb/kNhBH5HXTgaQ43aJt8j
- COESBiKzWUFEIiVBdAaZT5jCqM/SSu8nivn6cUmulDVOzgC20KZPVXac462zcX5Jh8UY
- oPag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J2kzxGLp/1FxxdzbLEhjibieFyFLnQTNg6gLOCmTn2E=;
- b=nk5swELbX+zvRrVKafSK2pyHbXeF1Q5pTHAc698e1c5xmp11AsZlYQHZe/blGwj7KK
- EDTj527VljV+JUcL4OHOSVR4R1UmqgtZFzDxnyHO729obZChToL9FkK8YNAr89Bvf8XS
- JJXVKkFw1+5gESyeVMDChbL9xl10v6iWtlhZaVUkVB1lLVx2pegDkSigIXRZZGj3YfvZ
- 5myzzwljBXfGdm1R/8Nq8arG2HygvkNVvlZ0goSXbOzj4/J+yVRh2xphX4hc9LN/Z3H4
- ff9wYPoChu0JsUavswWtVdo8a7RRBSMuaJczLuYC/FEy1/PX2LQFW5qmLKBjXzubT5q1
- HQKA==
-X-Gm-Message-State: APjAAAVy8b+gpBn7Kh+BlBeZXJSIUsjlJOUaqBQrRNkGVv0dElR59n4E
- 5jwmbkWhbVsIg9qJWHI6TSqviLTDFOoM4whfR3Y=
-X-Google-Smtp-Source: APXvYqxUL6HdbjhUqb/3oR0MQM404GJo6XOM7mqUOaHrZC2Yl7Y4qAmDPCiltKasDtsTCL9pszfkRHAOLz/JZYTIDlY=
-X-Received: by 2002:a9d:3d05:: with SMTP id a5mr8358454otc.295.1574364266491; 
- Thu, 21 Nov 2019 11:24:26 -0800 (PST)
+ (envelope-from <deller@gmx.de>) id 1iXsDK-0004vy-Uk
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:34:04 -0500
+Received: from mout.gmx.net ([212.227.17.20]:50387)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <deller@gmx.de>) id 1iXsDK-0004vB-Gp
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 14:34:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1574364835;
+ bh=JzP4tzFp+NnxOPqwU1k56WNBiud9q7zQLHgxgyFc/Eo=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=gMxggRh3BTWVv7oje+z+8sFicpNwEUNSF+ixrsDEQ82JD9ZmqH22febLds+r7INfv
+ 4NK0YzE0LUAxsu9RPl86h69KWK3DHH2pVSYQSKoJXJWxg0e8PqDNJM9rYdqxFNzUdI
+ mkHVVbgFuU4Fon+QPl9MphCjZT4TXN+XokmYIwqY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ls3530.fritz.box ([92.116.156.18]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtfNf-1hhhMq2ujP-00vAGC; Thu, 21
+ Nov 2019 20:33:55 +0100
+Date: Thu, 21 Nov 2019 20:33:51 +0100
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Subject: [PATCH v3] linux-user/strace: Improve output of various syscalls
+Message-ID: <20191121193351.GA31821@ls3530.fritz.box>
 MIME-Version: 1.0
-References: <20191120145724.GA15677@ls3530.fritz.box>
- <CAL1e-=jqoV0v0NdpeL3NUTOfURNJ9qmD6FcCjV30pXsdBeCD=Q@mail.gmail.com>
- <CAL1e-=gOHZOTnyB0=HOAqzqS4gBF1YkB7x3yQYGJvi5qWg20Kg@mail.gmail.com>
- <015ab947-57ba-6d73-d99d-2e3263226c02@gmx.de>
- <f7f4ff93-fad0-3d72-a224-c19302dff9e0@redhat.com>
- <CAL1e-=hHFfkJ3bmOLhk5bBCExvnazA4NgmoCJtN+X3KQ8=9Pjw@mail.gmail.com>
- <32d6aa36-3240-7a80-89c1-5cba13bbc022@redhat.com>
- <CAL1e-=hDgLB-n2aOdB_ZOnVC0f3x3SGvQDUCcBWSobme7JSV4Q@mail.gmail.com>
- <e0a8faac-b02a-2787-20a3-97f451c9d798@redhat.com>
- <68fbd118-a456-ee41-5c19-9d9112f32ddd@gmx.de>
-In-Reply-To: <68fbd118-a456-ee41-5c19-9d9112f32ddd@gmx.de>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 21 Nov 2019 20:24:15 +0100
-Message-ID: <CAL1e-=hg=Dh32VuGb1Qge757mZBvcEMoZogZscMzEQBTAm3rwQ@mail.gmail.com>
-Subject: Re: [PATCH v2] linux-user/strace: Improve output of various syscalls
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Provags-ID: V03:K1:+BYJB7rON8105Rb22Xx0uUl/TGqVnWQYE8oXHHq8TGYdRtaWVcY
+ aLdeRYalx8rQghgOkDwd4Bv8ZS+KwBG6ccuPuJ6Uj15mQBlODBnoTwC9mDqdypsmTqQYH7i
+ sBEUodrYc5Gb1qZOcwX/OrM1A5p6WjKZN3FdouAuyMsDqIqhT32+LEXLqje1OdzZ8Y962Uk
+ Vyl5FlWKHR93ZHP8PajGw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:w6Jgr7WaTFM=:tY4e+PcWRM0HFxfxwvW6FV
+ 838TM1u8w9XemyZ4N/mgXMXQPIGFI2aSOAiUVRSwTU84ZWGDyVKklvXKAfcJCiZWP5Gevvq58
+ EfEonzmGFVHhSD1VufothVUw3Oi7ARp30bkMcokDXaHQJ/LQZnsdBBGeAUc02jZ51a8NWgg+l
+ Sh2P2RgITxImvWQ8enpkkmMHfOOCYFfnaulitmwZaXeaA9lbozXXNvOLxCw6s7wCA6zdL+CNS
+ uzRiS889Qi7bOKOXDOmc3IyDhjYQlz8krTmj1lKwE7mUJA05rKEHYg+Q/ZiVHHSuqxRFL0s9i
+ yOaEV1DBOl/eD3YCcv1NiKUqvxLKlTOnHNoIvSC0riqyfV5OdP+nzlYoPDK+RC5lfekOJQqSD
+ A8OPpaULngiaGK1ZnDJ182hL1EKtGa9rcZxKj2vNOfMuS6BxqdesVq2eLlhZOxDOOPeqNyO+A
+ fLKsWg+LF5n03MUniV5XGKmPQ1veXJoiknREBJb+BXNMyFMOu/G6ArVfA44cPOAI9sFAYkayO
+ 5z0VOXZCrogrtR/UlNowqIcmLomTv5Jfw6+qNy0Hh+5UzmQFaCGBr1BsPiatnVwNyq6nOhK/r
+ T5twxFgvuSItLu8gfVuZYXe9DxUO1HFqq1SPcqLPGaC/M7kfb9ZOWcqPhctVZltQrkAret7lg
+ TUvIdjafe5Ivf296wmkZbzKUEa1LrHKdGj06XtNFQ7zRHTggpNFuFrunCvluDxU9OYscW2g7L
+ nGOCLbkEOY0h1jjQjk9Ywk06xA/qHwU9VLbJG++R6oPerGIJ4h1wyAVmOqMiV6emBLt3pEEGC
+ HvzjD/UaQA0zYHEO0RR9+PzA9/GflzMsYwilTVAirhDfR/LaOmG2yk04eeBRSHl80NnIpZ6KP
+ awz9yToKKq7vWAxM7rzgbupN2GuXam2y+qe4LnYc6Q2EmRMbUqh2rmSOo4DBkHlRQrSH6mB6Q
+ oTkoCT4D/52tJM+ZfJ+DekNDt4cBXctMzEJUjRdslD4DLJnBtfU8ASTYDqBxgMkE8I49E2GmX
+ NK0XYfTUiBtbR2mB7TVXXbzol7k/jSkOTY0C7Yw7pbrTHuMNt2U82RmUuW7truEGQkglpHfcs
+ rAl9s2kD9yxLxCbzj7XIiolq4hcRMe7l0U+sJj3/xlTHlu8PVq41gnwvGI7doOaDq+TjdZSaB
+ TNks2vQNAbo9bBEPwFYYh/75czy7xQcR65msAAKU2BhL+JdwL++CvazSAl9zWeH5cA29A7tMo
+ oS5F3O7mo3dVfVrVHGEYvrwsnwFZE9LLANi+LdQ==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.17.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,132 +79,197 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 21, 2019 at 8:12 PM Helge Deller <deller@gmx.de> wrote:
->
-> On 21.11.19 19:23, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 11/21/19 6:35 PM, Aleksandar Markovic wrote:
-> >> On Thursday, November 21, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@re=
-dhat.com <mailto:philmd@redhat.com>> wrote:
-> >>
-> >>     On 11/21/19 6:00 PM, Aleksandar Markovic wrote:
-> >>
-> >>         On Thursday, November 21, 2019, Philippe Mathieu-Daud=C3=A9
-> >>         <philmd@redhat.com <mailto:philmd@redhat.com>
-> >>         <mailto:philmd@redhat.com <mailto:philmd@redhat.com>>> wrote:
-> >>
-> >>              On 11/21/19 9:19 AM, Helge Deller wrote:
-> >>
-> >>                  On 20.11.19 23:20, Aleksandar Markovic wrote:
-> >>
-> >>                      On Wed, Nov 20, 2019 at 10:13 PM Aleksandar Marko=
-vic
-> >>                      <aleksandar.m.mail@gmail.com
-> >>         <mailto:aleksandar.m.mail@gmail.com>
-> >>                      <mailto:aleksandar.m.mail@gmail.com
-> >>         <mailto:aleksandar.m.mail@gmail.com>>> wrote:
-> >>
-> >>
-> >>                          On Wed, Nov 20, 2019 at 3:58 PM Helge Deller
-> >>                          <deller@gmx.de <mailto:deller@gmx.de>
-> >>         <mailto:deller@gmx.de <mailto:deller@gmx.de>>> wrote:
-> >>
-> >>
-> >>                              Improve strace output of various syscalls=
- which
-> >>                              either have none
-> >>                              or only int-type parameters.
-> >>
-> >>
-> >>                          It would be nice if you included a history of
-> >>         the patch
-> >>                          (after the line
-> >>                          "---", as it is customary for single patch
-> >>         submission).
-> >>                          You changed
-> >>                          only ioctl() in v2, right?
-> >>
-> >>
-> >>                  Yes. Will add history in next round.
-> >>
-> >>                          I missed your v2, but responded with several
-> >>         hints to v1.
-> >>
-> >>
-> >>                  Yes, I saw all your mails.
-> >>                  Thanks for your feedback!
-> >>
-> >>                      userfaultfd(), membarrier(), mlock2()... - all co=
-uld be
-> >>                      included into
-> >>                      your patch.
-> >>
-> >>
-> >>                  I think there are quite some more which I didn't incl=
-uded.
-> >>                  That's why I wrote "*various*" and not "*all*" in my
-> >>         changelog.
-> >>                  I'm debugging other code, and the ones I fixed are th=
-e
-> >>         ones I
-> >>                  actually tested with my code.
-> >>
-> >>
-> >>              If you don't have handy way to test the other syscalls,
-> >>         I'll rather
-> >>              restrict your patch to the one you tested, at least you a=
-re
-> >>         certain
-> >>              you didn't introduced regressions. Unless their
-> >>         implementation is
-> >>              trivial, of course.
-> >>
-> >>
-> >>         What can be handier than writing a program that contains a
-> >>         single system call?
-> >>
-> >>
-> >>     Ahah very easy indeed :) Not noticing it shows how busy I am with
-> >>     firmware world than I forgot linux-user can be a simpler/powerful
-> >>     way to easily test stuff, as the Hexagon recent port also demonstr=
-ated.
-> >>
-> >>
-> >> Hexagon port doesn't have anything to do with this patch and didn't de=
-monstrate anything new wrt linux-user. I have no idea what you meant to say=
-.
-> >
-> > I simply meant to say, if your port can run linux-user binaries, it sim=
-plifies a lot the testing/coverage.
-> >
-> > Hexagon is simpler to test than AVR.
-> >
-> >> But, OK, Helge is the submitter, and he decides on the scope of his
-> >> patch. I am fine if he wants to limit it only to handful of
-> >> syscalls. I just hinted he could increase the vslue of the patch
-> >> significantly in an easy way.
-> Aleksandar, I really appreciate your feedback, but for now I'd like
-> to limit my patch to the currently implemented functions.
-> If you look in the file history you will find other submissions of
-> this type from me, so I'm sure I will follow up with further patches.
-> But right now I'm missing the time.
-> So, if it could be applied as is, it's a step forward for now.
-> I'll send a v3 patch shortly.
->
+Improve strace output of various syscalls which either have none
+or only int-type parameters.
 
-Sure, I already said that I would certainly agree with that.
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-However, I can't agree in a similar fashion with your another patch on
-signal names. This is since that patch in its present state puts MIPS
-in an inferior position.
+---
+Changes in v3:
+    fixed alarm()
+    added epoll_create(), epoll_create1(), eventfd(), eventfd2()
 
-Yours,
-Aleksandar
+Changes in v2:
+    fixed ioctl()
 
-> Helge
+
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 1de4319dcf..d49a1e92a8 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -26,7 +26,7 @@
+ { TARGET_NR_afs_syscall, "afs_syscall" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_alarm
+-{ TARGET_NR_alarm, "alarm" , NULL, NULL, NULL },
++{ TARGET_NR_alarm, "alarm" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_aplib
+ { TARGET_NR_aplib, "aplib" , NULL, NULL, NULL },
+@@ -116,19 +116,19 @@
+ { TARGET_NR_dipc, "dipc" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_dup
+-{ TARGET_NR_dup, "dup" , NULL, NULL, NULL },
++{ TARGET_NR_dup, "dup" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_dup2
+-{ TARGET_NR_dup2, "dup2" , NULL, NULL, NULL },
++{ TARGET_NR_dup2, "dup2" , "%s(%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_dup3
+-{ TARGET_NR_dup3, "dup3" , NULL, NULL, NULL },
++{ TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_create
+-{ TARGET_NR_epoll_create, "epoll_create" , NULL, NULL, NULL },
++{ TARGET_NR_epoll_create, "%s(%d)", NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_create1
+-{ TARGET_NR_epoll_create1, "epoll_create1" , NULL, NULL, NULL },
++{ TARGET_NR_epoll_create1, "%s(%d)", NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_epoll_ctl
+ { TARGET_NR_epoll_ctl, "epoll_ctl" , NULL, NULL, NULL },
+@@ -146,10 +146,10 @@
+ { TARGET_NR_epoll_wait_old, "epoll_wait_old" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_eventfd
+-{ TARGET_NR_eventfd, "eventfd" , NULL, NULL, NULL },
++{ TARGET_NR_eventfd, "eventfd", "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_eventfd2
+-{ TARGET_NR_eventfd2, "eventfd2" , NULL, NULL, NULL },
++{ TARGET_NR_eventfd2, "eventfd2" , "%s(%d,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_execv
+ { TARGET_NR_execv, "execv" , NULL, print_execv, NULL },
+@@ -191,7 +191,7 @@
+ { TARGET_NR_fanotify_mark, "fanotify_mark" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fchdir
+-{ TARGET_NR_fchdir, "fchdir" , NULL, NULL, NULL },
++{ TARGET_NR_fchdir, "fchdir" , "%s(%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_fchmod
+ { TARGET_NR_fchmod, "fchmod" , "%s(%d,%#o)", NULL, NULL },
+@@ -287,7 +287,7 @@
+ { TARGET_NR_getdtablesize, "getdtablesize" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getegid
+-{ TARGET_NR_getegid, "getegid" , NULL, NULL, NULL },
++{ TARGET_NR_getegid, "getegid" , "%s()", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getegid32
+ { TARGET_NR_getegid32, "getegid32" , NULL, NULL, NULL },
+@@ -299,7 +299,7 @@
+ { TARGET_NR_geteuid32, "geteuid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getgid
+-{ TARGET_NR_getgid, "getgid" , NULL, NULL, NULL },
++{ TARGET_NR_getgid, "getgid" , "%s()", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getgid32
+ { TARGET_NR_getgid32, "getgid32" , NULL, NULL, NULL },
+@@ -329,10 +329,10 @@
+ { TARGET_NR_getpeername, "getpeername" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getpgid
+-{ TARGET_NR_getpgid, "getpgid" , NULL, NULL, NULL },
++{ TARGET_NR_getpgid, "getpgid" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getpgrp
+-{ TARGET_NR_getpgrp, "getpgrp" , NULL, NULL, NULL },
++{ TARGET_NR_getpgrp, "getpgrp" , "%s()", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getpid
+ { TARGET_NR_getpid, "getpid" , "%s()", NULL, NULL },
+@@ -432,7 +432,7 @@
+ { TARGET_NR_io_cancel, "io_cancel" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_ioctl
+-{ TARGET_NR_ioctl, "ioctl" , NULL, NULL, NULL },
++{ TARGET_NR_ioctl, "ioctl" , "%s(%d,%#x,%#x)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_io_destroy
+ { TARGET_NR_io_destroy, "io_destroy" , NULL, NULL, NULL },
+@@ -1257,22 +1257,22 @@
+ { TARGET_NR_setdomainname, "setdomainname" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setfsgid
+-{ TARGET_NR_setfsgid, "setfsgid" , NULL, NULL, NULL },
++{ TARGET_NR_setfsgid, "setfsgid" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setfsgid32
+-{ TARGET_NR_setfsgid32, "setfsgid32" , NULL, NULL, NULL },
++{ TARGET_NR_setfsgid32, "setfsgid32" , "%s(%u)" , NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setfsuid
+-{ TARGET_NR_setfsuid, "setfsuid" , NULL, NULL, NULL },
++{ TARGET_NR_setfsuid, "setfsuid" , "%s(%u)" , NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setfsuid32
+ { TARGET_NR_setfsuid32, "setfsuid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgid
+-{ TARGET_NR_setgid, "setgid" , NULL, NULL, NULL },
++{ TARGET_NR_setgid, "setgid" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgid32
+-{ TARGET_NR_setgid32, "setgid32" , NULL, NULL, NULL },
++{ TARGET_NR_setgid32, "setgid32" , "%s(%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setgroups
+ { TARGET_NR_setgroups, "setgroups" , NULL, NULL, NULL },
+@@ -1296,7 +1296,7 @@
+ { TARGET_NR_setns, "setns" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setpgid
+-{ TARGET_NR_setpgid, "setpgid" , NULL, NULL, NULL },
++{ TARGET_NR_setpgid, "setpgid" , "%s(%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setpgrp
+ { TARGET_NR_setpgrp, "setpgrp" , NULL, NULL, NULL },
+@@ -1311,22 +1311,22 @@
+ { TARGET_NR_setregid32, "setregid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setresgid
+-{ TARGET_NR_setresgid, "setresgid" , NULL, NULL, NULL },
++{ TARGET_NR_setresgid, "setresgid" , "%s(%u,%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setresgid32
+ { TARGET_NR_setresgid32, "setresgid32" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setresuid
+-{ TARGET_NR_setresuid, "setresuid" , NULL, NULL, NULL },
++{ TARGET_NR_setresuid, "setresuid" , "%s(%u,%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setresuid32
+-{ TARGET_NR_setresuid32, "setresuid32" , NULL, NULL, NULL },
++{ TARGET_NR_setresuid32, "setresuid32" , "%s(%u,%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setreuid
+-{ TARGET_NR_setreuid, "setreuid" , NULL, NULL, NULL },
++{ TARGET_NR_setreuid, "setreuid" , "%s(%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setreuid32
+-{ TARGET_NR_setreuid32, "setreuid32" , NULL, NULL, NULL },
++{ TARGET_NR_setreuid32, "setreuid32" , "%s(%u,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setrlimit
+ { TARGET_NR_setrlimit, "setrlimit" , NULL, NULL, NULL },
+@@ -1335,7 +1335,7 @@
+ { TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setsid
+-{ TARGET_NR_setsid, "setsid" , NULL, NULL, NULL },
++{ TARGET_NR_setsid, "setsid" , "%s()", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_setsockopt
+ { TARGET_NR_setsockopt, "setsockopt" , NULL, NULL, NULL },
 
