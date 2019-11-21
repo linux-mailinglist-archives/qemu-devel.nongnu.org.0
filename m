@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D9A1055D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 16:41:42 +0100 (CET)
-Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58A41055C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 16:39:07 +0100 (CET)
+Received: from localhost ([::1]:42018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXoaT-0003eP-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 10:41:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51898)
+	id 1iXoXy-0000ZF-JS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 10:39:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iXoVt-0006os-4a
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iXoVt-0006pt-RJ
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 10:36:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iXoVr-0001QZ-I4
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iXoVs-0001Rz-Jm
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 10:36:57 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36346)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52623)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iXoVr-0001Pn-Bc
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 10:36:55 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z3so4978973wru.3
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 07:36:55 -0800 (PST)
+ id 1iXoVs-0001Qs-DL
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 10:36:56 -0500
+Received: by mail-wm1-x336.google.com with SMTP id l1so4224050wme.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 07:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9dUEfigVchHfX6ZaLvQxxNBaTzzF6DYxdQ+mCErjP7w=;
- b=Oa41B4+arAzFalN9Shq59ofAqTNT/h3LCHUZ3hXN2SLugpag2ZZe39tPBt2V6mMBnC
- 3T4YfUWc6nYlrzdFV/B3EZU8hJ3V2IgTPDmFMTc1T77NwHbPuOtlpZaZmT54u1AHWaWP
- XxADw/MSyeGSQMechYnLmItQ3JYZM3HLReiM9GkXI5D67cSp/kCgQMa/JslU6JtYZrlO
- ZEU73enTMK7874DI9c2jwVkcAc5h3C1eg+4UX5IySHX1NoklTTHdKb7oo8uWxrri9gwu
- zLem+BdAG90mK72hj6nVUs871GFp23cOcszZBojJ1Aj9Ah6dFDNVtrhPlBlC/OeW5FtX
- M7NQ==
+ bh=gaI9AVEMXMIlZsv2qUMeoE7EYhjKWKeZwlkxHdQJpWc=;
+ b=KmmwRx3Gqlz8BN0QnYTIRV/jV+wxX0C6uSdV/dSQh4kszqsX8c10apaXW/Y3oSUGVO
+ LGC+FNoHoJx5aX1/YtCwkAO5zP3UtaCk0o6Nw7yDNp84necmUcU/S7Zb4MgMcdq7+3bw
+ d+ufBuUoGC7WbHoeCB5RABQnikFmca/i86lBD7DifjihxVBDYcsSXruX/3Luw0clw91z
+ 1CQMhQIU64bihli7jBue0ezPb9YzXz7G/iWdeCs3D25Y/I+GAlreG/MgLR/977UEkn6n
+ aqNyAm0EE5ScD4gNtOg5NftnIKXd/QaKUtIKo2RwTkh1Gc+VYW7jADsxU0X+APu410zJ
+ PkEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=9dUEfigVchHfX6ZaLvQxxNBaTzzF6DYxdQ+mCErjP7w=;
- b=G5Q/sWa45Oe0uwWOnxN2fOYAckL/oZifjgKaAwWz0qZlcWMBl+xWJcYt4K7+rR4Jo8
- 6+eo+ys1iruqZEW3x72tnUJL68kLQ9mMPUtreJkOglkv6QgAwIC+7VXb1S0dZd7cCr7f
- NyR8DguIjlmBzwyjCjdv3gF7DY6Y3ruoOV5bdWf5uHIW0qlz0zsvNbTj1jOfTtu4rQmh
- MB/kurjwLy95xCKZXcMmZ55tLbb7+LtdZ1oMAZUaBC777WyEtFdMommqyALdylNbFBrA
- M5fDOB6qGddxysHMg9Jg7ei4H1sCLpabJLZeL5T+R2NofLdHlzWoMO2gq+V8j81jdY1C
- IHSQ==
-X-Gm-Message-State: APjAAAVgBGZ1PsknGogZa1AIeN739k5lFlMG3JepfwMjrZTJBjdGTG0V
- 9X6MYtBxX7M/b27VtN/Ep5CswdIU
-X-Google-Smtp-Source: APXvYqzaAMMwlvIzRy862wlNimEvFgmKZs621yTZafY+eEVekn28uauAgSyoGOTnqN7P89GHWDuzUA==
-X-Received: by 2002:a5d:5687:: with SMTP id f7mr7669444wrv.384.1574350613987; 
- Thu, 21 Nov 2019 07:36:53 -0800 (PST)
+ bh=gaI9AVEMXMIlZsv2qUMeoE7EYhjKWKeZwlkxHdQJpWc=;
+ b=n1g/eMLnjqMNH/Gn1Zgpi6tzYC5XvukHBn7HvX22fpev2ldNIN2xeAh2mRHwSzy5Hj
+ T3MWxgPR3kDd5FsgSbG54s6pbJxNUVrt3fn6079bsjjMUzPZq63nks513VhdAyK8KDYL
+ 263NgZQQLVfEc4aIUJ763OJdQV9CaBkV7mitUw6PWk/lKHR9H0WB3kKZ6iR7nJSw5Liq
+ kPBXCd46A+67iPPzSVe64nvRoBTTT58RIlfkLEnlMy0NG1dSCe7o5ZXusghUcjdm997D
+ syt9ZFopShAKr4KDvQEiUxWXaEvMV7Ud3QV7LQbZZbvv2miaGMYwhYEyNucPi/r7ouT5
+ M21w==
+X-Gm-Message-State: APjAAAXhEmJHwEMUqJ+o7wsExs/V6wVxbNlD4nTpAbIHvzqC/sC1ZzWN
+ D20yjqTkyY4khYNfNIG+o0zfnHQY
+X-Google-Smtp-Source: APXvYqyrznhpGqfwuhGIo1108Z7B+eAKfK8Yu4EHEHbG3tQKkX0oxIQ68bF3Qyj9/evBw1L8A+K3mQ==
+X-Received: by 2002:a05:600c:210b:: with SMTP id
+ u11mr10914452wml.170.1574350615051; 
+ Thu, 21 Nov 2019 07:36:55 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id m15sm3970933wrj.52.2019.11.21.07.36.53
+ by smtp.gmail.com with ESMTPSA id m15sm3970933wrj.52.2019.11.21.07.36.54
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 21 Nov 2019 07:36:53 -0800 (PST)
+ Thu, 21 Nov 2019 07:36:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] i386: Add new versions of Skylake/Cascadelake/Icelake
- without TSX
-Date: Thu, 21 Nov 2019 16:36:48 +0100
-Message-Id: <1574350609-29518-4-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 4/4] i386: Add -noTSX aliases for hle=off, rtm=off CPU models
+Date: Thu, 21 Nov 2019 16:36:49 +0100
+Message-Id: <1574350609-29518-5-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574350609-29518-1-git-send-email-pbonzini@redhat.com>
 References: <1574350609-29518-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,116 +81,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-One of the mitigation methods for TAA[1] is to disable TSX
-support on the host system.  Linux added a mechanism to disable
-TSX globally through the kernel command line, and many Linux
-distributions now default to tsx=off.  This makes existing CPU
-models that have HLE and RTM enabled not usable anymore.
-
-Add new versions of all CPU models that have the HLE and RTM
-features enabled, that can be used when TSX is disabled in the
-host system.
-
-References:
-
-[1] TAA, TSX asynchronous Abort:
-    https://software.intel.com/security-software-guidance/insights/deep-dive-intel-transactional-synchronization-extensions-intel-tsx-asynchronous-abort
-    https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/tsx_async_abort.html
+We have been trying to avoid adding new aliases for CPU model
+versions, but in the case of changes in defaults introduced by
+the TAA mitigation patches, the aliases might help avoid user
+confusion when applying host software updates.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ target/i386/cpu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 9cd9adf..37c023f 100644
+index 37c023f..730fb28 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -2902,6 +2902,14 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                     { /* end of list */ }
-                 }
+@@ -2904,6 +2904,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
              },
-+            {
-+                .version = 3,
-+                .props = (PropValue[]) {
-+                    { "hle", "off" },
-+                    { "rtm", "off" },
-+                    { /* end of list */ }
-+                }
-+            },
-             { /* end of list */ }
-         }
-     },
-@@ -3015,6 +3023,14 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                     { /* end of list */ }
-                 }
+             {
+                 .version = 3,
++                .alias = "Skylake-Client-noTSX-IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+@@ -3025,6 +3026,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
              },
-+            {
-+                .version = 3,
-+                .props = (PropValue[]) {
-+                    { "hle", "off" },
-+                    { "rtm", "off" },
-+                    { /* end of list */ }
-+                }
-+            },
-             { /* end of list */ }
-         }
-     },
-@@ -3128,6 +3144,13 @@ static X86CPUDefinition builtin_x86_defs[] = {
-                   { /* end of list */ }
+             {
+                 .version = 3,
++                .alias = "Skylake-Server-noTSX-IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+@@ -3145,6 +3147,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
                },
              },
-+            { .version = 3,
-+              .props = (PropValue[]) {
-+                  { "hle", "off" },
-+                  { "rtm", "off" },
-+                  { /* end of list */ }
-+              },
-+            },
-             { /* end of list */ }
-         }
-     },
-@@ -3230,6 +3253,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Core Processor (Icelake)",
-+        .versions = (X86CPUVersionDefinition[]) {
-+            { .version = 1 },
-+            {
-+                .version = 2,
-+                .props = (PropValue[]) {
-+                    { "hle", "off" },
-+                    { "rtm", "off" },
-+                    { /* end of list */ }
-+                },
-+            },
-+            { /* end of list */ }
-+        }
-     },
-     {
-         .name = "Icelake-Server",
-@@ -3334,6 +3369,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Icelake)",
-+        .versions = (X86CPUVersionDefinition[]) {
-+            { .version = 1 },
-+            {
-+                .version = 2,
-+                .props = (PropValue[]) {
-+                    { "hle", "off" },
-+                    { "rtm", "off" },
-+                    { /* end of list */ }
-+                },
-+            },
-+            { /* end of list */ }
-+        }
-     },
-     {
-         .name = "Denverton",
+             { .version = 3,
++              .alias = "Cascadelake-Server-noTSX",
+               .props = (PropValue[]) {
+                   { "hle", "off" },
+                   { "rtm", "off" },
+@@ -3257,6 +3260,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .alias = "Icelake-Client-noTSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+@@ -3373,6 +3377,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .alias = "Icelake-Server-noTSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
 -- 
 1.8.3.1
-
 
 
