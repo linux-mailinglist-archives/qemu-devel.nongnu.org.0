@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCAE10548A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:35:15 +0100 (CET)
-Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1B0105470
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 15:31:08 +0100 (CET)
+Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXnYA-0000ex-MF
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:35:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47231)
+	id 1iXnUB-0004zN-As
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 09:31:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1iXcOU-0004KL-Ot
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 21:40:32 -0500
+ (envelope-from <david@redhat.com>) id 1iXnS6-0003hy-7n
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:28:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1iXcOT-0002CN-6p
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 21:40:30 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:42776)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1iXcOS-0002BJ-VE
- for qemu-devel@nongnu.org; Wed, 20 Nov 2019 21:40:29 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id y21so741992pjn.9
- for <qemu-devel@nongnu.org>; Wed, 20 Nov 2019 18:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=6Lo0092N0xYP5HLEFRPH7wneSTB1+QKHMiBL2Md661s=;
- b=JxOKZm4tCDXUXucOvb135SMfCSvQIawv/zwrU+YjV4r9bcvUXUnar2m76m97br+KeG
- aAK6jDB+OwlyL6A/mitFXhY6iWyakdyTO2J6aqgJ7sr3KYBEDqUVg4ZbhSTZrsyz3X4x
- SlAL3Uomui3/lKeYeSe77HKJjp8tK0DIVNpZlF5RMGbdhbfRWUcAvn+5UhE3bxeqnxAj
- ZOdPnWKFLFhLSyuRp8M31xdyl2AN4M5xr6/qoGBGvZzDtY46LjpnBe83FsdEtLi/rAdM
- PtGYfqhbg7O0hXFB9kx4V/EsWCfiY6X/pb9RCv1jHykPe2yGKePc3T0IBK1OhorS+peQ
- dmsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=6Lo0092N0xYP5HLEFRPH7wneSTB1+QKHMiBL2Md661s=;
- b=ir9q6KBtg53Z8XZJmmgcOAlCU6FNd8u7/ICSxN0F7NOAqLsBkkla0FYqsDbXiIWL0Z
- Ptd9P7zF09490j74eBhe2piEGDIb0ZokA44rgsN7/2zc4qtZinje2sfQW7RK/RiZ8XE1
- LCsFBfOf4BFwU97dDMvOeY0rpRsfBDeb+s+PH2hQsdmKzfqTME7wlBhlLxoG+ids17Et
- BJwl1f63hVYy+ogq9a94xHXHMTdGWkl61VZczCmfe2FTGXEDPk5SujOJ7rz4i99w8/zG
- 0yS7d6niND6rOQgThMA1dAucDDsQNn6jiBMDwFLV+wnjWZpVgHbJ7uUoxP6mw+1jUIYx
- K1PA==
-X-Gm-Message-State: APjAAAV19TE6VWZh21i36rxuRqQbUjS+JgNoD4On0HaOnf5Hvl6CXaCp
- Ji6Ot6BsPDSmAveaptrl9nrplA==
-X-Google-Smtp-Source: APXvYqxGzQHLAOZCUn8Hu6cZmqOTQi17tIxPWk3kS6uiCPhTbKs0BI9GLCxPHpplRNTcI5auvZR3Pg==
-X-Received: by 2002:a17:902:7c94:: with SMTP id
- y20mr6360574pll.241.1574304024504; 
- Wed, 20 Nov 2019 18:40:24 -0800 (PST)
-Received: from localhost ([2620:15c:211:200:12cb:e51e:cbf0:6e3f])
- by smtp.gmail.com with ESMTPSA id w69sm786933pfc.164.2019.11.20.18.40.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Nov 2019 18:40:24 -0800 (PST)
-Date: Wed, 20 Nov 2019 18:40:24 -0800 (PST)
-X-Google-Original-Date: Wed, 20 Nov 2019 18:40:22 PST (-0800)
-Subject: Re: [PATCH] RISC-V: virt: This is a "sifive,test1" test finisher
-In-Reply-To: <20191110211033.GU2461@umbus.Home>
-CC: Peter Maydell <peter.maydell@linaro.org>, alistair23@gmail.com,
- palmer@sifive.com, Christoph Hellwig <hch@infradead.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-To: david@gibson.dropbear.id.au
-Message-ID: <mhng-7d7315b7-0ef7-4f14-b152-9d478f15c739@palmerdabbelt.mtv.corp.google.com>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
-X-Mailman-Approved-At: Thu, 21 Nov 2019 09:32:24 -0500
+ (envelope-from <david@redhat.com>) id 1iXnS4-0008Ra-56
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:28:57 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30163
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iXnS4-0008R5-1w
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 09:28:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574346534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G4/UECpkhjBsvzdQHbTPdU9vc1x881p5VsyVrky1jQs=;
+ b=CZHVMLmQkH8Oxeo4Ivyb+R4HIY2ajlqJ/0QccdcITOeKG6in9D7t0y1t69EkJ/MZVbzUQX
+ 3azzCdDiQs8EiSHDMJMLZEbXH8/WP3lNKiegHAml4E2Wg+1TV0josnk4mhM6WtKamgKzo/
+ jdrJLg98jcIc6mLNKEHSY1QchlEF9ME=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-lXfZFGh3P0WlYPIGkhThBA-1; Thu, 21 Nov 2019 09:28:51 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6794C18B5FA0;
+ Thu, 21 Nov 2019 14:28:50 +0000 (UTC)
+Received: from [10.36.117.163] (ovpn-117-163.ams2.redhat.com [10.36.117.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D45B1107A43C;
+ Thu, 21 Nov 2019 14:28:48 +0000 (UTC)
+Subject: Re: [PATCH 06/15] s390x: protvirt: Support unpack facility
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-7-frankja@linux.ibm.com>
+ <8669fc89-c8a9-641d-d9aa-ee4aa011ac26@redhat.com>
+ <7df881fe-46ec-2522-143e-929f4e3d2421@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <e194768b-54f7-3c50-0a30-782bd5c9448d@redhat.com>
+Date: Thu, 21 Nov 2019 15:28:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <7df881fe-46ec-2522-143e-929f4e3d2421@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: lXfZFGh3P0WlYPIGkhThBA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,90 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 10 Nov 2019 13:10:33 PST (-0800), david@gibson.dropbear.id.au wrote:
-> On Fri, Nov 08, 2019 at 10:13:16AM -0800, Palmer Dabbelt wrote:
->> On Fri, 08 Nov 2019 10:04:47 PST (-0800), Peter Maydell wrote:
->> > On Fri, 8 Nov 2019 at 17:15, Alistair Francis <alistair23@gmail.com> wrote:
->> > > 
->> > > On Fri, Nov 8, 2019 at 9:05 AM Palmer Dabbelt <palmer@sifive.com> wrote:
->> > > >
->> > > > The test finisher implements the reset command, which means it's a
->> > > > "sifive,test1" device.  This is a backwards compatible change, so it's
->> > > > also a "sifive,test0" device.  I copied the odd idiom for adding a
->> > > > two-string compatible field from the ARM virt board.
->> > > >
->> > > > Fixes: 9a2551ed6f ("riscv: sifive_test: Add reset functionality")
->> > > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->> > > > Signed-off-by: Palmer Dabbelt <palmer@dabbelt.com>
->> > > > ---
->> > > >  hw/riscv/virt.c | 5 ++++-
->> > > >  1 file changed, 4 insertions(+), 1 deletion(-)
->> > > >
->> > > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->> > > > index 23f340df19..74f2dce81c 100644
->> > > > --- a/hw/riscv/virt.c
->> > > > +++ b/hw/riscv/virt.c
->> > > > @@ -359,7 +359,10 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
->> > > >      nodename = g_strdup_printf("/test@%lx",
->> > > >          (long)memmap[VIRT_TEST].base);
->> > > >      qemu_fdt_add_subnode(fdt, nodename);
->> > > > -    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,test0");
->> > > > +    {
->> > > > +        const char compat[] = "sifive,test1\0sifive,test0";
->> > > 
->> > > Does this really work? Why not use qemu_fdt_setprop_cells()?
->> > > 
->> > > Alistair
->> > > 
->> > > > +        qemu_fdt_setprop(fdt, nodename, "compatible", compat, sizeof(compat));
->> > > > +    }
->> > 
->> > qemu_fdt_setprop_cells() is for "set this property to
->> > contain this list of 32-bit integers" (and it does a byteswap
->> > of each 32-bit value from host to BE). That's not what
->> > you want for a string (or a string list, which is what
->> > we have here).
->> > 
->> > Cc'ing David Gibson who's our device tree expert to see if there's
->> > a nicer way to write this. Oddly, given that it's used in the
->> > ubiquitous 'compatible' prop, the dtc Documentation/manual.txt
->> > doesn't say anything about properties being able to be
->> > 'string lists', only 'strings', '32 bit numbers', 'lists of
->> > 32-bit numbers' and 'byte sequences'. You have to dig through
->> > the header file comments to deduce that a string list is
->> > represented by a string with embedded NULs separating
->> > each list item.
->> 
->> I copied this from hw/arm/virt.c, but messed up.  There they use
->> 
->>        const char compat[] = "arm,armv8-timer\0arm,armv7-timer";
->>        qemu_fdt_setprop(vms->fdt, "/timer", "compatible",
->>                         compat, sizeof(compat));
->
-> I'm not sure what you're saying is messed up.  AFAICT, this matches
-> the code you have above, and both should be correct.
+On 21.11.19 15:25, Janosch Frank wrote:
+> On 11/21/19 12:27 PM, David Hildenbrand wrote:
+>> On 20.11.19 12:43, Janosch Frank wrote:
+>=20
+>>> @@ -357,6 +353,35 @@ static void s390_machine_reset(MachineState *machi=
+ne)
+>>>            run_on_cpu(cs, s390_do_cpu_initial_reset, RUN_ON_CPU_NULL);
+>>>            run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
+>>>            break;
+>>> +    case S390_RESET_EXTERNAL:
+>>> +    case S390_RESET_REIPL: /* Subcode 4 */
+>>> +        qemu_devices_reset();
+>>> +        s390_crypto_reset();
+>>> +        /* configure and start the ipl CPU only */
+>>> +        run_on_cpu(cs, s390_do_cpu_ipl, RUN_ON_CPU_NULL);
+>>> +        break;
+>>
+>> Is there a way to modify this patch to not change unrelated code that
+>> heavily? Makes it harder to review.
+>=20
+> https://github.com/frankjaa/qemu/commit/8c53d5c8a6bbcc53496c7a2877c7cbffc=
+435b708
+>=20
+> And please trim your emails.
+>=20
 
-Sorry, I must have been hallucinating.  For some reason I though I wrote
-qemu_fdt_setprop_string(... compat).
+If you use Thunderbird I suggest QuoteCollapse ... because nobody got=20
+time for that ;)
 
-I'd like to take this for 4.2 if possible, but I don't think I have a
-reviewed-by (I just got my email set up on my Google computer, so it might be
-messy for a bit).  I'm happy to submit the cleaner valist version after 4.2, as
-per Peter's suggestion.
 
-Alistair: are you OK with this?
+--=20
 
->> I'll send a v2, but I'd be happy to add some sort of setprop_stringlist
->> function.  Maybe we just indicate the length with two '\0's?  IIRC that's
->> how other similar-looking data structures are encoded.
->> 
->
-> -- 
-> David Gibson			| I'll have my music baroque, and my code
-> david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-> 				| _way_ _around_!
-> http://www.ozlabs.org/~dgibson
+Thanks,
+
+David / dhildenb
+
 
