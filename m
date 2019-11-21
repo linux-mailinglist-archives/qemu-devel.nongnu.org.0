@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CF5105066
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 11:23:02 +0100 (CET)
-Received: from localhost ([::1]:38428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C54105064
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 11:21:49 +0100 (CET)
+Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXjc5-00052C-7N
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 05:23:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42237)
+	id 1iXjat-0003F6-SR
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 05:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iXjVl-0007BL-8Z
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:30 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iXjVk-0007VG-55
+ (envelope-from <kraxel@redhat.com>) id 1iXjVk-0007AV-Gd
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52362
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iXjVk-0007Ur-1I
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1iXjVj-0007Um-FL
  for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50741
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iXjVj-0007US-C0
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:16:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574331387;
+ s=mimecast20190719; t=1574331386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EjAUpSJzJpegy5ge3A/puoS+rZ0LjJO7CbtLZG9YGL8=;
- b=JIj6tcyngzqriHChWkFMKj3X9aHMCAPahHQ3SYsS+22yE8n8Y8+q3SVcuMkhlYPK2LxR2S
- DqmwOrRDhmO9tp+EAUfZaU/kwb+ezZr41fBGvqK6Yzf6PDBTD6TjmyGOAav7L9WjCyElK1
- xwHIOEX+wslKrEHRGyuy3ZeeFzcsYms=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lW8xVmzL8vBpdRtXK5fUmBzaQjt66qwLX1IMvtgTnWA=;
+ b=BGjev51dIQFISCf5J1T50YusDKrMdZyn1hqawSGMrF5KrlqYxPIlZjPuaMKlmEFz0bwNn+
+ 08v9TUHgH2uIT9GnsBrmgAu9mPJqfXkxvA8tTy3eYaEAA8e4Y0mF8y5wxIUAOFUOacGZtX
+ at/PMyyXFweBwKCyrhHRWWLRPUmbu60=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-45z4v-wnNNWiqZpPQ5UvMQ-1; Thu, 21 Nov 2019 05:16:24 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-123-FekPJS7ONGivcOPnP3jFKw-1; Thu, 21 Nov 2019 05:16:25 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE6EF1005509;
- Thu, 21 Nov 2019 10:16:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89953801FCF;
+ Thu, 21 Nov 2019 10:16:23 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
  [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C8866CE50;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CE705DAB0;
  Thu, 21 Nov 2019 10:16:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 830CA16E08; Thu, 21 Nov 2019 11:16:18 +0100 (CET)
+ id 8B5061747D; Thu, 21 Nov 2019 11:16:18 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] Fixes 20191121 patches
-Date: Thu, 21 Nov 2019 11:16:15 +0100
-Message-Id: <20191121101618.29289-1-kraxel@redhat.com>
+Subject: [PULL 1/3] audio: fix audio recording
+Date: Thu, 21 Nov 2019 11:16:16 +0100
+Message-Id: <20191121101618.29289-2-kraxel@redhat.com>
+In-Reply-To: <20191121101618.29289-1-kraxel@redhat.com>
+References: <20191121101618.29289-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 45z4v-wnNNWiqZpPQ5UvMQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: FekPJS7ONGivcOPnP3jFKw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,45 +73,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 39e2821077e6dcf788b7c2a9ef50970ec7995437=
-:
+From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-  Update version for v4.2.0-rc2 release (2019-11-19 19:34:10 +0000)
+With current code audio recording with all audio backends
+except PulseAudio and DirectSound is broken. The generic audio
+recording buffer management forgot to update the current read
+position after a read.
 
-are available in the Git repository at:
+Fixes: ff095e5231 "audio: api for mixeng code free backends"
 
-  git://git.kraxel.org/qemu tags/fixes-20191121-pull-request
+Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+Reviewed-by: Zolt=C3=A1n K=C5=91v=C3=A1g=C3=B3 <DirtY.iCE.hu@gmail.com>
+Message-id: 2fc947cf-7b42-de68-3f11-cbcf1c096be9@t-online.de
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/audio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-for you to fetch changes up to c55c974486b0dadf97fe47e2e789d5dba9b77138:
-
-  ui/gtk: fix gettext message's charset. (2019-11-21 09:42:30 +0100)
-
-----------------------------------------------------------------
-two audio fixes and one gtk message fix.
-
-----------------------------------------------------------------
-
-Sai Pavan Boddu (1):
-  display: xlnx_dp: Provide sufficient bytes for silent audio channel
-
-Volker R=C3=BCmelin (1):
-  audio: fix audio recording
-
-yanminhui (1):
-  ui/gtk: fix gettext message's charset.
-
- audio/audio.c        | 1 +
- hw/display/xlnx_dp.c | 9 +++++++--
- ui/gtk.c             | 1 +
- po/zh_CN.po          | 2 +-
- 4 files changed, 10 insertions(+), 3 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index 7fc3aa9d1637..56fae5504710 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1390,6 +1390,7 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size=
+_t *size)
+         size_t read =3D hw->pcm_ops->read(hw, hw->buf_emul + hw->pos_emul,
+                                         read_len);
+         hw->pending_emul +=3D read;
++        hw->pos_emul =3D (hw->pos_emul + read) % hw->size_emul;
+         if (read < read_len) {
+             break;
+         }
 --=20
 2.18.1
 
