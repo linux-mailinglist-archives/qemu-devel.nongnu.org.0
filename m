@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F348C104FD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 10:58:26 +0100 (CET)
-Received: from localhost ([::1]:38052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED79F105037
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 11:16:39 +0100 (CET)
+Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXjED-00050N-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 04:58:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
+	id 1iXjVt-0006Mg-U9
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 05:16:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXjD0-00045m-WE
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 04:57:07 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iXjSr-00046I-9M
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:13:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iXjCz-0000DU-DF
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 04:57:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50608
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iXjSp-0006Ha-VG
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:13:29 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39695 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iXjCz-0000DC-AA
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 04:57:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574330224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jaF6EKSozvpNDluFR9QsaJF9Ywd4hX4kYChb+dYWlro=;
- b=JopX0Tw5qX/nHe+UjC5ZqOnFJCfTK35Nwr8brcpccjCxKms8WpG9ZLPu16h5igjIOeZYBw
- FXwH0MGHy+95Y+F+cMEQkWnEH7fOqV968j8ow3XzkshX+Gf3F6B/8h4NDNubLxER9o/Fnb
- YF3ejyOZ/IGd8s43hpWSduN9QlHPfhc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-Qm9gsa8oNl2-FRO8U0I7ig-1; Thu, 21 Nov 2019 04:57:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65ADC1804976
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 09:57:02 +0000 (UTC)
-Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5198C60556;
- Thu, 21 Nov 2019 09:56:54 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] virtio-input: fix memory leak on unrealize
-Date: Thu, 21 Nov 2019 13:56:49 +0400
-Message-Id: <20191121095649.25453-1-marcandre.lureau@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iXjSo-00067J-T5
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 05:13:27 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47Jb3q4765z9sPf; Thu, 21 Nov 2019 21:13:11 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574331191;
+ bh=Q8NXMCM0eG9ScEw3HYVhi6Bl4mOirlad7XuQ0pliSPs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HFIn9iHmyO+4dVo2szkBSfHPENlnbmnRhVvDS4mFeKvVGtUpauUT0a+oaS8IuMXIX
+ 9JpQBQcT6e1geKYeBTK0FrEP+IagD5dae3dKAeCNW+uOrgBIN1xR/E3jwvSoKWiTr6
+ fV1DPQTeHc5g87ZqVvJyE58jx3e+XKQzyGIH85CU=
+Date: Thu, 21 Nov 2019 20:48:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] pseries: disable migration-test if /dev/kvm cannot be used
+Message-ID: <20191121094833.GT5582@umbus.fritz.box>
+References: <20191120170955.242900-1-lvivier@redhat.com>
+ <87zhgpn1dt.fsf@trasno.org>
+ <e96b3dd9-05d3-d260-852a-13423ed9b8cc@redhat.com>
+ <87v9rdmy1o.fsf@trasno.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Qm9gsa8oNl2-FRO8U0I7ig-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0q0JoaF5XvbG/IKT"
+Content-Disposition: inline
+In-Reply-To: <87v9rdmy1o.fsf@trasno.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,45 +58,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- mst@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Cole Robinson <crobinso@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Spotted by ASAN + minor stylistic change.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
----
+--0q0JoaF5XvbG/IKT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Michael: can you peek this in your next pullreq? thanks
+On Thu, Nov 21, 2019 at 09:30:27AM +0100, Juan Quintela wrote:
+> Laurent Vivier <lvivier@redhat.com> wrote:
+> > On 21/11/2019 08:18, Juan Quintela wrote:
+> >> Laurent Vivier <lvivier@redhat.com> wrote:
+> >>> On ppc64, migration-test only works with kvm_hv, and we already
+> >>> have a check to verify the module is loaded.
+> >>>
+> >>> kvm_hv module can be loaded in memory and /sys/module/kvm_hv exists,
+> >>> but on some systems (like build systems) /dev/kvm can be missing
+> >>> (by administrators choice).
+> >>>
+> >>> And as kvm_hv exists test-migration is started but QEMU falls back to
+> >>> TCG because it cannot be used:
+> >>>
+> >>>     Could not access KVM kernel module: No such file or directory
+> >>>     failed to initialize KVM: No such file or directory
+> >>>     Back to tcg accelerator
+> >>>
+> >>> And as the test is done with TCG, it fails.
+> >>>
+> >>> As for s390x, we must check for the existence and the access rights
+> >>> of /dev/kvm.
+> >>>
+> >>> Reported-by: Cole Robinson <crobinso@redhat.com>
+> >>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> >>=20
+> >> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> >>=20
+> >> Oh, why it is so difficult!!!
+> >>=20
+> >> Thanks, Juan.
+> >>=20
+> >
+> > David,
+> >
+> > could you add this one too to your ppc-for-4.2 queue?
+>=20
+> I was about to ask if you preffered it to go through the migration tree.
+>=20
+> David?
 
-hw/input/virtio-input.c | 3 +++
- 1 file changed, 3 insertions(+)
+Migration tree is good for me.
 
-diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
-index 51617a5885..ec54e46ad6 100644
---- a/hw/input/virtio-input.c
-+++ b/hw/input/virtio-input.c
-@@ -275,6 +275,7 @@ static void virtio_input_finalize(Object *obj)
-=20
-     g_free(vinput->queue);
- }
-+
- static void virtio_input_device_unrealize(DeviceState *dev, Error **errp)
- {
-     VirtIOInputClass *vic =3D VIRTIO_INPUT_GET_CLASS(dev);
-@@ -288,6 +289,8 @@ static void virtio_input_device_unrealize(DeviceState *=
-dev, Error **errp)
-             return;
-         }
-     }
-+    virtio_del_queue(vdev, 0);
-+    virtio_del_queue(vdev, 1);
-     virtio_cleanup(vdev);
- }
-=20
+>=20
+> Later, Juan.
+>=20
+
 --=20
-2.24.0
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--0q0JoaF5XvbG/IKT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3WXW8ACgkQbDjKyiDZ
+s5KkehAAjeezk7k9Jz8nHAT6KeGKfSvS7ZEXJo0VmKua1m6BWfzLwnjEwhePF2Pu
+TUekvFJeR5rfxoADNC38c+AAHRNxYo68UTEjX9Fkre/2cJ6q1tuui06yy+k82+/6
+wdbz8tnx7qPMDYF8b9MXXi0VUkJTY2UxSYU25564t9hwWI7kuQLOZPbGIsZ2kLx2
+2ffl7GLoGaVOhMxAR0mkOgVTJF1GQJvkajIl0Xw6j4iJ9+/OCYejw9/mCVsr/Bm+
+35m3ugK/hjiBaUny7m3IcgpB8sa5XULWbhKaQ8IRuqr4vERyavQscgq4iEGcvmia
+SI/Jnce+Q6s4FnW9724wxADTSSML5WBauGrubzBhersOvVeNxN8clDdCR/bk/gSl
+pmzjsE50rkb/qFiV7LQfZ6eOPkgiDEN944FmwP9ocoXRdImK54K7Xm7YstEgJB+D
+tilqMijb13vJixhAZG9qI28LKF8O+uHtZJxojXfui0y+6T+ZEI/0C/+1TKlnLI9v
+lAVgsg79B1TyBvWbicH548Mj8cqBsK/R3pkYG5dqidnvV8yxp7L+RlEHdqidqQTw
+YXAXiJMf+rQw9XaSFPadoGZF3Ghxl8cvcVa4hRdxhohM5HvP1gzhYuKllu8kBIuw
+7N0bG3VxFEH1+tv1DN3DI4e9V9ssFaIjAgyq0/EtWJh7Iv7sdCk=
+=pN4Z
+-----END PGP SIGNATURE-----
+
+--0q0JoaF5XvbG/IKT--
 
