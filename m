@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521C1105CE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 23:57:08 +0100 (CET)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D3A105CEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 23:59:05 +0100 (CET)
+Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXvNq-0005OI-NA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 17:57:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
+	id 1iXvPk-0007EM-Oe
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 17:59:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1iXvLq-00048U-Eb
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:03 -0500
+ (envelope-from <dirty@apple.com>) id 1iXvNo-0005vP-3d
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:57:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1iXvLp-0004Zx-CU
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:02 -0500
-Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:57350)
+ (envelope-from <dirty@apple.com>) id 1iXvNm-0005pT-PI
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:57:04 -0500
+Received: from nwk-aaemail-lapp01.apple.com ([17.151.62.66]:48280)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1iXvLp-0004ZF-70
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:55:01 -0500
-Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
- by ma1-aaemail-dr-lapp03.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- xALMppVS004638; Thu, 21 Nov 2019 14:54:57 -0800
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1iXvNm-0005p7-Hy
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 17:57:02 -0500
+Received: from pps.filterd (nwk-aaemail-lapp01.apple.com [127.0.0.1])
+ by nwk-aaemail-lapp01.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ xALMuml8025486; Thu, 21 Nov 2019 14:57:01 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
  h=sender : from : to :
  cc : subject : date : message-id : in-reply-to : references : mime-version
  : content-transfer-encoding; s=20180706;
- bh=ugxfdIQDZ2+zAAugyFwhvkbCKLbpBzoyHYTLkvgf1To=;
- b=Peb9+egxparnXp45kcO3oCPWBU9ji3L7uWj/kmh0ima75Z0phCSGqoPZ9oxVx9PAytsz
- d7PeSgHl50h8b0ySu4mFGFvelsp4F7QWU5J8dcmR2q3VuXalLYadY8PMyU4FwIVC4tNB
- sVCz90YHLw0HTmFIfcLfDsQYsIVgRDUntwcOrWEXoKEb3I8H6uoWulRkaI9nQPAtDyEN
- HYotRGkDpPZ284+s/TvPst6QcwLyBZCtMU6m0gKvqZ/oPv710QPbuIyZm8MuNamCzvs6
- dtpJYv4ZLBy3yqV9LzoX2wEV9fN6aZ9a32oxHDgd6uKtwCOIA6Rf8/EErLO6wZct6iVB /g== 
-Received: from ma1-mtap-s02.corp.apple.com (ma1-mtap-s02.corp.apple.com
- [17.40.76.6])
- by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 2wah00wd8y-3
+ bh=Wfjqgan7+LbRhyL3uAriVKkUmA2bv4a+Ay74QimgKAc=;
+ b=M89G5phN8MZyENZTYQVdJ3BA9iHNGoEHYTYqd9huWuH5v+Mj60F/LX9sdyvwvyb6hm/N
+ KRxrKXC2DEm42PlcTW2fojPzcaqqKzMQfnJ5mQ+zYdDHHiZ/9ZM3TLCfAvv8ympZvoLp
+ 0m5ThElZ0uVzqLgPEwoKGKzMKNQx1tWd4rGxR2WqnDOGQm+EqQHtnvSWxi07NpMOWD8I
+ vExhe2UGgWWcWrWMWMEik6CBDWhmkNnlge6jNN+16ByC4PrZDrpB6DYq1TTY8z0u/WEa
+ wvCaLOYihmiCmddxipMRFWnyQ5jWjZwUxGLQhuA4+k1MlJiZBP1zpHb+z53tzA9lGZ9O IA== 
+Received: from mr2-mtap-s02.rno.apple.com (mr2-mtap-s02.rno.apple.com
+ [17.179.226.134])
+ by nwk-aaemail-lapp01.apple.com with ESMTP id 2wagx5dygn-46
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Thu, 21 Nov 2019 14:54:56 -0800
+ Thu, 21 Nov 2019 14:57:01 -0800
 Received: from nwk-mmpp-sz11.apple.com
- (nwk-mmpp-sz11.apple.com [17.128.115.155]) by ma1-mtap-s02.corp.apple.com
+ (nwk-mmpp-sz11.apple.com [17.128.115.155]) by mr2-mtap-s02.rno.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) with ESMTPS id <0Q1C00F8GCZFA3G0@ma1-mtap-s02.corp.apple.com>; Thu,
- 21 Nov 2019 14:54:56 -0800 (PST)
+ 2019)) with ESMTPS id <0Q1C00DIRD2Y6980@mr2-mtap-s02.rno.apple.com>; Thu,
+ 21 Nov 2019 14:56:59 -0800 (PST)
 Received: from process_milters-daemon.nwk-mmpp-sz11.apple.com by
  nwk-mmpp-sz11.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) id <0Q1C00J00CBT3A00@nwk-mmpp-sz11.apple.com>; Thu,
- 21 Nov 2019 14:54:55 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: f23415f63b722fb95feca2bca8131434
-X-Va-R-CD: c78501f95052ee2b5bc08865af9ba005
-X-Va-CD: 0
-X-Va-ID: 917e3943-1bde-4b05-bf42-8d5eab975aae
+ 2019)) id <0Q1C00J00CBS2W00@nwk-mmpp-sz11.apple.com>; Thu,
+ 21 Nov 2019 14:56:59 -0800 (PST)
 X-V-A: 
 X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: f23415f63b722fb95feca2bca8131434
-X-V-R-CD: c78501f95052ee2b5bc08865af9ba005
+X-V-E-CD: 5b47ed150e04c9990a270d9f85eb4bbb
+X-V-R-CD: 93de497c94ae2d22b36935d2cbfc41a3
 X-V-CD: 0
-X-V-ID: 13e2a72c-f1da-4c48-8041-9c7e8146e3ca
+X-V-ID: da5a5d5c-ada4-4a00-915e-2e3167835d1d
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
  definitions=2019-11-21_06:,, signatures=0
 Received: from pontoon.com (unknown [17.193.42.199]) by nwk-mmpp-sz11.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
  2019)) with ESMTPSA id <0Q1C00JWACZIHUA0@nwk-mmpp-sz11.apple.com>; Thu,
- 21 Nov 2019 14:54:54 -0800 (PST)
+ 21 Nov 2019 14:54:55 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH 2/5] hvf: remove TSC synchronization code because it isn't
- fully complete
-Date: Thu, 21 Nov 2019 14:54:51 -0800
-Message-id: <ba641b7f6bc9b9a84d7f0fefc9a5ef9ec78c5d11.1574375668.git.dirty@apple.com>
+Subject: [PATCH 5/5] hvf: save away type as well as vector so we can reinject
+ them
+Date: Thu, 21 Nov 2019 14:54:54 -0800
+Message-id: <fc8406e583ec425620f181ab18df2b768e7ec2f5.1574375668.git.dirty@apple.com>
 X-Mailer: git-send-email 2.24.0
 In-reply-to: <cover.1574375668.git.dirty@apple.com>
 References: <cover.1574375668.git.dirty@apple.com>
@@ -80,7 +74,7 @@ Content-transfer-encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-11-21_06:, , signatures=0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 17.171.2.72
+X-Received-From: 17.151.62.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,68 +91,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Cameron Esfahani <dirty@apple.com>
 From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-The existing code in QEMU's HVF support to attempt to synchronize TSC
-across multiple cores is not sufficient.  TSC value on other cores
-can go backwards.  Until implementation is fixed, remove calls to
-hv_vm_sync_tsc().  Pass through TSC to guest OS.
+Save away type as well as vector in hvf_store_events() so we can
+correctly reinject both in hvf_inject_interrupts().
+
+Make sure to clear ins_len and has_error_code when ins_len isn't
+valid and error_code isn't set.
 
 Signed-off-by: Cameron Esfahani <dirty@apple.com>
 ---
- target/i386/hvf/hvf.c     | 3 +--
- target/i386/hvf/x86_emu.c | 3 ---
- target/i386/hvf/x86hvf.c  | 4 ----
- 3 files changed, 1 insertion(+), 9 deletions(-)
+ target/i386/hvf/hvf.c    | 16 ++++++++++++----
+ target/i386/hvf/x86hvf.c | 22 ++++++++++------------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
 
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 60c995470b..fda0273ba1 100644
+index 7f6ebd2e50..818591ceee 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -511,7 +511,6 @@ void hvf_reset_vcpu(CPUState *cpu) {
-         wreg(cpu->hvf_fd, HV_X86_R8 + i, 0x0);
+@@ -634,14 +634,16 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
+         switch (idtvec_info & VMCS_IDT_VEC_TYPE) {
+         case VMCS_IDT_VEC_HWINTR:
+         case VMCS_IDT_VEC_SWINTR:
+-            env->interrupt_injected = idtvec_info & VMCS_IDT_VEC_VECNUM;
++            /* Save away the event type as well so we can inject the correct type. */
++            env->interrupt_injected = idtvec_info & (VMCS_IDT_VEC_TYPE | VMCS_IDT_VEC_VECNUM);
+             break;
+         case VMCS_IDT_VEC_NMI:
+             env->nmi_injected = true;
+             break;
+         case VMCS_IDT_VEC_HWEXCEPTION:
+         case VMCS_IDT_VEC_SWEXCEPTION:
+-            env->exception_nr = idtvec_info & VMCS_IDT_VEC_VECNUM;
++            /* Save away the event type as well so we can inject the correct type. */
++            env->exception_nr = idtvec_info & (VMCS_IDT_VEC_TYPE | VMCS_IDT_VEC_VECNUM);
+             env->exception_injected = 1;
+             break;
+         case VMCS_IDT_VEC_PRIV_SWEXCEPTION:
+@@ -651,10 +653,16 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
+         if ((idtvec_info & VMCS_IDT_VEC_TYPE) == VMCS_IDT_VEC_SWEXCEPTION ||
+             (idtvec_info & VMCS_IDT_VEC_TYPE) == VMCS_IDT_VEC_SWINTR) {
+             env->ins_len = ins_len;
++        } else {
++            /* Make sure to clear ins_len when it isn't valid. */
++            env->ins_len = 0;
+         }
+-        if (idtvec_info & VMCS_INTR_DEL_ERRCODE) {
++        if (idtvec_info & VMCS_IDT_VEC_ERRCODE_VALID) {
+             env->has_error_code = true;
+             env->error_code = rvmcs(cpu->hvf_fd, VMCS_IDT_VECTORING_ERROR);
++        } else {
++            /* Make sure to clear has_error_code when error_code isn't valid. */
++            env->has_error_code = false;
+         }
      }
- 
--    hv_vm_sync_tsc(0);
-     hv_vcpu_invalidate_tlb(cpu->hvf_fd);
-     hv_vcpu_flush(cpu->hvf_fd);
- }
-@@ -605,7 +604,7 @@ int hvf_init_vcpu(CPUState *cpu)
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_GSBASE, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_KERNELGSBASE, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_TSC_AUX, 1);
--    /*hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);*/
-+    hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_CS, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_EIP, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_ESP, 1);
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 1b04bd7e94..3df767209d 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -772,9 +772,6 @@ void simulate_wrmsr(struct CPUState *cpu)
- 
-     switch (msr) {
-     case MSR_IA32_TSC:
--        /* if (!osx_is_sierra())
--             wvmcs(cpu->hvf_fd, VMCS_TSC_OFFSET, data - rdtscp());
--        hv_vm_sync_tsc(data);*/
-         break;
-     case MSR_IA32_APICBASE:
-         cpu_set_apic_base(X86_CPU(cpu)->apic_state, data);
+     if ((rvmcs(cpu->hvf_fd, VMCS_GUEST_INTERRUPTIBILITY) &
+@@ -935,7 +943,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+             macvm_set_rip(cpu, rip + ins_len);
+             break;
+         case VMX_REASON_VMCALL:
+-            env->exception_nr = EXCP0D_GPF;
++            env->exception_nr = VMCS_INTR_T_HWEXCEPTION | EXCP0D_GPF;
+             env->exception_injected = 1;
+             env->has_error_code = true;
+             env->error_code = 0;
 diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index e0ea02d631..1485b95776 100644
+index 1485b95776..f9187cee3f 100644
 --- a/target/i386/hvf/x86hvf.c
 +++ b/target/i386/hvf/x86hvf.c
-@@ -152,10 +152,6 @@ void hvf_put_msrs(CPUState *cpu_state)
- 
-     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_GSBASE, env->segs[R_GS].base);
-     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_FSBASE, env->segs[R_FS].base);
--
--    /* if (!osx_is_sierra())
--         wvmcs(cpu_state->hvf_fd, VMCS_TSC_OFFSET, env->tsc - rdtscp());*/
--    hv_vm_sync_tsc(env->tsc);
+@@ -345,8 +345,6 @@ void vmx_clear_int_window_exiting(CPUState *cpu)
+              ~VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING);
  }
  
- 
+-#define NMI_VEC 2
+-
+ bool hvf_inject_interrupts(CPUState *cpu_state)
+ {
+     X86CPU *x86cpu = X86_CPU(cpu_state);
+@@ -356,17 +354,15 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+     uint64_t intr_type;
+     bool have_event = true;
+     if (env->interrupt_injected != -1) {
+-        vector = env->interrupt_injected;
+-        intr_type = VMCS_INTR_T_SWINTR;
++        /* Type and vector are both saved in interrupt_injected. */
++        vector = env->interrupt_injected & VMCS_IDT_VEC_VECNUM;
++        intr_type = env->interrupt_injected & VMCS_IDT_VEC_TYPE;
+     } else if (env->exception_nr != -1) {
+-        vector = env->exception_nr;
+-        if (vector == EXCP03_INT3 || vector == EXCP04_INTO) {
+-            intr_type = VMCS_INTR_T_SWEXCEPTION;
+-        } else {
+-            intr_type = VMCS_INTR_T_HWEXCEPTION;
+-        }
++        /* Type and vector are both saved in exception_nr. */
++        vector = env->exception_nr & VMCS_IDT_VEC_VECNUM;
++        intr_type = env->exception_nr & VMCS_IDT_VEC_TYPE;
+     } else if (env->nmi_injected) {
+-        vector = NMI_VEC;
++        vector = EXCP02_NMI;
+         intr_type = VMCS_INTR_T_NMI;
+     } else {
+         have_event = false;
+@@ -390,6 +386,8 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+             if (env->has_error_code) {
+                 wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_EXCEPTION_ERROR,
+                       env->error_code);
++                /* Make sure to indicate that VMCS_ENTRY_EXCEPTION_ERROR is valid */
++                info |= VMCS_INTR_DEL_ERRCODE;
+             }
+             /*printf("reinject  %lx err %d\n", info, err);*/
+             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
+@@ -399,7 +397,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+     if (cpu_state->interrupt_request & CPU_INTERRUPT_NMI) {
+         if (!(env->hflags2 & HF2_NMI_MASK) && !(info & VMCS_INTR_VALID)) {
+             cpu_state->interrupt_request &= ~CPU_INTERRUPT_NMI;
+-            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | NMI_VEC;
++            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | EXCP02_NMI;
+             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
+         } else {
+             vmx_set_nmi_window_exiting(cpu_state);
 -- 
 2.24.0
 
