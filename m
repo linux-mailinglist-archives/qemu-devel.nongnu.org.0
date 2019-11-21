@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1751059F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 19:53:18 +0100 (CET)
-Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA51105A02
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 19:54:28 +0100 (CET)
+Received: from localhost ([::1]:45216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXrZt-0006FD-5K
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 13:53:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58773)
+	id 1iXrb1-0007LW-GR
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 13:54:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iXrYX-0004uf-Lu
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:51:54 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iXrZr-0006fS-Sa
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:53:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iXrYW-0004LE-Hi
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:51:53 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51734)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iXrYW-0004KE-Bl
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:51:52 -0500
-Received: by mail-wm1-x341.google.com with SMTP id g206so4660646wme.1
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 10:51:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FKlBFL5P3CzpXiAtO7LVfb0bBoDPHY9RHS+KAzF/6Yw=;
- b=iSu+kv/rfeSb+BSZGVyZYJxmxZ23DCpqnVLpy6knFQ4co+FQVZF2fCG+VLjZn3qtWA
- Dhu/CHmyM5UMF57wSjEhw5EsxVkUitN4FC9W/3e51fE7BrISTiCNmsCd+tLoJLeZhSJO
- xP0vzKSPVxDXopmsk2iyY94v2tYmzpc6pydJ1rdfTA4KHUpo99WX0/BMWFG+VUPfIO2s
- TvjlIEqAJ+/ZTVSYbtOQ7WXakl2TVTdkF7sXNTlmy9YjLZsMXAaZvrxiSqVJZIxqnLDN
- SolCNhXpMOJuacqnMX4oKVynm4iunXkuyS6c4qWcLPb4ioCuzTxwCOSUoeuz4tBrcFPr
- w9BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FKlBFL5P3CzpXiAtO7LVfb0bBoDPHY9RHS+KAzF/6Yw=;
- b=RLL6uyICsnz64rY0heoKx+dsjlbZUfYgQCc6/vX4s+ik1Iz77jdpT7EKNacnFVhMBa
- GS9Bq9kLwNJSuK5c861I7pErhvNOpgIQzqrcNsV1nxCImvkK+64q0OQtKXGOzF8yv3lJ
- isaaYn5lEhst4onk2aWk2jL5IM5/azkJXZPizUrCvuizsqNv8WwgXPd6T4T1kUnqdbhX
- 0HL5VMf2EoMG7zsbfdd2rUqWGolx/Vs5rwtrpV1VX9azhDnOt3k/fXvxoUZOmjlGeaRe
- jxIzR6OmVfzamKTV0X5RmrKNTIOKj7Kwr4TV5Lee3o9OBQh8uyFjWbr+wjbQNGYDoU+8
- 1JKQ==
-X-Gm-Message-State: APjAAAX6hK1Xyu17RKn+c/9b6Dw9fi/5UXbmMeR7kc8OGafQ2qxxrYPX
- zkrucP11ycofGexkFNa4+usa+UQmst7NFxU1Xp0=
-X-Google-Smtp-Source: APXvYqwTgD9l3T2uDYdxDcbOvewS5310M5dQQu1PJzjc5bOqW04lq+MicsudrC3NFTMhGxAkaokH5KxWP1Jb0nQXD8U=
-X-Received: by 2002:a1c:453:: with SMTP id 80mr11890031wme.5.1574362310980;
- Thu, 21 Nov 2019 10:51:50 -0800 (PST)
+ (envelope-from <dgilbert@redhat.com>) id 1iXrZo-0004vy-8w
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:53:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23732
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iXrZm-0004uf-Dz
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 13:53:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574362389;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/ycIKR2Vr2dSVBvTi4QHjSqcY5kmM4PBXeNACmDo7NY=;
+ b=FOt1gc1EoITPV4lfU4uy1maAnma9muLmMcoYR2sahuQZZySzhm+3heYrF99qLo4NnjKHq7
+ vIX2SGRMu9aYu1/R3KjOpMPQkrrtlvCYCkjkBP3o0POrHKNP/y98/zv8i8/jlizH63AVk5
+ OsKqvCtdSV31avCy6zuh2c0aT2gn/QU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-C38l0N8ROqC_LIopmQAmyQ-1; Thu, 21 Nov 2019 13:53:07 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B03FB800A02
+ for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 18:53:06 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAA0444FA0;
+ Thu, 21 Nov 2019 18:53:05 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, ehabkost@redhat.com,
+ crosa@redhat.com
+Subject: [PATCH] vmstate-static-checker: Fix for current python
+Date: Thu, 21 Nov 2019 18:53:03 +0000
+Message-Id: <20191121185303.51685-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
- <20191120152442.26657-13-marcandre.lureau@redhat.com>
- <CAFEAcA8aj71ue1Y_o1PphD8+iAZeOgqo647hgXS0Z22T9Qa8yg@mail.gmail.com>
- <CAJ+F1CJhaQxrceCqPpPULN5RUUQ+jTVaRa912jX0Ct8MM0ucaw@mail.gmail.com>
- <CAFEAcA82swZ82__hee1818L0RtD-3dNEOAKT2hdwgMOcaiAjHw@mail.gmail.com>
-In-Reply-To: <CAFEAcA82swZ82__hee1818L0RtD-3dNEOAKT2hdwgMOcaiAjHw@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 21 Nov 2019 22:51:37 +0400
-Message-ID: <CAJ+F1CLDai4rWcLQaqXo1GcVRuRj=OwX+50jV4Ch5X_-8HR=CA@mail.gmail.com>
-Subject: Re: [PATCH v4 12/37] serial: start making SerialMM a sysbus device
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: C38l0N8ROqC_LIopmQAmyQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,79 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-On Thu, Nov 21, 2019 at 10:24 PM Peter Maydell <peter.maydell@linaro.org> w=
-rote:
->
-> On Thu, 21 Nov 2019 at 18:15, Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> >
-> > On Thu, Nov 21, 2019 at 5:47 PM Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> > >
-> > > On Wed, 20 Nov 2019 at 15:27, Marc-Andr=C3=A9 Lureau
-> > > <marcandre.lureau@redhat.com> wrote:
-> > > >
-> > > > Memory mapped serial device is in fact a sysbus device. The followi=
-ng
-> > > > patches will make use of sysbus facilities for resource and
-> > > > registration. In particular, "serial-mm: use sysbus facilities" wil=
-l
-> > > > move internal serial realization to serial_mm_realize callback to
-> > > > follow qdev best practices.
-> > >
-> > > What goes wrong if you just put the realize of smm->serial in
-> > > the right place to start with ?
-> >
-> > You mean squash the following patches?
->
-> No, I meant just having this patch have
->
-> static void serial_mm_realize(DeviceState *dev, Error **errp)
-> {
->     SerialMM *smm =3D SERIAL_MM(dev);
->     SerialState *s =3D &smm->serial;
->
->     object_property_set_bool(OBJECT(dev), true, "realized", &err);
->     if (err) {
->         error_propagate(errp, err);
->         return;
->     }
-> }
->
-> and
->
-> + dc->realize =3D serial_mm_realize;
->
-> rather than manually doing the qdev_init_nofail()
-> in serial_mm_init(). This seems to me like an integral
-> part of the change to doing the init of the subdevice in the
-> init method, so it would be better unless there's a reason
-> why it breaks something. The rest of patch 15 (which is
-> what currently makes the equivalent change to realize) is all
-> about passing through the properties and exposing the
-> sysbus MMIO/irq regions and should stay a separate patch.
->
-> (setting the 'realized' property is better in a realize method
-> than using qdev_init_nofail() because it means we can propagate
-> any error outward rather than killing qemu.)
+Python 3.7.5 on f31 doesn't seem to like the old type=3Dfile syntax
+on argparse.
 
-Ok, but I implemented realize and moved serial init in "serial: make
-SerialIO a sysbus device".
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ scripts/vmstate-static-checker.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I propose to add another patch to follow your suggestion to use
-set_boot("realize", true, errp) on top.
-
+diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-che=
+cker.py
+index 21dbdccf3e..9f912dd870 100755
+--- a/scripts/vmstate-static-checker.py
++++ b/scripts/vmstate-static-checker.py
+@@ -379,9 +379,11 @@ def main():
+     help_text =3D "Parse JSON-formatted vmstate dumps from QEMU in files S=
+RC and DEST.  Checks whether migration from SRC to DEST QEMU versions would=
+ break based on the VMSTATE information contained within the JSON outputs. =
+ The JSON output is created from a QEMU invocation with the -dump-vmstate p=
+arameter and a filename argument to it.  Other parameters to QEMU do not ma=
+tter, except the -M (machine type) parameter."
+=20
+     parser =3D argparse.ArgumentParser(description=3Dhelp_text)
+-    parser.add_argument('-s', '--src', type=3Dfile, required=3DTrue,
++    parser.add_argument('-s', '--src', type=3Dargparse.FileType('r'),
++                        required=3DTrue,
+                         help=3D'json dump from src qemu')
+-    parser.add_argument('-d', '--dest', type=3Dfile, required=3DTrue,
++    parser.add_argument('-d', '--dest', type=3Dargparse.FileType('r'),
++                        required=3DTrue,
+                         help=3D'json dump from dest qemu')
+     parser.add_argument('--reverse', required=3DFalse, default=3DFalse,
+                         action=3D'store_true',
 --=20
-Marc-Andr=C3=A9 Lureau
+2.23.0
+
 
