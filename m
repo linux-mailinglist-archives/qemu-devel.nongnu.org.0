@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4F010512F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 12:13:07 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1F2105131
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Nov 2019 12:14:06 +0100 (CET)
+Received: from localhost ([::1]:38832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iXkOY-0003iv-Ax
-	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 06:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51269)
+	id 1iXkPW-0004v6-1a
+	for lists+qemu-devel@lfdr.de; Thu, 21 Nov 2019 06:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51453)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iXkMi-0002Qh-Li
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:11:13 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iXkOU-0004JC-HZ
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:13:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iXkMd-0003Kt-Ok
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:11:12 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48094
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iXkOT-0003tn-42
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:13:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22729
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iXkMd-0003KY-LJ
- for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:11:07 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iXkOT-0003tf-01
+ for qemu-devel@nongnu.org; Thu, 21 Nov 2019 06:13:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574334666;
+ s=mimecast20190719; t=1574334780;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TawzbczB5ZaLworRLuYkNSRH0uLu3loMqvUOzkwLSLI=;
- b=b2Ir3jR3Q2VnDn6wvZHiLfJ6Y0J+Fm1MAPR5WacuRohUJ/rLaZFx/+d/0PZF54WdFfQUYm
- itxt4Xu9c1XuuhZiC6IOZLFoOjK32i1rCvDAjnU/FmihgoNty2wJogDvfstQbiO4XgRfSB
- oVPKnYM3wAreG+Xp4KMP948k8dM6f6I=
+ bh=pthsFfgXSvZifHZBodIOsz+nkD+ojPRV5LUeuXjTkFY=;
+ b=VUhf5xjyLiQTxPOS0fiZJGVyNCdD7xetudDX3/8pKIKjJXM3MxmlKmJLQa+lybUtz+7ys/
+ 1JtzNRUmA1Itb99NKMUf9r9jywno1SrI0tG4h9gfQ6t2WXfjy1qQhDjNeqAgyilNjDGSFS
+ Laq0XXll46A6uqStP2XSSvQlogwPjBU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-hH1nT1lhN-6-OQrLiZ_x5Q-1; Thu, 21 Nov 2019 06:11:03 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-16-Tqhhaan-NqOs-Vr87ROnRw-1; Thu, 21 Nov 2019 06:12:58 -0500
+X-MC-Unique: Tqhhaan-NqOs-Vr87ROnRw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55CEA184CAA3;
- Thu, 21 Nov 2019 11:11:02 +0000 (UTC)
-Received: from gondolin (dhcp-192-218.str.redhat.com [10.33.192.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FF096CE70;
- Thu, 21 Nov 2019 11:10:58 +0000 (UTC)
-Date: Thu, 21 Nov 2019 12:10:55 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH 01/15] s390x: Cleanup cpu resets
-Message-ID: <20191121121055.40968340.cohuck@redhat.com>
-In-Reply-To: <20191120114334.2287-2-frankja@linux.ibm.com>
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-2-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 093E2477;
+ Thu, 21 Nov 2019 11:12:58 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-225.ams2.redhat.com [10.36.117.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21A8152FC1;
+ Thu, 21 Nov 2019 11:12:56 +0000 (UTC)
+Date: Thu, 21 Nov 2019 12:12:55 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC 0/4] POC: Generating realistic block errors
+Message-ID: <20191121111255.GC6007@linux.fritz.box>
+References: <20190919194847.18518-1-tasleson@redhat.com>
+ <20190920092226.GH14365@stefanha-x1.localdomain>
+ <32a302d7-b85a-991b-4366-2a82e38a9382@redhat.com>
+ <0752f1c5-ed79-bda4-ad53-6b2566cc35a2@redhat.com>
+ <20191121103012.GE439743@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: hH1nT1lhN-6-OQrLiZ_x5Q-1
+In-Reply-To: <20191121103012.GE439743@stefanha-x1.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="3siQDZowHQqNOShm"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -72,68 +75,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: Tony Asleson <tasleson@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Nov 2019 06:43:20 -0500
-Janosch Frank <frankja@linux.ibm.com> wrote:
+--3siQDZowHQqNOShm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Let's move the resets into one function and switch by type, so we can
-> use fallthroughs for shared reset actions.
-
-Doing that makes sense.
-
+Am 21.11.2019 um 11:30 hat Stefan Hajnoczi geschrieben:
+> On Thu, Nov 14, 2019 at 09:47:48AM -0600, Tony Asleson wrote:
+> > On 9/20/19 12:28 PM, Tony Asleson wrote:
+> > > On 9/20/19 4:22 AM, Stefan Hajnoczi wrote:
+> > >> blkdebug is purely at the QEMU block layer level.  It is not aware o=
+f
+> > >> storage controller-specific error information or features.  If you w=
+ant
+> > >> to inject NVMe- or SCSI-specific errors that make no sense in QEMU's
+> > >> block layer, then trying to do it in blkdebug becomes a layering
+> > >> violation.  This justifies adding a new error injection feature dire=
+ctly
+> > >> into AHCI, virtio-scsi, NVMe, etc devices.
+> > >=20
+> > > Good discussion point...
+> > >=20
+> > > In my opening use case for this POC I'm generically trying to create =
+an
+> > > unrecoverable media error for a specific sector.  For each of the
+> > > different device types it's different on how that error is conveyed a=
+nd
+> > > the associated data in transfer.
+> > >=20
+> >=20
+> > I would like to get some additional clarification on this point.  Shoul=
+d
+> > I be investing more time integrating my proposed functionality into
+> > blkdebug or other?
+> >=20
+> > Sorry for the long response time, got sidetracked with other stuff.
 >=20
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  hw/s390x/s390-virtio-ccw.c |   3 +
->  target/s390x/cpu.c         | 111 ++++++++++++++++---------------------
->  2 files changed, 52 insertions(+), 62 deletions(-)
->=20
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index d3edeef0ad..c1d1440272 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machine)
->          break;
->      case S390_RESET_LOAD_NORMAL:
->          CPU_FOREACH(t) {
-> +            if (t =3D=3D cs) {
-> +                continue;
-> +            }
+> blkdebug can inject EIO when a specific LBA is accessed.  Is that
+> enough for what you want to do?  Then you can reuse and maybe extend
+> blkdebug.
 
-Hm, why is this needed now?
+And if we need something more device specific, maybe a common core can
+be extracted that can be used by both blkdebug and the devices. All of
+the logic of managing error injection rules and checking whether
+something needs to be done at the current event should be common between
+both.
 
->              run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
->          }
->          subsystem_reset();
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index 3abe7e80fd..10d5b915d8 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -82,67 +82,53 @@ static void s390_cpu_load_normal(CPUState *s)
->  }
->  #endif
-> =20
-> -/* S390CPUClass::cpu_reset() */
+Kevin
 
-Not sure if it would be worth keeping these comments near by the
-calling functions.
+--3siQDZowHQqNOShm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> -static void s390_cpu_reset(CPUState *s)
-> +enum {
-> +    S390_CPU_RESET_NORMAL,
-> +    S390_CPU_RESET_INITIAL,
-> +    S390_CPU_RESET_CLEAR,
-> +};
+-----BEGIN PGP SIGNATURE-----
 
-Maybe make this into a proper type, so you can use type checking?
+iQIcBAEBAgAGBQJd1nE3AAoJEH8JsnLIjy/Wrm8QALIaMztTWOESt2jjfUsZqO6i
+qgH14Xz1oSjXC9TkYMy2LOH2pvDF4aw1l0GKP7BGnHto4PgbgimBJ1l0BP/eBzlk
+OYyady8mSyp8OB/GyLo0ouBacuydIVp8wS4QNdO3e8JJCMFuZvYSz1wa7gSWlp2k
+8YfC/BG29O91B38FFBCcx5weOE0bJdjT0J4bqgA/KTFHV8dvAjlG3f4jFnTJfmo0
+iXYWnii7SQe022sdsCD7boNihz32WSOryarh4LNv5MvBJRkPkWNa1E1aw4boP2IR
+m92+lJ7cIZ/ntHwe/WMcnwMZrYE1cqyKTjBs4vX/IT2AezVxlI9Ni/LXKJq6xnPq
+CjzsavWIgV0sLvbk2MM4u/303AMF9/pjZX2i2fIOghov9525SHEavlrNV6n0YlkM
+Dz7es/r3dVeY3Em2Piw+q02IRzJNeGjWnmzCL9x77pdSWUQbb4Wm3a8nxFDknB2c
+6W9f94bgp7M+imJQ8GsXYQBIcBRYwd9et4UWdTe3RVNALVhKXYZAlLkVgdmJlZV7
+VB6+JbsH8qDf4Txpt/HYMJQpwRxxyi954f7YaSLxPiayqvB08itW/hf3aA4bJY1m
+QwlsOOQDz9M99DZMzHYze0fQ5D5X3tmAS6cqKG9r7naTzPn5i52/eRn+7kNBnKa0
+qRT1AvuXzfd45ppKvxM5
+=rjmJ
+-----END PGP SIGNATURE-----
 
-(...)
-
-The diff is a bit hard to read, but the change seems fine at a glance.
+--3siQDZowHQqNOShm--
 
 
