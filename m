@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF610739A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 14:48:26 +0100 (CET)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE49A10735A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 14:37:39 +0100 (CET)
+Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY9IP-0000Qo-A5
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 08:48:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60235)
+	id 1iY97y-0003t5-Bc
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 08:37:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kafiler0911@gmail.com>) id 1iY69r-0005lo-CR
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 05:27:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1iY974-0003Lz-6g
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 08:36:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kafiler0911@gmail.com>) id 1iY69q-0002il-2i
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 05:27:23 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:42600)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <kafiler0911@gmail.com>)
- id 1iY69p-0002i8-Qp
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 05:27:22 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id b16so5726477otk.9
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 02:27:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=A6jiDWLrymswxK8GY0hxXoVqXg/2najgI09cx6ORghI=;
- b=Z3WqSTlSc/qTXFe5RiKjAcqG547/6oraJ9rQflVWwl/ULHCWgHWGZ+cyZxyBrYHUGX
- Wzuw8v7icCpu4C8NCmEWlf/ywV61mgAQbLnpUXdej5mrMq1HuH+OFA6VqP/CpHAKcpbB
- bomJwC0QLGk/xMY5jdbbWRH15DbieX04D6f8G5mUi8jgJSryodB1yxZRQ6+NLJsjkQmn
- gHOJgm0UzoBhwmg5Gm7mLTBczI3IxeDteXlSsV4eYpxOCbCwCFa8I2bklg9/k05aHSKJ
- fV+cJKTcsp33VZI94kYpGIzzJVbJ6tDxmaE9lf6wbqPPDZ1zX41Ajt3fFYnSReOYkF2J
- VMJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=A6jiDWLrymswxK8GY0hxXoVqXg/2najgI09cx6ORghI=;
- b=KJa+aaBdg2yXeVfySS+OcoKCiofBwSVypSobnE7dtxwJt3flzDrMPsHZaNFbHSg/XS
- dkDKTowghzvwQmzYrHMaJtqD+ptTkwoVPAPtjkEGcoCDkNtYpbCaFlg7C2cC8AGyhvow
- t31U4zef8rzDUOGTgNZ3JbeD3BptUogBfzZsa2lp611IQ17i8CgQbXavVBQ7xIduizQn
- n6EzsWsy3tjTyw9gEHyvI9T/FXkp3LdETCc9vLTrt1WEXFsOE42RZwxcds4YWTZyLZYI
- H+uurD8o17XrIXydbHyK2XfzR/y1qtEOCHmSSSlB7nZvWrTrm0NrrynpB14RRIIJwkBd
- yq3A==
-X-Gm-Message-State: APjAAAUR96bWjvAVvRWhr8Rw0ZUAZ1QZwMhK835D3SXVfJxW2CwvtsX7
- tFaW7Ef9qpJCfyv1w15SvpE8oTxhlBVj0nZSGG74oW4+
-X-Google-Smtp-Source: APXvYqwBYGN3LvLIlDrYVLevMIdDyqAr/MXO/xJ949o9JAIRUUt+mUwpWNu68ghiPz5R3lK2Rv9flXusuy8gjiuPzws=
-X-Received: by 2002:a05:6830:1da:: with SMTP id
- r26mr10317466ota.186.1574418440137; 
- Fri, 22 Nov 2019 02:27:20 -0800 (PST)
+ (envelope-from <philmd@redhat.com>) id 1iY971-00043m-Pz
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 08:36:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37224
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iY971-00043W-MJ
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 08:36:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574429798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XDSfwwp4b5EjTArO39Wp6pUkOsLT+CqL+tXcyGXUCxA=;
+ b=YQ4QlD5LNpq+uCgQA4elm64ya9dkE+UeK4Do82hT9J4YKIQGDRoVrAqQXxDezzGawP/crc
+ ztyUiaDHTI7Ez+jrkZKwie66+zBO7ypdQ9I3ZFKO1VFwdZjPz+KeknKqbtrTcHeg4raVpm
+ ub6k483VuGsdZ48NSqUNYHlgCHshEIY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-gPbqtaBsPg-_qfMV5hzB3g-1; Fri, 22 Nov 2019 08:36:37 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D426C10054E3;
+ Fri, 22 Nov 2019 13:36:35 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.206.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 701465D6A3;
+ Fri, 22 Nov 2019 13:36:25 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0] hw/display/sm501: Always map the UART0
+Date: Fri, 22 Nov 2019 14:36:23 +0100
+Message-Id: <20191122133623.13004-1-philmd@redhat.com>
 MIME-Version: 1.0
-From: karina filer <kafiler0911@gmail.com>
-Date: Fri, 22 Nov 2019 15:57:07 +0530
-Message-ID: <CAM+cExHMQQTxOHT7vmWNDTpGcoJZAbt-T=X+4WZBRwNzvFYqeg@mail.gmail.com>
-Subject: QEMU Licensing query
-To: qemu-devel@nongnu.org, quintela@redhat.com
-Content-Type: multipart/alternative; boundary="000000000000da30540597ecdb46"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
-X-Mailman-Approved-At: Fri, 22 Nov 2019 08:44:30 -0500
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: gPbqtaBsPg-_qfMV5hzB3g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,130 +68,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000da30540597ecdb46
-Content-Type: text/plain; charset="UTF-8"
+The SM501 is a Mobile Multimedia Companion Chip with 2 UARTs.
+This model only implements the first UART. Being part of the
+chipset, the UART block is always mapped in memory, regardless
+we provide a chardev backend.
 
-Hi All,
+Since commit 12051d82f, qemu_chr_fe_init() accepts a NULL chardev.
+Let's remove the chardev check and always map the UART in the
+chipset memory.
 
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/display/sm501.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-QEMU <https://en.wikipedia.org/wiki/QEMU> is used in Android Emulator and
-is licensed under GPLv2
-<https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2>.
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index 1f33c87e65..79bd7bc2d1 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -1958,11 +1958,9 @@ static void sm501_realize_sysbus(DeviceState *dev, E=
+rror **errp)
+     sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
+=20
+     /* bridge to serial emulation module */
+-    if (s->chr_state) {
+-        serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
+-                       NULL, /* TODO : chain irq to IRL */
+-                       115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
+-    }
++    serial_mm_init(&s->state.mmio_region, SM501_UART0, 2,
++                   NULL, /* TODO : chain irq to IRL */
++                   115200, s->chr_state, DEVICE_LITTLE_ENDIAN);
+ }
+=20
+ static Property sm501_sysbus_properties[] =3D {
+--=20
+2.21.0
 
-For one of our customer support we may have to modify QEMU.
-
-
- I have below queries,
-
-   - *Case 1: No modification in QEMU *(QEMU delivered by Google)
-
-Is there any implications if we are not modifying and releasing QEMU
-externally, but we are sharing an Android image externally that runs on QEMU
-
-
-
-   - *Case 2: Modification in QEMU *(QEMU delivered by Google)
-
-What are the implications if we need to modify and release QEMU,
-considering that we will also have to release an Android image that will
-run on this QEMU.
-
-
-
-Regards
-
-Karina
-
---000000000000da30540597ecdb46
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi All,</div><div><br></div><div><fo=
-nt color=3D"#000000" face=3D"Times New Roman" size=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt"><font color=3D"#000000" face=3D"Cali=
-bri" size=3D"3"></font><br></p><font color=3D"#000000" face=3D"Times New Ro=
-man" size=3D"3">
-
-<font color=3D"#000000" face=3D"Calibri" size=3D"3"><font color=3D"#000000"=
- face=3D"Times New Roman" size=3D"3"><a href=3D"https://en.wikipedia.org/wi=
-ki/QEMU"><font color=3D"#0563c1" face=3D"Calibri" size=3D"3">QEMU</font></a=
-><font color=3D"#000000" face=3D"Calibri" size=3D"3"> is
-used in Android Emulator and is licensed under </font><a title=3D"GNU Gener=
-al Public License" href=3D"https://en.wikipedia.org/wiki/GNU_General_Public=
-_License#Version_2"><span style=3D"background:rgb(248,249,250);color:rgb(11=
-,0,128);font-family:&quot;Arial&quot;,sans-serif;font-size:9pt;text-decorat=
-ion:none">GPLv2</span></a><font color=3D"#000000" face=3D"Calibri" size=3D"=
-3">. </font></font><font color=3D"#000000" face=3D"Times New Roman" size=3D=
-"3">
-
-</font></font></font><p style=3D"margin:0in 0in 0pt"><font color=3D"#000000=
-" face=3D"Calibri" size=3D"3">For one of our customer support we may have t=
-o modify QEMU.</font></p><font color=3D"#000000" face=3D"Times New Roman" s=
-ize=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt"><font face=3D"Calibri"><font color=
-=3D"#000000" size=3D"3"><strong></strong></font></font><br></p><font color=
-=3D"#000000" face=3D"Times New Roman" size=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt"><font color=3D"#000000" face=3D"Cali=
-bri" size=3D"3">=C2=A0<font color=3D"#000000" face=3D"Times New Roman" size=
-=3D"3"><font color=3D"#000000" face=3D"Calibri" size=3D"3">I have below que=
-ries, </font></font><font color=3D"#000000" face=3D"Times New Roman" size=
-=3D"3">
-
-</font></font></p><ul type=3D"disc" style=3D"margin-top:0in"><font color=3D=
-"#000000" face=3D"Times New Roman" size=3D"3">
- </font><li style=3D"margin:0in 0in 0pt;font-style:normal;font-weight:norma=
-l"><b><span>Case 1: No modification in QEMU </span></b><span>(QEMU delivere=
-d by
-     Google)</span></li><font color=3D"#000000" face=3D"Times New Roman" si=
-ze=3D"3">
-</font></ul><font color=3D"#000000" face=3D"Times New Roman" size=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt 0.5in"><font color=3D"#000000" face=
-=3D"Calibri" size=3D"3">Is there any implications if we are not modifying a=
-nd
-releasing QEMU externally, but we are sharing an Android image externally t=
-hat
-runs on QEMU</font></p><font color=3D"#000000" face=3D"Times New Roman" siz=
-e=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt 0.5in"><font color=3D"#000000" face=
-=3D"Calibri" size=3D"3">=C2=A0</font></p><font color=3D"#000000" face=3D"Ti=
-mes New Roman" size=3D"3">
-
-</font><ul type=3D"disc" style=3D"margin-top:0in"><font color=3D"#000000" f=
-ace=3D"Times New Roman" size=3D"3">
- </font><li style=3D"margin:0in 0in 0pt;font-style:normal;font-weight:norma=
-l"><b><span>Case 2: Modification in QEMU </span></b><span>(QEMU delivered b=
-y
-     Google)</span></li><font color=3D"#000000" face=3D"Times New Roman" si=
-ze=3D"3">
-</font></ul><font color=3D"#000000" face=3D"Times New Roman" size=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt 0.5in"><font color=3D"#000000" face=
-=3D"Calibri" size=3D"3">What are the implications if we need to modify and
-release QEMU, considering that we will also have to release an Android imag=
-e
-that will run on this QEMU.</font></p><p style=3D"margin:0in 0in 0pt 0.5in"=
-><font color=3D"#000000" face=3D"Calibri" size=3D"3"></font><br></p><p styl=
-e=3D"margin:0in 0in 0pt 0.5in"><font color=3D"#000000" face=3D"Calibri" siz=
-e=3D"3"></font><br></p><p style=3D"margin:0in 0in 0pt 0.5in"><font color=3D=
-"#000000" face=3D"Calibri" size=3D"3">Regards</font></p><p style=3D"margin:=
-0in 0in 0pt 0.5in"><font color=3D"#000000" face=3D"Calibri" size=3D"3">Kari=
-na</font></p><p style=3D"margin:0in 0in 0pt 0.5in"><font color=3D"#000000" =
-face=3D"Calibri" size=3D"3"></font><br></p><font color=3D"#000000" face=3D"=
-Times New Roman" size=3D"3">
-
-</font><p style=3D"margin:0in 0in 0pt"><font color=3D"#000000" face=3D"Cali=
-bri" size=3D"3">=C2=A0</font></p><font color=3D"#000000" face=3D"Times New =
-Roman" size=3D"3">
-
-</font></div></div></div>
-
---000000000000da30540597ecdb46--
 
