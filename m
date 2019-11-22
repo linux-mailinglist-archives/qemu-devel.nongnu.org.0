@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3675107713
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:14:12 +0100 (CET)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AB1107730
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:20:07 +0100 (CET)
+Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDRb-0005Ao-CS
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:14:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36216)
+	id 1iYDXJ-0000gx-NC
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:20:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iYDHx-0007h7-7X
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:04:14 -0500
+ (envelope-from <eblake@redhat.com>) id 1iYDKc-0000pH-P4
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iYDHu-0007Au-Vu
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:04:12 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56968
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1iYDKX-0007vf-9y
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33487
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYDHt-0007AM-AE
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:04:09 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYDKU-0007us-DH
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574445848;
+ s=mimecast20190719; t=1574446008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JNm+zZGyAbb3SSXtboJE8+6hogkIfyF2p8soPtCAR14=;
- b=TgofA9CaNIxm3Hi/+UP5TuKE0RiDdaQSBtb1sCuCBvLpETK0/962f1g5MIOmHEFCHcF+SP
- HYlP0BshntQVTmtxucrZ9GnSoWd27bJWLSjIHFa0aj2CCVGSgONL3m3rlQ2KS/Acs5pliX
- G3jsrywS5kiAQZPFlQHIloKoak8QUWo=
+ bh=Y0WP6QUHwtKnRXo7X2/Vcg/nhKnykLT67lSc7+bAh/I=;
+ b=MGndV64//b3uEJTuLAdcioW3wb4NUc0yOKTh+cU9rfV/wm5lT4vOFiQRstOrepc3kObYdg
+ Aqwl1U0mVwxuUr+a5LUL2tLDNahHfMqOZMJaGvpjyUbC8pKAWhnn6YNir7HzHx2eBtq9FP
+ WLFD4sTEQnpWk5afAMXUNx8Luui5XRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-vp6Va4pgOjicE18IYcqzog-1; Fri, 22 Nov 2019 13:04:05 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-331-95K4HtEdMROs_RMGorUoUg-1; Fri, 22 Nov 2019 13:06:46 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8BCB18B5FA2;
- Fri, 22 Nov 2019 18:04:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83FA918B5FA0;
+ Fri, 22 Nov 2019 18:06:45 +0000 (UTC)
 Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A01386E71F;
- Fri, 22 Nov 2019 18:03:59 +0000 (UTC)
-Subject: Re: [PATCH v3 3/8] qcow2: Declare BDRV_REQ_NO_FALLBACK supported
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F0265D9E1;
+ Fri, 22 Nov 2019 18:06:42 +0000 (UTC)
+Subject: Re: [PATCH v3 4/8] block: truncate: Don't make backing file data
+ visible
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-4-kwolf@redhat.com>
+ <20191122160511.8377-5-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <1ba16c08-9988-5fe7-85f4-b98549952283@redhat.com>
-Date: Fri, 22 Nov 2019 12:03:59 -0600
+Message-ID: <2a970e80-bed8-54ec-506a-4bff46b81577@redhat.com>
+Date: Fri, 22 Nov 2019 12:06:41 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191122160511.8377-4-kwolf@redhat.com>
+In-Reply-To: <20191122160511.8377-5-kwolf@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: vp6Va4pgOjicE18IYcqzog-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 95K4HtEdMROs_RMGorUoUg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +82,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/22/19 10:05 AM, Kevin Wolf wrote:
-> In the common case, qcow2_co_pwrite_zeroes() already only modifies
-> metadata case, so we're fine with or without BDRV_REQ_NO_FALLBACK set.
+> When extending the size of an image that has a backing file larger than
+> its old size, make sure that the backing file data doesn't become
+> visible in the guest, but the added area is properly zeroed out.
 > 
-> The only exception is when using an external data file, where the
-> request is passed down to the block driver of the external data file. We
-> are forwarding the BDRV_REQ_NO_FALLBACK flag there, though, so this is
-> fine, too.
+> Consider the following scenario where the overlay is shorter than its
+> backing file:
 > 
-> Declare the flag supported therefore.
+>      base.qcow2:     AAAAAAAA
+>      overlay.qcow2:  BBBB
+> 
+> When resizing (extending) overlay.qcow2, the new blocks should not stay
+> unallocated and make the additional As from base.qcow2 visible like
+> before this patch, but zeros should be read.
+> 
+> A similar case happens with the various variants of a commit job when an
+> intermediate file is short (- for unallocated):
+> 
+>      base.qcow2:     A-A-AAAA
+>      mid.qcow2:      BB-B
+>      top.qcow2:      C--C--C-
+> 
+> After commit top.qcow2 to mid.qcow2, the following happens:
+> 
+>      mid.qcow2:      CB-C00C0 (correct result)
+>      mid.qcow2:      CB-C--C- (before this fix)
+> 
+> Without the fix, blocks that previously read as zeros on top.qcow2
+> suddenly turn into A.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->   block/qcow2.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   block/io.c | 33 +++++++++++++++++++++++++++++++++
+>   1 file changed, 33 insertions(+)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index b201383c3d..3fa10bf807 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -1722,7 +1722,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
->           }
->       }
->   
-> -    bs->supported_zero_flags = header.version >= 3 ? BDRV_REQ_MAY_UNMAP : 0;
-> +    bs->supported_zero_flags = header.version >= 3 ?
-> +                               BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK : 0;
->   
->       /* Repair image if dirty */
->       if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
-> 
 
 -- 
 Eric Blake, Principal Software Engineer
