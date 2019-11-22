@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2DD10797A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 21:30:19 +0100 (CET)
-Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1211079AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 21:53:55 +0100 (CET)
+Received: from localhost ([::1]:54878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYFZK-0004lt-Kk
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 15:30:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55238)
+	id 1iYFw9-0005zs-NL
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 15:53:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iYFXg-0004DA-PC
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:28:38 -0500
+ (envelope-from <prvs=6229b31cd3=dschatzberg@fb.com>)
+ id 1iYF6s-0006Du-Do
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:00:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iYFXe-0008B0-E6
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:28:35 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48813
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iYFXe-0008AL-4n
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:28:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574454513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aqGDewaeMh9D3BaI3JG8bTmTNFvfpO/YAxTaHMHnDR0=;
- b=RM8yVxbXKwLk4PAFELCiqwtbUA5X5Wv0euO+FGt+Zl0oQT6U8/eGaEC27TpEy++/id3cFz
- RwcWiqn1ofRzYYjM8RKCjcEJEt8SIgKFsIR+BMMUeEVANFSsu6wgyWzynUk/ex1MlVbJWj
- ZUyKdH5y+/T2E5wI1CF4jIEv/9uYfnM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-_yVbATbrOWibAfZ2x-NnJQ-1; Fri, 22 Nov 2019 15:28:31 -0500
-Received: by mail-wr1-f70.google.com with SMTP id p1so3301148wrw.8
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 12:28:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o2x+yaeJ/WHyq2S8rwFaJQC4POfynrXGnJ/IpZficrg=;
- b=pnAPsX+85hgNNIPDA9Wc4NPcvH92oZR3UIDu606n351+iqTMPu8to5ya2zsvodHzXQ
- SW3lALIh+o2Sxse/eleZXK9H8/5ToCKrQR3ybCAk9vCsu8XOPysC9z8+X0kPUm/6Jwer
- O5GEt4W5FmY3IBC5D2Te7lD1Bw5Cd+w4H9BsrMIkT5QAaQKPsNjGlL0Yg0Y0ndbG86JJ
- 09RtIxUUXyZ78N7lIxQ/GO6SftkzJt81a754K0+L2xTpMhMmQMr7HoC7JJqRbo+o1z8x
- /BXa3I7NQfFRreSWtemn0iojXihyfx/JCDr/QYmZjPtbTr0EIy5eorY3aKi9ej+JgooH
- Wpkg==
-X-Gm-Message-State: APjAAAVgCWD9/w5mdLZgP8XbpcFZ+UKRr3I2y1yjEA3qUnZg9uFCTfLI
- YWfRxk7Ea96Na0ThY574jTjRbldDVGYjH2+5pKFSFNwfCqc8nyLDJkEnWHpRIIaqJjTmNBoMGZl
- ciTkF98p5Hqn6f1k=
-X-Received: by 2002:a7b:c8c6:: with SMTP id f6mr1020751wml.13.1574454510083;
- Fri, 22 Nov 2019 12:28:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyL1M2K5O/id7A/acWBl/2CTVGPsojxXEp/1cuwvjQFbScmezV+uSfzeFv9E8+6Ra1p3RFPtA==
-X-Received: by 2002:a7b:c8c6:: with SMTP id f6mr1020734wml.13.1574454509898;
- Fri, 22 Nov 2019 12:28:29 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id t187sm134182wma.16.2019.11.22.12.28.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Nov 2019 12:28:29 -0800 (PST)
-Subject: Re: [PATCH v2 5/5] MAINTAINERS: Add two files to Malta section
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1573652826-23987-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1573652826-23987-6-git-send-email-aleksandar.markovic@rt-rk.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0fc4bf6b-3725-e2dd-79aa-bc5b74377b39@redhat.com>
-Date: Fri, 22 Nov 2019 21:28:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <prvs=6229b31cd3=dschatzberg@fb.com>)
+ id 1iYF6r-00046q-5u
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:00:54 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:61498
+ helo=mx0a-00082601.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=6229b31cd3=dschatzberg@fb.com>)
+ id 1iYF6r-000460-05
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:00:53 -0500
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+ by m0089730.ppops.net (8.16.0.42/8.16.0.42) with SMTP id xAMJnmmW023724
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 12:00:48 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=sA+96+x1RojqSYjwLRec8/JmCqDAG5Z+lIbmXLfrUhQ=;
+ b=RRyF6ZoJFvF2LQdyIXbKoP/76JL5GrGKjVyHKuxuvbB9t4QEUoVt94odj2tjqoxv/opa
+ L+GKO+Ne2/z8LFTHfIqv5AphYjKCwPYy4chYg5eEho7y7GOtC+EtKpYl6hznDlcNmTjD
+ sZgIYlUrcgAQX4bVj9er7oF2iJAe+IqW17A= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by m0089730.ppops.net with ESMTP id 2wdv587m5e-4
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 12:00:48 -0800
+Received: from 2401:db00:2120:81ca:face:0:31:0 (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::127) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Fri, 22 Nov 2019 12:00:47 -0800
+Received: by devvm2927.frc2.facebook.com (Postfix, from userid 119756)
+ id AA40853F59D1; Fri, 22 Nov 2019 12:00:43 -0800 (PST)
+Smtp-Origin-Hostprefix: devvm
+From: Dan Schatzberg <dschatzberg@fb.com>
+Smtp-Origin-Hostname: devvm2927.frc2.facebook.com
+To: <qemu-devel@nongnu.org>
+Smtp-Origin-Cluster: frc2c02
+Subject: [PATCH] 9pfs: Fix divide by zero bug
+Date: Fri, 22 Nov 2019 12:00:34 -0800
+Message-ID: <20191122200034.122564-1-dschatzberg@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-In-Reply-To: <1573652826-23987-6-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Language: en-US
-X-MC-Unique: _yVbATbrOWibAfZ2x-NnJQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-22_04:2019-11-21,2019-11-22 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxlogscore=616
+ spamscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=1 malwarescore=0 mlxscore=0 adultscore=0
+ bulkscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911220163
+X-FB-Internal: deliver
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 67.231.153.30
+X-Mailman-Approved-At: Fri, 22 Nov 2019 15:50:56 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,51 +79,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, aleksandar.rikalo@rt-rk.com, hpoussin@reactos.org,
- amarkovic@wavecomp.com, aurelien@aurel32.net
+Cc: Dan Schatzberg <dschatzberg@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/13/19 2:47 PM, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->=20
-> Add two files that were recently introduced in a refactoring,
-> that Malta emulation relies on. They are added by this patch
-> to Malta section, but they are not added to the general MIPS
-> section, since they are really not MIPS-specific, and there
-> may be some non-MIPS hardware using them in future.
->=20
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->   MAINTAINERS | 2 ++
->   1 file changed, 2 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ba9ca98..f8a1646 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -959,8 +959,10 @@ M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->   R: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
->   R: Aurelien Jarno <aurelien@aurel32.net>
->   S: Maintained
-> +F: hw/isa/piix4.c
+Some filesystems may return 0s in statfs (trivially, a FUSE filesystem
+can do so). QEMU should handle this gracefully and just behave the
+same as if statfs failed.
 
-Maybe:
+Signed-off-by: Dan Schatzberg <dschatzberg@fb.com>
+---
+ hw/9pfs/9p.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-    F: hw/*/piix4.c
-
-Or also add:
-
-    F: hw/acpi/piix4.c
-
->   F: hw/mips/mips_malta.c
->   F: hw/mips/gt64xxx_pci.c
-> +F: include/hw/southbridge/piix.h
->   F: tests/acceptance/linux_ssh_mips_malta.py
->  =20
->   Mipssim
->=20
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 37abcdb71e..520177f40c 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1834,8 +1834,10 @@ static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
+      * and as well as less than (client msize - P9_IOHDRSZ))
+      */
+     if (!v9fs_co_statfs(pdu, path, &stbuf)) {
+-        iounit = stbuf.f_bsize;
+-        iounit *= (s->msize - P9_IOHDRSZ)/stbuf.f_bsize;
++        if (stbuf.f_bsize) {
++            iounit = stbuf.f_bsize;
++            iounit *= (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
++        }
+     }
+     if (!iounit) {
+         iounit = s->msize - P9_IOHDRSZ;
+-- 
+2.17.1
 
 
