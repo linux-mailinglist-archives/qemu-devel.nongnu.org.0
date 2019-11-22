@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F245810709D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 12:23:40 +0100 (CET)
-Received: from localhost ([::1]:49736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A47C1070C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 12:24:58 +0100 (CET)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY72J-0001vq-PV
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 06:23:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39374)
+	id 1iY73Z-00046t-5b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 06:24:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iY71J-00015e-5d
+ (envelope-from <alex.bennee@linaro.org>) id 1iY71J-00015f-T4
  for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iY71H-0003fD-Vo
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:36 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39978)
+ (envelope-from <alex.bennee@linaro.org>) id 1iY71I-0003fV-Oa
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:37 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36375)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iY71H-0003eb-ON
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:35 -0500
-Received: by mail-wm1-x342.google.com with SMTP id y5so7151384wmi.5
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 03:22:35 -0800 (PST)
+ id 1iY71I-0003fH-IN
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:36 -0500
+Received: by mail-wm1-x335.google.com with SMTP id n188so5233793wme.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 03:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzWNO7K/ljW1elM86JRcqw4y3nvCOZvcvB5LDCL29RY=;
- b=RCkuuBWzBYlhCbhrirUermDjbg+Ro4pyL3s5H137Z9Mfvd7qpR79OqaQ/O8yHjr5UA
- 2cThZwSc/jZ66yxA29VgJRLzYhnPmPuHX/Ed42n7rifEmYt8X7F4EH4+zfja5yCpvlHG
- Gs34lJ/9WD3L+jxHhRIK25GmkbU14jyvgd8zEgNzD6DixVCZb/ImUM0Gzl0WrN6/xBc0
- pCWGPIvPTMQeKf7MXWUe3+bkhpynPR+6bLXDC0NHxpih7XbA7KiTpxkoTL3USTRQIHIH
- O4HYOKoF5NITs9XyZS53JTIu10qA2m90Hyx2U8lc0pp4Y6bcVHQE1Zq5aWZnDZZwWkqz
- 4S+A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8XN5lSAdaGTeIm39lI5m9A+wqwBipNJIRwjaGXrxFNM=;
+ b=OWfs/7BcW3vusyMze2E77PgOZYFT3aeaXvaoC7SgfHyJV/4ysxrs5qyAmD2VMMnu31
+ r+BRWWEIyDmQVAE79rnZbfKPQHGuzfCEM2OmOAgHZUOSTultdzHOrPeS6zIR/PYjlVxH
+ yocLb31iZ2VbY5iaDb3MejV/8PGqAL4VMKJR+WXnMYwLRsP6L1FGhPJIJxgaTfr1n0Qu
+ e1DuB69Ipagd3e/Y9AHY9tGQRYoNKFfmVvMQVfuflhwvs44yHbQPogJSMRXWX/Iv1wtC
+ pBlNf5G87FnTgbpQypdrP1RTg0OBjvz3NbKSNgzZBckMRA1uuIcFQlFDriDlI2Ml4IUb
+ yBKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CzWNO7K/ljW1elM86JRcqw4y3nvCOZvcvB5LDCL29RY=;
- b=Me73SO+Q1PsbrXRU8KYfFiV6RwIO4bGzdMJryIlO8k09Pz4rLLSz0wX5nBwAhG/jxs
- yHEDAk+nt4qzfZdSUWsac5Kp3RaiFfNPdRBtLZMbi6bdJuqQZnyTkMsADEg+CzBgBIPS
- 7TmlectmHy4YAAYrwpKK+retrD7UD5tcIrxjr0khdSovLLrUwEIklYTPmXxAQ5Dx4XDG
- 72DuAS/uHlPHRXYETptXQyHfjn2rkqpjcifeRvOzstl45fbH6gNBSJr0dTr+SILH+o2G
- zIMeMF+t3aO3RSn1cJ0rGtitZ1SknNn3HaIXer++9rWIbkcjumZ8gC3yOju5fBq+7I3A
- GWYg==
-X-Gm-Message-State: APjAAAWTLxbx7QaqJt9zgPlFCHm6Utz+LgtWa4M/56kTu1wlayPDmRDr
- 4iFFGjG8FUp7Xv6EBz8dE2A3PA==
-X-Google-Smtp-Source: APXvYqyTfaPloWSqMbrX85yr8ZCzAAnaWZFDCcaRERMUJJbw0gzzJTVUjQD9f0OZ6k5OlMYd/3CSHQ==
-X-Received: by 2002:a1c:f702:: with SMTP id v2mr8885894wmh.157.1574421753929; 
- Fri, 22 Nov 2019 03:22:33 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8XN5lSAdaGTeIm39lI5m9A+wqwBipNJIRwjaGXrxFNM=;
+ b=Vm2rcFdxsEQ1EAHcBtzNnnJdJLSdysLTXmS/HocDkabe7wULvcIRPHkaxduQXLiL0+
+ 4RlCiWQjIvaZ9gHcAbSIqE1kpL/m03Dip6gotHyeUcosXrjZzyMBdyyiApRgcjoqLabj
+ CxNBkEg8bdLqRCbTYpOH1SmEV96jSpyRRW/zyPsjHSzJSapZUWMnUlTZ6WCtC1AQqS/p
+ gQiVt+GkPfNf2umPaAJzfVruweB4W0ntalb9lDi3JjocY8jPqJR6ui10lgbYz51wUJmN
+ P7+YEsdtSh+LPxA2LeY8m/GWYGiO+dZQNvUQmc35XHAkGgC/IbD0gQdH0lfLDFQW4XSN
+ E+3Q==
+X-Gm-Message-State: APjAAAVwbMtk88TcXd0S0nsmiB2KEgd7WVugCJLbX3Qqf4MZkp74tzkd
+ IxKNLzDhFvnmMbEfXRkfW8dUAw==
+X-Google-Smtp-Source: APXvYqxxRiVyzge6OZJvVF/kBWk0I7IfdMYOp5bLfFhEJMGP5HZlVG9+R6+c3tIUxgtJcD56feQaVw==
+X-Received: by 2002:a1c:a78b:: with SMTP id
+ q133mr15884499wme.115.1574421755500; 
+ Fri, 22 Nov 2019 03:22:35 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t12sm6897595wrx.93.2019.11.22.03.22.32
+ by smtp.gmail.com with ESMTPSA id w132sm3402603wma.6.2019.11.22.03.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Nov 2019 03:22:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 080891FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 1C72E1FF8C;
  Fri, 22 Nov 2019 11:22:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for 4.2 v1 0/3] some tests/vm fixes
-Date: Fri, 22 Nov 2019 11:22:28 +0000
-Message-Id: <20191122112231.18431-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 1/3] tests/vm/centos: fix centos build target
+Date: Fri, 22 Nov 2019 11:22:29 +0000
+Message-Id: <20191122112231.18431-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191122112231.18431-1-alex.bennee@linaro.org>
+References: <20191122112231.18431-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+To be able to run the docker tests centos has here we have to install
+python3 as well as the basic tools.
 
-These fixes are aimed at improving the "vm-build-all" make target. The
-first two are fairly non contriversal tweaks to the base
-configuration. The final one just elides over the fact that the tests
-are broken on 32bit 16.04 - but I think it may be a distro problem as
-I've failed to replicate on my other 32 bit OSes. If anyone else wants
-to figure out whats going on then be my guest ;-)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/vm/centos | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex Bennée (3):
-  tests/vm/centos: fix centos build target
-  tests/vm/ubuntu: include language pack to silence locale warnings
-  tests/vm/ubuntu: update i386 image to 18.04
-
- tests/vm/centos      | 2 +-
- tests/vm/ubuntu.i386 | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
+diff --git a/tests/vm/centos b/tests/vm/centos
+index 53976f1c4c9..b9e851f2d33 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -73,7 +73,7 @@ class CentosVM(basevm.BaseVM):
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+         self.ssh_root_check("yum update -y")
+-        self.ssh_root_check("yum install -y docker make git")
++        self.ssh_root_check("yum install -y docker make git python3")
+         self.ssh_root_check("systemctl enable docker")
+         self.ssh_root("poweroff")
+         self.wait()
 -- 
 2.20.1
 
