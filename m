@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C4D107760
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:31:35 +0100 (CET)
-Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733A6107788
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:44:10 +0100 (CET)
+Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDiP-00083I-RO
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:31:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37027)
+	id 1iYDua-0005RN-8n
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:44:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iYDP3-0003vG-Dn
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:34 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYDez-0004pI-1e
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:28:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iYDP1-0001Nf-Oy
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:33 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34703)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYDeu-0007J6-DE
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:27:58 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38579)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iYDP1-0001M3-Hb
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:31 -0500
-Received: by mail-wr1-x442.google.com with SMTP id t2so9749028wrr.1
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 10:11:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=BwfFxc3KNXpLlF0IGqIocM5VVr7KpNHDmYPPgGaTzo4=;
- b=cP3MXqByH/P1qn1CEREXo3AWpPvkMnd1ZxPEm3I7izZQkQ/aXyBo2PdmgBkk+Kz9/i
- ChL8OHPmVfEO4WjBluT83DitwjEYlDsjdJeUBuUoKinV1CCwOIQC5x9CSwZkPpwRQAiX
- 5aGAluq4UaT44FOjusQJVU7Bw4I2W4lMtWPxkeXpGWXbIdymPUVXYk9EM++R8r2xj9Gz
- yx2XAk/Cgz4QaxV6IXozKlYBoNCVwFFar2e7e4md60IZXRDW8dZx3HQudp+gHF4dPaSq
- AlC1f9EycgQrRiQSo1pX3bhNcI/UOEYoozUa2YbLq1qdDmyB46NdFjcZxxAUtPT+Fx4p
- d3BQ==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iYDes-0007IS-BT
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:27:56 -0500
+Received: by mail-oi1-x243.google.com with SMTP id a14so7350821oid.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 10:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mWoxjyn6dZPNVfLsjBieukVG7aOyeWtNzLFOcQIpCd8=;
+ b=ZdWa16vB2kRY/SU2Y5cmPAeE2EjN5mFqr7Lzj3RxuzE1BMPw4FlGrTYwDzcKMU1MOe
+ KatZTkN9Cesin6echzo16UwFUqD0pHtZ32tfsOy2Eze4QmlscLwfJcs9XOE3B+I7UuLH
+ Lic6YeAix9UQYGrUtW13ISO2KtVqURLQSagvFWeZef+TDg2siVHEL9MrNcmkADdxspOR
+ Rmsw2ush1o7Ju7b8aC0H3XdHT59p+Q1EmWX9PnrYqwaAEmypmGRvk0I5Gn2eyHD9XlW1
+ LEbYBeGNas2iY6Ye3lq7x7katVBzMoaju2pbAWWImRebXZHnKTpt/3p7wHxo9vvTQQYY
+ G/cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=BwfFxc3KNXpLlF0IGqIocM5VVr7KpNHDmYPPgGaTzo4=;
- b=othzKqGrl14iN7+E650KRTpqjbfso+7Lyxe8uP1RvyHoIfLUTEGzOv8k+uBC89vpCP
- +u+F83SMvClBSu2JjxE8aHyU6KbBdYqkmOjwF+mqlMw4h0lGJGSBYXmXQ5B4bgGSdKxN
- kWwTZ4DewUlNmt7vWPumMeMXboWLrV3kW6JlNVTq1F1XzMXgvvzzu3CmPvi813YGr5zu
- GXK6IueSFPF4P3LnB/zKlfDeOZi7/AdJx+tT4IbqmPXjBC7ckdqSLfM5A0GUxbU87mKF
- 339ggbjZaKAdkK8VK5wCDUE5mPju1r4+L9d6rsyTQuH7REpFzjlGPkO4Wdm2zD2IZMvm
- obgQ==
-X-Gm-Message-State: APjAAAUg7MpaXsAE/u/+B9zfGcyzNy50C7mZPhXaY17wqXCwYsJJlFvy
- tMG94ngTYPr/VMeVlox2kct8CQ==
-X-Google-Smtp-Source: APXvYqxTP2FeR17o6JOxQ09L6pcUCwIOpe36IbCjrj/ZSrB3xUkWU3fkOPB3JyO4zepmBCcekl9AoA==
-X-Received: by 2002:adf:f550:: with SMTP id j16mr20210269wrp.33.1574446289111; 
- Fri, 22 Nov 2019 10:11:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o1sm8941913wrs.50.2019.11.22.10.11.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2019 10:11:27 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 989EC1FF87;
- Fri, 22 Nov 2019 18:11:26 +0000 (GMT)
-References: <20191119170822.45649-1-thuth@redhat.com>
- <20191119170822.45649-7-thuth@redhat.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 6/6] travis.yml: Enable builds on arm64, ppc64le and s390x
-In-reply-to: <20191119170822.45649-7-thuth@redhat.com>
-Date: Fri, 22 Nov 2019 18:11:26 +0000
-Message-ID: <8736ef93xt.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mWoxjyn6dZPNVfLsjBieukVG7aOyeWtNzLFOcQIpCd8=;
+ b=Ddpg5uMX4gfK0/B1MO4HQy1cnsx0trVZXhuweqOpZFsSM8eFfKJoOATC6fNWMGFdza
+ baUkFDqJTETI/e5SoVcupcApfGGYO18UIbxQ7pAR/wWsqhGIWu/vskOo0h/CfLN0lKco
+ SThZxQqJdIdFr6/EzRAFXwchGL5oDG795pZD5/5832PSO8gfNP6oPP69vGMv6pZ0bQur
+ O6lS3OzbT5zGnnrzWTWiPMofEdmLqk3f/8NHsukZWsKi4Pkvc7i10RsvEtnSe/pWppfl
+ udjjR4S0IWWdbto2K4Fl+avVbe80/v1F4dXK1nx/S+Cl2DWNcLXx4MEugFSiHRmvBgBf
+ EO5g==
+X-Gm-Message-State: APjAAAVxx36sriAZn9+zalr5FGzrVHknS2DWzErAyv1rCAivUfVJD/vM
+ w+DCFXmuPm2Ra48NncjdCWUumo40pxphO+1iOwE=
+X-Google-Smtp-Source: APXvYqzh9aJUZ25tXuCOGhh44bdzQCqnx1YpFf83rFh3tJsCQoF++BS/VPU/dQyD7N8a16o2/k7CTXeR/ssVyMad0KI=
+X-Received: by 2002:aca:670b:: with SMTP id z11mr12775280oix.79.1574447271810; 
+ Fri, 22 Nov 2019 10:27:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20191122174040.569252-1-ariadne@dereferenced.org>
+In-Reply-To: <20191122174040.569252-1-ariadne@dereferenced.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 22 Nov 2019 19:27:41 +0100
+Message-ID: <CAL1e-=jBhF476ZErrbZ_ANBnrKhNNgYtntGDB-5BDMXdT9J0aQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: fix translation of statx structures
+To: Ariadne Conill <ariadne@dereferenced.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,140 +71,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> Travis recently added the possibility to test on these architectures,
-> too, so let's enable them in our travis.yml file to extend our test
-> coverage.
-
-This is good as far as it goes but it would be nice to exercise the
-respective TCG backends. If added two commits to:
-
-  https://github.com/stsquad/qemu/commits/review/multiarch-testing
-
-which allow for that. I'll know if they worked properly in a hour or two
-once the testing has finished.
-
+On Fri, Nov 22, 2019 at 7:22 PM Ariadne Conill <ariadne@dereferenced.org> wrote:
 >
-> Unfortunately, the libssh in this Ubuntu version (bionic) is in a pretty
-> unusable Frankenstein state and libspice-server-dev is not available here,
-> so we can not use the global list of packages to install, but have to
-> provide individual package lists instead.
+> All timestamps were copied to atime instead of to their respective
+> fields.
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Ariadne Conill <ariadne@dereferenced.org>
 > ---
->  .travis.yml | 83 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 83 insertions(+)
+
+What a bug.
+
+Laurent, perhaps a good candidate for 4.2?
+
+Thanks for submitting this, Ariadne Conill!
+
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+>  linux-user/syscall.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/.travis.yml b/.travis.yml
-> index c09b6a0014..cf48ee452c 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -360,6 +360,89 @@ matrix:
->          - TEST_CMD=3D"make -j3 check-tcg V=3D1"
->          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
->=20=20
-> +    - arch: arm64
-> +      addons:
-> +        apt_packages:
-> +          - libaio-dev
-> +          - libattr1-dev
-> +          - libbrlapi-dev
-> +          - libcap-dev
-> +          - libcap-ng-dev
-> +          - libgcrypt20-dev
-> +          - libgnutls28-dev
-> +          - libgtk-3-dev
-> +          - libiscsi-dev
-> +          - liblttng-ust-dev
-> +          - libncurses5-dev
-> +          - libnfs-dev
-> +          - libnss3-dev
-> +          - libpixman-1-dev
-> +          - libpng-dev
-> +          - librados-dev
-> +          - libsdl2-dev
-> +          - libseccomp-dev
-> +          - liburcu-dev
-> +          - libusb-1.0-0-dev
-> +          - libvdeplug-dev
-> +          - libvte-2.91-dev
-> +      env:
-> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
--user"
-> +
-> +    - arch: ppc64le
-> +      addons:
-> +        apt_packages:
-> +          - libaio-dev
-> +          - libattr1-dev
-> +          - libbrlapi-dev
-> +          - libcap-dev
-> +          - libcap-ng-dev
-> +          - libgcrypt20-dev
-> +          - libgnutls28-dev
-> +          - libgtk-3-dev
-> +          - libiscsi-dev
-> +          - liblttng-ust-dev
-> +          - libncurses5-dev
-> +          - libnfs-dev
-> +          - libnss3-dev
-> +          - libpixman-1-dev
-> +          - libpng-dev
-> +          - librados-dev
-> +          - libsdl2-dev
-> +          - libseccomp-dev
-> +          - liburcu-dev
-> +          - libusb-1.0-0-dev
-> +          - libvdeplug-dev
-> +          - libvte-2.91-dev
-> +      env:
-> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
--user"
-> +
-> +    - arch: s390x
-> +      addons:
-> +        apt_packages:
-> +          - libaio-dev
-> +          - libattr1-dev
-> +          - libbrlapi-dev
-> +          - libcap-dev
-> +          - libcap-ng-dev
-> +          - libgcrypt20-dev
-> +          - libgnutls28-dev
-> +          - libgtk-3-dev
-> +          - libiscsi-dev
-> +          - liblttng-ust-dev
-> +          - libncurses5-dev
-> +          - libnfs-dev
-> +          - libnss3-dev
-> +          - libpixman-1-dev
-> +          - libpng-dev
-> +          - librados-dev
-> +          - libsdl2-dev
-> +          - libseccomp-dev
-> +          - liburcu-dev
-> +          - libusb-1.0-0-dev
-> +          - libvdeplug-dev
-> +          - libvte-2.91-dev
-> +      env:
-> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
--user"
->=20=20
->      # Release builds
->      # The make-release script expect a QEMU version, so our tag must sta=
-rt with a 'v'.
-
-
---=20
-Alex Benn=C3=A9e
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index ce399a55f0..171c0caef3 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -6743,12 +6743,12 @@ static inline abi_long host_to_target_statx(struct target_statx *host_stx,
+>      __put_user(host_stx->stx_attributes_mask, &target_stx->stx_attributes_mask);
+>      __put_user(host_stx->stx_atime.tv_sec, &target_stx->stx_atime.tv_sec);
+>      __put_user(host_stx->stx_atime.tv_nsec, &target_stx->stx_atime.tv_nsec);
+> -    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_atime.tv_sec);
+> -    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_atime.tv_nsec);
+> -    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_atime.tv_sec);
+> -    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_atime.tv_nsec);
+> -    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_atime.tv_sec);
+> -    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_atime.tv_nsec);
+> +    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_btime.tv_sec);
+> +    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_btime.tv_nsec);
+> +    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_ctime.tv_sec);
+> +    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_ctime.tv_nsec);
+> +    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_mtime.tv_sec);
+> +    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_mtime.tv_nsec);
+>      __put_user(host_stx->stx_rdev_major, &target_stx->stx_rdev_major);
+>      __put_user(host_stx->stx_rdev_minor, &target_stx->stx_rdev_minor);
+>      __put_user(host_stx->stx_dev_major, &target_stx->stx_dev_major);
+> --
+> 2.24.0
+>
+>
 
