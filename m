@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733A6107788
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:44:10 +0100 (CET)
-Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26072107761
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:32:39 +0100 (CET)
+Received: from localhost ([::1]:54018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDua-0005RN-8n
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:44:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39035)
+	id 1iYDjR-0000eh-L3
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYDez-0004pI-1e
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:28:03 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1iYDh4-0007Yw-Bf
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:30:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYDeu-0007J6-DE
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:27:58 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38579)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iYDes-0007IS-BT
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:27:56 -0500
-Received: by mail-oi1-x243.google.com with SMTP id a14so7350821oid.5
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 10:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mWoxjyn6dZPNVfLsjBieukVG7aOyeWtNzLFOcQIpCd8=;
- b=ZdWa16vB2kRY/SU2Y5cmPAeE2EjN5mFqr7Lzj3RxuzE1BMPw4FlGrTYwDzcKMU1MOe
- KatZTkN9Cesin6echzo16UwFUqD0pHtZ32tfsOy2Eze4QmlscLwfJcs9XOE3B+I7UuLH
- Lic6YeAix9UQYGrUtW13ISO2KtVqURLQSagvFWeZef+TDg2siVHEL9MrNcmkADdxspOR
- Rmsw2ush1o7Ju7b8aC0H3XdHT59p+Q1EmWX9PnrYqwaAEmypmGRvk0I5Gn2eyHD9XlW1
- LEbYBeGNas2iY6Ye3lq7x7katVBzMoaju2pbAWWImRebXZHnKTpt/3p7wHxo9vvTQQYY
- G/cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mWoxjyn6dZPNVfLsjBieukVG7aOyeWtNzLFOcQIpCd8=;
- b=Ddpg5uMX4gfK0/B1MO4HQy1cnsx0trVZXhuweqOpZFsSM8eFfKJoOATC6fNWMGFdza
- baUkFDqJTETI/e5SoVcupcApfGGYO18UIbxQ7pAR/wWsqhGIWu/vskOo0h/CfLN0lKco
- SThZxQqJdIdFr6/EzRAFXwchGL5oDG795pZD5/5832PSO8gfNP6oPP69vGMv6pZ0bQur
- O6lS3OzbT5zGnnrzWTWiPMofEdmLqk3f/8NHsukZWsKi4Pkvc7i10RsvEtnSe/pWppfl
- udjjR4S0IWWdbto2K4Fl+avVbe80/v1F4dXK1nx/S+Cl2DWNcLXx4MEugFSiHRmvBgBf
- EO5g==
-X-Gm-Message-State: APjAAAVxx36sriAZn9+zalr5FGzrVHknS2DWzErAyv1rCAivUfVJD/vM
- w+DCFXmuPm2Ra48NncjdCWUumo40pxphO+1iOwE=
-X-Google-Smtp-Source: APXvYqzh9aJUZ25tXuCOGhh44bdzQCqnx1YpFf83rFh3tJsCQoF++BS/VPU/dQyD7N8a16o2/k7CTXeR/ssVyMad0KI=
-X-Received: by 2002:aca:670b:: with SMTP id z11mr12775280oix.79.1574447271810; 
- Fri, 22 Nov 2019 10:27:51 -0800 (PST)
+ (envelope-from <eric.auger@redhat.com>) id 1iYDh1-0007zS-64
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:30:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52766
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iYDh1-0007yv-2H
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:30:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574447406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5hE4YyL9JE+UetpQS9qrlJo5Nenw9bcwxRibUWjNDzk=;
+ b=iH9QJHsYjkZZb6R6y6BQaEEmMPFeEOA3wLBMBdqzj94yqXS9TZTHbNtbpmkHbp7tx95sk5
+ 9Znh4dhssq1Uc6QWtNPIopQEyijndudIg9KEcJN3r39/aSNopjbipCZ/ctca/aBfasXF8Q
+ aWA4bR+PkRmPYwD9kqxK7QrLxSWuN8E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-ufPVXPRiOGmHvbGv174bIQ-1; Fri, 22 Nov 2019 13:30:02 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C222B9FA58;
+ Fri, 22 Nov 2019 18:30:00 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F6099F47;
+ Fri, 22 Nov 2019 18:29:49 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
+ armbru@redhat.com, jean-philippe.brucker@arm.com, bharatb.linux@gmail.com,
+ yang.zhong@intel.com, dgilbert@redhat.com, quintela@redhat.com
+Subject: [PATCH for-5.0 v11 00/20] VIRTIO-IOMMU device
+Date: Fri, 22 Nov 2019 19:29:23 +0100
+Message-Id: <20191122182943.4656-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20191122174040.569252-1-ariadne@dereferenced.org>
-In-Reply-To: <20191122174040.569252-1-ariadne@dereferenced.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 22 Nov 2019 19:27:41 +0100
-Message-ID: <CAL1e-=jBhF476ZErrbZ_ANBnrKhNNgYtntGDB-5BDMXdT9J0aQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: fix translation of statx structures
-To: Ariadne Conill <ariadne@dereferenced.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: ufPVXPRiOGmHvbGv174bIQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,55 +71,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kevin.tian@intel.com, peterx@redhat.com, tnowicki@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 7:22 PM Ariadne Conill <ariadne@dereferenced.org> wrote:
->
-> All timestamps were copied to atime instead of to their respective
-> fields.
->
-> Signed-off-by: Ariadne Conill <ariadne@dereferenced.org>
-> ---
+This series implements the QEMU virtio-iommu device.
 
-What a bug.
+This matches the v0.12 spec and the corresponding virtio-iommu
+driver upstreamed in 5.3.
 
-Laurent, perhaps a good candidate for 4.2?
+The pci proxy for the virtio-iommu device is instantiated using
+"-device virtio-iommu-pci". This series still relies on ACPI IORT/DT
+integration. Note the ACPI IORT integration is not yet upstreamed
+and testing needs to be based on Jean-Philippe's additional
+kernel patches [1].
 
-Thanks for submitting this, Ariadne Conill!
+Work is ongoing to remove IORT adherence and allow the
+bindings between the IOMMU and the root complex to be defined
+and written into the PCI device configuration space. The outcome
+of this work is uncertain at this stage though. See [2].
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+So only patches 1-11 fully rely on upstreamed kernel code. Others
+should be considered as RFC.
 
->  linux-user/syscall.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ce399a55f0..171c0caef3 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -6743,12 +6743,12 @@ static inline abi_long host_to_target_statx(struct target_statx *host_stx,
->      __put_user(host_stx->stx_attributes_mask, &target_stx->stx_attributes_mask);
->      __put_user(host_stx->stx_atime.tv_sec, &target_stx->stx_atime.tv_sec);
->      __put_user(host_stx->stx_atime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-> -    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_atime.tv_sec);
-> -    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-> -    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_atime.tv_sec);
-> -    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-> -    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_atime.tv_sec);
-> -    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-> +    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_btime.tv_sec);
-> +    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_btime.tv_nsec);
-> +    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_ctime.tv_sec);
-> +    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_ctime.tv_nsec);
-> +    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_mtime.tv_sec);
-> +    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_mtime.tv_nsec);
->      __put_user(host_stx->stx_rdev_major, &target_stx->stx_rdev_major);
->      __put_user(host_stx->stx_rdev_minor, &target_stx->stx_rdev_minor);
->      __put_user(host_stx->stx_dev_major, &target_stx->stx_dev_major);
-> --
-> 2.24.0
->
->
+This respin allows people to test on ARM and x86. It also
+brings migration support (tested on ARM) and various cleanups.
+Reserved regions are now passed through an array of properties.
+A libqos test also is introduced to test the virtio-iommu API.
+
+Note integration with vhost devices and vfio devices is not part
+of this series. Please follow Bharat's respins [3].
+
+The 1st Patch ("migration: Support QLIST migration") was sent
+separately [4].
+
+Best Regards
+
+Eric
+
+This series can be found at:
+https://github.com/eauger/qemu/tree/v4.2-rc2-virtio-iommu-v11
+
+[1] kernel branch to be used for guest
+    https://github.com/eauger/linux/tree/v5.4-rc8-virtio-iommu-iort
+[2] [RFC 00/13] virtio-iommu on non-devicetree platforms
+[3] VFIO/VHOST integration is not part of this series. Please follow
+    [PATCH RFC v5 0/5] virtio-iommu: VFIO integration respins
+[4] [PATCH v6] migration: Support QLIST migration
+
+Testing:
+- tested with guest using virtio-net-pci
+  (,vhost=3Doff,iommu_platform,disable-modern=3Doff,disable-legacy=3Don)
+  and virtio-blk-pci
+- migration on ARM
+- on x86 PC machine I get some AHCI non translated transactions,
+  very early. This does not prevent the guest from boot and behaving
+  properly. Warnings look like:
+qemu-system-x86_64: virtio_iommu_translate sid=3D250 is not known!!
+qemu-system-x86_64: no buffer available in event queue to report event
+qemu-system-x86_64: AHCI: Failed to start FIS receive engine: bad FIS
+receive buffer address
+
+History:
+
+v10 -> v11:
+- introduce virtio_iommu_handle_req macro
+- migration support
+- introduce DEFINE_PROP_INTERVAL and pass reserved regions
+  through an array of those
+- domain gtree simplification
+
+v9 -> v10:
+- rebase on 4.1.0-rc2, compliance with 0.12 spec
+- removed ACPI part
+- cleanup (see individual change logs)
+- moved to a PATCH series
+
+v8 -> v9:
+- virtio-iommu-pci device needs to be instantiated from the command
+  line (RID is not imposed anymore).
+- tail structure properly initialized
+
+v7 -> v8:
+- virtio-iommu-pci added
+- virt instantiation modified
+- DT and ACPI modified to exclude the iommu RID from the mapping
+- VIRTIO_IOMMU_F_BYPASS, VIRTIO_F_VERSION_1 features exposed
+
+v6 -> v7:
+- rebase on qemu 3.0.0-rc3
+- minor update against v0.7
+- fix issue with EP not on pci.0 and ACPI probing
+- change the instantiation method
+
+v5 -> v6:
+- minor update against v0.6 spec
+- fix g_hash_table_lookup in virtio_iommu_find_add_as
+- replace some error_reports by qemu_log_mask(LOG_GUEST_ERROR, ...)
+
+v4 -> v5:
+- event queue and fault reporting
+- we now return the IOAPIC MSI region if the virtio-iommu is instantiated
+  in a PC machine.
+- we bypass transactions on MSI HW region and fault on reserved ones.
+- We support ACPI boot with mach-virt (based on IORT proposal)
+- We moved to the new driver naming conventions
+- simplified mach-virt instantiation
+- worked around the disappearing of pci_find_primary_bus
+- in virtio_iommu_translate, check the dev->as is not NULL
+- initialize as->device_list in virtio_iommu_get_as
+- initialize bufstate.error to false in virtio_iommu_probe
+
+v3 -> v4:
+- probe request support although no reserved region is returned at
+  the moment
+- unmap semantics less strict, as specified in v0.4
+- device registration, attach/detach revisited
+- split into smaller patches to ease review
+- propose a way to inform the IOMMU mr about the page_size_mask
+  of underlying HW IOMMU, if any
+- remove warning associated with the translation of the MSI doorbell
+
+v2 -> v3:
+- rebase on top of 2.10-rc0 and especially
+  [PATCH qemu v9 0/2] memory/iommu: QOM'fy IOMMU MemoryRegion
+- add mutex init
+- fix as->mappings deletion using g_tree_ref/unref
+- when a dev is attached whereas it is already attached to
+  another address space, first detach it
+- fix some error values
+- page_sizes =3D TARGET_PAGE_MASK;
+- I haven't changed the unmap() semantics yet, waiting for the
+  next virtio-iommu spec revision.
+
+v1 -> v2:
+- fix redefinition of viommu_as typedef
+
+
+
+Eric Auger (20):
+  migration: Support QLIST migration
+  virtio-iommu: Add skeleton
+  virtio-iommu: Decode the command payload
+  virtio-iommu: Add the iommu regions
+  virtio-iommu: Endpoint and domains structs and helpers
+  virtio-iommu: Implement attach/detach command
+  virtio-iommu: Implement map/unmap
+  virtio-iommu: Implement translate
+  virtio-iommu: Implement fault reporting
+  virtio-iommu-pci: Add virtio iommu pci support
+  hw/arm/virt: Add the virtio-iommu device tree mappings
+  qapi: Introduce DEFINE_PROP_INTERVAL
+  virtio-iommu: Implement probe request
+  virtio-iommu: Handle reserved regions in the translation process
+  virtio-iommu-pci: Add array of Interval properties
+  hw/arm/virt-acpi-build: Introduce fill_iort_idmap helper
+  hw/arm/virt-acpi-build: Add virtio-iommu node in IORT table
+  virtio-iommu: Support migration
+  pc: Add support for virtio-iommu-pci
+  tests: Add virtio-iommu test
+
+ hw/arm/virt-acpi-build.c         |  91 ++-
+ hw/arm/virt.c                    |  53 +-
+ hw/core/qdev-properties.c        |  90 +++
+ hw/i386/acpi-build.c             |  72 +++
+ hw/i386/pc.c                     |  15 +-
+ hw/virtio/Kconfig                |   5 +
+ hw/virtio/Makefile.objs          |   2 +
+ hw/virtio/trace-events           |  22 +
+ hw/virtio/virtio-iommu-pci.c     |  91 +++
+ hw/virtio/virtio-iommu.c         | 952 +++++++++++++++++++++++++++++++
+ include/exec/memory.h            |   6 +
+ include/hw/acpi/acpi-defs.h      |  21 +-
+ include/hw/arm/virt.h            |   2 +
+ include/hw/i386/pc.h             |   2 +
+ include/hw/pci/pci.h             |   1 +
+ include/hw/qdev-properties.h     |   3 +
+ include/hw/virtio/virtio-iommu.h |  67 +++
+ include/migration/vmstate.h      |  21 +
+ include/qemu/queue.h             |  39 ++
+ include/qemu/typedefs.h          |   1 +
+ migration/trace-events           |   5 +
+ migration/vmstate-types.c        |  70 +++
+ qdev-monitor.c                   |   1 +
+ tests/Makefile.include           |   2 +
+ tests/libqos/virtio-iommu.c      | 177 ++++++
+ tests/libqos/virtio-iommu.h      |  45 ++
+ tests/test-vmstate.c             | 170 ++++++
+ tests/virtio-iommu-test.c        | 261 +++++++++
+ 28 files changed, 2253 insertions(+), 34 deletions(-)
+ create mode 100644 hw/virtio/virtio-iommu-pci.c
+ create mode 100644 hw/virtio/virtio-iommu.c
+ create mode 100644 include/hw/virtio/virtio-iommu.h
+ create mode 100644 tests/libqos/virtio-iommu.c
+ create mode 100644 tests/libqos/virtio-iommu.h
+ create mode 100644 tests/virtio-iommu-test.c
+
+--=20
+2.20.1
+
 
