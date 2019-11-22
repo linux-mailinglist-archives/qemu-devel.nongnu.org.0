@@ -2,129 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFA0107726
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:17:32 +0100 (CET)
-Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3851076F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:08:13 +0100 (CET)
+Received: from localhost ([::1]:53596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDUp-0007u5-8l
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55356)
+	id 1iYDLo-0000Z7-4v
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:08:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55665)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iYCEB-0002Ct-NX
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:56:17 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYCGy-0003Bg-N5
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:59:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iYCE8-0008GP-13
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:56:13 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56838)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iYCDv-00089W-D0
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:56:03 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAMGqb8r098134
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 11:55:58 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wdu63t8rf-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 11:55:58 -0500
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 22 Nov 2019 16:55:56 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 22 Nov 2019 16:55:54 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAMGtqN957147428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 22 Nov 2019 16:55:52 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 72E9C11C058;
- Fri, 22 Nov 2019 16:55:52 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0805911C05B;
- Fri, 22 Nov 2019 16:55:52 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.73.27])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 22 Nov 2019 16:55:51 +0000 (GMT)
-Subject: Re: [PATCH v2 1/5] s390x: Don't do a normal reset on the initial cpu
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20191122140002.42972-1-frankja@linux.ibm.com>
- <20191122140002.42972-2-frankja@linux.ibm.com>
- <20191122171733.3d60d767.cohuck@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Date: Fri, 22 Nov 2019 17:55:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYCGx-0000YY-CW
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:59:08 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39557)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iYCGw-0000Xp-MK
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:59:06 -0500
+Received: by mail-oi1-x243.google.com with SMTP id v138so7081064oif.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 08:59:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=soYy6cOiyZowYkmKSqj+4/j+SB6o+oyWOOv+w7Q+wIY=;
+ b=lWy4EwtBBAs79M+mJG0ygf92BGsl9+pCR5nfU/EkWhAOWNvtQd7Myk4iSVqFkDRE8a
+ BUGld+1vm69FAgS84VRkOaxOgAKCP9cHItyoT4/YnXSlEGRtXP9f6CPTdd/qoLm3v1rr
+ HM9Hu7AvWh4Li/qa1dVja5jlKk8GT3t5+RDkPq694v3XH3zXqsRBSrsXDhAXtqp/J41a
+ ga2zmqjE0pYXwVq3zOQ3CCNh+S3Lcsp8ET2DTiYlMgWbtxmojWvAeLVA8Uqiyck9S4OG
+ i8HsNbtTGZY/VfFRJIrmPN3OxOR96tToKd1/YT2bIFcs3adsilrK2DfFzybbp0/vaC4Z
+ FtnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=soYy6cOiyZowYkmKSqj+4/j+SB6o+oyWOOv+w7Q+wIY=;
+ b=o7obTDwSqpEnW4HnhuadjzsKvPjRQEcOpjMfKySE9oLpXwxIa5mU2WA266tLeqVVXy
+ iOkiZQ2+q0ERRl4g8ymEud2SdH1qQO5mZtf5oE5QLoWi4eoeNv0E3pCnINvCSTKmJPRi
+ j6YclzJyKK2MSad03jY+DEb5nOi7OStjEeM2CP3xPfJYKP9Toz7dZoQRd7bVXoCyP5Rl
+ JS0zTasGJVEqIlFZjwpdlbiHpSTFWCYH2nWTm9iFPgKSBVCPvyyJgozdO/sMd3IAt/UO
+ qwrJwX05lsBx0ggSWXl6ZPgLm/sR8xsUWf2DkujTgM05CgKQX8XyaZT+0JlTOmIlpSTT
+ Q3TQ==
+X-Gm-Message-State: APjAAAUI2z1isFw3HLi3t+ILMpNEnCoLj3Ae0yCpp0v/I+qxeVJCdi43
+ Y1o+7BmYr8fzCmVPz5xn2SJV/Bg25Za5qSWN1HU=
+X-Google-Smtp-Source: APXvYqxopNkBY0eQpFz3DQfGWzSUVATkIP3Gnd1eyzlAo4Cu6Em1iZVaO8zk9E3FLwgIUf5osxmScWILLIQ4zqjngNw=
+X-Received: by 2002:aca:5786:: with SMTP id l128mr13195669oib.53.1574441944249; 
+ Fri, 22 Nov 2019 08:59:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191122171733.3d60d767.cohuck@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wdnXLohRfdJgHEloDMWAml1TOKdMzN0Na"
-X-TM-AS-GCONF: 00
-x-cbid: 19112216-0012-0000-0000-0000036ADFD3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112216-0013-0000-0000-000021A67968
-Message-Id: <ee82dc59-33a1-c163-f6ab-96d906f6a8fc@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-22_03:2019-11-21,2019-11-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- adultscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=999 phishscore=0
- suspectscore=0 clxscore=1015 bulkscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911220145
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-2-mrolnik@gmail.com>
+In-Reply-To: <20191029212430.20617-2-mrolnik@gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 22 Nov 2019 17:58:53 +0100
+Message-ID: <CAL1e-=hrm_FAuxaAuR=GJ1viE6MS-OP62i-h8kc5_ZJuADk96w@mail.gmail.com>
+Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,95 +73,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wdnXLohRfdJgHEloDMWAml1TOKdMzN0Na
-Content-Type: multipart/mixed; boundary="91cB28pIVkJhEdGyqh1oMrlfLb3kK9Fy8"
+> +/* Number of CPU registers */
+> +#define NO_CPU_REGISTERS 32
+> +/* Number of IO registers accessible by ld/st/in/out */
+> +#define NO_IO_REGISTERS 64
 
---91cB28pIVkJhEdGyqh1oMrlfLb3kK9Fy8
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hi again, Michael. :)
 
-On 11/22/19 5:17 PM, Cornelia Huck wrote:
-> On Fri, 22 Nov 2019 08:59:58 -0500
-> Janosch Frank <frankja@linux.ibm.com> wrote:
->=20
->> The initiating cpu needs to be reset with an initial reset. While
->> doing a normal reset followed by a initial reset is not wron per-se,
->=20
-> s/wron per-se/wrong per se/
+May I ask you to do a global replace of names of these two constants
+to CPU_REGISTERS_COUNT / IO_REGISTERS_COUNT or NUMBER_OF_CPU_REGISTERS
+/ NUMBER_OF_IO_REGISTERS, or whatever else you find suitable (the
+reason being "NO_" is visually/perceptually very confusing - many
+readers would have first impression that it means a negative ("no"),
+not a "number of" as you, for sure, want.
 
-Ups
-
->=20
->> the Ultravisor will only allow the correct reset to be performed.
->=20
-> So... the uv has stricter rules than the architecture has in that
-> respect?
-
-Yeah, the architecture only cares about the state that the cpu will be
-in after the reset. So we can do as many changes to vcpu run as we like,
-if at the end we are in the reset state we intended to be in.
-
-The UV guards all resets including the sigp initiated ones.
-
->=20
->>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
->> ---
->>  hw/s390x/s390-virtio-ccw.c | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index d3edeef0ad..c1d1440272 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machi=
-ne)
->>          break;
->>      case S390_RESET_LOAD_NORMAL:
->>          CPU_FOREACH(t) {
->> +            if (t =3D=3D cs) {
->> +                continue;
->> +            }
->>              run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
->>          }
->>          subsystem_reset();
->=20
-
-
-
---91cB28pIVkJhEdGyqh1oMrlfLb3kK9Fy8--
-
---wdnXLohRfdJgHEloDMWAml1TOKdMzN0Na
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3YExcACgkQ41TmuOI4
-ufhrDw//Youun5VRUUhNOJQv7dHuoBzMhJtKSpfsJ4V7FXXsIdj7HAm0eqiLkF+X
-VC/0cfv5weVyYhPva1B2ddSQMydnYgCWJIz1YUnwMwiXinxz4CJMmL4UlkbdnG6W
-FwdXkQk6hzAy6KRI+vOcvt6qEa9moZOVsyKEuugpmcbAlcubQ8Hw6jT6zI6mp0W5
-B0IwTmE4C0xRICcELgJvxkMKqhI+7XMb62RuWfPZVbgDWH6NNxTlTOii6oTdVb9t
-OeKPPjqhr/9QwuQ7KuuBpRYzO86WFSdP/25yBFtCzXIL9NWRzBLe6Dg9EB1gIDdD
-KTXdG0hO2D9K6lVhUZQyhAyBb4o074GqxCjEaw1zJFBCQDI/jVu1wsTziDYJ11Zt
-UMH5iHUDVxJ/Te8tHoO9rN8sj+UYvFPUzJYnbc9GCClQEbLzmIbCBog3kTmb+H4J
-ciajtCtJt4Y1O/l/ihvUs/QTAu6I8+Xq8Dyo3rnYhcnednlRdraA/mRSoP65KC4Y
-s3huYdT56A22Xcdwq3eFLBNo67BcAX8o7x/CAHBjLPGkQtMJ1oozNscYIxHDp1oW
-bu2nalqIhRcAmUCLLYvL/nHPZUaF261zcxidI60ElMS8GTNmyUuWK9y673x09Ex7
-oLa9vFBs7+ZDFlIOc5Hn8ClbZKU8233CXyx6zUri7jbpZA6zRV4=
-=E+/R
------END PGP SIGNATURE-----
-
---wdnXLohRfdJgHEloDMWAml1TOKdMzN0Na--
-
+Thanks,
+Aleksandar
 
