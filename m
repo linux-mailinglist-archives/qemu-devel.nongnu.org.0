@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E392610676B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 08:59:03 +0100 (CET)
-Received: from localhost ([::1]:48060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420D8106760
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 08:57:13 +0100 (CET)
+Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY3qI-0008S8-PN
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 02:59:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
+	id 1iY3oV-00065o-Pv
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 02:57:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iY3gi-0005pq-PD
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:49:10 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iY3kV-0002TR-2N
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:53:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iY3gh-0002v4-1p
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:49:08 -0500
-Received: from mga18.intel.com ([134.134.136.126]:36768)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iY3gf-0002kF-7N
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:49:06 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2019 23:49:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,229,1571727600"; d="scan'208";a="210178583"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by orsmga003.jf.intel.com with ESMTP; 21 Nov 2019 23:49:01 -0800
-From: Tao Xu <tao3.xu@intel.com>
-To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
- sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
- lvivier@redhat.com
-Subject: [PATCH v17 10/14] hmat acpi: Build Memory Proximity Domain Attributes
- Structure(s)
-Date: Fri, 22 Nov 2019 15:48:22 +0800
-Message-Id: <20191122074826.1373-11-tao3.xu@intel.com>
+ (envelope-from <frankja@linux.ibm.com>) id 1iY3kT-0004Ta-T0
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:53:02 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47482
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1iY3kT-0004TC-Oh
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:53:01 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAM7mAlh063289
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 02:53:01 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wdkdff3qv-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 02:53:01 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Fri, 22 Nov 2019 07:52:59 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 22 Nov 2019 07:52:57 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAM7qtmY50069650
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 Nov 2019 07:52:55 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6972011C050;
+ Fri, 22 Nov 2019 07:52:55 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5934011C05B;
+ Fri, 22 Nov 2019 07:52:53 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.41.23])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 22 Nov 2019 07:52:53 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 4/4] s390x: Beautify machine reset
+Date: Fri, 22 Nov 2019 02:52:18 -0500
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122074826.1373-1-tao3.xu@intel.com>
-References: <20191122074826.1373-1-tao3.xu@intel.com>
+In-Reply-To: <20191122075218.23935-1-frankja@linux.ibm.com>
+References: <20191122075218.23935-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.126
+X-TM-AS-GCONF: 00
+x-cbid: 19112207-4275-0000-0000-00000384C27D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112207-4276-0000-0000-000038984231
+Message-Id: <20191122075218.23935-5-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-21_07:2019-11-21,2019-11-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ adultscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0
+ suspectscore=1 malwarescore=0 priorityscore=1501 bulkscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911220068
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,271 +90,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+* Add comments that tell you which diag308 subcode caused the reset
+* Sort by diag308 reset subcode
 
-HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-(HMAT). The specification references below link:
-http://www.uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
-
-It describes the memory attributes, such as memory side cache
-attributes and bandwidth and latency details, related to the
-Memory Proximity Domain. The software is
-expected to use this information as hint for optimization.
-
-This structure describes Memory Proximity Domain Attributes by memory
-subsystem and its associativity with processor proximity domain as well as
-hint for memory usage.
-
-In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
-the platform's HMAT tables.
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
+ hw/s390x/s390-virtio-ccw.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-No changes in v17.
-
-Changes in v16:
-    - Use uint32_t for initiator and mem_node
-
-Changes in v13:
-    - Remove the unnecessary head file.
----
- hw/acpi/Kconfig       |  7 ++-
- hw/acpi/Makefile.objs |  1 +
- hw/acpi/hmat.c        | 99 +++++++++++++++++++++++++++++++++++++++++++
- hw/acpi/hmat.h        | 42 ++++++++++++++++++
- hw/i386/acpi-build.c  |  5 +++
- 5 files changed, 152 insertions(+), 2 deletions(-)
- create mode 100644 hw/acpi/hmat.c
- create mode 100644 hw/acpi/hmat.h
-
-diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-index 12e3f1e86e..54209c6f2f 100644
---- a/hw/acpi/Kconfig
-+++ b/hw/acpi/Kconfig
-@@ -7,6 +7,7 @@ config ACPI_X86
-     select ACPI_NVDIMM
-     select ACPI_CPU_HOTPLUG
-     select ACPI_MEMORY_HOTPLUG
-+    select ACPI_HMAT
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index c1d1440272..88f7758721 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -330,15 +330,7 @@ static void s390_machine_reset(MachineState *machine)
+     s390_cmma_reset();
  
- config ACPI_X86_ICH
-     bool
-@@ -23,6 +24,10 @@ config ACPI_NVDIMM
-     bool
-     depends on ACPI
- 
-+config ACPI_HMAT
-+    bool
-+    depends on ACPI
-+
- config ACPI_PCI
-     bool
-     depends on ACPI && PCI
-@@ -33,5 +38,3 @@ config ACPI_VMGENID
-     depends on PC
- 
- config ACPI_HW_REDUCED
--    bool
--    depends on ACPI
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
-index 655a9c1973..517bd88704 100644
---- a/hw/acpi/Makefile.objs
-+++ b/hw/acpi/Makefile.objs
-@@ -7,6 +7,7 @@ common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
- common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
- common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
- common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
-+common-obj-$(CONFIG_ACPI_HMAT) += hmat.o
- common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
- 
- common-obj-y += acpi_interface.o
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-new file mode 100644
-index 0000000000..9ff79308a4
---- /dev/null
-+++ b/hw/acpi/hmat.c
-@@ -0,0 +1,99 @@
-+/*
-+ * HMAT ACPI Implementation
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
-+
-+/*
-+ * ACPI 6.3:
-+ * 5.2.27.3 Memory Proximity Domain Attributes Structure: Table 5-145
-+ */
-+static void build_hmat_mpda(GArray *table_data, uint16_t flags,
-+                            uint32_t initiator, uint32_t mem_node)
-+{
-+
-+    /* Memory Proximity Domain Attributes Structure */
-+    /* Type */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Length */
-+    build_append_int_noprefix(table_data, 40, 4);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, flags, 2);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Proximity Domain for the Attached Initiator */
-+    build_append_int_noprefix(table_data, initiator, 4);
-+    /* Proximity Domain for the Memory */
-+    build_append_int_noprefix(table_data, mem_node, 4);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
-+    /*
-+     * Reserved:
-+     * Previously defined as the Start Address of the System Physical
-+     * Address Range. Deprecated since ACPI Spec 6.3.
-+     */
-+    build_append_int_noprefix(table_data, 0, 8);
-+    /*
-+     * Reserved:
-+     * Previously defined as the Range Length of the region in bytes.
-+     * Deprecated since ACPI Spec 6.3.
-+     */
-+    build_append_int_noprefix(table_data, 0, 8);
-+}
-+
-+/* Build HMAT sub table structures */
-+static void hmat_build_table_structs(GArray *table_data, NumaState *numa_state)
-+{
-+    uint16_t flags;
-+    int i;
-+
-+    for (i = 0; i < numa_state->num_nodes; i++) {
-+        flags = 0;
-+
-+        if (numa_state->nodes[i].initiator < MAX_NODES) {
-+            flags |= HMAT_PROXIMITY_INITIATOR_VALID;
-+        }
-+
-+        build_hmat_mpda(table_data, flags, numa_state->nodes[i].initiator, i);
-+    }
-+}
-+
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state)
-+{
-+    int hmat_start = table_data->len;
-+
-+    /* reserve space for HMAT header  */
-+    acpi_data_push(table_data, 40);
-+
-+    hmat_build_table_structs(table_data, numa_state);
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + hmat_start),
-+                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
-+}
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-new file mode 100644
-index 0000000000..437dbc6872
---- /dev/null
-+++ b/hw/acpi/hmat.h
-@@ -0,0 +1,42 @@
-+/*
-+ * HMAT ACPI Implementation Header
-+ *
-+ * Copyright(C) 2019 Intel Corporation.
-+ *
-+ * Author:
-+ *  Liu jingqi <jingqi.liu@linux.intel.com>
-+ *  Tao Xu <tao3.xu@intel.com>
-+ *
-+ * HMAT is defined in ACPI 6.3: 5.2.27 Heterogeneous Memory Attribute Table
-+ * (HMAT)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#ifndef HMAT_H
-+#define HMAT_H
-+
-+#include "hw/acpi/aml-build.h"
-+
-+/*
-+ * ACPI 6.3: 5.2.27.3 Memory Proximity Domain Attributes Structure,
-+ * Table 5-145, Field "flag", Bit [0]: set to 1 to indicate that data in
-+ * the Proximity Domain for the Attached Initiator field is valid.
-+ * Other bits reserved.
-+ */
-+#define HMAT_PROXIMITY_INITIATOR_VALID  0x1
-+
-+void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_state);
-+
-+#endif
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 12ff55fcfb..90a9c2ce6f 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -67,6 +67,7 @@
- #include "hw/i386/intel_iommu.h"
- 
- #include "hw/acpi/ipmi.h"
-+#include "hw/acpi/hmat.h"
- 
- /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-  * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-@@ -2834,6 +2835,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-             acpi_add_table(table_offsets, tables_blob);
-             build_slit(tables_blob, tables->linker, machine);
+     switch (reset_type) {
+-    case S390_RESET_EXTERNAL:
+-    case S390_RESET_REIPL:
+-        qemu_devices_reset();
+-        s390_crypto_reset();
+-
+-        /* configure and start the ipl CPU only */
+-        run_on_cpu(cs, s390_do_cpu_ipl, RUN_ON_CPU_NULL);
+-        break;
+-    case S390_RESET_MODIFIED_CLEAR:
++    case S390_RESET_MODIFIED_CLEAR: /* Subcode 0 */
+         CPU_FOREACH(t) {
+             run_on_cpu(t, s390_do_cpu_full_reset, RUN_ON_CPU_NULL);
          }
-+        if (machine->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, machine->numa_state);
-+        }
+@@ -346,7 +338,7 @@ static void s390_machine_reset(MachineState *machine)
+         s390_crypto_reset();
+         run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
+         break;
+-    case S390_RESET_LOAD_NORMAL:
++    case S390_RESET_LOAD_NORMAL: /* Subcode 1 */
+         CPU_FOREACH(t) {
+             if (t == cs) {
+                 continue;
+@@ -357,6 +349,14 @@ static void s390_machine_reset(MachineState *machine)
+         run_on_cpu(cs, s390_do_cpu_initial_reset, RUN_ON_CPU_NULL);
+         run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
+         break;
++    case S390_RESET_EXTERNAL: /* Externally triggered reboot */
++    case S390_RESET_REIPL: /* Subcode 4 */
++        qemu_devices_reset();
++        s390_crypto_reset();
++
++        /* configure and start the ipl CPU only */
++        run_on_cpu(cs, s390_do_cpu_ipl, RUN_ON_CPU_NULL);
++        break;
+     default:
+         g_assert_not_reached();
      }
-     if (acpi_get_mcfg(&mcfg)) {
-         acpi_add_table(table_offsets, tables_blob);
 -- 
 2.20.1
 
