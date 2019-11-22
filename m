@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD681071B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 12:50:57 +0100 (CET)
-Received: from localhost ([::1]:49962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3651071EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 13:03:47 +0100 (CET)
+Received: from localhost ([::1]:50018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY7Sj-0000Eg-0O
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 06:50:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42220)
+	id 1iY7f7-0004bm-Qa
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 07:03:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iY7QM-0006pv-2t
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:48:32 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iY7dh-0004AW-Fk
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 07:02:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iY7QK-0003GG-E8
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:48:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31429
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iY7QK-0003G5-9u
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:48:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574423307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QJo8jhqK4p02P9ausgPE3S4br+YCpnwPXMXAqK+QVpo=;
- b=YSvtjI5lkXQkAU9PfIW8u0bhFXV5elZc121V1mdYmYd2Cgl3ikaCTfG/D42R0wFVYhqN1+
- ai/milMR8380gJ9+USts4b+qTwF5eKOYfJhOLJ1a44pBQQidV0X0koLKlZGQE5usQHA4Un
- NyfcKjSF6axMPe5SwODbWpsC3oP6qKs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-rB_XHrWEM6iSOP-7sC-RTA-1; Fri, 22 Nov 2019 06:48:23 -0500
-Received: by mail-wr1-f70.google.com with SMTP id w4so3753115wro.10
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 03:48:23 -0800 (PST)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iY7dg-0004de-5L
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 07:02:17 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38904)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iY7df-0004aP-UP
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 07:02:16 -0500
+Received: by mail-wm1-x341.google.com with SMTP id z19so7319065wmk.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 04:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OITAjyqq/uhNRY6a3jRAIS8MnGh/uTuCwfk7vjO7ZFc=;
+ b=sNmR+xbtW2NPDKGtnfLZJRi7wIJ6mrn+jEp0Gq68Sa3L0aUc0HvMIwSZpFIwvUm1P0
+ jvyzKtLf94+QfvpAvTM57J4oSAedYLX7YJTUiSoyG8zbXanfHwO7IHlsI45aIKj+xzJ5
+ FVK6lOPmYqdqnmTSfslvlNXHvkZbdDXbYEKSpTbeht5mt4rZPE3CA3peVwAZknfwXdWu
+ T/mY4q/aFgcd8vSs4eCIHFp213qgKB0CwUzBBQPL61fT2iAQxA+ezziLe32kzCcnV3/v
+ Ujj+vKW5P00tZtKtOUGBFKbrSrak+4f9nSHH8zIwIQz4sKWKFNR8kEsk+DIFJgntpys0
+ wkMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pXU0eOzjPDHHUuPPl2ULX7QanNUbzTHlAhzsh9+ZHYM=;
- b=IqI0Qbk8ikdEI2X2smWh9x7EjTMa0ve3ISowbLzC/Kcfx4rfyMudqb0BS8x2+r7Zpg
- 2B9Vu/Lxn314kfM8D5BEQjcbdIXy5FPD+JAqKTABjBQJmNnZA7AXp5QdcCJT6DW1gAgO
- EXTBdPNTFM9HCPPr7OrHhEgn+k2Vtb5efZwDaYbr+PF65dT4sct0hZDkUL9yiwYIYhJW
- j7i4/pDE+rw6cMrovcgCQrquaAyGJ5aHS3zp+ZNAdMF59EilWaE9x/0QjAZFtnAep/Ij
- FjYq3dzu0nriyPoJWgGyqDKb3mM4L8x8a3TwqPVcf+1HWLw2pLxnD89jEb/zHVH9AUtx
- AZBQ==
-X-Gm-Message-State: APjAAAVNHgVBQjrfh1yiQkOHBVeJSIvl2o2oQ1ZZdNCaQASxRjhAod+v
- 2RZigtbcD46JDYYcyGMv45wCPol4enci5jDXTTmcEX7JqvhYyGda4UW+3C1CAx8jYxxFVO6o+1N
- bpqsZFqDPRcmwvDk=
-X-Received: by 2002:a1c:3d8a:: with SMTP id k132mr1397283wma.144.1574423302072; 
- Fri, 22 Nov 2019 03:48:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy78XAT1JHw9KpbFMw4FJ5BBPZDeMdn6OtDsNbbA9CS+ipc9WrzQJRLXj8PWhYX5TiHJ2qsCg==
-X-Received: by 2002:a1c:3d8a:: with SMTP id k132mr1397265wma.144.1574423301817; 
- Fri, 22 Nov 2019 03:48:21 -0800 (PST)
-Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
- [88.21.102.131])
- by smtp.gmail.com with ESMTPSA id p25sm3085995wma.20.2019.11.22.03.48.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Nov 2019 03:48:21 -0800 (PST)
-Subject: Re: [PATCH v35 09/13] target/avr: Add instruction translation - CPU
- main translation function
-To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
-References: <20191029212430.20617-1-mrolnik@gmail.com>
- <20191029212430.20617-10-mrolnik@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9c36b2d2-fea1-0cb5-dbea-49af8ec6c7e3@redhat.com>
-Date: Fri, 22 Nov 2019 12:48:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OITAjyqq/uhNRY6a3jRAIS8MnGh/uTuCwfk7vjO7ZFc=;
+ b=ZPGIUUIM6bOnXddYLNuOeDOiR/hFdwjjIXHorCdzbR0GGtUXGkuGzyM3z1FHpYNT57
+ 7fTqs1vvqXR8T8ZH3SphNcw9C1jfVsRY7Xh7eCciOsnnbaawLoP18oab06emODQwAVXt
+ JQkXp+dy3FuxBz41aLqhSjqPr0NbnO1xsvXljJnJJMvt+SV1FUuRsw/FUbeOxcmZ/osD
+ ZeFd8fN/OdocRHKD3wWphRYSkuD+AJnF513PpUyQtJUTTXNmjSUHrmYXaxOuTlC2Xu6W
+ 5Ttppc11FUGaawnKYfFxi2xI+C6KtNHx30IOYgaUKoUn51Ap0XlCX/izu/rQeMnBeUK1
+ V6zQ==
+X-Gm-Message-State: APjAAAV5vG6tjIqPC86FPTFwkVgoe2W7sGsZ3w1+Njo7YWWw0C59wfu3
+ EZvNrz56laJFW38lToByPp1HgSIZ+akZCd8IrR0=
+X-Google-Smtp-Source: APXvYqxlUt8QU9AtDIfGQ/nAmvm08jBCg+2ImUoN+LJgxFdpSqaPSIznYji4H79vuVj2Oc79KYEe7AGzi7oOZsHcR9o=
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr2853037wmh.5.1574424134290;
+ Fri, 22 Nov 2019 04:02:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191029212430.20617-10-mrolnik@gmail.com>
-Content-Language: en-US
-X-MC-Unique: rB_XHrWEM6iSOP-7sC-RTA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-13-marcandre.lureau@redhat.com>
+ <CAFEAcA8aj71ue1Y_o1PphD8+iAZeOgqo647hgXS0Z22T9Qa8yg@mail.gmail.com>
+ <CAJ+F1CJhaQxrceCqPpPULN5RUUQ+jTVaRa912jX0Ct8MM0ucaw@mail.gmail.com>
+ <CAFEAcA82swZ82__hee1818L0RtD-3dNEOAKT2hdwgMOcaiAjHw@mail.gmail.com>
+ <CAJ+F1CLDai4rWcLQaqXo1GcVRuRj=OwX+50jV4Ch5X_-8HR=CA@mail.gmail.com>
+ <CAFEAcA_mHmc_1BQPeaySCg7t2vd4VC2CUPbAneLYeSRprwZQQw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_mHmc_1BQPeaySCg7t2vd4VC2CUPbAneLYeSRprwZQQw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 22 Nov 2019 16:02:00 +0400
+Message-ID: <CAJ+F1CLNgS7KYjsDV_0i=-tQbLSupz3JCHbizTG9_yWPn_ofcA@mail.gmail.com>
+Subject: Re: [PATCH v4 12/37] serial: start making SerialMM a sysbus device
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,296 +79,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Joaquin de Andres <me@xcancerberox.com.ar>,
- richard.henderson@linaro.org, dovgaluk@ispras.ru, imammedo@redhat.com,
- aleksandar.m.mail@gmail.com
+Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/19 10:24 PM, Michael Rolnik wrote:
-> Co-developed-by: Richard Henderson <richard.henderson@linaro.org>
+On Fri, Nov 22, 2019 at 2:11 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Thu, 21 Nov 2019 at 18:51, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Thu, Nov 21, 2019 at 10:24 PM Peter Maydell <peter.maydell@linaro.or=
+g> wrote:
+> > >
+> > > On Thu, 21 Nov 2019 at 18:15, Marc-Andr=C3=A9 Lureau
+> > > <marcandre.lureau@gmail.com> wrote:
+> > > >
+> > > > On Thu, Nov 21, 2019 at 5:47 PM Peter Maydell <peter.maydell@linaro=
+.org> wrote:
+> > > > >
+> > > > > On Wed, 20 Nov 2019 at 15:27, Marc-Andr=C3=A9 Lureau
+> > > > > <marcandre.lureau@redhat.com> wrote:
+> > > > > >
+> > > > > > Memory mapped serial device is in fact a sysbus device. The fol=
+lowing
+> > > > > > patches will make use of sysbus facilities for resource and
+> > > > > > registration. In particular, "serial-mm: use sysbus facilities"=
+ will
+> > > > > > move internal serial realization to serial_mm_realize callback =
+to
+> > > > > > follow qdev best practices.
+> > > > >
+> > > > > What goes wrong if you just put the realize of smm->serial in
+> > > > > the right place to start with ?
+> > > >
+> > > > You mean squash the following patches?
+> > >
+> > > No, I meant just having this patch have
+> > >
+> > > static void serial_mm_realize(DeviceState *dev, Error **errp)
+> > > {
+> > >     SerialMM *smm =3D SERIAL_MM(dev);
+> > >     SerialState *s =3D &smm->serial;
+> > >
+> > >     object_property_set_bool(OBJECT(dev), true, "realized", &err);
+> > >     if (err) {
+> > >         error_propagate(errp, err);
+> > >         return;
+> > >     }
+> > > }
+> > >
+> > > and
+> > >
+> > > + dc->realize =3D serial_mm_realize;
+> > >
+> > > rather than manually doing the qdev_init_nofail()
+> > > in serial_mm_init(). This seems to me like an integral
+> > > part of the change to doing the init of the subdevice in the
+> > > init method, so it would be better unless there's a reason
+> > > why it breaks something. The rest of patch 15 (which is
+> > > what currently makes the equivalent change to realize) is all
+> > > about passing through the properties and exposing the
+> > > sysbus MMIO/irq regions and should stay a separate patch.
+> > >
+> > > (setting the 'realized' property is better in a realize method
+> > > than using qdev_init_nofail() because it means we can propagate
+> > > any error outward rather than killing qemu.)
+> >
+> > Ok, but I implemented realize and moved serial init in "serial: make
+> > SerialIO a sysbus device".
+>
+> That patch is for the TYPE_SERIAL_IO device, isn't it? It
+> changes both serial_io_instance_init and serial_io_realize
+> to do the instance init and realize of the TYPE_SERIAL device,
+> so it doesn't have the same "only doing half a change" issue
+> that this patch has for TYPE_SERIAL_MM.
+>
 
-This misses a:
-"Signed-off-by: Richard Henderson <richard.henderson@linaro.org>"
+Ok, I got it, thanks.
 
-> Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
->=20
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> ---
->   target/avr/translate.c | 234 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 234 insertions(+)
->=20
-> diff --git a/target/avr/translate.c b/target/avr/translate.c
-> index 30ba13bdd7..fdf4e11f58 100644
-> --- a/target/avr/translate.c
-> +++ b/target/avr/translate.c
-> @@ -2792,3 +2792,237 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR =
-*a)
->  =20
->       return true;
->   }
-> +
-> +
-> +void avr_cpu_tcg_init(void)
-> +{
-> +    int i;
-> +
-> +#define AVR_REG_OFFS(x) offsetof(CPUAVRState, x)
-> +    cpu_pc =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(pc_w), "pc")=
-;
-> +    cpu_Cf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregC), "Cf"=
-);
-> +    cpu_Zf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregZ), "Zf"=
-);
-> +    cpu_Nf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregN), "Nf"=
-);
-> +    cpu_Vf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregV), "Vf"=
-);
-> +    cpu_Sf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregS), "Sf"=
-);
-> +    cpu_Hf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregH), "Hf"=
-);
-> +    cpu_Tf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregT), "Tf"=
-);
-> +    cpu_If =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregI), "If"=
-);
-> +    cpu_rampD =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampD), "=
-rampD");
-> +    cpu_rampX =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampX), "=
-rampX");
-> +    cpu_rampY =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampY), "=
-rampY");
-> +    cpu_rampZ =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampZ), "=
-rampZ");
-> +    cpu_eind =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(eind), "ei=
-nd");
-> +    cpu_sp =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sp), "sp");
-> +    cpu_skip =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(skip), "sk=
-ip");
-> +
-> +    for (i =3D 0; i < NO_CPU_REGISTERS; i++) {
-> +        cpu_r[i] =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(r[i]),
-> +                                          reg_names[i]);
-> +    }
-> +#undef AVR_REG_OFFS
-> +}
-> +
-> +static void translate(DisasContext *ctx)
-> +{
-> +    uint32_t opcode =3D next_word(ctx);
-> +
-> +    if (!decode_insn(ctx, opcode)) {
-> +        gen_helper_unsupported(cpu_env);
-> +        ctx->bstate =3D DISAS_NORETURN;
-> +    }
-> +}
-> +
-> +/* Standardize the cpu_skip condition to NE.  */
-> +static bool canonicalize_skip(DisasContext *ctx)
-> +{
-> +    switch (ctx->skip_cond) {
-> +    case TCG_COND_NEVER:
-> +        /* Normal case: cpu_skip is known to be false.  */
-> +        return false;
-> +
-> +    case TCG_COND_ALWAYS:
-> +        /*
-> +         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_S=
-KIP.
-> +         * The breakpoint is on the instruction being skipped, at the st=
-art
-> +         * of the TranslationBlock.  No need to update.
-> +         */
-> +        return false;
-> +
-> +    case TCG_COND_NE:
-> +        if (ctx->skip_var1 =3D=3D NULL) {
-> +            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
-> +        } else {
-> +            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
-> +            ctx->skip_var1 =3D NULL;
-> +        }
-> +        break;
-> +
-> +    default:
-> +        /* Convert to a NE condition vs 0. */
-> +        if (ctx->skip_var1 =3D=3D NULL) {
-> +            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0=
-, 0);
-> +        } else {
-> +            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
-> +                               ctx->skip_var0, ctx->skip_var1);
-> +            ctx->skip_var1 =3D NULL;
-> +        }
-> +        ctx->skip_cond =3D TCG_COND_NE;
-> +        break;
-> +    }
-> +    if (ctx->free_skip_var0) {
-> +        tcg_temp_free(ctx->skip_var0);
-> +        ctx->free_skip_var0 =3D false;
-> +    }
-> +    ctx->skip_var0 =3D cpu_skip;
-> +    return true;
-> +}
-> +
-> +void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_i=
-nsns)
-> +{
-> +    CPUAVRState *env =3D cs->env_ptr;
-> +    DisasContext ctx =3D {
-> +        .tb =3D tb,
-> +        .cs =3D cs,
-> +        .env =3D env,
-> +        .memidx =3D 0,
-> +        .bstate =3D DISAS_NEXT,
-> +        .skip_cond =3D TCG_COND_NEVER,
-> +        .singlestep =3D cs->singlestep_enabled,
-> +    };
-> +    target_ulong pc_start =3D tb->pc / 2;
-> +    int num_insns =3D 0;
-> +
-> +    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
-> +        /*
-> +         * This flag is set by ST/LD instruction we will regenerate it O=
-NLY
-> +         * with mem/cpu memory access instead of mem access
-> +         */
-> +        max_insns =3D 1;
-> +    }
-> +    if (ctx.singlestep) {
-> +        max_insns =3D 1;
-> +    }
-> +
-> +    gen_tb_start(tb);
-> +
-> +    ctx.npc =3D pc_start;
-> +    if (tb->flags & TB_FLAGS_SKIP) {
-> +        ctx.skip_cond =3D TCG_COND_ALWAYS;
-> +        ctx.skip_var0 =3D cpu_skip;
-> +    }
-> +
-> +    do {
-> +        TCGLabel *skip_label =3D NULL;
-> +
-> +        /* translate current instruction */
-> +        tcg_gen_insn_start(ctx.npc);
-> +        num_insns++;
-> +
-> +        /*
-> +         * this is due to some strange GDB behavior
-> +         * let's assume main has address 0x100
-> +         * b main   - sets breakpoint at address 0x00000100 (code)
-> +         * b *0x100 - sets breakpoint at address 0x00800100 (data)
-> +         */
-> +        if (unlikely(!ctx.singlestep &&
-> +                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_A=
-NY) ||
-> +                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_A=
-NY)))) {
-> +            canonicalize_skip(&ctx);
-> +            tcg_gen_movi_tl(cpu_pc, ctx.npc);
-> +            gen_helper_debug(cpu_env);
-> +            goto done_generating;
-> +        }
-> +
-> +        /* Conditionally skip the next instruction, if indicated.  */
-> +        if (ctx.skip_cond !=3D TCG_COND_NEVER) {
-> +            skip_label =3D gen_new_label();
-> +            if (ctx.skip_var0 =3D=3D cpu_skip) {
-> +                /*
-> +                 * Copy cpu_skip so that we may zero it before the branc=
-h.
-> +                 * This ensures that cpu_skip is non-zero after the labe=
-l
-> +                 * if and only if the skipped insn itself sets a skip.
-> +                 */
-> +                ctx.free_skip_var0 =3D true;
-> +                ctx.skip_var0 =3D tcg_temp_new();
-> +                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
-> +                tcg_gen_movi_tl(cpu_skip, 0);
-> +            }
-> +            if (ctx.skip_var1 =3D=3D NULL) {
-> +                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip=
-_label);
-> +            } else {
-> +                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
-> +                                  ctx.skip_var1, skip_label);
-> +                ctx.skip_var1 =3D NULL;
-> +            }
-> +            if (ctx.free_skip_var0) {
-> +                tcg_temp_free(ctx.skip_var0);
-> +                ctx.free_skip_var0 =3D false;
-> +            }
-> +            ctx.skip_cond =3D TCG_COND_NEVER;
-> +            ctx.skip_var0 =3D NULL;
-> +        }
-> +
-> +        translate(&ctx);
-> +
-> +        if (skip_label) {
-> +            canonicalize_skip(&ctx);
-> +            gen_set_label(skip_label);
-> +            if (ctx.bstate =3D=3D DISAS_NORETURN) {
-> +                ctx.bstate =3D DISAS_CHAIN;
-> +            }
-> +        }
-> +    } while (ctx.bstate =3D=3D DISAS_NEXT
-> +             && num_insns < max_insns
-> +             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-> +             && !tcg_op_buf_full());
-> +
-> +    if (tb->cflags & CF_LAST_IO) {
-> +        gen_io_end();
-> +    }
-> +
-> +    bool nonconst_skip =3D canonicalize_skip(&ctx);
-> +
-> +    switch (ctx.bstate) {
-> +    case DISAS_NORETURN:
-> +        assert(!nonconst_skip);
-> +        break;
-> +    case DISAS_NEXT:
-> +    case DISAS_TOO_MANY:
-> +    case DISAS_CHAIN:
-> +        if (!nonconst_skip) {
-> +            /* Note gen_goto_tb checks singlestep.  */
-> +            gen_goto_tb(&ctx, 1, ctx.npc);
-> +            break;
-> +        }
-> +        tcg_gen_movi_tl(cpu_pc, ctx.npc);
-> +        /* fall through */
-> +    case DISAS_LOOKUP:
-> +        if (!ctx.singlestep) {
-> +            tcg_gen_lookup_and_goto_ptr();
-> +            break;
-> +        }
-> +        /* fall through */
-> +    case DISAS_EXIT:
-> +        if (ctx.singlestep) {
-> +            gen_helper_debug(cpu_env);
-> +        } else {
-> +            tcg_gen_exit_tb(NULL, 0);
-> +        }
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +done_generating:
-> +    gen_tb_end(tb, num_insns);
-> +
-> +    tb->size =3D (ctx.npc - pc_start) * 2;
-> +    tb->icount =3D num_insns;
-> +}
-> +
-> +void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
-> +                            target_ulong *data)
-> +{
-> +    env->pc_w =3D data[0];
-> +}
->=20
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
