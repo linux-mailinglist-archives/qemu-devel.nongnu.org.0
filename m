@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1871075A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:20:45 +0100 (CET)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E369F1075A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:21:03 +0100 (CET)
+Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYBfo-00067K-K4
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:20:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49777)
+	id 1iYBg6-0006Xj-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iYBcs-0004vH-Oi
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:17:43 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iYBdM-0005F1-6t
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iYBcr-0000MW-J4
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:17:42 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35767)
+ (envelope-from <peter.maydell@linaro.org>) id 1iYBdL-0000Yt-6m
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:12 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42029)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iYBcr-0000JN-A7
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:17:41 -0500
-Received: by mail-wr1-x441.google.com with SMTP id s5so9316439wrw.2
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 08:17:40 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iYBdL-0000Yb-1i
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:11 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 66so503144otd.9
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 08:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WvkgKLfCm3oyyF/6eWVRcAnvU9WJaNPwvddjPCT4la4=;
- b=vzm0Xa7cydf1lIrU+ou6NsJG/bGBAd8Y3sEQ60d5ixwboPDsgg5kklZhCKgTZRr+ld
- 7EVGt/Fkar8DS3iDUAcSAO7N3+Fkjj5eJuWXWE1lcfvB7uKgCwCFim7apMb11PrfZLTC
- qAtcbTVkD38JHcM7Fc8JNOmSqqk12Mk21aGvTfkPFqYZMNTIY9EDfpXtpzbdsXtFpiPq
- 3Wy80+m+UP0BdLxYCRIJlC3vG0IkFrV19FZ5Bn5ylkieqllxOFqrvmNPvn+v8tIBpIpF
- q3McRLoywWDkL/7WPwdozAWVRR4uHw5gFC9U+wJCCY/+A6nL+oe3TuuT2VNHXm/7ICZ9
- CLqg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LczJ6ckAjjLNeFsJmGc6glSU11U0OB5HElVF056rojM=;
+ b=yFi8ifxsnMoRbvxJQQa6OWSVuw6ZdAJ9yCBdRH8kHSve+FS7tuiZmr1eUhj8dDQTd/
+ i5IkBM1qGcvBVrm00bTvjzBpxuvCafkx3ZEpu2xO2aB14OE8ejRmwCI0CAGmc0tjj4nI
+ 24mZHDxUxw7idO0/rln2k8PCuccxkDI0O3tGH3II/dwqpF0ASzOYpkZCPg+Q0AFIMCXj
+ D41CeuJpTkyrz0jeGQgK/2o20CbS+PudNJvq7w+FoFE084CL0MjU17U5PwfoF0yvJstB
+ d+jS+3c80Tpo3jxo1srmyr149U4n4+sDPiAhq+P5pmIKUznqO8LjaUAHIKvBZF3mdNB6
+ EuOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WvkgKLfCm3oyyF/6eWVRcAnvU9WJaNPwvddjPCT4la4=;
- b=briJ5Xt3Yddzwdw512QXD7aQzn0r9ykLJ8cZNW0ZQUTTz8/ufu6ZODBp7aRPz1tKzM
- AwLFl4bu61T5KoKj4ISB3GqUwy/L0pMUmGURVUZfHSQzDxZ63/rIqsZDAoMbZbswSrhq
- 9pwi6htPNJOwAqCAPQXWGG/iLRbEQTiv0RPFo9prOzDzSpMnyT6G7wMWNhSOClmFOm+b
- teIcjslPyaYmEqb0/3M6kuvQStH/0KlRD+s1CAFrk528KoDhA73xr9uag8TmA2lzgdBz
- XaymjTwxdxZ2PoV0WkMp9a76PMOat0xxeG/KSY4CqoJqQmxl8lkgfWC9q1yCsAZRZVJq
- gHlg==
-X-Gm-Message-State: APjAAAUsV6ISie21nck4ilQdk7tCIAK7FgD9wMjnvuAcCEEHifhe+z1/
- VuUVxGFy0//s1jISy1MbAhW7ag==
-X-Google-Smtp-Source: APXvYqzVHEhABmyalNc3HjsbmGT64hEKZ5wiz27rJOdJmb7xqQ5juGNVQRnlwH+yk1zabw2N5pDqGg==
-X-Received: by 2002:a5d:6ac9:: with SMTP id u9mr17999585wrw.383.1574439459334; 
- Fri, 22 Nov 2019 08:17:39 -0800 (PST)
-Received: from [10.0.0.120] (host-87-242-235-70.ppp.onetel.net.uk.
- [87.242.235.70])
- by smtp.gmail.com with ESMTPSA id d13sm179633wrv.88.2019.11.22.08.17.38
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Nov 2019 08:17:38 -0800 (PST)
-Subject: Re: [PATCH] target/arm: Fix ISR_EL1 tracking when executing at EL2
-To: Peter Maydell <peter.maydell@linaro.org>, Marc Zyngier <maz@kernel.org>
-References: <20191122135833.28953-1-maz@kernel.org>
- <CAFEAcA-aRwc9bogn-QbT-q5FzkqieYmQOZMr6H=kK5ixMGANMg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <12a72593-6634-37a8-366b-56d48cfed9d1@linaro.org>
-Date: Fri, 22 Nov 2019 16:17:36 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LczJ6ckAjjLNeFsJmGc6glSU11U0OB5HElVF056rojM=;
+ b=LWVvT4WLKaVSwnIIlID6G2FUWhDYOuH18s8iNwzvK8/Cug0qaMrRO5pDuHqAQ/MiNW
+ UvfGON4a77D8dPlZsd6Uf4MgGz27jS6KmPFhuAdyekRAlKA0HZh0B5ilVuAWxCTlAQ4x
+ Ha1agDeHd/Ofp69XGALNCoIGkmlHi4Ht/KZ4tHJwQk+oVoQFlnYEID5hUPDsahPmnJao
+ TAzjOaafzopB4SSqdtJCsBb7IP4CngKO9Ziu/dZ+mZuFQcE/tTXJk6hU2oRm2NoMj+CX
+ cYe4OgbpOKw0IA9atOWFIpE0FDupJxS4qrlFjE8Lfm1mylBM1t13iPjRfFXg0QUqOBle
+ XaoA==
+X-Gm-Message-State: APjAAAXxmV70GgJPYg2KUq/+jcTFslblYJo9a+Q4sNzWv65yInYjT+cn
+ +puFw5WaWVZstJtm55gcMVp8vqywijKpPStgqCQUMw==
+X-Google-Smtp-Source: APXvYqzgh05s1iI2tEwN7iAGgn62cm1GV20iVALbdTaL7RpzJMzUF2i9iFpS4xJfHPQ4M8TM3rTX3+POCIRUfwXw3CE=
+X-Received: by 2002:a9d:68cc:: with SMTP id i12mr10452158oto.97.1574439490115; 
+ Fri, 22 Nov 2019 08:18:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-aRwc9bogn-QbT-q5FzkqieYmQOZMr6H=kK5ixMGANMg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191122160511.8377-1-kwolf@redhat.com>
+In-Reply-To: <20191122160511.8377-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Nov 2019 16:17:59 +0000
+Message-ID: <CAFEAcA_JU9GfNYDuD2K0MKmAD7GZ7vBUHsXU+WS-6mvPCvf8ig@mail.gmail.com>
+Subject: Re: [PATCH for-4.2? v3 0/8] block: Fix resize (extending) of short
+ overlays
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,20 +72,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Quentin Perret <qperret@google.com>, Will Deacon <will@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 2:16 PM, Peter Maydell wrote:
-> RTH: vaguely wondering if this might be related to the
-> bug you ran into trying to test your VHE emulation
-> patchset...
+On Fri, 22 Nov 2019 at 16:08, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> See patch 4 for the description of the bug fixed.
 
-Thanks for the thought.  It might be related, but it isn't the final cause:
-the inner guest does not yet succeed including this patch.
+I guess my questions for trying to answer the "for-4.2?"
+question in the subject are:
+ 1) is this a security (leaking data into the guest) bug ?
+ 2) is this a regression?
+ 3) is this something a lot of people are likely to run into?
 
+Eyeballing of the diffstat plus the fact we're on v4 of
+the patchset already makes me a little uneasy about
+putting it into rc3, but if the bug we're fixing matters
+enough we can do it.
 
-r~
-
+thanks
+-- PMM
 
