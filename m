@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AB1107730
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:20:07 +0100 (CET)
-Received: from localhost ([::1]:53752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E0D10774A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:26:00 +0100 (CET)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDXJ-0000gx-NC
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:20:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
+	id 1iYDd1-0002vS-2O
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:25:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37723)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iYDKc-0000pH-P4
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:59 -0500
+ (envelope-from <clg@kaod.org>) id 1iYDUd-0000Te-If
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:17:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iYDKX-0007vf-9y
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33487
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iYDUc-00042N-2U
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:17:19 -0500
+Received: from 3.mo5.mail-out.ovh.net ([46.105.40.108]:44578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYDKU-0007us-DH
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:06:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574446008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y0WP6QUHwtKnRXo7X2/Vcg/nhKnykLT67lSc7+bAh/I=;
- b=MGndV64//b3uEJTuLAdcioW3wb4NUc0yOKTh+cU9rfV/wm5lT4vOFiQRstOrepc3kObYdg
- Aqwl1U0mVwxuUr+a5LUL2tLDNahHfMqOZMJaGvpjyUbC8pKAWhnn6YNir7HzHx2eBtq9FP
- WLFD4sTEQnpWk5afAMXUNx8Luui5XRU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-95K4HtEdMROs_RMGorUoUg-1; Fri, 22 Nov 2019 13:06:46 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83FA918B5FA0;
- Fri, 22 Nov 2019 18:06:45 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F0265D9E1;
- Fri, 22 Nov 2019 18:06:42 +0000 (UTC)
-Subject: Re: [PATCH v3 4/8] block: truncate: Don't make backing file data
- visible
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-5-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <2a970e80-bed8-54ec-506a-4bff46b81577@redhat.com>
-Date: Fri, 22 Nov 2019 12:06:41 -0600
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iYDUb-000406-RU
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:17:18 -0500
+Received: from player729.ha.ovh.net (unknown [10.109.146.5])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id A223425BAD7
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 19:17:14 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player729.ha.ovh.net (Postfix) with ESMTPSA id 0F301C992A3F;
+ Fri, 22 Nov 2019 18:17:09 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v5 00/23] ppc/pnv: add XIVE support for KVM guests
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20191115162436.30548-1-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <3a76eea8-9009-8762-be89-c2c045db8721@kaod.org>
+Date: Fri, 22 Nov 2019 19:17:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191122160511.8377-5-kwolf@redhat.com>
+In-Reply-To: <20191115162436.30548-1-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 95K4HtEdMROs_RMGorUoUg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 2750010522864225107
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehgedguddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 46.105.40.108
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,51 +58,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- mreitz@redhat.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 10:05 AM, Kevin Wolf wrote:
-> When extending the size of an image that has a backing file larger than
-> its old size, make sure that the backing file data doesn't become
-> visible in the guest, but the added area is properly zeroed out.
-> 
-> Consider the following scenario where the overlay is shorter than its
-> backing file:
-> 
->      base.qcow2:     AAAAAAAA
->      overlay.qcow2:  BBBB
-> 
-> When resizing (extending) overlay.qcow2, the new blocks should not stay
-> unallocated and make the additional As from base.qcow2 visible like
-> before this patch, but zeros should be read.
-> 
-> A similar case happens with the various variants of a commit job when an
-> intermediate file is short (- for unallocated):
-> 
->      base.qcow2:     A-A-AAAA
->      mid.qcow2:      BB-B
->      top.qcow2:      C--C--C-
-> 
-> After commit top.qcow2 to mid.qcow2, the following happens:
-> 
->      mid.qcow2:      CB-C00C0 (correct result)
->      mid.qcow2:      CB-C--C- (before this fix)
-> 
-> Without the fix, blocks that previously read as zeros on top.qcow2
-> suddenly turn into A.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/io.c | 33 +++++++++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
+On 15/11/2019 17:24, C=C3=A9dric Le Goater wrote:
+> Hello,
+>=20
+> The QEMU PowerNV machine emulates a baremetal OpenPOWER system and
+> acts as an hypervisor (L0). Supporting emulation of KVM to run guests
+> (L1) requires a few more extensions, among which guest support for the
+> XIVE interrupt controller on POWER9 processor.
+>=20
+> The following changes extend the XIVE models with the new XiveFabric
+> and XivePresenter interfaces to provide support for XIVE escalations
+> and interrupt resend. This mechanism is used by XIVE to notify the
+> hypervisor that a vCPU is not dispatched on a HW thread. Tested on a
+> QEMU PowerNV machine and a simple QEMU pseries guest doing network on
+> a local bridge.
+>=20
+> The XIVE interrupt controller offers a way to increase the XIVE
+> resources per chip by configuring multiple XIVE blocks on a chip. This
+> is not currently supported by the model. However, some configurations,
+> such as OPAL/skiboot, use one block-per-chip configuration with some
+> optimizations. One of them is to override the hardwired chip ID by the
+> block id in the PowerBUS operations and for CAM line compares. This
+> patchset improves the support for this setup. Tested with 4 chips.
+>=20
+> A series from Suraj adding guest support in the Radix MMU model of the
+> QEMU PowerNV machine is still required and will be send later. The
+> whole patchset can be found under :
+>=20
+>   https://github.com/legoater/qemu/tree/powernv-4.2
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+ [ ... ]
+
+> C=C3=A9dric Le Goater (23):
+>   ppc/xive: Record the IPB in the associated NVT
+>   ppc/xive: Introduce helpers for the NVT id
+>   ppc/pnv: Remove pnv_xive_vst_size() routine
+>   ppc/pnv: Dump the XIVE NVT table
+>   ppc/pnv: Quiesce some XIVE errors
+>   ppc/xive: Introduce OS CAM line helpers
+>   ppc/xive: Check V bit in TM_PULL_POOL_CTX
+>   ppc/xive: Introduce a XivePresenter interface
+>   ppc/xive: Implement the XivePresenter interface
+
+David,
+
+I have reworked the following patches to address Greg's comments=20
+and your comment on "ppc/pnv: Dump the XIVE NVT table".=20
+
+Shall I wait for some feedback from you or just resend ?=20
+
+Thanks,
+
+C.
+
+>   ppc/pnv: Loop on the threads of the chip to find a matching NVT
+>   ppc/pnv: Introduce a pnv_xive_is_cpu_enabled() helper
+>   ppc/xive: Introduce a XiveFabric interface
+>   ppc/pnv: Implement the XiveFabric interface
+>   ppc/spapr: Implement the XiveFabric interface
+>   ppc/xive: Use the XiveFabric and XivePresenter interfaces
+>   ppc/xive: Extend the TIMA operation with a XivePresenter parameter
+>   ppc/pnv: Clarify how the TIMA is accessed on a multichip system
+>   ppc/xive: Move the TIMA operations to the controller model
+>   ppc/xive: Remove the get_tctx() XiveRouter handler
+>   ppc/xive: Introduce a xive_tctx_ipb_update() helper
+>   ppc/xive: Synthesize interrupt from the saved IPB in the NVT
+>   ppc/pnv: Introduce a pnv_xive_block_id() helper
+>   ppc/pnv: Extend XiveRouter with a get_block_id() handler
+>=20
+>  include/hw/ppc/pnv.h       |  15 ++
+>  include/hw/ppc/pnv_xive.h  |   3 -
+>  include/hw/ppc/xive.h      |  72 ++++++--
+>  include/hw/ppc/xive_regs.h |  24 +++
+>  hw/intc/pnv_xive.c         | 360 ++++++++++++++++++++++++-------------
+>  hw/intc/spapr_xive.c       |  88 ++++++++-
+>  hw/intc/xive.c             | 350 ++++++++++++++++++++----------------
+>  hw/ppc/pnv.c               |  37 +++-
+>  hw/ppc/spapr.c             |  36 ++++
+>  9 files changed, 691 insertions(+), 294 deletions(-)
+>=20
 
 
