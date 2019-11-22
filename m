@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5934106820
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:30:36 +0100 (CET)
-Received: from localhost ([::1]:48518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D3B106834
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:43:13 +0100 (CET)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY4Kp-0007Rg-UD
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:30:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45725)
+	id 1iY4X2-0003Li-Iu
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:43:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iY4Jf-0006v0-Ve
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:29:24 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iY4Vl-0002Vk-Di
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iY4Jf-0006Gc-0m
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:29:23 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34210)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iY4Je-0006GA-PL
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:29:22 -0500
-Received: by mail-wm1-x344.google.com with SMTP id j18so9654360wmk.1
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 00:29:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wha1hglNGt4UstaAQQvLQMbo/kd1j8mCEModtILhLKk=;
- b=ccN2HvfIuPBCfRYS/bPPAbsOK6lIz7D8lMTzencQTbLXiT4prEC+XQ4sQTVrQYMQuT
- BJF5fyDFYjExZm3W5fnxiPwksxZKL96uqll9qsUeeBl0PKUmNP9tRB/eWi3zF51gdgTr
- YjV4S+qH5MXv12NCNsRIdxlgP6Xkr6bCXb7MISQsIxiBEm8B9gGIsY+0v6oQxuyajhiE
- kbZUW/Q5mhzk0pPH6AF7T7rLY3Qwhv+SbfBrq3qmhLyyXQh9AqfRtwe09u6A9NNTJl23
- AsBEGIo2NoRXI2530o0CYLOCMg3Uk6V9uBdZProlq0ytC7bMqNTByqoDcjOuh6weDhzH
- mpEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wha1hglNGt4UstaAQQvLQMbo/kd1j8mCEModtILhLKk=;
- b=ewFMawfCn9qhgYfmv0oJcCi2D0X97y7QUn2VjqaG7dPvzncZ4p+AePSzPD+H9FIDAK
- N9WOC/z5l3Zz2rpGN47qnTEsm/Xl4qzLee+uoW0bc8Z7Rk86MYx2koRoD3Iysc1yN69G
- 9SpqsLU1dDw5xSR+m+oNVfHe0mZYMg2KquwMW98psqWE3T4qOxTB20kaQfQ1FcKyRDdW
- 0FE6IeYL1TC53atm2fmywUrgpzQdO16UYlsvLr55pS4+lHnliJemnqyl8/ZebzpS5MXw
- cjZ1G/MB7t2lJb8G5HWzocpD0nC1wFzxrkdm1L/Vb64x9yPG36+Oe3bOvvtiP65o9jth
- oCJQ==
-X-Gm-Message-State: APjAAAUtND8SmE5r81SozdWTyDJoq3OvnAshxIAul1LQAxQ64iZSr/tH
- 5J9XIDUL5HE6K+PfJy+KOKWF4w==
-X-Google-Smtp-Source: APXvYqxnFIiF6Tr8PV3ns6yAC/dnuCqahHAbsIyvYK5YipNGtq9KllcfWaAY6VIrBJdtvvHg6gPeDw==
-X-Received: by 2002:a1c:20c6:: with SMTP id g189mr1203573wmg.6.1574411361531; 
- Fri, 22 Nov 2019 00:29:21 -0800 (PST)
-Received: from [192.168.1.143]
- (host217-43-132-120.range217-43.btcentralplus.com. [217.43.132.120])
- by smtp.gmail.com with ESMTPSA id o21sm2583113wmc.17.2019.11.22.00.29.20
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Nov 2019 00:29:20 -0800 (PST)
-Subject: Re: [PATCH v3 2/4] Memory: Enable writeback for given memory region
-To: Beata Michalska <beata.michalska@linaro.org>, qemu-devel@nongnu.org
-References: <20191121000843.24844-1-beata.michalska@linaro.org>
- <20191121000843.24844-3-beata.michalska@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <eb14d17d-3120-2697-add5-d98d82cc51e7@linaro.org>
-Date: Fri, 22 Nov 2019 08:22:58 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <no-reply@patchew.org>) id 1iY4Vj-0004Qs-PU
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:53 -0500
+Resent-Date: Fri, 22 Nov 2019 03:41:53 -0500
+Resent-Message-Id: <E1iY4Vj-0004Qs-PU@eggs.gnu.org>
+Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21843)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iY4Vj-0004QL-HQ
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1574412080; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PZGsN/DtwsoLbhIoU0esoVUyr+LaGZRj9hvUkzTMuHYOxkgUA5EQQ5uFk8THSeIhIbOj/M/LRr9mz3d6fVAqucUiIax/ETQQxgiJwBooJ7vRjEAbf4zZhoRgeLda/uqz9KwUQjFkrACL4JQNLkC5aOCpTHHzr11N52qJFLGmiyg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1574412080;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=U4MwBQ3J1PydJZ7P9yTieW8SORo5akzbX9ZFm4DPxhw=; 
+ b=RdOHPD06DBukwjYu8EmHFXkp4Ov/QiN5TV75B4ydMBNif+5SdgrqL8ucC8U3tbVu4lDWfkScq77AS+Jq/EvxVqic8w+OJzieYBTFqKI0Ym8Hr4MQD++OQvwHbWRxp+Zw3Ava2cXvQJlOQwKVyg4B8LjtPIP5eZSTiAsxIUP9MFs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1574412078544786.7115365045007;
+ Fri, 22 Nov 2019 00:41:18 -0800 (PST)
+In-Reply-To: <20191122074826.1373-1-tao3.xu@intel.com>
+Subject: Re: [PATCH v17 00/14] Build ACPI Heterogeneous Memory Attribute Table
+ (HMAT)
+Message-ID: <157441207652.7001.8047298058253413835@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <20191121000843.24844-3-beata.michalska@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: tao3.xu@intel.com
+Date: Fri, 22 Nov 2019 00:41:18 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.58
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +65,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, quintela@redhat.com, dgilbert@redhat.com,
- shameerali.kolothum.thodi@huawei.com, eric.auger@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, alex.bennee@linaro.org
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, sw@weilnetz.de, tao3.xu@intel.com, fan.du@intel.com,
+ armbru@redhat.com, mdroth@linux.vnet.ibm.com, jingqi.liu@intel.com,
+ imammedo@redhat.com, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/19 1:08 AM, Beata Michalska wrote:
-> Add an option to trigger memory writeback to sync given memory region
-> with the corresponding backing store, case one is available.
-> This extends the support for persistent memory, allowing syncing on-demand.
-> 
-> Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
-> ---
->  exec.c                  | 36 ++++++++++++++++++++++++++++++++++++
->  include/exec/memory.h   |  6 ++++++
->  include/exec/ram_addr.h |  8 ++++++++
->  include/qemu/cutils.h   |  1 +
->  memory.c                | 12 ++++++++++++
->  util/cutils.c           | 38 ++++++++++++++++++++++++++++++++++++++
->  6 files changed, 101 insertions(+)
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyMjA3NDgyNi4xMzcz
+LTEtdGFvMy54dUBpbnRlbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21t
+YW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVk
+LCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBU
+IEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRX
+T1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0
+IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBURVNUICAgIGNoZWNrLXF0ZXN0
+LXg4Nl82NDogdGVzdHMvbnVtYS10ZXN0CkJyb2tlbiBwaXBlCi90bXAvcWVtdS10ZXN0L3NyYy90
+ZXN0cy9saWJxdGVzdC5jOjE0OToga2lsbF9xZW11KCkgZGV0ZWN0ZWQgUUVNVSBkZWF0aCBmcm9t
+IHNpZ25hbCA4IChGbG9hdGluZyBwb2ludCBleGNlcHRpb24pIChjb3JlIGR1bXBlZCkKRVJST1Ig
+LSB0b28gZmV3IHRlc3RzIHJ1biAoZXhwZWN0ZWQgOSwgZ290IDgpCm1ha2U6ICoqKiBbY2hlY2st
+cXRlc3QteDg2XzY0XSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpv
+YnMuLi4uCiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6IDE3MgogIFRFU1QgICAgaW90ZXN0LXFjb3cy
+OiAxNzQKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
+cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
+cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPWRjZWM0MjhhOTc0
+MzQyMTFiOWMwODU2ZGE2NThmZjBiJywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAn
+c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
+J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
+J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAv
+Y2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
+L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXpy
+OXN3b3RrL3NyYy9kb2NrZXItc3JjLjIwMTktMTEtMjItMDMuMjguMzIuMjYzNDE6L3Zhci90bXAv
+cWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1
+aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
+YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWRjZWM0MjhhOTc0MzQyMTFiOWMwODU2ZGE2NThm
+ZjBiCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
+cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXpyOXN3b3RrL3NyYycKbWFrZTog
+KioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxMm00
+NC4zNjJzCnVzZXIgICAgMG03Ljk5N3MKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMTIyMDc0ODI2LjEzNzMtMS10YW8zLnh1QGludGVs
+LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
