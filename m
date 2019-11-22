@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E259E10798C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 21:40:04 +0100 (CET)
-Received: from localhost ([::1]:54828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2694F1079F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 22:27:31 +0100 (CET)
+Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYFil-0008J6-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 15:40:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56242)
+	id 1iYGSf-0004t7-Os
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 16:27:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYFg9-0007K1-7A
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:37:22 -0500
+ (envelope-from <ariadne@dereferenced.org>) id 1iYGRb-0004QP-DP
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 16:26:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYFg8-0004yB-4f
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:37:21 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39585)
+ (envelope-from <ariadne@dereferenced.org>) id 1iYGRa-0005rd-Dc
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 16:26:23 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:38104)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iYFg7-0004xe-UT
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 15:37:20 -0500
-Received: by mail-ot1-x344.google.com with SMTP id w24so7339000otk.6
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 12:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <ariadne@dereferenced.org>)
+ id 1iYGRZ-0005pb-UN
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 16:26:22 -0500
+Received: by mail-io1-xd42.google.com with SMTP id u24so7992314iob.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 13:26:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dereferenced-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=f6zn+H6oF3eiDm85P3tJt6E66/oBb6hdWvSeBL7gO7M=;
- b=UC5gx21lxjWTK436MZykGKME8kfkTK5F4Hgol6nvyc8mYY9VaK45b7p7wQZKynv/I7
- WieO0zH0n3Cd8ZEj+N65BqaxW8CI1aQqSxyAyKvSoSa83EcTTOHxKRrs5k3aCglw6yc7
- gIrsOCg/wuzvP+mlS1f7UmIpRnN4oR1NYf/EciIGRJ8A5ZlTaUPyNnJMpn7XRQ/fm0vv
- eyUHYXodvRXcMEM1zzu8Ik5B2fP0H+XHmbUBTa/R8kzHfwwhi7lGhDUziXCQZJtgwU88
- gcmCelREMGU3V5iEmPEC3PwMIbdGkyotEWpwCgQLnAKin8Y1CYHgAvjwnNvAsszHSp0L
- rzyg==
+ :cc; bh=Cq6i6D48Z555hRuuHcRPVMJMC6xmzKMM97e6BbkOyYk=;
+ b=ZHMLNawGBWarZRIyLV2Kn+P2Kynj+ePWxVoCOWxU+YyTJ1M6+TQYXsQBTwSA/p5njz
+ LfZN24H4IMWHmmrFzLDC81moxiTSZGhBVJMC+lgdnVgnt0XIkMzEdxP64/dHAOjGGe+t
+ faHM9fiBc3iaFEDmuNwh1MBFnGpUIuiZcqN9HVIFMZP/P8VppwMJBphY3InO2ewSZCzU
+ QK2ZjIok+8pOWfVn1KiLnp/r8bska2P5Ag6rMqIKDv9sIPo+CJU8Vlf3UrQ3tx19cBmk
+ vWhntY68+SFj0uSOlxTCf1YQ17OPDqCdU+cbv1aTI5aMYvGxj3r1Mvkcke5FOq8tTMxK
+ nfyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=f6zn+H6oF3eiDm85P3tJt6E66/oBb6hdWvSeBL7gO7M=;
- b=pE+/ZdJmJwBmgjNxGbH/cnnnEyYLaA8lRFSa84I3LWCffGV0mvLrePKAW7tasfr/MB
- 0jS5E8rOMD+A4NWY0BLjkGBphUBBngtYIkTwK72rX60S8HV3blpPCROSTF7T3NfM7KIP
- EMBWy+pVTaI9G00klmFvrGXQUHJZwMvbLWlg2t1kZlOaGOuIvvP3lw3e0gv9xoWSVNxZ
- wl4qsbjxeULZ+IaXCRYMIyPYb47cEGzZ8X1gqWMIfqH2tXNJB8PZR8fMrw07sdao52hC
- ecqX04ucbdDjmB91ua28dXcZ78pXOXEle8lkJLmqv3Ye+Aow8PXAP0DIOxU7te2DFgOE
- o0bg==
-X-Gm-Message-State: APjAAAWkmcSuuVP5CfJaV/VBn7VQ+mra7L4oE6WfLr3/C28ebFLMU1hJ
- 8C2DphlYQ0Ck1gmK1XPSPAWgrRBUFnWT6pquMVM=
-X-Google-Smtp-Source: APXvYqw4ZlSnCg/GO70tTeyKJeIT60sRo03CPFmBf3qYbciKa6PTMV/SodKMUYlMk5MT6N8W874ZesOQ8iGjNIdS8oc=
-X-Received: by 2002:a05:6830:81:: with SMTP id
- a1mr11839685oto.64.1574455037774; 
- Fri, 22 Nov 2019 12:37:17 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Cq6i6D48Z555hRuuHcRPVMJMC6xmzKMM97e6BbkOyYk=;
+ b=s+B3XA3ApsJxLeL+PfyV2K7eiEdPeQH1QCwVNaxDuS/uVPYM/myuG0WZROpMhKTcs7
+ itkr3UHWJqYqxc6vWXCDZVJpY3N3L1aAyTACemK/B/UCAxHhkiHNQf4falqTgLyFZf5S
+ EKTjt5+kSb+brLpf+yeLjgDi5kXTA44cMkbaWlHfwsuYW9q8K68UHqTAXdd4AW/Hxmxt
+ H7l6zxFJvX16CDoOPOGBSfxjNxLsduIwyT3ODwUmOhh4KD44lgrAVql55ht2MDDm5ABX
+ I1qOM1oJpdoCUs4cP/EqIQbiWpYS0ijaBU3k0jsGnQS/TiJYqz+NzV1rop7iynBovso+
+ +RfQ==
+X-Gm-Message-State: APjAAAU9Lm2n+oXBDxdfjGx+YvJsk/sQmgBDSfZ+IMe52WVIxLqGcBc4
+ 90SYiUDi4/rP1REofmWlmkuiIIyaYnzz51Frgh0Xjw==
+X-Google-Smtp-Source: APXvYqwZ4kZ9BYqYAUj+69avOrpSvXS4DX5h3peM2wisootqCNZxnfH0irvBCovO0Qxcuj0cQMV6z9Avfrd6qyDsOEc=
+X-Received: by 2002:a6b:6e03:: with SMTP id d3mr14868287ioh.110.1574457980732; 
+ Fri, 22 Nov 2019 13:26:20 -0800 (PST)
 MIME-Version: 1.0
-References: <1573652826-23987-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1573652826-23987-6-git-send-email-aleksandar.markovic@rt-rk.com>
- <0fc4bf6b-3725-e2dd-79aa-bc5b74377b39@redhat.com>
-In-Reply-To: <0fc4bf6b-3725-e2dd-79aa-bc5b74377b39@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 22 Nov 2019 21:37:06 +0100
-Message-ID: <CAL1e-=h1GAF-U2NO4BAU1FQ-qF7dwPE1MwgYModi6d1z=yADiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] MAINTAINERS: Add two files to Malta section
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+References: <20191122174040.569252-1-ariadne@dereferenced.org>
+ <CAL1e-=jBhF476ZErrbZ_ANBnrKhNNgYtntGDB-5BDMXdT9J0aQ@mail.gmail.com>
+In-Reply-To: <CAL1e-=jBhF476ZErrbZ_ANBnrKhNNgYtntGDB-5BDMXdT9J0aQ@mail.gmail.com>
+From: Ariadne Conill <ariadne@dereferenced.org>
+Date: Fri, 22 Nov 2019 15:26:08 -0600
+Message-ID: <CAAOiGNxTTf6OEbc4trBCyt+uuu08dVxtwsk4mk-o=+64Sh4Byg@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: fix translation of statx structures
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::d42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,63 +73,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 9:28 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+Hello,
+
+On Fri, Nov 22, 2019 at 12:27 PM Aleksandar Markovic
+<aleksandar.m.mail@gmail.com> wrote:
 >
-> On 11/13/19 2:47 PM, Aleksandar Markovic wrote:
-> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> On Fri, Nov 22, 2019 at 7:22 PM Ariadne Conill <ariadne@dereferenced.org> wrote:
 > >
-> > Add two files that were recently introduced in a refactoring,
-> > that Malta emulation relies on. They are added by this patch
-> > to Malta section, but they are not added to the general MIPS
-> > section, since they are really not MIPS-specific, and there
-> > may be some non-MIPS hardware using them in future.
+> > All timestamps were copied to atime instead of to their respective
+> > fields.
 > >
-> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > Signed-off-by: Ariadne Conill <ariadne@dereferenced.org>
 > > ---
-> >   MAINTAINERS | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index ba9ca98..f8a1646 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -959,8 +959,10 @@ M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >   R: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-> >   R: Aurelien Jarno <aurelien@aurel32.net>
-> >   S: Maintained
-> > +F: hw/isa/piix4.c
 >
-> Maybe:
->
->     F: hw/*/piix4.c
->
-> Or also add:
->
->     F: hw/acpi/piix4.c
->
+> What a bug.
 
-Philippe, are you sure? hw/acpi/piix4.c is used in PC, not in Malta, no?
+Yes, in Alpine qemu+binfmt_misc+chroot environment, this bug caused
+all files to have an observed mtime set to the UNIX epoch, which
+caused problems with building Autoconf-based applications.  This
+really irked me so I took the time to dig into it.
 
-> >   F: hw/mips/mips_malta.c
-> >   F: hw/mips/gt64xxx_pci.c
-> > +F: include/hw/southbridge/piix.h
-> >   F: tests/acceptance/linux_ssh_mips_malta.py
-> >
-> >   Mipssim
-> >
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Laurent, perhaps a good candidate for 4.2?
 >
->
+> Thanks for submitting this, Ariadne Conill!
+
+Not a problem.
+
+Ariadne
 
