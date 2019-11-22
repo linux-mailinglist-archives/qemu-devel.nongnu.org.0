@@ -2,52 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A7A107546
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 16:59:18 +0100 (CET)
-Received: from localhost ([::1]:52292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD72107561
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:04:27 +0100 (CET)
+Received: from localhost ([::1]:52384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYBL2-0000kq-QG
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 10:59:16 -0500
+	id 1iYBQ1-00064M-Tg
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:04:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iYBHk-0006zC-S8
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:55:53 -0500
+ (envelope-from <philmd@redhat.com>) id 1iYBI0-0006zC-GI
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:56:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iYBDm-0005Mq-6y
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:51:47 -0500
-Received: from 5.mo7.mail-out.ovh.net ([178.32.120.239]:36292)
+ (envelope-from <philmd@redhat.com>) id 1iYB3j-0001iU-T3
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:41:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36081
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iYBDm-0005L8-0l
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:51:46 -0500
-Received: from player737.ha.ovh.net (unknown [10.108.54.209])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 82A35140261
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 16:51:36 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player737.ha.ovh.net (Postfix) with ESMTPSA id 71C472FF523F;
- Fri, 22 Nov 2019 15:51:29 +0000 (UTC)
-Subject: Re: [PATCH] ipmi: add SET_SENSOR_READING command
-To: cminyard@mvista.com
-References: <20191118092429.16149-1-clg@kaod.org>
- <20191122142800.GT3556@minyard.net>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <e1108da3-b211-13a8-8383-3da78a393006@kaod.org>
-Date: Fri, 22 Nov 2019 16:51:29 +0100
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iYB3j-0001iJ-PB
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:41:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574437282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s4NhcVLjanHXxWrEM9XQABWFRNDYt0GzjnxJCGmxIWY=;
+ b=BAHour1uT8O/LC8ci5ItZQRH6XrBdO+HMp6dFsiJ00usK3vUxy8lTHjlvhSESOssZ3sY5x
+ LR7h2AJPqPD7FMrygi0p193FSmyf0diRA/ZoocoD8xCorFUG+Aj+XzCkziBzKIuxL+rSbg
+ /0W8LEaSezn0a67K6Km9tyOIfayHPh8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-sr5DottpOeGd8ftEVl16Ng-1; Fri, 22 Nov 2019 10:41:20 -0500
+Received: by mail-wr1-f70.google.com with SMTP id 90so736934wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 07:41:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QWSSDjfcvEqhFQ8ZMIS/X+6D2fG0JqgkL1r5iTZ4Yrg=;
+ b=jQ5Txq7/8EWK8PGaG/5Eb5rFAf8TYSEi/qVIuibeUt+pwU5cYf20KS2HTiRgHW746X
+ Lwws6OQwKo1IAWwLu+muahvfZd6busJpbFBjOwcjABzR+G6mXt+B23Au+UBaN4npiZQJ
+ OEkpYGar+J3rUEmNJjWhIoLRGR4qzNOIU9t0JmDJ7lJXDgiKKqxXDz3NJGSqamBFn0R/
+ 5gYHRgyp0GQ8SoIJ9JndTh3pzZDGljgKhmqcLCVOPeHug8qSYeePno5flgd0WQPx7YJy
+ e07sWCt7rC3UaCbvzwLn5bzFqKw8adeytXAslTJvdyGBk5yqL25QXlDUFJJOQ+Dv91U1
+ loFQ==
+X-Gm-Message-State: APjAAAUSCuaeUDpO2/WsodPFH8OweGYyMGm6AVwo5FbpSy94mNZyWcdc
+ MkQWDCD5HTbMm5N1+78KBUDOlBRBlpGCeERpGIzLAp6beefeMub7t5EdPD6+gl9K9fGBvzBqN8n
+ T0cd4e8wHLUNwgaw=
+X-Received: by 2002:a1c:38c3:: with SMTP id f186mr17392661wma.58.1574437278786; 
+ Fri, 22 Nov 2019 07:41:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwYEH0wq8RuMh1JFnDQpMCfQEeDKyCs3bO1/xGEup85ZKZCg4TZPSBkRoaghhFmrE3JuNk18g==
+X-Received: by 2002:a1c:38c3:: with SMTP id f186mr17392630wma.58.1574437278506; 
+ Fri, 22 Nov 2019 07:41:18 -0800 (PST)
+Received: from [192.168.1.35] (131.red-88-21-102.staticip.rima-tde.net.
+ [88.21.102.131])
+ by smtp.gmail.com with ESMTPSA id g11sm7977383wro.2.2019.11.22.07.41.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Nov 2019 07:41:17 -0800 (PST)
+Subject: Re: [PATCH v35 10/13] target/avr: Add limited support for USART and
+ 16 bit timer peripherals
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Michael Rolnik <mrolnik@gmail.com>
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-11-mrolnik@gmail.com>
+ <CAL1e-=g783x53PYxd43e77fSmzokhW-hDvdfRCKn+k7AqQ-Cdg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c5bcd11f-96e3-c6c6-83c1-feffa890e3ba@redhat.com>
+Date: Fri, 22 Nov 2019 16:41:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191122142800.GT3556@minyard.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAL1e-=g783x53PYxd43e77fSmzokhW-hDvdfRCKn+k7AqQ-Cdg@mail.gmail.com>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 290482176950373350
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehgedgkeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-MC-Unique: sr5DottpOeGd8ftEVl16Ng-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.120.239
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,94 +94,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/11/2019 15:28, Corey Minyard wrote:
-> On Mon, Nov 18, 2019 at 10:24:29AM +0100, C=C3=A9dric Le Goater wrote:
->> SET_SENSOR_READING is a complex IPMI command (see IPMI spec 35.17)
->> which enables the host software to set the reading value and the event
->> status of sensors supporting it.
+On 11/22/19 3:41 PM, Aleksandar Markovic wrote:
+> On Tue, Oct 29, 2019 at 10:25 PM Michael Rolnik <mrolnik@gmail.com> wrote=
+:
 >>
->> Below is a proposal for all the operations (reading, assert, deassert,
->> event data) with the following limitations :
+>> From: Sarah Harris <S.E.Harris@kent.ac.uk>
 >>
->>  - No event are generated for threshold-based sensors.
->>  - The case in which the BMC needs to generate its own events is not
->>    supported.
->=20
-> Ok, I've included this in my tree.  I made one small change mentioned
-> below.  Beyond that, I think you could make this function shorter, but =
-I
-> think that would actually make it harder to understand.  Breaking it
-> into multiple functions doesn't make sense to me, either.
->=20
-> If you are including this in the ppc tree:
->=20
-> Acked-by: Corey Minyard <cminyard@mvista.com>
->=20
-> with the change below and I can remove it from mine.
-
-I don't think there is a strong need to have it in the PPC tree. It's=20
-a stand alone function adding an extra IPMI command.
-
-
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> Reviewed-by: Corey Minyard <cminyard@mvista.com>
+>> These were designed to facilitate testing but should provide enough func=
+tion to be useful in other contexts.
+>> Only a subset of the functions of each peripheral is implemented, mainly=
+ due to the lack of a standard way to handle electrical connections (like G=
+PIO pins).
+>>
+>> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 >> ---
+>>   hw/char/Kconfig                |   3 +
+>>   hw/char/Makefile.objs          |   1 +
+>>   hw/char/avr_usart.c            | 324 ++++++++++++++++++
+>>   hw/misc/Kconfig                |   3 +
+>>   hw/misc/Makefile.objs          |   2 +
+>>   hw/misc/avr_mask.c             | 112 ++++++
+>>   hw/timer/Kconfig               |   3 +
+>>   hw/timer/Makefile.objs         |   2 +
+>>   hw/timer/avr_timer16.c         | 605 +++++++++++++++++++++++++++++++++
+>>   include/hw/char/avr_usart.h    |  97 ++++++
+>>   include/hw/misc/avr_mask.h     |  47 +++
+>>   include/hw/timer/avr_timer16.h |  97 ++++++
+>>   12 files changed, 1296 insertions(+)
+>>   create mode 100644 hw/char/avr_usart.c
+>>   create mode 100644 hw/misc/avr_mask.c
+>>   create mode 100644 hw/timer/avr_timer16.c
+>>   create mode 100644 include/hw/char/avr_usart.h
+>>   create mode 100644 include/hw/misc/avr_mask.h
+>>   create mode 100644 include/hw/timer/avr_timer16.h
+>>
+>> diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+>> index 40e7a8b8bb..331b20983f 100644
+>> --- a/hw/char/Kconfig
+>> +++ b/hw/char/Kconfig
+>> @@ -46,3 +46,6 @@ config SCLPCONSOLE
+>>
+>>   config TERMINAL3270
+>>       bool
 >> +
->> +    switch (do_gen_event) {
->> +    case SENSOR_GEN_EVENT_DATA: {
->> +        unsigned int bit =3D evd1 & 0xf;
->> +        uint16_t mask =3D (1 << bit);
+>> +config AVR_USART
+>> +    bool
+>> diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
+>> index 02d8a66925..f05c1f5667 100644
+>> --- a/hw/char/Makefile.objs
+>> +++ b/hw/char/Makefile.objs
+>> @@ -21,6 +21,7 @@ obj-$(CONFIG_PSERIES) +=3D spapr_vty.o
+>>   obj-$(CONFIG_DIGIC) +=3D digic-uart.o
+>>   obj-$(CONFIG_STM32F2XX_USART) +=3D stm32f2xx_usart.o
+>>   obj-$(CONFIG_RASPI) +=3D bcm2835_aux.o
+>> +common-obj-$(CONFIG_AVR_USART) +=3D avr_usart.o
+>>
+>>   common-obj-$(CONFIG_CMSDK_APB_UART) +=3D cmsdk-apb-uart.o
+>>   common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_ser.o
+>> diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+>> new file mode 100644
+>> index 0000000000..9ca3c2a1cd
+>> --- /dev/null
+>> +++ b/hw/char/avr_usart.c
+>> @@ -0,0 +1,324 @@
+>> +/*
+>> + * AVR USART
+>> + *
+>> + * Copyright (c) 2018 University of Kent
+>> + * Author: Sarah Harris
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtainin=
+g a copy
+>> + * of this software and associated documentation files (the "Software")=
+, to deal
+>> + * in the Software without restriction, including without limitation th=
+e rights
+>> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or=
+ sell
+>> + * copies of the Software, and to permit persons to whom the Software i=
+s
+>> + * furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice shall be inclu=
+ded in
+>> + * all copies or substantial portions of the Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPR=
+ESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABIL=
+ITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SH=
+ALL
+>> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR=
+ OTHER
+>> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARIS=
+ING FROM,
+>> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALIN=
+GS IN
+>> + * THE SOFTWARE.
+>> + */
 >> +
->> +        if (sens->assert_states & mask & sens->assert_enable) {
->> +            gen_event(ibs, cmd[2], 0, evd1, evd2, evd3);
->> +        }
+>> +#include "qemu/osdep.h"
+>> +#include "hw/char/avr_usart.h"
+>> +#include "qemu/log.h"
+>> +#include "hw/irq.h"
+>> +#include "hw/qdev-properties.h"
 >> +
->> +        if (sens->deassert_states & mask & sens->deassert_enable) {
->> +            gen_event(ibs, cmd[2], 1, evd1, evd2, evd3);
->> +        }
+>> +static int avr_usart_can_receive(void *opaque)
+>> +{
+>> +    AVRUsartState *usart =3D opaque;
+>> +
+>> +    if (usart->data_valid || !(usart->csrb & USART_CSRB_RXEN)) {
+>> +        return 0;
 >> +    }
->> +        break;
->=20
-> I moved this break statement above the brace before it to keep the
-> indention consistent.  It just screwed with my brain too much :).
->
-> I looked and there is nothing in the coding style about this, and I
-> found this done in three different ways:
->=20
->   case x: {  /* in vl.c */
->       ....
->       break;
->   }
->   case y: /* in thunk.c */
->       {
->            ....
->       }
->       break;
->   case z: /* In vl.c */
->   {
->       ....
->       break;
->   }
->=20
-> Oddly enough, I didn't find anything about this in the Linux coding
-> style document, either (I was curious).  One could argue, I suppose,
-> that according to the "Block structure" section in the qemu style and
-> the similar section in the Linux style that the first is correct,
-> but then case statements violate the "Every indented statement is
-> braced" statement in the qemu style.  This has always bugged me in
-> C, sorry for the diatribe on this.
+>> +    return 1;
 
-Thanks,
+Here we tell the chardev frontend that we can receive at most 1 byte, ...
 
-C.=20
+>> +}
+>> +
+>> +static void avr_usart_receive(void *opaque, const uint8_t *buffer, int =
+size)
+>> +{
+>> +    AVRUsartState *usart =3D opaque;
+>> +    assert(size =3D=3D 1);
+
+... so this condition is true, the frontend will never provide us more=20
+than 1 byte.
 
 >=20
-> -corey
+> Hello, Michael.
 >=20
->> +    case SENSOR_GEN_EVENT_BMC:
+> I see the line "assert(size =3D=3D 1);" is used here, and in really numer=
+ous
+> places in USART emulation (as a rule, at the very beginnings of function
+> bodies). Could you explain to me the justification for that line? Is ther=
+e
+> a place in documentation that would expain the need for it? If this is
+> justified, why is there the need for argument "int size" in corresponding
+> functions? If some external rule/API forces you to have that argument for
+> all such functions, can you tell me what rule/API is that?
+
+Some backends have FIFO queues, so can process more chars at once.
+
+>=20
+> Yours,
+> Aleksandar
+>=20
+>> +    assert(!usart->data_valid);
+>> +    usart->data =3D buffer[0];
+
+Here the model consumes the 1st char of an array of at most 1 byte.
+
+I suppose Sarah wanted to be sure we are not dropping characters.
+
+>> +    usart->data_valid =3D true;
+>> +    usart->csra |=3D USART_CSRA_RXC;
+>> +    if (usart->csrb & USART_CSRB_RXCIE) {
+>> +        qemu_set_irq(usart->rxc_irq, 1);
+>> +    }
+>> +}
+[...]
 
 
