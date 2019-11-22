@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4D0107779
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:39:25 +0100 (CET)
-Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C4D107760
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 19:31:35 +0100 (CET)
+Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYDq0-0000dQ-CS
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:39:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
+	id 1iYDiP-00083I-RO
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 13:31:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37027)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iYDNq-00035Y-3s
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:10:20 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iYDP3-0003vG-Dn
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iYDNm-000170-1B
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:10:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47863
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYDNk-00011b-KD
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:10:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574446201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x+ahthJA0YWp4qSsc/Mgm4GjmFSS1wqZHk2rl+skoTU=;
- b=e3m/3yn2wZWO5U6pBYZDLScuB5PbZNoUxjAVxj9EufojwPw/XznpIm8wtjpc13RxPnIOss
- SLOhvm12Fh3EMgUq1mRdVlxy4QnqIJFi9PNguLPvHLEs/WQ3MvN8n3Jj4WwYyhAuUUSQ6a
- qnj0VjSkFfTFyTqYOluBp9AKKyt3Ixs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63--6yVJaf1N1WtMz92szRqPA-1; Fri, 22 Nov 2019 13:09:58 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B7DB801E74;
- Fri, 22 Nov 2019 18:09:57 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF4660150;
- Fri, 22 Nov 2019 18:09:54 +0000 (UTC)
-Subject: Re: [PATCH v3 8/8] iotests: Test committing to short backing file
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-9-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b1ddb940-d98a-4297-179d-553889db6804@redhat.com>
-Date: Fri, 22 Nov 2019 12:09:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <alex.bennee@linaro.org>) id 1iYDP1-0001Nf-Oy
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:33 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34703)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iYDP1-0001M3-Hb
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 13:11:31 -0500
+Received: by mail-wr1-x442.google.com with SMTP id t2so9749028wrr.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 10:11:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BwfFxc3KNXpLlF0IGqIocM5VVr7KpNHDmYPPgGaTzo4=;
+ b=cP3MXqByH/P1qn1CEREXo3AWpPvkMnd1ZxPEm3I7izZQkQ/aXyBo2PdmgBkk+Kz9/i
+ ChL8OHPmVfEO4WjBluT83DitwjEYlDsjdJeUBuUoKinV1CCwOIQC5x9CSwZkPpwRQAiX
+ 5aGAluq4UaT44FOjusQJVU7Bw4I2W4lMtWPxkeXpGWXbIdymPUVXYk9EM++R8r2xj9Gz
+ yx2XAk/Cgz4QaxV6IXozKlYBoNCVwFFar2e7e4md60IZXRDW8dZx3HQudp+gHF4dPaSq
+ AlC1f9EycgQrRiQSo1pX3bhNcI/UOEYoozUa2YbLq1qdDmyB46NdFjcZxxAUtPT+Fx4p
+ d3BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=BwfFxc3KNXpLlF0IGqIocM5VVr7KpNHDmYPPgGaTzo4=;
+ b=othzKqGrl14iN7+E650KRTpqjbfso+7Lyxe8uP1RvyHoIfLUTEGzOv8k+uBC89vpCP
+ +u+F83SMvClBSu2JjxE8aHyU6KbBdYqkmOjwF+mqlMw4h0lGJGSBYXmXQ5B4bgGSdKxN
+ kWwTZ4DewUlNmt7vWPumMeMXboWLrV3kW6JlNVTq1F1XzMXgvvzzu3CmPvi813YGr5zu
+ GXK6IueSFPF4P3LnB/zKlfDeOZi7/AdJx+tT4IbqmPXjBC7ckdqSLfM5A0GUxbU87mKF
+ 339ggbjZaKAdkK8VK5wCDUE5mPju1r4+L9d6rsyTQuH7REpFzjlGPkO4Wdm2zD2IZMvm
+ obgQ==
+X-Gm-Message-State: APjAAAUg7MpaXsAE/u/+B9zfGcyzNy50C7mZPhXaY17wqXCwYsJJlFvy
+ tMG94ngTYPr/VMeVlox2kct8CQ==
+X-Google-Smtp-Source: APXvYqxTP2FeR17o6JOxQ09L6pcUCwIOpe36IbCjrj/ZSrB3xUkWU3fkOPB3JyO4zepmBCcekl9AoA==
+X-Received: by 2002:adf:f550:: with SMTP id j16mr20210269wrp.33.1574446289111; 
+ Fri, 22 Nov 2019 10:11:29 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o1sm8941913wrs.50.2019.11.22.10.11.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Nov 2019 10:11:27 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 989EC1FF87;
+ Fri, 22 Nov 2019 18:11:26 +0000 (GMT)
+References: <20191119170822.45649-1-thuth@redhat.com>
+ <20191119170822.45649-7-thuth@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 6/6] travis.yml: Enable builds on arm64, ppc64le and s390x
+In-reply-to: <20191119170822.45649-7-thuth@redhat.com>
+Date: Fri, 22 Nov 2019 18:11:26 +0000
+Message-ID: <8736ef93xt.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191122160511.8377-9-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: -6yVJaf1N1WtMz92szRqPA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +82,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 10:05 AM, Kevin Wolf wrote:
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+
+Thomas Huth <thuth@redhat.com> writes:
+
+> Travis recently added the possibility to test on these architectures,
+> too, so let's enable them in our travis.yml file to extend our test
+> coverage.
+
+This is good as far as it goes but it would be nice to exercise the
+respective TCG backends. If added two commits to:
+
+  https://github.com/stsquad/qemu/commits/review/multiarch-testing
+
+which allow for that. I'll know if they worked properly in a hour or two
+once the testing has finished.
+
+>
+> Unfortunately, the libssh in this Ubuntu version (bionic) is in a pretty
+> unusable Frankenstein state and libspice-server-dev is not available here,
+> so we can not use the global list of packages to install, but have to
+> provide individual package lists instead.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   tests/qemu-iotests/274        | 152 +++++++++++++++++++++++++
->   tests/qemu-iotests/274.out    | 203 ++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/group      |   1 +
->   tests/qemu-iotests/iotests.py |   2 +-
->   4 files changed, 357 insertions(+), 1 deletion(-)
->   create mode 100755 tests/qemu-iotests/274
->   create mode 100644 tests/qemu-iotests/274.out
-> 
-
-> +    iotests.log('== Resize tests ==')
+>  .travis.yml | 83 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index c09b6a0014..cf48ee452c 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -360,6 +360,89 @@ matrix:
+>          - TEST_CMD=3D"make -j3 check-tcg V=3D1"
+>          - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>=20=20
+> +    - arch: arm64
+> +      addons:
+> +        apt_packages:
+> +          - libaio-dev
+> +          - libattr1-dev
+> +          - libbrlapi-dev
+> +          - libcap-dev
+> +          - libcap-ng-dev
+> +          - libgcrypt20-dev
+> +          - libgnutls28-dev
+> +          - libgtk-3-dev
+> +          - libiscsi-dev
+> +          - liblttng-ust-dev
+> +          - libncurses5-dev
+> +          - libnfs-dev
+> +          - libnss3-dev
+> +          - libpixman-1-dev
+> +          - libpng-dev
+> +          - librados-dev
+> +          - libsdl2-dev
+> +          - libseccomp-dev
+> +          - liburcu-dev
+> +          - libusb-1.0-0-dev
+> +          - libvdeplug-dev
+> +          - libvte-2.91-dev
+> +      env:
+> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
+-user"
 > +
-> +    # Use different sizes for different allocation modes:
-> +    #
-> +    # We want to have at least one test where 32 bit truncation in the size of
-> +    # the overlapping area becomes visible. This is covered by the
-> +    # prealloc='off' case (1G to 6G is an overlap of 5G).
-> +    #
-> +    # However, we can only do this for modes that don't preallocate data
-> +    # because otherwise we might run out of space on the test host.
-> +    for (prealloc, base_size, top_size_old, top_size_new, off)  in [
-> +            ('off',       '6G',  '1G',  '8G',  '5G'),
-> +            ('metadata', '32G', '30G', '33G', '31G'),
-> +            ('falloc',   '10M',  '5M', '15M',  '9M'),
-> +            ('full',     '16M',  '8M', '12M', '11M')]:
+> +    - arch: ppc64le
+> +      addons:
+> +        apt_packages:
+> +          - libaio-dev
+> +          - libattr1-dev
+> +          - libbrlapi-dev
+> +          - libcap-dev
+> +          - libcap-ng-dev
+> +          - libgcrypt20-dev
+> +          - libgnutls28-dev
+> +          - libgtk-3-dev
+> +          - libiscsi-dev
+> +          - liblttng-ust-dev
+> +          - libncurses5-dev
+> +          - libnfs-dev
+> +          - libnss3-dev
+> +          - libpixman-1-dev
+> +          - libpng-dev
+> +          - librados-dev
+> +          - libsdl2-dev
+> +          - libseccomp-dev
+> +          - liburcu-dev
+> +          - libusb-1.0-0-dev
+> +          - libvdeplug-dev
+> +          - libvte-2.91-dev
+> +      env:
+> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
+-user"
+> +
+> +    - arch: s390x
+> +      addons:
+> +        apt_packages:
+> +          - libaio-dev
+> +          - libattr1-dev
+> +          - libbrlapi-dev
+> +          - libcap-dev
+> +          - libcap-ng-dev
+> +          - libgcrypt20-dev
+> +          - libgnutls28-dev
+> +          - libgtk-3-dev
+> +          - libiscsi-dev
+> +          - liblttng-ust-dev
+> +          - libncurses5-dev
+> +          - libnfs-dev
+> +          - libnss3-dev
+> +          - libpixman-1-dev
+> +          - libpng-dev
+> +          - librados-dev
+> +          - libsdl2-dev
+> +          - libseccomp-dev
+> +          - liburcu-dev
+> +          - libusb-1.0-0-dev
+> +          - libvdeplug-dev
+> +          - libvte-2.91-dev
+> +      env:
+> +        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS},x86_64-linux=
+-user"
+>=20=20
+>      # Release builds
+>      # The make-release script expect a QEMU version, so our tag must sta=
+rt with a 'v'.
 
-The changes since v3 make sense.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+--=20
+Alex Benn=C3=A9e
 
