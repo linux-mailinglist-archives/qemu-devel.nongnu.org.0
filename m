@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4622F1075EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:40:51 +0100 (CET)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263C01075E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:37:15 +0100 (CET)
+Received: from localhost ([::1]:52874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYBzG-0000Vg-2u
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:40:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43991)
+	id 1iYBvl-0002qy-DM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:37:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51163)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qperret@google.com>) id 1iYB1C-0004Jf-SC
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:47 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iYBna-0000uN-UU
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:28:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qperret@google.com>) id 1iYB1B-0000rs-PE
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:46 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54978)
+ (envelope-from <alex.bennee@linaro.org>) id 1iYBnU-0002zM-WD
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:28:43 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52953)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <qperret@google.com>) id 1iYB1B-0000qX-Gb
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:45 -0500
-Received: by mail-wm1-x342.google.com with SMTP id x26so7619751wmk.4
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 07:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=2bXdv451uXtHSKP2mFUlRRcnaTmxXQD2UXLdESeqDYQ=;
- b=K4+ZfWyCelA/4gucez16m+FoaIk5SAyV4dEBlLeZrYV2Fcx2ZuN1RnnDTU+v1NQxk/
- KShVhuHqA2e7tdi6hlnAeQvYF+V6uxLsUdYhP6qxGl+IRmHLG7GFMW2K9O454pscCuhW
- SOtgnyfpbqm5bYW9xQ0DayvbhIZKVF0asKljlThCDSzd0hdvWP/cSlvgiz0EupNBYz9W
- J+k7U21fb5PXj8UIY0qKU+gmI/yAwNHiodLtHpDygZCeHQELU751kbbjU7I1SZoo+tAX
- LAaV2b4Oo9MkHAJ8JjMNfDebWdr5rzvwlppw7UehseKtw0x8DdO0TDEeklZJEyH3AuYN
- 5n0A==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iYBnU-0002xv-Pl
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:28:40 -0500
+Received: by mail-wm1-x342.google.com with SMTP id l1so8080535wme.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 08:28:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=rqPEwD0tEdw6Fwkn4ef5sr7PUhtAUyz9jwyqhQRhSCA=;
+ b=kFsspc1y3TQSgraCfEGU/s2N+Mh1JuULy5n2WGgok0dZMCGtfeozFpXqa4CD1S8HbH
+ Th92j+xU/4f2r0Xjz4OK3BgKYrGiCUyisA4MtE9ZzFS51IoW1bhbSkUlMLUcnfupGiRr
+ OtJb7lS7PwnThe6SR5RHqRvmF+XXhbLwhUWDvLW6tVIA/lj1nm0edu3Xcg61W5LukE1n
+ pShYg74JjDYxnuseP9Y9xA5tVUFGEueThLvOvUbRVZlWR3obr/1cjPO3BwqIpHIf5PYJ
+ Xo6kU0s/vegji34GENXb33KI5Zk3643ghHfSWwZoXmITRBcoJ32WtxMu/Mt6eB7F3FcQ
+ D2wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2bXdv451uXtHSKP2mFUlRRcnaTmxXQD2UXLdESeqDYQ=;
- b=sTYfozt6pyb6UN0h/fU8afdUANGToWwyDNk8DZgG2tHQ1rWgdEM7hSf6bSzTYHDTU3
- 9wP52ELPgS1vU8zn8jiI9L4jxwX1EL0u0xAov7zuYfG9sPqPIow75Nu30lelGKTO2Roc
- fRXGzuhF/LaKYhRYPTzRS+UQB4aQ/ZhJga0rNYp0MA3NNbtxKXyWCXi2cFeLrurHtf2i
- vcI3GnHPkK41odYl68gOre+Pj1jHEBiCnn0XZ7dckxNTi54L9QURdfn3uVmMNn9wN/Ga
- abEVPBpwWobi55JO2O5NrcbXaO3fdkB8DTpJEIv/7qbzjXctD7oxKqrIS1aRRM8iOvsi
- eYxA==
-X-Gm-Message-State: APjAAAWYbclx9hOQDFzDA4h5EDY9tgBp1LOb2xWTkOCrZpUpIZhYkin9
- 9A0DIDPKq+KjJjxngr+lOkPnuA==
-X-Google-Smtp-Source: APXvYqxt4TgJV1dS5Bjno9tHw1KVHIZBIvkkQpeod6YkQ3wdPI4vcJ6Tlj3WAb1Og+1pOLvFbZ0HZQ==
-X-Received: by 2002:a7b:ce11:: with SMTP id m17mr18046942wmc.113.1574437120711; 
- Fri, 22 Nov 2019 07:38:40 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
- by smtp.gmail.com with ESMTPSA id k4sm4123806wmk.26.2019.11.22.07.38.39
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=rqPEwD0tEdw6Fwkn4ef5sr7PUhtAUyz9jwyqhQRhSCA=;
+ b=B9aBCxzW/VrinbZYS66iczBCnQ8KRby/DcnU8o0Iuvh8IyVn3LrAd2T4zkT5mo59Wy
+ U+beboSkck+xNhhQMeUeefNI7KFznxgG0Z6yp/UZW580HDRHMLiXHRGaaCsZ3BbIPykc
+ EwBRGEpMCFau8L9fWCDsm0j7y1/vESWWAT/AJG0vLJxYhBxWOpwHT+cHJfd9xs8O4nSc
+ MwiEH4+G/9yi9M273lh/7u/ZqiXpl8s1x7RFnH/HrDvTLSlkrvhFGpH4nxXjHdYyNStq
+ 10dRyaYxj7KYMp/yxgI3rPQSdVEune2nE34BhlWw/mB/TAPwvz8vVzfTTeuPwEatgRcE
+ 13sw==
+X-Gm-Message-State: APjAAAVKfFRVGVwxnlBJC+zfYwk4M9TlFcMOrjVw6FtQ61XLnyUhYsHl
+ WkVP/pUzMV0Z+ZRCRIT4ZLYM+w==
+X-Google-Smtp-Source: APXvYqzYVym+kMEVGV645dHrQH69oNCnhMItvmeCxp92ufMrIli5KuvSvryLSjakZKfRdmHo09iFfg==
+X-Received: by 2002:a7b:c4c6:: with SMTP id g6mr17583469wmk.165.1574440115933; 
+ Fri, 22 Nov 2019 08:28:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b63sm2194266wmb.40.2019.11.22.08.28.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2019 07:38:40 -0800 (PST)
-Date: Fri, 22 Nov 2019 15:38:36 +0000
-From: Quentin Perret <qperret@google.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu,
- Will Deacon <will@kernel.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] target/arm: Fix ISR_EL1 tracking when executing at EL2
-Message-ID: <20191122153836.GA222628@google.com>
-References: <20191122135833.28953-1-maz@kernel.org>
+ Fri, 22 Nov 2019 08:28:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B7DBA1FF87;
+ Fri, 22 Nov 2019 16:28:33 +0000 (GMT)
+References: <20191119170822.45649-1-thuth@redhat.com>
+ <20191119170822.45649-4-thuth@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 3/6] tests/hd-geo-test: Skip test when images can not be
+ created
+In-reply-to: <20191119170822.45649-4-thuth@redhat.com>
+Date: Fri, 22 Nov 2019 16:28:33 +0000
+Message-ID: <878so798pa.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122135833.28953-1-maz@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::342
-X-Mailman-Approved-At: Fri, 22 Nov 2019 11:34:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,62 +83,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Friday 22 Nov 2019 at 13:58:33 (+0000), Marc Zyngier wrote:
-> The ARMv8 ARM states when executing at EL2, EL3 or Secure EL1,
-> ISR_EL1 shows the pending status of the physical IRQ, FIQ, or
-> SError interrupts.
-> 
-> Unfortunately, QEMU's implementation only considers the HCR_EL2
-> bits, and ignores the current exception level. This means a hypervisor
-> trying to look at its own interrupt state actually sees the guest
-> state, which is unexpected and breaks KVM as of Linux 5.3.
-> 
-> Instead, check for the running EL and return the physical bits
-> if not running in a virtualized context.
-> 
-> Fixes: 636540e9c40b
-> Reported-by: Quentin Perret <qperret@google.com>
 
-And FWIW, Tested-by: Quentin Perret <qperret@google.com>
+Thomas Huth <thuth@redhat.com> writes:
 
-Thanks Marc :)
-Quentin
-
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> In certain environments like restricted containers, we can not create
+> huge test images. To be able to use "make check" in such container
+> environments, too, let's skip the hd-geo-test instead of failing when
+> the test images could not be created.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  target/arm/helper.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index a089fb5a69..027fffbff6 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -1934,8 +1934,11 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
->      CPUState *cs = env_cpu(env);
->      uint64_t hcr_el2 = arm_hcr_el2_eff(env);
->      uint64_t ret = 0;
-> +    bool allow_virt = (arm_current_el(env) == 1 &&
-> +                       (!arm_is_secure_below_el3(env) ||
-> +                        (env->cp15.scr_el3 & SCR_EEL2)));
->  
-> -    if (hcr_el2 & HCR_IMO) {
-> +    if (allow_virt && (hcr_el2 & HCR_IMO)) {
->          if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
->              ret |= CPSR_I;
+>  tests/hd-geo-test.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/hd-geo-test.c b/tests/hd-geo-test.c
+> index 7e86c5416c..a249800544 100644
+> --- a/tests/hd-geo-test.c
+> +++ b/tests/hd-geo-test.c
+> @@ -34,8 +34,13 @@ static char *create_test_img(int secs)
+>      fd =3D mkstemp(template);
+>      g_assert(fd >=3D 0);
+>      ret =3D ftruncate(fd, (off_t)secs * 512);
+> -    g_assert(ret =3D=3D 0);
+>      close(fd);
+> +
+> +    if (ret) {
+> +        free(template);
+> +        template =3D NULL;
+> +    }
+> +
+>      return template;
+>  }
+>=20=20
+> @@ -934,6 +939,10 @@ int main(int argc, char **argv)
+>      for (i =3D 0; i < backend_last; i++) {
+>          if (img_secs[i] >=3D 0) {
+>              img_file_name[i] =3D create_test_img(img_secs[i]);
+> +            if (!img_file_name[i]) {
+> +                g_test_message("Could not create test images.");
+> +                goto test_add_done;
+> +            }
+>          } else {
+>              img_file_name[i] =3D NULL;
 >          }
-> @@ -1945,7 +1948,7 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
->          }
+> @@ -965,6 +974,7 @@ int main(int argc, char **argv)
+>                         "skipping hd-geo/override/* tests");
 >      }
->  
-> -    if (hcr_el2 & HCR_FMO) {
-> +    if (allow_virt && (hcr_el2 & HCR_FMO)) {
->          if (cs->interrupt_request & CPU_INTERRUPT_VFIQ) {
->              ret |= CPSR_F;
->          }
-> -- 
-> 2.17.1
-> 
+>=20=20
+> +test_add_done:
+>      ret =3D g_test_run();
+
+It does seem a bit odd to call g_test_run if we have explicitly not set
+any up. Personally I'd hoist all the test creation into a new function
+so you could do:
+
+  if (setup_images()) {
+     setup_tests();
+     ret =3D run_tests();
+  } else {
+     ret =3D 0; /* pass if we have no images */
+  }
+
+  cleanup_images();
+
+but that's just me going above and beyond to avoid goto's ;-)
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+>=20=20
+>      for (i =3D 0; i < backend_last; i++) {
+
+
+--=20
+Alex Benn=C3=A9e
 
