@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D22F106776
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:03:44 +0100 (CET)
-Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438A6106782
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:07:41 +0100 (CET)
+Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY3uo-0004sH-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42020)
+	id 1iY3yd-0001qm-W9
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:07:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iY3s5-0002yN-67
+ (envelope-from <armbru@redhat.com>) id 1iY3s5-0002yK-8x
  for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:00:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iY3rz-00007w-Ux
+ (envelope-from <armbru@redhat.com>) id 1iY3rz-00007h-Oo
  for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:00:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22970
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55858
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iY3rz-00006w-Oq
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:00:47 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iY3rx-00006b-PN
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:00:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574409645;
+ s=mimecast20190719; t=1574409644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UCkf56YFWycJ2ZyqHYX6XilU67V7nt1y7EbPDibtrUQ=;
- b=Pbx3zAZH483dylkMeDctK+u7s0dADI98syu4sM0A+sif62BEm6WaZXAth7uQNzDYrrX1Eb
- +YtRFFS9raOmbMEL2LJM38Uo+dSQ9nxcI/be1S0HjPvvZR97slam70D0Sjim+52EqCg378
- CTp21OBmkSaSaOWnur5pnXSGkjhlBL8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MuSq9iiujh0gUMipQQgmryW+wdqp2u+B8YzVdrLvwVo=;
+ b=EeA5fkRCOqbU7mIqpohX+Wk8YNN0h5lD+Etd7F9n1xk2jyCjIfMrkGzYwlfiD/0FC780q0
+ 6bjyNIfWAuwfecYlKHVD8mFBEuuirBz4n2kaBQGimoTegdiOBqMkDMULXZtHFGaubk4LRi
+ 3GFd9Pw2fms5AcL71l/562iTX2o6MBw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-hiO0UWJXPkGLUkX0sYIklg-1; Fri, 22 Nov 2019 03:00:42 -0500
+ us-mta-354-NrROnIlyPFGHrE8PUpNcuA-1; Fri, 22 Nov 2019 03:00:42 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A75B1800D41;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B5F1801E58;
  Fri, 22 Nov 2019 08:00:41 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1167A60FF9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 143536E713;
  Fri, 22 Nov 2019 08:00:41 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89FB51138606; Fri, 22 Nov 2019 09:00:39 +0100 (CET)
+ id 8C44B11385C7; Fri, 22 Nov 2019 09:00:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] Fix incorrect integer->float conversion caught by clang
-Date: Fri, 22 Nov 2019 09:00:37 +0100
-Message-Id: <20191122080039.12771-1-armbru@redhat.com>
+Subject: [PATCH v3 1/2] migration: Fix incorrect integer->float conversion
+ caught by clang
+Date: Fri, 22 Nov 2019 09:00:38 +0100
+Message-Id: <20191122080039.12771-2-armbru@redhat.com>
+In-Reply-To: <20191122080039.12771-1-armbru@redhat.com>
+References: <20191122080039.12771-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: hiO0UWJXPkGLUkX0sYIklg-1
+X-MC-Unique: NrROnIlyPFGHrE8PUpNcuA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -70,28 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: Fangrui Song <i@maskray.me>, richard.henderson@linaro.org,
+ dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fangrui Song's "[PATCH v2] Fix incorrect integer->float conversions
-caught by clang -Wimplicit-int-float-conversion" doesn't apply with
-git-am, and it mixes a bug fix, which should be considered for 4.2,
-with a cleanup, which should go into 5.0.  I took the liberty to
-respin, hope that's alright.
+From: Fangrui Song <i@maskray.me>
 
-I propose the migration maintainers pick up PATCH 1 for 5.0.
+Clang does not like qmp_migrate_set_downtime()'s code to clamp double
+@value to 0..INT64_MAX:
 
-I can submit PATCH 2 for 4.2-rc3.
+    qemu/migration/migration.c:2038:24: error: implicit conversion from 'lo=
+ng' to 'double' changes value from 9223372036854775807 to 92233720368547758=
+08 [-Werror,-Wimplicit-int-float-conversion]
 
-Fangrui Song (2):
-  migration: Fix incorrect integer->float conversion caught by clang
-  util/cutils: Fix incorrect integer->float conversion caught by clang
+The warning will be enabled by default in clang 10. It is not
+available for clang <=3D 9.
 
+The clamp is actually useless; @value is checked to be within
+0..MAX_MIGRATE_DOWNTIME_SECONDS immediately before.  Delete it.
+
+While there, make the conversion from double to int64_t explicit.
+
+Signed-off-by: Fangrui Song <i@maskray.me>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Patch split, commit message improved]
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
  migration/migration.c | 3 +--
- util/cutils.c         | 8 +++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 354ad072fa..09b150663f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2035,11 +2035,10 @@ void qmp_migrate_set_downtime(double value, Error *=
+*errp)
+     }
+=20
+     value *=3D 1000; /* Convert to milliseconds */
+-    value =3D MAX(0, MIN(INT64_MAX, value));
+=20
+     MigrateSetParameters p =3D {
+         .has_downtime_limit =3D true,
+-        .downtime_limit =3D value,
++        .downtime_limit =3D (int64_t)value,
+     };
+=20
+     qmp_migrate_set_parameters(&p, errp);
 --=20
 2.21.0
 
