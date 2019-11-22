@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E519106849
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:46:17 +0100 (CET)
-Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C859E10686E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:56:26 +0100 (CET)
+Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY4Zz-0005wr-UH
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:46:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47113)
+	id 1iY4jp-0002tN-KM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:56:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iY4Xi-0004FF-39
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:55 -0500
+ (envelope-from <quintela@redhat.com>) id 1iY4ib-00029Z-BE
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:55:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iY4Xg-0005Ev-WC
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:53 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44192)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iY4Xg-0005EG-Ql
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:52 -0500
-Received: by mail-ot1-x344.google.com with SMTP id c19so5484567otr.11
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 00:43:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=QKx8c+dkfd7S/Ya9oIYiIsWuM7FbZyebt1LyQ/UV4Fg=;
- b=kIA88tg8r6Kkzjnvri6N2IvGDtC0VT663E6IJqECq2Ojm4eM3ZCx1vn2iX1VZewSP2
- pkXGkZeJgsl9A2bWCcbRksq1X8krADyYJ2riFAfWyB0MHx0Vu5KHWaZQHt4WLr3yxZwj
- XeDxUFXyEL4eFmfxX3yiI27xXBBKAc2l9ZBfHcjHYVMjVGUUU8vlIEtcq7bOfqP2CFf/
- 9QJvzHjvFAAYsYnv6CKEZYrCZUjbt2BJ0SfoCJooid73IEDGO3YvjDbia6XECsoTdsNm
- G/lON5HEpGFwUPFXe49vPfReh92n52oZzabdk20UDg3+SedjrZVvDeWSw0OfYn3iEdw2
- kZ+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=QKx8c+dkfd7S/Ya9oIYiIsWuM7FbZyebt1LyQ/UV4Fg=;
- b=sKFSBnNDfXAL447yyMAcJx+PXY08ntj7g1MlNCMfNLhEXQZR0odstpBigiR50i46i2
- meeRu6kpMzCB3HYWy6M41qgQGIKfie/pMQnHiW9Ddoh58sfiZ77QFzoRg5ZUlTmdEtfC
- xTebanuFXb12le2acIY5f/XYDDgiKzfEO7WwcimDLV5uKof04rb1fY/m8rb8JK+z0z3x
- YNojGfvuH8aQh6DkzZpEzJ1b63WjtCIJmt8krn2OraT0wLFILtakyri2KGA2f5aj9Eac
- TpGItP+w2wTn7LEevJxMUSpRRdL9oMXgXEIbrfT+hw+zVStWwcacv97p9WCbFF5BKH0t
- ot2g==
-X-Gm-Message-State: APjAAAV0BHU80wxhYnhBJS7nxvnnxpziGLEKiZirej+6QezuShjRdi7F
- af37JavztKIxlelxxXzRf7JGbI/5v1G76kZ27RM=
-X-Google-Smtp-Source: APXvYqyBMWAbQ96ikH4gc4M5M+t1wwsk+7umK+G63mxvIvXDS28bbKkngiw3K9ZHI9H1OaPVO0vCO17BkummzoNGDhU=
-X-Received: by 2002:a9d:3d05:: with SMTP id a5mr10546170otc.295.1574412231807; 
- Fri, 22 Nov 2019 00:43:51 -0800 (PST)
+ (envelope-from <quintela@redhat.com>) id 1iY4iZ-0003lQ-50
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:55:08 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49865
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iY4iY-0003kw-QM
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:55:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574412905;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JUwxCrnzB76cIKSClpenWgv6NBaDCE7HbEhGyx6PRx0=;
+ b=BT7yGk0XpDbeiNjLJo48an0H7smjhaMTq35eJF9TyLyT78Fo8KJPlaCkkjywDCb+5jzIE9
+ 2TDznrWTr+cTiEoK/2VmjNXXtKzjT70QuBerFDyG4K5c7VjIhQEcUtDL+yOjFO6X5la7Rg
+ TXXGucTS5ut7vaRUM94TpdEWnvwmIqc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-fFu7lGW2P5yaylNO0MdYwg-1; Fri, 22 Nov 2019 03:55:01 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8745A91220;
+ Fri, 22 Nov 2019 08:55:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.118.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F17105D6A3;
+ Fri, 22 Nov 2019 08:54:59 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 1/2] migration: Fix incorrect integer->float conversion
+ caught by clang
+In-Reply-To: <20191122080039.12771-2-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 22 Nov 2019 09:00:38 +0100")
+References: <20191122080039.12771-1-armbru@redhat.com>
+ <20191122080039.12771-2-armbru@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Fri, 22 Nov 2019 09:54:56 +0100
+Message-ID: <87zhgoi93z.fsf@trasno.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Fri, 22 Nov 2019 00:43:51
- -0800 (PST)
-In-Reply-To: <e1fedeff-3eab-f215-a376-334417f5bf53@linaro.org>
-References: <20191029212430.20617-1-mrolnik@gmail.com>
- <20191029212430.20617-2-mrolnik@gmail.com>
- <750745b9-e51c-3757-3eb6-ffce51042d9c@redhat.com>
- <CAK4993gtPkqESswLBoo1cMuvJFzwSVgUP=Oh-hpG2JSTKezjmw@mail.gmail.com>
- <CAK4993iFuC3LTzkwjAx7uKA18jh-zOo5aYx2+1ugc9fw8UPtYg@mail.gmail.com>
- <e1fedeff-3eab-f215-a376-334417f5bf53@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 22 Nov 2019 09:43:51 +0100
-Message-ID: <CAL1e-=hKepMcesqsOwxp_HSRO9mvF6V6k4TAoVn5kcmb=20FQg@mail.gmail.com>
-Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
- core CPU logic
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ce98a10597eb6985"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: fFu7lGW2P5yaylNO0MdYwg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,70 +75,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- QEMU Developers <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Fangrui Song <i@maskray.me>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ce98a10597eb6985
-Content-Type: text/plain; charset="UTF-8"
-
-On Friday, November 22, 2019, Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 11/21/19 8:53 PM, Michael Rolnik wrote:
-> > It seems to be a huge investment. this function should parse the
-> > binary data as `decode_insn` does, so I suggest to modify decodetree
-> > tool to make decoding information available to the instruction print
-> > function.
-> > what do you think?
+Markus Armbruster <armbru@redhat.com> wrote:
+> From: Fangrui Song <i@maskray.me>
 >
-> See target/openrisc/disas.c, which makes use of decodetree.
-> It shouldn't be difficult to do something slimiar for avr.
+> Clang does not like qmp_migrate_set_downtime()'s code to clamp double
+> @value to 0..INT64_MAX:
 >
+>     qemu/migration/migration.c:2038:24: error: implicit conversion from '=
+long' to 'double' changes value from 9223372036854775807 to 922337203685477=
+5808 [-Werror,-Wimplicit-int-float-conversion]
 >
-I support Richard's suggested direction. Since you already implemenred core
-AVR decoder using decodetree, and you have this openrisc QEMU disassembler
-example, could you perhaps give a try to what Richard said, Michael?
-
-Aleksandar
-
-
-
-> r~
+> The warning will be enabled by default in clang 10. It is not
+> available for clang <=3D 9.
 >
+> The clamp is actually useless; @value is checked to be within
+> 0..MAX_MIGRATE_DOWNTIME_SECONDS immediately before.  Delete it.
+>
+> While there, make the conversion from double to int64_t explicit.
+>
+> Signed-off-by: Fangrui Song <i@maskray.me>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> [Patch split, commit message improved]
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
---000000000000ce98a10597eb6985
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-<br><br>On Friday, November 22, 2019, Richard Henderson &lt;<a href=3D"mail=
-to:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote=
-:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">On 11/21/19 8:53 PM, Michael Rolnik wro=
-te:<br>
-&gt; It seems to be a huge investment. this function should parse the<br>
-&gt; binary data as `decode_insn` does, so I suggest to modify decodetree<b=
-r>
-&gt; tool to make decoding information available to the instruction print<b=
-r>
-&gt; function.<br>
-&gt; what do you think?<br>
-<br>
-See target/openrisc/disas.c, which makes use of decodetree.<br>
-It shouldn&#39;t be difficult to do something slimiar for avr.<br><br></blo=
-ckquote><div><br></div><div>I support Richard&#39;s suggested direction. Si=
-nce you already implemenred core AVR decoder using decodetree, and you have=
- this openrisc QEMU disassembler example, could you perhaps give a try to w=
-hat Richard said, Michael?</div><div><br></div><div>Aleksandar</div><div><b=
-r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-r~<br>
-</blockquote>
+Should I get this through migration tree, or are you going to pull it?
 
---000000000000ce98a10597eb6985--
+Later, Juan.
+
 
