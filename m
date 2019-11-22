@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05C41074A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 16:12:17 +0100 (CET)
-Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE971074D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 16:29:10 +0100 (CET)
+Received: from localhost ([::1]:52106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYAbY-0008Il-OQ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 10:12:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
+	id 1iYArt-0006rm-7f
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 10:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iYAaF-0007SE-Ca
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:10:56 -0500
+ (envelope-from <bmeng.cn@gmail.com>) id 1iYAqm-0006FR-5T
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:28:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iYAaC-0001SL-KD
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:10:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51620
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYAaC-0001RM-0s
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:10:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574435451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mPjPqrIxGlTGMbcC2tskOhGPSY1BxY0qx1WX1PF8Zb0=;
- b=UovjnWG+b5ENMFiyUjNwVkhqMNwIFc2t8F/qrT3hfljpdj+s7nnSoEtMGVQBvJilK/H1WW
- HYj3MYh/OLOHdqjPUHtLwEqaE9G3hqW0+BkXhZV9iXdUg2XlnyR9EOINdfa1Y9Zpnaql6Y
- JV03n0VTRbCICuI5BYQqEmxJ5+DfhP4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-FppxGJ5yMRSw4YQd8E1boQ-1; Fri, 22 Nov 2019 10:10:48 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D747E80268E;
- Fri, 22 Nov 2019 15:10:47 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AE9910840CD;
- Fri, 22 Nov 2019 15:10:47 +0000 (UTC)
-Subject: Re: [QUESTION] Usage of '0b' as a prefix for numerical constants?
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAL1e-=gstogyXyAFV09-_mdqPs525bQP673+TcoxoRRDKwYAqw@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f78d09e1-c416-9646-7786-8091640da383@redhat.com>
-Date: Fri, 22 Nov 2019 09:10:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAL1e-=gstogyXyAFV09-_mdqPs525bQP673+TcoxoRRDKwYAqw@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: FppxGJ5yMRSw4YQd8E1boQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+ (envelope-from <bmeng.cn@gmail.com>) id 1iYAqk-0005Uy-W5
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:27:59 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45308)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1iYAqk-0005Up-Qy; Fri, 22 Nov 2019 10:27:58 -0500
+Received: by mail-pl1-x643.google.com with SMTP id w7so3219472plz.12;
+ Fri, 22 Nov 2019 07:27:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id;
+ bh=GCzWriIu4N0LBgO938q0R/XT7fvDgSNrqLwMyXX/ghY=;
+ b=jexQjhrg3l111yJwZky4vkESt7FDIKSlWOPtolE0JxOfOBBFqySZEoYvDteTf9KeTb
+ M4hjsxBFlnkaTYbx6e4qRLT4B+tVPLagrWTMTjlwedpu9eMGahvwRj53oVY9qPXPfXxR
+ T21tXZo2poIYDUYUHLFUXCWAFZJbTAJ7GHumj3eznQeBf9LLijx6iMXGytdnt5s38nVO
+ vviEs5yxDrgLk6y8oTnBwtLqjhH9+YoKnXMDdRo8y6urLQp5Kg7bfaWr8Zb3VaVJdb/N
+ vorkMw5MD3ZigEb9qr0j9Z6DOxUnm9+cSuqljKlbrrwqEqco4/K7nDjmS4eOqLzEV2Ci
+ GA7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id;
+ bh=GCzWriIu4N0LBgO938q0R/XT7fvDgSNrqLwMyXX/ghY=;
+ b=ofSR1EihNJvhFMim/Z4Ag3yEbBESn4s3irPlN241526S40umrrsbpZaKMe2yf2a7oh
+ anX2vzGL0phBg3lMEkHW19a9cPeVWgWkYjGqKskB1h+g6LEsXfbl1VUK6bRqYCvSWi9l
+ h4yg3GMTAbeoXHYgrYhmRJLY2ob95zPVAgqB+l9vJbVLaz27GAsJbnumgeV1mqHOj99C
+ Lsb0BFk0SqwuHFCMaaOKO+qeMUBHZ+dD8wdhgz9GxMaN7Wlf4OWhLAcYDW2v67b6iWzb
+ EJcslu46uZ5e1tmDEkHellVR5vkKHk92dG6h1UvhldlIgEC7aq2MNonPD/OFkTNonGeH
+ SwZQ==
+X-Gm-Message-State: APjAAAX12+/FeLL7XmsLQhoBIAUO5yuQ2/xxGjMiFqchwVwiMCecXZx8
+ 0eyFOhzNNG1crZ6KmXjLxCE=
+X-Google-Smtp-Source: APXvYqxWZykeGlXWdoUQq7xaO4FnDylmzVZ5Rd6/tM11UB0hb0FM8TowVLCx4e12nooG2DtJzIz4Yg==
+X-Received: by 2002:a17:902:758e:: with SMTP id
+ j14mr15094859pll.254.1574436477615; 
+ Fri, 22 Nov 2019 07:27:57 -0800 (PST)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id b9sm8020053pfp.77.2019.11.22.07.27.56
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Fri, 22 Nov 2019 07:27:57 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] riscv: virt: Allow PCI address 0
+Date: Fri, 22 Nov 2019 07:27:52 -0800
+Message-Id: <1574436472-6017-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +79,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 8:56 AM, Aleksandar Markovic wrote:
-> Hello, all.
-> 
-> I am currently reviewing some code, and I see it uses '0b' as a prefix
-> of numerical constants, similar to these examples:
-> 
-> switch (((inst >> 22) & 0b1111111000) | ((inst >> 12) & 0b0000000111)) {
-> 
-> or
-> 
-> ARRAY_FIELD_DP32(s->regs, CRB_INTF_ID, RID, 0b0000);
+When testing e1000 with the virt machine, e1000's I/O space cannot
+be accessed. Debugging shows that the I/O BAR (BAR1) is correctly
+written with address 0 plus I/O enable bit, but QEMU's "info pci"
+shows that:
 
-Binary constants introduced by 0b are a gcc'ism, copied by clang, and 
-thus usable in qemu if we want to (similar to our use of the ?: 
-operator, the {} initializer, the ranged case 0 ... 7, 
-__attribute__((cleanup)), ...).  But it is not standard C.
+  Bus  0, device   1, function 0:
+    Ethernet controller: PCI device 8086:100e
+  ...
+      BAR1: I/O at 0xffffffffffffffff [0x003e].
+  ...
 
-> 
-> I remember a while ago, something stopped me from using '0b' as a
-> prefix in my own code (was it checkpatch.pl, or perhaps some statement
-> on coding style, or a compiler, or something else - I don't really
-> remember), so I didn't use it, and used '0x' (hexadecimal constant).
-> 
-> What is really the view of the community on usage of '0b'?
+It turns out we should set pci_allow_0_address to true to allow 0
+PCI address, otherwise pci_bar_address() treats such address as
+PCI_BAR_UNMAPPED.
 
-For small constants, 0b111 is just about as readable as 0x7.  But for 
-large constants, I much prefer 0x7f over 0b1111111.
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
 
-> 
-> Please C language standard and compiler experts, and also regular
-> participants like me, speak up.
+ hw/riscv/virt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-If you want to provide a patch for coding standards (either admitting 
-that yes we use the extension and here are some guidelines on using it, 
-or declaring no new uses of it and maybe patching existing uses to 
-switch to hex constants), then go for it.  Maybe wait for more opinions 
-to come in to see which color more of the developers prefer for their 
-bikeshed.
-
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 23f340d..411bef5 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -603,6 +603,7 @@ static void riscv_virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = riscv_virt_board_init;
+     mc->max_cpus = 8;
+     mc->default_cpu_type = VIRT_CPU;
++    mc->pci_allow_0_address = true;
+ }
+ 
+ static const TypeInfo riscv_virt_machine_typeinfo = {
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.7.4
 
 
