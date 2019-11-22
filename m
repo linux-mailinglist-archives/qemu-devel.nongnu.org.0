@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B91410678B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:09:27 +0100 (CET)
-Received: from localhost ([::1]:48240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F8F1067A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:18:07 +0100 (CET)
+Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY40M-00052Q-7T
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:09:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
+	id 1iY48k-00024V-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:18:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iY3xM-0001ft-3J
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:06:24 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iY47L-0001YK-EB
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:16:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iY3xK-0003Ha-KR
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:06:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35329
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iY3xK-0003HA-Ei
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:06:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574409977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m6dJ0C509wToZGP7p4MNmO/tcMzllleaMvzJ6Bf+648=;
- b=GeuT7vhluBrA2jKIVsYMSvWSPYPR4s8fMLoCppa2AEBdHD5wFOqblL+EMJy/12lSr772S6
- 6Tq9qXlgsHtEjYsx73HS+XfVCC47M7+pyluIRY31t5l/eSgmdenUx1ABTLwFjiDaeoPLAs
- GoDmtYGIob4ud3uWqODy5TNQ9Qot/aY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-LrbtbpbHPra8RY8MX08WXQ-1; Fri, 22 Nov 2019 03:06:15 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 732BC1883521;
- Fri, 22 Nov 2019 08:06:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C06B5DDB2;
- Fri, 22 Nov 2019 08:06:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B52981138606; Fri, 22 Nov 2019 09:06:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Fangrui Song <i@maskray.me>
-Subject: Re: [PATCH v2] Fix incorrect integer->float conversions caught by
- clang -Wimplicit-int-float-conversion
-References: <20191116010731.3jdxozzfpsqsrcc4@google.com>
- <20191119204932.5gdzlsplijveqwju@gmail.com>
- <e456fd62-95d7-4a52-9e14-cf0dbe01f995@redhat.com>
- <20191122000045.vz3eq6s6aqkv6l6h@gmail.com>
-Date: Fri, 22 Nov 2019 09:06:12 +0100
-In-Reply-To: <20191122000045.vz3eq6s6aqkv6l6h@gmail.com> (Fangrui Song's
- message of "Thu, 21 Nov 2019 16:00:45 -0800")
-Message-ID: <87lfs8tjwr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <richard.henderson@linaro.org>) id 1iY47J-0000cE-Lw
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:16:38 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43276)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iY47J-0000bi-9F
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:16:37 -0500
+Received: by mail-wr1-x444.google.com with SMTP id n1so7460916wra.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 00:16:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xIvlJLVnyuosn0Xyuz1iTqDV2kRALY67l7GQ4budr40=;
+ b=ifcDPPI5I3OC45+MkkLZp303v+j7pEJ6vw25DgM4ndvJDrQMwgim+0sD1av+sutlbk
+ Foxq0gvRH/0qUuuC3c4fuDiIP81xd8VhxPNZEqYWj8NRHGtErAIGFSf4uz4KbWDoP8m+
+ jirSiGoVVes6AuAsXUsPKebZp6dgq9DmyaL5KxBXDNLhu3EI2l3fO2ggmRM1d3PU6Y4e
+ DdGU2gm/OlJ3Cr6nUnZK2jlkC2JWSF18Xd9Y7l36tPQOfru8BU/XF1gK5q9TFK52uLiK
+ gZtMIClcylZeI4dxrx0IG2jcnQwOkg8u9MF/MW60nr48xVA2KcGDCWC4gfzA2n2VvpaM
+ KL0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xIvlJLVnyuosn0Xyuz1iTqDV2kRALY67l7GQ4budr40=;
+ b=mY+ibPavminVqPKtfbNly1/1taYEDQNAhgsAEQ7XpD9/35RAO0/PWLTS+6oF4S7q/R
+ ikV/0A9DQbzNGWI+BKCOFWxITbpuKC4ZAoR9zqjcgcxMV5nrLG9g+VIYolM52/Vo4rI4
+ 0J5H+MOt7SUZYXdygI9XfVNeea8Z7E23GgmbOJDhCBYY0eu+hUa6YQ6JtfpNglX91OLc
+ xNcgTLFUVj3B7+w45Tm1QD23xlGtu+uxyC0Tt3QmWg7uL8A2kJQagNjrk4zeEhfbVxxQ
+ 1thyXbF876DT8yvU8GqwxVmZ90V3jlOYq+3OlQK+oOxZPYgYFMTOiEvw3Z3QKl6ayRlz
+ lq8w==
+X-Gm-Message-State: APjAAAU2/eCNc60bHN6UwgyzIfbvVPQYyDsFlgBhHt2EVe/+HLKQvXDl
+ ZGHuPfvA7XoQrlXXIJpVlvu9Ng==
+X-Google-Smtp-Source: APXvYqzBSgj9jGIJf6ejQlNr/iWWOwU1dxv8qlsKctE6Vi+rUnM/BM4EpwZmJcb9qe1NXYFbI4BoxQ==
+X-Received: by 2002:a5d:4d4a:: with SMTP id a10mr8176112wru.220.1574410596103; 
+ Fri, 22 Nov 2019 00:16:36 -0800 (PST)
+Received: from [192.168.1.143]
+ (host217-43-132-120.range217-43.btcentralplus.com. [217.43.132.120])
+ by smtp.gmail.com with ESMTPSA id b14sm2570979wmj.18.2019.11.22.00.16.34
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 22 Nov 2019 00:16:35 -0800 (PST)
+Subject: Re: [PATCH v3 1/2] migration: Fix incorrect integer->float conversion
+ caught by clang
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20191122080039.12771-1-armbru@redhat.com>
+ <20191122080039.12771-2-armbru@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <99f18b89-67c3-e31b-e982-f7b8e1b64f44@linaro.org>
+Date: Fri, 22 Nov 2019 08:13:37 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: LrbtbpbHPra8RY8MX08WXQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20191122080039.12771-2-armbru@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,51 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Fangrui Song <i@maskray.me>, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fangrui Song <i@maskray.me> writes:
+On 11/22/19 9:00 AM, Markus Armbruster wrote:
+> From: Fangrui Song <i@maskray.me>
+> 
+> Clang does not like qmp_migrate_set_downtime()'s code to clamp double
+> @value to 0..INT64_MAX:
+> 
+>     qemu/migration/migration.c:2038:24: error: implicit conversion from 'long' to 'double' changes value from 9223372036854775807 to 9223372036854775808 [-Werror,-Wimplicit-int-float-conversion]
+> 
+> The warning will be enabled by default in clang 10. It is not
+> available for clang <= 9.
+> 
+> The clamp is actually useless; @value is checked to be within
+> 0..MAX_MIGRATE_DOWNTIME_SECONDS immediately before.  Delete it.
+> 
+> While there, make the conversion from double to int64_t explicit.
+> 
+> Signed-off-by: Fangrui Song <i@maskray.me>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> [Patch split, commit message improved]
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  migration/migration.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-> On 2019-11-21, Eric Blake wrote:
->>On 11/19/19 2:49 PM, Fangrui Song wrote:
->>
->>>>
->>>>Can we simply drop the offending line statement instead?
->>>
->>>Fixed in the new patch.
->>>
->>
->>>>The first val * mul above this range is 0x1p64.=C2=A0 Rejecting it is
->>>>correct, because it overflows yint64_t.
->>>
->>>I am not subscribed, so apologize that this email may be off the thread.
->>>
->>>(The binutils mailing list allows a user to download the raw email so I
->>>can still reply to a specific email, but this list does not provide such
->>>feature.)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-There's <https://lists.gnu.org/archive/mbox/qemu-devel/>.
 
->> Actually, it's better to post a v2 patch as a new top-level thread,
->> rather than buried as an attachment to a reply to v1, because our CI
->> tooling doesn't see through the attachment (nor was it easy for me
->> to reply to the v2 patch - I had to open the attachment to paste its
->> text inline below...).
->>
->>More patch submission hints at https://wiki.qemu.org/Contribute/SubmitAPa=
-tch
->
-> Retitled to [PATCH v2]
-
-Good, such versioning is essential to avoid confusion.  Next time, start
-a new top-level thread for v2.  Our patch submission processing
-(automated as well as human) expects that.
-
-I just did it for you: "[PATCH v3 0/2] Fix incorrect integer->float
-conversion caught by clang".
-
-Many thanks for your fixes!
-
+r~
 
