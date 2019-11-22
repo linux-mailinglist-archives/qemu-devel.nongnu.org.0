@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DAB810709E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 12:23:45 +0100 (CET)
-Received: from localhost ([::1]:49740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359601070CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 12:25:03 +0100 (CET)
+Received: from localhost ([::1]:49764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY72O-00021i-2p
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 06:23:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39410)
+	id 1iY73e-0004Dl-4F
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 06:25:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iY71L-00016l-3a
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:39 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iY71M-00018e-IG
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iY71K-0003gF-3i
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38368)
+ (envelope-from <alex.bennee@linaro.org>) id 1iY71L-0003gl-6M
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:40 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iY71J-0003fr-Tu
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:38 -0500
-Received: by mail-wr1-x442.google.com with SMTP id i12so8166072wro.5
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 03:22:37 -0800 (PST)
+ id 1iY71L-0003gQ-0U
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 06:22:39 -0500
+Received: by mail-wm1-x343.google.com with SMTP id n188so5233922wme.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 03:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cmingHp/pYAvd/fW+C1TdJ6cE/xSSfkdicUWZuew/qA=;
- b=mpT5lEPcHiy4pvRBllbzborT/FREw4vxbiSG2CB9Qbuv/jWFV4xGbPu4cz4OpWNbzK
- OMwzIdRWL3avOgIGn2xSUM0F4HpmDtw1am7hs5PaNAbZY6/LKDerv2HAEi2vf5GUmekI
- abCh1r/A1JZxPS8QA3NbawoLECpL0kxaR0K5xSgzw/PtM7WraWqA1YCZMXQYr6YBGr7E
- w/et/wL6Gd+laFQY6nXeKr9otwU8DqLHbzoYmj1xYEY38/FtcvQhzwP6mYf1ukzZU/bd
- GHZHrP74TFb2R6D1v6+3bNp4DWHAJoXdd4m2xQ9BWOhHs9QI0EsgCQOt86TqdBHlV5Y8
- 9REA==
+ bh=KKcSFjLEc9pMOuNeERmTc4UAB4wYmWhCfSPB7yES0w4=;
+ b=ogcbkAU3+OtUvHehJqBcpLuWEmQ4Dblaw/UGf9Xb1sq658wyLP2HbnMYjrSvuFt4KA
+ 5/b+wQeesgn5sQHrZiY7LM27TDr8gpXYCJcvEyfyR61vPAxEu9yeTz3i6fUvUNXK+bu6
+ SO38HQGymMcXP+4QrRGqEBJBjaJVrpjycPDNyz9QqjPZWL4U2LoJPgmYsdP+9R5Gv6nH
+ W3hQVtzHgQTNUm8dS/ecGMtMYFd5dgI7d5taIvxvwTvBNvI0zLZtrln2HUTGLoA99zAy
+ GVL+3MIQh73oLFvE+ZgPgrbrPVqZD2l7/o1IX4qcY6JCqoY9WkF2yJwvtK8UsYXfLaLq
+ KY7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cmingHp/pYAvd/fW+C1TdJ6cE/xSSfkdicUWZuew/qA=;
- b=WADcG6r3FdS+iMKK+jiKMzzHlm5wGefoWEpjleEd2QsWvsTDlSCPbgb6OY7L7IQ+Gn
- yGKFOJdHolY6aUsTdfC52rmYf7ibErTOzrN8v27LaHuk0tcN5yAIQWPrGvGS3D0aMmmP
- GN/BCeVEMQUgONe7Eu10XUkNxwg5FzX70gSFuOFemuDoLePq6iByM5wXITwAI3gIV3lo
- y/qgO6Gup/ZFWeF5J5PKC7hLlp0XB68ixMX7J6xRWqi3ZvoBu+cGrL3wTX3KUq5ZNbCM
- S0UY0WsLkWjqNs1XbdpMoLkr6Tg9+RQqWQUqX6dnpqWX7kv/R/V5APjzRF++DxO9gy5J
- /jIw==
-X-Gm-Message-State: APjAAAXVDrrWCTlOqUOu2/H/YUCo0M6KrTHm19mJ64t83zT0Jdyv8rc+
- O/vV3MzbZ9Xp9O3IBfNw/2NOyQ==
-X-Google-Smtp-Source: APXvYqw3pX/5N1yKCYZRRXK/JxmXb9w1dF+XX452WCgoFwmucgcvRgaZtQKnjUkVeMl+R3B9M8I+4w==
-X-Received: by 2002:a05:6000:18c:: with SMTP id
- p12mr16988648wrx.154.1574421756682; 
- Fri, 22 Nov 2019 03:22:36 -0800 (PST)
+ bh=KKcSFjLEc9pMOuNeERmTc4UAB4wYmWhCfSPB7yES0w4=;
+ b=WGvd3gnllMxSTAp8JtIFmlXA+xr23xnCH9w8Ji1szhxKEUf0VhXSls7c0wqg/sRokh
+ UqcXvF3QXawEdoz+oXOiZxbJocPMe11OvytGOeYhS/tsgKeunIFMHomzFgRNYIqbOPNN
+ Dgytwpznyc6QOtsFFpaQjFX6ZM7jJPaSXBe7c/46p353s7x2Ob+CKd631OWed0cbsxAf
+ llhuaoYXHsPMpt01dsp3ZRC1mcOKZQja+EWHUWP4vU6rp1VIgdWN9xGxE45z3sudiehs
+ qBFLh7v9dvrR1oaDAevYtV0MUL6c6A+nBoCYKIDyTZviXyjC6BxfS0SDSBI5qfAFF7C7
+ gPFg==
+X-Gm-Message-State: APjAAAVlrGip4Swqgo4z0zsa+Y08vA2Ns8asQ+t2IisVgP4BrcBxAZX6
+ zVYgpRJ3JdFRd2Bsc65DoWltow==
+X-Google-Smtp-Source: APXvYqwlwHeUXEKR2tFFRZ1RDbBv8Ct7z2lm4vdOUW/sGLW0dmS+19cBGS7Y1YH+oEiV9beUcvCMuQ==
+X-Received: by 2002:a1c:7701:: with SMTP id t1mr16853472wmi.113.1574421757884; 
+ Fri, 22 Nov 2019 03:22:37 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g8sm3050396wmk.23.2019.11.22.03.22.32
+ by smtp.gmail.com with ESMTPSA id c1sm5825758wrs.24.2019.11.22.03.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Nov 2019 03:22:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 308581FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 4563A1FF90;
  Fri, 22 Nov 2019 11:22:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/3] tests/vm/ubuntu: include language pack to silence
- locale warnings
-Date: Fri, 22 Nov 2019 11:22:30 +0000
-Message-Id: <20191122112231.18431-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 3/3] tests/vm/ubuntu: update i386 image to 18.04
+Date: Fri, 22 Nov 2019 11:22:31 +0000
+Message-Id: <20191122112231.18431-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191122112231.18431-1-alex.bennee@linaro.org>
 References: <20191122112231.18431-1-alex.bennee@linaro.org>
@@ -71,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,27 +87,32 @@ Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The iotests in particular don't like the output being spammed with
-warnings about locales.
+The current image is broken while running qtests but the bug go away
+when built with a newer Ubuntu i386 image. I was unable to replicate
+the crash on Debian Buster for i386 either so I'm concluding it is a
+distro problem. Let's paper over that crack by updating our 32 bir
+test image.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/vm/ubuntu.i386 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vm/ubuntu.i386 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 38f740eabf7..18b1ea2b72c 100755
+index 18b1ea2b72c..f611bebdc9d 100755
 --- a/tests/vm/ubuntu.i386
 +++ b/tests/vm/ubuntu.i386
-@@ -84,7 +84,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
-         self.ssh_root_check("apt-get update")
-         self.ssh_root_check("apt-get build-dep -y qemu")
--        self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
-+        self.ssh_root_check("apt-get install -y libfdt-dev flex bison language-pack-en")
-         self.ssh_root("poweroff")
-         self.wait()
-         os.rename(img_tmp, img)
+@@ -66,8 +66,8 @@ class UbuntuX86VM(basevm.BaseVM):
+ 
+     def build_image(self, img):
+         cimg = self._download_with_cache(
+-            "https://cloud-images.ubuntu.com/releases/16.04/release-20190605/ubuntu-16.04-server-cloudimg-i386-disk1.img",
+-            sha256sum="e30091144c73483822b7c27193e9d47346dd1064229da577c3fedcf943f7cfcc")
++            "https://cloud-images.ubuntu.com/releases/bionic/release-20191114/ubuntu-18.04-server-cloudimg-i386.img",
++            sha256sum="28969840626d1ea80bb249c08eef1a4533e8904aa51a327b40f37ac4b4ff04ef")
+         img_tmp = img + ".tmp"
+         subprocess.check_call(["cp", "-f", cimg, img_tmp])
+         subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
 -- 
 2.20.1
 
