@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E369F1075A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:21:03 +0100 (CET)
-Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4622F1075EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 17:40:51 +0100 (CET)
+Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYBg6-0006Xj-Qw
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49903)
+	id 1iYBzG-0000Vg-2u
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 11:40:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iYBdM-0005F1-6t
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:14 -0500
+ (envelope-from <qperret@google.com>) id 1iYB1C-0004Jf-SC
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iYBdL-0000Yt-6m
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:12 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42029)
+ (envelope-from <qperret@google.com>) id 1iYB1B-0000rs-PE
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:46 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54978)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iYBdL-0000Yb-1i
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:18:11 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 66so503144otd.9
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 08:18:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LczJ6ckAjjLNeFsJmGc6glSU11U0OB5HElVF056rojM=;
- b=yFi8ifxsnMoRbvxJQQa6OWSVuw6ZdAJ9yCBdRH8kHSve+FS7tuiZmr1eUhj8dDQTd/
- i5IkBM1qGcvBVrm00bTvjzBpxuvCafkx3ZEpu2xO2aB14OE8ejRmwCI0CAGmc0tjj4nI
- 24mZHDxUxw7idO0/rln2k8PCuccxkDI0O3tGH3II/dwqpF0ASzOYpkZCPg+Q0AFIMCXj
- D41CeuJpTkyrz0jeGQgK/2o20CbS+PudNJvq7w+FoFE084CL0MjU17U5PwfoF0yvJstB
- d+jS+3c80Tpo3jxo1srmyr149U4n4+sDPiAhq+P5pmIKUznqO8LjaUAHIKvBZF3mdNB6
- EuOg==
+ (Exim 4.71) (envelope-from <qperret@google.com>) id 1iYB1B-0000qX-Gb
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 10:38:45 -0500
+Received: by mail-wm1-x342.google.com with SMTP id x26so7619751wmk.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 07:38:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=2bXdv451uXtHSKP2mFUlRRcnaTmxXQD2UXLdESeqDYQ=;
+ b=K4+ZfWyCelA/4gucez16m+FoaIk5SAyV4dEBlLeZrYV2Fcx2ZuN1RnnDTU+v1NQxk/
+ KShVhuHqA2e7tdi6hlnAeQvYF+V6uxLsUdYhP6qxGl+IRmHLG7GFMW2K9O454pscCuhW
+ SOtgnyfpbqm5bYW9xQ0DayvbhIZKVF0asKljlThCDSzd0hdvWP/cSlvgiz0EupNBYz9W
+ J+k7U21fb5PXj8UIY0qKU+gmI/yAwNHiodLtHpDygZCeHQELU751kbbjU7I1SZoo+tAX
+ LAaV2b4Oo9MkHAJ8JjMNfDebWdr5rzvwlppw7UehseKtw0x8DdO0TDEeklZJEyH3AuYN
+ 5n0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LczJ6ckAjjLNeFsJmGc6glSU11U0OB5HElVF056rojM=;
- b=LWVvT4WLKaVSwnIIlID6G2FUWhDYOuH18s8iNwzvK8/Cug0qaMrRO5pDuHqAQ/MiNW
- UvfGON4a77D8dPlZsd6Uf4MgGz27jS6KmPFhuAdyekRAlKA0HZh0B5ilVuAWxCTlAQ4x
- Ha1agDeHd/Ofp69XGALNCoIGkmlHi4Ht/KZ4tHJwQk+oVoQFlnYEID5hUPDsahPmnJao
- TAzjOaafzopB4SSqdtJCsBb7IP4CngKO9Ziu/dZ+mZuFQcE/tTXJk6hU2oRm2NoMj+CX
- cYe4OgbpOKw0IA9atOWFIpE0FDupJxS4qrlFjE8Lfm1mylBM1t13iPjRfFXg0QUqOBle
- XaoA==
-X-Gm-Message-State: APjAAAXxmV70GgJPYg2KUq/+jcTFslblYJo9a+Q4sNzWv65yInYjT+cn
- +puFw5WaWVZstJtm55gcMVp8vqywijKpPStgqCQUMw==
-X-Google-Smtp-Source: APXvYqzgh05s1iI2tEwN7iAGgn62cm1GV20iVALbdTaL7RpzJMzUF2i9iFpS4xJfHPQ4M8TM3rTX3+POCIRUfwXw3CE=
-X-Received: by 2002:a9d:68cc:: with SMTP id i12mr10452158oto.97.1574439490115; 
- Fri, 22 Nov 2019 08:18:10 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=2bXdv451uXtHSKP2mFUlRRcnaTmxXQD2UXLdESeqDYQ=;
+ b=sTYfozt6pyb6UN0h/fU8afdUANGToWwyDNk8DZgG2tHQ1rWgdEM7hSf6bSzTYHDTU3
+ 9wP52ELPgS1vU8zn8jiI9L4jxwX1EL0u0xAov7zuYfG9sPqPIow75Nu30lelGKTO2Roc
+ fRXGzuhF/LaKYhRYPTzRS+UQB4aQ/ZhJga0rNYp0MA3NNbtxKXyWCXi2cFeLrurHtf2i
+ vcI3GnHPkK41odYl68gOre+Pj1jHEBiCnn0XZ7dckxNTi54L9QURdfn3uVmMNn9wN/Ga
+ abEVPBpwWobi55JO2O5NrcbXaO3fdkB8DTpJEIv/7qbzjXctD7oxKqrIS1aRRM8iOvsi
+ eYxA==
+X-Gm-Message-State: APjAAAWYbclx9hOQDFzDA4h5EDY9tgBp1LOb2xWTkOCrZpUpIZhYkin9
+ 9A0DIDPKq+KjJjxngr+lOkPnuA==
+X-Google-Smtp-Source: APXvYqxt4TgJV1dS5Bjno9tHw1KVHIZBIvkkQpeod6YkQ3wdPI4vcJ6Tlj3WAb1Og+1pOLvFbZ0HZQ==
+X-Received: by 2002:a7b:ce11:: with SMTP id m17mr18046942wmc.113.1574437120711; 
+ Fri, 22 Nov 2019 07:38:40 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+ by smtp.gmail.com with ESMTPSA id k4sm4123806wmk.26.2019.11.22.07.38.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Nov 2019 07:38:40 -0800 (PST)
+Date: Fri, 22 Nov 2019 15:38:36 +0000
+From: Quentin Perret <qperret@google.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu,
+ Will Deacon <will@kernel.org>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] target/arm: Fix ISR_EL1 tracking when executing at EL2
+Message-ID: <20191122153836.GA222628@google.com>
+References: <20191122135833.28953-1-maz@kernel.org>
 MIME-Version: 1.0
-References: <20191122160511.8377-1-kwolf@redhat.com>
-In-Reply-To: <20191122160511.8377-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Nov 2019 16:17:59 +0000
-Message-ID: <CAFEAcA_JU9GfNYDuD2K0MKmAD7GZ7vBUHsXU+WS-6mvPCvf8ig@mail.gmail.com>
-Subject: Re: [PATCH for-4.2? v3 0/8] block: Fix resize (extending) of short
- overlays
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191122135833.28953-1-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
+X-Mailman-Approved-At: Fri, 22 Nov 2019 11:34:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,27 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Nov 2019 at 16:08, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> See patch 4 for the description of the bug fixed.
+On Friday 22 Nov 2019 at 13:58:33 (+0000), Marc Zyngier wrote:
+> The ARMv8 ARM states when executing at EL2, EL3 or Secure EL1,
+> ISR_EL1 shows the pending status of the physical IRQ, FIQ, or
+> SError interrupts.
+> 
+> Unfortunately, QEMU's implementation only considers the HCR_EL2
+> bits, and ignores the current exception level. This means a hypervisor
+> trying to look at its own interrupt state actually sees the guest
+> state, which is unexpected and breaks KVM as of Linux 5.3.
+> 
+> Instead, check for the running EL and return the physical bits
+> if not running in a virtualized context.
+> 
+> Fixes: 636540e9c40b
+> Reported-by: Quentin Perret <qperret@google.com>
 
-I guess my questions for trying to answer the "for-4.2?"
-question in the subject are:
- 1) is this a security (leaking data into the guest) bug ?
- 2) is this a regression?
- 3) is this something a lot of people are likely to run into?
+And FWIW, Tested-by: Quentin Perret <qperret@google.com>
 
-Eyeballing of the diffstat plus the fact we're on v4 of
-the patchset already makes me a little uneasy about
-putting it into rc3, but if the bug we're fixing matters
-enough we can do it.
+Thanks Marc :)
+Quentin
 
-thanks
--- PMM
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  target/arm/helper.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index a089fb5a69..027fffbff6 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1934,8 +1934,11 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>      CPUState *cs = env_cpu(env);
+>      uint64_t hcr_el2 = arm_hcr_el2_eff(env);
+>      uint64_t ret = 0;
+> +    bool allow_virt = (arm_current_el(env) == 1 &&
+> +                       (!arm_is_secure_below_el3(env) ||
+> +                        (env->cp15.scr_el3 & SCR_EEL2)));
+>  
+> -    if (hcr_el2 & HCR_IMO) {
+> +    if (allow_virt && (hcr_el2 & HCR_IMO)) {
+>          if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
+>              ret |= CPSR_I;
+>          }
+> @@ -1945,7 +1948,7 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>          }
+>      }
+>  
+> -    if (hcr_el2 & HCR_FMO) {
+> +    if (allow_virt && (hcr_el2 & HCR_FMO)) {
+>          if (cs->interrupt_request & CPU_INTERRUPT_VFIQ) {
+>              ret |= CPSR_F;
+>          }
+> -- 
+> 2.17.1
+> 
 
