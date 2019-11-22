@@ -2,107 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E5B107415
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 15:32:04 +0100 (CET)
-Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0326610744B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 15:53:46 +0100 (CET)
+Received: from localhost ([::1]:51853 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY9yd-00021K-Dk
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 09:32:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34868)
+	id 1iYAJd-00088L-16
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 09:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iY9wx-0001VZ-R1
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:30:21 -0500
+ (envelope-from <armbru@redhat.com>) id 1iYAIH-00063h-Si
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:52:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iY9ww-000694-1F
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:30:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48670
+ (envelope-from <armbru@redhat.com>) id 1iYA6z-00049k-AQ
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:40:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21041
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iY9wv-00068u-Tt
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:30:17 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iYA6z-00049e-74
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:40:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574433016;
+ s=mimecast20190719; t=1574433640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4tmGf8PHTL3JI6iiG6tPsZ78kF1P+rz4citZKjX4yds=;
- b=Wj+kYYQqjWAT/PYxEskwhMA+VWXC0ZJquWr9xANUHyc0aK87f7xYc9nEGETLE/AzAiINFv
- 7Xc7FkY5NByAQreSSbjLN5UM89g7lXdX7YohfjS+YiDZBqO50GF3K/eLHsZbNkMYQbHTfr
- 1cpR8ddWKVbcfbqDvuVoa1J0DIbCr70=
+ in-reply-to:in-reply-to:references:references;
+ bh=hv22o7s3mZXXX2VyUvbbeOczO+1vWn2MPQ9vg6iaIT0=;
+ b=WQj53vO+VqHJrRAAgUYUXGI7Y0gz6N6aIP5+CHR2JaBYU/Oq8QBs7FvNSZMCLm1mX5RZ05
+ 3SWM00mN9FZYR3Y1NZm/jQftcDb68x+k/W7osAV7bRWQa7vKxrXztAjyEC97OV2+2iVdLg
+ K0OBqA7XyxMBS9PmiHp8NrhVl00u77A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-qecUbHFtMhaPxyVGIWB3kQ-1; Fri, 22 Nov 2019 09:30:13 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-105-WgK803WRPHyyw9I1eqDDkA-1; Fri, 22 Nov 2019 09:40:36 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02BD5184CAA2;
- Fri, 22 Nov 2019 14:30:12 +0000 (UTC)
-Received: from [10.36.116.122] (ovpn-116-122.ams2.redhat.com [10.36.116.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF2387701C;
- Fri, 22 Nov 2019 14:30:06 +0000 (UTC)
-Subject: Re: [PATCH v2 4/5] s390x: Move clear reset
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191122140002.42972-1-frankja@linux.ibm.com>
- <20191122140002.42972-5-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <13192666-7c97-f3fd-fa8d-84a037dae286@redhat.com>
-Date: Fri, 22 Nov 2019 15:30:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26049184CAA0;
+ Fri, 22 Nov 2019 14:40:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE70F5DE79;
+ Fri, 22 Nov 2019 14:40:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2BB211138606; Fri, 22 Nov 2019 15:40:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v4 03/14] qapi: Introduce default values for
+ struct members
+References: <20190624173935.25747-1-mreitz@redhat.com>
+ <20190624173935.25747-4-mreitz@redhat.com>
+ <87eey1b73y.fsf@dusky.pond.sub.org>
+ <0214e73e-062e-a9c8-16c9-e99354c07277@redhat.com>
+ <871ru1811o.fsf@dusky.pond.sub.org>
+ <817914b7-79d7-a2c9-142b-0a040b1da7ff@redhat.com>
+ <874kyw74jn.fsf@dusky.pond.sub.org>
+ <20191122102519.GB4433@linux.fritz.box>
+Date: Fri, 22 Nov 2019 15:40:33 +0100
+In-Reply-To: <20191122102519.GB4433@linux.fritz.box> (Kevin Wolf's message of
+ "Fri, 22 Nov 2019 11:25:19 +0100")
+Message-ID: <87k17sq8im.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191122140002.42972-5-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qecUbHFtMhaPxyVGIWB3kQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: WgK803WRPHyyw9I1eqDDkA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -118,89 +83,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.11.19 15:00, Janosch Frank wrote:
-> Let's also move the clear reset function into the reset handler.
->=20
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  target/s390x/cpu-qom.h |  1 +
->  target/s390x/cpu.c     | 50 ++++++++----------------------------------
->  2 files changed, 10 insertions(+), 41 deletions(-)
->=20
-> diff --git a/target/s390x/cpu-qom.h b/target/s390x/cpu-qom.h
-> index 6f0a12042e..dbe5346ec9 100644
-> --- a/target/s390x/cpu-qom.h
-> +++ b/target/s390x/cpu-qom.h
-> @@ -37,6 +37,7 @@ typedef struct S390CPUDef S390CPUDef;
->  typedef enum cpu_reset_type {
->      S390_CPU_RESET_NORMAL,
->      S390_CPU_RESET_INITIAL,
-> +    S390_CPU_RESET_CLEAR,
->  } cpu_reset_type;
-> =20
->  /**
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index 1f423fb676..017181fe4a 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -94,6 +94,9 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type =
-type)
->      s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-> =20
->      switch (type) {
-> +    case S390_CPU_RESET_CLEAR:
-> +        memset(env, 0, offsetof(CPUS390XState, start_initial_reset_field=
-s));
+Kevin Wolf <kwolf@redhat.com> writes:
 
-I think the preferred term in QEMU is "fall through".
+> Am 22.11.2019 um 08:29 hat Markus Armbruster geschrieben:
+>> > At any rate, your counterpoint is taken - whatever we pick, we'll want
+>> > to make sure that introspection can expose semantics, and whether we
+>> > can make '*' redundant with some other form of longhand in the qapi
+>> > language is in part determined by whether we also reflect that through
+>> > introspection.
+>>=20
+>> Introspection has the true member name, without the '*' prefix.
+>>=20
+>> We'll also want to avoid unnecessary compromises on QAPI schema
+>> expressiveness.  If we use null to mean "schema does not specify
+>> behavior when member is absent", we can't use it to mean "absent member
+>> behaves like the value null".  A bit of a blemish, but I think it's a
+>> tolerable one.
+>
+> If you want an example for an option that defaults to null, take the
+> backing option of BlockdevOptionsGenericCOWFormat.
+>
+> What is the reason for even considering limiting the expressiveness? Do
+> you think that an additional 'optional' bool, at least for those options
+> that don't have a default, would be so bad in the longhand form? Or
+> keeping '*' even in the longhand form, as suggested below.
 
-> +        /* Fallthrough */
->      case S390_CPU_RESET_INITIAL:
->          /* initial reset does not clear everything! */
->          memset(&env->start_initial_reset_fields, 0,
-> @@ -121,46 +124,6 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_ty=
-pe type)
->      }
->  }
-> =20
-> -/* CPUClass:reset() */
-> -static void s390_cpu_full_reset(CPUState *s)
-> -{
-> -    S390CPU *cpu =3D S390_CPU(s);
-> -    S390CPUClass *scc =3D S390_CPU_GET_CLASS(cpu);
-> -    CPUS390XState *env =3D &cpu->env;
-> -
-> -    scc->parent_reset(s);
-> -    cpu->env.sigp_order =3D 0;
-> -    s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
-> -
-> -    memset(env, 0, offsetof(CPUS390XState, end_reset_fields));
-> -
-> -    /* architectured initial values for CR 0 and 14 */
-> -    env->cregs[0] =3D CR0_RESET;
-> -    env->cregs[14] =3D CR14_RESET;
-> -
-> -#if defined(CONFIG_USER_ONLY)
-> -    /* user mode should always be allowed to use the full FPU */
-> -    env->cregs[0] |=3D CR0_AFP;
-> -    if (s390_has_feat(S390_FEAT_VECTOR)) {
-> -        env->cregs[0] |=3D CR0_VECTOR;
-> -    }
-> -#endif
+Well, one reason is this:
 
-Huh, what happened to that change?
+    ##
+    # @SchemaInfoObjectMember:
+    #
+    # An object member.
+    #
+    # @name: the member's name, as defined in the QAPI schema.
+    #
+    # @type: the name of the member's type.
+    #
+    # @default: default when used as command parameter.
+    #           If absent, the parameter is mandatory.
+    #           If present, the value must be null.  The parameter is
+    #           optional, and behavior when it's missing is not specified
+    #           here.
+    #           Future extension: if present and non-null, the parameter
+    #           is optional, and defaults to this value.
+    #
+    # Since: 2.5
+    ##
 
-Note that we now also do "env->bpbc =3D false" - is that ok?
+If we want to be able to express the difference between "behavior when
+absent is not specified here" and "absent behaves like value null", then
+we need to somehow add that bit of information here.
 
---=20
+Could use a feature.  Features are not yet implemented for members, but
+we need them anyway.
 
-Thanks,
+>> >                 If that means that keeping '*' in the longhand form of
+>> > optional members (whether or not those members have a default value),
+>> > then so be it.
+>>=20
+>> I believe both
+>>=20
+>>     '*KEY': { 'type': ARG': 'default': null }
+>>=20
+>> and
+>>=20
+>>     'KEY': { 'type': ARG': 'default': null }
+>>=20
+>> are viable longhand forms for '*KEY': 'ARG'.
+>>=20
+>> I prefer the latter, but I'm open to arguments.
+>
+> If you go for the former, then you certainly want to use absent
+> 'default' to indicate no default, and allow a QNull default with
+> 'default': null.
+>
+> The only reason to abuse 'default': null for no default is that you
+> can't distinguish optional and non-optional if you use 'KEY' for both
+> instead of 'KEY' for mandatory and '*KEY' for optional.
+>
+> So while I understand and to some degree share your dislike for the '*'
+> prefix, I think I cast my pragmatic vote for:
+>
+> mandatory:                   'KEY':  { 'type': 'ARG' }
+> optional without a default:  '*KEY': { 'type': 'ARG' }
+> optional with QNull default: '*KEY': { 'type': 'ARG', 'default': null }
 
-David / dhildenb
+The last one could also be     'KEY': { 'type': 'ARG', 'default': null }
+without loss of expressiveness.
+
+Differently ugly.
+
+Here's yet another idea.  For the "absent is not specified here" case,
+use
+
+    'KEY': { 'type': 'ARG', optional: true }
+    '*KEY': 'ARG'
+
+For the "absent defaults to DEFVAL" case, use
+
+    'KEY': { 'type': 'ARG', optional: true, 'default': DEFVAL }
+    'KEY': { 'type': 'ARG', 'default': DEFVAL }
 
 
