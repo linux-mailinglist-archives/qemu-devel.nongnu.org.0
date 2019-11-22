@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB05E1076AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 18:44:43 +0100 (CET)
-Received: from localhost ([::1]:53450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF5F107684
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 18:37:48 +0100 (CET)
+Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYCz4-0004J5-Ca
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 12:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54081)
+	id 1iYCsI-0007uE-Ry
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 12:37:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iYC6b-0005ra-RA
+ (envelope-from <mlevitsk@redhat.com>) id 1iYC6d-0005sI-9P
  for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iYC6a-00047w-EQ
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:25 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35662
+ (envelope-from <mlevitsk@redhat.com>) id 1iYC6b-00048c-SU
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:27 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34171
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iYC6Y-00047C-IE
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:24 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iYC6b-00048B-OR
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574441302;
+ s=mimecast20190719; t=1574441304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5GCovs3esI15RS6WE7LkKVOifRB6723Wo1B6O2zewfs=;
- b=ANdVbvNw71nLqJKkmz2DYJj0H4L8ShP03MqkPdFYIeUF3FqGhFxB/zkO9YvLBBh9exGCvs
- CvTYpfsopyQCCkI5cqy+qyKYuopwO2emXWQewIHqqsrn6RK1KqxauPryAp5jLjz5sbKGMD
- Hfe3T/+Syw4yoEmWbTfZ9PcVoo/G+LM=
+ bh=bFc4vWFbcdoKHeLCl5y883Lkv2xRbfXZYzJqUEuvLD0=;
+ b=UED3nk1/aL6WYmHPYFLjMhr5I/jyIQgPX8/sK9pilwAApx8I+Hf5U/5731gjCnZNOcBUGN
+ bb6TG5k/jNxL1FjgKUCitwYIbZ8Z+FGyIUA7h4Ul5xPk77H/LEUhl0nngyESAIqmQjufK0
+ V1OQ5bAW3+Sj1/uejppRBYsypNctppQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-7lkAvJxLOW-x9I-tw_IYOA-1; Fri, 22 Nov 2019 11:48:18 -0500
+ us-mta-406-nCdsm-R8OZihECmy2VzCEw-1; Fri, 22 Nov 2019 11:48:21 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E57B2107ACC5;
- Fri, 22 Nov 2019 16:48:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21606107ACC4;
+ Fri, 22 Nov 2019 16:48:20 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2140B66094;
- Fri, 22 Nov 2019 16:48:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A5D466094;
+ Fri, 22 Nov 2019 16:48:18 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/9] monitor/hmp: move hmp_drive_del and hmp_commit to
- block-hmp-cmds.c
-Date: Fri, 22 Nov 2019 18:48:01 +0200
-Message-Id: <20191122164807.27938-4-mlevitsk@redhat.com>
+Subject: [PATCH v2 4/9] monitor/hmp: move hmp_drive_mirror and
+ hmp_drive_backup to block-hmp-cmds.c
+Date: Fri, 22 Nov 2019 18:48:02 +0200
+Message-Id: <20191122164807.27938-5-mlevitsk@redhat.com>
 In-Reply-To: <20191122164807.27938-1-mlevitsk@redhat.com>
 References: <20191122164807.27938-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 7lkAvJxLOW-x9I-tw_IYOA-1
+X-MC-Unique: nCdsm-R8OZihECmy2VzCEw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -79,246 +79,162 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/monitor/block-hmp-cmds.c | 97 +++++++++++++++++++++++++++++++++-
- blockdev.c                     | 95 ---------------------------------
- 2 files changed, 96 insertions(+), 96 deletions(-)
+ block/monitor/block-hmp-cmds.c | 61 ++++++++++++++++++++++++++++++++++
+ monitor/hmp-cmds.c             | 58 --------------------------------
+ 2 files changed, 61 insertions(+), 58 deletions(-)
 
 diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.=
 c
-index 21ff6fa9a9..8884618238 100644
+index 8884618238..5ae899a324 100644
 --- a/block/monitor/block-hmp-cmds.c
 +++ b/block/monitor/block-hmp-cmds.c
-@@ -33,7 +33,7 @@
- #include "sysemu/sysemu.h"
+@@ -34,6 +34,8 @@
  #include "monitor/monitor.h"
  #include "block/block_int.h"
--
-+#include "qapi/qapi-commands-block.h"
+ #include "qapi/qapi-commands-block.h"
++#include "qapi/qmp/qerror.h"
++#include "monitor/hmp.h"
 =20
  void hmp_drive_add(Monitor *mon, const QDict *qdict)
  {
-@@ -82,3 +82,98 @@ err:
-         blk_unref(blk);
+@@ -177,3 +179,62 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+         error_report("'commit' error for '%s': %s", device, strerror(-ret)=
+);
      }
  }
 +
-+void hmp_drive_del(Monitor *mon, const QDict *qdict)
++void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
 +{
-+    const char *id =3D qdict_get_str(qdict, "id");
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    AioContext *aio_context;
-+    Error *local_err =3D NULL;
++    const char *filename =3D qdict_get_str(qdict, "target");
++    const char *format =3D qdict_get_try_str(qdict, "format");
++    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
++    bool full =3D qdict_get_try_bool(qdict, "full", false);
++    Error *err =3D NULL;
++    DriveMirror mirror =3D {
++        .device =3D (char *)qdict_get_str(qdict, "device"),
++        .target =3D (char *)filename,
++        .has_format =3D !!format,
++        .format =3D (char *)format,
++        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
++        .has_mode =3D true,
++        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
+E_PATHS,
++        .unmap =3D true,
++    };
 +
-+    bs =3D bdrv_find_node(id);
-+    if (bs) {
-+        qmp_blockdev_del(id, &local_err);
-+        if (local_err) {
-+            error_report_err(local_err);
-+        }
++    if (!filename) {
++        error_setg(&err, QERR_MISSING_PARAMETER, "target");
++        hmp_handle_error(mon, &err);
 +        return;
 +    }
-+
-+    blk =3D blk_by_name(id);
-+    if (!blk) {
-+        error_report("Device '%s' not found", id);
-+        return;
-+    }
-+
-+    if (!blk_legacy_dinfo(blk)) {
-+        error_report("Deleting device added with blockdev-add"
-+                     " is not supported");
-+        return;
-+    }
-+
-+    aio_context =3D blk_get_aio_context(blk);
-+    aio_context_acquire(aio_context);
-+
-+    bs =3D blk_bs(blk);
-+    if (bs) {
-+        if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err)) {
-+            error_report_err(local_err);
-+            aio_context_release(aio_context);
-+            return;
-+        }
-+
-+        blk_remove_bs(blk);
-+    }
-+
-+    /* Make the BlockBackend and the attached BlockDriverState anonymous *=
-/
-+    monitor_remove_blk(blk);
-+
-+    /* If this BlockBackend has a device attached to it, its refcount will=
- be
-+     * decremented when the device is removed; otherwise we have to do so =
-here.
-+     */
-+    if (blk_get_attached_dev(blk)) {
-+        /* Further I/O must not pause the guest */
-+        blk_set_on_error(blk, BLOCKDEV_ON_ERROR_REPORT,
-+                         BLOCKDEV_ON_ERROR_REPORT);
-+    } else {
-+        blk_unref(blk);
-+    }
-+
-+    aio_context_release(aio_context);
++    qmp_drive_mirror(&mirror, &err);
++    hmp_handle_error(mon, &err);
 +}
 +
-+void hmp_commit(Monitor *mon, const QDict *qdict)
++void hmp_drive_backup(Monitor *mon, const QDict *qdict)
 +{
 +    const char *device =3D qdict_get_str(qdict, "device");
-+    BlockBackend *blk;
-+    int ret;
++    const char *filename =3D qdict_get_str(qdict, "target");
++    const char *format =3D qdict_get_try_str(qdict, "format");
++    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
++    bool full =3D qdict_get_try_bool(qdict, "full", false);
++    bool compress =3D qdict_get_try_bool(qdict, "compress", false);
++    Error *err =3D NULL;
++    DriveBackup backup =3D {
++        .device =3D (char *)device,
++        .target =3D (char *)filename,
++        .has_format =3D !!format,
++        .format =3D (char *)format,
++        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
++        .has_mode =3D true,
++        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
+E_PATHS,
++        .has_compress =3D !!compress,
++        .compress =3D compress,
++    };
 +
-+    if (!strcmp(device, "all")) {
-+        ret =3D blk_commit_all();
-+    } else {
-+        BlockDriverState *bs;
-+        AioContext *aio_context;
-+
-+        blk =3D blk_by_name(device);
-+        if (!blk) {
-+            error_report("Device '%s' not found", device);
-+            return;
-+        }
-+        if (!blk_is_available(blk)) {
-+            error_report("Device '%s' has no medium", device);
-+            return;
-+        }
-+
-+        bs =3D blk_bs(blk);
-+        aio_context =3D bdrv_get_aio_context(bs);
-+        aio_context_acquire(aio_context);
-+
-+        ret =3D bdrv_commit(bs);
-+
-+        aio_context_release(aio_context);
++    if (!filename) {
++        error_setg(&err, QERR_MISSING_PARAMETER, "target");
++        hmp_handle_error(mon, &err);
++        return;
 +    }
-+    if (ret < 0) {
-+        error_report("'commit' error for '%s': %s", device, strerror(-ret)=
-);
-+    }
++
++    qmp_drive_backup(&backup, &err);
++    hmp_handle_error(mon, &err);
 +}
-diff --git a/blockdev.c b/blockdev.c
-index 8e029e9c01..df43e0aaef 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1074,41 +1074,6 @@ static BlockBackend *qmp_get_blk(const char *blk_nam=
-e, const char *qdev_id,
-     return blk;
++
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index b2551c16d1..aa94a15d74 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1338,64 +1338,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdi=
+ct)
+     hmp_handle_error(mon, &err);
  }
 =20
--void hmp_commit(Monitor *mon, const QDict *qdict)
+-void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
+-{
+-    const char *filename =3D qdict_get_str(qdict, "target");
+-    const char *format =3D qdict_get_try_str(qdict, "format");
+-    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
+-    bool full =3D qdict_get_try_bool(qdict, "full", false);
+-    Error *err =3D NULL;
+-    DriveMirror mirror =3D {
+-        .device =3D (char *)qdict_get_str(qdict, "device"),
+-        .target =3D (char *)filename,
+-        .has_format =3D !!format,
+-        .format =3D (char *)format,
+-        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
+-        .has_mode =3D true,
+-        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
+E_PATHS,
+-        .unmap =3D true,
+-    };
+-
+-    if (!filename) {
+-        error_setg(&err, QERR_MISSING_PARAMETER, "target");
+-        hmp_handle_error(mon, &err);
+-        return;
+-    }
+-    qmp_drive_mirror(&mirror, &err);
+-    hmp_handle_error(mon, &err);
+-}
+-
+-void hmp_drive_backup(Monitor *mon, const QDict *qdict)
 -{
 -    const char *device =3D qdict_get_str(qdict, "device");
--    BlockBackend *blk;
--    int ret;
+-    const char *filename =3D qdict_get_str(qdict, "target");
+-    const char *format =3D qdict_get_try_str(qdict, "format");
+-    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
+-    bool full =3D qdict_get_try_bool(qdict, "full", false);
+-    bool compress =3D qdict_get_try_bool(qdict, "compress", false);
+-    Error *err =3D NULL;
+-    DriveBackup backup =3D {
+-        .device =3D (char *)device,
+-        .target =3D (char *)filename,
+-        .has_format =3D !!format,
+-        .format =3D (char *)format,
+-        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
+-        .has_mode =3D true,
+-        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
+E_PATHS,
+-        .has_compress =3D !!compress,
+-        .compress =3D compress,
+-    };
 -
--    if (!strcmp(device, "all")) {
--        ret =3D blk_commit_all();
--    } else {
--        BlockDriverState *bs;
--        AioContext *aio_context;
--
--        blk =3D blk_by_name(device);
--        if (!blk) {
--            error_report("Device '%s' not found", device);
--            return;
--        }
--        if (!blk_is_available(blk)) {
--            error_report("Device '%s' has no medium", device);
--            return;
--        }
--
--        bs =3D blk_bs(blk);
--        aio_context =3D bdrv_get_aio_context(bs);
--        aio_context_acquire(aio_context);
--
--        ret =3D bdrv_commit(bs);
--
--        aio_context_release(aio_context);
+-    if (!filename) {
+-        error_setg(&err, QERR_MISSING_PARAMETER, "target");
+-        hmp_handle_error(mon, &err);
+-        return;
 -    }
--    if (ret < 0) {
--        error_report("'commit' error for '%s': %s", device, strerror(-ret)=
-);
--    }
+-
+-    qmp_drive_backup(&backup, &err);
+-    hmp_handle_error(mon, &err);
 -}
 -
- static void blockdev_do_action(TransactionAction *action, Error **errp)
+ void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
  {
-     TransactionActionList list;
-@@ -3101,66 +3066,6 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitm=
-ap_sha256(const char *node,
-     return ret;
- }
-=20
--void hmp_drive_del(Monitor *mon, const QDict *qdict)
--{
--    const char *id =3D qdict_get_str(qdict, "id");
--    BlockBackend *blk;
--    BlockDriverState *bs;
--    AioContext *aio_context;
--    Error *local_err =3D NULL;
--
--    bs =3D bdrv_find_node(id);
--    if (bs) {
--        qmp_blockdev_del(id, &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--        }
--        return;
--    }
--
--    blk =3D blk_by_name(id);
--    if (!blk) {
--        error_report("Device '%s' not found", id);
--        return;
--    }
--
--    if (!blk_legacy_dinfo(blk)) {
--        error_report("Deleting device added with blockdev-add"
--                     " is not supported");
--        return;
--    }
--
--    aio_context =3D blk_get_aio_context(blk);
--    aio_context_acquire(aio_context);
--
--    bs =3D blk_bs(blk);
--    if (bs) {
--        if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err)) {
--            error_report_err(local_err);
--            aio_context_release(aio_context);
--            return;
--        }
--
--        blk_remove_bs(blk);
--    }
--
--    /* Make the BlockBackend and the attached BlockDriverState anonymous *=
-/
--    monitor_remove_blk(blk);
--
--    /* If this BlockBackend has a device attached to it, its refcount will=
- be
--     * decremented when the device is removed; otherwise we have to do so =
-here.
--     */
--    if (blk_get_attached_dev(blk)) {
--        /* Further I/O must not pause the guest */
--        blk_set_on_error(blk, BLOCKDEV_ON_ERROR_REPORT,
--                         BLOCKDEV_ON_ERROR_REPORT);
--    } else {
--        blk_unref(blk);
--    }
--
--    aio_context_release(aio_context);
--}
--
- void qmp_block_resize(bool has_device, const char *device,
-                       bool has_node_name, const char *node_name,
-                       int64_t size, Error **errp)
+     const char *device =3D qdict_get_str(qdict, "device");
 --=20
 2.17.2
 
