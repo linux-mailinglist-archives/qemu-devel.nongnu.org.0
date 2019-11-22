@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B94106833
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:43:06 +0100 (CET)
-Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E519106849
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 09:46:17 +0100 (CET)
+Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY4Wv-00036q-7I
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:43:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
+	id 1iY4Zz-0005wr-UH
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 03:46:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iY4VY-0002KP-I2
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:42 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iY4Xi-0004FF-39
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iY4VU-0004Kx-VA
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32273
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iY4VU-0004KX-Ik
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:41:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574412095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KSjdyxaV2gRgkaPYSd3+D/cvskribw9Hcq62oNQoyYA=;
- b=JiI1mQFHf9wIWNEux1wMJJgKm0DzuKwqdjYd+C+UBDjGwyLFeCmm8ohiY+a2SaEKdQTSb6
- rpwocbx6n5z+nEUwGH7R998LJQtfUbqvLYcbnvx8B6hG8ZZQSTVe1xMvOsO54VcaJGax6t
- cZZ6leUN8z0uEpS850rtlUbOXzoTO+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-f3AsZv-COjWx6jj0PSSXrg-1; Fri, 22 Nov 2019 03:41:32 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 131E38018A1;
- Fri, 22 Nov 2019 08:41:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2F6C60141;
- Fri, 22 Nov 2019 08:41:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 60E4B1138606; Fri, 22 Nov 2019 09:41:21 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: [Qemu-devel] [libvirt] [PATCH 2/2] qapi: deprecate implicit
- filters
-References: <20190814100735.24234-1-vsementsov@virtuozzo.com>
- <20190814100735.24234-3-vsementsov@virtuozzo.com>
- <3eded188-0161-d494-194c-9d67da644eb1@redhat.com>
- <20190815104928.GC7415@linux.fritz.box>
- <20190815114553.GQ300@andariel.pipo.sk>
- <87d0h6zfrt.fsf@dusky.pond.sub.org> <m1lfvbex92.fsf@redhat.com>
-Date: Fri, 22 Nov 2019 09:41:21 +0100
-In-Reply-To: <m1lfvbex92.fsf@redhat.com> (Christophe de Dinechin's message of
- "Thu, 29 Aug 2019 18:45:29 +0200")
-Message-ID: <87blt4s3pq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iY4Xg-0005Ev-WC
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:53 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44192)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iY4Xg-0005EG-Ql
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 03:43:52 -0500
+Received: by mail-ot1-x344.google.com with SMTP id c19so5484567otr.11
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 00:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=QKx8c+dkfd7S/Ya9oIYiIsWuM7FbZyebt1LyQ/UV4Fg=;
+ b=kIA88tg8r6Kkzjnvri6N2IvGDtC0VT663E6IJqECq2Ojm4eM3ZCx1vn2iX1VZewSP2
+ pkXGkZeJgsl9A2bWCcbRksq1X8krADyYJ2riFAfWyB0MHx0Vu5KHWaZQHt4WLr3yxZwj
+ XeDxUFXyEL4eFmfxX3yiI27xXBBKAc2l9ZBfHcjHYVMjVGUUU8vlIEtcq7bOfqP2CFf/
+ 9QJvzHjvFAAYsYnv6CKEZYrCZUjbt2BJ0SfoCJooid73IEDGO3YvjDbia6XECsoTdsNm
+ G/lON5HEpGFwUPFXe49vPfReh92n52oZzabdk20UDg3+SedjrZVvDeWSw0OfYn3iEdw2
+ kZ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=QKx8c+dkfd7S/Ya9oIYiIsWuM7FbZyebt1LyQ/UV4Fg=;
+ b=sKFSBnNDfXAL447yyMAcJx+PXY08ntj7g1MlNCMfNLhEXQZR0odstpBigiR50i46i2
+ meeRu6kpMzCB3HYWy6M41qgQGIKfie/pMQnHiW9Ddoh58sfiZ77QFzoRg5ZUlTmdEtfC
+ xTebanuFXb12le2acIY5f/XYDDgiKzfEO7WwcimDLV5uKof04rb1fY/m8rb8JK+z0z3x
+ YNojGfvuH8aQh6DkzZpEzJ1b63WjtCIJmt8krn2OraT0wLFILtakyri2KGA2f5aj9Eac
+ TpGItP+w2wTn7LEevJxMUSpRRdL9oMXgXEIbrfT+hw+zVStWwcacv97p9WCbFF5BKH0t
+ ot2g==
+X-Gm-Message-State: APjAAAV0BHU80wxhYnhBJS7nxvnnxpziGLEKiZirej+6QezuShjRdi7F
+ af37JavztKIxlelxxXzRf7JGbI/5v1G76kZ27RM=
+X-Google-Smtp-Source: APXvYqyBMWAbQ96ikH4gc4M5M+t1wwsk+7umK+G63mxvIvXDS28bbKkngiw3K9ZHI9H1OaPVO0vCO17BkummzoNGDhU=
+X-Received: by 2002:a9d:3d05:: with SMTP id a5mr10546170otc.295.1574412231807; 
+ Fri, 22 Nov 2019 00:43:51 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: f3AsZv-COjWx6jj0PSSXrg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Fri, 22 Nov 2019 00:43:51
+ -0800 (PST)
+In-Reply-To: <e1fedeff-3eab-f215-a376-334417f5bf53@linaro.org>
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-2-mrolnik@gmail.com>
+ <750745b9-e51c-3757-3eb6-ffce51042d9c@redhat.com>
+ <CAK4993gtPkqESswLBoo1cMuvJFzwSVgUP=Oh-hpG2JSTKezjmw@mail.gmail.com>
+ <CAK4993iFuC3LTzkwjAx7uKA18jh-zOo5aYx2+1ugc9fw8UPtYg@mail.gmail.com>
+ <e1fedeff-3eab-f215-a376-334417f5bf53@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 22 Nov 2019 09:43:51 +0100
+Message-ID: <CAL1e-=hKepMcesqsOwxp_HSRO9mvF6V6k4TAoVn5kcmb=20FQg@mail.gmail.com>
+Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ce98a10597eb6985"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,196 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ QEMU Developers <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviving this old thread, because I'd like to connect it to more recent
-discussions.
+--000000000000ce98a10597eb6985
+Content-Type: text/plain; charset="UTF-8"
 
-Christophe de Dinechin <dinechin@redhat.com> writes:
+On Friday, November 22, 2019, Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-> Markus Armbruster writes:
+> On 11/21/19 8:53 PM, Michael Rolnik wrote:
+> > It seems to be a huge investment. this function should parse the
+> > binary data as `decode_insn` does, so I suggest to modify decodetree
+> > tool to make decoding information available to the instruction print
+> > function.
+> > what do you think?
 >
->> Peter Krempa <pkrempa@redhat.com> writes:
->>
-> [...]
->>> From my experience users report non-fatal messages mostly only if it is
->>> spamming the system log. One of instances are very unlikely to be
->>> noticed.
->>>
->>> In my experience it's better to notify us in libvirt of such change and
->>> we will try our best to fix it.
->>
->> How to best alert the layers above QEMU was one of the topic of the KVM
->> Forum 2018 BoF on deprecating stuff.  Minutes:
->>
->>     Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
->>     https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg05828.ht=
-ml
->>
->> Relevant part:
->>
->> * We need to communicate "you're using something that is deprecated".
->>   How?  Right now, we print a deprecation message.  Okay when humans use
->>   QEMU directly in a shell.  However, when QEMU sits at the bottom of a
->>   software stack, the message will likely end up in a log file that is
->>   effectively write-only.
->>
->>   - The one way to get people read log files is crashing their
->>     application.  A command line option --future could make QEMU crash
->>     right after printing a deprecation message.  This could help with
->>     finding use of deprecated features in a testing environment.
->>
->>   - A less destructive way to grab people's attention is to make things
->>     run really, really slow: have QEMU go to sleep for a while after
->>     printing a deprecation message.
->>
->>   - We can also pass the buck to the next layer up: emit a QMP event.
->>
->>     Sadly, by the time the next layer connects to QMP, plenty of stuff
->>     already happened.  We'd have to buffer deprecation events somehow.
->>
->>     What would libvirt do with such an event?  Log it, taint the domain,
->>     emit a (libvirt) event to pass it on to the next layer up.
->>
->>   - A completely different idea is to have a configuratin linter.  To
->>     support doing this at the libvirt level, QEMU could expose "is
->>     deprecated" in interface introspection.  Feels feasible for QMP,
->>     where we already have sufficiently expressive introspection.  For
->>     CLI, we'd first have to provide that (but we want that anyway).
->>
->>   - We might also want to dispay deprecation messages in QEMU's GUI
->>     somehow, or on serial consoles.
->
-> Sorry for catching up late, this mail thread happened during my PTO.
->
-> I remember bringing up at the time [1] that the correct solution needs
-> to take into account usage models that vary from
->
-> - a workstation case, where displaying an error box is easy and
->   convenient,
->
-> - to local headless VMs where system-level notification would do the job
->   better, allowing us to leverage things like system-wide email notificat=
-ions
->
-> - to large-scale collections of VMs managed by some layered product,
->   where the correct reporting would be through something like Insights,
->   i.e. you don't scan individual logs, you want something like "913 VMs
->   are using deprecated X"
->
-> To me, that implies that we need to have a clear division of roles, with
-> a standard way to
->
-> a) produce the errors,
-> b) propagate them,
-> c) consume them (at least up to libvirt)
->
-> Notice that this work has already been done for "real" errors,
-> i.e. there is a real QAPI notion of "errors". AFAICT, warn_report does
-> not connect to it, though, it goes through error_vprintf which is really
-> just basic logging.
->
-> So would it make sense to:
->
-> 1. Add a deprecation_report() alongside warn_report()?
-
-"Grepability" alone would make that worthwhile, I think.
-
-> 2. Connect warn_report() and all the error_vprintf output to QAPI,
->    e.g. using John's suggestion of adding the messages using some
->    "warning" or "deprecated" tag?
-
-This is the difficult part.  See my "Exposing feature deprecation to
-machine clients (was: [Qemu-devel] [PATCH 2/2] qapi: deprecate implicit
-filters)" in this thread.  Quote:
-
-    Propagating errors is painful.  It has caused massive churn all over th=
-e
-    place.
-
-    I don't think we can hitch deprecation info to the existing error
-    propagation, since we need to take the success path back to the QMP
-    core, not an error path.
-
-    Propagating a second object for warnings... thanks, but no thanks.
-
-    The QMP core could provide a function for recording deprecation info fo=
-r
-    the currently executing QMP command.  This is how we used to record
-    errors in QMP commands, until Anthony rammed through what we have now.
-    The commit messages (e.g. d5ec4f27c38) provide no justification.  I
-    dimly recall adamant (oral?) claims that recording errors in the Monito=
-r
-    object cannot work for us.
-
-    I smell a swamp.
-
-    Can we avoid plumbing deprecation info from command code to QMP core?
-    Only if the QMP core itself can recognize deprecated interfaces.  I
-    believe it can for the cases we can expose in introspecion.  Let me
-    explain.
-
-    Kevin recently added "features" to the QAPI schema language.  The
-    implementation is incomplete, but that's detail.  The idea is to tack a
-    "deprecated" feature to deprecated stuff in the QAPI schema.
-
-    Commands and arguments need to support features for that.
-    Implementation should be relatively straightforward.
-
-    Deprecating an argument's optionalness may require a
-    "optional-deprecated" feature.  I've seen more elegant designs, but I'v=
-e
-    also seen plenty of uglier ones.
-
-    Note that features are tied to schema syntax.  To express semantically
-    conditional deprecation like "if you specify argument FOO, then not
-    specifying argument BAR is deprecated", we'd have to add a language for
-    these conditions.  Uh, not now, maybe never.
-
-    The primary use of having deprecation defined in the QAPI schema is
-    introspection.  The BoF minutes mention this, too.
-
-    A secondary use could be detecting use of deprecated features right in
-    the QMP core.  No need for ad hoc code in commands, no need for plumbin=
-g
-    information from there to the QMP core.
-
-    I'd like to pursue this idea, then see how well it suits our deprecatio=
-n
-    needs.
-
-I've since explored this idea in
-
-    [RFC PATCH 00/19] Configurable policy for handling deprecated interface=
-s
-    Message-Id: <20191024123458.13505-1-armbru@redhat.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg06534.html   =
-=20
-
-> 3. Teach libvirt how to consume that new tag and pass it along?
-
-Pertinent:
-Message-ID: <20191024140146.GC8381@redhat.com>
-https://lists.gnu.org/archive/html/qemu-devel/2019-10/msg06604.html
-
-Quoting Dan's conclusion:
-
-    In summary, it is probably reasonable to include this info in the QMP
-    command reply, but don't expect much to be done with it beyond possibly
-    writing it to a log file.
-
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-10/msg06131.htm=
-l
+> See target/openrisc/disas.c, which makes use of decodetree.
+> It shouldn't be difficult to do something slimiar for avr.
 >
 >
-> --
-> Cheers,
-> Christophe de Dinechin (IRC c3d)
+I support Richard's suggested direction. Since you already implemenred core
+AVR decoder using decodetree, and you have this openrisc QEMU disassembler
+example, could you perhaps give a try to what Richard said, Michael?
 
+Aleksandar
+
+
+
+> r~
+>
+
+--000000000000ce98a10597eb6985
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Friday, November 22, 2019, Richard Henderson &lt;<a href=3D"mail=
+to:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">On 11/21/19 8:53 PM, Michael Rolnik wro=
+te:<br>
+&gt; It seems to be a huge investment. this function should parse the<br>
+&gt; binary data as `decode_insn` does, so I suggest to modify decodetree<b=
+r>
+&gt; tool to make decoding information available to the instruction print<b=
+r>
+&gt; function.<br>
+&gt; what do you think?<br>
+<br>
+See target/openrisc/disas.c, which makes use of decodetree.<br>
+It shouldn&#39;t be difficult to do something slimiar for avr.<br><br></blo=
+ckquote><div><br></div><div>I support Richard&#39;s suggested direction. Si=
+nce you already implemenred core AVR decoder using decodetree, and you have=
+ this openrisc QEMU disassembler example, could you perhaps give a try to w=
+hat Richard said, Michael?</div><div><br></div><div>Aleksandar</div><div><b=
+r></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+r~<br>
+</blockquote>
+
+--000000000000ce98a10597eb6985--
 
