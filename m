@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255931076BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 18:49:44 +0100 (CET)
-Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97915107690
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 18:39:41 +0100 (CET)
+Received: from localhost ([::1]:53406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYD3u-0005UI-TT
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 12:49:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54213)
+	id 1iYCtt-0000ql-0f
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 12:39:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iYC6q-0005xJ-FL
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:44 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYCTc-0007bK-7b
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 12:12:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iYC6m-0004EB-N8
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36989
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iYC6l-0004BU-8B
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 11:48:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574441308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aTyN9r1y5h6r2KcytOa2Df/E/FkzuNyag6Y+U/1rnpc=;
- b=BIAs3mvMnWRFF0OMcAbHluiliOLmRjXUhboNz6njg8gqYtF27hhIAOUfMqEw1ONxRoGPeY
- nbJeDD6/5vrI68A5DkM5k6OuI0zJ943YBIaa3obOU9OeqBPPbY4EFNZh3Tt74XBY99HB8L
- obRetvwrSE3lPTWslrit7n6O38dNC7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-TBwgD-qSPbSGGoJUlQ_yUg-1; Fri, 22 Nov 2019 11:48:25 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BD9718C35AB;
- Fri, 22 Nov 2019 16:48:24 +0000 (UTC)
-Received: from [10.3.116.221] (ovpn-116-221.phx2.redhat.com [10.3.116.221])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9DA463BC9;
- Fri, 22 Nov 2019 16:48:20 +0000 (UTC)
-Subject: Re: [PATCH v3 2/8] block: Add no_fallback parameter to
- bdrv_co_truncate()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-3-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <eef2c246-fd82-e66e-c757-00fe4eee4607@redhat.com>
-Date: Fri, 22 Nov 2019 10:48:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYCTZ-00064j-B9
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 12:12:11 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46970)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iYCTZ-00064R-41
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 12:12:09 -0500
+Received: by mail-ot1-x344.google.com with SMTP id n23so6749236otr.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 09:12:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=T2E8G8I1IRoHqHH5ae/qGUH113WbsE/8cFtEkBlAmGs=;
+ b=CjVh/Tn0U4IPRQKExrHZQEsBXOcdrJgEWsqcS/NfGzuRKmBtWDmWgweZE6PyYbvz5P
+ VLlfJA7lxQ50RpvrRHxIYcY45P40crrngAj1hQZakPKW1VXXsbj9Dj3Onvnz2yM63w3g
+ S3GxVOw78Jg76pOsNlqMO9/Tba97rRxwYStfnEHkBuA8XdO9ABwJ1xGg8Pqdj4GsjnGg
+ sf3KAtoYnkeYJwYP3eGzwJp3L/aCN3+h5g7Laf8XMGNXP1d5qabHktAmz37Lc8uSJ5AS
+ PwI1zOqvBlCnjBN4oD5yq6TGMbn+dkx+mMHkfQvUbwu1hAt1Z0B3GXF1hv9WdaKqz4Nq
+ mzhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=T2E8G8I1IRoHqHH5ae/qGUH113WbsE/8cFtEkBlAmGs=;
+ b=Bw3EX0Zg8KHCCz8Ff01/u+4dPPp3DuIwfsIO8pngd50A0M9IRJ422L1aXM14J/xXx0
+ 2yS7e93NdRMEpl1OZ0WhmeTWyf3+Mg3+9oxeLLBu1OJ8Lzxg1b1HWg0tF8cHKdrISMg0
+ tHtiW+tKU22Udjl/ZLf9rUEqXsLJo7M/ha+5GcCGQl2xGZUityNChAq0PpZcSZcH95TN
+ XnPH74g4L7K8lK1nqQ6BvzaNsQ2K9rwcToB+LjYgooWUuwAFsnyR8dFXOpnL20tK/AO4
+ 2Z4+kpFQjFV9bctMnqFEDe7lJV0UAYRzutAL5d51ZgaVjpFRKPjWASMhFxn5u8h/tW9a
+ jY4A==
+X-Gm-Message-State: APjAAAXVDmCUqZ3IVTXr3ZU11tZYRx7tXk+KBhSRjZjxTYIPlR3Z00WD
+ i3MTM1IP+NkB2jnX5QGm+Y36WuQof6ntDceU9QU=
+X-Google-Smtp-Source: APXvYqyXXOON0FNebAfYND8LyUm0rvW8DUoIQTxgFTuzkltc/rQ1iBcOUsnHf0OMFqp9cp/BKFEpHvpp4IOZ8Gmcn/s=
+X-Received: by 2002:a05:6830:44c:: with SMTP id
+ d12mr11004358otc.121.1574442728305; 
+ Fri, 22 Nov 2019 09:12:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191122160511.8377-3-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: TBwgD-qSPbSGGoJUlQ_yUg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-2-mrolnik@gmail.com>
+In-Reply-To: <20191029212430.20617-2-mrolnik@gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 22 Nov 2019 18:11:56 +0100
+Message-ID: <CAL1e-=i8i6kLZX_-UNEeYTk6_uYfDM5rY_yMMnFVz1qtPU7Y8Q@mail.gmail.com>
+Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
+ core CPU logic
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,83 +74,379 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- mreitz@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 10:05 AM, Kevin Wolf wrote:
-> This adds a no_fallback parameter to bdrv_co_truncate(), bdrv_truncate()
-> and blk_truncate() in preparation for a fix that potentially needs to
-> zero-write the new area. no_fallback will use BDRV_REQ_NO_FALLBACK for
-> this operation and lets the truncate fail if an efficient zero write
-> isn't possible.
-> 
-> Only qmp_block_resize() passes true for this parameter because it is a
-> blocking monitor command, so we don't want to add more potentially slow
-> I/O operations to it than we already have.
-> 
-> All other users will accept even a slow fallback to avoid failure.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
+> +
+> +static void avr_avr1_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +}
+> +
+> +static void avr_avr2_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +}
+> +
+> +static void avr_avr25_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +}
+> +
+> +static void avr_avr3_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +}
+> +
+> +static void avr_avr31_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +}
+> +
+> +static void avr_avr35_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +}
+> +
+> +static void avr_avr4_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +}
+> +
+> +static void avr_avr5_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +}
+> +
+> +static void avr_avr51_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +}
+> +
+> +static void avr_avr6_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +}
+> +
+> +static void avr_xmega2_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +    avr_set_feature(env, AVR_FEATURE_RMW);
+> +}
+> +
+> +static void avr_xmega4_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +    avr_set_feature(env, AVR_FEATURE_RMW);
+> +}
+> +
+> +static void avr_xmega5_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPD);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPX);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPY);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +    avr_set_feature(env, AVR_FEATURE_RMW);
+> +}
+> +
+> +static void avr_xmega6_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +    avr_set_feature(env, AVR_FEATURE_RMW);
+> +}
+> +
+> +static void avr_xmega7_initfn(Object *obj)
+> +{
+> +    AVRCPU *cpu = AVR_CPU(obj);
+> +    CPUAVRState *env = &cpu->env;
+> +
+> +    avr_set_feature(env, AVR_FEATURE_LPM);
+> +    avr_set_feature(env, AVR_FEATURE_IJMP_ICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ADIW_SBIW);
+> +    avr_set_feature(env, AVR_FEATURE_SRAM);
+> +    avr_set_feature(env, AVR_FEATURE_BREAK);
+> +
+> +    avr_set_feature(env, AVR_FEATURE_3_BYTE_PC);
+> +    avr_set_feature(env, AVR_FEATURE_2_BYTE_SP);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPD);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPX);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPY);
+> +    avr_set_feature(env, AVR_FEATURE_RAMPZ);
+> +    avr_set_feature(env, AVR_FEATURE_EIJMP_EICALL);
+> +    avr_set_feature(env, AVR_FEATURE_ELPMX);
+> +    avr_set_feature(env, AVR_FEATURE_ELPM);
+> +    avr_set_feature(env, AVR_FEATURE_JMP_CALL);
+> +    avr_set_feature(env, AVR_FEATURE_LPMX);
+> +    avr_set_feature(env, AVR_FEATURE_MOVW);
+> +    avr_set_feature(env, AVR_FEATURE_MUL);
+> +    avr_set_feature(env, AVR_FEATURE_RMW);
+> +}
+> +
+> +typedef struct AVRCPUInfo {
+> +    const char *name;
+> +    void (*initfn)(Object *obj);
+> +} AVRCPUInfo;
+> +
+> +
+> +static void avr_cpu_list_entry(gpointer data, gpointer user_data)
+> +{
+> +    const char *typename = object_class_get_name(OBJECT_CLASS(data));
+> +
+> +    qemu_printf("%s\n", typename);
+> +}
+> +
+> +void avr_cpu_list(void)
+> +{
+> +    GSList *list;
+> +    list = object_class_get_list_sorted(TYPE_AVR_CPU, false);
+> +    g_slist_foreach(list, avr_cpu_list_entry, NULL);
+> +    g_slist_free(list);
+> +}
+> +
+> +#define DEFINE_AVR_CPU_TYPE(model, initfn) \
+> +    { \
+> +        .parent = TYPE_AVR_CPU, \
+> +        .instance_init = initfn, \
+> +        .name = model "-avr-cpu", \
+> +    }
+> +
+> +static const TypeInfo avr_cpu_type_info[] = {
+> +    {
+> +        .name = TYPE_AVR_CPU,
+> +        .parent = TYPE_CPU,
+> +        .instance_size = sizeof(AVRCPU),
+> +        .instance_init = avr_cpu_initfn,
+> +        .class_size = sizeof(AVRCPUClass),
+> +        .class_init = avr_cpu_class_init,
+> +        .abstract = true,
+> +    },
+> +    DEFINE_AVR_CPU_TYPE("avr1", avr_avr1_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr2", avr_avr2_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr25", avr_avr25_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr3", avr_avr3_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr31", avr_avr31_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr35", avr_avr35_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr4", avr_avr4_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr5", avr_avr5_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr51", avr_avr51_initfn),
+> +    DEFINE_AVR_CPU_TYPE("avr6", avr_avr6_initfn),
+> +    DEFINE_AVR_CPU_TYPE("xmega2", avr_xmega2_initfn),
+> +    DEFINE_AVR_CPU_TYPE("xmega4", avr_xmega4_initfn),
+> +    DEFINE_AVR_CPU_TYPE("xmega5", avr_xmega5_initfn),
+> +    DEFINE_AVR_CPU_TYPE("xmega6", avr_xmega6_initfn),
+> +    DEFINE_AVR_CPU_TYPE("xmega7", avr_xmega7_initfn),
+> +};
+> +
 
-> +++ b/include/block/block.h
-> @@ -347,9 +347,10 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
->   void bdrv_refresh_filename(BlockDriverState *bs);
->   
->   int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-> -                                  PreallocMode prealloc, Error **errp);
-> +                                  PreallocMode prealloc, bool no_fallback,
-> +                                  Error **errp);
->   int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
-> -                  PreallocMode prealloc, Error **errp);
-> +                  PreallocMode prealloc, bool no_fallback, Error **errp);
->   
+Hi, Michael,
 
-New signature, most of the changes are mechanical to pass the new 
-parameter...
+I have the hardest time finding in the documentation some kind of
+table of AVR CPUs containing supported features. Related to that:
 
-> +++ b/block/io.c
-> @@ -3313,9 +3313,15 @@ static void bdrv_parent_cb_resize(BlockDriverState *bs)
->    * If 'exact' is true, the file must be resized to exactly the given
->    * 'offset'.  Otherwise, it is sufficient for the node to be at least
->    * 'offset' bytes in length.
-> + *
-> + * If 'no_fallback' is true, a possibly needed writte_zeroes operation to avoid
+- Is there a list in the docs equivalent to the definitions of
+AVR_FEATURE_XXX constants in your code?
+- How did you collect all info needed for definition of 15 CPUs above
+(link to the source of info would be great)?
+- Would all 15 CPUs be supported in QEMU once this series is
+integrated, without caveats?
 
-write
-
-> + * making a longer backing file visible will use BDRV_REQ_NO_FALLBACK. If the
-> + * zero write is necessary and this flag is set, bdrv_co_truncate() will fail
-> + * if efficient zero writes cannot be provided.
->    */
-
-> +++ b/qemu-img.c
-> @@ -3836,7 +3836,7 @@ static int img_resize(int argc, char **argv)
->        * resizing, so pass @exact=true.  It is of no use to report
->        * success when the image has not actually been resized.
->        */
-> -    ret = blk_truncate(blk, total_size, true, prealloc, &err);
-> +    ret = blk_truncate(blk, total_size, true, prealloc, false, &err);
->       if (!ret) {
->           qprintf(quiet, "Image resized.\n");
->       } else {
-
-Hmm - thought for a future patch (not this one): are there situations 
-where it may be faster to perform bulk pre-zeroing of the tail of a file 
-by performing two truncates (smaller and then larger) because we know 
-that just-added bytes from a truncate will read as zero?  This may be 
-true for some file systems (but is not true for block devices, nor for 
-things like NBD that lack resize).  Anyway, unrelated to this patch.
-
-With the typo fixed,
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Sincerely yours,
+Aleksandar
 
