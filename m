@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EF0106749
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 08:50:03 +0100 (CET)
-Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771E6106758
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 08:53:46 +0100 (CET)
+Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY3ha-0005o6-CR
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 02:50:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39303)
+	id 1iY3lB-0002Ku-2q
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 02:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iY3fb-0004cY-9k
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:48:01 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iY3gI-0005FR-Ts
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:48:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iY3fa-0002Th-5h
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:47:59 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54470)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iY3fZ-0002TP-Ua
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:47:58 -0500
-Received: by mail-wm1-x343.google.com with SMTP id x26so6081492wmk.4
- for <qemu-devel@nongnu.org>; Thu, 21 Nov 2019 23:47:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kLftJxci98D67X6Hh1CZFu3Ha7kNLOHftQ7H9kWm/yA=;
- b=DtmbHexVIpWWVtMP+pldy+bSyNDrSKMvDXw30gVTAtWWFij5NoiXK2VNhVd6AbKfhZ
- 3VvrzdF8pLCvlHFA09MxL3ylsB55YLtkrigWz4wqnXzSfRO96J0KL5CSl1PyqQXEKN7l
- pCqgKEeZ2lJ4OPPmfXTBYz7npGdU+P0BN0aAy5qGNmu7PwOT4vYrsPOSMCoRkIO5Oqjg
- x3fjoveGxnl5G2hYk7fN3x4Mqn7JZELkOU/qFX6qodjC3AIoCbCYvp6r+cmT/ya53CKO
- M+PJMPbKmn3D+ePLeoEiMbUnMoQG//T1rDl2ETuKunEHNZPGP9X2QK3s9UvFz4Ik1ehJ
- W25A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kLftJxci98D67X6Hh1CZFu3Ha7kNLOHftQ7H9kWm/yA=;
- b=HGqY4z+2uYnynQBQ0srybh9A8bgzE/05vhz6psV8XBpsEhYPsIehtDZt/Clq+1Sv3Z
- ohoUzUkY+UEKvRDD8aDlllHOu/42ThlDqF2FSaI38CsXgy2tyEVC+N8iwKaie3QLCflj
- e1xRJ+zlQj8kQgRrNGoHN0Bll9pB0NRsmT5b7850l0z1HCZV4kQWCPk0HAq0pS545FkP
- J8oMisZ3uUV6TsD8hfCwRImY3ExROxzvRD97m/v7RolLajRY7ipI15GEJaLrEracgxi5
- ee8dzbif/DYgJhzLKk6lsoWeAUmcCtxjA9EyR91gIOm+uox2lma7WlASOFUNKvHfIWZN
- 1UHQ==
-X-Gm-Message-State: APjAAAW8r+fm+8BvHWE8iJCtWFDVgBNaX4XGVbJ2BaAKiRFjeAYQ8oEz
- LqeZybz3Kvl26ldMijFvE8FTJg==
-X-Google-Smtp-Source: APXvYqzglU4aI0J9de0YrtqNWnG7Pam+/Oc9LMT6skjyygTQ2b0qMPfd1ARemfJrJ8JL/TUM3OVxuw==
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr14037483wmb.23.1574408876690; 
- Thu, 21 Nov 2019 23:47:56 -0800 (PST)
-Received: from ?IPv6:2a00:23c5:4e1b:3700:8d83:30a1:2751:30ec?
- ([2a00:23c5:4e1b:3700:8d83:30a1:2751:30ec])
- by smtp.gmail.com with ESMTPSA id j67sm2642092wmb.43.2019.11.21.23.47.55
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 21 Nov 2019 23:47:55 -0800 (PST)
-Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
- core CPU logic
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- 'Aleksandar Markovic' <aleksandar.m.mail@gmail.com>,
- =?UTF-8?Q?=27Philippe_Mathieu-Daud=c3=a9=27?= <philmd@redhat.com>
-References: <20191029212430.20617-1-mrolnik@gmail.com>
- <20191029212430.20617-2-mrolnik@gmail.com>
- <750745b9-e51c-3757-3eb6-ffce51042d9c@redhat.com>
- <CAL1e-=gHukqViBf8hXMnCJDPB36yzanrWPF6cz26W3ebwXGkLA@mail.gmail.com>
- <000701d5a0f6$60e1fe00$22a5fa00$@ru>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e3ac8050-8634-c77b-9d14-e78f129834d3@linaro.org>
-Date: Fri, 22 Nov 2019 08:47:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <tao3.xu@intel.com>) id 1iY3gG-0002li-WA
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:48:42 -0500
+Received: from mga18.intel.com ([134.134.136.126]:36761)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iY3gG-0002i6-Nt
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 02:48:40 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2019 23:48:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,229,1571727600"; d="scan'208";a="210178440"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by orsmga003.jf.intel.com with ESMTP; 21 Nov 2019 23:48:29 -0800
+From: Tao Xu <tao3.xu@intel.com>
+To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
+ lvivier@redhat.com
+Subject: [PATCH v17 00/14] Build ACPI Heterogeneous Memory Attribute Table
+ (HMAT)
+Date: Fri, 22 Nov 2019 15:48:12 +0800
+Message-Id: <20191122074826.1373-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <000701d5a0f6$60e1fe00$22a5fa00$@ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 134.134.136.126
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,28 +55,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Thomas Huth' <thuth@redhat.com>, 'Sarah Harris' <S.E.Harris@kent.ac.uk>,
- 'Joaquin de Andres' <me@xcancerberox.com.ar>,
- 'QEMU Developers' <qemu-devel@nongnu.org>,
- 'Michael Rolnik' <mrolnik@gmail.com>, 'Igor Mammedov' <imammedo@redhat.com>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/22/19 6:33 AM, Pavel Dovgalyuk wrote:
->> From: Aleksandar Markovic [mailto:aleksandar.m.mail@gmail.com]
->>> Why not implement the dump_ASM code? This is very useful...
->>>
->>
->> ... and time-consuming to implement, unless Michael have some
->> ready off-shelf code.
-> 
-> We already did this by taking the disassembly code from binutils:
-> https://github.com/Dovgalyuk/qemu/blob/avr8/disas/avr.c
-> 
-> But I'm not sure about license compatibility.
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-This one is GPLv3, and is incompatible, sadly.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
 
+The V16 patches link:
+https://patchwork.kernel.org/cover/11245293/
 
-r~
+Changelog:
+v17:
+    - Add check when user input latency or bandwidth 0, the
+      lb_info_provided should also be 0. Because in ACPI 6.3 5.2.27.4,
+      0 means the corresponding latency or bandwidth information is
+      not provided.
+    - Fix the infinite loop when node->latency is 0.
+    - Use NumaHmatCacheOptions to replace HMAT_Cache_Info (Igor)
+    - Add check for unordered cache level input (Igor)
+    - Add some fail test cases (Igor)
+v16:
+    - Add and use qemu_strtold_finite to parse size, support full
+      64bit precision, modify related test cases (Eduardo and Markus)
+    - Simplify struct HMAT_LB_Info and related code, unify latency
+      and bandwidth (Igor)
+    - Add cross check with hmat_lb data (Igor)
+    - Fields in Cache Attributes are promoted to uint32_t before
+      shifting (Igor)
+    - Add case for QMP build HMAT (Igor)
+v15:
+    - Add a new patch to refactor do_strtosz() (Eduardo)
+    - Make tests without breaking CI (Michael)
+v14:
+    - Reuse the codes of do_strtosz to build qemu_strtotime_ns
+      (Eduardo)
+    - Squash patch v13 01/12 and 02/12 together (Daniel and Eduardo)
+    - Drop time unit picosecond (Eric)
+    - Use qemu ctz64 and clz64 instead of builtin function
+v13:
+    - Modify some text description
+    - Drop "initiator_valid" field in struct NodeInfo
+    - Reuse Garray to store the raw bandwidth and bandwidth data
+    - Calculate common base unit using range bitmap
+    - Add a patch to alculate hmat latency and bandwidth entry list
+    - Drop the total_levels option and use readable cache size
+    - Remove the unnecessary head file
+    - Use decimal notation with appropriate suffix for cache size
+v12:
+    - Fix a bug that a memory-only node without initiator setting
+      doesn't report error. (reported by Danmei Wei)
+    - Fix a bug that if HMAT is enabled and without hmat-lb setting,
+      QEMU will crash. (reported by Danmei Wei)
+v11:
+    - Move numa option patches forward.
+    - Add num_initiator in Numa_state to record the number of
+    initiators.
+    - Simplify struct HMAT_LB_Info, use uint64_t array to store data.
+    - Drop hmat_get_base().
+    - Calculate base in build_hmat_lb().
+
+Liu Jingqi (5):
+  numa: Extend CLI to provide memory latency and bandwidth information
+  numa: Extend CLI to provide memory side cache information
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
+
+Tao Xu (9):
+  util/cutils: Add Add qemu_strtold and qemu_strtold_finite
+  util/cutils: Use qemu_strtold_finite to parse size
+  util/cutils: refactor do_strtosz() to support suffixes list
+  util/cutils: Add qemu_strtotime_ns()
+  qapi: Add builtin type time
+  tests: Add test for QAPI builtin type time
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/numa: Add case for QMP build HMAT
+  tests/bios-tables-test: add test cases for ACPI HMAT
+
+ hw/acpi/Kconfig                       |   7 +-
+ hw/acpi/Makefile.objs                 |   1 +
+ hw/acpi/hmat.c                        | 268 +++++++++++++++++++++++++
+ hw/acpi/hmat.h                        |  42 ++++
+ hw/core/machine.c                     |  64 ++++++
+ hw/core/numa.c                        | 279 ++++++++++++++++++++++++++
+ hw/i386/acpi-build.c                  |   5 +
+ include/qapi/visitor-impl.h           |   4 +
+ include/qapi/visitor.h                |   8 +
+ include/qemu/cutils.h                 |   4 +
+ include/sysemu/numa.h                 |  63 ++++++
+ qapi/machine.json                     | 178 +++++++++++++++-
+ qapi/opts-visitor.c                   |  22 ++
+ qapi/qapi-visit-core.c                |  12 ++
+ qapi/qobject-input-visitor.c          |  18 ++
+ qapi/trace-events                     |   1 +
+ qemu-options.hx                       |  96 ++++++++-
+ scripts/qapi/schema.py                |   1 +
+ tests/bios-tables-test-allowed-diff.h |   8 +
+ tests/bios-tables-test.c              |  44 ++++
+ tests/data/acpi/pc/APIC.acpihmat      |   0
+ tests/data/acpi/pc/DSDT.acpihmat      |   0
+ tests/data/acpi/pc/HMAT.acpihmat      |   0
+ tests/data/acpi/pc/SRAT.acpihmat      |   0
+ tests/data/acpi/q35/APIC.acpihmat     |   0
+ tests/data/acpi/q35/DSDT.acpihmat     |   0
+ tests/data/acpi/q35/HMAT.acpihmat     |   0
+ tests/data/acpi/q35/SRAT.acpihmat     |   0
+ tests/numa-test.c                     | 194 ++++++++++++++++++
+ tests/test-cutils.c                   | 214 ++++++++++++++++----
+ tests/test-keyval.c                   | 136 +++++++++----
+ tests/test-qemu-opts.c                |  39 +---
+ tests/test-qobject-input-visitor.c    |  29 +++
+ util/cutils.c                         | 147 ++++++++++----
+ 34 files changed, 1726 insertions(+), 158 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+
+-- 
+2.20.1
+
 
