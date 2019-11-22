@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7971073CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 15:03:18 +0100 (CET)
-Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBEF1073D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Nov 2019 15:07:39 +0100 (CET)
+Received: from localhost ([::1]:51392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iY9Wn-00032b-Hu
-	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 09:03:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58479)
+	id 1iY9b0-0000hp-BP
+	for lists+qemu-devel@lfdr.de; Fri, 22 Nov 2019 09:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iY9Ty-0001P3-2s
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:23 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iY9U2-0001Ty-0E
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iY9Tw-0005Kf-0n
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:21 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35495
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <frankja@linux.ibm.com>) id 1iY9Tw-0005MX-QC
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:25 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4022)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iY9Tt-0005Iq-V1
- for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:19 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1iY9Tw-0005J1-0m
+ for qemu-devel@nongnu.org; Fri, 22 Nov 2019 09:00:20 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAMDrIf9066205
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 09:00:15 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wdfxvgdug-1
+ xAMDr3uG072263
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 09:00:16 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wdqmjaj96-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 09:00:15 -0500
+ for <qemu-devel@nongnu.org>; Fri, 22 Nov 2019 09:00:16 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 22 Nov 2019 14:00:13 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 22 Nov 2019 14:00:14 -0000
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 22 Nov 2019 14:00:09 -0000
+ Fri, 22 Nov 2019 14:00:11 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAME08ml48824382
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAME0ABF52101230
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 22 Nov 2019 14:00:08 GMT
+ Fri, 22 Nov 2019 14:00:10 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F301611C052;
- Fri, 22 Nov 2019 14:00:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 252F911C075;
+ Fri, 22 Nov 2019 14:00:10 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B6C811C05B;
- Fri, 22 Nov 2019 14:00:06 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5BCC211C06E;
+ Fri, 22 Nov 2019 14:00:08 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.41.23])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 22 Nov 2019 14:00:06 +0000 (GMT)
+ Fri, 22 Nov 2019 14:00:08 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] s390x: Reset cleanup
-Date: Fri, 22 Nov 2019 08:59:57 -0500
+Subject: [PATCH v2 1/5] s390x: Don't do a normal reset on the initial cpu
+Date: Fri, 22 Nov 2019 08:59:58 -0500
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191122140002.42972-1-frankja@linux.ibm.com>
+References: <20191122140002.42972-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19112214-0028-0000-0000-000003BE0CCF
+x-cbid: 19112214-0008-0000-0000-00000336291B
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112214-0029-0000-0000-00002481396D
-Message-Id: <20191122140002.42972-1-frankja@linux.ibm.com>
+x-cbparentid: 19112214-0009-0000-0000-00004A5556E7
+Message-Id: <20191122140002.42972-2-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-22_02:2019-11-21,2019-11-22 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 impostorscore=0 malwarescore=0 bulkscore=0 mlxlogscore=677
- clxscore=1015 spamscore=0 mlxscore=0 suspectscore=1 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ suspectscore=1 impostorscore=0 mlxscore=0 clxscore=1015 spamscore=0
+ phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-1911220124
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,24 +94,30 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding comments and reordering code for better readability in the
-diag308 and machine reset functions.
+The initiating cpu needs to be reset with an initial reset. While
+doing a normal reset followed by a initial reset is not wron per-se,
+the Ultravisor will only allow the correct reset to be performed.
 
-Janosch Frank (5):
-  s390x: Don't do a normal reset on the initial cpu
-  s390x: Move reset normal to shared reset handler
-  s390x: Move initial reset
-  s390x: Move clear reset
-  s390x: Beautify diag308 handling
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+---
+ hw/s390x/s390-virtio-ccw.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- hw/s390x/s390-virtio-ccw.c |  3 ++
- target/s390x/cpu-qom.h     |  9 +++-
- target/s390x/cpu.c         | 99 ++++++++++++--------------------------
- target/s390x/cpu.h         |  4 +-
- target/s390x/diag.c        | 54 ++++++++++++---------
- target/s390x/sigp.c        |  4 +-
- 6 files changed, 76 insertions(+), 97 deletions(-)
-
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index d3edeef0ad..c1d1440272 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machine)
+         break;
+     case S390_RESET_LOAD_NORMAL:
+         CPU_FOREACH(t) {
++            if (t == cs) {
++                continue;
++            }
+             run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
+         }
+         subsystem_reset();
 -- 
 2.20.1
 
