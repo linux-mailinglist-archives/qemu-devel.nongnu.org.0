@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD12107F2D
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Nov 2019 17:00:15 +0100 (CET)
-Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32E0107F8F
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Nov 2019 18:05:24 +0100 (CET)
+Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYXpW-0006cF-9g
-	for lists+qemu-devel@lfdr.de; Sat, 23 Nov 2019 11:00:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
+	id 1iYYqY-0003Nz-LW
+	for lists+qemu-devel@lfdr.de; Sat, 23 Nov 2019 12:05:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iYXoS-00065g-01
- for qemu-devel@nongnu.org; Sat, 23 Nov 2019 10:59:09 -0500
+ (envelope-from <groug@kaod.org>) id 1iYYkp-0007tO-Eo
+ for qemu-devel@nongnu.org; Sat, 23 Nov 2019 11:59:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iYXoQ-0000cn-Lt
- for qemu-devel@nongnu.org; Sat, 23 Nov 2019 10:59:07 -0500
-Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:41430)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iYXoQ-0000cQ-Hu
- for qemu-devel@nongnu.org; Sat, 23 Nov 2019 10:59:06 -0500
-Received: by mail-qv1-xf43.google.com with SMTP id g18so4101534qvp.8
- for <qemu-devel@nongnu.org>; Sat, 23 Nov 2019 07:59:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=92+Pqlm4l7fvVj5OKxE6vnsj72BstZHnWnuso/Fh0n4=;
- b=PHiZd+KU4C8KW7WrHj31bTOkJVlaSzpWAfU2ea/XKLgz4SYM/UEXYjpUOm5ROJVb1Y
- WBP15skgOfjE+RvwttbmiEbuUTY1HTWbroPgXvrgrsWFfM4hiOVoGV5YMtA5ibuOtT5g
- vJtdESKSiPK/Vf6Rlguf9YLApWvFsETkwDRClF1I2wLDFa9MMzXsHepSya9x2M2Z8KGF
- sT9xJbBAoEQe0tJve/B0vpK9vPboUEnvkKjYZrxE9FFlZ+SuEW2hZ1b9uOK4VRnYdAD5
- FDQ+MYJT+HsTPD83uE3YTOVxpS0Ln+W9B4nsrAn+a8MMraAzPwbNMFk6XUIyXdNtB2NR
- wpUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=92+Pqlm4l7fvVj5OKxE6vnsj72BstZHnWnuso/Fh0n4=;
- b=eJpZErCJWMc+F4rHXI+nZU7BdrRb49RruSd3h5G/71ijzU/0lupeDaw59fPaW+Stf7
- TBWwtF6zhtFEVfXzO+BJnnec5OdkPYi5iTe0hhU7IFBje+kMPZsCxrnogXIzCWex88k+
- acOy9t5TA9n8wueYsqXPFQYqnlGj4Npz4d/ReYNdlfWoyB+BcNCAajrOemHWXIYTWxp1
- POpbmiFAstDxffubaX6cI3hayPVeIT1z5ig+o8U+RnwNxoOePJ8LMVaWzA77j1T/w8uM
- bQhHG2TgsWgMOoLB+GMARqPPbGjq+32x+9xSmQ/5W0GTvMxDC/1PfPpjPHdO/+YITGBI
- bWVg==
-X-Gm-Message-State: APjAAAUNGS7C0UeRHv74LuGfkiWKADZ2wdM4nUHJt0jp8qOE4/ibclmc
- jL3q45SwNUfbvzNmFf9Uu9/3ye76HE0EbFx8Sis=
-X-Google-Smtp-Source: APXvYqyMPon1GvoCl8uRDfXKVRAilYw7zZDnuo2QVFxbuljfyLRkw65k59hMr2cdMwjFZ1GCYlMuooJfF6cNF75jkvs=
-X-Received: by 2002:ad4:4cc4:: with SMTP id i4mr14565829qvz.137.1574524745533; 
- Sat, 23 Nov 2019 07:59:05 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1iYYko-0001qh-4p
+ for qemu-devel@nongnu.org; Sat, 23 Nov 2019 11:59:27 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21686)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iYYkn-0001kv-Sw
+ for qemu-devel@nongnu.org; Sat, 23 Nov 2019 11:59:26 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xANGvYg2040825
+ for <qemu-devel@nongnu.org>; Sat, 23 Nov 2019 11:59:23 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wf2660rrb-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Sat, 23 Nov 2019 11:59:23 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Sat, 23 Nov 2019 16:59:21 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Sat, 23 Nov 2019 16:59:19 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xANGxIQ254853882
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 23 Nov 2019 16:59:18 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7D08542045;
+ Sat, 23 Nov 2019 16:59:18 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 68E7F42042;
+ Sat, 23 Nov 2019 16:59:18 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sat, 23 Nov 2019 16:59:18 +0000 (GMT)
+Received: from bahia.ibmuc.com (sig-9-145-172-18.de.ibm.com [9.145.172.18])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id D64A022008F;
+ Sat, 23 Nov 2019 17:59:17 +0100 (CET)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] 9p fixes for QEMU 4.2-rc3
+Date: Sat, 23 Nov 2019 17:59:14 +0100
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191029212430.20617-1-mrolnik@gmail.com>
- <20191029212430.20617-2-mrolnik@gmail.com>
- <CAL1e-=ivdac0gi3bJvmm7knSPHx5fDPXpAHOuck3CJt+yX9Vgg@mail.gmail.com>
-In-Reply-To: <CAL1e-=ivdac0gi3bJvmm7knSPHx5fDPXpAHOuck3CJt+yX9Vgg@mail.gmail.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sat, 23 Nov 2019 17:58:07 +0200
-Message-ID: <CAK4993gqJCW6u7A6dD7aaV6bYXh3Gm73n_AFtPk7WqFky2tVyg@mail.gmail.com>
-Subject: Re: [PATCH v35 01/13] target/avr: Add outward facing interfaces and
- core CPU logic
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::f43
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112316-0020-0000-0000-0000038DC8A4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112316-0021-0000-0000-000021E40D25
+Message-Id: <20191123165915.1077842-1-groug@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-23_04:2019-11-21,2019-11-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ mlxscore=0 adultscore=0 clxscore=1034 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=745
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911230141
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,33 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I believe I got this number from this spec
-https://ww1.microchip.com/downloads/en/devicedoc/atmel-2549-8-bit-avr-microcontroller-atmega640-1280-1281-2560-2561_datasheet.pdf
-on page 101
+The following changes since commit 2061735ff09f9d5e67c501a96227b470e7de69b1:
 
-On Fri, Nov 22, 2019 at 7:28 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
-> > +#ifndef CONFIG_USER_ONLY
-> > +    /* Set the number of interrupts supported by the CPU. */
-> > +    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 57);
-> > +#endif
->
-> Can you please, Michael, explain to me the origin of number "57" here?
->
-> Thanks, Aleksandar
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-11-21 17:18:40 +0000)
 
+are available in the Git repository at:
 
+  https://github.com/gkurz/qemu.git tags/9p-fix-2019-11-23
 
+for you to fetch changes up to 68d654daee4364a0eca589a547d716084d9cb33d:
+
+  9pfs: Fix divide by zero bug (2019-11-23 15:51:48 +0100)
+
+----------------------------------------------------------------
+9pfs fixes for QEMU 4.2
+
+This fixes a potential QEMU crash if the underlying filesystem returns
+a null block size in statfs().
+
+----------------------------------------------------------------
+Dan Schatzberg (1):
+      9pfs: Fix divide by zero bug
+
+ hw/9pfs/9p.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 -- 
-Best Regards,
-Michael Rolnik
+2.21.0
+
 
