@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBF11083F5
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Nov 2019 16:03:54 +0100 (CET)
-Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5529B1083FF
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Nov 2019 16:09:02 +0100 (CET)
+Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iYtQX-0003nk-C4
-	for lists+qemu-devel@lfdr.de; Sun, 24 Nov 2019 10:03:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55875)
+	id 1iYtVV-0006Oi-6B
+	for lists+qemu-devel@lfdr.de; Sun, 24 Nov 2019 10:09:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYtPJ-0003Gb-B6
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:02:40 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYtSd-0004rl-P4
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:06:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYtPG-0002KE-GU
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:02:37 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36254)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iYtSb-0003Pw-5G
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:06:03 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iYtPE-0002JQ-Ly
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:02:32 -0500
-Received: by mail-oi1-x242.google.com with SMTP id j7so10849495oib.3
- for <qemu-devel@nongnu.org>; Sun, 24 Nov 2019 07:02:32 -0800 (PST)
+ id 1iYtSZ-0003Lt-31
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 10:05:59 -0500
+Received: by mail-ot1-x344.google.com with SMTP id z25so10369361oti.5
+ for <qemu-devel@nongnu.org>; Sun, 24 Nov 2019 07:05:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=/yb8DStZY/s2uG1x+icytuefITlWW9bVoq31i7jWPXI=;
- b=FobM2Ge3n0iEnzvLkWJEYM2EuUQ0VKGgjOGivX8r3lG+0+jOEtGOos1iXZAjwMA6Qq
- eWNXNrNOYx5bwB0Y3iuAgD4vn0WwmF+pDTWeJM5ekw75ZuxbWbYHSXbQxr5vPe5ghXwC
- L+f80pT8rpalcphof22MbabB3XqVG0YnzgsHtTDx8GLslM2YeIS3vYv3Ql3VwvBk8Ipj
- 0wh6JaFe6BtTk2448h47+xrL2/Uv0bqJq/t/zJB4gwT41t4H0NsGWqxj0hX82N9hldvq
- 7+zDtAohY/8XovAz72hbNcEh+yrfINE4ePcBWljYeVRhk66EYAv1pcOTqUI4jI95T07A
- 3Auw==
+ :cc; bh=EBCqm69AWAWYv9HU9WTou5zyAl0A0k0NjFbASRDLSpA=;
+ b=fnN+CafTM6SfFHdg17svisR/3KSC1FG7Tr41Kbmc9vJcU448yW7G7uWIIeDOQxBYyd
+ +8bJZi7/fHUVBL69xZ0EbSmzKb6Zrv9WC5qhzQtFpEma5UjOUUG5RlNPKEGfnvx5W0ps
+ zZZt3lniTzEYTE05oFbc4R6rFYRNhvpou421JaIjgy23uY1dMShqk+qgpQBVaRpWuomU
+ K+BftXF7JMhfRP0aSG8HqcHZxwbYytDErEY5Jvqh5cQKOqzlIkOUNu5QMOLzIHXvlBbv
+ AaIsDlLW2Eqtst/ZkaXtAM01+YCEdxN12P986Y1DCzyQFW9gnHBmTf0UOji69RAMiva2
+ 3rKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=/yb8DStZY/s2uG1x+icytuefITlWW9bVoq31i7jWPXI=;
- b=L5yImUGZFscIS7E5eMmgAIUwJCMBfNy4LU1SI+Wt4Z0rnpjtrralb7r0tnjX821lAF
- B2nTYp6xGXtjASVhTIbrkclf+HgzEGobKgdbyAg238tFi0J+LtGkS1D7VIZouDPJo8Ln
- On8vQE4MpweIB7MlxTwwhOssDab50eW+QSg6NGB9Q6HP6O0MF2sjiyCQoJ1nwU74zDfJ
- Y0IPAeeE8vG5IBYUG5+jDFLHpbQCFKDx1Pz4V8Q8xHpKWKRee/XNqbhvfc1qBNqHp4mt
- +xQj6lrVWWzIh0ib8k5LcJF2lxUgqQ8xErOmdf9c0v8pPHGE8zddcXZCE41qbAWnftFA
- GhpA==
-X-Gm-Message-State: APjAAAUrUO65IhRpSGMOqDz9Uduatc/5rKJCU8A3Y8BrHprBzAdGgHBL
- jgZ7Pp3rRlVL1DdXUJIDKg39ZD/POOgPtQgTLg0=
-X-Google-Smtp-Source: APXvYqz1aisnosrN6QFoVUmdVTOezxv8aUnjSK3bqnAEQXMdoL2FJ6qibqy5gmy5a22Bp1KGeCoJDDBmYHGTGmSuwWE=
-X-Received: by 2002:aca:d17:: with SMTP id 23mr19864497oin.136.1574607751815; 
- Sun, 24 Nov 2019 07:02:31 -0800 (PST)
+ bh=EBCqm69AWAWYv9HU9WTou5zyAl0A0k0NjFbASRDLSpA=;
+ b=j4YjDAmCuYjLAg4QurpISMqqg8uuwABzLItMkUMBRWqGCOd9Cs3dUrrH9cwG7+CJzm
+ zI4Bk7pD3xc/3qPEJbh5HRd6YeH+CbGFcLUgrDVBY6OFg94VDMsmJCISXAlo1JAGBRQO
+ CfddzlXnSE4PAOGhXEcPp8fGqUym1XcxntqUjgJtrk5PLMWGOHnaBJej8RCvRHTFU+gD
+ W8RsH/OCmuJryEUwF9TKY75X4BenusGI1SCEjMf9T6Fn4XSIFP810xFBdOt6W8PYJLVl
+ Qq5+IfDHEevmb936jpyNgKYdA7muucIBz3CZBwasqztyFCJ7Ijtb1PAeh/5jxsdyLJQG
+ HKSw==
+X-Gm-Message-State: APjAAAVTc/Ya/Uswv/xrz0dugIoRDox9ML+KcgGhbGZ9n5pMYSS4UBsz
+ PFxnH1Du9GVXf84U7OEkK6MzkzP7L3mlGnr06Bs=
+X-Google-Smtp-Source: APXvYqzZneJFTMxkcVj0ZCpxs5xGWOnKBhSa5AyU3LWdXaJtQ4AxWhNi6GhvZfVM19neV8asNZfKe9rGff5uPTpsgwo=
+X-Received: by 2002:a9d:1b3:: with SMTP id e48mr17963025ote.341.1574607957591; 
+ Sun, 24 Nov 2019 07:05:57 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Sun, 24 Nov 2019 07:02:31
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Sun, 24 Nov 2019 07:05:57
  -0800 (PST)
 In-Reply-To: <20191124050225.30351-11-mrolnik@gmail.com>
 References: <20191124050225.30351-1-mrolnik@gmail.com>
  <20191124050225.30351-11-mrolnik@gmail.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sun, 24 Nov 2019 16:02:31 +0100
-Message-ID: <CAL1e-=gaR3rnABuVrw14JSp-1T2ytB-Mtt9zU-hwTAm__uNj_Q@mail.gmail.com>
+Date: Sun, 24 Nov 2019 16:05:57 +0100
+Message-ID: <CAL1e-=iREt6WUz-4C3=20Snfxp1_NwknpGsMkgP4RoG-oK298w@mail.gmail.com>
 Subject: Re: [PATCH v36 10/17] target/avr: Add instruction disassembly function
 To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000b52770059818efa0"
+Content-Type: multipart/alternative; boundary="000000000000f90c85059818fbf5"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,7 +83,7 @@ Cc: "thuth@redhat.com" <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b52770059818efa0
+--000000000000f90c85059818fbf5
 Content-Type: text/plain; charset="UTF-8"
 
 On Sunday, November 24, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
@@ -93,7 +93,14 @@ On Sunday, November 24, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
 >
 > Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 > ---
->  target/avr/cpu.h       |   1 +
+
+
+You should add "Suggested-by:"s for Philippe, Richard, and myself in tge
+commit message.
+
+Aleksandar
+
+ target/avr/cpu.h       |   1 +
 >  target/avr/cpu.c       |   2 +-
 >  target/avr/disas.c     | 214 +++++++++++++++++++++++++++++++++++++++++
 >  target/avr/translate.c |  11 +++
@@ -137,18 +144,6 @@ On Sunday, November 24, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
 > + *
 > + * Copyright (c) 2018 Richard Henderson <rth@twiddle.net>
 > + *
-
-
-s/OpenRISC/AVR
-
-s/2018/2019
-
-You can as well a add copyright line with your name and email after
-Richards.
-
-Aleksandar
-
-
 > + * This program is free software: you can redistribute it and/or modify
 > + * it under the terms of the GNU General Public License as published by
 > + * the Free Software Foundation, either version 2 of the License, or
@@ -386,7 +381,7 @@ Aleksandar
 >
 >
 
---000000000000b52770059818efa0
+--000000000000f90c85059818fbf5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -399,7 +394,10 @@ provided<br>
 <br>
 Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com">mrol=
 nik@gmail.com</a>&gt;<br>
----<br>
+---</blockquote><div><br></div><div>You should add &quot;Suggested-by:&quot=
+;s for Philippe, Richard, and myself in tge commit message.</div><div><br><=
+/div><div>Aleksandar</div><div><br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 =C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
 =C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
 =C2=A0target/avr/disas.c=C2=A0 =C2=A0 =C2=A0| 214 +++++++++++++++++++++++++=
@@ -449,11 +447,7 @@ index 0000000000..727fc463ce<br>
 + *<br>
 + * Copyright (c) 2018 Richard Henderson &lt;<a href=3D"mailto:rth@twiddle.=
 net">rth@twiddle.net</a>&gt;<br>
-+ *</blockquote><div><br></div><div>s/OpenRISC/AVR</div><div><br></div><div=
->s/2018/2019</div><div><br></div><div>You can as well a add copyright line =
-with your name and email after Richards.</div><div><br></div><div>Aleksanda=
-r</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++ *<br>
 + * This program is free software: you can redistribute it and/or modify<br=
 >
 + * it under the terms of the GNU General Public License as published by<br=
@@ -746,5 +740,5 @@ br>
 <br>
 </blockquote>
 
---000000000000b52770059818efa0--
+--000000000000f90c85059818fbf5--
 
