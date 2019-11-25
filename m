@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B67108BF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 11:42:43 +0100 (CET)
-Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CC5108C77
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 12:01:26 +0100 (CET)
+Received: from localhost ([::1]:42350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZBpK-0000Sx-MO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 05:42:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42797)
+	id 1iZC7R-00061U-PC
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 06:01:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iZBo3-0008QU-2q
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:41:24 -0500
+ (envelope-from <maz@kernel.org>) id 1iZC5x-0005Xy-2V
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:59:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iZBo0-0000Fl-Ka
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:41:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51759
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <maz@kernel.org>) id 1iZC5v-0004y5-Ug
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:59:52 -0500
+Received: from inca-roads.misterjones.org ([213.251.177.50]:49759)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZBo0-0000FS-AG
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:41:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574678479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dCRQP/z3jy7adrZ70T+bVSNDPJX0ONHURkfCURA390o=;
- b=Ey9AcVbSF129XujhueEGy3tguSo2eZCH+S2PmAzKkcf3rasBjegx97rroK7PZKiOUY+oaQ
- +wDF4JvI02VICj6WWTdQvsh/tQN9iQHGaJbMbMlIqXab1aPHK/XgP06hdyrTnYzKpf3Jqz
- Wxf3gqky+sT1O7EYzW0F7PnuqknC7QU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-C56pADOrODi6rZjZqo6slA-1; Mon, 25 Nov 2019 05:41:18 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DCA8184CAA2;
- Mon, 25 Nov 2019 10:41:17 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 744E65D9CA;
- Mon, 25 Nov 2019 10:41:05 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
-Date: Mon, 25 Nov 2019 11:41:03 +0100
-Message-Id: <20191125104103.28962-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <maz@kernel.org>) id 1iZC5v-0004wM-Np
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:59:51 -0500
+Received: from www-data by cheepnis.misterjones.org with local (Exim 4.80)
+ (envelope-from <maz@kernel.org>)
+ id 1iZC5s-0007Jj-BY; Mon, 25 Nov 2019 11:59:48 +0100
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] target/arm: Honor =?UTF-8?Q?HCR=5FEL=32=2ETID=33=20tr?=
+ =?UTF-8?Q?apping=20requirements?=
+X-PHP-Originating-Script: 0:main.inc
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: C56pADOrODi6rZjZqo6slA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 25 Nov 2019 10:59:48 +0000
+From: Marc Zyngier <maz@kernel.org>
+In-Reply-To: <20191125104021.GA2583@willie-the-truck>
+References: <20191123115618.29230-1-maz@kernel.org>
+ <20191125104021.GA2583@willie-the-truck>
+Message-ID: <747eccce18864c1b08b2ce4b3c16a48a@www.loen.fr>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/0.7.2
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Rcpt-To: will@kernel.org, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, peter.maydell@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
+ SAEximRunCond expanded to false
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 213.251.177.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,89 +58,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The r4k machine was introduced in 2005 (6af0bf9c7) and its last
-logical change was in 2005 (9542611a6). After we can count 164
-maintenance commits (QEMU API changes) with the exception of
-1 fix in 2015 (memory leak, commit 3ad9fd5a).
+On 2019-11-25 10:40, Will Deacon wrote:
+> On Sat, Nov 23, 2019 at 11:56:18AM +0000, Marc Zyngier wrote:
+>> HCR_EL2.TID3 mandates that access from EL1 to a long list of id
+>> registers traps to EL2, and QEMU has so far ignored this 
+>> requirement.
+>>
+>> This breaks (among other things) KVM guests that have PtrAuth 
+>> enabled,
+>> while the hypervisor doesn't want to expose the feature to its 
+>> guest.
+>> To achieve this, KVM traps the ID registers (ID_AA64ISAR1_EL1 in 
+>> this
+>> case), and masks out the unsupported feature.
+>>
+>> QEMU not honoring the trap request means that the guest observes
+>> that the feature is present in the HW, starts using it, and dies
+>> a horrible death when KVM injects an UNDEF, because the feature
+>> *really* isn't supported.
+>>
+>> Do the right thing by trapping to EL2 if HCR_EL2.TID3 is set.
+>>
+>> Reported-by: Will Deacon <will@kernel.org>
+>> Signed-off-by: Marc Zyngier <maz@kernel.org>
+>> ---
+>> There is a number of other trap bits missing (TID[0-2], for 
+>> example),
+>> but this at least gets a mainline Linux going with cpu=max.
+>>
+>>  target/arm/helper.c | 75 
+>> +++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 75 insertions(+)
+>
+> I took your fixes/el2_traps branch for a spin and I no longer get an
+> unexpected undefined instruction trap on first access to the ptrauth 
+> key
+> registers during context-switch:
+>
+> Tested-by: Will Deacon <will@kernel.org>
 
-This machine was introduced as a proof of concept to run a MIPS
-CPU. 2 years later, the Malta machine was add (commit 5856de80)
-modeling a real platform.
+Thanks for that. I'll post the whole series later today, though the 
+other
+bits are less critical.
 
-Note also this machine has no specification except 5 lines in
-the header of this file:
+Thanks,
 
- * emulates a simple machine with ISA-like bus.
- * ISA IO space mapped to the 0x14000000 (PHYS) and
- * ISA memory at the 0x10000000 (PHYS, 16Mb in size).
- * All peripherial devices are attached to this "bus" with
- * the standard PC ISA addresses.
-
-It is time to deprecate this obsolete machine. Users are
-recommended to use the Malta board, which hardware is well
-documented.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- qemu-deprecated.texi | 5 +++++
- hw/mips/mips_r4k.c   | 1 +
- MAINTAINERS          | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 4b4b7425ac..05265b43c8 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -266,6 +266,11 @@ The 'scsi-disk' device is deprecated. Users should use=
- 'scsi-hd' or
-=20
- @section System emulator machines
-=20
-+@subsection mips r4k platform (since 4.2)
-+
-+This machine type is very old and unmaintained. Users should use the 'malt=
-a'
-+machine type instead.
-+
- @subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
-=20
- These machine types are very old and likely can not be used for live migra=
-tion
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index 70024235ae..0b79ad26cb 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -294,6 +294,7 @@ void mips_r4k_init(MachineState *machine)
-=20
- static void mips_machine_init(MachineClass *mc)
- {
-+    mc->deprecation_reason =3D "use malta machine type instead";
-     mc->desc =3D "mips r4k platform";
-     mc->init =3D mips_r4k_init;
-     mc->block_default_type =3D IF_IDE;
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5e5e3e52d6..3b3a88e264 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -972,7 +972,7 @@ F: hw/net/mipsnet.c
- R4000
- M: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
--S: Maintained
-+S: Obsolete
- F: hw/mips/mips_r4k.c
-=20
- Fulong 2E
---=20
-2.21.0
-
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
