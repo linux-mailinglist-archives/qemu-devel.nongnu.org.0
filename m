@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55C71088EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:04:09 +0100 (CET)
-Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870221088FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:09:27 +0100 (CET)
+Received: from localhost ([::1]:40838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ8Po-0005F5-4x
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:04:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
+	id 1iZ8Uw-0004Hi-IV
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:09:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iZ8L6-0002Ue-KA
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:17 -0500
+ (envelope-from <clg@kaod.org>) id 1iZ8LC-0002cS-A8
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iZ8L5-0001VV-EO
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:16 -0500
-Received: from 10.mo68.mail-out.ovh.net ([46.105.79.203]:49033)
+ (envelope-from <clg@kaod.org>) id 1iZ8LA-0001a5-W5
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:22 -0500
+Received: from 2.mo173.mail-out.ovh.net ([178.33.251.49]:53371)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8L5-0001UN-8z
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:15 -0500
-Received: from player697.ha.ovh.net (unknown [10.109.160.153])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id BAC9B14DE65
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:13 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8LA-0001Yy-QC
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:20 -0500
+Received: from player697.ha.ovh.net (unknown [10.109.159.48])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 4CBDB123FAD
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:19 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id DDBD5C8094C1;
- Mon, 25 Nov 2019 06:59:06 +0000 (UTC)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 9482EC80952F;
+ Mon, 25 Nov 2019 06:59:13 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v6 07/20] ppc/pnv: Fix TIMA indirect access
-Date: Mon, 25 Nov 2019 07:58:07 +0100
-Message-Id: <20191125065820.927-8-clg@kaod.org>
+Subject: [PATCH v6 08/20] ppc/xive: Introduce a XiveFabric interface
+Date: Mon, 25 Nov 2019 07:58:08 +0100
+Message-Id: <20191125065820.927-9-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191125065820.927-1-clg@kaod.org>
 References: <20191125065820.927-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8917408738711538662
+X-Ovh-Tracer-Id: 8919097587041405926
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.79.203
+X-Received-From: 178.33.251.49
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,106 +61,79 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the TIMA of a CPU needs to be accessed from the indirect page,
-the thread id of the target CPU is first stored in the PC_TCTXT_INDIR0
-register. This thread id is relative to the chip and not to the system.
+The XiveFabric QOM interface acts as the PowerBUS interface between
+the interrupt controller and the system and should be implemented by
+the QEMU machine. On HW, the XIVE sub-engine is responsible for the
+communication with the other chip is the Common Queue (CQ) bridge
+unit.
 
-Introduce a helper routine to look for a CPU of a given PIR and fix
-pnv_xive_get_indirect_tctx() to scan only the threads of the local
-chip and not the whole machine.
+This interface offers a 'match_nvt' handler to perform the CAM line
+matching when looking for a XIVE Presenter with a dispatched NVT.
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h |  2 ++
- hw/intc/pnv_xive.c   | 13 +++++++------
- hw/ppc/pnv.c         | 17 +++++++++++++++++
- 3 files changed, 26 insertions(+), 6 deletions(-)
+ include/hw/ppc/xive.h | 22 ++++++++++++++++++++++
+ hw/intc/xive.c        | 10 ++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 12b0169a4010..a58cfea3f2fd 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -162,6 +162,8 @@ typedef struct PnvChipClass {
- #define PNV_CHIP_INDEX(chip)                                    \
-     (((chip)->chip_id >> 2) * 2 + ((chip)->chip_id & 0x3))
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index f9aa0fa0dac3..b00af988779b 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -399,6 +399,28 @@ int xive_presenter_tctx_match(XivePresenter *xptr, X=
+iveTCTX *tctx,
+                               uint8_t nvt_blk, uint32_t nvt_idx,
+                               bool cam_ignore, uint32_t logic_serv);
 =20
-+PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
++/*
++ * XIVE Fabric (Interface between Interrupt Controller and Machine)
++ */
 +
- #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
- #define PNV_MACHINE(obj) \
-     OBJECT_CHECK(PnvMachineState, (obj), TYPE_PNV_MACHINE)
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index ec8349ee4a1f..b2ab2ccc91e7 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1400,12 +1400,13 @@ static const MemoryRegionOps pnv_xive_ic_lsi_ops =
-=3D {
-  */
-=20
++typedef struct XiveFabric XiveFabric;
++
++#define TYPE_XIVE_FABRIC "xive-fabric"
++#define XIVE_FABRIC(obj)                                     \
++    INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
++#define XIVE_FABRIC_CLASS(klass)                                     \
++    OBJECT_CLASS_CHECK(XiveFabricClass, (klass), TYPE_XIVE_FABRIC)
++#define XIVE_FABRIC_GET_CLASS(obj)                                   \
++    OBJECT_GET_CLASS(XiveFabricClass, (obj), TYPE_XIVE_FABRIC)
++
++typedef struct XiveFabricClass {
++    InterfaceClass parent;
++    int (*match_nvt)(XiveFabric *xfb, uint8_t format,
++                     uint8_t nvt_blk, uint32_t nvt_idx,
++                     bool cam_ignore, uint8_t priority,
++                     uint32_t logic_serv, XiveTCTXMatch *match);
++} XiveFabricClass;
++
  /*
-- * When the TIMA is accessed from the indirect page, the thread id
-- * (PIR) has to be configured in the IC registers before. This is used
-- * for resets and for debug purpose also.
-+ * When the TIMA is accessed from the indirect page, the thread id of
-+ * the target CPU is configured in the PC_TCTXT_INDIR0 register before
-+ * use. This is used for resets and for debug purpose also.
+  * XIVE END ESBs
   */
- static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXive *xive)
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index da6196ca958f..1c9e58f8deac 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1893,8 +1893,18 @@ static const TypeInfo xive_presenter_info =3D {
+     .class_size =3D sizeof(XivePresenterClass),
+ };
+=20
++/*
++ * XIVE Fabric
++ */
++static const TypeInfo xive_fabric_info =3D {
++    .name =3D TYPE_XIVE_FABRIC,
++    .parent =3D TYPE_INTERFACE,
++    .class_size =3D sizeof(XiveFabricClass),
++};
++
+ static void xive_register_types(void)
  {
-+    PnvChip *chip =3D xive->chip;
-     uint64_t tctxt_indir =3D xive->regs[PC_TCTXT_INDIR0 >> 3];
-     PowerPCCPU *cpu =3D NULL;
-     int pir;
-@@ -1415,15 +1416,15 @@ static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXi=
-ve *xive)
-         return NULL;
-     }
-=20
--    pir =3D GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt_indir) & 0xff;
--    cpu =3D ppc_get_vcpu_by_pir(pir);
-+    pir =3D (chip->chip_id << 8) | GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt=
-_indir);
-+    cpu =3D pnv_chip_find_cpu(chip, pir);
-     if (!cpu) {
-         xive_error(xive, "IC: invalid PIR %x for indirect access", pir);
-         return NULL;
-     }
-=20
-     /* Check that HW thread is XIVE enabled */
--    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
-+    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
-         xive_error(xive, "IC: CPU %x is not enabled", pir);
-     }
-=20
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d899c83e5255..8f688f4efc5a 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1371,6 +1371,23 @@ static void pnv_chip_class_init(ObjectClass *klass=
-, void *data)
-     dc->desc =3D "PowerNV Chip";
- }
-=20
-+PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
-+{
-+    int i, j;
-+
-+    for (i =3D 0; i < chip->nr_cores; i++) {
-+        PnvCore *pc =3D chip->cores[i];
-+        CPUCore *cc =3D CPU_CORE(pc);
-+
-+        for (j =3D 0; j < cc->nr_threads; j++) {
-+            if (ppc_cpu_pir(pc->threads[j]) =3D=3D pir) {
-+                return pc->threads[j];
-+            }
-+        }
-+    }
-+    return NULL;
-+}
-+
- static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
- {
-     PnvMachineState *pnv =3D PNV_MACHINE(xi);
++    type_register_static(&xive_fabric_info);
+     type_register_static(&xive_source_info);
+     type_register_static(&xive_notifier_info);
+     type_register_static(&xive_presenter_info);
 --=20
 2.21.0
 
