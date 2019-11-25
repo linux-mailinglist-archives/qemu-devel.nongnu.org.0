@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC58109145
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:50:29 +0100 (CET)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7D010915A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:52:29 +0100 (CET)
+Received: from localhost ([::1]:45672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZGdA-0000Kp-4Q
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:50:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34025)
+	id 1iZGf6-0003LT-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iZGTp-0000U2-8f
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:50 -0500
+ (envelope-from <crosa@redhat.com>) id 1iZGUS-0001NE-75
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:41:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iZGTo-00031R-37
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:49 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41614
+ (envelope-from <crosa@redhat.com>) id 1iZGUQ-000404-Sn
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:41:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43175
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iZGTn-00030p-V6
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:48 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iZGUQ-0003zu-N0
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:41:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574696447;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1574696485;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UpOn6Na2p1Jiw8koUNq+IGodiPP9AnTwGCaopCORq/k=;
- b=Vnv1TkWsvclPgAmEg+/wZ5TH1v4H2TMluLAvob4E/3xDEuwoODSQuXCBLDOPuQ2h5+s+Gx
- ELdHU3KiqEz0aM7zlc52tWstsEAUycvqbkp5IlUfO1b7utLZI826lQzyXY5tUf9AOPtCxJ
- lNuyzeoNAW9LVtx8Dl+bBx/HMM5zUs4=
+ bh=fQaWVzVZ1B0SYZALfmP07G1f0YhKQp+DvqYddSJHQww=;
+ b=WjAI8P0nb8B69L59in4GOLdvyRN5/hX7lggU/DDMU1c9ncORkE82ePIsXgRI28wm9BFuz/
+ UAkO3iajLjMTx5RpeBdn8arM/hYgaCGHPgku4HU4NCuZ4CRzIYai/wtMuuCrxsDNoNFvvy
+ 03uf6qWQxMMOVBrGzQHGkEFElbcKgUo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-lt4pjHqWOCqoGXdOgGQ1Yw-1; Mon, 25 Nov 2019 10:40:41 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-273-uBBMN1BjOb2SWP8XoIAJUw-1; Mon, 25 Nov 2019 10:41:24 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2506E881D30;
- Mon, 25 Nov 2019 15:40:40 +0000 (UTC)
-Received: from redhat.com (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B1125C290;
- Mon, 25 Nov 2019 15:40:24 +0000 (UTC)
-Date: Mon, 25 Nov 2019 15:40:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Subject: Re: [libvirt] [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
-Message-ID: <20191125154021.GI4157473@redhat.com>
-References: <20191125104103.28962-1-philmd@redhat.com>
- <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 689F18C7B88
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 15:41:23 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FAFF60872
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 15:41:23 +0000 (UTC)
+Received: from zmail17.collab.prod.int.phx2.redhat.com
+ (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 4F4014BB65;
+ Mon, 25 Nov 2019 15:41:23 +0000 (UTC)
+Date: Mon, 25 Nov 2019 10:41:22 -0500 (EST)
+From: Cleber Rosa <crosa@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <576589940.13717697.1574696482968.JavaMail.zimbra@redhat.com>
+In-Reply-To: <20191125141553.kb6y2zx2qlley27p@sirius.home.kraxel.org>
+References: <9b3b2ff0-a3bb-c7ba-d7ce-d178e8fbd5d8@redhat.com>
+ <20191125135802.GH4438@habkost.net>
+ <20191125141553.kb6y2zx2qlley27p@sirius.home.kraxel.org>
+Subject: Re: Avocado notes from KVM forum 2019
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: lt4pjHqWOCqoGXdOgGQ1Yw-1
+X-Originating-IP: [10.10.120.170, 10.4.195.26]
+Thread-Topic: Avocado notes from KVM forum 2019
+Thread-Index: ni5m7z/lf5Q8hLLshQd3zofGRiFSPA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: uBBMN1BjOb2SWP8XoIAJUw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -74,58 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+Cc: avocado-devel@redhat.com,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 25, 2019 at 03:45:35PM +0100, Aleksandar Markovic wrote:
-> On Monday, November 25, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-> wrote:
+
+
+----- Original Message -----
+> From: "Gerd Hoffmann" <kraxel@redhat.com>
+> To: "Eduardo Habkost" <ehabkost@redhat.com>
+> Cc: avocado-devel@redhat.com, "Philippe Mathieu-Daud=C3=A9" <philmd@redha=
+t.com>, "qemu-devel" <qemu-devel@nongnu.org>,
+> "Wainer dos Santos Moschetta" <wainersm@redhat.com>, "Cleber Rosa" <crosa=
+@redhat.com>
+> Sent: Monday, November 25, 2019 9:15:53 AM
+> Subject: Re: Avocado notes from KVM forum 2019
 >=20
-> > The r4k machine was introduced in 2005 (6af0bf9c7) and its last
-> > logical change was in 2005 (9542611a6). After we can count 164
-> > maintenance commits (QEMU API changes) with the exception of
-> > 1 fix in 2015 (memory leak, commit 3ad9fd5a).
-> >
-> >
-> Please don't start any deprecation process. This requires certain
-> consultation within my company. Rest assured that everyone's opinion will
-> be taken into account while doing consiltation.
+> > > 1) Working offline
+> > >=20
+> > > Various people complained Avocado requires online access, and they wo=
+uld
+> > > like to use it offline.
+> > >=20
+> > >   Maintainer workflow example is:
+> > >=20
+> > >   - run avocado
+> > >   - hack QEMU, build
+> > >   - git pull
+> > >   - build
+> > >   - hack QEMU
+> > >   (go offline)
+> > >   - hack QEMU
+> > >   - build
+> > >   - run avocado <- FAILS
+> > >=20
+> >=20
+> > Ouch.  This shouldn't happen even with no explicit --offline
+> > option.  Failure to download artifacts shouldn't make tests
+> > report failure.
+>=20
+> Related (and already discussed in the past):  There should be a separate
+> "downloads artifacts", especially for larger ones which easily fail to
+> download on slower internet links due to hitting the test timeout while
+> downloading ...
+>=20
 
-The idea of having a deprecation process is precisely to
-allow time for people like to provide feedback before any
-deletion takes place. So this is not a reason to delay
-starting of deprecation.
+Hi Gerd,
 
-The process lasts for 2 releases before we delete anything:
+We listened to you :) and that's an Avocado 73.0 feature (released Friday,
+very first bullet point item):
 
-  https://qemu.weilnetz.de/doc/qemu-doc.html#Deprecated-features
+  https://avocado-framework.readthedocs.io/en/73.0/releases/73_0.html
 
-When we start the clock now, it is deprecated when 5.0 releases
-in April 2020, and still deprecated with 5.1 in August 2020.
+It doesn't cover all use cases, but works as expected for QEMU.  I'm just
+waiting the end of the code freeze to bump the Avocado version and have
+that in by default.
 
-The code won't be deleted until Sep 2020 when 5.2 dev cycle opens,
-and there's still time to undelete it right up until the 5.2 feature
-freeze in late Oct 2020. That's 11 months away, which is plenty of
-time for feedback IMHO.
+Thanks!
+- Cleber.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+> cheers,
+>   Gerd
+>=20
+>=20
+>=20
 
 
