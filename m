@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5168108E2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:49:01 +0100 (CET)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39586108E23
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:46:00 +0100 (CET)
+Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZDnX-0004Mp-By
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:49:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
+	id 1iZDkc-0002MK-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:45:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZDkU-00036n-79
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:53 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iZDj7-0001tO-Nf
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:44:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZDkS-0006Od-E5
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46158)
+ (envelope-from <beata.michalska@linaro.org>) id 1iZDj6-0005tD-D3
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:44:25 -0500
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZDkS-0006NT-5E
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZDkQ-0006lr-Hw
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:45:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B6492E80C8
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:45:46 +0000 (UTC)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iZDj6-0005sY-5y
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:44:24 -0500
+Received: by mail-il1-x144.google.com with SMTP id o18so14002671ils.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 04:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=15fQz/ukKmnrXq2A3zCq0s4LrSaWEj4oxlRAK43YEg0=;
+ b=CL2/6XX0H/nMkW7nejajP8RINQTvR4Z9lon6nm//ooPJWVkbVTGgGlply0Kj07yr6d
+ KXTAwV0ZcIovT4/rUJRC42oX/Uq2wvx28lp/GaKCUYn0sPOGhtQFDKAYK6jgdLzT8RZE
+ RHnJeC+gbvUUe6GQKyUkOKq4+qzfSvkY3mkqqigW9bwLlC2MlyNrIOXPcj4S1ev7RuQm
+ 2W9SfbR4JXYoo32NzjsPjVbE3muMFm9OIJ+sMwhEAw/2Kx8X3NFpvKkgE7jQpzLHYeGo
+ jdOjwZs92CVQJF6cwoLWJOUUkaoBuGflqKdk/oRZinLHpGws74SGs8GeLXyHtGbWFELF
+ iTtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=15fQz/ukKmnrXq2A3zCq0s4LrSaWEj4oxlRAK43YEg0=;
+ b=DRj1nEmoDPGrpMuiIEGl9bGVedzg27H/zcSSnJJpwle3pf+5c4pIIroop+F/oNkXQ5
+ /4F3qp/wftekvH/WxPsGj14+ppU6nObcPptuajcaopYWqcnJkKNRGPbiXL6Vt4tjdUKI
+ gRFDdQXcy7NSJSwKl70LXq7lWgM9UpK7IBYK/yTNYgXOzq3Vyimh8vSqW2K+Zls7xLe0
+ UnwkhISp/E/xV6J6pDLaixgWy8kQep/SG6dkoxmRA9wce00IPAVZegZEWp60mHpMRSB9
+ 53HZQokXi67n1QsEJnCoSLyLV4de1RrX4Ws3xwK7ojuWifySRtYEK0x/0kz+Y+jN1RRt
+ hmFw==
+X-Gm-Message-State: APjAAAUz/hEDfr7ONNXGMdnpdC0T8FwCAPkBL+ln5adKcdDtnJlyORIV
+ T27PUkWXgQYkzKZPDp/8wOq0Xn5AG1vAgcauYDdrzA==
+X-Google-Smtp-Source: APXvYqwSowqLEL6CHnQnvGXMUZLmixfsWZEcw1+I2oMpCnew6lsqOjEJN8dKTGEEdGwXKG2l5NyBgyJRcjXQkQ2Uq8M=
+X-Received: by 2002:a92:c887:: with SMTP id w7mr32281304ilo.143.1574685863200; 
+ Mon, 25 Nov 2019 04:44:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Nov 2019 12:35:15 -0000
-From: Caroline Concatto <1853826@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee carolineconcatto
-X-Launchpad-Bug-Reporter: Caroline Concatto (carolineconcatto)
-X-Launchpad-Bug-Modifier: Caroline Concatto (carolineconcatto)
-References: <157468002661.30952.10642264809488923382.malonedeb@wampee.canonical.com>
-Message-Id: <157468531537.21660.9812670021216308384.malone@soybean.canonical.com>
-Subject: [Bug 1853826] Re: ELF loader fails to load shared object on ThunderX2
- running RHEL7
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 076d0aaf7a8a1734ffdbf04c559ac5dd5be26251
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+References: <20191015103900.313928-1-its@irrelevant.dk>
+ <20191015103900.313928-10-its@irrelevant.dk>
+ <CADSWDzuzDPZdXUi-3e-TbwDy8GcGZPM78cA0fUU84nOj+y3NCA@mail.gmail.com>
+ <20191119195110.GA1022320@apples.localdomain>
+In-Reply-To: <20191119195110.GA1022320@apples.localdomain>
+From: Beata Michalska <beata.michalska@linaro.org>
+Date: Mon, 25 Nov 2019 12:44:11 +0000
+Message-ID: <CADSWDzsAf9cF1tpyvaqb_ZU7RW1mXVv3MN+QFZ5VJj6t2C+ChA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/20] nvme: add support for the asynchronous event
+ request command
+To: Klaus Birkelund <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,264 +75,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853826 <1853826@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paul Durrant <Paul.Durrant@citrix.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-****Taishan 2280 Cortex-A72
-      Running
-1)with -armpl flag with and without the docker
-  armclang -armpl hello.c
- ./qemu/build/aarch64-linux-user/qemu-aarch64 -d page a.out
-
-host mmap_min_addr=3D0x8000
-Reserved 0x21000 bytes of guest address space
-Relocating guest address space from 0x0000000000400000 to 0x288a000
-guest_base  0x248a000
-start            end              size             prot
-0000000000400000-0000000000401000 0000000000001000 r-x
-000000000041f000-0000000000421000 0000000000002000 rw-
-0000004000000000-0000004000001000 0000000000001000 ---
-0000004000001000-0000004000801000 0000000000800000 rw-
-0000004000801000-000000400081f000 000000000001e000 r-x
-000000400081f000-0000004000830000 0000000000011000 ---
-0000004000830000-0000004000833000 0000000000003000 rw-
-start_brk   0x0000000000000000
-end_code    0x00000000004009f4
-start_code  0x0000000000400000
-start_data  0x000000000041fd68
-end_data    0x0000000000420024
-start_stack 0x0000004000800510
-brk         0x0000000000420028
-entry       0x00000040008020e0
-argv_start  0x0000004000800518
-env_start   0x0000004000800528
-auxv_start  0x0000004000800588
-Hello World...
-
-****Taishan - tsv110 Kunpeng 920
-       For Running
-
-1)with -armpl flag with and without the docker
-  armclang -armpl hello.c
- ./qemu/build/aarch64-linux-user/qemu-aarch64 -d page a.out
-
-host mmap_min_addr=3D0x1000
-Reserved 0x30000 bytes of guest address space
-Relocating guest address space from 0x0000000000400000 to 0x2890000
-guest_base  0x2490000
-start            end              size             prot
-0000000000400000-0000000000410000 0000000000010000 r-x
-0000000000410000-0000000000430000 0000000000020000 rw-
-0000004000000000-0000004000010000 0000000000010000 ---
-0000004000010000-0000004000810000 0000000000800000 rw-
-0000004000810000-0000004000830000 0000000000020000 r-x
-0000004000830000-0000004000850000 0000000000020000 rw-
-start_brk   0x0000000000000000
-end_code    0x00000000004009f4
-start_code  0x0000000000400000
-start_data  0x000000000041fd68
-end_data    0x0000000000420024
-start_stack 0x000000400080f560
-brk         0x0000000000420028
-entry       0x00000040008110e0
-argv_start  0x000000400080f568
-env_start   0x000000400080f578
-auxv_start  0x000000400080f5d8
-qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0xffffb1=
-938536
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853826
-
-Title:
-  ELF loader fails to load shared object on ThunderX2 running RHEL7
-
-Status in QEMU:
-  New
-
-Bug description:
-  Simple test:
-  hello.c
-
-  include <stdio.h>
-
-  int main(int argc, char* argv[])
-  {
-    {
-      printf("Hello World... \n");
-    }
-    return 0;
-  }
-
-  when compiled with :
-  *Compiler =
-
-  https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
-ure-tools/arm-allinea-studio/download
-  Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar	 =
-
-
-  *Running:
-  1) with -armpl
-       armclang -armpl hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-  2) without flag
-      armclang hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-
-  =E2=80=A2With Docker image:
-         CentOS Linux release 7.7.1908 (AltArch)
-
-  *Two different machines:
-         AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
-         AArch64, Taishan 2280, Cortex-A72, ARMv8-A
-
-  *QEMU 4.0
-       qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
-
-  =
-
-  Results:
-
-  =
-
-   ****Taishan 2280 Cortex-A72 =
-
-        Running =
-
-  1)with -armpl flag with and without the docker
-            WORKS-> Hello World...
-                 -> ldd a.out
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000) =
-
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffbc544000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffbc472000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffbbfd30=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffbbef5000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffb3306000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffb2f30000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffb2eff000) =
-
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
-             =
-
-
-  Running =
-
-  2) without -armpl flag with and without the docker
-             WORKS -> Hello World...        =
-
-                   -> ldd a.out
-  ldd a.out
-   linux-vdso.so.1 =3D>  (0x0000ffffa6895000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffa6846000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
-      =
-
-
-  ****Taishan - tsv110  Kunpeng 920
-         For Running =
-
-
-  1)with -armpl flag with and without the docker
-             DOES NOT WORK -> with and without Docker
-                           -> It shows : qemu:handle_cpu_signal received si=
-gnal outside vCPU
-   context @ pc=3D0xffffaaa8844a
-                           -> ldd a.out =
-
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffad370000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffad270000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffacdd00=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffaccf0000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffa40e0000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffa3d00000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffa3cc0000)
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
-              =
-
-
-  Running =
-
-  2) without -armpl flag with and without the docker
-                 WORKS -> Hello World..
-                       -> ldd a.out
-  ldd a.out  =
-
-  linux-vdso.so.1 =3D>  (0x0000ffff880c0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffff88080000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
-  /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
+On Tue, 19 Nov 2019 at 19:51, Klaus Birkelund <its@irrelevant.dk> wrote:
+>
+> On Tue, Nov 12, 2019 at 03:04:59PM +0000, Beata Michalska wrote:
+> > Hi Klaus,
+> >
+> > On Tue, 15 Oct 2019 at 11:49, Klaus Jensen <its@irrelevant.dk> wrote:
+> > > @@ -1188,6 +1326,9 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+> > >
+> > >      nvme_set_timestamp(n, 0ULL);
+> > >
+> > > +    n->aer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_aers, n);
+> > > +    QTAILQ_INIT(&n->aer_queue);
+> > > +
+> >
+> > Is the timer really needed here ? The CEQ can be posted either when requested
+> > by host through AER, if there are any pending events, or once the
+> > event is triggered
+> > and there are active AER's.
+> >
+>
+> I guess you are right. I mostly cribbed this from Keith's tree, but I
+> see no reason to keep the timer.
+>
+> Keith, do you have any comments on this?
+>
+> > > @@ -1380,6 +1521,13 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+> > >                             "completion queue doorbell write"
+> > >                             " for nonexistent queue,"
+> > >                             " sqid=%"PRIu32", ignoring", qid);
+> > > +
+> > > +            if (n->outstanding_aers) {
+> > > +                nvme_enqueue_event(n, NVME_AER_TYPE_ERROR,
+> > > +                    NVME_AER_INFO_ERR_INVALID_DB_REGISTER,
+> > > +                    NVME_LOG_ERROR_INFO);
+> > > +            }
+> > > +
+> > This one (as well as cases below) might not be entirely right
+> > according to the spec. If given event is enabled for asynchronous
+> > reporting the controller should retain that even. In this case, the event
+> > will be ignored as there is no pending request.
+> >
+>
+> I understand these notifications to be special cases (i.e. they cannot
+> be enabled/disabled through the Asynchronous Event Configuration
+> feature). See Section 4.1 of NVM Express 1.2.1. The spec specifically
+> says that "... and an Asynchronous Event Request command is outstanding,
+> ...).
+>
+
+ OK, I have missed that one.
+Thanks for the reference.
+
+BR
+Beata
+> > > @@ -1591,6 +1759,7 @@ static void nvme_init_ctrl(NvmeCtrl *n)
+> > >      id->ver = cpu_to_le32(0x00010201);
+> > >      id->oacs = cpu_to_le16(0);
+> > >      id->acl = 3;
+> > > +    id->aerl = n->params.aerl;
+> >
+> > What about the configuration for the asynchronous events ?
+> >
+>
+> It will default to an AEC vector of 0 (everything disabled).
+>
+>
+> K
 
