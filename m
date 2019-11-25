@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19872108DBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:23:36 +0100 (CET)
-Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA14108D77
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:02:22 +0100 (CET)
+Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZDOx-0001h4-1l
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:23:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
+	id 1iZD4P-0000Xf-2e
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:02:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZDMe-0007SN-L3
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:21:14 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZD2t-0008DQ-4v
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZDCX-0003zo-2G
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:10:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38886)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZDCW-0003zQ-Sp
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:10:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZDCV-0002Ad-Li
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:10:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9F6F92E8037
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:10:43 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iZD2r-0006a3-LT
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:46 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22033
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZD2r-0006Zu-Hp
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574683245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=i3bH86M0F4tQW0UlsxlTEfV1rB1JEjM6pZo7Mg8LwZQ=;
+ b=TGEprCKkP5VIkkeIdmg9+p/SQb1PBwnbijrMfvOnFDS33OqjRDWqLgKoY49YIXQoLf+qP9
+ T7yzwkMKOXpCcH6rX1u1iIj7oFGd/5JLkXadKxf0b+L9W0EduagdaKGQuqvml2J+EPKHaU
+ 0QmPPOC6uGU4wh+2an4NIgwomI/kRY8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-b0a1QUMKNF2IRYgFvCNUzA-1; Mon, 25 Nov 2019 07:00:35 -0500
+X-MC-Unique: b0a1QUMKNF2IRYgFvCNUzA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A29FD18557C4;
+ Mon, 25 Nov 2019 12:00:34 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 46169600C6;
+ Mon, 25 Nov 2019 12:00:28 +0000 (UTC)
+Subject: Re: [PATCH v3 2/8] block: Add no_fallback parameter to
+ bdrv_co_truncate()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20191122160511.8377-1-kwolf@redhat.com>
+ <20191122160511.8377-3-kwolf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8e67b160-02db-4b09-4748-405f740bd159@redhat.com>
+Date: Mon, 25 Nov 2019 13:00:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Nov 2019 11:56:46 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1853781@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: baremetal raspi2
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: evan-rysdam philmd
-X-Launchpad-Bug-Reporter: Evan Rysdam (evan-rysdam)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <157463269344.7205.8988702228388398977.malonedeb@gac.canonical.com>
-Message-Id: <157468300611.6824.14443426549833258334.malone@gac.canonical.com>
-Subject: [Bug 1853781] Re: Baremetal kernel built from assembly runs multiple
- times
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1680f5ca93eee6c2eaf0b89f4602bad8ed7efebe
+In-Reply-To: <20191122160511.8377-3-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,108 +98,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853781 <1853781@bugs.launchpad.net>
+Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You can look at hw/arm/raspi.c::write_smpboot():
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7
+Content-Type: multipart/mixed; boundary="SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys"
 
-While the first core start booting the kernel, the other cores keep
-spinning until the 1st core configured the mailboxes:
+--SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-static const uint32_t smpboot[] =3D {
-    0xe1a0e00f, /*    mov     lr, pc */
-    0xe3a0fe00 + (BOARDSETUP_ADDR >> 4), /* mov pc, BOARDSETUP_ADDR */
-    0xee100fb0, /*    mrc     p15, 0, r0, c0, c0, 5;get core ID */
-    0xe7e10050, /*    ubfx    r0, r0, #0, #2       ;extract LSB */
-    0xe59f5014, /*    ldr     r5, =3D0x400000CC      ;load mbox base */
-    0xe320f001, /* 1: yield */
-    0xe7953200, /*    ldr     r3, [r5, r0, lsl #4] ;read mbox for our core*/
-    0xe3530000, /*    cmp     r3, #0               ;spin while zero */
-    0x0afffffb, /*    beq     1b */
-    0xe7853200, /*    str     r3, [r5, r0, lsl #4] ;clear mbox */
-    0xe12fff13, /*    bx      r3                   ;jump to target */
-    0x400000cc, /* (constant: mailbox 3 read/clear base) */
-};
+On 22.11.19 17:05, Kevin Wolf wrote:
+> This adds a no_fallback parameter to bdrv_co_truncate(), bdrv_truncate()
+> and blk_truncate() in preparation for a fix that potentially needs to
+> zero-write the new area. no_fallback will use BDRV_REQ_NO_FALLBACK for
+> this operation and lets the truncate fail if an efficient zero write
+> isn't possible.
+>=20
+> Only qmp_block_resize() passes true for this parameter because it is a
+> blocking monitor command, so we don't want to add more potentially slow
+> I/O operations to it than we already have.
+>=20
+> All other users will accept even a slow fallback to avoid failure.
+>=20
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  include/block/block.h          |  5 +++--
+>  include/sysemu/block-backend.h |  2 +-
+>  block/block-backend.c          |  4 ++--
+>  block/commit.c                 |  4 ++--
+>  block/crypto.c                 |  4 ++--
+>  block/io.c                     | 16 ++++++++++++----
+>  block/mirror.c                 |  2 +-
+>  block/parallels.c              |  6 +++---
+>  block/qcow.c                   |  4 ++--
+>  block/qcow2-refcount.c         |  2 +-
+>  block/qcow2.c                  | 19 +++++++++++--------
+>  block/qed.c                    |  2 +-
+>  block/raw-format.c             |  2 +-
+>  block/vdi.c                    |  2 +-
+>  block/vhdx-log.c               |  2 +-
+>  block/vhdx.c                   |  6 +++---
+>  block/vmdk.c                   | 10 ++++++----
+>  block/vpc.c                    |  2 +-
+>  blockdev.c                     |  2 +-
+>  qemu-img.c                     |  2 +-
+>  qemu-io-cmds.c                 |  2 +-
+>  tests/test-block-iothread.c    |  6 +++---
+>  22 files changed, 60 insertions(+), 46 deletions(-)
 
-When the mailboxes are configured, all the cores can communicate between
-each others (and with the VC GPU).
+With the typo pointed out by Eric fixed:
 
--- =
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853781
 
-Title:
-  Baremetal kernel built from assembly runs multiple times
+--SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys--
 
-Status in QEMU:
-  Invalid
+--4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Bug description:
-  QEMU version: 4.1.0.
+-----BEGIN PGP SIGNATURE-----
 
-  Full command used to launch: qemu-system-arm -machine raspi2 -kernel
-  main
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3bwloACgkQ9AfbAGHV
+z0BWQggAic7tERxJ8MnT7pkutgx9GlLVudAPczERyJCuZN+7Z4vGhJeo641/d3OD
+b3F2232G1yrV41BwIai8XamwZUz1xuSkfY3XszOgETt4Aw3vAmaeAjlzqrM+cZnR
+SMacE4plEVE69UG5yLa87BCWqLVJyhp8IMQ/IPESJBGJR4TI5cmAUhY9dV8nRmOh
++xN00+b5bczcyCVmg6tS3/jJBQ07EHjtxLaYRVLxAF3kH3V8RIOAeg/70ptCOu24
+/oJQXwRutm/l06vIu5ID57AUPjR0ZcRyOZiYIrSQk1VGQa2i29RGPhWIDuC+GmIq
++q9AG+WQJxifP2Qyc/CiP9fV/cyXsA==
+=4md2
+-----END PGP SIGNATURE-----
 
-  (Technically, the first term of the command is actually
-  "~/Applications/QEMU/qemu-4.1.0/build/arm-softmmu/qemu-system-arm",
-  but I shortened it for readability.)
+--4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7--
 
-  Host information: Running debian 9.9 on a 64-bit x86 processor (Intel
-  i5-2520M).
-
-  Guest information: No operating system. I'm providing my own kernel,
-  which I assembled from a 60-line ARM assembly program using arm-none-
-  eabi-as and then linked with arm-none-eabi-ld, both version
-  2.28-5+9+b3.
-
-  Additional details: To view the screen output of the program, I am
-  using vncviewer version 6.19.1115 (r42122). All of the above software
-  packages were installed as debian packages using apt, except for QEMU,
-  which I built from source after downloading from the official website.
-
-  .
-
-  The issue here is that I have written a program in assembly and it
-  isn't doing what I expect it to when I emulate it. Here's a summary of
-  the code:
-
-  1) Read a number from zero-initialized memory.
-
-  2) Add one to the number and write it back.
-
-  3) Use the number to determine a screen location to write to.
-
-  4) Use the number to determine what color to write.
-
-  5) Write 4000 half-words to the screen starting at that offset and
-  using that color. This should result in a stripe across the whole
-  screen that's about 6 pixels tall.
-
-  The expected behavior is that *one* stripe should appear on the screen
-  in a single color. However, the actual behavior is that up to *four*
-  stripes appear, each in a different color. Furthermore, if I comment
-  out the line that writes the incremented counter back to memory, then
-  only one stripe will appear.
-
-  I will also note that the Raspberry Pi 2, which is the system I'm
-  emulating, has four cores. What I suspect is going on here is that my
-  code is being loaded onto all four cores of the emulated machine. I
-  couldn't find anything about this anywhere in the documentation, and
-  it strikes me as bug.
-
-  I have attached the assmebly code that I'm using, as well as a short
-  makefile. Since I can only add one attachment to this report, I've
-  combined the two into a single text file and labeled each. After
-  separating the two into two files, you will need to change the first
-  line of the makefile to point to your installation of qemu-system-arm
-  v4.1.0. After that, type "make run" to run the program.
-
-  Thanks in advance,
-  Evan Rysdam
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853781/+subscriptions
 
