@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BBC108FE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:26:06 +0100 (CET)
-Received: from localhost ([::1]:44582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557BA108FC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:24:35 +0100 (CET)
+Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZFJV-0006tq-3n
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:26:05 -0500
+	id 1iZFI2-0004tO-95
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:24:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10]:49558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iZFG1-0002mk-1z
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:22:29 -0500
+ (envelope-from <philmd@redhat.com>) id 1iZFFw-0002mk-3V
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:22:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iZF9q-0004g6-7K
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:16:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47674
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iZFBj-0007Yv-16
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:18:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:39815
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iZF9q-0004eh-3R
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:16:06 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZFBi-0007Wi-UF
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:18:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574691365;
+ s=mimecast20190719; t=1574691482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mgotSoUNbxcCWh+6DzlU1YcbQ2Ye8GRyO4y9HJ4noiE=;
- b=VS9RnaCrPeS/p6eblf2ZeMqlfJ7hUpbAh+2I7iQKA3w8FvGf5y3WJ9TQnWGlGzpOZYraqE
- 1Sfb7UiTN7rF3p/5TReQthdoHzIcGWkelle6JChTOWa7O3F6A8pjQ5Dfj2kjkN0vZcxW+g
- /m3+CDJKGTOpRmvew+YFnZwJnUas4z0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-1_TftK4vP8i-1zj7kUZB6w-1; Mon, 25 Nov 2019 09:16:03 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99D3010B169F
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 14:16:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9639D5C1D4;
- Mon, 25 Nov 2019 14:15:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6C05D9C90; Mon, 25 Nov 2019 15:15:53 +0100 (CET)
-Date: Mon, 25 Nov 2019 15:15:53 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: Avocado notes from KVM forum 2019
-Message-ID: <20191125141553.kb6y2zx2qlley27p@sirius.home.kraxel.org>
-References: <9b3b2ff0-a3bb-c7ba-d7ce-d178e8fbd5d8@redhat.com>
- <20191125135802.GH4438@habkost.net>
+ bh=qaFD3f7HMP8cL1ToH5R+SqgA9eUolEzEIxWblD1mqnE=;
+ b=ctgcbWo6Txa8vwSljiywONQqEtDN57gZbtIM+J2IlDz9c6NDVJ0idYkUvnku0bz1l40Cyt
+ NnX59/yL7757wLftJcotjFUE2Xx0hN+lOxCICF/5kEcbntwFQSSob+zLkqbPeQQnp9otzV
+ /o7CkW1onaevfjGM1AdRvv0rkiO6DE0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-aQ2h8Gn7NQWURoP5FfiESA-1; Mon, 25 Nov 2019 09:17:58 -0500
+Received: by mail-wm1-f71.google.com with SMTP id o135so3816569wme.2
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 06:17:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0BrC9KBfOfeOJ+nX3vNAcQ+cDBIyTuwtkb+cj2hz++g=;
+ b=hIY685Sw+z8LmuMlXAFLNxKmTFBXKZBw1SHZQ1O2YWNv82daqHV+cAlzDnwQMY9Ugm
+ PN8E9QkE7LCQibOHU33J1YyOXB8por6HEayGbb/QAF8Nm0RkF3V6dUGsuuKsK7QKUnUd
+ L/R/ZFdGAaGTG+Nmz/lMPKIyYTOhifdnenfJh/ts3YqxZJBhk6pzT696PAMfRE+fZAhj
+ ttT1A/x9TNuty9MEIvUTf7PmnFv8ZhY5Wm0Pi3ntiN4uIFEJUy1tnYsLAQAQyiU9l7fx
+ c0OsjrHj934SY3hCPN/g8a/9gUzBbgiyKuCzk/4tM7sMAmUbzbwA9zGEnwrg08UcI2oL
+ JR9g==
+X-Gm-Message-State: APjAAAW6tCNS62P9uAmqhr2SumYs+kluSSzrcMpbOQxhogZADaWr9J9f
+ pSpbVbVDl+4AbhC9AZ4I1ctFz2NXmvvkT/MdeGl0zGTS6fZv6BPfEpMcfbAS2axB4uPXmFy/7Dm
+ +gC1YyDFlT1nUHnY=
+X-Received: by 2002:a5d:4146:: with SMTP id c6mr30815822wrq.250.1574691477729; 
+ Mon, 25 Nov 2019 06:17:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxiP3ZwDpMMLYsnSgWBe5uSRK1CKp4DycKmevreQiuskUlBfVMSlQV/8M6nPh0fyAGREyu9MA==
+X-Received: by 2002:a5d:4146:: with SMTP id c6mr30815782wrq.250.1574691477356; 
+ Mon, 25 Nov 2019 06:17:57 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id 65sm11322158wrs.9.2019.11.25.06.17.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Nov 2019 06:17:56 -0800 (PST)
+Subject: Re: [PATCH 1/2] util/cutils: Turn FIXME comment into
+ QEMU_BUILD_BUG_ON()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20191125133846.27790-1-armbru@redhat.com>
+ <20191125133846.27790-2-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c195ba59-6cb8-526f-5450-914051ef5f6f@redhat.com>
+Date: Mon, 25 Nov 2019 15:17:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191125135802.GH4438@habkost.net>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 1_TftK4vP8i-1zj7kUZB6w-1
+In-Reply-To: <20191125133846.27790-2-armbru@redhat.com>
+Content-Language: en-US
+X-MC-Unique: aQ2h8Gn7NQWURoP5FfiESA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: avocado-devel@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-trivial@nongnu.org, tao3.xu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > 1) Working offline
-> >=20
-> > Various people complained Avocado requires online access, and they woul=
-d
-> > like to use it offline.
-> >=20
-> >   Maintainer workflow example is:
-> >=20
-> >   - run avocado
-> >   - hack QEMU, build
-> >   - git pull
-> >   - build
-> >   - hack QEMU
-> >   (go offline)
-> >   - hack QEMU
-> >   - build
-> >   - run avocado <- FAILS
-> >=20
+On 11/25/19 2:38 PM, Markus Armbruster wrote:
+> qemu_strtoi64() assumes int64_t is long long.  This is marked FIXME.
+> Replace by a QEMU_BUILD_BUG_ON() to avoid surprises.
 >=20
-> Ouch.  This shouldn't happen even with no explicit --offline
-> option.  Failure to download artifacts shouldn't make tests
-> report failure.
+> Same for qemu_strtou64().
+>=20
+> Fix a typo in qemu_strtoul()'s contract while there.
+>=20
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   util/cutils.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/util/cutils.c b/util/cutils.c
+> index fd591cadf0..b372dd3e68 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -502,7 +502,7 @@ int qemu_strtoul(const char *nptr, const char **endpt=
+r, int base,
+>    * Convert string @nptr to an int64_t.
+>    *
+>    * Works like qemu_strtol(), except it stores INT64_MAX on overflow,
+> - * and INT_MIN on underflow.
+> + * and INT64_MIN on underflow.
+>    */
+>   int qemu_strtoi64(const char *nptr, const char **endptr, int base,
+>                    int64_t *result)
+> @@ -517,8 +517,9 @@ int qemu_strtoi64(const char *nptr, const char **endp=
+tr, int base,
+>           return -EINVAL;
+>       }
+>  =20
+> +    /* This assumes int64_t is long long TODO relax */
+> +    QEMU_BUILD_BUG_ON(sizeof(int64_t) !=3D sizeof(long long));
 
-Related (and already discussed in the past):  There should be a separate
-"downloads artifacts", especially for larger ones which easily fail to
-download on slower internet links due to hitting the test timeout while
-downloading ...
+Ready for 128-bit!
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-cheers,
-  Gerd
+>       errno =3D 0;
+> -    /* FIXME This assumes int64_t is long long */
+>       *result =3D strtoll(nptr, &ep, base);
+>       return check_strtox_error(nptr, ep, endptr, errno);
+>   }
+> @@ -541,8 +542,9 @@ int qemu_strtou64(const char *nptr, const char **endp=
+tr, int base,
+>           return -EINVAL;
+>       }
+>  =20
+> +    /* This assumes uint64_t is unsigned long long TODO relax */
+> +    QEMU_BUILD_BUG_ON(sizeof(uint64_t) !=3D sizeof(unsigned long long));
+>       errno =3D 0;
+> -    /* FIXME This assumes uint64_t is unsigned long long */
+>       *result =3D strtoull(nptr, &ep, base);
+>       /* Windows returns 1 for negative out-of-range values.  */
+>       if (errno =3D=3D ERANGE) {
+>=20
 
 
