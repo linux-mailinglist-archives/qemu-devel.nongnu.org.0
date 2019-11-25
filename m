@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC281091CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 17:29:03 +0100 (CET)
-Received: from localhost ([::1]:46266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFFC1091EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 17:35:29 +0100 (CET)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZHEU-0004Pn-FV
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 11:29:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40013)
+	id 1iZHKh-0000fC-Si
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 11:35:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1iZHCz-0002yB-Vw
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:27:33 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iZHFz-0005XB-Mv
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:30:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1iZHCy-0006KP-HD
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:27:29 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22482
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iZHCx-0006Jz-Jj
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:27:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574699247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=w33UwICHWSMRge5bI5OvItWaUWj+OilrjCHx9WzcfJw=;
- b=aNCBudVtMXQCMbNBJk13V5S73pxD2cf+cDo5I37hC2URGxV5Q9G8k8bq0swJtM5EEySpFY
- YkOJyqhDN+/AOJWkYVtu4lU0FXiQVMlE6je7IO3d/GGY/VtEcB2FRu22kVCuk3fjlXRQMp
- Ni3xLiK6+VloU5fWq9Dxn/UumjWFDfo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-JVk_J23OPIaiItp6jt4M4A-1; Mon, 25 Nov 2019 11:27:25 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E1D61005509
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 16:27:24 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-120-170.rdu2.redhat.com
- [10.10.120.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 750B05D6A0;
- Mon, 25 Nov 2019 16:27:15 +0000 (UTC)
-Date: Mon, 25 Nov 2019 11:27:14 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: Avocado notes from KVM forum 2019
-Message-ID: <20191125162714.GA8589@localhost.localdomain>
-References: <9b3b2ff0-a3bb-c7ba-d7ce-d178e8fbd5d8@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iZHFy-0007sv-LP
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:30:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:36425)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iZHFy-0007s3-C2
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 11:30:34 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1M2OEq-1iWXh23nDy-003qt9; Mon, 25 Nov 2019 17:30:23 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] Linux user for 4.2 patches
+Date: Mon, 25 Nov 2019 17:30:13 +0100
+Message-Id: <20191125163014.16789-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <9b3b2ff0-a3bb-c7ba-d7ce-d178e8fbd5d8@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: JVk_J23OPIaiItp6jt4M4A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:CWUkKztl0BU7kGxpDCLYzYtH/iUxT1DZfr5XwpiHo4Kz6wYsxVR
+ A6rQbz2jt3BGm7Ic38OxM9LGklSrHQ1Lc7w9Q1zMm179ljpUk1fPazIaZbW7GrYyXGt5bPC
+ ol+tbX0/MBfQdwKkrQcBWYCUvve1F3SaK89FLCTpCf+phXHZgiOTU/n1XZPlYDc94YtXuTh
+ piGIHmj9SpyBTNrApuupQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:38NOmragl60=:uVxAtwElNXnsnSP65gvkqJ
+ PCQCQMvDw1c9FfpktugGnbEHpbPARjMX/b+qtphX4M3VtLmnG2yvbhJKnHvDPJUP8/6VLjrTU
+ Csg+jpJiFaFTckN8rGpCXIxo3OlkuaPtPODOkmDbsLJ2FreZqlAdamJc4gjQZDOocOnCKVw11
+ CDixcKxhMZweTff9XV+ylsfY9pVOh60hzh6StsRRU0BeEBuCdk1or5BIc+gn07i3BxRnnvi/Y
+ yG+dlhHmteZZHcCTnjJ18zFBZkjffXOmDlTVD5+V2MsVD1SATVOL7/PvKTdst1yd6MASREIU0
+ dbCNCeD3C/oZcciZ7E93hgDUneExZ+0jhODAPEQ5pZqAAzp8mXnRtNnukshRsz/eLQOdnTOkG
+ xMnkHbnXSrCoszYz6m8jMmNRKiZUpRczg770rZycsvloPf4mram79mKkWdsxRsKAgoTaD9win
+ jobxfRUT09/e0up1yya5unCZM6R2cU9LXthbUD7SCpDkFLWJ0or9hWA9QiFkOPta+oFaMAajC
+ lLnmJfZyb7bCmlT5hBAmg9iTl4jC17snKtFHaNPsJqmIigprD5fP11bOhXgkwjqG9UOG0zYeL
+ 3Bpq9ef2pOURcuyzvWX9Vgl3hB0vzLfsr1RdkXYjw0d8g/rgs92CUhJHG+a7FI6pNNdLhdkgh
+ hvuseD3W+C5MxwhrD0fuWuoHogE9NRVrrKm+fJr7KMx1zmbXJY7XyhgtPvYvPUbh5DllJiHON
+ NqeaEdCDA0DjDVP8WQkLwr9EndQ54AgxiYm1s85uBF6Yx7KdUq0EtT0mjXEUMnEpMgXzlFUGU
+ N2htaGmYF3zRsdtXf4AZ+mnM3bba3mDHJ1k62kIsp0WVw8G9ngUQA6qhDsevb1JjJscxdGdPr
+ ix7uK53J16YZVRJNBx+tBvZbLk54EyNWSTqXHUgts=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,156 +64,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: avocado-devel@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 25, 2019 at 01:35:13PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Hi Cleber,
->=20
-> Here are my notes from talking about Avocado with various people during t=
-he
-> KVM forum in Lyon last month.
->=20
-> All comments are QEMU oriented.
->=20
->=20
-> 1) Working offline
->=20
-> Various people complained Avocado requires online access, and they would
-> like to use it offline.
->
+The following changes since commit 2061735ff09f9d5e67c501a96227b470e7de69b1:
 
-Just to be extra clear, Avocado itself doesn't require online access, but:
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-11-21 17:18:40 +0000)
 
- * "make check-venv" will download packages from PyPI if the same
-   Avocado version is not previously installed in the system
+are available in the Git repository at:
 
- * "make check-acceptance" depends on "make check-venv"
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
 
- * many tests depend on downlodable assets
+for you to fetch changes up to d1e26707410067891ab5199f7e9d09afa2fbc0f6:
 
->   Maintainer workflow example is:
->=20
->   - run avocado
->   - hack QEMU, build
->   - git pull
->   - build
->   - hack QEMU
->   (go offline)
->   - hack QEMU
->   - build
->   - run avocado <- FAILS
->=20
-> Failure is because mainstream added new tests, which got pulled in, and t=
-he
-> user only notice when running avocado again, but offline.
-> Test example is boot_linux_console.py, which added various tests from oth=
-er
-> subsystems, so the maintainer has to disable the new tests manually to be
-> able to run his previous tests.
->=20
-> Expected solution: skip tests when artifact is not available, eventually
-> when the --offline option is used
->
+  linux-user: fix translation of statx structures (2019-11-25 12:57:58 +0100)
 
-Understood and agreed.  I've already adopted this approach in the
-"boot_linux.py" series I'm working (about to send v8).  If the
-download/preparation of images fail, we cancel the tests.  I'll look
-into making that the default across all tests or in the base
-avocado_qemu.Test class.
+----------------------------------------------------------------
+fix translation of statx structures
 
-We could also have a "make check-acceptance-prepare" kind of target,
-that won't run the tests, but will download all needed assets.
+----------------------------------------------------------------
 
->=20
-> 2) Add artifacts manually to the cache
->=20
-> Not all artifacts can be easily downloadable, some are public but require
-> the user to accept an End User License Agreement.
-> Users would like to share their tests with the documentation about where/=
-how
-> to download the requisite files (accepting the EULA) to run the tests.
->=20
->
+Ariadne Conill (1):
+  linux-user: fix translation of statx structures
 
-OK, RFE taken.
+ linux-user/syscall.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> 2b) Add reference to artifact to the cache
->=20
-> Group of users might share group of files (like NFS storage) and would li=
-ke
-> to use directly their remote read-only files, instead of copying it to th=
-eir
-> home directory.
->=20
->
-
-The underlying "asset fetcher" utility code supports multiple locations
-and multiple cache dirs (and one could be a read-only NFS-like storage):
-
-  https://avocado-framework.readthedocs.io/en/73.0/api/utils/avocado.utils.=
-html#avocado.utils.asset.Asset
-
-But we need to make that easily accessible/configurable to users
-of the fetch_asset() Test method.  RFE taken.
-
-> 3) Provide qemu/avocado-qemu Python packages
->=20
-> The mainstream project uses Avocado to test QEMU. Others projects use QEM=
-U
-> to test their code, and would like to automatize that using Avocado. They
-> usually not rebuild QEMU but use a stable binary from distributions. The
-> python classes are not available, so they have to clone QEMU to use Avoca=
-do
-> (I guess they only need 5 python files).
-> When running on Continuous Integration, this is overkill, because when yo=
-u
-> clone QEMU you also clone various other submodules.
->
-
-Agreed, and I already have a prototype.  I'll send the RFC/patches to
-the list ASAP.
-
->=20
-> 4) Warn the user when Avocado is too old for the tests
->=20
-> Some users tried Avocado following the examples on the mailing list and t=
-he
-> one in some commit's descriptions where we simply show "avocado run ...".
-> They installed the distribution Avocado package and tried and it fails fo=
-r
-> few of them with no obvious reason (the .log file is hard to read when yo=
-u
-> are not custom to). IIUC their distribution provides a older Avocado (69?=
-)
-> while we use recent features (72).
->=20
-> We never noticed it because we use 'make check-venv' and do not test the
-> distrib Avocado. While we can not test all distribs, we could add a versi=
-on
-> test if the Avocado version is too old, display a friendly message to the
-> console (not the logfile).
->
-
-OK, agreed.  RFE taken.
-
->=20
-> That it for my notes.
->=20
-> Eduardo/Wainer, are there other topics I forgot?
->=20
->=20
-> Regards,
->=20
-> Phil.
->=20
-
-Thanks *so much* for this feedback!  I'll provide individual feedback as
-each of those items progresses.
-
-- Cleber.
+-- 
+2.21.0
 
 
