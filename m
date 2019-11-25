@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D328110867C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 03:29:31 +0100 (CET)
-Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F75910868D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 03:42:17 +0100 (CET)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ482-0003a6-Hw
-	for lists+qemu-devel@lfdr.de; Sun, 24 Nov 2019 21:29:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45492)
+	id 1iZ4KO-0007ZN-B9
+	for lists+qemu-devel@lfdr.de; Sun, 24 Nov 2019 21:42:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yadong.qi@intel.com>) id 1iZ47F-00038Z-QR
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:28:42 -0500
+ (envelope-from <yadong.qi@intel.com>) id 1iZ4IY-0006Iu-RA
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:40:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yadong.qi@intel.com>) id 1iZ47E-0002CY-26
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:28:40 -0500
-Received: from mga18.intel.com ([134.134.136.126]:7097)
+ (envelope-from <yadong.qi@intel.com>) id 1iZ4IW-0005p1-Jm
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:40:22 -0500
+Received: from mga17.intel.com ([192.55.52.151]:43952)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yadong.qi@intel.com>) id 1iZ47D-0002By-Qz
- for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:28:40 -0500
+ (Exim 4.71) (envelope-from <yadong.qi@intel.com>) id 1iZ4IV-0005oV-2w
+ for qemu-devel@nongnu.org; Sun, 24 Nov 2019 21:40:20 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2019 18:28:30 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2019 18:40:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,239,1571727600"; d="scan'208";a="216826002"
+X-IronPort-AV: E=Sophos;i="5.69,239,1571727600"; d="scan'208";a="220127210"
 Received: from caas-nuc7i7dnhe.sh.intel.com ([10.239.158.159])
- by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2019 18:28:28 -0800
+ by orsmga002.jf.intel.com with ESMTP; 24 Nov 2019 18:40:13 -0800
 From: yadong.qi@intel.com
 To: qemu-devel@nongnu.org
 Subject: [PATCH v3 0/2] Refine Second-Level Paging Entries reserved fields
  checking
-Date: Mon, 25 Nov 2019 08:21:32 +0800
-Message-Id: <20191125002134.5390-1-yadong.qi@intel.com>
+Date: Mon, 25 Nov 2019 08:33:19 +0800
+Message-Id: <20191125003321.5669-1-yadong.qi@intel.com>
 X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.126
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
