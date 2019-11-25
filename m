@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D912410CAD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:56:54 +0100 (CET)
-Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB24610CA9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:46:21 +0100 (CET)
+Received: from localhost ([::1]:49694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLDw-000650-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
+	id 1iaL3j-0000nz-9w
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:46:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aaron@localhost>) id 1iaEvF-0007kS-4b
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:13:19 -0500
-Received: from [2406:7400:73:186d:af79:94fc:29ef:77e6] (port=56090
+ (envelope-from <aaron@localhost>) id 1iaEvO-0007ku-9D
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:13:28 -0500
+Received: from [2406:7400:73:186d:af79:94fc:29ef:77e6] (port=56116
  helo=localhost) by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aaron@localhost>) id 1iaEag-0003AE-07
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:51:59 -0500
+ (envelope-from <aaron@localhost>) id 1iaEb9-0004Fm-Bh
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:52:30 -0500
 Received: by localhost (Postfix, from userid 1000)
- id 85FA3D41705; Mon, 25 Nov 2019 19:51:56 +0530 (IST)
+ id 43845D41712; Mon, 25 Nov 2019 19:54:11 +0530 (IST)
 From: aaron.zakhrov@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [RFC 1/8] Add Radeon kernel headers. Will clean up later
-Date: Mon, 25 Nov 2019 19:49:04 +0530
-Message-Id: <20191125141908.5441-2-aaron.zakhrov@gmail.com>
+Subject: [RFC 5/8] Add Radeon kernel headers. Will clean up later
+Date: Mon, 25 Nov 2019 19:49:12 +0530
+Message-Id: <20191125141908.5441-6-aaron.zakhrov@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191125141908.5441-1-aaron.zakhrov@gmail.com>
 References: <20191125141908.5441-1-aaron.zakhrov@gmail.com>
