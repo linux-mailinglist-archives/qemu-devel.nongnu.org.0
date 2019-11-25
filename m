@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5545B10890C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:17:18 +0100 (CET)
-Received: from localhost ([::1]:40912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87FA108907
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:15:38 +0100 (CET)
+Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ8cW-0003Rc-RX
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:17:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41828)
+	id 1iZ8av-0001wy-7o
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:15:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iZ8Lq-0003VJ-9L
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:04 -0500
+ (envelope-from <clg@kaod.org>) id 1iZ8Ls-0003VW-T1
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iZ8Lo-0001ug-Ln
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:02 -0500
-Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:39066)
+ (envelope-from <clg@kaod.org>) id 1iZ8Lr-0001xK-JN
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:04 -0500
+Received: from 14.mo4.mail-out.ovh.net ([46.105.40.29]:51007)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8Ll-0001t0-Sn
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:59 -0500
-Received: from player697.ha.ovh.net (unknown [10.108.42.66])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7937014BC68
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:54 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8Lr-0001v2-9j
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:03 -0500
+Received: from player697.ha.ovh.net (unknown [10.109.159.152])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 20C7621369E
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:00:01 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id 019DDC80965A;
- Mon, 25 Nov 2019 06:59:48 +0000 (UTC)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 6B880C809683;
+ Mon, 25 Nov 2019 06:59:54 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v6 14/20] ppc/xive: Move the TIMA operations to the controller
- model
-Date: Mon, 25 Nov 2019 07:58:14 +0100
-Message-Id: <20191125065820.927-15-clg@kaod.org>
+Subject: [PATCH v6 15/20] ppc/xive: Remove the get_tctx() XiveRouter handler
+Date: Mon, 25 Nov 2019 07:58:15 +0100
+Message-Id: <20191125065820.927-16-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191125065820.927-1-clg@kaod.org>
 References: <20191125065820.927-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8928949212470938598
+X-Ovh-Tracer-Id: 8930919539497798630
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeef
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpeeg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.251.175
+X-Received-From: 46.105.40.29
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,202 +61,121 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the P9 Processor, the thread interrupt context registers of a CPU
-can be accessed "directly" when by load/store from the CPU or
-"indirectly" by the IC through an indirect TIMA page. This requires to
-configure first the PC_TCTXT_INDIRx registers.
-
-Today, we rely on the get_tctx() handler to deduce from the CPU PIR
-the chip from which the TIMA access is being done. By handling the
-TIMA memory ops under the interrupt controller model of each machine,
-we can uniformize the TIMA direct and indirect ops under PowerNV. We
-can also check that the CPUs have been enabled in the XIVE controller.
-
-This prepares ground for the future versions of XIVE.
+It is now unused.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h |  1 -
- hw/intc/pnv_xive.c    | 35 ++++++++++++++++++++++++++++++++++-
- hw/intc/spapr_xive.c  | 33 +++++++++++++++++++++++++++++++--
- hw/intc/xive.c        | 29 -----------------------------
- 4 files changed, 65 insertions(+), 33 deletions(-)
+ include/hw/ppc/xive.h |  2 --
+ hw/intc/pnv_xive.c    | 13 -------------
+ hw/intc/spapr_xive.c  |  8 --------
+ hw/intc/xive.c        |  7 -------
+ 4 files changed, 30 deletions(-)
 
 diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 97bbcddb381d..dcf897451589 100644
+index dcf897451589..24315480e7c2 100644
 --- a/include/hw/ppc/xive.h
 +++ b/include/hw/ppc/xive.h
-@@ -462,7 +462,6 @@ typedef struct XiveENDSource {
- #define XIVE_TM_OS_PAGE         0x2
- #define XIVE_TM_USER_PAGE       0x3
+@@ -351,7 +351,6 @@ typedef struct XiveRouterClass {
+                    XiveNVT *nvt);
+     int (*write_nvt)(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nvt_idx=
+,
+                      XiveNVT *nvt, uint8_t word_number);
+-    XiveTCTX *(*get_tctx)(XiveRouter *xrtr, CPUState *cs);
+ } XiveRouterClass;
 =20
--extern const MemoryRegionOps xive_tm_ops;
- void xive_tctx_tm_write(XivePresenter *xptr, XiveTCTX *tctx, hwaddr offs=
-et,
-                         uint64_t value, unsigned size);
- uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveTCTX *tctx, hwaddr o=
-ffset,
+ int xive_router_get_eas(XiveRouter *xrtr, uint8_t eas_blk, uint32_t eas_=
+idx,
+@@ -364,7 +363,6 @@ int xive_router_get_nvt(XiveRouter *xrtr, uint8_t nvt=
+_blk, uint32_t nvt_idx,
+                         XiveNVT *nvt);
+ int xive_router_write_nvt(XiveRouter *xrtr, uint8_t nvt_blk, uint32_t nv=
+t_idx,
+                           XiveNVT *nvt, uint8_t word_number);
+-XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs);
+ void xive_router_notify(XiveNotifier *xn, uint32_t lisn);
+=20
+ /*
 diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index db9d9c11a8f4..c14a2d186960 100644
+index c14a2d186960..216ebc150a41 100644
 --- a/hw/intc/pnv_xive.c
 +++ b/hw/intc/pnv_xive.c
-@@ -1467,6 +1467,39 @@ static const MemoryRegionOps xive_tm_indirect_ops =
-=3D {
-     },
- };
+@@ -460,18 +460,6 @@ static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu=
+)
+     return xive;
+ }
 =20
-+static void pnv_xive_tm_write(void *opaque, hwaddr offset,
-+                              uint64_t value, unsigned size)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
-+    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
-+    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-+
-+    xive_tctx_tm_write(XIVE_PRESENTER(xive), tctx, offset, value, size);
-+}
-+
-+static uint64_t pnv_xive_tm_read(void *opaque, hwaddr offset, unsigned s=
-ize)
-+{
-+    PowerPCCPU *cpu =3D POWERPC_CPU(current_cpu);
-+    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
-+    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-+
-+    return xive_tctx_tm_read(XIVE_PRESENTER(xive), tctx, offset, size);
-+}
-+
-+const MemoryRegionOps pnv_xive_tm_ops =3D {
-+    .read =3D pnv_xive_tm_read,
-+    .write =3D pnv_xive_tm_write,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-+    .valid =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 8,
-+    },
-+    .impl =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 8,
-+    },
-+};
-+
+-static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+-{
+-    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
+-
+-    if (!xive) {
+-        return NULL;
+-    }
+-
+-    return XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+-}
+-
  /*
-  * Interrupt controller XSCOM region.
-  */
-@@ -1809,7 +1842,7 @@ static void pnv_xive_realize(DeviceState *dev, Erro=
-r **errp)
-                           "xive-pc", PNV9_XIVE_PC_SIZE);
+  * The internal sources (IPIs) of the interrupt controller have no
+  * knowledge of the XIVE chip on which they reside. Encode the block
+@@ -1900,7 +1888,6 @@ static void pnv_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->write_end =3D pnv_xive_write_end;
+     xrc->get_nvt =3D pnv_xive_get_nvt;
+     xrc->write_nvt =3D pnv_xive_write_nvt;
+-    xrc->get_tctx =3D pnv_xive_get_tctx;
 =20
-     /* Thread Interrupt Management Area (Direct) */
--    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops,
-+    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &pnv_xive_tm_ops=
-,
-                           xive, "xive-tima", PNV9_XIVE_TM_SIZE);
-=20
-     qemu_register_reset(pnv_xive_reset, dev);
+     xnc->notify =3D pnv_xive_notify;
+     xpc->match_nvt  =3D pnv_xive_match_nvt;
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index bb3b2dfdb77f..6292da58f62c 100644
+index 6292da58f62c..1542cef91878 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -205,6 +205,35 @@ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bo=
-ol enable)
-     memory_region_set_enabled(&xive->end_source.esb_mmio, false);
+@@ -427,13 +427,6 @@ static int spapr_xive_write_nvt(XiveRouter *xrtr, ui=
+nt8_t nvt_blk,
+     g_assert_not_reached();
  }
 =20
-+static void spapr_xive_tm_write(void *opaque, hwaddr offset,
-+                          uint64_t value, unsigned size)
-+{
-+    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
-+
-+    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
-);
-+}
-+
-+static uint64_t spapr_xive_tm_read(void *opaque, hwaddr offset, unsigned=
- size)
-+{
-+    XiveTCTX *tctx =3D spapr_cpu_state(POWERPC_CPU(current_cpu))->tctx;
-+
-+    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
-;
-+}
-+
-+const MemoryRegionOps spapr_xive_tm_ops =3D {
-+    .read =3D spapr_xive_tm_read,
-+    .write =3D spapr_xive_tm_write,
-+    .endianness =3D DEVICE_BIG_ENDIAN,
-+    .valid =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 8,
-+    },
-+    .impl =3D {
-+        .min_access_size =3D 1,
-+        .max_access_size =3D 8,
-+    },
-+};
-+
- static void spapr_xive_end_reset(XiveEND *end)
- {
-     memset(end, 0, sizeof(*end));
-@@ -314,8 +343,8 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
-r **errp)
-     qemu_register_reset(spapr_xive_reset, dev);
+-static XiveTCTX *spapr_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+-{
+-    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+-
+-    return spapr_cpu_state(cpu)->tctx;
+-}
+-
+ static int spapr_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+                                 uint8_t nvt_blk, uint32_t nvt_idx,
+                                 bool cam_ignore, uint8_t priority,
+@@ -771,7 +764,6 @@ static void spapr_xive_class_init(ObjectClass *klass,=
+ void *data)
+     xrc->write_end =3D spapr_xive_write_end;
+     xrc->get_nvt =3D spapr_xive_get_nvt;
+     xrc->write_nvt =3D spapr_xive_write_nvt;
+-    xrc->get_tctx =3D spapr_xive_get_tctx;
 =20
-     /* TIMA initialization */
--    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
-ve,
--                          "xive.tima", 4ull << TM_SHIFT);
-+    memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &spapr_xive_tm_o=
-ps,
-+                          xive, "xive.tima", 4ull << TM_SHIFT);
-     sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
-=20
-     /*
+     sicc->activate =3D spapr_xive_activate;
+     sicc->deactivate =3D spapr_xive_deactivate;
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 9e7e5ea57c5c..0ca7099f4e55 100644
+index 0ca7099f4e55..4bff3abdc3eb 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -523,35 +523,6 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, Xive=
-TCTX *tctx, hwaddr offset,
-     return xive_tm_raw_read(tctx, offset, size);
+@@ -1317,13 +1317,6 @@ int xive_router_write_nvt(XiveRouter *xrtr, uint8_=
+t nvt_blk, uint32_t nvt_idx,
+    return xrc->write_nvt(xrtr, nvt_blk, nvt_idx, nvt, word_number);
  }
 =20
--static void xive_tm_write(void *opaque, hwaddr offset,
--                          uint64_t value, unsigned size)
+-XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, CPUState *cs)
 -{
--    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
+-    XiveRouterClass *xrc =3D XIVE_ROUTER_GET_CLASS(xrtr);
 -
--    xive_tctx_tm_write(XIVE_PRESENTER(opaque), tctx, offset, value, size=
-);
+-    return xrc->get_tctx(xrtr, cs);
 -}
 -
--static uint64_t xive_tm_read(void *opaque, hwaddr offset, unsigned size)
--{
--    XiveTCTX *tctx =3D xive_router_get_tctx(XIVE_ROUTER(opaque), current=
-_cpu);
--
--    return xive_tctx_tm_read(XIVE_PRESENTER(opaque), tctx, offset, size)=
-;
--}
--
--const MemoryRegionOps xive_tm_ops =3D {
--    .read =3D xive_tm_read,
--    .write =3D xive_tm_write,
--    .endianness =3D DEVICE_BIG_ENDIAN,
--    .valid =3D {
--        .min_access_size =3D 1,
--        .max_access_size =3D 8,
--    },
--    .impl =3D {
--        .min_access_size =3D 1,
--        .max_access_size =3D 8,
--    },
--};
--
- static char *xive_tctx_ring_print(uint8_t *ring)
- {
-     uint32_t w2 =3D xive_tctx_word2(ring);
+ /*
+  * Encode the HW CAM line in the block group mode format :
+  *
 --=20
 2.21.0
 
