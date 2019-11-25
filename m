@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD6C108A5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 09:56:43 +0100 (CET)
-Received: from localhost ([::1]:41440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3D3108A4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 09:46:47 +0100 (CET)
+Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZAAk-00063s-6I
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 03:56:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53960)
+	id 1iZA17-0007Hp-SP
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 03:46:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZA9r-0005YY-UG
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:55:49 -0500
+ (envelope-from <mst@redhat.com>) id 1iZ9z5-00063r-DU
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:44:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZA9q-0003SI-0X
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:55:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44760)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZA9p-0003Rz-R6
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:55:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZA9n-0007pD-JE
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:55:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8F04E2E806B
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:55:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Nov 2019 08:43:14 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1853781@bugs.launchpad.net>
+ (envelope-from <mst@redhat.com>) id 1iZ9z1-0004l0-KX
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:44:37 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20669
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iZ9z1-0004jq-3v
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 03:44:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574671473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EGzop1PgONB/O4b6ftFiN0wFZtW57mNLKus6FhPRtgU=;
+ b=H47o7gWTOCw7uTRw5h5eOG9oXDYloyq3RwK3de4vTif8rDgLuzOX10Qk3z31KcGiF9V04N
+ cY663w8K0gLBezpeTDKog71tvqlGLFsa46MGOCuCCh2aJWDW3zX9PLSfcWe/eq19leQ3A0
+ 5ZvKIaZMtsKg0qta8i/ZPMIMfvLO7tY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-lg1d1Dr1PQy-LZN6ngIudw-1; Mon, 25 Nov 2019 03:44:32 -0500
+Received: by mail-qt1-f200.google.com with SMTP id x50so9793439qth.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 00:44:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=whQfjRAQ6JKMH+LqG2d+ip7uPFLhrAqIgAXO0s9734A=;
+ b=TncybW2hSlRQG4TMFF0EJ7WyWzmlGSHH9f9bun+amVtukoRVpPnmtKUjkEStg3NXqE
+ 6Df6P4c9ymSXe0ibUb0qcJTMhNycl4n8oaecQroQ2dEbtKrXHujBHgttcI98qvqB0cuX
+ IjTJKWQ+oMntX3IL7j35qdbAQxgfJHJ5aifhV9lxnSrryOHt38UgtXA5L/nzfJYo9HCQ
+ 4jJjsrIkJVcx1R8+Dg9xWKmj57+1Yj16/A/PBiOmy8EF1vNtpJoaC7KZBzl4yQoci9AH
+ sdB/7R8Btce8sfZgciuk7STiHxoX+2hLYn7fpwgAvEceGyn1cofqUv/ZBODYbkAQN2WB
+ c/Qw==
+X-Gm-Message-State: APjAAAWtmu9PwSpM12Ts/EL3WiT9VMnvJb0ywCUGnHsEvt4QBzZJ7wNN
+ 2nCCmSJvf+EMFRUcOjCqRhmbi3mABQEJZYgMFEGRJNs/Ewe/8xSezFCR68i76fpEcXtVftkLZ16
+ 3RenhcbSAqRDqpU4=
+X-Received: by 2002:ac8:788:: with SMTP id l8mr18471844qth.267.1574671471836; 
+ Mon, 25 Nov 2019 00:44:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxObQX1u85oe7QsJrcG/SjZhMLeH79aJf/Lp1fGOHX2t046K8dCk4tQ2CvNU+rRJoMS7D2ccw==
+X-Received: by 2002:ac8:788:: with SMTP id l8mr18471838qth.267.1574671471617; 
+ Mon, 25 Nov 2019 00:44:31 -0800 (PST)
+Received: from redhat.com (bzq-79-176-6-42.red.bezeqint.net. [79.176.6.42])
+ by smtp.gmail.com with ESMTPSA id y24sm3016298qki.104.2019.11.25.00.44.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2019 00:44:30 -0800 (PST)
+Date: Mon, 25 Nov 2019 03:44:27 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: baremetal raspi2
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: evan-rysdam philmd
-X-Launchpad-Bug-Reporter: Evan Rysdam (evan-rysdam)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <157463269344.7205.8988702228388398977.malonedeb@gac.canonical.com>
-Message-Id: <157467139438.31534.6634240736544902939.malone@wampee.canonical.com>
-Subject: [Bug 1853781] Re: Baremetal kernel built from assembly runs multiple
- times
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0a4e387d26ee97a9ee6461c4e8edc3f1c8d3ba8f
+Subject: [PULL 0/3] virtio, pc: fixes
+Message-ID: <20191125084403.324866-1-mst@redhat.com>
+MIME-Version: 1.0
+X-Mailer: git-send-email 2.22.0.678.g13338e74b8
+X-Mutt-Fcc: =sent
+X-MC-Unique: lg1d1Dr1PQy-LZN6ngIudw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,105 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853781 <1853781@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Evan,
+The following changes since commit 2061735ff09f9d5e67c501a96227b470e7de69b1=
+:
 
-Your suspicion is correct, the QEMU model starts with the four cores
-powered on, so your code is likely running on each core in simultaneous.
+  Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into sta=
+ging (2019-11-21 17:18:40 +0000)
 
-The hardware booting process is described [1]: your code is loaded as
-the firmware loads kernel.img (the last step).
+are available in the Git repository at:
 
-The ARM maintainer suggested [2] a way to bypass this: "[your binary]
-could be wrapped in a small guest binary that deals with handling all
-the secondary cores". This is not hard to do, but nobody volunteered to
-do it yet :)
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-[1] https://raspberrypi.stackexchange.com/questions/10442/what-is-the-boot-=
-sequence
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg655415.html
+for you to fetch changes up to e48929c787ed0ebed87877c97ac90c3a47ef7dda:
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+  intel_iommu: TM field should not be in reserved bits (2019-11-25 03:42:58=
+ -0500)
 
--- =
+----------------------------------------------------------------
+virtio, pc: fixes
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853781
+More small bugfixes.
 
-Title:
-  Baremetal kernel built from assembly runs multiple times
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Status in QEMU:
-  Invalid
+----------------------------------------------------------------
+Marc-Andr=C3=A9 Lureau (1):
+      virtio-input: fix memory leak on unrealize
 
-Bug description:
-  QEMU version: 4.1.0.
+Qi, Yadong (2):
+      intel_iommu: refine SL-PEs reserved fields checking
+      intel_iommu: TM field should not be in reserved bits
 
-  Full command used to launch: qemu-system-arm -machine raspi2 -kernel
-  main
+ hw/i386/intel_iommu_internal.h | 18 +++++++++++-------
+ hw/i386/intel_iommu.c          | 40 +++++++++++++++++++++++---------------=
+--
+ hw/input/virtio-input.c        |  3 +++
+ 3 files changed, 37 insertions(+), 24 deletions(-)
 
-  (Technically, the first term of the command is actually
-  "~/Applications/QEMU/qemu-4.1.0/build/arm-softmmu/qemu-system-arm",
-  but I shortened it for readability.)
-
-  Host information: Running debian 9.9 on a 64-bit x86 processor (Intel
-  i5-2520M).
-
-  Guest information: No operating system. I'm providing my own kernel,
-  which I assembled from a 60-line ARM assembly program using arm-none-
-  eabi-as and then linked with arm-none-eabi-ld, both version
-  2.28-5+9+b3.
-
-  Additional details: To view the screen output of the program, I am
-  using vncviewer version 6.19.1115 (r42122). All of the above software
-  packages were installed as debian packages using apt, except for QEMU,
-  which I built from source after downloading from the official website.
-
-  .
-
-  The issue here is that I have written a program in assembly and it
-  isn't doing what I expect it to when I emulate it. Here's a summary of
-  the code:
-
-  1) Read a number from zero-initialized memory.
-
-  2) Add one to the number and write it back.
-
-  3) Use the number to determine a screen location to write to.
-
-  4) Use the number to determine what color to write.
-
-  5) Write 4000 half-words to the screen starting at that offset and
-  using that color. This should result in a stripe across the whole
-  screen that's about 6 pixels tall.
-
-  The expected behavior is that *one* stripe should appear on the screen
-  in a single color. However, the actual behavior is that up to *four*
-  stripes appear, each in a different color. Furthermore, if I comment
-  out the line that writes the incremented counter back to memory, then
-  only one stripe will appear.
-
-  I will also note that the Raspberry Pi 2, which is the system I'm
-  emulating, has four cores. What I suspect is going on here is that my
-  code is being loaded onto all four cores of the emulated machine. I
-  couldn't find anything about this anywhere in the documentation, and
-  it strikes me as bug.
-
-  I have attached the assmebly code that I'm using, as well as a short
-  makefile. Since I can only add one attachment to this report, I've
-  combined the two into a single text file and labeled each. After
-  separating the two into two files, you will need to change the first
-  line of the makefile to point to your installation of qemu-system-arm
-  v4.1.0. After that, type "make run" to run the program.
-
-  Thanks in advance,
-  Evan Rysdam
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853781/+subscriptions
 
