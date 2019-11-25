@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5BF1088FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:08:59 +0100 (CET)
-Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104E8108901
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:13:07 +0100 (CET)
+Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ8UT-0003fJ-LF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:08:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41557)
+	id 1iZ8YT-0007un-If
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:13:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iZ8Ku-00029l-Dd
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:05 -0500
+ (envelope-from <clg@kaod.org>) id 1iZ8Kz-0002JT-KK
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iZ8Kt-0001Mv-8K
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:04 -0500
-Received: from 5.mo69.mail-out.ovh.net ([46.105.43.105]:44945)
+ (envelope-from <clg@kaod.org>) id 1iZ8Ky-0001Qj-Hp
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:09 -0500
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]:54080)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8Ks-0001M4-W6
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:03 -0500
-Received: from player697.ha.ovh.net (unknown [10.109.159.48])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 7E21A6D944
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:01 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8Ky-0001Pj-Bn
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:08 -0500
+Received: from player697.ha.ovh.net (unknown [10.109.146.175])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id DE5CF1B5BFA
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:06 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id 74A3CC80947F;
- Mon, 25 Nov 2019 06:58:55 +0000 (UTC)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 4EDC1C8094A4;
+ Mon, 25 Nov 2019 06:59:01 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v6 05/20] ppc: Introduce a ppc_cpu_pir() helper
-Date: Mon, 25 Nov 2019 07:58:05 +0100
-Message-Id: <20191125065820.927-6-clg@kaod.org>
+Subject: [PATCH v6 06/20] ppc/pnv: Introduce a pnv_xive_is_cpu_enabled() helper
+Date: Mon, 25 Nov 2019 07:58:06 +0100
+Message-Id: <20191125065820.927-7-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191125065820.927-1-clg@kaod.org>
 References: <20191125065820.927-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8914031038632791014
+X-Ovh-Tracer-Id: 8915438412849712102
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.43.105
+X-Received-From: 46.105.63.121
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,52 +61,70 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+and use this helper to exclude CPUs which are not enabled in the XIVE
+controller.
+
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/ppc.h | 1 +
- hw/ppc/ppc.c         | 9 +++++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ include/hw/ppc/pnv.h |  5 +++++
+ hw/intc/pnv_xive.c   | 19 +++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
-index 4bdcb8bacd4e..585be6ab98c5 100644
---- a/include/hw/ppc/ppc.h
-+++ b/include/hw/ppc/ppc.h
-@@ -5,6 +5,7 @@
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index 03cb429f2131..12b0169a4010 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -99,6 +99,11 @@ typedef struct Pnv9Chip {
+     PnvQuad      *quads;
+ } Pnv9Chip;
 =20
- void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level);
- PowerPCCPU *ppc_get_vcpu_by_pir(int pir);
-+int ppc_cpu_pir(PowerPCCPU *cpu);
-=20
- /* PowerPC hardware exceptions management helpers */
- typedef void (*clk_setup_cb)(void *opaque, uint32_t freq);
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 52a18eb7d7a3..8dd982fc1e40 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1495,15 +1495,20 @@ void PPC_debug_write (void *opaque, uint32_t addr=
-, uint32_t val)
-     }
++/*
++ * A SMT8 fused core is a pair of SMT4 cores.
++ */
++#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
++
+ typedef struct PnvChipClass {
+     /*< private >*/
+     SysBusDeviceClass parent_class;
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index 9798bd9e729f..ec8349ee4a1f 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -372,6 +372,21 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+     return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
  }
 =20
-+int ppc_cpu_pir(PowerPCCPU *cpu)
++/*
++ * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
++ * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
++ * second register covers cores 16-23 (normal) or 8-11 (fused).
++ */
++static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
 +{
-+    CPUPPCState *env =3D &cpu->env;
-+    return env->spr_cb[SPR_PIR].default_value;
++    int pir =3D ppc_cpu_pir(cpu);
++    uint32_t fc =3D PNV9_PIR2FUSEDCORE(pir);
++    uint64_t reg =3D fc < 8 ? PC_THREAD_EN_REG0 : PC_THREAD_EN_REG1;
++    uint32_t bit =3D pir & 0x3f;
++
++    return xive->regs[reg >> 3] & PPC_BIT(bit);
 +}
 +
- PowerPCCPU *ppc_get_vcpu_by_pir(int pir)
- {
-     CPUState *cs;
+ static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+                               uint8_t nvt_blk, uint32_t nvt_idx,
+                               bool cam_ignore, uint8_t priority,
+@@ -391,6 +406,10 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
+int8_t format,
+             XiveTCTX *tctx;
+             int ring;
 =20
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
--        CPUPPCState *env =3D &cpu->env;
++            if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
++                continue;
++            }
++
+             tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
 =20
--        if (env->spr_cb[SPR_PIR].default_value =3D=3D pir) {
-+        if (ppc_cpu_pir(cpu) =3D=3D pir) {
-             return cpu;
-         }
-     }
+             /*
 --=20
 2.21.0
 
