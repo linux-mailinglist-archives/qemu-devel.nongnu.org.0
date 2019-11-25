@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4667B108FE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:27:55 +0100 (CET)
-Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC1C108FCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:25:17 +0100 (CET)
+Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZFLG-0008PM-Am
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:27:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49665)
+	id 1iZFIi-000640-6X
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:25:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iZFG6-00035k-Vf
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:22:36 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iZFG3-0002wW-7E
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:22:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iZF4j-0001l3-T0
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:10:52 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:41294)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iZF4j-0001kh-Lq
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:10:49 -0500
-Received: by mail-il1-x143.google.com with SMTP id q15so14281134ils.8
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 06:10:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RfqqattjyhfbSeXgSKRldKmC5CVOARy4jdq9VLTs92M=;
- b=TMD11YofeyDdNOdFyh8x9UC/mNAE+BrKhXhhHdWd+tHn+t7vBevqQc01Zkek9ubKcm
- jyJzRVTTctDNFBVCNYHcpLsbT5oGbylV8OUMltiyq5qyUvI1b/XJF8NdoT+jdF2qfGY+
- qKl2RqoGd4RAkvgIgt1i3UFZgPe5Yse/FeOVw8EFXlG35RZSFxOluQCp2Ardb8O4RVOE
- /UFE35BR88YQR7uHsGJ6kCyc++50qsgy/gNsJBlZiwqz7rZcTNq/LHXObG5uM6HeDILv
- jkwrfNY0Ir40ne3H1wnKENKlTuitSfY9cYu6CaeNLU+RoJpA2AWFWJvVWyaafWs7/F/n
- iu7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RfqqattjyhfbSeXgSKRldKmC5CVOARy4jdq9VLTs92M=;
- b=duliBNhq2kDElXgronyXb0eo5ka/PuW8yOG2Gv6ykrJ4YhDU75pR0OXH8uJx0jXXOu
- Xyp8PIzLjscXKtdxnRMzFDEvu8XAWncS1m4pk+WImjR5L2V8n3iJWVVTpmocZ618ridc
- GDIHvFa2hlwrZoiSjOJdcaz22+F9PIiSJ7rOKEZW39kQMBvHtO3D0b2G/E8fqEQt7qdr
- 9qc2klJBPqFPZutRbILhDSmde0+rZog+Lcp6mgxeVDvUQrROGfENwloN24ndpWVZSX5g
- etL5IWS9c6lcpNvtd8J+fSgVha7j1ABkigxGr9UkIA7K5spUCDUgE+wVTP5UURGC6mmg
- 0/YA==
-X-Gm-Message-State: APjAAAXo89vqj4tUayRj3dA6zFvyqvGXHpPDm6IBQZKQ/YiL9KkyJo94
- H8AGBYNkTsniyVeHB+mOhwsK+1iEDX8KDLn9MnHDKA==
-X-Google-Smtp-Source: APXvYqxBQbnnXL4f7WK1eXiMDCWFUDXFN/x5I0guC6sYX8EHrCBuyHSppGhJ8MMgyp1MjETEXjYNM/JvZinkbx9naMw=
-X-Received: by 2002:a92:ad0f:: with SMTP id w15mr11946002ilh.307.1574691048359; 
- Mon, 25 Nov 2019 06:10:48 -0800 (PST)
+ (envelope-from <laurent@vivier.eu>) id 1iZF8B-0003GQ-No
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:14:28 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:41151)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1iZF8A-0003Fn-DQ; Mon, 25 Nov 2019 09:14:22 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M2xjg-1iY9jS2T6q-003LmH; Mon, 25 Nov 2019 15:14:18 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] mos6522: update counters when timer interrupts are off
+Date: Mon, 25 Nov 2019 15:14:14 +0100
+Message-Id: <20191125141414.5015-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191015103900.313928-1-its@irrelevant.dk>
- <20191015103900.313928-16-its@irrelevant.dk>
- <CADSWDzupax=4s4=wb6NOR-imKNc_SkfBf1aDWdS_eN8oynJj6A@mail.gmail.com>
- <20191125062122.GA21341@apples.localdomain>
-In-Reply-To: <20191125062122.GA21341@apples.localdomain>
-From: Beata Michalska <beata.michalska@linaro.org>
-Date: Mon, 25 Nov 2019 14:10:37 +0000
-Message-ID: <CADSWDzv3h+VcF9kVDRu2M=9E0Q51k9DRyxNhAxX0JwWNdKazMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 15/20] nvme: add support for scatter gather lists
-To: Klaus Birkelund <its@irrelevant.dk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::143
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:VYEDlcsKVP3/7B9l90kM2a/1axH/kJjvkaolrdibdEdyf6qLXhp
+ xFGO/fYmvFmmK0i7EqDwOuySNM8Xv8OiVyzrxsno8Cph3Pe9ryfTMnDNW1cIP0GkkAKnDFM
+ r/5Ny0yjIIO2m6dN/pArfyGIUyTplJa/M9qPn22q/XmG694/nIkKUZvuG7+95hqBfViBpDN
+ r12W5PDpXonyt1p1SsouQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:98vT1MKA7Rw=:G/CeE9NP3nfR9OA25WhckZ
+ l5bM7SSZtHKETuKqaklGHOA2+QYC4kTCgYGb9b4w6mumjv6RDTmKv4QwmVOS+usxp8MCHbjmj
+ +NYYGjq1T4kfp+oH0NvH5H5ZNtK8Armu1Su2Y5nUb58P3uSgWvGz2WC1Q7UJCcBThNq4BXfMA
+ 4WDp9Ltc2wOMejeOnWKqflFLK/ymbHZNOEZuDm9GaLflPO75Zop93dnu6PlVCrob5ntUmSkba
+ HCZJ7cA3rgkuIwhikFo/71QGDmNqkjZ0zG7NThVGwtTqiLrWGzcEcAJtTdbSWYLWk9mJUvnl+
+ p83h4Z8il813A5j9ANuGYoOqhVQv1ZkB47FjGx2AP84EdPIn48W00Gf1gCYWCViePG0zn1iat
+ 1f+InBJK2OIPOpzDwIl1XOgKG0f00URhjcyoH35nZeRVAnvPsBee7uTivueFRjbv9wY4WOJy1
+ AjXhqZApz8UqVisdrftpxX7Nn9Gpd+8SaPSQ+QuZvDxxf8a/TdUOSna/SdsJqweCaakOQDv8m
+ CpZoFGbKvyDdeA6P19j7/te7VfC8MAzhkUAKctCO8lMsq3FmPiOzTPzYGBn4y3o4q5lNvetgR
+ ya+GdWBg+DYHIqUJ97QXIoXWXtCCoREiN34e1VCcv0L7vqnR3XkV0X8hNttY/jn1Y2aCTrsKn
+ DhvupmQAUvU55vppaOMkdjqmw1AcdjhPtIA5wABsFKlsroUZt7J1z4t1pptPMjjM80/KkHnvR
+ tCyBHAb6z90oapWvcxSpBCU+IWn/JR2L8/WbClIUGu8jt20bm3Cl+uOAqTqQtFnz3A4titpM5
+ 2fNWodtf2n3hhOi1HbzbdHYUBVebL4wgGzpjBPxfzJgTM9yZ84HVLHjC3rxGqsM8AXihmhM7H
+ BtcT3oTxXOUYwuKfV+jQ==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,165 +63,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paul Durrant <Paul.Durrant@citrix.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Andrew Randrianasulu <randrianasulu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Nov 2019 at 06:21, Klaus Birkelund <its@irrelevant.dk> wrote:
->
-> On Tue, Nov 12, 2019 at 03:25:18PM +0000, Beata Michalska wrote:
-> > Hi Klaus,
-> >
-> > On Tue, 15 Oct 2019 at 11:57, Klaus Jensen <its@irrelevant.dk> wrote:
-> > > +static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg,
-> > > +    NvmeSglDescriptor sgl, uint32_t len, NvmeRequest *req)
-> > > +{
-> > > +    const int MAX_NSGLD = 256;
-> > > +
-> > > +    NvmeSglDescriptor segment[MAX_NSGLD];
-> > > +    uint64_t nsgld;
-> > > +    uint16_t status;
-> > > +    bool sgl_in_cmb = false;
-> > > +    hwaddr addr = le64_to_cpu(sgl.addr);
-> > > +
-> > > +    trace_nvme_map_sgl(req->cid, NVME_SGL_TYPE(sgl.type), req->nlb, len);
-> > > +
-> > > +    pci_dma_sglist_init(qsg, &n->parent_obj, 1);
-> > > +
-> > > +    /*
-> > > +     * If the entire transfer can be described with a single data block it can
-> > > +     * be mapped directly.
-> > > +     */
-> > > +    if (NVME_SGL_TYPE(sgl.type) == SGL_DESCR_TYPE_DATA_BLOCK) {
-> > > +        status = nvme_map_sgl_data(n, qsg, &sgl, 1, &len, req);
-> > > +        if (status) {
-> > > +            goto unmap;
-> > > +        }
-> > > +
-> > > +        goto out;
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * If the segment is located in the CMB, the submission queue of the
-> > > +     * request must also reside there.
-> > > +     */
-> > > +    if (nvme_addr_is_cmb(n, addr)) {
-> > > +        if (!nvme_addr_is_cmb(n, req->sq->dma_addr)) {
-> > > +            return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-> > > +        }
-> > > +
-> > > +        sgl_in_cmb = true;
-> > > +    }
-> > > +
-> > > +    while (NVME_SGL_TYPE(sgl.type) == SGL_DESCR_TYPE_SEGMENT) {
-> > > +        bool addr_is_cmb;
-> > > +
-> > > +        nsgld = le64_to_cpu(sgl.len) / sizeof(NvmeSglDescriptor);
-> > > +
-> > > +        /* read the segment in chunks of 256 descriptors (4k) */
-> > > +        while (nsgld > MAX_NSGLD) {
-> > > +            nvme_addr_read(n, addr, segment, sizeof(segment));
-> > Is there any chance this will go outside the CMB?
-> >
->
-> Yes, there certainly was a chance of that. This has been fixed in a
-> general way for both nvme_map_sgl and nvme_map_sgl_data.
->
-> > > +
-> > > +            status = nvme_map_sgl_data(n, qsg, segment, MAX_NSGLD, &len, req);
-> > > +            if (status) {
-> > > +                goto unmap;
-> > > +            }
-> > > +
-> > > +            nsgld -= MAX_NSGLD;
-> > > +            addr += MAX_NSGLD * sizeof(NvmeSglDescriptor);
-> > > +        }
-> > > +
-> > > +        nvme_addr_read(n, addr, segment, nsgld * sizeof(NvmeSglDescriptor));
-> > > +
-> > > +        sgl = segment[nsgld - 1];
-> > > +        addr = le64_to_cpu(sgl.addr);
-> > > +
-> > > +        /* an SGL is allowed to end with a Data Block in a regular Segment */
-> > > +        if (NVME_SGL_TYPE(sgl.type) == SGL_DESCR_TYPE_DATA_BLOCK) {
-> > > +            status = nvme_map_sgl_data(n, qsg, segment, nsgld, &len, req);
-> > > +            if (status) {
-> > > +                goto unmap;
-> > > +            }
-> > > +
-> > > +            goto out;
-> > > +        }
-> > > +
-> > > +        /* do not map last descriptor */
-> > > +        status = nvme_map_sgl_data(n, qsg, segment, nsgld - 1, &len, req);
-> > > +        if (status) {
-> > > +            goto unmap;
-> > > +        }
-> > > +
-> > > +        /*
-> > > +         * If the next segment is in the CMB, make sure that the sgl was
-> > > +         * already located there.
-> > > +         */
-> > > +        addr_is_cmb = nvme_addr_is_cmb(n, addr);
-> > > +        if ((sgl_in_cmb && !addr_is_cmb) || (!sgl_in_cmb && addr_is_cmb)) {
-> > > +            status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
-> > > +            goto unmap;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * If the segment did not end with a Data Block or a Segment descriptor, it
-> > > +     * must be a Last Segment descriptor.
-> > > +     */
-> > > +    if (NVME_SGL_TYPE(sgl.type) != SGL_DESCR_TYPE_LAST_SEGMENT) {
-> > > +        trace_nvme_err_invalid_sgl_descriptor(req->cid,
-> > > +            NVME_SGL_TYPE(sgl.type));
-> > > +        return NVME_SGL_DESCRIPTOR_TYPE_INVALID | NVME_DNR;
-> > Shouldn't we handle a case here that requires calling unmap ?
->
-> Woops. Fixed.
->
-> > > +static uint16_t nvme_dma_read_sgl(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> > > +    NvmeSglDescriptor sgl, NvmeCmd *cmd, NvmeRequest *req)
-> > > +{
-> > > +    QEMUSGList qsg;
-> > > +    uint16_t err = NVME_SUCCESS;
-> > > +
-> > Very minor: Mixing convention: status vs error
-> >
->
-> Fixed by proxy in another refactor.
->
-> > >
-> > > +#define NVME_CMD_FLAGS_FUSE(flags) (flags & 0x3)
-> > > +#define NVME_CMD_FLAGS_PSDT(flags) ((flags >> 6) & 0x3)
-> > Minor: This one is slightly misleading - as per the naming and it's usage:
-> > the PSDT is a field name and as such does not imply using SGLs
-> > and it is being used to verify if given command is actually using
-> > SGLs.
-> >
->
-> Ah, is this because I do
->
->   if (NVME_CMD_FLAGS_PSDT(cmd->flags)) {
->
-> in the code? That is, just checks for it not being zero? The value of
-> the PRP or SGL for Data Transfer (PSDT) field *does* specify if the
-> command uses SGLs or not. 0x0: PRPs, 0x1 SGL for data, 0x10: SGLs for
-> both data and metadata. Would you prefer the condition was more
-> explicit?
->
-Yeah, it is just not obvious( at least to me)  without referencing the spec
-that non-zero value implies SGL usage. Guess a comment would be helpful
-but that is not major.
+Even if the interrupts are off, counters must be updated because
+they are running anyway and kernel can try to read them
+(it's the case with g3beige kernel).
 
-Thanks,
+Reported-by: Andrew Randrianasulu <randrianasulu@gmail.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/misc/mos6522.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-BR
-Beata
->
-> Thanks!
-> Klaus
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index aa3bfe1afd..cecf0be59e 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -113,6 +113,10 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
+     int64_t d, next_time;
+     unsigned int counter;
+ 
++    if (ti->frequency == 0) {
++        return INT64_MAX;
++    }
++
+     /* current counter value */
+     d = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
+                  ti->frequency, NANOSECONDS_PER_SECOND);
+@@ -149,10 +153,10 @@ static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
+     if (!ti->timer) {
+         return;
+     }
++    ti->next_irq_time = get_next_irq_time(s, ti, current_time);
+     if ((s->ier & T1_INT) == 0 || (s->acr & T1MODE) != T1MODE_CONT) {
+         timer_del(ti->timer);
+     } else {
+-        ti->next_irq_time = get_next_irq_time(s, ti, current_time);
+         timer_mod(ti->timer, ti->next_irq_time);
+     }
+ }
+@@ -163,10 +167,10 @@ static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
+     if (!ti->timer) {
+         return;
+     }
++    ti->next_irq_time = get_next_irq_time(s, ti, current_time);
+     if ((s->ier & T2_INT) == 0) {
+         timer_del(ti->timer);
+     } else {
+-        ti->next_irq_time = get_next_irq_time(s, ti, current_time);
+         timer_mod(ti->timer, ti->next_irq_time);
+     }
+ }
+-- 
+2.21.0
+
 
