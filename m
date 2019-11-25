@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA14108D77
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:02:22 +0100 (CET)
-Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920C2108D8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:05:58 +0100 (CET)
+Received: from localhost ([::1]:42726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZD4P-0000Xf-2e
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:02:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56257)
+	id 1iZD7t-0003J6-Md
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:05:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZD2t-0008DQ-4v
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:48 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZD4W-0001PI-0x
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:02:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZD2r-0006a3-LT
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:46 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22033
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZD4V-00080Z-0G
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:02:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37950
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZD2r-0006Zu-Hp
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:00:45 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZD4U-000802-Si
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:02:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574683245;
+ s=mimecast20190719; t=1574683346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=i3bH86M0F4tQW0UlsxlTEfV1rB1JEjM6pZo7Mg8LwZQ=;
- b=TGEprCKkP5VIkkeIdmg9+p/SQb1PBwnbijrMfvOnFDS33OqjRDWqLgKoY49YIXQoLf+qP9
- T7yzwkMKOXpCcH6rX1u1iIj7oFGd/5JLkXadKxf0b+L9W0EduagdaKGQuqvml2J+EPKHaU
- 0QmPPOC6uGU4wh+2an4NIgwomI/kRY8=
+ bh=RZasd1jzsERD00vSG6IV2L+mtNaVW+NnUpSjJ9fFilE=;
+ b=Lexk+/htORZbs/LIiMBeOegQBpchkkuuB4pVDAtr/oJbow0KCD0lwfi+4fyWmtJpn5IBsk
+ CzlpOK1yZY8xNSsQ6BbH5Ykeg0kchubigWG+V1Za0xYbfI6um9F5jR1414I9HpzGoSk9yM
+ yqTixfM+dYhmwCq5IsezdBq43j614no=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-b0a1QUMKNF2IRYgFvCNUzA-1; Mon, 25 Nov 2019 07:00:35 -0500
-X-MC-Unique: b0a1QUMKNF2IRYgFvCNUzA-1
+ us-mta-144-fTYQDrozPuORqRwsQr8zgA-1; Mon, 25 Nov 2019 07:02:23 -0500
+X-MC-Unique: fTYQDrozPuORqRwsQr8zgA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A29FD18557C4;
- Mon, 25 Nov 2019 12:00:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E73718C54B5;
+ Mon, 25 Nov 2019 12:02:21 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46169600C6;
- Mon, 25 Nov 2019 12:00:28 +0000 (UTC)
-Subject: Re: [PATCH v3 2/8] block: Add no_fallback parameter to
- bdrv_co_truncate()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F75D600C6;
+ Mon, 25 Nov 2019 12:02:17 +0000 (UTC)
+Subject: Re: [PATCH v3 3/8] qcow2: Declare BDRV_REQ_NO_FALLBACK supported
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-3-kwolf@redhat.com>
+ <20191122160511.8377-4-kwolf@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -73,20 +72,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8e67b160-02db-4b09-4748-405f740bd159@redhat.com>
-Date: Mon, 25 Nov 2019 13:00:26 +0100
+Message-ID: <422fbd18-a1e0-8d8c-f2ad-e7d16115d2a8@redhat.com>
+Date: Mon, 25 Nov 2019 13:02:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191122160511.8377-3-kwolf@redhat.com>
+In-Reply-To: <20191122160511.8377-4-kwolf@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7"
+ boundary="DXtmWIOyttkn3ZUprmsHjwP7Qp6R7UlXO"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,77 +102,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7
-Content-Type: multipart/mixed; boundary="SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys"
+--DXtmWIOyttkn3ZUprmsHjwP7Qp6R7UlXO
+Content-Type: multipart/mixed; boundary="sJqOnoCBbphE3YjqCMXYSJCElCndK3NA9"
 
---SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys
+--sJqOnoCBbphE3YjqCMXYSJCElCndK3NA9
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 On 22.11.19 17:05, Kevin Wolf wrote:
-> This adds a no_fallback parameter to bdrv_co_truncate(), bdrv_truncate()
-> and blk_truncate() in preparation for a fix that potentially needs to
-> zero-write the new area. no_fallback will use BDRV_REQ_NO_FALLBACK for
-> this operation and lets the truncate fail if an efficient zero write
-> isn't possible.
+> In the common case, qcow2_co_pwrite_zeroes() already only modifies
+> metadata case, so we're fine with or without BDRV_REQ_NO_FALLBACK set.
 >=20
-> Only qmp_block_resize() passes true for this parameter because it is a
-> blocking monitor command, so we don't want to add more potentially slow
-> I/O operations to it than we already have.
+> The only exception is when using an external data file, where the
+> request is passed down to the block driver of the external data file. We
+> are forwarding the BDRV_REQ_NO_FALLBACK flag there, though, so this is
+> fine, too.
 >=20
-> All other users will accept even a slow fallback to avoid failure.
+> Declare the flag supported therefore.
 >=20
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  include/block/block.h          |  5 +++--
->  include/sysemu/block-backend.h |  2 +-
->  block/block-backend.c          |  4 ++--
->  block/commit.c                 |  4 ++--
->  block/crypto.c                 |  4 ++--
->  block/io.c                     | 16 ++++++++++++----
->  block/mirror.c                 |  2 +-
->  block/parallels.c              |  6 +++---
->  block/qcow.c                   |  4 ++--
->  block/qcow2-refcount.c         |  2 +-
->  block/qcow2.c                  | 19 +++++++++++--------
->  block/qed.c                    |  2 +-
->  block/raw-format.c             |  2 +-
->  block/vdi.c                    |  2 +-
->  block/vhdx-log.c               |  2 +-
->  block/vhdx.c                   |  6 +++---
->  block/vmdk.c                   | 10 ++++++----
->  block/vpc.c                    |  2 +-
->  blockdev.c                     |  2 +-
->  qemu-img.c                     |  2 +-
->  qemu-io-cmds.c                 |  2 +-
->  tests/test-block-iothread.c    |  6 +++---
->  22 files changed, 60 insertions(+), 46 deletions(-)
-
-With the typo pointed out by Eric fixed:
+>  block/qcow2.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
---SWY9hWP3awADlbI5ySBRG85H43Rs5Cmys--
+--sJqOnoCBbphE3YjqCMXYSJCElCndK3NA9--
 
---4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7
+--DXtmWIOyttkn3ZUprmsHjwP7Qp6R7UlXO
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3bwloACgkQ9AfbAGHV
-z0BWQggAic7tERxJ8MnT7pkutgx9GlLVudAPczERyJCuZN+7Z4vGhJeo641/d3OD
-b3F2232G1yrV41BwIai8XamwZUz1xuSkfY3XszOgETt4Aw3vAmaeAjlzqrM+cZnR
-SMacE4plEVE69UG5yLa87BCWqLVJyhp8IMQ/IPESJBGJR4TI5cmAUhY9dV8nRmOh
-+xN00+b5bczcyCVmg6tS3/jJBQ07EHjtxLaYRVLxAF3kH3V8RIOAeg/70ptCOu24
-/oJQXwRutm/l06vIu5ID57AUPjR0ZcRyOZiYIrSQk1VGQa2i29RGPhWIDuC+GmIq
-+q9AG+WQJxifP2Qyc/CiP9fV/cyXsA==
-=4md2
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3bwscACgkQ9AfbAGHV
+z0BakwgAlgfyxQmNjJB1Ncv5zNQyCXKdDCHoQEQQ0asAJooqZusG1VZucNZha/0g
+auxa2AIf31T0nsFAP1YQY4Wl52fVPAQ5tRr5WXrS3raTulwlaX1zovcUS1ObYUl4
+mJLXMDXTfUGSmD3UTVOrCo15U+IrDzmf7KlV8a01UHYqkTM6zjXAeOLdHoiasgi9
+g1bzWyYDtWVapCZmaAa/qArDv736oE3GAaGmvrgRdRsMbpjpSn2GBqfMFTSI7M5L
+WCnLY3Dtg2fnniiUaYtaNg32pEXLLjMGZ1DuzRnRSbag0nlE9TQOFh5lJqY7hBKQ
+C5bRMc2JM1j+SkDd5NPDpwtxZNk+Cw==
+=X4UJ
 -----END PGP SIGNATURE-----
 
---4EHgTfzB8YM64oICHkTGfhq7RGpqSo5L7--
+--DXtmWIOyttkn3ZUprmsHjwP7Qp6R7UlXO--
 
 
