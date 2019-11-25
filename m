@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A42108D88
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:04:21 +0100 (CET)
-Received: from localhost ([::1]:42716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19872108DBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:23:36 +0100 (CET)
+Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZD6K-0002AQ-Pw
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:04:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
+	id 1iZDOx-0001h4-1l
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:23:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZD3D-00005w-MH
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:01:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1iZDMe-0007SN-L3
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:21:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZD3C-0006yT-BR
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:01:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37852)
+ (envelope-from <bounces@canonical.com>) id 1iZDCX-0003zo-2G
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:10:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38886)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZD3C-0006y8-5V
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:01:06 -0500
+ id 1iZDCW-0003zQ-Sp
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:10:45 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZD3B-0001Pa-2j
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:01:05 +0000
+ id 1iZDCV-0002Ad-Li
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:10:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 130BF2E8074
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:01:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9F6F92E8037
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:10:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Nov 2019 11:55:06 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1848556@bugs.launchpad.net>
+Date: Mon, 25 Nov 2019 11:56:46 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1853781@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=Fix Committed; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=Fix Released; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug-Tags: verification-done verification-done-eoan
+X-Launchpad-Bug-Tags: baremetal raspi2
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor paelzer rodsmith tjaalton ubuntu-sru-bot
- xanclic
-X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+X-Launchpad-Bug-Commenters: evan-rysdam philmd
+X-Launchpad-Bug-Reporter: Evan Rysdam (evan-rysdam)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
-Message-Id: <157468290644.21449.7874268802659407042.malone@soybean.canonical.com>
-Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
+References: <157463269344.7205.8988702228388398977.malonedeb@gac.canonical.com>
+Message-Id: <157468300611.6824.14443426549833258334.malone@gac.canonical.com>
+Subject: [Bug 1853781] Re: Baremetal kernel built from assembly runs multiple
+ times
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c597c3229eb023b1e626162d5947141bf7befb13";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 20dbbe292addbd27f0b37b80dc8a200d4f856ba1
+X-Launchpad-Hash: 1680f5ca93eee6c2eaf0b89f4602bad8ed7efebe
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -78,111 +69,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
+Reply-To: Bug 1853781 <1853781@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eoan - without fix -> hang
+You can look at hw/arm/raspi.c::write_smpboot():
 
-With fix:
-qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64.img   =
-                                                                           =
-                              =
+While the first core start booting the kernel, the other cores keep
+spinning until the 1st core configured the mailboxes:
 
-No errors were found on the image.                                         =
-                                                                           =
-                                        =
+static const uint32_t smpboot[] =3D {
+    0xe1a0e00f, /*    mov     lr, pc */
+    0xe3a0fe00 + (BOARDSETUP_ADDR >> 4), /* mov pc, BOARDSETUP_ADDR */
+    0xee100fb0, /*    mrc     p15, 0, r0, c0, c0, 5;get core ID */
+    0xe7e10050, /*    ubfx    r0, r0, #0, #2       ;extract LSB */
+    0xe59f5014, /*    ldr     r5, =3D0x400000CC      ;load mbox base */
+    0xe320f001, /* 1: yield */
+    0xe7953200, /*    ldr     r3, [r5, r0, lsl #4] ;read mbox for our core*/
+    0xe3530000, /*    cmp     r3, #0               ;spin while zero */
+    0x0afffffb, /*    beq     1b */
+    0xe7853200, /*    str     r3, [r5, r0, lsl #4] ;clear mbox */
+    0xe12fff13, /*    bx      r3                   ;jump to target */
+    0x400000cc, /* (constant: mailbox 3 read/clear base) */
+};
 
-19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed clus=
-ters                                                                       =
-                                          =
-
-Image end offset: 514064384
-
-Setting verified
-
-** Tags removed: verification-needed verification-needed-eoan
-** Tags added: verification-done verification-done-eoan
+When the mailboxes are configured, all the cores can communicate between
+each others (and with the VC GPU).
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1848556
+https://bugs.launchpad.net/bugs/1853781
 
 Title:
-  qemu-img check failing on remote image in Eoan
+  Baremetal kernel built from assembly runs multiple times
 
 Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Eoan:
-  Fix Committed
-Status in qemu source package in Focal:
-  Fix Released
+  Invalid
 
 Bug description:
-  Ubuntu SRU Template:
+  QEMU version: 4.1.0.
 
-  [Impact]
+  Full command used to launch: qemu-system-arm -machine raspi2 -kernel
+  main
 
-   * There is fallout due to changes in libcurl that affect qemu and might =
+  (Technically, the first term of the command is actually
+  "~/Applications/QEMU/qemu-4.1.0/build/arm-softmmu/qemu-system-arm",
+  but I shortened it for readability.)
 
-     lead to a hang.
+  Host information: Running debian 9.9 on a 64-bit x86 processor (Intel
+  i5-2520M).
 
-   * Fix by backporting the upstream fix
+  Guest information: No operating system. I'm providing my own kernel,
+  which I assembled from a 60-line ARM assembly program using arm-none-
+  eabi-as and then linked with arm-none-eabi-ld, both version
+  2.28-5+9+b3.
 
-  [Test Case]
+  Additional details: To view the screen output of the program, I am
+  using vncviewer version 6.19.1115 (r42122). All of the above software
+  packages were installed as debian packages using apt, except for QEMU,
+  which I built from source after downloading from the official website.
 
-   * If you have network just run
-     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
-.img
+  .
 
-   * Without network, install apache2, and get a complex qemu file (like a =
+  The issue here is that I have written a program in assembly and it
+  isn't doing what I expect it to when I emulate it. Here's a summary of
+  the code:
 
-     cloud image) onto the system. Then access the file via apache http but =
+  1) Read a number from zero-initialized memory.
 
-     not localhost (that would work)
+  2) Add one to the number and write it back.
 
-  [Regression Potential]
+  3) Use the number to determine a screen location to write to.
 
-   * The change is local to the libcurl usage of qemu, so that could be =
+  4) Use the number to determine what color to write.
 
-     affected. But then this is what has been found to not work here, so I'=
-d =
+  5) Write 4000 half-words to the screen starting at that offset and
+  using that color. This should result in a stripe across the whole
+  screen that's about 6 pixels tall.
 
-     expect not too much trouble. But if so then in the curl usage (which =
+  The expected behavior is that *one* stripe should appear on the screen
+  in a single color. However, the actual behavior is that up to *four*
+  stripes appear, each in a different color. Furthermore, if I comment
+  out the line that writes the incremented counter back to memory, then
+  only one stripe will appear.
 
-     means disks on http)
+  I will also note that the Raspberry Pi 2, which is the system I'm
+  emulating, has four cores. What I suspect is going on here is that my
+  code is being loaded onto all four cores of the emulated machine. I
+  couldn't find anything about this anywhere in the documentation, and
+  it strikes me as bug.
 
-  [Other Info]
-   =
+  I have attached the assmebly code that I'm using, as well as a short
+  makefile. Since I can only add one attachment to this report, I've
+  combined the two into a single text file and labeled each. After
+  separating the two into two files, you will need to change the first
+  line of the makefile to point to your installation of qemu-system-arm
+  v4.1.0. After that, type "make run" to run the program.
 
-   * n/a
-
-  ---
-
-  The "qemu-img check" function is failing on remote (HTTP-hosted)
-  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
-  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
-  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
-
-  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
-g-amd64.img
-  No errors were found on the image.
-  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
-usters
-  Image end offset: 514064384
-
-  The 10.193.37.117 server holds an Apache server that hosts the cloud
-  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
-  0ubuntu9, the same command never returns. (I've left it for up to an
-  hour with no change.) I'm able to wget the image from the same server
-  and installation on which qemu-img check fails. I've tried several
-  .img files on the server, ranging from Bionic to Eoan, with the same
-  results with all of them.
+  Thanks in advance,
+  Evan Rysdam
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1853781/+subscriptions
 
