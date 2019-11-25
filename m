@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AAB10912E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:43:59 +0100 (CET)
-Received: from localhost ([::1]:45520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03390109144
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:50:13 +0100 (CET)
+Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZGWs-0002Vx-1X
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:43:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33608)
+	id 1iZGct-0008Ob-Lf
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1iZGS0-0007Kf-Ro
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:38:58 -0500
+ (envelope-from <jasowang@redhat.com>) id 1iZGTI-0008St-L3
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1iZGRz-0000Ni-DD
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:38:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32948
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jasowang@redhat.com>) id 1iZGTH-0001va-Ee
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52359
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1iZGRz-0000N5-94
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:38:55 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iZGTH-0001v9-AK
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574696334;
+ s=mimecast20190719; t=1574696414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vueCLd2IfoRk1e1hzZmvXxOiXal1PfYRzga8lO1nKOU=;
- b=U9DJ29y/rFrVYVZxNEVEr0zeftpTKBpbAjogo+jTRwawTEmF6hlH+Z9RsUXnSmxlUhVqJa
- 47HnYmr4PRd0Q7zCJeLTlCNl3X7yF56hyQmuIydCyET/Io2IZjDOrsL3BYLnbpauHKHFuV
- cKP07s4VgojvvmAlkatKxxVNiebJAUw=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DFoLM12d/1HqmCMK9NJxuXTqX9TO3LYW/cIhV4z2weo=;
+ b=RhQjij8lZkyYRztNNrRL6wyFiDMEqmBxUgflYJiBbpPD9WnUZjEyj46riCP2BsXc70UBmj
+ Gg4d+d5Hw0uXxmPvjoHyqgdqG50+Vz/tCVDjFqZQQLwK+w50bwHnhpcJbOMjFwCEyeYG9d
+ hyj7n8tcdy9Vqwee4SSU14mYzERO+l0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-M-HZ0h5bMqezLh4V122Obw-1; Mon, 25 Nov 2019 10:38:52 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-414-xx6rlyhHO5GnjFBQp37Mig-1; Mon, 25 Nov 2019 10:40:12 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC6ED1856A74;
- Mon, 25 Nov 2019 15:38:51 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F05885D6AE;
- Mon, 25 Nov 2019 15:38:45 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 78BC522062B; Mon, 25 Nov 2019 10:38:45 -0500 (EST)
-Date: Mon, 25 Nov 2019 10:38:45 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 4/4] virtiofsd: Implement blocking posix locks
-Message-ID: <20191125153845.GB13247@redhat.com>
-References: <20191115205543.1816-1-vgoyal@redhat.com>
- <20191115205543.1816-5-vgoyal@redhat.com>
- <20191122105324.GE464656@stefanha-x1.localdomain>
-MIME-Version: 1.0
-In-Reply-To: <20191122105324.GE464656@stefanha-x1.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: M-HZ0h5bMqezLh4V122Obw-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E81B718C425E;
+ Mon, 25 Nov 2019 15:40:10 +0000 (UTC)
+Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-31.pek2.redhat.com
+ [10.72.12.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B39A5D9CA;
+ Mon, 25 Nov 2019 15:40:09 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: peter.maydell@linaro.org
+Subject: [PULL 0/4] Net patches
+Date: Mon, 25 Nov 2019 23:40:03 +0800
+Message-Id: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: xx6rlyhHO5GnjFBQp37Mig-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,96 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, miklos@szeredi.hu
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 22, 2019 at 10:53:24AM +0000, Stefan Hajnoczi wrote:
-> On Fri, Nov 15, 2019 at 03:55:43PM -0500, Vivek Goyal wrote:
-> > diff --git a/contrib/virtiofsd/fuse_lowlevel.c b/contrib/virtiofsd/fuse=
-_lowlevel.c
-> > index d4a42d9804..f706e440bf 100644
-> > --- a/contrib/virtiofsd/fuse_lowlevel.c
-> > +++ b/contrib/virtiofsd/fuse_lowlevel.c
-> > @@ -183,7 +183,8 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int =
-error, struct iovec *iov,
-> >  {
-> >  =09struct fuse_out_header out;
-> > =20
-> > -=09if (error <=3D -1000 || error > 0) {
-> > +=09/* error =3D 1 has been used to signal client to wait for notificai=
-ton */
-> > +=09if (error <=3D -1000 || error > 1) {
-> >  =09=09fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n",=09error);
-> >  =09=09error =3D -ERANGE;
-> >  =09}
->=20
-> What is this?
+The following changes since commit 122e6d2a9c1bf8aa1d51409c15809a82621515b1=
+:
 
-When a waiting lock request comes in, we need a way to reply back saying
-wait for the notification. So I used value "1" for the
-fuse_out_header->error field for this purpose. As of now, 0 is returned
-for success and negative values for error code. So positive values seem
-to be unused.
+  Merge remote-tracking branch 'remotes/gkurz/tags/9p-fix-2019-11-23' into =
+staging (2019-11-25 13:39:45 +0000)
 
->=20
-> > +int fuse_lowlevel_notify_lock(struct fuse_session *se, uint64_t req_id=
-,
-> > +=09=09=09      int32_t error)
-> > +{
-> > +=09struct fuse_notify_lock_out outarg;
->=20
-> Missing =3D {} initialization to avoid information leaks to the guest.
+are available in the git repository at:
 
-Will do.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
->=20
-> > @@ -1704,6 +1720,15 @@ int fuse_lowlevel_notify_delete(struct fuse_sess=
-ion *se,
-> >  int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino=
-,
-> >  =09=09=09       off_t offset, struct fuse_bufvec *bufv,
-> >  =09=09=09       enum fuse_buf_copy_flags flags);
-> > +/**
-> > + * Notify event related to previous lock request
-> > + *
-> > + * @param se the session object
-> > + * @param req_id the id of the request which requested setlkw
->=20
-> The rest of the code calls this id "unique":
+for you to fetch changes up to 4d0e59ace29277b2faa5b33c719be9baaa659093:
 
-Will change it.
+  net/virtio: return error when device_opts arg is NULL (2019-11-25 23:30:2=
+9 +0800)
 
->=20
->   + * @param req_unique the unique id of the setlkw request
->=20
-> > +    /* Pop an element from queue */
-> > +    req =3D vu_queue_pop(dev, q, sizeof(FVRequest), &bad_in_num, &bad_=
-out_num);
-> > +    if (!req) {
-> > +        /* TODO: Implement some sort of ring buffer and queue notifica=
-tions
-> > +=09 * on that and send these later when notification queue has space
-> > +=09 * available.
-> > +=09 */
-> > +        return -ENOSPC;
->=20
-> Ah, I thought the point of the notifications processing thread was
-> exactly this case.  It could wake any threads waiting for buffers.
->=20
-> This wakeup could be implemented with a condvar - no ring buffer
-> necessary.
+----------------------------------------------------------------
 
-I was thinking that thread sending notification should not block. It can
-just queue the notification reuqest and some other thread (including
-notification thread could send it later). Number of pre-allocated buffers
-could be of fixed and we will drop notifications if guest is not
-responding. This will also take care of concerns w.r.t rogue guest
-blocking filesystem code in daemon.
+----------------------------------------------------------------
+Jens Freimann (4):
+      net/virtio: fix dev_unplug_pending
+      net/virtio: return early when failover primary alread added
+      net/virtio: fix re-plugging of primary device
+      net/virtio: return error when device_opts arg is NULL
 
-Anyway, this is a TODO item and not implemented yet.=20
+ hw/net/virtio-net.c | 58 +++++++++++++++++++++++++++++++++++--------------=
+----
+ migration/savevm.c  |  3 ++-
+ 2 files changed, 40 insertions(+), 21 deletions(-)
 
-Thanks
-Vivek
+2.5.0
 
 
