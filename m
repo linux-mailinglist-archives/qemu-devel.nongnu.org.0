@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EB910C492
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 08:54:06 +0100 (CET)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C68610C495
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 08:54:32 +0100 (CET)
+Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaEcm-0001KU-F7
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 02:54:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52571)
+	id 1iaEdD-0001t0-Ju
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 02:54:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aaron@localhost>) id 1iaEaZ-0007s8-Sj
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:51:48 -0500
+ (envelope-from <aaron@localhost>) id 1iaEaw-0008CD-VZ
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:52:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aaron@localhost>) id 1iaEaX-0003Aj-R6
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:51:46 -0500
-Received: from [2406:7400:73:186d:af79:94fc:29ef:77e6] (port=56076
+ (envelope-from <aaron@localhost>) id 1iaEau-0003hv-R6
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:52:09 -0500
+Received: from [2406:7400:73:186d:af79:94fc:29ef:77e6] (port=56110
  helo=localhost) by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aaron@localhost>) id 1iaEaX-0002k0-E3
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:51:45 -0500
+ (envelope-from <aaron@localhost>) id 1iaEau-0003fd-Eb
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:52:08 -0500
 Received: by localhost (Postfix, from userid 1000)
- id 61E46D41707; Mon, 25 Nov 2019 19:52:26 +0530 (IST)
+ id 63415D4170B; Mon, 25 Nov 2019 19:53:03 +0530 (IST)
 From: aaron.zakhrov@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [RFC 2/8] Fix MC STATUS resgister
-Date: Mon, 25 Nov 2019 19:49:06 +0530
-Message-Id: <20191125141908.5441-3-aaron.zakhrov@gmail.com>
+Subject: [RFC 3/8] R300 fixes
+Date: Mon, 25 Nov 2019 19:49:08 +0530
+Message-Id: <20191125141908.5441-4-aaron.zakhrov@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191125141908.5441-1-aaron.zakhrov@gmail.com>
 References: <20191125141908.5441-1-aaron.zakhrov@gmail.com>
@@ -53,73 +53,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Aaron Dominick <aaron.zakhrov@gmail.com>
 
 ---
- hw/display/r300.c | 15 ++++++++++++---
- hw/display/r300.h |  1 +
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ hw/display/r300.c | 9 +++++++++
+ hw/display/r300.h | 6 ++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/hw/display/r300.c b/hw/display/r300.c
-index 94e90b7a95..653474c3aa 100644
+index 653474c3aa..074dbf5b2d 100644
 --- a/hw/display/r300.c
 +++ b/hw/display/r300.c
-@@ -278,6 +278,10 @@ static uint64_t r300_mm_read(void *opaque, hwaddr ad=
-dr, unsigned int size)
-     uint64_t val =3D 0;
-=20
-     switch (addr) {
-+    case RADEON_MC_STATUS:
-+        val =3D s->regs.mc_status;
+@@ -878,6 +878,15 @@ static void r300_mm_write(void *opaque, hwaddr addr,
+     case RADEON_DEFAULT_SC_BOTTOM_RIGHT:
+         s->regs.default_sc_bottom_right =3D data & 0x3fff3fff;
+         break;
++    case R300_GB_ENABLE:
++        s->regs.r300_gb_enable =3D data;
 +        break;
-+
-     case RADEON_MM_INDEX:
-         val =3D s->regs.mm_index;
++    case R300_GB_TILE_CONFIG:
++            s->regs.r300_gb_tile_config =3D data;
++            break;
++    case R300_GB_FIFO_SIZE:
++            s->regs.r300_gb_fifo_size =3D data;
++            break;
+     default:
          break;
-@@ -358,9 +362,9 @@ static uint64_t r300_mm_read(void *opaque, hwaddr add=
-r, unsigned int size)
-     case RADEON_CONFIG_REG_APER_SIZE:
-         val =3D memory_region_size(&s->mm);
-         break;
--    case RADEON_MC_STATUS:
--        val =3D 5;
--        break;
-+    // case RADEON_MC_STATUS:
-+    //     val =3D 5;
-+    //     break;
-     case RADEON_RBBM_STATUS:
-         val =3D 64; /* free CMDFIFO entries */
-         break;
-@@ -512,6 +516,10 @@ static void r300_mm_write(void *opaque, hwaddr addr,
-         trace_ati_mm_write(size, addr, r300_reg_name(addr & ~3ULL), data=
-);
      }
-     switch (addr) {
-+      case RADEON_MC_STATUS:
-+        s->regs.mc_status =3D R300_MC_IDLE;
-+        s->regs.mc_status =3D data;
-+        break;
-       case RADEON_RBBM_STATUS:
-         s->regs.rbbm_status =3D data|=3D RADEON_RBBM_FIFOCNT_MASK;
-         break;
-@@ -946,6 +954,7 @@ static void r300_vga_realize(PCIDevice *dev, Error **=
-errp)
- static void r300_vga_reset(DeviceState *dev)
- {
-     RADVGAState *s =3D RAD_VGA(dev);
-+    s->regs.mc_status =3D R300_MC_IDLE;
-=20
-     timer_del(&s->vblank_timer);
-     r300_vga_update_irq(s);
 diff --git a/hw/display/r300.h b/hw/display/r300.h
-index 60f572647f..a9e1db32be 100644
+index a9e1db32be..19e3d97f8a 100644
 --- a/hw/display/r300.h
 +++ b/hw/display/r300.h
-@@ -81,6 +81,7 @@ typedef struct RADVGARegs{
-   uint32_t default_pitch;
-   uint32_t default_tile;
+@@ -83,6 +83,12 @@ typedef struct RADVGARegs{
    uint32_t default_sc_bottom_right;
-+  uint32_t mc_status;
+   uint32_t mc_status;
 =20
++  //R300 GB Registers
++  uint32_t r300_gb_enable;
++  uint32_t r300_gb_tile_config;
++  uint32_t r300_gb_fifo_size;
++
++
  //Color Buffer RB3D
    uint32_t r300_rb3d_aaresolve_ctl;
+   uint32_t r300_rb3d_aaresolve_offset;
 --=20
 2.24.0
 
