@@ -2,63 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D2108FEB
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:28:59 +0100 (CET)
-Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA69108F8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 15:06:54 +0100 (CET)
+Received: from localhost ([::1]:44446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZFMI-0000zC-D8
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:28:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1iZF0u-0000gi-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 09:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZFG6-0002wW-Uj
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:22:36 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iZEz7-0008JX-8J
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:05:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZF4q-0001ne-22
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:10:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38916)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZF4p-0001nP-S8
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:10:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZF4o-0001Or-HU
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 14:10:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 822672E80C7
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 14:10:54 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iZEz6-0007Pm-3T
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 09:05:01 -0500
+Received: from mail-eopbgr40099.outbound.protection.outlook.com
+ ([40.107.4.99]:44191 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iZEz0-0007Kf-7L; Mon, 25 Nov 2019 09:04:56 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hq5Aroj+ojY1jbyo2CvQ5m7PHC/EJFPM47I7Im9J8EwBTtHc312dhV/P60gTYqnL3t0O4n2x9ke8OhFlRhWPzLi3H9r/6OSnvUuSL2W1ukqpkC9WWBSWpEjzZNrPczcvPJmK886bQqzV2f2YD0+fASoTj8Z+UDlqNuwBfzwLUjP6AUdWc5VXeKD/Xyf8EJxQesEXGiYSwLrYcbwJIL2Rf0yGkuxW0B08wB9xrHp0nZc1UcDD3N2NSa2rF4dITPpsuSAY978Fqo8DjtPpjXHNRutYGGcJ/xR3Y6HQIC0kGGOdcETlnlcojpDMVIG6W5KEszJu1k52og2SjaaTRx/57A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7Dq4iBuNT29NA5Vp1T27IR5mgV6s2JhV2MwXjo9kJvI=;
+ b=V5YBF4OvXwJSu4Y9g1mgQWBzBl4f1USxgSbeCSdWLY8rba3AulCWOJzcWKEQSkQin14DDUScAxDqsKymNvqYL+1/T++hJxA8dFT5nGC1zON3Bolw/dSD60bS6hN1s54FgJNZ/0olpKMyTX3x6fKFN6z22XFLsDDFt6m228oItlfTHTfmbAPVyXsP7TIHuB4/g5sDl+0XXl5DKdFjy+c8kDxnkZk1Eitx/WtJPaa9yZANCrwUhxIt43i1SsUkxoU+Zg9F6wzy1gmbWEV+ta/Fk9OUOs+RQUyk5nlcBZ/29u7y6bJSA2Zlnl1BJ+dzc8d7sYMZVHpk8hckV5JcOy+7jQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7Dq4iBuNT29NA5Vp1T27IR5mgV6s2JhV2MwXjo9kJvI=;
+ b=qw6LilsOTYOKlYCGubceisUa2M7a61rSX2eDXncguVOxMFLgwiuv4Zgt9stAQCByB/K5IKDMJzlj28KmXVuEA1oMZviqwclOu5aPL0JuEZ1hZ4DeBPncuRDT5+3VZQttsq3Twc2OiM5RFidQlUdFy9lJJyumMBpxTLm15rxRU2Q=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4487.eurprd08.prod.outlook.com (20.179.18.209) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.19; Mon, 25 Nov 2019 14:04:50 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2474.023; Mon, 25 Nov 2019
+ 14:04:50 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-4.2 0/2] Fix bitmap migration
+Thread-Topic: [PATCH for-4.2 0/2] Fix bitmap migration
+Thread-Index: AQHVo48+ECB6ixU2UEuW+JCS6qeFlqeb54CAgAAD+QA=
+Date: Mon, 25 Nov 2019 14:04:50 +0000
+Message-ID: <a5de748a-65dc-20a6-e53c-3de824ef355b@virtuozzo.com>
+References: <20191125125229.13531-1-vsementsov@virtuozzo.com>
+ <ceefa583-5fd0-4278-d7d0-bb07be6accb4@redhat.com>
+In-Reply-To: <ceefa583-5fd0-4278-d7d0-bb07be6accb4@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0207.eurprd05.prod.outlook.com
+ (2603:10a6:3:f9::31) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191125170448136
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6f0e99be-7a3d-4bf5-ae90-08d771b06fdf
+x-ms-traffictypediagnostic: AM6PR08MB4487:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM6PR08MB4487B9745E0861CEF70F2FEFC14A0@AM6PR08MB4487.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1247;
+x-forefront-prvs: 0232B30BBC
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(396003)(136003)(346002)(376002)(39840400004)(189003)(199004)(53754006)(8936002)(66066001)(76176011)(2616005)(52116002)(66556008)(64756008)(66476007)(446003)(316002)(14454004)(11346002)(99286004)(66446008)(478600001)(6306002)(256004)(7736002)(86362001)(305945005)(66946007)(4326008)(36756003)(14444005)(81156014)(71190400001)(386003)(71200400001)(102836004)(6506007)(6512007)(2906002)(54906003)(26005)(31696002)(25786009)(31686004)(229853002)(6486002)(5660300002)(3846002)(6116002)(186003)(110136005)(6246003)(8676002)(53546011)(6436002)(2501003)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4487;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: F7JoctTeRGHYcSYfGc6fD+RV9QtSevOEl+bQaEy1ucBdozWyd4VCmCPCGIJhsPHCCRmWjwBmvzwBXKxSTajax1QU+dBUYAkd+ZLYUDm5oEAYxV9exSZCk2roUQEeOoZj7HmGTpy/SIC4VFxn1wVap76mIyGUHyHK4BqVf4U+6ES+US/hmQdyKJ/TLcb01auLS9nnmJD2e1FH3Y+5WW/x4br+GWqWqJEiyQJf/TaERZx1BSbsDYVjwYkxQ6mmDyT4tlTPlDwlPUzTop5Dt+W3JqdgKHONwwVhmsHCFP8Qnlo5fhOMW765lTOD3kk526TnFZxJCMKJCIPVqe92S06OoKyAh1mXWWtrxNuChEHu1vxcrKrvAmcS5Ws2o3WrRwFmARsG7QcYVb8ftgHHnfcNt0rYClMTX7Lorv1Cvbfs4nAML0TWw6ofoctheRpXaAYIOHrQzRq1i45h3GtArfjrWDxAeDkZyHhUQbUurjwXvyI=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <792F906A5E0CB945BD14785FBBA43F14@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Nov 2019 14:00:40 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee carolineconcatto
-X-Launchpad-Bug-Reporter: Caroline Concatto (carolineconcatto)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <157468002661.30952.10642264809488923382.malonedeb@wampee.canonical.com>
-Message-Id: <157469044081.31911.8887280582119301943.malone@wampee.canonical.com>
-Subject: [Bug 1853826] Re: ELF loader fails to load shared object on ThunderX2
- running RHEL7
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0dc9e13c73db02624634320edf246562a15e7f84
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f0e99be-7a3d-4bf5-ae90-08d771b06fdf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2019 14:04:50.3736 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: M7vJLZeVaTZkI30vnBDEdW2NFI0+3t5WIwZfx3yXqUegA71HL2J/hNfAroE044INGzeNeh5h06XRj9nXXyAwT1nnrA0ps5dXU0Nh2Ttz7c4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4487
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,205 +110,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853826 <1853826@bugs.launchpad.net>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As it's taking longer to get the compiler up and running on my system
-could you attach the failing binary along with the extra .so libs from
-/scratch/arm-linux-compiler/*
+25.11.2019 16:50, Max Reitz wrote:
+> On 25.11.19 13:52, Vladimir Sementsov-Ogievskiy wrote:
+>> Hi all!
+>>
+>> We've faced a bug in rhev-2.12.0-33.el7-based Qemu.
+>> In upstream, bug introduced in 4.0 by 74da6b943565c45
+>> "block/dirty-bitmaps: implement inconsistent bit" commit.
+>> At this commit we started to load inconsistent bitmap instead of
+>> silently ignoring them, and it now I see that it breaks migration.
+>>
+>> The fix is very simple, so I think it's OK for 4.2.. Still, it's not a
+>> degradation, so we may postpone it to 5.0.
+>>
+>> Vladimir Sementsov-Ogievskiy (2):
+>>    block/qcow2-bitmap: fix bitmap migration
+>>    iotests: add new test cases to bitmap migration
+>>
+>>   block/qcow2-bitmap.c       | 21 ++++++++++++++++++++-
+>>   tests/qemu-iotests/169     | 22 +++++++++++++++-------
+>>   tests/qemu-iotests/169.out |  4 ++--
+>>   3 files changed, 37 insertions(+), 10 deletions(-)
+>=20
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>=20
+> Makes sense to me to put this into 4.2, but I don=92t think it would
+> survive Peter=92s check list. :?
 
--- =
+It depends on how much the fixed case is popular..
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853826
+Actually, anyone who tries to migrate bitmaps with dirty-bitmaps capability
+enabled and with shared storage will very possibly run into this bug.
 
-Title:
-  ELF loader fails to load shared object on ThunderX2 running RHEL7
+But who is it, except for Virtuozzo, I don't know:) Still, I see that a lot
+of that staff merged into Rhel Qemu we based on, so at least this should go
+to qemu-stable and to Rhel update.
 
-Status in QEMU:
-  New
-
-Bug description:
-  Simple test:
-  hello.c
-
-  include <stdio.h>
-
-  int main(int argc, char* argv[])
-  {
-    {
-      printf("Hello World... \n");
-    }
-    return 0;
-  }
-
-  when compiled with :
-  *Compiler =
-
-  https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
-ure-tools/arm-allinea-studio/download
-  Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar	 =
-
-
-  *Running:
-  1) with -armpl
-       armclang -armpl hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-  2) without flag
-      armclang hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-
-  =E2=80=A2With Docker image:
-         CentOS Linux release 7.7.1908 (AltArch)
-
-  *Two different machines:
-         AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
-         AArch64, Taishan 2280, Cortex-A72, ARMv8-A
-
-  *QEMU 4.0
-       qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
-
-  =
-
-  Results:
-
-  =
-
-   ****Taishan 2280 Cortex-A72 =
-
-        Running =
-
-  1)with -armpl flag with and without the docker
-            WORKS-> Hello World...
-                 -> ldd a.out
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000) =
-
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffbc544000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffbc472000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffbbfd30=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffbbef5000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffb3306000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffb2f30000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffb2eff000) =
-
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
-             =
+>=20
+> (https://lists.nongnu.org/archive/html/qemu-block/2019-11/msg00807.html)
+>=20
+> Max
+>=20
 
 
-  Running =
-
-  2) without -armpl flag with and without the docker
-             WORKS -> Hello World...        =
-
-                   -> ldd a.out
-  ldd a.out
-   linux-vdso.so.1 =3D>  (0x0000ffffa6895000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffa6846000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
-      =
-
-
-  ****Taishan - tsv110  Kunpeng 920
-         For Running =
-
-
-  1)with -armpl flag with and without the docker
-             DOES NOT WORK -> with and without Docker
-                           -> It shows : qemu:handle_cpu_signal received si=
-gnal outside vCPU
-   context @ pc=3D0xffffaaa8844a
-                           -> ldd a.out =
-
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffad370000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffad270000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffacdd00=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffaccf0000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffa40e0000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffa3d00000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffa3cc0000)
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
-              =
-
-
-  Running =
-
-  2) without -armpl flag with and without the docker
-                 WORKS -> Hello World..
-                       -> ldd a.out
-  ldd a.out  =
-
-  linux-vdso.so.1 =3D>  (0x0000ffff880c0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffff88080000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
-  /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
+--=20
+Best regards,
+Vladimir
 
