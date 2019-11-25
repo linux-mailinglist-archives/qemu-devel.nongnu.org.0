@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E2910914C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:51:34 +0100 (CET)
-Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0598109163
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:56:21 +0100 (CET)
+Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZGeD-00025v-5O
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35013)
+	id 1iZGiq-00086F-S8
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:56:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iZGaZ-0007cr-FO
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:47:48 -0500
+ (envelope-from <eblake@redhat.com>) id 1iZGbo-0000Jh-PI
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:49:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iZGaY-0001SB-3O
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:47:47 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:42162)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iZGaX-0001RM-Qe
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:47:46 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id 66so6859113otd.9
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e0Antpu18es8uOSN2yjyqhIWvG6lJsh+Ei81WeFXyC0=;
- b=rZgwNhWunAOA+rEft/kfpX+sW24TZ9axq4HNI90hmE4nLlW/329/i+mVXq2H0BI1+t
- w1lNN6k3jbsGGXEejDh3XBwqMuQLFFFlMcB6m+KMh67e8dNfS1VBoCd6I1gPibQALW+3
- ZrAVtrgdixTPdRQzdTijpn4AlF6pzNxTugXFWKs0lSNja+fUbqtL+xJM/iXlfE+sMEzp
- uDdMedzzAn6288kH3aIKTwW+SEuqF9+7GKfUaDwwnOkRC6IifZhccmZM5x1oY2NPEcXA
- ipNMFRLGYwtzl/ImuCQehgHxKFn10/Rk3ucIoHV3QIArYEIdb00esh9a32TPiv5IBYCy
- 7pTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e0Antpu18es8uOSN2yjyqhIWvG6lJsh+Ei81WeFXyC0=;
- b=fnAQbHvSPsLHboeyvnOOGNK4CNC+8CNdkeJdluR1GZT0tziEttJ9mn+38ZZV+FVWZj
- 62UYpbhOiRxZiah2mlDnlFI4m4Merx6mTUE5yFJ0dwqzmj6qC2p3TkNF5T+QRd7X19SK
- BOeXVwVYxf4soElzaWCxMZtbGEkCWReZvLZLZ7RtpXfoL+oUzjuzv9tYtdLNdmsLbh7E
- 4zm5mQkyDq+aqeFMPa4wP7vzHELwiiLVLApJzNxFpE/62TGrKLq3nBkRF4bbEqhJRzil
- pW50WkedXiO6f9NRAW/WM29jTO1JjjOMA5cRt3n3nnC+oyLLAeY5cqqPni8WmydukAmD
- cSFw==
-X-Gm-Message-State: APjAAAWpHDVg0XFvhjZi+bUi7JDsibZH6cRPuj/pFMgikRsDu0IMLQTo
- C0UK8+DZ+FMmovVanDHjhNp4vdUCzT3aWfkbnWZaPk60pnc=
-X-Google-Smtp-Source: APXvYqxK9TS81gZJYPwCu8HstbfMCNAVZCK99F0v30XqHi5iEE7S1MEeK7GTjYN+dsyb8hjAzpwb49yD52h9cFVV2Po=
-X-Received: by 2002:a9d:12d2:: with SMTP id g76mr21620210otg.232.1574696864554; 
- Mon, 25 Nov 2019 07:47:44 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1iZGbn-0001lI-M2
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:49:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29159
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iZGbn-0001l7-IH
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:49:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574696943;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iOSks2dXMf57jQvMMsKxQLAqAQcPAWDwQE+afiL78Hw=;
+ b=UhO51wDzGqF8z0kQRX1uSTsbH5d07HFAFV1c+CG9dsVoHOLHIs56xmoiz5coYwL9jK0JqL
+ DW1q0SbHoJxUTbTBmVNGDYopeShmNOMsn1wuEuxC/B6PnVDdDzWviqDKH82NB05UYyoz7v
+ gWkaN0/emSp95xBYIX85oXxeFN1Mh54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-cgnxt3udPui4qAakA_Qi9w-1; Mon, 25 Nov 2019 10:48:59 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44C1B1801B8A;
+ Mon, 25 Nov 2019 15:48:58 +0000 (UTC)
+Received: from [10.3.116.163] (ovpn-116-163.phx2.redhat.com [10.3.116.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 597AE67E41;
+ Mon, 25 Nov 2019 15:48:31 +0000 (UTC)
+Subject: Re: [libvirt] [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20191125104103.28962-1-philmd@redhat.com>
+ <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
+ <20191125154021.GI4157473@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <cddf6ffc-9753-7a69-e02d-4c192dd78343@redhat.com>
+Date: Mon, 25 Nov 2019 09:48:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191125060434.22997-1-armbru@redhat.com>
-In-Reply-To: <20191125060434.22997-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 25 Nov 2019 15:47:33 +0000
-Message-ID: <CAFEAcA8TQu3-Ut8-zgsxENN_PJc8bd9dYHmeO3aAHek6kDLMoQ@mail.gmail.com>
-Subject: Re: [PULL 0/1] Miscellaneous patches for 2019-11-25
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
+In-Reply-To: <20191125154021.GI4157473@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: cgnxt3udPui4qAakA_Qi9w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,41 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Nov 2019 at 06:06, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 2061735ff09f9d5e67c501a96227b470e7de69b1:
->
->   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-11-21 17:18:40 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-11-25
->
-> for you to fetch changes up to 25f74087c695364dfaa87443b1040a3aa5c29008:
->
->   util/cutils: Fix incorrect integer->float conversion caught by clang (2019-11-25 06:00:05 +0100)
->
-> ----------------------------------------------------------------
-> Miscellaneous patches for 2019-11-25
->
-> ----------------------------------------------------------------
-> Fangrui Song (1):
->       util/cutils: Fix incorrect integer->float conversion caught by clang
->
->  util/cutils.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> --
+On 11/25/19 9:40 AM, Daniel P. Berrang=C3=A9 wrote:
 
+>> Please don't start any deprecation process. This requires certain
+>> consultation within my company. Rest assured that everyone's opinion wil=
+l
+>> be taken into account while doing consiltation.
+>=20
+> The idea of having a deprecation process is precisely to
+> allow time for people like to provide feedback before any
+> deletion takes place. So this is not a reason to delay
+> starting of deprecation.
+>=20
+> The process lasts for 2 releases before we delete anything:
+>=20
+>    https://qemu.weilnetz.de/doc/qemu-doc.html#Deprecated-features
+>=20
+> When we start the clock now, it is deprecated when 5.0 releases
+> in April 2020, and still deprecated with 5.1 in August 2020.
+>=20
+> The code won't be deleted until Sep 2020 when 5.2 dev cycle opens,
+> and there's still time to undelete it right up until the 5.2 feature
+> freeze in late Oct 2020. That's 11 months away, which is plenty of
+> time for feedback IMHO.
 
-Applied, thanks.
+And that's the soonest it could be removed. If your consultation reports=20
+back that it is still needed, we can reverse the decision to deprecate=20
+or extend the deprecation to last longer, as needed, rather than blindly=20
+removing at the first possible moment.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
--- PMM
 
