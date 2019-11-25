@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732B5108900
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:13:01 +0100 (CET)
-Received: from localhost ([::1]:40866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55E5A10891A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:24:22 +0100 (CET)
+Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ8YN-0007hd-VB
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:13:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42086)
+	id 1iZ8jN-000363-Dz
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:24:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iZ8MM-0003sR-LV
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:36 -0500
+ (envelope-from <armbru@redhat.com>) id 1iZ8fn-00015e-EH
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:20:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iZ8ML-0002HU-3S
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:34 -0500
-Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]:37053)
+ (envelope-from <armbru@redhat.com>) id 1iZ8fk-0003FA-67
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:20:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59946
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8MK-0002FP-NT
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:00:32 -0500
-Received: from player697.ha.ovh.net (unknown [10.108.54.108])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 588CB1AFDFF
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:00:31 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id C945BC8098FB;
- Mon, 25 Nov 2019 07:00:24 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v6 20/20] ppc/pnv: Dump the XIVE NVT table
-Date: Mon, 25 Nov 2019 07:58:20 +0100
-Message-Id: <20191125065820.927-21-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191125065820.927-1-clg@kaod.org>
-References: <20191125065820.927-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZ8fj-0003Eq-T9
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 02:20:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574666434;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=slCFMBqnKk9gBZVCjpRi4Queq/Fk8X1Qm4c5A9G6Pv0=;
+ b=hGZ2+k9b5ziKRhXORCPFr38RkeE0Ms4FCFXobmTj1zM6IVTUJ2DkHlTy64ORMv5N0p+BcA
+ XDcXiRKh/irSrrUeKceQW2hr6S4yiWPgY4sM7O01X24+JQiUGB1ywv7tQYBj6MMKj6JTo5
+ NZunh1zxn9rCsF4riBVuWBItyNAcIBw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-WEMeQlgqOE2h6yfoWtu1iA-1; Mon, 25 Nov 2019 02:20:30 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F4236801E5A;
+ Mon, 25 Nov 2019 07:20:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6611D60863;
+ Mon, 25 Nov 2019 07:20:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DCDF91138606; Mon, 25 Nov 2019 08:20:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v17 03/14] util/cutils: refactor do_strtosz() to support
+ suffixes list
+References: <20191122074826.1373-1-tao3.xu@intel.com>
+ <20191122074826.1373-4-tao3.xu@intel.com>
+Date: Mon, 25 Nov 2019 08:20:23 +0100
+In-Reply-To: <20191122074826.1373-4-tao3.xu@intel.com> (Tao Xu's message of
+ "Fri, 22 Nov 2019 15:48:15 +0800")
+Message-ID: <87pnhgjubs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8939363785798683622
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: WEMeQlgqOE2h6yfoWtu1iA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.165.38
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,151 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ jonathan.cameron@huawei.com, sw@weilnetz.de, fan.du@intel.com,
+ mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, jingqi.liu@intel.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is useful to dump the saved contexts of the vCPUs : configuration
-of the base END index of the vCPU and the Interrupt Pending Buffer
-register, which is updated when an interrupt can not be presented.
+Tao Xu <tao3.xu@intel.com> writes:
 
-When dumping the NVT table, we skip empty indirect pages which are not
-necessarily allocated.
+> Add do_strtomul() to convert string according to different suffixes.
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/xive_regs.h |  3 ++
- hw/intc/pnv_xive.c         | 64 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
-
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 1a5622f8ded8..09f243600c5d 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -252,6 +252,8 @@ typedef struct XiveNVT {
-         uint32_t        w0;
- #define NVT_W0_VALID             PPC_BIT32(0)
-         uint32_t        w1;
-+#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
-+#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
-         uint32_t        w2;
-         uint32_t        w3;
-         uint32_t        w4;
-@@ -277,6 +279,7 @@ typedef struct XiveNVT {
-  * field of the XIVE END
-  */
- #define XIVE_NVT_SHIFT                19
-+#define XIVE_NVT_COUNT                (1 << XIVE_NVT_SHIFT)
-=20
- static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
- {
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index 43c760efd137..a0a69b98a713 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -527,6 +527,44 @@ static uint32_t pnv_xive_nr_ipis(PnvXive *xive, uint=
-8_t blk)
-     return VSD_INDIRECT & vsd ? 0 : vst_tsize * SBE_PER_BYTE;
- }
-=20
-+/*
-+ * Compute the number of entries per indirect subpage.
-+ */
-+static uint64_t pnv_xive_vst_per_subpage(PnvXive *xive, uint32_t type)
-+{
-+    uint8_t blk =3D pnv_xive_block_id(xive);
-+    uint64_t vsd =3D xive->vsds[type][blk];
-+    const XiveVstInfo *info =3D &vst_infos[type];
-+    uint64_t vsd_addr;
-+    uint32_t page_shift;
-+
-+    /* For direct tables, fake a valid value */
-+    if (!(VSD_INDIRECT & vsd)) {
-+        return 1;
-+    }
-+
-+    /* Get the page size of the indirect table. */
-+    vsd_addr =3D vsd & VSD_ADDRESS_MASK;
-+    vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
-+
-+    if (!(vsd & VSD_ADDRESS_MASK)) {
-+#ifdef XIVE_DEBUG
-+        xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx)=
-;
-+#endif
-+        return 0;
-+    }
-+
-+    page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
-+
-+    if (!pnv_xive_vst_page_size_allowed(page_shift)) {
-+        xive_error(xive, "VST: invalid %s page shift %d", info->name,
-+                   page_shift);
-+        return 0;
-+    }
-+
-+    return (1ull << page_shift) / info->size;
-+}
-+
- /*
-  * EDT Table
-  *
-@@ -1665,6 +1703,21 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
-     },
- };
-=20
-+static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
-+                                    Monitor *mon)
-+{
-+    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
-+    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
-+
-+    if (!xive_nvt_is_valid(nvt)) {
-+        return;
-+    }
-+
-+    monitor_printf(mon, "  %08x end:%02x/%04x IPB:%02x\n", nvt_idx,
-+                   eq_blk, eq_idx,
-+                   xive_get_field32(NVT_W4_IPB, nvt->w4));
-+}
-+
- void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
- {
-     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
-@@ -1674,7 +1727,9 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monitor=
- *mon)
-     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive, blk);
-     XiveEAS eas;
-     XiveEND end;
-+    XiveNVT nvt;
-     int i;
-+    uint64_t xive_nvt_per_subpage;
-=20
-     monitor_printf(mon, "XIVE[%x] #%d Source %08x .. %08x\n", chip_id, b=
-lk,
-                    srcno0, srcno0 + nr_ipis - 1);
-@@ -1702,6 +1757,15 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
-r *mon)
-     while (!xive_router_get_end(xrtr, blk, i, &end)) {
-         xive_end_eas_pic_print_info(&end, i++, mon);
-     }
-+
-+    monitor_printf(mon, "XIVE[%x] #%d NVTT %08x .. %08x\n", chip_id, blk=
-,
-+                   0, XIVE_NVT_COUNT - 1);
-+    xive_nvt_per_subpage =3D pnv_xive_vst_per_subpage(xive, VST_TSEL_VPD=
-T);
-+    for (i =3D 0; i < XIVE_NVT_COUNT; i +=3D xive_nvt_per_subpage) {
-+        while (!xive_router_get_nvt(xrtr, blk, i, &nvt)) {
-+            xive_nvt_pic_print_info(&nvt, i++, mon);
-+        }
-+    }
- }
-=20
- static void pnv_xive_reset(void *dev)
---=20
-2.21.0
+What's the actual change here?  "Refactor" suggests the interfaces stay
+the same, only their implementation changes.  "Support suffixes list"
+suggests some interface supports something new.
 
 
