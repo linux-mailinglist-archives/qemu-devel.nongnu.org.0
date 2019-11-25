@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B18109155
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:52:19 +0100 (CET)
-Received: from localhost ([::1]:45666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC58109145
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:50:29 +0100 (CET)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZGew-00032p-UY
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:52:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
+	id 1iZGdA-0000Kp-4Q
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:50:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iZGTS-0000ED-B6
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:27 -0500
+ (envelope-from <berrange@redhat.com>) id 1iZGTp-0000U2-8f
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iZGTR-0002U7-7C
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:26 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56577
+ (envelope-from <berrange@redhat.com>) id 1iZGTo-00031R-37
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:49 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41614
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iZGTR-0002Sg-2l
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:25 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iZGTn-00030p-V6
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574696424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ s=mimecast20190719; t=1574696447;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sY61yhknOowK74+/u3ndk4J62lzQKRsHnDv4mPDXX3w=;
- b=gpwSqLpL0RquMw+x8z6CbG/RJcGdCt3Ze6zKcBa0wjv31eVZ6euLJYa0C2Z0ylwbLNmykP
- xqM4HW1M1YWNNC6wk+qWfP4hCq9RHju+gtkHST1tKzm0v0QpRU+YdcItDYFYAfsblImzoG
- vlIMGlGm2OQdi5x6Vxw/hMN+pTSZ9yw=
+ bh=UpOn6Na2p1Jiw8koUNq+IGodiPP9AnTwGCaopCORq/k=;
+ b=Vnv1TkWsvclPgAmEg+/wZ5TH1v4H2TMluLAvob4E/3xDEuwoODSQuXCBLDOPuQ2h5+s+Gx
+ ELdHU3KiqEz0aM7zlc52tWstsEAUycvqbkp5IlUfO1b7utLZI826lQzyXY5tUf9AOPtCxJ
+ lNuyzeoNAW9LVtx8Dl+bBx/HMM5zUs4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-JDcknIFhOZCvvr7aBLAggg-1; Mon, 25 Nov 2019 10:40:22 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-427-lt4pjHqWOCqoGXdOgGQ1Yw-1; Mon, 25 Nov 2019 10:40:41 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B322104ED3F;
- Mon, 25 Nov 2019 15:40:22 +0000 (UTC)
-Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-31.pek2.redhat.com
- [10.72.12.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E4F15D9CA;
- Mon, 25 Nov 2019 15:40:20 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Subject: [PULL 4/4] net/virtio: return error when device_opts arg is NULL
-Date: Mon, 25 Nov 2019 23:40:07 +0800
-Message-Id: <1574696407-4188-5-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
-References: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: JDcknIFhOZCvvr7aBLAggg-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2506E881D30;
+ Mon, 25 Nov 2019 15:40:40 +0000 (UTC)
+Received: from redhat.com (ovpn-112-59.ams2.redhat.com [10.36.112.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B1125C290;
+ Mon, 25 Nov 2019 15:40:24 +0000 (UTC)
+Date: Mon, 25 Nov 2019 15:40:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Subject: Re: [libvirt] [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
+Message-ID: <20191125154021.GI4157473@redhat.com>
+References: <20191125104103.28962-1-philmd@redhat.com>
+ <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: lt4pjHqWOCqoGXdOgGQ1Yw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,56 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jens Freimann <jfreimann@redhat.com>
+On Mon, Nov 25, 2019 at 03:45:35PM +0100, Aleksandar Markovic wrote:
+> On Monday, November 25, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+> wrote:
+>=20
+> > The r4k machine was introduced in 2005 (6af0bf9c7) and its last
+> > logical change was in 2005 (9542611a6). After we can count 164
+> > maintenance commits (QEMU API changes) with the exception of
+> > 1 fix in 2015 (memory leak, commit 3ad9fd5a).
+> >
+> >
+> Please don't start any deprecation process. This requires certain
+> consultation within my company. Rest assured that everyone's opinion will
+> be taken into account while doing consiltation.
 
-This fixes CID 1407222.
+The idea of having a deprecation process is precisely to
+allow time for people like to provide feedback before any
+deletion takes place. So this is not a reason to delay
+starting of deprecation.
 
-Fixes: 9711cd0dfc3f ("net/virtio: add failover support")
-Signed-off-by: Jens Freimann <jfreimann@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/net/virtio-net.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The process lasts for 2 releases before we delete anything:
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 565dea0..3c31471 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2880,9 +2880,12 @@ static int virtio_net_primary_should_be_hidden(Devic=
-eListener *listener,
-             QemuOpts *device_opts)
- {
-     VirtIONet *n =3D container_of(listener, VirtIONet, primary_listener);
--    bool match_found;
--    bool hide;
-+    bool match_found =3D false;
-+    bool hide =3D false;
-=20
-+    if (!device_opts) {
-+        return -1;
-+    }
-     n->primary_device_dict =3D qemu_opts_to_qdict(device_opts,
-             n->primary_device_dict);
-     if (n->primary_device_dict) {
-@@ -2890,7 +2893,7 @@ static int virtio_net_primary_should_be_hidden(Device=
-Listener *listener,
-         n->standby_id =3D g_strdup(qdict_get_try_str(n->primary_device_dic=
-t,
-                     "failover_pair_id"));
-     }
--    if (device_opts && g_strcmp0(n->standby_id, n->netclient_name) =3D=3D =
-0) {
-+    if (g_strcmp0(n->standby_id, n->netclient_name) =3D=3D 0) {
-         match_found =3D true;
-     } else {
-         match_found =3D false;
+  https://qemu.weilnetz.de/doc/qemu-doc.html#Deprecated-features
+
+When we start the clock now, it is deprecated when 5.0 releases
+in April 2020, and still deprecated with 5.1 in August 2020.
+
+The code won't be deleted until Sep 2020 when 5.2 dev cycle opens,
+and there's still time to undelete it right up until the 5.2 feature
+freeze in late Oct 2020. That's 11 months away, which is plenty of
+time for feedback IMHO.
+
+Regards,
+Daniel
 --=20
-2.5.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
