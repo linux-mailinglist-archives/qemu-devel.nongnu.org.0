@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D84108B51
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 11:03:23 +0100 (CET)
-Received: from localhost ([::1]:41866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FABA108B62
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 11:09:08 +0100 (CET)
+Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZBDG-0007li-V1
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 05:03:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
+	id 1iZBIp-00023r-Ev
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 05:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iZBBj-0007Jd-Hv
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:01:49 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iZBHP-0001OB-5N
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:07:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iZBBi-0005ff-7Q
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:01:47 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35188)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iZBHO-0008Q1-38
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:07:39 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38505)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iZBBh-0005dy-DP
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:01:45 -0500
-Received: by mail-wm1-x341.google.com with SMTP id n5so5062244wmc.0
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 02:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6R5PmIBwKAfaqQmf9ILg+mDWWuetDVck06AfzjXQEWM=;
- b=kq3zHZ6WhbZG0QOda9h0joAwfmN4CkzRMDo1pzG1aOueEnB26yePhW/F8VW9gqAvo7
- XCDafK997gu9nSOGu0fvPViBvus91ISfMLX+bEEyfPvCw7N9Esrk9Wyv9iMofqzCAod0
- b+UsUMwD0G482CdBl1AqSORjBCnIVmGQnQyd+PRa+62jEGwP6hHIc5fGsNid7KoQTlKQ
- tP4i1BWLOtQX0Dpzn96KAeeg8MZEspFz18PhPq9C6fnAUpHEQLxkiVMq23fv6TBq4VjQ
- E+LYSD8H7/X7cbJxu1AuhmKeTTYYVsuYNCYUGzI1iDZz4s3Y4nodT4dke0ovP4mxBybD
- DfMA==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iZBHN-0008Nt-Pt
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:07:38 -0500
+Received: by mail-oi1-x241.google.com with SMTP id a14so12556062oid.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 02:07:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=6eolbGp4gch1dz6iRpvVtbysy9FRaOZEzSkNlOtP5DQ=;
+ b=Cg75Ay0avNJQFa1gjTGHR0xidkMktsDU7dTqtk4lZNNWbGvu9uu5o89DqWpD+g7J2s
+ v0KoAwJsZumMvsQNw1gwCl2dLAppk1+CaZwuy810eCeDB6PqcRvNt2/NXo69OJOcVh4G
+ UHbPaFrIG8KH0ivka654jeZTpQRiGDdPC1ruPeATOvP/PSUZ++SIQYOfJoO8mJHooaf2
+ PAsRwwK4Avk5AUn82IjJN/tO3ZEY//ilBedg8pJM/8v6g1oYc7Wg9pMAh7kLaKQM4OLu
+ mF+RPP/V53YusxDoVz4Oc7V08nlc7HKBCOeUL2/4c0cPQKsDOyqiwyNelsD/xKsEh5WG
+ uWgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6R5PmIBwKAfaqQmf9ILg+mDWWuetDVck06AfzjXQEWM=;
- b=gVf+xi2ISEtA8q1XvU6s+cBT3DoOf/NHhJAlLwC0q2Rwor55gEKUTHQF1TD7kIfRfC
- w3mst5ZxVNAwcVYPKA5DOuEfCrCZVtbSHbsXia2YIc7e5WEoPDCFZCRROY5huAj+cP9M
- 5CTvnI0MXaBwt3X/A4rHfJDjcsz6ykmGtsLK7vFxWlTYdpjNTlysZ6MeSsWdIK8EB1ze
- ywfXssSI1x9wwx2HdT9yNntMu6nvckwV4yUqBZP3eIUHOqO1Q8puLFE8jzB2jNArhB92
- kd8nqcNmZPeASLqJU4AQY87mvR0IDj05YuIDa8xRoQl2dDOxav6v2tD/6WBlkQPid21I
- Ncpg==
-X-Gm-Message-State: APjAAAXi0pyiwiF6Z1qJQZZ8PpBZlJeLc+fV05g3mGJkaDe4/hYjuT88
- OTzh4yI9khr4q7HKUX1F1aoMXvigLWmTtw==
-X-Google-Smtp-Source: APXvYqxkZ30MjS6do9XzJT9DD3V5HAfxteHrD89GnQqpgKxJyUjdgSvZLLZhXlXItJfkt18lPINuMw==
-X-Received: by 2002:a1c:5415:: with SMTP id i21mr28411606wmb.120.1574676102402; 
- Mon, 25 Nov 2019 02:01:42 -0800 (PST)
-Received: from [10.0.0.120] (host-87-242-235-70.ppp.onetel.net.uk.
- [87.242.235.70])
- by smtp.gmail.com with ESMTPSA id z11sm11053293wrg.0.2019.11.25.02.01.41
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 25 Nov 2019 02:01:41 -0800 (PST)
-Subject: Re: [PATCH v4 0/6] HPPA: i82596, PS/2 and graphics emulation
-To: Sven Schnelle <svens@stackframe.org>, Richard Henderson <rth@twiddle.net>
-References: <20191103205607.6590-1-svens@stackframe.org>
- <20191123135928.GA5553@stackframe.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <4848d948-063c-826a-a3f3-9bdbad04f9ac@linaro.org>
-Date: Mon, 25 Nov 2019 10:01:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=6eolbGp4gch1dz6iRpvVtbysy9FRaOZEzSkNlOtP5DQ=;
+ b=qKTa1e0zsbt23PADesxtQ5iERSkOctHsprujPjNyCxgCwh8Sc8JnYidYqpqQUKxvy4
+ BKCxMS5dRXZC6IoV5O9ONd9deN5tLHWO4C9Uz/fCQkEKP/dKJ4OD/YKzs+5/8+4v8sJk
+ JyGMHiT3BCEjiyC6tah+LcrBWvVAz1VJN4rzk7CcV2X9isIUEqmWEFRtHn7HGHUQAX5H
+ BYci4Ge5N9zs0lTthRffnRGvy/NcCv76kEfopP/H96qzxd1LKkUv5iI5pQZGj+eddp9d
+ IGjQ7U5P8fxLFxb5G2N9APmutsaPdHeSYXWwgP+KKpjvRkxMpQWFeNWQnLuui/h8Ghyi
+ 8meg==
+X-Gm-Message-State: APjAAAXtNrhIw1YMsTOthCREyA1QYH4dP3vpWfPzQGdJG4sQMmyDKGW2
+ kk9uI9WzwXgOZ3ZdmZpRAG4svMmJ12rrP0eRWzE=
+X-Google-Smtp-Source: APXvYqwhOtBKhiLLUwdynYRqeBp4BSZC34HQyPsD7UIOs6KOQ02L1yOV9xT2tSrA9LuepTbW/jZwOOWLPt/ln67NiA4=
+X-Received: by 2002:aca:484f:: with SMTP id v76mr22475342oia.62.1574676454894; 
+ Mon, 25 Nov 2019 02:07:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191123135928.GA5553@stackframe.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Mon, 25 Nov 2019 02:07:34
+ -0800 (PST)
+In-Reply-To: <20191120152442.26657-19-marcandre.lureau@redhat.com>
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-19-marcandre.lureau@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 25 Nov 2019 11:07:34 +0100
+Message-ID: <CAL1e-=huXgGw-uXtNXqu111O8yE-Jw_+vHXqE7Wfw1efPZATSw@mail.gmail.com>
+Subject: Re: [PATCH v4 18/37] mips: baudbase is 115200 by default
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000baf106059828ee66"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,23 +74,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/19 1:59 PM, Sven Schnelle wrote:
-> On Sun, Nov 03, 2019 at 09:56:01PM +0100, Sven Schnelle wrote:
->> Hi,
->>
->> these series adds quite a lot to the HPPA emulation in QEMU:
->> i82596 emulation from Helge, PS/2 and Artist graphics emulation.
->> [..]
-> 
-> Ping? :-)
+--000000000000baf106059828ee66
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Version 1 missed the 4.2 cutoff by few days.
-We'll get this merged for 5.0 once development opens.
+On Wednesday, November 20, 2019, Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
+
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  hw/mips/mips_mipssim.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
+> index bfafa4d7e9..3cd0e6eb33 100644
+> --- a/hw/mips/mips_mipssim.c
+> +++ b/hw/mips/mips_mipssim.c
+> @@ -223,7 +223,6 @@ mips_mipssim_init(MachineState *machine)
+>      if (serial_hd(0)) {
+>          DeviceState *dev =3D qdev_create(NULL, TYPE_SERIAL_IO);
+>
+> -        qdev_prop_set_uint32(DEVICE(dev), "baudbase", 115200);
+>          qdev_prop_set_chr(dev, "chardev", serial_hd(0));
+>          qdev_set_legacy_instance_id(dev, 0x3f8, 2);
+>          qdev_init_nofail(dev);
+> --
 
 
-r~
+Please mention in your commit message where the default baudbase is set.
+
+Also, is there a guarantie that default value 115200 will never change in
+future?
+
+Yours, Aleksandar
+
+
+
+> 2.24.0
+>
+>
+>
+
+--000000000000baf106059828ee66
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Wednesday, November 20, 2019, Marc-Andr=C3=A9 Lureau &lt;<a href=
+=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">Signed-off-by: Marc-Andr=C3=A9 Lu=
+reau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@re=
+dhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/mips/mips_mipssim.c | 1 -<br>
+=C2=A01 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c<br>
+index bfafa4d7e9..3cd0e6eb33 100644<br>
+--- a/hw/mips/mips_mipssim.c<br>
++++ b/hw/mips/mips_mipssim.c<br>
+@@ -223,7 +223,6 @@ mips_mipssim_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0if (serial_hd(0)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DeviceState *dev =3D qdev_create(NULL, TY=
+PE_SERIAL_IO);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_prop_set_uint32(DEVICE(<wbr>dev), &quot;b=
+audbase&quot;, 115200);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_prop_set_chr(dev, &quot;chardev&quot=
+;, serial_hd(0));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_set_legacy_instance_id(<wbr>dev, 0x3=
+f8, 2);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_init_nofail(dev);<br>
+--=C2=A0</blockquote><div><br></div><div>Please mention in your commit mess=
+age where the default baudbase is set.</div><div><br></div><div>Also, is th=
+ere a guarantie that default value 115200 will never change in future?</div=
+><div><br></div><div>Yours, Aleksandar</div><div><br></div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">
+2.24.0<br>
+<br>
+<br>
+</blockquote>
+
+--000000000000baf106059828ee66--
 
