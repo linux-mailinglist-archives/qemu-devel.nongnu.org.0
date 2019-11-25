@@ -2,71 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F94108F2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:49:30 +0100 (CET)
-Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE6B108F3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:51:19 +0100 (CET)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZEk4-0001Mv-Tm
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:49:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45363)
+	id 1iZElq-00030f-VW
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:51:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iZEhn-0008Eq-Mn
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:47:09 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iZEke-0002Uf-Id
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:50:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iZEhl-0005Cr-Tt
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:47:07 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42935)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iZEhl-0005CX-OX
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:47:05 -0500
-Received: by mail-oi1-x241.google.com with SMTP id o12so13083967oic.9
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 05:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dWi8x3MnSkjX8qdav3Jy4DQfXdhPFMOpSVa0U8ma+tc=;
- b=CW8IpPgFlJDdPj+jplhYpdJY1KyFtM0lTMwI5B0E/eEnxETMDMjpRFSyQzAVhh1fuM
- OmtIMylXCkUhU6x1t2k0TerT6JN4EIl5OeCvp18in14jSyxRK9SkR+HDvGZYF7a7Wktk
- hA4IaxSyNSSEyiMmNXUfWYw7EQOp8C+e2BEpb2fMeoUKao5U6e1ZkvzZpXJA6xfv/nGY
- KcdrkEWQS6P+Ey9RvwpRfmE1W6w7hZYQIc5hz2eiCrCiDHUQGXaEbA384z/Lkld/UvpH
- Ax2kIEVgPSFJ6AGOtOIdXM7+PdfxGODfmcm6Ft8Zx7ZE1Bhj5uDW1QHWuprrmiVonxgv
- xL3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dWi8x3MnSkjX8qdav3Jy4DQfXdhPFMOpSVa0U8ma+tc=;
- b=m2dGSXSKv+P0I9obpQ/tTHb6dpm+Frf826mbuq8v29LPBu9kGHSFb1mevrfDbjoawM
- dkfWq75LVaoxSKBgDCIzkn0FjO9/bUGHSZ8XPPan9UsegQprUX4gvtNtiFw4gAHaqQL0
- aHsdm3N0N0WhJh6Qx5XBCW/HrEg1nzE0GZdI5mvjd8R5y3T+L6HlcttKuMtiO7c7Hs7U
- KrOCMVPk/JaBXmpDeh8GrvaTaznQSlbKMl7EbXtTbd5Cby8aTM7COhB/UJPeIBBm9NUE
- UtFPWJasQK7r6RunbMWNuerlfY3Y10GuqN1jsAJ2XxLpS3hJnlvbYPtwVKwKvfLXUgQs
- oFjg==
-X-Gm-Message-State: APjAAAWI7ngH98W6j0Ap4bmH9niS6JW9H2rMmkJNpoOOTiFssZPjI2hA
- eHRvUKp62EH3PP4Hu+zTZu0KKwbZ9DopZ0r2tKo=
-X-Google-Smtp-Source: APXvYqxF6h6Eu26fCzf183JperzoZm+t/8dSU+oPwXTqcdGwuJC1GxWYzUxQUnOEW06m/LPfAM5QoxQqpXNoge+slyE=
-X-Received: by 2002:aca:d17:: with SMTP id 23mr23271971oin.136.1574689624450; 
- Mon, 25 Nov 2019 05:47:04 -0800 (PST)
+ (envelope-from <frankja@linux.ibm.com>) id 1iZEkd-0007hH-B3
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:50:04 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61850
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1iZEkd-0007h2-63
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:50:03 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAPDni6B080465
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:50:02 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wfju8vffe-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 08:50:01 -0500
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Mon, 25 Nov 2019 13:49:59 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 25 Nov 2019 13:49:57 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAPDntu148431310
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Nov 2019 13:49:56 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D45BBA405B;
+ Mon, 25 Nov 2019 13:49:55 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A260A405C;
+ Mon, 25 Nov 2019 13:49:55 +0000 (GMT)
+Received: from dyn-9-152-224-205.boeblingen.de.ibm.com (unknown
+ [9.152.224.205])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 25 Nov 2019 13:49:55 +0000 (GMT)
+Subject: Re: [PATCH v3 4/5] s390x: Move clear reset
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20191125090348.27010-1-frankja@linux.ibm.com>
+ <20191125090348.27010-5-frankja@linux.ibm.com>
+ <20191125143714.1c7c5937.cohuck@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Mon, 25 Nov 2019 14:49:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191121201448.GA3133@ls3530.fritz.box>
- <CAL1e-=ia9kmSUOztiGD=Mk4e8+r3oh2P3j_bAR2971FEGvAFyw@mail.gmail.com>
- <bc2a9dfb-cc5b-0916-38c7-6e07287b1080@gmx.de>
- <CAL1e-=h1Os3YK=c1oStG1c0fBhvp4XX-SqfRMo3U0oxjBsg9_A@mail.gmail.com>
- <e547f389-7281-4091-5bfb-a0aea265128d@gmx.de>
- <CAL1e-=ig8j+omFrdRGB1uf1mE8_9nJbt87=oAX3brbr34_cDMA@mail.gmail.com>
-In-Reply-To: <CAL1e-=ig8j+omFrdRGB1uf1mE8_9nJbt87=oAX3brbr34_cDMA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 25 Nov 2019 14:46:53 +0100
-Message-ID: <CAL1e-=hBvL0a8CDuD2Ok0U7vh8t0f-VQmi671OoudXnqLagFsg@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Improve strace output for read() and getcwd()
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20191125143714.1c7c5937.cohuck@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="gBweoCfZuXinhe94XLkKvxmN3M1rIGvlg"
+X-TM-AS-GCONF: 00
+x-cbid: 19112513-0028-0000-0000-000003BF3F89
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112513-0029-0000-0000-0000248273DE
+Message-Id: <dff1140c-f773-da51-ecdd-6ad6d46c94d8@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-25_03:2019-11-21,2019-11-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 impostorscore=0 suspectscore=3
+ malwarescore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1911250125
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,344 +138,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Nov 24, 2019 at 2:31 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
->
->
-> On Sunday, November 24, 2019, Helge Deller <deller@gmx.de> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--gBweoCfZuXinhe94XLkKvxmN3M1rIGvlg
+Content-Type: multipart/mixed; boundary="wxC7SOoiveHIjunHIqWdWVsqH2H9aKkZF"
+
+--wxC7SOoiveHIjunHIqWdWVsqH2H9aKkZF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 11/25/19 2:37 PM, Cornelia Huck wrote:
+> On Mon, 25 Nov 2019 04:03:47 -0500
+> Janosch Frank <frankja@linux.ibm.com> wrote:
+>=20
+>> Let's also move the clear reset function into the reset handler.
 >>
->> On 24.11.19 13:10, Aleksandar Markovic wrote:
->> >
->> >
->> > On Sunday, November 24, 2019, Helge Deller <deller@gmx.de <mailto:dell=
-er@gmx.de>> wrote:
->> >
->> >     On 23.11.19 12:34, Aleksandar Markovic wrote:
->> >     > On Thursday, November 21, 2019, Helge Deller <deller@gmx.de <mai=
-lto:deller@gmx.de> <mailto:deller@gmx.de <mailto:deller@gmx.de>>> wrote:
->> >     >
->> >     >     The strace functionality in qemu-user lacks the possibility =
-to trace
->> >     >     which real values get returned to pointers in userspace by s=
-yscalls.
->> >     >
->> >     >     For example, the read() and getcwd() syscalls currently only=
- show the
->> >     >     destination address where the syscalls should put the return=
- values:
->> >     >     2532 read(3,0xff80038c,512) =3D 512
->> >     >     2532 getcwd(0x18180,4096) =3D 9
->> >     >
->> >     >     With the patch below, one now can specify in print_syscall_l=
-ate() which
->> >     >     syscalls should be executed first, before they get printed.
->> >     >     After adding the read() and getcwd() syscalls, we now get th=
-is output in
->> >     >     with strace instead:
->> >     >     1708 read(3,"\177ELF\1\2\1\3\0\0\0\0\0\0\0\0\0\3\0\17\0\0\0\=
-1\0\2bl\0\0\04"...,512) =3D 512
->> >     >     1708 getcwd("/usr/bin",4096) =3D 9
->> >     >
->> >     >     This patch adds just the framework with the respective imple=
-menations for
->> >     >     read() and getcwd(). If applied, more functions can be added=
- easily later.
->> >     >
->> >     >
->> >     > Great out-of-the-box idea! However, there are some things that a=
-re
->> >     > not thought over yet. There is a good reason why strace happens
->> >     > "early": if something crash-like happens during syscall translat=
-ion,
->> >     > we still have trace of original target syscall. In case of "late=
-"
->> >     > flavor, we don't have anything. Another potentially problematic
->> >     > aspect is that end user certainly should know whether the trace =
-was
->> >     > done "early" or "late" - otherwise, there will be, for certain, =
-cases
->> >     > of misinterpretation / misleading / confusion of end users.
->> >
->> >     Thanks for the feedback - I'm shortly sending a v2 version which
->> >     prints the syscall name with an open parenthesis, e.g. "read(" or =
-"getcwd(",
->> >     before calling the syscall. That way you can see where it crashed/=
-hangs...
->> >
->> >
->> > ... but I cannot see passed arguments (for example, whether NULL is pa=
-ssed, or somrthing that looks like a real address)...
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  target/s390x/cpu-qom.h |  1 +
+>>  target/s390x/cpu.c     | 58 +++++++++++++----------------------------=
+-
+>>  2 files changed, 18 insertions(+), 41 deletions(-)
 >>
->> Right.
->> And you won't see that in native strace either...
->> If you have an idea, just let me know.
->>
->
-> Helge, I do have an idea how to amend your proposal that should give us, =
-believe it or not, "best of both worlds", but let's wait few days, I don't =
-have any dev setup ar hand at the moment to check it in action, and on top =
-of that I am swamped with other unrelated tasks. In the meantime, maybe oth=
-er guys will say something too, or perhaps you would have something new as =
-well.
->
-> Still, by no means, I see this as a (potential) *huge* improvement of QEM=
-U strace. Thanks!
->
+>=20
+>> @@ -453,6 +424,11 @@ static Property s390x_cpu_properties[] =3D {
+>>      DEFINE_PROP_END_OF_LIST()
+>>  };
+>> =20
+>> +static void s390_cpu_reset_clear(CPUState *s)
+>> +{
+>> +    return s390_cpu_reset(s, S390_CPU_RESET_CLEAR);
+>> +}
+>> +
+>>  static void s390_cpu_class_init(ObjectClass *oc, void *data)
+>>  {
+>>      S390CPUClass *scc =3D S390_CPU_CLASS(oc);
+>> @@ -469,7 +445,7 @@ static void s390_cpu_class_init(ObjectClass *oc, v=
+oid *data)
+>>      scc->load_normal =3D s390_cpu_load_normal;
+>>  #endif
+>>      scc->reset =3D s390_cpu_reset;
+>> -    cc->reset =3D s390_cpu_full_reset;
+>> +    cc->reset =3D s390_cpu_reset_clear;
+>>      cc->class_by_name =3D s390_cpu_class_by_name,
+>>      cc->has_work =3D s390_cpu_has_work;
+>>  #ifdef CONFIG_TCG
+>=20
+> One thing I liked about the previous naming is that it is more obvious
+> that the clear reset is actually the full reset of a cpu. Not sure if
+> keeping that is better than matching the function name to the name of
+> the reset being performed. Opinions?
+>=20
 
-Helge, Laurent,
+Are you only worrying for this particular wrapper or in general?
+I'd be happy to rename the wrapper to s390_cpu_reset_full()
 
-I don't have time to experiment, but I will write down here my
-suggestion to extending Helge's system in a textual form, based on
-example from prevous Helge's patches:
 
-1. CURRENT STATE:
+--wxC7SOoiveHIjunHIqWdWVsqH2H9aKkZF--
 
-early: read(3,0xff80038c,512)
-late: =3D 512
+--gBweoCfZuXinhe94XLkKvxmN3M1rIGvlg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-early: getcwd(0x18180,4096)
-late: =3D 9
+-----BEGIN PGP SIGNATURE-----
 
-2. HELGE'S PROPOSAL 1:
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3b3AMACgkQ41TmuOI4
+ufjyvw//bWIgYTx7/Pt0PIqzRtFzIHP4voPbpVmnh4eNHjlA45aoq/rF26rMH7kF
+uo2XMUBg5HhV83o1hJnhn70ZsdF8ZYlBxYv6JgAzVc2xNCc2WUIdR3g8DeLyqca7
+t70rye4onm/w+iEWrVDYaq2VB2oct92irKRDPAXCQDfSF3yfJGb1T2UgLcgZcnf5
+z1z91QwbZs+pJHdrdTV8MHrIO/m8ZvPGQZDO7TVKMaTa5muxcEE304wHhgSBhcV1
+riBL00PSYbzsoFr2pb65NK9ffKF2KUDs1wabqvYJtlEb70xa4B+isHkfzPGWzXR8
+ob4sZhfucTQr/J/GM4nv7XN96FFZwd6h8xmubIm2kNZcHVaGef+DfUplD7rV97w0
+gnGThjdoQMcQjKZKtE+ubs3HfIfB4cV5+vJYka+hBrA3+02Phr9hxe0awoZKRwoz
+9E8WcDFFe5F9S14BNghsq42FNbSCACxvEXvQAl1EOkcfaQZRsG92foQvoPlq6Bik
+TSHgLUnE6/85FoxdSH2Vtf35lCnP47oqAzkmE+r0xGFDsmyfrE82JvicJ8IUyp2G
+47Ijhu/62jdVBThZNhIv4axJtBZc1bOmhZW/m6rzVZQL6L6zR0gSOopUIZCnsAj6
+cdNrnLoeZm2ZtjCV9aPY9Gjp5HxlyeVkBENIQ63joUG2v17yC6k=
+=FEkE
+-----END PGP SIGNATURE-----
 
-late: read(3,"\177ELF\1\2\1\3\0\0\0\0\0\0\0\0\0\3\0\17\0\0\0\1\0\2bl\0\0\04=
-"...,512)
-=3D 512
-late: getcwd("/usr/bin",4096) =3D 9
+--gBweoCfZuXinhe94XLkKvxmN3M1rIGvlg--
 
-3. HELGE'S PROPOSAL 2:
-
-early: read
-late: (3,"\177ELF\1\2\1\3\0\0\0\0\0\0\0\0\0\3\0\17\0\0\0\1\0\2bl\0\0\04"...=
-,512)
-=3D 512
-early: getcwd
-late: ("/usr/bin",4096) =3D 9
-
-4. NEW PROPOSAL :
-
-early: read(3,0xff80038c,512)
-late: =3D 512  [(3,"\177ELF\1\2\1\3\0\0\0\0\0\0\0\0\0\3\0\17\0\0\0\1\0\2bl\=
-0\0\04"...,512)]
-early: getcwd(0x18180,4096)
-late: =3D 9  [("/usr/bin",4096)]
-
-In other words, we would print for (selected) system calls content of
-the parameters both before and after actual ioctl
-translation/execution.
-
-Sincerely,
-Aleksandar
-
-> Yours,
-> Aleksandar
->
->
->>
->> Helge
->>
->> >
->> >
->> >
->> >     Helge
->> >
->> >     >
->> >     > Yours,
->> >     > Aleksandar
->> >     >
->> >     >
->> >     >
->> >     >
->> >     >     Signed-off-by: Helge Deller <deller@gmx.de <mailto:deller@gm=
-x.de> <mailto:deller@gmx.de <mailto:deller@gmx.de>>>
->> >     >
->> >     >     diff --git a/linux-user/strace.c b/linux-user/strace.c
->> >     >     index de43238fa4..ff254732af 100644
->> >     >     --- a/linux-user/strace.c
->> >     >     +++ b/linux-user/strace.c
->> >     >     @@ -61,6 +61,7 @@ UNUSED static void print_open_flags(abi_lo=
-ng, int);
->> >     >      UNUSED static void print_syscall_prologue(const struct sysc=
-allname *);
->> >     >      UNUSED static void print_syscall_epilogue(const struct sysc=
-allname *);
->> >     >      UNUSED static void print_string(abi_long, int);
->> >     >     +UNUSED static void print_encoded_string(abi_long addr, unsi=
-gned int maxlen, int last);
->> >     >      UNUSED static void print_buf(abi_long addr, abi_long len, i=
-nt last);
->> >     >      UNUSED static void print_raw_param(const char *, abi_long, =
-int);
->> >     >      UNUSED static void print_timeval(abi_ulong, int);
->> >     >     @@ -1204,6 +1205,37 @@ print_syscall_epilogue(const struct s=
-yscallname *sc)
->> >     >          gemu_log(")");
->> >     >      }
->> >     >
->> >     >     +#define MAX_ENCODED_CHARS 32
->> >     >     +static void
->> >     >     +print_encoded_string(abi_long addr, unsigned int maxlen, in=
-t last)
->> >     >     +{
->> >     >     +    unsigned int maxout;
->> >     >     +    char *s, *str;
->> >     >     +
->> >     >     +    s =3D lock_user_string(addr);
->> >     >     +    if (s =3D=3D NULL) {
->> >     >     +        /* can't get string out of it, so print it as point=
-er */
->> >     >     +        print_pointer(addr, last);
->> >     >     +        return;
->> >     >     +    }
->> >     >     +
->> >     >     +    str =3D s;
->> >     >     +    gemu_log("\"");
->> >     >     +    maxout =3D MIN(maxlen, MAX_ENCODED_CHARS);
->> >     >     +    while (maxout--) {
->> >     >     +        unsigned char c =3D *str++;
->> >     >     +        if (isprint(c)) {
->> >     >     +            gemu_log("%c", c);
->> >     >     +        } else {
->> >     >     +            gemu_log("\\%o", (unsigned int) c);
->> >     >     +        }
->> >     >     +    }
->> >     >     +    unlock_user(s, addr, 0);
->> >     >     +
->> >     >     +    gemu_log("\"%s%s", maxlen > MAX_ENCODED_CHARS ? "..." :=
- "",
->> >     >     +                    get_comma(last));
->> >     >     +}
->> >     >     +
->> >     >      static void
->> >     >      print_string(abi_long addr, int last)
->> >     >      {
->> >     >     @@ -1633,6 +1665,19 @@ print_futimesat(const struct syscalln=
-ame *name,
->> >     >      }
->> >     >      #endif
->> >     >
->> >     >     +#ifdef TARGET_NR_getcwd
->> >     >     +static void
->> >     >     +print_getcwd(const struct syscallname *name,
->> >     >     +    abi_long arg0, abi_long arg1, abi_long arg2,
->> >     >     +    abi_long arg3, abi_long arg4, abi_long arg5)
->> >     >     +{
->> >     >     +    print_syscall_prologue(name);
->> >     >     +    print_string(arg0, 0);
->> >     >     +    print_raw_param("%u", arg1, 1);
->> >     >     +    print_syscall_epilogue(name);
->> >     >     +}
->> >     >     +#endif
->> >     >     +
->> >     >      #ifdef TARGET_NR_settimeofday
->> >     >      static void
->> >     >      print_settimeofday(const struct syscallname *name,
->> >     >     @@ -2428,6 +2473,20 @@ print_fstatat64(const struct syscalln=
-ame *name,
->> >     >      #define print_newfstatat    print_fstatat64
->> >     >      #endif
->> >     >
->> >     >     +#ifdef TARGET_NR_read
->> >     >     +static void
->> >     >     +print_read(const struct syscallname *name,
->> >     >     +    abi_long arg0, abi_long arg1, abi_long arg2,
->> >     >     +    abi_long arg3, abi_long arg4, abi_long arg5)
->> >     >     +{
->> >     >     +    print_syscall_prologue(name);
->> >     >     +    print_raw_param("%d", arg0, 0);
->> >     >     +    print_encoded_string(arg1, arg2, 0);
->> >     >     +    print_raw_param("%u", arg2, 1);
->> >     >     +    print_syscall_epilogue(name);
->> >     >     +}
->> >     >     +#endif
->> >     >     +
->> >     >      #ifdef TARGET_NR_readlink
->> >     >      static void
->> >     >      print_readlink(const struct syscallname *name,
->> >     >     diff --git a/linux-user/strace.list b/linux-user/strace.list
->> >     >     index d49a1e92a8..220b1f4c46 100644
->> >     >     --- a/linux-user/strace.list
->> >     >     +++ b/linux-user/strace.list
->> >     >     @@ -272,7 +272,7 @@
->> >     >      { TARGET_NR_getcpu, "getcpu" , "%s(%p,%d)", NULL, NULL },
->> >     >      #endif
->> >     >      #ifdef TARGET_NR_getcwd
->> >     >     -{ TARGET_NR_getcwd, "getcwd" , "%s(%p,%d)", NULL, NULL },
->> >     >     +{ TARGET_NR_getcwd, "getcwd" , NULL, print_getcwd, NULL },
->> >     >      #endif
->> >     >      #ifdef TARGET_NR_getdents
->> >     >      { TARGET_NR_getdents, "getdents" , NULL, NULL, NULL },
->> >     >     @@ -1080,7 +1080,7 @@
->> >     >      { TARGET_NR_quotactl, "quotactl" , NULL, NULL, NULL },
->> >     >      #endif
->> >     >      #ifdef TARGET_NR_read
->> >     >     -{ TARGET_NR_read, "read" , "%s(%d,%#x,%d)", NULL, NULL },
->> >     >     +{ TARGET_NR_read, "read" , NULL, print_read, NULL },
->> >     >      #endif
->> >     >      #ifdef TARGET_NR_readahead
->> >     >      { TARGET_NR_readahead, "readahead" , NULL, NULL, NULL },
->> >     >     diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> >     >     index ce399a55f0..c0079ca2b7 100644
->> >     >     --- a/linux-user/syscall.c
->> >     >     +++ b/linux-user/syscall.c
->> >     >     @@ -12069,6 +12069,21 @@ static abi_long do_syscall1(void *c=
-pu_env, int num, abi_long arg1,
->> >     >          return ret;
->> >     >      }
->> >     >
->> >     >     +/*
->> >     >     + * True if this syscall should be printed after having call=
-ed the native
->> >     >     + * syscall, so that values which are fed back to userspace =
-gets printed.
->> >     >     + */
->> >     >     +static int print_syscall_late(int syscall)
->> >     >     +{
->> >     >     +    switch (syscall) {
->> >     >     +    case TARGET_NR_getcwd:
->> >     >     +    case TARGET_NR_read:
->> >     >     +        return 1;
->> >     >     +    default:
->> >     >     +        return 0;
->> >     >     +    }
->> >     >     +}
->> >     >     +
->> >     >      abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
->> >     >                          abi_long arg2, abi_long arg3, abi_long =
-arg4,
->> >     >                          abi_long arg5, abi_long arg6, abi_long =
-arg7,
->> >     >     @@ -12095,9 +12110,16 @@ abi_long do_syscall(void *cpu_env, =
-int num, abi_long arg1,
->> >     >                               arg2, arg3, arg4, arg5, arg6, arg7=
-, arg8);
->> >     >
->> >     >          if (unlikely(do_strace)) {
->> >     >     -        print_syscall(num, arg1, arg2, arg3, arg4, arg5, ar=
-g6);
->> >     >     +        int late_printing;
->> >     >     +        late_printing =3D print_syscall_late(num);
->> >     >     +        if (!late_printing) {
->> >     >     +            print_syscall(num, arg1, arg2, arg3, arg4, arg5=
-, arg6);
->> >     >     +        }
->> >     >              ret =3D do_syscall1(cpu_env, num, arg1, arg2, arg3,=
- arg4,
->> >     >                                arg5, arg6, arg7, arg8);
->> >     >     +        if (late_printing) {
->> >     >     +            print_syscall(num, arg1, arg2, arg3, arg4, arg5=
-, arg6);
->> >     >     +        }
->> >     >              print_syscall_ret(num, ret);
->> >     >          } else {
->> >     >              ret =3D do_syscall1(cpu_env, num, arg1, arg2, arg3,=
- arg4,
->> >     >
->> >
->>
 
