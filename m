@@ -2,105 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEE5108B3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 10:57:45 +0100 (CET)
-Received: from localhost ([::1]:41834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041A1108B5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 11:07:46 +0100 (CET)
+Received: from localhost ([::1]:41900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZB7o-00062Z-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 04:57:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
+	id 1iZBHV-00016s-1j
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 05:07:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZB6a-0005XU-26
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 04:56:29 -0500
+ (envelope-from <bounces@canonical.com>) id 1iZBFt-0000Zt-Va
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:06:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZB6Y-0002Yu-1b
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 04:56:26 -0500
-Received: from mail-eopbgr50099.outbound.protection.outlook.com
- ([40.107.5.99]:40050 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iZB6X-0002Y3-ET; Mon, 25 Nov 2019 04:56:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KD0Lrhw35L4naR9FPcj2YU0Z02dnIrjHtWjHtFedeABzFqcbOcEwyADwKtW695tnROKTFw5Qy3BMoojkYrOEUya8fvmNIpc8IU0EazIDv0n51ZwA6IfkVRUdV/bsLsUBgxK6Kk2wLv0WhePpgEzGux0xlR1can74uCM28MOPOMKOm0xg+QRJbzhDHpw6Ede8ygS2CIP542tjOOSrwhel9BftnPj/Hlj3uLXcnBnOmSktW81QjYRjC5CtfJ7DJZjjm/aULgZH+tKJkuMLDvi+aNaOAMTAgI6vqpgRiR8lIDoeNHLds1VjG5GUatvRrA0ZqOVHpxnj19DQbeS5YKBQOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xi+BOH/PJjFvEjbb1+ArJ+8pZrNYmOxF/EkGXg+RoNc=;
- b=G1GXGRUnqLb/Us3qIIXyGPL/5q3rcJyPprtjXrYy29bwLvdhcWbco8+Yi+TvUIzgNZ4ZSSAZTeA10cxexwRYhNW5IgI+MCJ6Z69rqyGHXDOSIuAV3RpvyywwnerMAd/SJo8BXI3FdqJeAzpcO1WzwAOU6LKa/DW/XoOzSXo9ED7EyvJYA2xQBTLB1Zva+XSKs+i/+c3j3BnDQi4tO8JogwRpR9K4OCJQafOCE/yE6wE8Wbw/FOzw6PtDw7o6FJ7ZzJ9r5RppJMCNXGPZ/WKHIvBQN0JVFuHuhPx23htg13kQL7Qr5ELtVvJ0kA5tRfPa8oEn/hPCN8Yw/QSwVuIRWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xi+BOH/PJjFvEjbb1+ArJ+8pZrNYmOxF/EkGXg+RoNc=;
- b=QhVh4ECYtdbVog/3aDdvAqRf8lDZ+p5nThXuvaexM9XOyoQX1ns7gjMFSqwuTnYD8J9S+0+XEMTvfgmMZ7E/jRrAkoUvQ8g5KspmiPkKGdTpNMiiKAcJFYueKgzBTg429xGSTGc37nkreF3Tf45H0GLtO1GQyIV6lZ7FhtxjDQo=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4916.eurprd08.prod.outlook.com (10.255.98.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.16; Mon, 25 Nov 2019 09:56:21 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2474.023; Mon, 25 Nov 2019
- 09:56:21 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH v3 8/8] iotests: Test committing to short backing file
-Thread-Topic: [PATCH v3 8/8] iotests: Test committing to short backing file
-Thread-Index: AQHVoU6yYAAQpxpbhUeog1sSH2ifnqebqo2A
-Date: Mon, 25 Nov 2019 09:56:21 +0000
-Message-ID: <39007f62-1365-935c-732b-5ce554742de0@virtuozzo.com>
-References: <20191122160511.8377-1-kwolf@redhat.com>
- <20191122160511.8377-9-kwolf@redhat.com>
-In-Reply-To: <20191122160511.8377-9-kwolf@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0031.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::41) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191125125619125
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0cdee85e-988a-4489-75fc-08d7718db994
-x-ms-traffictypediagnostic: AM6PR08MB4916:
-x-microsoft-antispam-prvs: <AM6PR08MB49163DCC822C6D69C9186F51C14A0@AM6PR08MB4916.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:400;
-x-forefront-prvs: 0232B30BBC
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(346002)(39840400004)(366004)(376002)(189003)(199004)(14454004)(66946007)(305945005)(8936002)(2906002)(81166006)(81156014)(6486002)(66476007)(8676002)(25786009)(256004)(229853002)(76176011)(6506007)(54906003)(316002)(6436002)(66556008)(64756008)(66446008)(386003)(52116002)(186003)(99286004)(31686004)(558084003)(110136005)(26005)(5660300002)(478600001)(66066001)(71190400001)(71200400001)(446003)(2616005)(11346002)(6512007)(6116002)(3846002)(86362001)(36756003)(31696002)(4326008)(7736002)(2501003)(6246003)(102836004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4916;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xRjZjja4mJ8sb6biReMPGWbnManKzWJFWeXaBbd3FwLLQrWEEWNDpBIsdyStkRC+6/HUFtl91y2BOCJcW58st0XPMCziigska/FC3qfHvZigwvBTGGmccmeLOdE9etFIyerllEqubm9UARwCWpf6plx61oHkjSHOLOZjKGjTKJbY/6J2CwgCcCxVSlVphIhyDVFfg4JIgM/kyM5IT0+vt3aDsxORs68goqijHFI/dkP2Fuf1NuwsTnDvYNj+mPtB8DughJVIo6lKDjVnbfiTNqjOfvTlVL9UlQJ5qVev29Dv1Jy8Rkh1sJGkBetar+zn0R1xZ0dpopSR7de9mhbUJ15LFaR+RbVxlPoi6xDDCSecL5v3cXFAfZnT+ggkBII26/nMWZxcQybl4ZiJqPZp7gEiVn3QUTufIkjKKluoT4xXtbRBRhY+eIvsEi6ANjtl
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <58A81603BC96114C80D27D37E9C1EC9C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1iZBFs-0007rN-Gt
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:06:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38514)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iZBFs-0007r7-BY
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 05:06:04 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iZBFr-0001dK-0u
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 10:06:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0430B2E804F
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 10:06:03 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cdee85e-988a-4489-75fc-08d7718db994
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2019 09:56:21.6165 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 73Fv1o6sq6PIP9Zr/hPhbtwjaKTejvrSVyAmaF+tRwkCjp8qEj3/1NJIs5go2smK6SRKsMDG/jxFntjVM4WMemcGX8qo064+LOu/pQ7pgVw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4916
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.99
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Nov 2019 09:52:18 -0000
+From: Frank Heimes <1852781@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Incomplete;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: qemu-20.04 s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: colin-king paelzer th-huth
+X-Launchpad-Bug-Reporter: Colin Ian King (colin-king)
+X-Launchpad-Bug-Modifier: Frank Heimes (frank-heimes)
+References: <157384084797.7162.9983011521410421204.malonedeb@gac.canonical.com>
+Message-Id: <157467553929.6933.1994910362726547511.launchpad@gac.canonical.com>
+Subject: [Bug 1852781] Re: qemu s390x on focal - applications breaking
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 314536bbd80ac11d01e7bd47f3d8f049ce3717eb
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,15 +69,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Reply-To: Bug 1852781 <1852781@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjIuMTEuMjAxOSAxOTowNSwgS2V2aW4gV29sZiB3cm90ZToNCj4gU2lnbmVkLW9mZi1ieTogS2V2
-aW4gV29sZiA8a3dvbGZAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVu
-dHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NClRlc3RlZC1ieTogVmxh
-ZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KDQoN
-Ci0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+** Tags added: qemu-20.04
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852781
+
+Title:
+  qemu s390x on focal - applications breaking
+
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Incomplete
+
+Bug description:
+  Running qemu-system-s390x (1:4.0+dfsg-0ubuntu10) on an x86-64 Focal
+  host with an upgrade of a Eoan s390x VM to a Focal s390x is triggering
+  random breakage, for example:
+
+  sudo apt-get update && sudo apt-get dist-upgrade
+
+  ...
+  ...
+
+  Unpacking debianutils (4.9) over (4.8.6.3) ...
+  Setting up debianutils (4.9) ...
+  Use of uninitialized value $ARGV[0] in string ne at /usr/sbin/update-mime=
+ line 43.
+  (Reading database ... 83640 files and directories currently installed.)
+  Preparing to unpack .../bash_5.0-5ubuntu1_s390x.deb ...
+  Unpacking bash (5.0-5ubuntu1) over (5.0-4ubuntu1) ...
+  Setting up bash (5.0-5ubuntu1) ...
+  [12124.788618] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa3d780000+149000]
+  dpkg: error processing package bash (--configure):
+   installed bash package post-installation script subprocess was killed by=
+ signal (Floating point exception), core du
+  mped
+  Errors were encountered while processing:
+   bash
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+  And now bash is completely broken:
+
+  cking@eoan-s390x:~$ bash
+  [12676.204389] User process fault: interruption code 0007 ilc:3 in bash[2=
+aa14780000+149000]
+
+  Floating point exception (core dumped)
+
+  The upgrade works OK on a s390x, so I'm assuming it's something to do
+  with the qemu emulation.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852781/+subscriptions
 
