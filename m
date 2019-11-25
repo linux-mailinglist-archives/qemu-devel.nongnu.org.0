@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECAE1108EB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:21:35 +0100 (CET)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85054108EA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:16:01 +0100 (CET)
+Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZEJ4-000883-Iz
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39505)
+	id 1iZEDg-0003Xe-4x
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:16:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iZE5C-0005W9-Mz
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:16 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iZE9q-0001ec-Ox
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:12:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iZE5A-00072F-Pl
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40786
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iZE9o-0001BC-GZ
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:12:01 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36346
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZE59-00071k-3D
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:12 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iZE9o-0001Aj-Bu
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:12:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574687230;
+ s=mimecast20190719; t=1574687519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=006G3GA3tOQGxBjDMES8FWn/jj2JIGTz+zvys5oFahI=;
- b=PEg0xPDhYKxEiNsEStQ0ZU3rKZjsNQKa96LE8FMHOJmlRmJFOKYM+80/zNOe3bxUtMcUkC
- /ogeRlb20ljp3Z6TnpB6qNuH95rXRmKJWfzrR0N96umFjQTSpWd6jFhW8y9FPADC1dSgBf
- ppBtkEiWnkWDjfx2DrX52N4BnaV/GdQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-0EUQYw9lOkCZOENYVCcGtA-1; Mon, 25 Nov 2019 08:07:09 -0500
-Received: by mail-wm1-f71.google.com with SMTP id v8so4539478wml.4
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 05:07:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xTcSBEsYVgOHYuOYONZmSVsrznxxUGWIqiXuR9K4h38=;
- b=Fnf5VgmgYmIpRePZll6Eud82Tuvv8OxfLaFUm/WmiVUyeFZopfY7HyOMzr0ibF4To6
- KBXRaJkia6pc38L2i6Jtey+nmF7KYLdjvAwJ9x3HEkKEpckrH9aSjeq43owwlW6fybaI
- PI0CPz6f03AuS1gTqx8015Nj4ncRPxMR2mfrOeGMe9gC3yUb9IuCHxWJd1Eh5IH1PwKz
- rNTqDmFWzhl1NYaW8CVGwsISwyRDnUcdXOOtoXszLWEP78qG3QTG+SBCJfjfI75A9vhf
- tCgFPRzghRwcv5gDNAKK9JFjdM3JSc12hiFirPkUGRgePbod2nHadI1thR+UP/18l5jf
- C4eg==
-X-Gm-Message-State: APjAAAXKJhbpgUNYvmtqeVxnnRmalsBbbWoWlB5u60N9ybxJy92ZLuWk
- d1E1cKOSe/S6Si1fC0TqrLIn1XKJ1d19+vWtZb7jMfbHB2BWB9eMP0/ErdujXJSwbYF5G35bpvu
- AB2ACyZgLmOhAwGA=
-X-Received: by 2002:adf:e2cd:: with SMTP id d13mr31939252wrj.221.1574687228047; 
- Mon, 25 Nov 2019 05:07:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwFy9gIaaRcMpT9IBCNntZdU9lOOndNH808/lBsZyk4EgUGSfV1iCBH3KdEsdeRdC/lBlZcsQ==
-X-Received: by 2002:adf:e2cd:: with SMTP id d13mr31939213wrj.221.1574687227826; 
- Mon, 25 Nov 2019 05:07:07 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id f24sm8389062wmb.37.2019.11.25.05.07.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2019 05:07:07 -0800 (PST)
-Subject: Re: [PATCH v6 1/9] hw/core/clock: introduce clock objects
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20190904125531.27545-1-damien.hedde@greensocs.com>
- <20190904125531.27545-2-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <560f9a2f-b604-69e7-7114-13e167102872@redhat.com>
-Date: Mon, 25 Nov 2019 14:07:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=aUP7o32wdF6Edrz6sHJTfpiobJ65Z069L1Q2kRgLsF0=;
+ b=eWXVpOdCLdCLteN8sWVZfGsLW5IEo420SG5SS/Nk6vkYmC5vFxD22TbEDqFN4siDAHFx+6
+ RUsx4YjyiBQDXCAKszzBVpstbSa9q7jpo5C3acw1z5Fi5JthvdFS7TZK9BccFAqHFaEK2h
+ Z1b/dE5ObRboYGIgmWwZuf2pap8v6Pg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-flbiYYjmN8a9sqmWvKNmRg-1; Mon, 25 Nov 2019 08:11:56 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D76508064D2;
+ Mon, 25 Nov 2019 13:11:54 +0000 (UTC)
+Received: from gondolin (ovpn-116-165.ams2.redhat.com [10.36.116.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A7DE60C63;
+ Mon, 25 Nov 2019 13:11:50 +0000 (UTC)
+Date: Mon, 25 Nov 2019 14:11:46 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 1/5] s390x: Don't do a normal reset on the initial cpu
+Message-ID: <20191125141146.43ef5857.cohuck@redhat.com>
+In-Reply-To: <20191125090348.27010-2-frankja@linux.ibm.com>
+References: <20191125090348.27010-1-frankja@linux.ibm.com>
+ <20191125090348.27010-2-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20190904125531.27545-2-damien.hedde@greensocs.com>
-Content-Language: en-US
-X-MC-Unique: 0EUQYw9lOkCZOENYVCcGtA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: flbiYYjmN8a9sqmWvKNmRg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,85 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, ehabkost@redhat.com,
- alistair@alistair23.me, mark.burton@greensocs.com, marcandre.lureau@redhat.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, edgar.iglesias@gmail.com
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/4/19 2:55 PM, Damien Hedde wrote:
-> Introduce clock objects: ClockIn and ClockOut.
->=20
-> These objects may be used to distribute clocks from an object to several
-> other objects. Each ClockIn object contains the current state of the
-> clock: the frequency; it allows an object to migrate its input clock stat=
-e
-> independently of other objects.
->=20
-> A ClockIn may be connected to a ClockOut so that it receives update,
-> through a callback, whenever the Clockout is updated using the
-> ClockOut's set function.
->=20
-> This is based on the original work of Frederic Konrad.
->=20
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Mon, 25 Nov 2019 04:03:44 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
+
+> The initiating cpu needs to be reset with an initial reset. While
+> doing a normal reset followed by a initial reset is not wrong per se,
+> the Ultravisor will only allow the correct reset to be performed.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > ---
->   Makefile.objs         |   1 +
->   hw/core/Makefile.objs |   1 +
->   hw/core/clock.c       | 144 ++++++++++++++++++++++++++++++++++++++++++
->   hw/core/trace-events  |   6 ++
->   include/hw/clock.h    | 124 ++++++++++++++++++++++++++++++++++++
->   5 files changed, 276 insertions(+)
->   create mode 100644 hw/core/clock.c
->   create mode 100644 include/hw/clock.h
->=20
-> diff --git a/Makefile.objs b/Makefile.objs
-> index a723a47e14..4da623c759 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -153,6 +153,7 @@ trace-events-subdirs +=3D hw/audio
->   trace-events-subdirs +=3D hw/block
->   trace-events-subdirs +=3D hw/block/dataplane
->   trace-events-subdirs +=3D hw/char
-> +trace-events-subdirs +=3D hw/core
->   trace-events-subdirs +=3D hw/dma
->   trace-events-subdirs +=3D hw/hppa
->   trace-events-subdirs +=3D hw/i2c
-> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index 69b408ad1c..c66a5b2c6b 100644
-> --- a/hw/core/Makefile.objs
-> +++ b/hw/core/Makefile.objs
-> @@ -7,6 +7,7 @@ common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
->   # irq.o needed for qdev GPIO handling:
->   common-obj-y +=3D irq.o
->   common-obj-y +=3D hotplug.o
-> +common-obj-y +=3D clock.o
->   common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
->   common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-state-handler.o
->  =20
-> diff --git a/hw/core/clock.c b/hw/core/clock.c
-> new file mode 100644
-> index 0000000000..888f247f2a
-> --- /dev/null
-> +++ b/hw/core/clock.c
-> @@ -0,0 +1,144 @@
-> +/*
-> + * Clock inputs and outputs
-> + *
-> + * Copyright GreenSocs 2016-2018
+>  hw/s390x/s390-virtio-ccw.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index d3edeef0ad..c1d1440272 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -348,6 +348,9 @@ static void s390_machine_reset(MachineState *machine)
+>          break;
+>      case S390_RESET_LOAD_NORMAL:
+>          CPU_FOREACH(t) {
+> +            if (t == cs) {
+> +                continue;
+> +            }
+>              run_on_cpu(t, s390_do_cpu_reset, RUN_ON_CPU_NULL);
+>          }
+>          subsystem_reset();
 
-2019 now?
-
-> + *
-> + * Authors:
-> + *  Frederic Konrad <fred.konrad@greensocs.com>
-> + *  Damien Hedde <damien.hedde@greensocs.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + */
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
