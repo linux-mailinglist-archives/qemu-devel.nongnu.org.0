@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03390109144
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:50:13 +0100 (CET)
-Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76105109138
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 16:47:31 +0100 (CET)
+Received: from localhost ([::1]:45592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZGct-0008Ob-Lf
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:50:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
+	id 1iZGaI-0006Fo-6F
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 10:47:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iZGTI-0008St-L3
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:17 -0500
+ (envelope-from <jasowang@redhat.com>) id 1iZGTO-00007y-81
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iZGTH-0001va-Ee
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52359
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jasowang@redhat.com>) id 1iZGTN-0002Ik-1S
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:22 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33744
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iZGTH-0001v9-AK
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:15 -0500
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iZGTM-0002Gm-Ti
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 10:40:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574696414;
+ s=mimecast20190719; t=1574696420;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DFoLM12d/1HqmCMK9NJxuXTqX9TO3LYW/cIhV4z2weo=;
- b=RhQjij8lZkyYRztNNrRL6wyFiDMEqmBxUgflYJiBbpPD9WnUZjEyj46riCP2BsXc70UBmj
- Gg4d+d5Hw0uXxmPvjoHyqgdqG50+Vz/tCVDjFqZQQLwK+w50bwHnhpcJbOMjFwCEyeYG9d
- hyj7n8tcdy9Vqwee4SSU14mYzERO+l0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RBpsFCVeMRCzlLpskwT+ExfayS9Zv6LYuKZdvR/1r7k=;
+ b=UCwVOL4GwrRGj1ZlSD/Jw2YZ5nfQ4wurhJYqN8ux1SsveK9hN1qSTQcoX2cbQEmF3tLbCR
+ IAzxFb44sPIwcGws5PcRbxy8ckwCnzSjU256dvQIDBVRIAkuxgFcJfyQcAJxnK0CtXVNvY
+ TUwAYfPZ1dVWnkit/gHN/fjqmBJxvgA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-xx6rlyhHO5GnjFBQp37Mig-1; Mon, 25 Nov 2019 10:40:12 -0500
+ us-mta-383-VYFjNEEsNN2gp2x3m_iziw-1; Mon, 25 Nov 2019 10:40:16 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E81B718C425E;
- Mon, 25 Nov 2019 15:40:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79F77802B9F;
+ Mon, 25 Nov 2019 15:40:15 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-31.pek2.redhat.com
  [10.72.12.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B39A5D9CA;
- Mon, 25 Nov 2019 15:40:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 728E85D9CA;
+ Mon, 25 Nov 2019 15:40:11 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/4] Net patches
-Date: Mon, 25 Nov 2019 23:40:03 +0800
-Message-Id: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
+Subject: [PULL 1/4] net/virtio: fix dev_unplug_pending
+Date: Mon, 25 Nov 2019 23:40:04 +0800
+Message-Id: <1574696407-4188-2-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
+References: <1574696407-4188-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: xx6rlyhHO5GnjFBQp37Mig-1
+X-MC-Unique: VYFjNEEsNN2gp2x3m_iziw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,39 +70,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 122e6d2a9c1bf8aa1d51409c15809a82621515b1=
-:
+From: Jens Freimann <jfreimann@redhat.com>
 
-  Merge remote-tracking branch 'remotes/gkurz/tags/9p-fix-2019-11-23' into =
-staging (2019-11-25 13:39:45 +0000)
+.dev_unplug_pending is set up by virtio-net code indepent of failover
+support was set for the device or not. This gives a wrong result when
+we check for existing primary devices in migration code.
 
-are available in the git repository at:
+Fix this by actually calling dev_unplug_pending() instead of just
+checking if the function pointer was set. When the feature was not
+negotiated dev_unplug_pending() will always return false. This prevents
+us from going into the wait-unplug state when there's no primary device
+present.
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
+Fixes: 9711cd0dfc3f ("net/virtio: add failover support")
+Signed-off-by: Jens Freimann <jfreimann@redhat.com>
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/virtio-net.c | 3 +++
+ migration/savevm.c  | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 4d0e59ace29277b2faa5b33c719be9baaa659093:
-
-  net/virtio: return error when device_opts arg is NULL (2019-11-25 23:30:2=
-9 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Jens Freimann (4):
-      net/virtio: fix dev_unplug_pending
-      net/virtio: return early when failover primary alread added
-      net/virtio: fix re-plugging of primary device
-      net/virtio: return error when device_opts arg is NULL
-
- hw/net/virtio-net.c | 58 +++++++++++++++++++++++++++++++++++--------------=
-----
- migration/savevm.c  |  3 ++-
- 2 files changed, 40 insertions(+), 21 deletions(-)
-
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 97a5113..946039c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3124,6 +3124,9 @@ static bool primary_unplug_pending(void *opaque)
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VirtIONet *n =3D VIRTIO_NET(vdev);
+=20
++    if (!virtio_vdev_has_feature(vdev, VIRTIO_NET_F_STANDBY)) {
++        return false;
++    }
+     return n->primary_dev ? n->primary_dev->pending_deleted_event : false;
+ }
+=20
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 966a9c3..a71b930 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1119,7 +1119,8 @@ int qemu_savevm_nr_failover_devices(void)
+     int n =3D 0;
+=20
+     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+-        if (se->vmsd && se->vmsd->dev_unplug_pending) {
++        if (se->vmsd && se->vmsd->dev_unplug_pending &&
++            se->vmsd->dev_unplug_pending(se->opaque)) {
+             n++;
+         }
+     }
+--=20
 2.5.0
 
 
