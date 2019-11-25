@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D89410890B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:17:17 +0100 (CET)
-Received: from localhost ([::1]:40910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFC71088FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 08:08:20 +0100 (CET)
+Received: from localhost ([::1]:40832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZ8cU-0003JI-KX
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:17:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41688)
+	id 1iZ8Tr-0002ZV-OO
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 02:08:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iZ8LN-0002p1-Tf
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:34 -0500
+ (envelope-from <clg@kaod.org>) id 1iZ8LV-0002v1-8T
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iZ8LM-0001i2-NR
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:33 -0500
-Received: from 4.mo5.mail-out.ovh.net ([178.33.111.247]:38379)
+ (envelope-from <clg@kaod.org>) id 1iZ8LT-0001mT-Td
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:41 -0500
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]:33360)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8LM-0001h9-Hh
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:32 -0500
-Received: from player697.ha.ovh.net (unknown [10.109.160.244])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 2980E25BE33
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:31 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iZ8LT-0001l4-NV
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 01:59:39 -0500
+Received: from player697.ha.ovh.net (unknown [10.109.160.62])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id C37B41B5C75
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 07:59:37 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player697.ha.ovh.net (Postfix) with ESMTPSA id 96283C809587;
- Mon, 25 Nov 2019 06:59:25 +0000 (UTC)
+ by player697.ha.ovh.net (Postfix) with ESMTPSA id 2ACBEC8095A6;
+ Mon, 25 Nov 2019 06:59:31 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v6 10/20] ppc/spapr: Implement the XiveFabric interface
-Date: Mon, 25 Nov 2019 07:58:10 +0100
-Message-Id: <20191125065820.927-11-clg@kaod.org>
+Subject: [PATCH v6 11/20] ppc/xive: Use the XiveFabric and XivePresenter
+ interfaces
+Date: Mon, 25 Nov 2019 07:58:11 +0100
+Message-Id: <20191125065820.927-12-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191125065820.927-1-clg@kaod.org>
 References: <20191125065820.927-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 8922475289809095654
+X-Ovh-Tracer-Id: 8924164140610915302
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeitddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedv
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.111.247
+X-Received-From: 46.105.63.121
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,93 +62,105 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CAM line matching sequence in the pseries machine does not change
-much apart from the use of the new QOM interfaces. There is an extra
-indirection because of the sPAPR IRQ backend of the machine. Only the
-XIVE backend implements the new 'match_nvt' handler.
+Now that the machines have handlers implementing the XiveFabric and
+XivePresenter interfaces, remove xive_presenter_match() and make use
+of the 'match_nvt' handler of the machine.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ hw/intc/xive.c | 48 +++++++++++++++++-------------------------------
+ 1 file changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f6023c73..2687bbac37eb 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4275,6 +4275,42 @@ static void spapr_pic_print_info(InterruptStatsPro=
-vider *obj,
-                    kvm_irqchip_in_kernel() ? "in-kernel" : "emulated");
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 1c9e58f8deac..8e683847bf81 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1423,30 +1423,6 @@ int xive_presenter_tctx_match(XivePresenter *xptr,=
+ XiveTCTX *tctx,
+     return -1;
  }
 =20
-+static int spapr_match_nvt(XiveFabric *xfb, uint8_t format,
-+                           uint8_t nvt_blk, uint32_t nvt_idx,
-+                           bool cam_ignore, uint8_t priority,
-+                           uint32_t logic_serv, XiveTCTXMatch *match)
-+{
-+    SpaprMachineState *spapr =3D SPAPR_MACHINE(xfb);
-+    XivePresenter *xptr =3D XIVE_PRESENTER(spapr->xive);
-+    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
-+    int count;
-+
-+    /* This is a XIVE only operation */
-+    assert(spapr->active_intc =3D=3D SPAPR_INTC(spapr->xive));
-+
-+    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
-+                           priority, logic_serv, match);
-+    if (count < 0) {
-+        return count;
-+    }
-+
-+    /*
-+     * When we implement the save and restore of the thread interrupt
-+     * contexts in the enter/exit CPU handlers of the machine and the
-+     * escalations in QEMU, we should be able to handle non dispatched
-+     * vCPUs.
-+     *
-+     * Until this is done, the sPAPR machine should find at least one
-+     * matching context always.
-+     */
-+    if (count =3D=3D 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: NVT %x/%x is not dispatche=
-d\n",
-+                      nvt_blk, nvt_idx);
-+    }
-+
-+    return count;
-+}
-+
- int spapr_get_vcpu_id(PowerPCCPU *cpu)
+-static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
+-                                 uint8_t nvt_blk, uint32_t nvt_idx,
+-                                 bool cam_ignore, uint8_t priority,
+-                                 uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+-{
+-    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
+-    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+-    int count;
+-
+-    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
+-                           priority, logic_serv, match);
+-    if (count < 0) {
+-        return false;
+-    }
+-
+-    if (!match->tctx) {
+-        qemu_log_mask(LOG_UNIMP, "XIVE: NVT %x/%x is not dispatched\n",
+-                      nvt_blk, nvt_idx);
+-        return false;
+-    }
+-
+-    return true;
+-}
+-
+ /*
+  * This is our simple Xive Presenter Engine model. It is merged in the
+  * Router as it does not require an extra object.
+@@ -1462,22 +1438,32 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+  *
+  * The parameters represent what is sent on the PowerBus
+  */
+-static bool xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
++static bool xive_presenter_notify(uint8_t format,
+                                   uint8_t nvt_blk, uint32_t nvt_idx,
+                                   bool cam_ignore, uint8_t priority,
+                                   uint32_t logic_serv)
  {
-     return cpu->vcpu_id;
-@@ -4371,6 +4407,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     PPCVirtualHypervisorClass *vhc =3D PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
-     XICSFabricClass *xic =3D XICS_FABRIC_CLASS(oc);
-     InterruptStatsProviderClass *ispc =3D INTERRUPT_STATS_PROVIDER_CLASS=
-(oc);
-+    XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
++    XiveFabric *xfb =3D XIVE_FABRIC(qdev_get_machine());
++    XiveFabricClass *xfc =3D XIVE_FABRIC_GET_CLASS(xfb);
+     XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+-    bool found;
++    int count;
 =20
-     mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
-     mc->ignore_boot_device_suffixes =3D true;
-@@ -4447,6 +4484,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     smc->linux_pci_probe =3D true;
-     smc->smp_threads_vsmt =3D true;
-     smc->nr_xirqs =3D SPAPR_NR_XIRQS;
-+    xfc->match_nvt =3D spapr_match_nvt;
+-    found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
+gnore,
+-                                 priority, logic_serv, &match);
+-    if (found) {
++    /*
++     * Ask the machine to scan the interrupt controllers for a match
++     */
++    count =3D xfc->match_nvt(xfb, format, nvt_blk, nvt_idx, cam_ignore,
++                           priority, logic_serv, &match);
++    if (count < 0) {
++        return false;
++    }
++
++    /* handle CPU exception delivery */
++    if (count) {
+         ipb_update(&match.tctx->regs[match.ring], priority);
+         xive_tctx_notify(match.tctx, match.ring);
+     }
+=20
+-    return found;
++    return !!count;
  }
 =20
- static const TypeInfo spapr_machine_info =3D {
-@@ -4465,6 +4503,7 @@ static const TypeInfo spapr_machine_info =3D {
-         { TYPE_PPC_VIRTUAL_HYPERVISOR },
-         { TYPE_XICS_FABRIC },
-         { TYPE_INTERRUPT_STATS_PROVIDER },
-+        { TYPE_XIVE_FABRIC },
-         { }
-     },
- };
+ /*
+@@ -1590,7 +1576,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+         return;
+     }
+=20
+-    found =3D xive_presenter_notify(xrtr, format, nvt_blk, nvt_idx,
++    found =3D xive_presenter_notify(format, nvt_blk, nvt_idx,
+                           xive_get_field32(END_W7_F0_IGNORE, end.w7),
+                           priority,
+                           xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
+w7));
 --=20
 2.21.0
 
