@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B7A108E12
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:37:34 +0100 (CET)
-Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5168108E2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 13:49:01 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZDcS-0006dg-RE
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:37:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
+	id 1iZDnX-0004Mp-By
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 07:49:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iZDaL-00054N-CV
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:35:22 -0500
+ (envelope-from <bounces@canonical.com>) id 1iZDkU-00036n-79
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iZDaJ-0005ve-CM
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:35:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27021
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZDaI-0005uE-En
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:35:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574685317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=agVfGbXbL7zaFxifhPKARr69VWdpwfMWVkda24kLoSM=;
- b=f4ySS+E7p2AyuJv3J1Uuqne8QY9J66H7+BonvTrj+arqseKykqkMLJwJKtA/nF4LjRj3Kv
- wMnXm3F3youWpGdVBd5Am0wWb72hP+pbxeGVSeLE68QcMQ8aAHe2MAIevLpLfRnbnSFsuQ
- RaJhgpj18NOloRBLjV11pL+0blV4G00=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-AbXcBJLjOxqBXCdyFg_RJg-1; Mon, 25 Nov 2019 07:35:16 -0500
-Received: by mail-wr1-f70.google.com with SMTP id c6so8696261wrm.18
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 04:35:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=Dp2AcgTFAY76z1cVoMVr7hXhJDaDfbhUEB3qzhGxSHQ=;
- b=hlP6jOaDCxFSTkeGSmZdPtmKhhz9TfJ0gPnj0PB7kCua/3QAnRAYk7DvIkC+3cZUC7
- J8PvsBrGuOvMeKrB9zG49AWAYRqwWoCTgRSRTzIA+9Qd+3zpHi+s+lKqpn2KlKa/4VsN
- BRxslEfG/sX/QkI88bcJ2Jl/3jygKkVr7uLYaT90jRKDWHM4xeS5ZQQD2rax89HIfk0b
- N2kMsmKeUsS2GEsUzyeCh9tzAC90Sfij1EKz0xWDluOg0n/iMlt1DhQDknSIA6I9EWLa
- cFTf3TTwWxgHbrVf6zNo1YwdMLnFUD0ehjRoHWggZAnG/qNzFzsKxpaC3eWEoYhS32mJ
- 1ekA==
-X-Gm-Message-State: APjAAAVm10F3C2kIq3dnadFLQC6DLCDD8kn8y5fX2b0bfOl8a+Q0Dp/7
- og8YWBPc8kPxl8Nwq7h52+j7+bPpT0sFXanG4zBcbnKf3FkloQlR8Yq7ZOHgOxiHto9tqEaL7Qy
- +o8426jHQa5dIf8Y=
-X-Received: by 2002:adf:e488:: with SMTP id i8mr14473620wrm.37.1574685315122; 
- Mon, 25 Nov 2019 04:35:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwpqFLLkw+MeGFQQSTrdUU+SUa/KEp2ZAgNEUxlpWb+H3NsOMVP1LXLsEX3ZclFqz/i2/exVw==
-X-Received: by 2002:adf:e488:: with SMTP id i8mr14473595wrm.37.1574685314886; 
- Mon, 25 Nov 2019 04:35:14 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id l26sm8105471wmj.48.2019.11.25.04.35.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2019 04:35:14 -0800 (PST)
-To: Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Subject: Avocado notes from KVM forum 2019
-Message-ID: <9b3b2ff0-a3bb-c7ba-d7ce-d178e8fbd5d8@redhat.com>
-Date: Mon, 25 Nov 2019 13:35:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iZDkS-0006Od-E5
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46158)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iZDkS-0006NT-5E
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 07:45:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iZDkQ-0006lr-Hw
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:45:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B6492E80C8
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 12:45:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Language: en-US
-X-MC-Unique: AbXcBJLjOxqBXCdyFg_RJg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Nov 2019 12:35:15 -0000
+From: Caroline Concatto <1853826@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee carolineconcatto
+X-Launchpad-Bug-Reporter: Caroline Concatto (carolineconcatto)
+X-Launchpad-Bug-Modifier: Caroline Concatto (carolineconcatto)
+References: <157468002661.30952.10642264809488923382.malonedeb@wampee.canonical.com>
+Message-Id: <157468531537.21660.9812670021216308384.malone@soybean.canonical.com>
+Subject: [Bug 1853826] Re: ELF loader fails to load shared object on ThunderX2
+ running RHEL7
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 076d0aaf7a8a1734ffdbf04c559ac5dd5be26251
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,95 +67,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: avocado-devel@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1853826 <1853826@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cleber,
+****Taishan 2280 Cortex-A72
+      Running
+1)with -armpl flag with and without the docker
+  armclang -armpl hello.c
+ ./qemu/build/aarch64-linux-user/qemu-aarch64 -d page a.out
 
-Here are my notes from talking about Avocado with various people during=20
-the KVM forum in Lyon last month.
+host mmap_min_addr=3D0x8000
+Reserved 0x21000 bytes of guest address space
+Relocating guest address space from 0x0000000000400000 to 0x288a000
+guest_base  0x248a000
+start            end              size             prot
+0000000000400000-0000000000401000 0000000000001000 r-x
+000000000041f000-0000000000421000 0000000000002000 rw-
+0000004000000000-0000004000001000 0000000000001000 ---
+0000004000001000-0000004000801000 0000000000800000 rw-
+0000004000801000-000000400081f000 000000000001e000 r-x
+000000400081f000-0000004000830000 0000000000011000 ---
+0000004000830000-0000004000833000 0000000000003000 rw-
+start_brk   0x0000000000000000
+end_code    0x00000000004009f4
+start_code  0x0000000000400000
+start_data  0x000000000041fd68
+end_data    0x0000000000420024
+start_stack 0x0000004000800510
+brk         0x0000000000420028
+entry       0x00000040008020e0
+argv_start  0x0000004000800518
+env_start   0x0000004000800528
+auxv_start  0x0000004000800588
+Hello World...
 
-All comments are QEMU oriented.
+****Taishan - tsv110 Kunpeng 920
+       For Running
+
+1)with -armpl flag with and without the docker
+  armclang -armpl hello.c
+ ./qemu/build/aarch64-linux-user/qemu-aarch64 -d page a.out
+
+host mmap_min_addr=3D0x1000
+Reserved 0x30000 bytes of guest address space
+Relocating guest address space from 0x0000000000400000 to 0x2890000
+guest_base  0x2490000
+start            end              size             prot
+0000000000400000-0000000000410000 0000000000010000 r-x
+0000000000410000-0000000000430000 0000000000020000 rw-
+0000004000000000-0000004000010000 0000000000010000 ---
+0000004000010000-0000004000810000 0000000000800000 rw-
+0000004000810000-0000004000830000 0000000000020000 r-x
+0000004000830000-0000004000850000 0000000000020000 rw-
+start_brk   0x0000000000000000
+end_code    0x00000000004009f4
+start_code  0x0000000000400000
+start_data  0x000000000041fd68
+end_data    0x0000000000420024
+start_stack 0x000000400080f560
+brk         0x0000000000420028
+entry       0x00000040008110e0
+argv_start  0x000000400080f568
+env_start   0x000000400080f578
+auxv_start  0x000000400080f5d8
+qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0xffffb1=
+938536
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853826
+
+Title:
+  ELF loader fails to load shared object on ThunderX2 running RHEL7
+
+Status in QEMU:
+  New
+
+Bug description:
+  Simple test:
+  hello.c
+
+  include <stdio.h>
+
+  int main(int argc, char* argv[])
+  {
+    {
+      printf("Hello World... \n");
+    }
+    return 0;
+  }
+
+  when compiled with :
+  *Compiler =
+
+  https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
+ure-tools/arm-allinea-studio/download
+  Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar	 =
 
 
-1) Working offline
+  *Running:
+  1) with -armpl
+       armclang -armpl hello.c
+       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
+  2) without flag
+      armclang hello.c
+       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
 
-Various people complained Avocado requires online access, and they would=20
-like to use it offline.
+  =E2=80=A2With Docker image:
+         CentOS Linux release 7.7.1908 (AltArch)
 
-   Maintainer workflow example is:
+  *Two different machines:
+         AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
+         AArch64, Taishan 2280, Cortex-A72, ARMv8-A
 
-   - run avocado
-   - hack QEMU, build
-   - git pull
-   - build
-   - hack QEMU
-   (go offline)
-   - hack QEMU
-   - build
-   - run avocado <- FAILS
+  *QEMU 4.0
+       qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
 
-Failure is because mainstream added new tests, which got pulled in, and=20
-the user only notice when running avocado again, but offline.
-Test example is boot_linux_console.py, which added various tests from=20
-other subsystems, so the maintainer has to disable the new tests=20
-manually to be able to run his previous tests.
+  =
 
-Expected solution: skip tests when artifact is not available, eventually=20
-when the --offline option is used
+  Results:
 
+  =
 
-2) Add artifacts manually to the cache
+   ****Taishan 2280 Cortex-A72 =
 
-Not all artifacts can be easily downloadable, some are public but=20
-require the user to accept an End User License Agreement.
-Users would like to share their tests with the documentation about=20
-where/how to download the requisite files (accepting the EULA) to run=20
-the tests.
+        Running =
 
+  1)with -armpl flag with and without the docker
+            WORKS-> Hello World...
+                 -> ldd a.out
+  ldd a.out =
 
-2b) Add reference to artifact to the cache
+  linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000) =
 
-Group of users might share group of files (like NFS storage) and would=20
-like to use directly their remote read-only files, instead of copying it=20
-to their home directory.
+  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
+_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
+0x0000ffffbc544000) =
 
+  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000) =
 
-3) Provide qemu/avocado-qemu Python packages
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffbc472000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
+3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffbbfd30=
+00) =
 
-The mainstream project uses Avocado to test QEMU. Others projects use=20
-QEMU to test their code, and would like to automatize that using=20
-Avocado. They usually not rebuild QEMU but use a stable binary from=20
-distributions. The python classes are not available, so they have to=20
-clone QEMU to use Avocado (I guess they only need 5 python files).
-When running on Continuous Integration, this is overkill, because when=20
-you clone QEMU you also clone various other submodules.
+  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
+rch64-linux/lib/libomp.so (0x0000ffffbbef5000) =
 
+  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000) =
 
-4) Warn the user when Avocado is too old for the tests
+  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000) =
 
-Some users tried Avocado following the examples on the mailing list and=20
-the one in some commit's descriptions where we simply show "avocado run=20
-...". They installed the distribution Avocado package and tried and it=20
-fails for few of them with no obvious reason (the .log file is hard to=20
-read when you are not custom to). IIUC their distribution provides a=20
-older Avocado (69?) while we use recent features (72).
+  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
+rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
+neric.so (0x0000ffffb3306000) =
 
-We never noticed it because we use 'make check-venv' and do not test the=20
-distrib Avocado. While we can not test all distribs, we could add a=20
-version test if the Avocado version is too old, display a friendly=20
-message to the console (not the logfile).
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000) =
 
+  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
+ux/lib64/libstdc++.so.6 (0x0000ffffb2f30000) =
 
-That it for my notes.
+  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
+x/lib64/libgcc_s.so.1 (0x0000ffffb2eff000) =
 
-Eduardo/Wainer, are there other topics I forgot?
+  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
+             =
 
 
-Regards,
+  Running =
 
-Phil.
+  2) without -armpl flag with and without the docker
+             WORKS -> Hello World...        =
 
+                   -> ldd a.out
+  ldd a.out
+   linux-vdso.so.1 =3D>  (0x0000ffffa6895000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffa6846000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
+      =
+
+
+  ****Taishan - tsv110  Kunpeng 920
+         For Running =
+
+
+  1)with -armpl flag with and without the docker
+             DOES NOT WORK -> with and without Docker
+                           -> It shows : qemu:handle_cpu_signal received si=
+gnal outside vCPU
+   context @ pc=3D0xffffaaa8844a
+                           -> ldd a.out =
+
+  ldd a.out =
+
+  linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
+  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
+_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
+0x0000ffffad370000) =
+
+  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffad270000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
+3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffacdd00=
+00) =
+
+  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
+rch64-linux/lib/libomp.so (0x0000ffffaccf0000) =
+
+  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000) =
+
+  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000) =
+
+  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
+rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
+neric.so (0x0000ffffa40e0000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000) =
+
+  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
+ux/lib64/libstdc++.so.6 (0x0000ffffa3d00000) =
+
+  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
+x/lib64/libgcc_s.so.1 (0x0000ffffa3cc0000)
+  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
+              =
+
+
+  Running =
+
+  2) without -armpl flag with and without the docker
+                 WORKS -> Hello World..
+                       -> ldd a.out
+  ldd a.out  =
+
+  linux-vdso.so.1 =3D>  (0x0000ffff880c0000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffff88080000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
+  /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
 
