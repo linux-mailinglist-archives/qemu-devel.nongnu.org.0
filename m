@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F5E108E83
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:10:12 +0100 (CET)
-Received: from localhost ([::1]:43694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAE1108EB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Nov 2019 14:21:35 +0100 (CET)
+Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZE83-0007Rt-Gp
-	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:10:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39145)
+	id 1iZEJ4-000883-Iz
+	for lists+qemu-devel@lfdr.de; Mon, 25 Nov 2019 08:21:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iZE3s-0004Nq-Jw
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:05:55 -0500
+ (envelope-from <philmd@redhat.com>) id 1iZE5C-0005W9-Mz
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iZE3r-0005wp-3s
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:05:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42290
+ (envelope-from <philmd@redhat.com>) id 1iZE5A-00072F-Pl
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40786
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZE3q-0005v9-EA
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:05:50 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iZE59-00071k-3D
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 08:07:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574687148;
+ s=mimecast20190719; t=1574687230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lr6W4KR9wCbeu3QHPLleS62fXfo9S/hzHQ4EieD02R8=;
- b=Vhdnqh5dwaDJQAEuvCUgdYqjYB6SyqINqNUr1cjUmqjeATDNW3lrtieNp6i6jSHWKU7PPo
- fUKpcte6SJwXHdq5s0d5oeQQJPKNliOPzt7UjUsACFZt6J83DiHdLbW7MleuPsaifxpx/x
- 3p830dJgZPcmFthRheklbcbU07oYIDc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-Ui7liGxSNXCVa43C1JfoQg-1; Mon, 25 Nov 2019 08:05:47 -0500
-Received: by mail-wr1-f71.google.com with SMTP id 90so5446625wrq.6
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 05:05:46 -0800 (PST)
+ bh=006G3GA3tOQGxBjDMES8FWn/jj2JIGTz+zvys5oFahI=;
+ b=PEg0xPDhYKxEiNsEStQ0ZU3rKZjsNQKa96LE8FMHOJmlRmJFOKYM+80/zNOe3bxUtMcUkC
+ /ogeRlb20ljp3Z6TnpB6qNuH95rXRmKJWfzrR0N96umFjQTSpWd6jFhW8y9FPADC1dSgBf
+ ppBtkEiWnkWDjfx2DrX52N4BnaV/GdQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-0EUQYw9lOkCZOENYVCcGtA-1; Mon, 25 Nov 2019 08:07:09 -0500
+Received: by mail-wm1-f71.google.com with SMTP id v8so4539478wml.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 05:07:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mgG0bIcOz7g59k5sOe8AK4HwNncmlMwW5U4m6dEUMwA=;
- b=NTyBGPNb2PEByYc14zV/jx3k024ReC9X+0JbKUC7jQLxoEu1xrCAUSUpwmDa4XuKNC
- WKVD9oAeySJSvvqAtH3gK4yCh3g3g77mEF7+8mliJLssGqhdQ2kuqre7i/AjFB4DSmuJ
- jaMTMODR9ZJV0qunGZ7G1SOK2HGJc/qs11/CArOHQ0DHtMISwaPRorF6s/1zOpDOQwwb
- tOWPvbQybjkqm3PRanONmJTOHyguX4njqGfP/AF9svzaKylDjEDoTkolj2dixxZAfRVd
- 1MAiESWzsV7qdzX+PGSbVHQABGG1cyB8TRXvWWMi2CNOvgRcS9b1+mU158kY3P+OEcK7
- tb2g==
-X-Gm-Message-State: APjAAAUTKHr+mWv+RAUKnAOz+2Ic5j+05SDU6S0o56uZlllkD5TqO0UL
- KDJ5iqz3zUJw+fVF6tY5LYtgpoaHyEmvJBWxHVgDgTl3Vo10rlFRsJp3VAeEARvW1YQ5P1iWd6w
- w2ANjCdHqHYmS1qY=
-X-Received: by 2002:adf:e387:: with SMTP id e7mr16114375wrm.180.1574687145756; 
- Mon, 25 Nov 2019 05:05:45 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwlWpOjbK+PSoKQj49eohkl9fLZYT0FBE5ZorBZrUYHjzliKPlGUkJTWpHfSVo2Com/Ea4n7A==
-X-Received: by 2002:adf:e387:: with SMTP id e7mr16114323wrm.180.1574687145301; 
- Mon, 25 Nov 2019 05:05:45 -0800 (PST)
+ bh=xTcSBEsYVgOHYuOYONZmSVsrznxxUGWIqiXuR9K4h38=;
+ b=Fnf5VgmgYmIpRePZll6Eud82Tuvv8OxfLaFUm/WmiVUyeFZopfY7HyOMzr0ibF4To6
+ KBXRaJkia6pc38L2i6Jtey+nmF7KYLdjvAwJ9x3HEkKEpckrH9aSjeq43owwlW6fybaI
+ PI0CPz6f03AuS1gTqx8015Nj4ncRPxMR2mfrOeGMe9gC3yUb9IuCHxWJd1Eh5IH1PwKz
+ rNTqDmFWzhl1NYaW8CVGwsISwyRDnUcdXOOtoXszLWEP78qG3QTG+SBCJfjfI75A9vhf
+ tCgFPRzghRwcv5gDNAKK9JFjdM3JSc12hiFirPkUGRgePbod2nHadI1thR+UP/18l5jf
+ C4eg==
+X-Gm-Message-State: APjAAAXKJhbpgUNYvmtqeVxnnRmalsBbbWoWlB5u60N9ybxJy92ZLuWk
+ d1E1cKOSe/S6Si1fC0TqrLIn1XKJ1d19+vWtZb7jMfbHB2BWB9eMP0/ErdujXJSwbYF5G35bpvu
+ AB2ACyZgLmOhAwGA=
+X-Received: by 2002:adf:e2cd:: with SMTP id d13mr31939252wrj.221.1574687228047; 
+ Mon, 25 Nov 2019 05:07:08 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwFy9gIaaRcMpT9IBCNntZdU9lOOndNH808/lBsZyk4EgUGSfV1iCBH3KdEsdeRdC/lBlZcsQ==
+X-Received: by 2002:adf:e2cd:: with SMTP id d13mr31939213wrj.221.1574687227826; 
+ Mon, 25 Nov 2019 05:07:07 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id o187sm8561351wmo.20.2019.11.25.05.05.44
+ by smtp.gmail.com with ESMTPSA id f24sm8389062wmb.37.2019.11.25.05.07.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Nov 2019 05:05:44 -0800 (PST)
-Subject: Re: [PATCH v6 2/9] hw/core/clock-vmstate: define a vmstate entry for
- clock state
+ Mon, 25 Nov 2019 05:07:07 -0800 (PST)
+Subject: Re: [PATCH v6 1/9] hw/core/clock: introduce clock objects
 To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
 References: <20190904125531.27545-1-damien.hedde@greensocs.com>
- <20190904125531.27545-3-damien.hedde@greensocs.com>
+ <20190904125531.27545-2-damien.hedde@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e024d6ba-42a7-5f67-7cdd-edfc1b3a73e4@redhat.com>
-Date: Mon, 25 Nov 2019 14:05:43 +0100
+Message-ID: <560f9a2f-b604-69e7-7114-13e167102872@redhat.com>
+Date: Mon, 25 Nov 2019 14:07:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20190904125531.27545-3-damien.hedde@greensocs.com>
+In-Reply-To: <20190904125531.27545-2-damien.hedde@greensocs.com>
 Content-Language: en-US
-X-MC-Unique: Ui7liGxSNXCVa43C1JfoQg-1
+X-MC-Unique: 0EUQYw9lOkCZOENYVCcGtA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -99,85 +98,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/4/19 2:55 PM, Damien Hedde wrote:
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-> ---
-> This was in the previous reviewed commit. But it can't be in the
-> clock.c file in order to allow linux-user builds.
-> ---
->   hw/core/Makefile.objs   |  1 +
->   hw/core/clock-vmstate.c | 25 +++++++++++++++++++++++++
->   include/hw/clock.h      |  9 +++++++++
->   3 files changed, 35 insertions(+)
->   create mode 100644 hw/core/clock-vmstate.c
+> Introduce clock objects: ClockIn and ClockOut.
 >=20
+> These objects may be used to distribute clocks from an object to several
+> other objects. Each ClockIn object contains the current state of the
+> clock: the frequency; it allows an object to migrate its input clock stat=
+e
+> independently of other objects.
+>=20
+> A ClockIn may be connected to a ClockOut so that it receives update,
+> through a callback, whenever the Clockout is updated using the
+> ClockOut's set function.
+>=20
+> This is based on the original work of Frederic Konrad.
+>=20
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   Makefile.objs         |   1 +
+>   hw/core/Makefile.objs |   1 +
+>   hw/core/clock.c       | 144 ++++++++++++++++++++++++++++++++++++++++++
+>   hw/core/trace-events  |   6 ++
+>   include/hw/clock.h    | 124 ++++++++++++++++++++++++++++++++++++
+>   5 files changed, 276 insertions(+)
+>   create mode 100644 hw/core/clock.c
+>   create mode 100644 include/hw/clock.h
+>=20
+> diff --git a/Makefile.objs b/Makefile.objs
+> index a723a47e14..4da623c759 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -153,6 +153,7 @@ trace-events-subdirs +=3D hw/audio
+>   trace-events-subdirs +=3D hw/block
+>   trace-events-subdirs +=3D hw/block/dataplane
+>   trace-events-subdirs +=3D hw/char
+> +trace-events-subdirs +=3D hw/core
+>   trace-events-subdirs +=3D hw/dma
+>   trace-events-subdirs +=3D hw/hppa
+>   trace-events-subdirs +=3D hw/i2c
 > diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index c66a5b2c6b..8fcebf2e67 100644
+> index 69b408ad1c..c66a5b2c6b 100644
 > --- a/hw/core/Makefile.objs
 > +++ b/hw/core/Makefile.objs
-> @@ -4,6 +4,7 @@ common-obj-y +=3D bus.o reset.o
->   common-obj-y +=3D resettable.o
->   common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
->   common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
-> +common-obj-$(CONFIG_SOFTMMU) +=3D clock-vmstate.o
+> @@ -7,6 +7,7 @@ common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
 >   # irq.o needed for qdev GPIO handling:
 >   common-obj-y +=3D irq.o
 >   common-obj-y +=3D hotplug.o
-> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
+> +common-obj-y +=3D clock.o
+>   common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
+>   common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-state-handler.o
+>  =20
+> diff --git a/hw/core/clock.c b/hw/core/clock.c
 > new file mode 100644
-> index 0000000000..c781369c15
+> index 0000000000..888f247f2a
 > --- /dev/null
-> +++ b/hw/core/clock-vmstate.c
-> @@ -0,0 +1,25 @@
+> +++ b/hw/core/clock.c
+> @@ -0,0 +1,144 @@
 > +/*
-> + * Clock migration structure
+> + * Clock inputs and outputs
 > + *
-> + * Copyright GreenSocs 2019
+> + * Copyright GreenSocs 2016-2018
+
+2019 now?
+
 > + *
 > + * Authors:
+> + *  Frederic Konrad <fred.konrad@greensocs.com>
 > + *  Damien Hedde <damien.hedde@greensocs.com>
 > + *
 > + * This work is licensed under the terms of the GNU GPL, version 2 or la=
 ter.
 > + * See the COPYING file in the top-level directory.
 > + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "migration/vmstate.h"
-> +#include "hw/clock.h"
-> +
-> +const VMStateDescription vmstate_clockin =3D {
-> +    .name =3D "clock",
-> +    .version_id =3D 0,
-> +    .minimum_version_id =3D 0,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_UINT64(frequency, ClockIn),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index fd11202ba4..e7efb6ad17 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -34,6 +34,15 @@ struct ClockOut {
->       QLIST_HEAD(, ClockIn) followers; /* list of registered clocks */
->   };
->  =20
-> +/*
-> + * vmstate description entry to be added in device vmsd.
-> + */
-> +extern const VMStateDescription vmstate_clockin;
-> +#define VMSTATE_CLOCKIN(_field, _state) \
-> +    VMSTATE_CLOCKIN_V(_field, _state, 0)
-> +#define VMSTATE_CLOCKIN_V(_field, _state, _version) \
-> +    VMSTATE_STRUCT_POINTER_V(_field, _state, _version, vmstate_clockin, =
-ClockIn)
-> +
->   /**
->    * clock_out_setup_canonical_path:
->    * @clk: clock
->=20
 
 
