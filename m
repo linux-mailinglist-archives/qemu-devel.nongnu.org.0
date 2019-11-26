@@ -2,67 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404B310A036
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:26:13 +0100 (CET)
-Received: from localhost ([::1]:55882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F24A10A09D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:44:37 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZbnA-0001kH-9C
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
+	id 1iZc4x-0006xI-R9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:44:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iZblz-0000YY-2I
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:25:00 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iZc3u-0005xa-Df
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:43:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iZbly-0003mN-0A
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:24:58 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20984
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iZc3s-0003vr-T3
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:43:29 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47904)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iZblx-0003m5-SU
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:24:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574778297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yoQMxEt/37zgd45bQvh1Dlrvcjoe0XaZOgtYEAsExyY=;
- b=eVIxjWdknSs807Md7GM39GPIKsnluhcS3nzpp+nc2TncB6qkGuxvq6zhwRXdeMZcveA2zn
- 5HoH6FY/gOM8/s9t0bLYjNTJNFBFtzPoEi8AdG2nHZeX3TKt06n2wtOp7ZppgcLsoG3Wgu
- Ws+BwWldVFbR1hRp7dark6e9bfeTfMo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-yQ9QoUE8P6mU3VRSJPOZKg-1; Tue, 26 Nov 2019 09:24:53 -0500
-X-MC-Unique: yQ9QoUE8P6mU3VRSJPOZKg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8192E80058B;
- Tue, 26 Nov 2019 14:24:52 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-171.ams2.redhat.com [10.36.117.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93DB55C1D8;
- Tue, 26 Nov 2019 14:24:26 +0000 (UTC)
-Date: Tue, 26 Nov 2019 15:24:25 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: API definition for LUKS key management [V2]
-Message-ID: <20191126142425.GB5889@linux.fritz.box>
-References: <122fc70c802b9a1185e008bf13fb7f078fe70af7.camel@redhat.com>
- <20191112100253.GM2366658@redhat.com>
- <d6ead0c3f9758b5def21dd690217bc9deeace2a9.camel@redhat.com>
- <0b5fec2a-1d93-7e31-55d2-1a80bde89f0b@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <0b5fec2a-1d93-7e31-55d2-1a80bde89f0b@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="T4sUOijqQbZv57TR"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iZc3s-0003vH-Ki; Tue, 26 Nov 2019 09:43:28 -0500
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1iZc3j-0004JL-27; Tue, 26 Nov 2019 17:43:19 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH v9 0/3] qcow2: advanced compression options
+Date: Tue, 26 Nov 2019 17:43:15 +0300
+Message-Id: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,99 +44,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, John Ferlan <jferlan@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---T4sUOijqQbZv57TR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The compression filter driver is introduced as suggested by Max.
+A sample usage of the filter can be found in the test #214.
+Now, multiple clusters can be written compressed.
+It is useful for the backup job.
 
-Am 25.11.2019 um 19:45 hat Max Reitz geschrieben:
-> On 22.11.19 15:22, Maxim Levitsky wrote:
-> > Hi!
-> >=20
-> > This is the second version of the proposed QMP API for key management,
-> > after discussion with Keven and Max.
-> >=20
-> > Will this work?
-> >=20
-> > Adding Peter Krempa to CC, to hear his opinion from the=20
-> > libvirt side.
-> >=20
-> > Best regards,
-> > =09Maxim Levitsky
->=20
-> Looks good to me overall.  I don=E2=80=99t think we need to overly push h=
-aving
-> the same interface for create and amend, because I don=E2=80=99t see much=
- to be
-> gained from it.
->=20
-> [...]
->=20
-> > diff --git a/qapi/crypto.json b/qapi/crypto.json
-> > index b2a4cff683..019db682cd 100644
-> > --- a/qapi/crypto.json
-> > +++ b/qapi/crypto.json
-> > @@ -309,3 +309,56 @@
-> >    'base': 'QCryptoBlockInfoBase',
-> >    'discriminator': 'format',
-> >    'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
-> > +
-> > +
-> > +##
-> > +# @LUKSKeyslotUpdate:
-> > +#
-> > +# @keyslot:         If specified, will update only keyslot with this i=
-ndex
-> > +#
-> > +# @old-secret:      If specified, will only update keyslots that
-> > +#                   can be opened with password which is contained in
-> > +#                   QCryptoSecret with @old-secret ID
-> > +#
-> > +#                   If neither @keyslot nor @old-secret is specified,
-> > +#                   first empty keyslot is selected for the update
-> > +#
-> > +# @new-secret:      The ID of a QCryptoSecret object providing a new d=
-ecryption
-> > +#                   key to place in all matching keyslots. Empty strin=
-g erases the
-> > +#                   keyslot.
->=20
-> Hm...  Can=E2=80=99t we make this some string-or-null alternate type so t=
-hat
-> null will erase the keyslot?  That would make more sense to me.
+v9: The filter functions unrelated to the 'file' child were removed.
+    The check for compression support in bs->file is checked in the
+    compress_open().
 
-The only problem is that it doesn't map nicely to the command line.
+  Discussed in the email thread with the message ID
+  <1574056144-625164-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-Kevin
+Andrey Shinkevich (3):
+  block: introduce compress filter driver
+  qcow2: Allow writing compressed data of multiple clusters
+  tests/qemu-iotests: add case to write compressed data of multiple
+    clusters
 
---T4sUOijqQbZv57TR
-Content-Type: application/pgp-signature; name="signature.asc"
+ block/Makefile.objs        |   1 +
+ block/filter-compress.c    | 190 +++++++++++++++++++++++++++++++++++++++++++++
+ block/qcow2.c              | 102 +++++++++++++++++-------
+ qapi/block-core.json       |  10 ++-
+ tests/qemu-iotests/214     |  43 ++++++++++
+ tests/qemu-iotests/214.out |  14 ++++
+ 6 files changed, 329 insertions(+), 31 deletions(-)
+ create mode 100644 block/filter-compress.c
 
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJd3TWZAAoJEH8JsnLIjy/WBxUP/1SCqAW4MADFlEgN7FvzVjVC
-bf/tqSvufo4bIgBOgXcFGb5NNGyqj68s7xsDjAn4LRxYLIplU7VNK6Ds4pJe6v5x
-TCWEry3Fv0lDIBvIN9p1OpVPJJYCXELchN8xQqnoq6KCrCe06B6i3/MnDTKxxiFW
-5YxO2AS8MOfBbPB4uXl3NiYcY1DUw2jaLxWZa1EqwKvejv8NVR6fZ305Vje542VR
-nKHgK/bSvCi6gSKP8GqZ8fU+BAQlTwPjVrw1L/n/lIIDEuKASTfvGTRhlCgQlKyz
-h4RxsEr2kkqjjFEJrg9b8odR3S0cPYvxlqk40r2LEWUxfNMhy8QQQKCeQA6VtNni
-6prYA4UKbrW1SSu58faHSQglQvyBL76H/QeDa+nu1zV9guNPLSNVws7Qq8lYYXZD
-IuqaTgE6Eiew6Cm5JmqoISJNFAt1ARfKd1STTaitHSupQHdiPUbnG5FGSoXA8uR2
-J0hpbpt7AcCC7vkE5S6ZZYaob61VbtOKpktHz9OY6toOHfvvTX5Sp/boMmvK0Ne1
-rUxdyOzzF2YmgbHS+334eEykK61jj2zk6/+4qNpVSLsF80RYr9UkimOpgyr+LGxf
-SL6gUCcUjFSeyzbLbsdFaKBzeMF0qdw33CP8bN/krIJ/9Abv+EfxaBshCLu5o9rx
-zu5XtzCr76Ykl+/mwgq+
-=Im4x
------END PGP SIGNATURE-----
-
---T4sUOijqQbZv57TR--
+-- 
+1.8.3.1
 
 
