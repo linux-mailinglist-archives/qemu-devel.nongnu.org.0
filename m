@@ -2,90 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E162109A20
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 09:29:10 +0100 (CET)
-Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB03109A94
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 09:52:55 +0100 (CET)
+Received: from localhost ([::1]:51556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZWDd-0006Nd-FL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 03:29:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
+	id 1iZWac-0007pv-Oa
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 03:52:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZWBv-0005V5-Lb
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:27:24 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iZWTs-0000Wx-B5
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:45:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZWBt-0001ut-Vn
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:27:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28361
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iZWGW-0004sk-FD
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:32:09 -0500
+Received: from mga17.intel.com ([192.55.52.151]:38283)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZWBt-0001uW-Qj
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:27:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574756841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VPDJxes/KE4MdhMZGKemQpjLCOe4XAn8z8vHR3xE/eU=;
- b=GbmA1TQXznNiG1yRW4zQGYHn6LQLx5f1/ySWp62cBENsUZwBR5q92MWwldh2iWpTW1E6IW
- LxG4XtASLDC8qe4uNYFGrFycPNNjMEfLloIIYgrzZLgVncmsrufaJXDmEpzfDn5fT5pPpV
- nwAR4vbjP7rQPMin/XIRgZbrBk8ge0Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-Lpvl4_LCM1i2sGIkl645iQ-1; Tue, 26 Nov 2019 03:27:16 -0500
-X-MC-Unique: Lpvl4_LCM1i2sGIkl645iQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 302C8593BA;
- Tue, 26 Nov 2019 08:27:15 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
- [10.40.204.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 013996B8CD;
- Tue, 26 Nov 2019 08:27:13 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v4 0/5] iotests: Test failing mirror complete
-To: qemu-block@nongnu.org
-References: <20191108123455.39445-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c3005f55-b7d6-ebfe-641a-d221ddfb33ca@redhat.com>
-Date: Tue, 26 Nov 2019 09:27:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iZWGW-0004pc-5Y
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:32:08 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2019 00:31:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,245,1571727600"; d="scan'208";a="220558780"
+Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.13])
+ ([10.239.197.13])
+ by orsmga002.jf.intel.com with ESMTP; 26 Nov 2019 00:31:57 -0800
+Subject: Re: [PATCH v17 02/14] util/cutils: Use qemu_strtold_finite to parse
+ size
+To: Markus Armbruster <armbru@redhat.com>
+References: <20191122074826.1373-1-tao3.xu@intel.com>
+ <20191122074826.1373-3-tao3.xu@intel.com> <87tv6sjvfi.fsf@dusky.pond.sub.org>
+From: Tao Xu <tao3.xu@intel.com>
+Message-ID: <b1615683-76bf-6d61-9698-b9f6be2c71b3@intel.com>
+Date: Tue, 26 Nov 2019 16:31:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191108123455.39445-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WpV17Cc2Yr2dao9Jpw2k6zAxv3ey3ALeL"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <87tv6sjvfi.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,71 +59,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "sw@weilnetz.de" <sw@weilnetz.de>, "Du, Fan" <fan.du@intel.com>,
+ "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Liu,
+ Jingqi" <jingqi.liu@intel.com>, "imammedo@redhat.com" <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WpV17Cc2Yr2dao9Jpw2k6zAxv3ey3ALeL
-Content-Type: multipart/mixed; boundary="sJu4LAJtlbMoPjJpyLVVhiwOeEYLXrGrk"
+On 11/25/2019 2:56 PM, Markus Armbruster wrote:
+> Tao Xu <tao3.xu@intel.com> writes:
+> 
+>> Support full 64bit precision, modify related test cases.
+> 
+> That's not true in general: long double need not be any wider than
+> double.
+> 
+> It might be true on the host machines we support, but I don't know.  If
+> we decide to rely on it, we better make the build fail when the host
+> machine doesn't meet our expectations, preferably in configure.
+> 
+[...]
+>> -    if ((val * mul >= 0xfffffffffffffc00) || val < 0) {
+>> +    /* Values > UINT64_MAX overflow uint64_t */
+>> +    if ((val * mul > UINT64_MAX) || val < 0) {
+>>           retval = -ERANGE;
+>>           goto out;
+>>       }
+> 
+> Not portable.  If it was, we'd have made this changd long ago :)
+> 
 
---sJu4LAJtlbMoPjJpyLVVhiwOeEYLXrGrk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+OK. So the suitable solution is what you suggested in v14?
 
-On 08.11.19 13:34, Max Reitz wrote:
-> Hi,
->=20
-> v3 of this series was this:
->=20
-> https://lists.nongnu.org/archive/html/qemu-block/2019-10/msg00868.html
->=20
-> In the meantime, I=E2=80=99ve merged the first patch, so the subject of t=
-he
-> series has changed.
->=20
-> In v4, I=E2=80=99ve tried to address Vladimir=E2=80=99s concern of how to=
- map QAPI
-> BlockPermission values to BLK_PERM_* flags with the new patches 1 and 2,
-> and a minor change to patch 3:
-> - Patch 1: Added, this new function will translate QAPI BlockPermission
->            values to BLK_PERM_* flags
-> - Patch 2: Added; we can make use of the new function in
->            xdbg_graph_add_edge() to save some LoC
-> - Patch 3:
->   - %s/4.2/5.0/
->   - Let blkdebug_parse_perm_list() initialize *dest
->   - Use bdrv_qapi_perm_to_blk_perm() to translate QAPI BlockPermission
->     values instead of blindly assuming an x -> 2^x mapping
+"A possible alternative is to parse the numeric part both as a double 
+and as a 64 bit unsigned integer, then use whatever consumes more 
+characters.  This enables providing full 64 bits unless you actually use
+a fraction."
 
-Thanks for the review, applied to my block-next branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block-next
-
-Max
-
-
---sJu4LAJtlbMoPjJpyLVVhiwOeEYLXrGrk--
-
---WpV17Cc2Yr2dao9Jpw2k6zAxv3ey3ALeL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3c4d8ACgkQ9AfbAGHV
-z0AUlggAi14Eq7RRmVmziJlBuRPUQuRNWahWkIbIuOGysMBd/0c2Fuig3lbAH4uA
-Y1YOuX1dY6lQAwv2zHMhl+Smml9zvfHzyWgBZNnCcSvW55WmAXaaic+Jvz8MxWTg
-2JOkNPJXHa6ZtAHXK1wQ6Kkcwq6zs0XVNMp6GgQrI3Mtthje5KGtt8h5A7OuE31Q
-HJkVilXhSgQK7s88f+1nnfKf86PYuxHy0XvoLw6Iow/FPA43qXWu1TxL8PdWJvpT
-8N5bEXczaK6YpzfhkTXUfMVXrsFdPrDvW5jrUyxHldn+LJAN7poHUrjXUK3JIU46
-0MKylmTuAHZ0YDQ0JnQQ0rrwXvmylA==
-=EcqE
------END PGP SIGNATURE-----
-
---WpV17Cc2Yr2dao9Jpw2k6zAxv3ey3ALeL--
-
+I will try this way.
 
