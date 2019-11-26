@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A93C10A00D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:40 +0100 (CET)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B9010A015
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:16:41 +0100 (CET)
+Received: from localhost ([::1]:55656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZbbx-0008RU-7w
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:14:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47121)
+	id 1iZbdw-0002EU-9B
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:16:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47131)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iZbaB-00078z-Of
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iZbaC-00079g-D9
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iZbaA-0005lh-BA
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:47 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38315)
+ (envelope-from <peter.maydell@linaro.org>) id 1iZbaB-0005mH-Av
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:48 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35882)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iZbaA-0005lD-5M
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:46 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id z19so3494017wmk.3
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 06:12:46 -0800 (PST)
+ id 1iZbaB-0005lr-4d
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:47 -0500
+Received: by mail-wm1-x341.google.com with SMTP id n188so3505912wme.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 06:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MI8rgCF2zRK6V6XHR4h853R4A2OJBzAcqupbIenPjRs=;
- b=KLs7laL0I+25LPU9dOr7wyMZRU0PxmdkHEJA0wN4PEzwn4FPb960EtFGi0RTlOcIxW
- BUrQRTtgE4//88FrR1JjUey98PFaXxPXplZDxYpWqrai6xQMGhv1A4CoXfs7Xlx2ShMh
- 9Txh9M5KE3EcQwp0/qR77wE1mhnmXbMrr3ggm6voB3VOyfZWK/Ba/eVlygLMmr36Y54B
- GonteMGBRsz3Yxn0mX3y4rhMeV5bG2w+yEx1CJDjzIg3ow7B//4TDMo2neaZvbehVvNz
- DyBcKJDMJmqgEqU2vRY4PuxaHsDjrxk5/bAxSKykLsw42zAm/FzpC5TVaWQhICtIXHa8
- WHeg==
+ bh=aKXqfhFcjwTNQfz6gmtXLCCK1LadnZMXJ8QP8IawtYU=;
+ b=DXbDcWYmL5p4FFOEabOQtqYztMUQU48iIGjBQAROPqWvor3wfVX4BCtPFtINxBudPJ
+ tYGSmErbbmqubVeFEJiQvZJIQf7NBk/t64uH4NwDPpAYz2VB/+qlbu/1w2vy6T4CiKvt
+ pXOY6Hm99zb5cK3YdM4vrmsGYJJA7pxzr8cALO36EwIQx+IUqg13tQkvCybn6cePEIQM
+ pQc3mSFA5mSpNn9NPVLrmM9L9+DU6rNALJP7i7vYqzwiaZXQRNS/6PlOc8l79t3ekwr8
+ pVVL3j+ip5s8evOfVQ1HSVpWcJca/yKnJI462SPAM21S3t9sXOqqMBvKACg1ORBpf50C
+ dzVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MI8rgCF2zRK6V6XHR4h853R4A2OJBzAcqupbIenPjRs=;
- b=qeX+7PX9c4RC06lSg4F5A6q2GPcwgs9iMC3/bqNVFWeOuBzfqwAZ0jNWyzhXkZfPi+
- udMByi1oGASguLHiV3AvnOEohjDbsGanSVQAu7vFT88XpTtCE0smQr26aM9Jpn9CLVwf
- MFdtPDZBFTVLAH9w+QNQP+CGeLCklk4wfqIPUHGytimJ5wuuCkpZoKJGVtnP1tlyAmcF
- 6RQiC9hW5RxeauuTpxAHXqPBIswIBE46V83xIJduZelMDIifo0vad8bI7gXdqxV0Moqd
- dKEmqACEevenBGKMRI+KusweAc7ohbSiVOMYhNGH5SPRQAkzImTXB7hxIOAu1hIlFzrO
- vIFw==
-X-Gm-Message-State: APjAAAV139NUdSQJ1hFk3TVehyhc3kxjIznhtf0OZ4F+qwcYzOwA7/vE
- GF/jdr7loBTz2GBzEmCm/7cNOkl4CFs=
-X-Google-Smtp-Source: APXvYqyb7bGiS9bbKZUYZyQ+KdQlzqC989ybsinI6Wt6WVyKY9zgH7fQxVCAgN4Un/0J7Ij9mwT46A==
-X-Received: by 2002:a1c:7e82:: with SMTP id z124mr4157000wmc.136.1574777564714; 
- Tue, 26 Nov 2019 06:12:44 -0800 (PST)
+ bh=aKXqfhFcjwTNQfz6gmtXLCCK1LadnZMXJ8QP8IawtYU=;
+ b=YE+nsmc1El25YgI0OjM0kc5ef+KKEzc2iXuBAuvJVK5MkxM6GTuFXy9fXD+oKo5V6v
+ jGmAQjajnzT/dwmhT9mE9npQ9dd9M7hiQ3At8qoqtpXmhJJewe1LJVmRoAzmY5gBtIPP
+ 5jchzOg6cqMvAd7Fpu0Nia2yzcDOSP9DuFBq136rPIX9OBuauTHe5k/zPUfMCSfLpBXf
+ b/mP47AibgR8OZIzm3SOE/NaxxCFT/q08/BBe5I/OdXMUYljB7++Y4uylNOQZEuhZDXj
+ tXtFNXcfoK7Q8whNMLCobR8GQkDimJhZySUTDhHBcIMHg4vAXHT/RczHgodO5n3Ns+Ei
+ 5Viw==
+X-Gm-Message-State: APjAAAXfmSM7mdqd24R+YvNbbIIxUhAvcacz9QxItp35Zw/4VQLXPZg3
+ mkdo3SWvwOxFA0sFUa4nwyfpeXn59V0=
+X-Google-Smtp-Source: APXvYqydkbHGSC8yF+ABBGHC1r5HXf50WiP5iU/QHn+9CB7WIWvagJIH893JH2DCy8gXbPP4ybg+xA==
+X-Received: by 2002:a1c:99cb:: with SMTP id b194mr4725581wme.100.1574777565929; 
+ Tue, 26 Nov 2019 06:12:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i127sm3364581wma.35.2019.11.26.06.12.43
+ by smtp.gmail.com with ESMTPSA id i127sm3364581wma.35.2019.11.26.06.12.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 06:12:43 -0800 (PST)
+ Tue, 26 Nov 2019 06:12:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] hw/arm: versal: Add the CRP as unimplemented
-Date: Tue, 26 Nov 2019 14:12:37 +0000
-Message-Id: <20191126141239.8219-3-peter.maydell@linaro.org>
+Subject: [PULL 3/4] target/arm: Fix ISR_EL1 tracking when executing at EL2
+Date: Tue, 26 Nov 2019 14:12:38 +0000
+Message-Id: <20191126141239.8219-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191126141239.8219-1-peter.maydell@linaro.org>
 References: <20191126141239.8219-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +81,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+From: Marc Zyngier <maz@kernel.org>
 
-Add the CRP as unimplemented thus avoiding bus errors when
-guests access these registers.
+The ARMv8 ARM states when executing at EL2, EL3 or Secure EL1,
+ISR_EL1 shows the pending status of the physical IRQ, FIQ, or
+SError interrupts.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20191115154734.26449-2-edgar.iglesias@gmail.com
+Unfortunately, QEMU's implementation only considers the HCR_EL2
+bits, and ignores the current exception level. This means a hypervisor
+trying to look at its own interrupt state actually sees the guest
+state, which is unexpected and breaks KVM as of Linux 5.3.
+
+Instead, check for the running EL and return the physical bits
+if not running in a virtualized context.
+
+Fixes: 636540e9c40b
+Cc: qemu-stable@nongnu.org
+Reported-by: Quentin Perret <qperret@google.com>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Message-id: 20191122135833.28953-1-maz@kernel.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/xlnx-versal.h | 3 +++
- hw/arm/xlnx-versal.c         | 2 ++
- 2 files changed, 5 insertions(+)
+ target/arm/helper.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 14405c1465d..d844c4ffe47 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -119,4 +119,7 @@ typedef struct Versal {
- #define MM_IOU_SCNTRS_SIZE          0x10000
- #define MM_FPD_CRF                  0xfd1a0000U
- #define MM_FPD_CRF_SIZE             0x140000
-+
-+#define MM_PMC_CRP                  0xf1260000U
-+#define MM_PMC_CRP_SIZE             0x10000
- #endif
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 98163eb1aad..8b3d8d85b86 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -257,6 +257,8 @@ static void versal_unimp(Versal *s)
-                         MM_CRL, MM_CRL_SIZE);
-     versal_unimp_area(s, "crf", &s->mr_ps,
-                         MM_FPD_CRF, MM_FPD_CRF_SIZE);
-+    versal_unimp_area(s, "crp", &s->mr_ps,
-+                        MM_PMC_CRP, MM_PMC_CRP_SIZE);
-     versal_unimp_area(s, "iou-scntr", &s->mr_ps,
-                         MM_IOU_SCNTR, MM_IOU_SCNTR_SIZE);
-     versal_unimp_area(s, "iou-scntr-seucre", &s->mr_ps,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a089fb5a690..027fffbff69 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1934,8 +1934,11 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     CPUState *cs = env_cpu(env);
+     uint64_t hcr_el2 = arm_hcr_el2_eff(env);
+     uint64_t ret = 0;
++    bool allow_virt = (arm_current_el(env) == 1 &&
++                       (!arm_is_secure_below_el3(env) ||
++                        (env->cp15.scr_el3 & SCR_EEL2)));
+ 
+-    if (hcr_el2 & HCR_IMO) {
++    if (allow_virt && (hcr_el2 & HCR_IMO)) {
+         if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
+             ret |= CPSR_I;
+         }
+@@ -1945,7 +1948,7 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+         }
+     }
+ 
+-    if (hcr_el2 & HCR_FMO) {
++    if (allow_virt && (hcr_el2 & HCR_FMO)) {
+         if (cs->interrupt_request & CPU_INTERRUPT_VFIQ) {
+             ret |= CPSR_F;
+         }
 -- 
 2.20.1
 
