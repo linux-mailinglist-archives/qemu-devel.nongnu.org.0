@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6CC109C5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:33:33 +0100 (CET)
-Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47066109C68
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:38:08 +0100 (CET)
+Received: from localhost ([::1]:52499 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZY9z-0001QF-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:33:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59402)
+	id 1iZYER-0006zL-5P
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:38:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuval.shaia@oracle.com>) id 1iZY5W-0006WB-Qe
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:55 -0500
+ (envelope-from <armbru@redhat.com>) id 1iZY4g-0005Pw-AV
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuval.shaia@oracle.com>) id 1iZY5V-0004cd-9x
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:54 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:58876)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
- id 1iZY5V-0004YE-0b
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:53 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAQAOW60028235;
- Tue, 26 Nov 2019 10:28:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2019-08-05; bh=PXOsTrpH7/9uDHp9JJqbJ25Q2HdcOuZEX4qGLEP5Oig=;
- b=f20k+M1rIUDmMfU4Q11pJO9j/rpyzUfUHArDxz4Zk/QxeKh0V6I5LdA3rKZ49PGlC50b
- DasFVqIGMRIMCzFoybthoQPnjzm4rETNRsPUspKRoic4ghgf94CbBoEp5RdMs8hmcizg
- j+pFoS5IMVy22ml/DdDEyPeVzZ+MkboRfxhYMzpy6va0vwj4D6S6PTQCbpdbgDhwu6+0
- Zq0AXw2P2ZFYB+fuuysaLdr/mi4oWM312kCzVbdiSreJ/IE9F4UU6i/SUkPIbLKcHizf
- we3jZlEp7bCN1HfZDQQzjRITOjUeWFZ7+58aMFlpFVhYNCzkMsmL4QA/O9+Nv0OfrdOr Fw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2wevqq5xb0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Nov 2019 10:28:45 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAQANP4w180186;
- Tue, 26 Nov 2019 10:26:45 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2wgvh9rqs5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Nov 2019 10:26:44 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAQAQgJ2027932;
- Tue, 26 Nov 2019 10:26:43 GMT
-Received: from host4.lan (/37.142.197.130)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 26 Nov 2019 02:26:42 -0800
-From: Yuval Shaia <yuval.shaia@oracle.com>
-To: qemu-devel@nongnu.org, marcel.apfelbaum@gmail.com
-Subject: [PATCH] MAINTAINERS: Update Yuval Shaia's email address
-Date: Tue, 26 Nov 2019 12:26:37 +0200
-Message-Id: <20191126102637.2038-1-yuval.shaia@oracle.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <armbru@redhat.com>) id 1iZY4e-0004FZ-RS
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54452
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZY4e-0004Dr-Ne
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574764079;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lk52ND9z7x1MZHxY1MDZVQbgoF4N7AGoaCb7ZPVnzuc=;
+ b=fiGPq0vhIXD9ytW59clhNh/w3bPe4QzoSzP9bfV+yeAbrD6NiBAAFcl790NTs1cmhQxXEB
+ ujt/yxK4F+Ucohwx+eNWeVWNNhQCFPGzdQpcRbnMfJ6x7XxcONqhSUbkBBSxtE4PmgdZrG
+ KdoL7CEhJoPUMQJVPQpmqUE50Pu4Z5k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-QK2Mn6XHOrO5cPRBg4R8yg-1; Tue, 26 Nov 2019 05:27:56 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E54911801B9E;
+ Tue, 26 Nov 2019 10:27:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AEBD7A5D3;
+ Tue, 26 Nov 2019 10:27:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 89B941138606; Tue, 26 Nov 2019 11:27:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v17 03/14] util/cutils: refactor do_strtosz() to support
+ suffixes list
+References: <20191122074826.1373-1-tao3.xu@intel.com>
+ <20191122074826.1373-4-tao3.xu@intel.com>
+Date: Tue, 26 Nov 2019 11:27:49 +0100
+In-Reply-To: <20191122074826.1373-4-tao3.xu@intel.com> (Tao Xu's message of
+ "Fri, 22 Nov 2019 15:48:15 +0800")
+Message-ID: <87imn77x0a.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9452
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=958
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911260095
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9452
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911260095
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: QK2Mn6XHOrO5cPRBg4R8yg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,31 +77,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuval Shaia <yuval.shaia@oracle.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ jonathan.cameron@huawei.com, sw@weilnetz.de, fan.du@intel.com,
+ mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, jingqi.liu@intel.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use gmail account for maintainer tasks.
+Tao Xu <tao3.xu@intel.com> writes:
 
-Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Add do_strtomul() to convert string according to different suffixes.
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+>
+> No changes in v17.
+>
+> Changes in v15:
+>     - Add a new patch to refactor do_strtosz() (Eduardo)
+> ---
+>  util/cutils.c | 72 ++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 42 insertions(+), 30 deletions(-)
+>
+> diff --git a/util/cutils.c b/util/cutils.c
+> index d94a468954..ffef92338a 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -181,41 +181,37 @@ int fcntl_setfl(int fd, int flag)
+>  }
+>  #endif
+> =20
+> -static int64_t suffix_mul(char suffix, int64_t unit)
+> +static int64_t suffix_mul(const char *suffixes[], int num_suffix,
+> +                          const char *endptr, int *offset, int64_t unit)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5e5e3e52d6..4297b54fcb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2640,7 +2640,7 @@ F: tests/test-replication.c
- F: docs/block-replication.txt
- 
- PVRDMA
--M: Yuval Shaia <yuval.shaia@oracle.com>
-+M: Yuval Shaia <yuval.shaia.ml@gmail.com>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
- S: Maintained
- F: hw/rdma/*
--- 
-2.20.1
+This function could really use a contract comment now.
+
+>  {
+> -    switch (qemu_toupper(suffix)) {
+> -    case 'B':
+> -        return 1;
+> -    case 'K':
+> -        return unit;
+> -    case 'M':
+> -        return unit * unit;
+> -    case 'G':
+> -        return unit * unit * unit;
+> -    case 'T':
+> -        return unit * unit * unit * unit;
+> -    case 'P':
+> -        return unit * unit * unit * unit * unit;
+> -    case 'E':
+> -        return unit * unit * unit * unit * unit * unit;
+> +    int i, suffix_len;
+> +    int64_t mul =3D 1;
+> +
+> +    for (i =3D 0; i < num_suffix; i++) {
+
+Aha: @num_suffix is the number of elements in suffixes[].
+
+I'd put a terminating NULL into suffixes[] and dispense with
+@num_suffix:
+
+       for (i =3D 0; suffix[i]; i++) {
+
+> +        suffix_len =3D strlen(suffixes[i]);
+
+@suffix_len should be size_t, because that's what strlen() returns.
+
+> +        if (g_ascii_strncasecmp(suffixes[i], endptr, suffix_len) =3D=3D =
+0) {
+
+@endptr is a terrible name: it points to the *beginning* of the suffix.
+
+> +            *offset =3D suffix_len;
+
+@offset is a terrible name: it provides no clue whatsoever on its
+meaning.  It's actually for receiving the length of the suffix.
+
+Please replace it by char **end, because that's how the related
+functions work.
+
+> +            return mul;
+> +    }
+> +        mul *=3D unit;
+>      }
+> +
+>      return -1;
+>  }
+> =20
+>  /*
+> - * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
+> - * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
+> - * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
+> - * other error.
+> + * Convert string according to different suffixes. End pointer will be r=
+eturned
+> + * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on othe=
+r error.
+>   */
+> -static int do_strtosz(const char *nptr, const char **end,
+> -                      const char default_suffix, int64_t unit,
+> +static int do_strtomul(const char *nptr, const char **end,
+> +                       const char *suffixes[], int num_suffix,
+> +                       const char *default_suffix, int64_t unit,
+>                        uint64_t *result)
+
+The function comment is barely adequate before your patch: it doesn't
+explain the arguments.  Your patch adds more arguments, thus more
+guesswork for the reader.
+
+Again, I'd put a terminating NULL into suffixes[] and dispense with
+@num_suffix.
+
+>  {
+>      int retval;
+>      const char *endptr;
+> -    unsigned char c;
+>      int mul_required =3D 0;
+> +    int offset =3D 0;
+>      long double val, mul, integral, fraction;
+> =20
+>      retval =3D qemu_strtold_finite(nptr, &endptr, &val);
+> @@ -226,12 +222,12 @@ static int do_strtosz(const char *nptr, const char =
+**end,
+>      if (fraction !=3D 0) {
+>          mul_required =3D 1;
+>      }
+> -    c =3D *endptr;
+> -    mul =3D suffix_mul(c, unit);
+> +
+> +    mul =3D suffix_mul(suffixes, num_suffix, endptr, &offset, unit);
+
+@endptr points behind the number, i.e. to the suffix, and @offset is the
+length of the suffix.  Suggest to rename @endptr to @suffix, and replace
+@offset by @endptr.
+
+>      if (mul >=3D 0) {
+> -        endptr++;
+> +        endptr +=3D offset;
+>      } else {
+> -        mul =3D suffix_mul(default_suffix, unit);
+> +        mul =3D suffix_mul(suffixes, num_suffix, default_suffix, &offset=
+, unit);
+>          assert(mul >=3D 0);
+
+Please assert "no trailing crap in @default_suffix".
+
+>      }
+>      if (mul =3D=3D 1 && mul_required) {
+> @@ -256,19 +252,35 @@ out:
+>      return retval;
+>  }
+> =20
+> +/*
+> + * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
+> + * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
+> + * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
+> + * other error.
+> + */
+> +static int do_strtosz(const char *nptr, const char **end,
+> +                      const char *default_suffix, int64_t unit,
+> +                      uint64_t *result)
+> +{
+> +    static const char *suffixes[] =3D { "B", "K", "M", "G", "T", "P", "E=
+" };
+> +
+> +    return do_strtomul(nptr, end, suffixes, ARRAY_SIZE(suffixes),
+> +                       default_suffix, unit, result);
+> +}
+> +
+>  int qemu_strtosz(const char *nptr, const char **end, uint64_t *result)
+>  {
+> -    return do_strtosz(nptr, end, 'B', 1024, result);
+> +    return do_strtosz(nptr, end, "B", 1024, result);
+>  }
+> =20
+>  int qemu_strtosz_MiB(const char *nptr, const char **end, uint64_t *resul=
+t)
+>  {
+> -    return do_strtosz(nptr, end, 'M', 1024, result);
+> +    return do_strtosz(nptr, end, "M", 1024, result);
+>  }
+> =20
+>  int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *re=
+sult)
+>  {
+> -    return do_strtosz(nptr, end, 'B', 1000, result);
+> +    return do_strtosz(nptr, end, "B", 1000, result);
+>  }
+> =20
+>  /**
 
 
