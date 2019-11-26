@@ -2,39 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC87410A18D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:53:30 +0100 (CET)
-Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC9E10A1A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:57:26 +0100 (CET)
+Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZd9e-0007cq-0a
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:53:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
+	id 1iZdDR-0003YS-3O
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:57:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5G-0003FM-E1
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:48:59 -0500
+ (envelope-from <groug@kaod.org>) id 1iZd79-00051p-Rx
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5F-0002eP-0Q
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:48:58 -0500
-Received: from relay.sw.ru ([185.231.240.75]:52194)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iZd5E-0002c2-Oo; Tue, 26 Nov 2019 10:48:56 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iZd57-00069i-Sb; Tue, 26 Nov 2019 18:48:49 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 3/3] python: add example usage of simplebench
-Date: Tue, 26 Nov 2019 18:48:48 +0300
-Message-Id: <20191126154848.193407-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20191126154848.193407-1-vsementsov@virtuozzo.com>
-References: <20191126154848.193407-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <groug@kaod.org>) id 1iZd77-00048o-Rd
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:55 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21236
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iZd77-00040Z-GI
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:53 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xAQFnFFr133145
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 10:50:43 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wh41n0nvw-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 10:50:43 -0500
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Tue, 26 Nov 2019 15:50:41 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 26 Nov 2019 15:50:39 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAQFocOk48824436
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Nov 2019 15:50:38 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AEEE04204C;
+ Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8530242045;
+ Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
+Received: from bahia.tlslab.ibm.com (unknown [9.101.4.41])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
+Subject: [PATCH for-5.0 0/4] spapr: Use less XIVE HW resources in KVM
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 26 Nov 2019 16:50:38 +0100
+User-Agent: StGit/unknown-version
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112615-0028-0000-0000-000003C043E1
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112615-0029-0000-0000-0000248346BC
+Message-Id: <157478338194.62031.4716158446072147622.stgit@bahia.tlslab.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-26_04:2019-11-26,2019-11-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=814
+ spamscore=0 malwarescore=0 adultscore=0 clxscore=1034 priorityscore=1501
+ phishscore=0 suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911260135
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,112 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
- stefanha@gmail.com, mreitz@redhat.com, crosa@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This example may be used as a template for custom benchmark.
-It illustrates three things to prepare:
- - define bench_func
- - define test environments (columns)
- - define test cases (rows)
-And final call of simplebench API.
+On POWER9 systems, the XICS-on-XIVE and XIVE KVM devices currently
+allocate a bunch of VPs in the XIVE HW to accomodate the highest
+VCPU id that may be possibly used in a VM. This limits the number
+of VMs that can run with an in-kernel interrupt controller to 63
+per POWER9 chip, irrespectively of its number of HW threads, eg.
+up to 96 on a POWER9 Nimbus socket. This is an unfortunate waste
+of scarce HW resources since a typical VM doesn't need that much
+VPs to run.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This series exploits new attributes of the XICS-on-XIVE and XIVE
+KVM devices that allow userspace to tune the numbers of VPs it
+really needs.
+
+Patches 1 to 3 are preliminary work to teach the XICS and XIVE
+backends about the range of needed VCPU ids, according to the
+maximum number of VCPUs specified in the QEMU command line.
+
+Patch 5 and 6 do the actual work of configuring the KVM devices,
+based on new defines brought by a patch 4. RFC since the patches
+for KVM are still being discussed on the kvm-ppc list:
+
+https://patchwork.ozlabs.org/project/kvm-ppc/list/?series=132910
+
+As a bonus, patch 7 allows the latest machine type to automatically
+set int KVM the guest core stride (VSMT) to be equal to the number
+of threads per core (-smp threads=N). This makes VCPU ids contiguous
+and allows to reduce the VP consumption even more.
+
+Both KVM and QEMU changes are available here:
+https://github.com/gkurz/linux/commits/xive-nr-servers-5.3
+https://github.com/gkurz/qemu/commits/xive-nr-servers-for-4.2
 ---
- python/bench-example.py | 80 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
- create mode 100644 python/bench-example.py
 
-diff --git a/python/bench-example.py b/python/bench-example.py
-new file mode 100644
-index 0000000000..4ccd4fc3dd
---- /dev/null
-+++ b/python/bench-example.py
-@@ -0,0 +1,80 @@
-+#!/usr/bin/env python3
-+#
-+# Benchmark example
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import simplebench
-+from qemu.bench_block_job import bench_block_copy, drv_file, drv_nbd
-+
-+
-+def bench_func(env, case):
-+    """ Handle one "cell" of benchmarking table. """
-+    return bench_block_copy(env['qemu_binary'], env['cmd'],
-+                            case['source'], case['target'])
-+
-+
-+# You may set the following five variables to correct values, to turn this
-+# example to real benchmark.
-+ssd_source = '/path-to-raw-source-image-at-ssd'
-+ssd_target = '/path-to-raw-target-image-at-ssd'
-+hdd_target = '/path-to-raw-source-image-at-hdd'
-+nbd_ip = 'nbd-ip-addr'
-+nbd_port = 'nbd-port-number'
-+
-+# Test-cases are "rows" in benchmark resulting table, 'id' is a caption for
-+# the row, other fields are handled by bench_func.
-+test_cases = [
-+    {
-+        'id': 'ssd -> ssd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_file(ssd_target)
-+    },
-+    {
-+        'id': 'ssd -> hdd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_file(hdd_target)
-+    },
-+    {
-+        'id': 'ssd -> nbd',
-+        'source': drv_file(ssd_source),
-+        'target': drv_nbd(nbd_ip, nbd_port)
-+    },
-+]
-+
-+# Test-envs are "columns" in benchmark resulting table, 'id is a caption for
-+# the column, other fields are handled by bench_func.
-+test_envs = [
-+    {
-+        'id': 'backup-1',
-+        'cmd': 'blockdev-backup',
-+        'qemu_binary': '/path-to-qemu-binary-1'
-+    },
-+    {
-+        'id': 'backup-2',
-+        'cmd': 'blockdev-backup',
-+        'qemu_binary': '/path-to-qemu-binary-2'
-+    },
-+    {
-+        'id': 'mirror',
-+        'cmd': 'blockdev-mirror',
-+        'qemu_binary': '/path-to-qemu-binary-1'
-+    }
-+]
-+
-+result = simplebench.bench(bench_func, test_envs, test_cases, count=3)
-+print(simplebench.ascii(result))
--- 
-2.18.0
+Greg Kurz (4):
+      linux-headers: Update
+      spapr: Pass the maximum number of vCPUs to the KVM interrupt controller
+      spapr/xics: Configure number of servers in KVM
+      spapr/xive: Configure number of servers in KVM
+
+
+ hw/intc/spapr_xive.c                         |    6 ++++--
+ hw/intc/spapr_xive_kvm.c                     |   26 +++++++++++++++++++++++---
+ hw/intc/xics_kvm.c                           |   24 +++++++++++++++++++++---
+ hw/intc/xics_spapr.c                         |    5 +++--
+ hw/ppc/spapr_irq.c                           |    8 +++++---
+ include/hw/ppc/spapr_irq.h                   |   10 ++++++++--
+ include/hw/ppc/spapr_xive.h                  |    3 ++-
+ include/hw/ppc/xics_spapr.h                  |    3 ++-
+ include/standard-headers/linux/ethtool.h     |    6 ++++++
+ include/standard-headers/linux/virtio_ring.h |    2 +-
+ linux-headers/asm-arm/kvm.h                  |    3 ++-
+ linux-headers/asm-arm64/kvm.h                |    5 ++++-
+ linux-headers/asm-mips/unistd_n32.h          |    1 +
+ linux-headers/asm-mips/unistd_n64.h          |    1 +
+ linux-headers/asm-mips/unistd_o32.h          |    1 +
+ linux-headers/asm-powerpc/kvm.h              |    3 +++
+ linux-headers/linux/kvm.h                    |   11 +++++++++++
+ linux-headers/linux/psp-sev.h                |    3 +++
+ 18 files changed, 101 insertions(+), 20 deletions(-)
 
 
