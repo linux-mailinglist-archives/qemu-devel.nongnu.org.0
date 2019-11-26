@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F0C109C45
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:26:28 +0100 (CET)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A268E109C24
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:18:19 +0100 (CET)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZY39-0002Iw-85
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:26:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57349)
+	id 1iZXvF-0007pK-V4
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:18:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsG-0005R4-VN
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:14 -0500
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsF-0005fI-0P
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXnO-0003cI-GV
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:10:11 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:45969)
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXnS-0003hD-A7
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:10:15 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44708)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
- id 1iZXnO-0003bh-AT
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:10:10 -0500
-Received: by mail-pg1-x543.google.com with SMTP id k1so8729059pgg.12
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:10:10 -0800 (PST)
+ id 1iZXnS-0003h1-4R
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:10:14 -0500
+Received: by mail-pf1-x444.google.com with SMTP id d199so4300163pfd.11
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jdQDv4S8OWRFK8BJ5NYf9HpYfCnOIJYUleYQ7gA4ef8=;
- b=YtApj9X/cp+10E3jJdzMh0RcIPpc4CopknMK247+K9YhmjX7IaHFWp+tcwyfTXgE1K
- gearHC/Oqv3chiy+cx5zxAlKbAL4kS39s+2seSdFMdf1o/FAw+xtkgN6rgtw7LvxFk0x
- dk2nfC7QJRhmLMf8fDIBhaLSjx4piMarDrUDqnoiEKNP03RJxZ5M2xdlytCoR0FUDVM2
- aVW8Sq5kbWBuxjoE05KD0QmF2fcj8PI1zAkB44AVQblaOYQQLK/tT1NFDl65Z6YQgt0D
- GjVP38TtY8UMwsYUVBKZvbhp08TZ25UDZtPXpeY4aupwLgMabEkMR4pwI3m2xdpvx7zE
- merw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ecShvr+Zq6STOGx1l0iQ8cCvKv5lb6vZ/WjknM9nD6E=;
+ b=d+YYczk4lJH43WHRgPgABeQW5AYRNcl7DJRbNi1c4p2WWFqkvolmM2XsQ44czI+mWp
+ aVmIt6CW9B+7OpTNN+ps0zReed0nBfjwq9pklcNZKWKoIW7k1EQMTOHSi4d0/BCnYQee
+ jinDCFwA6wNeZ4cBOG9cHPVSHcKoTCX0NlPdmJVevRHmMaf97cZDvXxtiWam3BPVOLr9
+ RFEZ0ncycDTNPn5Urku5wMT1KOZ8+LKL42IakRmapDH1VNSLE/H9DD99CM6pQ9LMRigI
+ y0T8KiZRlGegkVpLl3zTTtrATMEXAozU32i+jHRlYa3drVFQX+N2oBh6kWr44Z3T2zcB
+ SEaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jdQDv4S8OWRFK8BJ5NYf9HpYfCnOIJYUleYQ7gA4ef8=;
- b=rt6MeYu5oH+BNH1DocbBczJHFzBYVaq/FordK01kPgcuQ1EOR6xo+pDJ1mmIXD2Hy4
- T3DroMtX4mq9fe+yLuXKs2SPGlH28WhZMPrXNcn6ZuM0NnEyU0fQbbQ3nERXxbQefQcP
- Vp4b3wsUg/FJAg63eBMGXnuIguzru2glGPykj6Bbb+qqLZUbVg6cLwVB71OECPXrWIOs
- afph7hrvPR7JW3B8l4BLt6tOFfJ0elvpinfBllrlHVT+5YmZpqGj2wVlUUwVd/N8zh02
- yQ7eC+CIL4hsmxM+ctrQ4IU8zEgDBgl6z9GhkPJwezRU9lAwN7872e48Y60QslJZtPSW
- T9eQ==
-X-Gm-Message-State: APjAAAV/8FtUSACID8peLYSetdokuO8yDjHetf07b0lxldWU3FOejHzN
- Ni2xBmr/qMiJQNUkYnmf/gM=
-X-Google-Smtp-Source: APXvYqyG5wYFvtz/3LCmlX/xi0PtGiVDiGiK1KoXwfOJBmKbLfebzWsYO5JtfxZWx6PW1f5qA8Ftsw==
-X-Received: by 2002:a65:4346:: with SMTP id k6mr33984016pgq.349.1574763009508; 
- Tue, 26 Nov 2019 02:10:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ecShvr+Zq6STOGx1l0iQ8cCvKv5lb6vZ/WjknM9nD6E=;
+ b=TFf6pK10DpKosKiGxAK8zr2zUVHP+uX5CVQrG7VdJMIvZOtNEp2cZ5eZuHUGCTqyrl
+ p49kFtuYE3vw/pJoS1QNPA1FkGYIRart+L3fzxXzDgy/OLSHwYDM/QQzV0QIaAvEdLY6
+ 1C2eymSssoJYv6AUwv6NXOi6VtiDz4t5QRA0tGsK4rKTmoPFWhaLCRnQFu71OrqXjRZD
+ 13RHvTvVrfKFU65rmmmnGdrA4BeJTAS3uAb0oovo8AG4GkIBT1Yad3XAFsrGErcrxok1
+ sjehMOnMlok1nwZl9rhEPkv1K1giinvEj6I5vqyUToyUicYjKtWaSKr9Al4mEtJNIjx8
+ yYdg==
+X-Gm-Message-State: APjAAAVLZkEz3vWM+4fiu+AeDTA/GckHdJ6Wo3yJ/B/Or6nMuO0WTNca
+ ePA8/XREUZyKZzTUbAnRCLk=
+X-Google-Smtp-Source: APXvYqxLnUahtpS2ezzELlW12TWhqW19OSB0jtp9PSXtwd5yFTcnaRJ86M926/WsXnNPNpvBgZKE9Q==
+X-Received: by 2002:a63:e4a:: with SMTP id 10mr35864959pgo.121.1574763013362; 
+ Tue, 26 Nov 2019 02:10:13 -0800 (PST)
 Received: from localhost.localdomain ([222.151.198.97])
- by smtp.gmail.com with ESMTPSA id h9sm12059065pgk.84.2019.11.26.02.10.05
+ by smtp.gmail.com with ESMTPSA id h9sm12059065pgk.84.2019.11.26.02.10.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 02:10:08 -0800 (PST)
+ Tue, 26 Nov 2019 02:10:12 -0800 (PST)
 From: Prashant Bhole <prashantbhole.linux@gmail.com>
 To: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [RFC 0/3] Qemu: virtio-net XDP offload
-Date: Tue, 26 Nov 2019 19:09:11 +0900
-Message-Id: <20191126100914.5150-1-prashantbhole.linux@gmail.com>
+Subject: [RFC 1/3] configure: add libbpf support
+Date: Tue, 26 Nov 2019 19:09:12 +0900
+Message-Id: <20191126100914.5150-2-prashantbhole.linux@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191126100914.5150-1-prashantbhole.linux@gmail.com>
+References: <20191126100914.5150-1-prashantbhole.linux@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,61 +90,88 @@ Cc: Song Liu <songliubraving@fb.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note: This RFC has been sent to netdev as well as qemu-devel lists
+This is a preparation to add libbpf support for Qemu. When it is
+enabled Qemu can load eBPF programs and manipulated eBPF maps
+libbpf APIs.
 
-This patchset implements XDP offload feature in qemu. The successful
-operation of this feature depends on availability of XDP offload
-feature in guest, qemu and host. When this feature isn't available in
-qemu or host, the request from guest to offload an XDP program should
-fail.
+When configured with --enable-libbpf, availability of libbpf is
+checked. If it exists then CONFIG_LIBBPF is defined and the qemu
+binary is linked with libbpf.
 
-Patch 1/3 adds support for libbpf in configure script.
-Patch 2/2 enables offloading of ebpf program.
-Patch 3/3 enabled offloading of ebpf map.
+Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
+---
+ configure | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Points for improvement (TODO):
-- In future virtio can have feature bit for offloading capability
-
-- TUNGETFEATURES should have a flag to notify about offloading
-  capability
-
-- Submit virtio spec patch to describe XDP offloading feature
-
-- DoS: Offloaded map uses host's memory which is other than what has
-  been allocated for the guest. Offloading many maps of large size can
-  be one of the DoS strategy. Hence qemu should have parameter to
-  limit how many maps guest can offload or how much memory offloaded
-  maps use.
-
-Note:
-This set directly modifies virtio_net.h header instead of
-importing it from existing kernel headers because relevant changes
-aren't present in kernel repository yet. Hence changes to virtio_net.h
-are for RFC purpose only.
-
-
-Jason Wang (2):
-  virtio-net: add support for offloading XDP program
-  virtio-net: add support for offloading an ebpf map
-
-Prashant Bhole (1):
-  configure: add libbpf support
-
- configure                                   |  23 +++
- hw/net/Makefile.objs                        |   2 +
- hw/net/virtio-net.c                         | 157 ++++++++++++++++++++
- include/net/tap.h                           |   2 +
- include/standard-headers/linux/virtio_net.h |  50 +++++++
- net/Makefile.objs                           |   1 +
- net/tap-bsd.c                               |   5 +
- net/tap-linux.c                             |  48 ++++++
- net/tap-linux.h                             |   1 +
- net/tap-solaris.c                           |   5 +
- net/tap-stub.c                              |   5 +
- net/tap.c                                   |   7 +
- net/tap_int.h                               |   1 +
- 13 files changed, 307 insertions(+)
-
+diff --git a/configure b/configure
+index 6099be1d84..a7e8a8450d 100755
+--- a/configure
++++ b/configure
+@@ -504,6 +504,7 @@ debug_mutex="no"
+ libpmem=""
+ default_devices="yes"
+ plugins="no"
++libbpf="no"
+ 
+ supported_cpu="no"
+ supported_os="no"
+@@ -1539,6 +1540,8 @@ for opt do
+   ;;
+   --disable-plugins) plugins="no"
+   ;;
++  --enable-libbpf) libbpf="yes"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1825,6 +1828,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   debug-mutex     mutex debugging support
+   libpmem         libpmem support
+   xkbcommon       xkbcommon support
++  libbpf      eBPF program support
+ 
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -6084,6 +6088,19 @@ case "$slirp" in
+     ;;
+ esac
+ 
++##########################################
++# Do we have libbpf
++if test "$libbpf" != "no" ; then
++  if $pkg_config libbpf; then
++    libbpf="yes"
++    libbpf_libs=$($pkg_config --libs libbpf)
++  else
++    if test "$libbpf" == "yes" ; then
++      feature_not_found "libbpf" "Install libbpf devel"
++    fi
++    libbpf="no"
++  fi
++fi
+ 
+ ##########################################
+ # End of CC checks
+@@ -6599,6 +6616,7 @@ echo "libpmem support   $libpmem"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
+ echo "plugin support    $plugins"
++echo "XDP offload support $libbpf"
+ 
+ if test "$supported_cpu" = "no"; then
+     echo
+@@ -7457,6 +7475,11 @@ if test "$plugins" = "yes" ; then
+     fi
+ fi
+ 
++if test "$libbpf" = "yes" ; then
++  echo "CONFIG_LIBBPF=y" >> $config_host_mak
++  echo "LIBBPF_LIBS=$libbpf_libs" >> $config_host_mak
++fi
++
+ if test "$tcg_interpreter" = "yes"; then
+   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
 -- 
 2.20.1
 
