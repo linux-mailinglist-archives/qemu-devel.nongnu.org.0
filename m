@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D120E109C6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:40:10 +0100 (CET)
-Received: from localhost ([::1]:52518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603D3109C62
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:36:15 +0100 (CET)
+Received: from localhost ([::1]:52458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZYGP-0001Iu-MB
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:40:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57349)
+	id 1iZYCc-0004nT-8h
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:36:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsM-0005R4-PE
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:23 -0500
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsL-0005g9-RE
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXm3-0002qT-52
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:08:48 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:43244)
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmI-00032L-Fc
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:03 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:35121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
- id 1iZXm2-0002qK-Va
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:08:47 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id a10so8054367pju.10
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:08:46 -0800 (PST)
+ id 1iZXmI-00031y-9S
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:02 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id s8so8071090pji.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1Sl43iVtC4+YcjLflynrQtIj0zEs25bg62I/x2OEQu0=;
- b=rA6x08okN9S24McUdG2LHlghnPmhIHd24jmymmQaGlT2PAs6RXcIrFN4KgQ3vtEJQH
- ienFzUlPPNlyI9b9KsozGHG9jQpVMUrYON+jnaQvRyei7uhWiVfPBjDJK/c0EY88qnZp
- ZDkq7a+rI2J1MXnLhIb+/EQ22pDhhmb3BAM7x8wEHqFYQ02bE0rYvl/KjEMarmxBop+q
- p94+hXB+SsDfHHCvbR+iONGBx5fsJeIFS9XDNF/UJ7uD0+X9HjxSjqCZa8oiIpnB76Hg
- UUUoXmIcImh1gfbohC0t5i//haGFawSR5oYyXeA/IjzMZkOh/+g99F3i75HTqeit7+cx
- TveQ==
+ bh=JOqfaTjB9hR4SvgWUY3wyefTnNCZb7GyoEbULC6AJJo=;
+ b=QkhGdXqAqq10xMSu+2CnyH8h3k9xRLREYvQrc7Kl+Q0+83MDkF+tuhBxvnRiUIrU5H
+ eLqXuIZUtQQQafXXx5KJYDzw+cbyREKs1xo+xDhrhWrKOz2Hfe+KnD5BCeK8L6z7FoGB
+ H8uL0SKa0QBz+PC6YnjRyHOBKKwWwEqH1f4T41+MgFl+QMvSklHCyhIdh8muKtDnfRAe
+ wnppauQ8mL6ut7U+3hHZwdGgDP61KM8PE2qspO4rG1wmunzRjivSxjNu6ss3SQdisLdS
+ 3CD2OlXrfUF8AsknNCn14UV/RDnRG4uS2zPqKLV30IbvCAr64AsnlplUmR+oN2N7ka5Y
+ wSMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1Sl43iVtC4+YcjLflynrQtIj0zEs25bg62I/x2OEQu0=;
- b=fx3f6QLmZvbavRB7Mk90Za2/X7aYlhmnHhiaVfGPKJBhES4uQpbXepR56hRyGkKpT/
- GoaTK7ru77nbkW47JfKumtDFogU2aP1kNemjx34Q7FK3utPRCqpWIKcK8V3Pe4OY9dfX
- +ibQnY5VbqamFUJnOeHG7f9VRyGKONZNY0Tp0S13TqiehSo6dSKk3qNN58L74DTBJAO+
- DehD6zaSlyj59fI1p4UB+yfnoIn897/lUqVnQ5AIII5O2BfRCYYgwSzBTffKL7Ih5NqV
- HmUkBCXos1KmCSj26jeFy0L6SQXGhyqpWlNDfCeEC9Gz9UsqwBUVDy7yxBgtzAM2B98+
- 3ksQ==
-X-Gm-Message-State: APjAAAWpiXlCx9iMaP3wVzufF3wNAcXh2/LqO63ohdJjvwmPNRKQrbbr
- /fCf49Zy5I2siTSk0EiaoJI=
-X-Google-Smtp-Source: APXvYqxA6tuNs0G2K7BYOi/UgwxlWXR+3qbxnD5Hrpm6hj4529qhKxDgIXplkY5qr6yeBIl6U2CJIw==
-X-Received: by 2002:a17:90a:5aa3:: with SMTP id
- n32mr5651673pji.97.1574762926051; 
- Tue, 26 Nov 2019 02:08:46 -0800 (PST)
+ bh=JOqfaTjB9hR4SvgWUY3wyefTnNCZb7GyoEbULC6AJJo=;
+ b=r1HQErNXhMJuAqWRgQHy3zA/D8NjN9+wDLpajNoQONnS+bcXXGnu6qxHpmZ+ezWu5J
+ PRAIcp4lB6zAhtdu4PwcixuAJ9dmriplIHLJoqexqwPP/mAXL4QYQPluDi4UymdLUFuQ
+ geTEEdijM+9LnWrkL/9LwcOl3W2Ocrp/cDdK7SuIOjjIBhBC+YZJzNDc4vCwrvr1FAjA
+ K+zf0kqcuygRA7nyj2Gv/uJtTzgg+a2/0SgJFUIfAFmlH0JGo87/4B5KvHpxvF8qXiTS
+ yygvEG4S1jdQZUgKJGmi1QbUOAO1y1IiK1W/Ijl/zHXXw8YJ7Zvj5YTyR1O3BbTIH1rv
+ +SQA==
+X-Gm-Message-State: APjAAAUZF+DiX07ZkvyDEwMtz4Y8LPLxgd5eZpeg2JD8LUkaj8hcgJ+d
+ OWWDqZ0Y0ENpSeX7EkSeFseDnnaz
+X-Google-Smtp-Source: APXvYqwPyv6+pc3DP4PZm1a3x96MwS0Kc6f03xdB6l2+mtJteT+8mFJPIbbpCn/sngodhdsZCCyQtA==
+X-Received: by 2002:a17:90b:f0c:: with SMTP id
+ br12mr5745156pjb.67.1574762941343; 
+ Tue, 26 Nov 2019 02:09:01 -0800 (PST)
 Received: from localhost.localdomain ([222.151.198.97])
- by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.08.42
+ by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 02:08:45 -0800 (PST)
+ Tue, 26 Nov 2019 02:09:00 -0800 (PST)
 From: Prashant Bhole <prashantbhole.linux@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [RFC net-next 01/18] bpf: introduce bpf_prog_offload_verifier_setup()
-Date: Tue, 26 Nov 2019 19:07:27 +0900
-Message-Id: <20191126100744.5083-2-prashantbhole.linux@gmail.com>
+Subject: [RFC net-next 05/18] vhost_net: user tap recvmsg api to access ptr
+ ring
+Date: Tue, 26 Nov 2019 19:07:31 +0900
+Message-Id: <20191126100744.5083-6-prashantbhole.linux@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
 References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,102 +92,234 @@ Cc: Song Liu <songliubraving@fb.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+Currently vhost_net directly accesses ptr ring of tap driver to
+fetch Rx packet pointers. In order to avoid it this patch modifies
+tap driver's recvmsg api to do additional task of fetching Rx packet
+pointers.
 
-Background:
-This change was initiated from virtio_net XDP offload work. As per
-the implementation plan, a copy of original program with map fds from
-guest replaced with map fds from host needs to be offloaded to the
-host. To implement this fd replacement, insn_hook() must provide an
-insn with map fd intact. bpf_map and driver specific map data can be
-derived from map_fd.
+A special struct tun_msg_ctl is already being passed via msg_control
+for tun Rx XDP batching. This patch extends tun_msg_ctl usage to
+send sub commands to recvmsg api. Now tun_recvmsg will handle commands
+to consume and unconsume packet pointers from ptr ring.
 
-Since verifier calls all the offload callbacks after replacing map
-fds, it was difficult to implement virtio_net XDP offload feature.
-If virtio_net gets only one callback with original bpf program, it
-will get a chance to perform the fd replacement in its own copy of the
-program.
+This will be useful in implementation of virtio-net XDP offload
+feature, where packets will be XDP processed before they are passed
+to vhost_net.
 
-Solution:
-Let's introduce a setup() callback in bpf_prog_offload_ops. It will be
-non mandetory. The verifier will call it just before replacing the map
-fds.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
 ---
- include/linux/bpf.h          |  1 +
- include/linux/bpf_verifier.h |  1 +
- kernel/bpf/offload.c         | 14 ++++++++++++++
- kernel/bpf/verifier.c        |  6 ++++++
- 4 files changed, 22 insertions(+)
+ drivers/net/tap.c      | 22 ++++++++++++++++++-
+ drivers/net/tun.c      | 24 ++++++++++++++++++++-
+ drivers/vhost/net.c    | 48 +++++++++++++++++++++++++++++++-----------
+ include/linux/if_tun.h | 18 ++++++++++++++++
+ 4 files changed, 98 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/bpf.h b/include/linux/bpf.h
-index 35903f148be5..1cdba120357c 100644
---- a/include/linux/bpf.h
-+++ b/include/linux/bpf.h
-@@ -361,6 +361,7 @@ struct bpf_prog_offload_ops {
- 			    struct bpf_insn *insn);
- 	int (*remove_insns)(struct bpf_verifier_env *env, u32 off, u32 cnt);
- 	/* program management callbacks */
-+	int (*setup)(struct bpf_prog *prog);
- 	int (*prepare)(struct bpf_prog *prog);
- 	int (*translate)(struct bpf_prog *prog);
- 	void (*destroy)(struct bpf_prog *prog);
-diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
-index 26e40de9ef55..de7028e17c0d 100644
---- a/include/linux/bpf_verifier.h
-+++ b/include/linux/bpf_verifier.h
-@@ -418,6 +418,7 @@ static inline struct bpf_reg_state *cur_regs(struct bpf_verifier_env *env)
- 	return cur_func(env)->regs;
- }
- 
-+int bpf_prog_offload_verifier_setup(struct bpf_prog *prog);
- int bpf_prog_offload_verifier_prep(struct bpf_prog *prog);
- int bpf_prog_offload_verify_insn(struct bpf_verifier_env *env,
- 				 int insn_idx, int prev_insn_idx);
-diff --git a/kernel/bpf/offload.c b/kernel/bpf/offload.c
-index 5b9da0954a27..04ca7a31d947 100644
---- a/kernel/bpf/offload.c
-+++ b/kernel/bpf/offload.c
-@@ -124,6 +124,20 @@ int bpf_prog_offload_init(struct bpf_prog *prog, union bpf_attr *attr)
- 	return err;
- }
- 
-+int bpf_prog_offload_verifier_setup(struct bpf_prog *prog)
-+{
-+	struct bpf_prog_offload *offload;
-+	int ret = 0;
-+
-+	down_read(&bpf_devs_lock);
-+	offload = prog->aux->offload;
-+	if (offload && offload->offdev->ops->setup)
-+		ret = offload->offdev->ops->setup(prog);
-+	up_read(&bpf_devs_lock);
-+
-+	return ret;
-+}
-+
- int bpf_prog_offload_verifier_prep(struct bpf_prog *prog)
+diff --git a/drivers/net/tap.c b/drivers/net/tap.c
+index 4df7bf00af66..8635cdfd7aa4 100644
+--- a/drivers/net/tap.c
++++ b/drivers/net/tap.c
+@@ -1234,8 +1234,28 @@ static int tap_recvmsg(struct socket *sock, struct msghdr *m,
+ 		       size_t total_len, int flags)
  {
- 	struct bpf_prog_offload *offload;
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index a0482e1c4a77..94b43542439e 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -9737,6 +9737,12 @@ int bpf_check(struct bpf_prog **prog, union bpf_attr *attr,
- 
- 	env->allow_ptr_leaks = is_priv;
- 
-+	if (bpf_prog_is_dev_bound(env->prog->aux)) {
-+		ret = bpf_prog_offload_verifier_setup(env->prog);
-+		if (ret)
-+			goto skip_full_check;
+ 	struct tap_queue *q = container_of(sock, struct tap_queue, sock);
+-	struct sk_buff *skb = m->msg_control;
++	struct tun_msg_ctl *ctl = m->msg_control;
++	struct sk_buff *skb = NULL;
+ 	int ret;
++
++	if (ctl) {
++		switch (ctl->type) {
++		case TUN_MSG_PKT:
++			skb = ctl->ptr;
++			break;
++		case TUN_MSG_CONSUME_PKTS:
++			return ptr_ring_consume_batched(&q->ring,
++							ctl->ptr,
++							ctl->num);
++		case TUN_MSG_UNCONSUME_PKTS:
++			ptr_ring_unconsume(&q->ring, ctl->ptr, ctl->num,
++					   tun_ptr_free);
++			return 0;
++		default:
++			return -EINVAL;
++		}
 +	}
 +
- 	if (is_priv)
- 		env->test_state_freq = attr->prog_flags & BPF_F_TEST_STATE_FREQ;
+ 	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC)) {
+ 		kfree_skb(skb);
+ 		return -EINVAL;
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index 1e436d9ec4e1..4f28f2387435 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -2577,7 +2577,8 @@ static int tun_recvmsg(struct socket *sock, struct msghdr *m, size_t total_len,
+ {
+ 	struct tun_file *tfile = container_of(sock, struct tun_file, socket);
+ 	struct tun_struct *tun = tun_get(tfile);
+-	void *ptr = m->msg_control;
++	struct tun_msg_ctl *ctl = m->msg_control;
++	void *ptr = NULL;
+ 	int ret;
  
+ 	if (!tun) {
+@@ -2585,6 +2586,27 @@ static int tun_recvmsg(struct socket *sock, struct msghdr *m, size_t total_len,
+ 		goto out_free;
+ 	}
+ 
++	if (ctl) {
++		switch (ctl->type) {
++		case TUN_MSG_PKT:
++			ptr = ctl->ptr;
++			break;
++		case TUN_MSG_CONSUME_PKTS:
++			ret = ptr_ring_consume_batched(&tfile->tx_ring,
++						       ctl->ptr,
++						       ctl->num);
++			goto out;
++		case TUN_MSG_UNCONSUME_PKTS:
++			ptr_ring_unconsume(&tfile->tx_ring, ctl->ptr,
++					   ctl->num, tun_ptr_free);
++			ret = 0;
++			goto out;
++		default:
++			ret = -EINVAL;
++			goto out_put_tun;
++		}
++	}
++
+ 	if (flags & ~(MSG_DONTWAIT|MSG_TRUNC|MSG_ERRQUEUE)) {
+ 		ret = -EINVAL;
+ 		goto out_put_tun;
+diff --git a/drivers/vhost/net.c b/drivers/vhost/net.c
+index 1a2dd53caade..0f91b374a558 100644
+--- a/drivers/vhost/net.c
++++ b/drivers/vhost/net.c
+@@ -175,24 +175,44 @@ static void *vhost_net_buf_consume(struct vhost_net_buf *rxq)
+ 
+ static int vhost_net_buf_produce(struct vhost_net_virtqueue *nvq)
+ {
++	struct vhost_virtqueue *vq = &nvq->vq;
++	struct socket *sock = vq->private_data;
+ 	struct vhost_net_buf *rxq = &nvq->rxq;
++	struct tun_msg_ctl ctl = {
++		.type = TUN_MSG_CONSUME_PKTS,
++		.ptr = (void *) rxq->queue,
++		.num = VHOST_NET_BATCH,
++	};
++	struct msghdr msg = {
++		.msg_control = &ctl,
++	};
+ 
+ 	rxq->head = 0;
+-	rxq->tail = ptr_ring_consume_batched(nvq->rx_ring, rxq->queue,
+-					      VHOST_NET_BATCH);
++	rxq->tail = sock->ops->recvmsg(sock, &msg, 0, 0);
++	if (WARN_ON_ONCE(rxq->tail < 0))
++		rxq->tail = 0;
++
+ 	return rxq->tail;
+ }
+ 
+ static void vhost_net_buf_unproduce(struct vhost_net_virtqueue *nvq)
+ {
++	struct vhost_virtqueue *vq = &nvq->vq;
++	struct socket *sock = vq->private_data;
+ 	struct vhost_net_buf *rxq = &nvq->rxq;
++	struct tun_msg_ctl ctl = {
++		.type = TUN_MSG_UNCONSUME_PKTS,
++		.ptr = (void *) (rxq->queue + rxq->head),
++		.num = vhost_net_buf_get_size(rxq),
++	};
++	struct msghdr msg = {
++		.msg_control = &ctl,
++	};
+ 
+-	if (nvq->rx_ring && !vhost_net_buf_is_empty(rxq)) {
+-		ptr_ring_unconsume(nvq->rx_ring, rxq->queue + rxq->head,
+-				   vhost_net_buf_get_size(rxq),
+-				   tun_ptr_free);
+-		rxq->head = rxq->tail = 0;
+-	}
++	if (!vhost_net_buf_is_empty(rxq))
++		sock->ops->recvmsg(sock, &msg, 0, 0);
++
++	rxq->head = rxq->tail = 0;
+ }
+ 
+ static int vhost_net_buf_peek_len(void *ptr)
+@@ -1109,6 +1129,7 @@ static void handle_rx(struct vhost_net *net)
+ 		.flags = 0,
+ 		.gso_type = VIRTIO_NET_HDR_GSO_NONE
+ 	};
++	struct tun_msg_ctl ctl;
+ 	size_t total_len = 0;
+ 	int err, mergeable;
+ 	s16 headcount;
+@@ -1166,8 +1187,11 @@ static void handle_rx(struct vhost_net *net)
+ 			goto out;
+ 		}
+ 		busyloop_intr = false;
+-		if (nvq->rx_ring)
+-			msg.msg_control = vhost_net_buf_consume(&nvq->rxq);
++		if (nvq->rx_ring) {
++			ctl.type = TUN_MSG_PKT;
++			ctl.ptr = vhost_net_buf_consume(&nvq->rxq);
++			msg.msg_control = &ctl;
++		}
+ 		/* On overrun, truncate and discard */
+ 		if (unlikely(headcount > UIO_MAXIOV)) {
+ 			iov_iter_init(&msg.msg_iter, READ, vq->iov, 1, 1);
+@@ -1346,8 +1370,8 @@ static struct socket *vhost_net_stop_vq(struct vhost_net *n,
+ 	mutex_lock(&vq->mutex);
+ 	sock = vq->private_data;
+ 	vhost_net_disable_vq(n, vq);
+-	vq->private_data = NULL;
+ 	vhost_net_buf_unproduce(nvq);
++	vq->private_data = NULL;
+ 	nvq->rx_ring = NULL;
+ 	mutex_unlock(&vq->mutex);
+ 	return sock;
+@@ -1538,8 +1562,8 @@ static long vhost_net_set_backend(struct vhost_net *n, unsigned index, int fd)
+ 		}
+ 
+ 		vhost_net_disable_vq(n, vq);
+-		vq->private_data = sock;
+ 		vhost_net_buf_unproduce(nvq);
++		vq->private_data = sock;
+ 		r = vhost_vq_init_access(vq);
+ 		if (r)
+ 			goto err_used;
+diff --git a/include/linux/if_tun.h b/include/linux/if_tun.h
+index 5bda8cf457b6..bb94843e3829 100644
+--- a/include/linux/if_tun.h
++++ b/include/linux/if_tun.h
+@@ -11,8 +11,26 @@
+ 
+ #define TUN_XDP_FLAG 0x1UL
+ 
++/*
++ * tun_msg_ctl types
++ */
++
+ #define TUN_MSG_UBUF 1
+ #define TUN_MSG_PTR  2
++/*
++ * Used for passing a packet pointer from vhost to tun
++ */
++#define TUN_MSG_PKT  3
++/*
++ * Used for passing an array of pointer from vhost to tun.
++ * tun consumes packets from ptr ring and stores in pointer array.
++ */
++#define TUN_MSG_CONSUME_PKTS    4
++/*
++ * Used for passing an array of pointer from vhost to tun.
++ * tun consumes get pointer from array and puts back into ptr ring.
++ */
++#define TUN_MSG_UNCONSUME_PKTS  5
+ struct tun_msg_ctl {
+ 	unsigned short type;
+ 	unsigned short num;
 -- 
 2.20.1
 
