@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98715109AAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:04:53 +0100 (CET)
-Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FF7109B02
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:20:23 +0100 (CET)
+Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZWmC-000688-J4
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:04:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50323)
+	id 1iZX1B-0003Tg-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:20:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iZWjm-0004Mk-FW
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:23 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iZX08-000313-Dx
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:19:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iZWjg-00049y-ID
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:22 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37421)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iZWjg-00049a-A6
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:16 -0500
-Received: by mail-wm1-x336.google.com with SMTP id f129so2333011wmf.2
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 01:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4g6DFYGNdDGjfZc5GLBMg/U+DjxAAWPrM01NS+p/b1o=;
- b=XqWvYO8onTu6h2H8uCdKYhFl8yGcqBUCI50YcWE7PraT2HgwKt16ciyuldeId23chq
- OqHTffpn0y+TBoXYX8SvYeTPSoIg/qqFvblf8vyR969pVeRCKvueTVeamPK52gg4u21d
- yc7ZJ6b/HpBHhTWdbHc/OWwXUQ5+5a0BypHHQdXFnS7x8UZBB7o8Qd5hCbVIlbY2vyv5
- 6/VC+jQWe24J58PuG88/DrH1DJ/fcPOJ7pcwPe27Pg88WXQfRxhRvHOcZyWkQl+x5bkX
- 9AvpBcQnEpVHb6wsSO1OPep/RO+TMVTXIFmfzXOFiaMivOmSNjRs3J5z/76llrbZBOd0
- h3lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4g6DFYGNdDGjfZc5GLBMg/U+DjxAAWPrM01NS+p/b1o=;
- b=gH0ZXnNu9Zz7A0P7arV8dhYyCz3Z9xsEdFzVM5ChkT4K+yznJ36UL686zv60tF2pM/
- KBNQngLM6KXmkzJgu19klT4nhXwnRVJWgTL3c+zzuvZyeV00ficWqXqWTV6/68dAb1VW
- v8q0hdWFfvAn9acnr0Pu9mB9S7uTMsPaiOPAeaKyMJxiDiH6t9yRDD9IdBLsGt1YJnp7
- xGB/Rw2j5Sg1aWgMVg4OP1TVUVNzR+R8xfIVBwfKnAqYzu/i++2y7EsCZBeAM1XDIowh
- RDiYqsTKMUqlIy9+pAmQJONt3x845JwBqSDbk3tgfJUz1QGKK/daoaz+fjQYlyQtt6vg
- Ut9Q==
-X-Gm-Message-State: APjAAAXX+K4XrQZ7UNeZXt90hd55B48eTR5Q6TzJZw63b6oA4CBxbrqh
- du30oOoW9h3J5AGdxPStqPuzaazNcBbpbt4rAU8=
-X-Google-Smtp-Source: APXvYqwBEmn1qjbVPyjEwDMMISGmn9/vmv48cw1gsguSZtk+k9zQwIMrm2Om8Koy83HR3lfWnRwEKl3HiWe6P9v3tqc=
-X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr3113414wmh.5.1574758933698;
- Tue, 26 Nov 2019 01:02:13 -0800 (PST)
+ (envelope-from <no-reply@patchew.org>) id 1iZX06-0004wO-Lh
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:19:16 -0500
+Resent-Date: Tue, 26 Nov 2019 04:19:16 -0500
+Resent-Message-Id: <E1iZX06-0004wO-Lh@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21174)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iZX06-0004vx-Ds
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:19:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1574759947; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=bbAMUGjHnqLvbI9H7CcQoCI+4NejHccw16yig7V6tY1qBe82b5HKHmEMRj+R66VlTLkMbk9edF5k2TU7vOpk5O9VOoKl4um1VVtvg1ecrnR/oP+MqUd1e2THucG9fWT7p7LuW0rCLl6PhbIsdt8aJm3X1U0ydly3K/J8viZA4rs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1574759947;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=4EqSbH7kYowDZ7O1nw8NCjcGIOsKF5fq4W1cBHHQseo=; 
+ b=CQHjWKShte1cTu/KZoYEKJdVjKGfhALUDgJkRj1C1VVGJ3apxRzSLTeqkb44w0mYoINXVsNkP5mnqcPwIn5N6VaC/uCgIemSDpQxnVOWrP0d/KI7giBMdmGjmtI64ThFyjGziUqrsUV10oDLwbsV61O4UDNVQr/CxSJn/eEioK0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1574759945805587.4380374486793;
+ Tue, 26 Nov 2019 01:19:05 -0800 (PST)
+In-Reply-To: <20191126085936.1689-1-pbonzini@redhat.com>
+Subject: Re: [PULL 0/5] i386 patches for QEMU 4.2-rc
+Message-ID: <157475994490.31055.5778115059405326734@37313f22b938>
 MIME-Version: 1.0
-References: <20191125185021.GB3767@work-vm>
-In-Reply-To: <20191125185021.GB3767@work-vm>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 26 Nov 2019 13:02:01 +0400
-Message-ID: <CAJ+F1C+6kgO5kX=fYQno3g-YoxxqOyph+zanpDmFaOnOqirKYQ@mail.gmail.com>
-Subject: Re: virtiofsd: Where should it live?
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::336
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Tue, 26 Nov 2019 01:19:05 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,67 +64,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, mszeredi@redhat.com,
- "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- vgoyal@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyNjA4NTkzNi4xNjg5
+LTEtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNv
+bW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxs
+ZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJ
+UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5F
+VFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9
+MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1QgICAgY2hlY2stdW5p
+dDogdGVzdHMvdGVzdC10aHJlYWQtcG9vbAp3YWl0X2Zvcl9taWdyYXRpb25fZmFpbDogdW5leHBl
+Y3RlZCBzdGF0dXMgc3RhdHVzPXdhaXQtdW5wbHVnIGFsbG93X2FjdGl2ZT0xCioqCkVSUk9SOi90
+bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9taWdyYXRpb24tdGVzdC5jOjkwODp3YWl0X2Zvcl9taWdy
+YXRpb25fZmFpbDogYXNzZXJ0aW9uIGZhaWxlZDogKHJlc3VsdCkKRVJST1IgLSBCYWlsIG91dCEg
+RVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL21pZ3JhdGlvbi10ZXN0LmM6OTA4OndhaXRf
+Zm9yX21pZ3JhdGlvbl9mYWlsOiBhc3NlcnRpb24gZmFpbGVkOiAocmVzdWx0KQptYWtlOiAqKiog
+W2NoZWNrLXF0ZXN0LWFhcmNoNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmlu
+aXNoZWQgam9icy4uLi4KICBURVNUICAgIGNoZWNrLXVuaXQ6IHRlc3RzL3Rlc3QtaGJpdG1hcAog
+IFRFU1QgICAgY2hlY2stdW5pdDogdGVzdHMvdGVzdC1iZHJ2LWRyYWluCi0tLQogICAgcmFpc2Ug
+Q2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNz
+RXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwn
+LCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD0zZDE1ZTgzNjhiM2E0MmYzOWI0MjlhOGI0YWUyNmYy
+OScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcs
+ICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BU
+Uz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hP
+V19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9t
+ZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAn
+LXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWRkdXhrM2I4L3NyYy9kb2NrZXItc3Jj
+LjIwMTktMTEtMjYtMDQuMDkuMzguMjAxNTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50
+b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXpl
+cm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNl
+LnV1aWQ9M2QxNWU4MzY4YjNhNDJmMzliNDI5YThiNGFlMjZmMjkKbWFrZVsxXTogKioqIFtkb2Nr
+ZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRj
+aGV3LXRlc3Rlci10bXAtZGR1eGszYjgvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1x
+dWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDltMjYuNjEwcwp1c2VyICAgIDBtOC4zMjhz
+CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
+MDE5MTEyNjA4NTkzNi4xNjg5LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1x
+dWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGlj
+YWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIg
+ZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-On Mon, Nov 25, 2019 at 10:50 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> Hi,
->   There's been quite a bit of discussion about where virtiofsd, our
-> implemenation of a virtiofs daemon, should live.  I'd like to get
-> this settled now, because I'd like to tidy it up for the next
-> qemu cycle.
->
-> For reference it's based on qemu's livhost-user+chunks of libfuse.
-> It can't live in libfuse because we change enough of the library
-> to break their ABI.  It's C, and we've got ~100 patches - which
-> we can split into about 3 chunks.
->
-> Some suggestions so far:
->   a) In contrib
->      This is my current working assumption; the main objection is it's
->      a bit big and pulls in a chunk of libfuse
->
->   b) In a submodule
->
->   c) Just separate
->
-> Your suggestions/ideas please.  My preference is (a).
->
-
-
-It's more about code sharing and lifecycle.
-
-The project started in a separate repository, and the proposed patches
-for qemu aren't a clean series. Reviewing it is harder than it should
-be, as we have to review/accept the whole thing.
-
-As you said, it doesn't share much with qemu, but libvhost-user (which
-we could quite easily copy or make standalone/submodule).
-
-Then it dumps code from libfuse that is questionnable (showing age)
-and often redundant with facilities provided by either glib, qemu
-utils etc.
-
-Is vhost-user-fs (the qemu device) going to have a strong relation
-with virtiofsd?
-Are we going to support different version of qemu and virtiofsd
-combination? I suppose we have to, as vhost-user protocol should allow
-that, and it's nice to allow other to experiment and implement it in
-different ways.
-If not, then perhaps we should think about introducing some version
-checking between qemu and external processes (with config_stamp,
-similar to modules).
-
-From what I understand, I think c) would be fine. However, for
-convenience/testing reasons, b) would be my preference.
-
---=20
-Marc-Andr=C3=A9 Lureau
 
