@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47066109C68
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:38:08 +0100 (CET)
-Received: from localhost ([::1]:52499 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F218109C6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:39:25 +0100 (CET)
+Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZYER-0006zL-5P
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:38:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59293)
+	id 1iZYFg-0000GQ-5X
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59802)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iZY4g-0005Pw-AV
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:07 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZY8X-00019y-UH
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iZY4e-0004FZ-RS
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:02 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54452
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZY8W-00062M-Eo
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44198
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZY4e-0004Dr-Ne
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:28:00 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZY8W-00061x-9r
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574764079;
+ s=mimecast20190719; t=1574764319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lk52ND9z7x1MZHxY1MDZVQbgoF4N7AGoaCb7ZPVnzuc=;
- b=fiGPq0vhIXD9ytW59clhNh/w3bPe4QzoSzP9bfV+yeAbrD6NiBAAFcl790NTs1cmhQxXEB
- ujt/yxK4F+Ucohwx+eNWeVWNNhQCFPGzdQpcRbnMfJ6x7XxcONqhSUbkBBSxtE4PmgdZrG
- KdoL7CEhJoPUMQJVPQpmqUE50Pu4Z5k=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4Tv68wMNZkdHzYr4BALoPRADeU6Klt3QWg7QPQj7Ebw=;
+ b=fcF4STFKUh6t1zP3Nk+Mc0hkSX78Nt8azjeFQIBR+giQ7tY6f9SSsBaK4I3HCgu8x7wf1b
+ 2zPv0y7Y0+K4uVxwrHL8ITWZXuS1Vmz8IGb+/4F4EvJyFhrv8hUMTLvrIe2vJcZ04RZe6v
+ skTN7ri2niX7Ln7G44/JQ1XKtNUAt6U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-QK2Mn6XHOrO5cPRBg4R8yg-1; Tue, 26 Nov 2019 05:27:56 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-288-N-7_9dC3N3a1eCYIPq5tlw-1; Tue, 26 Nov 2019 05:31:56 -0500
+X-MC-Unique: N-7_9dC3N3a1eCYIPq5tlw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E54911801B9E;
- Tue, 26 Nov 2019 10:27:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AEBD7A5D3;
- Tue, 26 Nov 2019 10:27:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89B941138606; Tue, 26 Nov 2019 11:27:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Subject: Re: [PATCH v17 03/14] util/cutils: refactor do_strtosz() to support
- suffixes list
-References: <20191122074826.1373-1-tao3.xu@intel.com>
- <20191122074826.1373-4-tao3.xu@intel.com>
-Date: Tue, 26 Nov 2019 11:27:49 +0100
-In-Reply-To: <20191122074826.1373-4-tao3.xu@intel.com> (Tao Xu's message of
- "Fri, 22 Nov 2019 15:48:15 +0800")
-Message-ID: <87imn77x0a.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AED18557EA;
+ Tue, 26 Nov 2019 10:31:55 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
+ [10.40.204.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFE0A600C6;
+ Tue, 26 Nov 2019 10:31:53 +0000 (UTC)
+Subject: Re: [PATCH for-4.2 0/2] Fix bitmap migration
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191125125229.13531-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <3f25f814-24be-cc3d-770a-8ad9d3be5993@redhat.com>
+Date: Tue, 26 Nov 2019 11:31:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: QK2Mn6XHOrO5cPRBg4R8yg-1
+In-Reply-To: <20191125125229.13531-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,197 +98,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- jonathan.cameron@huawei.com, sw@weilnetz.de, fan.du@intel.com,
- mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, jingqi.liu@intel.com,
- imammedo@redhat.com
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tao Xu <tao3.xu@intel.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue
+Content-Type: multipart/mixed; boundary="HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ"
 
-> Add do_strtomul() to convert string according to different suffixes.
->
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> ---
->
-> No changes in v17.
->
-> Changes in v15:
->     - Add a new patch to refactor do_strtosz() (Eduardo)
-> ---
->  util/cutils.c | 72 ++++++++++++++++++++++++++++++---------------------
->  1 file changed, 42 insertions(+), 30 deletions(-)
->
-> diff --git a/util/cutils.c b/util/cutils.c
-> index d94a468954..ffef92338a 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -181,41 +181,37 @@ int fcntl_setfl(int fd, int flag)
->  }
->  #endif
-> =20
-> -static int64_t suffix_mul(char suffix, int64_t unit)
-> +static int64_t suffix_mul(const char *suffixes[], int num_suffix,
-> +                          const char *endptr, int *offset, int64_t unit)
+--HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This function could really use a contract comment now.
+On 25.11.19 13:52, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+>=20
+> We've faced a bug in rhev-2.12.0-33.el7-based Qemu.
+> In upstream, bug introduced in 4.0 by 74da6b943565c45
+> "block/dirty-bitmaps: implement inconsistent bit" commit.
+> At this commit we started to load inconsistent bitmap instead of
+> silently ignoring them, and it now I see that it breaks migration.
+>=20
+> The fix is very simple, so I think it's OK for 4.2.. Still, it's not a
+> degradation, so we may postpone it to 5.0.
+>=20
+> Vladimir Sementsov-Ogievskiy (2):
+>   block/qcow2-bitmap: fix bitmap migration
+>   iotests: add new test cases to bitmap migration
+>=20
+>  block/qcow2-bitmap.c       | 21 ++++++++++++++++++++-
+>  tests/qemu-iotests/169     | 22 +++++++++++++++-------
+>  tests/qemu-iotests/169.out |  4 ++--
+>  3 files changed, 37 insertions(+), 10 deletions(-)
 
->  {
-> -    switch (qemu_toupper(suffix)) {
-> -    case 'B':
-> -        return 1;
-> -    case 'K':
-> -        return unit;
-> -    case 'M':
-> -        return unit * unit;
-> -    case 'G':
-> -        return unit * unit * unit;
-> -    case 'T':
-> -        return unit * unit * unit * unit;
-> -    case 'P':
-> -        return unit * unit * unit * unit * unit;
-> -    case 'E':
-> -        return unit * unit * unit * unit * unit * unit;
-> +    int i, suffix_len;
-> +    int64_t mul =3D 1;
-> +
-> +    for (i =3D 0; i < num_suffix; i++) {
+Thanks, applied to my block branch:
 
-Aha: @num_suffix is the number of elements in suffixes[].
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
-I'd put a terminating NULL into suffixes[] and dispense with
-@num_suffix:
+Max
 
-       for (i =3D 0; suffix[i]; i++) {
 
-> +        suffix_len =3D strlen(suffixes[i]);
+--HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ--
 
-@suffix_len should be size_t, because that's what strlen() returns.
+--WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-> +        if (g_ascii_strncasecmp(suffixes[i], endptr, suffix_len) =3D=3D =
-0) {
+-----BEGIN PGP SIGNATURE-----
 
-@endptr is a terrible name: it points to the *beginning* of the suffix.
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3c/xgACgkQ9AfbAGHV
+z0DifQf9FNpOlItmDiEkkDhpLXLXd/24tehJa63xCpQBAg0F6xvOjTp+LBCN27D/
+8xkmDpmZouPgfDS4me5DhYopVQY5jumYZ0dv/WuZzm35+GHSgw2+VuzLm07k0CX0
+XJzzMIs56V4/XFduN+59g05YUl4uB1sHLz8PzO78T4xB2vZVYkAoCbMCfyJIvQ22
+767sWBhq+5vSmYHkV8bkw4DXBcNkxQ9rtJsz7nlk1HqgVr42Cj4eBb2grTMklnuC
+5Wald6ytlio9hh1NOjH+pafsA89oAzFBI3va6S+Rd8MV5YhUmh+rGLAcY9M9dn+G
+NXPI19XRC/TNMtCsU0/AZHMirfsCxw==
+=UQ9e
+-----END PGP SIGNATURE-----
 
-> +            *offset =3D suffix_len;
-
-@offset is a terrible name: it provides no clue whatsoever on its
-meaning.  It's actually for receiving the length of the suffix.
-
-Please replace it by char **end, because that's how the related
-functions work.
-
-> +            return mul;
-> +    }
-> +        mul *=3D unit;
->      }
-> +
->      return -1;
->  }
-> =20
->  /*
-> - * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
-> - * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
-> - * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
-> - * other error.
-> + * Convert string according to different suffixes. End pointer will be r=
-eturned
-> + * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on othe=
-r error.
->   */
-> -static int do_strtosz(const char *nptr, const char **end,
-> -                      const char default_suffix, int64_t unit,
-> +static int do_strtomul(const char *nptr, const char **end,
-> +                       const char *suffixes[], int num_suffix,
-> +                       const char *default_suffix, int64_t unit,
->                        uint64_t *result)
-
-The function comment is barely adequate before your patch: it doesn't
-explain the arguments.  Your patch adds more arguments, thus more
-guesswork for the reader.
-
-Again, I'd put a terminating NULL into suffixes[] and dispense with
-@num_suffix.
-
->  {
->      int retval;
->      const char *endptr;
-> -    unsigned char c;
->      int mul_required =3D 0;
-> +    int offset =3D 0;
->      long double val, mul, integral, fraction;
-> =20
->      retval =3D qemu_strtold_finite(nptr, &endptr, &val);
-> @@ -226,12 +222,12 @@ static int do_strtosz(const char *nptr, const char =
-**end,
->      if (fraction !=3D 0) {
->          mul_required =3D 1;
->      }
-> -    c =3D *endptr;
-> -    mul =3D suffix_mul(c, unit);
-> +
-> +    mul =3D suffix_mul(suffixes, num_suffix, endptr, &offset, unit);
-
-@endptr points behind the number, i.e. to the suffix, and @offset is the
-length of the suffix.  Suggest to rename @endptr to @suffix, and replace
-@offset by @endptr.
-
->      if (mul >=3D 0) {
-> -        endptr++;
-> +        endptr +=3D offset;
->      } else {
-> -        mul =3D suffix_mul(default_suffix, unit);
-> +        mul =3D suffix_mul(suffixes, num_suffix, default_suffix, &offset=
-, unit);
->          assert(mul >=3D 0);
-
-Please assert "no trailing crap in @default_suffix".
-
->      }
->      if (mul =3D=3D 1 && mul_required) {
-> @@ -256,19 +252,35 @@ out:
->      return retval;
->  }
-> =20
-> +/*
-> + * Convert string to bytes, allowing either B/b for bytes, K/k for KB,
-> + * M/m for MB, G/g for GB or T/t for TB. End pointer will be returned
-> + * in *end, if not NULL. Return -ERANGE on overflow, and -EINVAL on
-> + * other error.
-> + */
-> +static int do_strtosz(const char *nptr, const char **end,
-> +                      const char *default_suffix, int64_t unit,
-> +                      uint64_t *result)
-> +{
-> +    static const char *suffixes[] =3D { "B", "K", "M", "G", "T", "P", "E=
-" };
-> +
-> +    return do_strtomul(nptr, end, suffixes, ARRAY_SIZE(suffixes),
-> +                       default_suffix, unit, result);
-> +}
-> +
->  int qemu_strtosz(const char *nptr, const char **end, uint64_t *result)
->  {
-> -    return do_strtosz(nptr, end, 'B', 1024, result);
-> +    return do_strtosz(nptr, end, "B", 1024, result);
->  }
-> =20
->  int qemu_strtosz_MiB(const char *nptr, const char **end, uint64_t *resul=
-t)
->  {
-> -    return do_strtosz(nptr, end, 'M', 1024, result);
-> +    return do_strtosz(nptr, end, "M", 1024, result);
->  }
-> =20
->  int qemu_strtosz_metric(const char *nptr, const char **end, uint64_t *re=
-sult)
->  {
-> -    return do_strtosz(nptr, end, 'B', 1000, result);
-> +    return do_strtosz(nptr, end, "B", 1000, result);
->  }
-> =20
->  /**
+--WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue--
 
 
