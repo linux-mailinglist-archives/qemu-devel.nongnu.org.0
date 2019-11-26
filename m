@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79CB10991E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 07:19:40 +0100 (CET)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00548109973
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 08:09:57 +0100 (CET)
+Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZUCJ-0001e6-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 01:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
+	id 1iZUyy-0000nr-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 02:09:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iZU8y-0007N4-KI
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:16:13 -0500
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSuD-0007Ro-Ij
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:56:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iZTvJ-0004Pj-EP
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:02:06 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42401 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iZTvJ-0004Na-3H; Tue, 26 Nov 2019 01:02:05 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47MYFf24d4z9sRV; Tue, 26 Nov 2019 17:01:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574748118;
- bh=6nijnx83CIQx6smDHZhFj8k2OJ6X4c5LVR42ACAGZd0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Z5059nwb27Uc4WlsET2gHPFa5d3mWr1zoc5zP74n/XWz1pNs6Cuiy/UdTuk3HZmtm
- ljeuonGdJrTAfc65PMMvpAsgxjCJ84b1Pt86slnMg2P9nb4Lo75hxbZ3H28N4sU4BP
- 8Q2M/QDGtQdXODjD9KxQxRePbLXWQ2WGU9M6oAOM=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 8/8] ppc/spapr_events: fix potential NULL pointer dereference
- in rtas_event_log_dequeue
-Date: Tue, 26 Nov 2019 17:01:51 +1100
-Message-Id: <20191126060151.729845-9-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191126060151.729845-1-david@gibson.dropbear.id.au>
-References: <20191126060151.729845-1-david@gibson.dropbear.id.au>
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSuC-00064C-N8
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:56:53 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45818)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aaron.zakhrov@gmail.com>)
+ id 1iZSuC-00063a-Hw
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:56:52 -0500
+Received: by mail-pg1-x541.google.com with SMTP id k1so8315602pgg.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 20:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/6i85Zz+ehVsyD69rnS6jGlGAlEyw2hFM+PVcO7sG80=;
+ b=Nhfm74FnqotytbF7EH2mtgHu/Cjnry6SBUt8tEfivs9UCLEZWqa2pBZCpC9kpHTOWn
+ wGXIjThs4/6yFcqvpNniDrWCbBz4q2RrzE9ygHlerEZHV1iw0LjCq0egTV3PVDyVNlYO
+ bUQK2AvHUzhUdkaOBmtSFUOHljYYj3l6G/AMHU6lbDxM9g/oHP4mfFJoz3I6CPvKYRtZ
+ aih7a77AxXt6A9RWGWDaDyY6JEor4Nvnooqpy7gnrPkHqJSs0TpscODfrGREKcxV1AoB
+ 7rcMDrsaVZ00Jo4xr+BrnNaQfoP3WtGttdmRSOom1nyoAAFfLOtvyfcZCswgx5dF0pPM
+ 9m5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/6i85Zz+ehVsyD69rnS6jGlGAlEyw2hFM+PVcO7sG80=;
+ b=hgX7am6DPBdtxmZszQeIKAOGpf+ghhwTmDvudIHzXsr27G3loRwZexKzmqQHcidGyr
+ VTqTXnPww1APwKwy0bzjTJB/6dZWMMm7OsEyrQPLsNw6xQ8Hsr47VjF/HzKzqZA0c9dH
+ ClfIijymru0s+D70V1h8UV8KZ+/KZRaTsXvF/V4KZUenPqw9jqpv1R8HOfVAMoiPsvrd
+ s4F69ej26tZl6hKjud3Vx8FOtppB75RCvK/ol0y8y8/9EJKZHdr9F7XIG/eKykVcotaf
+ x3Bu2AZQB0TNdWZEnzTRwv+ToFY09rMCAOnVR058aepR4KkUeZK8aDELC6d88ExK0ui7
+ S8dg==
+X-Gm-Message-State: APjAAAVQkm9PyaEgPWZhLnBdYFU3HFTzkVhB0zbLjy2Xeb1Ef8ba7EFR
+ xang96axjrC2jQPltY4OfpWcN6b/NVG/sQ==
+X-Google-Smtp-Source: APXvYqyi7P/fYYkl6yhPCSjGb++QUpi445xj+6y+wS2Fuh6np1YDpRN1ZA9oC8A3dQKDifoaGe0cpQ==
+X-Received: by 2002:a63:f54a:: with SMTP id e10mr19121113pgk.401.1574744209779; 
+ Mon, 25 Nov 2019 20:56:49 -0800 (PST)
+Received: from localhost.localdomain ([2406:7400:73:1f7e:c8d0:6181:5329:cc21])
+ by smtp.gmail.com with ESMTPSA id
+ z1sm1081328pju.27.2019.11.25.20.56.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Nov 2019 20:56:48 -0800 (PST)
+From: aaron.zakhrov@gmail.com
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/8] ATI R300 emulated graphics card
+Date: Tue, 26 Nov 2019 10:26:13 +0530
+Message-Id: <20191126045621.11344-1-aaron.zakhrov@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+X-Mailman-Approved-At: Tue, 26 Nov 2019 02:04:16 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,46 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, PanNengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
- Euler Robot <euler.robot@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kraxel@redhat.com, Aaron Dominick <aaron.zakhrov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+From: Aaron Dominick <aaron.zakhrov@gmail.com>
 
-This fixes coverity issues 68911917:
-        360
-    CID 68911917: (NULL_RETURNS)
-        361. dereference: Dereferencing "source", which is known to be
-             "NULL".
-        361        if (source->mask & event_mask) {
-        362            break;
-        363        }
+Hello,
+I thought of working on an emulated R300 GPU for QEMU video acceleration on vintage operating systems (Windows 9x-XP)
+The following patch series contains the initial QEMU device and some register read/write operations.
+Testing it on an OpenSUSE Linux guest and the kernel correctly detects the card and loads the radeon DRM driver.
+It gets as far as the CRTC probing before crashing with an error that there is not enough bandwidth.
+I know next to nothing about hardware emulation and would like to know if what I have got so far is on the right track.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-Message-Id: <1574685291-38176-1-git-send-email-pannengyuan@huawei.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_events.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 0e4c19523a..e355e000d0 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -358,6 +358,7 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(Spa=
-prMachineState *spapr,
-             rtas_event_log_to_source(spapr,
-                                      spapr_event_log_entry_type(entry));
-=20
-+        g_assert(source);
-         if (source->mask & event_mask) {
-             break;
-         }
---=20
-2.23.0
+Aaron Dominick (8):
+  Add Radeon kernel headers. Will clean up later
+  Fix MC STATUS resgister
+  R300 fixes
+  Got GPU init working. Stops at probing display
+  Add Radeon kernel headers. Will clean up later
+  Fix MC STATUS resgister
+  R300 fixes
+  Got GPU init working. Stops at probing display
+
+-- 
+2.24.0
 
 
