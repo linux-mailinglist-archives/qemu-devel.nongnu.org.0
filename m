@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785A5109C64
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:36:39 +0100 (CET)
-Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB9A109C5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:33:20 +0100 (CET)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZYD0-0005Wb-8D
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57422)
+	id 1iZY9n-00015m-1q
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:33:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsL-0005e4-Ja
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsL-0005fI-4T
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmQ-00037J-BC
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:11 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44193)
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmU-0003Ar-E0
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:19 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42731)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
- id 1iZXmQ-00036b-2i
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:10 -0500
-Received: by mail-pg1-x542.google.com with SMTP id e6so8732569pgi.11
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:10 -0800 (PST)
+ id 1iZXmU-0003AV-8L
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:14 -0500
+Received: by mail-pf1-x443.google.com with SMTP id s5so8932875pfh.9
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o7wWeRbc+tNqQMSjrOB4Aqcs6TIYjdNZ6xF+Z6+tUq0=;
- b=T0I1EGJ6YTSRSu/Y4XLTUBBYnqBS9LwqseER/BjzdXl8Q7YQ6BBhOS6hWPwJ+Fampz
- P7EI5RxePE3I3u7Y94Tky0n+nFE78T2UBuBrF7foiUu5ODFJMPS7xZL9Attd9J/fv2xk
- YC0mrtwZW0lEhmUYXkLjAnrzjGf0MLJJzOGH6wypDpR4PUbQQZUzKRmWBcG+SeZ9cW79
- sSdTVoF36tW8MK07iZfRmuRxtHw8eS3BBMGKOv/L1m+aD66CZK50R2dRXBlpOSt96TbP
- YzvoGyvxaN5aONyAay/kSX0/Rb7Ga8eSzdNDD3OD5e5IZ1t55ny2HbvmNcgnnY5mr39+
- 5zeQ==
+ bh=B6QMMXb6Lc0tWH98wR58tzl2/7IOcJXsAUoOf1rCNto=;
+ b=TcQUjhhkWtAHHBo7BGhoPxdH+OkQBuhIxzcHX5EgouRjPkgbXzarm0y1vo1NhR8gDf
+ eG2Lo7ddCpKcjSeJMFMlcP8tJQ/55Jt0TGNgznW4/XjmDldCe92mvnBxFGEghuAeWujG
+ 7zNia4tH4IGRLOy70KvJXM+j82tbJ8nUIicPouLS6TjkV6HD27P/W/h6R5O7MmSu2k+V
+ 143iMJdLR6+6bv9luW2P50ryb4MAyiIUafw49CErl7oj+EMEJ7fXiv42whVv9WX7vO8P
+ re3ksZIi50XxOCmuXJZr+0KLAm6i5NuOZT8Bux4mTYLARNU4OGVu3EBoIPihOhj+s8jc
+ e7dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=o7wWeRbc+tNqQMSjrOB4Aqcs6TIYjdNZ6xF+Z6+tUq0=;
- b=GMGmW5Y8m7INysfbiSg6JqAFJcDd/EUovNOObRPxIOvJxlNBkvTPRExjm8doau2/6N
- GMLhYPMfU8zCb47CIaXGnPHxC5o5QOl38uNwp6vOBXgWtEdpsRmYr8lF3/dD5lDC0oaE
- BMoDcplzh1JzCe0OTZFcc/M3s02Nfr8SeQ0ZZvMx2sCrvinOZV6zy/wCB6WDIPgvKmCj
- rLqhLhThhnnAeqYsZpXo/fI3jeK+pIkSgdLxVNUwht57GBG+dGxnuytQix/jwkGNaruH
- KOUtWjO0yRrlfHvvofpBn83gcHEM/bA+kKupqaxTOT2HiCfY77gTu3IpyZTZN9rTiPJq
- cwLQ==
-X-Gm-Message-State: APjAAAVLu/Hw11cdMCl7u/04C2FsNF5lyOAjj9T29VHkbKkUgSVTALby
- vrMrA+JxlLNhkYT4OAeYRf4=
-X-Google-Smtp-Source: APXvYqwfaVLiFIs0iXc/+SHQsi0c/jFNHsDcCU5mOA5Ky5UmlUqcVt7e8bS0r/y9o05pZ3I6c6EV8A==
-X-Received: by 2002:a65:4342:: with SMTP id k2mr38951684pgq.63.1574762949130; 
- Tue, 26 Nov 2019 02:09:09 -0800 (PST)
+ bh=B6QMMXb6Lc0tWH98wR58tzl2/7IOcJXsAUoOf1rCNto=;
+ b=Ou/qi6Tm5KlbSiFyCYVj2d31mz5Bk8lNyFoT0zYQbLT4vmp0pG1ADfCXBU+jqZCCnv
+ Ci53P6dIGawn5ZWAicwE3VCzAunvkiMUSYztRqU6JqnmxXH5fbd7XhaS5Ah1QaSh4Vvv
+ 9vw3WOoyEViZ9lZ8DICVCVOphs13GHkYy89bnAFmVNdqzBf7kFGbq1GAxoLbMQSBJcnO
+ zf4j47A0CGarx2JFXxVNUavnxLi7U+0fT8bbG635+/NJ8FbdQWrD3nKTh9/rasOrnzO9
+ HtN+xXLIta+YMlrJT5RTdogfxQJxJg8GRT9GDxettg9iA8Y2tuZcUpm2ygr7ab4sspoM
+ fYpw==
+X-Gm-Message-State: APjAAAUmqlpIbBqGZgQI8CVrEfP5hm93vv6wkjy0dR9YeEKdyoxUYM7+
+ tV2y/T1nf1NtWoDe5Hs1lU4=
+X-Google-Smtp-Source: APXvYqzpyS68KcI5oBdWBrSJfaGRRiRmODA4vA4zTy1YjkKqKqQWp2z/hxWs5tczO+UmDNsD9QUaSw==
+X-Received: by 2002:a63:d14d:: with SMTP id c13mr18566161pgj.227.1574762953032; 
+ Tue, 26 Nov 2019 02:09:13 -0800 (PST)
 Received: from localhost.localdomain ([222.151.198.97])
- by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.05
+ by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 02:09:08 -0800 (PST)
+ Tue, 26 Nov 2019 02:09:12 -0800 (PST)
 From: Prashant Bhole <prashantbhole.linux@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [RFC net-next 07/18] tun: set offloaded xdp program
-Date: Tue, 26 Nov 2019 19:07:33 +0900
-Message-Id: <20191126100744.5083-8-prashantbhole.linux@gmail.com>
+Subject: [RFC net-next 08/18] tun: run offloaded XDP program in Tx path
+Date: Tue, 26 Nov 2019 19:07:34 +0900
+Message-Id: <20191126100744.5083-9-prashantbhole.linux@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
 References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,99 +90,198 @@ Cc: Song Liu <songliubraving@fb.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+run offloaded XDP program as soon as packet is removed from the ptr
+ring. Since this is XDP in Tx path, the traditional handling of
+XDP actions XDP_TX/REDIRECT isn't valid. For this reason we call
+do_xdp_generic_core instead of do_xdp_generic. do_xdp_generic_core
+just runs the program and leaves the action handling to us.
 
-This patch introduces an ioctl way to set an offloaded XDP program
-to tun driver. This ioctl will be used by qemu to offload XDP program
-from virtio_net in the guest.
-
-Signed-off-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
 ---
- drivers/net/tun.c           | 19 ++++++++++++++-----
- include/uapi/linux/if_tun.h |  1 +
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ drivers/net/tun.c | 149 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 146 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index d078b4659897..ecb49101b0b5 100644
+index ecb49101b0b5..466ea69f00ee 100644
 --- a/drivers/net/tun.c
 +++ b/drivers/net/tun.c
-@@ -241,6 +241,7 @@ struct tun_struct {
- 	struct bpf_prog __rcu *xdp_prog;
- 	struct tun_prog __rcu *steering_prog;
- 	struct tun_prog __rcu *filter_prog;
-+	struct tun_prog __rcu *offloaded_xdp_prog;
- 	struct ethtool_link_ksettings link_ksettings;
- };
+@@ -131,6 +131,7 @@ struct tap_filter {
+ /* MAX_TAP_QUEUES 256 is chosen to allow rx/tx queues to be equal
+  * to max number of VCPUs in guest. */
+ #define MAX_TAP_QUEUES 256
++#define MAX_TAP_BATCH 64
+ #define MAX_TAP_FLOWS  4096
  
-@@ -2256,7 +2257,7 @@ static void tun_prog_free(struct rcu_head *rcu)
- {
- 	struct tun_prog *prog = container_of(rcu, struct tun_prog, rcu);
- 
--	bpf_prog_destroy(prog->prog);
-+	bpf_prog_put(prog->prog);
- 	kfree(prog);
+ #define TUN_FLOW_EXPIRE (3 * HZ)
+@@ -2156,6 +2157,109 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+ 	return total;
  }
  
-@@ -2301,6 +2302,7 @@ static void tun_free_netdev(struct net_device *dev)
- 	security_tun_dev_free_security(tun->security);
- 	__tun_set_ebpf(tun, &tun->steering_prog, NULL);
- 	__tun_set_ebpf(tun, &tun->filter_prog, NULL);
-+	__tun_set_ebpf(tun, &tun->offloaded_xdp_prog, NULL);
- }
- 
- static void tun_setup(struct net_device *dev)
-@@ -3036,7 +3038,7 @@ static int tun_set_queue(struct file *file, struct ifreq *ifr)
- }
- 
- static int tun_set_ebpf(struct tun_struct *tun, struct tun_prog **prog_p,
--			void __user *data)
-+			void __user *data, int type)
- {
- 	struct bpf_prog *prog;
- 	int fd;
-@@ -3047,7 +3049,7 @@ static int tun_set_ebpf(struct tun_struct *tun, struct tun_prog **prog_p,
- 	if (fd == -1) {
- 		prog = NULL;
- 	} else {
--		prog = bpf_prog_get_type(fd, BPF_PROG_TYPE_SOCKET_FILTER);
-+		prog = bpf_prog_get_type(fd, type);
- 		if (IS_ERR(prog))
- 			return PTR_ERR(prog);
- 	}
-@@ -3345,11 +3347,18 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
- 		break;
- 
- 	case TUNSETSTEERINGEBPF:
--		ret = tun_set_ebpf(tun, &tun->steering_prog, argp);
-+		ret = tun_set_ebpf(tun, &tun->steering_prog, argp,
-+				   BPF_PROG_TYPE_SOCKET_FILTER);
- 		break;
- 
- 	case TUNSETFILTEREBPF:
--		ret = tun_set_ebpf(tun, &tun->filter_prog, argp);
-+		ret = tun_set_ebpf(tun, &tun->filter_prog, argp,
-+				   BPF_PROG_TYPE_SOCKET_FILTER);
-+		break;
++static struct sk_buff *tun_prepare_xdp_skb(struct sk_buff *skb)
++{
++	struct sk_buff *nskb;
 +
-+	case TUNSETOFFLOADEDXDP:
-+		ret = tun_set_ebpf(tun, &tun->offloaded_xdp_prog, argp,
-+				   BPF_PROG_TYPE_XDP);
- 		break;
++	if (skb_shared(skb) || skb_cloned(skb)) {
++		nskb = skb_copy(skb, GFP_ATOMIC);
++		consume_skb(skb);
++		return nskb;
++	}
++
++	return skb;
++}
++
++static u32 tun_do_xdp_offload_generic(struct tun_struct *tun,
++				      struct sk_buff *skb)
++{
++	struct tun_prog *xdp_prog;
++	struct xdp_buff xdp;
++	u32 act = XDP_PASS;
++
++	xdp_prog = rcu_dereference(tun->offloaded_xdp_prog);
++	if (xdp_prog) {
++		skb = tun_prepare_xdp_skb(skb);
++		if (!skb) {
++			act = XDP_DROP;
++			kfree_skb(skb);
++			goto drop;
++		}
++
++		act = do_xdp_generic_core(skb, &xdp, xdp_prog->prog);
++		switch (act) {
++		case XDP_TX:
++			/*
++			 * Rx path generic XDP will be called in this path
++			 */
++			netif_receive_skb(skb);
++			break;
++		case XDP_PASS:
++			break;
++		case XDP_REDIRECT:
++			/*
++			 * Since we are not handling this case yet, let's free
++			 * skb here. In case of XDP_DROP/XDP_ABORTED, the skb
++			 * was already freed in do_xdp_generic_core()
++			 */
++			kfree_skb(skb);
++			/* fall through */
++		default:
++			bpf_warn_invalid_xdp_action(act);
++			/* fall through */
++		case XDP_ABORTED:
++			trace_xdp_exception(tun->dev, xdp_prog->prog, act);
++			/* fall through */
++		case XDP_DROP:
++			goto drop;
++		}
++	}
++
++	return act;
++drop:
++	this_cpu_inc(tun->pcpu_stats->tx_dropped);
++	return act;
++}
++
++static u32 tun_do_xdp_offload(struct tun_struct *tun, struct tun_file *tfile,
++			      struct xdp_frame *frame)
++{
++	struct tun_prog *xdp_prog;
++	struct tun_page tpage;
++	struct xdp_buff xdp;
++	u32 act = XDP_PASS;
++	int flush = 0;
++
++	xdp_prog = rcu_dereference(tun->offloaded_xdp_prog);
++	if (xdp_prog) {
++		xdp.data_hard_start = frame->data - frame->headroom;
++		xdp.data = frame->data;
++		xdp.data_end = xdp.data + frame->len;
++		xdp.data_meta = xdp.data - frame->metasize;
++
++		act = bpf_prog_run_xdp(xdp_prog->prog, &xdp);
++		switch (act) {
++		case XDP_PASS:
++			break;
++		case XDP_TX:
++			/* fall through */
++		case XDP_REDIRECT:
++			/* fall through */
++		default:
++			bpf_warn_invalid_xdp_action(act);
++			/* fall through */
++		case XDP_ABORTED:
++			trace_xdp_exception(tun->dev, xdp_prog->prog, act);
++			/* fall through */
++		case XDP_DROP:
++			xdp_return_frame_rx_napi(frame);
++			break;
++		}
++	}
++
++	return act;
++}
++
+ static void *tun_ring_recv(struct tun_file *tfile, int noblock, int *err)
+ {
+ 	DECLARE_WAITQUEUE(wait, current);
+@@ -2574,6 +2678,47 @@ static int tun_sendmsg(struct socket *sock, struct msghdr *m, size_t total_len)
+ 	return ret;
+ }
  
- 	case TUNSETCARRIER:
-diff --git a/include/uapi/linux/if_tun.h b/include/uapi/linux/if_tun.h
-index 454ae31b93c7..21dbd8db2401 100644
---- a/include/uapi/linux/if_tun.h
-+++ b/include/uapi/linux/if_tun.h
-@@ -61,6 +61,7 @@
- #define TUNSETFILTEREBPF _IOR('T', 225, int)
- #define TUNSETCARRIER _IOW('T', 226, int)
- #define TUNGETDEVNETNS _IO('T', 227)
-+#define TUNSETOFFLOADEDXDP _IOW('T', 228, int)
- 
- /* TUNSETIFF ifr flags */
- #define IFF_TUN		0x0001
++static int tun_consume_packets(struct tun_file *tfile, void **ptr_array, int n)
++{
++	struct tun_prog *xdp_prog;
++	struct xdp_frame *frame;
++	struct tun_struct *tun;
++	int i, num_ptrs;
++	int pkt_cnt = 0;
++	void *pkts[MAX_TAP_BATCH];
++	void *ptr;
++	u32 act;
++
++	if (unlikely(!tfile))
++		return 0;
++
++	if (n > MAX_TAP_BATCH)
++		n = MAX_TAP_BATCH;
++
++	rcu_read_lock();
++	tun = rcu_dereference(tfile->tun);
++	if (unlikely(!tun))
++		return 0;
++	xdp_prog = rcu_dereference(tun->offloaded_xdp_prog);
++
++	num_ptrs = ptr_ring_consume_batched(&tfile->tx_ring, pkts, n);
++	for (i = 0; i < num_ptrs; i++) {
++		ptr = pkts[i];
++		if (tun_is_xdp_frame(ptr)) {
++			frame = tun_ptr_to_xdp(ptr);
++			act = tun_do_xdp_offload(tun, tfile, frame);
++		} else {
++			act = tun_do_xdp_offload_generic(tun, ptr);
++		}
++
++		if (act == XDP_PASS)
++			ptr_array[pkt_cnt++] = ptr;
++	}
++
++	rcu_read_unlock();
++	return pkt_cnt;
++}
++
+ static int tun_recvmsg(struct socket *sock, struct msghdr *m, size_t total_len,
+ 		       int flags)
+ {
+@@ -2594,9 +2739,7 @@ static int tun_recvmsg(struct socket *sock, struct msghdr *m, size_t total_len,
+ 			ptr = ctl->ptr;
+ 			break;
+ 		case TUN_MSG_CONSUME_PKTS:
+-			ret = ptr_ring_consume_batched(&tfile->tx_ring,
+-						       ctl->ptr,
+-						       ctl->num);
++			ret = tun_consume_packets(tfile, ctl->ptr, ctl->num);
+ 			goto out;
+ 		case TUN_MSG_UNCONSUME_PKTS:
+ 			ptr_ring_unconsume(&tfile->tx_ring, ctl->ptr,
 -- 
 2.20.1
 
