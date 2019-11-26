@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB136109927
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 07:23:54 +0100 (CET)
-Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611F1109925
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 07:21:56 +0100 (CET)
+Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZUGP-0007En-P4
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 01:23:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59763)
+	id 1iZUEV-00050A-8B
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 01:21:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59887)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iZU91-0007Ip-AS
+ (envelope-from <dgibson@ozlabs.org>) id 1iZU90-0007Mj-DE
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:16:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iZTvF-0004N5-Sy
+ (envelope-from <dgibson@ozlabs.org>) id 1iZTvF-0004Mv-QK
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:02:03 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39575 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47519 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iZTvE-0004KO-W3; Tue, 26 Nov 2019 01:02:01 -0500
+ id 1iZTvF-0004KR-1J; Tue, 26 Nov 2019 01:02:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47MYFc2RSmz9sPW; Tue, 26 Nov 2019 17:01:56 +1100 (AEDT)
+ id 47MYFc4CkQz9sQy; Tue, 26 Nov 2019 17:01:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1574748116;
- bh=DBWNlmEdXRBvV4bu8GympRzKtyJTqOVJKjfUJEgfyh0=;
+ bh=cBWAaxRMUmAXyV+l5qyTcoCm3QGnkC4O/NUuXad1Dwo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h1ek9pH5qjU3bpzE4RCbtHRMi0rHSg0ypZIikEnBaSIOOW8bfcZX8VxKhYO6f2dmj
- /j/VPtVKau8b95drcRWdeB2JlthLqfFM/XSjF48R2f5mT5n+BdnWJ+Mkox7JLNhvYt
- kn4YJ/3haUbHMNPVnPDBPMEv7TVsEGmEZhrQSbWE=
+ b=hkP6PPW0emxpvL8P7/4Ytg3ONKytAO5nND08tb22XllAjDLt06fIc2HnK25HEabtL
+ KUxL/8GEmcLkYFLeT0OrSlizoS23NwBim+5I8VII9WiYAulcaujZPGhSPmipwsjEJo
+ nSGEO4E8ScfJyrW0bfS0DzcAdpA3vQ+Qds4v2aes=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/8] pseries: fix migration-test and pxe-test
-Date: Tue, 26 Nov 2019 17:01:44 +1100
-Message-Id: <20191126060151.729845-2-david@gibson.dropbear.id.au>
+Subject: [PULL 2/8] kvm: Introduce KVM irqchip change notifier
+Date: Tue, 26 Nov 2019 17:01:45 +1100
+Message-Id: <20191126060151.729845-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191126060151.729845-1-david@gibson.dropbear.id.au>
 References: <20191126060151.729845-1-david@gibson.dropbear.id.au>
@@ -53,91 +53,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-devel@nongnu.org, groug@kaod.org,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+Awareness of an in kernel irqchip is usually local to the machine and its
+top-level interrupt controller.  However, in a few cases other things nee=
+d
+to know about it.  In particular vfio devices need this in order to
+accelerate interrupt delivery.
 
-Commit 29cb4187497d ("spapr: Set VSMT to smp_threads by default")
-has introduced a new default value for VSMT that is not supported
-by old kernels (before 4.13 kernel) and this breaks "make check"
-on these kernels.
+If interrupt routing is changed, such devices may need to readjust their
+connection to the KVM irqchip.  pci_bus_fire_intx_routing_notifier() exis=
+ts
+to do just this.
 
-To fix that, explicitly set in the involved tests the value that was
-used as the default value before the change.
+However, for the pseries machine type we have a situation where the routi=
+ng
+remains constant but the top-level irq chip itself is changed.  This occu=
+rs
+because of PAPR feature negotiation which allows the guest to decide
+between the older XICS and newer XIVE irq chip models (both of which are
+paravirtualized).
 
-Cc: Greg Kurz <groug@kaod.org>
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20191120142539.236279-1-lvivier@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Tested-by: Greg Kurz <groug@kaod.org>
+To allow devices like vfio to adjust to this change, introduce a new
+notifier for the purpose kvm_irqchip_change_notify().
+
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Tested-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- tests/migration-test.c | 4 ++--
- tests/pxe-test.c       | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ accel/kvm/kvm-all.c    | 18 ++++++++++++++++++
+ accel/stubs/kvm-stub.c | 12 ++++++++++++
+ include/sysemu/kvm.h   |  5 +++++
+ 3 files changed, 35 insertions(+)
 
-diff --git a/tests/migration-test.c b/tests/migration-test.c
-index ac780dffda..ebd77a581a 100644
---- a/tests/migration-test.c
-+++ b/tests/migration-test.c
-@@ -614,7 +614,7 @@ static int test_migrate_start(QTestState **from, QTes=
-tState **to,
-         end_address =3D S390_TEST_MEM_END;
-     } else if (strcmp(arch, "ppc64") =3D=3D 0) {
-         extra_opts =3D use_shmem ? get_shmem_opts("256M", shmem_path) : =
-NULL;
--        cmd_src =3D g_strdup_printf("-machine accel=3D%s -m 256M -nodefa=
-ults"
-+        cmd_src =3D g_strdup_printf("-machine accel=3D%s,vsmt=3D8 -m 256=
-M -nodefaults"
-                                   " -name source,debug-threads=3Don"
-                                   " -serial file:%s/src_serial"
-                                   " -prom-env 'use-nvramrc?=3Dtrue' -pro=
-m-env "
-@@ -623,7 +623,7 @@ static int test_migrate_start(QTestState **from, QTes=
-tState **to,
-                                   "until' %s %s",  accel, tmpfs, end_add=
-ress,
-                                   start_address, extra_opts ? extra_opts=
- : "",
-                                   opts_src);
--        cmd_dst =3D g_strdup_printf("-machine accel=3D%s -m 256M"
-+        cmd_dst =3D g_strdup_printf("-machine accel=3D%s,vsmt=3D8 -m 256=
-M"
-                                   " -name target,debug-threads=3Don"
-                                   " -serial file:%s/dest_serial"
-                                   " -incoming %s %s %s",
-diff --git a/tests/pxe-test.c b/tests/pxe-test.c
-index 948b0fbdc7..aaae54f755 100644
---- a/tests/pxe-test.c
-+++ b/tests/pxe-test.c
-@@ -46,15 +46,15 @@ static testdef_t x86_tests_slow[] =3D {
-=20
- static testdef_t ppc64_tests[] =3D {
-     { "pseries", "spapr-vlan",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
-+      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-     { "pseries", "virtio-net-pci",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
-+      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-     { NULL },
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 140b0bd8f6..ca00daa2f5 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -149,6 +149,9 @@ static const KVMCapabilityInfo kvm_required_capabilit=
+es[] =3D {
+     KVM_CAP_LAST_INFO
  };
 =20
- static testdef_t ppc64_tests_slow[] =3D {
-     { "pseries", "e1000",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
-+      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-     { NULL },
- };
++static NotifierList kvm_irqchip_change_notifiers =3D
++    NOTIFIER_LIST_INITIALIZER(kvm_irqchip_change_notifiers);
++
+ #define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+ #define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
 =20
+@@ -1396,6 +1399,21 @@ void kvm_irqchip_release_virq(KVMState *s, int vir=
+q)
+     trace_kvm_irqchip_release_virq(virq);
+ }
+=20
++void kvm_irqchip_add_change_notifier(Notifier *n)
++{
++    notifier_list_add(&kvm_irqchip_change_notifiers, n);
++}
++
++void kvm_irqchip_remove_change_notifier(Notifier *n)
++{
++    notifier_remove(n);
++}
++
++void kvm_irqchip_change_notify(void)
++{
++    notifier_list_notify(&kvm_irqchip_change_notifiers, NULL);
++}
++
+ static unsigned int kvm_hash_msi(uint32_t data)
+ {
+     /* This is optimized for IA32 MSI layout. However, no other arch sha=
+ll
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 6feb66ed80..82f118d2df 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -138,6 +138,18 @@ void kvm_irqchip_commit_routes(KVMState *s)
+ {
+ }
+=20
++void kvm_irqchip_add_change_notifier(Notifier *n)
++{
++}
++
++void kvm_irqchip_remove_change_notifier(Notifier *n)
++{
++}
++
++void kvm_irqchip_change_notify(void)
++{
++}
++
+ int kvm_irqchip_add_adapter_route(KVMState *s, AdapterInfo *adapter)
+ {
+     return -ENOSYS;
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 9d143282bc..9fe233b9bf 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -201,6 +201,7 @@ typedef struct KVMCapabilityInfo {
+ struct KVMState;
+ typedef struct KVMState KVMState;
+ extern KVMState *kvm_state;
++typedef struct Notifier Notifier;
+=20
+ /* external API */
+=20
+@@ -401,6 +402,10 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg=
+);
+=20
+ void kvm_irqchip_add_irq_route(KVMState *s, int gsi, int irqchip, int pi=
+n);
+=20
++void kvm_irqchip_add_change_notifier(Notifier *n);
++void kvm_irqchip_remove_change_notifier(Notifier *n);
++void kvm_irqchip_change_notify(void);
++
+ void kvm_get_apic_state(DeviceState *d, struct kvm_lapic_state *kapic);
+=20
+ struct kvm_guest_debug;
 --=20
 2.23.0
 
