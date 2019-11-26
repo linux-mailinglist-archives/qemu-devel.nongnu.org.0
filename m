@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC9E10A1A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:57:26 +0100 (CET)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D8010A18F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:54:21 +0100 (CET)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZdDR-0003YS-3O
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
+	id 1iZdAS-00006q-NL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:54:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iZd79-00051p-Rx
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:57 -0500
+ (envelope-from <eblake@redhat.com>) id 1iZd84-00064I-1K
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iZd77-00048o-Rd
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21236
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iZd77-00040Z-GI
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:50:53 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAQFnFFr133145
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 10:50:43 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wh41n0nvw-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 10:50:43 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 26 Nov 2019 15:50:41 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 26 Nov 2019 15:50:39 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAQFocOk48824436
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Nov 2019 15:50:38 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AEEE04204C;
- Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8530242045;
- Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
-Received: from bahia.tlslab.ibm.com (unknown [9.101.4.41])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 26 Nov 2019 15:50:38 +0000 (GMT)
-Subject: [PATCH for-5.0 0/4] spapr: Use less XIVE HW resources in KVM
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Tue, 26 Nov 2019 16:50:38 +0100
-User-Agent: StGit/unknown-version
+ (envelope-from <eblake@redhat.com>) id 1iZd81-0004lb-TK
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:51 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22868
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iZd81-0004in-P9
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574783509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KBfF2ATm99DvzhP9dNoWrfKtmFwV62atbvixQ3+ncTw=;
+ b=go9QTbyBW0f60IUPh+fjUZz1WzLfc/pm0OBMTxJ7eLCCp4SsudmLJlOspg17vVzJGNptOr
+ THMhsLrYCfpVrQzerJ+WmB/lphCNw2iCHZt979KsThDZjNJFnmo+XVsrCFHnTrsEKwIj4Y
+ FTrk0KhagxjBIEK+feIJNhgeWErxflU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-wG_y4COLO7SVC4PvrzoiSw-1; Tue, 26 Nov 2019 10:51:44 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C89B2EDD;
+ Tue, 26 Nov 2019 15:51:41 +0000 (UTC)
+Received: from [10.3.116.163] (ovpn-116-163.phx2.redhat.com [10.3.116.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D438760C80;
+ Tue, 26 Nov 2019 15:51:39 +0000 (UTC)
+Subject: Re: [PATCH v9 1/3] block: introduce compress filter driver
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <81e8a576-8611-749a-9aa5-e35025de6cd6@redhat.com>
+Date: Tue, 26 Nov 2019 09:51:38 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: wG_y4COLO7SVC4PvrzoiSw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112615-0028-0000-0000-000003C043E1
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112615-0029-0000-0000-0000248346BC
-Message-Id: <157478338194.62031.4716158446072147622.stgit@bahia.tlslab.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-26_04:2019-11-26,2019-11-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=814
- spamscore=0 malwarescore=0 adultscore=0 clxscore=1034 priorityscore=1501
- phishscore=0 suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911260135
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,69 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On POWER9 systems, the XICS-on-XIVE and XIVE KVM devices currently
-allocate a bunch of VPs in the XIVE HW to accomodate the highest
-VCPU id that may be possibly used in a VM. This limits the number
-of VMs that can run with an in-kernel interrupt controller to 63
-per POWER9 chip, irrespectively of its number of HW threads, eg.
-up to 96 on a POWER9 Nimbus socket. This is an unfortunate waste
-of scarce HW resources since a typical VM doesn't need that much
-VPs to run.
+On 11/26/19 8:43 AM, Andrey Shinkevich wrote:
+> Allow writing all the data compressed through the filter driver.
+> The written data will be aligned by the cluster size.
+> Based on the QEMU current implementation, that data can be written to
+> unallocated clusters only. May be used for a backup job.
+> 
+> Suggested-by: Max Reitz <mreitz@redhat.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
 
-This series exploits new attributes of the XICS-on-XIVE and XIVE
-KVM devices that allow userspace to tune the numbers of VPs it
-really needs.
+> +++ b/qapi/block-core.json
+> @@ -2884,15 +2884,16 @@
+>   # @copy-on-read: Since 3.0
+>   # @blklogwrites: Since 3.0
+>   # @blkreplay: Since 4.2
+> +# @compress: Since 5.0
+>   #
+>   # Since: 2.9
+>   ##
+>   { 'enum': 'BlockdevDriver',
+>     'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+> -            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
+> -            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
+> -            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
+> -            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+> +            'cloop', 'copy-on-read', 'compress', 'dmg', 'file', 'ftp', 'ftps',
 
-Patches 1 to 3 are preliminary work to teach the XICS and XIVE
-backends about the range of needed VCPU ids, according to the
-maximum number of VCPUs specified in the QEMU command line.
+Nit: Preserving alphabetical ordering means 'compress' comes before 
+'copy-on-read'.
 
-Patch 5 and 6 do the actual work of configuring the KVM devices,
-based on new defines brought by a patch 4. RFC since the patches
-for KVM are still being discussed on the kvm-ppc list:
+> +            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
+> +            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+> +            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>               { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+>               'sheepdog',
+>               'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxhs' ] }
+> @@ -4045,6 +4046,7 @@
+>         'bochs':      'BlockdevOptionsGenericFormat',
+>         'cloop':      'BlockdevOptionsGenericFormat',
+>         'copy-on-read':'BlockdevOptionsGenericFormat',
+> +      'compress':   'BlockdevOptionsGenericFormat',
 
-https://patchwork.ozlabs.org/project/kvm-ppc/list/?series=132910
+and again
 
-As a bonus, patch 7 allows the latest machine type to automatically
-set int KVM the guest core stride (VSMT) to be equal to the number
-of threads per core (-smp threads=N). This makes VCPU ids contiguous
-and allows to reduce the VP consumption even more.
-
-Both KVM and QEMU changes are available here:
-https://github.com/gkurz/linux/commits/xive-nr-servers-5.3
-https://github.com/gkurz/qemu/commits/xive-nr-servers-for-4.2
----
-
-Greg Kurz (4):
-      linux-headers: Update
-      spapr: Pass the maximum number of vCPUs to the KVM interrupt controller
-      spapr/xics: Configure number of servers in KVM
-      spapr/xive: Configure number of servers in KVM
-
-
- hw/intc/spapr_xive.c                         |    6 ++++--
- hw/intc/spapr_xive_kvm.c                     |   26 +++++++++++++++++++++++---
- hw/intc/xics_kvm.c                           |   24 +++++++++++++++++++++---
- hw/intc/xics_spapr.c                         |    5 +++--
- hw/ppc/spapr_irq.c                           |    8 +++++---
- include/hw/ppc/spapr_irq.h                   |   10 ++++++++--
- include/hw/ppc/spapr_xive.h                  |    3 ++-
- include/hw/ppc/xics_spapr.h                  |    3 ++-
- include/standard-headers/linux/ethtool.h     |    6 ++++++
- include/standard-headers/linux/virtio_ring.h |    2 +-
- linux-headers/asm-arm/kvm.h                  |    3 ++-
- linux-headers/asm-arm64/kvm.h                |    5 ++++-
- linux-headers/asm-mips/unistd_n32.h          |    1 +
- linux-headers/asm-mips/unistd_n64.h          |    1 +
- linux-headers/asm-mips/unistd_o32.h          |    1 +
- linux-headers/asm-powerpc/kvm.h              |    3 +++
- linux-headers/linux/kvm.h                    |   11 +++++++++++
- linux-headers/linux/psp-sev.h                |    3 +++
- 18 files changed, 101 insertions(+), 20 deletions(-)
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
