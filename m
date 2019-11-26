@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111D710991D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 07:19:36 +0100 (CET)
-Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB136109927
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 07:23:54 +0100 (CET)
+Received: from localhost ([::1]:50496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZUCE-0001Ze-NP
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 01:19:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
+	id 1iZUGP-0007En-P4
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 01:23:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iZU90-0007N4-T3
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:16:15 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iZU91-0007Ip-AS
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:16:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iZTvF-0004NC-Vi
+ (envelope-from <dgibson@ozlabs.org>) id 1iZTvF-0004N5-Sy
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 01:02:03 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33771 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:39575 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iZTvF-0004KN-0O; Tue, 26 Nov 2019 01:02:01 -0500
+ id 1iZTvE-0004KO-W3; Tue, 26 Nov 2019 01:02:01 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47MYFc0SZ6z9sPZ; Tue, 26 Nov 2019 17:01:55 +1100 (AEDT)
+ id 47MYFc2RSmz9sPW; Tue, 26 Nov 2019 17:01:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1574748116;
- bh=WteWA4K1bwGnS2gljt5r/1p/9ZI5GFVL5H+kZPoC40M=;
- h=From:To:Cc:Subject:Date:From;
- b=S8zyhQ6gcyTQwmqAQKN2oruiNp0ukoYE1n5KHWkvVCVzo5kdZG6cDvhmaDBmR5aSq
- 0LH3lV8kZno6GQyj+jOFxctgsUQWQCnOcW9lPd0V1Yca6fM+DV2+J6XG1cosZX8HnH
- VGsFy8c6/1/xaWMuvsz7oglpdL4r88KVH2lCbp+g=
+ bh=DBWNlmEdXRBvV4bu8GympRzKtyJTqOVJKjfUJEgfyh0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=h1ek9pH5qjU3bpzE4RCbtHRMi0rHSg0ypZIikEnBaSIOOW8bfcZX8VxKhYO6f2dmj
+ /j/VPtVKau8b95drcRWdeB2JlthLqfFM/XSjF48R2f5mT5n+BdnWJ+Mkox7JLNhvYt
+ kn4YJ/3haUbHMNPVnPDBPMEv7TVsEGmEZhrQSbWE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/8] ppc-for-4.2 queue 20191126
-Date: Tue, 26 Nov 2019 17:01:43 +1100
-Message-Id: <20191126060151.729845-1-david@gibson.dropbear.id.au>
+Subject: [PULL 1/8] pseries: fix migration-test and pxe-test
+Date: Tue, 26 Nov 2019 17:01:44 +1100
+Message-Id: <20191126060151.729845-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191126060151.729845-1-david@gibson.dropbear.id.au>
+References: <20191126060151.729845-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -52,66 +53,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org, groug@kaod.org,
  qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 65e05c82bdc6d348155e301c9d87dba7a08a57=
-01:
+From: Laurent Vivier <lvivier@redhat.com>
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into stagi=
-ng (2019-11-25 15:47:44 +0000)
+Commit 29cb4187497d ("spapr: Set VSMT to smp_threads by default")
+has introduced a new default value for VSMT that is not supported
+by old kernels (before 4.13 kernel) and this breaks "make check"
+on these kernels.
 
-are available in the Git repository at:
+To fix that, explicitly set in the involved tests the value that was
+used as the default value before the change.
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191126
+Cc: Greg Kurz <groug@kaod.org>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20191120142539.236279-1-lvivier@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Tested-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ tests/migration-test.c | 4 ++--
+ tests/pxe-test.c       | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-for you to fetch changes up to 59d0533b85158fdbe43bad696d4f50ec29a04c32:
+diff --git a/tests/migration-test.c b/tests/migration-test.c
+index ac780dffda..ebd77a581a 100644
+--- a/tests/migration-test.c
++++ b/tests/migration-test.c
+@@ -614,7 +614,7 @@ static int test_migrate_start(QTestState **from, QTes=
+tState **to,
+         end_address =3D S390_TEST_MEM_END;
+     } else if (strcmp(arch, "ppc64") =3D=3D 0) {
+         extra_opts =3D use_shmem ? get_shmem_opts("256M", shmem_path) : =
+NULL;
+-        cmd_src =3D g_strdup_printf("-machine accel=3D%s -m 256M -nodefa=
+ults"
++        cmd_src =3D g_strdup_printf("-machine accel=3D%s,vsmt=3D8 -m 256=
+M -nodefaults"
+                                   " -name source,debug-threads=3Don"
+                                   " -serial file:%s/src_serial"
+                                   " -prom-env 'use-nvramrc?=3Dtrue' -pro=
+m-env "
+@@ -623,7 +623,7 @@ static int test_migrate_start(QTestState **from, QTes=
+tState **to,
+                                   "until' %s %s",  accel, tmpfs, end_add=
+ress,
+                                   start_address, extra_opts ? extra_opts=
+ : "",
+                                   opts_src);
+-        cmd_dst =3D g_strdup_printf("-machine accel=3D%s -m 256M"
++        cmd_dst =3D g_strdup_printf("-machine accel=3D%s,vsmt=3D8 -m 256=
+M"
+                                   " -name target,debug-threads=3Don"
+                                   " -serial file:%s/dest_serial"
+                                   " -incoming %s %s %s",
+diff --git a/tests/pxe-test.c b/tests/pxe-test.c
+index 948b0fbdc7..aaae54f755 100644
+--- a/tests/pxe-test.c
++++ b/tests/pxe-test.c
+@@ -46,15 +46,15 @@ static testdef_t x86_tests_slow[] =3D {
+=20
+ static testdef_t ppc64_tests[] =3D {
+     { "pseries", "spapr-vlan",
+-      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
++      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
+t=3D8" },
+     { "pseries", "virtio-net-pci",
+-      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
++      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
+t=3D8" },
+     { NULL },
+ };
+=20
+ static testdef_t ppc64_tests_slow[] =3D {
+     { "pseries", "e1000",
+-      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken" },
++      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
+t=3D8" },
+     { NULL },
+ };
+=20
+--=20
+2.23.0
 
-  ppc/spapr_events: fix potential NULL pointer dereference in rtas_event_=
-log_dequeue (2019-11-26 10:12:58 +1100)
-
-----------------------------------------------------------------
-ppc patch queue for 2019-11-26
-
-Here's the first 4.2 hard freeze pull request from me.  This has:
-
-  * A fix for some testcases that cause errors on older host kernels
-    (e.g. RHEL7), with our new default configuration of VSMT mode
-  * Changes to make VFIO devices interact properly with change of irq
-    chip caused by PAPR feature negotiation.  This is more involved
-    than I would like, but it's a problem in real use cases and I
-    can't see an easier way to handle it.
-  * Fix an error with ms6522 counters for the g3beige machine
-  * Fix a coverity warning
-
-----------------------------------------------------------------
-David Gibson (5):
-      kvm: Introduce KVM irqchip change notifier
-      vfio/pci: Split vfio_intx_update()
-      vfio/pci: Respond to KVM irqchip change notifier
-      spapr: Handle irq backend changes with VFIO PCI devices
-      spapr: Work around spurious warnings from vfio INTx initialization
-
-Laurent Vivier (2):
-      pseries: fix migration-test and pxe-test
-      mos6522: update counters when timer interrupts are off
-
-PanNengyuan (1):
-      ppc/spapr_events: fix potential NULL pointer dereference in rtas_ev=
-ent_log_dequeue
-
- accel/kvm/kvm-all.c    | 18 ++++++++++++++
- accel/stubs/kvm-stub.c | 12 ++++++++++
- hw/misc/mos6522.c      |  8 +++++--
- hw/ppc/spapr_events.c  |  1 +
- hw/ppc/spapr_irq.c     | 17 +++++++++++++-
- hw/vfio/pci.c          | 64 ++++++++++++++++++++++++++++++++------------=
-------
- hw/vfio/pci.h          |  1 +
- include/sysemu/kvm.h   |  5 ++++
- tests/migration-test.c |  4 ++--
- tests/pxe-test.c       |  6 ++---
- 10 files changed, 105 insertions(+), 31 deletions(-)
 
