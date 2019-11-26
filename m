@@ -2,111 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F92E109B99
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:57:12 +0100 (CET)
-Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B25109C48
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:26:54 +0100 (CET)
+Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZXap-0002XS-8v
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:57:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
+	id 1iZY3Y-0002y5-MX
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <felipe@nutanix.com>) id 1iZXZE-0001ic-NW
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:55:33 -0500
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsM-0005fI-IF
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <felipe@nutanix.com>) id 1iZXZC-0004jE-Og
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:55:31 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:11698)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iZXZC-0004j2-Gg
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:55:30 -0500
-Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAQ9lfaN025892; Tue, 26 Nov 2019 01:55:29 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=hh6JRPx9Am6gKkV6gqLwHFc/W4wrznL+WR9Ipz4/En8=;
- b=vQo32AA7ndWbfK9gtUH/fStIE9H6r75lKe8NOzdeWlxe2hgx0LQ32UGAH4qKUupg40E8
- N7xgIQL84hbC+VN+YNyBLWUgOFqHqVInZOLmjY/FOdpoH2OFK3F+FVMa/XSr6VcXFg42
- QvD4DtLivRY47iouRXfhWyEHIuVc7PelX2iqaOKEfCfo5Z7c9zXDZrSVZLlMzT13oi7h
- coUEhcrxbnxuOoI7sCrYxulpJ9A/PvnY6uECVCeL9egK7g2zWpQjYM6RPP+Dn8aOy2bG
- Nw15YFVhHDd8cTiPkmTfMGom+IN6DzRcWfDJkYVx0ZtjtbLWRnL3paLD5KnlcIu+vGon VA== 
-Received: from nam01-bn3-obe.outbound.protection.outlook.com
- (mail-bn3nam01lp2058.outbound.protection.outlook.com [104.47.33.58])
- by mx0b-002c1b01.pphosted.com with ESMTP id 2wf4yn600u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Nov 2019 01:55:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZyTzgXmbrxCPjVTDNMIZY0vYm183qSCGMv+qvE+B+MRBmEozYOPMCEnpsBVrXh0Ayt/F0GYNg6o5e8g94az7/6YI39kOKHWiGkWNwLZ4niBQN88FYPC9IlVeQSfxdoKvK6zZWYYwqmJd/fo2+VXppshkakoNfw0n2iDB5vtmNnnrJzuL6YhOx+Xtz6CP/7YDR+EQFlggERXZjanPVeXXsLSI1bNGjk5sKuXGrUXD2gbRpXwLtlP+XQG18jyyIaqEO1yt7Si12LUUbAD2qwkpwR0NR22wmwMIyQ0Zpgft6NyBuxuTkZEW2asvvMXA/9zGJAD0K0q42+noZuJY8t6uSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hh6JRPx9Am6gKkV6gqLwHFc/W4wrznL+WR9Ipz4/En8=;
- b=JgkhzNTKBRNuRdc1QfYZwlmIFKk0s+7WEa3Uc9tEE7RyH9BtDr1jLkF53dDyjMeDitSgkFFxVzA+Yk8rNlCI5W6bazzKhjd1gG4mrHR2YbLS+x75+D3evX9jCZJLo2hZiudEzyhjHlYj8yHKrDNg9pdF0T8Nb6X3x0n4huhrESWYRT/ij07kf67xMrNXikcSR1Ns4JzghbjhPrbHYbOttMBK7/MuBdVEKZPa4a4xM8jfaWqdQUCiGbh4AGgFZ06vMD0VA3lQWpCjhofKj2WKzu/WwZNqQMWZ3IyioXmL4dmbRyW0rP/wt4zN2o0/H56fjcmq2D5jPahCMagSQ6s7Pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
- MWHPR02MB2192.namprd02.prod.outlook.com (10.168.245.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.24; Tue, 26 Nov 2019 09:55:27 +0000
-Received: from MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::f801:763d:e7fc:6bf]) by MWHPR02MB2656.namprd02.prod.outlook.com
- ([fe80::f801:763d:e7fc:6bf%7]) with mapi id 15.20.2474.023; Tue, 26 Nov 2019
- 09:55:27 +0000
-From: Felipe Franciosi <felipe@nutanix.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/4] ich9: fix getter type for sci_int property
-Thread-Topic: [PATCH 2/4] ich9: fix getter type for sci_int property
-Thread-Index: AQHVo6YgVQPIYdSUK0GhG0cq3dH2n6ecF68AgAEgRQA=
-Date: Tue, 26 Nov 2019 09:55:27 +0000
-Message-ID: <A32BEB22-B87F-4CDC-8CE4-AE039DC82558@nutanix.com>
-References: <20191125153619.39893-1-felipe@nutanix.com>
- <20191125153619.39893-3-felipe@nutanix.com>
- <deed1398-8b39-02b9-6da5-6d1fc4edff4b@redhat.com>
-In-Reply-To: <deed1398-8b39-02b9-6da5-6d1fc4edff4b@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [62.254.189.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 93d66bb8-7294-429a-92ba-08d77256c3fb
-x-ms-traffictypediagnostic: MWHPR02MB2192:
-x-microsoft-antispam-prvs: <MWHPR02MB2192DF8577DC8258927E6C1ED7450@MWHPR02MB2192.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0233768B38
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39860400002)(366004)(346002)(376002)(136003)(396003)(189003)(199004)(51914003)(256004)(64756008)(66066001)(6512007)(66556008)(316002)(6916009)(186003)(5660300002)(229853002)(6486002)(36756003)(76116006)(26005)(86362001)(6116002)(478600001)(102836004)(6506007)(3846002)(99286004)(53546011)(8676002)(71200400001)(71190400001)(7736002)(446003)(91956017)(11346002)(2906002)(4326008)(2616005)(81156014)(33656002)(54906003)(8936002)(305945005)(66446008)(66946007)(14454004)(76176011)(25786009)(6246003)(66476007)(6436002)(81166006)(64030200001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2192;
- H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /xnc6Y7X7YEZCvG7UzW9/ol41U8dly3IAWmV677p5DBzCC4r6V2qkm+VQpKjuAZ26bSQMU4LPMJs1NOXpM7i57rg8TyYV8vb03V4c85O5aQzLSRN8GRBC9oVqKzoZZrTCHbo4pS3KXk9M5ckFJHp86BU/XuhLD97vYwJzqEJKbxucnJIFWeXAqCSouIxJxKnCauljkCDhGXb4BXBQp0X2ByX2W8hTqha7vtja5ZuEUX6mQDo568FxWXOKuQFpJKz+L72YDZErE2FaT8MjQ5KZbJn0FAVEMQyIQo7q/R10Ztf1SWQ13ANMSF2pfd0VtepwhLvgB2FuW+8wmsVgm0j84EDSL0HtqBLwsHvd8JUNusiqUWji5mBp+b4dzIfwIxNbNtgYSZz0OR8/A0a8AkCOvlYvRAdnLHRbR+tmGf+Av2wHQcEvEixHT55qtShA/Eb
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CCF03612E29B0740A3192ACD3E0E4B81@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXm6-0002re-Nx
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:08:51 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:34727)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
+ id 1iZXm6-0002rZ-Ig
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:08:50 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id bo14so8069590pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TORKveKiyyu6m2oHodE9IBcjkbwEar3Vt5jDpzgDylY=;
+ b=olv12Gp3grnekpbckL4cgsuKfI3uibM/xyKgxKaXAgysBCG0gD1zfwzI4bdTig2QPa
+ bYj2KhBwBQCyeYdYx2+f9ANR6ntDY1QlasYD6qxyDMTFGZj2uvm7ko8kE58GZXl1Gx83
+ yxZQsAPqwNrJ0vcBYS7ybC0BFUlHVtzRy09jDp4McRhur9+hRM3WTEt+lbKHstbWmP9z
+ At4RGyUZXvbnGh/bg5mBCIRT9jJzXZ/XyUpQTxrGKC9T6fcorgnyhMn8Hm9GLjMjBr2J
+ pd/ik9nqYGr+vwPtpw0IYIaT05AfrD53fQBnlXT6YI9axZ6zErZc8n6ZW5g2ZslzHp5l
+ 2UEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TORKveKiyyu6m2oHodE9IBcjkbwEar3Vt5jDpzgDylY=;
+ b=Tn1DFshuUTrhfJLWiab+IittF8NmIHLYNURZsYVt2vW1tZaEqVVxBQf7Vk+rKoSqt5
+ MNUkiDc6CpRLxsgoW0ANmWF0xGWEpQBkbAOnIPG2LExYK5cIBVSWmbVBW1hNcocN96dV
+ k1Ix9D+OC0umb8vF0/NOiL1CS27wfSR5QZT4w1Ca1HdtWEckl5G5Cah/i466iECeDceo
+ VO99Y/VRy9scL9LY5/JJydQSRnNceeRCBphuWsaoIeISStZ38kPc7+LgiBpBu26N5tKx
+ pFfDxERqSUEPjthn934HGstXt4b8p0YSs8MNatgzyxlQ+Ql8gh+L4GvWFyUNEHwOyFUy
+ ipcg==
+X-Gm-Message-State: APjAAAUoi1OcaxCW2/fjoRUXssZbv4SAjy6bZHaheiqCuTlxxNXjVHKD
+ 8J6wZfdDlDJBAHvJEHEVums=
+X-Google-Smtp-Source: APXvYqy7uBDP8l0aXZ/j5b2P/uoXgigesp5vSEQ3UrSFY/YqyNb+UCqonnG8Y2jEb1rpt6g0c9YHbg==
+X-Received: by 2002:a17:90a:c789:: with SMTP id
+ gn9mr5574668pjb.99.1574762929845; 
+ Tue, 26 Nov 2019 02:08:49 -0800 (PST)
+Received: from localhost.localdomain ([222.151.198.97])
+ by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.08.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Nov 2019 02:08:49 -0800 (PST)
+From: Prashant Bhole <prashantbhole.linux@gmail.com>
+To: "David S . Miller" <davem@davemloft.net>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [RFC net-next 02/18] net: core: rename netif_receive_generic_xdp() to
+ do_generic_xdp_core()
+Date: Tue, 26 Nov 2019 19:07:28 +0900
+Message-Id: <20191126100744.5083-3-prashantbhole.linux@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
+References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93d66bb8-7294-429a-92ba-08d77256c3fb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2019 09:55:27.3004 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FQ70/DJ5H/gj+6yYjfQGrScCFVjdKptECT4nZV5kByq/H78kwsS9+HT5HWAtnqugpgFgu1t+AAajI22c77SYek/MWGd6iY1I4+c5opXo+3U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2192
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-26_01:2019-11-26,2019-11-26 signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.155.12
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,48 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Song Liu <songliubraving@fb.com>,
+ Jakub Kicinski <jakub.kicinski@netronome.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
+ Jason Wang <jasowang@redhat.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, qemu-devel@nongnu.org,
+ Prashant Bhole <prashantbhole.linux@gmail.com>, kvm@vger.kernel.org,
+ Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+ Martin KaFai Lau <kafai@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkNCg0KPiBPbiBOb3YgMjUsIDIwMTksIGF0IDQ6NDMgUE0sIFBoaWxpcHBlIE1hdGhpZXUtRGF1
-ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4gd3JvdGU6DQo+IA0KPiBPbiAxMS8yNS8xOSA0OjM2IFBN
-LCBGZWxpcGUgRnJhbmNpb3NpIHdyb3RlOg0KPj4gV2hlbiBRT00gQVBJcyB3ZXJlIGFkZGVkIHRv
-IGljaDkgaW4gNmYxNDI2YWIsIHRoZSBnZXR0ZXIgZm9yIHNjaV9pbnQgd2FzDQo+PiB3cml0dGVu
-IHVzaW5nIHVpbnQzMl90LiBIb3dldmVyLCB0aGUgb2JqZWN0IHByb3BlcnR5IGlzIHVpbnQ4X3Qu
-IFRoaXMNCj4+IGZpeGVzIHRoZSBnZXR0ZXIgZm9yIGNvcnJlY3RuZXNzLg0KPj4gU2lnbmVkLW9m
-Zi1ieTogRmVsaXBlIEZyYW5jaW9zaSA8ZmVsaXBlQG51dGFuaXguY29tPg0KPj4gLS0tDQo+PiAg
-aHcvaXNhL2xwY19pY2g5LmMgfCA2ICsrKy0tLQ0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2Vy
-dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+PiBkaWZmIC0tZ2l0IGEvaHcvaXNhL2xwY19pY2g5
-LmMgYi9ody9pc2EvbHBjX2ljaDkuYw0KPj4gaW5kZXggNTU1NWNlMzM0Mi4uMjQwOTc5ODg1ZCAx
-MDA2NDQNCj4+IC0tLSBhL2h3L2lzYS9scGNfaWNoOS5jDQo+PiArKysgYi9ody9pc2EvbHBjX2lj
-aDkuYw0KPj4gQEAgLTYzMSw5ICs2MzEsOSBAQCBzdGF0aWMgdm9pZCBpY2g5X2xwY19nZXRfc2Np
-X2ludChPYmplY3QgKm9iaiwgVmlzaXRvciAqdiwgY29uc3QgY2hhciAqbmFtZSwNCj4+ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpvcGFxdWUsIEVycm9yICoqZXJycCkN
-Cj4+ICB7DQo+PiAgICAgIElDSDlMUENTdGF0ZSAqbHBjID0gSUNIOV9MUENfREVWSUNFKG9iaik7
-DQo+PiAtICAgIHVpbnQzMl90IHZhbHVlID0gbHBjLT5zY2lfZ3NpOw0KPj4gKyAgICB1aW50OF90
-IHZhbHVlID0gbHBjLT5zY2lfZ3NpOw0KPj4gIC0gICAgdmlzaXRfdHlwZV91aW50MzIodiwgbmFt
-ZSwgJnZhbHVlLCBlcnJwKTsNCj4+ICsgICAgdmlzaXRfdHlwZV91aW50OCh2LCBuYW1lLCAmdmFs
-dWUsIGVycnApOw0KPiANCj4gTWF5YmUgZGlyZWN0bHkgYXM6DQo+IA0KPiAgICAgICB2aXNpdF90
-eXBlX3VpbnQ4KHYsIG5hbWUsICZscGMtPnNjaV9nc2ksIGVycnApOw0KPiANCg0KVGhhbmtzIGZv
-ciB0aGUgc3VnZ2VzdGlvbi4gSSdsbCBpbXByb3ZlIGl0IG9uIGEgdjIgd2hpY2ggSSdtIHNlbmRp
-bmcNCm91dCBhbnl3YXkgZm9yIG90aGVyIHJlYXNvbnMuDQoNCkZvciBteSBvd24gc2FrZTogd2h5
-IGlzIHRoZSBmaWVsZCBjYWxsZWQgInNjaV9nc2kiLCBidXQNCkFDUElfUE1fUFJPUF9TQ0lfSU5U
-IChhbmQgdGhlIGdldHRlcikgYXJlIGNhbGxlZCAic2NpX2ludCI/DQoNClRoYW5rcywNCkYuDQoN
-Cj4gV2l0aC93aXRob3V0IHN0YWNrIHZhcmlhYmxlOg0KPiBSZXZpZXdlZC1ieTogUGhpbGlwcGUg
-TWF0aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPg0KPiANCj4+ICB9DQo+PiAgICBzdGF0
-aWMgdm9pZCBpY2g5X2xwY19hZGRfcHJvcGVydGllcyhJQ0g5TFBDU3RhdGUgKmxwYykNCj4+IEBA
-IC02NDEsNyArNjQxLDcgQEAgc3RhdGljIHZvaWQgaWNoOV9scGNfYWRkX3Byb3BlcnRpZXMoSUNI
-OUxQQ1N0YXRlICpscGMpDQo+PiAgICAgIHN0YXRpYyBjb25zdCB1aW50OF90IGFjcGlfZW5hYmxl
-X2NtZCA9IElDSDlfQVBNX0FDUElfRU5BQkxFOw0KPj4gICAgICBzdGF0aWMgY29uc3QgdWludDhf
-dCBhY3BpX2Rpc2FibGVfY21kID0gSUNIOV9BUE1fQUNQSV9ESVNBQkxFOw0KPj4gIC0gICAgb2Jq
-ZWN0X3Byb3BlcnR5X2FkZChPQkpFQ1QobHBjKSwgQUNQSV9QTV9QUk9QX1NDSV9JTlQsICJ1aW50
-MzIiLA0KPj4gKyAgICBvYmplY3RfcHJvcGVydHlfYWRkKE9CSkVDVChscGMpLCBBQ1BJX1BNX1BS
-T1BfU0NJX0lOVCwgInVpbnQ4IiwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICBpY2g5X2xw
-Y19nZXRfc2NpX2ludCwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBOVUxMLCBO
-VUxMLCBOVUxMKTsNCj4+ICAgICAgb2JqZWN0X3Byb3BlcnR5X2FkZF91aW50OF9wdHIoT0JKRUNU
-KGxwYyksIEFDUElfUE1fUFJPUF9BQ1BJX0VOQUJMRV9DTUQsDQo+IA0KDQo=
+From: Jason Wang <jasowang@redhat.com>
+
+In skb generic path, we need a way to run XDP program on skb but
+to have customized handling of XDP actions. netif_receive_generic_xdp
+will be more helpful in such cases than do_xdp_generic.
+
+This patch prepares netif_receive_generic_xdp() to be used as general
+purpose function by renaming it.
+
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
+---
+ net/core/dev.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/net/core/dev.c b/net/core/dev.c
+index c7fc902ccbdc..5ae647b9914f 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4461,9 +4461,9 @@ static struct netdev_rx_queue *netif_get_rxqueue(struct sk_buff *skb)
+ 	return rxqueue;
+ }
+ 
+-static u32 netif_receive_generic_xdp(struct sk_buff *skb,
+-				     struct xdp_buff *xdp,
+-				     struct bpf_prog *xdp_prog)
++static u32 do_xdp_generic_core(struct sk_buff *skb,
++			       struct xdp_buff *xdp,
++			       struct bpf_prog *xdp_prog)
+ {
+ 	struct netdev_rx_queue *rxqueue;
+ 	void *orig_data, *orig_data_end;
+@@ -4610,7 +4610,7 @@ int do_xdp_generic(struct bpf_prog *xdp_prog, struct sk_buff *skb)
+ 		u32 act;
+ 		int err;
+ 
+-		act = netif_receive_generic_xdp(skb, &xdp, xdp_prog);
++		act = do_xdp_generic_core(skb, &xdp, xdp_prog);
+ 		if (act != XDP_PASS) {
+ 			switch (act) {
+ 			case XDP_REDIRECT:
+-- 
+2.20.1
+
 
