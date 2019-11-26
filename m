@@ -2,91 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F218109C6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:39:25 +0100 (CET)
-Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFE5109C7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:46:25 +0100 (CET)
+Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZYFg-0000GQ-5X
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:39:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59802)
+	id 1iZYMS-0007TR-71
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:46:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZY8X-00019y-UH
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:03 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iZYAM-00031z-8c
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:33:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZY8W-00062M-Eo
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44198
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZY8W-00061x-9r
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:32:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574764319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4Tv68wMNZkdHzYr4BALoPRADeU6Klt3QWg7QPQj7Ebw=;
- b=fcF4STFKUh6t1zP3Nk+Mc0hkSX78Nt8azjeFQIBR+giQ7tY6f9SSsBaK4I3HCgu8x7wf1b
- 2zPv0y7Y0+K4uVxwrHL8ITWZXuS1Vmz8IGb+/4F4EvJyFhrv8hUMTLvrIe2vJcZ04RZe6v
- skTN7ri2niX7Ln7G44/JQ1XKtNUAt6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-N-7_9dC3N3a1eCYIPq5tlw-1; Tue, 26 Nov 2019 05:31:56 -0500
-X-MC-Unique: N-7_9dC3N3a1eCYIPq5tlw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AED18557EA;
- Tue, 26 Nov 2019 10:31:55 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-240.brq.redhat.com
- [10.40.204.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFE0A600C6;
- Tue, 26 Nov 2019 10:31:53 +0000 (UTC)
-Subject: Re: [PATCH for-4.2 0/2] Fix bitmap migration
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191125125229.13531-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <3f25f814-24be-cc3d-770a-8ad9d3be5993@redhat.com>
-Date: Tue, 26 Nov 2019 11:31:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <no-reply@patchew.org>) id 1iZYAI-0006iL-I2
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:33:53 -0500
+Resent-Date: Tue, 26 Nov 2019 05:33:51 -0500
+Resent-Message-Id: <E1iZYAI-0006iL-I2@eggs.gnu.org>
+Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21822)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iZYAI-0006gj-91
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:33:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1574764385; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gKLimMF1PS9qx80R3iT/EnfAW+TENs/7KTaCr5ErsnSAC8nD0gEnvgaaLG8HinIHAOTzR1QMQ8WmQsZm9Rmb+WiZIbw3R42Pf0ly/hw2/rFr7F2D94XTAmjaM4LrlSU39/+WOB+ZNL/d63NIibVqwePhgy+FVgJu/emr0g3KebU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1574764385;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=4Hg+6acknztSxkk1XXynSdoyPl2trR0LMbBAHb1kRpQ=; 
+ b=jN3T/UbGJ1zb0dJdigqExoPATgefE0GNleHewa1WdjINYbXNvPVvyg9qMExFr/GWLJpfaahvHhkPijwbaNOHvmH9Z0AQSvR1sWf+0IfPvURCzlL4wxZpc0cOWbPfYNPOSolJ/oDUxJnR4TWbhnrxVeylBuUDoALuJ71J9AhO7/k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1574764383634138.33074800024394;
+ Tue, 26 Nov 2019 02:33:03 -0800 (PST)
+In-Reply-To: <20191126100914.5150-1-prashantbhole.linux@gmail.com>
+Subject: Re: [RFC 0/3] Qemu: virtio-net XDP offload
+Message-ID: <157476438124.31055.4199785471534349367@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <20191125125229.13531-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: prashantbhole.linux@gmail.com
+Date: Tue, 26 Nov 2019 02:33:03 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 136.143.188.58
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,67 +64,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: songliubraving@fb.com, jakub.kicinski@netronome.com, hawk@kernel.org,
+ daniel@iogearbox.net, mst@redhat.com, netdev@vger.kernel.org,
+ jasowang@redhat.com, john.fastabend@gmail.com, qemu-devel@nongnu.org,
+ ast@kernel.org, davem@davemloft.net, prashantbhole.linux@gmail.com,
+ kvm@vger.kernel.org, yhs@fb.com, andriin@fb.com, kafai@fb.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue
-Content-Type: multipart/mixed; boundary="HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ"
-
---HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 25.11.19 13:52, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
->=20
-> We've faced a bug in rhev-2.12.0-33.el7-based Qemu.
-> In upstream, bug introduced in 4.0 by 74da6b943565c45
-> "block/dirty-bitmaps: implement inconsistent bit" commit.
-> At this commit we started to load inconsistent bitmap instead of
-> silently ignoring them, and it now I see that it breaks migration.
->=20
-> The fix is very simple, so I think it's OK for 4.2.. Still, it's not a
-> degradation, so we may postpone it to 5.0.
->=20
-> Vladimir Sementsov-Ogievskiy (2):
->   block/qcow2-bitmap: fix bitmap migration
->   iotests: add new test cases to bitmap migration
->=20
->  block/qcow2-bitmap.c       | 21 ++++++++++++++++++++-
->  tests/qemu-iotests/169     | 22 +++++++++++++++-------
->  tests/qemu-iotests/169.out |  4 ++--
->  3 files changed, 37 insertions(+), 10 deletions(-)
-
-Thanks, applied to my block branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---HsnE1kDWNdmVjTcjzjhlvvxUlVwmXZzNQ--
-
---WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3c/xgACgkQ9AfbAGHV
-z0DifQf9FNpOlItmDiEkkDhpLXLXd/24tehJa63xCpQBAg0F6xvOjTp+LBCN27D/
-8xkmDpmZouPgfDS4me5DhYopVQY5jumYZ0dv/WuZzm35+GHSgw2+VuzLm07k0CX0
-XJzzMIs56V4/XFduN+59g05YUl4uB1sHLz8PzO78T4xB2vZVYkAoCbMCfyJIvQ22
-767sWBhq+5vSmYHkV8bkw4DXBcNkxQ9rtJsz7nlk1HqgVr42Cj4eBb2grTMklnuC
-5Wald6ytlio9hh1NOjH+pafsA89oAzFBI3va6S+Rd8MV5YhUmh+rGLAcY9M9dn+G
-NXPI19XRC/TNMtCsU0/AZHMirfsCxw==
-=UQ9e
------END PGP SIGNATURE-----
-
---WmyL9Rw1NAvt2RKaIkXQnHIeWd988y4Ue--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyNjEwMDkxNC41MTUw
+LTEtcHJhc2hhbnRiaG9sZS5saW51eEBnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFp
+bGVkIHRoZSBkb2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUg
+dGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2Nr
+ZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50
+b3M3IFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hP
+V19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKICBDQyAgICAg
+IHVpL2lucHV0LWtleW1hcC5vCiAgQ0MgICAgICB1aS9pbnB1dC1sZWdhY3kubwogIENDICAgICAg
+dWkva2JkLXN0YXRlLm8KL3RtcC9xZW11LXRlc3Qvc3JjL25ldC90YXAtbGludXguYzozNDoyMTog
+ZmF0YWwgZXJyb3I6IGJwZi9icGYuaDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQogI2luY2x1
+ZGUgPGJwZi9icGYuaD4KICAgICAgICAgICAgICAgICAgICAgXgpjb21waWxhdGlvbiB0ZXJtaW5h
+dGVkLgotLS0KICBTSUdOICAgIHBjLWJpb3Mvb3B0aW9ucm9tL2xpbnV4Ym9vdC5iaW4KICBTSUdO
+ICAgIHBjLWJpb3Mvb3B0aW9ucm9tL2t2bXZhcGljLmJpbgogIEJVSUxEICAgcGMtYmlvcy9vcHRp
+b25yb20vbGludXhib290X2RtYS5pbWcKbWFrZTogKioqIFtuZXQvdGFwLWxpbnV4Lm9dIEVycm9y
+IDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBCVUlMRCAgIHBj
+LWJpb3Mvb3B0aW9ucm9tL3B2aC5pbWcKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9tL2xpbnV4
+Ym9vdF9kbWEucmF3Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNt
+ZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbics
+ICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1iZTg0
+OWJmZWQwMmQ0ZWE3YjE5Zjc3NDZmZTAzN2JkNScsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHkt
+b3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScs
+ICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcs
+ICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92
+YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1j
+Y2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXIt
+dG1wLTNkMnozd2wzL3NyYy9kb2NrZXItc3JjLjIwMTktMTEtMjYtMDUuMzEuMDUuMjE3MDg6L3Zh
+ci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0
+ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZp
+bHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPWJlODQ5YmZlZDAyZDRlYTdiMTlmNzc0
+NmZlMDM3YmQ1Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2
+aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTNkMnozd2wzL3NyYycK
+bWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAg
+ICAxbTU2LjQ0N3MKdXNlciAgICAwbTguNTE5cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
+YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMjYxMDA5MTQuNTE1MC0xLXByYXNoYW50
+YmhvbGUubGludXhAZ21haWwuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9
+bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
+dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
+LWRldmVsQHJlZGhhdC5jb20=
 
 
