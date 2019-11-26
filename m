@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5EF109B3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:29:37 +0100 (CET)
-Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BAD109B7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:50:31 +0100 (CET)
+Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZXA8-0006fv-2k
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:29:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52595)
+	id 1iZXUM-0006FQ-8o
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:50:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iZX8s-00062I-MK
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:28:20 -0500
+ (envelope-from <armbru@redhat.com>) id 1iZXOc-0000rt-AN
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:44:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iZX8p-0008Ay-TZ
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:28:16 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45596
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iZXA0-0000Gb-GC
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:29:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60135
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iZX8p-0008AU-7w
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:28:15 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZX9v-0000CV-0n
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:29:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574760493;
+ s=mimecast20190719; t=1574760558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7fBG4bWFrcphBroESl6tSdVzXGHd1jhi7I5REbeQqWM=;
- b=VX6cBql7ZFaWOp9Sps1GYgCWPUv43EpPLELGM2igX4uA6nfuPgA1OK5koNbckWFAonJOBy
- Pw4jLmKMKR0rzMUk5HCPl6uCp9uKoOz4mnI0TZpSKkNCG61Ret/k/eUKzkbXTQe81tAW1p
- qiWVzdzA/pYUjJFQun+6RNWrHRTixBM=
+ bh=/s3We4K5d3Gq0dka0iuIN+MTQ2Ng5dV5egThTYtW80E=;
+ b=B5utvPVA/hi0gFcQlw7pNKj68EX6TrhUNvsS5agYnDTLd1qTud7zW2Y3qXwxb0B11z/qg6
+ a207VKcdy7wed3rXJl3iEToWcaBGsrR7afqdHoH4pkouredDjt13Vf5xPd3djkzHYqZl+W
+ Z0BHYA7HJMmvIbiWSzrI2LcD8ORgUaY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-wHsJ_VUgOnygF35SwO4vEg-1; Tue, 26 Nov 2019 04:28:12 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-425-Qyx4QZhON8yMi4GrgsvlLQ-1; Tue, 26 Nov 2019 04:29:16 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF9AC800EBF;
- Tue, 26 Nov 2019 09:28:11 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6449919C69;
- Tue, 26 Nov 2019 09:28:04 +0000 (UTC)
-Message-ID: <affeae207765d4e20125d8b76417189f742551ff.camel@redhat.com>
-Subject: Re: API definition for LUKS key management [V2]
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, "Daniel P." =?ISO-8859-1?Q?Berrang=E9?=
- <berrange@redhat.com>
-Date: Tue, 26 Nov 2019 11:28:03 +0200
-In-Reply-To: <0b5fec2a-1d93-7e31-55d2-1a80bde89f0b@redhat.com>
-References: <122fc70c802b9a1185e008bf13fb7f078fe70af7.camel@redhat.com>
- <20191112100253.GM2366658@redhat.com>
- <d6ead0c3f9758b5def21dd690217bc9deeace2a9.camel@redhat.com>
- <0b5fec2a-1d93-7e31-55d2-1a80bde89f0b@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: wHsJ_VUgOnygF35SwO4vEg-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9443D1801B94;
+ Tue, 26 Nov 2019 09:29:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6385760BEC;
+ Tue, 26 Nov 2019 09:29:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E08F51138606; Tue, 26 Nov 2019 10:29:13 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Subject: Re: [QUESTION] What is the best license option for new files
+ introduced in QEMU?
+References: <CAL1e-=gmaimCBh5NBBYFp6Z1ci4ZheQtXpyjU9Uexqi4zSHh2A@mail.gmail.com>
+Date: Tue, 26 Nov 2019 10:29:13 +0100
+In-Reply-To: <CAL1e-=gmaimCBh5NBBYFp6Z1ci4ZheQtXpyjU9Uexqi4zSHh2A@mail.gmail.com>
+ (Aleksandar Markovic's message of "Mon, 25 Nov 2019 18:49:51 +0100")
+Message-ID: <87lfs39eae.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Qyx4QZhON8yMi4GrgsvlLQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,88 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, John Ferlan <jferlan@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-11-25 at 19:45 +0100, Max Reitz wrote:
-> On 22.11.19 15:22, Maxim Levitsky wrote:
-> > Hi!
-> >=20
-> > This is the second version of the proposed QMP API for key management,
-> > after discussion with Keven and Max.
-> >=20
-> > Will this work?
-> >=20
-> > Adding Peter Krempa to CC, to hear his opinion from the=20
-> > libvirt side.
-> >=20
-> > Best regards,
-> > =09Maxim Levitsky
->=20
-> Looks good to me overall.  I don=E2=80=99t think we need to overly push h=
-aving
-> the same interface for create and amend, because I don=E2=80=99t see much=
- to be
-> gained from it.
+Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
 
-Thanks!!
->=20
-> [...]
->=20
-> > diff --git a/qapi/crypto.json b/qapi/crypto.json
-> > index b2a4cff683..019db682cd 100644
-> > --- a/qapi/crypto.json
-> > +++ b/qapi/crypto.json
-> > @@ -309,3 +309,56 @@
-> >    'base': 'QCryptoBlockInfoBase',
-> >    'discriminator': 'format',
-> >    'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
-> > +
-> > +
-> > +##
-> > +# @LUKSKeyslotUpdate:
-> > +#
-> > +# @keyslot:         If specified, will update only keyslot with this i=
-ndex
-> > +#
-> > +# @old-secret:      If specified, will only update keyslots that
-> > +#                   can be opened with password which is contained in
-> > +#                   QCryptoSecret with @old-secret ID
-> > +#
-> > +#                   If neither @keyslot nor @old-secret is specified,
-> > +#                   first empty keyslot is selected for the update
-> > +#
-> > +# @new-secret:      The ID of a QCryptoSecret object providing a new d=
-ecryption
-> > +#                   key to place in all matching keyslots. Empty strin=
-g erases the
-> > +#                   keyslot.
->=20
-> Hm...  Can=E2=80=99t we make this some string-or-null alternate type so t=
-hat
-> null will erase the keyslot?  That would make more sense to me.
+> I read LICENSE file, but I read also recent contributions, and it is
+> not clear to me what version of GPL is best/recommended for new file
+> just being introduced to QEMU:
 
-Agree. I'll see if can get an alternate to work here.
+The situation is confusing.  It's a mess of our own making.
 
->=20
-> Max
->=20
-> > +# @iter-time:       number of milliseconds to spend in
-> > +#                   PBKDF passphrase processing
-> > +##
-> > +{ 'struct': 'LUKSKeyslotUpdate',
-> > +  'data': {
-> > +         '*keyslot': 'int',
-> > +         '*old-secret': 'str',
-> > +         'new-secret' : 'str',
-> > +         '*iter-time' : 'int' } }
->=20
->=20
+> * GPL 2.0
+> * GPL 2.0 (or later at your option)
+> * GPL 2.1
+> * GPL 2.1 (or later at your option)
+>
+> or something else. (The rest od wording of license preamble is clear
+> to me.) Please somebody explsin snd clarify.
 
-Best regards,
-=09Maxim Levitsky
+Let's not add to the mess: GPLv2+ unless you have a compelling reason to
+deviate, spelled out in your commit message.
+
+In my opinion, accepting GPLv2-only contributions was a mistake.
 
 
