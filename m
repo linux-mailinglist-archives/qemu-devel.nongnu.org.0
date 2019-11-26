@@ -2,40 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E310A09C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:44:37 +0100 (CET)
-Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD9B10A0FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:11:52 +0100 (CET)
+Received: from localhost ([::1]:56166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZc4x-0006wZ-MI
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:44:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
+	id 1iZcVK-0007iz-R0
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:11:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iZc3u-0005xb-Dg
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:43:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iZcUH-0007JC-5n
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:10:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iZc3s-0003w2-U7
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:43:30 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47916)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iZc3s-0003vL-M8; Tue, 26 Nov 2019 09:43:28 -0500
-Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iZc3j-0004JL-GT; Tue, 26 Nov 2019 17:43:19 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v9 3/3] tests/qemu-iotests: add case to write compressed data
- of multiple clusters
-Date: Tue, 26 Nov 2019 17:43:18 +0300
-Message-Id: <1574779398-88772-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <peter.maydell@linaro.org>) id 1iZcUG-0001M9-27
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:10:44 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34045)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iZcUD-0001KG-Ti
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:10:42 -0500
+Received: by mail-oi1-x241.google.com with SMTP id l136so1326169oig.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 07:10:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o+6i7S7bkjA+IdORysQqX8ryUb5TwKtPadVMD1uHCjc=;
+ b=LpULihF7aUWCFf0ngbYE++bfvuSPBfI2Bfoj7vvUDG9Pzrk6K4cVkq0sgKLBuS9jr7
+ 5lhe6xvSuadQh2ISpch1zdoZzTJgNS7hY02/JnV2WJp9kV2jNvZNmx/NBPAB5HWvDFHe
+ Z3B2C8KL8lKuk5RttKI9Wv15pRCvgVe9klYBMlrEBdNyo2LVsBuF6/n+ulG/zKJGTqCL
+ SNa2Mev4FUR6NnVdxh5bi4tVCqlvGwDcy82mmnYIxQe3YHpWLUxLxu4I3Nsu4OtPAlsN
+ svWMv/bwPLcXDXfOQWsowJux0W9elwqjstZmhIXkkiTXLChlM4pIZOTc/NswCX/1IDfX
+ Oejw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o+6i7S7bkjA+IdORysQqX8ryUb5TwKtPadVMD1uHCjc=;
+ b=AVRoQHDMZD710OPr/9F6bxpaKaDVX7kbVsOE19KeSqyxa9HZozmTS4hIGK7vtovN4T
+ rVMERV2AemF0txpADx9G7q3xxhTeHO/DZOgEe+pz69IQUGk0VcohkpqoSixAPUG6N6sB
+ Q9LFfzwN3F03d2aBKdShjdI+FBmJ7ZlXilbb7g4d5UJZczU6RLFacv8Vic3gp8PFfyoI
+ qjjr3H46SRnkc15Sqy99wQViFQYda4EFbAd5fudVjkbxQ9A+Ll/5IyQfXDwlwjJxJgV9
+ hSZ7HeqhQWsVR+vteTzrSrsk5SAwGQpaXI9mmuA/XVaskzDEzM4g6ZbbDZPaaInKP5uB
+ Rorg==
+X-Gm-Message-State: APjAAAU8x6ellzVHVX1JL6viAClmiVKHj1bDVIJMsIYWaW0pO4E+8phS
+ 6rjur5SaNMIAmpUv38i3CNpGjm6p1hej0tOQUPvJeA==
+X-Google-Smtp-Source: APXvYqwz5XMsmhYWpKPiQdjZfV/lKOzXWhpxEtvIxzcQ2qC1+5nmILiMhBugdlKt0R5nkcxEhs/3xdf2cX8pZn2E1ps=
+X-Received: by 2002:aca:a9d4:: with SMTP id s203mr3833969oie.146.1574781038852; 
+ Tue, 26 Nov 2019 07:10:38 -0800 (PST)
+MIME-Version: 1.0
+References: <20191125163014.16789-1-laurent@vivier.eu>
+In-Reply-To: <20191125163014.16789-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 26 Nov 2019 15:10:27 +0000
+Message-ID: <CAFEAcA9XJz=8ZT_Hvb+7rhbx88BJ-qsUAmOx53aifm9=rgK9GQ@mail.gmail.com>
+Subject: Re: [PULL 0/1] Linux user for 4.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,100 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the case to the iotest #214 that checks possibility of writing
-compressed data of more than one cluster size. The test case involves
-the compress filter driver showing a sample usage of that.
+On Mon, 25 Nov 2019 at 16:34, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 2061735ff09f9d5e67c501a96227b470e7de69b1:
+>
+>   Merge remote-tracking branch 'remotes/bonzini/tags/for-upstream' into staging (2019-11-21 17:18:40 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-4.2-pull-request
+>
+> for you to fetch changes up to d1e26707410067891ab5199f7e9d09afa2fbc0f6:
+>
+>   linux-user: fix translation of statx structures (2019-11-25 12:57:58 +0100)
+>
+> ----------------------------------------------------------------
+> fix translation of statx structures
+>
+> ----------------------------------------------------------------
+>
+> Ariadne Conill (1):
+>   linux-user: fix translation of statx structures
+>
+>  linux-user/syscall.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/214     | 43 +++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/214.out | 14 ++++++++++++++
- 2 files changed, 57 insertions(+)
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 21ec8a2..aacf66f 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -89,6 +89,49 @@ _check_test_img -r all
- $QEMU_IO -c "read  -P 0x11  0 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "read  -P 0x22 4M 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- 
-+echo
-+echo "=== Write compressed data of multiple clusters ==="
-+echo
-+cluster_size=0x10000
-+_make_test_img 2M -o cluster_size=$cluster_size
-+
-+echo "Write uncompressed data:"
-+let data_size="8 * $cluster_size"
-+$QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+_make_test_img 2M -o cluster_size=$cluster_size
-+echo "Write compressed data:"
-+let data_size="3 * $cluster_size + $cluster_size / 2"
-+# Set compress on. That will align the written data
-+# by the cluster size and will write them compressed.
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xbb 0 $data_size" --image-opts \
-+         "driver=compress,file.driver=$IMGFMT,file.file.driver=file,file.file.filename=$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+
-+let offset="4 * $cluster_size + $cluster_size / 4"
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
-+    'driver': 'compress',
-+    'file': {'driver': '$IMGFMT',
-+             'file': {'driver': 'file',
-+                      'filename': '$TEST_IMG'}}}" | \
-+                          _filter_qemu_io | _filter_testdir
-+
-+sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+if [ $sizeA -le $sizeB ]
-+then
-+    echo "Compression ERROR"
-+fi
-+
-+$QEMU_IMG check --output=json "$TEST_IMG" |
-+          sed -n 's/,$//; /"compressed-clusters":/ s/^ *//p'
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/214.out b/tests/qemu-iotests/214.out
-index 0fcd8dc..9fc6728 100644
---- a/tests/qemu-iotests/214.out
-+++ b/tests/qemu-iotests/214.out
-@@ -32,4 +32,18 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 4194304/4194304 bytes at offset 4194304
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Write compressed data of multiple clusters ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write uncompressed data:
-+wrote 524288/524288 bytes at offset 0
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write compressed data:
-+wrote 229376/229376 bytes at offset 0
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 229376/229376 bytes at offset 278528
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+"compressed-clusters": 8
- *** done
--- 
-1.8.3.1
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
