@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC31510A184
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:51:56 +0100 (CET)
-Received: from localhost ([::1]:56474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC87410A18D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:53:30 +0100 (CET)
+Received: from localhost ([::1]:56514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZd87-00057k-GN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:51:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60071)
+	id 1iZd9e-0007cq-0a
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:53:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5G-0003Fj-NX
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:49:00 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5G-0003FM-E1
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:48:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5E-0002e1-TA
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iZd5F-0002eP-0Q
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:48:58 -0500
-Received: from relay.sw.ru ([185.231.240.75]:52186)
+Received: from relay.sw.ru ([185.231.240.75]:52194)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iZd5E-0002c4-LW; Tue, 26 Nov 2019 10:48:56 -0500
+ id 1iZd5E-0002c2-Oo; Tue, 26 Nov 2019 10:48:56 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iZd57-00069i-Py; Tue, 26 Nov 2019 18:48:49 +0300
+ id 1iZd57-00069i-Sb; Tue, 26 Nov 2019 18:48:49 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH for-5.0 v2 2/3] python: add qemu/bench_block_job.py
-Date: Tue, 26 Nov 2019 18:48:47 +0300
-Message-Id: <20191126154848.193407-3-vsementsov@virtuozzo.com>
+Subject: [PATCH for-5.0 v2 3/3] python: add example usage of simplebench
+Date: Tue, 26 Nov 2019 18:48:48 +0300
+Message-Id: <20191126154848.193407-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20191126154848.193407-1-vsementsov@virtuozzo.com>
 References: <20191126154848.193407-1-vsementsov@virtuozzo.com>
@@ -52,23 +52,28 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add block-job benchmarking helper functions.
+This example may be used as a template for custom benchmark.
+It illustrates three things to prepare:
+ - define bench_func
+ - define test environments (columns)
+ - define test cases (rows)
+And final call of simplebench API.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- python/qemu/bench_block_job.py | 115 +++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
- create mode 100755 python/qemu/bench_block_job.py
+ python/bench-example.py | 80 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+ create mode 100644 python/bench-example.py
 
-diff --git a/python/qemu/bench_block_job.py b/python/qemu/bench_block_job.py
-new file mode 100755
-index 0000000000..93f3956158
+diff --git a/python/bench-example.py b/python/bench-example.py
+new file mode 100644
+index 0000000000..4ccd4fc3dd
 --- /dev/null
-+++ b/python/qemu/bench_block_job.py
-@@ -0,0 +1,115 @@
-+#!/usr/bin/env python
++++ b/python/bench-example.py
+@@ -0,0 +1,80 @@
++#!/usr/bin/env python3
 +#
-+# Benchmark block jobs
++# Benchmark example
 +#
 +# Copyright (c) 2019 Virtuozzo International GmbH.
 +#
@@ -86,101 +91,66 @@ index 0000000000..93f3956158
 +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 +#
 +
-+
-+import socket
-+import json
-+from .machine import QEMUMachine
-+from .qmp import QMPConnectError
++import simplebench
++from qemu.bench_block_job import bench_block_copy, drv_file, drv_nbd
 +
 +
-+def bench_block_job(cmd, cmd_args, qemu_args):
-+    """Benchmark block-job
-+
-+    cmd       -- qmp command to run block-job (like blockdev-backup)
-+    cmd_args  -- dict of qmp command arguments
-+    qemu_args -- list of Qemu command line arguments, including path to Qemu
-+                 binary
-+
-+    Returns {'seconds': int} on success and {'error': str} on failure, dict may
-+    contain addional 'vm-log' field. Return value is compatible with
-+    simplebench lib.
-+    """
-+
-+    vm = QEMUMachine(qemu_args[0], args=qemu_args[1:])
-+
-+    try:
-+        vm.launch()
-+    except OSError as e:
-+        return {'error': 'popen failed: ' + str(e)}
-+    except (QMPConnectError, socket.timeout):
-+        return {'error': 'qemu failed: ' + str(vm.get_log())}
-+
-+    try:
-+        res = vm.qmp(cmd, **cmd_args)
-+        if res != {'return': {}}:
-+            vm.shutdown()
-+            return {'error': '"{}" command failed: {}'.format(cmd, str(res))}
-+
-+        e = vm.event_wait('JOB_STATUS_CHANGE')
-+        assert e['data']['status'] == 'created'
-+        start_ms = e['timestamp']['seconds'] * 1000000 + \
-+            e['timestamp']['microseconds']
-+
-+        e = vm.events_wait((('BLOCK_JOB_READY', None),
-+                            ('BLOCK_JOB_COMPLETED', None),
-+                            ('BLOCK_JOB_FAILED', None)), timeout=True)
-+        if e['event'] not in ('BLOCK_JOB_READY', 'BLOCK_JOB_COMPLETED'):
-+            vm.shutdown()
-+            return {'error': 'block-job failed: ' + str(e),
-+                    'vm-log': vm.get_log()}
-+        end_ms = e['timestamp']['seconds'] * 1000000 + \
-+            e['timestamp']['microseconds']
-+    finally:
-+        vm.shutdown()
-+
-+    return {'seconds': (end_ms - start_ms) / 1000000.0}
++def bench_func(env, case):
++    """ Handle one "cell" of benchmarking table. """
++    return bench_block_copy(env['qemu_binary'], env['cmd'],
++                            case['source'], case['target'])
 +
 +
-+# Bench backup or mirror
-+def bench_block_copy(qemu_binary, cmd, source, target):
-+    """Helper to run bench_block_job() for mirror or backup"""
-+    assert cmd in ('blockdev-backup', 'blockdev-mirror')
++# You may set the following five variables to correct values, to turn this
++# example to real benchmark.
++ssd_source = '/path-to-raw-source-image-at-ssd'
++ssd_target = '/path-to-raw-target-image-at-ssd'
++hdd_target = '/path-to-raw-source-image-at-hdd'
++nbd_ip = 'nbd-ip-addr'
++nbd_port = 'nbd-port-number'
 +
-+    source['node-name'] = 'source'
-+    target['node-name'] = 'target'
++# Test-cases are "rows" in benchmark resulting table, 'id' is a caption for
++# the row, other fields are handled by bench_func.
++test_cases = [
++    {
++        'id': 'ssd -> ssd',
++        'source': drv_file(ssd_source),
++        'target': drv_file(ssd_target)
++    },
++    {
++        'id': 'ssd -> hdd',
++        'source': drv_file(ssd_source),
++        'target': drv_file(hdd_target)
++    },
++    {
++        'id': 'ssd -> nbd',
++        'source': drv_file(ssd_source),
++        'target': drv_nbd(nbd_ip, nbd_port)
++    },
++]
 +
-+    return bench_block_job(cmd,
-+                           {'job-id': 'job0', 'device': 'source',
-+                            'target': 'target', 'sync': 'full'},
-+                           [qemu_binary,
-+                            '-blockdev', json.dumps(source),
-+                            '-blockdev', json.dumps(target)])
++# Test-envs are "columns" in benchmark resulting table, 'id is a caption for
++# the column, other fields are handled by bench_func.
++test_envs = [
++    {
++        'id': 'backup-1',
++        'cmd': 'blockdev-backup',
++        'qemu_binary': '/path-to-qemu-binary-1'
++    },
++    {
++        'id': 'backup-2',
++        'cmd': 'blockdev-backup',
++        'qemu_binary': '/path-to-qemu-binary-2'
++    },
++    {
++        'id': 'mirror',
++        'cmd': 'blockdev-mirror',
++        'qemu_binary': '/path-to-qemu-binary-1'
++    }
++]
 +
-+
-+def drv_file(filename):
-+    return {'driver': 'file', 'filename': filename,
-+            'cache': {'direct': True}, 'aio': 'native'}
-+
-+
-+def drv_nbd(host, port):
-+    return {'driver': 'nbd',
-+            'server': {'type': 'inet', 'host': host, 'port': port}}
-+
-+
-+if __name__ == '__main__':
-+    import sys
-+
-+    if len(sys.argv) < 4:
-+        print('USAGE: {} <qmp block-job command name> '
-+              '<json string of arguments for the command> '
-+              '<qemu binary path and arguments>'.format(sys.argv[0]))
-+        exit(1)
-+
-+    res = bench_block_job(sys.argv[1], json.loads(sys.argv[2]), sys.argv[3:])
-+    if 'seconds' in res:
-+        print('{:.2f}'.format(res['seconds']))
-+    else:
-+        print(res)
++result = simplebench.bench(bench_func, test_envs, test_cases, count=3)
++print(simplebench.ascii(result))
 -- 
 2.18.0
 
