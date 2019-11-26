@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936A910A66B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 23:15:23 +0100 (CET)
-Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5126910A6D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 23:56:16 +0100 (CET)
+Received: from localhost ([::1]:59868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZj7C-0004zM-Br
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 17:15:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
+	id 1iZjkk-0001No-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 17:56:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iZj4P-0003hQ-JD
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 17:12:30 -0500
+ (envelope-from <jakub.kicinski@netronome.com>) id 1iZhYn-0005YL-BB
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 15:35:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iZj4O-0004Cr-5D
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 17:12:29 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38034
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iZj4O-0004Bc-18
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 17:12:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574806345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ry89hNMRckQQ1DrjWOEsd0hNL/DBGQ45QobQXhz0/20=;
- b=cWgTO4EQ47uneSZ6bjDcvUHn3l89Iy+DGC2O+s3DMEOfTO2MTwCancEFzlyGQzYXCVJhjw
- dxazidvNKenaebE/8ePA83UX1zRNqdJcwzl6d9Y9RI7qD9DqqI2JXKIaQZQx0yKgGIThz6
- TBcuJtPlWya+4wUFTGmnZHq6XcL5LKw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-e5-03mjRNuC1I4NtbLBZYQ-1; Tue, 26 Nov 2019 17:12:18 -0500
-Received: by mail-ed1-f70.google.com with SMTP id l1so12031641ede.1
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 14:12:18 -0800 (PST)
+ (envelope-from <jakub.kicinski@netronome.com>) id 1iZhYj-0003K7-D3
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 15:35:45 -0500
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39230)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jakub.kicinski@netronome.com>)
+ id 1iZhYd-0003Fj-I2
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 15:35:38 -0500
+Received: by mail-lj1-x242.google.com with SMTP id e10so12634942ljj.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 12:35:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=netronome-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :organization:mime-version:content-transfer-encoding;
+ bh=K4Bc+8eHqvfcdZUohVg+/Nb9ohh1S05Ow4H5opvoqhk=;
+ b=hP8MBek+jIyGLD+HG0jW2xvdPV0teuBv/6k2y1ZOfuFlO/HjwikQPbJcxccaCkY4ca
+ gjaTQdQJuJuuDe7KXGd7CHEz647Qh6NX9XAIW3c4Z8FK6pZpjhGsPKjwmxaJVD5IlM/X
+ Z5/WxylRjt2WqI7WJW+aZcE6o+zYKjTFcMG7c0n8bOuwNbF7ICmk+Fxg7pHQ7dwDF31l
+ NmFxlfLTZZuYjXH9EvJKULzXQ8K11aH69Hhg25nRJk/+Jd3ZLFE+87+CG7Iv/YLiH0r1
+ 8nEtemUANXF+RxlU+k7p/LnGQqcmKLtW90x47b0ZBqnVjm14VykY0TyefIzMoDaXqk0J
+ rZ7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ry89hNMRckQQ1DrjWOEsd0hNL/DBGQ45QobQXhz0/20=;
- b=ImnsgmTbs9J1mUyGSAaBeAU8efj+LXjoh5FQUoSSWbHWEruDSJjZf//Cg1uIS8miqW
- CFZSc39lRKR2MRhqNlw6A+U8s4+Jcyf+9ay7XVueRsCbm8IOeUbLc+9ypNpRj5oi6Sva
- ItPjzUuTPmm3AldnYX4r5U0/6AgMAuo4mAIdAsH8/FaBDlW7lBZ3wuRil+OvWlqBiVGH
- VRY1LRQQlrDgg8m1I+jeyHyP9yDZlSFQgvzIRc1NCmiNSfiRH0Qdl7sy44TmkfzjA0dm
- NDyvnehEP0NQ6h9O5adiqEQZ5ieX6jzeX1UmK/a6sPCs6kQU3rv+Z6ZtI8PC5foCQVFv
- JSUg==
-X-Gm-Message-State: APjAAAWasXSN18LP79UyCJDeCaJNEvHRYYJvO2nCxdE5UrMc9n80J7Lk
- AtDPF5tlitt5PUtbU7EXOPyz/7PrvbgqI3GGwaAviFlkBG4vEluL8e7x5M5tYYc6sfQsxfnEwRT
- C26yEGsPYCS84lWgqCWX+7q7vxUNHyG8=
-X-Received: by 2002:a17:907:38e:: with SMTP id
- ss14mr44647630ejb.319.1574806337502; 
- Tue, 26 Nov 2019 14:12:17 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy1IJgdf+lkk51LG/zQ4tm/STT1zYHikNErLwzDfofMUqK7DxNDjuyawYycxBaISy9jtLNIsnc2hwOgpjWQxsM=
-X-Received: by 2002:a17:907:38e:: with SMTP id
- ss14mr44647601ejb.319.1574806337172; 
- Tue, 26 Nov 2019 14:12:17 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=K4Bc+8eHqvfcdZUohVg+/Nb9ohh1S05Ow4H5opvoqhk=;
+ b=hW0WRMNs1SoP0r5VYDllDSCI8fWPqe3ZiruxCKgVOty9nYhq2nnyUMX0eYuk5vNRRd
+ IuD+VJksUgjG+eBsdCvLco6ofpXzuBwx97jx7AxcrzSwWTjcuIK9XtPC4sRiZ+rK9J2T
+ Ckwv/P6JY/e/8Lrimsxkph6FcNaNvjKDPCslxFejA4IkxrypL5Cu7Ol/PUcVVK8/CFku
+ RkN60su9g7Y4LhWcvp+K+xYYDIAolgi+FwReYdIHDv+AfPvmkDnFOtHsWAR3yu7LFDAx
+ qvYg1ZjiUXWCubnOk4x9eZCksdX44qRRJoeUMfUn0GI+hzjxKFkQK4waqEFmTT026QqI
+ A3tw==
+X-Gm-Message-State: APjAAAU7N8L3P6ZMzgdUmaE1bQqhdZIYzTFqRD1aRqQZqt+EICAssXLv
+ xpDL/smUSqyymF6bsNZbIhPenw==
+X-Google-Smtp-Source: APXvYqx9IqBt3lkqgKwa8lRqh+EMXV4Z5INEt5vZARRFzhNGU5/ykWOAvkTYwnAGobZix7373gRwCQ==
+X-Received: by 2002:a2e:8885:: with SMTP id k5mr11915374lji.98.1574800532208; 
+ Tue, 26 Nov 2019 12:35:32 -0800 (PST)
+Received: from cakuba.netronome.com ([66.60.152.14])
+ by smtp.gmail.com with ESMTPSA id z127sm5839668lfa.19.2019.11.26.12.35.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Nov 2019 12:35:31 -0800 (PST)
+Date: Tue, 26 Nov 2019 12:35:14 -0800
+From: Jakub Kicinski <jakub.kicinski@netronome.com>
+To: Prashant Bhole <prashantbhole.linux@gmail.com>
+Subject: Re: [RFC net-next 00/18] virtio_net XDP offload
+Message-ID: <20191126123514.3bdf6d6f@cakuba.netronome.com>
+In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
+References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-References: <157475994490.31055.5778115059405326734@37313f22b938>
- <e5352867-943c-6010-4700-78a0e25cea10@redhat.com>
-In-Reply-To: <e5352867-943c-6010-4700-78a0e25cea10@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 26 Nov 2019 23:12:05 +0100
-Message-ID: <CABgObfaETGKLuHnTHbY+kuAhnA3qZ6nw6sHUfcj6R=6weiTmPQ@mail.gmail.com>
-Subject: Re: [PULL 0/5] i386 patches for QEMU 4.2-rc
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-X-MC-Unique: e5-03mjRNuC1I4NtbLBZYQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/alternative; boundary="0000000000005153db0598472cd5"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::242
+X-Mailman-Approved-At: Tue, 26 Nov 2019 17:53:42 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,130 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Song Liu <songliubraving@fb.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, netdev@vger.kernel.org,
+ Jason Wang <jasowang@redhat.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+ kvm@vger.kernel.org, Yonghong Song <yhs@fb.com>,
+ Andrii Nakryiko <andriin@fb.com>, "David S . Miller" <davem@davemloft.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005153db0598472cd5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 26 Nov 2019 19:07:26 +0900, Prashant Bhole wrote:
+> Note: This RFC has been sent to netdev as well as qemu-devel lists
+> 
+> This series introduces XDP offloading from virtio_net. It is based on
+> the following work by Jason Wang:
+> https://netdevconf.info/0x13/session.html?xdp-offload-with-virtio-net
+> 
+> Current XDP performance in virtio-net is far from what we can achieve
+> on host. Several major factors cause the difference:
+> - Cost of virtualization
+> - Cost of virtio (populating virtqueue and context switching)
+> - Cost of vhost, it needs more optimization
+> - Cost of data copy
+> Because of above reasons there is a need of offloading XDP program to
+> host. This set is an attempt to implement XDP offload from the guest.
 
-Il mar 26 nov 2019, 23:04 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> h=
-a
-scritto:
+This turns the guest kernel into a uAPI proxy.
 
-> On 11/26/19 10:19 AM, no-reply@patchew.org wrote:
-> > Patchew URL:
-> https://patchew.org/QEMU/20191126085936.1689-1-pbonzini@redhat.com/
-> >
-> > This series failed the docker-quick@centos7 build test. Please find the
-> testing commands and
-> > their output below. If you have Docker installed, you can probably
-> reproduce it
-> > locally.
-> >
-> > =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> > #!/bin/bash
-> > make docker-image-centos7 V=3D1 NETWORK=3D1
-> > time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1
-> > =3D=3D=3D TEST SCRIPT END =3D=3D=3D
-> >
-> >    TEST    check-unit: tests/test-thread-pool
-> > wait_for_migration_fail: unexpected status status=3Dwait-unplug
-> allow_active=3D1
-> > **
-> >
-> ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wait_for_migration_fa=
-il:
-> assertion failed: (result)
-> > ERROR - Bail out!
-> ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wait_for_migration_fa=
-il:
-> assertion failed: (result)
-> > make: *** [check-qtest-aarch64] Error 1
->
-> Should we worry about this error?
->
+BPF uAPI calls related to the "offloaded" BPF objects are forwarded 
+to the hypervisor, they pop up in QEMU which makes the requested call
+to the hypervisor kernel. Today it's the Linux kernel tomorrow it may 
+be someone's proprietary "SmartNIC" implementation.
 
-Possibly, but seeing as this series only affect x86 (and really only macOS
-except for the tweak to VMX features) it is certainly pre-existing.
+Why can't those calls be forwarded at the higher layer? Why do they
+have to go through the guest kernel?
 
-Paolo
+If kernel performs no significant work (or "adds value", pardon the
+expression), and problem can easily be solved otherwise we shouldn't 
+do the work of maintaining the mechanism.
 
->
-> [...]
-> > real    9m26.610s
-> > user    0m8.328s
-> >
-> >
-> > The full log is available at
-> >
-> http://patchew.org/logs/20191126085936.1689-1-pbonzini@redhat.com/testing=
-.docker-quick@centos7/?type=3Dmessage
-> .
->
->
+The approach of kernel generating actual machine code which is then
+loaded into a sandbox on the hypervisor/SmartNIC is another story.
 
---0000000000005153db0598472cd5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 26 nov 2019, 23:04 Philippe Mathieu-Daud=C3=A9 =
-&lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; ha scrit=
-to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex">On 11/26/19 10:19 AM, <a href=
-=3D"mailto:no-reply@patchew.org" target=3D"_blank" rel=3D"noreferrer">no-re=
-ply@patchew.org</a> wrote:<br>
-&gt; Patchew URL: <a href=3D"https://patchew.org/QEMU/20191126085936.1689-1=
--pbonzini@redhat.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
-s://patchew.org/QEMU/20191126085936.1689-1-pbonzini@redhat.com/</a><br>
-&gt; <br>
-&gt; This series failed the docker-quick@centos7 build test. Please find th=
-e testing commands and<br>
-&gt; their output below. If you have Docker installed, you can probably rep=
-roduce it<br>
-&gt; locally.<br>
-&gt; <br>
-&gt; =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D<br>
-&gt; #!/bin/bash<br>
-&gt; make docker-image-centos7 V=3D1 NETWORK=3D1<br>
-&gt; time make docker-test-quick@centos7 SHOW_ENV=3D1 J=3D14 NETWORK=3D1<br=
->
-&gt; =3D=3D=3D TEST SCRIPT END =3D=3D=3D<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 TEST=C2=A0 =C2=A0 check-unit: tests/test-thread-pool<br>
-&gt; wait_for_migration_fail: unexpected status status=3Dwait-unplug allow_=
-active=3D1<br>
-&gt; **<br>
-&gt; ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:wait_for_migration=
-_fail: assertion failed: (result)<br>
-&gt; ERROR - Bail out! ERROR:/tmp/qemu-test/src/tests/migration-test.c:908:=
-wait_for_migration_fail: assertion failed: (result)<br>
-&gt; make: *** [check-qtest-aarch64] Error 1<br>
-<br>
-Should we worry about this error?<br></blockquote></div></div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Possibly, but seeing as this series only a=
-ffect x86 (and really only macOS except for the tweak to VMX features) it i=
-s certainly pre-existing.</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">Paolo</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-[...]<br>
-&gt; real=C2=A0 =C2=A0 9m26.610s<br>
-&gt; user=C2=A0 =C2=A0 0m8.328s<br>
-&gt; <br>
-&gt; <br>
-&gt; The full log is available at<br>
-&gt; <a href=3D"http://patchew.org/logs/20191126085936.1689-1-pbonzini@redh=
-at.com/testing.docker-quick@centos7/?type=3Dmessage" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">http://patchew.org/logs/20191126085936.1689-1-pbo=
-nzini@redhat.com/testing.docker-quick@centos7/?type=3Dmessage</a>.<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000005153db0598472cd5--
-
+I'd appreciate if others could chime in.
 
