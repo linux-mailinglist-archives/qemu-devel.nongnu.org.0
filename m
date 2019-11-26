@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37547109AA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:02:28 +0100 (CET)
-Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98715109AAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:04:53 +0100 (CET)
+Received: from localhost ([::1]:51718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZWjq-0003Wh-OA
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:02:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49997)
+	id 1iZWmC-000688-J4
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:04:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhF-00021c-6O
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:46 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iZWjm-0004Mk-FW
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhE-00037A-0A
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:45 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39936)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iZWjg-00049y-ID
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:22 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37421)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iZWhD-00036v-QG
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:43 -0500
-Received: by mail-wm1-x329.google.com with SMTP id y5so2302448wmi.5
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 00:59:43 -0800 (PST)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iZWjg-00049a-A6
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 04:02:16 -0500
+Received: by mail-wm1-x336.google.com with SMTP id f129so2333011wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 01:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dmZ/MWljO9/7PIDmw2I60lQlo/07TU1Uam/BYY6gYeg=;
- b=uetKLGrR5RS0NrkqselYiyB93a6LmFbTNUuLi2ihlRE/fXsY3RJVAZzBq+asYQhVfM
- c0/3sJ6hrcMaRe3a5SrjpqC3JophyTtdmp+vQfh3qgo5YxsgffhJd9+N+7HvwQlzhLGe
- mpNgMM6jSKsyUKet+SnVG1VTLZwHhU/iyfsV/6eavl6XoJzhOAsIuOexq8gcAajrqfHT
- vMa96s9Df+OJFB2ooytLCXrA2aaedToPHfR89OBSp+ALe2AcRaXMbeVsHhbPdmIswFE2
- pQBrOuSTfndLWbRzL7qtP8aULrQE5nJ+4+lILvE+6K6iUpstKzjSocClCcJpGlmiWTQj
- z4TA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4g6DFYGNdDGjfZc5GLBMg/U+DjxAAWPrM01NS+p/b1o=;
+ b=XqWvYO8onTu6h2H8uCdKYhFl8yGcqBUCI50YcWE7PraT2HgwKt16ciyuldeId23chq
+ OqHTffpn0y+TBoXYX8SvYeTPSoIg/qqFvblf8vyR969pVeRCKvueTVeamPK52gg4u21d
+ yc7ZJ6b/HpBHhTWdbHc/OWwXUQ5+5a0BypHHQdXFnS7x8UZBB7o8Qd5hCbVIlbY2vyv5
+ 6/VC+jQWe24J58PuG88/DrH1DJ/fcPOJ7pcwPe27Pg88WXQfRxhRvHOcZyWkQl+x5bkX
+ 9AvpBcQnEpVHb6wsSO1OPep/RO+TMVTXIFmfzXOFiaMivOmSNjRs3J5z/76llrbZBOd0
+ h3lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dmZ/MWljO9/7PIDmw2I60lQlo/07TU1Uam/BYY6gYeg=;
- b=JBlXPh/zx2dX+hgM0E0vStk8XhckD+SndPf1iWoirc/133VDifSryMHZ2Cosz72jkh
- /1vZ4+13HEK1Tbj9vOXe7PzrrgKDOQ3gERfU0mOYEe3H2sQd6IMgeknM3kvw/ZLLRFCo
- EfkdB3J5TzOPY05Hk3lHQ1i5p4ulEFfd6ScfwzcxrS4BgfraW1oKW6D2UbUy8E1SUeL/
- 8wF3iaRlmUxay7uBMd69lshrplmTc34lrnEItvS8XWj9cA7R2ijBgnSJRwgxlTBOkS8p
- A/loE5cUBpux8x2n1mTlunk0zHn0g6Kl/iHmJIMM3Aju7MXEx5yU5pzjQpEkQ0VgVxGs
- JEWA==
-X-Gm-Message-State: APjAAAXoF5Y9lykvgSFZcuqo4DKLGV9KpqR3zqPdH8i9MG3q6U6YyRaG
- TU4O/GPWnUaMgQSraWYqoLW4pZbO
-X-Google-Smtp-Source: APXvYqz1Pv06jyMP/q3aDbJRMixlvx00Q7s7eVLUOUWSZjrIfG/Ph3iisxGtYkZG6CXm/9U0B0uteQ==
-X-Received: by 2002:a05:600c:2919:: with SMTP id
- i25mr3025663wmd.158.1574758782613; 
- Tue, 26 Nov 2019 00:59:42 -0800 (PST)
-Received: from donizetti.lan ([2001:b07:6468:f312:5454:a592:5a0a:75c])
- by smtp.gmail.com with ESMTPSA id a206sm2349172wmf.15.2019.11.26.00.59.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 00:59:41 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] hvf: more accurately match SDM when setting CR0 and PDPTE
- registers
-Date: Tue, 26 Nov 2019 09:59:36 +0100
-Message-Id: <20191126085936.1689-6-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191126085936.1689-1-pbonzini@redhat.com>
-References: <20191126085936.1689-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4g6DFYGNdDGjfZc5GLBMg/U+DjxAAWPrM01NS+p/b1o=;
+ b=gH0ZXnNu9Zz7A0P7arV8dhYyCz3Z9xsEdFzVM5ChkT4K+yznJ36UL686zv60tF2pM/
+ KBNQngLM6KXmkzJgu19klT4nhXwnRVJWgTL3c+zzuvZyeV00ficWqXqWTV6/68dAb1VW
+ v8q0hdWFfvAn9acnr0Pu9mB9S7uTMsPaiOPAeaKyMJxiDiH6t9yRDD9IdBLsGt1YJnp7
+ xGB/Rw2j5Sg1aWgMVg4OP1TVUVNzR+R8xfIVBwfKnAqYzu/i++2y7EsCZBeAM1XDIowh
+ RDiYqsTKMUqlIy9+pAmQJONt3x845JwBqSDbk3tgfJUz1QGKK/daoaz+fjQYlyQtt6vg
+ Ut9Q==
+X-Gm-Message-State: APjAAAXX+K4XrQZ7UNeZXt90hd55B48eTR5Q6TzJZw63b6oA4CBxbrqh
+ du30oOoW9h3J5AGdxPStqPuzaazNcBbpbt4rAU8=
+X-Google-Smtp-Source: APXvYqwBEmn1qjbVPyjEwDMMISGmn9/vmv48cw1gsguSZtk+k9zQwIMrm2Om8Koy83HR3lfWnRwEKl3HiWe6P9v3tqc=
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr3113414wmh.5.1574758933698;
+ Tue, 26 Nov 2019 01:02:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191125185021.GB3767@work-vm>
+In-Reply-To: <20191125185021.GB3767@work-vm>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 26 Nov 2019 13:02:01 +0400
+Message-ID: <CAJ+F1C+6kgO5kX=fYQno3g-YoxxqOyph+zanpDmFaOnOqirKYQ@mail.gmail.com>
+Subject: Re: virtiofsd: Where should it live?
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,97 +73,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, mszeredi@redhat.com,
+ "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cameron Esfahani <dirty@apple.com>
+Hi David
 
-More accurately match SDM when setting CR0 and PDPTE registers.
+On Mon, Nov 25, 2019 at 10:50 PM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> Hi,
+>   There's been quite a bit of discussion about where virtiofsd, our
+> implemenation of a virtiofs daemon, should live.  I'd like to get
+> this settled now, because I'd like to tidy it up for the next
+> qemu cycle.
+>
+> For reference it's based on qemu's livhost-user+chunks of libfuse.
+> It can't live in libfuse because we change enough of the library
+> to break their ABI.  It's C, and we've got ~100 patches - which
+> we can split into about 3 chunks.
+>
+> Some suggestions so far:
+>   a) In contrib
+>      This is my current working assumption; the main objection is it's
+>      a bit big and pulls in a chunk of libfuse
+>
+>   b) In a submodule
+>
+>   c) Just separate
+>
+> Your suggestions/ideas please.  My preference is (a).
+>
 
-Clear PDPTE registers when resetting vcpus.
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Message-Id: <464adb39c8699fb8331d8ad6016fc3e2eff53dbc.1574625592.git.dirty@apple.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/hvf/hvf.c |  8 ++++++++
- target/i386/hvf/vmx.h | 18 ++++++++++--------
- 2 files changed, 18 insertions(+), 8 deletions(-)
+It's more about code sharing and lifecycle.
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 90fd50acfc..784e67d77e 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -441,12 +441,20 @@ static MemoryListener hvf_memory_listener = {
- };
- 
- void hvf_reset_vcpu(CPUState *cpu) {
-+    uint64_t pdpte[4] = {0, 0, 0, 0};
-+    int i;
- 
-     /* TODO: this shouldn't be needed; there is already a call to
-      * cpu_synchronize_all_post_reset in vl.c
-      */
-     wvmcs(cpu->hvf_fd, VMCS_ENTRY_CTLS, 0);
-     wvmcs(cpu->hvf_fd, VMCS_GUEST_IA32_EFER, 0);
-+
-+    /* Initialize PDPTE */
-+    for (i = 0; i < 4; i++) {
-+        wvmcs(cpu->hvf_fd, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
-+    }
-+
-     macvm_set_cr0(cpu->hvf_fd, 0x60000010);
- 
-     wvmcs(cpu->hvf_fd, VMCS_CR4_MASK, CR4_VMXE_MASK);
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 5dc52ecad6..eb8894cd58 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -121,6 +121,7 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-     uint64_t pdpte[4] = {0, 0, 0, 0};
-     uint64_t efer = rvmcs(vcpu, VMCS_GUEST_IA32_EFER);
-     uint64_t old_cr0 = rvmcs(vcpu, VMCS_GUEST_CR0);
-+    uint64_t mask = CR0_PG | CR0_CD | CR0_NW | CR0_NE | CR0_ET;
- 
-     if ((cr0 & CR0_PG) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE) &&
-         !(efer & MSR_EFER_LME)) {
-@@ -128,18 +129,15 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-                          rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
-                          MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)pdpte, 32, 0);
-+        /* Only set PDPTE when appropriate. */
-+        for (i = 0; i < 4; i++) {
-+            wvmcs(vcpu, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
-+        }
-     }
- 
--    for (i = 0; i < 4; i++) {
--        wvmcs(vcpu, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
--    }
--
--    wvmcs(vcpu, VMCS_CR0_MASK, CR0_CD | CR0_NE | CR0_PG);
-+    wvmcs(vcpu, VMCS_CR0_MASK, mask);
-     wvmcs(vcpu, VMCS_CR0_SHADOW, cr0);
- 
--    cr0 &= ~CR0_CD;
--    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
--
-     if (efer & MSR_EFER_LME) {
-         if (!(old_cr0 & CR0_PG) && (cr0 & CR0_PG)) {
-             enter_long_mode(vcpu, cr0, efer);
-@@ -149,6 +147,10 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-         }
-     }
- 
-+    /* Filter new CR0 after we are finished examining it above. */
-+    cr0 = (cr0 & ~(mask & ~CR0_PG));
-+    wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
-+
-     hv_vcpu_invalidate_tlb(vcpu);
-     hv_vcpu_flush(vcpu);
- }
--- 
-2.21.0
+The project started in a separate repository, and the proposed patches
+for qemu aren't a clean series. Reviewing it is harder than it should
+be, as we have to review/accept the whole thing.
 
+As you said, it doesn't share much with qemu, but libvhost-user (which
+we could quite easily copy or make standalone/submodule).
+
+Then it dumps code from libfuse that is questionnable (showing age)
+and often redundant with facilities provided by either glib, qemu
+utils etc.
+
+Is vhost-user-fs (the qemu device) going to have a strong relation
+with virtiofsd?
+Are we going to support different version of qemu and virtiofsd
+combination? I suppose we have to, as vhost-user protocol should allow
+that, and it's nice to allow other to experiment and implement it in
+different ways.
+If not, then perhaps we should think about introducing some version
+checking between qemu and external processes (with config_stamp,
+similar to modules).
+
+From what I understand, I think c) would be fine. However, for
+convenience/testing reasons, b) would be my preference.
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
