@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6E910A02F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:23:29 +0100 (CET)
-Received: from localhost ([::1]:55806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F60F10A032
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:25:13 +0100 (CET)
+Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZbkW-00065E-JP
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:23:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48663)
+	id 1iZbmC-0000Ax-2e
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:25:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48940)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iZbhx-0004ki-At
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:20:50 -0500
+ (envelope-from <berto@igalia.com>) id 1iZbj1-0005MG-N1
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:21:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iZbhw-0001cC-5S
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:20:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49728
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iZbhw-0001bu-1L
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:20:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574778047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PyUVgxomDK1RSNDqnJdK15zFsxxzTnnQmFqskzxkhcM=;
- b=JpkFWJSgaAe5izjhWGxpjSF4KkbyrWAwJ8hLAd6+VQ1Xz4wi4Y6y0JuTVMVlZoCTM5A3ag
- mQdT9SpvPCjupAgOQDW+jUpkM4AHDF2WCNseJThj4Llv0YHxM1DI9o9R/dc68CCcHUH/EG
- q+UmD+jYdXSndeAeeb1Vyz9JULuwAdU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-mEvjoJXCOcaTjSbPswmN5w-1; Tue, 26 Nov 2019 09:20:46 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5C46100E36F;
- Tue, 26 Nov 2019 14:20:44 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-171.ams2.redhat.com [10.36.117.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 681D25C219;
- Tue, 26 Nov 2019 14:20:38 +0000 (UTC)
-Date: Tue, 26 Nov 2019 15:20:36 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 1/4] block/io: fix bdrv_co_block_status_above
-Message-ID: <20191126142036.GA5889@linux.fritz.box>
-References: <20191116163410.12129-1-vsementsov@virtuozzo.com>
- <20191116163410.12129-2-vsementsov@virtuozzo.com>
- <20191125160037.GD4638@linux.fritz.box>
- <91f61957-33ec-ea91-d0c4-f555199c4d69@virtuozzo.com>
+ (envelope-from <berto@igalia.com>) id 1iZbiz-00028H-FN
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:21:55 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:46400)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>) id 1iZbiu-00023s-8V
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:21:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=vbZ9Vj/DV7mXa4BJmld8xJR8zzhx0WBQ1ygQ2O3z2Ko=; 
+ b=AWSoa5+RVBU0OsY4D0s2ClhFRtrSoqjFEh14jKhgiuKXM2nrK8vLd5mxmWufH1jQEdelMa3wf+F3CR08FUyAfSNJAvYthVwqLv1tYQqk1h0gWrnJfBq0E7WogVCa6uPI8USahH14mOmOfhzFAzx836dSOS9Vj1yvm/nUMh3Gfdm5ke9WPsbp3QqJu5q7s7Cjjt/BBmXyZCMabW8IRLgML6PLkweAlIb3gNgB8nua4dc0F6lhdkd0ANTYUMIPdKHobMHXiKGa4I8vGU+BvP+PjHaFd0g4SVzUlgxwLqKBq4rLoZn89X4JbQTYu6hlQpXYs6eqt6pIrsMH2R+7lSrQZQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1iZbij-0000dV-61; Tue, 26 Nov 2019 15:21:37 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1iZbij-0007Gd-3O; Tue, 26 Nov 2019 15:21:37 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Lukas Straub <lukasstraub2@web.de>, Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 1/4] block/quorum.c: stable children names
+In-Reply-To: <20191121193445.2361b846@luklap>
+References: <cover.1574356137.git.lukasstraub2@web.de>
+ <ce10f8cf2bb9ae8a1505b59bbc2199f7b4966990.1574356137.git.lukasstraub2@web.de>
+ <2ce1be55-010b-d3c3-9df4-e8e02eb522f9@redhat.com>
+ <20191121193445.2361b846@luklap>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 26 Nov 2019 15:21:37 +0100
+Message-ID: <w51imn667m6.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <91f61957-33ec-ea91-d0c4-f555199c4d69@virtuozzo.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: mEvjoJXCOcaTjSbPswmN5w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,111 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.11.2019 um 08:26 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 25.11.2019 19:00, Kevin Wolf wrote:
-> > Am 16.11.2019 um 17:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> >> bdrv_co_block_status_above has several problems with handling short
-> >> backing files:
-> >>
-> >> 1. With want_zeros=3Dtrue, it may return ret with BDRV_BLOCK_ZERO but
-> >> without BDRV_BLOCK_ALLOCATED flag, when actually short backing file
-> >> which produces these after-EOF zeros is inside requested backing
-> >> sequesnce.
-> >=20
-> > s/sequesnce/sequence/
-> >=20
-> >>
-> >> 2. With want_zeros=3Dfalse, it will just stop inside requested region,=
- if
-> >> we have unallocated region in top node when underlying backing is
-> >> short.
-> >=20
-> > I honestly don't understand this one. Can you rephrase/explain in more
-> > detail what you mean by "stop inside [the] requested region"?
->=20
-> Hmm, yes, bad description. I mean, it may return pnum=3D0 prior to actual=
- EOF,
-> because of EOF of short backing file.
+On Thu 21 Nov 2019 07:34:45 PM CET, Lukas Straub wrote:
+>> > diff --git a/block/quorum.c b/block/quorum.c
+>> > index df68adcfaa..6100d4108a 100644
+>> > --- a/block/quorum.c
+>> > +++ b/block/quorum.c
+>> > @@ -1054,6 +1054,12 @@ static void quorum_del_child(BlockDriverState *bs, BdrvChild *child,
+>> >       /* We know now that num_children > threshold, so blkverify must be false */
+>> >       assert(!s->is_blkverify);
+>> >
+>> > +    unsigned child_id;
+>> > +    sscanf(child->name, "children.%u", &child_id);
+>>
+>> sscanf() cannot detect overflow. Do we trust our input enough to
+>> ignore this shortfall in the interface, or should we be using saner
+>> interfaces like qemu_strtoul()?  For that matter, why do we have to
+>> reparse something; is it not already available somewhere in numerical
+>> form?
+>
+> Yes, I wondered about that too, but found no other way. But the input
+> is trusted, AFAIK the only way to add child nodes is trough
+> quorum_add_child above and quorum_open and there already are adequate
+> checks there.
 
-Ah, yes, that's true. Definitely mention pnum=3D0 in the comment, this
-explanation is much clearer.
+I also don't see any other way to get that value, unless we change
+BDRVQuorumState to store that information (e.g. instead of children
+being a list of pointers BdrvChild ** it could be a list of {pointer,
+index}, or something like that).
 
-> >> Fix these things, making logic about short backing files clearer.
-> >>
-> >> Note that 154 output changed, because now bdrv_block_status_above don'=
-t
-> >> merge unallocated zeros with zeros after EOF (which are actually
-> >> "allocated" in POV of read from backing-chain top) and is_zero() just
-> >> don't understand that the whole head or tail is zero. We may update
-> >> is_zero to call bdrv_block_status_above several times, or add flag to
-> >> bdrv_block_status_above that we are not interested in ALLOCATED flag,
-> >> so ranges with different ALLOCATED status may be merged, but actually,
-> >> it seems that we'd better don't care about this corner case.
-> >>
-> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >> ---
-> >>   block/io.c                 | 41 ++++++++++++++++++++++++++++--------=
---
-> >>   tests/qemu-iotests/154.out |  4 ++--
-> >>   2 files changed, 32 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/block/io.c b/block/io.c
-> >> index f75777f5ea..4d7fa99bd2 100644
-> >> --- a/block/io.c
-> >> +++ b/block/io.c
-> >> @@ -2434,25 +2434,44 @@ static int coroutine_fn bdrv_co_block_status_a=
-bove(BlockDriverState *bs,
-> >>           ret =3D bdrv_co_block_status(p, want_zero, offset, bytes, pn=
-um, map,
-> >>                                      file);
-> >>           if (ret < 0) {
-> >> -            break;
-> >> +            return ret;
-> >>           }
-> >> -        if (ret & BDRV_BLOCK_ZERO && ret & BDRV_BLOCK_EOF && !first) =
-{
-> >> +        if (*pnum =3D=3D 0) {
-> >> +            if (first) {
-> >> +                return ret;
-> >> +            }
-> >> +
-> >>               /*
-> >> -             * Reading beyond the end of the file continues to read
-> >> -             * zeroes, but we can only widen the result to the
-> >> -             * unallocated length we learned from an earlier
-> >> -             * iteration.
-> >> +             * Reads from bs for selected region will return zeroes, =
-produced
-> >> +             * because current level is short. We should consider it =
-as
-> >> +             * allocated.
-> >=20
-> > "the selected region"
-> > "the current level"
-> >=20
-> >> +             * TODO: Should we report p as file here?
-> >=20
-> > I think that would make sense.
-> >=20
-> >>                */
-> >> +            assert(ret & BDRV_BLOCK_EOF);
-> >=20
-> > Can this assertion be moved above the if (first)?
->=20
-> it may correspond to requested bytes=3D=3D0.. But we can check it separat=
-ely
-> before for loop and move this assertion.
+There's another (more convoluted) alternative if we don't want to parse
+child->name. Since we only want to know if the child number equals
+s->next_child_index - 1, we can do it the other way around:
 
-Ah, right. Don't bother then, it's fine either way.
+   snprintf(str, 32, "children.%u", s->next_child_index - 1);
 
-Kevin
+and then compare str and child->name.
 
+Berto
 
