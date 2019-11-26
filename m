@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A62109C2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:19:26 +0100 (CET)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32670109C50
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:30:13 +0100 (CET)
+Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZXwL-0000aI-8y
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:19:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57349)
+	id 1iZY6l-0006sb-HH
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:30:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsK-0005R4-9X
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsK-0005eM-4Z
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmf-0003Iq-NZ
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:26 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38914)
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmj-0003Mt-QM
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:31 -0500
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:43251)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
- id 1iZXmf-0003IZ-IG
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:25 -0500
-Received: by mail-pg1-x542.google.com with SMTP id b137so6441484pga.6
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:25 -0800 (PST)
+ id 1iZXmj-0003M8-KN
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:29 -0500
+Received: by mail-pj1-x1043.google.com with SMTP id a10so8055355pju.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EWBtU+IlOUXhhtmkIhJ52D/yxzedCQhAg5N/fljwEYM=;
- b=mc9u7EWTbaAvtKBfR1FxVgVgSAqvpWaqH4I+At8oqCl0wPs4cfCfmxX5bUF+7APNl4
- Xmw2dKPJ0fdmby7ayXU98TCOKpU3tQ1wLifizZBS9IU8NwE5tsD4IoVzY5pYlcirUpf9
- GML0jDXsPkYpnJe+/RALaLB8XlL6sdizXEjybBT7EgZxdovS1whnnDXgS67wftULUchR
- O3p4sPYpo+nunkY6U7wrAUIFDpc4+vzXWVNuD0tkqqUfIITHpRM0zfXFvhm5VUEnlf0k
- FecGp1HqFADGdhQP1ea4gIcNAQRIySeCIanS7L8aCvBvaHue4K/B4u8Yk6YJPLPoV0QZ
- x0AQ==
+ bh=04y2jMBz+TniBsSijixdhxAgItaCRW1Bg/M7TEdqtZw=;
+ b=qNxv9romfmc3q9HrRe1SsyMGoaUYYBfCAqMUu5CAK2O3s3+yZxepf2025cJPH3wVaq
+ YdPZyUS+KjlG/AyXxckpOaJIFC/CznF+s9mOw22e/xJsgsAaSfC+QzI6FDrXI81xPOtl
+ jHxPnXyPvnymn3KeFZk8QSD+AqaskNH3wrtAVq4sk73gCruVUF8q2EL+osao+obGfuXa
+ E4Yvk9grWBs1sV7Ecjvmb2aJXX2sdhUMcocV9tdygaC/9AnOyqH6hyLQHPQRz4EYZYed
+ OROth7uyN6VTu0xFGEmoI2bu6lRMgCUIYSq4c1GTkIT6StqdUJfKPl1MlLtm9JNoEsMG
+ eJtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EWBtU+IlOUXhhtmkIhJ52D/yxzedCQhAg5N/fljwEYM=;
- b=PVaHsPmnSaBAoIewRpmzJmfZq5fV5nLfNy93C8l+NMKvPl+z2BsS/D3j4CQwSCbm5Q
- 94OCaZhqyintRtuA5iPvo00f322K5lBDvS2uttcAoUxFCRw1bPv+HzTmvEfX1h+VHxka
- ajnldUiR+2+APDxVzDDyoBE6F9reCwbgkthHMIdhRT5D+aAxQf8uIkwENPsIXGiqIh6b
- LIfhYxslH1W1TkvYFMQALClYhNT1IKp2mHBnv0Orjk1IRjPf/arLordQAIlq1S79w0Je
- ANM8OmTo6YAzo5EfDiWG+Yc05ZZdXzTaJ6/RirspYlAfY5UQ6n6xAJi9TxEgdgayA94q
- MKLQ==
-X-Gm-Message-State: APjAAAW689sirDqQY+U4xOl9jjcA3M6T5zHD0A98zDdZzWpVR8G9LGiF
- qPbNt1OdHN5Ow2cQk/fWaxU=
-X-Google-Smtp-Source: APXvYqz49czbgi+kYj34fPF5hK5fvqdKlFHvat1AI4Q3wYxfqfWIPNVeAlyJ9wlfZ+jcUET4SjDAZg==
-X-Received: by 2002:a63:6b87:: with SMTP id
- g129mr29079841pgc.438.1574762964825; 
- Tue, 26 Nov 2019 02:09:24 -0800 (PST)
+ bh=04y2jMBz+TniBsSijixdhxAgItaCRW1Bg/M7TEdqtZw=;
+ b=BY3wq07Yy9TYQYW5GNQPRsfK0Vc8Nxs9H9mh7JzQOpIIJdJzU52iQGANo2eC5lbQP5
+ v2ACNE2z0YJRuJ5LeKo/ETdJwlVrt74P6QWxDmCNZRHYB9Oi1GmT++wjyBwsfUTToeKy
+ d1ndZgKyaNhb0JM9Hev+yrg9nXTbrTqPzR89ZEibFJjDk/YHUvpvxpU3iA2pdzN2PqQl
+ CbZspZV3ZWlO+ZNSUiwmNXncSAiM9w7xC4PNPacPPaEIOX0KoPOAFoweTNfGyTJ6OBMm
+ q5bbuDQlOz9IQvvm5Uzzoj0/D78Kq0B0XPqZVFrdtCqIzMb7i/Vy0XCR9OU4rGgr4gBu
+ 0Mag==
+X-Gm-Message-State: APjAAAV/1X3lIMp4UMWv6B3E3nSCLYSVtdl5Lsv9U9iKgnKX9gFaXhOK
+ psYRU4xD0bHcxmry+nA8hHA=
+X-Google-Smtp-Source: APXvYqwRnyofw+ROJrA/0vdTheynnaSCjgx1858Q2XAMEgN8s0N0WdIa2wiPcUAvtMOS75RBHUMq6A==
+X-Received: by 2002:a17:902:758a:: with SMTP id
+ j10mr34601161pll.29.1574762968666; 
+ Tue, 26 Nov 2019 02:09:28 -0800 (PST)
 Received: from localhost.localdomain ([222.151.198.97])
- by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.21
+ by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 02:09:24 -0800 (PST)
+ Tue, 26 Nov 2019 02:09:28 -0800 (PST)
 From: Prashant Bhole <prashantbhole.linux@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [RFC net-next 11/18] tun: run xdp prog when tun is read from file
- interface
-Date: Tue, 26 Nov 2019 19:07:37 +0900
-Message-Id: <20191126100744.5083-12-prashantbhole.linux@gmail.com>
+Subject: [RFC net-next 12/18] virtio-net: store xdp_prog in device
+Date: Tue, 26 Nov 2019 19:07:38 +0900
+Message-Id: <20191126100744.5083-13-prashantbhole.linux@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
 References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
@@ -68,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,45 +91,195 @@ Cc: Song Liu <songliubraving@fb.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It handles the case when qemu performs read on tun using file
-operations.
+From: Jason Wang <jasowang@redhat.com>
 
+This is a preparation for adding XDP offload support in virtio_net
+driver. By storing XDP program in virtionet_info will make it
+consistent with the offloaded program which will introduce in next
+patches.
+
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Co-developed-by: Prashant Bhole <prashantbhole.linux@gmail.com>
 Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
 ---
- drivers/net/tun.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/net/virtio_net.c | 62 ++++++++++++++++------------------------
+ 1 file changed, 25 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index 084ca95358fe..639921c10e32 100644
---- a/drivers/net/tun.c
-+++ b/drivers/net/tun.c
-@@ -2318,8 +2318,10 @@ static ssize_t tun_do_read(struct tun_struct *tun, struct tun_file *tfile,
- 			   struct iov_iter *to,
- 			   int noblock, void *ptr)
- {
-+	struct xdp_frame *frame;
- 	ssize_t ret;
- 	int err;
-+	u32 act;
+diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
+index 4d7d5434cc5d..c8bbb1b90c1c 100644
+--- a/drivers/net/virtio_net.c
++++ b/drivers/net/virtio_net.c
+@@ -137,8 +137,6 @@ struct receive_queue {
  
- 	tun_debug(KERN_INFO, tun, "tun_do_read\n");
+ 	struct napi_struct napi;
  
-@@ -2333,6 +2335,15 @@ static ssize_t tun_do_read(struct tun_struct *tun, struct tun_file *tfile,
- 		ptr = tun_ring_recv(tfile, noblock, &err);
- 		if (!ptr)
- 			return err;
+-	struct bpf_prog __rcu *xdp_prog;
+-
+ 	struct virtnet_rq_stats stats;
+ 
+ 	/* Chain pages by the private ptr. */
+@@ -229,6 +227,8 @@ struct virtnet_info {
+ 
+ 	/* failover when STANDBY feature enabled */
+ 	struct failover *failover;
 +
-+		if (tun_is_xdp_frame(ptr)) {
-+			frame = tun_ptr_to_xdp(ptr);
-+			act = tun_do_xdp_offload(tun, tfile, frame);
-+		} else {
-+			act = tun_do_xdp_offload_generic(tun, ptr);
-+		}
-+		if (act != XDP_PASS)
-+			return err;
++	struct bpf_prog __rcu *xdp_prog;
+ };
+ 
+ struct padded_vnet_hdr {
+@@ -486,7 +486,6 @@ static int virtnet_xdp_xmit(struct net_device *dev,
+ 			    int n, struct xdp_frame **frames, u32 flags)
+ {
+ 	struct virtnet_info *vi = netdev_priv(dev);
+-	struct receive_queue *rq = vi->rq;
+ 	struct bpf_prog *xdp_prog;
+ 	struct send_queue *sq;
+ 	unsigned int len;
+@@ -501,7 +500,7 @@ static int virtnet_xdp_xmit(struct net_device *dev,
+ 	/* Only allow ndo_xdp_xmit if XDP is loaded on dev, as this
+ 	 * indicate XDP resources have been successfully allocated.
+ 	 */
+-	xdp_prog = rcu_dereference(rq->xdp_prog);
++	xdp_prog = rcu_dereference(vi->xdp_prog);
+ 	if (!xdp_prog)
+ 		return -ENXIO;
+ 
+@@ -649,7 +648,7 @@ static struct sk_buff *receive_small(struct net_device *dev,
+ 	stats->bytes += len;
+ 
+ 	rcu_read_lock();
+-	xdp_prog = rcu_dereference(rq->xdp_prog);
++	xdp_prog = rcu_dereference(vi->xdp_prog);
+ 	if (xdp_prog) {
+ 		struct virtio_net_hdr_mrg_rxbuf *hdr = buf + header_offset;
+ 		struct xdp_frame *xdpf;
+@@ -798,7 +797,7 @@ static struct sk_buff *receive_mergeable(struct net_device *dev,
+ 	stats->bytes += len - vi->hdr_len;
+ 
+ 	rcu_read_lock();
+-	xdp_prog = rcu_dereference(rq->xdp_prog);
++	xdp_prog = rcu_dereference(vi->xdp_prog);
+ 	if (xdp_prog) {
+ 		struct xdp_frame *xdpf;
+ 		struct page *xdp_page;
+@@ -2060,7 +2059,7 @@ static int virtnet_set_channels(struct net_device *dev,
+ 	 * also when XDP is loaded all RX queues have XDP programs so we only
+ 	 * need to check a single RX queue.
+ 	 */
+-	if (vi->rq[0].xdp_prog)
++	if (vi->xdp_prog)
+ 		return -EINVAL;
+ 
+ 	get_online_cpus();
+@@ -2441,13 +2440,10 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+ 		return -ENOMEM;
  	}
  
- 	if (tun_is_xdp_frame(ptr)) {
+-	old_prog = rtnl_dereference(vi->rq[0].xdp_prog);
++	old_prog = rtnl_dereference(vi->xdp_prog);
+ 	if (!prog && !old_prog)
+ 		return 0;
+ 
+-	if (prog)
+-		bpf_prog_add(prog, vi->max_queue_pairs - 1);
+-
+ 	/* Make sure NAPI is not using any XDP TX queues for RX. */
+ 	if (netif_running(dev)) {
+ 		for (i = 0; i < vi->max_queue_pairs; i++) {
+@@ -2457,11 +2453,8 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+ 	}
+ 
+ 	if (!prog) {
+-		for (i = 0; i < vi->max_queue_pairs; i++) {
+-			rcu_assign_pointer(vi->rq[i].xdp_prog, prog);
+-			if (i == 0)
+-				virtnet_restore_guest_offloads(vi);
+-		}
++		rcu_assign_pointer(vi->xdp_prog, prog);
++		virtnet_restore_guest_offloads(vi);
+ 		synchronize_net();
+ 	}
+ 
+@@ -2472,16 +2465,12 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+ 	vi->xdp_queue_pairs = xdp_qp;
+ 
+ 	if (prog) {
+-		for (i = 0; i < vi->max_queue_pairs; i++) {
+-			rcu_assign_pointer(vi->rq[i].xdp_prog, prog);
+-			if (i == 0 && !old_prog)
+-				virtnet_clear_guest_offloads(vi);
+-		}
++		rcu_assign_pointer(vi->xdp_prog, prog);
++		if (!old_prog)
++			virtnet_clear_guest_offloads(vi);
+ 	}
+ 
+ 	for (i = 0; i < vi->max_queue_pairs; i++) {
+-		if (old_prog)
+-			bpf_prog_put(old_prog);
+ 		if (netif_running(dev)) {
+ 			virtnet_napi_enable(vi->rq[i].vq, &vi->rq[i].napi);
+ 			virtnet_napi_tx_enable(vi, vi->sq[i].vq,
+@@ -2489,13 +2478,15 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+ 		}
+ 	}
+ 
++	if (old_prog)
++		bpf_prog_put(old_prog);
++
+ 	return 0;
+ 
+ err:
+ 	if (!prog) {
+ 		virtnet_clear_guest_offloads(vi);
+-		for (i = 0; i < vi->max_queue_pairs; i++)
+-			rcu_assign_pointer(vi->rq[i].xdp_prog, old_prog);
++		rcu_assign_pointer(vi->xdp_prog, old_prog);
+ 	}
+ 
+ 	if (netif_running(dev)) {
+@@ -2514,13 +2505,11 @@ static u32 virtnet_xdp_query(struct net_device *dev)
+ {
+ 	struct virtnet_info *vi = netdev_priv(dev);
+ 	const struct bpf_prog *xdp_prog;
+-	int i;
+ 
+-	for (i = 0; i < vi->max_queue_pairs; i++) {
+-		xdp_prog = rtnl_dereference(vi->rq[i].xdp_prog);
+-		if (xdp_prog)
+-			return xdp_prog->aux->id;
+-	}
++	xdp_prog = rtnl_dereference(vi->xdp_prog);
++	if (xdp_prog)
++		return xdp_prog->aux->id;
++
+ 	return 0;
+ }
+ 
+@@ -2657,18 +2646,17 @@ static void virtnet_free_queues(struct virtnet_info *vi)
+ 
+ static void _free_receive_bufs(struct virtnet_info *vi)
+ {
+-	struct bpf_prog *old_prog;
++	struct bpf_prog *old_prog = rtnl_dereference(vi->xdp_prog);
+ 	int i;
+ 
+ 	for (i = 0; i < vi->max_queue_pairs; i++) {
+ 		while (vi->rq[i].pages)
+ 			__free_pages(get_a_page(&vi->rq[i], GFP_KERNEL), 0);
+-
+-		old_prog = rtnl_dereference(vi->rq[i].xdp_prog);
+-		RCU_INIT_POINTER(vi->rq[i].xdp_prog, NULL);
+-		if (old_prog)
+-			bpf_prog_put(old_prog);
+ 	}
++
++	RCU_INIT_POINTER(vi->xdp_prog, NULL);
++	if (old_prog)
++		bpf_prog_put(old_prog);
+ }
+ 
+ static void free_receive_bufs(struct virtnet_info *vi)
 -- 
 2.20.1
 
