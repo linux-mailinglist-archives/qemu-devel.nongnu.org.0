@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E498D109AAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:04:38 +0100 (CET)
-Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B01109AA2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:02:17 +0100 (CET)
+Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZWlx-0005qC-Lp
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:04:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49957)
+	id 1iZWjg-0003LN-D3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:02:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhA-0001xU-TH
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:41 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhC-0001xe-A7
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWh9-000357-TZ
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:40 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39942)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhB-00035l-2X
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:42 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33918)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iZWh9-00034n-Mg
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:39 -0500
-Received: by mail-wm1-x330.google.com with SMTP id y5so2302168wmi.5
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 00:59:39 -0800 (PST)
+ id 1iZWhA-00035L-SE
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:41 -0500
+Received: by mail-wm1-x342.google.com with SMTP id j18so1857551wmk.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 00:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nvwgnhJ1IncIfrBZs8zzFkY601J2cmeUNpe2I65/og4=;
- b=UDmJ5hD7Mw3c/5cP76KU4Y4Q9DofP43OttL04RviUiu4CO/38uGTMHI3EZwrNEjcVT
- 9kJjWytHtEmtOASB33CM12nHv6qXcYDoNqfbL7TMCkZlE7ghpbIAVMaLlUcbZmeNIa7w
- kXbdKtAnCbrTyfEW1NwQ0bSvL9Ku2UIQX6AiFhWIguGsXR5Si8W75xeUloWrufXRi/iU
- 7Zflvbnqp3+ZNLL2Ggv5jIT8k9yoSAEcSjUsAQ3kYH82mdOL9qPF+1ZqbP1LBpGRuHTs
- Bne06epEH0Q61X5H2fnCgJohL8p3d/lEEymaJsKRGS4CnWOyL03QogGxEY80pBfpf9bG
- s/tQ==
+ bh=nabIz4ztOSzD1wm9cdtMam8zaml9Qa5oErUhfcY/D5U=;
+ b=DCL/kT3LClOKw0XwW7Zovx8t6MgGvj8CAjEXStMGMRQgitYewIEYofZhKhtzfzHlMo
+ rzuQ0V21sES9GVvTbQ8pu7sVrpofPGzAsf+7wcfjCORHcyv2UrZVGko5NAFWJrMFQ8Jz
+ zGCRG+/SvYvbbGYGFHGVOeo0QtNo4e+gufMnxBc9PPEqMXXAD5679/JuLYlUnjVVwiOK
+ o63WrNVOWxgBBIsH6LsrZ+cTzUu/3kK90fhavWOnWepGneSUZO7VyfWjXBUTPXahilKO
+ ADsvgBbv5q0u2qBfwsd0eTKE5FWuXRdvP6gTCLjLnilLpeOEIutGfkbjIrCaVG5Uilxm
+ fqUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nvwgnhJ1IncIfrBZs8zzFkY601J2cmeUNpe2I65/og4=;
- b=lMootm9Jg+oV8aHmo9ezFMkmiDOXSZwPfLo0qHeIBFuzWPSZGLRd2P4q7zWJJ/WHt8
- 5q9MWhOx3EHBYeWur0QfQl3E0REt3kGMdkTxRenm8y5kta+T+QvDz5vtttAXSrnD7Za0
- qSwScltAVfYdizhqGK98VcNqvArSCAyEkAhjZdxVMryMPL+mFFg9vzOkRxecGm8fAbNu
- ZGit/J0SfiJCRBQVwCwZSngcXAORMejzs1vle4o4RsYt2/HvKRl0Oyuv5raNu57sttCX
- 97cHcuhMdHmpeRml1o7u9kQJS0sP7At5c4Zhgv6iKy2FhOnTw9BFxnKZ8Bibf+U0VjbV
- hKNA==
-X-Gm-Message-State: APjAAAXiUgoyWSSQ1ajdD6LFToCHhubvy1AcmYtgEcEyZy/KMfixArCn
- KzZznRqqvQxQTCUrxDcTCI1esDMC
-X-Google-Smtp-Source: APXvYqyD89KK5m6343w/mmFiLShWrWaq7bPrzte06rbCcy11S9Dqz9IKuL+QGYXErxIFXOivZVeCMA==
-X-Received: by 2002:a1c:998f:: with SMTP id b137mr3213514wme.104.1574758778276; 
- Tue, 26 Nov 2019 00:59:38 -0800 (PST)
+ bh=nabIz4ztOSzD1wm9cdtMam8zaml9Qa5oErUhfcY/D5U=;
+ b=EKJvrRGj4uySxdbLIRUwKQQhz1BoR96bkURaPucgpVV188oPfy2zU7YFnP8xIsvWS8
+ Gs3oQvNd/y9stt6TNh3mgi04zFHVwXBLsAR8iNjY0RBAhdOfmZXpu7WaIfobaXcHJ/kL
+ WyaR1wFZf6GkDCU4bVx+VUSVKjWPAL8/sHBKxDJLzz+hQRXWnryrdKDrJl7LQW8+yxsQ
+ YaQ9WjGI07g2zDPHGtmNm2sk02hauiX3rIpkjDmZeacqnK4VziGeJsRFOnFlT6ZCJ9LC
+ O1KaYHFvYo2fn7bzlPdnIiXN4hB/8k3ZcAgw/pNlA1E3elO5R2oSmzd1wMtWx7PKYtAc
+ o0og==
+X-Gm-Message-State: APjAAAWpcKrYLC/5+UItI1zDiA7UJ5WcezMdSZR7V51QIdPqj3qRpE1r
+ /eQ3tqvseF8pkr+F2dg1F7a7Ncov
+X-Google-Smtp-Source: APXvYqw0bAWsEiINCBxgaGYX+9pDZJm6axEpImS9Zx+MUE8yHaVqKt6IDW9cLZcyg0MmH+I+7pbtnQ==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr3192025wmc.111.1574758779480; 
+ Tue, 26 Nov 2019 00:59:39 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:5454:a592:5a0a:75c])
- by smtp.gmail.com with ESMTPSA id a206sm2349172wmf.15.2019.11.26.00.59.37
+ by smtp.gmail.com with ESMTPSA id a206sm2349172wmf.15.2019.11.26.00.59.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 00:59:37 -0800 (PST)
+ Tue, 26 Nov 2019 00:59:38 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] target/i386: add two missing VMX features for Skylake and
- CascadeLake Server
-Date: Tue, 26 Nov 2019 09:59:32 +0100
-Message-Id: <20191126085936.1689-2-pbonzini@redhat.com>
+Subject: [PULL 2/5] hvf: non-RAM,
+ non-ROMD memory ranges are now correctly mapped in
+Date: Tue, 26 Nov 2019 09:59:33 +0100
+Message-Id: <20191126085936.1689-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126085936.1689-1-pbonzini@redhat.com>
 References: <20191126085936.1689-1-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +78,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-They are present in client (Core) Skylake but pasted wrong into the server
-SKUs.
+From: Cameron Esfahani <dirty@apple.com>
 
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+If an area is non-RAM and non-ROMD, then remove mappings so accesses
+will trap and can be emulated.  Change hvf_find_overlap_slot() to take
+a size instead of an end address: it wouldn't return a slot because
+callers would pass the same address for start and end.  Don't always
+map area as read/write/execute, respect area flags.
+
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Message-Id: <1d8476c8f86959273fbdf23c86f8b4b611f5e2e1.1574625592.git.dirty@apple.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/i386/hvf/hvf.c | 50 ++++++++++++++++++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 15 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 730fb28b67..69f518a21a 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3006,7 +3006,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
-              VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-              VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
--             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS,
-+             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-+             VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Skylake)",
-         .versions = (X86CPUVersionDefinition[]) {
-@@ -3131,7 +3132,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
-              VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
-              VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-              VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
--             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS,
-+             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-+             VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Cascadelake)",
-         .versions = (X86CPUVersionDefinition[]) {
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 231732aaf7..0b50cfcbc6 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -107,14 +107,14 @@ static void assert_hvf_ok(hv_return_t ret)
+ }
+ 
+ /* Memory slots */
+-hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t end)
++hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
+ {
+     hvf_slot *slot;
+     int x;
+     for (x = 0; x < hvf_state->num_slots; ++x) {
+         slot = &hvf_state->slots[x];
+         if (slot->size && start < (slot->start + slot->size) &&
+-            end > slot->start) {
++            (start + size) > slot->start) {
+             return slot;
+         }
+     }
+@@ -129,12 +129,10 @@ struct mac_slot {
+ };
+ 
+ struct mac_slot mac_slots[32];
+-#define ALIGN(x, y)  (((x) + (y) - 1) & ~((y) - 1))
+ 
+-static int do_hvf_set_memory(hvf_slot *slot)
++static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
+ {
+     struct mac_slot *macslot;
+-    hv_memory_flags_t flags;
+     hv_return_t ret;
+ 
+     macslot = &mac_slots[slot->slot_id];
+@@ -151,8 +149,6 @@ static int do_hvf_set_memory(hvf_slot *slot)
+         return 0;
+     }
+ 
+-    flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
+-
+     macslot->present = 1;
+     macslot->gpa_start = slot->start;
+     macslot->size = slot->size;
+@@ -165,14 +161,24 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+ {
+     hvf_slot *mem;
+     MemoryRegion *area = section->mr;
++    bool writeable = !area->readonly && !area->rom_device;
++    hv_memory_flags_t flags;
+ 
+     if (!memory_region_is_ram(area)) {
+-        return;
++        if (writeable) {
++            return;
++        } else if (!memory_region_is_romd(area)) {
++            /*
++             * If the memory device is not in romd_mode, then we actually want
++             * to remove the hvf memory slot so all accesses will trap.
++             */
++             add = false;
++        }
+     }
+ 
+     mem = hvf_find_overlap_slot(
+             section->offset_within_address_space,
+-            section->offset_within_address_space + int128_get64(section->size));
++            int128_get64(section->size));
+ 
+     if (mem && add) {
+         if (mem->size == int128_get64(section->size) &&
+@@ -186,7 +192,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+     /* Region needs to be reset. set the size to 0 and remap it. */
+     if (mem) {
+         mem->size = 0;
+-        if (do_hvf_set_memory(mem)) {
++        if (do_hvf_set_memory(mem, 0)) {
+             error_report("Failed to reset overlapping slot");
+             abort();
+         }
+@@ -196,6 +202,13 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+         return;
+     }
+ 
++    if (area->readonly ||
++        (!memory_region_is_ram(area) && memory_region_is_romd(area))) {
++        flags = HV_MEMORY_READ | HV_MEMORY_EXEC;
++    } else {
++        flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
++    }
++
+     /* Now make a new slot. */
+     int x;
+ 
+@@ -216,7 +229,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+     mem->start = section->offset_within_address_space;
+     mem->region = area;
+ 
+-    if (do_hvf_set_memory(mem)) {
++    if (do_hvf_set_memory(mem, flags)) {
+         error_report("Error registering new memory slot");
+         abort();
+     }
+@@ -345,7 +358,14 @@ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
+         return false;
+     }
+ 
+-    return !slot;
++    if (!slot) {
++        return true;
++    }
++    if (!memory_region_is_ram(slot->region) &&
++        !(read && memory_region_is_romd(slot->region))) {
++        return true;
++    }
++    return false;
+ }
+ 
+ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+@@ -354,7 +374,7 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+ 
+     slot = hvf_find_overlap_slot(
+             section->offset_within_address_space,
+-            section->offset_within_address_space + int128_get64(section->size));
++            int128_get64(section->size));
+ 
+     /* protect region against writes; begin tracking it */
+     if (on) {
+@@ -720,7 +740,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+             ret = EXCP_INTERRUPT;
+             break;
+         }
+-            /* Need to check if MMIO or unmmaped fault */
++        /* Need to check if MMIO or unmapped fault */
+         case EXIT_REASON_EPT_FAULT:
+         {
+             hvf_slot *slot;
+@@ -731,7 +751,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+                 vmx_set_nmi_blocking(cpu);
+             }
+ 
+-            slot = hvf_find_overlap_slot(gpa, gpa);
++            slot = hvf_find_overlap_slot(gpa, 1);
+             /* mmio */
+             if (ept_emulation_fault(slot, gpa, exit_qual)) {
+                 struct x86_decode decode;
 -- 
 2.21.0
 
