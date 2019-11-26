@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83C5109C36
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:21:51 +0100 (CET)
-Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A62109C2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 11:19:26 +0100 (CET)
+Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZXyg-00043F-F6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:21:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57458)
+	id 1iZXwL-0000aI-8y
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 05:19:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsK-0005g9-Mw
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXsK-0005R4-9X
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:15:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmb-0003HF-WE
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:22 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40834)
+ (envelope-from <prashantbhole.linux@gmail.com>) id 1iZXmf-0003Iq-NZ
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:26 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38914)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prashantbhole.linux@gmail.com>)
- id 1iZXmb-0003Gl-Qx
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:21 -0500
-Received: by mail-pf1-x444.google.com with SMTP id i187so4767844pfc.7
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:21 -0800 (PST)
+ id 1iZXmf-0003IZ-IG
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 05:09:25 -0500
+Received: by mail-pg1-x542.google.com with SMTP id b137so6441484pga.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 02:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=svo/DJZyqQpUo02aclcCc0QABc66WKSHZ6zQKD7a+Ow=;
- b=fru48dzlPmxdsRDObkYQrHO7JapBQH3c9E855CQRNtWbayYXM0dPryQmi5/whFOlpS
- GH/fVBCqvL0AWAPenfff2xRlbHbJeyN0FRY1MhHhuPk2ZlwRT9JdOfr9u4eKWjej1HTC
- q8G8loaTXtCX8EcOlrVw8hLTEh4GJrvM6aVuqV67oJNuisl5NmKblB7E+689x4Qa7LIa
- 4SQq9JNWkXDoaqj5RJYNpcE68Ha/YC5zbmY6IAUN1+QQ+4kJDzhyh+LTm5ZfOUaLxAhM
- sWkA++CI/tDwSaPETlK0YUOCfMRpR+0Q+b9L8Xpbo+zpd9pTLP+X50M8f7aw4NZ0ZvnG
- QC3Q==
+ bh=EWBtU+IlOUXhhtmkIhJ52D/yxzedCQhAg5N/fljwEYM=;
+ b=mc9u7EWTbaAvtKBfR1FxVgVgSAqvpWaqH4I+At8oqCl0wPs4cfCfmxX5bUF+7APNl4
+ Xmw2dKPJ0fdmby7ayXU98TCOKpU3tQ1wLifizZBS9IU8NwE5tsD4IoVzY5pYlcirUpf9
+ GML0jDXsPkYpnJe+/RALaLB8XlL6sdizXEjybBT7EgZxdovS1whnnDXgS67wftULUchR
+ O3p4sPYpo+nunkY6U7wrAUIFDpc4+vzXWVNuD0tkqqUfIITHpRM0zfXFvhm5VUEnlf0k
+ FecGp1HqFADGdhQP1ea4gIcNAQRIySeCIanS7L8aCvBvaHue4K/B4u8Yk6YJPLPoV0QZ
+ x0AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=svo/DJZyqQpUo02aclcCc0QABc66WKSHZ6zQKD7a+Ow=;
- b=Pw+/VHpewCCUoDqew8WBcgQ4L7QEunkTa5Yai/wYfhFJBwln7Csb7TdUjo+DouwXvh
- tDEiCJCpzVMZhBF3xkj1QwurUUDOUVEpwCwYE0ZJMYWpyqRXgmKvLBFOJSM1kvdcCUp8
- lV4fEiLJFJzQ/Wkm16avy7S+GVBhkGYyCjUE5a4wc7VACyyi4Hfry1X+gfxtcbIfSMn9
- ujGVM0CP9ZiXwlp0uq+ShzW7+RN0uKNqaYLH4o5uTDGbChNSoFf4eiyZp/t18qzLSd49
- 183r4i6SNDhnUtcyZxFm+Em/h0Zdi9Fv494k0DFjZLYP7lkjvMmsY2954MkFMpvY3f0W
- Xqvw==
-X-Gm-Message-State: APjAAAVqleTR2agp6cWBjH33aMpIIvmIfeTWJdotIHOpVRm88Q0i9oxg
- FGbGOy+Spdan9zDa5zrnWO8=
-X-Google-Smtp-Source: APXvYqx1KJySu2VSUlGFNdx7ooxLmUOdCiiNdkl+RVxrLvkON5zLWT+2U/MjtFSUA7MS5Y/R8paLmg==
-X-Received: by 2002:a63:ff26:: with SMTP id k38mr39206249pgi.128.1574762960938; 
- Tue, 26 Nov 2019 02:09:20 -0800 (PST)
+ bh=EWBtU+IlOUXhhtmkIhJ52D/yxzedCQhAg5N/fljwEYM=;
+ b=PVaHsPmnSaBAoIewRpmzJmfZq5fV5nLfNy93C8l+NMKvPl+z2BsS/D3j4CQwSCbm5Q
+ 94OCaZhqyintRtuA5iPvo00f322K5lBDvS2uttcAoUxFCRw1bPv+HzTmvEfX1h+VHxka
+ ajnldUiR+2+APDxVzDDyoBE6F9reCwbgkthHMIdhRT5D+aAxQf8uIkwENPsIXGiqIh6b
+ LIfhYxslH1W1TkvYFMQALClYhNT1IKp2mHBnv0Orjk1IRjPf/arLordQAIlq1S79w0Je
+ ANM8OmTo6YAzo5EfDiWG+Yc05ZZdXzTaJ6/RirspYlAfY5UQ6n6xAJi9TxEgdgayA94q
+ MKLQ==
+X-Gm-Message-State: APjAAAW689sirDqQY+U4xOl9jjcA3M6T5zHD0A98zDdZzWpVR8G9LGiF
+ qPbNt1OdHN5Ow2cQk/fWaxU=
+X-Google-Smtp-Source: APXvYqz49czbgi+kYj34fPF5hK5fvqdKlFHvat1AI4Q3wYxfqfWIPNVeAlyJ9wlfZ+jcUET4SjDAZg==
+X-Received: by 2002:a63:6b87:: with SMTP id
+ g129mr29079841pgc.438.1574762964825; 
+ Tue, 26 Nov 2019 02:09:24 -0800 (PST)
 Received: from localhost.localdomain ([222.151.198.97])
- by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.17
+ by smtp.gmail.com with ESMTPSA id s24sm11848485pfh.108.2019.11.26.02.09.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 02:09:20 -0800 (PST)
+ Tue, 26 Nov 2019 02:09:24 -0800 (PST)
 From: Prashant Bhole <prashantbhole.linux@gmail.com>
 To: "David S . Miller" <davem@davemloft.net>,
  "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [RFC net-next 10/18] tun: handle XDP_TX action of offloaded program
-Date: Tue, 26 Nov 2019 19:07:36 +0900
-Message-Id: <20191126100744.5083-11-prashantbhole.linux@gmail.com>
+Subject: [RFC net-next 11/18] tun: run xdp prog when tun is read from file
+ interface
+Date: Tue, 26 Nov 2019 19:07:37 +0900
+Message-Id: <20191126100744.5083-12-prashantbhole.linux@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
 References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
@@ -66,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +92,45 @@ Cc: Song Liu <songliubraving@fb.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When offloaded program returns XDP_TX, we need to inject the packet in
-Rx path of tun. This patch injects such packets in Rx path using
-tun_xdp_one.
+It handles the case when qemu performs read on tun using file
+operations.
 
 Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
 ---
- drivers/net/tun.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/net/tun.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index 8d6cdd3e5139..084ca95358fe 100644
+index 084ca95358fe..639921c10e32 100644
 --- a/drivers/net/tun.c
 +++ b/drivers/net/tun.c
-@@ -2249,7 +2249,13 @@ static u32 tun_do_xdp_offload(struct tun_struct *tun, struct tun_file *tfile,
- 		case XDP_PASS:
- 			break;
- 		case XDP_TX:
--			/* fall through */
-+			tpage.page = NULL;
-+			tpage.count = 0;
-+			tun_xdp_one(tun, tfile, &xdp, &flush, &tpage, false);
-+			tun_put_page(&tpage);
-+			if (flush)
-+				xdp_do_flush_map();
-+			break;
- 		case XDP_REDIRECT:
- 			/* fall through */
- 		default:
+@@ -2318,8 +2318,10 @@ static ssize_t tun_do_read(struct tun_struct *tun, struct tun_file *tfile,
+ 			   struct iov_iter *to,
+ 			   int noblock, void *ptr)
+ {
++	struct xdp_frame *frame;
+ 	ssize_t ret;
+ 	int err;
++	u32 act;
+ 
+ 	tun_debug(KERN_INFO, tun, "tun_do_read\n");
+ 
+@@ -2333,6 +2335,15 @@ static ssize_t tun_do_read(struct tun_struct *tun, struct tun_file *tfile,
+ 		ptr = tun_ring_recv(tfile, noblock, &err);
+ 		if (!ptr)
+ 			return err;
++
++		if (tun_is_xdp_frame(ptr)) {
++			frame = tun_ptr_to_xdp(ptr);
++			act = tun_do_xdp_offload(tun, tfile, frame);
++		} else {
++			act = tun_do_xdp_offload_generic(tun, ptr);
++		}
++		if (act != XDP_PASS)
++			return err;
+ 	}
+ 
+ 	if (tun_is_xdp_frame(ptr)) {
 -- 
 2.20.1
 
