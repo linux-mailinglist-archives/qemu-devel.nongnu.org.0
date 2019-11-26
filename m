@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B01109AA2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:02:17 +0100 (CET)
-Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F180109AAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 10:04:44 +0100 (CET)
+Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZWjg-0003LN-D3
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:02:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49969)
+	id 1iZWm3-0005y0-Fi
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 04:04:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhC-0001xe-A7
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:43 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhD-0001y9-0N
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhB-00035l-2X
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iZWhB-00036B-W6
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:42 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33918)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:56089)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iZWhA-00035L-SE
+ id 1iZWhB-00035t-Ph
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 03:59:41 -0500
-Received: by mail-wm1-x342.google.com with SMTP id j18so1857551wmk.1
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 00:59:40 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id b11so2235874wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 00:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nabIz4ztOSzD1wm9cdtMam8zaml9Qa5oErUhfcY/D5U=;
- b=DCL/kT3LClOKw0XwW7Zovx8t6MgGvj8CAjEXStMGMRQgitYewIEYofZhKhtzfzHlMo
- rzuQ0V21sES9GVvTbQ8pu7sVrpofPGzAsf+7wcfjCORHcyv2UrZVGko5NAFWJrMFQ8Jz
- zGCRG+/SvYvbbGYGFHGVOeo0QtNo4e+gufMnxBc9PPEqMXXAD5679/JuLYlUnjVVwiOK
- o63WrNVOWxgBBIsH6LsrZ+cTzUu/3kK90fhavWOnWepGneSUZO7VyfWjXBUTPXahilKO
- ADsvgBbv5q0u2qBfwsd0eTKE5FWuXRdvP6gTCLjLnilLpeOEIutGfkbjIrCaVG5Uilxm
- fqUQ==
+ bh=1aRvALnP398ABUJ0eW1IYZpL7dhiZ4eC2+LSX0yMJZQ=;
+ b=AicGphKu2ROG9WcDbclcUt88U0z8njY4tKz7vZTbWp0+2U3aW1idnPK2FdKekqdATA
+ dS/aRrqLBy+CuhXSot16NHj9EAH2BhM+ZGVamkID0fkCuBuvSfOggS3jYIcp/Vj5yKxv
+ L/0sTZv81iSSQ9wyaLGYx5EgA38LBGY+jB/DyfmM6ZsR4NJqRFFIDK/L9FP7S4Qjx5RT
+ 8w50i1E4BvOQ6Gt5fFgg43mBSX94X6AT1SzI6v2KQy93Dx8JBZSqU0iAVw+LIXTsyUWI
+ hyck4ennSbZNgzhxhDRljbpwMZ/77fC0k1mkQHdAMv4M7Cnpa6OkYbeR25KgAu25oxIR
+ L0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nabIz4ztOSzD1wm9cdtMam8zaml9Qa5oErUhfcY/D5U=;
- b=EKJvrRGj4uySxdbLIRUwKQQhz1BoR96bkURaPucgpVV188oPfy2zU7YFnP8xIsvWS8
- Gs3oQvNd/y9stt6TNh3mgi04zFHVwXBLsAR8iNjY0RBAhdOfmZXpu7WaIfobaXcHJ/kL
- WyaR1wFZf6GkDCU4bVx+VUSVKjWPAL8/sHBKxDJLzz+hQRXWnryrdKDrJl7LQW8+yxsQ
- YaQ9WjGI07g2zDPHGtmNm2sk02hauiX3rIpkjDmZeacqnK4VziGeJsRFOnFlT6ZCJ9LC
- O1KaYHFvYo2fn7bzlPdnIiXN4hB/8k3ZcAgw/pNlA1E3elO5R2oSmzd1wMtWx7PKYtAc
- o0og==
-X-Gm-Message-State: APjAAAWpcKrYLC/5+UItI1zDiA7UJ5WcezMdSZR7V51QIdPqj3qRpE1r
- /eQ3tqvseF8pkr+F2dg1F7a7Ncov
-X-Google-Smtp-Source: APXvYqw0bAWsEiINCBxgaGYX+9pDZJm6axEpImS9Zx+MUE8yHaVqKt6IDW9cLZcyg0MmH+I+7pbtnQ==
-X-Received: by 2002:a1c:7419:: with SMTP id p25mr3192025wmc.111.1574758779480; 
- Tue, 26 Nov 2019 00:59:39 -0800 (PST)
+ bh=1aRvALnP398ABUJ0eW1IYZpL7dhiZ4eC2+LSX0yMJZQ=;
+ b=Lzwci0CN8p0O2yAJYi5N0q4bNx0H8sdUgiDRygasiEgWQbzp8EsNwqSNBRaxorrQV0
+ QGBBDHOx+e5GKGeX9lVW9QyZJ2DrchZPXTLLnlud4stUE+8rHmyAdLAKNC/CVchvh9mV
+ OyhNUkdKmGNJlFrQAD0hzJHoE85QPdmAGQ8QS+YLqIMVMmq2X00FZKCxYZ6L4UMJ2vf4
+ yRK/Sj7I7Ek+k9P0+fZNmP0Xn7LTcXFLORce5/P++x1oPmCNYdGLBuNdC2rClDeEXc4T
+ UFYbp/w5gw1ESyCgIXiM+uADw/I4pBn7y5P5+x6mzq5N7bEsbnBS5vL2YdKzJ4yA/lNd
+ dQyw==
+X-Gm-Message-State: APjAAAVFe0GKZvw4lVV8i914/2hFnhCyPG2XwNlpPG4YrKHIGCpjTyj+
+ vYArCmbUQqeuUDQ+HLyVzfwiZXPI
+X-Google-Smtp-Source: APXvYqywPdeM6xF72r7EfA6KXx6SwMmiMLJfImeX5uTHG56XfJJXYLHgdjf94SagETfhlbzv/vZyMg==
+X-Received: by 2002:a1c:448a:: with SMTP id r132mr3204942wma.130.1574758780461; 
+ Tue, 26 Nov 2019 00:59:40 -0800 (PST)
 Received: from donizetti.lan ([2001:b07:6468:f312:5454:a592:5a0a:75c])
- by smtp.gmail.com with ESMTPSA id a206sm2349172wmf.15.2019.11.26.00.59.38
+ by smtp.gmail.com with ESMTPSA id a206sm2349172wmf.15.2019.11.26.00.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 00:59:38 -0800 (PST)
+ Tue, 26 Nov 2019 00:59:39 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] hvf: non-RAM,
- non-ROMD memory ranges are now correctly mapped in
-Date: Tue, 26 Nov 2019 09:59:33 +0100
-Message-Id: <20191126085936.1689-3-pbonzini@redhat.com>
+Subject: [PULL 3/5] hvf: remove TSC synchronization code because it isn't
+ fully complete
+Date: Tue, 26 Nov 2019 09:59:34 +0100
+Message-Id: <20191126085936.1689-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191126085936.1689-1-pbonzini@redhat.com>
 References: <20191126085936.1689-1-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,165 +84,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cameron Esfahani <dirty@apple.com>
 
-If an area is non-RAM and non-ROMD, then remove mappings so accesses
-will trap and can be emulated.  Change hvf_find_overlap_slot() to take
-a size instead of an end address: it wouldn't return a slot because
-callers would pass the same address for start and end.  Don't always
-map area as read/write/execute, respect area flags.
+The existing code in QEMU's HVF support to attempt to synchronize TSC
+across multiple cores is not sufficient.  TSC value on other cores
+can go backwards.  Until implementation is fixed, remove calls to
+hv_vm_sync_tsc().  Pass through TSC to guest OS.
 
 Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Message-Id: <1d8476c8f86959273fbdf23c86f8b4b611f5e2e1.1574625592.git.dirty@apple.com>
+Message-Id: <44c4afd2301b8bf99682b229b0796d84edd6d66f.1574625592.git.dirty@apple.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/hvf.c | 50 ++++++++++++++++++++++++++++++-------------
- 1 file changed, 35 insertions(+), 15 deletions(-)
+ target/i386/hvf/hvf.c     | 3 +--
+ target/i386/hvf/x86_emu.c | 3 ---
+ target/i386/hvf/x86hvf.c  | 4 ----
+ 3 files changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 231732aaf7..0b50cfcbc6 100644
+index 0b50cfcbc6..90fd50acfc 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -107,14 +107,14 @@ static void assert_hvf_ok(hv_return_t ret)
+@@ -518,7 +518,6 @@ void hvf_reset_vcpu(CPUState *cpu) {
+         wreg(cpu->hvf_fd, HV_X86_R8 + i, 0x0);
+     }
+ 
+-    hv_vm_sync_tsc(0);
+     hv_vcpu_invalidate_tlb(cpu->hvf_fd);
+     hv_vcpu_flush(cpu->hvf_fd);
  }
+@@ -612,7 +611,7 @@ int hvf_init_vcpu(CPUState *cpu)
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_GSBASE, 1);
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_KERNELGSBASE, 1);
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_TSC_AUX, 1);
+-    /*hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);*/
++    hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_CS, 1);
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_EIP, 1);
+     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_ESP, 1);
+diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+index 1b04bd7e94..3df767209d 100644
+--- a/target/i386/hvf/x86_emu.c
++++ b/target/i386/hvf/x86_emu.c
+@@ -772,9 +772,6 @@ void simulate_wrmsr(struct CPUState *cpu)
  
- /* Memory slots */
--hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t end)
-+hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
- {
-     hvf_slot *slot;
-     int x;
-     for (x = 0; x < hvf_state->num_slots; ++x) {
-         slot = &hvf_state->slots[x];
-         if (slot->size && start < (slot->start + slot->size) &&
--            end > slot->start) {
-+            (start + size) > slot->start) {
-             return slot;
-         }
-     }
-@@ -129,12 +129,10 @@ struct mac_slot {
- };
+     switch (msr) {
+     case MSR_IA32_TSC:
+-        /* if (!osx_is_sierra())
+-             wvmcs(cpu->hvf_fd, VMCS_TSC_OFFSET, data - rdtscp());
+-        hv_vm_sync_tsc(data);*/
+         break;
+     case MSR_IA32_APICBASE:
+         cpu_set_apic_base(X86_CPU(cpu)->apic_state, data);
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index e0ea02d631..1485b95776 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -152,10 +152,6 @@ void hvf_put_msrs(CPUState *cpu_state)
  
- struct mac_slot mac_slots[32];
--#define ALIGN(x, y)  (((x) + (y) - 1) & ~((y) - 1))
- 
--static int do_hvf_set_memory(hvf_slot *slot)
-+static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
- {
-     struct mac_slot *macslot;
--    hv_memory_flags_t flags;
-     hv_return_t ret;
- 
-     macslot = &mac_slots[slot->slot_id];
-@@ -151,8 +149,6 @@ static int do_hvf_set_memory(hvf_slot *slot)
-         return 0;
-     }
- 
--    flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
+     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_GSBASE, env->segs[R_GS].base);
+     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_FSBASE, env->segs[R_FS].base);
 -
-     macslot->present = 1;
-     macslot->gpa_start = slot->start;
-     macslot->size = slot->size;
-@@ -165,14 +161,24 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
- {
-     hvf_slot *mem;
-     MemoryRegion *area = section->mr;
-+    bool writeable = !area->readonly && !area->rom_device;
-+    hv_memory_flags_t flags;
- 
-     if (!memory_region_is_ram(area)) {
--        return;
-+        if (writeable) {
-+            return;
-+        } else if (!memory_region_is_romd(area)) {
-+            /*
-+             * If the memory device is not in romd_mode, then we actually want
-+             * to remove the hvf memory slot so all accesses will trap.
-+             */
-+             add = false;
-+        }
-     }
- 
-     mem = hvf_find_overlap_slot(
-             section->offset_within_address_space,
--            section->offset_within_address_space + int128_get64(section->size));
-+            int128_get64(section->size));
- 
-     if (mem && add) {
-         if (mem->size == int128_get64(section->size) &&
-@@ -186,7 +192,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-     /* Region needs to be reset. set the size to 0 and remap it. */
-     if (mem) {
-         mem->size = 0;
--        if (do_hvf_set_memory(mem)) {
-+        if (do_hvf_set_memory(mem, 0)) {
-             error_report("Failed to reset overlapping slot");
-             abort();
-         }
-@@ -196,6 +202,13 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-         return;
-     }
- 
-+    if (area->readonly ||
-+        (!memory_region_is_ram(area) && memory_region_is_romd(area))) {
-+        flags = HV_MEMORY_READ | HV_MEMORY_EXEC;
-+    } else {
-+        flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
-+    }
-+
-     /* Now make a new slot. */
-     int x;
- 
-@@ -216,7 +229,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-     mem->start = section->offset_within_address_space;
-     mem->region = area;
- 
--    if (do_hvf_set_memory(mem)) {
-+    if (do_hvf_set_memory(mem, flags)) {
-         error_report("Error registering new memory slot");
-         abort();
-     }
-@@ -345,7 +358,14 @@ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
-         return false;
-     }
- 
--    return !slot;
-+    if (!slot) {
-+        return true;
-+    }
-+    if (!memory_region_is_ram(slot->region) &&
-+        !(read && memory_region_is_romd(slot->region))) {
-+        return true;
-+    }
-+    return false;
+-    /* if (!osx_is_sierra())
+-         wvmcs(cpu_state->hvf_fd, VMCS_TSC_OFFSET, env->tsc - rdtscp());*/
+-    hv_vm_sync_tsc(env->tsc);
  }
  
- static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
-@@ -354,7 +374,7 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
  
-     slot = hvf_find_overlap_slot(
-             section->offset_within_address_space,
--            section->offset_within_address_space + int128_get64(section->size));
-+            int128_get64(section->size));
- 
-     /* protect region against writes; begin tracking it */
-     if (on) {
-@@ -720,7 +740,7 @@ int hvf_vcpu_exec(CPUState *cpu)
-             ret = EXCP_INTERRUPT;
-             break;
-         }
--            /* Need to check if MMIO or unmmaped fault */
-+        /* Need to check if MMIO or unmapped fault */
-         case EXIT_REASON_EPT_FAULT:
-         {
-             hvf_slot *slot;
-@@ -731,7 +751,7 @@ int hvf_vcpu_exec(CPUState *cpu)
-                 vmx_set_nmi_blocking(cpu);
-             }
- 
--            slot = hvf_find_overlap_slot(gpa, gpa);
-+            slot = hvf_find_overlap_slot(gpa, 1);
-             /* mmio */
-             if (ept_emulation_fault(slot, gpa, exit_qual)) {
-                 struct x86_decode decode;
 -- 
 2.21.0
 
