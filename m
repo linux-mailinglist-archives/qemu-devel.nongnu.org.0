@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7A6109977
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 08:13:57 +0100 (CET)
-Received: from localhost ([::1]:50716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8989F10996E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 08:06:36 +0100 (CET)
+Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZV2q-00032Z-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 02:13:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53767)
+	id 1iZUvj-0006OI-9h
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 02:06:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSvG-0007We-Py
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSvG-0007Wf-QD
  for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:58:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSvE-0006c4-LR
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iZSvE-0006cC-Se
  for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:57:58 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:38094)
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42530)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aaron.zakhrov@gmail.com>)
- id 1iZSvB-0006aQ-17
- for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:57:54 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id t3so7895580pgl.5
- for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 20:57:52 -0800 (PST)
+ id 1iZSvC-0006bC-Ut
+ for qemu-devel@nongnu.org; Mon, 25 Nov 2019 23:57:56 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id j12so7544767plt.9
+ for <qemu-devel@nongnu.org>; Mon, 25 Nov 2019 20:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b98zR+wGXQim4gXI2+OB9X/VHrXcUGrK0TX4LzaEvvI=;
- b=lkILFrEtrhJGw+XFQL9mQQA3OwRfLOX5oCrQXrobUXLkCv/dUATcQ2b7JCdl+EAvXF
- J2doCu4cq1ud7vKxeV5mNx5lVnUamxMN0zlVg8vQHk3DH857okYgoCM+Dfxn0J9yCg8l
- /GexfQVyDbF6/kbcoMGUI9L3W3AHwYW4iWjwf9CJUCfhvk8UGacqZIM+n4ZGwy11nLNZ
- anSA/QkE0q3Kt18EBGHtNuoaNGt3Xgjtbj5gkoOTFj2uhRiFyys4OWuKDUYw2Uu4hDVO
- Rn6i6jeEqrCQsfJNOsAU5wmBuqzBwoSz5ovbLaxlg2o9Fj0gJ4LEA1RRs45paWb96UMA
- Kvhw==
+ bh=zbpFoQ9pmAzeK1m7zYyUnpnyJGtnrHOzILjdn9dJmI4=;
+ b=gYf+Z1XWMWTeScvbWgXh7H/UBsXKQV3PnVc/HcUYxq2z9o3c8XFERPdm/q7ciBfYot
+ omx5AF717xfhF4HgrZfMie2pl1hW6kEUTioUeGKLM05GNqzBW2QNtOmKWb620Ipy6TBN
+ 6t+7ivAVDu0kayAkvl9LFOFvrjstLeIljo/PtK3J3+eS44KmQroy88FVkpkTVqC0vcKi
+ JWDd6NM7WVA3z4Dsl89PUQhxXSq2qVEHmKJ1FIGZEPDqjASIL+cPb6DSWIAM2e9VcUIh
+ ei01S/FoCiOLsO8lE88hVrdmbc78u7lAo3ijcfMTxtPSaaIMABTKEhLSm2FyA7MfIo/q
+ ELHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b98zR+wGXQim4gXI2+OB9X/VHrXcUGrK0TX4LzaEvvI=;
- b=pQUcHd2JISWzsYaVUiFm1r++a/eMD2hqqvkOk5OXWbd08rux/YdVsrI4kOJLMWuVFE
- shYMuWuvKc0lqbGPcNYlda4sNXDIRdcy7pjGzQy1Acrhn6tAqUjMQmOFwHV+itfR3DiO
- +RKxQU9sb0EeeorMtRrBuCrDjuUg0HBynmiWMuVOqJTxND2l0PngN3Wk91Cnsl8Q1fEL
- T1EjS40ufiQOXvgpNd13MDRZ2F+X7gw5JiiV/xRWvkxA7ZfR6HaTi0nUYYka2Q5F6Q2u
- 2+/6fusB7MAznUjMEXyz1RSv0EHaR9eZH5J6WyY/NQPzjkItOF9x+WJR9YliykfKKJab
- wjQQ==
-X-Gm-Message-State: APjAAAXloUD8bNDW3yAt8n5H9mQQjPOGxEP1Zp/YhL7Y80abHI74SU/Y
- qsjt0xjUexzigopp/yel9zeS0Z3yZDQf5uO2
-X-Google-Smtp-Source: APXvYqxFIrIA4gdQ0OEVgbO0ny3mbP2cAG/1+DLnGSmtN7J3j0BxBJzAZFaQEHZAjafyJGdtW9BqwA==
-X-Received: by 2002:a62:180a:: with SMTP id 10mr39464545pfy.40.1574744271202; 
- Mon, 25 Nov 2019 20:57:51 -0800 (PST)
+ bh=zbpFoQ9pmAzeK1m7zYyUnpnyJGtnrHOzILjdn9dJmI4=;
+ b=IG1HNrDpsztMAg4Qcp+DUGFwXPCUCUx6+qRk49mAQaJEFDfhVu2VHtFAOBRRCZXL6Q
+ oEYUfdseqIaBlIjSDJenu54qIUN3zKnIotPO7hm04eP0U6xdCEoch0cuNU/i6aotUMo9
+ 9ui2F3WhnxWuUO4uLN/JvWnQa/B3280V6JLqgcUTT5F5b4SvO9E4AvHn2XDwmvY0aDaT
+ dSrAjOVKJdb5zYxprZ8ejXY7tvCU9LRo8/6Q6dp6X3eI47YEdy9nm+SzGdXAr0Nf+YCM
+ tDg1bIdnI+mCuK2g8fsnPScufSCiavCUyPIwG5tjTxyPLhBo+NmXMQbmy7S+CCUsOPyS
+ 54pA==
+X-Gm-Message-State: APjAAAX7HsInlvWwA/DYOxx9smYZzHDNH6B9/Kyhhpd2KkT+70639MKm
+ 6Zl3dKmuvUVjwVje5l01/2akNhgasw7LMyMd
+X-Google-Smtp-Source: APXvYqxEs+gRgjFghxz58Ae0u3oqNcjdJzdTj+ghYe3DojqXINDj6rlWS2KfRxJw/4geoUlr1Lv7gw==
+X-Received: by 2002:a17:902:7287:: with SMTP id
+ d7mr32943035pll.333.1574744273246; 
+ Mon, 25 Nov 2019 20:57:53 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:73:1f7e:c8d0:6181:5329:cc21])
  by smtp.gmail.com with ESMTPSA id
- z1sm1081328pju.27.2019.11.25.20.57.49
+ z1sm1081328pju.27.2019.11.25.20.57.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Nov 2019 20:57:50 -0800 (PST)
+ Mon, 25 Nov 2019 20:57:52 -0800 (PST)
 From: aaron.zakhrov@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [RFC 6/8] Fix MC STATUS resgister
-Date: Tue, 26 Nov 2019 10:26:19 +0530
-Message-Id: <20191126045621.11344-7-aaron.zakhrov@gmail.com>
+Subject: [RFC 7/8] R300 fixes
+Date: Tue, 26 Nov 2019 10:26:20 +0530
+Message-Id: <20191126045621.11344-8-aaron.zakhrov@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191126045621.11344-1-aaron.zakhrov@gmail.com>
 References: <20191126045621.11344-1-aaron.zakhrov@gmail.com>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52f
+X-Received-From: 2607:f8b0:4864:20::62c
 X-Mailman-Approved-At: Tue, 26 Nov 2019 02:04:16 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,69 +87,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Aaron Dominick <aaron.zakhrov@gmail.com>
 
 ---
- hw/display/r300.c | 15 ++++++++++++---
- hw/display/r300.h |  1 +
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ hw/display/r300.c | 9 +++++++++
+ hw/display/r300.h | 6 ++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/hw/display/r300.c b/hw/display/r300.c
-index 94e90b7a95..653474c3aa 100644
+index 653474c3aa..074dbf5b2d 100644
 --- a/hw/display/r300.c
 +++ b/hw/display/r300.c
-@@ -278,6 +278,10 @@ static uint64_t r300_mm_read(void *opaque, hwaddr addr, unsigned int size)
-     uint64_t val = 0;
- 
-     switch (addr) {
-+    case RADEON_MC_STATUS:
-+        val = s->regs.mc_status;
+@@ -878,6 +878,15 @@ static void r300_mm_write(void *opaque, hwaddr addr,
+     case RADEON_DEFAULT_SC_BOTTOM_RIGHT:
+         s->regs.default_sc_bottom_right = data & 0x3fff3fff;
+         break;
++    case R300_GB_ENABLE:
++        s->regs.r300_gb_enable = data;
 +        break;
-+
-     case RADEON_MM_INDEX:
-         val = s->regs.mm_index;
++    case R300_GB_TILE_CONFIG:
++            s->regs.r300_gb_tile_config = data;
++            break;
++    case R300_GB_FIFO_SIZE:
++            s->regs.r300_gb_fifo_size = data;
++            break;
+     default:
          break;
-@@ -358,9 +362,9 @@ static uint64_t r300_mm_read(void *opaque, hwaddr addr, unsigned int size)
-     case RADEON_CONFIG_REG_APER_SIZE:
-         val = memory_region_size(&s->mm);
-         break;
--    case RADEON_MC_STATUS:
--        val = 5;
--        break;
-+    // case RADEON_MC_STATUS:
-+    //     val = 5;
-+    //     break;
-     case RADEON_RBBM_STATUS:
-         val = 64; /* free CMDFIFO entries */
-         break;
-@@ -512,6 +516,10 @@ static void r300_mm_write(void *opaque, hwaddr addr,
-         trace_ati_mm_write(size, addr, r300_reg_name(addr & ~3ULL), data);
      }
-     switch (addr) {
-+      case RADEON_MC_STATUS:
-+        s->regs.mc_status = R300_MC_IDLE;
-+        s->regs.mc_status = data;
-+        break;
-       case RADEON_RBBM_STATUS:
-         s->regs.rbbm_status = data|= RADEON_RBBM_FIFOCNT_MASK;
-         break;
-@@ -946,6 +954,7 @@ static void r300_vga_realize(PCIDevice *dev, Error **errp)
- static void r300_vga_reset(DeviceState *dev)
- {
-     RADVGAState *s = RAD_VGA(dev);
-+    s->regs.mc_status = R300_MC_IDLE;
- 
-     timer_del(&s->vblank_timer);
-     r300_vga_update_irq(s);
 diff --git a/hw/display/r300.h b/hw/display/r300.h
-index 60f572647f..a9e1db32be 100644
+index a9e1db32be..19e3d97f8a 100644
 --- a/hw/display/r300.h
 +++ b/hw/display/r300.h
-@@ -81,6 +81,7 @@ typedef struct RADVGARegs{
-   uint32_t default_pitch;
-   uint32_t default_tile;
+@@ -83,6 +83,12 @@ typedef struct RADVGARegs{
    uint32_t default_sc_bottom_right;
-+  uint32_t mc_status;
+   uint32_t mc_status;
  
++  //R300 GB Registers
++  uint32_t r300_gb_enable;
++  uint32_t r300_gb_tile_config;
++  uint32_t r300_gb_fifo_size;
++
++
  //Color Buffer RB3D
    uint32_t r300_rb3d_aaresolve_ctl;
+   uint32_t r300_rb3d_aaresolve_offset;
 -- 
 2.24.0
 
