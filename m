@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D8010A18F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:54:21 +0100 (CET)
-Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9536510A19E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 16:56:36 +0100 (CET)
+Received: from localhost ([::1]:56558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZdAS-00006q-NL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:54:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
+	id 1iZdCd-0002Km-Em
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 10:56:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iZd84-00064I-1K
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:53 -0500
+ (envelope-from <eblake@redhat.com>) id 1iZdAt-0001HZ-IO
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:54:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iZd81-0004lb-TK
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:51 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22868
+ (envelope-from <eblake@redhat.com>) id 1iZdAs-0006bK-GZ
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:54:47 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25241
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iZd81-0004in-P9
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:51:49 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iZdAs-0006b8-DE
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 10:54:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574783509;
+ s=mimecast20190719; t=1574783686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KBfF2ATm99DvzhP9dNoWrfKtmFwV62atbvixQ3+ncTw=;
- b=go9QTbyBW0f60IUPh+fjUZz1WzLfc/pm0OBMTxJ7eLCCp4SsudmLJlOspg17vVzJGNptOr
- THMhsLrYCfpVrQzerJ+WmB/lphCNw2iCHZt979KsThDZjNJFnmo+XVsrCFHnTrsEKwIj4Y
- FTrk0KhagxjBIEK+feIJNhgeWErxflU=
+ bh=60VUjwtLrwMqI1MqQMIQwAZJTw7gaSuGKA4pVxVQ448=;
+ b=HJY5dJwUbzcPlf63VLj+xcC+aUdMddaG1LTw+JtcWFE8xTh5xwjE7RZ8C7VMs99KTaI3bN
+ A1l/PNCB+XJcFXouXax0Lq+qRJlrfSARUbN/ZcRGhrMHWwWvLDvV/db4IPnm5vONsi2LAz
+ PtytSJ9tHvwPPU2eEO5ahAAtdfWbj7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-wG_y4COLO7SVC4PvrzoiSw-1; Tue, 26 Nov 2019 10:51:44 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-64-PHbKwvbYNjaiJNkJtT4tKA-1; Tue, 26 Nov 2019 10:54:42 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C89B2EDD;
- Tue, 26 Nov 2019 15:51:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67F2F107ACE8;
+ Tue, 26 Nov 2019 15:54:41 +0000 (UTC)
 Received: from [10.3.116.163] (ovpn-116-163.phx2.redhat.com [10.3.116.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D438760C80;
- Tue, 26 Nov 2019 15:51:39 +0000 (UTC)
-Subject: Re: [PATCH v9 1/3] block: introduce compress filter driver
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FB83600CD;
+ Tue, 26 Nov 2019 15:54:41 +0000 (UTC)
+Subject: Re: [PATCH] block: Error out on image creation with conflicting size
+ options
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20191126154835.27915-1-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <81e8a576-8611-749a-9aa5-e35025de6cd6@redhat.com>
-Date: Tue, 26 Nov 2019 09:51:38 -0600
+Message-ID: <cf113754-c582-03ae-9e53-ab0213c0ccf9@redhat.com>
+Date: Tue, 26 Nov 2019 09:54:40 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <20191126154835.27915-1-kwolf@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: wG_y4COLO7SVC4PvrzoiSw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: PHbKwvbYNjaiJNkJtT4tKA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,54 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
- armbru@redhat.com, mreitz@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/26/19 8:43 AM, Andrey Shinkevich wrote:
-> Allow writing all the data compressed through the filter driver.
-> The written data will be aligned by the cluster size.
-> Based on the QEMU current implementation, that data can be written to
-> unallocated clusters only. May be used for a backup job.
+On 11/26/19 9:48 AM, Kevin Wolf wrote:
+> If both the create options (qemu-img create -o ...) and the size
+> parameter were given, the size parameter was silently ignored. Instead,
+> make specifying two sizes an error.
 > 
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
+>   block.c                    | 10 ++++++++--
+>   tests/qemu-iotests/049     |  5 +++++
+>   tests/qemu-iotests/049.out |  5 +++++
+>   3 files changed, 18 insertions(+), 2 deletions(-)
 
-> +++ b/qapi/block-core.json
-> @@ -2884,15 +2884,16 @@
->   # @copy-on-read: Since 3.0
->   # @blklogwrites: Since 3.0
->   # @blkreplay: Since 4.2
-> +# @compress: Since 5.0
->   #
->   # Since: 2.9
->   ##
->   { 'enum': 'BlockdevDriver',
->     'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
-> -            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
-> -            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
-> -            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
-> -            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-> +            'cloop', 'copy-on-read', 'compress', 'dmg', 'file', 'ftp', 'ftps',
+Longtime bug, so not essential for 4.2-rc3.  But small enough that you 
+could sneak it in if you have other patches to queue and don't want to 
+wait for 5.0.
 
-Nit: Preserving alphabetical ordering means 'compress' comes before 
-'copy-on-read'.
-
-> +            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
-> +            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
-> +            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
->               { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
->               'sheepdog',
->               'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxhs' ] }
-> @@ -4045,6 +4046,7 @@
->         'bochs':      'BlockdevOptionsGenericFormat',
->         'cloop':      'BlockdevOptionsGenericFormat',
->         'copy-on-read':'BlockdevOptionsGenericFormat',
-> +      'compress':   'BlockdevOptionsGenericFormat',
-
-and again
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
