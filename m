@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB77D10A00E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:44 +0100 (CET)
-Received: from localhost ([::1]:55624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0B210A00C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Nov 2019 15:14:29 +0100 (CET)
+Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZbc3-00004t-Pa
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:14:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47137)
+	id 1iZbbm-0008Oo-Qh
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 09:14:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47101)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iZbaD-0007Bi-2C
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:50 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iZbaA-00078t-7W
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iZba8-0005kD-4A
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:48 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:32917)
+ (envelope-from <peter.maydell@linaro.org>) id 1iZba9-0005kz-0o
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:45 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51943)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iZba7-0005jZ-Pu
+ id 1iZba8-0005kO-Qs
  for qemu-devel@nongnu.org; Tue, 26 Nov 2019 09:12:44 -0500
-Received: by mail-wr1-x432.google.com with SMTP id w9so22696339wrr.0
- for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 06:12:43 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id g206so3393114wme.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Nov 2019 06:12:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Nw7Hn+qRDbWUvvnz+5J2uZy0VcWScKIcOlub/mEYLHM=;
- b=Ju6P1evBu5UVfikEYFRnEBwA0oEDBNt7/4IIgPWLxHwaSEESOPyUajY9j6UlfIcCb9
- ww/FpCc6yIAIHGDXPLRWcuEIEt/ra9lcdPXpRqYhaN+qqwiN/VL75H27Xdf95GUPnvS7
- YslI3l+nk5739aUaX34/prWrLrKamkiZI47Jwa9L6xC2YpaYvtVM7k/li1XWPyvH2QLb
- /HDy/CW4SVvzp0jEAbB3w7xce/wex3pfb9JBCC066hVTA8PIT4jasqqraadfMFN4swpE
- NlWKBgBjrJxso9vnREYwVE64V2YqdMVSxiQpnr4XTK7suO5MuovF7mzqgeFasW+Hl+Wf
- Q5Nw==
+ bh=Er5f9rC8C8GOvtgbGPLP84tJvHsrIKrKDE2TS/iWzsk=;
+ b=l4Vw1Mu7s5FmEufBZTSgO2m0KdYjVROitAgPcLcUO19ujTQtQqRc5NGrl/Yl7KNKZd
+ T9LKB+cU5A9g1+af80BZtPTPz+/x3r+LYt7CoGNWolzQMS/KrZiZ2cBXCK2AUNuQjr7m
+ iCkH5P/IGVD7TPd5DqbPaRM9ZJ/T5wP3ukXMj+AJ2SlqU0TiRzxJbH7XmWFF/EhfAmsB
+ ee57Fd5YAH9pe1xGqscJ6yOs//cMNUFr92+XCr16ecct99xyd2LbMdx3eY4pMPaqFIq8
+ dWWnfZwXw5xAPVvtdDnVsZbi432pz0dmZN797UIt0CV/wa4VgMk48CnfC4gvcJG4VPzA
+ 1WGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nw7Hn+qRDbWUvvnz+5J2uZy0VcWScKIcOlub/mEYLHM=;
- b=sLH1xQTCmktHWWhs5zghDtcHyvNFQe3BFdfPuIf1z6ow563SSqYiXFx56WOt4tlO2x
- JncKEYVdOKyO9GGbbFM5tr1PriOv9bI+oyojRpV8okjIgHByXd+u1CVLz35gIysU77BG
- X1tr0j0o/txsq7Di+hR/tnuxIRI1jxyX83vS0wqwGTh5NG1YefrOx2cgNOlii6K5fFT0
- 3uFpFSfc8Ci6eE4VtdWKgG1r0/Be3+Vbsk28BhecJWW1OabwBRrMltbMTKn3PQU0aslT
- KyF7BAq2PoQjLEgg7LFy74z8g1B7QhET31lfbhzFDqUcuArvFoFlpymj/pVB+nrSR/vj
- 0tZw==
-X-Gm-Message-State: APjAAAWB1iFBFfmzJuxWgs3tl7JPayBq+7dc8+Udqc7dsQWFN5dF7CJ7
- UHbOOIhNUCHjar1HXVw1jvMuISmwrCE=
-X-Google-Smtp-Source: APXvYqwOd9efGC+tC3r+4p/rNHXzme1GUealV5+D6YvND4ez0/i1EPhtdYCrVwzEIjO7Rpq8Tov2xg==
-X-Received: by 2002:adf:fd4a:: with SMTP id h10mr35441207wrs.90.1574777562204; 
- Tue, 26 Nov 2019 06:12:42 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Er5f9rC8C8GOvtgbGPLP84tJvHsrIKrKDE2TS/iWzsk=;
+ b=BsEQlxWPGSaVtN4giRmFy+PJ/N0jth4nDHWIcWAAtwyoGKwv2x8UGET7NyG0xyQLu2
+ FaX+ARx3bRmRdDx9Oa/yCUxpDrAHnP+B9VUHpUchw1f5LrgGGKB5shg6nngRlB/F9P9H
+ UA5Y1peiCr3jsOeHLVgKstsA0wAQi5OlXky+1+Q3igLMtuf+vLBueQB3ta8eAjVG1cAM
+ TH3gSsGni2gWxynaLlyymirSsNUxKdi0xYVRUmY5VSkSR+yRrYZp7p/xLlqoIZzKuSP+
+ oje98y/Ueiv8Y/wupX6b47CHheRQXe8FKJMXOO3F1x2rbWu2CKHL0dXlHymXP6oB66ju
+ amHA==
+X-Gm-Message-State: APjAAAVysibkUcAYLnjoU+lKAyY61nwKu2tj6FKTqpDcTt3VXPN0W2W9
+ /Of/A0xpI4+KmYwRD+icaBGCsyRHEj4=
+X-Google-Smtp-Source: APXvYqz5wSSeUsoOdGmQmfpLpuwrHBEIqwb38Hwd8nSaM80vIY3fnX1qDixh6aRknK0+zRTt9T3Z6w==
+X-Received: by 2002:a05:600c:218e:: with SMTP id
+ e14mr4268611wme.22.1574777563506; 
+ Tue, 26 Nov 2019 06:12:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i127sm3364581wma.35.2019.11.26.06.12.41
+ by smtp.gmail.com with ESMTPSA id i127sm3364581wma.35.2019.11.26.06.12.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Nov 2019 06:12:41 -0800 (PST)
+ Tue, 26 Nov 2019 06:12:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] target-arm queue
-Date: Tue, 26 Nov 2019 14:12:35 +0000
-Message-Id: <20191126141239.8219-1-peter.maydell@linaro.org>
+Subject: [PULL 1/4] target/arm: Fix handling of cortex-m FTYPE flag in EXCRET
+Date: Tue, 26 Nov 2019 14:12:36 +0000
+Message-Id: <20191126141239.8219-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191126141239.8219-1-peter.maydell@linaro.org>
+References: <20191126141239.8219-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,46 +83,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm patches for rc3 : just a handful of bug fixes.
+From: Jean-Hugues Deschênes <Jean-Hugues.Deschenes@ossiaco.com>
 
-thanks
--- PMM
+According to the PushStack() pseudocode in the armv7m RM,
+bit 4 of the LR should be set to NOT(CONTROL.PFCA) when
+an FPU is present. Current implementation is doing it for
+armv8, but not for armv7. This patch makes the existing
+logic applicable to both code paths.
 
+Signed-off-by: Jean-Hugues Deschenes <jean-hugues.deschenes@ossiaco.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/m_helper.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-The following changes since commit 4ecc984210ca1bf508a96a550ec8a93a5f833f6c:
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 4a48b792520..76de317e6af 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -2233,19 +2233,18 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+         if (env->v7m.secure) {
+             lr |= R_V7M_EXCRET_S_MASK;
+         }
+-        if (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK)) {
+-            lr |= R_V7M_EXCRET_FTYPE_MASK;
+-        }
+     } else {
+         lr = R_V7M_EXCRET_RES1_MASK |
+             R_V7M_EXCRET_S_MASK |
+             R_V7M_EXCRET_DCRS_MASK |
+-            R_V7M_EXCRET_FTYPE_MASK |
+             R_V7M_EXCRET_ES_MASK;
+         if (env->v7m.control[M_REG_NS] & R_V7M_CONTROL_SPSEL_MASK) {
+             lr |= R_V7M_EXCRET_SPSEL_MASK;
+         }
+     }
++    if (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK)) {
++        lr |= R_V7M_EXCRET_FTYPE_MASK;
++    }
+     if (!arm_v7m_is_handler_mode(env)) {
+         lr |= R_V7M_EXCRET_MODE_MASK;
+     }
+-- 
+2.20.1
 
-  Merge remote-tracking branch 'remotes/palmer/tags/riscv-for-master-4.2-rc3' into staging (2019-11-26 12:36:40 +0000)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20191126
-
-for you to fetch changes up to 6a4ef4e5d1084ce41fafa7d470a644b0fd3d9317:
-
-  target/arm: Honor HCR_EL2.TID3 trapping requirements (2019-11-26 13:55:37 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * handle FTYPE flag correctly in v7M exception return
-   for v7M CPUs with an FPU (v8M CPUs were already correct)
- * versal: Add the CRP as unimplemented
- * Fix ISR_EL1 tracking when executing at EL2
- * Honor HCR_EL2.TID3 trapping requirements
-
-----------------------------------------------------------------
-Edgar E. Iglesias (1):
-      hw/arm: versal: Add the CRP as unimplemented
-
-Jean-Hugues Deschênes (1):
-      target/arm: Fix handling of cortex-m FTYPE flag in EXCRET
-
-Marc Zyngier (2):
-      target/arm: Fix ISR_EL1 tracking when executing at EL2
-      target/arm: Honor HCR_EL2.TID3 trapping requirements
-
- include/hw/arm/xlnx-versal.h |  3 ++
- hw/arm/xlnx-versal.c         |  2 ++
- target/arm/helper.c          | 83 ++++++++++++++++++++++++++++++++++++++++++--
- target/arm/m_helper.c        |  7 ++--
- 4 files changed, 89 insertions(+), 6 deletions(-)
 
