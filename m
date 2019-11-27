@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AC110A8DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 03:50:37 +0100 (CET)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379DB10A8F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 04:02:04 +0100 (CET)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZnPY-0007SE-0e
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 21:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
+	id 1iZnac-0003MM-V1
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 22:02:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iZnOg-0006za-Sm
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:49:43 -0500
+ (envelope-from <jasowang@redhat.com>) id 1iZnYa-0002pR-VK
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:59:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iZnOf-0006SS-R2
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:49:42 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2268 helo=huawei.com)
+ (envelope-from <jasowang@redhat.com>) id 1iZnYX-00034y-W7
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:59:55 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32744
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iZnOc-0006Mf-Kv; Tue, 26 Nov 2019 21:49:38 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id D9770BB001FF679B3F50;
- Wed, 27 Nov 2019 10:49:28 +0800 (CST)
-Received: from [127.0.0.1] (10.120.177.99) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.439.0; Wed, 27 Nov 2019
- 10:49:19 +0800
-Subject: Re: [PATCH] throttle-groups: fix memory leak in
- throttle_group_set_limits
-To: Alberto Garcia <berto@igalia.com>, <kwolf@redhat.com>, <mreitz@redhat.com>
-References: <1574756222-43976-1-git-send-email-pannengyuan@huawei.com>
- <w51o8wz555u.fsf@maestria.local.igalia.com>
-From: pannengyuan <pannengyuan@huawei.com>
-Message-ID: <66c1cc2f-a125-a5c6-fb97-157c02304047@huawei.com>
-Date: Wed, 27 Nov 2019 10:47:47 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iZnYX-00034Q-IX
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:59:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574823592;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ji+yJ67I1Iom1aOBlNKpqsHp/9zBaJttE1QcdwF472w=;
+ b=dDKPk1l78yxYwYAQfpwNPq+HVNp7O+6btBZALtirF0wCVnSuMihLhWtYwDtsI4FepBMwW0
+ BPuWi5dG57x2EIckb0NqE7+Y6Wad8ugpIFd37m2BfyEWHFuurlI6nPQrbk21mqI6a9i+su
+ GNaUeydUwaX+p9I0HwhBz/OUBkbooo8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-QZJ9ioGoMDiPTagYvj_0zw-1; Tue, 26 Nov 2019 21:59:48 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5DD0593A1;
+ Wed, 27 Nov 2019 02:59:46 +0000 (UTC)
+Received: from [10.72.12.237] (ovpn-12-237.pek2.redhat.com [10.72.12.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA93C19C7F;
+ Wed, 27 Nov 2019 02:59:38 +0000 (UTC)
+Subject: Re: [RFC net-next 00/18] virtio_net XDP offload
+To: Jakub Kicinski <jakub.kicinski@netronome.com>,
+ Prashant Bhole <prashantbhole.linux@gmail.com>
+References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
+ <20191126123514.3bdf6d6f@cakuba.netronome.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <48cec928-871f-3f50-e99f-c6a6d124cf4c@redhat.com>
+Date: Wed, 27 Nov 2019 10:59:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <w51o8wz555u.fsf@maestria.local.igalia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.120.177.99]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20191126123514.3bdf6d6f@cakuba.netronome.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: QZJ9ioGoMDiPTagYvj_0zw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,53 +75,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liyiting@huawei.com, kuhn.chenqun@huawei.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: Song Liu <songliubraving@fb.com>, Jesper Dangaard Brouer <hawk@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, "Michael S . Tsirkin" <mst@redhat.com>,
+ netdev@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>,
+ qemu-devel@nongnu.org, Alexei Starovoitov <ast@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>, kvm@vger.kernel.org,
+ Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
+ Martin KaFai Lau <kafai@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks, I think it can be removed, I will send a new version later.
+Hi Jakub:
 
-On 2019/11/26 17:59, Alberto Garcia wrote:
-> On Tue 26 Nov 2019 09:17:02 AM CET, pannengyuan@huawei.com wrote:
->> --- a/block/throttle-groups.c
->> +++ b/block/throttle-groups.c
->> @@ -912,6 +912,7 @@ static void throttle_group_set_limits(Object *obj, Visitor *v,
->>  unlock:
->>      qemu_mutex_unlock(&tg->lock);
->>  ret:
->> +    qapi_free_ThrottleLimits(argp);
->>      error_propagate(errp, local_err);
->>      return;
-> 
-> Thanks, but I also think that 'arg' is not used so it can be removed?
-> 
-> diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-> index 77014c741b..37695b0cd7 100644
-> --- a/block/throttle-groups.c
-> +++ b/block/throttle-groups.c
-> @@ -893,8 +893,7 @@ static void throttle_group_set_limits(Object *obj, Visitor *v,
->  {
->      ThrottleGroup *tg = THROTTLE_GROUP(obj);
->      ThrottleConfig cfg;
-> -    ThrottleLimits arg = { 0 };
-> -    ThrottleLimits *argp = &arg;
-> +    ThrottleLimits *argp;
->      Error *local_err = NULL;
->  
->      visit_type_ThrottleLimits(v, name, &argp, &local_err);
-> @@ -912,6 +911,7 @@ static void throttle_group_set_limits(Object *obj, Visitor *v,
->  unlock:
->      qemu_mutex_unlock(&tg->lock);
->  ret:
-> +    qapi_free_ThrottleLimits(argp);
->      error_propagate(errp, local_err);
->      return;
->  }
-> 
-> Berto
-> 
-> .
-> 
+On 2019/11/27 =E4=B8=8A=E5=8D=884:35, Jakub Kicinski wrote:
+> On Tue, 26 Nov 2019 19:07:26 +0900, Prashant Bhole wrote:
+>> Note: This RFC has been sent to netdev as well as qemu-devel lists
+>>
+>> This series introduces XDP offloading from virtio_net. It is based on
+>> the following work by Jason Wang:
+>> https://netdevconf.info/0x13/session.html?xdp-offload-with-virtio-net
+>>
+>> Current XDP performance in virtio-net is far from what we can achieve
+>> on host. Several major factors cause the difference:
+>> - Cost of virtualization
+>> - Cost of virtio (populating virtqueue and context switching)
+>> - Cost of vhost, it needs more optimization
+>> - Cost of data copy
+>> Because of above reasons there is a need of offloading XDP program to
+>> host. This set is an attempt to implement XDP offload from the guest.
+> This turns the guest kernel into a uAPI proxy.
+>
+> BPF uAPI calls related to the "offloaded" BPF objects are forwarded
+> to the hypervisor, they pop up in QEMU which makes the requested call
+> to the hypervisor kernel. Today it's the Linux kernel tomorrow it may
+> be someone's proprietary "SmartNIC" implementation.
+>
+> Why can't those calls be forwarded at the higher layer? Why do they
+> have to go through the guest kernel?
+
+
+I think doing forwarding at higher layer have the following issues:
+
+- Need a dedicated library (probably libbpf) but application may choose=20
+to do eBPF syscall directly
+- Depends on guest agent to work
+- Can't work for virtio-net hardware, since it still requires a hardware=20
+interface for carrying=C2=A0 offloading information
+- Implement at the level of kernel may help for future extension like=20
+BPF object pinning and eBPF helper etc.
+
+Basically, this series is trying to have an implementation of=20
+transporting eBPF through virtio, so it's not necessarily a guest to=20
+host but driver and device. For device, it could be either a virtual one=20
+(as done in qemu) or a real hardware.
+
+
+>
+> If kernel performs no significant work (or "adds value", pardon the
+> expression), and problem can easily be solved otherwise we shouldn't
+> do the work of maintaining the mechanism.
+
+
+My understanding is that it should not be much difference compared to=20
+other offloading technology.
+
+
+>
+> The approach of kernel generating actual machine code which is then
+> loaded into a sandbox on the hypervisor/SmartNIC is another story.
+
+
+We've considered such way, but actual machine code is not as portable as=20
+eBPF bytecode consider we may want:
+
+- Support migration
+- Further offload the program to smart NIC (e.g through macvtap=20
+passthrough mode etc).
+
+Thanks
+
+
+> I'd appreciate if others could chime in.
+>
 
 
