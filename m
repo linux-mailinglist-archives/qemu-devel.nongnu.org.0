@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D35510AC27
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:47:45 +0100 (CET)
-Received: from localhost ([::1]:35812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205EF10AC4C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:54:59 +0100 (CET)
+Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZszA-0007Q1-1P
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:47:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41823)
+	id 1iZt6A-0007qu-41
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:54:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1iZsx3-0005gk-My
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:45:38 -0500
+ (envelope-from <groug@kaod.org>) id 1iZt2L-0003LM-KW
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert@linux-m68k.org>) id 1iZsun-0002od-E4
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:43:14 -0500
-Received: from baptiste.telenet-ops.be ([2a02:1800:120:4::f00:13]:60916)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
- id 1iZsun-0002mJ-7t
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:43:13 -0500
-Received: from ramsan ([84.195.182.253])
- by baptiste.telenet-ops.be with bizsmtp
- id Wwiu2100b5USYZQ01wiua4; Wed, 27 Nov 2019 09:43:09 +0100
-Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1iZsuU-0000xw-RV; Wed, 27 Nov 2019 09:42:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1iZsuU-0004PA-P7; Wed, 27 Nov 2019 09:42:54 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v3 7/7] MAINTAINERS: Add GPIO Aggregator/Repeater section
-Date: Wed, 27 Nov 2019 09:42:53 +0100
-Message-Id: <20191127084253.16356-8-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191127084253.16356-1-geert+renesas@glider.be>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:1800:120:4::f00:13
+ (envelope-from <groug@kaod.org>) id 1iZt2K-0000ca-4p
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:01 -0500
+Received: from 5.mo68.mail-out.ovh.net ([46.105.62.179]:36279)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iZt2J-0000bO-U2
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:00 -0500
+Received: from player770.ha.ovh.net (unknown [10.108.42.88])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 9C78B14E5A9
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 09:50:57 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player770.ha.ovh.net (Postfix) with ESMTPSA id AE56EC998480;
+ Wed, 27 Nov 2019 08:50:52 +0000 (UTC)
+Date: Wed, 27 Nov 2019 09:50:50 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v6 16/20] ppc/xive: Introduce a xive_tctx_ipb_update()
+ helper
+Message-ID: <20191127095050.2e916a03@bahia.w3ibm.bluemix.net>
+In-Reply-To: <20191125065820.927-17-clg@kaod.org>
+References: <20191125065820.927-1-clg@kaod.org>
+ <20191125065820.927-17-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 4102779262143207819
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeigedguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 46.105.62.179
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,49 +58,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
- Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, Alexander Graf <graf@amazon.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a maintainership section for the GPIO Aggregator/Repeater, covering
-documentation, Device Tree bindings, and driver source code.
+On Mon, 25 Nov 2019 07:58:16 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Harish: Do you want to be listed as maintainer, too?
+> We will use it to resend missed interrupts when a vCPU context is
+> pushed on a HW thread.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  include/hw/ppc/xive.h |  1 +
+>  hw/intc/xive.c        | 21 +++++++++++----------
+>  2 files changed, 12 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+> index 24315480e7c2..9c0bf2c301e2 100644
+> --- a/include/hw/ppc/xive.h
+> +++ b/include/hw/ppc/xive.h
+> @@ -469,6 +469,7 @@ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor=
+ *mon);
+>  Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
+>  void xive_tctx_reset(XiveTCTX *tctx);
+>  void xive_tctx_destroy(XiveTCTX *tctx);
+> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
+> =20
+>  /*
+>   * KVM XIVE device helpers
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 4bff3abdc3eb..7047e45daca1 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -47,12 +47,6 @@ static uint8_t ipb_to_pipr(uint8_t ibp)
+>      return ibp ? clz32((uint32_t)ibp << 24) : 0xff;
+>  }
+> =20
+> -static void ipb_update(uint8_t *regs, uint8_t priority)
+> -{
+> -    regs[TM_IPB] |=3D priority_to_ipb(priority);
+> -    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
+> -}
+> -
+>  static uint8_t exception_mask(uint8_t ring)
+>  {
+>      switch (ring) {
+> @@ -135,6 +129,15 @@ static void xive_tctx_set_cppr(XiveTCTX *tctx, uint8=
+_t ring, uint8_t cppr)
+>      xive_tctx_notify(tctx, ring);
+>  }
+> =20
+> +void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb)
+> +{
+> +    uint8_t *regs =3D &tctx->regs[ring];
+> +
+> +    regs[TM_IPB] |=3D ipb;
+> +    regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
+> +    xive_tctx_notify(tctx, ring);
+> +}
+> +
 
-v3:
-  - New.
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Maybe rename the helper to xive_tctx_update_ipb_and_notify() to
+make it clear this raises an irq in the end ?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e5949b6827b72f2b..0f12ebdaa8faa76b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7043,6 +7043,14 @@ S:	Maintained
- F:	Documentation/firmware-guide/acpi/gpio-properties.rst
- F:	drivers/gpio/gpiolib-acpi.c
- 
-+GPIO AGGREGATOR/REPEATER
-+M:	Geert Uytterhoeven <geert+renesas@glider.be>
-+L:	linux-gpio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-+F:	Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
-+F:	drivers/gpio/gpio-aggregator.c
-+
- GPIO IR Transmitter
- M:	Sean Young <sean@mess.org>
- L:	linux-media@vger.kernel.org
--- 
-2.17.1
+This can be done as follow-up though and the rest looks good, so:
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  static inline uint32_t xive_tctx_word2(uint8_t *ring)
+>  {
+>      return *((uint32_t *) &ring[TM_WORD2]);
+> @@ -336,8 +339,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, =
+XiveTCTX *tctx,
+>  static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
+>                                     hwaddr offset, uint64_t value, unsign=
+ed size)
+>  {
+> -    ipb_update(&tctx->regs[TM_QW1_OS], value & 0xff);
+> -    xive_tctx_notify(tctx, TM_QW1_OS);
+> +    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff));
+>  }
+> =20
+>  static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
+> @@ -1429,8 +1431,7 @@ static bool xive_presenter_notify(uint8_t format,
+> =20
+>      /* handle CPU exception delivery */
+>      if (count) {
+> -        ipb_update(&match.tctx->regs[match.ring], priority);
+> -        xive_tctx_notify(match.tctx, match.ring);
+> +        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(pri=
+ority));
+>      }
+> =20
+>      return !!count;
 
 
