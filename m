@@ -2,91 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC710B00B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:22:10 +0100 (CET)
-Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A58A10B00C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:22:12 +0100 (CET)
+Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZxGi-0005it-DZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:22:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33219)
+	id 1iZxGl-00061r-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:22:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZxAX-0003Rg-2u
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:51 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZxBL-0003pp-BP
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:16:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZxAT-0004os-4Y
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:43 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49171
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZxBJ-00062o-Ud
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:16:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32489
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxAP-0004aU-3e
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:37 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxBF-0005wc-RX
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:16:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574860530;
+ s=mimecast20190719; t=1574860588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vjkydUOpz0rc/0To33SiyE+MV9hBziAcygddkw0zfdI=;
- b=HjIHyLFHAYQhjeNMFrMegcPUfFdjOq1JYs1z8IQHCVa70N7YyGE34hwJSxWH+NEZdn5E74
- fAsv0jf1zpnqpFGluHUEQaULDJrHp2KDhvJSIKRiyMU+/paF7ARcUs3yNIRG1FitVb+KWg
- cySwEpeRWRljKEdWnvBxtpH8kRyyd9o=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SUeCEDAbhEVK+v8dIf4m6KSljmEiBXyCmoColr0TikQ=;
+ b=ibHm4GXJwMwIl0RcrAldEtSEYlrtQJD4h2SCqXO9jPHkjCiVRSHl3ovbHH6GYzTDCSs8YV
+ rWG9vr5UrguI8zGRyGVKrJZdgi6pEh9XyCsvuwuNXA+lQUE79vIn9bnAqKDT3fuL+qIhTE
+ EHNSoGsw5ehaoPPfCGyC4E9Y32N+tXw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-JlRKm4OFPqSjvVVwYr7MwQ-1; Wed, 27 Nov 2019 08:15:29 -0500
-X-MC-Unique: JlRKm4OFPqSjvVVwYr7MwQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-432-LHKDf9LXOlehFa5aBsRiFQ-1; Wed, 27 Nov 2019 08:16:27 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139301086055;
- Wed, 27 Nov 2019 13:15:28 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-205-186.brq.redhat.com
- [10.40.205.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D69D03C1D;
- Wed, 27 Nov 2019 13:15:26 +0000 (UTC)
-Subject: Re: [PATCH] block: always fill entire LUKS header space with zeros
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20191125174336.555120-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAF9AA3FA9;
+ Wed, 27 Nov 2019 13:16:26 +0000 (UTC)
+Received: from localhost (ovpn-205-186.brq.redhat.com [10.40.205.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F10A5D6A7;
+ Wed, 27 Nov 2019 13:16:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4bd3095d-7263-1855-c74d-20c82af8067f@redhat.com>
-Date: Wed, 27 Nov 2019 14:15:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+To: qemu-block@nongnu.org
+Subject: [PATCH for-5.0 00/31] block: Introduce real BdrvChildRole
+Date: Wed, 27 Nov 2019 14:15:53 +0100
+Message-Id: <20191127131624.1062403-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191125174336.555120-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: LHKDf9LXOlehFa5aBsRiFQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,217 +67,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg
-Content-Type: multipart/mixed; boundary="YL2wEddcvPiVhfTPYExRBPFsjORWsuett"
+Based-on: <20191111160216.197086-1-mreitz@redhat.com>
+(=E2=80=9Cblock: Fix check_to_replace_node()=E2=80=9D)
 
---YL2wEddcvPiVhfTPYExRBPFsjORWsuett
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This is preliminary work for v7 of =E2=80=9CDeal with filters=E2=80=9D.  As=
+ Kevin has
+noted, there may be e.g. multiple storage children, and there should
+probably be some way for drivers to signal what they use each child for.
 
-On 25.11.19 18:43, Daniel P. Berrang=C3=A9 wrote:
-> When initializing the LUKS header the size with default encryption
-> parameters will currently be 2068480 bytes. This is rounded up to
-> a multiple of the cluster size, 2081792, with 64k sectors. If the
-> end of the header is not the same as the end of the cluster we fill
-> the extra space with zeros. This was forgetting that not even the
-> space allocated for the header will be fully initialized, as we
-> only write key material for the first key slot. The space left
-> for the other 7 slots is never written to.
->=20
-> An optimization to the ref count checking code:
->=20
->   commit a5fff8d4b4d928311a5005efa12d0991fe3b66f9 (refs/bisect/bad)
->   Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->   Date:   Wed Feb 27 16:14:30 2019 +0300
->=20
->     qcow2-refcount: avoid eating RAM
->=20
-> made the assumption that every cluster which was allocated would
-> have at least some data written to it. This was violated by way
-> the LUKS header is only partially written, with much space simply
-> reserved for future use.
->=20
-> Depending on the cluster size this problem was masked by the
-> logic which wrote zeros between the end of the LUKS header and
-> the end of the cluster.
->=20
-> $ qemu-img create --object secret,id=3Dcluster_encrypt0,data=3D123456 \
->    -f qcow2 -o cluster_size=3D2k,encrypt.iter-time=3D1,\
->                encrypt.format=3Dluks,encrypt.key-secret=3Dcluster_encrypt=
-0 \
-> =09       cluster_size_check.qcow2 100M
->   Formatting 'cluster_size_check.qcow2', fmt=3Dqcow2 size=3D104857600
->     encrypt.format=3Dluks encrypt.key-secret=3Dcluster_encrypt0
->     encrypt.iter-time=3D1 cluster_size=3D2048 lazy_refcounts=3Doff refcou=
-nt_bits=3D16
->=20
-> $ qemu-img check --object secret,id=3Dcluster_encrypt0,data=3Dredhat \
->     'json:{"driver": "qcow2", "encrypt.format": "luks", \
->            "encrypt.key-secret": "cluster_encrypt0", \
-> =09   "file.driver": "file", "file.filename": "cluster_size_check.qcow2"}=
-'
-> ERROR: counting reference for region exceeding the end of the file by one=
- cluster or more: offset 0x2000 size 0x1f9000
-> Leaked cluster 4 refcount=3D1 reference=3D0
-> ...snip...
-> Leaked cluster 130 refcount=3D1 reference=3D0
->=20
-> 1 errors were found on the image.
-> Data may be corrupted, or further writes to the image may corrupt it.
->=20
-> 127 leaked clusters were found on the image.
-> This means waste of disk space, but no harm to data.
-> Image end offset: 268288
->=20
-> The problem only exists when the disk image is entirely empty. Writing
-> data to the disk image payload will solve the problem by causing the
-> end of the file to be extended further.
->=20
-> The change fixes it by ensuring that the entire allocated LUKS header
-> region is fully initialized with zeros. The qemu-img check will still
-> fail for any pre-existing disk images created prior to this change,
-> unless at least 1 byte of the payload is written to.
->=20
-> Fully writing zeros to the entire LUKS header is a good idea regardless
-> as it ensures that space has been allocated on the host filesystem (or
-> whatever block storage backend is used).
->=20
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  block/qcow2.c              |   4 +-
->  tests/qemu-iotests/278     |  88 +++++++++++++++++
->  tests/qemu-iotests/278.out | 197 +++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/group   |   1 +
->  4 files changed, 288 insertions(+), 2 deletions(-)
->  create mode 100755 tests/qemu-iotests/278
->  create mode 100644 tests/qemu-iotests/278.out
->=20
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 7c18721741..dcfdd200fc 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -140,8 +140,8 @@ static ssize_t qcow2_crypto_hdr_init_func(QCryptoBloc=
-k *block, size_t headerlen,
+Before this series, this is done in a way with the child_* BdrvChildRole
+objects (i.e., child_file, child_format, child_backing).  However, they
+don=E2=80=99t really suit that task, for multiple reasons:
+(1) They don=E2=80=99t formally mean anything.
+(2) Drivers may or may not use them.  We have tests that just copy
+    child_backing and overwrite a single callback to suit their need.
+(3) You can=E2=80=99t combine them (e.g. for children that store both data =
+and
+    metadata).
 
-There=E2=80=99s a comment right here that reads:
+The current BdrvChildRole structure is really just a way to contact the
+parent about any changes regarding the child, so it doesn=E2=80=99t describ=
+e a
+role but a class.  Hence this series renames it to BdrvChildClass.
 
->     /* Zero fill remaining space in cluster so it has predictable
->      * content in case of future spec changes */
+Then we can introduce a real BdrvChildRole, which is an enum that
+captures the roles a child can have in a bit field, so they can be
+combined.
 
-I think that should be adjusted to reflect the change.
+It turns out that we can use this role to unify child_file,
+child_format, and child_backing into a generic child_of_bds class that
+can decide what to do for each child (e.g. when it comes to flag
+inheritance) based on the BdrvChildRole.
 
->      clusterlen =3D size_to_clusters(s, headerlen) * s->cluster_size;
->      assert(qcow2_pre_write_overlap_check(bs, 0, ret, clusterlen, false) =
-=3D=3D 0);
->      ret =3D bdrv_pwrite_zeroes(bs->file,
-> -                             ret + headerlen,
-> -                             clusterlen - headerlen, 0);
-> +                             ret,
-> +                             clusterlen, 0);
->      if (ret < 0) {
->          error_setg_errno(errp, -ret, "Could not zero fill encryption hea=
-der");
->          return -1;
-> diff --git a/tests/qemu-iotests/278 b/tests/qemu-iotests/278
-> new file mode 100755
-> index 0000000000..c52f03dd52
-> --- /dev/null
-> +++ b/tests/qemu-iotests/278
-> @@ -0,0 +1,88 @@
-
-[...]
-
-> +IMGSPEC=3D"driver=3D$IMGFMT,file.filename=3D$TEST_IMG,encrypt.key-secret=
-=3Dsec0"
-> +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-> +
-> +_run_test()
-> +{
-> +        echo
-
-The indentation is off here.
-
-> +=09echo "=3D=3D cluster size $csize"
-
-Or maybe it really is off here, because starting from here everything is
-indented with tabs.
-
-> +=09echo "=3D=3D checking image refcounts =3D=3D"
-> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
-dir
-
-I think we should use _check_test_img instead in order to filter out the
-allocation information.
-
-> +
-> +=09echo
-> +=09echo "=3D=3D writing some data =3D=3D"
-> +=09$QEMU_IO --object $SECRET -c "write -P 0x9 0 1" --image-opts $IMGSPEC=
- | _filter_qemu_io | _filter_testdir
-> +=09echo
-> +=09echo "=3D=3D rechecking image refcounts =3D=3D"
-> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
-dir
-> +
-> +=09echo
-> +=09echo "=3D=3D writing some more data =3D=3D"
-> +=09$QEMU_IO --object $SECRET -c "write -P 0x9 $csize 1" --image-opts $IM=
-GSPEC | _filter_qemu_io | _filter_testdir
-> +=09echo
-> +=09echo "=3D=3D rechecking image refcounts =3D=3D"
-> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
-dir
-> +}
-> +
-> +
-> +echo
-> +echo "testing LUKS qcow2 encryption"
-> +echo
-> +
-> +for csize in 512 1024 2048 4096 8192 16384 32768 65536
-
-Is it necessary to actually test all of these cluster sizes?  Wouldn=E2=80=
-=99t
-it make more sense to test e.g. just 512, 4096, 64k, 2M?
-
-I=E2=80=99m asking because as-is this test takes more than 20 s for me.
-
-> +do
-> +  _make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-=
-secret=3Dsec0,encrypt.iter-time=3D10,cluster_size=3D$csize" $size
-> +  _run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D=
-$TEST_IMG"
-
-I don=E2=80=99t think this parameter is used (because $IMGSPEC exists).
-
-Max
+This also applies to bdrv_format_default_perms() and
+bdrv_filter_default_perms(): We can unify them in a generic
+bdrv_filter_perms() that has different paths for filtered, backing,
+metadata, and pure-data children.
 
 
---YL2wEddcvPiVhfTPYExRBPFsjORWsuett--
+Max Reitz (31):
+  block: Rename BdrvChildRole to BdrvChildClass
+  block: Add BdrvChildRole
+  block: Add BdrvChildRole to BdrvChild
+  block: Pass BdrvChildRole to bdrv_child_perm()
+  block: Drop BdrvChildClass.stay_at_node
+  block: Keep BDRV_O_NO_IO in *inherited_fmt_options
+  block: Pass BdrvChildRole to .inherit_options()
+  block: Unify bdrv_*inherited_options()
+  block: Unify bdrv_child_cb_attach()
+  block: Unify bdrv_child_cb_detach()
+  block: Add child_of_bds
+  block: Distinguish paths in *_format_default_perms
+  block: Pull out bdrv_default_perms_for_backing()
+  block: Pull out bdrv_default_perms_for_storage()
+  block: Split bdrv_default_perms_for_storage()
+  block: Add bdrv_default_perms()
+  raw-format: Split raw_read_options()
+  block: Switch child_format users to child_of_bds
+  block: Drop child_format
+  block: Make backing files child_of_bds children
+  block: Drop child_backing
+  block: Make format drivers use child_of_bds
+  block: Make filter drivers use child_of_bds
+  block: Use child_of_bds in remaining places
+  tests: Use child_of_bds instead of child_file
+  block: Use bdrv_default_perms()
+  block: Make bdrv_filter_default_perms() static
+  block: Drop bdrv_format_default_perms()
+  block: Drop child_file
+  block: Pass BdrvChildRole in remaining cases
+  block: Drop @child_class from bdrv_child_perm()
 
---hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+ block.c                     | 477 +++++++++++++++++++++---------------
+ block/backup-top.c          |  11 +-
+ block/blkdebug.c            |  10 +-
+ block/blklogwrites.c        |  17 +-
+ block/blkreplay.c           |   7 +-
+ block/blkverify.c           |  12 +-
+ block/block-backend.c       |  20 +-
+ block/bochs.c               |   6 +-
+ block/cloop.c               |   6 +-
+ block/commit.c              |   2 +-
+ block/copy-on-read.c        |   7 +-
+ block/crypto.c              |   6 +-
+ block/dmg.c                 |   6 +-
+ block/io.c                  |  22 +-
+ block/mirror.c              |   2 +-
+ block/parallels.c           |   6 +-
+ block/qcow.c                |   6 +-
+ block/qcow2.c               |  20 +-
+ block/qed.c                 |   6 +-
+ block/quorum.c              |  11 +-
+ block/raw-format.c          | 128 ++++++----
+ block/replication.c         |   5 +-
+ block/throttle.c            |   7 +-
+ block/vdi.c                 |   6 +-
+ block/vhdx.c                |   6 +-
+ block/vmdk.c                |  22 +-
+ block/vpc.c                 |   6 +-
+ block/vvfat.c               |  11 +-
+ blockjob.c                  |   8 +-
+ include/block/block.h       |  46 +++-
+ include/block/block_int.h   |  54 ++--
+ tests/test-bdrv-drain.c     |  72 +++---
+ tests/test-bdrv-graph-mod.c |  10 +-
+ tests/test-block-iothread.c |  17 +-
+ 34 files changed, 625 insertions(+), 433 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3edu0ACgkQ9AfbAGHV
-z0DTJAgAn4vVPiXnB3M5XYt71gXpow2GbPBWxhU5ga+4VFl9Bet1+n+OTvvG65aG
-OdWGgZB3i93orN7DhOMfbZRLJA2YNQxAJoPqqvDMNic96Y1WnRUOZZvVdKpuJKLw
-4wsti75NKqWkMeAVRW1nlVrqvtz8Tn8+fcSMA4bLsCZeW38fx/2QR4Otz99zAoWR
-iG6zqZyzk4NJm2B3xGpLLxWF+ZazGCqt88wThJrRtaX0vVi13T4vYhHRh3TvniDM
-xgFI/b10e6DpG0LhGicWKRGsfmdWpy9I5npuXa0eoCYYbS2QgMlV93IoIDSH7tR9
-0H88VWd6WnxtrrlMooHXEcqR7lNhLQ==
-=Lx0P
------END PGP SIGNATURE-----
-
---hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg--
+--=20
+2.23.0
 
 
