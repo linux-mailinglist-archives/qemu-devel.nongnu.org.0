@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85FD10AC2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:48:49 +0100 (CET)
-Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD9210AC41
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:51:49 +0100 (CET)
+Received: from localhost ([::1]:35842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZt0C-0008Pf-BJ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:48:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42321)
+	id 1iZt36-0003DP-5j
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:51:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iZsx7-0005j1-Dj
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:45:44 -0500
+ (envelope-from <geert@linux-m68k.org>) id 1iZsx3-0005hs-Ol
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:45:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iZspz-0008W3-Fw
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:38:16 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22038
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZspz-0008VY-Cc
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:38:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574843894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nPEs8/pE+VTcAuOtELiV3djIrMn+FYJwvQ1eE27/WCg=;
- b=eaybVousphY+zzM/XVYk2BITd7SMeQ8C91c7vkhTcmqp62P40Nt9VsYfjbK3Z1o75+aUqF
- 93h4+bZZWUaGPmrHHLQquNv/h4W9t0DapGPRwz2DYYszpWJpqk2NGXuQLhCy8T6Jv2ve+X
- xyYLuineHyVtz4/4RrWChX7jbf7onyk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-sbHI71EXN_WG2WLQCNZfRQ-1; Wed, 27 Nov 2019 03:38:11 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 229FE1083E83;
- Wed, 27 Nov 2019 08:38:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BA1FD19C69;
- Wed, 27 Nov 2019 08:38:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4B8861138606; Wed, 27 Nov 2019 09:38:08 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 9/9] monitor/hmp: Prefer to use hmp_handle_error for error
- reporting in block hmp commands
-References: <20191120185850.18986-1-mlevitsk@redhat.com>
- <20191120185850.18986-10-mlevitsk@redhat.com>
-Date: Wed, 27 Nov 2019 09:38:08 +0100
-In-Reply-To: <20191120185850.18986-10-mlevitsk@redhat.com> (Maxim Levitsky's
- message of "Wed, 20 Nov 2019 20:58:50 +0200")
-Message-ID: <87tv6piuj3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: sbHI71EXN_WG2WLQCNZfRQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (envelope-from <geert@linux-m68k.org>) id 1iZsum-0002nr-IS
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:43:14 -0500
+Received: from andre.telenet-ops.be ([2a02:1800:120:4::f00:15]:45650)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
+ id 1iZsum-0002lV-A9
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:43:12 -0500
+Received: from ramsan ([84.195.182.253]) by andre.telenet-ops.be with bizsmtp
+ id Wwiu2100b5USYZQ01wiuXS; Wed, 27 Nov 2019 09:43:07 +0100
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1iZsuU-0000xd-K7; Wed, 27 Nov 2019 09:42:54 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1iZsuU-0004No-H4; Wed, 27 Nov 2019 09:42:54 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater
+Date: Wed, 27 Nov 2019 09:42:46 +0100
+Message-Id: <20191127084253.16356-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 2a02:1800:120:4::f00:15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,203 +53,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, Alexander Graf <graf@amazon.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Title is too long.  blockdev-hmp-cmds.c will become
-block/monitor/block-hmp-cmds.c in v2.  With this in mind, suggest
+	Hi all,
 
-    block/monitor: Prefer to use hmp_handle_error() to report HMP errors
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-Maxim Levitsky <mlevitsk@redhat.com> writes:
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
 
-> This way they all will be prefixed with 'Error:' which some parsers
-> (e.g libvirt need)
+Recently, other use cases have been discovered[1]:
+  - Describing GPIO inverters in DT, as a generic GPIO Repeater,
+  - Describing simple GPIO-operated devices in DT, and using the GPIO
+    Aggregator as a generic GPIO driver for userspace.
 
-Sadly, "all" is far from true.  Consider
+Changes compared to v2[2] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
 
-    void hmp_drive_add(Monitor *mon, const QDict *qdict)
-    {
-        Error *err =3D NULL;
-        DriveInfo *dinfo =3D NULL;
-        QemuOpts *opts;
-        MachineClass *mc;
-        const char *optstr =3D qdict_get_str(qdict, "opts");
-        bool node =3D qdict_get_try_bool(qdict, "node", false);
+Changes compared to v1[3]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
 
-        if (node) {
-            hmp_drive_add_node(mon, optstr);
-            return;
-        }
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[4][5].
 
-        opts =3D drive_def(optstr);
-        if (!opts)
-            return;
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
 
+  - Unbind LEDs from leds-gpio driver:
 
-hmp_drive_add_node() uses error_report() and error_report_err().  Easy
-enough to fix if you move the function here, as I suggested in my review
-of PATCH 8.
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
 
-drive_def() is a wrapper around qemu_opts_parse_noisily(), which uses
-error_report_err().  You can't change qemu_opts_parse_noisily() to use
-hmp_handle_error().  You'd have to convert drive_def() to Error, which
-involves switching it to qemu_opts_parse() + qemu_opts_print_help().
+  - Create aggregators:
 
-These are just the first two error paths in this file.  There's much
-more.  Truly routing all HMP errors through hmp_handle_error() takes a
-*massive* Error conversion effort, with a high risk of missing Error
-conversions, followed by a never-ending risk of non-Error stuff creeping
-in.
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
 
-There must be an easier way.
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
 
-Consider vreport():
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
 
-    switch (type) {
-    case REPORT_TYPE_ERROR:
-        break;
-    case REPORT_TYPE_WARNING:
-        error_printf("warning: ");
-        break;
-    case REPORT_TYPE_INFO:
-        error_printf("info: ");
-        break;
-    }
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
 
-Adding the prefix here (either unconditionally, or if cur_mon) covers
-all HMP errors reported with error_report() & friends in one blow.
+  - Adjust permissions on /dev/gpiochip[89] (optional)
 
-That leaves the ones that are still reported with monitor_printf().
-Converting those to error_report() looks far more tractable to me.
+  - Control LEDs:
 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  blockdev-hmp-cmds.c | 35 +++++++++++++++++++++--------------
->  1 file changed, 21 insertions(+), 14 deletions(-)
->
-> diff --git a/blockdev-hmp-cmds.c b/blockdev-hmp-cmds.c
-> index c943dccd03..197994716f 100644
-> --- a/blockdev-hmp-cmds.c
-> +++ b/blockdev-hmp-cmds.c
-> @@ -59,7 +59,6 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict)
->      mc =3D MACHINE_GET_CLASS(current_machine);
->      dinfo =3D drive_new(opts, mc->block_default_type, &err);
->      if (err) {
-> -        error_report_err(err);
->          qemu_opts_del(opts);
->          goto err;
->      }
-> @@ -73,7 +72,7 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict)
->          monitor_printf(mon, "OK\n");
->          break;
->      default:
-> -        monitor_printf(mon, "Can't hot-add drive to type %d\n", dinfo->t=
-ype);
-> +        error_setg(&err, "Can't hot-add drive to type %d", dinfo->type);
->          goto err;
->      }
->      return;
-> @@ -84,6 +83,7 @@ err:
->          monitor_remove_blk(blk);
->          blk_unref(blk);
->      }
-> +    hmp_handle_error(mon, &err);
->  }
-> =20
->  void hmp_drive_del(Monitor *mon, const QDict *qdict)
-> @@ -105,14 +105,14 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict=
-)
-> =20
->      blk =3D blk_by_name(id);
->      if (!blk) {
-> -        error_report("Device '%s' not found", id);
-> -        return;
-> +        error_setg(&local_err, "Device '%s' not found", id);
-> +        goto err;
+    $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0     # LED8 OFF
+    $ gpioset gpiochip9 0=1     # LED8 ON
 
-Having to create Error objects just so we can use hmp_handle_error() is
-awkward.  Tolerable if using hmp_handle_error() improves matters.  I'm
-not sure it does.
+  - Destroy aggregators:
 
->      }
-> =20
->      if (!blk_legacy_dinfo(blk)) {
-> -        error_report("Deleting device added with blockdev-add"
-> -                     " is not supported");
-> -        return;
-> +        error_setg(&local_err,
-> +                   "Deleting device added with blockdev-add is not suppo=
-rted");
-> +        goto err;
->      }
-> =20
->      aio_context =3D blk_get_aio_context(blk);
-> @@ -121,9 +121,8 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict)
->      bs =3D blk_bs(blk);
->      if (bs) {
->          if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err))=
- {
-> -            error_report_err(local_err);
->              aio_context_release(aio_context);
-> -            return;
-> +            goto err;
->          }
-> =20
->          blk_remove_bs(blk);
-> @@ -144,12 +143,15 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict=
-)
->      }
-> =20
->      aio_context_release(aio_context);
-> +err:
-> +    hmp_handle_error(mon, &local_err);
->  }
-> =20
->  void hmp_commit(Monitor *mon, const QDict *qdict)
->  {
->      const char *device =3D qdict_get_str(qdict, "device");
->      BlockBackend *blk;
-> +    Error *local_err =3D NULL;
->      int ret;
-> =20
->      if (!strcmp(device, "all")) {
-> @@ -160,12 +162,12 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
-> =20
->          blk =3D blk_by_name(device);
->          if (!blk) {
-> -            error_report("Device '%s' not found", device);
-> -            return;
-> +            error_setg(&local_err, "Device '%s' not found", device);
-> +            goto err;
->          }
->          if (!blk_is_available(blk)) {
-> -            error_report("Device '%s' has no medium", device);
-> -            return;
-> +            error_setg(&local_err, "Device '%s' has no medium", device);
-> +            goto err;
->          }
-> =20
->          bs =3D blk_bs(blk);
-> @@ -177,8 +179,13 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
->          aio_context_release(aio_context);
->      }
->      if (ret < 0) {
-> -        error_report("'commit' error for '%s': %s", device, strerror(-re=
-t));
-> +        error_setg(&local_err,
-> +                   "'commit' error for '%s': %s", device, strerror(-ret)=
-);
-> +        goto err;
->      }
-> +    return;
-> +err:
-> +    hmp_handle_error(mon, &local_err);
->  }
-> =20
->  void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks for your comments!
+
+References:
+  [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [2] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/linux-gpio/20190911143858.13024-1-geert+renesas@glider.be/)
+  [3] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/lkml/20190705160536.12047-1-geert+renesas@glider.be/)
+  [4] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/linux-renesas-soc/20181003152521.23144-1-geert+renesas@glider.be/)
+  [5] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (7):
+  gpiolib: Add GPIOCHIP_NAME definition
+  gpiolib: Add support for gpiochipN-based table lookup
+  gpiolib: Add support for GPIO line table lookup
+  dt-bindings: gpio: Add gpio-repeater bindings
+  gpio: Add GPIO Aggregator/Repeater driver
+  docs: gpio: Add GPIO Aggregator/Repeater documentation
+  MAINTAINERS: Add GPIO Aggregator/Repeater section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 111 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ .../bindings/gpio/gpio-repeater.yaml          |  53 ++
+ MAINTAINERS                                   |   8 +
+ drivers/gpio/Kconfig                          |  13 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 587 ++++++++++++++++++
+ drivers/gpio/gpiolib-sysfs.c                  |   7 +-
+ drivers/gpio/gpiolib.c                        |  38 +-
+ drivers/gpio/gpiolib.h                        |   2 +
+ include/linux/gpio/machine.h                  |   2 +-
+ 11 files changed, 815 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+-- 
+2.17.1
 
 
