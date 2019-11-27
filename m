@@ -2,55 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9A910A96F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 05:38:21 +0100 (CET)
-Received: from localhost ([::1]:32918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BF910AA45
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 06:38:33 +0100 (CET)
+Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZp5o-00048U-FC
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 23:38:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36555)
+	id 1iZq23-00071n-Rs
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 00:38:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iZp53-0003ji-Dx
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 23:37:34 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpzc-0005Qn-25
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:36:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iZp51-0003XY-7t
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 23:37:32 -0500
-Received: from mga09.intel.com ([134.134.136.24]:62449)
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpza-0000Jz-NZ
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:35:59 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:42293)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iZp50-0003V7-V7
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 23:37:31 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2019 20:37:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,248,1571727600"; d="scan'208";a="217307712"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.13])
- ([10.239.197.13])
- by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2019 20:37:24 -0800
-Subject: Re: [PATCH v17 01/14] util/cutils: Add Add qemu_strtold and
- qemu_strtold_finite
-To: Markus Armbruster <armbru@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>
-References: <20191122074826.1373-1-tao3.xu@intel.com>
- <20191122074826.1373-2-tao3.xu@intel.com>
- <8088b091-8f7c-a637-6333-e7c40935974f@intel.com>
- <87a78ispyc.fsf@dusky.pond.sub.org>
-From: Tao Xu <tao3.xu@intel.com>
-Message-ID: <aaac6a06-0484-ceb7-7230-77b8362744b0@intel.com>
-Date: Wed, 27 Nov 2019 12:37:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iZpzZ-0000Cs-U3; Wed, 27 Nov 2019 00:35:58 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47N8d161txz9sSr; Wed, 27 Nov 2019 16:35:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574832949;
+ bh=muvHzNHPRAzQayRob424Gx7xtQnhlueXPE+7tsCshy0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gOE29NQAtxzyVF8EDNbKalaBgYWdcYwJKBro8t6cYrJkGoRFZbu5z+5ziRKVxQ2pt
+ GLAjSt6Hm8no200P3xUckTyemQL4DU5weN/FXK/BDQbHz3NRVmuzrbciXD4VkljK+E
+ v/Av/2BmINIjMIPS3rAS6mVQFHUgV6z7qzq7po+U=
+Date: Wed, 27 Nov 2019 15:57:30 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v6 04/20] ppc/pnv: Loop on the threads of the chip to
+ find a matching NVT
+Message-ID: <20191127045730.GN5582@umbus.fritz.box>
+References: <20191125065820.927-1-clg@kaod.org>
+ <20191125065820.927-5-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <87a78ispyc.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dbB7XJDnVO33DTCu"
+Content-Disposition: inline
+In-Reply-To: <20191125065820.927-5-clg@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.24
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,115 +57,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "sw@weilnetz.de" <sw@weilnetz.de>, "Du, Fan" <fan.du@intel.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>, "Liu,
- Jingqi" <jingqi.liu@intel.com>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/26/2019 9:54 PM, Markus Armbruster wrote:
-> Tao Xu <tao3.xu@intel.com> writes:
-> 
->> Hi Markus,
->>
->> Do you have any comments on this patch and 02/14 05/14 06/14.
->> Thank you!
-> 
-> These provide a new QAPI built-in type 'time'.  It's like 'uint64' with
-> an implied nanoseconds unit, and additional convenience syntax in the
-> opts visitor and the keyval qobject input visitor.  Patterned after
-> 'size'.
-> 
-> The only use of 'time' so far is member @latency of NumaOptions member
-> @hmap-lb.  Uses of that:
-> 
-> * QMP command set-numa-node
-> 
->    The convenience syntax does not apply, as QMP uses the regular qobject
->    input visitor, not the keyval one.
-> 
-> * CLI option -numa
-> 
->    We first parse the option argument with QemuOpts, then convert it to
->    NumaOptions with the opts visitor.
-> 
->    The new built-in type 'time' gets used in -numa hmat-lb,...,latency=T
-> 
-> Questions / observations:
-> 
-> * The keyval qobject input visitor's support for 'time' appears to be
->    unused for now.
-> 
-> * What's the anticipated range of values for -numa
->    hmat-lb,...,latency=T?  I'm asking because I wonder whether we really
->    need convenience syntax there.
-> 
-> * Sure you want fractions?
-> 
->    Supporting fractions for byte counts (e.g.  1.5G) has been a mixed
->    blessing, to put it charitably.
-> 
->    Use of fractions that aren't representable as double is not advisable.
->    For instance, 1.1G is 1181116006 bytes rounded from
->    1181116006.4000001.  Why would anybody want that?
-> 
->    Use of "nice" fractions is unproblematic, but the additional
->    convenience is rather minor.  Is being able to write 1536M as 1.5G
->    worth the trouble?  Meh.
-> 
->    With "metric" rather than "binary" suffixes, fractions provide even
->    less convenience: 1.5ms vs. 1500us.
-> 
->    The implementation is limited to 53 bits of precision, which has been
->    a source of confusion.  Even that has arguably taken far more patches
->    than it's worth.  We're now talking about more patches to lift the
->    restriction.  Meh.
-> 
->    What exactly are we trying to achieve by supporting fractions?
-> 
-> * What about all the other time-valued things in the QAPI schema?
-> 
->    There are many more, and some of them are also visible in CLI or HMP.
->    By providing convenience syntax for just -numa hmat-lb,...,latency=T,
->    we create inconsistency.
-> 
->    To avoid it, we'd have to hunt down all the others.  But some of them
->    aren't in nanoseconds.  Your new built-in type 'time' is only
->    applicable to the ones in nanoseconds.  Do we need more built-in
->    types?
-> 
-> This series is at v17.  I really, really want to tell you it's ready for
-> merging.  But as you see, I can't.
-> 
-> Maybe the convenience syntax is a good idea, maybe it's a bad idea.  But
-> it's definitely not a must-have idea.
-> 
-> If you want to pursue the idea, I recommend to split this series in two:
-> one part without the convenience, and a second part adding it.
-> Hopefully, we can then merge the first part without too much fuss.  The
-> second part will have to deal with the questions above.
-> 
-> You can also shelve the idea, i.e. do just the first part now.  It's
-> what I'd do.
-> 
-Thank you for your suggestion and support! Considering ACPI HMAT can 
-only store unsigned integer data, and for the memory latency nanoseconds 
-is enough. So we can use integer for latency data. I am wondering if we 
-can use this solution:
 
-* Still add builtin type time, but use qemu_strtou64() to parse.
-* Still refactor do_strtosz() to support suffixes list, but add a extra 
-parameter to decide use qemu_strtou64() or qemu_strtod_finite(), so time 
-use qemu_strtou64() and qemu_strtod_finite()
-* Second part dealing with the questions.
+--dbB7XJDnVO33DTCu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Then the only influence on HMAT patch is we need add a comments to tell 
-user to input integer.
+On Mon, Nov 25, 2019 at 07:58:04AM +0100, C=E9dric Le Goater wrote:
+> CPU_FOREACH() loops on all the CPUs of the machine which is incorrect.
+> Each XIVE Presenter should scan only the HW threads of the chip it
+> belongs to.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
+Patches 1..4 applied to ppc-for-5.0.
 
+> ---
+>  hw/intc/pnv_xive.c | 61 ++++++++++++++++++++++++++--------------------
+>  1 file changed, 35 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 8055de89cf63..9798bd9e729f 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -377,34 +377,43 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, =
+uint8_t format,
+>                                bool cam_ignore, uint8_t priority,
+>                                uint32_t logic_serv, XiveTCTXMatch *match)
+>  {
+> -    CPUState *cs;
+> +    PnvXive *xive =3D PNV_XIVE(xptr);
+> +    PnvChip *chip =3D xive->chip;
+>      int count =3D 0;
+> -
+> -    CPU_FOREACH(cs) {
+> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> -        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> -        int ring;
+> -
+> -        /*
+> -         * Check the thread context CAM lines and record matches.
+> -         */
+> -        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
+nvt_idx,
+> -                                         cam_ignore, logic_serv);
+> -        /*
+> -         * Save the context and follow on to catch duplicates, that we
+> -         * don't support yet.
+> -         */
+> -        if (ring !=3D -1) {
+> -            if (match->tctx) {
+> -                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a "
+> -                              "thread context NVT %x/%x\n",
+> -                              nvt_blk, nvt_idx);
+> -                return -1;
+> +    int i, j;
+> +
+> +    for (i =3D 0; i < chip->nr_cores; i++) {
+> +        PnvCore *pc =3D chip->cores[i];
+> +        CPUCore *cc =3D CPU_CORE(pc);
+> +
+> +        for (j =3D 0; j < cc->nr_threads; j++) {
+> +            PowerPCCPU *cpu =3D pc->threads[j];
+> +            XiveTCTX *tctx;
+> +            int ring;
+> +
+> +            tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> +
+> +            /*
+> +             * Check the thread context CAM lines and record matches.
+> +             */
+> +            ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_b=
+lk,
+> +                                             nvt_idx, cam_ignore, logic_=
+serv);
+> +            /*
+> +             * Save the context and follow on to catch duplicates, that =
+we
+> +             * don't support yet.
+> +             */
+> +            if (ring !=3D -1) {
+> +                if (match->tctx) {
+> +                    qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found =
+a "
+> +                                  "thread context NVT %x/%x\n",
+> +                                  nvt_blk, nvt_idx);
+> +                    return -1;
+> +                }
+> +
+> +                match->ring =3D ring;
+> +                match->tctx =3D tctx;
+> +                count++;
+>              }
+> -
+> -            match->ring =3D ring;
+> -            match->tctx =3D tctx;
+> -            count++;
+>          }
+>      }
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--dbB7XJDnVO33DTCu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3eAjgACgkQbDjKyiDZ
+s5KawxAArVkIgsgMGyBoSTOf7nHQ/+4Xydwcd5xOqLfdsYIv/XBGzcXO95X3trtU
+u6eLjZ8LE/NLh8fPROF7XKGlF1SrzUB9TIeB09D7V9h2JYsDXrSjVLmgvAXL3K11
+aj07axzFDagiNoGCPI7lWylbBiSCddsrGYmgTOiKMWso/iHB/4J3c2hRwmVwp8cR
+ab3GOiRK3wGczTH8/YghJO/rnUbGlJgPsvEPOWzD+AkAx0cH0QDUsabeRPMXFoPn
+m+rKU6O2by0mjJNceCgbRPGJTzZMU6q+XBwcxRvVM0ZdxoCJw3JUnNMVWfwtBkV0
+uWNntLaE40NWmuQZCeAiHtRXiZFC+R6djMInwUix6emMRaxVh8tU7iTacjJe7B5I
+7Z+dr22pzlfw3ZaE0Bi/cDBBGtZVDYdXmjxhc5W/j2lbEhbe3bLsVOvNUTCBbslu
+s3E9+mWTMteZFnsz78iGAEfPd/J1sPRaqrY+PQA6vUFh+evZjwRUcDa2tgc9TAFM
+i7znk5OHw/ugrH3kITcuoBypGYzdODk5pOJj0A/o2ssHrFUEj4XxXzQmq+DCmZI8
+XaCkPsaKJF6hcR2SGyvQIn1hZSgkRivEG/xsgEZ+hJPAhfpMstdJR1jB8Tl2gRal
+SIaesboXOJqCoPciEgzdzFfeuzK083gKMm7tm4f3O4D9qH0H7aE=
+=J3UE
+-----END PGP SIGNATURE-----
+
+--dbB7XJDnVO33DTCu--
 
