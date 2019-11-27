@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3B510AF26
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 12:59:29 +0100 (CET)
-Received: from localhost ([::1]:37426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2493D10AF12
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 12:55:57 +0100 (CET)
+Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZvyi-0006cn-5K
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 06:59:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50478)
+	id 1iZvvH-0002Hu-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 06:55:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iZvt3-0000Yu-OG
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:41 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iZvtA-0000aL-Qa
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iZvt1-0006DV-Ap
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:37 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41896
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iZvt9-0006Jn-2X
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46087
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iZvsw-0006AC-Q6
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:31 -0500
+ id 1iZvt8-0006J8-VU
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574855610;
+ s=mimecast20190719; t=1574855622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p8tsVTUfoEfZv9VhDPcAAEq3rQMQDEoIiccaTGADpU8=;
- b=ZXZZFns+sYE8CiQLbjDkeIv69+5T8k/AZLpuQBFcUtfZY/Jaz/JkbkHKrH4uscsz5iiMTw
- QFrzjyteJlnn7hjQhx7wsYBWkWamfF+bVx0MNWnv70CIm4xtBwD5eXv/4OtvNlUvlItbf4
- xDbUmy0D+Ta1KFbwfe0ar2k3IYD8VPY=
+ bh=sTE5AxWhHFArGW+tZpivPFPM3d7d8XOs49LHe2Qq4Fk=;
+ b=GU9uHbTdhAoxeYuM3PX7pdQJXLGHIXNlh+OZsedTTBg1enb+UoXbreifNvVvEkme1I18yH
+ pA2vHw6xDbD75EI58Hzg06ayCWN7R0kEZPJvCDTiLi/dC3zBja6jw1A2EDZG5cDICeACce
+ Lu+D+Kj/6ZhNNGoh5lcrQCns3jAuBtQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-S04vU510OGONQCQnN3iTjg-1; Wed, 27 Nov 2019 06:53:26 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-155-61ccDH9BOHu8rzr3bJQdvg-1; Wed, 27 Nov 2019 06:53:39 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA6E107ACE3
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 11:53:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4926318B9FC3
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 11:53:38 +0000 (UTC)
 Received: from localhost (ovpn-112-17.ams2.redhat.com [10.36.112.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C9E610246E3;
- Wed, 27 Nov 2019 11:53:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC9995C21B;
+ Wed, 27 Nov 2019 11:53:31 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] osdep: add qemu_unlink()
-Date: Wed, 27 Nov 2019 15:52:01 +0400
-Message-Id: <20191127115202.375107-7-marcandre.lureau@redhat.com>
+Subject: [PATCH 7/7] screendump: use qemu_unlink()
+Date: Wed, 27 Nov 2019 15:52:02 +0400
+Message-Id: <20191127115202.375107-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20191127115202.375107-1-marcandre.lureau@redhat.com>
 References: <20191127115202.375107-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: S04vU510OGONQCQnN3iTjg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 61ccDH9BOHu8rzr3bJQdvg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,55 +79,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper function to match qemu_open() which may return files
-under the /dev/fdset prefix. Those shouldn't be removed, since it's
-only a qemu namespace.
+Don't attempt to remove /dev/fdset files.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/qemu/osdep.h |  1 +
- util/osdep.c         | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
+ ui/console.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 0f97d68586..9bd3dcfd13 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -462,6 +462,7 @@ int qemu_mprotect_none(void *addr, size_t size);
+diff --git a/ui/console.c b/ui/console.c
+index 587edf4ed4..e6ac462aa0 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -381,7 +381,7 @@ void qmp_screendump(const char *filename, bool has_devi=
+ce, const char *device,
+     }
 =20
- int qemu_open(const char *name, int flags, ...);
- int qemu_close(int fd);
-+int qemu_unlink(const char *name);
- #ifndef _WIN32
- int qemu_dup(int fd);
- #endif
-diff --git a/util/osdep.c b/util/osdep.c
-index 3f04326040..f7d06050f7 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -370,6 +370,21 @@ int qemu_close(int fd)
-     return close(fd);
+     if (!ppm_save(fd, surface, errp)) {
+-        unlink(filename);
++        qemu_unlink(filename);
+     }
  }
 =20
-+/*
-+ * Delete a file from the filesystem, unless the filename is /dev/fdset/..=
-.
-+ *
-+ * Returns: On success, zero is returned.  On error, -1 is returned,
-+ * and errno is set appropriately.
-+ */
-+int qemu_unlink(const char *name)
-+{
-+    if (g_str_has_prefix(name, "/dev/fdset/")) {
-+        return 0;
-+    }
-+
-+    return unlink(name);
-+}
-+
- /*
-  * A variant of write(2) which handles partial write.
-  *
 --=20
 2.24.0
 
