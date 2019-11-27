@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56C510AC4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:54:15 +0100 (CET)
-Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7883B10AC4E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:56:03 +0100 (CET)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZt5S-0006ho-Q7
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:54:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45396)
+	id 1iZt7C-0000im-J1
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:56:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iZt2Q-0003QQ-Nr
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:07 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iZt3U-0004pq-Jo
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:52:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iZt2O-0000es-0W
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29096
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iZt2N-0000eP-TK
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:51:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574844663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lt2/2v/I5nSOi4lJ6ehrs8+3OMDsoODUgKUHieEDjLk=;
- b=QEwls/+aHg6GvuUSkSKQC24n50E3zHOMMHhFlWkdX9EmWkW3WQ89D9vEDUN+aOG1gbD751
- 3z+OYktpTDPJczO12BU8dOGQ/rACY2aJkXiCuLGdbVskzy7h4dduaUtfex2wJRajt80DZk
- A/KAS28rsVl8KkHI6btWN8vgOIVxzjk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-tlROl-7XMf6dUjxsn_qOWg-1; Wed, 27 Nov 2019 03:51:02 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD5321856A60;
- Wed, 27 Nov 2019 08:51:00 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-186.ams2.redhat.com [10.36.117.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C88C3608B9;
- Wed, 27 Nov 2019 08:50:54 +0000 (UTC)
-Subject: Re: [PATCH 0/6] Enable Travis builds on arm64, ppc64le and s390x
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191119170822.45649-1-thuth@redhat.com>
- <87wobr7bkz.fsf@linaro.org> <878so4gsh1.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <eb3ff72d-647b-ce46-d0de-9fb8556dfacc@redhat.com>
-Date: Wed, 27 Nov 2019 09:50:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <no-reply@patchew.org>) id 1iZt3R-0001ku-Jm
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:52:11 -0500
+Resent-Date: Wed, 27 Nov 2019 03:52:10 -0500
+Resent-Message-Id: <E1iZt3R-0001ku-Jm@eggs.gnu.org>
+Received: from sender4-of-o58.zoho.com ([136.143.188.58]:21859)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iZt3R-0001dX-BD
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:52:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1574844694; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=YKLvt0rirsjJRQOlgpZlUyyRmGtKbsh+OilodJouiFr6GTIg4au1xcAwcIr3510LfAkMSz8ud+9jbu0BwSK8O6s7LUDb71XgSJy1cAGtP/F+BdbDh9nO1fKu2dmNbc6y97WnrcncKChX+hZnShzTF5WqNQhgA2hkmJAkcZcU5ws=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1574844694;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Qlz5O/4HrJgigT3PpXtPlwWCFCHgh3BqUWx4LKzR7L0=; 
+ b=BVS5eyH4OJZ7iaf9/PdCtGG4qA6rjHGw3Peo4ZdfAAv5RlnumIiBRPeza8ReeEYkL8H9OMK8HzdM9GijR9xhCbpeN5hJWJJRg92525b/Uy5dUSQb+AJ1BBmU57c3c5DwecH11bz7ID1OhgdIidu0vkgJdh6UXVpRC03SVfcvVoo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1574844691544376.075877932318;
+ Wed, 27 Nov 2019 00:51:31 -0800 (PST)
+In-Reply-To: <20191127082613.22903-1-tao3.xu@intel.com>
+Subject: Re: [PATCH v18 0/8] Build ACPI Heterogeneous Memory Attribute Table
+ (HMAT)
+Message-ID: <157484468932.4822.1026920903729105588@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <878so4gsh1.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: tlROl-7XMf6dUjxsn_qOWg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: tao3.xu@intel.com
+Date: Wed, 27 Nov 2019 00:51:31 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.58
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,45 +65,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, sw@weilnetz.de, tao3.xu@intel.com, fan.du@intel.com,
+ armbru@redhat.com, mdroth@linux.vnet.ibm.com, jingqi.liu@intel.com,
+ imammedo@redhat.com, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/11/2019 11.28, Alex Benn=C3=A9e wrote:
->=20
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->=20
->> Thomas Huth <thuth@redhat.com> writes:
->>
->>> Travis recently added build hosts for arm64, ppc64le and s390x, so
->>> this is a welcome addition to our Travis testing matrix.
->>>
->>> Unfortunately, the builds are running in quite restricted LXD container=
-s
->>> there, for example it is not possible to create huge files there (even
->>> if they are just sparse), and certain system calls are blocked. So we
->>> have to change some tests first to stop them failing in such environmen=
-ts.
->> <snip>
->>>    iotests: Skip test 060 if it is not possible to create large files
->>>    iotests: Skip test 079 if it is not possible to create large files
->>
->> It seems like 161 is also failing:
->>
->>    https://travis-ci.org/stsquad/qemu/jobs/615672478
->=20
-> And sometimes 249
-
-These must be intermittent problems ... I've seen 161 failing once at=20
-the very beginning of my tests, but then never again, so I assumed that=20
-it was a quirk with the test system that got fixed later. Seems like=20
-that was a wrong assumption. I've never seen 249 failing so far... I'll=20
-try to do some more tests when I've got some spare time...
-
-  Thomas
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyNzA4MjYxMy4yMjkw
+My0xLXRhbzMueHVAaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgZG9j
+a2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEgTkVU
+V09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEgSj0x
+NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgVEVTVCAgICBjaGVjay1xdGVz
+dC14ODZfNjQ6IHRlc3RzL251bWEtdGVzdApCcm9rZW4gcGlwZQovdG1wL3FlbXUtdGVzdC9zcmMv
+dGVzdHMvbGlicXRlc3QuYzoxNDk6IGtpbGxfcWVtdSgpIGRldGVjdGVkIFFFTVUgZGVhdGggZnJv
+bSBzaWduYWwgOCAoRmxvYXRpbmcgcG9pbnQgZXhjZXB0aW9uKSAoY29yZSBkdW1wZWQpCkVSUk9S
+IC0gdG9vIGZldyB0ZXN0cyBydW4gKGV4cGVjdGVkIDksIGdvdCA4KQptYWtlOiAqKiogW2NoZWNr
+LXF0ZXN0LXg4Nl82NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBq
+b2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxNTkKICBURVNUICAgIGlvdGVzdC1xY293
+MjogMTYxCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3Vi
+cHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2Nr
+ZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD1hYjU0ZTcxMzA3
+MTM0OTkyOGQ1MjU1YzI5MTU3NTZhNicsICctdScsICcxMDAxJywgJy0tc2VjdXJpdHktb3B0Jywg
+J3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScs
+ICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScs
+ICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1w
+L2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6
+L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTZn
+Z29ubXFxL3NyYy9kb2NrZXItc3JjLjIwMTktMTEtMjctMDMuNDAuMDguNjQ4NzovdmFyL3RtcC9x
+ZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVp
+Y2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxh
+YmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9YWI1NGU3MTMwNzEzNDk5MjhkNTI1NWMyOTE1NzU2
+YTYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGly
+ZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtNmdnb25tcXEvc3JjJwptYWtlOiAq
+KiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDExbTIx
+Ljk4NHMKdXNlciAgICAwbTguNjMzcwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTExMjcwODI2MTMuMjI5MDMtMS10YW8zLnh1QGludGVs
+LmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
