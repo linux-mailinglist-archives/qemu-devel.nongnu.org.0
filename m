@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2493D10AF12
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 12:55:57 +0100 (CET)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4107D10AF46
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 13:08:01 +0100 (CET)
+Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZvvH-0002Hu-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 06:55:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50504)
+	id 1iZw6x-0001h8-Ok
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 07:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iZvtA-0000aL-Qa
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:47 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZw5P-0001Hl-3G
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 07:06:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1iZvt9-0006Jn-2X
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46087
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZw5N-0005zI-8l
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 07:06:22 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44693
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1iZvt8-0006J8-VU
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 06:53:43 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZw5N-0005z5-5O
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 07:06:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574855622;
+ s=mimecast20190719; t=1574856380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sTE5AxWhHFArGW+tZpivPFPM3d7d8XOs49LHe2Qq4Fk=;
- b=GU9uHbTdhAoxeYuM3PX7pdQJXLGHIXNlh+OZsedTTBg1enb+UoXbreifNvVvEkme1I18yH
- pA2vHw6xDbD75EI58Hzg06ayCWN7R0kEZPJvCDTiLi/dC3zBja6jw1A2EDZG5cDICeACce
- Lu+D+Kj/6ZhNNGoh5lcrQCns3jAuBtQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AVHED5i48SVpCTqJ7GfKU6p0cdBwsBBw/lFZ1WCgBSI=;
+ b=JifsjBESqeoPN1fgiIAROnnOfGlaAAT+eTQFuWELcW6DiaUo556GWVqB/uNAjjNQjFkd7Y
+ RdtMHphFDCCZ51h4MpnL0devodPhyoXOUZv1WfAcGbcL5fKdi8wvnjRuJquxSJ0Xl023am
+ giZqSlSUdKENgD7qAmwu+OoWwVPXSqk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-61ccDH9BOHu8rzr3bJQdvg-1; Wed, 27 Nov 2019 06:53:39 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-174-gOwXNsziO4KsHzuyJbdRSg-1; Wed, 27 Nov 2019 07:06:17 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4926318B9FC3
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 11:53:38 +0000 (UTC)
-Received: from localhost (ovpn-112-17.ams2.redhat.com [10.36.112.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC9995C21B;
- Wed, 27 Nov 2019 11:53:31 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] screendump: use qemu_unlink()
-Date: Wed, 27 Nov 2019 15:52:02 +0400
-Message-Id: <20191127115202.375107-8-marcandre.lureau@redhat.com>
-In-Reply-To: <20191127115202.375107-1-marcandre.lureau@redhat.com>
-References: <20191127115202.375107-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EFC3184CAA6;
+ Wed, 27 Nov 2019 12:06:16 +0000 (UTC)
+Received: from localhost (ovpn-205-186.brq.redhat.com [10.40.205.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05AA33BE;
+ Wed, 27 Nov 2019 12:06:15 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests/273: Filter format-specific information
+Date: Wed, 27 Nov 2019 13:06:14 +0100
+Message-Id: <20191127120614.513834-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 61ccDH9BOHu8rzr3bJQdvg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: gOwXNsziO4KsHzuyJbdRSg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +67,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't attempt to remove /dev/fdset files.
+Doing this allows running this test with e.g. -o compat=3D0.10 or
+-o compat=3Drefcount_bits=3D1.
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- ui/console.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/273     |  3 ++-
+ tests/qemu-iotests/273.out | 27 ---------------------------
+ 2 files changed, 2 insertions(+), 28 deletions(-)
 
-diff --git a/ui/console.c b/ui/console.c
-index 587edf4ed4..e6ac462aa0 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -381,7 +381,7 @@ void qmp_screendump(const char *filename, bool has_devi=
-ce, const char *device,
-     }
-=20
-     if (!ppm_save(fd, surface, errp)) {
--        unlink(filename);
-+        qemu_unlink(filename);
-     }
+diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
+index 98a672516d..d598c47d9b 100755
+--- a/tests/qemu-iotests/273
++++ b/tests/qemu-iotests/273
+@@ -48,7 +48,8 @@ do_run_qemu()
+ run_qemu()
+ {
+     do_run_qemu "$@" 2>&1 | _filter_testdir | _filter_qemu | _filter_qmp |
+-        _filter_generated_node_ids | _filter_imgfmt | _filter_actual_image=
+_size
++        _filter_generated_node_ids | _filter_imgfmt |
++        _filter_actual_image_size | _filter_img_info
  }
 =20
+ TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
+diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
+index c410fee5c4..684b8d6f77 100644
+--- a/tests/qemu-iotests/273.out
++++ b/tests/qemu-iotests/273.out
+@@ -38,15 +38,6 @@ Testing: -blockdev file,node-name=3Dbase,filename=3DTEST=
+_DIR/t.IMGFMT.base -blockdev
+                     "cluster-size": 65536,
+                     "format": "IMGFMT",
+                     "actual-size": SIZE,
+-                    "format-specific": {
+-                        "type": "IMGFMT",
+-                        "data": {
+-                            "compat": "1.1",
+-                            "lazy-refcounts": false,
+-                            "refcount-bits": 16,
+-                            "corrupt": false
+-                        }
+-                    },
+                     "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
+                     "backing-filename": "TEST_DIR/t.IMGFMT.base",
+                     "dirty-flag": false
+@@ -57,15 +48,6 @@ Testing: -blockdev file,node-name=3Dbase,filename=3DTEST=
+_DIR/t.IMGFMT.base -blockdev
+                 "cluster-size": 65536,
+                 "format": "IMGFMT",
+                 "actual-size": SIZE,
+-                "format-specific": {
+-                    "type": "IMGFMT",
+-                    "data": {
+-                        "compat": "1.1",
+-                        "lazy-refcounts": false,
+-                        "refcount-bits": 16,
+-                        "corrupt": false
+-                    }
+-                },
+                 "full-backing-filename": "TEST_DIR/t.IMGFMT.mid",
+                 "backing-filename": "TEST_DIR/t.IMGFMT.mid",
+                 "dirty-flag": false
+@@ -136,15 +118,6 @@ Testing: -blockdev file,node-name=3Dbase,filename=3DTE=
+ST_DIR/t.IMGFMT.base -blockdev
+                 "cluster-size": 65536,
+                 "format": "IMGFMT",
+                 "actual-size": SIZE,
+-                "format-specific": {
+-                    "type": "IMGFMT",
+-                    "data": {
+-                        "compat": "1.1",
+-                        "lazy-refcounts": false,
+-                        "refcount-bits": 16,
+-                        "corrupt": false
+-                    }
+-                },
+                 "full-backing-filename": "TEST_DIR/t.IMGFMT.base",
+                 "backing-filename": "TEST_DIR/t.IMGFMT.base",
+                 "dirty-flag": false
 --=20
-2.24.0
+2.23.0
 
 
