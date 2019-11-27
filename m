@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23A310B3C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:45:37 +0100 (CET)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C5010B397
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:39:51 +0100 (CET)
+Received: from localhost ([::1]:40260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia0Rc-0005nA-5I
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:45:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
+	id 1ia0M2-0002US-JP
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:39:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ia0F6-0007ik-HF
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:32:41 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ia0Iv-00010R-F1
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ia0F3-0002id-OQ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:32:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30374
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ia0Iu-0004pD-E0
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:37 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41102
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ia0F1-0002gg-Q2
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:32:37 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ia0Iu-0004oN-9d
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574872353;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1574872595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I4J4wwBwJwwqLVVaqXlgDdm5hwzpaM914AuTAvqlMq8=;
- b=Sx1O0HpJ+Xv+xeWXbGcJqUxoAxy1p6aiP83nuJvR4B2suhwf21X2BKSzOgmidS27/HiErA
- R6MGkFxQUBwYiEnoopnXgETu9kd63b6E0vshC911J31hh5TxiIu6y7xJPuUnUDfz0MNzTz
- Y+52ihZyWSIPdc5Nk4KFDVeL8mK+GxE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-GSIG2-eqPN-F3IhcBrUTSQ-1; Wed, 27 Nov 2019 11:32:29 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F0671023139;
- Wed, 27 Nov 2019 16:32:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57FCB60BEC;
- Wed, 27 Nov 2019 16:32:21 +0000 (UTC)
-Date: Wed, 27 Nov 2019 16:32:19 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [RFC 00/10] R300 QEMU device V2
-Message-ID: <20191127163219.GI2131806@redhat.com>
-References: <20191126124433.860-1-aaron.zakhrov@gmail.com>
- <20191126141924.GQ556568@redhat.com>
- <09273ecd-be76-ab61-304f-7ea0f1f0b107@redhat.com>
- <20191127150520.GG2131806@redhat.com>
- <20191127161210.ractqwwymzkpbu6n@sirius.home.kraxel.org>
+ bh=Ns6bG00FeBlVjwhggyNLeklsajsLyZ+Sj3iMuQnkWG8=;
+ b=YKdd06HS6n/zkvsntHnnWkdcmKtHBYgOHJ2u6FnR6XN1O1o//DEI7WFfjA+bl6lh96o3os
+ gRtCG10oCph9eTycp48p/IQzNdwNOwyRGRrLwMWJFymnmHWy+/ebCBPVsTLZVROdM/0ORR
+ jP86DGnAwQiWQivNUbHsdMefnU5tq0A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-3-Sv8Lj0MjOvnwNa6U-Q_A-1; Wed, 27 Nov 2019 11:36:34 -0500
+Received: by mail-wr1-f72.google.com with SMTP id z10so12416277wrr.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 08:36:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ns6bG00FeBlVjwhggyNLeklsajsLyZ+Sj3iMuQnkWG8=;
+ b=f5TIp0b7raFEzEeVMHjrlLN6lmEnlE+VjOO2IFd3iQW7oOKxtfFSfRJnfrA5+9xYN+
+ sgWC5Wd01InIOG6AacINUshQ0sdzohLtEjxEqsCQJHsPqpwsyHC+ApHFkq2EZAyDwwxR
+ 350BnpPAFGq4LjsfOFBLNfEfvybZ+ZDthybj52eQjQJFplaBhWqee9fxGDkLEKSJeC4S
+ RIR/zDZb/dn4Ec4eBDAKCzWwR3/D1m1oRSEikqMLYVmkWpPfJta+bUfdqm0H8KLd2zIW
+ nu2x3/zsnzZsptx+VZPpzsXUwgfaRsM+jG/lmzsuBNXBOH70wd/b0ha43NRO2gJjobHr
+ CQ6g==
+X-Gm-Message-State: APjAAAWNHkGRkc/s672YYaMLVtZUSZvP+tEd2NZEKb1ADzp+HByPIk48
+ iMUR9EniSgplIQobkpfzxgZpdPdyaQv1EYG7MZuifKf7dVamVAiReWSa+71WA/y1hoDBIWAbayI
+ JGUFPQ4KcLHl1yVQ=
+X-Received: by 2002:a1c:ed09:: with SMTP id l9mr5422981wmh.101.1574872593291; 
+ Wed, 27 Nov 2019 08:36:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwnCmySr1pjzc84CGG6QSzMtsx0XzTxiJQv+2bgHL0rEDAKxt+H/1RrljB2nh4ISuS8rLhn+w==
+X-Received: by 2002:a1c:ed09:: with SMTP id l9mr5422954wmh.101.1574872592965; 
+ Wed, 27 Nov 2019 08:36:32 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
+ ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
+ by smtp.gmail.com with ESMTPSA id t12sm2007523wrs.96.2019.11.27.08.36.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Nov 2019 08:36:32 -0800 (PST)
+Subject: Re: [RFC] exec: flush CPU TB cache when breakpoint address
+ translation fails
+To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
+References: <20191126222607.25653-1-jcmvbkbc@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <876396e7-7a6e-122f-3846-63d14c204691@redhat.com>
+Date: Wed, 27 Nov 2019 17:36:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191127161210.ractqwwymzkpbu6n@sirius.home.kraxel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: GSIG2-eqPN-F3IhcBrUTSQ-1
+In-Reply-To: <20191126222607.25653-1-jcmvbkbc@gmail.com>
+Content-Language: en-US
+X-MC-Unique: 3-Sv8Lj0MjOvnwNa6U-Q_A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,40 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Aaron Dominick <aaron.zakhrov@gmail.com>
+Cc: Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 27, 2019 at 05:12:10PM +0100, Gerd Hoffmann wrote:
->   Hi,
->=20
-> > It does become a slight usability issue, as any users need to go and fi=
-nd
-> > the suitable BIOS in order to use the device. No downstream OS vendors =
-are
-> > going to be able to distribute this BIOS either
-> >=20
-> > I don't know if we have hit this problem before & if we have any
-> > general policies about it ?
->=20
-> Booting from lsi scsi adapter used to work with a vendor bios only
-> loooooong ago.  Fixed by adding an lsi driver to seabios.
->=20
-> Building a r300 vgabios shouldn't be too hard, we already have
-> support in seavgabios for the other ati variants emulated by qemu.
+On 26/11/19 23:26, Max Filippov wrote:
+> When a breakpoint is inserted at location for which there's currently no
+> virtual to physical translation no action is taken on CPU TB cache. If a
+> TB for that virtual address already exists but is not visible ATM the
+> breakpoint won't be hit next time an instruction at that address will be
+> executed.
+> 
+> Flush entire CPU TB cache when a breakpoint is set for a virtual address
+> that cannot be translated to physical address.
+> 
+> This change fixes the following workflow:
+> - linux user application is running
+> - a breakpoint is inserted from QEMU gdbstub for a user address that is
+>   not currently present in the target CPU TLB
+> - an instruction at that address is executed, but the external debugger
+>   doesn't get control.
 
-That sounds reasonable, so it is fine to add r300 to QEMU without the BIOS.
+That's quite heavyweight, but perhaps since it's debugging we might as
+well _always_ just flush the TB cache?
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+In any case, it deserves a comment in the code.
+
+Paolo
 
 
