@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339E910B023
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:27:01 +0100 (CET)
-Received: from localhost ([::1]:38314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C066A10B02F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:29:41 +0100 (CET)
+Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZxLQ-0003JA-2P
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:27:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
+	id 1iZxO0-0006Ws-EH
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:29:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZxBo-000419-Gp
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:05 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZxBv-00047r-Aj
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZxBn-0006hT-6R
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48871
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZxBr-0006la-Ur
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35598
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxBn-0006go-2r
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:03 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxBr-0006kq-RQ
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574860622;
+ s=mimecast20190719; t=1574860627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w7N8OWUuFmPZS8NPCjvOUeiayIezDH9jjfV/o8mk0ho=;
- b=GptZNZAJW7AByKhs/AZ9Jn1oe+cCD0kDpPBWW/k+D0xhWKaYiBVR6Nmbr3+KQhfeM095VT
- Iwg2MPFuVP1ItUcuEP6+tm7RpRw2d1oslg9T1dJCveVmbsQ5qSdGnuBnE5zIHxsnmFkhCL
- 6rduM5k2XspYTxGqo/S+0xVL2v/zqdU=
+ bh=4EGTn5EVaEWOh1JghBjFFUKdm7in5Ebk7yisS9M7Pdk=;
+ b=BguGEvIGPeMULJ0WhyJqaQt6UEJyIvsyYYfpifttWK/RI17CJFBU+G0YoPABqxDXGy84qS
+ Dy0lvzRJtfccdpctfnbbJQyo88DXN1SGHILUC+M7EWfZmzBO32GZ49WNAXkjrJi8+90kAf
+ vbpqbpoqXi/y3uI6Do8gO/bU3pJAjNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-qlsTQwE7Pb-lBAtMOlnFwQ-1; Wed, 27 Nov 2019 08:16:59 -0500
+ us-mta-373-LFYJyYo0NxeKISC-DQgUJg-1; Wed, 27 Nov 2019 08:17:04 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E56A8C2740;
- Wed, 27 Nov 2019 13:16:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 474F2EF7A4;
+ Wed, 27 Nov 2019 13:17:03 +0000 (UTC)
 Received: from localhost (ovpn-205-186.brq.redhat.com [10.40.205.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 283C167646;
- Wed, 27 Nov 2019 13:16:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF84767646;
+ Wed, 27 Nov 2019 13:17:02 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 13/31] block: Pull out bdrv_default_perms_for_backing()
-Date: Wed, 27 Nov 2019 14:16:06 +0100
-Message-Id: <20191127131624.1062403-14-mreitz@redhat.com>
+Subject: [PATCH for-5.0 15/31] block: Split bdrv_default_perms_for_storage()
+Date: Wed, 27 Nov 2019 14:16:08 +0100
+Message-Id: <20191127131624.1062403-16-mreitz@redhat.com>
 In-Reply-To: <20191127131624.1062403-1-mreitz@redhat.com>
 References: <20191127131624.1062403-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qlsTQwE7Pb-lBAtMOlnFwQ-1
+X-MC-Unique: LFYJyYo0NxeKISC-DQgUJg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,53 +75,93 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We can be less restrictive about pure data children than those with
+metadata on them.
+
+For bdrv_format_default_perms(), we keep the safe option of
+bdrv_default_perms_for_metadata() (until we drop
+bdrv_format_default_perms() altogether).
+
+That means that bdrv_default_perms_for_data() is unused at this point.
+We will use it for all children that have the DATA role, but not the
+METADATA role.  So far, no child has any role, so we do not use it, but
+that will change.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 62 +++++++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 40 insertions(+), 22 deletions(-)
+ block.c | 53 +++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 43 insertions(+), 10 deletions(-)
 
 diff --git a/block.c b/block.c
-index eb282f0977..2771bc45ce 100644
+index 4d4ccbacdf..33abd7f64e 100644
 --- a/block.c
 +++ b/block.c
-@@ -2256,6 +2256,44 @@ void bdrv_filter_default_perms(BlockDriverState *bs,=
- BdrvChild *c,
-     *nshared =3D (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHAN=
-GED;
+@@ -2294,18 +2294,17 @@ static void bdrv_default_perms_for_backing(BlockDri=
+verState *bs, BdrvChild *c,
+     *nshared =3D shared;
  }
 =20
-+static void bdrv_default_perms_for_backing(BlockDriverState *bs, BdrvChild=
+-static void bdrv_default_perms_for_storage(BlockDriverState *bs, BdrvChild=
  *c,
-+                                           const BdrvChildClass *child_cla=
+-                                           const BdrvChildClass *child_cla=
 ss,
-+                                           BdrvChildRole role,
-+                                           BlockReopenQueue *reopen_queue,
-+                                           uint64_t perm, uint64_t shared,
-+                                           uint64_t *nperm, uint64_t *nsha=
+-                                           BdrvChildRole role,
+-                                           BlockReopenQueue *reopen_queue,
+-                                           uint64_t perm, uint64_t shared,
+-                                           uint64_t *nperm, uint64_t *nsha=
 red)
++static void bdrv_default_perms_for_metadata(BlockDriverState *bs, BdrvChil=
+d *c,
++                                            const BdrvChildClass *child_cl=
+ass,
++                                            BdrvChildRole role,
++                                            BlockReopenQueue *reopen_queue=
+,
++                                            uint64_t perm, uint64_t shared=
+,
++                                            uint64_t *nperm, uint64_t *nsh=
+ared)
+ {
+     int flags;
+=20
+     assert(child_class =3D=3D &child_file ||
+-           (child_class =3D=3D &child_of_bds &&
+-            (role & (BDRV_CHILD_METADATA | BDRV_CHILD_DATA))));
++           (child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_METADAT=
+A)));
+=20
+     flags =3D bdrv_reopen_get_flags(reopen_queue, bs);
+=20
+@@ -2338,6 +2337,40 @@ static void bdrv_default_perms_for_storage(BlockDriv=
+erState *bs, BdrvChild *c,
+     *nshared =3D shared;
+ }
+=20
++/* TODO: Use */
++static void __attribute__((unused))
++bdrv_default_perms_for_data(BlockDriverState *bs, BdrvChild *c,
++                            const BdrvChildClass *child_class,
++                            BdrvChildRole role,
++                            BlockReopenQueue *reopen_queue,
++                            uint64_t perm, uint64_t shared,
++                            uint64_t *nperm, uint64_t *nshared)
 +{
-+    assert(child_class =3D=3D &child_backing ||
-+           (child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_COW)));
++    assert(child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_DATA));
 +
 +    /*
-+     * We want consistent read from backing files if the parent needs it.
-+     * No other operations are performed on backing files.
++     * Apart from the modifications below, the same permissions are
++     * forwarded and left alone as for filters
 +     */
-+    perm &=3D BLK_PERM_CONSISTENT_READ;
++    bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
++                              perm, shared, &perm, &shared);
 +
 +    /*
-+     * If the parent can deal with changing data, we're okay with a
-+     * writable and resizable backing file.
-+     * TODO Require !(perm & BLK_PERM_CONSISTENT_READ), too?
++     * We cannot allow other users to resize the file because the
++     * format driver might have some assumptions about the size
++     * (e.g. because it is stored in metadata, or because the file is
++     * split into fixed-size data files).
 +     */
-+    if (shared & BLK_PERM_WRITE) {
-+        shared =3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
-+    } else {
-+        shared =3D 0;
-+    }
-+
-+    shared |=3D BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
-+              BLK_PERM_WRITE_UNCHANGED;
++    shared &=3D ~BLK_PERM_RESIZE;
 +
 +    if (bs->open_flags & BDRV_O_INACTIVE) {
 +        shared |=3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
@@ -134,40 +174,22 @@ red)
  void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
                                 const BdrvChildClass *child_class,
                                 BdrvChildRole role,
-@@ -2293,28 +2331,8 @@ void bdrv_format_default_perms(BlockDriverState *bs,=
- BdrvChild *c,
-         *nperm =3D perm;
-         *nshared =3D shared;
-     } else {
--        /* We want consistent read from backing files if the parent needs =
-it.
--         * No other operations are performed on backing files. */
--        perm &=3D BLK_PERM_CONSISTENT_READ;
--
--        /* If the parent can deal with changing data, we're okay with a
--         * writable and resizable backing file. */
--        /* TODO Require !(perm & BLK_PERM_CONSISTENT_READ), too? */
--        if (shared & BLK_PERM_WRITE) {
--            shared =3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
--        } else {
--            shared =3D 0;
--        }
--
--        shared |=3D BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
--                  BLK_PERM_WRITE_UNCHANGED;
--
--        if (bs->open_flags & BDRV_O_INACTIVE) {
--            shared |=3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
--        }
--
--        *nperm =3D perm;
--        *nshared =3D shared;
-+        bdrv_default_perms_for_backing(bs, c, child_class, role, reopen_qu=
-eue,
-+                                       perm, shared, nperm, nshared);
-     }
- }
+@@ -2349,8 +2382,8 @@ void bdrv_format_default_perms(BlockDriverState *bs, =
+BdrvChild *c,
+     assert(child_class =3D=3D &child_backing || child_class =3D=3D &child_=
+file);
 =20
+     if (!backing) {
+-        bdrv_default_perms_for_storage(bs, c, child_class, role, reopen_qu=
+eue,
+-                                       perm, shared, nperm, nshared);
++        bdrv_default_perms_for_metadata(bs, c, child_class, role, reopen_q=
+ueue,
++                                        perm, shared, nperm, nshared);
+     } else {
+         bdrv_default_perms_for_backing(bs, c, child_class, role, reopen_qu=
+eue,
+                                        perm, shared, nperm, nshared);
 --=20
 2.23.0
 
