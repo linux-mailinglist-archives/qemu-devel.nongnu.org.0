@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBF310A8C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 03:32:27 +0100 (CET)
-Received: from localhost ([::1]:60642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A91410A8E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 03:53:00 +0100 (CET)
+Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZn7x-0004ju-QD
-	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 21:32:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52999)
+	id 1iZnRr-0000Qy-At
+	for lists+qemu-devel@lfdr.de; Tue, 26 Nov 2019 21:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54556)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iZn6m-00048P-NA
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:31:14 -0500
+ (envelope-from <bounces@canonical.com>) id 1iZnPq-00080G-Lf
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:50:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iZn6l-0001qw-EJ
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:31:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45236)
+ (envelope-from <bounces@canonical.com>) id 1iZnPp-000720-BU
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:50:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iZn6k-0001qH-3e
- for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:31:10 -0500
+ id 1iZnPp-00071X-5z
+ for qemu-devel@nongnu.org; Tue, 26 Nov 2019 21:50:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iZn6i-0007TH-FM
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 02:31:08 +0000
+ id 1iZnPm-0000o6-LO
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 02:50:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61B102E80D0
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 02:31:08 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4B9532E80CC
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 02:50:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 27 Nov 2019 02:24:11 -0000
-From: =?utf-8?b?5p2O56mX5oGS?= <1754542@bugs.launchpad.net>
+Date: Wed, 27 Nov 2019 02:38:21 -0000
+From: lee <1754542@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -42,10 +42,10 @@ X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: chao.wang lisuiheng zhangckid
-X-Launchpad-Bug-Reporter: =?utf-8?b?5p2O56mX5oGSIChsaXN1aWhlbmcp?=
-X-Launchpad-Bug-Modifier: =?utf-8?b?5p2O56mX5oGSIChsaXN1aWhlbmcp?=
+X-Launchpad-Bug-Reporter: lee (lisuiheng)
+X-Launchpad-Bug-Modifier: lee (lisuiheng)
 References: <152056405865.7543.8980677605113063936.malonedeb@wampee.canonical.com>
-Message-Id: <157482145242.21375.11551343254424532154.launchpad@soybean.canonical.com>
+Message-Id: <157482230188.6492.6320869898088738043.malone@gac.canonical.com>
 Subject: [Bug 1754542] Re: colo:  vm crash with segmentation fault
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="c597c3229eb023b1e626162d5947141bf7befb13";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 22d71b50917042907929ba481b8f615f9c4e3623
+X-Launchpad-Hash: e82a3b42a6c106c3f425351cafa5861356aa480f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,8 +71,17 @@ Reply-To: Bug 1754542 <1754542@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+Hi Zhang Chen ,
+
+I try colo follow https://wiki.qemu.org/Features/COLO.
+It work well. But disk performance slow.
+Only host performance 10%. =
+
+Can virtio blk supported by current colo?
+Or is there any other way to improve disk performance.
+
+Thanks
+Zhang Chen
 
 -- =
 
