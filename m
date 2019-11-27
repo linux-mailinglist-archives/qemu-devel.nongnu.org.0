@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FA910B01C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:23:56 +0100 (CET)
-Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339E910B023
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:27:01 +0100 (CET)
+Received: from localhost ([::1]:38314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZxIR-0007zO-Ox
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1iZxLQ-0003JA-2P
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:27:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZxBn-0003yc-1n
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:04 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZxBo-000419-Gp
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZxBl-0006f0-EY
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:02 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43043
+ (envelope-from <mreitz@redhat.com>) id 1iZxBn-0006hT-6R
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48871
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxBl-0006ax-8e
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:01 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxBn-0006go-2r
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574860616;
+ s=mimecast20190719; t=1574860622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PGOXsd+E3FewkM3QPIu4PE6yuF6hfjhFmEvlj0bkr0E=;
- b=MnqoTRgt3REfzwHCyX0FP7fAGJsL/4rbVkMDFBgFIrDt95VUKd4sJ3KdzCmKsrA+LhrSzv
- doV9OIiddrAEsHIRVXFxKCLPIvv8ZvKmtb+cqO0NnViut7Ch8hv72QR04vClP8261OdRMv
- cJJrAKP7ctr+OJGENKHJxP5CoGkoASQ=
+ bh=w7N8OWUuFmPZS8NPCjvOUeiayIezDH9jjfV/o8mk0ho=;
+ b=GptZNZAJW7AByKhs/AZ9Jn1oe+cCD0kDpPBWW/k+D0xhWKaYiBVR6Nmbr3+KQhfeM095VT
+ Iwg2MPFuVP1ItUcuEP6+tm7RpRw2d1oslg9T1dJCveVmbsQ5qSdGnuBnE5zIHxsnmFkhCL
+ 6rduM5k2XspYTxGqo/S+0xVL2v/zqdU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-ChFZIMvpNb6DlF_wLSKyog-1; Wed, 27 Nov 2019 08:16:55 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-386-qlsTQwE7Pb-lBAtMOlnFwQ-1; Wed, 27 Nov 2019 08:16:59 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF9B5EF787;
- Wed, 27 Nov 2019 13:16:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E56A8C2740;
+ Wed, 27 Nov 2019 13:16:58 +0000 (UTC)
 Received: from localhost (ovpn-205-186.brq.redhat.com [10.40.205.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79E815D6A7;
- Wed, 27 Nov 2019 13:16:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 283C167646;
+ Wed, 27 Nov 2019 13:16:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 11/31] block: Add child_of_bds
-Date: Wed, 27 Nov 2019 14:16:04 +0100
-Message-Id: <20191127131624.1062403-12-mreitz@redhat.com>
+Subject: [PATCH for-5.0 13/31] block: Pull out bdrv_default_perms_for_backing()
+Date: Wed, 27 Nov 2019 14:16:06 +0100
+Message-Id: <20191127131624.1062403-14-mreitz@redhat.com>
 In-Reply-To: <20191127131624.1062403-1-mreitz@redhat.com>
 References: <20191127131624.1062403-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: ChFZIMvpNb6DlF_wLSKyog-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: qlsTQwE7Pb-lBAtMOlnFwQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,75 +75,99 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any current user of child_file, child_format, and child_backing can and
-should use this generic BdrvChildClass instead, as it can handle all of
-these cases.  However, to be able to do so, the users must pass the
-appropriate BdrvChildRole when the child is created/attached.  (The
-following commits will take care of that.)
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c                   | 27 +++++++++++++++++++++++++++
- include/block/block_int.h |  1 +
- 2 files changed, 28 insertions(+)
+ block.c | 62 +++++++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 40 insertions(+), 22 deletions(-)
 
 diff --git a/block.c b/block.c
-index 89214efa36..8542768d35 100644
+index eb282f0977..2771bc45ce 100644
 --- a/block.c
 +++ b/block.c
-@@ -1050,6 +1050,33 @@ static void bdrv_inherited_options(BdrvChildRole rol=
-e,
-     *child_flags =3D flags;
+@@ -2256,6 +2256,44 @@ void bdrv_filter_default_perms(BlockDriverState *bs,=
+ BdrvChild *c,
+     *nshared =3D (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHAN=
+GED;
  }
 =20
-+static int bdrv_backing_update_filename(BdrvChild *c, BlockDriverState *ba=
-se,
-+                                        const char *filename, Error **errp=
-);
-+
-+static int bdrv_child_cb_update_filename(BdrvChild *c, BlockDriverState *b=
-ase,
-+                                         const char *filename, Error **err=
-p)
++static void bdrv_default_perms_for_backing(BlockDriverState *bs, BdrvChild=
+ *c,
++                                           const BdrvChildClass *child_cla=
+ss,
++                                           BdrvChildRole role,
++                                           BlockReopenQueue *reopen_queue,
++                                           uint64_t perm, uint64_t shared,
++                                           uint64_t *nperm, uint64_t *nsha=
+red)
 +{
-+    if (c->role & BDRV_CHILD_COW) {
-+        return bdrv_backing_update_filename(c, base, filename, errp);
++    assert(child_class =3D=3D &child_backing ||
++           (child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_COW)));
++
++    /*
++     * We want consistent read from backing files if the parent needs it.
++     * No other operations are performed on backing files.
++     */
++    perm &=3D BLK_PERM_CONSISTENT_READ;
++
++    /*
++     * If the parent can deal with changing data, we're okay with a
++     * writable and resizable backing file.
++     * TODO Require !(perm & BLK_PERM_CONSISTENT_READ), too?
++     */
++    if (shared & BLK_PERM_WRITE) {
++        shared =3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
++    } else {
++        shared =3D 0;
 +    }
-+    return 0;
++
++    shared |=3D BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
++              BLK_PERM_WRITE_UNCHANGED;
++
++    if (bs->open_flags & BDRV_O_INACTIVE) {
++        shared |=3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
++    }
++
++    *nperm =3D perm;
++    *nshared =3D shared;
 +}
 +
-+const BdrvChildClass child_of_bds =3D {
-+    .parent_is_bds   =3D true,
-+    .get_parent_desc =3D bdrv_child_get_parent_desc,
-+    .inherit_options =3D bdrv_inherited_options,
-+    .drained_begin   =3D bdrv_child_cb_drained_begin,
-+    .drained_poll    =3D bdrv_child_cb_drained_poll,
-+    .drained_end     =3D bdrv_child_cb_drained_end,
-+    .attach          =3D bdrv_child_cb_attach,
-+    .detach          =3D bdrv_child_cb_detach,
-+    .inactivate      =3D bdrv_child_cb_inactivate,
-+    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
-+    .set_aio_ctx     =3D bdrv_child_cb_set_aio_ctx,
-+    .update_filename =3D bdrv_child_cb_update_filename,
-+};
-+
- /*
-  * Returns the options and flags that bs->file should get if a protocol dr=
-iver
-  * is expected, based on the given options and flags for the parent BDS
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 7553faa5cf..f2f8d770c6 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -729,6 +729,7 @@ struct BdrvChildClass {
-     void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore=
-);
- };
+ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
+                                const BdrvChildClass *child_class,
+                                BdrvChildRole role,
+@@ -2293,28 +2331,8 @@ void bdrv_format_default_perms(BlockDriverState *bs,=
+ BdrvChild *c,
+         *nperm =3D perm;
+         *nshared =3D shared;
+     } else {
+-        /* We want consistent read from backing files if the parent needs =
+it.
+-         * No other operations are performed on backing files. */
+-        perm &=3D BLK_PERM_CONSISTENT_READ;
+-
+-        /* If the parent can deal with changing data, we're okay with a
+-         * writable and resizable backing file. */
+-        /* TODO Require !(perm & BLK_PERM_CONSISTENT_READ), too? */
+-        if (shared & BLK_PERM_WRITE) {
+-            shared =3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
+-        } else {
+-            shared =3D 0;
+-        }
+-
+-        shared |=3D BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
+-                  BLK_PERM_WRITE_UNCHANGED;
+-
+-        if (bs->open_flags & BDRV_O_INACTIVE) {
+-            shared |=3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
+-        }
+-
+-        *nperm =3D perm;
+-        *nshared =3D shared;
++        bdrv_default_perms_for_backing(bs, c, child_class, role, reopen_qu=
+eue,
++                                       perm, shared, nperm, nshared);
+     }
+ }
 =20
-+extern const BdrvChildClass child_of_bds;
- extern const BdrvChildClass child_file;
- extern const BdrvChildClass child_format;
- extern const BdrvChildClass child_backing;
 --=20
 2.23.0
 
