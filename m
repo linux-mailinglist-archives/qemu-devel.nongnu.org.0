@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BF910AA45
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 06:38:33 +0100 (CET)
-Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E774510AA41
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 06:38:30 +0100 (CET)
+Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZq23-00071n-Rs
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 00:38:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40829)
+	id 1iZq21-0006zZ-7n
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 00:38:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iZpzc-0005Qn-25
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpzc-0005Qp-2i
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:36:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iZpza-0000Jz-NZ
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpza-0000K5-O7
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:35:59 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:42293)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53615 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iZpzZ-0000Cs-U3; Wed, 27 Nov 2019 00:35:58 -0500
+ id 1iZpzZ-0000DA-Nc; Wed, 27 Nov 2019 00:35:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47N8d161txz9sSr; Wed, 27 Nov 2019 16:35:49 +1100 (AEDT)
+ id 47N8d21tNyz9sSm; Wed, 27 Nov 2019 16:35:49 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1574832949;
- bh=muvHzNHPRAzQayRob424Gx7xtQnhlueXPE+7tsCshy0=;
+ d=gibson.dropbear.id.au; s=201602; t=1574832950;
+ bh=oXVSCrqoB8jcK2yOutkT84n97iU8mQKg6flxXe/vrSM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gOE29NQAtxzyVF8EDNbKalaBgYWdcYwJKBro8t6cYrJkGoRFZbu5z+5ziRKVxQ2pt
- GLAjSt6Hm8no200P3xUckTyemQL4DU5weN/FXK/BDQbHz3NRVmuzrbciXD4VkljK+E
- v/Av/2BmINIjMIPS3rAS6mVQFHUgV6z7qzq7po+U=
-Date: Wed, 27 Nov 2019 15:57:30 +1100
+ b=CNGsFmxpXPWDZWRw79UcD5eEzilplVe/OZIPdndhUNSMxGoYB9gugYl8xxC3Izr8C
+ KbWvI+vAm1MyFxX4m+zc2DSu321FEqvvE02An/LUPDPwEj0GHFbZaUgsWMjzrRtd5K
+ 3XXfJMbmYJSX7JZZ4Bur2IAkz1ECiV1EEtaEndVU=
+Date: Wed, 27 Nov 2019 16:01:23 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v6 04/20] ppc/pnv: Loop on the threads of the chip to
- find a matching NVT
-Message-ID: <20191127045730.GN5582@umbus.fritz.box>
+Subject: Re: [PATCH v6 06/20] ppc/pnv: Introduce a pnv_xive_is_cpu_enabled()
+ helper
+Message-ID: <20191127050123.GO5582@umbus.fritz.box>
 References: <20191125065820.927-1-clg@kaod.org>
- <20191125065820.927-5-clg@kaod.org>
+ <20191125065820.927-7-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dbB7XJDnVO33DTCu"
+ protocol="application/pgp-signature"; boundary="3qFz8M2h77c7FGn9"
 Content-Disposition: inline
-In-Reply-To: <20191125065820.927-5-clg@kaod.org>
+In-Reply-To: <20191125065820.927-7-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -62,106 +62,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---dbB7XJDnVO33DTCu
+--3qFz8M2h77c7FGn9
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 25, 2019 at 07:58:04AM +0100, C=E9dric Le Goater wrote:
-> CPU_FOREACH() loops on all the CPUs of the machine which is incorrect.
-> Each XIVE Presenter should scan only the HW threads of the chip it
-> belongs to.
+On Mon, Nov 25, 2019 at 07:58:06AM +0100, C=E9dric Le Goater wrote:
+> and use this helper to exclude CPUs which are not enabled in the XIVE
+> controller.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Patches 1..4 applied to ppc-for-5.0.
+Applied 5..6 to ppc-for-5.0.
 
 > ---
->  hw/intc/pnv_xive.c | 61 ++++++++++++++++++++++++++--------------------
->  1 file changed, 35 insertions(+), 26 deletions(-)
+>  include/hw/ppc/pnv.h |  5 +++++
+>  hw/intc/pnv_xive.c   | 19 +++++++++++++++++++
+>  2 files changed, 24 insertions(+)
 >=20
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index 03cb429f2131..12b0169a4010 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -99,6 +99,11 @@ typedef struct Pnv9Chip {
+>      PnvQuad      *quads;
+>  } Pnv9Chip;
+> =20
+> +/*
+> + * A SMT8 fused core is a pair of SMT4 cores.
+> + */
+> +#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> +
+>  typedef struct PnvChipClass {
+>      /*< private >*/
+>      SysBusDeviceClass parent_class;
 > diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index 8055de89cf63..9798bd9e729f 100644
+> index 9798bd9e729f..ec8349ee4a1f 100644
 > --- a/hw/intc/pnv_xive.c
 > +++ b/hw/intc/pnv_xive.c
-> @@ -377,34 +377,43 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, =
-uint8_t format,
->                                bool cam_ignore, uint8_t priority,
->                                uint32_t logic_serv, XiveTCTXMatch *match)
->  {
-> -    CPUState *cs;
-> +    PnvXive *xive =3D PNV_XIVE(xptr);
-> +    PnvChip *chip =3D xive->chip;
->      int count =3D 0;
-> -
-> -    CPU_FOREACH(cs) {
-> -        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -        XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-> -        int ring;
-> -
-> -        /*
-> -         * Check the thread context CAM lines and record matches.
-> -         */
-> -        ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_blk, =
-nvt_idx,
-> -                                         cam_ignore, logic_serv);
-> -        /*
-> -         * Save the context and follow on to catch duplicates, that we
-> -         * don't support yet.
-> -         */
-> -        if (ring !=3D -1) {
-> -            if (match->tctx) {
-> -                qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found a "
-> -                              "thread context NVT %x/%x\n",
-> -                              nvt_blk, nvt_idx);
-> -                return -1;
-> +    int i, j;
-> +
-> +    for (i =3D 0; i < chip->nr_cores; i++) {
-> +        PnvCore *pc =3D chip->cores[i];
-> +        CPUCore *cc =3D CPU_CORE(pc);
-> +
-> +        for (j =3D 0; j < cc->nr_threads; j++) {
-> +            PowerPCCPU *cpu =3D pc->threads[j];
-> +            XiveTCTX *tctx;
-> +            int ring;
-> +
-> +            tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
-> +
-> +            /*
-> +             * Check the thread context CAM lines and record matches.
-> +             */
-> +            ring =3D xive_presenter_tctx_match(xptr, tctx, format, nvt_b=
-lk,
-> +                                             nvt_idx, cam_ignore, logic_=
-serv);
-> +            /*
-> +             * Save the context and follow on to catch duplicates, that =
-we
-> +             * don't support yet.
-> +             */
-> +            if (ring !=3D -1) {
-> +                if (match->tctx) {
-> +                    qemu_log_mask(LOG_GUEST_ERROR, "XIVE: already found =
-a "
-> +                                  "thread context NVT %x/%x\n",
-> +                                  nvt_blk, nvt_idx);
-> +                    return -1;
-> +                }
-> +
-> +                match->ring =3D ring;
-> +                match->tctx =3D tctx;
-> +                count++;
->              }
-> -
-> -            match->ring =3D ring;
-> -            match->tctx =3D tctx;
-> -            count++;
->          }
->      }
+> @@ -372,6 +372,21 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+>      return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
+>  }
 > =20
+> +/*
+> + * One bit per thread id. The first register PC_THREAD_EN_REG0 covers
+> + * the first cores 0-15 (normal) of the chip or 0-7 (fused). The
+> + * second register covers cores 16-23 (normal) or 8-11 (fused).
+> + */
+> +static bool pnv_xive_is_cpu_enabled(PnvXive *xive, PowerPCCPU *cpu)
+> +{
+> +    int pir =3D ppc_cpu_pir(cpu);
+> +    uint32_t fc =3D PNV9_PIR2FUSEDCORE(pir);
+> +    uint64_t reg =3D fc < 8 ? PC_THREAD_EN_REG0 : PC_THREAD_EN_REG1;
+> +    uint32_t bit =3D pir & 0x3f;
+> +
+> +    return xive->regs[reg >> 3] & PPC_BIT(bit);
+> +}
+> +
+>  static int pnv_xive_match_nvt(XivePresenter *xptr, uint8_t format,
+>                                uint8_t nvt_blk, uint32_t nvt_idx,
+>                                bool cam_ignore, uint8_t priority,
+> @@ -391,6 +406,10 @@ static int pnv_xive_match_nvt(XivePresenter *xptr, u=
+int8_t format,
+>              XiveTCTX *tctx;
+>              int ring;
+> =20
+> +            if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
+> +                continue;
+> +            }
+> +
+>              tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> =20
+>              /*
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -169,25 +142,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---dbB7XJDnVO33DTCu
+--3qFz8M2h77c7FGn9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3eAjgACgkQbDjKyiDZ
-s5KawxAArVkIgsgMGyBoSTOf7nHQ/+4Xydwcd5xOqLfdsYIv/XBGzcXO95X3trtU
-u6eLjZ8LE/NLh8fPROF7XKGlF1SrzUB9TIeB09D7V9h2JYsDXrSjVLmgvAXL3K11
-aj07axzFDagiNoGCPI7lWylbBiSCddsrGYmgTOiKMWso/iHB/4J3c2hRwmVwp8cR
-ab3GOiRK3wGczTH8/YghJO/rnUbGlJgPsvEPOWzD+AkAx0cH0QDUsabeRPMXFoPn
-m+rKU6O2by0mjJNceCgbRPGJTzZMU6q+XBwcxRvVM0ZdxoCJw3JUnNMVWfwtBkV0
-uWNntLaE40NWmuQZCeAiHtRXiZFC+R6djMInwUix6emMRaxVh8tU7iTacjJe7B5I
-7Z+dr22pzlfw3ZaE0Bi/cDBBGtZVDYdXmjxhc5W/j2lbEhbe3bLsVOvNUTCBbslu
-s3E9+mWTMteZFnsz78iGAEfPd/J1sPRaqrY+PQA6vUFh+evZjwRUcDa2tgc9TAFM
-i7znk5OHw/ugrH3kITcuoBypGYzdODk5pOJj0A/o2ssHrFUEj4XxXzQmq+DCmZI8
-XaCkPsaKJF6hcR2SGyvQIn1hZSgkRivEG/xsgEZ+hJPAhfpMstdJR1jB8Tl2gRal
-SIaesboXOJqCoPciEgzdzFfeuzK083gKMm7tm4f3O4D9qH0H7aE=
-=J3UE
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3eAyMACgkQbDjKyiDZ
+s5KeIQ/8Cg0d0a96QnSzNQKrBZp05NxqQafUhFPFP+jeC1NvVZyxplP4xwjXSYyt
+SRWPnvCVB/pCXEGNhcQ5oHUsX/CRq+GJNV/jM+cz++8NCqhKkfjMLxaLmsbiIfJc
+bPRc1wuenUWQmDhuhLRnRmr06EUDrVWWgwZ05qOn4PGXAnkfFnw+BowtCLC+auvN
+EqViAJ6BMyRcp7FJIcFOZWLYi3bNoWDGzbmcouXCSFl6VdzbIRCJfgsH7TFRUTDB
+Jvjb7aa5xo+t5r3BVBZHWAL4YWdZXt2cCme4AvHBBgPUfnyHV+lZ+qgL5hWmDA5G
+eCs5Y6PZ2AX6K/Emg2zBVl7WRbGlwYJXU+uYdKiedbghWM6YZw2L28rSVeaiY86p
+M5m8FsVeAVViL7cEy2ciG5suo9qoM0a6/7XpP543UVlsvuqsoQwZBjDODw7k24pc
+BdKP/qYzzgoMcWfquc4fnBXIutIOI0KEdQS4Py51vIlCyd/9H9j3rEOmKHThScAp
+UgadRBD7gcVUZs7PfMIPmr/UDRCpvmXs8yzoX/nv+rHHfc/HQP3xLbkTq17mnvj0
+ccaEknSczMmvcz2rF0G4WEQAe8XxQoHw/Fvi/k3OU76YiPdhDYFsjGLx7Y5vNyVH
+8n3piFzsteS27WMliNBfLY7SrLb46qIOd1nh49zfuyPTd2gSb4k=
+=F8DP
 -----END PGP SIGNATURE-----
 
---dbB7XJDnVO33DTCu--
+--3qFz8M2h77c7FGn9--
 
