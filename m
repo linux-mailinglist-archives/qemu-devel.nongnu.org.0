@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD16D10B2C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 16:54:39 +0100 (CET)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C52110B2C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 16:53:23 +0100 (CET)
+Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZzeI-0002xm-Mq
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 10:54:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53833)
+	id 1iZzd3-0001rF-AM
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 10:53:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iZzZf-00079H-FX
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:49:54 -0500
+ (envelope-from <thuth@redhat.com>) id 1iZzb6-0008Qz-CR
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:51:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iZzZe-00021k-E1
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:49:51 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57202
+ (envelope-from <thuth@redhat.com>) id 1iZzb5-0002ss-FL
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:51:20 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21327
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iZzZd-00020E-1y
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:49:50 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iZzb5-0002qq-CP
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 10:51:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574869786;
+ s=mimecast20190719; t=1574869876;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kZU/Lmuf1xn104Hv3dmrD8rRF/mxKgsJe4KE2bYLLPc=;
- b=hTplKp3sHCapPFPOi/htjDflpvP5YU7W8vn0vniQPW+vU2kohcbbcHFP1dCl36Zxbggky4
- wOGrUFGmy/uOC7WWyc8HC3/Fz8elJ1jTjRKkfGZC/VYtMC7cEGHjZkG3w8UKpl7WbhwWeC
- L4TkgQubCFLEjhBvs2CWEG5eT3G8OLE=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fMYtqfEPtvwR1oq2gVG2Msg0FfbaqLatOFvY14i/d6I=;
+ b=eIIODQ9vY7OURgQJ3+E09ZYEm6Yc9NZOMxdQQMSHsgoazZKotxgC9uMbdRtn09oKSDp6eP
+ MkXcuYfgwcHat5SiLem/ipejARI/RhHuzonlAeJT6wK/5yQ72Ovm8Lu5hBEVEQhcvzMsjw
+ MkWocZWtVrCoRoExi1qWb+x1WP3puqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-EYhmuvHVMqydXvij6u-ouA-1; Wed, 27 Nov 2019 10:49:43 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-311-nhUGtkGTMm-o17djqDQqlQ-1; Wed, 27 Nov 2019 10:51:10 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8201412D65AA;
- Wed, 27 Nov 2019 15:49:42 +0000 (UTC)
-Received: from [10.3.116.163] (ovpn-116-163.phx2.redhat.com [10.3.116.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDAFB19C69;
- Wed, 27 Nov 2019 15:49:41 +0000 (UTC)
-Subject: Re: QMP netdev_add multiple dnssearch values
-To: Markus Armbruster <armbru@redhat.com>,
- Alex Kirillov <lekiravi@yandex-team.ru>
-References: <713881571320392@iva8-147456c4bd40.qloud-c.yandex.net>
- <87d0elmmdt.fsf@dusky.pond.sub.org>
- <2137591572344429@sas1-eb34c5849710.qloud-c.yandex.net>
- <87zhgha1lt.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d1f5421a-8a94-2869-4c96-24485cd17afd@redhat.com>
-Date: Wed, 27 Nov 2019 09:49:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <87zhgha1lt.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: EYhmuvHVMqydXvij6u-ouA-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02F768BEF88;
+ Wed, 27 Nov 2019 15:51:09 +0000 (UTC)
+Received: from thuth.com (ovpn-117-186.ams2.redhat.com [10.36.117.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E751087ED6;
+ Wed, 27 Nov 2019 15:51:06 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gitlab-ci.yml: Run tcg test with tci
+Date: Wed, 27 Nov 2019 16:51:05 +0100
+Message-Id: <20191127155105.3784-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: nhUGtkGTMm-o17djqDQqlQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,64 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/19 7:30 AM, Markus Armbruster wrote:
+Since commit 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add
+implementation for INDEX_op_ld16u_i64") has been included now, we
+can also run the TCG tests with tci, so let's enable them in our
+Gitlab CI now.
 
-> "Good enough" was true back then.  It wasn't true when we reused it for
-> netdev_add: hostfwd and guestfwd are list-valued.
-> 
-> We did define a QAPI schema a few months later (14aa0c2de0 "qapi schema:
-> add Netdev types").  net_client_init() uses it to convert from QemuOpts
-> to QAPI type Netdev.  This took us to the crazy pipeline we still use
-> today:
-> 
->                              CLI, HMP
->                          (key=value,...)
->                                 |
->                                 v
->      QMP (JSON) -> QDict -> QemuOpts -> Netdev
-> 
-> We should instead use:
-> 
->                            CLI, HMP
->                        (key=value,...)
->                               |
->                               v
->                            QemuOpts
->                               |
->                               v
->      QMP (JSON) -> QDict -> Netdev
-> 
-> Back in 2016, Eric (cc'ed) posted patches to get us to this pipeline.
-> They got stuck on backward compatibility worries: the old code accepts
-> all parameters as JSON strings in addition to their proper type, the new
-> code doesn't.  Undocumented misfeature, but we chickened out anyway.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-That was before we had a deprecation process.  Now we do.  If we are 
-still worried about it, then we should start the deprecation clock 
-(squeezing it into 4.2-rc3 is risky, more likely is starting it in 5.0, 
-so that we get rid of string support in 5.2).  If we are not worried 
-about it, then we can just kill the misfeature in 5.0.
-
-> 
-> Let's reconsider.  Eric's patches break interface misuse that may or may
-> not exist in the field.  They fix a correct use of interface people want
-> to use (or Alex wouldn't have reported this bug), and they make QMP
-> introspection work for netdev_add.
-> 
-> Eric, what do you think?
-
-Yes, it's time to revive that work (I have no idea if my patches from 
-back then will still rebase nicely, though).
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index be57c6a454..125d4204b3 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -73,6 +73,7 @@ build-tci:
+  - ./configure --enable-tcg-interpreter
+       --target-list=3D"$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; =
+done)"
+  - make -j2
++ - make run-tcg-tests-x86_64-softmmu
+  - make tests/boot-serial-test tests/cdrom-test tests/pxe-test
+  - for tg in $TARGETS ; do
+      export QTEST_QEMU_BINARY=3D"${tg}-softmmu/qemu-system-${tg}" ;
+--=20
+2.18.1
 
 
