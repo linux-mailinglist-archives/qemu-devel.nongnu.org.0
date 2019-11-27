@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D226F10BC63
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 22:21:22 +0100 (CET)
-Received: from localhost ([::1]:43270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC1810BD3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 22:28:17 +0100 (CET)
+Received: from localhost ([::1]:43328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia4kT-0005hh-U7
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 16:21:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46919)
+	id 1ia4rA-0007dR-QI
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 16:28:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48399)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ia4iL-0004QA-Af
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:19:11 -0500
+ (envelope-from <lukasstraub2@web.de>) id 1ia4k7-00061p-GO
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:21:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ia4iK-0002CK-AY
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:19:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47118
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ia4iK-0002B0-6z
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:19:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574889547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E0sdROm8vDBkkhXor0lVZMnz117098c5SxSyVxhVbXs=;
- b=IUp5x46Js4WryYQW1A/fytw3ZzI5S1T7f+RwwYETYCVXdy234zIkIq5kChhs49aOaB5ysd
- OGO51yYtr89od/HnSHAEe91kRjtF1RNIAekhJvidfwdz6b7kRFjHXPOXisQmINnIB0caCK
- 3sMLfbJPZ46yktDf78VY/WgEzTizLws=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-V9CopbBLMyujVfDOrAcO7Q-1; Wed, 27 Nov 2019 16:19:04 -0500
-Received: by mail-wm1-f69.google.com with SMTP id f21so2883458wmh.5
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 13:19:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9dDgbYK56G9JGdBXiG8g8rFq9PZSdh/Mj+NpfZWv1EM=;
- b=SfvtCNDP3gVS2DUgO0CS9CEpqGcaAI+sTCSG2cuzoutQKc5dhp35mwsZL6C8FhiNKS
- 84Zu1V7d0IEFsEordg5NKAEGqqk5To/Stv3sOd2NJ4y6jeYp00XI23bv77Zr+Hc5aQ4k
- +7j95TZSvVKpwFxE71YeEjN1XWOXXbWwPCWponksvTD+1m1+DOr2uvXrgmQTvXYhPxYg
- ZWFRHfp31IFZwYVduB7iXplUaDrrsQqc2mdkHZLv9avO+DvvJLbsGbSPHsYSyzVR9jX8
- c6Cr0C9A7ek0rhok+nX+px5GS81GBGi1LeWlmiBegZBzvnScynaDn40TV16RuiUgD77h
- DF0w==
-X-Gm-Message-State: APjAAAUg8YuPYpA2oJHeQaCmbndXxs7IIeBYOHrA2S1Q2G/c/ACPQSiE
- +1+70WpKV1iManJqbtiYnEW6knDVVzlvBsgEw1hwNA1GN/2DQQcMyez8aej4aEQNuP0l2WdN7om
- Vtx1LEy4ffwmeb/Y=
-X-Received: by 2002:a7b:c357:: with SMTP id l23mr6319179wmj.152.1574889542932; 
- Wed, 27 Nov 2019 13:19:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxunfDAx8SenjVKVfK5fTj9T1xWoPqHD4mmHBFRfeKBgqZvhaXI10aNmMlgFyqZ1RWrArCWkw==
-X-Received: by 2002:a7b:c357:: with SMTP id l23mr6319161wmj.152.1574889542707; 
- Wed, 27 Nov 2019 13:19:02 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id i25sm7768484wmd.25.2019.11.27.13.19.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Nov 2019 13:19:01 -0800 (PST)
-Subject: Re: [PATCH] travis.yml: Run tcg tests with tci
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20191127154857.3590-1-thuth@redhat.com>
- <87zhghf9lg.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ee3b2cf5-a119-95a7-1aa6-1c42b00cfd7f@redhat.com>
-Date: Wed, 27 Nov 2019 22:19:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <lukasstraub2@web.de>) id 1ia4k5-0003vr-FP
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:20:59 -0500
+Received: from mout.web.de ([212.227.15.3]:44435)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1ia4k5-0003tp-65
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:20:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1574889628;
+ bh=LKc1iDdS1DWAi20HHG8PgRzARPzSCeDVTLfGvhjFxbs=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=CH46k52L/xNjrHDwboYwyDjtmO3KToywfnMHbyfaOpm/F4HTfgDJtFFsT/0q4jX0L
+ qmwN70JfJXbQwNCJ687qD64MKvbapu6ORJWWUjMheN1trNnRUhlGFeYaYLedxkTCdR
+ qMN5Z93/85IfXlvcAGX2UM4dhCVHzynhgIYZ6U2w=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([87.123.206.185]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MRTvU-1iOxsJ3sds-00SfFl; Wed, 27
+ Nov 2019 22:20:28 +0100
+Date: Wed, 27 Nov 2019 22:20:24 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH 1/4] block/quorum.c: stable children names
+Message-ID: <20191127222024.4bcb34b8@luklap>
+In-Reply-To: <w51imn667m6.fsf@maestria.local.igalia.com>
+References: <cover.1574356137.git.lukasstraub2@web.de>
+ <ce10f8cf2bb9ae8a1505b59bbc2199f7b4966990.1574356137.git.lukasstraub2@web.de>
+ <2ce1be55-010b-d3c3-9df4-e8e02eb522f9@redhat.com>
+ <20191121193445.2361b846@luklap>
+ <w51imn667m6.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <87zhghf9lg.fsf@linaro.org>
-Content-Language: en-US
-X-MC-Unique: V9CopbBLMyujVfDOrAcO7Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zuP7AkDvxcuZSCvAXPYn+t5Qr0FAZlnsmRce2RRQmZ1LDYRt3bK
+ 6GatUnghNRdCp+cximZMKJ9LfYiqHFYAWo7e8O1MO8oXNfwEFZMLJL7y+EwdgA2WkJ/30w3
+ Hjh1ScUoeatRQZJ73AQPeIrtQXJUi94kZrEdy8ldm5cH1ob90qjmXlhwfiOLqbEtJH/RhKW
+ 9mh7caccOk8+HZUL9Rc/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KJiB3i0PsdY=:fw6qXx5Usf39vuMOQyM5R3
+ yZQehWXLGkga3xD2+nT9alcu1waI56o1z0c+rSdifePsTOtHB+33nGqoNcAJjzff9t+nIFJcB
+ vnkeS42G537gM7xdII0lqEDsrVYfxOwPeVe3B0HEYb/YKrDfCCG6aYUlJaNWT62izxXrfeQA0
+ NUEY3wzMbs/dr2m99HyRrwKD3LKsEayZpzVRa6Cvpp/Xk+F65EHd/M6VuX2qzaKdtycmM3H6F
+ 9JHwbfV6oOXArihKljSaxRLhQ1UE667mCnH+fzj3eiQMwNca+Er9QUNoZpj+jXR7oPHAH4Y6w
+ OyxW7Sx5c3oWAswrk3Lv52Hkw3KFrrbFAmIEkvo4N9y3vghOpq0wBQiHbdrd1fY39gEEWkGao
+ ws37C+bjlJREZJ5/rHWmBf1dcPH7ldAXeAk1DP6x1Fetrvy5sEXISR1Rz4kmhq6/3YCdrrllq
+ oPumvSaWB+PUqjZAUdH/EHMPAo5vpFWhc/qoGQvfw+sle+uNowdVP+0b0wDciv1EnVriOgnIH
+ h9BV1jYZfLSFvZU0iGfnLPlh2X2NQjSnm4xAQLrwy8W71fGRjZ8CsFc8+N7fme+mXzz2NXBsH
+ 7OfbsTGKScEIPZELTD5wkPDenOfqpg8rboSjjRGOSA/Hd4k6u5SNeQnK8e1fNf08vA8cv/QFi
+ zoySV59c2Kywc09Ltp0vvm0IXabVJdv9EwbTqCiqgsmUOkeWv1kAfeKpmOrur6JzJWhKfS+yy
+ Wob++f++f6MK/9qTeJOuB5D3bsfZi2VVoMisp6N87ohJ8UsOcYB8zkdOCx3skkvK0hhFVoNIZ
+ 6FLDwSvALRK6Rn6URoj0FmFtAe2jUwQVWz27dUXwkUYEkShLhMqWj3r03vIuMVNoHrLbDTVhK
+ 1RNw8OKXlCpSDm7+Z7415uVZh7Sw1TgBFrt9GdWbcyRgcAx6EsQCEurCR50ZFNY9nnzWywtgD
+ usDzpyeQsMFTw2tilAdjRE8TakKHIDlVoKvf6EjJA1FFGwDLmxO4upDAkVY9LfConcxEs69HV
+ n0HmFbf8beEDZD4bvzmI63m9nGQQ0b8HVKgnvQb9EsRx6W6B73dHJz4hUhG6nA6amhwS1WrQ3
+ Bfm6IO9JrMehCGCC0kes0HjCHF7u3UCudTCgj7r1bTU/N67l+NDiV2oIwEBK4CJMNV+wv7MV9
+ LPjS1DFP0QZ3Dbzb5PRz5gK/ojoLxV+sTF3vGs8iOPY2H6zTcid/j6KTfWKFZe1/tXDrWICoo
+ V/6PbHdscxblgtBN87kw9HBkCE24/XhCb21KDG5iNBIackwGBW/Xl1YoN7GA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 212.227.15.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,53 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/19 7:38 PM, Alex Benn=C3=A9e wrote:
-> Thomas Huth <thuth@redhat.com> writes:
->=20
->> So far we only have compile coverage for tci. But since commit
->> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
->> for INDEX_op_ld16u_i64") has been included, we can also run the
->> x86 TCG tests with tci, so let's enable them in Travis now.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   .travis.yml | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/.travis.yml b/.travis.yml
->> index c09b6a0014..b0b634d484 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -218,7 +218,7 @@ matrix:
->>       # We manually include builds which we disable "make check" for
->=20
-> this comment is out of date now (or rather has been for a while)
->=20
->>       - env:
->>           - CONFIG=3D"--enable-debug --enable-tcg-interpreter"
->=20
-> Perhaps as linux-user doesn't add much to testing the TCG we could limit
-> by MAIN_SOFTMMU_TARGETS here?
+On Tue, 26 Nov 2019 15:21:37 +0100
+Alberto Garcia <berto@igalia.com> wrote:
 
-Good idea.
+> On Thu 21 Nov 2019 07:34:45 PM CET, Lukas Straub wrote:
+> >> > diff --git a/block/quorum.c b/block/quorum.c
+> >> > index df68adcfaa..6100d4108a 100644
+> >> > --- a/block/quorum.c
+> >> > +++ b/block/quorum.c
+> >> > @@ -1054,6 +1054,12 @@ static void quorum_del_child(BlockDriverStat=
+e *bs, BdrvChild *child,
+> >> >       /* We know now that num_children > threshold, so blkverify mu=
+st be false */
+> >> >       assert(!s->is_blkverify);
+> >> >
+> >> > +    unsigned child_id;
+> >> > +    sscanf(child->name, "children.%u", &child_id);
+> >>
+> >> sscanf() cannot detect overflow. Do we trust our input enough to
+> >> ignore this shortfall in the interface, or should we be using saner
+> >> interfaces like qemu_strtoul()?  For that matter, why do we have to
+> >> reparse something; is it not already available somewhere in numerical
+> >> form?
+> >
+> > Yes, I wondered about that too, but found no other way. But the input
+> > is trusted, AFAIK the only way to add child nodes is trough
+> > quorum_add_child above and quorum_open and there already are adequate
+> > checks there.
+>
+> I also don't see any other way to get that value, unless we change
+> BDRVQuorumState to store that information (e.g. instead of children
+> being a list of pointers BdrvChild ** it could be a list of {pointer,
+> index}, or something like that).
+>
+> There's another (more convoluted) alternative if we don't want to parse
+> child->name. Since we only want to know if the child number equals
+> s->next_child_index - 1, we can do it the other way around:
+>
+>    snprintf(str, 32, "children.%u", s->next_child_index - 1);
+>
+> and then compare str and child->name.
+>
+> Berto
 
->> -        - TEST_CMD=3D""
->> +        - TEST_CMD=3D"make run-tcg-tests-x86_64-softmmu V=3D1"
->=20
-> How about "make check-qtest check-tcg"
->=20
-> Which will exercise the moderate boot code tests of various
-> architectures as well as x86_64 (if we include the --disable-docker
-> configure stanza)
+Hi,
+I will do it your way, then it's also more consistent with the name
+creation in quorum_add and quorum_open.
 
-Another good idea!
-
->>  =20
->>  =20
->>       # We don't need to exercise every backend with every front-end
-
+Regards,
+Lukas Straub
 
