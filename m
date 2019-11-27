@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B410ABE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:36:05 +0100 (CET)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85FD10AC2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 09:48:49 +0100 (CET)
+Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZsns-0004CH-6l
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:36:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
+	id 1iZt0C-0008Pf-BJ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 03:48:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iZsew-0004HH-JO
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:26:52 -0500
+ (envelope-from <armbru@redhat.com>) id 1iZsx7-0005j1-Dj
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:45:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iZsev-0000Wa-3C
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:26:50 -0500
-Received: from mga07.intel.com ([134.134.136.100]:2950)
+ (envelope-from <armbru@redhat.com>) id 1iZspz-0008W3-Fw
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:38:16 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22038
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iZset-0000IR-FQ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:26:48 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2019 00:26:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,248,1571727600"; d="scan'208";a="211621138"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by orsmga003.jf.intel.com with ESMTP; 27 Nov 2019 00:26:42 -0800
-From: Tao Xu <tao3.xu@intel.com>
-To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
- sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
- lvivier@redhat.com
-Subject: [PATCH v18 8/8] tests/bios-tables-test: add test cases for ACPI HMAT
-Date: Wed, 27 Nov 2019 16:26:13 +0800
-Message-Id: <20191127082613.22903-9-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191127082613.22903-1-tao3.xu@intel.com>
-References: <20191127082613.22903-1-tao3.xu@intel.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZspz-0008VY-Cc
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 03:38:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574843894;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nPEs8/pE+VTcAuOtELiV3djIrMn+FYJwvQ1eE27/WCg=;
+ b=eaybVousphY+zzM/XVYk2BITd7SMeQ8C91c7vkhTcmqp62P40Nt9VsYfjbK3Z1o75+aUqF
+ 93h4+bZZWUaGPmrHHLQquNv/h4W9t0DapGPRwz2DYYszpWJpqk2NGXuQLhCy8T6Jv2ve+X
+ xyYLuineHyVtz4/4RrWChX7jbf7onyk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-sbHI71EXN_WG2WLQCNZfRQ-1; Wed, 27 Nov 2019 03:38:11 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 229FE1083E83;
+ Wed, 27 Nov 2019 08:38:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA1FD19C69;
+ Wed, 27 Nov 2019 08:38:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4B8861138606; Wed, 27 Nov 2019 09:38:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 9/9] monitor/hmp: Prefer to use hmp_handle_error for error
+ reporting in block hmp commands
+References: <20191120185850.18986-1-mlevitsk@redhat.com>
+ <20191120185850.18986-10-mlevitsk@redhat.com>
+Date: Wed, 27 Nov 2019 09:38:08 +0100
+In-Reply-To: <20191120185850.18986-10-mlevitsk@redhat.com> (Maxim Levitsky's
+ message of "Wed, 20 Nov 2019 20:58:50 +0200")
+Message-ID: <87tv6piuj3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.100
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: sbHI71EXN_WG2WLQCNZfRQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,167 +77,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- jonathan.cameron@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
-Heterogeneous Memory with boot option '-numa node'.
+Title is too long.  blockdev-hmp-cmds.c will become
+block/monitor/block-hmp-cmds.c in v2.  With this in mind, suggest
 
-Add test cases on PC and Q35 machines with 2 numa nodes.
-Because HMAT is generated when system enable numa, the
-following tables need to be added for this test:
-    tests/data/acpi/pc/APIC.acpihmat
-    tests/data/acpi/pc/SRAT.acpihmat
-    tests/data/acpi/pc/HMAT.acpihmat
-    tests/data/acpi/pc/DSDT.acpihmat
-    tests/data/acpi/q35/APIC.acpihmat
-    tests/data/acpi/q35/SRAT.acpihmat
-    tests/data/acpi/q35/HMAT.acpihmat
-    tests/data/acpi/q35/DSDT.acpihmat
+    block/monitor: Prefer to use hmp_handle_error() to report HMP errors
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+Maxim Levitsky <mlevitsk@redhat.com> writes:
 
-Changes in v18:
-    - Remove unit "ns".
+> This way they all will be prefixed with 'Error:' which some parsers
+> (e.g libvirt need)
 
-Changes in v17:
-    - Update the latency and bandwidth
+Sadly, "all" is far from true.  Consider
 
-Changes in v15:
-    - Make tests without breaking CI (Michael)
+    void hmp_drive_add(Monitor *mon, const QDict *qdict)
+    {
+        Error *err =3D NULL;
+        DriveInfo *dinfo =3D NULL;
+        QemuOpts *opts;
+        MachineClass *mc;
+        const char *optstr =3D qdict_get_str(qdict, "opts");
+        bool node =3D qdict_get_try_bool(qdict, "node", false);
 
-Changes in v13:
-    - Use decimal notation with appropriate suffix for cache size
----
- tests/bios-tables-test-allowed-diff.h |  8 +++++
- tests/bios-tables-test.c              | 44 +++++++++++++++++++++++++++
- tests/data/acpi/pc/APIC.acpihmat      |  0
- tests/data/acpi/pc/DSDT.acpihmat      |  0
- tests/data/acpi/pc/HMAT.acpihmat      |  0
- tests/data/acpi/pc/SRAT.acpihmat      |  0
- tests/data/acpi/q35/APIC.acpihmat     |  0
- tests/data/acpi/q35/DSDT.acpihmat     |  0
- tests/data/acpi/q35/HMAT.acpihmat     |  0
- tests/data/acpi/q35/SRAT.acpihmat     |  0
- 10 files changed, 52 insertions(+)
- create mode 100644 tests/data/acpi/pc/APIC.acpihmat
- create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
- create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
- create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
+        if (node) {
+            hmp_drive_add_node(mon, optstr);
+            return;
+        }
 
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-index dfb8523c8b..3c9e0c979b 100644
---- a/tests/bios-tables-test-allowed-diff.h
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -1 +1,9 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/APIC.acpihmat",
-+"tests/data/acpi/pc/SRAT.acpihmat",
-+"tests/data/acpi/pc/HMAT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/q35/APIC.acpihmat",
-+"tests/data/acpi/q35/SRAT.acpihmat",
-+"tests/data/acpi/q35/HMAT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 79f5da092f..cb1de58053 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
- 
- }
- 
-+static void test_acpi_tcg_acpi_hmat(const char *machine)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpihmat";
-+    test_acpi_one(" -machine hmat=on"
-+                  " -smp 2,sockets=2"
-+                  " -m 128M,slots=2,maxmem=1G"
-+                  " -object memory-backend-ram,size=64M,id=m0"
-+                  " -object memory-backend-ram,size=64M,id=m1"
-+                  " -numa node,nodeid=0,memdev=m0"
-+                  " -numa node,nodeid=1,memdev=m1,initiator=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=65534M"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=65534"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=32767M"
-+                  " -numa hmat-cache,node-id=0,size=10K,level=1,assoc=direct,"
-+                  "policy=write-back,line=8"
-+                  " -numa hmat-cache,node-id=1,size=10K,level=1,assoc=direct,"
-+                  "policy=write-back,line=8",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_q35_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
-+}
-+
-+static void test_acpi_piix4_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_PC);
-+}
-+
- static void test_acpi_virt_tcg(void)
+        opts =3D drive_def(optstr);
+        if (!opts)
+            return;
+
+
+hmp_drive_add_node() uses error_report() and error_report_err().  Easy
+enough to fix if you move the function here, as I suggested in my review
+of PATCH 8.
+
+drive_def() is a wrapper around qemu_opts_parse_noisily(), which uses
+error_report_err().  You can't change qemu_opts_parse_noisily() to use
+hmp_handle_error().  You'd have to convert drive_def() to Error, which
+involves switching it to qemu_opts_parse() + qemu_opts_print_help().
+
+These are just the first two error paths in this file.  There's much
+more.  Truly routing all HMP errors through hmp_handle_error() takes a
+*massive* Error conversion effort, with a high risk of missing Error
+conversions, followed by a never-ending risk of non-Error stuff creeping
+in.
+
+There must be an easier way.
+
+Consider vreport():
+
+    switch (type) {
+    case REPORT_TYPE_ERROR:
+        break;
+    case REPORT_TYPE_WARNING:
+        error_printf("warning: ");
+        break;
+    case REPORT_TYPE_INFO:
+        error_printf("info: ");
+        break;
+    }
+
+Adding the prefix here (either unconditionally, or if cur_mon) covers
+all HMP errors reported with error_report() & friends in one blow.
+
+That leaves the ones that are still reported with monitor_printf().
+Converting those to error_report() looks far more tractable to me.
+
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  blockdev-hmp-cmds.c | 35 +++++++++++++++++++++--------------
+>  1 file changed, 21 insertions(+), 14 deletions(-)
+>
+> diff --git a/blockdev-hmp-cmds.c b/blockdev-hmp-cmds.c
+> index c943dccd03..197994716f 100644
+> --- a/blockdev-hmp-cmds.c
+> +++ b/blockdev-hmp-cmds.c
+> @@ -59,7 +59,6 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict)
+>      mc =3D MACHINE_GET_CLASS(current_machine);
+>      dinfo =3D drive_new(opts, mc->block_default_type, &err);
+>      if (err) {
+> -        error_report_err(err);
+>          qemu_opts_del(opts);
+>          goto err;
+>      }
+> @@ -73,7 +72,7 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict)
+>          monitor_printf(mon, "OK\n");
+>          break;
+>      default:
+> -        monitor_printf(mon, "Can't hot-add drive to type %d\n", dinfo->t=
+ype);
+> +        error_setg(&err, "Can't hot-add drive to type %d", dinfo->type);
+>          goto err;
+>      }
+>      return;
+> @@ -84,6 +83,7 @@ err:
+>          monitor_remove_blk(blk);
+>          blk_unref(blk);
+>      }
+> +    hmp_handle_error(mon, &err);
+>  }
+> =20
+>  void hmp_drive_del(Monitor *mon, const QDict *qdict)
+> @@ -105,14 +105,14 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict=
+)
+> =20
+>      blk =3D blk_by_name(id);
+>      if (!blk) {
+> -        error_report("Device '%s' not found", id);
+> -        return;
+> +        error_setg(&local_err, "Device '%s' not found", id);
+> +        goto err;
+
+Having to create Error objects just so we can use hmp_handle_error() is
+awkward.  Tolerable if using hmp_handle_error() improves matters.  I'm
+not sure it does.
+
+>      }
+> =20
+>      if (!blk_legacy_dinfo(blk)) {
+> -        error_report("Deleting device added with blockdev-add"
+> -                     " is not supported");
+> -        return;
+> +        error_setg(&local_err,
+> +                   "Deleting device added with blockdev-add is not suppo=
+rted");
+> +        goto err;
+>      }
+> =20
+>      aio_context =3D blk_get_aio_context(blk);
+> @@ -121,9 +121,8 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict)
+>      bs =3D blk_bs(blk);
+>      if (bs) {
+>          if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err))=
  {
-     test_data data = {
-@@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-+        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
--- 
-2.20.1
+> -            error_report_err(local_err);
+>              aio_context_release(aio_context);
+> -            return;
+> +            goto err;
+>          }
+> =20
+>          blk_remove_bs(blk);
+> @@ -144,12 +143,15 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict=
+)
+>      }
+> =20
+>      aio_context_release(aio_context);
+> +err:
+> +    hmp_handle_error(mon, &local_err);
+>  }
+> =20
+>  void hmp_commit(Monitor *mon, const QDict *qdict)
+>  {
+>      const char *device =3D qdict_get_str(qdict, "device");
+>      BlockBackend *blk;
+> +    Error *local_err =3D NULL;
+>      int ret;
+> =20
+>      if (!strcmp(device, "all")) {
+> @@ -160,12 +162,12 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+> =20
+>          blk =3D blk_by_name(device);
+>          if (!blk) {
+> -            error_report("Device '%s' not found", device);
+> -            return;
+> +            error_setg(&local_err, "Device '%s' not found", device);
+> +            goto err;
+>          }
+>          if (!blk_is_available(blk)) {
+> -            error_report("Device '%s' has no medium", device);
+> -            return;
+> +            error_setg(&local_err, "Device '%s' has no medium", device);
+> +            goto err;
+>          }
+> =20
+>          bs =3D blk_bs(blk);
+> @@ -177,8 +179,13 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
+>          aio_context_release(aio_context);
+>      }
+>      if (ret < 0) {
+> -        error_report("'commit' error for '%s': %s", device, strerror(-re=
+t));
+> +        error_setg(&local_err,
+> +                   "'commit' error for '%s': %s", device, strerror(-ret)=
+);
+> +        goto err;
+>      }
+> +    return;
+> +err:
+> +    hmp_handle_error(mon, &local_err);
+>  }
+> =20
+>  void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
 
 
