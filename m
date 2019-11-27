@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C5010B397
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:39:51 +0100 (CET)
-Received: from localhost ([::1]:40260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A7910B3E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:52:13 +0100 (CET)
+Received: from localhost ([::1]:40388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia0M2-0002US-JP
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60119)
+	id 1ia0Xy-0000sr-1D
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:52:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60315)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ia0Iv-00010R-F1
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:38 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ia0KI-0001tb-S3
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:38:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ia0Iu-0004pD-E0
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41102
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1ia0KG-00067N-Qg
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:38:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28755
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ia0Iu-0004oN-9d
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:36:36 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ia0KE-00064K-Sp
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:37:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574872595;
+ s=mimecast20190719; t=1574872677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ns6bG00FeBlVjwhggyNLeklsajsLyZ+Sj3iMuQnkWG8=;
- b=YKdd06HS6n/zkvsntHnnWkdcmKtHBYgOHJ2u6FnR6XN1O1o//DEI7WFfjA+bl6lh96o3os
- gRtCG10oCph9eTycp48p/IQzNdwNOwyRGRrLwMWJFymnmHWy+/ebCBPVsTLZVROdM/0ORR
- jP86DGnAwQiWQivNUbHsdMefnU5tq0A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-3-Sv8Lj0MjOvnwNa6U-Q_A-1; Wed, 27 Nov 2019 11:36:34 -0500
-Received: by mail-wr1-f72.google.com with SMTP id z10so12416277wrr.5
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 08:36:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ns6bG00FeBlVjwhggyNLeklsajsLyZ+Sj3iMuQnkWG8=;
- b=f5TIp0b7raFEzEeVMHjrlLN6lmEnlE+VjOO2IFd3iQW7oOKxtfFSfRJnfrA5+9xYN+
- sgWC5Wd01InIOG6AacINUshQ0sdzohLtEjxEqsCQJHsPqpwsyHC+ApHFkq2EZAyDwwxR
- 350BnpPAFGq4LjsfOFBLNfEfvybZ+ZDthybj52eQjQJFplaBhWqee9fxGDkLEKSJeC4S
- RIR/zDZb/dn4Ec4eBDAKCzWwR3/D1m1oRSEikqMLYVmkWpPfJta+bUfdqm0H8KLd2zIW
- nu2x3/zsnzZsptx+VZPpzsXUwgfaRsM+jG/lmzsuBNXBOH70wd/b0ha43NRO2gJjobHr
- CQ6g==
-X-Gm-Message-State: APjAAAWNHkGRkc/s672YYaMLVtZUSZvP+tEd2NZEKb1ADzp+HByPIk48
- iMUR9EniSgplIQobkpfzxgZpdPdyaQv1EYG7MZuifKf7dVamVAiReWSa+71WA/y1hoDBIWAbayI
- JGUFPQ4KcLHl1yVQ=
-X-Received: by 2002:a1c:ed09:: with SMTP id l9mr5422981wmh.101.1574872593291; 
- Wed, 27 Nov 2019 08:36:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwnCmySr1pjzc84CGG6QSzMtsx0XzTxiJQv+2bgHL0rEDAKxt+H/1RrljB2nh4ISuS8rLhn+w==
-X-Received: by 2002:a1c:ed09:: with SMTP id l9mr5422954wmh.101.1574872592965; 
- Wed, 27 Nov 2019 08:36:32 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
- ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
- by smtp.gmail.com with ESMTPSA id t12sm2007523wrs.96.2019.11.27.08.36.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Nov 2019 08:36:32 -0800 (PST)
-Subject: Re: [RFC] exec: flush CPU TB cache when breakpoint address
- translation fails
-To: Max Filippov <jcmvbkbc@gmail.com>, qemu-devel@nongnu.org
-References: <20191126222607.25653-1-jcmvbkbc@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <876396e7-7a6e-122f-3846-63d14c204691@redhat.com>
-Date: Wed, 27 Nov 2019 17:36:31 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=dNOh0XdR3ewgd7nCjkSsh47nzs2maD4Vvtmd1D1fTv8=;
+ b=h/LxE0p3p9gr9hZZ4jHy/KqIfbH0ZcVdT4PY2XKzzBUVrwc2rRG0j334CL2rw1KpFRH1jS
+ 9QC3Al9MCeRACzCY0SByaKK05+3dS8IZ4z9OwAFbX6hb/jK6NC/AGAe3/t5zLZbAuhFFVV
+ XfGWeNA28V4iSXJ1PDSdS7rnY9knk/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-xe5b8f3IMsaN7Iob8CN6Qg-1; Wed, 27 Nov 2019 11:37:55 -0500
+X-MC-Unique: xe5b8f3IMsaN7Iob8CN6Qg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8446E100A15B;
+ Wed, 27 Nov 2019 16:37:54 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-205-186.brq.redhat.com
+ [10.40.205.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B6F8600C8;
+ Wed, 27 Nov 2019 16:37:50 +0000 (UTC)
+Subject: Re: [PATCH v4 2/5] blockdev: unify qmp_drive_backup and drive-backup
+ transaction paths
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
+References: <20191121135759.101655-1-slp@redhat.com>
+ <20191121135759.101655-3-slp@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5af781bf-9295-4314-c5c1-df1b56f4a1ea@redhat.com>
+Date: Wed, 27 Nov 2019 17:37:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191126222607.25653-1-jcmvbkbc@gmail.com>
-Content-Language: en-US
-X-MC-Unique: 3-Sv8Lj0MjOvnwNa6U-Q_A-1
+In-Reply-To: <20191121135759.101655-3-slp@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ow8Vu26KO76cqkpb2w3ZmLcbcH6CbmHrh"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,32 +99,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/11/19 23:26, Max Filippov wrote:
-> When a breakpoint is inserted at location for which there's currently no
-> virtual to physical translation no action is taken on CPU TB cache. If a
-> TB for that virtual address already exists but is not visible ATM the
-> breakpoint won't be hit next time an instruction at that address will be
-> executed.
-> 
-> Flush entire CPU TB cache when a breakpoint is set for a virtual address
-> that cannot be translated to physical address.
-> 
-> This change fixes the following workflow:
-> - linux user application is running
-> - a breakpoint is inserted from QEMU gdbstub for a user address that is
->   not currently present in the target CPU TLB
-> - an instruction at that address is executed, but the external debugger
->   doesn't get control.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ow8Vu26KO76cqkpb2w3ZmLcbcH6CbmHrh
+Content-Type: multipart/mixed; boundary="OAA5qE1RYyi3pUKjwYzkdvln63oBoVsu0"
 
-That's quite heavyweight, but perhaps since it's debugging we might as
-well _always_ just flush the TB cache?
+--OAA5qE1RYyi3pUKjwYzkdvln63oBoVsu0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-In any case, it deserves a comment in the code.
+On 21.11.19 14:57, Sergio Lopez wrote:
+> Issuing a drive-backup from qmp_drive_backup takes a slightly
+> different path than when it's issued from a transaction. In the code,
+> this is manifested as some redundancy between do_drive_backup() and
+> drive_backup_prepare().
+>=20
+> This change unifies both paths, merging do_drive_backup() and
+> drive_backup_prepare(), and changing qmp_drive_backup() to create a
+> transaction instead of calling do_backup_common() direcly.
+>=20
+> As a side-effect, now qmp_drive_backup() is executed inside a drained
+> section, as it happens when creating a drive-backup transaction. This
+> change is visible from the user's perspective, as the job gets paused
+> and immediately resumed before starting the actual work.
+>=20
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+>  blockdev.c | 224 ++++++++++++++++++++++++-----------------------------
+>  1 file changed, 100 insertions(+), 124 deletions(-)
 
-Paolo
+Looks good to me, although it needs to keep the tests passing that now
+break.
+
+Max
+
+
+--OAA5qE1RYyi3pUKjwYzkdvln63oBoVsu0--
+
+--ow8Vu26KO76cqkpb2w3ZmLcbcH6CbmHrh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3eplwACgkQ9AfbAGHV
+z0DEWQf/SLDxVbGXwX88/97+fRkwmCDmASo5YWwGlnj8q9ua08T75dyKxVlXNKN/
+ad9DZMv+X2uQl8xuhasObchMG/j/YjRf7zpvnZ2X2aJ99QZcgbCqYbqCfjjzPCWg
+496sCr6Uhai25bHk1F7uXeJN2dbLI4u0RKEzhx/ltTfr7QWl2+bmzvTQ6wM0/l8F
+wOBpSinDG/MJeZHnZcrUhw2jyZF3WdljYZDNIgqxf6X8U6nFyb3H7/qfwAwi6jYY
+3xMhZAI+pyc3TtSXqQ2EOZsq3trnu9+36gYMFFONO6sUKNYjTsv5tPpEB6ocmu6V
+1tRdqF5JQNWFEvvG58ifQRDh+0NFLA==
+=FZwU
+-----END PGP SIGNATURE-----
+
+--ow8Vu26KO76cqkpb2w3ZmLcbcH6CbmHrh--
 
 
