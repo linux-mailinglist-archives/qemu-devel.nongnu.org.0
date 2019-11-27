@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED3610B63E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:57:10 +0100 (CET)
-Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3D510B630
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:54:59 +0100 (CET)
+Received: from localhost ([::1]:41840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia2Uw-0005xE-0p
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:57:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
+	id 1ia2So-0003Ol-BS
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:54:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47487)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ia2MF-0007VW-0Q
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ia2ME-0007VB-P0
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:48:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ia2M8-0004jO-Tr
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:48:07 -0500
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:34557)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ia2M7-0004ei-1X
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:48:06 -0500
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ia2M8-0004Zu-O6
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:48:04 -0500
-Received: by mail-qt1-x82a.google.com with SMTP id i17so26412458qtq.1
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 10:48:02 -0800 (PST)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ia2M6-0004SR-Sw
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:48:02 -0500
+Received: by mail-oi1-x235.google.com with SMTP id 128so12969225oih.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 10:47:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uKi3akRP//AwZlAhNzf93VpnSRzldElANwC6vmioccI=;
- b=N+cJloUJxcxuzHDOQb1SXcrTs2DJJS49PhNbgCbmPXCZZvDyD0pUTVANV2OnZx+EwK
- wdyd0inJuyOZXXtAr/xHnGhAY7jw247fWcQZaf+9hRAKB72ug+QGGYNULLXVug2XF2vJ
- NkP/UiAIp6gZ0AGetX/jDltyY0oQLTPZWSPT99PAL/JAG0BkUM7NWQQNfUS0XNj1XRwJ
- t6YMHWaAkBOS26Mg9ZiQaShgI6RvOhvFODTxSXHhvAs/lTxZE2rmv1QHR/EF3a9mJe2n
- xkByU7+qmrvNxhs9EOKhdxUebznxlHpurtRRyHzevJ8HzjtuCbZYfIVLTrR2aRqUfodD
- KYqA==
+ :cc:content-transfer-encoding;
+ bh=ainoMcF5RX9dzHjbVMVkuYOww68Ys3XaRkRipgfpegE=;
+ b=VECQdHkVmPYKz1ybbHzyW3x9ZGLGswEZ2pH7AWXnn/eYJcvvf9Uy4jsqdCRsTjBqGX
+ njD71av29/LUCDRVZ0psVY9NBaPII0DNR3obQZzfYPtvHyV81HNqWcWFprDcAz0mPH3P
+ jScxKydTllu8gXZ0LKBG3BeQ6ViHaAUj8pRYCWyyw4vX9FswE9Yd7GA/DxAlwW61Hv7h
+ 7FkGT0TfemVSgko3yrionxRFVT3zM4gIHbWieuxn1yJCg/7GSzbejxJJi2lyEyf19oWm
+ Lzc2y3ckjlzKAjR3GvG6s2+Rp53LwJNn825WoVfiVixq+H32jAyEhqmz7DjCfaos/m/Q
+ DpwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uKi3akRP//AwZlAhNzf93VpnSRzldElANwC6vmioccI=;
- b=qYJ9L1qI4RmRqrrHyWzOap2gsLvtiFaFjeMgLGyRm5s8HgfYaLRiSHGpDWU7qNZs/7
- r0c8TYrxB2ZDm1njPlA7kjHvde0iQu8aNAeHY5gaWecY/Dz9XXcast1NKuss8t/npFVB
- 9lQWRIoKJwjDaNIWt8bJ10/egPTgG1LcO1rI0p/QcbyJ15IH5aqvsaF2ldTOvWP5dX59
- UX4KDNT8mAcMEANyDzAU4+sOM0TbFHs0mNiefkan1FZ3R7cW6UDUT5QvNAZy9ZjiBz78
- yt7mioA3Ra92+Fr0zShzzEJ2xtdYAEuNJ05AQ852BGYE+/PX70qMM7yj43gwSElULsVs
- 6C/w==
-X-Gm-Message-State: APjAAAVSMQmUxMYhiAU8OI7xoGzyFCISkjqD8gk6rEgJNmRdFVJ6w4lI
- NXe4Jv1mAtK6QlPMJHe85zeyy2cbyy90TNBej3A=
-X-Google-Smtp-Source: APXvYqxaJPkUmEBSG7IMJHHy5TNn7VTaV2wpSHcwHbeTEzUFx/vQjBHY+CNS2dGZr/X7QFztos6M4P3PBpVtICJYPvI=
-X-Received: by 2002:ac8:4a02:: with SMTP id x2mr30758949qtq.371.1574880480734; 
- Wed, 27 Nov 2019 10:48:00 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ainoMcF5RX9dzHjbVMVkuYOww68Ys3XaRkRipgfpegE=;
+ b=f9J5Io/dfPyEuUNLoU3QSr/dBt7W417+QZSRnJtG34pBtmlosKO8rlFQIRvvgsAxe/
+ RENFb9soDNkUXYZ3uN80cgr899sKecfCw08op0ekrihNjc7mbAJlvj7f4ZO8JtNfXnDi
+ KdopYpMTjr0drS+4ekdpfUJaYyuqzA4MHw54YxDTEvmD6Yngjs6UfKVRM8ZwwUj3yH+w
+ ZdrdrvJmbeyNqVjomCU77nhK5ArVicZb9mMtCPTNAiM12Y7eSmhAQvf1Uen7APMCmjjH
+ 9cjp0AZKoTi/mBW9yh09a0+PTR4T5GEinPRyR8/z1jzKmaBm5FJCt9gewQ4CqDLzsZLj
+ tm4Q==
+X-Gm-Message-State: APjAAAWz2VeH3KiEvyjW8D/kig0he+xRUINhL4bhHt7d4gFYJsBEpvlu
+ z5Zj3Z5b6ZPi0OuZcLUYqt/LKKkWQxZmY7Y1QDY=
+X-Google-Smtp-Source: APXvYqyhI7vUtJGbk2AuPHYKCuyDDVxsIFZiZr06Nlva+A9sm1FO4ObaxS1OS96hn/TL5FVQtK5+PL3fSaTxypbgI5Q=
+X-Received: by 2002:aca:d17:: with SMTP id 23mr5439085oin.136.1574880478144;
+ Wed, 27 Nov 2019 10:47:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20191124050225.30351-1-mrolnik@gmail.com>
- <20191124050225.30351-12-mrolnik@gmail.com>
- <81b62c00-243e-b76e-f52c-4f681b47b727@redhat.com>
- <CAL1e-=i6tctJ6bKo7mz2fmSzPXpdMY1kV1WrKhL5TCAKd0DkcQ@mail.gmail.com>
-In-Reply-To: <CAL1e-=i6tctJ6bKo7mz2fmSzPXpdMY1kV1WrKhL5TCAKd0DkcQ@mail.gmail.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Wed, 27 Nov 2019 20:46:53 +0200
-Message-ID: <CAK4993hKFzOStiG=A4jybEXQWcdXYZMF-+gF_SHq+7vsB_P03g@mail.gmail.com>
-Subject: Re: [PATCH v36 11/17] target/avr: Add limited support for USART and
- 16 bit timer peripherals
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000009e33a20598586fd5"
+References: <20191125104103.28962-1-philmd@redhat.com>
+In-Reply-To: <20191125104103.28962-1-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 27 Nov 2019 19:47:47 +0100
+Message-ID: <CAL1e-=gJxBRvkiPzdAKOqVLEc7mmLpJRrprv5Rjcd8p2jD+_Hg@mail.gmail.com>
+Subject: Re: [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::82a
+X-Received-From: 2607:f8b0:4864:20::235
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,108 +73,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009e33a20598586fd5
-Content-Type: text/plain; charset="UTF-8"
-
-too late :)
-
-On Wed, Nov 27, 2019 at 8:44 PM Aleksandar Markovic <
-aleksandar.m.mail@gmail.com> wrote:
-
-> > > +/* Offsets of registers. */
-> > > +#define USART_DR   0x06
-> > > +#define USART_CSRA  0x00
-> > > +#define USART_CSRB  0x01
-> > > +#define USART_CSRC  0x02
-> > > +#define USART_BRRH 0x05
-> > > +#define USART_BRRL 0x04
-> > > +
-> > > +/* Relevant bits in regiters. */
-> > > +#define USART_CSRA_RXC    (1 << 7)
-> > > +#define USART_CSRA_TXC    (1 << 6)
-> > > +#define USART_CSRA_DRE    (1 << 5)
-> > > +#define USART_CSRA_MPCM   (1 << 0)
-> > > +
-> > > +#define USART_CSRB_RXCIE  (1 << 7)
-> > > +#define USART_CSRB_TXCIE  (1 << 6)
-> > > +#define USART_CSRB_DREIE  (1 << 5)
-> > > +#define USART_CSRB_RXEN   (1 << 4)
-> > > +#define USART_CSRB_TXEN   (1 << 3)
-> > > +#define USART_CSRB_CSZ2   (1 << 2)
-> > > +#define USART_CSRB_RXB8   (1 << 1)
-> > > +#define USART_CSRB_TXB8   (1 << 0)
-> > > +
-> > > +#define USART_CSRC_MSEL1  (1 << 7)
-> > > +#define USART_CSRC_MSEL0  (1 << 6)
-> > > +#define USART_CSRC_PM1    (1 << 5)
-> > > +#define USART_CSRC_PM0    (1 << 4)
-> > > +#define USART_CSRC_CSZ1   (1 << 2)
-> > > +#define USART_CSRC_CSZ0   (1 << 1)
-> >
-> > The previous definitions can go into hw/char/avr_usart.c.
-> >
+On Mon, Nov 25, 2019 at 11:41 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Why?
+> The r4k machine was introduced in 2005 (6af0bf9c7) and its last
+> logical change was in 2005 (9542611a6). After we can count 164
+> maintenance commits (QEMU API changes) with the exception of
+> 1 fix in 2015 (memory leak, commit 3ad9fd5a).
+>
+> This machine was introduced as a proof of concept to run a MIPS
+> CPU. 2 years later, the Malta machine was add (commit 5856de80)
+> modeling a real platform.
+>
+> Note also this machine has no specification except 5 lines in
+> the header of this file:
+>
+>  * emulates a simple machine with ISA-like bus.
+>  * ISA IO space mapped to the 0x14000000 (PHYS) and
+>  * ISA memory at the 0x10000000 (PHYS, 16Mb in size).
+>  * All peripherial devices are attached to this "bus" with
+>  * the standard PC ISA addresses.
+>
+> It is time to deprecate this obsolete machine. Users are
+> recommended to use the Malta board, which hardware is well
+> documented.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  qemu-deprecated.texi | 5 +++++
+>  hw/mips/mips_r4k.c   | 1 +
+>  MAINTAINERS          | 2 +-
+>  3 files changed, 7 insertions(+), 1 deletion(-)
 >
 
+Applied to MIPS queue.
 
--- 
-Best Regards,
-Michael Rolnik
-
---0000000000009e33a20598586fd5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">too late :)</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Nov 27, 2019 at 8:44 PM Aleksandar Ma=
-rkovic &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail=
-@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">&gt; &gt; +/* Offsets of registers. */<br>
-&gt; &gt; +#define USART_DR=C2=A0 =C2=A00x06<br>
-&gt; &gt; +#define USART_CSRA=C2=A0 0x00<br>
-&gt; &gt; +#define USART_CSRB=C2=A0 0x01<br>
-&gt; &gt; +#define USART_CSRC=C2=A0 0x02<br>
-&gt; &gt; +#define USART_BRRH 0x05<br>
-&gt; &gt; +#define USART_BRRL 0x04<br>
-&gt; &gt; +<br>
-&gt; &gt; +/* Relevant bits in regiters. */<br>
-&gt; &gt; +#define USART_CSRA_RXC=C2=A0 =C2=A0 (1 &lt;&lt; 7)<br>
-&gt; &gt; +#define USART_CSRA_TXC=C2=A0 =C2=A0 (1 &lt;&lt; 6)<br>
-&gt; &gt; +#define USART_CSRA_DRE=C2=A0 =C2=A0 (1 &lt;&lt; 5)<br>
-&gt; &gt; +#define USART_CSRA_MPCM=C2=A0 =C2=A0(1 &lt;&lt; 0)<br>
-&gt; &gt; +<br>
-&gt; &gt; +#define USART_CSRB_RXCIE=C2=A0 (1 &lt;&lt; 7)<br>
-&gt; &gt; +#define USART_CSRB_TXCIE=C2=A0 (1 &lt;&lt; 6)<br>
-&gt; &gt; +#define USART_CSRB_DREIE=C2=A0 (1 &lt;&lt; 5)<br>
-&gt; &gt; +#define USART_CSRB_RXEN=C2=A0 =C2=A0(1 &lt;&lt; 4)<br>
-&gt; &gt; +#define USART_CSRB_TXEN=C2=A0 =C2=A0(1 &lt;&lt; 3)<br>
-&gt; &gt; +#define USART_CSRB_CSZ2=C2=A0 =C2=A0(1 &lt;&lt; 2)<br>
-&gt; &gt; +#define USART_CSRB_RXB8=C2=A0 =C2=A0(1 &lt;&lt; 1)<br>
-&gt; &gt; +#define USART_CSRB_TXB8=C2=A0 =C2=A0(1 &lt;&lt; 0)<br>
-&gt; &gt; +<br>
-&gt; &gt; +#define USART_CSRC_MSEL1=C2=A0 (1 &lt;&lt; 7)<br>
-&gt; &gt; +#define USART_CSRC_MSEL0=C2=A0 (1 &lt;&lt; 6)<br>
-&gt; &gt; +#define USART_CSRC_PM1=C2=A0 =C2=A0 (1 &lt;&lt; 5)<br>
-&gt; &gt; +#define USART_CSRC_PM0=C2=A0 =C2=A0 (1 &lt;&lt; 4)<br>
-&gt; &gt; +#define USART_CSRC_CSZ1=C2=A0 =C2=A0(1 &lt;&lt; 2)<br>
-&gt; &gt; +#define USART_CSRC_CSZ0=C2=A0 =C2=A0(1 &lt;&lt; 1)<br>
-&gt;<br>
-&gt; The previous definitions can go into hw/char/avr_usart.c.<br>
-&gt;<br>
-<br>
-Why?<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
-
---0000000000009e33a20598586fd5--
+> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> index 4b4b7425ac..05265b43c8 100644
+> --- a/qemu-deprecated.texi
+> +++ b/qemu-deprecated.texi
+> @@ -266,6 +266,11 @@ The 'scsi-disk' device is deprecated. Users should u=
+se 'scsi-hd' or
+>
+>  @section System emulator machines
+>
+> +@subsection mips r4k platform (since 4.2)
+> +
+> +This machine type is very old and unmaintained. Users should use the 'ma=
+lta'
+> +machine type instead.
+> +
+>  @subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
+>
+>  These machine types are very old and likely can not be used for live mig=
+ration
+> diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
+> index 70024235ae..0b79ad26cb 100644
+> --- a/hw/mips/mips_r4k.c
+> +++ b/hw/mips/mips_r4k.c
+> @@ -294,6 +294,7 @@ void mips_r4k_init(MachineState *machine)
+>
+>  static void mips_machine_init(MachineClass *mc)
+>  {
+> +    mc->deprecation_reason =3D "use malta machine type instead";
+>      mc->desc =3D "mips r4k platform";
+>      mc->init =3D mips_r4k_init;
+>      mc->block_default_type =3D IF_IDE;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5e5e3e52d6..3b3a88e264 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -972,7 +972,7 @@ F: hw/net/mipsnet.c
+>  R4000
+>  M: Aurelien Jarno <aurelien@aurel32.net>
+>  R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> -S: Maintained
+> +S: Obsolete
+>  F: hw/mips/mips_r4k.c
+>
+>  Fulong 2E
+> --
+> 2.21.0
+>
+>
 
