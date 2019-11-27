@@ -2,39 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251D810B631
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:55:02 +0100 (CET)
-Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A6110B617
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:49:54 +0100 (CET)
+Received: from localhost ([::1]:41776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia2Sr-0003b7-71
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:55:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44481)
+	id 1ia2Nt-0006zh-Q0
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:49:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45651)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ia2G1-00039G-9E
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:41:46 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ia2IF-00053h-Aa
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:44:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ia2Fy-0003O8-Tl
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:41:45 -0500
-Received: from relay.sw.ru ([185.231.240.75]:51166)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ia2Fy-0003NK-Li
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:41:42 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1ia2Fw-0002mm-Ez; Wed, 27 Nov 2019 21:41:40 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6] vnc: drop Error pointer indirection in vnc_client_io_error
-Date: Wed, 27 Nov 2019 21:41:40 +0300
-Message-Id: <20191127184140.15264-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ia2IE-0004vr-Cx
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:44:03 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36293)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ia2IE-0004up-7p
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:44:02 -0500
+Received: by mail-oi1-x244.google.com with SMTP id j7so21045065oib.3
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 10:44:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2c7MWjgpnJMTZJszGOqQij87q7nZGnfbS9NosbanhtY=;
+ b=oxIv5fvqVNnz3wVJNKuB0kJHr6M++YTsm1NqNN3oHHXbdbFE2ErwwHmlEGnGCJmgBb
+ Q1Q8b2jM5WyRbbHENovh6zCeWQ/O1EeGGkJGafza/tOFvLEmwyqZForLvxVaSnrfgGyr
+ z8/g9ngpj9Gzl/+TQ1baVXQp4MIQyTV8lfL4JL/QnpE6/Lzz3dLcoDlMFG3QiTnErftj
+ TjAuwkRAftWaTjS599o7WyrQCO1gHDdp6ULRnz9yMUO5AFYP7elq1w+bpKuRisfY9lng
+ 1k3AAJzzEOKG+AGy1UKTIju5fRIeJ9s1qACZ59XRvRr8yvZppMOPYiCfM6t/xjmVLs0G
+ eiVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2c7MWjgpnJMTZJszGOqQij87q7nZGnfbS9NosbanhtY=;
+ b=fZpnVv/A7ptEEq6gbN6MY3Mr2qQy4yAcja8A7vBgpji6jFqr0BVT3PgPPKVJIfsRAg
+ LQXRP75omB2gVqsJCgb/4+Kz68AIPdu9n3th8bov2AkpUUS3Zez7b2VGrHAHbgm8JLS+
+ VMKscFq7WZYrjRzCH+d9gualAYXs0MDd63f7GPFaYuh9SRG2jYBYYrRXZ3NSdoXDh0VW
+ 9yJbl0kyJ59rs5i64eV8OHpl8ZS8y0cFenTQcRe0RXLTlyk6Au5czk1iXoy03ltvFPJk
+ x9HHiZYO7x/aImftayfWMyVKP+p+F8Ye24FWwaMZSnju1w/mlNt4gHVoYARFOc4idm/4
+ oBbg==
+X-Gm-Message-State: APjAAAVSsVPV2stznF2H1EjSzr+F2CesSo6EwSO2grZsAHbg9GiDKzlL
+ W2ngiH612gCpSm1fA9x0uvBKcCrkKwjINqlCiV0=
+X-Google-Smtp-Source: APXvYqytSjr6mU2DGmXJ+mobaEacqU6TyzshU5X4vmcCGtpfUoh9VJjJGcxcqStgROLo434Ur5Xnvy8EBhCGK5jSKhc=
+X-Received: by 2002:aca:670b:: with SMTP id z11mr5168670oix.79.1574880241379; 
+ Wed, 27 Nov 2019 10:44:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+References: <20191124050225.30351-1-mrolnik@gmail.com>
+ <20191124050225.30351-12-mrolnik@gmail.com>
+ <81b62c00-243e-b76e-f52c-4f681b47b727@redhat.com>
+In-Reply-To: <81b62c00-243e-b76e-f52c-4f681b47b727@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 27 Nov 2019 19:43:50 +0100
+Message-ID: <CAL1e-=i6tctJ6bKo7mz2fmSzPXpdMY1kV1WrKhL5TCAKd0DkcQ@mail.gmail.com>
+Subject: Re: [PATCH v36 11/17] target/avr: Add limited support for USART and
+ 16 bit timer peripherals
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,90 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, kraxel@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need Error **, as all callers pass local Error object, which
-isn't used after the call, or NULL. Use Error * instead.
+> > +/* Offsets of registers. */
+> > +#define USART_DR   0x06
+> > +#define USART_CSRA  0x00
+> > +#define USART_CSRB  0x01
+> > +#define USART_CSRC  0x02
+> > +#define USART_BRRH 0x05
+> > +#define USART_BRRL 0x04
+> > +
+> > +/* Relevant bits in regiters. */
+> > +#define USART_CSRA_RXC    (1 << 7)
+> > +#define USART_CSRA_TXC    (1 << 6)
+> > +#define USART_CSRA_DRE    (1 << 5)
+> > +#define USART_CSRA_MPCM   (1 << 0)
+> > +
+> > +#define USART_CSRB_RXCIE  (1 << 7)
+> > +#define USART_CSRB_TXCIE  (1 << 6)
+> > +#define USART_CSRB_DREIE  (1 << 5)
+> > +#define USART_CSRB_RXEN   (1 << 4)
+> > +#define USART_CSRB_TXEN   (1 << 3)
+> > +#define USART_CSRB_CSZ2   (1 << 2)
+> > +#define USART_CSRB_RXB8   (1 << 1)
+> > +#define USART_CSRB_TXB8   (1 << 0)
+> > +
+> > +#define USART_CSRC_MSEL1  (1 << 7)
+> > +#define USART_CSRC_MSEL0  (1 << 6)
+> > +#define USART_CSRC_PM1    (1 << 5)
+> > +#define USART_CSRC_PM0    (1 << 4)
+> > +#define USART_CSRC_CSZ1   (1 << 2)
+> > +#define USART_CSRC_CSZ0   (1 << 1)
+>
+> The previous definitions can go into hw/char/avr_usart.c.
+>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- ui/vnc.h |  2 +-
- ui/vnc.c | 20 +++++++-------------
- 2 files changed, 8 insertions(+), 14 deletions(-)
-
-diff --git a/ui/vnc.h b/ui/vnc.h
-index fea79c2fc9..4e2637ce6c 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
- 
- /* Protocol stage functions */
- void vnc_client_error(VncState *vs);
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err);
- 
- void start_client_init(VncState *vs);
- void start_auth_vnc(VncState *vs);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 87b8045afe..4100d6e404 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
-     g_free(vs);
- }
- 
--size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-+size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err)
- {
-     if (ret <= 0) {
-         if (ret == 0) {
-@@ -1320,15 +1320,11 @@ size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-             vnc_disconnect_start(vs);
-         } else if (ret != QIO_CHANNEL_ERR_BLOCK) {
-             trace_vnc_client_io_error(vs, vs->ioc,
--                                      errp ? error_get_pretty(*errp) :
--                                      "Unknown");
-+                                      err ? error_get_pretty(err) : "Unknown");
-             vnc_disconnect_start(vs);
-         }
- 
--        if (errp) {
--            error_free(*errp);
--            *errp = NULL;
--        }
-+        error_free(err);
-         return 0;
-     }
-     return ret;
-@@ -1361,10 +1357,9 @@ size_t vnc_client_write_buf(VncState *vs, const uint8_t *data, size_t datalen)
- {
-     Error *err = NULL;
-     ssize_t ret;
--    ret = qio_channel_write(
--        vs->ioc, (const char *)data, datalen, &err);
-+    ret = qio_channel_write(vs->ioc, (const char *)data, datalen, &err);
-     VNC_DEBUG("Wrote wire %p %zd -> %ld\n", data, datalen, ret);
--    return vnc_client_io_error(vs, ret, &err);
-+    return vnc_client_io_error(vs, ret, err);
- }
- 
- 
-@@ -1488,10 +1483,9 @@ size_t vnc_client_read_buf(VncState *vs, uint8_t *data, size_t datalen)
- {
-     ssize_t ret;
-     Error *err = NULL;
--    ret = qio_channel_read(
--        vs->ioc, (char *)data, datalen, &err);
-+    ret = qio_channel_read(vs->ioc, (char *)data, datalen, &err);
-     VNC_DEBUG("Read wire %p %zd -> %ld\n", data, datalen, ret);
--    return vnc_client_io_error(vs, ret, &err);
-+    return vnc_client_io_error(vs, ret, err);
- }
- 
- 
--- 
-2.21.0
-
+Why?
 
