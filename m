@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D012A10AFE9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:08:29 +0100 (CET)
-Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC710B00B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:22:10 +0100 (CET)
+Received: from localhost ([::1]:38252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZx3T-0008S9-Si
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
+	id 1iZxGi-0005it-DZ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:22:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iZwyG-0007ZG-70
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:03:05 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZxAX-0003Rg-2u
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iZwyE-0006LU-6t
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:03:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31284
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iZxAT-0004os-4Y
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:43 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49171
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iZwyD-0006EB-Vx
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:03:02 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxAP-0004aU-3e
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:15:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574859781;
+ s=mimecast20190719; t=1574860530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MhNCOsvJPMtp9M0w6J6gP6EZj9Mvu/pSvuBtYlRmiWQ=;
- b=NpF6RC97OFsUOGwfDQxxyjJu7Fs5y6/069QPU6a6fX3C7UIEaFFhzk6cE11gQ9ssl0U1TU
- pQF5GpUeDCLEsOG3SnAVTO1hE/Q3zGOZaAskw17/Ah6G2ajjy9mXL1JltyNE4ZbpGHNape
- 89P0hftjHig4X/PGrNZVn/y8TEnsnEM=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=vjkydUOpz0rc/0To33SiyE+MV9hBziAcygddkw0zfdI=;
+ b=HjIHyLFHAYQhjeNMFrMegcPUfFdjOq1JYs1z8IQHCVa70N7YyGE34hwJSxWH+NEZdn5E74
+ fAsv0jf1zpnqpFGluHUEQaULDJrHp2KDhvJSIKRiyMU+/paF7ARcUs3yNIRG1FitVb+KWg
+ cySwEpeRWRljKEdWnvBxtpH8kRyyd9o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-_aY8ewblOoSi9eA6JHseFw-1; Wed, 27 Nov 2019 08:02:59 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-294-JlRKm4OFPqSjvVVwYr7MwQ-1; Wed, 27 Nov 2019 08:15:29 -0500
+X-MC-Unique: JlRKm4OFPqSjvVVwYr7MwQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7594A107BABB;
- Wed, 27 Nov 2019 13:02:57 +0000 (UTC)
-Received: from localhost (ovpn-204-134.brq.redhat.com [10.40.204.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 401495C219;
- Wed, 27 Nov 2019 13:02:25 +0000 (UTC)
-Date: Wed, 27 Nov 2019 14:02:23 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Xiang Zheng <zhengxiang9@huawei.com>
-Subject: Re: [RESEND PATCH v21 5/6] target-arm: kvm64: handle SIGBUS signal
- from kernel or KVM
-Message-ID: <20191127140223.58d1a35b@redhat.com>
-In-Reply-To: <22a3935a-a672-f8f1-e5be-6c0725f738c4@huawei.com>
-References: <20191111014048.21296-1-zhengxiang9@huawei.com>
- <20191111014048.21296-6-zhengxiang9@huawei.com>
- <CADSWDztF=eaUDNnq8bhnPyTKW1YjAWm4UBaH-NBPkzjnzx0bxg@mail.gmail.com>
- <22a3935a-a672-f8f1-e5be-6c0725f738c4@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 139301086055;
+ Wed, 27 Nov 2019 13:15:28 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-205-186.brq.redhat.com
+ [10.40.205.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D69D03C1D;
+ Wed, 27 Nov 2019 13:15:26 +0000 (UTC)
+Subject: Re: [PATCH] block: always fill entire LUKS header space with zeros
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191125174336.555120-1-berrange@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4bd3095d-7263-1855-c74d-20c82af8067f@redhat.com>
+Date: Wed, 27 Nov 2019 14:15:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: _aY8ewblOoSi9eA6JHseFw-1
+In-Reply-To: <20191125174336.555120-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,84 +98,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Beata Michalska <beata.michalska@linaro.org>, kvm@vger.kernel.org,
- mst@redhat.com, wanghaibin.wang@huawei.com, mtosatti@redhat.com,
- linuxarm@huawei.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
- gengdongjiu@huawei.com, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- james.morse@arm.com, xuwei5@huawei.com, jonathan.cameron@huawei.com,
- pbonzini@redhat.com, Laszlo Ersek <lersek@redhat.com>, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Nov 2019 20:47:15 +0800
-Xiang Zheng <zhengxiang9@huawei.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg
+Content-Type: multipart/mixed; boundary="YL2wEddcvPiVhfTPYExRBPFsjORWsuett"
 
-> Hi Beata,
-> 
-> Thanks for you review!
-> 
-> On 2019/11/22 23:47, Beata Michalska wrote:
-> > Hi,
-> > 
-> > On Mon, 11 Nov 2019 at 01:48, Xiang Zheng <zhengxiang9@huawei.com> wrote:  
-> >>
-> >> From: Dongjiu Geng <gengdongjiu@huawei.com>
-> >>
-> >> Add a SIGBUS signal handler. In this handler, it checks the SIGBUS type,
-> >> translates the host VA delivered by host to guest PA, then fills this PA
-> >> to guest APEI GHES memory, then notifies guest according to the SIGBUS
-> >> type.
-> >>
-> >> When guest accesses the poisoned memory, it will generate a Synchronous
-> >> External Abort(SEA). Then host kernel gets an APEI notification and calls
-> >> memory_failure() to unmapped the affected page in stage 2, finally
-> >> returns to guest.
-> >>
-> >> Guest continues to access the PG_hwpoison page, it will trap to KVM as
-> >> stage2 fault, then a SIGBUS_MCEERR_AR synchronous signal is delivered to
-> >> Qemu, Qemu records this error address into guest APEI GHES memory and
-> >> notifes guest using Synchronous-External-Abort(SEA).
-> >>
-> >> In order to inject a vSEA, we introduce the kvm_inject_arm_sea() function
-> >> in which we can setup the type of exception and the syndrome information.
-> >> When switching to guest, the target vcpu will jump to the synchronous
-> >> external abort vector table entry.
-> >>
-> >> The ESR_ELx.DFSC is set to synchronous external abort(0x10), and the
-> >> ESR_ELx.FnV is set to not valid(0x1), which will tell guest that FAR is
-> >> not valid and hold an UNKNOWN value. These values will be set to KVM
-> >> register structures through KVM_SET_ONE_REG IOCTL.
-> >>
-> >> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> >> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> >> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >> ---
+--YL2wEddcvPiVhfTPYExRBPFsjORWsuett
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 25.11.19 18:43, Daniel P. Berrang=C3=A9 wrote:
+> When initializing the LUKS header the size with default encryption
+> parameters will currently be 2068480 bytes. This is rounded up to
+> a multiple of the cluster size, 2081792, with 64k sectors. If the
+> end of the header is not the same as the end of the cluster we fill
+> the extra space with zeros. This was forgetting that not even the
+> space allocated for the header will be fully initialized, as we
+> only write key material for the first key slot. The space left
+> for the other 7 slots is never written to.
+>=20
+> An optimization to the ref count checking code:
+>=20
+>   commit a5fff8d4b4d928311a5005efa12d0991fe3b66f9 (refs/bisect/bad)
+>   Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>   Date:   Wed Feb 27 16:14:30 2019 +0300
+>=20
+>     qcow2-refcount: avoid eating RAM
+>=20
+> made the assumption that every cluster which was allocated would
+> have at least some data written to it. This was violated by way
+> the LUKS header is only partially written, with much space simply
+> reserved for future use.
+>=20
+> Depending on the cluster size this problem was masked by the
+> logic which wrote zeros between the end of the LUKS header and
+> the end of the cluster.
+>=20
+> $ qemu-img create --object secret,id=3Dcluster_encrypt0,data=3D123456 \
+>    -f qcow2 -o cluster_size=3D2k,encrypt.iter-time=3D1,\
+>                encrypt.format=3Dluks,encrypt.key-secret=3Dcluster_encrypt=
+0 \
+> =09       cluster_size_check.qcow2 100M
+>   Formatting 'cluster_size_check.qcow2', fmt=3Dqcow2 size=3D104857600
+>     encrypt.format=3Dluks encrypt.key-secret=3Dcluster_encrypt0
+>     encrypt.iter-time=3D1 cluster_size=3D2048 lazy_refcounts=3Doff refcou=
+nt_bits=3D16
+>=20
+> $ qemu-img check --object secret,id=3Dcluster_encrypt0,data=3Dredhat \
+>     'json:{"driver": "qcow2", "encrypt.format": "luks", \
+>            "encrypt.key-secret": "cluster_encrypt0", \
+> =09   "file.driver": "file", "file.filename": "cluster_size_check.qcow2"}=
+'
+> ERROR: counting reference for region exceeding the end of the file by one=
+ cluster or more: offset 0x2000 size 0x1f9000
+> Leaked cluster 4 refcount=3D1 reference=3D0
+> ...snip...
+> Leaked cluster 130 refcount=3D1 reference=3D0
+>=20
+> 1 errors were found on the image.
+> Data may be corrupted, or further writes to the image may corrupt it.
+>=20
+> 127 leaked clusters were found on the image.
+> This means waste of disk space, but no harm to data.
+> Image end offset: 268288
+>=20
+> The problem only exists when the disk image is entirely empty. Writing
+> data to the disk image payload will solve the problem by causing the
+> end of the file to be extended further.
+>=20
+> The change fixes it by ensuring that the entire allocated LUKS header
+> region is fully initialized with zeros. The qemu-img check will still
+> fail for any pre-existing disk images created prior to this change,
+> unless at least 1 byte of the payload is written to.
+>=20
+> Fully writing zeros to the entire LUKS header is a good idea regardless
+> as it ensures that space has been allocated on the host filesystem (or
+> whatever block storage backend is used).
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  block/qcow2.c              |   4 +-
+>  tests/qemu-iotests/278     |  88 +++++++++++++++++
+>  tests/qemu-iotests/278.out | 197 +++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/group   |   1 +
+>  4 files changed, 288 insertions(+), 2 deletions(-)
+>  create mode 100755 tests/qemu-iotests/278
+>  create mode 100644 tests/qemu-iotests/278.out
+>=20
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 7c18721741..dcfdd200fc 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -140,8 +140,8 @@ static ssize_t qcow2_crypto_hdr_init_func(QCryptoBloc=
+k *block, size_t headerlen,
+
+There=E2=80=99s a comment right here that reads:
+
+>     /* Zero fill remaining space in cluster so it has predictable
+>      * content in case of future spec changes */
+
+I think that should be adjusted to reflect the change.
+
+>      clusterlen =3D size_to_clusters(s, headerlen) * s->cluster_size;
+>      assert(qcow2_pre_write_overlap_check(bs, 0, ret, clusterlen, false) =
+=3D=3D 0);
+>      ret =3D bdrv_pwrite_zeroes(bs->file,
+> -                             ret + headerlen,
+> -                             clusterlen - headerlen, 0);
+> +                             ret,
+> +                             clusterlen, 0);
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "Could not zero fill encryption hea=
+der");
+>          return -1;
+> diff --git a/tests/qemu-iotests/278 b/tests/qemu-iotests/278
+> new file mode 100755
+> index 0000000000..c52f03dd52
+> --- /dev/null
+> +++ b/tests/qemu-iotests/278
+> @@ -0,0 +1,88 @@
+
 [...]
-> >> diff --git a/include/hw/acpi/acpi_ghes.h b/include/hw/acpi/acpi_ghes.h
-> >> index cb62ec9c7b..8e3c5b879e 100644
-> >> --- a/include/hw/acpi/acpi_ghes.h
-> >> +++ b/include/hw/acpi/acpi_ghes.h
-> >> @@ -24,6 +24,9 @@
-> >>
-> >>  #include "hw/acpi/bios-linker-loader.h"
-> >>
-> >> +#define ACPI_GHES_CPER_OK                   1
-> >> +#define ACPI_GHES_CPER_FAIL                 0
-> >> +  
-> > 
-> > Is there really a need to introduce those ?
-> >   
-> 
-> Don't you think it's more clear than using "1" or "0"? :)
 
-or maybe just reuse default libc return convention: 0 - ok, -1 - fail
-and drop custom macros
+> +IMGSPEC=3D"driver=3D$IMGFMT,file.filename=3D$TEST_IMG,encrypt.key-secret=
+=3Dsec0"
+> +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
+> +
+> +_run_test()
+> +{
+> +        echo
 
-> 
-> >>  /*
-> >>   * Values for Hardware Error Notification Type field
-> >>   */
-[...]
+The indentation is off here.
+
+> +=09echo "=3D=3D cluster size $csize"
+
+Or maybe it really is off here, because starting from here everything is
+indented with tabs.
+
+> +=09echo "=3D=3D checking image refcounts =3D=3D"
+> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
+dir
+
+I think we should use _check_test_img instead in order to filter out the
+allocation information.
+
+> +
+> +=09echo
+> +=09echo "=3D=3D writing some data =3D=3D"
+> +=09$QEMU_IO --object $SECRET -c "write -P 0x9 0 1" --image-opts $IMGSPEC=
+ | _filter_qemu_io | _filter_testdir
+> +=09echo
+> +=09echo "=3D=3D rechecking image refcounts =3D=3D"
+> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
+dir
+> +
+> +=09echo
+> +=09echo "=3D=3D writing some more data =3D=3D"
+> +=09$QEMU_IO --object $SECRET -c "write -P 0x9 $csize 1" --image-opts $IM=
+GSPEC | _filter_qemu_io | _filter_testdir
+> +=09echo
+> +=09echo "=3D=3D rechecking image refcounts =3D=3D"
+> +=09$QEMU_IMG check --object $SECRET --image-opts $IMGSPEC | _filter_test=
+dir
+> +}
+> +
+> +
+> +echo
+> +echo "testing LUKS qcow2 encryption"
+> +echo
+> +
+> +for csize in 512 1024 2048 4096 8192 16384 32768 65536
+
+Is it necessary to actually test all of these cluster sizes?  Wouldn=E2=80=
+=99t
+it make more sense to test e.g. just 512, 4096, 64k, 2M?
+
+I=E2=80=99m asking because as-is this test takes more than 20 s for me.
+
+> +do
+> +  _make_test_img --object $SECRET -o "encrypt.format=3Dluks,encrypt.key-=
+secret=3Dsec0,encrypt.iter-time=3D10,cluster_size=3D$csize" $size
+> +  _run_test "driver=3D$IMGFMT,encrypt.key-secret=3Dsec0,file.filename=3D=
+$TEST_IMG"
+
+I don=E2=80=99t think this parameter is used (because $IMGSPEC exists).
+
+Max
+
+
+--YL2wEddcvPiVhfTPYExRBPFsjORWsuett--
+
+--hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3edu0ACgkQ9AfbAGHV
+z0DTJAgAn4vVPiXnB3M5XYt71gXpow2GbPBWxhU5ga+4VFl9Bet1+n+OTvvG65aG
+OdWGgZB3i93orN7DhOMfbZRLJA2YNQxAJoPqqvDMNic96Y1WnRUOZZvVdKpuJKLw
+4wsti75NKqWkMeAVRW1nlVrqvtz8Tn8+fcSMA4bLsCZeW38fx/2QR4Otz99zAoWR
+iG6zqZyzk4NJm2B3xGpLLxWF+ZazGCqt88wThJrRtaX0vVi13T4vYhHRh3TvniDM
+xgFI/b10e6DpG0LhGicWKRGsfmdWpy9I5npuXa0eoCYYbS2QgMlV93IoIDSH7tR9
+0H88VWd6WnxtrrlMooHXEcqR7lNhLQ==
+=Lx0P
+-----END PGP SIGNATURE-----
+
+--hKx5IM3kbhvIoAZ4ZmoLL7DtTDtj47IFg--
 
 
