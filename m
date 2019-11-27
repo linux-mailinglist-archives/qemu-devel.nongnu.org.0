@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F185D10B193
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 15:44:46 +0100 (CET)
-Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183A210B1AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 15:54:40 +0100 (CET)
+Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZyYf-0007B7-E2
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 09:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45364)
+	id 1iZyiE-0003Gg-11
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 09:54:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1iZyWe-0006ZM-2z
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:42:41 -0500
+ (envelope-from <wrampazz@redhat.com>) id 1iZygj-0002Ps-UG
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:53:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1iZyWc-0005xM-9S
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:42:39 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:52904)
+ (envelope-from <wrampazz@redhat.com>) id 1iZygi-0001iX-RO
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:53:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24812
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1iZyWb-0005uc-K8
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:42:38 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BCCD3745957;
- Wed, 27 Nov 2019 15:42:28 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9D6D474594E; Wed, 27 Nov 2019 15:42:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 9C17D745953;
- Wed, 27 Nov 2019 15:42:28 +0100 (CET)
-Date: Wed, 27 Nov 2019 15:42:28 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "aaron.zakhrov@gmail.com" <aaron.zakhrov@gmail.com>
-Subject: Re: [RFC 09/10] Clean up Radeon Header files
-In-Reply-To: <CAL1e-=hY5b73ocsG9xiUFVuJYL36ch4=AyqjPvmtaXRUi730pQ@mail.gmail.com>
-Message-ID: <alpine.BSF.2.21.99999.352.1911271505300.80933@zero.eik.bme.hu>
-References: <20191126124433.860-1-aaron.zakhrov@gmail.com>
- <20191126124433.860-6-aaron.zakhrov@gmail.com>
- <CAL1e-=hY5b73ocsG9xiUFVuJYL36ch4=AyqjPvmtaXRUi730pQ@mail.gmail.com>
-User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
+ (Exim 4.71) (envelope-from <wrampazz@redhat.com>) id 1iZygi-0001hK-BX
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:53:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574866381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IC+15nQfowoQr+RgcKeTuc/PNELIBguC8mJgXQg86V4=;
+ b=L1IC8VM4Ob6x/xZ3vEAxsz/zRpgcKQEpsavdwjox8UJzm2UClyHrcnHmzIFf6ajIZwCDj+
+ hcG8I5unuXV/t8hoRrgcjn8T47wYlI3qwF87Ww0osTY56FyeFo1UWWp8G/DgKpRHrFoRol
+ Q9Ndip3mAWA7HRaFYKnUHDDfEftTwBg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-673cFPYDNPycbvmbsD7X-w-1; Wed, 27 Nov 2019 09:51:32 -0500
+Received: by mail-wr1-f71.google.com with SMTP id q12so12314603wrr.3
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 06:51:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IC+15nQfowoQr+RgcKeTuc/PNELIBguC8mJgXQg86V4=;
+ b=ZlbGapEApKmiR9zyvv/2FH/URQPJ6/N+sEGgPN8q20DE2YWPqsLpZ182/iN8R5pdIg
+ RpO+Jv06OemkbQDz6VQKFGHcFLlCfrLqxDfoKKRYef6TY7UUfkjuQN40KsTvMP9HxX/E
+ 0CVHo3KHxOw5cJhEdNXg/hOMM1tygNwKmy66tZzgg7JMG6sISaR52Vo369RHvYuUmSlX
+ NvYxt2viF/NFuEOvaFwyO5Hm8DrT7iyWoLkOLZOTEbHld7lhAYWZSL1AmK0CJDafwCiA
+ FfOtiX4Qc1ocNU7Aw5o96U9Wr17ymBuTw6i42xEans8FD9LLFUtfqYa/cTC38ktgqMZm
+ jtXg==
+X-Gm-Message-State: APjAAAU6FGztbZT3qV4ciRT687R7pFL2GYw8JpJe0uPytgRLh7s4UlpR
+ 3dFpyPIt3C99PLhKBrH9suKRVQ2AWFJd67g0a7PzOe1hSUWa85CSY+TNJ0FBXLu4Dj9P7k8tPG8
+ PyR5v6NideFn3aWBWH9Qf0VFjTkFWjUI=
+X-Received: by 2002:a7b:c632:: with SMTP id p18mr4701630wmk.73.1574866291538; 
+ Wed, 27 Nov 2019 06:51:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxOtD00InEf8n3V09g1aalnOJea+U1MnXtpNPUKuMo1yYOaSFz9iw/vy3uxdbCxQYENfWsFjywMMWP4QWl2zpA=
+X-Received: by 2002:a7b:c632:: with SMTP id p18mr4701616wmk.73.1574866291300; 
+ Wed, 27 Nov 2019 06:51:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+References: <20191126223810.20180-1-philmd@redhat.com>
+ <20191126223810.20180-2-philmd@redhat.com>
+In-Reply-To: <20191126223810.20180-2-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 27 Nov 2019 11:51:19 -0300
+Message-ID: <CAKJDGDbMQQCgGFGehNNKTDyioRYss7AjBGVLwMfvn0UDk+PKKQ@mail.gmail.com>
+Subject: Re: [PATCH-for-4.2? v2 1/2] tests/boot_linux_console: Fetch assets
+ from Debian snapshot archives
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+X-MC-Unique: 673cFPYDNPycbvmbsD7X-w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,65 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Nov 2019, Aleksandar Markovic wrote:
-> On Tuesday, November 26, 2019, <aaron.zakhrov@gmail.com> wrote:
+On Tue, Nov 26, 2019 at 7:38 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
->> From: Aaron Dominick <aaron.zakhrov@gmail.com>
->>
->> ---
+> The kernel packaged was fetched from an unstable repository.
+> Use the stable snapshot archive instead.
 >
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2:
+> - Rebased
+> - Dropped Alex's Tested-by tag, since commit 2ecde8b2fb got merged
+>   since and it changed the tested kernel version.
+> ---
+>  tests/acceptance/boot_linux_console.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> Your commit message is poor. You should have clearly explained what do you
-> do in this cleanup, and why.
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 7e41cebd47..752f776f68 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -479,7 +479,8 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=3Darch:m68k
+>          :avocado: tags=3Dmachine:q800
+>          """
+> -        deb_url =3D ('http://ftp.ports.debian.org/debian-ports/pool-m68k=
+/main'
+> +        deb_url =3D ('https://snapshot.debian.org/archive/debian-ports'
+> +                   '/20191021T083923Z/pool-m68k/main'
+>                     '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.u=
+deb')
+>          deb_hash =3D '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
+>          try:
 
-That the commit message is not helpful is the smallest problem. Clearly 
-there are more to improve in this series but please bear with new 
-contributors who may need to get used to the workflow with git and QEMU 
-patch submission and don't scare them away by criticising small problems 
-without helping them.
+Tested-by: Willian Rampazzo <wrampazz@redhat.com>
 
-This whole series is RFC and was stated in the original cover letter of 
-the v1 series that this is work in progress submitted for enquiring about 
-the direction taken not meant to be finished. That said it's still hard to 
-review in this state so some improvements are needed. This v1 was an 
-attempt for that but looks like it's not correct yet. I've found at least 
-these problems:
+The code was tested and works as expected.
 
-- Series says it has 10 patches but I've only got 5-9 so it may have been 
-edited by hand instead of properly using git format-patch.
+---
+Willian
 
-- Patch 9 added to remove unneded headers at the end but that does not 
-help to make Patch 5 more clear so this should be squashed into patch 5 
-instead (try git rebase -i and squash patches 5 and 9 so we end up with 
-only the necessary files added instead of one patch adding them and 
-another removing them later).
-
-- The resulting patch 5 (that should really be 1) should be split into 
-two: one copying existing files without modifying them and another patch 
-adding new headers to make it clear what changes are made that is hard to 
-find if copying and modifying files are done in the same patch.
-
-As for the original question if this is the right direction I can't really 
-tell but I think it may be but to make it work we will need to implement 
-Microengine (aka. command processor/CCE/PM4) that reads packets from a 
-shared memory buffer and converts them to register accesses but it's not 
-documented so either we can get some info about it from somewhere (maybe 
-AMD) or manage to reverse engineer the microcode or just implement its 
-functionality not modeling the actual microengine the real card has but 
-only do packet parsing that it should do.
-
-There was another question about GART which I can't answer not knowing 
-much about it but maybe we only need the addresses and then the device can 
-access system memory directly so we don't need to model the whole 
-IOMMU/DMA but I'm not sure what GART is used for so I may be wrong. 
-Comments from those who know more about ATI GPUs are welcome.
-
-Regards,
-BALATON Zoltan
 
