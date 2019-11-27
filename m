@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA1310BCF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 22:25:51 +0100 (CET)
-Received: from localhost ([::1]:43292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD51710BB65
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 22:14:00 +0100 (CET)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia4oo-0006rw-8S
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 16:25:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42342)
+	id 1ia4dL-0001t5-MJ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 16:13:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lukasstraub2@web.de>) id 1ia4bZ-0001As-55
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:10 -0500
+ (envelope-from <philmd@redhat.com>) id 1ia4bs-0001GU-M1
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lukasstraub2@web.de>) id 1ia4bY-0004L1-2o
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:09 -0500
-Received: from mout.web.de ([212.227.17.11]:52687)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1ia4bX-0004Gr-Je
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1574889096;
- bh=a5HMcSi8BUK0EG5pE/ziARVSZAvE4Sj3WFiLwoqPXO4=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=aOMsJVdWJuQNMEtHXz0TKDF38MztnIX/iFt/ZIw6BkfCn1CDh+EyKvwhZYmHiLCTa
- uutTqMccorLD3t+GMckocdH74Z5rIj68fnGS8LW06+p29oMGVk1SYveTMU448vR892
- baatdU1dgKJtSEyO5Zcf1zpRxfZAfg8PJWPnpdHw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.185]) by smtp.web.de (mrweb103
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MZlR4-1iEYfW2pN0-00LYlg; Wed, 27
- Nov 2019 22:11:36 +0100
-Date: Wed, 27 Nov 2019 22:11:34 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 0/4] colo: Introduce resource agent and high-level test
-Message-ID: <20191127221134.2b439e00@luklap>
-In-Reply-To: <20191122094646.GA2785@work-vm>
-References: <cover.1574356137.git.lukasstraub2@web.de>
- <20191122094646.GA2785@work-vm>
+ (envelope-from <philmd@redhat.com>) id 1ia4bo-0004ie-UP
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:26 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47617
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ia4bl-0004fN-D1
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 16:12:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574889140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bwbbs4ZUMLN/1qvmYrol7/KBkDtDz01plHiS8YSikNs=;
+ b=KbJP4bzj9duBxwtFAati7SX500f/beQFpuL+S3zGMvnLT7M/wuQf3y3argFwBuEOCq06rq
+ F97Eik/qUjIlgHnpJI7/lR5TJ02Wna5/UeUuNzEn0VrtB4TI0HoIe31bPJ9HKmV+x3Mypc
+ lrb8LIAt0w6bjftxxwDXzLJUpr2xCZc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-ruYnRboJPz-O5MjNXW8ptA-1; Wed, 27 Nov 2019 16:12:17 -0500
+Received: by mail-wr1-f71.google.com with SMTP id u12so2651392wrt.15
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 13:12:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MqEGFFijv+REavj4qe40GQOiEk9xbVCBnG6C7HvmxnI=;
+ b=OPoOlFA5pfRD1DgHHR8428VtNm+/PKrFrFxkPXdSswUTo2HYoDIBRyqvTJg3+GhUB3
+ 90PVTaessE6XHvU+1xQXzMlcZ06vMPsCQG0t7EKCCdLDYEExKiKMOsosxLPmwP2hQt3S
+ ROxI2aTEEPBvZVQMUoShzCnr3Fb62GrJbeDOWYWeqLtgk+bLdOllyVJZDBWHXwzzxwPJ
+ JAKUDvh+O+N7kRfgzW1z2Eu54YE8A1icOB5UnxBW+Ej+ayn3n49+z7v76wr/A/82Yst7
+ 4gMbeFGhm3u8SqoPzkqp1w69qocs0YlobkXNRYgFQGK6bOiJc101AxhaRKCk7f1gIEcx
+ 0vGA==
+X-Gm-Message-State: APjAAAXMCriCvM7PxTgyJfYYu6Rqsl5HC53Ti3jwjPfh0VtASLFzOkXs
+ wU41+cMeGepvgH9xKPWVdEg1IYqMChJodahGXRHPAJ/wkfzuczQ16tHJmYBE8YtZLcuLJwjg252
+ mWeHOxzBLM3aByn0=
+X-Received: by 2002:a1c:96c4:: with SMTP id y187mr5983905wmd.112.1574889135980; 
+ Wed, 27 Nov 2019 13:12:15 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw/x1B5PhVK5U+MNVAEx+ogN81URpNQPSSszFuNQlG2ydHuy4ccPxF7mrMlX2vLgTXTMli/mw==
+X-Received: by 2002:a1c:96c4:: with SMTP id y187mr5983887wmd.112.1574889135755; 
+ Wed, 27 Nov 2019 13:12:15 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id z26sm6139546wmk.33.2019.11.27.13.12.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Nov 2019 13:12:15 -0800 (PST)
+Subject: Re: [libvirt] [PATCH-for-4.2] hw/mips: Deprecate the r4k machine
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191125104103.28962-1-philmd@redhat.com>
+ <CAL1e-=hktyuAzESyZMz3P4a9aq17dsrrzWpyXYfFYn=cWP3e4A@mail.gmail.com>
+ <20191125154021.GI4157473@redhat.com>
+ <CAL1e-=h8b5FZ2tGXB62skK8Ub8diKCjL++Ss6EGQnoQ5TkOmnw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <51894598-2502-6f1e-b59a-6e344c70cf54@redhat.com>
+Date: Wed, 27 Nov 2019 22:12:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAL1e-=h8b5FZ2tGXB62skK8Ub8diKCjL++Ss6EGQnoQ5TkOmnw@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: ruYnRboJPz-O5MjNXW8ptA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GKadwlqT0LO5uWKRztE+q7+WQdbJdwhhfmnkbpCUKoWZykc+lZz
- v8dm+2cM+PxlsN9SZByWbA40d/vBzqn0kQTK81NOqCg4gTPwKwy2FBVB8pd2PZA65B3KRqi
- +n06A63gAV/GaNyQ/EPB6GzK3LrhQOKmukNRie+HQLLV2Xx9ByBR6wf7t2lbNVSP6bwjK0Z
- LfvOVJdHs+PTYiFi1Hf+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3+MuZjeNPC4=:9P+msCcJ8tNNciZskDcGXq
- 5RdWQ/1CcTL/iwiZ+Tbt+ozwJxrGmQYuWKAwNaoff15WJZFkczVVcuQDCpN4CLu+nVDvej2cU
- nkilvfB61aDpx/rzeYGa7lTgFi6tAabQLGqbyGkcL+uKlr5jVZvcI/Q/p7mdzBq7jqU4PgYc1
- zik0CkEjvYydQ/fxzIJqzkxEt5Lvk0yZREd7Jk0GSS8IRVjLBB5uQB+BjDAcC7RhDOZRh+PIt
- BKNytD7MpjRmESjY+qEDCrvi4u8GpvnUm1Wr+DKjy8pbwUjuP24eZalvYXYtrGsJQ7dBxPapB
- kWwdWSYMPGHGOcVRUbYxX7BtG0CB3c4Ktz9DCwD6UHLXYGOsrljIVNn4cjee48SDVho/qDId0
- jfFy/jAQjJi+HZL0XIFE6yVTirYQPGDAtIPlK6de0k+8vn9tQykQXSLF5n2X8/12QehBDo0fq
- jqkHhV5mVMkC1+413zXGt3/IebSmo8Iwn657ksdkcT87XJzpklhY9x/SA1NwHsotQlndiT8G7
- WFiEmJ7u4m9ANF24fQjbdZ8t5SNPdEAMvBnqQ8lQuBdzEW1Ivke5XgyxAbAbGSDr0OrymUwT3
- 7ZtqvZOMuGx3jfaVIIYWyly6AfMpnZbHs5o1jngSAn4oblm9AbkKHaqCdm10n5NfBj96pxrE9
- c1KjAkojMMZ6pWxx877koVSvTAsgIf7899lHLYpIMq8IPeGOpoJ/uVYcAI02sNfeopWvI4DPx
- skTZrcKNmqUd4iMWl/TV1OIXSgropp69EI8ml+BjOHiCH7rUWJOwjFMnxgj8DTzxTB4Iy2oYt
- UZWUgLW029D4AWzI7yhmNkel/85l5YBiLxm2Om1XARlL0wTjrHdyHvDZ/TPpk/mj/x8wceBwx
- fUspqX9xNrJVf1ZzTkvU9TCWAP2+qHg79MzujGEXeCW9vLRBzvftaKqAdPD0yslgylEfgHN0Y
- mWHpZeMjilBGogOoto0RGGOXwSh2uMmYiwICbY7MrbbWgwAmpxthqIIbKRtrF/fYm6sGKOZ1S
- jAFDgV0dL7OAKY/+YPdnix4oVwiia3N16qfNYWEMGrkv6TofoHDt+aydQuo2g60XGCS0WH1KV
- Q/nPQlHjD6JfyY2o1TnthauNAy2x8ZYFA59+caC25y9eJr4q1VxQUtJO0nAPOz+FoFXEqliFL
- izBID9VwLKQCm9diNtTSe1ONXYd0ar5vQJxPlQI0SOKeTocYJm/FG/49gtKw7YyTlesj8UjQI
- RmGVT39gAQKEPJgRsCdgT2ZQGNXB6YRLO/sBIJuBgDedqSoRV+2uXKiBoNFs=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.11
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,71 +94,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Nov 2019 09:46:46 +0000
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On 11/27/19 8:40 PM, Aleksandar Markovic wrote:
+> On Mon, Nov 25, 2019 at 4:40 PM Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+>>
+>> On Mon, Nov 25, 2019 at 03:45:35PM +0100, Aleksandar Markovic wrote:
+>>> On Monday, November 25, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redha=
+t.com>
+>>> wrote:
+>>>
+>>>> The r4k machine was introduced in 2005 (6af0bf9c7) and its last
+>>>> logical change was in 2005 (9542611a6). After we can count 164
+>>>> maintenance commits (QEMU API changes) with the exception of
+>>>> 1 fix in 2015 (memory leak, commit 3ad9fd5a).
+>>>>
+>>>>
+>>> Please don't start any deprecation process. This requires certain
+>>> consultation within my company. Rest assured that everyone's opinion wi=
+ll
+>>> be taken into account while doing consiltation.
+>>
+>> The idea of having a deprecation process is precisely to
+>> allow time for people like to provide feedback before any
+>> deletion takes place. So this is not a reason to delay
+>> starting of deprecation.
+>>
+>=20
+> What you said is fine, Daniel, I understand the idea, and it should be
+> that way. But I didn't ask for some lengthy negotiation, or waiting
+> for someone for months, but I just wanted to check within company if
+> all relevant people (that do not read QEMU devel list very often)
+> agree - since we, naturally, do various in-house setups with QEMU for
+> MIPS, that's all. This could count as the discussion on the patch, not
+> as a part of that loooooong "deprecated" state...
 
-> * Lukas Straub (lukasstraub2@web.de) wrote:
-> > Hello Everyone,
-> > These patches introduce a resource agent for use with the Pacemaker CR=
-M and a
-> > high-level test utilizing it for testing qemu COLO.
-> >
-> > The resource agent manages qemu COLO including continuous replication.
-> >
-> > Currently the second test case (where the peer qemu is frozen) fails o=
-n primary
-> > failover, because qemu hangs while removing the replication related bl=
-ock nodes.
-> > Note that this also happens in real world test when cutting power to t=
-he peer
-> > host, so this needs to be fixed.
->
-> Do you understand why that happens? Is this it's trying to finish a
-> read/write to the dead partner?
->
-> Dave
+Thank you Aleksandar for clearing that with MIPS so quickly!
 
-I haven't looked into it too closely yet, but it's often hanging in bdrv_f=
-lush()
-while removing the replication blockdev and of course thats probably becau=
-se the
-nbd client waits for a reply. So I tried with the workaround below, which =
-will
-actively kill the TCP connection and with it the test passes, though I hav=
-en't
-tested it in real world yet.
-
-A proper solution to this would probably be a "force" parameter for blockd=
-ev-del,
-which skips all flushing and aborts all inflight io. Or we could add a tim=
-eout
-to the nbd client.
-
-Regards,
-Lukas Straub
-
-diff --git a/scripts/colo-resource-agent/colo b/scripts/colo-resource-agen=
-t/colo
-index 5fd9cfc0b5..62210af2a1 100755
-=2D-- a/scripts/colo-resource-agent/colo
-+++ b/scripts/colo-resource-agent/colo
-@@ -935,6 +935,7 @@ def qemu_colo_notify():
-            and HOSTNAME =3D=3D str.strip(OCF_RESKEY_CRM_meta_notify_maste=
-r_uname):
-             fd =3D qmp_open()
-             peer =3D qmp_get_nbd_remote(fd)
-+            os.system("sudo ss -K dst %s dport =3D %s" % (peer, NBD_PORT)=
-)
-             if peer =3D=3D str.strip(OCF_RESKEY_CRM_meta_notify_stop_unam=
-e):
-                 if qmp_check_resync(fd) !=3D None:
-                     qmp_cancel_resync(fd)
-
+>> The process lasts for 2 releases before we delete anything:
+>>
+>>    https://qemu.weilnetz.de/doc/qemu-doc.html#Deprecated-features
+>>
+>> When we start the clock now, it is deprecated when 5.0 releases
+>> in April 2020, and still deprecated with 5.1 in August 2020.
+>>
+>> The code won't be deleted until Sep 2020 when 5.2 dev cycle opens,
+>> and there's still time to undelete it right up until the 5.2 feature
+>> freeze in late Oct 2020. That's 11 months away, which is plenty of
+>> time for feedback IMHO.
+>>
+>> Regards,
+>> Daniel
+>> --
+>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberra=
+nge :|
+>> |: https://libvirt.org         -o-            https://fstop138.berrange.=
+com :|
+>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberra=
+nge :|
+>>
+>=20
 
 
