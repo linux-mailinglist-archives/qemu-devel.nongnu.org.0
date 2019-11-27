@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7254E10B3A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:42:41 +0100 (CET)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD28610B386
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 17:38:17 +0100 (CET)
+Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia0Om-0003xS-BL
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:42:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58812)
+	id 1ia0KW-00013N-C3
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 11:38:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ia0Az-0004ng-2x
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:28:25 -0500
+ (envelope-from <armbru@redhat.com>) id 1ia0Ax-0004z4-Bz
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:28:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iZzvT-0000I6-D4
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:12:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58345
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1iZzvZ-0000Mr-Ry
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:12:30 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50048
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iZzvP-0000AS-VQ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:12:21 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iZzvZ-0000Ma-Oj
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 11:12:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574871137;
+ s=mimecast20190719; t=1574871149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8l5AQE7j46IIAJYbDBwD2XYRqlQkvglcZ4JV+xYke0I=;
- b=BYcmxtV5guMwqCJDfFi15Y0RqlEo5TaX1wyf8g7z7zhasJSnxCiJbdNM9gZ5edxciUoUtg
- fplZwoUbk0dc9BLccEuhG3pOuAoK/9qvEE1XxSm8dyqZ90fl3wZtUh9FI9eLUXykI+RIZo
- tyNIz56mzy9P+lS2TrR9u2C11EYRslg=
+ bh=7kSHyNakhpnfN3uIPCCKdBsmup5ZS0T/FitgipkbsLQ=;
+ b=a0s3Ua9t2V+RXlkGnZkvEmZQJeeoBJEQgQXMepEvs1gBOUYRXdOyJ9BbvU0OziLHbSA0cL
+ 3Xyn4bPoAWYFtUOIETFhY/zkH6Tm9J5rDak4qSbAcQaVq6G3I8AAhVAUINeN+vdPE/eDNZ
+ qkW1kQDKPK9z1GmwonwOf59cbuI6OEI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-rcJaVvFTMkSRgIEN8GB88A-1; Wed, 27 Nov 2019 11:12:16 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-285-YlPBbR1EPZabdcau0F8fyw-1; Wed, 27 Nov 2019 11:12:27 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50DDF911EB;
- Wed, 27 Nov 2019 16:12:15 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2761C600C8;
- Wed, 27 Nov 2019 16:12:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 028A616E18; Wed, 27 Nov 2019 17:12:11 +0100 (CET)
-Date: Wed, 27 Nov 2019 17:12:10 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [RFC 00/10] R300 QEMU device V2
-Message-ID: <20191127161210.ractqwwymzkpbu6n@sirius.home.kraxel.org>
-References: <20191126124433.860-1-aaron.zakhrov@gmail.com>
- <20191126141924.GQ556568@redhat.com>
- <09273ecd-be76-ab61-304f-7ea0f1f0b107@redhat.com>
- <20191127150520.GG2131806@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1E72800D53;
+ Wed, 27 Nov 2019 16:12:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CF7260BEC;
+ Wed, 27 Nov 2019 16:12:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 99D4F1138606; Wed, 27 Nov 2019 17:12:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 3/6] qapi: Generate command registration stuff into
+ separate files
+References: <20191120182551.23795-1-armbru@redhat.com>
+ <20191120182551.23795-4-armbru@redhat.com>
+ <d9fc4c2a-61d0-43b9-e792-35f5f5d39798@redhat.com>
+Date: Wed, 27 Nov 2019 17:12:23 +0100
+In-Reply-To: <d9fc4c2a-61d0-43b9-e792-35f5f5d39798@redhat.com> (Eric Blake's
+ message of "Wed, 20 Nov 2019 13:26:10 -0600")
+Message-ID: <87sgm9ti1k.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191127150520.GG2131806@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: rcJaVvFTMkSRgIEN8GB88A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: YlPBbR1EPZabdcau0F8fyw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,28 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Aaron Dominick <aaron.zakhrov@gmail.com>
+Cc: qemu-devel@nongnu.org, kwolf@pond.sub.org, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Eric Blake <eblake@redhat.com> writes:
 
-> It does become a slight usability issue, as any users need to go and find
-> the suitable BIOS in order to use the device. No downstream OS vendors ar=
-e
-> going to be able to distribute this BIOS either
->=20
-> I don't know if we have hit this problem before & if we have any
-> general policies about it ?
+> On 11/20/19 12:25 PM, Markus Armbruster wrote:
+>> Having to include qapi-commands.h just for qmp_init_marshal() is
+>> suboptimal.  Generate it into separate files.  This lets
+>> monitor/misc.c, qga/main.c, and the generated qapi-commands-FOO.h
+>> include less.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>
+>> +++ b/docs/devel/qapi-code-gen.txt
+>> @@ -1493,6 +1493,10 @@ $(prefix)qapi-commands.c: Command marshal/dispatc=
+h functions for each
+>>   $(prefix)qapi-commands.h: Function prototypes for the QMP commands
+>>                             specified in the schema
+>>   +$(prefix)qapi-init-commands.h - Command initialization prototype
+>> +
+>> +$(prefix)qapi-init-commands.h - Command initialization code
+>
+> Looks like you meant s/h/c/
 
-Booting from lsi scsi adapter used to work with a vendor bios only
-loooooong ago.  Fixed by adding an lsi driver to seabios.
+I did.  Thanks!
 
-Building a r300 vgabios shouldn't be too hard, we already have
-support in seavgabios for the other ati variants emulated by qemu.
+>> +    #endif /* EXAMPLE_QAPI_INIT_COMMANDS_H */
+>> +    $ cat qapi-generated/example-qapi-init-commands.
+>> +[Uninteresting stuff omitted...]
+>
+> missing a 'c'
 
-cheers,
-  Gerd
+Yes.
+
+>> +++ b/Makefile
+>
+>>   -QGALIB_GEN=3D$(addprefix qga/qapi-generated/, qga-qapi-types.h
+>> qga-qapi-visit.h qga-qapi-commands.h)
+>> +QGALIB_GEN=3D$(addprefix qga/qapi-generated/, qga-qapi-types.h qga-qapi=
+-visit.h qga-qapi-commands.h qga-qapi-init-commands.h)
+>
+> Worth using \ for line-wrapping?
+
+Hmm, it's used only in the following line, could just as well inline
+there and line-wrap that:
+
+    $(qga-obj-y): $(QGALIB_GEN)
+
+Hmm^2, why do we even have that line?  The compiler-generated .d should
+take care of dependencies.  Dig, dig, ...
+
+    commit 016c77ad62a8ad607dd4349d8cb8ad1365bab831
+    Author: Michael Roth <mdroth@linux.vnet.ibm.com>
+    Date:   Tue Jul 26 11:39:24 2011 -0500
+
+        Makefile: add missing deps on $(GENERATED_HEADERS)
+
+        This fixes a build issue with make -j6+ due to qapi-generated files
+        being built before $(GENERATED_HEADERS) have been created.
+
+        Tested-by: Stefan Berger <stefanb@linux.vnet.ibm.com>
+        Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+        Signed-off-by: Stefan Hajnoczi <stefanha@linux.vnet.ibm.com>
+
+Yes, but the same issue exists for all the other generated headers, and
+we solve it differently: put them into $(generated-files-y), have
+Makefile depend on them.
+
+I'll clean this up on top.  No need to beautify lines now that will go
+away then.
+
+> With those addressed,
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks!
 
 
