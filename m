@@ -2,40 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5A410B5AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:25:22 +0100 (CET)
-Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5009310B572
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:19:42 +0100 (CET)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia209-0004wb-1h
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:25:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56420)
+	id 1ia1uf-0006r5-9l
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:19:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ia1kB-0006eP-B9
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:08:53 -0500
+ (envelope-from <philmd@redhat.com>) id 1ia1kP-0006ns-1U
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ia1k9-0003sx-QJ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:08:51 -0500
-Received: from relay.sw.ru ([185.231.240.75]:49994)
+ (envelope-from <philmd@redhat.com>) id 1ia1kN-00046T-2d
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47199
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ia1k5-0003in-Uz; Wed, 27 Nov 2019 13:08:46 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1ia1k1-0002UU-Cn; Wed, 27 Nov 2019 21:08:41 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 6/7] block/block-copy: reduce intersecting request lock
-Date: Wed, 27 Nov 2019 21:08:39 +0300
-Message-Id: <20191127180840.11937-7-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191127180840.11937-1-vsementsov@virtuozzo.com>
-References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ia1kM-00045A-UB
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574878140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CFzBbSrdqli3Vyr1U/lAw4MFkqUukGTYQMCetsbniRg=;
+ b=PWIgn3WAE2UD22EwgXfVQjZ25f6rVYMvXA5jw1mchv8tba5DF7BeLbS6bOQdxSUTeULvdC
+ VZbQhM23Lddhit3pZNLaHFntwKs8xf1g8aPU9Sn5pCpO2vqxrbrJ43XKfS2CWiIKUZSTsN
+ +OxMb/cGkKsLhvaBdjqamC62u8vT/7g=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-6-pv6p3MPU6eHb-3hlzJvA-1; Wed, 27 Nov 2019 13:08:57 -0500
+Received: by mail-wr1-f71.google.com with SMTP id y1so12613132wrl.0
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 10:08:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bwTurDkAf51bZMPGgSVHsdQNeyfDQ3kU20qXgUge+i4=;
+ b=SAgwRh1bdvLcjHIhDaebmXZsF6ih3jOwB4uyTjbwNpZpoUQSaNq/NWEp30nAXJp7mm
+ J5OfkaCmlmhkxEGlOZEezxeY7kwNsnllK1gGjlNJ71IqD+ekHvoKQm1TDjIk+gMDmuFA
+ E4zMInsYgqAT4I7o+KmNj9wRLjMI+tX1GAMsz9+9kwUcW7IWOxof8c4RZwPV0Rn0f3R9
+ w1LwZwEAnOE+9d9iMTWlMhOkrHuK+2251u4kWf8P1kH5I2hHe06WsPwjW2duADnZz8OF
+ FBZKCNDj+yYj8BZAtI8IS2OqIGo92Ca16Dzc6N9asFLCfvRbpFpM0v/cdXVvTAvzaTZb
+ J5kg==
+X-Gm-Message-State: APjAAAUztPaOhyo9YoO3ue41Ix3gfEsGSCB7aBhUXhy/bVD+ZabccICD
+ juxPQb2VlLrI/DSV8TLRNvaI1cV0U0CoJZI8/ILB4ZtmaER79OG1AWiBp/KEP78Y2Wt+3vlc2Hs
+ Yz5Ro+lJlMtppooY=
+X-Received: by 2002:adf:aa92:: with SMTP id h18mr45505356wrc.150.1574878136341; 
+ Wed, 27 Nov 2019 10:08:56 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyAv64As4EASNVQAmeCRxyIN5sDRaeJ/MYk53zLECuZXcLFrFMR4ClY7YosNixM/iD+85ETLg==
+X-Received: by 2002:adf:aa92:: with SMTP id h18mr45505330wrc.150.1574878136058; 
+ Wed, 27 Nov 2019 10:08:56 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id l17sm1318555wro.77.2019.11.27.10.08.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Nov 2019 10:08:55 -0800 (PST)
+Subject: Re: [PATCH] travis.yml: Run tcg tests with tci
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191127154857.3590-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c74e337e-a3ea-ac67-eb36-490166eba88e@redhat.com>
+Date: Wed, 27 Nov 2019 19:08:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20191127154857.3590-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 6-pv6p3MPU6eHb-3hlzJvA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,223 +91,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, block_copy operation lock the whole requested region. But
-there is no reason to lock clusters, which are already copied, it will
-disturb other parallel block_copy requests for no reason.
+On 11/27/19 4:48 PM, Thomas Huth wrote:
+> So far we only have compile coverage for tci. But since commit
+> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
+> for INDEX_op_ld16u_i64") has been included, we can also run the
+> x86 TCG tests with tci, so let's enable them in Travis now.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Let's instead do the following:
+Ran for 26 min 28 sec:
+https://travis-ci.org/philmd/qemu/jobs/617823541
 
-Lock only sub-region, which we are going to operate on. Then, after
-copying all dirty sub-regions, we should wait for intersecting
-requests block-copy, if they failed, we should retry these new dirty
-clusters.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/block-copy.c | 116 +++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 95 insertions(+), 21 deletions(-)
-
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 20068cd699..aca44b13fb 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -39,29 +39,62 @@ static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
-     return NULL;
- }
- 
--static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
--                                                       int64_t offset,
--                                                       int64_t bytes)
-+/*
-+ * If there are no intersecting requests return false. Otherwise, wait for the
-+ * first found intersecting request to finish and return true.
-+ */
-+static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t start,
-+                                             int64_t end)
- {
--    BlockCopyInFlightReq *req;
-+    BlockCopyInFlightReq *req = block_copy_find_inflight_req(s, start, end);
- 
--    while ((req = block_copy_find_inflight_req(s, offset, bytes))) {
--        qemu_co_queue_wait(&req->wait_queue, NULL);
-+    if (!req) {
-+        return false;
-     }
-+
-+    qemu_co_queue_wait(&req->wait_queue, NULL);
-+
-+    return true;
- }
- 
-+/* Called only on full-dirty region */
- static void block_copy_inflight_req_begin(BlockCopyState *s,
-                                           BlockCopyInFlightReq *req,
-                                           int64_t offset, int64_t bytes)
- {
-+    assert(!block_copy_find_inflight_req(s, offset, bytes));
-+
-+    bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-+
-     req->offset = offset;
-     req->bytes = bytes;
-     qemu_co_queue_init(&req->wait_queue);
-     QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
- }
- 
--static void coroutine_fn block_copy_inflight_req_end(BlockCopyInFlightReq *req)
-+static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
-+        BlockCopyInFlightReq *req, int64_t new_bytes)
- {
-+    if (new_bytes == req->bytes) {
-+        return;
-+    }
-+
-+    assert(new_bytes > 0 && new_bytes < req->bytes);
-+
-+    bdrv_set_dirty_bitmap(s->copy_bitmap,
-+                          req->offset + new_bytes, req->bytes - new_bytes);
-+
-+    req->bytes = new_bytes;
-+    qemu_co_queue_restart_all(&req->wait_queue);
-+}
-+
-+static void coroutine_fn block_copy_inflight_req_end(BlockCopyState *s,
-+                                                     BlockCopyInFlightReq *req,
-+                                                     int ret)
-+{
-+    if (ret < 0) {
-+        bdrv_set_dirty_bitmap(s->copy_bitmap, req->offset, req->bytes);
-+    }
-     QLIST_REMOVE(req, list);
-     qemu_co_queue_restart_all(&req->wait_queue);
- }
-@@ -344,12 +377,19 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-     return ret;
- }
- 
--int coroutine_fn block_copy(BlockCopyState *s,
--                            int64_t offset, uint64_t bytes,
--                            bool *error_is_read)
-+/*
-+ * block_copy_dirty_clusters
-+ *
-+ * Copy dirty clusters in @start/@bytes range.
-+ * Returns 1 if dirty clusters found and successfully copied, 0 if no dirty
-+ * clusters found and -errno on failure.
-+ */
-+static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-+                                                  int64_t offset, int64_t bytes,
-+                                                  bool *error_is_read)
- {
-     int ret = 0;
--    BlockCopyInFlightReq req;
-+    bool found_dirty = false;
- 
-     /*
-      * block_copy() user is responsible for keeping source and target in same
-@@ -361,10 +401,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
-     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
- 
--    block_copy_wait_inflight_reqs(s, offset, bytes);
--    block_copy_inflight_req_begin(s, &req, offset, bytes);
--
-     while (bytes) {
-+        BlockCopyInFlightReq req;
-         int64_t next_zero, cur_bytes, status_bytes;
- 
-         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
-@@ -374,6 +412,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             continue; /* already copied */
-         }
- 
-+        found_dirty = true;
-+
-         cur_bytes = MIN(bytes, s->copy_size);
- 
-         next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, offset,
-@@ -383,10 +423,12 @@ int coroutine_fn block_copy(BlockCopyState *s,
-             assert(next_zero < offset + cur_bytes); /* no need to do MIN() */
-             cur_bytes = next_zero - offset;
-         }
-+        block_copy_inflight_req_begin(s, &req, offset, cur_bytes);
- 
-         ret = block_copy_block_status(s, offset, cur_bytes, &status_bytes);
-+        block_copy_inflight_req_shrink(s, &req, status_bytes);
-         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
--            bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, status_bytes);
-+            block_copy_inflight_req_end(s, &req, 0);
-             s->progress_reset_callback(s->progress_opaque);
-             trace_block_copy_skip_range(s, offset, status_bytes);
-             offset += status_bytes;
-@@ -398,15 +440,13 @@ int coroutine_fn block_copy(BlockCopyState *s,
- 
-         trace_block_copy_process(s, offset);
- 
--        bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
--
-         co_get_from_shres(s->mem, cur_bytes);
-         ret = block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_ZERO,
-                                  error_is_read);
-         co_put_to_shres(s->mem, cur_bytes);
-+        block_copy_inflight_req_end(s, &req, ret);
-         if (ret < 0) {
--            bdrv_set_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
--            break;
-+            return ret;
-         }
- 
-         s->progress_bytes_callback(cur_bytes, s->progress_opaque);
-@@ -414,7 +454,41 @@ int coroutine_fn block_copy(BlockCopyState *s,
-         bytes -= cur_bytes;
-     }
- 
--    block_copy_inflight_req_end(&req);
-+    return found_dirty;
-+}
- 
--    return ret;
-+int coroutine_fn block_copy(BlockCopyState *s, int64_t start, uint64_t bytes,
-+                            bool *error_is_read)
-+{
-+    while (true) {
-+        int ret = block_copy_dirty_clusters(s, start, bytes, error_is_read);
-+
-+        if (ret < 0) {
-+            /*
-+             * IO operation failed, which means the whole block_copy request
-+             * failed.
-+             */
-+            return ret;
-+        }
-+        if (ret) {
-+            /*
-+             * Something was copied, which means that there were yield points
-+             * and some new dirty bits may appered (due to failed parallel
-+             * block-copy requests).
-+             */
-+            continue;
-+        }
-+
-+        /*
-+         * Here ret == 0, which means that there is no dirty clusters in
-+         * requested region.
-+         */
-+
-+        if (!block_copy_wait_one(s, start, bytes)) {
-+            /* No dirty bits and nothing to wait: the whole request is done */
-+            break;
-+        }
-+    }
-+
-+    return 0;
- }
--- 
-2.21.0
+> ---
+>   .travis.yml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index c09b6a0014..b0b634d484 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -218,7 +218,7 @@ matrix:
+>       # We manually include builds which we disable "make check" for
+>       - env:
+>           - CONFIG=3D"--enable-debug --enable-tcg-interpreter"
+> -        - TEST_CMD=3D""
+> +        - TEST_CMD=3D"make run-tcg-tests-x86_64-softmmu V=3D1"
+>  =20
+>  =20
+>       # We don't need to exercise every backend with every front-end
+>=20
 
 
