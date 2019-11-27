@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0F610B09A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:51:21 +0100 (CET)
-Received: from localhost ([::1]:38593 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C9C10B083
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 14:45:20 +0100 (CET)
+Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZxix-0004zp-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:51:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34231)
+	id 1iZxd8-00062F-Bk
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 08:45:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iZxCc-0004cK-Lh
+ (envelope-from <mreitz@redhat.com>) id 1iZxCd-0004ck-4o
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iZxCa-0007Lv-GO
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:54 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43895
+ (envelope-from <mreitz@redhat.com>) id 1iZxCb-0007NK-RV
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:55 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55521
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxCY-0007Ec-6q
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:52 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxCb-0007FI-Hx
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:17:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574860660;
+ s=mimecast20190719; t=1574860662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Rx7MLvX3l6xuNksjFfh00b3GGo+qju7CE9FGBRdD7w=;
- b=ikrbFEOCAngDSSOwWIai6cUa3pFiOnz+BDBf+e37K6PGPopPfa5i6jFCVmPVznSd+BTr4N
- oh9WHQyR3GpazTj/OPkQ7iOYpbhaOF6BY+p0rzeDVl7mzSg2fQbO4YgTN57gi9XAzVmTZr
- uBFv6Cv+4LTNJ9ARHvghM8yHGTvPMuA=
+ bh=ajZXcreB/d1t3CqpnsCR/EoghObHMhvcBERBD+Z3Mj0=;
+ b=cCY2cluOQ3m/K6rcCC52WXOP/vLvxzEKmtyHMdscJtIXF4O3oT6iXc4zxApCvWg7jC55vP
+ DeWYFJsU1ocpgxrms7rgysI3gLErvkrcA9DQRvfpQQSwBTcQ4iyV+mQqKTPjlcIF0AOZuq
+ 2jZUjW9F4Y/kqXrznW/nGJVIQOnXeGM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-S4wdWozfOiWNhdcUpk-Nag-1; Wed, 27 Nov 2019 08:17:37 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-290--1RyWciEP5Gd-fWdvpxvGg-1; Wed, 27 Nov 2019 08:17:40 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3EDB107ACE4;
- Wed, 27 Nov 2019 13:17:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A1258024F7;
+ Wed, 27 Nov 2019 13:17:39 +0000 (UTC)
 Received: from localhost (ovpn-205-186.brq.redhat.com [10.40.205.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67E58600C8;
- Wed, 27 Nov 2019 13:17:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B775E5D9D6;
+ Wed, 27 Nov 2019 13:17:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-5.0 29/31] block: Drop child_file
-Date: Wed, 27 Nov 2019 14:16:22 +0100
-Message-Id: <20191127131624.1062403-30-mreitz@redhat.com>
+Subject: [PATCH for-5.0 30/31] block: Pass BdrvChildRole in remaining cases
+Date: Wed, 27 Nov 2019 14:16:23 +0100
+Message-Id: <20191127131624.1062403-31-mreitz@redhat.com>
 In-Reply-To: <20191127131624.1062403-1-mreitz@redhat.com>
 References: <20191127131624.1062403-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: S4wdWozfOiWNhdcUpk-Nag-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: -1RyWciEP5Gd-fWdvpxvGg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,100 +75,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These calls have no real use for the child role yet, but it will not
+harm to give one.
+
+Notably, the bdrv_root_attach_child() call in blockjob.c is left
+unmodified because there is not much the generic BlockJob object wants
+from its children.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c                   | 30 +-----------------------------
- include/block/block_int.h |  1 -
- tests/test-bdrv-drain.c   |  8 +++-----
- 3 files changed, 4 insertions(+), 35 deletions(-)
+ block/block-backend.c | 11 +++++++----
+ block/vvfat.c         |  2 +-
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/block.c b/block.c
-index 3fcd56aaae..b2dc05b028 100644
---- a/block.c
-+++ b/block.c
-@@ -1077,33 +1077,6 @@ const BdrvChildClass child_of_bds =3D {
-     .update_filename =3D bdrv_child_cb_update_filename,
- };
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 98f3167fa6..988633178a 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -401,8 +401,9 @@ BlockBackend *blk_new_open(const char *filename, const =
+char *reference,
+         return NULL;
+     }
 =20
--/*
-- * Returns the options and flags that bs->file should get if a protocol dr=
-iver
-- * is expected, based on the given options and flags for the parent BDS
-- */
--static void bdrv_inherited_file_options(BdrvChildRole role,
--                                        int *child_flags, QDict *child_opt=
-ions,
--                                        int parent_flags, QDict *parent_op=
-tions)
--{
--    bdrv_inherited_options(BDRV_CHILD_IMAGE,
--                           child_flags, child_options,
--                           parent_flags, parent_options);
--}
--
--const BdrvChildClass child_file =3D {
--    .parent_is_bds   =3D true,
--    .get_parent_desc =3D bdrv_child_get_parent_desc,
--    .inherit_options =3D bdrv_inherited_file_options,
--    .drained_begin   =3D bdrv_child_cb_drained_begin,
--    .drained_poll    =3D bdrv_child_cb_drained_poll,
--    .drained_end     =3D bdrv_child_cb_drained_end,
--    .attach          =3D bdrv_child_cb_attach,
--    .detach          =3D bdrv_child_cb_detach,
--    .inactivate      =3D bdrv_child_cb_inactivate,
--    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
--    .set_aio_ctx     =3D bdrv_child_cb_set_aio_ctx,
--};
--
- static void bdrv_backing_attach(BdrvChild *c)
+-    blk->root =3D bdrv_root_attach_child(bs, "root", &child_root, 0, blk->=
+ctx,
+-                                       perm, BLK_PERM_ALL, blk, errp);
++    blk->root =3D bdrv_root_attach_child(bs, "root", &child_root,
++                                       BDRV_CHILD_FILTERED | BDRV_CHILD_PR=
+IMARY,
++                                       blk->ctx, perm, BLK_PERM_ALL, blk, =
+errp);
+     if (!blk->root) {
+         blk_unref(blk);
+         return NULL;
+@@ -812,8 +813,10 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState =
+*bs, Error **errp)
  {
-     BlockDriverState *parent =3D c->opaque;
-@@ -2228,8 +2201,7 @@ static void bdrv_default_perms_for_metadata(BlockDriv=
-erState *bs, BdrvChild *c,
- {
-     int flags;
-=20
--    assert(child_class =3D=3D &child_file ||
--           (child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_METADAT=
-A)));
-+    assert(child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_METADATA=
-));
-=20
-     flags =3D bdrv_reopen_get_flags(reopen_queue, bs);
-=20
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 05e7a27318..04eab10eda 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -730,7 +730,6 @@ struct BdrvChildClass {
- };
-=20
- extern const BdrvChildClass child_of_bds;
--extern const BdrvChildClass child_file;
-=20
- struct BdrvChild {
-     BlockDriverState *bs;
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index 0da5a3a6a1..655fd0d085 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -93,12 +93,10 @@ static void bdrv_test_child_perm(BlockDriverState *bs, =
-BdrvChild *c,
-                                  uint64_t *nperm, uint64_t *nshared)
- {
-     /*
--     * bdrv_default_perms() accepts only these two, so disguise
--     * detach_by_driver_cb_parent as one of them.
-+     * bdrv_default_perms() accepts nothing else, so disguise
-+     * detach_by_driver_cb_parent.
-      */
--    if (child_class !=3D &child_file && child_class !=3D &child_of_bds) {
--        child_class =3D &child_of_bds;
--    }
-+    child_class =3D &child_of_bds;
-=20
-     bdrv_default_perms(bs, c, child_class, role, reopen_queue,
-                        perm, shared, nperm, nshared);
+     ThrottleGroupMember *tgm =3D &blk->public.throttle_group_member;
+     bdrv_ref(bs);
+-    blk->root =3D bdrv_root_attach_child(bs, "root", &child_root, 0, blk->=
+ctx,
+-                                       blk->perm, blk->shared_perm, blk, e=
+rrp);
++    blk->root =3D bdrv_root_attach_child(bs, "root", &child_root,
++                                       BDRV_CHILD_FILTERED | BDRV_CHILD_PR=
+IMARY,
++                                       blk->ctx, blk->perm, blk->shared_pe=
+rm,
++                                       blk, errp);
+     if (blk->root =3D=3D NULL) {
+         return -EPERM;
+     }
+diff --git a/block/vvfat.c b/block/vvfat.c
+index b8096763d5..8fa8ddff98 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3193,7 +3193,7 @@ static int enable_write_target(BlockDriverState *bs, =
+Error **errp)
+     options =3D qdict_new();
+     qdict_put_str(options, "write-target.driver", "qcow");
+     s->qcow =3D bdrv_open_child(s->qcow_filename, options, "write-target",=
+ bs,
+-                              &child_vvfat_qcow, 0, false, errp);
++                              &child_vvfat_qcow, BDRV_CHILD_DATA, false, e=
+rrp);
+     qobject_unref(options);
+     if (!s->qcow) {
+         ret =3D -EINVAL;
 --=20
 2.23.0
 
