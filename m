@@ -2,63 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A14810B42B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 18:12:53 +0100 (CET)
-Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D0010B420
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 18:09:04 +0100 (CET)
+Received: from localhost ([::1]:40812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia0s0-0000de-1T
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 12:12:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37037)
+	id 1ia0oI-0006yQ-S5
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 12:09:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36631)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ia0qE-0007sa-QL
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:11:04 -0500
+ (envelope-from <philmd@redhat.com>) id 1ia0n0-0006A6-Ef
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:07:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ia0qD-0007bx-1e
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:11:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44868)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ia0qC-0007ZU-Fy
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:11:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ia0qA-0007yG-26
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:10:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C1072E804F
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:10:58 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1ia0mx-000520-Ow
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:07:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40053
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ia0mx-000515-9n
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:07:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574874458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mG1LLk1qYeA/3gKItcoVRlyWV144DjjgKMQ2BWX7qrc=;
+ b=hTTUu1fgUjL1waN2PuB+r9HVU8yPt8+6OVkunT/qRfUifXYQZnobtE9n6no/Wp4cpPq9Sm
+ 7ICm+z5kwz3ZbNe5MURLchcxBOjvJzRqQtcB7dFuDI062qQzLMuXebgszGwOSR+oQhPGEP
+ O7tVz2YrlN2D0T7XlyQv23h0mexg430=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-yleiqpldP1W5wAGLoDDCHg-1; Wed, 27 Nov 2019 12:07:36 -0500
+Received: by mail-wm1-f69.google.com with SMTP id y125so1483786wmg.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 09:07:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mG1LLk1qYeA/3gKItcoVRlyWV144DjjgKMQ2BWX7qrc=;
+ b=TqzAfl/a0fmQrB/NOyXBCbvpQtD0FQEfJ3W6qZLs++UHPrapgHyRbCgWfyQIUwvYm5
+ /pykHQURUzpadZemOiltg5bP9EuP42B7FFB3vz0Vr1hvHU9NmPUG4H79ixVKAMHgj1Ql
+ 10sMoU7C8rU+38JIJquDN3kS5f8Nj8dqEKE/pT3aQ2XXK7AcDKgWc3dhIqsaJNh4pdkL
+ VWhV7en9crCnZqcjMavQKT3KLfXOfXG6OhtyzNga7qASH4PygcfdsU8GZf8v0tFxJYXK
+ 8jbOgpcBaD25DKMXd7xl4DpDkdZ8UUzRyyuxBP9To83i+Wh7W1Me/bm1TNIKCE9iolfn
+ cROQ==
+X-Gm-Message-State: APjAAAUugP82vmFpg0SJXfssjiFLmM6SSIbsU+fxU4YS85oQAUoDluFH
+ QBOy8aFZXrTCXFM19cRLfyBnmHguRIEreRSrbT/U5O3A3WF334vwPr6CBFCjYxsZhc6PTgy0nI8
+ 3jpVs95gklZZlem0=
+X-Received: by 2002:adf:e2cc:: with SMTP id d12mr41696276wrj.168.1574874455710; 
+ Wed, 27 Nov 2019 09:07:35 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz7xdRkMNVzlrQFGy+tkSMTzf5jQ2g8lC8VV1ZGynswBgmEo4kOJYd04llQVHRwG3JqS+2W1g==
+X-Received: by 2002:adf:e2cc:: with SMTP id d12mr41696247wrj.168.1574874455463; 
+ Wed, 27 Nov 2019 09:07:35 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id x13sm7185171wmc.19.2019.11.27.09.07.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Nov 2019 09:07:34 -0800 (PST)
+Subject: Re: [PATCH v36 11/17] target/avr: Add limited support for USART and
+ 16 bit timer peripherals
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20191124050225.30351-1-mrolnik@gmail.com>
+ <20191124050225.30351-12-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <81b62c00-243e-b76e-f52c-4f681b47b727@redhat.com>
+Date: Wed, 27 Nov 2019 18:07:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 27 Nov 2019 17:03:16 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a-hashmi ajbennee carolineconcatto
-X-Launchpad-Bug-Reporter: Caroline Concatto (carolineconcatto)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <157468002661.30952.10642264809488923382.malonedeb@wampee.canonical.com>
-Message-Id: <157487419668.23081.15300873960832030619.malone@chaenomeles.canonical.com>
-Subject: [Bug 1853826] Re: ELF loader fails to load shared object on ThunderX2
- running RHEL7
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 70596c773f93c38b73a0b7692f99b424614f542e
+In-Reply-To: <20191124050225.30351-12-mrolnik@gmail.com>
+Content-Language: en-US
+X-MC-Unique: yleiqpldP1W5wAGLoDDCHg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,230 +92,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1853826 <1853826@bugs.launchpad.net>
+Cc: thuth@redhat.com, richard.henderson@linaro.org,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, dovgaluk@ispras.ru, imammedo@redhat.com,
+ aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've attempted to replicate but it works for me:
+On 11/24/19 6:02 AM, Michael Rolnik wrote:
+> From: Sarah Harris <S.E.Harris@kent.ac.uk>
+> 
+> These were designed to facilitate testing but should provide enough function to be useful in other contexts.
+> Only a subset of the functions of each peripheral is implemented, mainly due to the lack of a standard way to handle electrical connections (like GPIO pins).
+> 
+> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> ---
+>   include/hw/char/avr_usart.h    |  97 ++++++
+>   include/hw/misc/avr_mask.h     |  47 +++
+>   include/hw/timer/avr_timer16.h |  97 ++++++
+>   hw/char/avr_usart.c            | 324 ++++++++++++++++++
+>   hw/misc/avr_mask.c             | 112 ++++++
+>   hw/timer/avr_timer16.c         | 605 +++++++++++++++++++++++++++++++++
+>   hw/char/Kconfig                |   3 +
+>   hw/char/Makefile.objs          |   1 +
+>   hw/misc/Kconfig                |   3 +
+>   hw/misc/Makefile.objs          |   2 +
+>   hw/timer/Kconfig               |   3 +
+>   hw/timer/Makefile.objs         |   2 +
+>   12 files changed, 1296 insertions(+)
+>   create mode 100644 include/hw/char/avr_usart.h
+>   create mode 100644 include/hw/misc/avr_mask.h
+>   create mode 100644 include/hw/timer/avr_timer16.h
+>   create mode 100644 hw/char/avr_usart.c
+>   create mode 100644 hw/misc/avr_mask.c
+>   create mode 100644 hw/timer/avr_timer16.c
+> 
+> diff --git a/include/hw/char/avr_usart.h b/include/hw/char/avr_usart.h
+> new file mode 100644
+> index 0000000000..8e9ee88bbd
+> --- /dev/null
+> +++ b/include/hw/char/avr_usart.h
+> @@ -0,0 +1,97 @@
+> +/*
+> + * AVR USART
+> + *
+> + * Copyright (c) 2018 University of Kent
+> + * Author: Sarah Harris
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef HW_AVR_USART_H
+> +#define HW_AVR_USART_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "chardev/char-fe.h"
+> +#include "hw/hw.h"
+> +
+> +/* Offsets of registers. */
+> +#define USART_DR   0x06
+> +#define USART_CSRA  0x00
+> +#define USART_CSRB  0x01
+> +#define USART_CSRC  0x02
+> +#define USART_BRRH 0x05
+> +#define USART_BRRL 0x04
+> +
+> +/* Relevant bits in regiters. */
+> +#define USART_CSRA_RXC    (1 << 7)
+> +#define USART_CSRA_TXC    (1 << 6)
+> +#define USART_CSRA_DRE    (1 << 5)
+> +#define USART_CSRA_MPCM   (1 << 0)
+> +
+> +#define USART_CSRB_RXCIE  (1 << 7)
+> +#define USART_CSRB_TXCIE  (1 << 6)
+> +#define USART_CSRB_DREIE  (1 << 5)
+> +#define USART_CSRB_RXEN   (1 << 4)
+> +#define USART_CSRB_TXEN   (1 << 3)
+> +#define USART_CSRB_CSZ2   (1 << 2)
+> +#define USART_CSRB_RXB8   (1 << 1)
+> +#define USART_CSRB_TXB8   (1 << 0)
+> +
+> +#define USART_CSRC_MSEL1  (1 << 7)
+> +#define USART_CSRC_MSEL0  (1 << 6)
+> +#define USART_CSRC_PM1    (1 << 5)
+> +#define USART_CSRC_PM0    (1 << 4)
+> +#define USART_CSRC_CSZ1   (1 << 2)
+> +#define USART_CSRC_CSZ0   (1 << 1)
+
+The previous definitions can go into hw/char/avr_usart.c.
+
+> +#define TYPE_AVR_USART "avr-usart"
+> +#define AVR_USART(obj) \
+> +    OBJECT_CHECK(AVRUsartState, (obj), TYPE_AVR_USART)
+> +
+> +typedef struct {
+> +    /* <private> */
+> +    SysBusDevice parent_obj;
+> +
+> +    /* <public> */
+> +    MemoryRegion mmio;
+> +
+> +    CharBackend chr;
+> +
+> +    bool enabled;
+> +
+> +    uint8_t data;
+> +    bool data_valid;
+> +    uint8_t char_mask;
+> +    /* Control and Status Registers */
+> +    uint8_t csra;
+> +    uint8_t csrb;
+> +    uint8_t csrc;
+> +    /* Baud Rate Registers (low/high byte) */
+> +    uint8_t brrh;
+> +    uint8_t brrl;
+> +
+> +    /* Receive Complete */
+> +    qemu_irq rxc_irq;
+> +    /* Transmit Complete */
+> +    qemu_irq txc_irq;
+> +    /* Data Register Empty */
+> +    qemu_irq dre_irq;
+> +} AVRUsartState;
+
+Please rename to AvrUsartState (see 'Naming' section of CODING_STYLE.rst).
+
+[...]
 
-16:55:37 [alex@idun:~/l/t/hello-armpl] $ ~/lsrc/qemu.git/builds/all/aarch64=
--linux-user/qemu-aarch64 ./hello-armpl
-Hello World...
-16:55:52 [alex@idun:~/l/t/hello-armpl] $ ldd ./hello-armpl
-        linux-vdso.so.1 (0x0000ffffb9e78000)
-        libamath_generic.so =3D> /home/alex/lsrc/tests/hello-armpl/libamath=
-_generic.so (0x0000ffffb9d1a000)
-        libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffb9c50000)
-        libastring_generic.so =3D> /home/alex/lsrc/tests/hello-armpl/libast=
-ring_generic.so (0x0000ffffb9c2f000)
-        libarmflang.so =3D> /home/alex/lsrc/tests/hello-armpl/libarmflang.s=
-o (0x0000ffffb97b2000)
-        libomp.so =3D> /home/alex/lsrc/tests/hello-armpl/libomp.so (0x0000f=
-fffb96d4000)
-        librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffb96bc000)
-        libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffb968a000)
-        libarmpl_lp64_generic.so =3D> /home/alex/lsrc/tests/hello-armpl/lib=
-armpl_lp64_generic.so (0x0000ffffb0e12000)
-        libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb0c95000)
-        /lib/ld-linux-aarch64.so.1 =3D> /lib64/ld-linux-aarch64.so.1 (0x000=
-0ffffb9e4a000)
-        libstdc++.so.6 =3D> /home/alex/lsrc/tests/hello-armpl/libstdc++.so.=
-6 (0x0000ffffb0a9c000)
-        libgcc_s.so.1 =3D> /home/alex/lsrc/tests/hello-armpl/libgcc_s.so.1 =
-(0x0000ffffb0a6b000)
-        libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb0a57000)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1853826
-
-Title:
-  ELF loader fails to load shared object on ThunderX2 running RHEL7
-
-Status in QEMU:
-  New
-
-Bug description:
-  Simple test:
-  hello.c
-
-  include <stdio.h>
-
-  int main(int argc, char* argv[])
-  {
-    {
-      printf("Hello World... \n");
-    }
-    return 0;
-  }
-
-  when compiled with :
-  *Compiler =
-
-  https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
-ure-tools/arm-allinea-studio/download
-  Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar	 =
-
-
-  *Running:
-  1) with -armpl
-       armclang -armpl hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-  2) without flag
-      armclang hello.c
-       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
-
-  =E2=80=A2With Docker image:
-         CentOS Linux release 7.7.1908 (AltArch)
-
-  *Two different machines:
-         AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
-         AArch64, Taishan 2280, Cortex-A72, ARMv8-A
-
-  *QEMU 4.0
-       qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
-
-  =
-
-  Results:
-
-  =
-
-   ****Taishan 2280 Cortex-A72 =
-
-        Running =
-
-  1)with -armpl flag with and without the docker
-            WORKS-> Hello World...
-                 -> ldd a.out
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000) =
-
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffbc544000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffbc472000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffbbfd30=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffbbef5000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffb3306000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffb2f30000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffb2eff000) =
-
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
-             =
-
-
-  Running =
-
-  2) without -armpl flag with and without the docker
-             WORKS -> Hello World...        =
-
-                   -> ldd a.out
-  ldd a.out
-   linux-vdso.so.1 =3D>  (0x0000ffffa6895000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffa6846000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
-      =
-
-
-  ****Taishan - tsv110  Kunpeng 920
-         For Running =
-
-
-  1)with -armpl flag with and without the docker
-             DOES NOT WORK -> with and without Docker
-                           -> It shows : qemu:handle_cpu_signal received si=
-gnal outside vCPU
-   context @ pc=3D0xffffaaa8844a
-                           -> ldd a.out =
-
-  ldd a.out =
-
-  linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
-  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
-_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
-0x0000ffffad370000) =
-
-  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffffad270000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
-3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffacdd00=
-00) =
-
-  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
-rch64-linux/lib/libomp.so (0x0000ffffaccf0000) =
-
-  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000) =
-
-  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000) =
-
-  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
-rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
-neric.so (0x0000ffffa40e0000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000) =
-
-  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
-ux/lib64/libstdc++.so.6 (0x0000ffffa3d00000) =
-
-  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
-x/lib64/libgcc_s.so.1 (0x0000ffffa3cc0000)
-  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000) =
-
-  /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
-              =
-
-
-  Running =
-
-  2) without -armpl flag with and without the docker
-                 WORKS -> Hello World..
-                       -> ldd a.out
-  ldd a.out  =
-
-  linux-vdso.so.1 =3D>  (0x0000ffff880c0000) =
-
-  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
-64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
-so (0x0000ffff88080000) =
-
-  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
-  /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
 
