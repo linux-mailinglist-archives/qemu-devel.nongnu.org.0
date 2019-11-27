@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7C810B0D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 15:06:01 +0100 (CET)
-Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A3F10B10C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 15:21:05 +0100 (CET)
+Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZxxA-0001Zi-71
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 09:06:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39787)
+	id 1iZyBk-0007NR-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 09:21:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iZxpr-0006sF-76
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:58:28 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iZy8X-00031A-Cj
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:17:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iZxpp-00028H-VX
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:58:27 -0500
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:36707)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iZxpp-00026x-OW
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 08:58:25 -0500
-Received: by mail-yb1-xb43.google.com with SMTP id v2so9011334ybo.3
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 05:58:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z/jrMxtVdJB5m+WkS0BXY8d7oIt0NlqvS1q5vOfhzEQ=;
- b=f13ANvvze6q2HO3NAuhb1fbILMSr5gETfseJK194FfVN2PetJoxr+1aWu6M8saT5Df
- h34aII1BuK/ZUEbdXQN9LnvwUnJvan1w4dZ+y5mJ+eHOAkZ7shqNJqyd5gw761Sn7N+E
- HD877egnKVDm1FQFAbxhw3IIYKO1GdQ/3278CEgIOyjSTQ3U5cDNfpun370BU4lgZ6ls
- oLpVTq1sWW3iyDZspAzazO0LhQFpzxjRyaDbnUHfXyOGIn17plgOXdKtRaQoWAd551xc
- 56J11rYIqsCo6vhObhkdT3YKedOHbYYCM+ESeK94Rd/adnYpd5OfPYpj+OvAYzaxeI2o
- lfQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z/jrMxtVdJB5m+WkS0BXY8d7oIt0NlqvS1q5vOfhzEQ=;
- b=ZTAPtxF8Wkw390BApIOfZDr8RL5Obe0849ddcjk4oXteF5FO485VZeGfN93sQK3Qx5
- YS+uSnhajVcA3Z2+ZcO5BbFHpRrBWywOArMAtJPoeMdRmeVCnw9xwh5IS0y0vgU85Vjk
- COsvOcjjoGGxA1XrfKn2PP0I4Kbty1uO1EGiatFoa7yAkYwRQa5nTiHBVwxNHwFm8HV0
- NzeLIQ9nBjJ1B4RaIowPSwfs3rHYZUjM88tAxlbOm/NV7DNfs+5kztYh8H1gAYKmeVUB
- QMnC+UxSXjed9Vxy7ML6nPOfzKfTA75LUfBTRFxwUT9L6MvTCNQMDp1ohjT8q4Mxc3fM
- //1A==
-X-Gm-Message-State: APjAAAUBgz1Uc2feCUZhPA22fpMcjXERKvD2ERP/hkBwZDmJU7ZoEGji
- e+A5pTs8iAdwudvTi6mht4SdQLP+D/D2BX67XiI=
-X-Google-Smtp-Source: APXvYqxWyRFqGFwuSS28SkYpI17LWZJhjP8ehIZXjHw0sk5g5EF6c96okt6S/bFjTMtWnV70qBesmnnKdNOcZEyycP4=
-X-Received: by 2002:a25:7443:: with SMTP id p64mr32710425ybc.483.1574863104712; 
- Wed, 27 Nov 2019 05:58:24 -0800 (PST)
+ (envelope-from <mreitz@redhat.com>) id 1iZxtQ-00059w-6s
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:02:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41825
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iZxtP-000592-TV
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 09:02:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574863326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aTH7c9/BszOwjnr+mfHgf7jRYoJ6lHKYaD0I3ogQ0LY=;
+ b=jGL88AY6oas4SWCzEetkJRjo6wc+qfhgY2xc5AVkjj+o4o5xUvKkps9cnT43xWBnMedYE9
+ iPY7QzL7uH06QmZEOm1A/hR7KiFqQrWx/uDzWuOseJiJrkNXM0ymXpY55zS0Z/s2dImVtf
+ ruw7a0I5FWcOdwZZf/LT0qKoXx3BXvU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-FfidTBlfM1S67mGcSrmYkg-1; Wed, 27 Nov 2019 09:02:03 -0500
+X-MC-Unique: FfidTBlfM1S67mGcSrmYkg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E70D800053;
+ Wed, 27 Nov 2019 14:02:01 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-205-186.brq.redhat.com
+ [10.40.205.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CA515D9D6;
+ Wed, 27 Nov 2019 14:01:59 +0000 (UTC)
+Subject: Re: [PATCH v9 1/3] block: introduce compress filter driver
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <f3a68aa4-6e53-747a-8765-b92ed6588b08@redhat.com>
+Date: Wed, 27 Nov 2019 15:01:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191127132430.3681-1-alex.bennee@linaro.org>
-In-Reply-To: <20191127132430.3681-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-Date: Wed, 27 Nov 2019 14:58:12 +0100
-Message-ID: <CAAdtpL6HgKCA01LfB0EfbMgHYjy5DsRAo+q2okVpFV1ttvktKA@mail.gmail.com>
-Subject: Re: [PATCH for 4.2?] .travis.yml: drop xcode9.4 from build matrix
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ed25040598546358"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b43
+In-Reply-To: <1574779398-88772-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="b1nuWaHu8GWIHcWR6LMT0XePtVwhGqICD"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,109 +99,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ed25040598546358
-Content-Type: text/plain; charset="UTF-8"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--b1nuWaHu8GWIHcWR6LMT0XePtVwhGqICD
+Content-Type: multipart/mixed; boundary="qZZzjCjrSYfFAEZ4zKVCwfKqzWJ5zrpcg"
+
+--qZZzjCjrSYfFAEZ4zKVCwfKqzWJ5zrpcg
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Le mer. 27 nov. 2019 14:51, Alex Benn=C3=A9e <alex.bennee@linaro.org> a =C3=
-=A9crit :
+On 26.11.19 15:43, Andrey Shinkevich wrote:
+> Allow writing all the data compressed through the filter driver.
+> The written data will be aligned by the cluster size.
+> Based on the QEMU current implementation, that data can be written to
+> unallocated clusters only. May be used for a backup job.
+>=20
+> Suggested-by: Max Reitz <mreitz@redhat.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>  block/Makefile.objs     |   1 +
+>  block/filter-compress.c | 190 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  qapi/block-core.json    |  10 ++-
+>  3 files changed, 197 insertions(+), 4 deletions(-)
+>  create mode 100644 block/filter-compress.c
 
-> It's broken so it's no longer helping. The latest Xcode is covered by
-> Cirrus.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
+[...]
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> diff --git a/block/filter-compress.c b/block/filter-compress.c
+> new file mode 100644
+> index 0000000..ef4b12b
+> --- /dev/null
+> +++ b/block/filter-compress.c
 
----
->  .travis.yml | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index c09b6a00143..445b0646c18 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -237,13 +237,7 @@ matrix:
->          - TEST_CMD=3D""
->
->
-> -    # MacOSX builds
-> -    - env:
-> -        - CONFIG=3D"--target-list=3D${MAIN_SOFTMMU_TARGETS}"
-> -      os: osx
-> -      osx_image: xcode9.4
-> -      compiler: clang
-> -
-> +    # MacOSX builds - cirrus.yml also tests some MacOS builds including
-> latest Xcode
->
->      - env:
->          -
-> CONFIG=3D"--target-list=3Di386-softmmu,ppc-softmmu,ppc64-softmmu,m68k-sof=
-tmmu,x86_64-softmmu"
-> --
-> 2.20.1
->
->
->
+[...]
 
---000000000000ed25040598546358
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +#define PERM_PASSTHROUGH (BLK_PERM_CONSISTENT_READ \
+> +                          | BLK_PERM_WRITE \
+> +                          | BLK_PERM_RESIZE)
+> +#define PERM_UNCHANGED (BLK_PERM_ALL & ~PERM_PASSTHROUGH)
+> +
+> +static void compress_child_perm(BlockDriverState *bs, BdrvChild *c,
+> +                                const BdrvChildRole *role,
+> +                                BlockReopenQueue *reopen_queue,
+> +                                uint64_t perm, uint64_t shared,
+> +                                uint64_t *nperm, uint64_t *nshared)
+> +{
+> +    *nperm =3D perm & PERM_PASSTHROUGH;
+> +    *nshared =3D (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+> +
+> +    /*
+> +     * We must not request write permissions for an inactive node, the c=
+hild
+> +     * cannot provide it.
+> +     */
+> +    if (!(bs->open_flags & BDRV_O_INACTIVE)) {
+> +        *nperm |=3D BLK_PERM_WRITE_UNCHANGED;
+> +    }
 
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Le mer. 27 nov. 2019 14:51, Alex Benn=C3=A9e &lt;<a href=3D"ma=
-ilto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; a =C3=A9crit=C2=
-=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">It&#39;s broken so it&#39;s no=
- longer helping. The latest Xcode is covered by<br>
-Cirrus.<br>
-<br>
-Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
-g" target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;<br><=
-/blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Revie=
-wed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com=
-">philmd@redhat.com</a>&gt;</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
----<br>
-=C2=A0.travis.yml | 8 +-------<br>
-=C2=A01 file changed, 1 insertion(+), 7 deletions(-)<br>
-<br>
-diff --git a/.travis.yml b/.travis.yml<br>
-index c09b6a00143..445b0646c18 100644<br>
---- a/.travis.yml<br>
-+++ b/.travis.yml<br>
-@@ -237,13 +237,7 @@ matrix:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- TEST_CMD=3D&quot;&quot;<br>
-<br>
-<br>
--=C2=A0 =C2=A0 # MacOSX builds<br>
--=C2=A0 =C2=A0 - env:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 - CONFIG=3D&quot;--target-list=3D${MAIN_SOFTMM=
-U_TARGETS}&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 os: osx<br>
--=C2=A0 =C2=A0 =C2=A0 osx_image: xcode9.4<br>
--=C2=A0 =C2=A0 =C2=A0 compiler: clang<br>
--<br>
-+=C2=A0 =C2=A0 # MacOSX builds - cirrus.yml also tests some MacOS builds in=
-cluding latest Xcode<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0- env:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0- CONFIG=3D&quot;--target-list=3Di386-sof=
-tmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,x86_64-softmmu&quot;<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div></div></div>
+The copy-on-read filter has to take the WRITE_UNCHANGED permission
+because it will do such writes for every read, but I don=92t think this
+driver ever needs to take this permission.  Therefore it should be
+enough to use bdrv_filter_default_perms for .bdrv_child_perm.
 
---000000000000ed25040598546358--
+Max
+
+
+--qZZzjCjrSYfFAEZ4zKVCwfKqzWJ5zrpcg--
+
+--b1nuWaHu8GWIHcWR6LMT0XePtVwhGqICD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3egdUACgkQ9AfbAGHV
+z0DTzgf+IallT2B82UQS1ukWMcKzHQdIhtV/jAfS7dWL3cZGwvBGT9liQZ4kjI1U
+Dn350EzCKr6Zz8zyoPuF7oquxE8I/kRMucS+IqB0O+KMae0RqKbcI4mHOlgLnBFU
+mlJUw0SNgB7zolYEuDKhT69yrMvz1knU3K90quOgfyL4v1TtIXqXntggBjIqGGY7
+AzMz2jkInIPuU7l7i3KZO6DXAqJfpb09qBoZRK04OrqVObhQQKj4XgdYALJx9GQ9
+viu8FYxA+d9OMID4dFMB2U2HAmdotMC55VeF+sPUjlqpEBRCy8/szrnCOI846BQw
+hXDXTnBbTqWO1SjS5ejq5YnWo+JSag==
+=kYJT
+-----END PGP SIGNATURE-----
+
+--b1nuWaHu8GWIHcWR6LMT0XePtVwhGqICD--
+
 
