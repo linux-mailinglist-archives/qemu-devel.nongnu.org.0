@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FFD10AA44
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 06:38:32 +0100 (CET)
-Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C7410AA53
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 06:41:50 +0100 (CET)
+Received: from localhost ([::1]:33106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iZq23-000729-Lw
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 00:38:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
+	id 1iZq5F-0001MM-8V
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 00:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iZpzc-0005Qo-2N
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpzc-0005Qm-6z
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:36:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iZpza-0000Jp-Mn
+ (envelope-from <dgibson@ozlabs.org>) id 1iZpza-0000Jb-H4
  for qemu-devel@nongnu.org; Wed, 27 Nov 2019 00:35:59 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57369 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:33875)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iZpzZ-0000D3-Iv; Wed, 27 Nov 2019 00:35:58 -0500
+ id 1iZpzZ-0000DC-NE; Wed, 27 Nov 2019 00:35:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47N8d234f9z9sSs; Wed, 27 Nov 2019 16:35:50 +1100 (AEDT)
+ id 47N8d24xG8z9sSw; Wed, 27 Nov 2019 16:35:50 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1574832950;
- bh=t+UtBKDA7V/ts0lXfcnRVjaMEXqVS69VxzKEtjudPr8=;
+ bh=Mvh09Vm/J2IXnalg8BbOymoNpcowOUoByIveRV4xx2U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AOCNtYtDdhc7pVuIGUCz79V526jR1hnOksm1k4o3OOmdLIPJg4kVJK9ckfgiFpROC
- RNG2jVkr8YtEgAlJxtM7nBizwtZm7ygjRTACMW/MwQ+PsOnVtVIMFNlj1OeEZhBUDA
- Xhw4GGu33X3uFyBjalQtVG0O2sQ4l6/MFMmj4OA8=
-Date: Wed, 27 Nov 2019 16:03:58 +1100
+ b=Pp/NP8j3BvvnuNJhjpibDbFkaXrSGC2izbyjtSCJCeaQ1Hoi9RcrHTT90/ktXvU8f
+ BtnU+L0GaRP5EJhpULSCo78H1f4LpQShkOTsIqEfubF1uRpR9i3LGCd/6WKncUPCpN
+ H0YHD0oOuXvw0PjJu+O61B0znq+GRUGIn+Z8pO+E=
+Date: Wed, 27 Nov 2019 16:07:51 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v6 07/20] ppc/pnv: Fix TIMA indirect access
-Message-ID: <20191127050358.GP5582@umbus.fritz.box>
+Subject: Re: [PATCH v6 11/20] ppc/xive: Use the XiveFabric and XivePresenter
+ interfaces
+Message-ID: <20191127050751.GQ5582@umbus.fritz.box>
 References: <20191125065820.927-1-clg@kaod.org>
- <20191125065820.927-8-clg@kaod.org>
+ <20191125065820.927-12-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/rpNrW1QPITZETc9"
+ protocol="application/pgp-signature"; boundary="cB4CxVy2Gp1bd2mA"
 Content-Disposition: inline
-In-Reply-To: <20191125065820.927-8-clg@kaod.org>
+In-Reply-To: <20191125065820.927-12-clg@kaod.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,115 +62,114 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/rpNrW1QPITZETc9
+--cB4CxVy2Gp1bd2mA
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 25, 2019 at 07:58:07AM +0100, C=E9dric Le Goater wrote:
-> When the TIMA of a CPU needs to be accessed from the indirect page,
-> the thread id of the target CPU is first stored in the PC_TCTXT_INDIR0
-> register. This thread id is relative to the chip and not to the system.
+On Mon, Nov 25, 2019 at 07:58:11AM +0100, C=E9dric Le Goater wrote:
+> Now that the machines have handlers implementing the XiveFabric and
+> XivePresenter interfaces, remove xive_presenter_match() and make use
+> of the 'match_nvt' handler of the machine.
 >=20
-> Introduce a helper routine to look for a CPU of a given PIR and fix
-> pnv_xive_get_indirect_tctx() to scan only the threads of the local
-> chip and not the whole machine.
->=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Applied to ppc-for-5.0.
+8..11 applied to ppc-for-5.0.
 
 > ---
->  include/hw/ppc/pnv.h |  2 ++
->  hw/intc/pnv_xive.c   | 13 +++++++------
->  hw/ppc/pnv.c         | 17 +++++++++++++++++
->  3 files changed, 26 insertions(+), 6 deletions(-)
+>  hw/intc/xive.c | 48 +++++++++++++++++-------------------------------
+>  1 file changed, 17 insertions(+), 31 deletions(-)
 >=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 12b0169a4010..a58cfea3f2fd 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -162,6 +162,8 @@ typedef struct PnvChipClass {
->  #define PNV_CHIP_INDEX(chip)                                    \
->      (((chip)->chip_id >> 2) * 2 + ((chip)->chip_id & 0x3))
-> =20
-> +PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
-> +
->  #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
->  #define PNV_MACHINE(obj) \
->      OBJECT_CHECK(PnvMachineState, (obj), TYPE_PNV_MACHINE)
-> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-> index ec8349ee4a1f..b2ab2ccc91e7 100644
-> --- a/hw/intc/pnv_xive.c
-> +++ b/hw/intc/pnv_xive.c
-> @@ -1400,12 +1400,13 @@ static const MemoryRegionOps pnv_xive_ic_lsi_ops =
-=3D {
->   */
-> =20
->  /*
-> - * When the TIMA is accessed from the indirect page, the thread id
-> - * (PIR) has to be configured in the IC registers before. This is used
-> - * for resets and for debug purpose also.
-> + * When the TIMA is accessed from the indirect page, the thread id of
-> + * the target CPU is configured in the PC_TCTXT_INDIR0 register before
-> + * use. This is used for resets and for debug purpose also.
->   */
->  static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXive *xive)
->  {
-> +    PnvChip *chip =3D xive->chip;
->      uint64_t tctxt_indir =3D xive->regs[PC_TCTXT_INDIR0 >> 3];
->      PowerPCCPU *cpu =3D NULL;
->      int pir;
-> @@ -1415,15 +1416,15 @@ static XiveTCTX *pnv_xive_get_indirect_tctx(PnvXi=
-ve *xive)
->          return NULL;
->      }
-> =20
-> -    pir =3D GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt_indir) & 0xff;
-> -    cpu =3D ppc_get_vcpu_by_pir(pir);
-> +    pir =3D (chip->chip_id << 8) | GETFIELD(PC_TCTXT_INDIR_THRDID, tctxt=
-_indir);
-> +    cpu =3D pnv_chip_find_cpu(chip, pir);
->      if (!cpu) {
->          xive_error(xive, "IC: invalid PIR %x for indirect access", pir);
->          return NULL;
->      }
-> =20
->      /* Check that HW thread is XIVE enabled */
-> -    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
-> +    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
->          xive_error(xive, "IC: CPU %x is not enabled", pir);
->      }
-> =20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index d899c83e5255..8f688f4efc5a 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1371,6 +1371,23 @@ static void pnv_chip_class_init(ObjectClass *klass=
-, void *data)
->      dc->desc =3D "PowerNV Chip";
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 1c9e58f8deac..8e683847bf81 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1423,30 +1423,6 @@ int xive_presenter_tctx_match(XivePresenter *xptr,=
+ XiveTCTX *tctx,
+>      return -1;
 >  }
 > =20
-> +PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir)
-> +{
-> +    int i, j;
-> +
-> +    for (i =3D 0; i < chip->nr_cores; i++) {
-> +        PnvCore *pc =3D chip->cores[i];
-> +        CPUCore *cc =3D CPU_CORE(pc);
-> +
-> +        for (j =3D 0; j < cc->nr_threads; j++) {
-> +            if (ppc_cpu_pir(pc->threads[j]) =3D=3D pir) {
-> +                return pc->threads[j];
-> +            }
-> +        }
-> +    }
-> +    return NULL;
-> +}
-> +
->  static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
+> -static bool xive_presenter_match(XiveRouter *xrtr, uint8_t format,
+> -                                 uint8_t nvt_blk, uint32_t nvt_idx,
+> -                                 bool cam_ignore, uint8_t priority,
+> -                                 uint32_t logic_serv, XiveTCTXMatch *mat=
+ch)
+> -{
+> -    XivePresenter *xptr =3D XIVE_PRESENTER(xrtr);
+> -    XivePresenterClass *xpc =3D XIVE_PRESENTER_GET_CLASS(xptr);
+> -    int count;
+> -
+> -    count =3D xpc->match_nvt(xptr, format, nvt_blk, nvt_idx, cam_ignore,
+> -                           priority, logic_serv, match);
+> -    if (count < 0) {
+> -        return false;
+> -    }
+> -
+> -    if (!match->tctx) {
+> -        qemu_log_mask(LOG_UNIMP, "XIVE: NVT %x/%x is not dispatched\n",
+> -                      nvt_blk, nvt_idx);
+> -        return false;
+> -    }
+> -
+> -    return true;
+> -}
+> -
+>  /*
+>   * This is our simple Xive Presenter Engine model. It is merged in the
+>   * Router as it does not require an extra object.
+> @@ -1462,22 +1438,32 @@ static bool xive_presenter_match(XiveRouter *xrtr=
+, uint8_t format,
+>   *
+>   * The parameters represent what is sent on the PowerBus
+>   */
+> -static bool xive_presenter_notify(XiveRouter *xrtr, uint8_t format,
+> +static bool xive_presenter_notify(uint8_t format,
+>                                    uint8_t nvt_blk, uint32_t nvt_idx,
+>                                    bool cam_ignore, uint8_t priority,
+>                                    uint32_t logic_serv)
 >  {
->      PnvMachineState *pnv =3D PNV_MACHINE(xi);
+> +    XiveFabric *xfb =3D XIVE_FABRIC(qdev_get_machine());
+> +    XiveFabricClass *xfc =3D XIVE_FABRIC_GET_CLASS(xfb);
+>      XiveTCTXMatch match =3D { .tctx =3D NULL, .ring =3D 0 };
+> -    bool found;
+> +    int count;
+> =20
+> -    found =3D xive_presenter_match(xrtr, format, nvt_blk, nvt_idx, cam_i=
+gnore,
+> -                                 priority, logic_serv, &match);
+> -    if (found) {
+> +    /*
+> +     * Ask the machine to scan the interrupt controllers for a match
+> +     */
+> +    count =3D xfc->match_nvt(xfb, format, nvt_blk, nvt_idx, cam_ignore,
+> +                           priority, logic_serv, &match);
+> +    if (count < 0) {
+> +        return false;
+> +    }
+> +
+> +    /* handle CPU exception delivery */
+> +    if (count) {
+>          ipb_update(&match.tctx->regs[match.ring], priority);
+>          xive_tctx_notify(match.tctx, match.ring);
+>      }
+> =20
+> -    return found;
+> +    return !!count;
+>  }
+> =20
+>  /*
+> @@ -1590,7 +1576,7 @@ static void xive_router_end_notify(XiveRouter *xrtr=
+, uint8_t end_blk,
+>          return;
+>      }
+> =20
+> -    found =3D xive_presenter_notify(xrtr, format, nvt_blk, nvt_idx,
+> +    found =3D xive_presenter_notify(format, nvt_blk, nvt_idx,
+>                            xive_get_field32(END_W7_F0_IGNORE, end.w7),
+>                            priority,
+>                            xive_get_field32(END_W7_F1_LOG_SERVER_ID, end.=
+w7));
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -177,25 +177,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/rpNrW1QPITZETc9
+--cB4CxVy2Gp1bd2mA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3eA74ACgkQbDjKyiDZ
-s5Lt1A//bzRA7y73j94cVLG+80asowCZ15SCKtC3mkIfA9OiyGQ5Vr2TVIZWDpHs
-zh2Nk+Si4QiFLg3/OGKLawV/2EWuChMC+GBEbrydZMOQIsXTqYOHWU9X/vHsbIOc
-BcPjEfT8jmEXhmxIt2LWAyCf14+hw6MlGzt/u1vRaordgZBlAXFrooV+KrFGuMGx
-ahAnodN4FgqON5bLvlscFrW1nIko6P9FU0qhBSDA2faM4rCcPwO+bvgB12uyCc4c
-L5smm0SBTpvF/EcxYIBd/jhYVd0eeF9Njp/6xWUfDITdJe7mYFZP0fZvQjoS+ISL
-OquBlrzK56G1H6JZFZZr9SpiHyLIE05vIapzf+OnxYRvmMNx4zukUtijb/ChRQDB
-seQY1ImTr63jWDO6uJnFW1Eg7YJ/nH5mYCPeyGW8znG83k5eh1oFEtOc6ik1bH1B
-D82IjCI3+w28JGTurJ3PDSI5J93rlBjLzoW4LTsOYisM3t8Umy1Jw0iKESFVrWMz
-eJIhW57dEVoyDeNDcsAjLJfqsC/CVPhIZGye812Drn1kqObsxbZrEJwTUzVNYDC2
-/8OsN7hE1VFRzSLXBoHA5HipCZtOF7lxsubAtd/E7kBcLGOCk4etyXbv14CqwbM5
-oA+Iurv6XHGP5a5iepvqNTOdXTcoxaioBbJg+/fLAEG8wi1s5lg=
-=o24a
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3eBKYACgkQbDjKyiDZ
+s5KiXRAAuK82z7yATDi7iMKCRF3dA9yextq2g3xBQyMOInQ73c+Ad67NECkYM5RQ
+7M6HLhRHIhwODynA3AxO4HNbu+jMgD5jn4nobx3eW0Efv4nr9ntMoyI7s1+xzKfT
+hc+9joN+peCEGfib1C7/92qFr1IHsdYFlm9LZiU1+QrF8zHFO74jwxfJL30pKO6A
+CA6PHzaVcvG75a+AXE3/lvtJDEFcGBtZ1zHku7kEV442JWDtYF9BL1wQgRNTTOiQ
+tzXrz5BNaLblirf7/Tsjp3uelSmkcyhZDNsYm7TueQIGm7xYhXHkLmcmWRXggZp7
+AQF2AQxXiq4qiV1ARaAzdEmAbKzVzTN4+1eZefpIAkm4H8qgq21g/hVCJyeEp3AH
+VFvcWu6h6LGOvTet3GZ2ye9v4jmUerUuVSKt2t0KqWSY0DLsQHeNkYJamX4TOWI7
+7UsdBjPGuwUK5VDHlpypA6fWguBKbkZRp8XcEFQna2DaLzXKuGrDMdJqKou9ce68
+cOujbJm5r3+M8Xp/ExqM7xGmsJEk/va6szBLvgXKY4bXETc73NHTRxt9eCRUiS3Q
+v+xSjxrcoTzB5uvBrZ3IH4I3jPN8AFW57L3jObJxgC5QdG3AwZ9GWrBED4wJrlB5
+nN5ls3cc2Av262FfAgIa/UNRQPZDr6M76j7v/O71N+rvA0/n1Ig=
+=0E7P
 -----END PGP SIGNATURE-----
 
---/rpNrW1QPITZETc9--
+--cB4CxVy2Gp1bd2mA--
 
