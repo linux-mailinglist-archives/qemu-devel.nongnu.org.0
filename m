@@ -2,68 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9464910B697
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 20:19:26 +0100 (CET)
-Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1A510B694
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 20:18:16 +0100 (CET)
+Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia2qT-0001yL-M7
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 14:19:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60737)
+	id 1ia2pL-0000ro-LY
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 14:18:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33159)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ia2lC-0007L8-6z
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 14:13:59 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ia2m2-0007uS-A5
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 14:14:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jcmvbkbc@gmail.com>) id 1ia2lB-00027y-9N
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 14:13:58 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41890)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1ia2lB-00026k-3w
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 14:13:57 -0500
-Received: by mail-pl1-x634.google.com with SMTP id t8so10151880plr.8
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 11:13:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cVi4SDW3zgmcQiv99H3YNyDW1Bmnvv1njWuQ2UJDy44=;
- b=uUdufGvSpPRYi8hYYFG0xnpKbYP9PxwASXEfXHHZ0FdkxWFJcLqlsSopfruksP4XwG
- G/V/uUBVRXTuCEgUYp1u6tlQ5/bFGKfIQNsEayFDVwCbmyhv/iLwViREcaIZf56rrNXH
- AYBl/sV2KPZclNryehaBsdmC3/wfW9Te/w0AgeqmvuHw9TOHUj8uI+CV46o9hEZ+/yaP
- JVfdtMZFcf5H5nwff2FjzE0aqptt9rNOGcK4zuYAv8QDNCMSQOoV6AUtxuBKaXYNe1eJ
- 5U8BEZiUHNUKUx/+Gr51xkbt/gOKVwrAGXMo7IIWAVjXMNO+lMPHyo/QB2zH0Hy+XW5Z
- 6vqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cVi4SDW3zgmcQiv99H3YNyDW1Bmnvv1njWuQ2UJDy44=;
- b=A6LXfIBMOMuQK3+xQbq5Y3/HjzuT+hNEpwD5Z6GozKRirYohESsJSzqiP7fWVRxIy+
- UW4/bkaYKfiFENG8eyD3vRKYhvMczpXdUVwTLc16OJKabFuLaQSMxLas5ewAFw5bUDKP
- G2T/18xDqoU3we2iIYzoNXPnOuq50nEJIsGVyjv/1sncrY7+c3dd/9m+/FvOG10kCsAm
- nHmeO/bKiXWgg7qyZWsPGonW8D4+NEDT/gLfnrTmlGK9gNozX4B34N+7Xj7B4MOZgLbL
- p7Mw/F1ALF6xbYa88M+MBeuT3GcF5j9b7g4Enfzl03waHLR+I+MT3pa/fCqaSDlwJ1WE
- /2vA==
-X-Gm-Message-State: APjAAAUsp6AkdgweO/cRbSJUrR+9Sy19uIRxJe7KIqqYjlG0kmY597wc
- CRKAZktKQxCMSBlnJ6quICdz7YWiwbwcqEND2M0=
-X-Google-Smtp-Source: APXvYqxbAjy8braW6EKN+yOhCcMts2bGPjFjYO6ibBp6ef6LdmmaSn3gVaE6c3SMSRryKh8UWu8jV7KCP0Fsi9JZNn0=
-X-Received: by 2002:a17:90a:bf81:: with SMTP id
- d1mr7881709pjs.125.1574882036060; 
- Wed, 27 Nov 2019 11:13:56 -0800 (PST)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ia2m1-0003F7-7R
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 14:14:50 -0500
+Received: from relay.sw.ru ([185.231.240.75]:53302)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ia2m0-0003Bc-Vm; Wed, 27 Nov 2019 14:14:49 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ia2lm-0003eZ-TT; Wed, 27 Nov 2019 22:14:35 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v6] ppc: well form kvmppc_hint_smt_possible error hint helper
+Date: Wed, 27 Nov 2019 22:14:34 +0300
+Message-Id: <20191127191434.20945-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191126222607.25653-1-jcmvbkbc@gmail.com>
- <87tv6pf8bn.fsf@linaro.org>
-In-Reply-To: <87tv6pf8bn.fsf@linaro.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Wed, 27 Nov 2019 11:13:44 -0800
-Message-ID: <CAMo8Bf+ck39JZu=ZjfkT5XqTzUQK7QywMZVb09_8qiNuZZSB+w@mail.gmail.com>
-Subject: Re: [RFC] exec: flush CPU TB cache when breakpoint address
- translation fails
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::634
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,31 +47,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: marcandre.lureau@redhat.com, vsementsov@virtuozzo.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 27, 2019 at 11:06 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> Max Filippov <jcmvbkbc@gmail.com> writes:
->
-> > When a breakpoint is inserted at location for which there's currently n=
-o
-> > virtual to physical translation no action is taken on CPU TB cache. If =
-a
-> > TB for that virtual address already exists but is not visible ATM the
-> > breakpoint won't be hit next time an instruction at that address will b=
-e
-> > executed.
->
-> So the userspace has run once but is currently paged out?
+Make kvmppc_hint_smt_possible hint append helper well formed:
+rename errp to errp_in, as it is IN-parameter here (which is unusual
+for errp), rename function to be kvmppc_error_append_*_hint.
 
-Yes, but not necessarily paged out, just not in the CPU TLB.
-Or it has run to completion and when you start it next time
-it gets loaded to the same physical pages.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
 
---=20
-Thanks.
--- Max
+v6: keep kvmppc_ function prefix
+    add r-b by Marc-André
+
+ target/ppc/kvm_ppc.h | 4 ++--
+ hw/ppc/spapr.c       | 2 +-
+ target/ppc/kvm.c     | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 98bd7d5da6..47b08a4030 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -28,7 +28,7 @@ void kvmppc_set_papr(PowerPCCPU *cpu);
+ int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+ int kvmppc_smt_threads(void);
+-void kvmppc_hint_smt_possible(Error **errp);
++void kvmppc_error_append_smt_possible_hint(Error **errp_in);
+ int kvmppc_set_smt_threads(int smt);
+ int kvmppc_clear_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+ int kvmppc_or_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+@@ -164,7 +164,7 @@ static inline int kvmppc_smt_threads(void)
+     return 1;
+ }
+ 
+-static inline void kvmppc_hint_smt_possible(Error **errp)
++static inline void kvmppc_error_append_smt_possible_hint(Error **errp_in)
+ {
+     return;
+ }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index e076f6023c..1b87eb0ffd 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2564,7 +2564,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
+                                       " requires the use of VSMT mode %d.\n",
+                                       smp_threads, kvm_smt, spapr->vsmt);
+                 }
+-                kvmppc_hint_smt_possible(&local_err);
++                kvmppc_error_append_smt_possible_hint(&local_err);
+                 goto out;
+             }
+         }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index c77f9848ec..7406d18945 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2076,7 +2076,7 @@ int kvmppc_set_smt_threads(int smt)
+     return ret;
+ }
+ 
+-void kvmppc_hint_smt_possible(Error **errp)
++void kvmppc_error_append_smt_possible_hint(Error **errp_in)
+ {
+     int i;
+     GString *g;
+@@ -2091,10 +2091,10 @@ void kvmppc_hint_smt_possible(Error **errp)
+             }
+         }
+         s = g_string_free(g, false);
+-        error_append_hint(errp, "%s.\n", s);
++        error_append_hint(errp_in, "%s.\n", s);
+         g_free(s);
+     } else {
+-        error_append_hint(errp,
++        error_append_hint(errp_in,
+                           "This KVM seems to be too old to support VSMT.\n");
+     }
+ }
+-- 
+2.21.0
+
 
