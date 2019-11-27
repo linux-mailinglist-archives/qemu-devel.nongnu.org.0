@@ -2,92 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA94410B42A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 18:12:27 +0100 (CET)
-Received: from localhost ([::1]:40840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D5310B44C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 18:21:27 +0100 (CET)
+Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia0ra-0000D7-NQ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 12:12:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36928)
+	id 1ia10I-0004DR-Cb
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 12:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ia0ps-0007fU-2X
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:10:41 -0500
+ (envelope-from <jan.kiszka@siemens.com>) id 1ia0ym-0003SZ-2A
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:19:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ia0pq-0007Ia-UJ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:10:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51392
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jan.kiszka@siemens.com>) id 1ia0yj-0007pB-Hz
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:19:51 -0500
+Received: from gecko.sbs.de ([194.138.37.40]:48773)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ia0pq-0007IA-PA
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:10:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574874638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=n869NSx2jHlfXMNJ4D+BjdJXOISy2WyeFv/8PIXFnCg=;
- b=HjqWVgTvcsCMCDF+5aPscmZn1T6mxPWb1pK0DZYLYcHQjxNIQL124JDaaTh4CK2wv5InOj
- F/vLZb2agzMOSREMPG85md9+LjJYDei/RYIWa+843ker77xMK/TBzu4yWskj9G7XJ+kcb6
- lPNgMgl5wFqjCg1PcVYUbc0MUcmRoYE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-DA6j-_LHMXyj4gD65z8jFw-1; Wed, 27 Nov 2019 12:10:36 -0500
-X-MC-Unique: DA6j-_LHMXyj4gD65z8jFw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9500C107ACE3;
- Wed, 27 Nov 2019 17:10:35 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-205-186.brq.redhat.com
- [10.40.205.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79366600C8;
- Wed, 27 Nov 2019 17:10:31 +0000 (UTC)
-Subject: Re: [PATCH v4 4/5] blockdev: honor bdrv_try_set_aio_context() context
- requirements
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20191121135759.101655-1-slp@redhat.com>
- <20191121135759.101655-5-slp@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7742b8ea-1e9e-7acc-6af2-3155b8d11af2@redhat.com>
-Date: Wed, 27 Nov 2019 18:10:29 +0100
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1ia0yg-0007l4-NT
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 12:19:47 -0500
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+ by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id xARHJajl008247
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Nov 2019 18:19:37 +0100
+Received: from [139.25.68.37] ([139.25.68.37])
+ by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id xARHJa7L001485;
+ Wed, 27 Nov 2019 18:19:36 +0100
+Subject: Re: [RFC][PATCH 0/3] IVSHMEM version 2 device for QEMU
+To: Liang Yan <LYan@suse.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <cover.1573477032.git.jan.kiszka@siemens.com>
+ <efd5fa87-90de-fccc-97a5-a4fc71a050c8@suse.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <fb213f9e-8bd8-6c33-7a6e-47dda982903d@siemens.com>
+Date: Wed, 27 Nov 2019 18:19:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191121135759.101655-5-slp@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ttBGzGNSrH3jpILXKMN9QKGojncXDnATH"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+In-Reply-To: <efd5fa87-90de-fccc-97a5-a4fc71a050c8@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 194.138.37.40
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,123 +55,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org
+Cc: Jailhouse <jailhouse-dev@googlegroups.com>,
+ Claudio Fontana <claudio.fontana@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Hannes Reinecke <hare@suse.de>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ttBGzGNSrH3jpILXKMN9QKGojncXDnATH
-Content-Type: multipart/mixed; boundary="jLwouv1y0Ky2qeglpWzcksRfjMBffE3q7"
+Hi Liang,
 
---jLwouv1y0Ky2qeglpWzcksRfjMBffE3q7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 27.11.19 16:28, Liang Yan wrote:
+> 
+> 
+> On 11/11/19 7:57 AM, Jan Kiszka wrote:
+>> To get the ball rolling after my presentation of the topic at KVM Forum
+>> [1] and many fruitful discussions around it, this is a first concrete
+>> code series. As discussed, I'm starting with the IVSHMEM implementation
+>> of a QEMU device and server. It's RFC because, besides specification and
+>> implementation details, there will still be some decisions needed about
+>> how to integrate the new version best into the existing code bases.
+>>
+>> If you want to play with this, the basic setup of the shared memory
+>> device is described in patch 1 and 3. UIO driver and also the
+>> virtio-ivshmem prototype can be found at
+>>
+>>      http://git.kiszka.org/?p=linux.git;a=shortlog;h=refs/heads/queues/ivshmem2
+>>
+>> Accessing the device via UIO is trivial enough. If you want to use it
+>> for virtio, this is additionally to the description in patch 3 needed on
+>> the virtio console backend side:
+>>
+>>      modprobe uio_ivshmem
+>>      echo "1af4 1110 1af4 1100 ffc003 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+>>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0
+>>
+>> And for virtio block:
+>>
+>>      echo "1af4 1110 1af4 1100 ffc002 ffffff" > /sys/bus/pci/drivers/uio_ivshmem/new_id
+>>      linux/tools/virtio/virtio-ivshmem-console /dev/uio0 /path/to/disk.img
+>>
+>> After that, you can start the QEMU frontend instance with the
+>> virtio-ivshmem driver installed which can use the new /dev/hvc* or
+>> /dev/vda* as usual.
+>>
+>> Any feedback welcome!
+> 
+> Hi, Jan,
+> 
+> I have been playing your code for last few weeks, mostly study and test,
+> of course. Really nice work. I have a few questions here:
+> 
+> First, qemu part looks good, I tried test between couple VMs, and device
+> could pop up correctly for all of them, but I had some problems when
+> trying load driver. For example, if set up two VMs, vm1 and vm2, start
+> ivshmem server as you suggested. vm1 could load uio_ivshmem and
+> virtio_ivshmem correctly, vm2 could load uio_ivshmem but could not show
+> up "/dev/uio0", virtio_ivshmem could not be loaded at all, these still
+> exist even I switch the load sequence of vm1 and vm2, and sometimes
+> reset "virtio_ivshmem" could crash both vm1 and vm2. Not quite sure this
+> is bug or "Ivshmem Mode" issue, but I went through ivshmem-server code,
+> did not related information.
 
-On 21.11.19 14:57, Sergio Lopez wrote:
-> bdrv_try_set_aio_context() requires that the old context is held, and
-> the new context is not held. Fix all the occurrences where it's not
-> done this way.
->=20
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  blockdev.c | 67 ++++++++++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 58 insertions(+), 9 deletions(-)
+If we are only talking about one ivshmem link and vm1 is the master, 
+there is not role for virtio_ivshmem on it as backend. That is purely a 
+frontend driver. Vice versa for vm2: If you want to use its ivshmem 
+instance as virtio frontend, uio_ivshmem plays no role.
 
-I wonder whether we even need to set the target=E2=80=99s context, because =
-I
-suppose it should be done automatically when it is attached to the
-backup job with bdrv_attach_child() in bdrv_backup_top_append().  *shrug*
+The "crash" is would be interesting to understand: Do you see kernel 
+panics of the guests? Or are they stuck? Or are the QEMU instances 
+stuck? Do you know that you can debug the guest kernels via gdb (and 
+gdb-scripts of the kernel)?
 
-> diff --git a/blockdev.c b/blockdev.c
-> index 152a0f7454..b0647d8d33 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
+> 
+> I started some code work recently, such as fix code style issues and
+> some work based on above testing, however I know you are also working on
+> RFC V2, beside the protocol between server-client and client-client is
+> not finalized yet either, things may change, so much appreciate if you
+> could squeeze me into your develop schedule and share with me some
+> plans, :-)  Maybe I could send some pull request in your github repo?
 
-[...]
+I'm currently working on a refresh of the Jailhouse queue and the kernel 
+patches to incorporate just two smaller changes:
 
-> @@ -1868,6 +1880,20 @@ static void drive_backup_prepare(BlkActionState *c=
-ommon, Error **errp)
->          goto out;
->      }
-> =20
-> +    /* Honor bdrv_try_set_aio_context() context acquisition requirements=
-. */
-> +    old_context =3D bdrv_get_aio_context(target_bs);
-> +    aio_context_release(aio_context);
-> +    aio_context_acquire(old_context);
-> +
-> +    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-> +    if (ret < 0) {
-> +        aio_context_release(old_context);
-> +        return;
-> +     }
-> +
-> +    aio_context_release(old_context);
-> +    aio_context_acquire(aio_context);
+  - use Siemens device ID
+  - drop "features" register from ivshmem device
 
-Would it work to put the error block after these two calls so it can
-just goto out again?  (Which would help if someone were to e.g.
-introduce a new resource that is to be freed behind the out label.)
+I have not yet touched the QEMU code for that so far, thus no conflict 
+yet. I would wait for your patches then.
 
->      if (set_backing_hd) {
->          bdrv_set_backing_hd(target_bs, source, &local_err);
->          if (local_err) {
+If it helps us to work on this together, I can push things to github as 
+well. Will drop you a note when done. We should just present the outcome 
+frequently as new series to the list.
 
-[...]
+> 
+> I personally like this project a lot, there would be a lot of potential
+> and user case for it, especially some devices like
+> ivshmem-net/ivshmem-block. Anyway, thanks for adding me to the list, and
+> looking forward to your reply.
 
-> @@ -4001,14 +4046,18 @@ void qmp_blockdev_mirror(bool has_job_id, const c=
-har *job_id,
-> =20
->      zero_target =3D (sync =3D=3D MIRROR_SYNC_MODE_FULL);
-> =20
-> +    /* Honor bdrv_try_set_aio_context() context acquisition requirements=
-. */
-> +    old_context =3D bdrv_get_aio_context(target_bs);
->      aio_context =3D bdrv_get_aio_context(bs);
-> -    aio_context_acquire(aio_context);
-> +    aio_context_acquire(old_context);
-> =20
->      ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
->      if (ret < 0) {
->          goto out;
->      }
-> =20
-> +    aio_context_acquire(aio_context);
-> +
+Thanks for the positive feedback. I'm looking forward to work on this 
+together!
 
-old_context is never released here.
+Jan
 
-Max
-
->      blockdev_mirror_common(has_job_id ? job_id : NULL, bs, target_bs,
->                             has_replaces, replaces, sync, backing_mode,
->                             zero_target, has_speed, speed,
->=20
-
-
-
---jLwouv1y0Ky2qeglpWzcksRfjMBffE3q7--
-
---ttBGzGNSrH3jpILXKMN9QKGojncXDnATH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3ergUACgkQ9AfbAGHV
-z0DcsQf/XxWfCno0ZQsjKKBCbaZAC6Pw4fHLalFxSFdLI9VJ389IPw1u+HyHuNLG
-OoeRG680hfGf5QjGPO98IEvMUTx/D/pXGODo/8Zy394elTO+6WI+/m0JS81S3nAc
-FQ2PlxnynADRD/BnttaRWfTjZrMXr1CTxE0RsVX4zmyzEFsWqlOU9GTAjcXkTRxy
-FxQpWsAdzfiU6b59f8C/bw38HJFa+trEwg6RjJMhMy9nWXf2h98akEBhjv1djXeC
-01udGG2zxfwyZE8p9vvnLyEGvTaO14YvZ07ovQ2aDtbjXMSTx3apJq1AW5DSTQ7I
-CI0nFAvQtAYU3LNMugk9kOzqmsxbHw==
-=LfM7
------END PGP SIGNATURE-----
-
---ttBGzGNSrH3jpILXKMN9QKGojncXDnATH--
-
+-- 
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
 
