@@ -2,84 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5009310B572
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:19:42 +0100 (CET)
-Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5F910B5D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Nov 2019 19:37:01 +0100 (CET)
+Received: from localhost ([::1]:41656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia1uf-0006r5-9l
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:19:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
+	id 1ia2BP-0006JJ-Io
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 13:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ia1kP-0006ns-1U
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:07 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ia1kA-0006dh-UO
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:08:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ia1kN-00046T-2d
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47199
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ia1k9-0003sW-Jr
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:08:50 -0500
+Received: from relay.sw.ru ([185.231.240.75]:49992)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ia1kM-00045A-UB
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 13:09:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574878140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CFzBbSrdqli3Vyr1U/lAw4MFkqUukGTYQMCetsbniRg=;
- b=PWIgn3WAE2UD22EwgXfVQjZ25f6rVYMvXA5jw1mchv8tba5DF7BeLbS6bOQdxSUTeULvdC
- VZbQhM23Lddhit3pZNLaHFntwKs8xf1g8aPU9Sn5pCpO2vqxrbrJ43XKfS2CWiIKUZSTsN
- +OxMb/cGkKsLhvaBdjqamC62u8vT/7g=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-6-pv6p3MPU6eHb-3hlzJvA-1; Wed, 27 Nov 2019 13:08:57 -0500
-Received: by mail-wr1-f71.google.com with SMTP id y1so12613132wrl.0
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 10:08:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bwTurDkAf51bZMPGgSVHsdQNeyfDQ3kU20qXgUge+i4=;
- b=SAgwRh1bdvLcjHIhDaebmXZsF6ih3jOwB4uyTjbwNpZpoUQSaNq/NWEp30nAXJp7mm
- J5OfkaCmlmhkxEGlOZEezxeY7kwNsnllK1gGjlNJ71IqD+ekHvoKQm1TDjIk+gMDmuFA
- E4zMInsYgqAT4I7o+KmNj9wRLjMI+tX1GAMsz9+9kwUcW7IWOxof8c4RZwPV0Rn0f3R9
- w1LwZwEAnOE+9d9iMTWlMhOkrHuK+2251u4kWf8P1kH5I2hHe06WsPwjW2duADnZz8OF
- FBZKCNDj+yYj8BZAtI8IS2OqIGo92Ca16Dzc6N9asFLCfvRbpFpM0v/cdXVvTAvzaTZb
- J5kg==
-X-Gm-Message-State: APjAAAUztPaOhyo9YoO3ue41Ix3gfEsGSCB7aBhUXhy/bVD+ZabccICD
- juxPQb2VlLrI/DSV8TLRNvaI1cV0U0CoJZI8/ILB4ZtmaER79OG1AWiBp/KEP78Y2Wt+3vlc2Hs
- Yz5Ro+lJlMtppooY=
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr45505356wrc.150.1574878136341; 
- Wed, 27 Nov 2019 10:08:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyAv64As4EASNVQAmeCRxyIN5sDRaeJ/MYk53zLECuZXcLFrFMR4ClY7YosNixM/iD+85ETLg==
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr45505330wrc.150.1574878136058; 
- Wed, 27 Nov 2019 10:08:56 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id l17sm1318555wro.77.2019.11.27.10.08.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Nov 2019 10:08:55 -0800 (PST)
-Subject: Re: [PATCH] travis.yml: Run tcg tests with tci
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20191127154857.3590-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c74e337e-a3ea-ac67-eb36-490166eba88e@redhat.com>
-Date: Wed, 27 Nov 2019 19:08:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ia1k6-0003iq-7B; Wed, 27 Nov 2019 13:08:46 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ia1k0-0002UU-CF; Wed, 27 Nov 2019 21:08:40 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 for-5.0 0/7] block-copy improvements: part I
+Date: Wed, 27 Nov 2019 21:08:33 +0300
+Message-Id: <20191127180840.11937-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191127154857.3590-1-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: 6-pv6p3MPU6eHb-3hlzJvA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,41 +45,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/19 4:48 PM, Thomas Huth wrote:
-> So far we only have compile coverage for tci. But since commit
-> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
-> for INDEX_op_ld16u_i64") has been included, we can also run the
-> x86 TCG tests with tci, so let's enable them in Travis now.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Hi all!
 
-Ran for 26 min 28 sec:
-https://travis-ci.org/philmd/qemu/jobs/617823541
+This is a first part of my
+  [RFC 00/24] backup performance: block_status + async
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Patches are mostly separate by their idea, but sending them all in
+separate is inefficient.
 
-> ---
->   .travis.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index c09b6a0014..b0b634d484 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -218,7 +218,7 @@ matrix:
->       # We manually include builds which we disable "make check" for
->       - env:
->           - CONFIG=3D"--enable-debug --enable-tcg-interpreter"
-> -        - TEST_CMD=3D""
-> +        - TEST_CMD=3D"make run-tcg-tests-x86_64-softmmu V=3D1"
->  =20
->  =20
->       # We don't need to exercise every backend with every front-end
->=20
+Vladimir Sementsov-Ogievskiy (7):
+  block/block-copy: specialcase first copy_range request
+  block/block-copy: use block_status
+  block/block-copy: factor out block_copy_find_inflight_req
+  block/block-copy: refactor interfaces to use bytes instead of end
+  block/block-copy: rename start to offset in interfaces
+  block/block-copy: reduce intersecting request lock
+  block/block-copy: hide structure definitions
+
+ include/block/block-copy.h |  57 +-----
+ block/backup-top.c         |   6 +-
+ block/backup.c             |  27 +--
+ block/block-copy.c         | 379 ++++++++++++++++++++++++++++---------
+ block/trace-events         |   1 +
+ 5 files changed, 316 insertions(+), 154 deletions(-)
+
+-- 
+2.21.0
 
 
