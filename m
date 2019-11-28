@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203C610CF07
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:00:55 +0100 (CET)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE0310CF1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:19:22 +0100 (CET)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPy9-0008OH-2u
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:00:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49592)
+	id 1iaQFz-0000Bv-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:19:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iaPpO-0005iO-G0
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:51:53 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaQ6I-0005aG-RF
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:09:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iaPkB-0005TS-KY
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:28 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50928)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iaPk1-00055O-OT
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:25 -0500
-Received: by mail-wm1-x341.google.com with SMTP id l17so12054004wmh.0
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EvBD8IKIg2gzoIa1FIZ8ylgY2xvcdkR/vxvnu9RgvMk=;
- b=Yh54DIO2b3MVy2y5TD2oIi5TzGCVrFghW7znPF1LDltMLYrPNKXAgGktyry3xml1Ji
- dZuVFqkMxrPZcXaaST+giz3rvFz7Cv18ZvPyHzEhf/LAhPFhdDO+wPYWmlJgOQRYWI/c
- QqtxhTthb+bJctKADHnE0rcAsUlPdEfx9UH5XMiJOHC1YZHnIRxiOwzpWasfP9Cjp0Vq
- AvMNmugnJe2LXzLpUEjdnywqr62onILwDC3/X7rJVrNARbi8RUdqwO6bC6fHXCBOCSYA
- aGTzYU1MwSs57FLikFDqx84KGm8ztgRlCC+G2FwdOm/Cz/FcY4Yfttxppe1BOa9G06L0
- 6ziw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EvBD8IKIg2gzoIa1FIZ8ylgY2xvcdkR/vxvnu9RgvMk=;
- b=ZEHHjAdMkQTHq0x+g8HToacpPROpTSSolh201GfD06RHePtTOh40/423G2/UoKutZ8
- ISOOIBYxb8Bk/dRYz57OFFE5JdPP94uW+VJ80OWgbKJyf99uunn7yg0Cn0A2q+OwQ8JH
- l2fpbMREyA7StpR4C5aJXd9Z2uP5w8DWP2tRniuGKU3Pfn377J9aY/jr3rQCVRJTWnhZ
- BPINI4cbBAfTf/FOBaaSTDgVMyENaNjYlKSMbljvl7VOZ66gMyPB6vtYdLhgcCRnB9fr
- oaeHHp71QtYqxHy71Y4v82plu8UIE5S2X7GsmB+o6brQNZ9VYoYZCk5yangGAGDFeft+
- yXpQ==
-X-Gm-Message-State: APjAAAWSApIIk5IHeEnMnKK5q8KkA0Bn/mb4tOJ8mBkFPP0miphUVmvm
- sca3vp81lmhegocXpH2+n7lmcA==
-X-Google-Smtp-Source: APXvYqw4485f0ZIjBjvBe3bpTbz8F0inWMxdX3bkI1F5zb5cuPcH3c5npIQz6h0+Sw3x+xkN8eLGVA==
-X-Received: by 2002:a1c:f404:: with SMTP id z4mr11174602wma.12.1574970371247; 
- Thu, 28 Nov 2019 11:46:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm24335055wrs.55.2019.11.28.11.46.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2019 11:46:08 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC4841FF91;
- Thu, 28 Nov 2019 19:46:03 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 4/5] linux-user: log page table changes under -d page
-Date: Thu, 28 Nov 2019 19:46:02 +0000
-Message-Id: <20191128194603.24818-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128194603.24818-1-alex.bennee@linaro.org>
-References: <20191128194603.24818-1-alex.bennee@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1iaQ65-00081r-JR
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:09:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40930
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaQ65-0007pf-Cu
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:09:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574971742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=bNl6agWHIgwCJ6Hb0jGAA40xKpKz9cUfHQxbNXaQq7k=;
+ b=VkoXyy2BfYBwxYj0PSnGLmGtnTBK2vcjkYa0aBx66DtaGPWf7UaRpwYKIuvG+2NXDufVSl
+ +x+13YCk4nidsWOCObVQ4IkI2MooPLSvIFLGys+CKlLiix0YKpOwFC4AYTsdIFUpT5Wlsp
+ gCfNDuvSxUwaZyLOzdizYwXaNB+TNaM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-UUojAlNSOuK1sZB-2J-Wew-1; Thu, 28 Nov 2019 15:08:59 -0500
+X-MC-Unique: UUojAlNSOuK1sZB-2J-Wew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0634B1883521;
+ Thu, 28 Nov 2019 20:08:58 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-105.ams2.redhat.com [10.36.116.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DBEE5D6D0;
+ Thu, 28 Nov 2019 20:08:52 +0000 (UTC)
+Subject: Re: [PATCH 14/15] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-15-frankja@linux.ibm.com>
+ <db581b32-2b84-683c-0e7e-b6ee908eb701@redhat.com>
+ <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <28289bed-0dab-53f6-ed78-8c36498b1b5e@redhat.com>
+Date: Thu, 28 Nov 2019 21:08:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+In-Reply-To: <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="FjuCAAuNR6rsTEln09rnE72ME0c4I53kB"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,51 +77,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CPU_LOG_PAGE flag is woefully underused and could stand to do
-extra duty tracking page changes. If the user doesn't want to see the
-details as things change they still have the tracepoints available.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FjuCAAuNR6rsTEln09rnE72ME0c4I53kB
+Content-Type: multipart/mixed; boundary="F2chkxQt4qB7f2N6lmeGhgq3qD98Kpqh3";
+ protected-headers="v1"
+From: Thomas Huth <thuth@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: david@redhat.com, borntraeger@de.ibm.com, mihajlov@linux.ibm.com,
+ cohuck@redhat.com, qemu-s390x@nongnu.org, pmorel@linux.ibm.com
+Message-ID: <28289bed-0dab-53f6-ed78-8c36498b1b5e@redhat.com>
+Subject: Re: [PATCH 14/15] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-15-frankja@linux.ibm.com>
+ <db581b32-2b84-683c-0e7e-b6ee908eb701@redhat.com>
+ <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
+In-Reply-To: <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- linux-user/mmap.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+--F2chkxQt4qB7f2N6lmeGhgq3qD98Kpqh3
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index a2c7037f1b6..c2755fcba1f 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -18,6 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "trace.h"
-+#include "exec/log.h"
- #include "qemu.h"
- 
- //#define DEBUG_MMAP
-@@ -578,10 +579,12 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-     page_set_flags(start, start + len, prot | PAGE_VALID);
-  the_end:
-     trace_target_mmap_complete(start);
--#ifdef DEBUG_MMAP
--    page_dump(stdout);
--    printf("\n");
--#endif
-+    if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
-+        qemu_log_lock();
-+        qemu_log("new page @ 0x"TARGET_ABI_FMT_lx" updates page map:\n", start);
-+        log_page_dump();
-+        qemu_log_unlock();
-+    }
-     tb_invalidate_phys_range(start, start + len);
-     mmap_unlock();
-     return start;
--- 
-2.20.1
+On 28/11/2019 17.10, Janosch Frank wrote:
+> On 11/28/19 4:28 PM, Thomas Huth wrote:
+>> On 20/11/2019 12.43, Janosch Frank wrote:
+>>> IO instruction data is routed through SIDAD for protected guests, so
+>>> adresses do not need to be checked, as this is kernel memory.
+>>>
+>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>> ---
+>>>  target/s390x/ioinst.c | 46 +++++++++++++++++++++++++++----------------
+>>>  1 file changed, 29 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+>>> index c437a1d8c6..d3bd422ddd 100644
+>>> --- a/target/s390x/ioinst.c
+>>> +++ b/target/s390x/ioinst.c
+>>> @@ -110,11 +110,13 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t re=
+g1, uint32_t ipb, uintptr_t ra)
+>>>      int cssid, ssid, schid, m;
+>>>      SubchDev *sch;
+>>>      SCHIB schib;
+>>> -    uint64_t addr;
+>>> +    uint64_t addr =3D 0;
+>>>      CPUS390XState *env =3D &cpu->env;
+>>> -    uint8_t ar;
+>>> +    uint8_t ar =3D 0;
+>>> =20
+>>> -    addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    if (!env->pv) {
+>>> +        addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    }
+>>>      if (addr & 3) {
+>>>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>          return;
+>>> @@ -167,11 +169,13 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t re=
+g1, uint32_t ipb, uintptr_t ra)
+>>>      int cssid, ssid, schid, m;
+>>>      SubchDev *sch;
+>>>      ORB orig_orb, orb;
+>>> -    uint64_t addr;
+>>> +    uint64_t addr =3D 0;
+>>>      CPUS390XState *env =3D &cpu->env;
+>>> -    uint8_t ar;
+>>> +    uint8_t ar =3D 0;
+>>> =20
+>>> -    addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    if (!env->pv) {
+>>> +        addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    }
+>>>      if (addr & 3) {
+>>>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>          return;
+>>> @@ -198,12 +202,14 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t re=
+g1, uint32_t ipb, uintptr_t ra)
+>>>  void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
+>>>  {
+>>>      CRW crw;
+>>> -    uint64_t addr;
+>>> +    uint64_t addr =3D 0;
+>>>      int cc;
+>>>      CPUS390XState *env =3D &cpu->env;
+>>> -    uint8_t ar;
+>>> +    uint8_t ar =3D 0;
+>>> =20
+>>> -    addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    if (!env->pv) {
+>>> +        addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    }
+>>>      if (addr & 3) {
+>>>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>          return;
+>>> @@ -228,13 +234,15 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t r=
+eg1, uint32_t ipb,
+>>>  {
+>>>      int cssid, ssid, schid, m;
+>>>      SubchDev *sch;
+>>> -    uint64_t addr;
+>>> +    uint64_t addr =3D 0;
+>>>      int cc;
+>>>      SCHIB schib;
+>>>      CPUS390XState *env =3D &cpu->env;
+>>> -    uint8_t ar;
+>>> +    uint8_t ar =3D 0;
+>>> =20
+>>> -    addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    if (!env->pv) {
+>>> +        addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    }
+>>>      if (addr & 3) {
+>>>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>          return;
+>>> @@ -294,16 +302,18 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg=
+1, uint32_t ipb, uintptr_t ra)
+>>>      int cssid, ssid, schid, m;
+>>>      SubchDev *sch;
+>>>      IRB irb;
+>>> -    uint64_t addr;
+>>> +    uint64_t addr =3D 0;
+>>>      int cc, irb_len;
+>>> -    uint8_t ar;
+>>> +    uint8_t ar =3D 0;
+>>> =20
+>>>      if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid))=
+ {
+>>>          s390_program_interrupt(env, PGM_OPERAND, ra);
+>>>          return -EIO;
+>>>      }
+>>>      trace_ioinst_sch_id("tsch", cssid, ssid, schid);
+>>> -    addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    if (!env->pv) {
+>>> +        addr =3D decode_basedisp_s(env, ipb, &ar);
+>>> +    }
+>>>      if (addr & 3) {
+>>>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>          return -EIO;
+>>
+>> Would it make sense to hide all these changes in decode_basedisp_s()
+>> instead? ... so that decode_basedisp_s() returns 0 if env->pv =3D=3D tru=
+e ?
+>> ... or are there still cases where we need real values from
+>> decode_basedisp_s() in case of env->pv=3D=3Dtrue?
+>=20
+> I'd like to keep decode_basedisp_s() as is, but how about a static
+> function in ioinst.c called something like get_address_from_regs()?
+>=20
+> It'll call decode_basedisp_s() or return 0.
+
+Sounds fine for me, too!
+
+ Thomas
+
+
+--F2chkxQt4qB7f2N6lmeGhgq3qD98Kpqh3--
+
+--FjuCAAuNR6rsTEln09rnE72ME0c4I53kB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl3gKVIACgkQLtnXdP5w
+LbXPDA//QJKI4gKqKwtWPfydUmqgKA5AcW/kDALcnyq30opNuOKvD9UByH6IDunr
+2qijR7+iEE3oXUO96ZiHAOKpt2oZ0Z9L4u+Q3Ycm3UPnPGYyELjOY/FmEvmIX66M
+at3Rrb6ySb2d2OjWyyD9yDgrmB7863BdZpmL6zqu4nnFzQrvK3DpIP9RWA8v5x+L
+dA8ru81BBIXvWspKoHDGv9M1oQSwYrs6u1oC21hHUycMNqZLqAzhN2phbZowWgf0
+DTrqK44WrM9uywbxxZ1YYdgG4gHvWQjXb1BXhMnURjHjmyqOa/a5LHbpdRlEdDov
+pw1mGOvZRZidKMJgwqIzVeXwE2ooIhOEkAA5+GWS8WI4TcrdEjy2VMy/Q4JBix1k
+VK6XuGC5RSXShtx7VXwB5PPbM43Z/+zMk7fqf8n+rV178y+HOyQln6mGlz9vAGoZ
+9suYCoe+MEx2ufOyjTYNRTI7Qi3SNNhrxuTGHIsfTR2oSxHfOya+mWOpMlYMfFiL
+B839PkreVngSVacEy8HgCwG61vj7nID7d1JgM/+MeGxN6t+s/ONg3M4RnmPoBhah
+wlthhFSpTBfnHkIAUkYxj5v7UMw8wNff4RZGi4w1fmaSOa2oF5QP3Pi4bRWW8v5T
+ez73IA/qsVe+vEHoxMtl480CdyO3f+MnuWqooThuiM95KzRzhak=
+=yUhl
+-----END PGP SIGNATURE-----
+
+--FjuCAAuNR6rsTEln09rnE72ME0c4I53kB--
 
 
