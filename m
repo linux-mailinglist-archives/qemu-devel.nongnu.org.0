@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A0E10C345
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 05:50:34 +0100 (CET)
-Received: from localhost ([::1]:45298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66BA510C3C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 06:49:51 +0100 (CET)
+Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaBlA-0005yx-JH
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 23:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56777)
+	id 1iaCgY-0002Qg-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 00:49:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iaBkL-0005Zo-1V
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 23:49:42 -0500
+ (envelope-from <andrew@aj.id.au>) id 1iaCb5-0006hT-Ty
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:44:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iaBkJ-0002pc-42
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 23:49:40 -0500
-Received: from mga18.intel.com ([134.134.136.126]:48872)
+ (envelope-from <andrew@aj.id.au>) id 1iaCb4-0001lU-Tt
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:44:11 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:58349)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iaBkI-0002kf-SE
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 23:49:39 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2019 20:49:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,252,1571727600"; d="scan'208";a="234324242"
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.197.13])
- ([10.239.197.13])
- by fmsmga004.fm.intel.com with ESMTP; 27 Nov 2019 20:49:30 -0800
-Subject: Re: [PATCH v18 3/8] numa: Extend CLI to provide memory side cache
- information
-From: Tao Xu <tao3.xu@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-References: <20191127082613.22903-1-tao3.xu@intel.com>
- <20191127082613.22903-4-tao3.xu@intel.com>
- <871rttfxsc.fsf@dusky.pond.sub.org>
- <de826b02-34df-c3b4-2cf2-e6d813156f52@intel.com>
-Message-ID: <1198abe5-0e81-dd9b-1a74-21ccaea60d19@intel.com>
-Date: Thu, 28 Nov 2019 12:49:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ (Exim 4.71) (envelope-from <andrew@aj.id.au>)
+ id 1iaCb1-0001dI-IH; Thu, 28 Nov 2019 00:44:08 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2B2A322763;
+ Thu, 28 Nov 2019 00:44:05 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 28 Nov 2019 00:44:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=tpwcyHnQIJvLrT57pGFzeHHaxD
+ 3LecagW2N1Jk6TFbU=; b=lLUBC5kebFnop+JV4z9WHjM4WBqUfPzHGlAH8vK3x/
+ 3bx+cgQV8f5clssFQx1NditEMlDUT3yQz00rVFBmIBvGnC12ZhoyH/q8QpDzXssq
+ nwns0YxqdHvO6L40+HcAncJu6u0zTQ0ZJrMzaz4ead4bVjvBIxLl+pSVFKM4gkQS
+ 7rAXFh5Bad5+q2g5Z8zohHKqhPSGhf7+9uhNORoslRRiyStUSWS3qs48DZhi5JlL
+ CyLZjM6ABS1b+GSSGOoIOJr8gchpPMddEQxsfKd3CmBjJF9OwZE7ul3qqGii3aD9
+ KOms/NCVcgDmSHMeEcMrr146fXmCeCNSgH/b6bTvYv6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=tpwcyHnQIJvLrT57p
+ GFzeHHaxD3LecagW2N1Jk6TFbU=; b=meTqPbZLpjAyMD3GKapEmKS93oTdd3LEu
+ SX/HJ4a+Ok7EyyNkB8jc+qQvAl2yWcqP60INnUXQ4Es0Q7fhnVpjIEEwdRHkTkoq
+ IZcczFd0AY/W/wmLOsEYEncnJBPpsutLyHU/y0cbMjl9Nn0tshlW7TgkTby6wqNl
+ 5bD0QjJEcEMPHetZD1gq4UuAVMEpbseo7+qlEZ0lDNCsZjpKPsbfJTW2mIdBxZfR
+ H75OgGbj+440r1n1Y1YNd+KYGsuByQHhdv9YDlxIBo0cOsn333m5rzb7igHVTdsY
+ 9IQiTyTQjQP/VNc9bFCdcza0YM31aV4Ix3OpildpcJCw6Yaiygr4w==
+X-ME-Sender: <xms:pF7fXWki8ke301TsUy9Fmke7F5nm7d5G_KRD2TTNFxWEolTF8sj4Fg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeiiedgkeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecukfhppedvtddvrdekuddrudekrdeftdenucfrrghrrghmpehmrghilh
+ hfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:pF7fXZ6tzfA4iM_LPVJXuOSYCl2Pk7xAX5eYtighUxG0uWWRpeVqJA>
+ <xmx:pF7fXf_VpbzBLCNoJ5DvoHdHBHGHy_t_s4dMwi2BcOmFBDwuZdZbKQ>
+ <xmx:pF7fXZiUX75fqMXCfXFGFMB9bF5nj0ao8D9GCjaDjg3z5XTwWNNhKQ>
+ <xmx:pV7fXXL6zXQ3WMsXrwGrq5ZGdZvszzBBvmN3sY2xr8-MVdZdM4jIag>
+Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 73E1A80062;
+ Thu, 28 Nov 2019 00:44:02 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: qemu-arm@nongnu.org
+Subject: [PATCH 0/4] Expose GT CNTFRQ as a CPU property to support AST2600
+Date: Thu, 28 Nov 2019 16:15:23 +1030
+Message-Id: <20191128054527.25450-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <de826b02-34df-c3b4-2cf2-e6d813156f52@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.126
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 66.111.4.26
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,93 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "sw@weilnetz.de" <sw@weilnetz.de>, "Du, Fan" <fan.du@intel.com>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
- Daniel Black <daniel@linux.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Liu,
- Jingqi" <jingqi.liu@intel.com>, "imammedo@redhat.com" <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, clg@kaod.org,
+ joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/2019 10:46 AM, Tao Xu wrote:
-> On 11/27/2019 5:56 PM, Markus Armbruster wrote:
->> Tao Xu <tao3.xu@intel.com> writes:
->>
->>> From: Liu Jingqi <jingqi.liu@intel.com>
->>>
->>> Add -numa hmat-cache option to provide Memory Side Cache Information.
->>> These memory attributes help to build Memory Side Cache Information
->>> Structure(s) in ACPI Heterogeneous Memory Attribute Table (HMAT).
->>
->> Please mention this requires -machine hmat=on.
-> 
-> OK I will add these for 3 related patches.
->>
->>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->>> Reviewed-by: Daniel Black <daniel@linux.ibm.com>
->>> Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
->>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> [...]
->>> diff --git a/qapi/machine.json b/qapi/machine.json
->>> index c741649d7b..3d0ba226a9 100644
->>> --- a/qapi/machine.json
->>> +++ b/qapi/machine.json
->>> @@ -428,10 +428,12 @@
->>>   #
->>>   # @hmat-lb: memory latency and bandwidth information (Since: 5.0)
->>>   #
->>> +# @hmat-cache: memory side cache information (Since: 5.0)
->>> +#
->>>   # Since: 2.1
->>>   ##
->>>   { 'enum': 'NumaOptionsType',
->>> -  'data': [ 'node', 'dist', 'cpu', 'hmat-lb' ] }
->>> +  'data': [ 'node', 'dist', 'cpu', 'hmat-lb', 'hmat-cache' ] }
->>>   ##
->>>   # @NumaOptions:
->>> @@ -447,7 +449,8 @@
->>>       'node': 'NumaNodeOptions',
->>>       'dist': 'NumaDistOptions',
->>>       'cpu': 'NumaCpuOptions',
->>> -    'hmat-lb': 'NumaHmatLBOptions' }}
->>> +    'hmat-lb': 'NumaHmatLBOptions',
->>> +    'hmat-cache': 'NumaHmatCacheOptions' }}
->>>   ##
->>>   # @NumaNodeOptions:
->>> @@ -647,6 +650,77 @@
->>>       '*latency': 'uint64',
->>>       '*bandwidth': 'size' }}
->>> +##
->>> +# @HmatCacheAssociativity:
->>> +#
->>> +# Cache associativity in the Memory Side Cache
->>> +# Information Structure of HMAT
->>> +#
->>> +# For more information of @HmatCacheAssociativity see
->>> +# the chapter 5.2.27.5: Table 5-147 of ACPI 6.3 spec.
->>
->>    # Cache associativity in the Memory Side Cache Information Structure
->>    # of HMAT
->>    #
->>    # For more information of @HmatCacheAssociativity, see chapter
->>    # 5.2.27.5: Table 5-147 of ACPI 6.3 spec.
->>
->>> +#
->>> +# @none: None
->>
->> What does cache associativity @none mean?  A none-associative cache?  I
->> guess it makes sense to people familiar with the ACPI spec...
->>
-> 
-> This means this proximity domain has no memory cache, thus none for 
-> Cache associativity, I will add more description about this.
+Hello,
 
-Read again about ACPI spec, there is no description about 'none'. In
-linux kernel HMAT code, this is handle as "other", maybe means not 
-provided. I will also add a check when level is none, the associativity, 
-policy and line_size should be none or 0.
+This is a belated follow-up from a few of my earlier attempts to fix up the
+ARM generic timer for correct behaviour on the ASPEED AST2600 SoC. The AST2600
+clocks the generic timer at the rate of HPLL, which is configured to 1125MHz.
+This is significantly quicker than the currently hard-coded generic timer rate
+of 62.5MHz and so we see "sticky" behaviour in the guest.
+
+Please review.
+
+Andrew
+
+Andrew Jeffery (4):
+  target/arm: Remove redundant scaling of nexttick
+  target/arm: Abstract the generic timer frequency
+  target/arm: Prepare generic timer for per-platform CNTFRQ
+  ast2600: Configure CNTFRQ at 1125MHz
+
+ hw/arm/aspeed_ast2600.c |  3 +++
+ target/arm/cpu.c        | 41 +++++++++++++++++++++++++++++++++--------
+ target/arm/cpu.h        | 28 ++++++++++++++++++++++++++++
+ target/arm/helper.c     | 24 ++++++++++++++++++------
+ 4 files changed, 82 insertions(+), 14 deletions(-)
+
+-- 
+2.20.1
+
 
