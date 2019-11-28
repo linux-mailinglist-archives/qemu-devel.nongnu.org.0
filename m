@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F5610CF5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:59:14 +0100 (CET)
-Received: from localhost ([::1]:53162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B66210CF4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:42:01 +0100 (CET)
+Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaQsa-0001NU-EK
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:59:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46227)
+	id 1iaQbu-0001ID-9z
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:41:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iaNfM-00005g-6H
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:33:22 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iaQSJ-0007EK-NC
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:32:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iaNfF-0007Eq-GX
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:33:15 -0500
-Resent-Date: Thu, 28 Nov 2019 12:33:15 -0500
-Resent-Message-Id: <E1iaNfF-0007Eq-GX@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21147)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iaNfE-0006vE-VK
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:33:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1574962382; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FaUDyNssY7gQxlpKIidxYs7ZE1SyZ8QgAFeg2ElzI7dXyCH4pGOREU/a4jKtprjHit61LU6Zr6VYyMO7XihlLMr4Zs4779QJvi4rNkxFytD7Nc73/O3NaATcIMXDtVWry9YY5yaKN6CWlgnSzar7Ggn68PvbDqnc9SzTm0FDgVs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1574962382;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=XXyZczlByW7+uAp7bkhqIXnuj3wLyImBQipwPfVfaeI=; 
- b=cwUpTtvuBdUo8h/xeuI4B5snVPTr048pvlNVXP8XZDd3MuQIHI0B7UZDlu7vo7UKQ8Van7Lda8zaw6Nw56biVfCsbljLoW7Sr9ZZpm+U7JDbxmOcxYpukrBg0ew7tuK2g0Mb+dbN1yKRFSP6mQdJ6qNj2f5KghlBUrMyNDcW/CA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1574962380826376.6824759218392;
- Thu, 28 Nov 2019 09:33:00 -0800 (PST)
-In-Reply-To: <20191128064350.20727-1-aaron.zakhrov@gmail.com>
-Subject: Re: [RFC 0/1] ATI R300 emulated grpahics card V2
-Message-ID: <157496237968.16987.14457691019374601987@37313f22b938>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iaQSB-0007eK-UR
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:31:59 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52138)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iaQSB-0007GF-Lf
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:31:55 -0500
+Received: by mail-wm1-x344.google.com with SMTP id g206so12137939wme.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 12:31:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zE0C0IsD9LmsT26Oe6u2QKEovUbljlDRPboRQHgjn24=;
+ b=jqdMGUViXkVZYB3PHSIfPih7N6K9RfaNev51ng2dvvYfCdJU5OPwV2LPeCiQSmB5ei
+ bDXdKcOS/noJ9p3MTEu5ucHskXXVqlCaRY20DLetShWuhijVFn3Qf1+0rftbgLDQ45J3
+ qes3sB7Nm5hIe4crqs+4BO5jGgNcRxnQDVnQwEQerEzpELzW6ZQvqL5UaWUvntQgXxpI
+ 7vDr2ipjZcCXyB7fuViDfudft7TGoTWxGFAnhuW95QyzTQuzFCLlNk4dt2upjzQYnEGp
+ zjWOiiCfeOfVfuys/41sES1oWMdUTuzf/VcSPqDONyqoqDhah4LaT5LyYDWNU4bc5CM8
+ YjyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zE0C0IsD9LmsT26Oe6u2QKEovUbljlDRPboRQHgjn24=;
+ b=KYxGR6JNSn6U2AIviaZPIEKs5OGnJTPKs9UexVTy3B2qCjbk2cJw1+gT7W1OIg77Hp
+ /X5+IqWT+5UWP7ryTbD31VQvdyYQrIfDa/GuOLQ1RX5y17QRNgUvz4UNQzTAMxPUIfdU
+ brmG+uA/RrGsBN2y9o0/8RM4wYVT6s/C2WKG//45xxgTX9QlKk/R8Ao3h3bFua5GNwc9
+ Ng5RIRAXbJ31ISpm5zRkR3XOxN9wXC5kJypKN8PzsY3/isXSK1P8/I0QN6qvUN+1b8hn
+ zdlb4ErkmSzR4MJC1K3rMLYS/ZzWFONB7it2F6Q6N3/sim+oGaH7WKxSOD2zhwxisR6L
+ 0h0w==
+X-Gm-Message-State: APjAAAXwRZ1b/6AaUgoZnq9Kj+IQpX5NGOcyFnQ1LKnTNEKrgAORd0Dq
+ l1RNr3uGMKeSZ7LYa0mVj6riE2d+kMB70UCCOtc=
+X-Google-Smtp-Source: APXvYqxDE4ioT23H9xtO/NDFjvx7NGV73GLgxDB431ZMeX5bG14Yx97IqDKNUHd2wWUF/VFQHL5zLf9mbY61m1U+h10=
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr11235297wmh.5.1574973110429; 
+ Thu, 28 Nov 2019 12:31:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: aaron.zakhrov@gmail.com
-Date: Thu, 28 Nov 2019 09:33:00 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
+ <20191128172807.788e6aeb@redhat.com>
+In-Reply-To: <20191128172807.788e6aeb@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 29 Nov 2019 00:31:32 +0400
+Message-ID: <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,47 +75,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, aaron.zakhrov@gmail.com, kraxel@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyODA2NDM1MC4yMDcy
-Ny0xLWFhcm9uLnpha2hyb3ZAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
-aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
-bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
-c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBW
-PTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5W
-PTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCi90bXAvcWVtdS10ZXN0
-L3NyYy9ody9kaXNwbGF5L3hsbnhfZHAuYzo1MDQ6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGF1
-eF9yZXF1ZXN0JwouLi9ody9kaXNwbGF5L2RwY2QubzogSW4gZnVuY3Rpb24gYGRwY2RfaW5pdCc6
-Ci90bXAvcWVtdS10ZXN0L3NyYy9ody9kaXNwbGF5L2RwY2QuYzoxNDE6IHVuZGVmaW5lZCByZWZl
-cmVuY2UgdG8gYGF1eF9pbml0X21taW8nCmNvbGxlY3QyOiBlcnJvcjogbGQgcmV0dXJuZWQgMSBl
-eGl0IHN0YXR1cwptYWtlWzFdOiAqKiogW3FlbXUtc3lzdGVtLWFhcmNoNjRdIEVycm9yIDEKbWFr
-ZTogKioqIFthYXJjaDY0LXNvZnRtbXUvYWxsXSBFcnJvciAyClRyYWNlYmFjayAobW9zdCByZWNl
-bnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2
-MiwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQ
-cm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjog
-Q29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20u
-cWVtdS5pbnN0YW5jZS51dWlkPTYzODJmN2Y1ZGE5ZTQwOGU4NjQ5NDEyYmY0YWFkNzM5JywgJy11
-JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0n
-LCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICct
-ZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0x
-JywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNo
-ZXcvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcv
-dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtYzZnMnpvZ3Mvc3JjL2RvY2tlci1zcmMuMjAxOS0x
-MS0yOC0xMi4zMC4yMS43NjUwOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAn
-L3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0
-IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD02
-MzgyZjdmNWRhOWU0MDhlODY0OTQxMmJmNGFhZDczOQptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5d
-IEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVz
-dGVyLXRtcC1jNmcyem9ncy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNl
-bnRvczddIEVycm9yIDIKCnJlYWwgICAgMm0zOC40NjdzCnVzZXIgICAgMG04LjI5OHMKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMTI4
-MDY0MzUwLjIwNzI3LTEtYWFyb24uemFraHJvdkBnbWFpbC5jb20vdGVzdGluZy5kb2NrZXItcXVp
-Y2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
-bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
-ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi
 
+On Thu, Nov 28, 2019 at 9:25 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> On Thu, 28 Nov 2019 18:15:18 +0400
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> wrote:
+>
+> > Add an option to simplify shared memory / vhost-user setup.
+> >
+> > Currently, using vhost-user requires NUMA setup such as:
+> > -m 4G -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/sh=
+m,share=3Don -numa node,memdev=3Dmem
+> >
+> > As there is no other way to allocate shareable RAM, afaik.
+> >
+> > -mem-shared aims to have a simple way instead: -m 4G -mem-shared
+> User always can write a wrapper script if verbose CLI is too much,
+> and we won't have to deal with myriad permutations to maintain.
+
+Sure, but that's not exactly making it easier for the user,
+documentation etc (or machine that do not support numa as David
+mentionned).
+
+>
+> Also current -mem-path/prealloc in combination with memdevs is
+> the source of problems (as ram allocation uses 2 different paths).
+> It's possible to fix with a kludge but I'd rather fix it properly.
+
+I agree, however I think it's a separate problems. We don't have to
+fix both simultaneously. The semantic of a new CLI -mem-shared (or
+shared=3Don etc) can be defined and implemented in a simple way, before
+internal refactoring.
+
+> So during 5.0, I'm planning to consolidate -mem-path/prealloc
+> handling around memory backend internally (and possibly deprecate them),
+> so the only way to allocate RAM for guest would be via memdevs.
+> (reducing number of options an globals that they use)
+>
+
+That would be great indeed. I tried to look at that in the past, but
+was a it overwhelmed by the amount of details and/or code complexity.
+
+> So user who wants something non trivial could override default
+> non-numa behavior with
+>   -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,shar=
+e=3Don \
+>   -machine memdev=3Dmem
+> or use any other backend that suits theirs needs.
+
+That's nice, but not as friendly as a simple -mem-shared.
+
+thanks
+
+>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  exec.c                  | 11 ++++++++++-
+> >  hw/core/numa.c          | 16 +++++++++++++++-
+> >  include/sysemu/sysemu.h |  1 +
+> >  qemu-options.hx         | 10 ++++++++++
+> >  vl.c                    |  4 ++++
+> >  5 files changed, 40 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/exec.c b/exec.c
+> > index ffdb518535..4e53937eaf 100644
+> > --- a/exec.c
+> > +++ b/exec.c
+> > @@ -72,6 +72,10 @@
+> >  #include "qemu/mmap-alloc.h"
+> >  #endif
+> >
+> > +#ifdef CONFIG_POSIX
+> > +#include "qemu/memfd.h"
+> > +#endif
+> > +
+> >  #include "monitor/monitor.h"
+> >
+> >  //#define DEBUG_SUBPAGE
+> > @@ -2347,7 +2351,12 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t si=
+ze, MemoryRegion *mr,
+> >      bool created;
+> >      RAMBlock *block;
+> >
+> > -    fd =3D file_ram_open(mem_path, memory_region_name(mr), &created, e=
+rrp);
+> > +    if (mem_path) {
+> > +        fd =3D file_ram_open(mem_path, memory_region_name(mr), &create=
+d, errp);
+> > +    } else {
+> > +        fd =3D qemu_memfd_open(mr->name, size,
+> > +                             F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL=
+, errp);
+> > +    }
+>
+> that's what I'm mostly against, as it spills out memdev impl. details
+> into generic code.
+>
+> >      if (fd < 0) {
+> >          return NULL;
+> >      }
+> > diff --git a/hw/core/numa.c b/hw/core/numa.c
+> > index e3332a984f..6f72cddb1c 100644
+> > --- a/hw/core/numa.c
+> > +++ b/hw/core/numa.c
+> > @@ -493,7 +493,8 @@ static void allocate_system_memory_nonnuma(MemoryRe=
+gion *mr, Object *owner,
+> >      if (mem_path) {
+> >  #ifdef __linux__
+> >          Error *err =3D NULL;
+> > -        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0,=
+ 0,
+> > +        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0,
+> > +                                         mem_shared ? RAM_SHARED : 0,
+> >                                           mem_path, &err);
+> this will be gone and replaced by memory region that memdev initializes.
+>
+> >          if (err) {
+> >              error_report_err(err);
+> > @@ -513,6 +514,19 @@ static void allocate_system_memory_nonnuma(MemoryR=
+egion *mr, Object *owner,
+> >  #else
+> >          fprintf(stderr, "-mem-path not supported on this host\n");
+> >          exit(1);
+> > +#endif
+> > +    } else if (mem_shared) {
+> > +#ifdef CONFIG_POSIX
+> > +        Error *err =3D NULL;
+> > +        memory_region_init_ram_from_file(mr, owner, NULL, ram_size, 0,
+> > +                                         RAM_SHARED, NULL, &err);
+> > +        if (err) {
+> > +            error_report_err(err);
+> > +            exit(1);
+> > +        }
+> > +#else
+> > +        fprintf(stderr, "-mem-shared not supported on this host\n");
+> > +        exit(1);
+> >  #endif
+> >      } else {
+> >          memory_region_init_ram_nomigrate(mr, owner, name, ram_size, &e=
+rror_fatal);
+> > diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> > index 80c57fdc4e..80db8465a9 100644
+> > --- a/include/sysemu/sysemu.h
+> > +++ b/include/sysemu/sysemu.h
+> > @@ -55,6 +55,7 @@ extern bool enable_cpu_pm;
+> >  extern QEMUClockType rtc_clock;
+> >  extern const char *mem_path;
+> >  extern int mem_prealloc;
+> > +extern int mem_shared;
+> >
+> >  #define MAX_OPTION_ROMS 16
+> >  typedef struct QEMUOptionRom {
+> > diff --git a/qemu-options.hx b/qemu-options.hx
+> > index 65c9473b73..4c69b03ad3 100644
+> > --- a/qemu-options.hx
+> > +++ b/qemu-options.hx
+> > @@ -394,6 +394,16 @@ STEXI
+> >  Preallocate memory when using -mem-path.
+> >  ETEXI
+> >
+> > +DEF("mem-shared", 0, QEMU_OPTION_mem_shared,
+> > +    "-mem-shared     allocate shared memory\n", QEMU_ARCH_ALL)
+> > +STEXI
+> > +@item -mem-shared
+> > +@findex -mem-shared
+> > +Allocate guest RAM with shared mapping.  Whether the allocation is
+> > +anonymous or not (with -mem-path), QEMU will allocate a shared memory =
+that
+> > +can be shared by unrelated processes, such as vhost-user backends.
+> > +ETEXI
+> > +
+> >  DEF("k", HAS_ARG, QEMU_OPTION_k,
+> >      "-k language     use keyboard layout (for example 'fr' for French)=
+\n",
+> >      QEMU_ARCH_ALL)
+> > diff --git a/vl.c b/vl.c
+> > index 6a65a64bfd..53b1155455 100644
+> > --- a/vl.c
+> > +++ b/vl.c
+> > @@ -143,6 +143,7 @@ const char* keyboard_layout =3D NULL;
+> >  ram_addr_t ram_size;
+> >  const char *mem_path =3D NULL;
+> >  int mem_prealloc =3D 0; /* force preallocation of physical target memo=
+ry */
+> > +int mem_shared =3D 0;
+> Also what happened to no more globals policy?
+>
+> >  bool enable_mlock =3D false;
+> >  bool enable_cpu_pm =3D false;
+> >  int nb_nics;
+> > @@ -3172,6 +3173,9 @@ int main(int argc, char **argv, char **envp)
+> >              case QEMU_OPTION_mem_prealloc:
+> >                  mem_prealloc =3D 1;
+> >                  break;
+> > +            case QEMU_OPTION_mem_shared:
+> > +                mem_shared =3D 1;
+> > +                break;
+> >              case QEMU_OPTION_d:
+> >                  log_mask =3D optarg;
+> >                  break;
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
