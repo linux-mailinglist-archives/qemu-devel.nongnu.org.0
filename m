@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B2D10CA27
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:11:12 +0100 (CET)
-Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6BB10CA44
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:18:56 +0100 (CET)
+Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKVi-0007Zz-Qs
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:11:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45772)
+	id 1iaKdC-0003HW-4x
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:18:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iaK93-00045l-SR
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:48 -0500
+ (envelope-from <clg@kaod.org>) id 1iaK9F-0004DK-8x
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iaK8z-0006Kn-Dt
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:43 -0500
-Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:59885)
+ (envelope-from <clg@kaod.org>) id 1iaK97-00072Y-UP
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:53 -0500
+Received: from 18.mo3.mail-out.ovh.net ([87.98.172.162]:46881)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK8z-0006Au-5O
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:41 -0500
-Received: from player688.ha.ovh.net (unknown [10.108.35.119])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id E433F1B7633
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:38 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK97-0006nI-J7
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:49 -0500
+Received: from player688.ha.ovh.net (unknown [10.108.35.128])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 76479234131
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:46 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id D8A41C94B45E;
- Thu, 28 Nov 2019 13:47:31 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id E85E1C94B4FD;
+ Thu, 28 Nov 2019 13:47:38 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 4/7] target/ppc: Add SPR TBU40
-Date: Thu, 28 Nov 2019 14:46:57 +0100
-Message-Id: <20191128134700.16091-5-clg@kaod.org>
+Subject: [PATCH 5/7] target/ppc: Add privileged message send facilities
+Date: Thu, 28 Nov 2019 14:46:58 +0100
+Message-Id: <20191128134700.16091-6-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
 References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14986290712008362982
+X-Ovh-Tracer-Id: 14988542510787234790
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.52.147
+X-Received-From: 87.98.172.162
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,156 +64,283 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The spr TBU40 is used to set the upper 40 bits of the timebase
-register, present on POWER5+ and later processors.
+Privileged message send facilities exist on POWER8 processors and
+later and include a register and instructions which can be used to
+generate, observe/modify the state of and clear privileged doorbell
+exceptions as described below.
 
-This register can only be written by the hypervisor, and cannot be read.
+The Directed Privileged Doorbell Exception State (DPDES) register
+reflects the state of pending privileged doorbell exceptions and can
+also be used to modify that state. The register can be used to read
+and modify the state of privileged doorbell exceptions for all threads
+of a subprocessor and thus is a shared facility for that subprocessor.
+The register can be read/written by the hypervisor and read by the
+supervisor if enabled in the HFSCR, otherwise a hypervisor facility
+unavailable exception is generated.
+
+The privileged message send and clear instructions (msgsndp & msgclrp)
+are used to generate and clear the presence of a directed privileged
+doorbell exception, respectively. The msgsndp instruction can be used
+to target any thread of the current subprocessor, msgclrp acts on the
+thread issuing the instruction. These instructions are privileged, but
+will generate a hypervisor facility unavailable exception if not
+enabled in the HFSCR and executed in privileged non-hypervisor
+state. The HV facility unavailable exception will be addressed in
+other patch.
+
+Add and implement this register and instructions by reading or
+modifying the pending interrupt state of the cpu.
+
+Note that TCG only supports one thread per core and so we only need to
+worry about the cpu making the access.
 
 Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+[clg: - introduced a book3s_msgsnd_common() helper to reduce code
+      	duplication
+      - modified book3s_dbell2irq()
+      - moved out the support for hypervisor facility unavailable
+      	exception
+      - modified commit log to add a statement on the HV FU exception
+      - checkpatch fixes
+      - compile fixes for the ppc-softmmu and linux-user targets ]
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h                |  1 +
- target/ppc/helper.h             |  1 +
- hw/ppc/ppc.c                    | 13 +++++++++++++
- target/ppc/timebase_helper.c    |  5 +++++
- target/ppc/translate_init.inc.c | 19 +++++++++++++++++++
- 5 files changed, 39 insertions(+)
+ target/ppc/helper.h             |  4 +++
+ target/ppc/excp_helper.c        | 43 ++++++++++++++++++++++++++++-----
+ target/ppc/misc_helper.c        | 22 +++++++++++++++++
+ target/ppc/translate.c          | 26 ++++++++++++++++++++
+ target/ppc/translate_init.inc.c | 20 ++++++++++++---
+ 5 files changed, 105 insertions(+), 10 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 646a94370dba..8ffcfa0ea162 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1312,6 +1312,7 @@ target_ulong cpu_ppc_load_decr(CPUPPCState *env);
- void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
- target_ulong cpu_ppc_load_hdecr(CPUPPCState *env);
- void cpu_ppc_store_hdecr(CPUPPCState *env, target_ulong value);
-+void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value);
- uint64_t cpu_ppc_load_purr(CPUPPCState *env);
- void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
- uint32_t cpu_ppc601_load_rtcl(CPUPPCState *env);
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 356a14d8a639..cd0dfe383a2a 100644
+index cd0dfe383a2a..76518a1df6f0 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -672,6 +672,7 @@ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void,=
- env, tl)
- DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
-+DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_2(store_hid0_601, void, env, tl)
- DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
- DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 353f11b91d40..3666e58865b3 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -710,6 +710,19 @@ void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t va=
-lue)
-                      &tb_env->vtb_offset, value);
+@@ -657,6 +657,10 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, t=
+l, env)
+ DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_ptcr, void, env, tl)
++DEF_HELPER_FLAGS_1(load_dpdes, TCG_CALL_NO_RWG, tl, env)
++DEF_HELPER_FLAGS_2(store_dpdes, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_1(book3s_msgsndp, void, tl)
++DEF_HELPER_2(book3s_msgclrp, void, env, tl)
+ #endif
+ DEF_HELPER_2(store_sdr1, void, env, tl)
+ DEF_HELPER_2(store_pidr, void, env, tl)
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 50b004d00d1e..5a247945e97f 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -898,7 +898,11 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+         }
+         if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
+             env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
+-            powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
++            if (env->insns_flags & PPC_SEGMENT_64B) {
++                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_SDOOR);
++            } else {
++                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
++            }
+             return;
+         }
+         if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDOORBELL)) {
+@@ -1219,7 +1223,7 @@ void helper_msgsnd(target_ulong rb)
  }
 =20
-+void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value)
-+{
-+    ppc_tb_t *tb_env =3D env->tb_env;
-+    uint64_t tb;
-+
-+    tb =3D cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                        tb_env->tb_offset);
-+    tb &=3D 0xFFFFFFUL;
-+    tb |=3D (value & ~0xFFFFFFUL);
-+    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                     &tb_env->tb_offset, tb);
-+}
-+
- static void cpu_ppc_tb_stop (CPUPPCState *env)
+ /* Server Processor Control */
+-static int book3s_dbell2irq(target_ulong rb)
++static int book3s_dbell2irq(target_ulong rb, bool hv_dbell)
  {
-     ppc_tb_t *tb_env =3D env->tb_env;
-diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
-index 2395295b778c..703bd9ed18b9 100644
---- a/target/ppc/timebase_helper.c
-+++ b/target/ppc/timebase_helper.c
-@@ -128,6 +128,11 @@ void helper_store_vtb(CPUPPCState *env, target_ulong=
- val)
-     cpu_ppc_store_vtb(env, val);
+     int msg =3D rb & DBELL_TYPE_MASK;
+=20
+@@ -1228,12 +1232,16 @@ static int book3s_dbell2irq(target_ulong rb)
+      * message type is 5. All other types are reserved and the
+      * instruction is a no-op
+      */
+-    return msg =3D=3D DBELL_TYPE_DBELL_SERVER ? PPC_INTERRUPT_HDOORBELL =
+: -1;
++    if (msg =3D=3D DBELL_TYPE_DBELL_SERVER) {
++        return hv_dbell ? PPC_INTERRUPT_HDOORBELL : PPC_INTERRUPT_DOORBE=
+LL;
++    }
++
++    return -1;
  }
 =20
-+void helper_store_tbu40(CPUPPCState *env, target_ulong val)
+ void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
+ {
+-    int irq =3D book3s_dbell2irq(rb);
++    int irq =3D book3s_dbell2irq(rb, 1);
+=20
+     if (irq < 0) {
+         return;
+@@ -1242,9 +1250,9 @@ void helper_book3s_msgclr(CPUPPCState *env, target_=
+ulong rb)
+     env->pending_interrupts &=3D ~(1 << irq);
+ }
+=20
+-void helper_book3s_msgsnd(target_ulong rb)
++static void book3s_msgsnd_common(target_ulong rb, bool hv_dbell)
+ {
+-    int irq =3D book3s_dbell2irq(rb);
++    int irq =3D book3s_dbell2irq(rb, hv_dbell);
+     int pir =3D rb & DBELL_PROCIDTAG_MASK;
+     CPUState *cs;
+=20
+@@ -1265,6 +1273,29 @@ void helper_book3s_msgsnd(target_ulong rb)
+     }
+     qemu_mutex_unlock_iothread();
+ }
++
++void helper_book3s_msgsnd(target_ulong rb)
 +{
-+    cpu_ppc_store_tbu40(env, val);
++    book3s_msgsnd_common(rb, 1);
 +}
 +
- target_ulong helper_load_40x_pit(CPUPPCState *env)
++#if defined(TARGET_PPC64)
++void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
++{
++    int irq =3D book3s_dbell2irq(rb, 0);
++
++    if (irq < 0) {
++        return;
++    }
++
++    env->pending_interrupts &=3D ~(1 << irq);
++}
++
++void helper_book3s_msgsndp(target_ulong rb)
++{
++    book3s_msgsnd_common(rb, 0);
++}
++#endif
+ #endif
+=20
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+index 2318f3ab45b2..a0e7bd9c32d3 100644
+--- a/target/ppc/misc_helper.c
++++ b/target/ppc/misc_helper.c
+@@ -105,6 +105,28 @@ void helper_store_pcr(CPUPPCState *env, target_ulong=
+ value)
+=20
+     env->spr[SPR_PCR] =3D value & pcc->pcr_mask;
+ }
++
++target_ulong helper_load_dpdes(CPUPPCState *env)
++{
++    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
++        return 1;
++    }
++    return 0;
++}
++
++void helper_store_dpdes(CPUPPCState *env, target_ulong val)
++{
++    PowerPCCPU *cpu =3D env_archcpu(env);
++    CPUState *cs =3D CPU(cpu);
++
++    if (val) {
++        /* Only one cpu for now */
++        env->pending_interrupts |=3D 1 << PPC_INTERRUPT_DOORBELL;
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
++    }
++}
+ #endif /* defined(TARGET_PPC64) */
+=20
+ void helper_store_pidr(CPUPPCState *env, target_ulong val)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index f5fe5d06118a..ba759ab2bb0f 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6645,6 +6645,28 @@ static void gen_msgsnd(DisasContext *ctx)
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+=20
++#if defined(TARGET_PPC64)
++static void gen_msgclrp(DisasContext *ctx)
++{
++#if defined(CONFIG_USER_ONLY)
++    GEN_PRIV;
++#else
++    CHK_SV;
++    gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
++#endif /* defined(CONFIG_USER_ONLY) */
++}
++
++static void gen_msgsndp(DisasContext *ctx)
++{
++#if defined(CONFIG_USER_ONLY)
++    GEN_PRIV;
++#else
++    CHK_SV;
++    gen_helper_book3s_msgsndp(cpu_gpr[rB(ctx->opcode)]);
++#endif /* defined(CONFIG_USER_ONLY) */
++}
++#endif
++
+ static void gen_msgsync(DisasContext *ctx)
  {
-     return load_40x_pit(env);
+ #if defined(CONFIG_USER_ONLY)
+@@ -7187,6 +7209,10 @@ GEN_HANDLER(vmladduhm, 0x04, 0x11, 0xFF, 0x0000000=
+0, PPC_ALTIVEC),
+ GEN_HANDLER_E(maddhd_maddhdu, 0x04, 0x18, 0xFF, 0x00000000, PPC_NONE,
+               PPC2_ISA300),
+ GEN_HANDLER_E(maddld, 0x04, 0x19, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
+0),
++GEN_HANDLER2_E(msgsndp, "msgsndp", 0x1F, 0x0E, 0x04, 0x03ff0001,
++               PPC_NONE, PPC2_ISA207S),
++GEN_HANDLER2_E(msgclrp, "msgclrp", 0x1F, 0x0E, 0x05, 0x03ff0001,
++               PPC_NONE, PPC2_ISA207S),
+ #endif
+=20
+ #undef GEN_INT_ARITH_ADD
 diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
 inc.c
-index a3cf1d8a450c..9815df6f77c8 100644
+index 9815df6f77c8..7c74a763ba66 100644
 --- a/target/ppc/translate_init.inc.c
 +++ b/target/ppc/translate_init.inc.c
-@@ -327,6 +327,11 @@ static void spr_write_vtb(DisasContext *ctx, int spr=
+@@ -464,6 +464,17 @@ static void spr_write_pcr(DisasContext *ctx, int spr=
 n, int gprn)
-     gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
- }
-=20
-+static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
-+{
-+    gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
-+}
-+
- #endif
- #endif
-=20
-@@ -7848,6 +7853,16 @@ static void gen_spr_power5p_ear(CPUPPCState *env)
-                  0x00000000);
- }
-=20
-+static void gen_spr_power5p_tb(CPUPPCState *env)
-+{
-+    /* TBU40 (High 40 bits of the Timebase register */
-+    spr_register_hv(env, SPR_TBU40, "TBU40",
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    SPR_NOACCESS, &spr_write_tbu40,
-+                    0x00000000);
-+}
-+
- #if !defined(CONFIG_USER_ONLY)
- static void spr_write_hmer(DisasContext *ctx, int sprn, int gprn)
  {
-@@ -8399,6 +8414,7 @@ static void init_proc_power5plus(CPUPPCState *env)
-     gen_spr_power5p_common(env);
-     gen_spr_power5p_lpar(env);
-     gen_spr_power5p_ear(env);
-+    gen_spr_power5p_tb(env);
+     gen_helper_store_pcr(cpu_env, cpu_gpr[gprn]);
+ }
++
++/* DPDES */
++static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
++{
++    gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
++}
++
++static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
++}
+ #endif
+ #endif
 =20
-     /* env variables */
-     env->dcache_line_size =3D 128;
-@@ -8511,6 +8527,7 @@ static void init_proc_POWER7(CPUPPCState *env)
-     gen_spr_power5p_common(env);
-     gen_spr_power5p_lpar(env);
-     gen_spr_power5p_ear(env);
-+    gen_spr_power5p_tb(env);
-     gen_spr_power6_common(env);
-     gen_spr_power6_dbg(env);
-     gen_spr_power7_book4(env);
-@@ -8652,6 +8669,7 @@ static void init_proc_POWER8(CPUPPCState *env)
-     gen_spr_power5p_common(env);
-     gen_spr_power5p_lpar(env);
-     gen_spr_power5p_ear(env);
-+    gen_spr_power5p_tb(env);
-     gen_spr_power6_common(env);
-     gen_spr_power6_dbg(env);
-     gen_spr_power8_tce_address_control(env);
-@@ -8842,6 +8860,7 @@ static void init_proc_POWER9(CPUPPCState *env)
-     gen_spr_power5p_common(env);
-     gen_spr_power5p_lpar(env);
-     gen_spr_power5p_ear(env);
-+    gen_spr_power5p_tb(env);
-     gen_spr_power6_common(env);
-     gen_spr_power6_dbg(env);
-     gen_spr_power8_tce_address_control(env);
+@@ -8233,10 +8244,11 @@ static void gen_spr_power8_dpdes(CPUPPCState *env=
+)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     /* Directed Privileged Door-bell Exception State, used for IPI */
+-    spr_register(env, SPR_DPDES, "DPDES",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, SPR_NOACCESS,
+-                 0x00000000);
++    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
++                        SPR_NOACCESS, SPR_NOACCESS,
++                        &spr_read_dpdes, SPR_NOACCESS,
++                        &spr_read_dpdes, &spr_write_dpdes,
++                        KVM_REG_PPC_DPDES, 0x00000000);
+ #endif
+ }
+=20
 --=20
 2.21.0
 
