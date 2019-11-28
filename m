@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256D210CEE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:30:07 +0100 (CET)
-Received: from localhost ([::1]:52616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067E810CEB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:00:36 +0100 (CET)
+Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPUM-00032E-7E
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:30:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48939)
+	id 1iaP1h-0005zY-U6
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:00:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iaNgv-0000fT-L7
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:34:59 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iaOCU-0008Iq-NP
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:07:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iaNgg-0003m0-PQ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:34:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32556
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaNgY-0003IM-Ao
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:34:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574962470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pBPbDORutuwZvbBTvLoOi0PBYVM3AHALLVGknygglq0=;
- b=ZeyVWMT3+vm/8BXw5TTRFaIm5GmCHcSRxlouhmykmwp2N0YywXzIQ2l9AUZcpucSlZfLwU
- JwaJ5DeAgYKSXdCRT5mNCaNLvI/SNo52nxzhOmGdhglezBuvRxsXLz1CFa3kmGIaOBGfhh
- IrWXAuJhq4xCBPHw4BC6sX492t9XU0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-TdGYG7VyNTe8DKNArifXKg-1; Thu, 28 Nov 2019 12:34:28 -0500
-X-MC-Unique: TdGYG7VyNTe8DKNArifXKg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E22CA800D53;
- Thu, 28 Nov 2019 17:34:26 +0000 (UTC)
-Received: from gondolin (ovpn-116-200.ams2.redhat.com [10.36.116.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 956CE5C1B0;
- Thu, 28 Nov 2019 17:34:22 +0000 (UTC)
-Date: Thu, 28 Nov 2019 18:34:09 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v4 6/6] s390x: kvm: Make kvm_sclp_service_call void
-Message-ID: <20191128183409.4a91ea1c.cohuck@redhat.com>
-In-Reply-To: <452fc85c-17b7-76d3-8ed8-fb76d50b37a6@linux.ibm.com>
-References: <20191127175046.4911-1-frankja@linux.ibm.com>
- <20191127175046.4911-7-frankja@linux.ibm.com>
- <c3b81ef7-860d-8cee-df34-0c6f103a1757@redhat.com>
- <76627b69-5c0a-a9d6-f20e-f7ce61858774@linux.ibm.com>
- <452fc85c-17b7-76d3-8ed8-fb76d50b37a6@linux.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1iaOC2-0001k4-6e
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:07:08 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38828)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iaOBz-0001In-CP
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:07:05 -0500
+Received: by mail-ot1-x342.google.com with SMTP id z25so22862166oti.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 10:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MJ/sPAYYo/qIT6Ymk401e7KF1FY+ovzNTYrgqfqtAao=;
+ b=ceO8/vrDQ2qOydIvWROnG21GPOQXjsjM2lcssYAr/Un9ibzuSQx2OcRLffVjR3zPzA
+ euVSLuH5Lz548pvc9MxMZAkFhKWeWv4h5o/Qdb6InyGjX9x53JeE00vsuWbI1TzId9Bd
+ xlFrw5neBnwiXTkXrSzSBveIjG4mJ24IzgNFoxMwc4Ma7gPjF0c5+UuxFCZyFGpBn15Z
+ IqthMaHfqKFC15Ac8mS7MIm+UmVOVg3AYRCDKwKk8yFFdn7/44wsPLdVKHshOb3snQir
+ 4dLhMUOs1e7xN0WDxanGDSIVELGf/bfAW9dlSECX5lLdhb5rZ0GejbmQ5TtGyoMtwSMY
+ NLQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MJ/sPAYYo/qIT6Ymk401e7KF1FY+ovzNTYrgqfqtAao=;
+ b=OooylE3xGPf5SujGJDQhOtKLiz7ByiICdK0h8qjw8iP1R4dCIAUBfoOAFvtKBdk4gh
+ Kp6JCmb6dC22ts1a3HwfQuTKIxrqRAovQ34UJyOQRVSjs+ng50ipI/HB63T6VZt0s07Y
+ bNtZGlNg2K3SnTM29Q7DPGe+pxBhiTvrNLcnfaHWPwweCZ1J1mJMAigV+enhCw09G/Um
+ DqzNpGPdkGRQAWo8OMm2rGuNgC/v+PnNr1WOQvd7ta6NvUdmFw1KFr8OL6LTbvJ9M39e
+ uh7ijStXSEsVcN4r+mxzTHrVwmWwzEbAmkny0WQxfrNJHLGtZ4Vk13d28yz+pMlWIpDW
+ /Ktg==
+X-Gm-Message-State: APjAAAUyRkQhqE/flMDmOfdbfQiEOS6O13erPIPSNy4kX4+2cJdwZe/j
+ tYeZCy09PHaZr/SGp5KFWZLcs3ZvQ9c0wvGwua67Nw==
+X-Google-Smtp-Source: APXvYqxKt6orc45dUEB80sWtPH3EOZaBWL5mcL78hz6t2FcSeKfkc4eWV9sd8pVJf+Hx1HeefjCsanKuSB6IJOjlkFk=
+X-Received: by 2002:a9d:12d2:: with SMTP id g76mr8682308otg.232.1574964417343; 
+ Thu, 28 Nov 2019 10:06:57 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; boundary="Sig_/T+caPbvXbBsAv=WL70CK31w";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191128161718.24361-1-maz@kernel.org>
+ <20191128161718.24361-4-maz@kernel.org>
+ <CAFEAcA_MED0Rtqo1=HNnn7v_zQZGDsoJVsbXAsdhb_sAjvJ40Q@mail.gmail.com>
+ <241a27adc76f3f6dcc96c3ef993660f7@www.loen.fr>
+In-Reply-To: <241a27adc76f3f6dcc96c3ef993660f7@www.loen.fr>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Nov 2019 18:06:46 +0000
+Message-ID: <CAFEAcA9yryMgAgNbbST4ThT_ozpBUm=Lj5C33ZBP_Q8OYiV_=Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/arm: Handle trapping to EL2 of AArch32 VMRS
+ instructions
+To: Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,62 +75,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/T+caPbvXbBsAv=WL70CK31w
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, 28 Nov 2019 at 17:49, Marc Zyngier <maz@kernel.org> wrote:
+>
+> Hi Peter,
+>
+> Thanks for having a look at this.
+>
+> On 2019-11-28 16:43, Peter Maydell wrote:
+> > On Thu, 28 Nov 2019 at 16:17, Marc Zyngier <maz@kernel.org> wrote:
+> >>
+> >> HCR_EL2.TID3 requires that AArch32 reads of MVFR[012] are trapped to
+> >> EL2, and that HCR_EL2.TID0 does the same for reads of FPSID.
+> >> In order to handle this, introduce a new TCG helper function that
+> >> checks for these control bits before executing the VMRC instruction.
+> >>
+> >> Tested with a hacked-up version of KVM/arm64 that sets the control
+> >> bits for 32bit guests.
+> >>
+> >> Signed-off-by: Marc Zyngier <maz@kernel.org>
 
-On Wed, 27 Nov 2019 19:38:06 +0100
-Janosch Frank <frankja@linux.ibm.com> wrote:
+> > Since the syndrome value depends only on these two things,
+> > you might as well generate the full syndrome value at
+> > translate time rather than doing it at runtime; then
+> > you only need to pass one thing through to the helper rather
+> > than two.
+>
+> OK. This means that the register check in check_hcr_el2_trap
+> will need to extract the register value from the syndrome.
+> Not a big deal, but maybe slightly less readable.
 
-> On 11/27/19 7:25 PM, Janosch Frank wrote:
-> >=20
-> > There's 0 (initiated), busy and operational and as far as I know we
-> > implement neither. =20
->=20
-> That came out wrong...
-> s/operational/not operational/
->=20
-> We only implement "command initiated" / cc =3D 0
-> We can never have busy, because we handle sclp calls synchronously.
-> The spec does not give any indication when we could return "not
-> operational". I guess that's just a free pass for hypervisors.
+Oops, I hadn't noticed that we were switching on reg.
+Yeah, you might as well leave it as is. (We could have
+a separate helper for each of TID0 and TID3 but that
+seems like overkill.)
 
-Regardless, setcc(cpu, r) also feels a bit cleaner to me...
+> On a vaguely tangential subject, how are conditional instructions
+> JIT-ed? I could perfectly imagine a conditional VMRS instruction,
+> but none of the code I looked at seem to care about it. Or is
+> that done before the access itself is actually emitted?
 
->=20
-> > sclp_service_call() returns either 0 or -PGM_CODE, so we don't need to
-> > check when we're after the pgm injection code. =20
->=20
->=20
+Arm conditional instructions are handled at a pretty
+high level in the decode, because they all work the same way.
+In disas_arm_insn() we have:
 
+    if (cond != 0xe) {
+        /* if not always execute, we generate a conditional jump to
+           next instruction */
+        arm_skip_unless(s, cond);
+    }
 
---Sig_/T+caPbvXbBsAv=WL70CK31w
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+and there's something similar in thumb_tr_translate_insn()
+which puts in a branch based on the thumb condexec bits.
+The target of the branch is a label whose position is
+set either in arm_post_translate_insn() after the code for the
+insn is emitted, or in arm_tr_tb_stop() if the insn is
+the last in the TB (always true for branch or trap insns).
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3gBREACgkQ3s9rk8bw
-L6/n1w//SgYz1VZH8/LQskD48SXgc/z8AVDErey2akV35GNHjYHJEYCB9VD7aYsz
-rXDb1jiJzv43Y79ue7//gZb2EMtrf0gWzycerOmKtGKjsVJn40uGRLoR79pDRx2A
-J9Y/Run7cfwJtvnELLC/t0eh46XL+nXGRyh5ygi9mgbY9+B3GLyww5o654+4HfCe
-vIfpaeb3jAEp0fjuHDzBX5ec6TAY6WCqg3pb4vCv77lM983IO9w5gLkiIg9VCECZ
-gAnsKLQHt4B9o7iwbMaob1LOm6hRGyrzUIrjsa34a7+apF+0wZ5OHt8djSq6MWrF
-tDb6lGdO5Gea9HoWhoY0Azo7ak5NCpQVdlzVAtSt/KCJWLV1x5ntjf4Uv/M2wfw5
-VUuFeYgVxa/AQkgkxgUGhRNHg9iFf0bWKbfM5Di/qNP+0Kwp37YGj63wfmga7uMH
-60pJaLtivfGJaeHkDhEwfhiD60b2f2iX8aspuD2xG5/gf+L/Vm9wKL31/iAHpr+D
-1/kji834gAD73dLKvvN7xZT8yFDp7mZLHo219lJ23Z7ZQnPxNajs13E9N8td0blX
-v8MMpuvAasJ6i3QtP5Rfi4pb8mXSz2qFbTnx+t8m2VzgS1x3PTP3c97yh89NUuXB
-To1PpiEz8Amj9zDteszSQ6hvdtOwrth2prVeXDfGCi5D1y4C94U=
-=9bId
------END PGP SIGNATURE-----
-
---Sig_/T+caPbvXbBsAv=WL70CK31w--
-
+thanks
+-- PMM
 
