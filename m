@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7273510CF19
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:12:32 +0100 (CET)
-Received: from localhost ([::1]:52926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B5F10CF0C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 21:05:10 +0100 (CET)
+Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaQ9N-0005Jb-F1
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:12:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50101)
+	id 1iaQ2F-0002rs-Fo
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 15:05:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Bilal_Wasim@mentor.com>) id 1iaNIt-0005P4-Mz
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:10:12 -0500
+ (envelope-from <bounces@canonical.com>) id 1iaOCw-0008Lq-5m
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:08:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Bilal_Wasim@mentor.com>) id 1iaNBK-0005Sw-3v
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:02:21 -0500
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:9371)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Bilal_Wasim@mentor.com>)
- id 1iaNBI-0005OV-Fm; Thu, 28 Nov 2019 12:02:18 -0500
-IronPort-SDR: T9xF/gxdfmbLiQfx4t02MDUuxToL6Xkvh45fvyd0xC4t0XX8/Wpw98Y8lYIBCc6X/gammwcYk+
- 8uvTwXbPtdUDehaqYtgIqeOGMXN4dGxHu6QlXzW1IxpGKwfzru28KAw0hEqyYYPyIH1i0h/Rq1
- 1KlVDl8VUbf2eaVguRnbq1EuMECqgdL4AvNgkajZ04dsUIozlfIh6uSQ8YK+5VE/my8sejibRb
- senN8dPO/cKj4Xnuw7R26hNCXkPvPXwI9b9FI9RnvOAor7Q8IcQ2eInZj3176BS1nTXheNXFoD
- dws=
-X-IronPort-AV: E=Sophos;i="5.69,253,1571731200"; d="scan'208";a="43547596"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa2.mentor.iphmx.com with ESMTP; 28 Nov 2019 09:02:05 -0800
-IronPort-SDR: DjQ599I0sE3eIppajBwpzeZvIpMUZBcWGaBmn45CsdgYf6y9znZK46Nvlb+zzDzVNcD2bELOgN
- nZqC5SNd5hKrp6xga1NoLPdH/js5Q6peqNQQiF61KSfo668bkWJXXkrTvmCIECwFvsW94+H06i
- SRozdQTGxeLAvq45Oe+z6reLN8IgJRrueHBv/wxBW92stH0yvBEAEzLHrhNHAm2CjAG5ydnuZV
- ooJ0T7DVgnaz5pPrdgP72wj40RQpCXnyUcPXwY6pda8pEN9yE0/DN1aLZu1PBqYkqMlNnZcjAq
- rHs=
-From: "Wasim, Bilal" <Bilal_Wasim@mentor.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: RE: [PATCH] Updating the GEM MAC IP to properly filter out the
- multicast addresses
-Thread-Topic: [PATCH] Updating the GEM MAC IP to properly filter out the
- multicast addresses
-Thread-Index: AdWl/aPyGC40ldXeTIuqOxj9pJGCcwABzzoAAAIbwuA=
-Date: Thu, 28 Nov 2019 17:02:00 +0000
-Message-ID: <2b7a42487a5d4a258062bd209a0d13fa@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <2632212d4c8a40bead72ffdcf288e600@SVR-IES-MBX-03.mgc.mentorg.com>
- <20191128155956.GB29312@toto>
-In-Reply-To: <20191128155956.GB29312@toto>
-Accept-Language: en-GB, en-IE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <bounces@canonical.com>) id 1iaO11-0001bX-S6
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:55:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54126)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iaO11-0001Dm-H0
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:55:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iaO0w-00076p-4K
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 17:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 160DC2E80C8
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 17:55:38 +0000 (UTC)
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.141.98
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 Nov 2019 17:47:53 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a-hashmi ajbennee carolineconcatto pmaydell
+X-Launchpad-Bug-Reporter: Caroline Concatto (carolineconcatto)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <157468002661.30952.10642264809488923382.malonedeb@wampee.canonical.com>
+ <157495565236.22072.12895340025547390627.malone@soybean.canonical.com>
+Message-Id: <CAHDbmO26ZNB4CJ0b_w+e3w8vTDFVcZQXMvchjsU32ng2JfNdQw@mail.gmail.com>
+Subject: Re: [Bug 1853826] Re: ELF loader fails to load shared object on
+ ThunderX2 running RHEL7
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 372cc4fe8345bf80cd75c424f5de89d47c041dc0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,222 +69,392 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "alistair@alistair23.me" <alistair@alistair23.me>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
+Reply-To: Bug 1853826 <1853826@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was one of my first attempts, and so I was sure to miss something.. I'=
-ve incorporated all the updates in this patch.. Let me know what you think =
-about this..=20
+Do binaries have to be page size aware? I thought it was a runtime thing.
+However if the aarch64-linux-user is hardwired to 4k it might explain it's
+confusion on a 64k machine.
 
-net/cadence_gem: Updating the GEM MAC IP to properly filter out the multica=
-st addresses.
+On Thu, 28 Nov 2019, 16:33 Peter Maydell, <peter.maydell@linaro.org>
+wrote:
 
-The current code makes a bad assumption that the most-significant byte
-of the MAC address is used to determine if the address is multicast or
-unicast, but in reality only a single bit is used to determine this.
-This caused IPv6 to not work.. Fix is now in place and has been tested
-with ZCU102-A53 / IPv6 on a TAP interface. Works well..
-
-Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
----
- hw/net/cadence_gem.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
-
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index b8be73dc55..98efb93f8a 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -34,6 +34,7 @@
- #include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "net/checksum.h"
-+#include "net/eth.h"
-=20
- #ifdef CADENCE_GEM_ERR_DEBUG
- #define DB_PRINT(...) do { \
-@@ -315,6 +316,12 @@
-=20
- #define GEM_MODID_VALUE 0x00020118
-=20
-+/* IEEE has specified that the most significant bit of the most significan=
-t byte be used for
-+ * distinguishing between Unicast and Multicast addresses.
-+ * If its a 1, that means multicast, 0 means unicast.   */
-+#define IS_MULTICAST(address)           is_multicast_ether_addr(address)
-+#define IS_UNICAST(address)             is_unicast_ether_addr(address)
-+
- static inline uint64_t tx_desc_get_buffer(CadenceGEMState *s, uint32_t *de=
-sc)
- {
-     uint64_t ret =3D desc[0];
-@@ -601,7 +608,7 @@ static void gem_receive_updatestats(CadenceGEMState *s,=
- const uint8_t *packet,
-     }
-=20
-     /* Error-free Multicast Frames counter */
--    if (packet[0] =3D=3D 0x01) {
-+    if (IS_MULTICAST(packet)) {
-         s->regs[GEM_RXMULTICNT]++;
-     }
-=20
-@@ -690,21 +697,21 @@ static int gem_mac_address_filter(CadenceGEMState *s,=
- const uint8_t *packet)
-     }
-=20
-     /* Accept packets -w- hash match? */
--    if ((packet[0] =3D=3D 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HA=
-SH)) ||
--        (packet[0] !=3D 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH=
-))) {
-+    if ((IS_MULTICAST(packet) && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HAS=
-H)) ||
-+        (IS_UNICAST(packet)   && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HAS=
-H))) {
-         unsigned hash_index;
-=20
-         hash_index =3D calc_mac_hash(packet);
-         if (hash_index < 32) {
-             if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
--                return packet[0] =3D=3D 0x01 ? GEM_RX_MULTICAST_HASH_ACCEP=
-T :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
-+                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT=
- :
-+                                              GEM_RX_UNICAST_HASH_ACCEPT;
-             }
-         } else {
-             hash_index -=3D 32;
-             if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
--                return packet[0] =3D=3D 0x01 ? GEM_RX_MULTICAST_HASH_ACCEP=
-T :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
-+                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT=
- :
-+                                              GEM_RX_UNICAST_HASH_ACCEPT;
-             }
-         }
-     }
---=20
-2.19.1.windows.1
-
----------------------------------------------------------------------------=
----------------------------------------------------
------Original Message-----
-From: Edgar E. Iglesias [mailto:edgar.iglesias@gmail.com]=20
-Sent: Thursday, November 28, 2019 9:00 PM
-To: Wasim, Bilal <Bilal_Wasim@mentor.com>
-Cc: qemu-devel@nongnu.org; alistair@alistair23.me; peter.maydell@linaro.org=
-; qemu-arm@nongnu.org
-Subject: Re: [PATCH] Updating the GEM MAC IP to properly filter out the mul=
-ticast addresses
-
-On Thu, Nov 28, 2019 at 03:10:16PM +0000, Wasim, Bilal wrote:
-> [PATCH] Updating the GEM MAC IP to properly filter out the multicast=20
-> addresses. The current code makes a bad assumption that the=20
-> most-significant byte of the MAC address is used to determine if the=20
-> address is multicast or unicast, but in reality only a single bit is=20
-> used to determine this. This caused IPv6 to not work.. Fix is now in=20
-> place and has been tested with
-> ZCU102-A53 / IPv6 on a TAP interface. Works well..
-
-Hi Bilal,
-
-The fix looks right to me but I have a few comments.
-
-* Your patch seems a little wrongly formated.
-[PATCH] goes into the Subject line for example and you're missing path pref=
-ixes.
-
-Do a git log -- hw/net/cadence_gem.c to see examples on how it should look.
-
-* The patch will probably not pass checkpatch since you seem to have long l=
-ines.
-
-* We also need to update gem_receive_updatestats() to use the corrected mac=
-ros.
-
-More inline:
-
->=20
-> Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
-> ---
-> hw/net/cadence_gem.c | 18 ++++++++++++------
-> 1 file changed, 12 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c index=20
-> b8be73d..f8bcbb3 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -315,6 +315,12 @@
->  #define GEM_MODID_VALUE 0x00020118
-> +/* IEEE has specified that the most significant bit of the most=20
-> +significant byte be used for
-> + * distinguishing between Unicast and Multicast addresses.
-> + * If its a 1, that means multicast, 0 means unicast.   */
-> +#define IS_MULTICAST(address)           (((address[0] & 0x01) =3D=3D 0x0=
-1) ? 1 : 0)
-
-
-
-This can be simplified:
-#define IS_MULTICAST(address) (address[0] & 1)
-
-Actually, looking closer, we already have functions to do these checks in:
-include/net/eth.h
-
-static inline int is_multicast_ether_addr(const uint8_t *addr) static inlin=
-e int is_broadcast_ether_addr(const uint8_t *addr) static inline int is_uni=
-cast_ether_addr(const uint8_t *addr)
-
-
-
-> +#define IS_UNICAST(address)             (!IS_MULTICAST(address))
-> +
-> static inline uint64_t tx_desc_get_buffer(CadenceGEMState *s, uint32_t=20
-> *desc) {
->      uint64_t ret =3D desc[0];
-> @@ -690,21 +696,21 @@ static int gem_mac_address_filter(CadenceGEMState *=
-s, const uint8_t *packet)
->      }
->      /* Accept packets -w- hash match? */
-> -    if ((packet[0] =3D=3D 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_=
-HASH)) ||
-> -        (packet[0] !=3D 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HA=
-SH))) {
-> +    if ((IS_MULTICAST(packet) && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_H=
-ASH)) ||
-> +        (IS_UNICAST(packet)   && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_H=
-ASH))) {
->          unsigned hash_index;
->          hash_index =3D calc_mac_hash(packet);
->          if (hash_index < 32) {
->              if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
-> -                return packet[0] =3D=3D 0x01 ? GEM_RX_MULTICAST_HASH_ACC=
-EPT :
-> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
-> +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCE=
-PT :
-> +                                             =20
-> + GEM_RX_UNICAST_HASH_ACCEPT;
->              }
->          } else {
->              hash_index -=3D 32;
->              if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
-> -                return packet[0] =3D=3D 0x01 ? GEM_RX_MULTICAST_HASH_ACC=
-EPT :
-> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
-> +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCE=
-PT :
-> +                                             =20
-> + GEM_RX_UNICAST_HASH_ACCEPT;
->              }
->          }
->      }
+> If you objdump the binary and the offending library what do they seem to
+> have been built for ?
+>
+> Certainly this:
+>
+> 0000004000000000-0000004000001000 0000000000001000 ---
+>
+> looks like a 4K page when we're trying to load things, so either we got
+> the loading wrong or the binary is 4K.
+>
 > --
-> 2.9.3
->=20
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1853826
+>
+> Title:
+>   ELF loader fails to load shared object on ThunderX2 running RHEL7
+>
+> Status in QEMU:
+>   Incomplete
+>
+> Bug description:
+>   Simple test:
+>   hello.c
+>
+>   include <stdio.h>
+>
+>   int main(int argc, char* argv[])
+>   {
+>     {
+>       printf("Hello World... \n");
+>     }
+>     return 0;
+>   }
+>
+>   when compiled with :
+>   *Compiler
+>
+> https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
+ure-tools/arm-allinea-studio/download
+>   Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar
+>
+>   *Running:
+>   1) with -armpl
+>        armclang -armpl hello.c
+>        ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
+>   2) without flag
+>       armclang hello.c
+>        ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
+>
+>   =E2=80=A2With Docker image:
+>          CentOS Linux release 7.7.1908 (AltArch)
+>
+>   *Two different machines:
+>          AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
+>          AArch64, Taishan 2280, Cortex-A72, ARMv8-A
+>
+>   *QEMU 4.0
+>        qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
+>
+>
+>   Results:
+>
+>
+>    ****Taishan 2280 Cortex-A72
+>         Running
+>   1)with -armpl flag with and without the docker
+>             WORKS-> Hello World...
+>                  -> ldd a.out
+>   ldd a.out
+>   linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000)
+>   libamath_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libamath_generic.so
+> (0x0000ffffbc544000)
+>   libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000)
+>   libastring_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libastring_generic.so
+> (0x0000ffffbc472000) libarmflang.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/libarmflang.so
+> (0x0000ffffbbfd3000)
+>   libomp.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/libomp.so
+> (0x0000ffffbbef5000)
+>   librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000)
+>   libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000)
+>   libarmpl_lp64_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libarmpl_lp64_generic.so
+> (0x0000ffffb3306000)
+>   libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000)
+>   libstdc++.so.6 =3D>
+> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linux/lib64/libstdc++.s=
+o.6
+> (0x0000ffffb2f30000)
+>   libgcc_s.so.1 =3D>
+> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linux/lib64/libgcc_s.so=
+.1
+> (0x0000ffffb2eff000)
+>   libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000)
+>   /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
+>
+>
+>   Running
+>   2) without -armpl flag with and without the docker
+>              WORKS -> Hello World...
+>                    -> ldd a.out
+>   ldd a.out
+>    linux-vdso.so.1 =3D>  (0x0000ffffa6895000)
+>   libastring_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libastring_generic.so
+> (0x0000ffffa6846000)
+>   libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000)
+>   /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
+>
+>
+>   ****Taishan - tsv110  Kunpeng 920
+>          For Running
+>
+>   1)with -armpl flag with and without the docker
+>              DOES NOT WORK -> with and without Docker
+>                            -> It shows : qemu:handle_cpu_signal received
+> signal outside vCPU
+>    context @ pc=3D0xffffaaa8844a
+>                            -> ldd a.out
+>   ldd a.out
+>   linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
+>   libamath_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libamath_generic.so
+> (0x0000ffffad370000)
+>   libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000)
+>   libastring_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libastring_generic.so
+> (0x0000ffffad270000) libarmflang.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/libarmflang.so
+> (0x0000ffffacdd0000)
+>   libomp.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/libomp.so
+> (0x0000ffffaccf0000)
+>   librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000)
+>   libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000)
+>   libarmpl_lp64_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libarmpl_lp64_generic.so
+> (0x0000ffffa40e0000)
+>   libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000)
+>   libstdc++.so.6 =3D>
+> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linux/lib64/libstdc++.s=
+o.6
+> (0x0000ffffa3d00000)
+>   libgcc_s.so.1 =3D>
+> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linux/lib64/libgcc_s.so=
+.1
+> (0x0000ffffa3cc0000)
+>   libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000)
+>   /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
+>
+>
+>   Running
+>   2) without -armpl flag with and without the docker
+>                  WORKS -> Hello World..
+>                        -> ldd a.out
+>   ldd a.out
+>   linux-vdso.so.1 =3D>  (0x0000ffff880c0000)
+>   libastring_generic.so =3D>
+> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aarch64-linux/lib=
+/clang/9.0.1/armpl_links/lib/libastring_generic.so
+> (0x0000ffff88080000)
+>   libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
+>   /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
+>
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1853826
+
+Title:
+  ELF loader fails to load shared object on ThunderX2 running RHEL7
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Simple test:
+  hello.c
+
+  include <stdio.h>
+
+  int main(int argc, char* argv[])
+  {
+    {
+      printf("Hello World... \n");
+    }
+    return 0;
+  }
+
+  when compiled with :
+  *Compiler =
+
+  https://developer.arm.com/tools-and-software/server-and-hpc/arm-architect=
+ure-tools/arm-allinea-studio/download
+  Arm-Compiler-for-HPC_19.3_RHEL_7_aarch64.tar	 =
+
+
+  *Running:
+  1) with -armpl
+       armclang -armpl hello.c
+       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
+  2) without flag
+      armclang hello.c
+       ./qemu/build/aarch64-linux-user/qemu-aarch64 a.out
+
+  =E2=80=A2With Docker image:
+         CentOS Linux release 7.7.1908 (AltArch)
+
+  *Two different machines:
+         AArch64, Taishan. tsv110, Kunpeng 920, ARMv8.2-A
+         AArch64, Taishan 2280, Cortex-A72, ARMv8-A
+
+  *QEMU 4.0
+       qemu-aarch64 version 4.1.91 (v4.2.0-rc1)
+
+  =
+
+  Results:
+
+  =
+
+   ****Taishan 2280 Cortex-A72 =
+
+        Running =
+
+  1)with -armpl flag with and without the docker
+            WORKS-> Hello World...
+                 -> ldd a.out
+  ldd a.out =
+
+  linux-vdso.so.1 =3D>  (0x0000ffffbc6a2000) =
+
+  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
+_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
+0x0000ffffbc544000) =
+
+  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffbc493000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffbc472000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
+3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffbbfd30=
+00) =
+
+  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
+rch64-linux/lib/libomp.so (0x0000ffffbbef5000) =
+
+  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffbbed4000) =
+
+  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffbbe9f000) =
+
+  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
+rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
+neric.so (0x0000ffffb3306000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffb3180000) =
+
+  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
+ux/lib64/libstdc++.so.6 (0x0000ffffb2f30000) =
+
+  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
+x/lib64/libgcc_s.so.1 (0x0000ffffb2eff000) =
+
+  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffb2ede000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffbc674000)
+             =
+
+
+  Running =
+
+  2) without -armpl flag with and without the docker
+             WORKS -> Hello World...        =
+
+                   -> ldd a.out
+  ldd a.out
+   linux-vdso.so.1 =3D>  (0x0000ffffa6895000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffa6846000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa66c0000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffa6867000)
+      =
+
+
+  ****Taishan - tsv110  Kunpeng 920
+         For Running =
+
+
+  1)with -armpl flag with and without the docker
+             DOES NOT WORK -> with and without Docker
+                           -> It shows : qemu:handle_cpu_signal received si=
+gnal outside vCPU
+   context @ pc=3D0xffffaaa8844a
+                           -> ldd a.out =
+
+  ldd a.out =
+
+  linux-vdso.so.1 =3D>  (0x0000ffffad4b0000)
+  libamath_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64=
+_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libamath_generic.so (=
+0x0000ffffad370000) =
+
+  libm.so.6 =3D> /lib64/libm.so.6 (0x0000ffffad2a0000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffffad270000) libarmflang.so =3D> /scratch/arm-linux-compiler-19.=
+3_Generic-AArch64_RHEL-8_aarch64-linux/lib/libarmflang.so (0x0000ffffacdd00=
+00) =
+
+  libomp.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch64_RHEL-8_aa=
+rch64-linux/lib/libomp.so (0x0000ffffaccf0000) =
+
+  librt.so.1 =3D> /lib64/librt.so.1 (0x0000ffffaccc0000) =
+
+  libpthread.so.0 =3D> /lib64/libpthread.so.0 (0x0000ffffacc80000) =
+
+  libarmpl_lp64_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AA=
+rch64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libarmpl_lp64_ge=
+neric.so (0x0000ffffa40e0000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffffa3f50000) =
+
+  libstdc++.so.6 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-lin=
+ux/lib64/libstdc++.so.6 (0x0000ffffa3d00000) =
+
+  libgcc_s.so.1 =3D> /scratch/gcc-9.2.0_Generic-AArch64_RHEL-8_aarch64-linu=
+x/lib64/libgcc_s.so.1 (0x0000ffffa3cc0000)
+  libdl.so.2 =3D> /lib64/libdl.so.2 (0x0000ffffa3c90000) =
+
+  /lib/ld-linux-aarch64.so.1 (0x0000ffffad4c0000)
+              =
+
+
+  Running =
+
+  2) without -armpl flag with and without the docker
+                 WORKS -> Hello World..
+                       -> ldd a.out
+  ldd a.out  =
+
+  linux-vdso.so.1 =3D>  (0x0000ffff880c0000) =
+
+  libastring_generic.so =3D> /scratch/arm-linux-compiler-19.3_Generic-AArch=
+64_RHEL-8_aarch64-linux/lib/clang/9.0.1/armpl_links/lib/libastring_generic.=
+so (0x0000ffff88080000) =
+
+  libc.so.6 =3D> /lib64/libc.so.6 (0x0000ffff87ee0000)
+  /lib/ld-linux-aarch64.so.1 (0x0000ffff880d0000)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1853826/+subscriptions
 
