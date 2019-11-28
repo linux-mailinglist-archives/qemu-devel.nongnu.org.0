@@ -2,103 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9937F10CBD0
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:36:33 +0100 (CET)
-Received: from localhost ([::1]:50070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E083010CC0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:47:54 +0100 (CET)
+Received: from localhost ([::1]:50190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLqI-00011i-B3
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:36:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38643)
+	id 1iaM1J-0007Bo-1n
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:47:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56870)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iaLC1-0006ye-Kq
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:57 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaLHX-0001B7-Kq
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:00:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iaLBp-0003yC-Ff
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:44 -0500
-Received: from mail-am5eur02on0713.outbound.protection.outlook.com
- ([2a01:111:f400:fe07::713]:40422
- helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iaLBo-0003ig-Aw
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A8PgsO3J54VV1/yL874C0F9wl+k1gPfzdWz0zDmA9cyJOhqcDddRDySkzgKc+tHBrH0MiX80uoDHCW+/8svfhWCrVdGRzS1Ip2nfIAER+BOJ5R41rL6FP6w5XJuMLSxnG/wKfkTT/dHgDsvJTs53sNVEcawaR3vYXvVswlOtQlHtD7HZcY6envW2L5fenORVWJrWlgyvc6aUIRmPBdqXr2XpW79XNkJMXNSyG1LV5/ONtCcJZXA1efYw/5ZZCGJAWAeZ0eh2Y1X5QoHMkNqewAMvt+EAte+I94zEHzzVxCiOsg76qSuQQ46FmlyEo5DaJBFs464SIu8t4u6fUl2QQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=61xb0tRaYMZoYckdkW+ryNzhXBaZOQnkA/eydX2gJeQ=;
- b=n2Xc55huG3WLRdAUC08lDVOHxmYsJ9hjTtOE5XrKGfDfVpO3OUkJf2miQuF+DZozHT0tq02hF1ap8nV2STPWcUZi9o5nprVaRPVE3cshW32+WccVa1am59V1dusHMnlZ50E9MzbItlQChkGngGSe2C/jp1j9WHS58M5NgFAqIfUZgzoDPHgPShzw/vrcBFrJYW7P6DoPETSTJnkcebAzrvlmqYYZBde/PDWjtmis6chfbUoPG6JcGRgU0wsgH+n8Ex+Y96YWt4GBMGdePQ25vLpMeY08obKNdkLvgPAMGzFi6uWo/R34C2NhHH8IpNcDeUbZ2/6dVfcN0YCaHl/pCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=61xb0tRaYMZoYckdkW+ryNzhXBaZOQnkA/eydX2gJeQ=;
- b=dDrX13DxZuYlrDar4+YP0CpMprJwhP0yvS4wZl5VLjYmAocI1UCX6XGC0hsqnsJwqN0rEJBWP/W7iBtYIgMXasyVs4/tGAEyFFLpON9U/gAi4QpNCLnXoke4ez2SCPolF8MER/tOK3tOybwDMjop81lh5kl1MZgXpakck3/4/wg=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3879.eurprd08.prod.outlook.com (20.178.90.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.19; Thu, 28 Nov 2019 14:54:36 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2474.023; Thu, 28 Nov 2019
- 14:54:36 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6] error: rename errp to errp_in where it is IN-argument
-Thread-Topic: [PATCH v6] error: rename errp to errp_in where it is IN-argument
-Thread-Index: AQHVpVGz6p/zLL3Qt0SjF9DL93KD5KegpCn6gAAIsQA=
-Date: Thu, 28 Nov 2019 14:54:36 +0000
-Message-ID: <f901e0db-61df-898f-ce18-096bfeadf525@virtuozzo.com>
-References: <20191127183704.14825-1-vsementsov@virtuozzo.com>
- <878so05bca.fsf@dusky.pond.sub.org>
-In-Reply-To: <878so05bca.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P192CA0006.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::16)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191128175434515
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2b235c0d-491f-4ad7-502d-08d77412e2e7
-x-ms-traffictypediagnostic: AM6PR08MB3879:
-x-microsoft-antispam-prvs: <AM6PR08MB3879286BBB7E069F183F9DF6C1470@AM6PR08MB3879.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-forefront-prvs: 0235CBE7D0
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39840400004)(136003)(396003)(366004)(346002)(376002)(199004)(189003)(6506007)(71200400001)(386003)(26005)(71190400001)(14454004)(31696002)(54906003)(86362001)(25786009)(6512007)(2906002)(446003)(6436002)(66476007)(66556008)(66446008)(6116002)(6486002)(102836004)(11346002)(64756008)(52116002)(66946007)(3846002)(99286004)(2616005)(6246003)(5660300002)(305945005)(66066001)(8936002)(31686004)(14444005)(256004)(6916009)(7736002)(186003)(81166006)(8676002)(36756003)(316002)(229853002)(81156014)(478600001)(76176011)(4326008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3879;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QIqg2Lolhw+ng6dyaUYnUSYtUz829a+YK/3/jgiMMbQOu4/xWEHH2GlO3fRaaF0A4F4F7DgGycqjl1oEOeXHqmBGGM3YSOLvHwinouFfEeY57POsWCm5YOI09OWl7csLAlbAQAf6i+HcYxj9RrLHZOZZ+s8SJG37a+xDcHdaGx0ud/wfnRNLDakbj+wEVpcNQTavQQfbS+s+8xMKCtIfM8lFwsg6Xs87kvRQXHqbaPEj3AjM2dYGJDcj7+yNoOX8UAWky8Lpr1pt5m+JTwmhA47NX8y9VOfmNsPtNgk0dNZWB8wmxvEegqoh8mJK7Ax/EY04bfnvtr1Dwqvydvq5S5BOusfinlGqp1tx02q6+84IPhamN6jLS+vhefuW246ZtlMzJt4LQCJt1moli55wDo5z9oXHWbN6jIWr27MPQOQ/1046Di55oMsT2GDO5LuC
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0AFF05E9A151A840965ECCFC5006F3FF@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaLHM-0005iG-Kk
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:00:34 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34075)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iaLHL-0005aw-5K
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:00:24 -0500
+Received: by mail-oi1-x242.google.com with SMTP id l136so7923618oig.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 07:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=vo/0Cdro+yKvdan0C3MSXK6/05obQntRRgYTcKKtjkU=;
+ b=aQyTMqCXFmVic/XUbvqP13cAnlRfzl3lPUwa7sBNVda+XPcUEuN0yS3J+CRebHwXAU
+ WRTsYV05xquCWENeVaMoNwfyU1HwdtehsTLxjz9Eu3NgtkvsSzVouYhGgZG4adJUV0PA
+ UVMx388cuEgohrJG44WqfFShYDPFnW+5SjRqveNXstYogs98F9yI1qa15dNSaePQEn2I
+ 97wOSns8GMfiYf1cKZBu89sH9LpZ/aAWm8trnBijvP/IcO4kAIFlj+SLSM8V5q6isux0
+ ocreL2M++MWZ6TuvTeF/RVc2660eM42owUzYMJGN4iE16Pb6AGS8SzDTv4+68pLpnJIC
+ VKpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=vo/0Cdro+yKvdan0C3MSXK6/05obQntRRgYTcKKtjkU=;
+ b=aARyrPt3+0EhWI9280y1q2CCNZUrYll/V0Szuaby4qy6btDWX+B9NW7O4JbgXYxXpM
+ sIf6h9N0qIywyKjifTytzezqpTW6TEAAL79a5XcTqx95GfifAzv7GDh3AQBAEMoc1MYE
+ yE4UpKaRuklA11e+teXndcyfzaD+wwBoXEVL0ZU5eDEDiYvyS6hK5J9U5NVinGuBRAqm
+ 5/R7pz5oCNHtQiSBQgfvY1c/RYp/0CSYRBSIiUhwzWf+WB63XV9r7NgA5eOmZA6AfupB
+ fXW18Y7RK93XC5Mc3xpMQCRl7rHLb7Ot4MCsrPHjnpehmnJihy17pn439Z1/Ll7GNRKg
+ oj3w==
+X-Gm-Message-State: APjAAAXZMLJKY1Ej8y4K/shb2kWqn+FLnc/gakjlQBQmG5riMRvwbTjO
+ op4Pcby91C1c4l7agH/KTCMhPSmmfob1l+WIdMY=
+X-Google-Smtp-Source: APXvYqwyig3y2O2lpQqPXxmmQgIA7bSTgNvtuBCCBgkzqUfeea7r3qEdlAyoVW7XP2ymsYaWYYzqzHTKOv0s1WqKhw8=
+X-Received: by 2002:aca:d985:: with SMTP id q127mr9075021oig.62.1574953219120; 
+ Thu, 28 Nov 2019 07:00:19 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b235c0d-491f-4ad7-502d-08d77412e2e7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2019 14:54:36.2857 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /D1s2gqBsdy92YhbJcSCzRjG35lTyBENQzA7l7F4rxkefZIwxqzH6vfwcQFS72olDo56L4ruIIn6iD9aXB3bBE6I3ho/E4yPkVfZ2pcdUaU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3879
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe07::713
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Thu, 28 Nov 2019 07:00:18
+ -0800 (PST)
+In-Reply-To: <20191127175257.23480-1-mrolnik@gmail.com>
+References: <20191127175257.23480-1-mrolnik@gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 28 Nov 2019 16:00:18 +0100
+Message-ID: <CAL1e-=immh7n-4+kHiFvRM4S=z7Bb9KaoB2pkUQJRBJqP88sZg@mail.gmail.com>
+Subject: Re: [PATCH v37 00/17] QEMU AVR 8 bit cores
+To: Michael Rolnik <mrolnik@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000029e0740598695fff"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,178 +73,886 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>
+Cc: "thuth@redhat.com" <thuth@redhat.com>,
+ "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjguMTEuMjAxOSAxNzoyMywgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFZsYWRpbWlyIFNl
-bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiAN
-Cj4+IEVycm9yICoqZXJycCBpcyBhbG1vc3QgYWx3YXlzIE9VVC1hcmd1bWVudDogaXQncyBhc3N1
-bWVkIHRvIGJlIE5VTEwsIG9yDQo+PiBwb2ludGVyIHRvIE5VTEwtaW5pdGlhbGl6ZWQgcG9pbnRl
-ciwgb3IgcG9pbnRlciB0byBlcnJvcl9hYm9ydCBvcg0KPj4gZXJyb3JfZmF0YWwsIGZvciBjYWxs
-ZWUgdG8gcmVwb3J0IGVycm9yLg0KPj4NCj4+IEJ1dCB2ZXJ5IGZldyBmdW5jdGlvbnMgaW5zdGVh
-ZCBnZXQgRXJyb3IgKiplcnJwIGFzIElOLWFyZ3VtZW50Og0KPj4gaXQncyBhc3N1bWVkIHRvIGJl
-IHNldCAob3IsIG1heWJlLCBOVUxMKSwgYW5kIGNhbGxlZSBzaG91bGQgY2xlYW4gaXQsDQo+PiBv
-ciBhZGQgc29tZSBpbmZvcm1hdGlvbi4NCj4+DQo+PiBJbiBzdWNoIGNhc2VzLCByZW5hbWUgZXJy
-cCB0byBlcnJwX2luLg0KPiANCj4gTWlzc2luZzogd2h5IGlzIHRoZSByZW5hbWUgdXNlZnVsPw0K
-DQpUaGUgbWFpbiByZWFzb24gaXMgdG8gcHJlcGFyZSBmb3IgY29jY2luZWxsZSBwYXJ0Lg0KDQo+
-IA0KPiBJdCdzIHVzZWZ1bCBpZiBpdCBoZWxwcyByZWFkZXJzIHJlY29nbml6ZSB1bnVzdWFsIEVy
-cm9yICoqIHBhcmFtZXRlcnMsDQo+IGFuZCByZWNvZ25pemluZyB1bnVzdWFsIEVycm9yICoqIHBh
-cmFtZXRlcnMgaXMgYWN0dWFsbHkgYSBwcm9ibGVtLiAgSSdtDQo+IG5vdCBzdXJlIGl0IGlzLCBi
-dXQgbXkgZmFtaWxpYXJpdHkgd2l0aCB0aGUgRXJyb3IgaW50ZXJmYWNlIG1heSBibGluZA0KPiBt
-ZS4NCj4gDQo+IEhvdyBtYW55IGZ1bmN0aW9ucyBoYXZlIHVudXN1YWwgRXJyb3IgKipwYXJhbWV0
-ZXJzPyAgSG93IGFyZSB0aGV5IHVzZWQ/DQo+IEFueSBjYWxscyB0aGF0IGNvdWxkIGVhc2lseSBi
-ZSBtaXN0YWtlbiBhcyB0aGUgdXN1YWwgY2FzZT8gIFNlZSBbKl0NCj4gYmVsb3cuDQo+IA0KPiBZ
-b3UgZWZmZWN0aXZlbHkgcHJvcG9zZSBhIG5hbWluZyBjb252ZW50aW9uLiAgZXJyb3IuaCBzaG91
-bGQgc3BlbGwgaXQNCj4gb3V0LiAgTGV0IG1lIHRyeToNCj4gDQo+ICAgICAgQW55IEVycm9yICoq
-IHBhcmFtZXRlciBtZWFudCBmb3IgcGFzc2luZyBhbiBlcnJvciB0byB0aGUgY2FsbGVyIG11c3QN
-Cj4gICAgICBiZSBuYW1lZCBAZXJycC4gIE5vIG90aGVyIEVycm9yICoqIHBhcmFtZXRlciBtYXkg
-YmUgbmFtZWQgQGVycnAuDQoNCkdvb2QNCg0KPiANCj4gT2JzZXJ2ZToNCj4gDQo+ICogSSByZWZy
-YWluIGZyb20gc3RpcHVsYXRpbmcgaG93IG90aGVyIEVycm9yICoqIHBhcmFtZXRlcnMgYXJlIHRv
-IGJlDQo+ICAgIG5hbWVkLiAgWW91IHVzZSBAZXJycF9pbiwgYmVjYXVzZSB0aGUgb25lcyB5b3Ug
-cmVuYW1lIGFyZSBhY3R1YWxseQ0KPiAgICAiSU4tYXJndW1lbnRzIi4gIEhvd2V2ZXIsIGRpZmZl
-cmVudCB1c2VzIGFyZSBjb25jZWl2YWJsZSwgd2hlcmUNCj4gICAgQGVycnBfaW4gd291bGQgYmUg
-bWlzbGVhZGluZy4NCj4gDQo+ICogSWYgSSB1bmRlcnN0YW5kIHlvdXIgRVJSUF9BVVRPX1BST1BB
-R0FURSgpIGlkZWEgY29ycmVjdGx5LCBtYW55DQo+ICAgIGZ1bmN0aW9ucyB0aGF0IHRha2UgYW4g
-RXJyb3IgKiogdG8gcGFzcyBhbiBlcnJvciB0byB0aGUgY2FsbGVyIHdpbGwNCj4gICAgYWxzbyB1
-c2UgRVJSUF9BVVRPX1BST1BBR0FURSwgYnV0IG5vdCBhbGwuICBUaHVzLCBwcmVzZW5jZSBvZg0K
-PiAgICBFUlJQX0FVVE9fUFJPUEFHQVRFKCkgd29uJ3QgYmUgYSByZWxpYWJsZSBpbmRpY2F0b3Ig
-b2YgInRoZSBFcnJvciAqKg0KPiAgICBwYXJhbWV0ZXIgaXMgZm9yIHBhc3NpbmcgYW4gZXJyb3Ig
-dG8gdGhlIGNhbGxlciIuDQo+IA0KPiAqIEkgY2FuJ3Qgc2VlIG1hY2hpbmVyeSB0byBoZWxwIHVz
-IGNhdGNoIHZpb2xhdGlvbnMgb2YgdGhlIGNvbnZlbnRpb24uDQo+IA0KPj4gVGhpcyBwYXRjaCB1
-cGRhdGVzIG9ubHkgZXJyb3IgQVBJIGZ1bmN0aW9ucy4gVGhlcmUgc3RpbGwgYSBmZXcNCj4+IGZ1
-bmN0aW9ucyB3aXRoIGVycnAtaW4gc2VtYW50aWNzLCB0aGV5IHdpbGwgYmUgdXBkYXRlZCBpbiBm
-dXJ0aGVyDQo+PiBjb21taXRzLg0KPiANCj4gU3BsaXR0aW5nIHRoZSBzZXJpZXMgaW50byBpbmRp
-dmlkdWFsIHBhdGNoZXMgd2FzIGEgYmFkIGlkZWEgOikNCj4gDQo+IEZpcnN0LCBpdCByZWFsbHkg
-bmVlZHMgcmV2aWV3IGFzIGEgd2hvbGUuICBJJ2xsIGRvIHRoYXQsIGJ1dCBub3cgSSBoYXZlDQo+
-IHRvIGh1bnQgZG93biB0aGUgcGFydHMuICBGb3VuZCBzbyBmYXI6DQo+IA0KPiAgICAgIFtQQVRD
-SCB2Nl0gZXJyb3I6IHJlbmFtZSBlcnJwIHRvIGVycnBfaW4gd2hlcmUgaXQgaXMgSU4tYXJndW1l
-bnQNCj4gICAgICBbUEFUQ0ggdjZdIGhtcDogZHJvcCBFcnJvciBwb2ludGVyIGluZGlyZWN0aW9u
-IGluIGhtcF9oYW5kbGVfZXJyb3INCj4gICAgICBbUEFUQ0ggdjZdIHZuYzogZHJvcCBFcnJvciBw
-b2ludGVyIGluZGlyZWN0aW9uIGluIHZuY19jbGllbnRfaW9fZXJyb3INCj4gICAgICBbUEFUQ0gg
-djZdIHFkZXYtbW9uaXRvcjogd2VsbCBmb3JtIGVycm9yIGhpbnQgaGVscGVycw0KPiAgICAgIFtQ
-QVRDSCB2Nl0gbmJkOiB3ZWxsIGZvcm0gbmJkX2l0ZXJfY2hhbm5lbF9lcnJvciBlcnJwIGhhbmRs
-ZXINCj4gICAgICBbUEFUQ0ggdjZdIHBwYzogd2VsbCBmb3JtIGt2bXBwY19oaW50X3NtdF9wb3Nz
-aWJsZSBlcnJvciBoaW50IGhlbHBlcg0KPiAgICAgIFtQQVRDSCB2Nl0gOXBmczogd2VsbCBmb3Jt
-IGVycm9yIGhpbnQgaGVscGVycw0KPiAgICAgIFtQQVRDSCB2Nl0gaHcvY29yZS9xZGV2OiBjbGVh
-bnVwIEVycm9yICoqIHZhcmlhYmxlcw0KPiAgICAgIFtQQVRDSCB2Nl0gYmxvY2svc25hcHNob3Q6
-IHJlbmFtZSBFcnJvciAqKiBwYXJhbWV0ZXIgdG8gbW9yZSBjb21tb24gZXJycA0KPiAgICAgIFtQ
-QVRDSCB2Nl0gaHcvaTM4Ni9hbWRfaW9tbXU6IHJlbmFtZSBFcnJvciAqKiBwYXJhbWV0ZXIgdG8g
-bW9yZSBjb21tb24gZXJycA0KPiAgICAgIFtQQVRDSCB2Nl0gcWdhOiByZW5hbWUgRXJyb3IgKiog
-cGFyYW1ldGVyIHRvIG1vcmUgY29tbW9uIGVycnANCj4gICAgICBbUEFUQ0ggdjZdIG1vbml0b3Iv
-cW1wLWNtZHM6IHJlbmFtZSBFcnJvciAqKiBwYXJhbWV0ZXIgdG8gbW9yZSBjb21tb24gZXJycA0K
-PiAgICAgIFtQQVRDSCB2Nl0gaHcvczM5MHg6IHJlbmFtZSBFcnJvciAqKiBwYXJhbWV0ZXIgdG8g
-bW9yZSBjb21tb24gZXJycA0KPiAgICAgIFtQQVRDSCB2Nl0gaHcvc2Q6IGRyb3AgZXh0cmEgd2hp
-dGVzcGFjZSBpbiBzZGhjaV9zeXNidXNfcmVhbGl6ZSgpIGhlYWRlcg0KPiAgICAgIFtQQVRDSCB2
-Nl0gaHcvdHBtOiByZW5hbWUgRXJyb3IgKiogcGFyYW1ldGVyIHRvIG1vcmUgY29tbW9uIGVycnAN
-Cj4gICAgICBbUEFUQ0ggdjZdIGh3L3VzYjogcmVuYW1lIEVycm9yICoqIHBhcmFtZXRlciB0byBt
-b3JlIGNvbW1vbiBlcnJwDQo+ICAgICAgW1BBVENIIHY2XSBpbmNsdWRlL3FvbS9vYmplY3QuaDog
-cmVuYW1lIEVycm9yICoqIHBhcmFtZXRlciB0byBtb3JlIGNvbW1vbiBlcnJwDQo+ICAgICAgW1BB
-VENIIHY2XSBiYWNrZW5kcy9jcnlwdG9kZXY6IGRyb3AgbG9jYWxfZXJyIGZyb20gY3J5cHRvZGV2
-X2JhY2tlbmRfY29tcGxldGUoKQ0KPiAgICAgIFtQQVRDSCB2Nl0gaHcvdmZpby9hcDogZHJvcCBs
-b2NhbF9lcnIgZnJvbSB2ZmlvX2FwX3JlYWxpemUNCg0KLi4gMTkgcGF0Y2hlcy4uIHNob3VsZCBi
-ZSAyMS4NCg0KSXQncyByZWFsbHkgc2ltcGxlIGZvciBtZSB0byByZXNlbmQgdGhlbSBhbGwgaW4g
-b25lIHY3IHNlcmllcy4gU2hvdWxkIEk/DQoNCj4gDQo+IFsqXSBUaGUgaW5mb3JtYXRpb24gSSBh
-c2tlZCBmb3IgYWJvdmUgaXMgYnVyaWVkIGluIHRoZXNlIHBhdGNoZXMuICBJJ2xsDQo+IHRyeSB0
-byBkaWcgaXQgdXAgYXMgSSBnbyByZXZpZXdpbmcgdGhlbS4NCj4gDQo+IFNlY29uZCwgaXQgcmlz
-a3Mgc29tZSBvZiB0aGVzZSAiZnVydGhlciBwYXRjaGVzIiBvdmVydGFrZSB0aGlzIG9uZSwgYW5k
-DQo+IHRoZW4gaXRzIGNvbW1pdCBtZXNzYWdlIHdpbGwgYmUgbWlzbGVhZGluZy4gIE1vcmVvdmVy
-LCB0aGUgb3RoZXIgY29tbWl0cw0KPiB3aWxsIGxhY2sgY29udGV4dC4NCj4gDQo+PiBTaWduZWQt
-b2ZmLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6
-by5jb20+DQo+PiBSZXZpZXdlZC1ieTogRXJpYyBCbGFrZSA8ZWJsYWtlQHJlZGhhdC5jb20+DQo+
-PiAtLS0NCj4+DQo+PiB2NjogZml4IHMvZXJycC9lcnJwX2luLyBpbiBjb21tZW50cyBjb3JyZXNw
-b25kaW5nIHRvIGNoYW5nZWQgZnVuY3Rpb25zDQo+PiAgICAgIFtFcmljXQ0KPj4gICAgICBhZGQg
-RXJpYydzIHItYg0KPj4NCj4+ICAgaW5jbHVkZS9xYXBpL2Vycm9yLmggfCAxNiArKysrKysrKy0t
-LS0tLS0tDQo+PiAgIHV0aWwvZXJyb3IuYyAgICAgICAgIHwgMzAgKysrKysrKysrKysrKysrLS0t
-LS0tLS0tLS0tLS0tDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMjMg
-ZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvcWFwaS9lcnJvci5oIGIv
-aW5jbHVkZS9xYXBpL2Vycm9yLmgNCj4+IGluZGV4IDNmOTUxNDFhMDEuLmRmNTE4NjQ0ZmMgMTAw
-NjQ0DQo+PiAtLS0gYS9pbmNsdWRlL3FhcGkvZXJyb3IuaA0KPj4gKysrIGIvaW5jbHVkZS9xYXBp
-L2Vycm9yLmgNCj4+IEBAIC0yMzAsMTYgKzIzMCwxNiBAQCB2b2lkIGVycm9yX3Byb3BhZ2F0ZV9w
-cmVwZW5kKEVycm9yICoqZHN0X2VycnAsIEVycm9yICpsb2NhbF9lcnIsDQo+PiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hhciAqZm10LCAuLi4pOw0KPj4gICANCj4+ICAg
-LyoNCj4+IC0gKiBQcmVwZW5kIHNvbWUgdGV4dCB0byBAZXJycCdzIGh1bWFuLXJlYWRhYmxlIGVy
-cm9yIG1lc3NhZ2UuDQo+PiArICogUHJlcGVuZCBzb21lIHRleHQgdG8gQGVycnBfaW4ncyBodW1h
-bi1yZWFkYWJsZSBlcnJvciBtZXNzYWdlLg0KPj4gICAgKiBUaGUgdGV4dCBpcyBtYWRlIGJ5IGZv
-cm1hdHRpbmcgQGZtdCwgQGFwIGxpa2UgdnByaW50ZigpLg0KPj4gICAgKi8NCj4+IC12b2lkIGVy
-cm9yX3ZwcmVwZW5kKEVycm9yICoqZXJycCwgY29uc3QgY2hhciAqZm10LCB2YV9saXN0IGFwKTsN
-Cj4+ICt2b2lkIGVycm9yX3ZwcmVwZW5kKEVycm9yICoqZXJycF9pbiwgY29uc3QgY2hhciAqZm10
-LCB2YV9saXN0IGFwKTsNCj4+ICAgDQo+PiAgIC8qDQo+PiAtICogUHJlcGVuZCBzb21lIHRleHQg
-dG8gQGVycnAncyBodW1hbi1yZWFkYWJsZSBlcnJvciBtZXNzYWdlLg0KPj4gKyAqIFByZXBlbmQg
-c29tZSB0ZXh0IHRvIEBlcnJwX2luJ3MgaHVtYW4tcmVhZGFibGUgZXJyb3IgbWVzc2FnZS4NCj4+
-ICAgICogVGhlIHRleHQgaXMgbWFkZSBieSBmb3JtYXR0aW5nIEBmbXQsIC4uLiBsaWtlIHByaW50
-ZigpLg0KPj4gICAgKi8NCj4+IC12b2lkIGVycm9yX3ByZXBlbmQoRXJyb3IgKiplcnJwLCBjb25z
-dCBjaGFyICpmbXQsIC4uLikNCj4+ICt2b2lkIGVycm9yX3ByZXBlbmQoRXJyb3IgKiplcnJwX2lu
-LCBjb25zdCBjaGFyICpmbXQsIC4uLikNCj4+ICAgICAgIEdDQ19GTVRfQVRUUigyLCAzKTsNCj4+
-ICAgDQo+PiAgIC8qDQo+PiBAQCAtMjUwLDEzICsyNTAsMTMgQEAgdm9pZCBlcnJvcl9wcmVwZW5k
-KEVycm9yICoqZXJycCwgY29uc3QgY2hhciAqZm10LCAuLi4pDQo+PiAgICAqIEludGVuZGVkIHVz
-ZSBpcyBhZGRpbmcgaGVscGZ1bCBoaW50cyBvbiB0aGUgaHVtYW4gdXNlciBpbnRlcmZhY2UsDQo+
-PiAgICAqIGUuZy4gYSBsaXN0IG9mIHZhbGlkIHZhbHVlcy4gIEl0J3Mgbm90IGZvciBjbGFyaWZ5
-aW5nIGEgY29uZnVzaW5nDQo+PiAgICAqIGVycm9yIG1lc3NhZ2UuDQo+PiAtICogQGVycnAgbWF5
-IGJlIE5VTEwsIGJ1dCBub3QgJmVycm9yX2ZhdGFsIG9yICZlcnJvcl9hYm9ydC4NCj4+ICsgKiBA
-ZXJycF9pbiBtYXkgYmUgTlVMTCwgYnV0IG5vdCAmZXJyb3JfZmF0YWwgb3IgJmVycm9yX2Fib3J0
-Lg0KPiANCj4gVGhhdCdzIGJlY2F1c2UgdGhlIGZ1bmN0aW9uIG1vZGlmaWVzIHRoZSBlcnJvciBv
-YmplY3QuDQo+IA0KPiBIbW0sIHNvIGRvIGVycm9yX3ByZXBlbmQoKSBhbmQgZXJyb3JfdnByZXBl
-bmQoKS4gIEkgZmlndXJlIHdlIGJldHRlcg0KPiB1cGRhdGUgdGhlaXIgY29udHJhY3QgYWNjb3Jk
-aW5nbHksIGFuZCBjb3B5IHRoZSAibm90ICZlcnJvcl9mYXRhbCBvcg0KPiAmZXJyb3JfYWJvcnQi
-IGFzc2VydGlvbi4gIE5vdCBpbiB0aGlzIHBhdGNoLiAgTWF5YmUgbm90IGV2ZW4gaW4gdGhpcw0K
-PiBzZXJpZXMuDQo+IA0KPj4gICAgKiBUcml2aWFsbHkgdGhlIGNhc2UgaWYgeW91IGNhbGwgaXQg
-b25seSBhZnRlciBlcnJvcl9zZXRnKCkgb3INCj4+ICAgICogZXJyb3JfcHJvcGFnYXRlKCkuDQo+
-PiAgICAqIE1heSBiZSBjYWxsZWQgbXVsdGlwbGUgdGltZXMuICBUaGUgcmVzdWx0aW5nIGhpbnQg
-c2hvdWxkIGVuZCB3aXRoIGENCj4+ICAgICogbmV3bGluZS4NCj4+ICAgICovDQo+PiAtdm9pZCBl
-cnJvcl9hcHBlbmRfaGludChFcnJvciAqKmVycnAsIGNvbnN0IGNoYXIgKmZtdCwgLi4uKQ0KPj4g
-K3ZvaWQgZXJyb3JfYXBwZW5kX2hpbnQoRXJyb3IgKiplcnJwX2luLCBjb25zdCBjaGFyICpmbXQs
-IC4uLikNCj4+ICAgICAgIEdDQ19GTVRfQVRUUigyLCAzKTsNCj4+ICAgDQo+PiAgIC8qDQo+PiBA
-QCAtMjgxLDkgKzI4MSw5IEBAIEVycm9yICplcnJvcl9jb3B5KGNvbnN0IEVycm9yICplcnIpOw0K
-Pj4gICB2b2lkIGVycm9yX2ZyZWUoRXJyb3IgKmVycik7DQo+PiAgIA0KPj4gICAvKg0KPj4gLSAq
-IENvbnZlbmllbmNlIGZ1bmN0aW9uIHRvIGFzc2VydCB0aGF0ICpAZXJycCBpcyBzZXQsIHRoZW4g
-c2lsZW50bHkgZnJlZSBpdC4NCj4+ICsgKiBDb252ZW5pZW5jZSBmdW5jdGlvbiB0byBhc3NlcnQg
-dGhhdCAqQGVycnBfaW4gaXMgc2V0LCB0aGVuIHNpbGVudGx5IGZyZWUgaXQuDQo+IExvbmcgbGlu
-ZS4gIFN1Z2dlc3Q6DQo+IA0KPiAgICAgICogQXNzZXJ0IHRoYXQgKkBlcnJwX2luIGlzIHNldCwg
-dGhlbiBzaWxlbnRseSBmcmVlIGl0Lg0KPiAgICAgICogVGhpcyBpcyBhIGNvbnZlbmllbmNlIGZ1
-bmN0aW9uIGZvciB1c2UgaW4gdGVzdHMuDQo+IA0KPj4gICAgKi8NCj4+IC12b2lkIGVycm9yX2Zy
-ZWVfb3JfYWJvcnQoRXJyb3IgKiplcnJwKTsNCj4+ICt2b2lkIGVycm9yX2ZyZWVfb3JfYWJvcnQo
-RXJyb3IgKiplcnJwX2luKTsNCj4+ICAgDQo+PiAgIC8qDQo+PiAgICAqIENvbnZlbmllbmNlIGZ1
-bmN0aW9uIHRvIHdhcm5fcmVwb3J0KCkgYW5kIGZyZWUgQGVyci4NCj4+IGRpZmYgLS1naXQgYS91
-dGlsL2Vycm9yLmMgYi91dGlsL2Vycm9yLmMNCj4+IGluZGV4IGQ0NTMyY2UzMTguLjI3NTU4NmZh
-YTggMTAwNjQ0DQo+PiAtLS0gYS91dGlsL2Vycm9yLmMNCj4+ICsrKyBiL3V0aWwvZXJyb3IuYw0K
-Pj4gQEAgLTEyMSw0MSArMTIxLDQxIEBAIHZvaWQgZXJyb3Jfc2V0Z19maWxlX29wZW5faW50ZXJu
-YWwoRXJyb3IgKiplcnJwLA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiQ291
-bGQgbm90IG9wZW4gJyVzJyIsIGZpbGVuYW1lKTsNCj4+ICAgfQ0KPj4gICANCj4+IC12b2lkIGVy
-cm9yX3ZwcmVwZW5kKEVycm9yICoqZXJycCwgY29uc3QgY2hhciAqZm10LCB2YV9saXN0IGFwKQ0K
-Pj4gK3ZvaWQgZXJyb3JfdnByZXBlbmQoRXJyb3IgKiplcnJwX2luLCBjb25zdCBjaGFyICpmbXQs
-IHZhX2xpc3QgYXApDQo+PiAgIHsNCj4+ICAgICAgIEdTdHJpbmcgKm5ld21zZzsNCj4+ICAgDQo+
-PiAtICAgIGlmICghZXJycCkgew0KPj4gKyAgICBpZiAoIWVycnBfaW4pIHsNCj4+ICAgICAgICAg
-ICByZXR1cm47DQo+PiAgIA0KPj4gICAgICAgbmV3bXNnID0gZ19zdHJpbmdfbmV3KE5VTEwpOw0K
-Pj4gICAgICAgZ19zdHJpbmdfdnByaW50ZihuZXdtc2csIGZtdCwgYXApOw0KPj4gLSAgICBnX3N0
-cmluZ19hcHBlbmQobmV3bXNnLCAoKmVycnApLT5tc2cpOw0KPj4gLSAgICBnX2ZyZWUoKCplcnJw
-KS0+bXNnKTsNCj4+IC0gICAgKCplcnJwKS0+bXNnID0gZ19zdHJpbmdfZnJlZShuZXdtc2csIDAp
-Ow0KPj4gKyAgICBnX3N0cmluZ19hcHBlbmQobmV3bXNnLCAoKmVycnBfaW4pLT5tc2cpOw0KPj4g
-KyAgICBnX2ZyZWUoKCplcnJwX2luKS0+bXNnKTsNCj4+ICsgICAgKCplcnJwX2luKS0+bXNnID0g
-Z19zdHJpbmdfZnJlZShuZXdtc2csIDApOw0KPj4gICB9DQo+PiAgIA0KPj4gLXZvaWQgZXJyb3Jf
-cHJlcGVuZChFcnJvciAqKmVycnAsIGNvbnN0IGNoYXIgKmZtdCwgLi4uKQ0KPj4gK3ZvaWQgZXJy
-b3JfcHJlcGVuZChFcnJvciAqKmVycnBfaW4sIGNvbnN0IGNoYXIgKmZtdCwgLi4uKQ0KPj4gICB7
-DQo+PiAgICAgICB2YV9saXN0IGFwOw0KPj4gICANCj4+ICAgICAgIHZhX3N0YXJ0KGFwLCBmbXQp
-Ow0KPj4gLSAgICBlcnJvcl92cHJlcGVuZChlcnJwLCBmbXQsIGFwKTsNCj4+ICsgICAgZXJyb3Jf
-dnByZXBlbmQoZXJycF9pbiwgZm10LCBhcCk7DQo+PiAgICAgICB2YV9lbmQoYXApOw0KPj4gICB9
-DQo+PiAgIA0KPj4gLXZvaWQgZXJyb3JfYXBwZW5kX2hpbnQoRXJyb3IgKiplcnJwLCBjb25zdCBj
-aGFyICpmbXQsIC4uLikNCj4+ICt2b2lkIGVycm9yX2FwcGVuZF9oaW50KEVycm9yICoqZXJycF9p
-biwgY29uc3QgY2hhciAqZm10LCAuLi4pDQo+PiAgIHsNCj4+ICAgICAgIHZhX2xpc3QgYXA7DQo+
-PiAgICAgICBpbnQgc2F2ZWRfZXJybm8gPSBlcnJubzsNCj4+ICAgICAgIEVycm9yICplcnI7DQo+
-PiAgIA0KPj4gLSAgICBpZiAoIWVycnApIHsNCj4+ICsgICAgaWYgKCFlcnJwX2luKSB7DQo+PiAg
-ICAgICAgICAgcmV0dXJuOw0KPj4gICAgICAgfQ0KPj4gLSAgICBlcnIgPSAqZXJycDsNCj4+IC0g
-ICAgYXNzZXJ0KGVyciAmJiBlcnJwICE9ICZlcnJvcl9hYm9ydCAmJiBlcnJwICE9ICZlcnJvcl9m
-YXRhbCk7DQo+PiArICAgIGVyciA9ICplcnJwX2luOw0KPj4gKyAgICBhc3NlcnQoZXJyICYmIGVy
-cnBfaW4gIT0gJmVycm9yX2Fib3J0ICYmIGVycnBfaW4gIT0gJmVycm9yX2ZhdGFsKTsNCj4+ICAg
-DQo+PiAgICAgICBpZiAoIWVyci0+aGludCkgew0KPj4gICAgICAgICAgIGVyci0+aGludCA9IGdf
-c3RyaW5nX25ldyhOVUxMKTsNCj4+IEBAIC0yNzEsMTEgKzI3MSwxMSBAQCB2b2lkIGVycm9yX2Zy
-ZWUoRXJyb3IgKmVycikNCj4+ICAgICAgIH0NCj4+ICAgfQ0KPj4gICANCj4+IC12b2lkIGVycm9y
-X2ZyZWVfb3JfYWJvcnQoRXJyb3IgKiplcnJwKQ0KPj4gK3ZvaWQgZXJyb3JfZnJlZV9vcl9hYm9y
-dChFcnJvciAqKmVycnBfaW4pDQo+PiAgIHsNCj4+IC0gICAgYXNzZXJ0KGVycnAgJiYgKmVycnAp
-Ow0KPj4gLSAgICBlcnJvcl9mcmVlKCplcnJwKTsNCj4+IC0gICAgKmVycnAgPSBOVUxMOw0KPj4g
-KyAgICBhc3NlcnQoZXJycF9pbiAmJiAqZXJycF9pbik7DQo+PiArICAgIGVycm9yX2ZyZWUoKmVy
-cnBfaW4pOw0KPj4gKyAgICAqZXJycF9pbiA9IE5VTEw7DQo+PiAgIH0NCj4+ICAgDQo+PiAgIHZv
-aWQgZXJyb3JfcHJvcGFnYXRlKEVycm9yICoqZHN0X2VycnAsIEVycm9yICpsb2NhbF9lcnIpDQo+
-IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+--00000000000029e0740598695fff
+Content-Type: text/plain; charset="UTF-8"
+
+On Wednesday, November 27, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+
+> This series of patches adds 8bit AVR cores to QEMU.
+> All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully
+> tested yet.
+> However I was able to execute simple code with functions. e.g fibonacci
+> calculation.
+> This series of patches include a non real, sample board.
+> No fuses support yet. PC is set to 0 at reset.
+>
+> Following are examples of possible usages, assuming program.elf is
+> compiled for AVR cpu
+> 1.  Continious non interrupted execution
+>     run `qemu-system-avr -kernel program.elf`
+> 2.  Continious non interrupted execution with serial output into telnet
+> window
+>     run `qemu-system-avr -kernel program.elf -serial
+> tcp::5678,server,nowait -nographic `
+>     run `telent localhost 5678`
+> 3.  Continious non interrupted execution with serial output into stdout
+>     run `qemu-system-avr -kernel program.elf -serial stdio`
+> 4.  Debugging wit GDB debugger
+>     run `qemu-system-avr -kernel program.elf -s -S`
+>     run `avr-gdb program.elf` and then within GDB shell `target remote
+> :1234`
+> 5.  Print out executed instructions
+>     run `qemu-system-avr -kernel program.elf -d in_asm`
+>
+>
+What is still missing is a documentstion patch. You need to browse a bit
+QEMU online documentation  https://qemu.weilnetz.de/doc/qemu-doc.html  and
+find the right place and content for AVR. Source for documentation is
+within the tree, in one of .texi or .rst files.
+
+Please also split Sarah's patch into three, not only for reviewing purpose,
+but for the sake of future readers.
+
+Yours,
+Aleksandar
+
+
+>
+> the patches include the following
+> 1. just a basic 8bit AVR CPU, without instruction decoding or translation
+> 2. CPU features which allow define the following 8bit AVR cores
+>      avr1
+>      avr2 avr25
+>      avr3 avr31 avr35
+>      avr4
+>      avr5 avr51
+>      avr6
+>      xmega2 xmega4 xmega5 xmega6 xmega7
+> 3. a definition of sample machine with SRAM, FLASH and CPU which allows to
+> execute simple code
+> 4. encoding for all AVR instructions
+> 5. interrupt handling
+> 6. helpers for IN, OUT, SLEEP, WBR & unsupported instructions
+> 7. a decoder which given an opcode decides what istruction it is
+> 8. translation of AVR instruction into TCG
+> 9. all features together
+>
+> changes since v3
+> 1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff)
+> for faster address manipulaton
+> 2. ffs changed to ctz32
+> 3. duplicate code removed at avr_cpu_do_interrupt
+> 4. using andc instead of not + and
+> 5. fixing V flag calculation in varios instructions
+> 6. freeing local variables in PUSH
+> 7. tcg_const_local_i32 -> tcg_const_i32
+> 8. using sextract32 instead of my implementation
+> 9. fixing BLD instruction
+> 10.xor(r) instead of 0xff - r at COM
+> 11.fixing MULS/MULSU not to modify inputs' content
+> 12.using SUB for NEG
+> 13.fixing tcg_gen_qemu_ld/st call in XCH
+>
+> changes since v4
+> 1. target is now defined as big endian in order to optimize
+> push_ret/pop_ret
+> 2. all style warnings are fixed
+> 3. adding cpu_set/get_sreg functions
+> 4. simplifying gen_goto_tb as there is no real paging
+> 5. env->pc -> env->pc_w
+> 6. making flag dump more compact
+> 7. more spacing
+> 8. renaming CODE/DATA_INDEX -> MMU_CODE/DATA_IDX
+> 9. removing avr_set_feature
+> 10. SPL/SPH set bug fix
+> 11. switching stb_phys to cpu_stb_data
+> 12. cleaning up avr_decode
+> 13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)
+> 14. saving CPU features (savevm)
+>
+> changes since v5
+> 1. BLD bug fix
+> 2. decoder generator is added
+>
+> chages since v6
+> 1. using cpu_get_sreg/cpu_set_sreg in avr_cpu_gdb_read_register/avr_
+> cpu_gdb_write_register
+> 2. configure the target as little endian because otherwise GDB does not
+> work
+> 3. fixing and testing gen_push_ret/gen_pop_ret
+>
+> changes since v7
+> 1. folding back v6
+> 2. logging at helper_outb and helper_inb are done for non supported yet
+> registers only
+> 3. MAINTAINERS updated
+>
+> changes since v8
+> 1. removing hw/avr from hw/Makefile.obj as it should not be built for all
+> 2. making linux compilable
+> 3. testing on
+>     a. Mac, Apple LLVM version 7.0.0
+>     b. Ubuntu 12.04, gcc 4.9.2
+>     c. Fedora 23, gcc 5.3.1
+> 4. folding back some patches
+> 5. translation bug fixes for ORI, CPI, XOR instructions
+> 6. propper handling of cpu register writes though memory
+>
+> changes since v9
+> 1. removing forward declarations of static functions
+> 2. disabling debug prints
+> 3. switching to case range instead of if else if ...
+> 4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any
+> device
+> 5. commenst about sample board and sample IO device added
+> 6. sample board description is more descriptive now
+> 7. memory_region_allocate_system_memory is used to create RAM
+> 8. now there are helper_fullrd & helper_fullwr when LD/ST try to access
+> registers
+>
+> changes since v10
+> 1. movig back fullwr & fullrd into the commit where outb and inb were
+> introduced
+> 2. changing tlb_fill function signature
+> 3. adding empty line between functions
+> 4. adding newline on the last line of the file
+> 5. using tb->flags to generae full access ST/LD instructions
+> 6. fixing SBRC bug
+> 7. folding back 10th commit
+> 8. whenever a new file is introduced it's added to Makefile.objs
+>
+> changes since v11
+> 1. updating to v2.7.0-rc
+> 2. removing assignment to env->fullacc from gen_intermediate_code
+>
+> changes since v12
+> 1. fixing spacing
+> 2. fixing get/put_segment functions
+> 3. removing target-avr/machine.h file
+> 4. VMSTATE_SINGLE_TEST -> VMSTATE_SINGLE
+> 5. comment spelling
+> 6. removing hw/avr/sample_io.c
+> 7. char const* -> const char*
+> 8. proper ram allocation
+> 9. fixing breakpoint functionality.
+> 10.env1 -> env
+> 11.fixing avr_cpu_gdb_write_register & avr_cpu_gdb_read_register functions
+> 12.any cpu is removed
+> 12.feature bits are not saved into vm state
+>
+> changes since v13
+> 1. rebasing to v2.7.0-rc1
+>
+> changes since v14
+> 1. I made self review with git gui tool. (I did not know such a thing
+> exists)
+> 2. removing all double/tripple spaces
+> 3. removing comment reference to SampleIO
+> 4. folding back some changes, so there is not deleted lines in my code
+> 5. moving avr configuration, within configure file, before chris
+>
+> changes since v15
+> 1. removing IO registers cache from CPU
+> 2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)
+> 3. implementing CBIC/SBIC as read(helper_inb), check, branch
+> 4. adding missing tcg_temp_free_i32 for tcg_const_i32
+>
+> changes since v16
+> 1. removing EXT IO registers knoledge from CPU. These registers are
+> accessible
+>    by LD/ST only. CPU has no interest in them
+>
+> changes since v17 (by Richard Henderson)
+> This is Michael's v17, with some adjustments of my own:
+>
+> 1. Fix the whitespace errors reported by "git am",
+> 2. Replace the utf-8 characters with normal ascii,
+> 3. Ditch the separate compilation of translate.c.
+>
+> I retained the two separate files that could be regenerated
+> from the included cpugen program, but merged in translate-insn.c.
+> Not that it matters, but the code generated is about 3k smaller.
+>
+> changes since v18
+> 1.  moving target-avr into target/avr
+> 2.  do not call cpu_exec_initfn function from avr_cpu_initfn
+> 3.  call cpu_exec_realizefn avr_cpu_realizefn
+> 4.  do not fail sample machine creation if no rom is suplied
+> 5.  add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code
+> 6.  fix a register getters/setters in machine.c
+> 7.  changing QEMU_ARCH_AVR from 1<<17 to 1<<18
+>
+> changes since v19
+> 1.  use decodetree.py tool to decode instructions
+> 2.  adding USART
+> 3.  adding 16 bit timer peripherals
+> 4.  changing QEMU_ARCH_AVR from 1<<18 to 1<<20
+> 5.  renaming tlb_fill to avr_cpu_tlb_fill
+>
+> changes since v20
+> 1.  use one CPU naming convention
+> 2.  merging insn16.decode & insn32.decode files
+> 3.  modifying skip next instruction mechanizm
+> 4.  translate BREAK as NOP for now
+>
+> changes since v21
+> 1.  Reorganize bstate.
+>     This will make transition to <exec/translator.h> easier, and fixes a
+> couple of bugs wrt single stepping
+>     by richard.henderson@linaro.org
+> 2.  Drop cpc and fix page cross condition.
+>     by richard.henderson@linaro.org
+> 3.  Refactor checking supported/unsupported instructions
+> 4.  Add gdb-xml/avr-cpu.xml
+>
+> changes since v22
+> 1.  Rebase
+> 2.  Split long comment
+>
+> changes since v23
+> 1.  remove avr_cpu_list_compare function
+> 2.  modify avr_cpu_class_by_name function
+> 3.  modify avr_cpu_list_entry function
+> 4.  modify avr_cpu_list function
+>
+> changes since v24
+> 1.  remove AVR_CPU_TYPE_NAME macro
+>
+> changes since v25
+> 1.  fix patches. every file belong to one patch only
+> 2.  change copyright year from 2016 to 2019
+> 3.  create mask device to emulate prr0/prr1
+>
+> changes since v26
+> 1.  add avocado acceptence test
+> 2.  add boot serial test
+>
+> changes since v27
+> 1.  list atmel2560 devices as unimplemented
+> 2.  fix sram base/size
+>
+> changes since v28
+> 1.  rebase
+> 2.  fix includes & build
+>
+> changes since v29
+> 1.  fixing ownership
+> 2.  using 'since' instread of 'added in'
+>
+> changes since v30
+> 1.  rebase
+>
+> changes since v31
+> 1.  splitting 'Add instruction translation' commit
+> 2.  fixing typo in qapi/machine.json sicne -> since
+> 3.  removing unintended changes in configure file
+> 4.  adding Richard Henderson as a co developer to 'Add instruction
+> translation - CPU main translation funcions' commit
+>
+> changes since v32
+> 1.  modify cpu_get_sreg to treat sreg C as other flags, except sreg Z
+>
+> changes since v33
+> 1.  ensure flag C is always calculated as one bit
+> 2.  calculate flag Z as one bit, without using inverse logic
+>
+> changes since v34
+> 1.  rebase
+>
+> changes since v35
+> 1.  rebase
+> 2.  use NANOSECONDS_PER_SECOND instead of 1000000000 in avr_timer16.c
+> 3.  split "target/avr: Register AVR support with the rest of QEMU" into
+> three patches
+>     1.  "target/avr: Register AVR support with the rest of QEMU"
+>     2.  "target/avr: Update build system"
+>     3.  "target/avr: Update MAINTAINERS file"
+> 4.  split "target/avr: Add tests" patch into two patches
+>     1.  "target/avr: Add Avocado test"
+>     2.  "target/avr: Add boot serial test"
+> 5.  Add instruction disassembly function
+> 6.  change "since 4.2" to "since 5.0"
+>
+> changes since v36
+> 1.  rebase
+> 2.  tename
+>     1.  NO_CPU_REGISTERS    -> NUMBER_OF_CPU_REGISTERS
+>     2.  NO_IO_REGISTERS     -> NUMBER_OF_IO_REGISTERS
+>     3.  to_A                -> to_regs_16_31_by_one
+>     4.  to_B                -> to_regs_16_23_by_one
+>     5.  to_C                -> to_regs_24_30_by_two
+>     6.  to_D                -> to_regs_00_30_by_two
+> 3.  add missing licences
+> 4.  add usage example (see above)
+> 5.  ass Sarah Harris <S.E.Harris@kent.ac.uk> as a reviewer to MAINTAINERS
+> 7.  use git commit sha1 instead of `master`` in avocado test
+>
+> Michael Rolnik (16):
+>   target/avr: Add outward facing interfaces and core CPU logic
+>   target/avr: Add instruction helpers
+>   target/avr: Add instruction decoding
+>   target/avr: Add instruction translation - Registers definition
+>   target/avr: Add instruction translation - Arithmetic and Logic
+>     Instructions
+>   target/avr: Add instruction translation - Branch Instructions
+>   target/avr: Add instruction translation - Bit and Bit-test
+>     Instructions
+>   target/avr: Add instruction translation - MCU Control Instructions
+>   target/avr: Add instruction translation - CPU main translation
+>     function
+>   target/avr: Add instruction disassembly function
+>   target/avr: Add example board configuration
+>   target/avr: Register AVR support with the rest of QEMU
+>   target/avr: Update build system
+>   target/avr: Add boot serial test
+>   target/avr: Add Avocado test
+>   target/avr: Update MAINTAINERS file
+>
+> Sarah Harris (1):
+>   target/avr: Add limited support for USART and 16 bit timer peripherals
+>
+>  configure                        |    7 +
+>  default-configs/avr-softmmu.mak  |    5 +
+>  qapi/machine.json                |    3 +-
+>  include/disas/dis-asm.h          |    6 +
+>  include/hw/char/avr_usart.h      |   97 +
+>  include/hw/misc/avr_mask.h       |   47 +
+>  include/hw/timer/avr_timer16.h   |   97 +
+>  include/sysemu/arch_init.h       |    1 +
+>  target/avr/cpu-param.h           |   37 +
+>  target/avr/cpu-qom.h             |   54 +
+>  target/avr/cpu.h                 |  254 +++
+>  target/avr/helper.h              |   29 +
+>  arch_init.c                      |    2 +
+>  hw/avr/sample.c                  |  282 +++
+>  hw/char/avr_usart.c              |  324 ++++
+>  hw/misc/avr_mask.c               |  112 ++
+>  hw/timer/avr_timer16.c           |  605 ++++++
+>  target/avr/cpu.c                 |  576 ++++++
+>  target/avr/disas.c               |  228 +++
+>  target/avr/gdbstub.c             |   85 +
+>  target/avr/helper.c              |  354 ++++
+>  target/avr/machine.c             |  121 ++
+>  target/avr/translate.c           | 3052 ++++++++++++++++++++++++++++++
+>  tests/boot-serial-test.c         |   10 +
+>  tests/machine-none-test.c        |    1 +
+>  MAINTAINERS                      |   11 +
+>  gdb-xml/avr-cpu.xml              |   49 +
+>  hw/Kconfig                       |    1 +
+>  hw/avr/Kconfig                   |    6 +
+>  hw/avr/Makefile.objs             |    1 +
+>  hw/char/Kconfig                  |    3 +
+>  hw/char/Makefile.objs            |    1 +
+>  hw/misc/Kconfig                  |    3 +
+>  hw/misc/Makefile.objs            |    2 +
+>  hw/timer/Kconfig                 |    3 +
+>  hw/timer/Makefile.objs           |    2 +
+>  target/avr/Makefile.objs         |   34 +
+>  target/avr/insn.decode           |  194 ++
+>  tests/Makefile.include           |    2 +
+>  tests/acceptance/machine_avr6.py |   56 +
+>  40 files changed, 6756 insertions(+), 1 deletion(-)
+>  create mode 100644 default-configs/avr-softmmu.mak
+>  create mode 100644 include/hw/char/avr_usart.h
+>  create mode 100644 include/hw/misc/avr_mask.h
+>  create mode 100644 include/hw/timer/avr_timer16.h
+>  create mode 100644 target/avr/cpu-param.h
+>  create mode 100644 target/avr/cpu-qom.h
+>  create mode 100644 target/avr/cpu.h
+>  create mode 100644 target/avr/helper.h
+>  create mode 100644 hw/avr/sample.c
+>  create mode 100644 hw/char/avr_usart.c
+>  create mode 100644 hw/misc/avr_mask.c
+>  create mode 100644 hw/timer/avr_timer16.c
+>  create mode 100644 target/avr/cpu.c
+>  create mode 100644 target/avr/disas.c
+>  create mode 100644 target/avr/gdbstub.c
+>  create mode 100644 target/avr/helper.c
+>  create mode 100644 target/avr/machine.c
+>  create mode 100644 target/avr/translate.c
+>  create mode 100644 gdb-xml/avr-cpu.xml
+>  create mode 100644 hw/avr/Kconfig
+>  create mode 100644 hw/avr/Makefile.objs
+>  create mode 100644 target/avr/Makefile.objs
+>  create mode 100644 target/avr/insn.decode
+>  create mode 100644 tests/acceptance/machine_avr6.py
+>
+> --
+> 2.17.2 (Apple Git-113)
+>
+>
+
+--00000000000029e0740598695fff
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Wednesday, November 27, 2019, Michael Rolnik &lt;<a href=3D"mail=
+to:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">This series of patches adds 8bit AVR cores to QEMU.<br>
+All instruction, except BREAK/DES/SPM/SPMX, are implemented. Not fully test=
+ed yet.<br>
+However I was able to execute simple code with functions. e.g fibonacci cal=
+culation.<br>
+This series of patches include a non real, sample board.<br>
+No fuses support yet. PC is set to 0 at reset.<br>
+<br>
+Following are examples of possible usages, assuming program.elf is compiled=
+ for AVR cpu<br>
+1.=C2=A0 Continious non interrupted execution<br>
+=C2=A0 =C2=A0 run `qemu-system-avr -kernel program.elf` <br>
+2.=C2=A0 Continious non interrupted execution with serial output into telne=
+t window<br>
+=C2=A0 =C2=A0 run `qemu-system-avr -kernel program.elf -serial tcp::5678,se=
+rver,nowait -nographic `<br>
+=C2=A0 =C2=A0 run `telent localhost 5678`<br>
+3.=C2=A0 Continious non interrupted execution with serial output into stdou=
+t<br>
+=C2=A0 =C2=A0 run `qemu-system-avr -kernel program.elf -serial stdio`<br>
+4.=C2=A0 Debugging wit GDB debugger<br>
+=C2=A0 =C2=A0 run `qemu-system-avr -kernel program.elf -s -S`<br>
+=C2=A0 =C2=A0 run `avr-gdb program.elf` and then within GDB shell `target r=
+emote :1234`<br>
+5.=C2=A0 Print out executed instructions<br>
+=C2=A0 =C2=A0 run `qemu-system-avr -kernel program.elf -d in_asm` <br>
+<br></blockquote><div><br></div><div>What is still missing is a documentsti=
+on patch. You need to browse a bit QEMU online documentation =C2=A0<a href=
+=3D"https://qemu.weilnetz.de/doc/qemu-doc.html">https://qemu.weilnetz.de/do=
+c/qemu-doc.html</a>=C2=A0 and find the right place and content for AVR. Sou=
+rce for documentation is within the tree, in one of .texi or .rst files.</d=
+iv><div><br></div><div>Please also split Sarah&#39;s patch into three, not =
+only for reviewing purpose, but for the sake of future readers.</div><div><=
+br></div><div>Yours,</div><div>Aleksandar</div><div>=C2=A0</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">
+<br>
+the patches include the following<br>
+1. just a basic 8bit AVR CPU, without instruction decoding or translation<b=
+r>
+2. CPU features which allow define the following 8bit AVR cores<br>
+=C2=A0 =C2=A0 =C2=A0avr1<br>
+=C2=A0 =C2=A0 =C2=A0avr2 avr25<br>
+=C2=A0 =C2=A0 =C2=A0avr3 avr31 avr35<br>
+=C2=A0 =C2=A0 =C2=A0avr4<br>
+=C2=A0 =C2=A0 =C2=A0avr5 avr51<br>
+=C2=A0 =C2=A0 =C2=A0avr6<br>
+=C2=A0 =C2=A0 =C2=A0xmega2 xmega4 xmega5 xmega6 xmega7<br>
+3. a definition of sample machine with SRAM, FLASH and CPU which allows to =
+execute simple code<br>
+4. encoding for all AVR instructions<br>
+5. interrupt handling<br>
+6. helpers for IN, OUT, SLEEP, WBR &amp; unsupported instructions<br>
+7. a decoder which given an opcode decides what istruction it is<br>
+8. translation of AVR instruction into TCG<br>
+9. all features together<br>
+<br>
+changes since v3<br>
+1. rampD/X/Y/Z registers are encoded as 0x00ff0000 (instead of 0x000000ff) =
+for faster address manipulaton<br>
+2. ffs changed to ctz32<br>
+3. duplicate code removed at avr_cpu_do_interrupt<br>
+4. using andc instead of not + and<br>
+5. fixing V flag calculation in varios instructions<br>
+6. freeing local variables in PUSH<br>
+7. tcg_const_local_i32 -&gt; tcg_const_i32<br>
+8. using sextract32 instead of my implementation<br>
+9. fixing BLD instruction<br>
+10.xor(r) instead of 0xff - r at COM<br>
+11.fixing MULS/MULSU not to modify inputs&#39; content<br>
+12.using SUB for NEG<br>
+13.fixing tcg_gen_qemu_ld/st call in XCH<br>
+<br>
+changes since v4<br>
+1. target is now defined as big endian in order to optimize push_ret/pop_re=
+t<br>
+2. all style warnings are fixed<br>
+3. adding cpu_set/get_sreg functions<br>
+4. simplifying gen_goto_tb as there is no real paging<br>
+5. env-&gt;pc -&gt; env-&gt;pc_w<br>
+6. making flag dump more compact<br>
+7. more spacing<br>
+8. renaming CODE/DATA_INDEX -&gt; MMU_CODE/DATA_IDX<br>
+9. removing avr_set_feature<br>
+10. SPL/SPH set bug fix<br>
+11. switching stb_phys to cpu_stb_data<br>
+12. cleaning up avr_decode<br>
+13. saving sreg, rampD/X/Y/Z, eind in HW format (savevm)<br>
+14. saving CPU features (savevm)<br>
+<br>
+changes since v5<br>
+1. BLD bug fix<br>
+2. decoder generator is added<br>
+<br>
+chages since v6<br>
+1. using cpu_get_sreg/cpu_set_sreg in avr_cpu_gdb_read_register/avr_<wbr>cp=
+u_gdb_write_register<br>
+2. configure the target as little endian because otherwise GDB does not wor=
+k<br>
+3. fixing and testing gen_push_ret/gen_pop_ret<br>
+<br>
+changes since v7<br>
+1. folding back v6<br>
+2. logging at helper_outb and helper_inb are done for non supported yet reg=
+isters only<br>
+3. MAINTAINERS updated<br>
+<br>
+changes since v8<br>
+1. removing hw/avr from hw/Makefile.obj as it should not be built for all<b=
+r>
+2. making linux compilable<br>
+3. testing on<br>
+=C2=A0 =C2=A0 a. Mac, Apple LLVM version 7.0.0<br>
+=C2=A0 =C2=A0 b. Ubuntu 12.04, gcc 4.9.2<br>
+=C2=A0 =C2=A0 c. Fedora 23, gcc 5.3.1<br>
+4. folding back some patches<br>
+5. translation bug fixes for ORI, CPI, XOR instructions<br>
+6. propper handling of cpu register writes though memory<br>
+<br>
+changes since v9<br>
+1. removing forward declarations of static functions<br>
+2. disabling debug prints<br>
+3. switching to case range instead of if else if ...<br>
+4. LD/ST IN/OUT accessing CPU maintainder registers are not routed to any d=
+evice<br>
+5. commenst about sample board and sample IO device added<br>
+6. sample board description is more descriptive now<br>
+7. memory_region_allocate_system_<wbr>memory is used to create RAM<br>
+8. now there are helper_fullrd &amp; helper_fullwr when LD/ST try to access=
+ registers<br>
+<br>
+changes since v10<br>
+1. movig back fullwr &amp; fullrd into the commit where outb and inb were i=
+ntroduced<br>
+2. changing tlb_fill function signature<br>
+3. adding empty line between functions<br>
+4. adding newline on the last line of the file<br>
+5. using tb-&gt;flags to generae full access ST/LD instructions<br>
+6. fixing SBRC bug<br>
+7. folding back 10th commit<br>
+8. whenever a new file is introduced it&#39;s added to Makefile.objs<br>
+<br>
+changes since v11<br>
+1. updating to v2.7.0-rc<br>
+2. removing assignment to env-&gt;fullacc from gen_intermediate_code<br>
+<br>
+changes since v12<br>
+1. fixing spacing<br>
+2. fixing get/put_segment functions<br>
+3. removing target-avr/machine.h file<br>
+4. VMSTATE_SINGLE_TEST -&gt; VMSTATE_SINGLE<br>
+5. comment spelling<br>
+6. removing hw/avr/sample_io.c<br>
+7. char const* -&gt; const char*<br>
+8. proper ram allocation<br>
+9. fixing breakpoint functionality.<br>
+10.env1 -&gt; env<br>
+11.fixing avr_cpu_gdb_write_register &amp; avr_cpu_gdb_read_register functi=
+ons<br>
+12.any cpu is removed<br>
+12.feature bits are not saved into vm state<br>
+<br>
+changes since v13<br>
+1. rebasing to v2.7.0-rc1<br>
+<br>
+changes since v14<br>
+1. I made self review with git gui tool. (I did not know such a thing exist=
+s)<br>
+2. removing all double/tripple spaces<br>
+3. removing comment reference to SampleIO<br>
+4. folding back some changes, so there is not deleted lines in my code<br>
+5. moving avr configuration, within configure file, before chris<br>
+<br>
+changes since v15<br>
+1. removing IO registers cache from CPU<br>
+2. implementing CBI/SBI as read(helper_inb), modify, write(helper_outb)<br>
+3. implementing CBIC/SBIC as read(helper_inb), check, branch<br>
+4. adding missing tcg_temp_free_i32 for tcg_const_i32<br>
+<br>
+changes since v16<br>
+1. removing EXT IO registers knoledge from CPU. These registers are accessi=
+ble<br>
+=C2=A0 =C2=A0by LD/ST only. CPU has no interest in them<br>
+<br>
+changes since v17 (by Richard Henderson)<br>
+This is Michael&#39;s v17, with some adjustments of my own:<br>
+<br>
+1. Fix the whitespace errors reported by &quot;git am&quot;,<br>
+2. Replace the utf-8 characters with normal ascii,<br>
+3. Ditch the separate compilation of translate.c.<br>
+<br>
+I retained the two separate files that could be regenerated<br>
+from the included cpugen program, but merged in translate-insn.c.<br>
+Not that it matters, but the code generated is about 3k smaller.<br>
+<br>
+changes since v18<br>
+1.=C2=A0 moving target-avr into target/avr<br>
+2.=C2=A0 do not call cpu_exec_initfn function from avr_cpu_initfn<br>
+3.=C2=A0 call cpu_exec_realizefn avr_cpu_realizefn<br>
+4.=C2=A0 do not fail sample machine creation if no rom is suplied<br>
+5.=C2=A0 add tcg_gen_exit_tb(0) for BS_BRANCH in gen_intermediate_code<br>
+6.=C2=A0 fix a register getters/setters in machine.c<br>
+7.=C2=A0 changing QEMU_ARCH_AVR from 1&lt;&lt;17 to 1&lt;&lt;18<br>
+<br>
+changes since v19<br>
+1.=C2=A0 use decodetree.py tool to decode instructions<br>
+2.=C2=A0 adding USART<br>
+3.=C2=A0 adding 16 bit timer peripherals<br>
+4.=C2=A0 changing QEMU_ARCH_AVR from 1&lt;&lt;18 to 1&lt;&lt;20<br>
+5.=C2=A0 renaming tlb_fill to avr_cpu_tlb_fill<br>
+<br>
+changes since v20<br>
+1.=C2=A0 use one CPU naming convention<br>
+2.=C2=A0 merging insn16.decode &amp; insn32.decode files<br>
+3.=C2=A0 modifying skip next instruction mechanizm<br>
+4.=C2=A0 translate BREAK as NOP for now<br>
+<br>
+changes since v21<br>
+1.=C2=A0 Reorganize bstate.<br>
+=C2=A0 =C2=A0 This will make transition to &lt;exec/translator.h&gt; easier=
+, and fixes a couple of bugs wrt single stepping<br>
+=C2=A0 =C2=A0 by <a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a><br>
+2.=C2=A0 Drop cpc and fix page cross condition.<br>
+=C2=A0 =C2=A0 by <a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a><br>
+3.=C2=A0 Refactor checking supported/unsupported instructions<br>
+4.=C2=A0 Add gdb-xml/avr-cpu.xml<br>
+<br>
+changes since v22<br>
+1.=C2=A0 Rebase<br>
+2.=C2=A0 Split long comment<br>
+<br>
+changes since v23<br>
+1.=C2=A0 remove avr_cpu_list_compare function<br>
+2.=C2=A0 modify avr_cpu_class_by_name function<br>
+3.=C2=A0 modify avr_cpu_list_entry function<br>
+4.=C2=A0 modify avr_cpu_list function<br>
+<br>
+changes since v24<br>
+1.=C2=A0 remove AVR_CPU_TYPE_NAME macro<br>
+<br>
+changes since v25<br>
+1.=C2=A0 fix patches. every file belong to one patch only<br>
+2.=C2=A0 change copyright year from 2016 to 2019<br>
+3.=C2=A0 create mask device to emulate prr0/prr1<br>
+<br>
+changes since v26<br>
+1.=C2=A0 add avocado acceptence test<br>
+2.=C2=A0 add boot serial test<br>
+<br>
+changes since v27<br>
+1.=C2=A0 list atmel2560 devices as unimplemented<br>
+2.=C2=A0 fix sram base/size<br>
+<br>
+changes since v28<br>
+1.=C2=A0 rebase<br>
+2.=C2=A0 fix includes &amp; build<br>
+<br>
+changes since v29<br>
+1.=C2=A0 fixing ownership<br>
+2.=C2=A0 using &#39;since&#39; instread of &#39;added in&#39;<br>
+<br>
+changes since v30<br>
+1.=C2=A0 rebase<br>
+<br>
+changes since v31<br>
+1.=C2=A0 splitting &#39;Add instruction translation&#39; commit<br>
+2.=C2=A0 fixing typo in qapi/machine.json sicne -&gt; since<br>
+3.=C2=A0 removing unintended changes in configure file<br>
+4.=C2=A0 adding Richard Henderson as a co developer to &#39;Add instruction=
+ translation - CPU main translation funcions&#39; commit<br>
+<br>
+changes since v32<br>
+1.=C2=A0 modify cpu_get_sreg to treat sreg C as other flags, except sreg Z<=
+br>
+<br>
+changes since v33<br>
+1.=C2=A0 ensure flag C is always calculated as one bit<br>
+2.=C2=A0 calculate flag Z as one bit, without using inverse logic<br>
+<br>
+changes since v34<br>
+1.=C2=A0 rebase<br>
+<br>
+changes since v35<br>
+1.=C2=A0 rebase<br>
+2.=C2=A0 use NANOSECONDS_PER_SECOND instead of 1000000000 in avr_timer16.c<=
+br>
+3.=C2=A0 split &quot;target/avr: Register AVR support with the rest of QEMU=
+&quot; into three patches<br>
+=C2=A0 =C2=A0 1.=C2=A0 &quot;target/avr: Register AVR support with the rest=
+ of QEMU&quot;<br>
+=C2=A0 =C2=A0 2.=C2=A0 &quot;target/avr: Update build system&quot;<br>
+=C2=A0 =C2=A0 3.=C2=A0 &quot;target/avr: Update MAINTAINERS file&quot;<br>
+4.=C2=A0 split &quot;target/avr: Add tests&quot; patch into two patches<br>
+=C2=A0 =C2=A0 1.=C2=A0 &quot;target/avr: Add Avocado test&quot;<br>
+=C2=A0 =C2=A0 2.=C2=A0 &quot;target/avr: Add boot serial test&quot;<br>
+5.=C2=A0 Add instruction disassembly function<br>
+6.=C2=A0 change &quot;since 4.2&quot; to &quot;since 5.0&quot;<br>
+<br>
+changes since v36<br>
+1.=C2=A0 rebase<br>
+2.=C2=A0 tename<br>
+=C2=A0 =C2=A0 1.=C2=A0 NO_CPU_REGISTERS=C2=A0 =C2=A0 -&gt; NUMBER_OF_CPU_RE=
+GISTERS<br>
+=C2=A0 =C2=A0 2.=C2=A0 NO_IO_REGISTERS=C2=A0 =C2=A0 =C2=A0-&gt; NUMBER_OF_I=
+O_REGISTERS<br>
+=C2=A0 =C2=A0 3.=C2=A0 to_A=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 -&gt; to_regs_16_31_by_one<br>
+=C2=A0 =C2=A0 4.=C2=A0 to_B=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 -&gt; to_regs_16_23_by_one<br>
+=C2=A0 =C2=A0 5.=C2=A0 to_C=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 -&gt; to_regs_24_30_by_two<br>
+=C2=A0 =C2=A0 6.=C2=A0 to_D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 -&gt; to_regs_00_30_by_two<br>
+3.=C2=A0 add missing licences<br>
+4.=C2=A0 add usage example (see above)<br>
+5.=C2=A0 ass Sarah Harris &lt;<a href=3D"mailto:S.E.Harris@kent.ac.uk">S.E.=
+Harris@kent.ac.uk</a>&gt; as a reviewer to MAINTAINERS<br>
+7.=C2=A0 use git commit sha1 instead of `master`` in avocado test<br>
+<br>
+Michael Rolnik (16):<br>
+=C2=A0 target/avr: Add outward facing interfaces and core CPU logic<br>
+=C2=A0 target/avr: Add instruction helpers<br>
+=C2=A0 target/avr: Add instruction decoding<br>
+=C2=A0 target/avr: Add instruction translation - Registers definition<br>
+=C2=A0 target/avr: Add instruction translation - Arithmetic and Logic<br>
+=C2=A0 =C2=A0 Instructions<br>
+=C2=A0 target/avr: Add instruction translation - Branch Instructions<br>
+=C2=A0 target/avr: Add instruction translation - Bit and Bit-test<br>
+=C2=A0 =C2=A0 Instructions<br>
+=C2=A0 target/avr: Add instruction translation - MCU Control Instructions<b=
+r>
+=C2=A0 target/avr: Add instruction translation - CPU main translation<br>
+=C2=A0 =C2=A0 function<br>
+=C2=A0 target/avr: Add instruction disassembly function<br>
+=C2=A0 target/avr: Add example board configuration<br>
+=C2=A0 target/avr: Register AVR support with the rest of QEMU<br>
+=C2=A0 target/avr: Update build system<br>
+=C2=A0 target/avr: Add boot serial test<br>
+=C2=A0 target/avr: Add Avocado test<br>
+=C2=A0 target/avr: Update MAINTAINERS file<br>
+<br>
+Sarah Harris (1):<br>
+=C2=A0 target/avr: Add limited support for USART and 16 bit timer periphera=
+ls<br>
+<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 7 +<br>
+=C2=A0default-configs/avr-softmmu.<wbr>mak=C2=A0 |=C2=A0 =C2=A0 5 +<br>
+=C2=A0qapi/machine.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A0 3 +-<br>
+=C2=A0include/disas/dis-asm.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A0 6 +<br>
+=C2=A0include/hw/char/avr_usart.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A097 +<br=
+>
+=C2=A0include/hw/misc/avr_mask.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A047=
+ +<br>
+=C2=A0include/hw/timer/avr_timer16.h=C2=A0 =C2=A0|=C2=A0 =C2=A097 +<br>
+=C2=A0include/sysemu/arch_init.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1=
+ +<br>
+=C2=A0target/avr/cpu-param.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A037 +<br>
+=C2=A0target/avr/cpu-qom.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A054 +<br>
+=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 254 +++<br>
+=C2=A0target/avr/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A029 +<br>
+=C2=A0arch_init.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
+=C2=A0hw/avr/sample.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 282 +++<br>
+=C2=A0hw/char/avr_usart.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 324 ++++<br>
+=C2=A0hw/misc/avr_mask.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 112 ++<br>
+=C2=A0hw/timer/avr_timer16.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 605 ++++++<br>
+=C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 576 ++++++<br>
+=C2=A0target/avr/disas.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 228 +++<br>
+=C2=A0target/avr/gdbstub.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A085 +<br>
+=C2=A0target/avr/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 354 ++++<br>
+=C2=A0target/avr/machine.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 121 ++<br>
+=C2=A0target/avr/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3052=
+ ++++++++++++++++++++++++++++++<br>
+=C2=A0tests/boot-serial-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A010 +<br>
+=C2=A0tests/machine-none-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 1=
+ +<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A011 +<br>
+=C2=A0gdb-xml/avr-cpu.xml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A049 +<br>
+=C2=A0hw/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
+=C2=A0hw/avr/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A0 6 +<br>
+=C2=A0hw/avr/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A0 1 +<br>
+=C2=A0hw/char/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A0 3 +<br>
+=C2=A0hw/char/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 1 +<br>
+=C2=A0hw/misc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A0 3 +<br>
+=C2=A0hw/misc/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 2 +<br>
+=C2=A0hw/timer/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A0 3 +<br>
+=C2=A0hw/timer/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A0 2 +<br>
+=C2=A0target/avr/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A034 +<br>
+=C2=A0target/avr/insn.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 194 ++<br>
+=C2=A0tests/Makefile.include=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A0 2 +<br>
+=C2=A0tests/acceptance/machine_avr6.<wbr>py |=C2=A0 =C2=A056 +<br>
+=C2=A040 files changed, 6756 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 default-configs/avr-softmmu.<wbr>mak<br>
+=C2=A0create mode 100644 include/hw/char/avr_usart.h<br>
+=C2=A0create mode 100644 include/hw/misc/avr_mask.h<br>
+=C2=A0create mode 100644 include/hw/timer/avr_timer16.h<br>
+=C2=A0create mode 100644 target/avr/cpu-param.h<br>
+=C2=A0create mode 100644 target/avr/cpu-qom.h<br>
+=C2=A0create mode 100644 target/avr/cpu.h<br>
+=C2=A0create mode 100644 target/avr/helper.h<br>
+=C2=A0create mode 100644 hw/avr/sample.c<br>
+=C2=A0create mode 100644 hw/char/avr_usart.c<br>
+=C2=A0create mode 100644 hw/misc/avr_mask.c<br>
+=C2=A0create mode 100644 hw/timer/avr_timer16.c<br>
+=C2=A0create mode 100644 target/avr/cpu.c<br>
+=C2=A0create mode 100644 target/avr/disas.c<br>
+=C2=A0create mode 100644 target/avr/gdbstub.c<br>
+=C2=A0create mode 100644 target/avr/helper.c<br>
+=C2=A0create mode 100644 target/avr/machine.c<br>
+=C2=A0create mode 100644 target/avr/translate.c<br>
+=C2=A0create mode 100644 gdb-xml/avr-cpu.xml<br>
+=C2=A0create mode 100644 hw/avr/Kconfig<br>
+=C2=A0create mode 100644 hw/avr/Makefile.objs<br>
+=C2=A0create mode 100644 target/avr/Makefile.objs<br>
+=C2=A0create mode 100644 target/avr/insn.decode<br>
+=C2=A0create mode 100644 tests/acceptance/machine_avr6.<wbr>py<br>
+<br>
+-- <br>
+2.17.2 (Apple Git-113)<br>
+<br>
+</blockquote>
+
+--00000000000029e0740598695fff--
 
