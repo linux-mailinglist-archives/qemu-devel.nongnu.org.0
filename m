@@ -2,46 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500B910C7D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:17:10 +0100 (CET)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AB910C7DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:24:49 +0100 (CET)
+Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaHnH-000330-Q2
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:17:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55343)
+	id 1iaHug-0006xV-RN
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:24:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1iaHjK-0001FA-9j
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:13:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaHjT-0001Hj-CM
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:13:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1iaHfD-0004II-Eh
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:08:49 -0500
-Received: from mail.ispras.ru ([83.149.199.45]:47332)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1iaHfC-0004Ec-6X
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:08:47 -0500
-Received: from mail.ispras.ru (localhost [127.0.0.1])
- by mail.ispras.ru (Postfix) with ESMTPSA id EDD40540022;
- Thu, 28 Nov 2019 14:08:42 +0300 (MSK)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Date: Thu, 28 Nov 2019 14:08:42 +0300
-From: dovgaluk <dovgaluk@ispras.ru>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+ (envelope-from <philmd@redhat.com>) id 1iaHjL-0000ys-Ml
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:13:07 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34076
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaHjJ-0000sK-VN
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:13:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574939578;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iD34fdLC9E2NqrgwQe4kojPCKRUHCOEifjNJbgQPZRg=;
+ b=gLTvsVDItlTSZCP23ijiYLnoguS0naAW84sXQ4ApB5ks98HxYXFjd8xj4Sh1V4MCL83q2H
+ Me/FjAXpFz17oSiOH06sLFxcpTOKh+XHdJbXlCT9yORVukXnGmSGZzXeGooUZkPef9vg1T
+ A8UBN77B6YKFUdHSC2A1oqhzDb5Ptvs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-0d7eOcpfOeeKBkRSy4C4eQ-1; Thu, 28 Nov 2019 06:12:56 -0500
+Received: by mail-wr1-f72.google.com with SMTP id t3so961789wrm.23
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 03:12:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=r5XwDbGYDdYF5ISC09n3ZjVoD65288XcNWohzzWD5pA=;
+ b=Md8tyh9AcxagxJPGx+yPtJfw22P9Rv1ItGdA5UZT4K1EkiuI2y1199hk8kNWUpXfMj
+ QI8rsIziSZtXdodQx8AoZRN+y1pjX45swA3Culf1HC+rkK80WaX0cDcXIRzAAYjRriOp
+ +CBjEVLWRhXNyPFxH4U1sb8uYjJa8iiNgp31mQQ+JLtVLfm+QUs4pR4mKglVyDlPs4sR
+ k6oTrJHH2+2mMjN+KvlACXQ4F6BIsRmBDD1asPKYs69eLXkYZrR4q0IMBkXNuwt27M3Y
+ oDLIuaYfGGorqxjmbHa/6x8Q4qFD3GH1AKXvqMqC7VzkvDbz/RdLFvFdlSkjamH7oly3
+ XXDQ==
+X-Gm-Message-State: APjAAAXWYEo8NQ5q+vNomhsenRYw8u00JqE26yfUt/0mKghfbka+Y59+
+ Q857MwLgkJfCjvkHU76e+VG0xJY0n7MIgmgWZQw6hl/4CHnN6vQg1sjtSA4YbhsbUbQZqxiAYsR
+ 5YwQgU4VNUateoaE=
+X-Received: by 2002:adf:dfc6:: with SMTP id q6mr14619076wrn.235.1574939575021; 
+ Thu, 28 Nov 2019 03:12:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwKED8A8hWM8mlGAKR2kevYfu6yOXQdB7ihWdh+0WFrvTBNC6bm5995y05Yc4zN4wgGBb9Y5w==
+X-Received: by 2002:adf:dfc6:: with SMTP id q6mr14619050wrn.235.1574939574718; 
+ Thu, 28 Nov 2019 03:12:54 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id x9sm22345440wru.32.2019.11.28.03.12.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 03:12:54 -0800 (PST)
 Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
-In-Reply-To: <CAL1e-=ib7h8szh48ckOk8yvF+7SQd9_hyoYU3E+K=CGy0EJkGA@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ dovgaluk <dovgaluk@ispras.ru>
 References: <20191128015030.27543-1-f4bug@amsat.org>
  <20191128015030.27543-7-f4bug@amsat.org>
  <CAL1e-=i=1zhx3q4xzh7oPzXLWAHwtEkUVTSHKqv5yy9BBRrVKw@mail.gmail.com>
  <4ed9736f9e88d9d242a0aed10fb65aac@ispras.ru>
  <CAL1e-=ib7h8szh48ckOk8yvF+7SQd9_hyoYU3E+K=CGy0EJkGA@mail.gmail.com>
-Message-ID: <90a1f5a14be4a6e225e6bf99484c4718@ispras.ru>
-X-Sender: dovgaluk@ispras.ru
-User-Agent: Roundcube Webmail/1.1.2
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <60174488-c207-030b-23a5-7e8a51d45a04@redhat.com>
+Date: Thu, 28 Nov 2019 12:12:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAL1e-=ib7h8szh48ckOk8yvF+7SQd9_hyoYU3E+K=CGy0EJkGA@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: 0d7eOcpfOeeKBkRSy4C4eQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 83.149.199.45
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,133 +95,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>, Joaquin de Andres <me@xcancerberox.com.ar>,
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Thomas Huth <huth@tuxfamily.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 13:20:
-> On Thursday, November 28, 2019, dovgaluk <dovgaluk@ispras.ru> wrote:
+On 11/28/19 11:20 AM, Aleksandar Markovic wrote:
+> On Thursday, November 28, 2019, dovgaluk <dovgaluk@ispras.ru=20
+> <mailto:dovgaluk@ispras.ru>> wrote:
 >=20
->> Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 12:28:
->> On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9
->> <f4bug@amsat.org> wrote:
->>=20
->> Add famous ATmega MCUs:
->>=20
->> - middle range: ATmega168 and ATmega328
->> - high range: ATmega1280 and ATmega2560
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->>=20
->> Philippe, hi.
->>=20
->> Thank you for the impetus you give us all.
->>=20
->> However, is this the right direction?
->>=20
->> Let's analyse some bits and pieces.
->>=20
->> Starting from the commit message, the word "famous" is used, but I
->> really don't see enumerated CPUs/MCUs are any special in Atmel
->> lineup.
->> Other than we often used the doc describing them (cited several
->> times
->> in our discussions) as our reference, but that doesn't make them
->> "famous". Ofcourse, there other docs for other Atmel CPUs/MCUs, of
->> at
->> lest equivalent significance. For example, "tiny" ones are at least
->> as
->> famous as "mega" ones.
->>=20
->> Then, you introduce the term MCU, without proper discussion with
->> others on terminology. In parlance of QEMU, ATmega168 at al. are
->> CPUs
->> (we all know and assume that that are some peripherals in it). I am
->> not against using the term MCU, but let's first sync up on that.
->>=20
->> The added terminology trouble is that MCUs, as you defined them,
->> have
->> in array atmega_mcu[] a field called "cpu_type" - why is that field
->> not called "mcu_type"? *Very* confusing for any future reader. And
->> then, similar terminology conundrum continues with macro
->> AVR_CPU_TYPE_NAME().
+>     Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 12:28:
 >=20
-> MCU is a system-on-chip which includes CPU core and peripheral
-> devices.
-> Separating this is better that including everything into the machine.
+>         On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9
+>         <f4bug@amsat.org <mailto:f4bug@amsat.org>> wrote:
 >=20
-> E.g., different MCUs may have different IO addresses for USART.
+>             Add famous ATmega MCUs:
+>=20
+>             - middle range: ATmega168 and ATmega328
+>             - high range: ATmega1280 and ATmega2560
+>=20
+>             Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org
+>             <mailto:f4bug@amsat.org>>
+>             ---
+>=20
+>=20
+>         Philippe, hi.
+>=20
+>         Thank you for the impetus you give us all.
+>=20
+>         However, is this the right direction?
+>=20
+>         Let's analyse some bits and pieces.
+>=20
+>         Starting from the commit message, the word "famous" is used, but =
+I
+>         really don't see enumerated CPUs/MCUs are any special in Atmel
+>         lineup.
+>         Other than we often used the doc describing them (cited several
+>         times
+>         in our discussions) as our reference, but that doesn't make them
+>         "famous". Ofcourse, there other docs for other Atmel CPUs/MCUs,
+>         of at
+>         lest equivalent significance. For example, "tiny" ones are at
+>         least as
+>         famous as "mega" ones.
+>=20
+>         Then, you introduce the term MCU, without proper discussion with
+>         others on terminology. In parlance of QEMU, ATmega168 at al. are
+>         CPUs
+>         (we all know and assume that that are some peripherals in it). I =
+am
+>         not against using the term MCU, but let's first sync up on that.
+>=20
+>         The added terminology trouble is that MCUs, as you defined them,
+>         have
+>         in array atmega_mcu[] a field called "cpu_type" - why is that fie=
+ld
+>         not called "mcu_type"? *Very* confusing for any future reader. An=
+d
+>         then, similar terminology conundrum continues with macro
+>         AVR_CPU_TYPE_NAME().
+>=20
+>=20
+>     MCU is a system-on-chip which includes CPU core and peripheral device=
+s.
+>     Separating this is better that including everything into the machine.
+>=20
+>     E.g., different MCUs may have different IO addresses for USART.
+>=20
 >=20
 > Pavel,
 >=20
 > Do you know how is this resolved for other platforms?
 >=20
-> How other platfirms organize and use terms "soc", "mcu", "cpu",
-> "core", "cpu core"? And what is the relation between each of them and
-> QEMU command line options "-cpu" and "-machine"? Is thar organization
-> the same accross all platforms?
+> How other platfirms organize and use terms "soc", "mcu", "cpu", =C2=A0"co=
+re",=20
+> "cpu core"? And what is the relation between each of them and QEMU=20
+> command line options "-cpu" and "-machine"? Is thar organization the=20
+> same accross all platforms?
 
-Here is an ARM example:
-  SoCs: hw/arm/aspeed_soc.c include/hw/arm/aspeed_soc.h
-  Boards: hw/arm/aspeed.c
+The market/industry evolves quicker than the QEMU codebase, so some=20
+technical namings that were fine 14 years ago might be not sufficient=20
+nowadays.
 
-> (I am asking you as you most likely have much wider experience in the
+QEMU started with dies/chipsets being really only a=20
+CentralProcessingUnit, cache managed off-die, external RAM, external=20
+peripherals.
+
+For example the R4000 is a CPU with internal cache but QEMU doesn't=20
+model caches.
+
+Now compare that with the I6500. Is it a CPU? Yes and no...
+It has 4-6 cores (each having its own ScratchPad RAM), each core having=20
+various threads (now 'thread' =3D=3D QEMU MIPS CPU), there are peripherals=
+=20
+dedicated to inter-core communication; then there is also some I/O=20
+coherence units to use external peripherals. Add to that you can=20
+clusterize the cores :)
+All that in the same die. The industry calls this 'System-on-Chip',=20
+abbreviated SoC.
+Actually the 'SoC' abbreviation is used as it by MIPS marketing:
+https://www.mips.com/products/warrior/i-class-i6500-multiprocessor-core/
+
+   "As such, in conjunction with popular third party SoC coherent
+   interconnect/fabric alternatives, the I6500 family can be used
+   in =E2=80=9Cmany core=E2=80=9D implementations of up to 64 clusters, or =
+>1500
+   processing elements (up to four threads/core, up to six
+   cores/cluster, up to 64 clusters)."
+
+
+MCU and SoC are similar in that they contains CPU and peripherals in the=20
+same die.
+
+
+Now the QEMU codebase has various 'subsystems' of interests. Group of=20
+developers are custom to work in the same subsystems. When I'm writing=20
+code/comments targeting a specific group, I try to use the technical=20
+vocabulary used by the group, often based on the subsystem technical=20
+documentation available (specs, datasheets). This is why here I used the=20
+MCU terminology.
+
+> (I am asking you as you most likely have much wider experience in the=20
 > topic, sincr mine i limited to mips emulation)
-
-As far as I know, there are MIPS SoCs too.
-Doesn't QEMU emulate any of them?
-
->>> All of the above is far less important than this question: What
->>> are we
->>> achieving with proposed CPU/MCU definitions? I certainly see the
->>> value
->>> of fitting the complex variety of AVR CPUs/MCUs into QEMU object
->>> model. No question about that. However, is this the right moment
->>> to do
->>> it? There are still some unresolved architectural problems with
->>> peripheral definitions, as I noted in yhe comment to Michael's
->>> last
->>> cover letter. This patch does not solve them. It just assumes
->>> everything is ready with peripherals, let's build CPUs/MCUs. The
->>> machines based on proposed CPUs/MCUs are not more real that
->>> machine
->>> based on Michael's "sample" machine. At least Michal says "this is
->>> not
->>> a real machine". If we used proposed CPUs/MCUs from this patch,
->>> the
->>> resulting machine is as "paper" machine as yhe "sample" machine.
->>> We
->>> would just live in a la-la lend of thinking: "wow, we model real
->>> hardware now".
->>>=20
->>> I would rather accept into QEMU a series admitting we are still
->>> far
->>> from modelling real machine or CPU/MCU, than a series that gives
->>> an
->>> illusion that we are modelling real machine or CPU/MCU.
->>>=20
->>> As far as utility of this patch for Michael's series, it looks to
->>> me
->>> they add more headake than help (not saying that the help is not
->>> present) to Michael. He would have anotter abstraction layer to
->>> think
->>> of, at the moment he desperately needs (in my opinion) to focus on
->>> providing the as solid as possible, and as complete as possinle
->>> foundations. This patch looks like building castles in the air.
->>> Again,
->>> I am not claiming that the patch is not helpful at all.
->>>=20
->>> In summary, I think that this patch is premature.
-
-
-
-Pavel Dovgalyuk
+>=20
+> Yours, Aleksandar
+[...]
 
 
