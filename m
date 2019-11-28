@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3677710C2F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 04:43:17 +0100 (CET)
-Received: from localhost ([::1]:45040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C32A10C2F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 04:42:10 +0100 (CET)
+Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaAi4-0001Ez-8J
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 22:43:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59739)
+	id 1iaAgz-0007rh-1j
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 22:42:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <uli@fpond.eu>) id 1iaAeM-0005nt-FG
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:27 -0500
+ (envelope-from <uli@fpond.eu>) id 1iaAed-0005z0-IS
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <uli@fpond.eu>) id 1iaAeI-0004BH-U2
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:25 -0500
-Received: from mo6-p02-ob.smtp.rzone.de ([2a01:238:20a:202:5302::8]:20558)
+ (envelope-from <uli@fpond.eu>) id 1iaAeb-0004gy-GH
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:43 -0500
+Received: from mo6-p03-ob.smtp.rzone.de ([2a01:238:20a:202:5303::12]:13181)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <uli@fpond.eu>) id 1iaAeC-00042V-On
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574912354;
+ (Exim 4.71) (envelope-from <uli@fpond.eu>) id 1iaAea-0004ZV-IF
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574912377;
  s=strato-dkim-0002; d=fpond.eu;
  h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=qjrBmargKbQJaNw983uGNYrR6fuiqDOtF3J2Kjzo0RU=;
- b=i1gMsNMXf9t2MDd4ubDvI69BiLvc5slwHRe0DwVRSbX6ostEWc5KWJFySN/VupB5on
- Ae3lxb/X+AMyJ7LjKppwwoqrFDqhy2ytzsU/TWnZaUVSHuwkWS/68YGbWItafLvVuhm2
- ++OAsXPZY36ZWOg62MwbRxp9TMeTwsHQ6ptUJ+gklTSl1xUyDjojEcZsTmSdsWv+QEXo
- EhzAC+cNRVbN5NVabf9wiDlzQeG7Ryiewl6DxGNcGEn6Or82B48LPj6gjwMc87N/55cP
- L619cKoLoqRJibp8100q0Y5ZKqxVnk/htG0GqJHg6MvIrBA4/bEijO7fl4jb6BBD2hSR
- Ijqg==
+ bh=ovvWqqCqtCKN+01XuykkLwFdsy5R9BqiNVQImuwx8zI=;
+ b=DmmmDTgd0U4oIG5s6OlVAvE4e41K6XWoX0Jwy5o+Ma+H4xAK1cGtosW0Kl22+nR0df
+ g93Dm39k0clWbFuu5Jny93Uu80BkHPYkfgl1yccHP2+p78gHw4lMehT/Z/b11VVspKjJ
+ Jef1qbtGTKZoPoSe/Z8WtlbHdJ7YsLzs0CFUO9oym5LhTgPuzPpPRrAQisvxlICMLsyH
+ 3Zb+GTtzrZIKMmmSzgj4plpR3jQpJk1FefBkGg2gKllkB6KzEkVUPlYicFdGbpR1IPR0
+ MB6trIx3B/NVURgrCsYQ/pknEy6JZI+SNeEBq+EYZ1PEHtAmNTOU4LY8uIQMXM0eiTft
+ I8pQ==
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
 X-RZG-CLASS-ID: mo00
 Received: from oxapp04-01.back.ox.d0m.de by smtp-ox.front (RZmta 46.0.0 AUTH)
- with ESMTPSA id 604beevAS3dE2Ir
+ with ESMTPSA id 604beevAS3db2Iu
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Thu, 28 Nov 2019 04:39:14 +0100 (CET)
-Date: Thu, 28 Nov 2019 04:39:14 +0100 (CET)
+ Thu, 28 Nov 2019 04:39:37 +0100 (CET)
+Date: Thu, 28 Nov 2019 04:39:37 +0100 (CET)
 From: Ulrich Hecht <uli@fpond.eu>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Linus Walleij <linus.walleij@linaro.org>,
@@ -48,11 +48,11 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Mark Rutland <mark.rutland@arm.com>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Message-ID: <1581673808.1467700.1574912354104@webmail.strato.com>
-In-Reply-To: <20191127084253.16356-4-geert+renesas@glider.be>
+Message-ID: <1708272897.1467701.1574912377195@webmail.strato.com>
+In-Reply-To: <20191127084253.16356-5-geert+renesas@glider.be>
 References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-4-geert+renesas@glider.be>
-Subject: Re: [PATCH v3 3/7] gpiolib: Add support for GPIO line table lookup
+ <20191127084253.16356-5-geert+renesas@glider.be>
+Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -62,7 +62,7 @@ X-Mailer: Open-Xchange Mailer v7.10.1-Rev22
 X-Originating-IP: 112.198.74.215
 X-Originating-Client: open-xchange-appsuite
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 2a01:238:20a:202:5302::8
+X-Received-From: 2a01:238:20a:202:5303::12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,67 +88,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > On November 27, 2019 at 9:42 AM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 > 
 > 
-> Currently GPIOs can only be referred to by GPIO controller and offset in
-> GPIO lookup tables.
+> Add Device Tree bindings for a GPIO repeater, with optional translation
+> of physical signal properties.  This is useful for describing explicitly
+> the presence of e.g. an inverter on a GPIO line, and was inspired by the
+> non-YAML gpio-inverter bindings by Harish Jenny K N
+> <harish_kandiga@mentor.com>[1].
 > 
-> Add support for looking them up by line name.
+> Note that this is different from a GPIO Nexus Node[2], which cannot do
+> physical signal property translation.
+> 
+> While an inverter can be described implicitly by exchanging the
+> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
+> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
+> th provider and consumer sides:
+>   1. The GPIO provider (controller) looks at the flags to know the
+>      polarity, so it can translate between logical (active/not active)
+>      and physical (high/low) signal levels.
+>   2. While the signal polarity is usually fixed on the GPIO consumer
+>      side (e.g. an LED is tied to either the supply voltage or GND),
+>      it may be configurable on some devices, and both sides need to
+>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
+>      match the actual polarity.
+>      There exists a similar issue with interrupt flags, where both the
+>      interrupt controller and the device generating the interrupt need
+>      to agree, which breaks in the presence of a physical inverter not
+>      described in DT (see e.g. [3]).
+> 
+> [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+>     https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/
+> 
+> [2] Devicetree Specification v0.3-rc2, Section 2.5
+>     https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.3-rc2
+> 
+> [3] "[PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
+>     inverted IRQ"
+>     https://lore.kernel.org/linux-renesas-soc/20190607172958.20745-1-erosca@de.adit-jv.com/
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> If this is rejected, the GPIO Aggregator documentation and code must be
-> updated.
-> 
 > v3:
 >   - New.
 > ---
->  drivers/gpio/gpiolib.c       | 12 ++++++++++++
->  include/linux/gpio/machine.h |  2 +-
->  2 files changed, 13 insertions(+), 1 deletion(-)
+>  .../bindings/gpio/gpio-repeater.yaml          | 53 +++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
 > 
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index d24a3d79dcfe69ad..cb608512ad6bbded 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -4475,6 +4475,18 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
->  		if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
->  			continue;
->  
-> +		if (p->chip_hwnum == (u16)-1) {
-> +			desc = gpio_name_to_desc(p->chip_label);
-> +			if (desc) {
-> +				*flags = p->flags;
-> +				return desc;
-> +			}
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml b/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
+> new file mode 100644
+> index 0000000000000000..efdee0c3be43f731
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/gpio-repeater.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +			dev_warn(dev, "cannot find GPIO line %s, deferring\n",
-> +				 p->chip_label);
-> +			return ERR_PTR(-EPROBE_DEFER);
-> +		}
+> +title: GPIO Repeater
 > +
->  		chip = find_chip_by_name(p->chip_label);
->  
->  		if (!chip) {
-> diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
-> index 1ebe5be05d5f81fa..84c1c097e55eefaf 100644
-> --- a/include/linux/gpio/machine.h
-> +++ b/include/linux/gpio/machine.h
-> @@ -31,7 +31,7 @@ enum gpio_lookup_flags {
->   */
->  struct gpiod_lookup {
->  	const char *chip_label;
-> -	u16 chip_hwnum;
-> +	u16 chip_hwnum;			/* if -1, chip_label is named line */
-
-The magic number "-1" might deserve a #define.
-
->  	const char *con_id;
->  	unsigned int idx;
->  	unsigned long flags;
+> +maintainers:
+> +  - Harish Jenny K N <harish_kandiga@mentor.com>
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +description:
+> +  This represents a repeater for one or more GPIOs, possibly including physical
+> +  signal property translation (e.g. polarity inversion).
+> +
+> +properties:
+> +  compatible:
+> +    const: gpio-repeater
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +
+> +  gpio-controller: true
+> +
+> +  gpios:
+> +    description:
+> +      Phandle and specifier, one for each repeated GPIO.
+> +
+> +  gpio-line-names:
+> +    description:
+> +      Strings defining the names of the GPIO lines going out of the GPIO
+> +      controller.
+> +
+> +required:
+> +  - compatible
+> +  - "#gpio-cells"
+> +  - gpio-controller
+> +  - gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # Device node describing a polarity inverter for a single GPIO
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    inverter: gpio-repeater {
+> +        compatible = "gpio-repeater";
+> +        #gpio-cells = <2>;
+> +        gpio-controller;
+> +        gpios = <&gpio 95 GPIO_ACTIVE_LOW>;
+> +    };
 > -- 
 > 2.17.1
 >
 
-With or without #define,
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
 CU
