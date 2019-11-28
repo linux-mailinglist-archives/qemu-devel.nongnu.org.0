@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49C510CA58
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:29:24 +0100 (CET)
-Received: from localhost ([::1]:49594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2188410CA53
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:23:49 +0100 (CET)
+Received: from localhost ([::1]:49540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKnI-0000SU-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37837)
+	id 1iaKhu-0006AX-2T
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iaKDn-0006aF-TY
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:41 -0500
+ (envelope-from <lersek@redhat.com>) id 1iaKR1-0006R9-5V
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:06:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iaKDd-00071B-It
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27247
+ (envelope-from <lersek@redhat.com>) id 1iaKQx-0008MX-K3
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:06:17 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44436
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iaKDd-0006js-Do
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:29 -0500
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iaKQv-0008HD-UZ
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:06:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574949145;
+ s=mimecast20190719; t=1574949971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SGCbpaHpF1H1MImu0dEy65dgZ6Op5SK82aXIs9CJRYI=;
- b=jKeypN1bC9nbEYMbfTNg06LHV9K4AjTdpqlV/39++C20L49Iib/uebCzUxjIhS9S+rLhMR
- 2wJfhxLQiZxS8OcacBccHv+UPncYfRM/CrY+R0FVnaLGQXg/7l6xiPaz3qPRt/0Vz7Yvvq
- fZAraKbWauWgJFN/ATjTNcfoml0xKfI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-1-DJ4-2DPTOgJHSzw0bTLA-1; Thu, 28 Nov 2019 08:52:22 -0500
-Received: by mail-wr1-f72.google.com with SMTP id h7so13938751wrb.2
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 05:52:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SGCbpaHpF1H1MImu0dEy65dgZ6Op5SK82aXIs9CJRYI=;
- b=D46MMGhQtoyFFa/ise19fp5sld6kZUs1rt1QDG+chtDoq0Wc7jBwjNnPIc8KNLhQkF
- tY3yTjJ9iZR28e3o6YLtO9MGZla357ru74o3pPfwaRcCTZkUNp8Jn3Y7fWDGnTkZTeSZ
- oFAZtJFNuzdiDjjRawnWGWK869/61oGnHVEn3SIrG6Z6eajvhjUcjovJwTXulqSM/+pQ
- SJfO+R8lsH541UVJYfgr3gw5YJLxEm+CrUK3BJYicB3tCFEWhkr5zuDW7cu7ZdW1Ri4i
- 7iAsyvmaW2yXOag/yMyCUppOYmr8Oq120/vmZx/uWNIUyD571hkv2GW7iSdKmZOZZFBN
- Deaw==
-X-Gm-Message-State: APjAAAXc//fuccJWrBi10bI4yNwecUCECW0ksWIs8RhOfZF6aARJik3t
- Zm65rB7jtUJSwx12BMTOqIMOh79HGF5XAtW10rXQDwIqejKpfELpoQUlARzmJwuDSuYs2+qgV19
- +loR03kUdTabQV94=
-X-Received: by 2002:a5d:5091:: with SMTP id a17mr927642wrt.362.1574949140991; 
- Thu, 28 Nov 2019 05:52:20 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw8eOjBTnXUhOmAcHEPLwaZZkIJc8IXP3v3jLYmCjXlPEOmsZYqUUrADpabxW1SI7vtCzOXcw==
-X-Received: by 2002:a5d:5091:: with SMTP id a17mr927618wrt.362.1574949140609; 
- Thu, 28 Nov 2019 05:52:20 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
- ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
- by smtp.gmail.com with ESMTPSA id r2sm10954051wma.44.2019.11.28.05.52.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Nov 2019 05:52:19 -0800 (PST)
-Subject: Re: [PATCH v2 5/5] hvf: save away type as well as vector so we can
- reinject them
-To: Cameron Esfahani <dirty@apple.com>
-References: <cover.1574625592.git.dirty@apple.com>
- <e07e6085d8ab9054e58f85ae58e112df6adc024d.1574625592.git.dirty@apple.com>
- <eb3a2de7-fcfe-f0d5-8534-1c59ff40f61e@redhat.com>
- <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
- <524CCF5D-EED6-4710-A561-6AD634015F5F@apple.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <19f45c8c-7029-6fd7-6dd0-59541a99b9a2@redhat.com>
-Date: Thu, 28 Nov 2019 14:52:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=EGz/ZKFj/S89eClcqq6wjxzyEbyFlaUm5wqnVRxWRTM=;
+ b=ZbEIO0Hdb62POW6fie2/AxkZEO0lrTJrpeshlirhjxF/IccmERehloROjEMSTq5brIvNA1
+ /PKfavPXb0MmCz6S+uDgZJ+bpTusq+W1AX8SK9ge8YXkWNrSdARJPjCF+62yry82Cc0GC/
+ oCHbjoHUfEJqVXNrPOpdp60zIkLxXrs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-sr_GHxSFMUGSKPDGgM2Meg-1; Thu, 28 Nov 2019 09:06:06 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B9A107ACC5;
+ Thu, 28 Nov 2019 14:06:06 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-145.ams2.redhat.com
+ [10.36.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0583A19C6A;
+ Thu, 28 Nov 2019 14:06:04 +0000 (UTC)
+Subject: Re: [PATCH RFC] qga: fence guest-set-time if hwclock not available
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20191128123658.28351-1-cohuck@redhat.com>
+ <20191128124532.GF248361@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <68b5cca7-714f-ad8c-464e-699020bbae8c@redhat.com>
+Date: Thu, 28 Nov 2019 15:06:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <524CCF5D-EED6-4710-A561-6AD634015F5F@apple.com>
+In-Reply-To: <20191128124532.GF248361@redhat.com>
 Content-Language: en-US
-X-MC-Unique: 1-DJ4-2DPTOgJHSzw0bTLA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: sr_GHxSFMUGSKPDGgM2Meg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,41 +76,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/11/19 06:57, Cameron Esfahani wrote:
-> 
-> What we were seeing was, under heavy loads, running many concurrent
-macOS VMs, that we would get spurious interrupts.  Tracking it down, we
-discovered that VMCS_INTR_T_SWINTR was getting injected when
-VMCS_INTR_T_HWINTR was expected.
-> 
-> If I take our proposed patch code, which built on top of master from a
-> few days ago, and has fd13f23b8c95311eff74426921557eee592b0ed3,  and add
-> an assert, like the following:
-> 
->>     if (env->interrupt_injected != -1) {
->>         /* Type and vector are both saved in interrupt_injected. */
->>         vector = env->interrupt_injected & VMCS_IDT_VEC_VECNUM;
->>         intr_type = env->interrupt_injected & VMCS_IDT_VEC_TYPE;
->>         if (VMCS_INTR_T_SWINTR != intr_type) {
->>             printf("VMCS_INTR_T_SWINTR (%x) != intr_type (%llx)\n", VMCS_INTR_T_SWINTR, intr_type);
->>             assert(VMCS_INTR_T_SWINTR == intr_type);
->>         }
->>     } else if (env->exception_nr != -1) {
-> 
-> Then we will see the assert trigger and get the following output:
-> 
->> VMCS_INTR_T_SWINTR (400) != intr_type (0)
->> Assertion failed: (VMCS_INTR_T_SWINTR == intr_type), function hvf_inject_interrupts, file qemu_upstream/target/i386/hvf/x86hvf.c, line 362.
+On 11/28/19 13:45, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Nov 28, 2019 at 01:36:58PM +0100, Cornelia Huck wrote:
+>> The Posix implementation of guest-set-time invokes hwclock to
+>> set/retrieve the time to/from the hardware clock. If hwclock
+>> is not available, the user is currently informed that "hwclock
+>> failed to set hardware clock to system time", which is quite
+>> misleading. This may happen e.g. on s390x, which has a different
+>> timekeeping concept anyway.
+>>
+>> Let's check for the availability of the hwclock command and
+>> return QERR_UNSUPPORTED for guest-set-time if it is not available.
+>>
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>>
+>> Not sure if that is the correct approach, but the current error
+>> message is really quite confusing.
+>=20
+> I guess the alternative is to just #ifndef __s390x__ the whole
+> impl of the qmp_guest_set_time  method, but I don't have a
+> strong opinion on which is best.
+>=20
+>>
+>> Gave it a quick test with an s390x and an x86_64 guest; invoking
+>> 'virsh domtime <value>' now fails with 'not currently supported'
+>> on s390x and continues to work as before on x86_64.
+>>
+>> ---
+>>  qga/commands-posix.c | 20 +++++++++++++++++++-
+>>  1 file changed, 19 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>> index 1c1a165daed8..bd298a38b716 100644
+>> --- a/qga/commands-posix.c
+>> +++ b/qga/commands-posix.c
+>> @@ -149,6 +149,13 @@ int64_t qmp_guest_get_time(Error **errp)
+>>     return tq.tv_sec * 1000000000LL + tq.tv_usec * 1000;
+>>  }
+>> =20
+>> +static int check_hwclock_available(const char *path)
+>> +{
+>> +    struct stat st;
+>> +
+>> +    return (stat(path, &st) < 0) ? 0 : 1;
+>> +}
+>> +
+>>  void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+>>  {
+>>      int ret;
+>> @@ -156,6 +163,17 @@ void qmp_guest_set_time(bool has_time, int64_t time=
+_ns, Error **errp)
+>>      pid_t pid;
+>>      Error *local_err =3D NULL;
+>>      struct timeval tv;
+>> +    const char *hwclock_path =3D "/sbin/hwclock";
 
-Great, thanks.  It's good to know that it's only software vs. hardware
-interrupt.  I'll compare the KVM and QEMU source code to see why KVM
-does not lose software vs. hardware interrupt, since the QEMU event
-injection code was modeled against KVM's.
+slight style / semantics improvement could be
 
-Paolo
+  static const char hwclock_path[] =3D "/sbin/hwclock";
+
+Thanks
+Laszlo
+
+>> +    static int hwclock_available =3D -1;
+>> +
+>> +    if (hwclock_available < 0) {
+>> +        hwclock_available =3D check_hwclock_available(hwclock_path);
+>=20
+> Could do this inline with:
+>=20
+>     hwclock_available =3D (access(hwclock_available, X_OK) =3D=3D 0);
+>=20
+> getting a slightly better result as this check for it being
+> executable as well as existing.
+>=20
+>> +    }
+>> +
+>> +    if (!hwclock_available) {
+>> +        error_setg(errp, QERR_UNSUPPORTED);
+>> +        return;
+>> +    }
+>> =20
+>>      /* If user has passed a time, validate and set it. */
+>>      if (has_time) {
+>> @@ -195,7 +213,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_=
+ns, Error **errp)
+>> =20
+>>          /* Use '/sbin/hwclock -w' to set RTC from the system time,
+>>           * or '/sbin/hwclock -s' to set the system time from RTC. */
+>> -        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
+>> +        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
+>>                 NULL, environ);
+>>          _exit(EXIT_FAILURE);
+>>      } else if (pid < 0) {
+>> --=20
+>> 2.21.0
+>>
+>>
+>=20
+> Regards,
+> Daniel
+>=20
 
 
