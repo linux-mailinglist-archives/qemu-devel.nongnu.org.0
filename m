@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FA210C44E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 08:28:32 +0100 (CET)
-Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76AA10C434
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 08:06:15 +0100 (CET)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaEE3-0000eE-DQ
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 02:28:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42790)
+	id 1iaDsU-00074v-UH
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 02:06:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jason.zeng@intel.com>) id 1iaCuu-0008Dq-RT
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 01:04:42 -0500
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iaDpR-0005Wj-R5
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 02:03:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jason.zeng@intel.com>) id 1iaCus-0005MH-AH
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 01:04:40 -0500
-Received: from mga07.intel.com ([134.134.136.100]:19889)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jason.zeng@intel.com>)
- id 1iaCuq-00052u-25
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 01:04:38 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2019 22:04:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,252,1571727600"; d="scan'208";a="261207498"
-Received: from x48.bj.intel.com ([10.238.157.73])
- by FMSMGA003.fm.intel.com with ESMTP; 27 Nov 2019 22:04:24 -0800
-From: Jason Zeng <jason.zeng@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Add a parameter 'offset' for HostMemoryBackendFile
-Date: Thu, 28 Nov 2019 14:03:56 +0800
-Message-Id: <20191128060356.9050-1-jason.zeng@intel.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <aaron.zakhrov@gmail.com>) id 1iaDdy-0005zE-2e
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 01:51:16 -0500
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37401)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aaron.zakhrov@gmail.com>)
+ id 1iaDdx-0005xz-De
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 01:51:13 -0500
+Received: by mail-il1-x12a.google.com with SMTP id t9so3657456iln.4
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 22:51:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7PiNnpu6R5mAebSKIZ9qBhShRzwjqqVibfrnq7IgSfc=;
+ b=CIhjPBGBi1YJ94Ghpv8+p+A4u91pXjgQ805DlydyeiIe2ugts6aXCNVYKu+JHjMYIk
+ ENppQIC7+iaSMkSiuSscN93JC8u/sY5tLMEP52ywHozcW9osnInrRGWiYnbQ20Wc3+tA
+ 5iTce3yKmY4PDZr55SfKR6CxGuRHnvI3BHjQG3kbjRSfYPQ6VvgHWoP/f+PRns1wR1Bj
+ ZI0tZDt4e6ayZ3anHF4235tT6IIAiV2j8+FrtN3jBfPCJSEfXJgsyW9GJjhdSrGqQ4aJ
+ CEzE+8Bn05DWlcYvRQyA9VJx+K5ralyy6CcbJbkiKZ/7VVlnaggYG0jCSoBCzLyAQOjH
+ rf0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7PiNnpu6R5mAebSKIZ9qBhShRzwjqqVibfrnq7IgSfc=;
+ b=fR6l7804txXNvV4bJLAL64VbFQhhvOWFLVRjLkyVABTPkzX7kkFqME83rr0ESmw0yw
+ 4FkWvFpcS90Yo0kDmn5Vcl/fjFXQKP8vOOdT/wmXfO3uiv5QwqEQV8hxuflqzpmGs+VW
+ w8nM68xACrb6LEyNjwBB7iikHt/gOPtuAxQo9s5yd4EXpULYNcuqE/HNP5kNIw1P2TJg
+ 2w9H6MvHHQDa5kXJSeMyfbBrtU4TN0M0l9v6LVA+2EnTcp1sXGdddsd8YaKuPS4KBjWb
+ RZZPh+8aJFQAOrlx9WMeqBqevqKGkzRS+5pCFYwW2gEQyOA+6zxFdzt8edj4mC7KF6it
+ M9cg==
+X-Gm-Message-State: APjAAAUUgKGmD6IUWigJ2OZtDShj7wI//t9NCKo4kX90RyD5gdvvjw7C
+ 3kK9MueMa+Yb9iHwMvDyLJ3lW5jN8vwtYY5H0rY=
+X-Google-Smtp-Source: APXvYqzu9vk6T8Xagl3NdEpglE6ub3KL5lcUxB73NS64J93BsAKSg9e/KvXKDb1QajFzzGQ6UBcY2lU3JrxfoAKrsuI=
+X-Received: by 2002:a92:8459:: with SMTP id l86mr49442805ild.236.1574923872097; 
+ Wed, 27 Nov 2019 22:51:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191126124433.860-1-aaron.zakhrov@gmail.com>
+ <20191126141924.GQ556568@redhat.com>
+ <09273ecd-be76-ab61-304f-7ea0f1f0b107@redhat.com>
+ <20191127150520.GG2131806@redhat.com>
+ <20191127161210.ractqwwymzkpbu6n@sirius.home.kraxel.org>
+ <20191127163219.GI2131806@redhat.com>
+In-Reply-To: <20191127163219.GI2131806@redhat.com>
+From: Aaron Zakhrov <aaron.zakhrov@gmail.com>
+Date: Thu, 28 Nov 2019 12:21:00 +0530
+Message-ID: <CAApBzg9c9rwgAd1forny9QGgz8-fA60QBcRQbsMSmTwB_h12pQ@mail.gmail.com>
+Subject: Re: [RFC 00/10] R300 QEMU device V2
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f1da1a05986289d6"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.100
-X-Mailman-Approved-At: Thu, 28 Nov 2019 02:26:16 -0500
+X-Received-From: 2607:f8b0:4864:20::12a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,326 +76,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, dwmw2@infradead.org,
- brho@google.com, lei.l.li@intel.com, steven.sistare@oracle.com,
- zhiyuan.lv@intel.com, Jason Zeng <jason.zeng@intel.com>, jschoenh@amazon.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In cloud environment, when using DRAM-emulated-PMEM DAX device (by kernel
-parameter 'memmap=nn!ss') to mmap guest memory, multiple VMs may need to
-share the same DAX device. This is because we can't dynamically create
-multiple namespaces in one DRAM-emulated-PMEM region. It is also hard to
-figure out how many 'memmap=nn!ss' regions need to be created at kernel
-boot time.
+--000000000000f1da1a05986289d6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch introduces a parameter 'offset' for HostMemoryBackendFile to
-specify the offset in the file this HostMemoryBackendFile will mmap to,
-so that different HostMemoryBackendFiles can mmap to different address
-ranges of the backing file.
+I tested my code with the vgabios-ati.bin rom file and it seems to get
+passed the earlier issue I had.
+I have cleaned up my code and have sent a new patch series. The new one is
+pretty big but it contains only the necessary header files and it should be
+a little easier to review
 
-Signed-off-by: Jason Zeng <jason.zeng@intel.com>
----
- backends/hostmem-file.c   | 46 ++++++++++++++++++++++++++++++++++++++-
- exec.c                    | 20 ++++++++++-------
- hw/core/numa.c            |  2 +-
- include/exec/memory.h     |  1 +
- include/exec/ram_addr.h   |  4 ++--
- include/qemu/mmap-alloc.h |  1 +
- memory.c                  |  6 +++--
- util/mmap-alloc.c         |  5 +++--
- util/oslib-posix.c        |  2 +-
- 9 files changed, 70 insertions(+), 17 deletions(-)
+On Wed, Nov 27, 2019 at 10:02 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om>
+wrote:
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index be64020746..1fe814d52e 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -34,6 +34,7 @@ struct HostMemoryBackendFile {
-     HostMemoryBackend parent_obj;
- 
-     char *mem_path;
-+    uint64_t offset;
-     uint64_t align;
-     bool discard_data;
-     bool is_pmem;
-@@ -57,6 +58,10 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-         error_setg(errp, "mem-path property not set");
-         return;
-     }
-+    if (fb->align && fb->offset && (fb->offset % fb->align)) {
-+        error_setg(errp, "offset doesn't match align");
-+        return;
-+    }
- 
-     backend->force_prealloc = mem_prealloc;
-     name = host_memory_backend_get_name(backend);
-@@ -65,7 +70,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-                                      backend->size, fb->align,
-                                      (backend->share ? RAM_SHARED : 0) |
-                                      (fb->is_pmem ? RAM_PMEM : 0),
--                                     fb->mem_path, errp);
-+                                     fb->mem_path, fb->offset, errp);
-     g_free(name);
- #endif
- }
-@@ -137,6 +142,41 @@ static void file_memory_backend_set_align(Object *o, Visitor *v,
-     error_propagate(errp, local_err);
- }
- 
-+static void file_memory_backend_get_offset(Object *o, Visitor *v,
-+                                           const char *name, void *opaque,
-+                                           Error **errp)
-+{
-+    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
-+    uint64_t val = fb->offset;
-+
-+    visit_type_size(v, name, &val, errp);
-+}
-+
-+static void file_memory_backend_set_offset(Object *o, Visitor *v,
-+                                           const char *name, void *opaque,
-+                                           Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(o);
-+    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
-+    Error *local_err = NULL;
-+    uint64_t val;
-+
-+    if (host_memory_backend_mr_inited(backend)) {
-+        error_setg(&local_err, "cannot change property '%s' of %s",
-+                   name, object_get_typename(o));
-+        goto out;
-+    }
-+
-+    visit_type_size(v, name, &val, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-+    fb->offset = val;
-+
-+ out:
-+    error_propagate(errp, local_err);
-+}
-+
- static bool file_memory_backend_get_pmem(Object *o, Error **errp)
- {
-     return MEMORY_BACKEND_FILE(o)->is_pmem;
-@@ -197,6 +237,10 @@ file_backend_class_init(ObjectClass *oc, void *data)
-     object_class_property_add_str(oc, "mem-path",
-         get_mem_path, set_mem_path,
-         &error_abort);
-+    object_class_property_add(oc, "offset", "uint64",
-+        file_memory_backend_get_offset,
-+        file_memory_backend_set_offset,
-+        NULL, NULL, &error_abort);
-     object_class_property_add(oc, "align", "int",
-         file_memory_backend_get_align,
-         file_memory_backend_set_align,
-diff --git a/exec.c b/exec.c
-index ffdb518535..7018ef343f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1838,6 +1838,7 @@ static int file_ram_open(const char *path,
- static void *file_ram_alloc(RAMBlock *block,
-                             ram_addr_t memory,
-                             int fd,
-+                            off_t offset,
-                             bool truncate,
-                             Error **errp)
- {
-@@ -1889,7 +1890,7 @@ static void *file_ram_alloc(RAMBlock *block,
-         perror("ftruncate");
-     }
- 
--    area = qemu_ram_mmap(fd, memory, block->mr->align,
-+    area = qemu_ram_mmap(fd, memory, block->mr->align, offset,
-                          block->flags & RAM_SHARED, block->flags & RAM_PMEM);
-     if (area == MAP_FAILED) {
-         error_setg_errno(errp, errno,
-@@ -2277,7 +2278,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
- #ifdef CONFIG_POSIX
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp)
-+                                 off_t offset, Error **errp)
- {
-     RAMBlock *new_block;
-     Error *local_err = NULL;
-@@ -2309,11 +2310,13 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     }
- 
-     size = HOST_PAGE_ALIGN(size);
-+    offset = HOST_PAGE_ALIGN(offset);
-     file_size = get_file_size(fd);
--    if (file_size > 0 && file_size < size) {
-+    if (file_size > 0 && file_size < offset + size) {
-         error_setg(errp, "backing store %s size 0x%" PRIx64
--                   " does not match 'size' option 0x" RAM_ADDR_FMT,
--                   mem_path, file_size, size);
-+                   " does not match 'size' option 0x" RAM_ADDR_FMT
-+                   " and 'offset' option 0x" RAM_ADDR_FMT,
-+                   mem_path, file_size, size, offset);
-         return NULL;
-     }
- 
-@@ -2322,7 +2325,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     new_block->used_length = size;
-     new_block->max_length = size;
-     new_block->flags = ram_flags;
--    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
-+    new_block->host = file_ram_alloc(new_block, size, fd, offset,
-+                                     !file_size, errp);
-     if (!new_block->host) {
-         g_free(new_block);
-         return NULL;
-@@ -2341,7 +2345,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
- 
- RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-                                    uint32_t ram_flags, const char *mem_path,
--                                   Error **errp)
-+                                   off_t offset, Error **errp)
- {
-     int fd;
-     bool created;
-@@ -2352,7 +2356,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
-     }
- 
--    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
-+    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, offset, errp);
-     if (!block) {
-         if (created) {
-             unlink(mem_path);
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index e3332a984f..be310fc0cc 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -494,7 +494,7 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
- #ifdef __linux__
-         Error *err = NULL;
-         memory_region_init_ram_from_file(mr, owner, name, ram_size, 0, 0,
--                                         mem_path, &err);
-+                                         mem_path, 0, &err);
-         if (err) {
-             error_report_err(err);
-             if (mem_prealloc) {
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e499dc215b..eba2fc894e 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -690,6 +690,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-                                       uint64_t align,
-                                       uint32_t ram_flags,
-                                       const char *path,
-+                                      off_t offset,
-                                       Error **errp);
- 
- /**
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index bed0554f4d..721c26a4c0 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -156,10 +156,10 @@ long qemu_maxrampagesize(void);
-  */
- RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-                                    uint32_t ram_flags, const char *mem_path,
--                                   Error **errp);
-+                                   off_t offset, Error **errp);
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp);
-+                                 off_t offset, Error **errp);
- 
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                   MemoryRegion *mr, Error **errp);
-diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-index e786266b92..80b8df7f70 100644
---- a/include/qemu/mmap-alloc.h
-+++ b/include/qemu/mmap-alloc.h
-@@ -24,6 +24,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
- void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-+                    off_t offset_in_fd,
-                     bool shared,
-                     bool is_pmem);
- 
-diff --git a/memory.c b/memory.c
-index 06484c2bff..62e8d8acbe 100644
---- a/memory.c
-+++ b/memory.c
-@@ -1563,6 +1563,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-                                       uint64_t align,
-                                       uint32_t ram_flags,
-                                       const char *path,
-+                                      off_t offset,
-                                       Error **errp)
- {
-     Error *err = NULL;
-@@ -1571,7 +1572,8 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-     mr->terminates = true;
-     mr->destructor = memory_region_destructor_ram;
-     mr->align = align;
--    mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags, path, &err);
-+    mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags,
-+                                             path, offset, &err);
-     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
-     if (err) {
-         mr->size = int128_zero();
-@@ -1595,7 +1597,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-                                            share ? RAM_SHARED : 0,
--                                           fd, &err);
-+                                           fd, 0, &err);
-     mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
-     if (err) {
-         mr->size = int128_zero();
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 27dcccd8ec..e99e63c5fe 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -85,6 +85,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
- void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-+                    off_t offset_in_fd,
-                     bool shared,
-                     bool is_pmem)
- {
-@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
-     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
- 
-     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--               flags | map_sync_flags, fd, 0);
-+               flags | map_sync_flags, fd, offset_in_fd);
- 
-     if (ptr == MAP_FAILED && map_sync_flags) {
-         if (errno == ENOTSUP) {
-@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
-          * we will remove these flags to handle compatibility.
-          */
-         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--                   flags, fd, 0);
-+                   flags, fd, offset_in_fd);
-     }
- 
-     if (ptr == MAP_FAILED) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 5a291cc982..f8c13ada9a 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -205,7 +205,7 @@ void *qemu_memalign(size_t alignment, size_t size)
- void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
- {
-     size_t align = QEMU_VMALLOC_ALIGN;
--    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
-+    void *ptr = qemu_ram_mmap(-1, size, align, 0, shared, false);
- 
-     if (ptr == MAP_FAILED) {
-         return NULL;
--- 
-2.20.1
+> On Wed, Nov 27, 2019 at 05:12:10PM +0100, Gerd Hoffmann wrote:
+> >   Hi,
+> >
+> > > It does become a slight usability issue, as any users need to go and
+> find
+> > > the suitable BIOS in order to use the device. No downstream OS vendor=
+s
+> are
+> > > going to be able to distribute this BIOS either
+> > >
+> > > I don't know if we have hit this problem before & if we have any
+> > > general policies about it ?
+> >
+> > Booting from lsi scsi adapter used to work with a vendor bios only
+> > loooooong ago.  Fixed by adding an lsi driver to seabios.
+> >
+> > Building a r300 vgabios shouldn't be too hard, we already have
+> > support in seavgabios for the other ati variants emulated by qemu.
+>
+> That sounds reasonable, so it is fine to add r300 to QEMU without the BIO=
+S.
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
+--000000000000f1da1a05986289d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I tested my code with the vgabios-ati.bin rom file and it =
+seems to get passed the earlier issue I had.<div>I have cleaned up my code =
+and have sent a new patch series. The new one is pretty big but it contains=
+ only the necessary header files and it should be a little easier to review=
+</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Wed, Nov 27, 2019 at 10:02 PM Daniel P. Berrang=C3=A9 &lt;<a href=
+=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Nov 27, 2019 at =
+05:12:10PM +0100, Gerd Hoffmann wrote:<br>
+&gt;=C2=A0 =C2=A0Hi,<br>
+&gt; <br>
+&gt; &gt; It does become a slight usability issue, as any users need to go =
+and find<br>
+&gt; &gt; the suitable BIOS in order to use the device. No downstream OS ve=
+ndors are<br>
+&gt; &gt; going to be able to distribute this BIOS either<br>
+&gt; &gt; <br>
+&gt; &gt; I don&#39;t know if we have hit this problem before &amp; if we h=
+ave any<br>
+&gt; &gt; general policies about it ?<br>
+&gt; <br>
+&gt; Booting from lsi scsi adapter used to work with a vendor bios only<br>
+&gt; loooooong ago.=C2=A0 Fixed by adding an lsi driver to seabios.<br>
+&gt; <br>
+&gt; Building a r300 vgabios shouldn&#39;t be too hard, we already have<br>
+&gt; support in seavgabios for the other ati variants emulated by qemu.<br>
+<br>
+That sounds reasonable, so it is fine to add r300 to QEMU without the BIOS.=
+<br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div>
+
+--000000000000f1da1a05986289d6--
 
