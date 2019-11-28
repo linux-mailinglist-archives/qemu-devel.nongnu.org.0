@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D710C2FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 04:45:10 +0100 (CET)
-Received: from localhost ([::1]:45068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3811B10C322
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 05:03:48 +0100 (CET)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaAjt-0002tW-MG
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 22:45:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44297)
+	id 1iaB1v-0007ra-8B
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 23:03:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54882)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1iaAhe-0001GO-Ip
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:42:52 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iaB02-0006JL-Bh
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 23:01:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1iaAhb-0000ZT-16
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:42:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49361
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iaAzy-0001Tk-9e
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 23:01:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:39371)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1iaAha-0000Wc-Ei
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:42:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574912565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oNpXXUPzEf7y4T1D/GmnsHSNzKOeTG0HJ+r3KP23ESE=;
- b=YNrhUU2J2GyX6jKGmmnIZqj8dOvtrEuKkjTxXDz3XbAqHFQhG50GUPAnVBOsG2k4KQyhic
- v+Pt+7AOMLxIWwtJlrdhmDBIZz8jJOQ56PDZBYSJqRxecYbEm2TWFzqxox6N+2reuUfdAy
- FRWuuafKlsuHvv9Sx/6eCoC56+xMLjE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-hKnZHYPxOGS8eP4RC3ZEfg-1; Wed, 27 Nov 2019 22:42:43 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B324410054E3;
- Thu, 28 Nov 2019 03:42:41 +0000 (UTC)
-Received: from [10.72.12.231] (ovpn-12-231.pek2.redhat.com [10.72.12.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 460A15D6D0;
- Thu, 28 Nov 2019 03:41:59 +0000 (UTC)
-Subject: Re: [RFC net-next 00/18] virtio_net XDP offload
-To: Jakub Kicinski <jakub.kicinski@netronome.com>
-References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
- <20191126123514.3bdf6d6f@cakuba.netronome.com>
- <48cec928-871f-3f50-e99f-c6a6d124cf4c@redhat.com>
- <20191127114913.0363a0e8@cakuba.netronome.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <285af7e2-6a4d-b20c-0aeb-165e3cd4309d@redhat.com>
-Date: Thu, 28 Nov 2019 11:41:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iaAzs-0001Jn-Fr; Wed, 27 Nov 2019 23:01:45 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47NkTq5pngz9sPc; Thu, 28 Nov 2019 15:01:35 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1574913695;
+ bh=+/8PUNHuEuGsWwy96B4j9Ft2HYXfZfG7gfrvt4XmooU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CzgPuix4WQTNzT7BTWY8iVT+hB1qsMrmagWQ8EVUfvtyAX1bUsKxz8g28fnLwqdx/
+ zuNMieSRSfgkPXGtINLH3GVqLGZJjipbuPyIj4eve91x/MwoJOKFj9t2Xw0eKSv6Yr
+ CFTJ+h1PuS/QL8kttqkK8mGM/grMNLp2zb0Pb9z8=
+Date: Thu, 28 Nov 2019 12:30:24 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v6 13/20] ppc/pnv: Clarify how the TIMA is accessed on a
+ multichip system
+Message-ID: <20191128013024.GA4765@umbus.fritz.box>
+References: <20191125065820.927-1-clg@kaod.org>
+ <20191125065820.927-14-clg@kaod.org>
+ <20191127052353.GR5582@umbus.fritz.box>
+ <49a23d16-596f-9345-f734-b06443704dfa@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20191127114913.0363a0e8@cakuba.netronome.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: hKnZHYPxOGS8eP4RC3ZEfg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+Content-Disposition: inline
+In-Reply-To: <49a23d16-596f-9345-f734-b06443704dfa@kaod.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,209 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, "Michael S . Tsirkin" <mst@redhat.com>,
- netdev@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>,
- qemu-devel@nongnu.org, Alexei Starovoitov <ast@kernel.org>,
- Prashant Bhole <prashantbhole.linux@gmail.com>, kvm@vger.kernel.org,
- Yonghong Song <yhs@fb.com>, Andrii Nakryiko <andriin@fb.com>,
- "David S . Miller" <davem@davemloft.net>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2019/11/28 =E4=B8=8A=E5=8D=883:49, Jakub Kicinski wrote:
-> On Wed, 27 Nov 2019 10:59:37 +0800, Jason Wang wrote:
->> On 2019/11/27 =E4=B8=8A=E5=8D=884:35, Jakub Kicinski wrote:
->>> On Tue, 26 Nov 2019 19:07:26 +0900, Prashant Bhole wrote:
->>>> Note: This RFC has been sent to netdev as well as qemu-devel lists
->>>>
->>>> This series introduces XDP offloading from virtio_net. It is based on
->>>> the following work by Jason Wang:
->>>> https://netdevconf.info/0x13/session.html?xdp-offload-with-virtio-net
->>>>
->>>> Current XDP performance in virtio-net is far from what we can achieve
->>>> on host. Several major factors cause the difference:
->>>> - Cost of virtualization
->>>> - Cost of virtio (populating virtqueue and context switching)
->>>> - Cost of vhost, it needs more optimization
->>>> - Cost of data copy
->>>> Because of above reasons there is a need of offloading XDP program to
->>>> host. This set is an attempt to implement XDP offload from the guest.
->>> This turns the guest kernel into a uAPI proxy.
->>>
->>> BPF uAPI calls related to the "offloaded" BPF objects are forwarded
->>> to the hypervisor, they pop up in QEMU which makes the requested call
->>> to the hypervisor kernel. Today it's the Linux kernel tomorrow it may
->>> be someone's proprietary "SmartNIC" implementation.
->>>
->>> Why can't those calls be forwarded at the higher layer? Why do they
->>> have to go through the guest kernel?
->>
->> I think doing forwarding at higher layer have the following issues:
->>
->> - Need a dedicated library (probably libbpf) but application may choose
->>    to do eBPF syscall directly
->> - Depends on guest agent to work
-> This can be said about any user space functionality.
+--cNdxnHkX5QqsyA0e
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 27, 2019 at 07:57:31AM +0100, C=E9dric Le Goater wrote:
+> On 27/11/2019 06:23, David Gibson wrote:
+> > On Mon, Nov 25, 2019 at 07:58:13AM +0100, C=E9dric Le Goater wrote:
+> >> The TIMA region gives access to the thread interrupt context registers
+> >> of a CPU. It is mapped at the same address on all chips and can be
+> >> accessed by any CPU of the system. To identify the chip from which the
+> >> access is being done, the PowerBUS uses a 'chip' field in the
+> >> load/store messages. QEMU does not model these messages, instead, we
+> >> extract the chip id from the CPU PIR and do a lookup at the machine
+> >> level to fetch the targeted interrupt controller.
+> >>
+> >> Introduce pnv_get_chip() and pnv_xive_tm_get_xive() helpers to clarify
+> >> this process in pnv_xive_get_tctx(). The latter will be removed in the
+> >> subsequent patches but the same principle will be kept.
+> >>
+> >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> >> ---
+> >>  include/hw/ppc/pnv.h |  3 +++
+> >>  hw/intc/pnv_xive.c   | 40 +++++++++++++++++++++++-----------------
+> >>  hw/ppc/pnv.c         | 14 ++++++++++++++
+> >>  3 files changed, 40 insertions(+), 17 deletions(-)
+> >>
+> >> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> >> index a58cfea3f2fd..3a7bc3c57e0d 100644
+> >> --- a/include/hw/ppc/pnv.h
+> >> +++ b/include/hw/ppc/pnv.h
+> >> @@ -103,6 +103,7 @@ typedef struct Pnv9Chip {
+> >>   * A SMT8 fused core is a pair of SMT4 cores.
+> >>   */
+> >>  #define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> >> +#define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
+> >> =20
+> >>  typedef struct PnvChipClass {
+> >>      /*< private >*/
+> >> @@ -197,6 +198,8 @@ static inline bool pnv_is_power9(PnvMachineState *=
+pnv)
+> >>      return pnv_chip_is_power9(pnv->chips[0]);
+> >>  }
+> >> =20
+> >> +PnvChip *pnv_get_chip(uint32_t chip_id);
+> >> +
+> >>  #define PNV_FDT_ADDR          0x01000000
+> >>  #define PNV_TIMEBASE_FREQ     512000000ULL
+> >> =20
+> >> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> >> index 95e9de312cd9..db9d9c11a8f4 100644
+> >> --- a/hw/intc/pnv_xive.c
+> >> +++ b/hw/intc/pnv_xive.c
+> >> @@ -439,31 +439,37 @@ static int pnv_xive_match_nvt(XivePresenter *xpt=
+r, uint8_t format,
+> >>      return count;
+> >>  }
+> >> =20
+> >> +/*
+> >> + * The TIMA MMIO space is shared among the chips and to identify the
+> >> + * chip from which the access is being done, we extract the chip id
+> >> + * from the PIR.
+> >> + */
+> >> +static PnvXive *pnv_xive_tm_get_xive(PowerPCCPU *cpu)
+> >> +{
+> >> +    int pir =3D ppc_cpu_pir(cpu);
+> >> +    PnvChip *chip;
+> >> +    PnvXive *xive;
+> >> +
+> >> +    chip =3D pnv_get_chip(PNV9_PIR2CHIP(pir));
+> >> +    assert(chip);
+> >> +    xive =3D &PNV9_CHIP(chip)->xive;
+> >> +
+> >> +    if (!pnv_xive_is_cpu_enabled(xive, cpu)) {
+> >> +        xive_error(xive, "IC: CPU %x is not enabled", pir);
+> >> +    }
+> >> +    return xive;
+> >> +}
+> >> +
+> >>  static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+> >>  {
+> >>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> >> -    XiveTCTX *tctx =3D XIVE_TCTX(pnv_cpu_state(cpu)->intc);
+> >> -    PnvXive *xive =3D NULL;
+> >> -    CPUPPCState *env =3D &cpu->env;
+> >> -    int pir =3D env->spr_cb[SPR_PIR].default_value;
+> >> +    PnvXive *xive =3D pnv_xive_tm_get_xive(cpu);
+> >> =20
+> >> -    /*
+> >> -     * Perform an extra check on the HW thread enablement.
+> >> -     *
+> >> -     * The TIMA is shared among the chips and to identify the chip
+> >> -     * from which the access is being done, we extract the chip id
+> >> -     * from the PIR.
+> >> -     */
+> >> -    xive =3D pnv_xive_get_ic((pir >> 8) & 0xf);
+> >>      if (!xive) {
+> >>          return NULL;
+> >>      }
+> >> =20
+> >> -    if (!(xive->regs[PC_THREAD_EN_REG0 >> 3] & PPC_BIT(pir & 0x3f))) {
+> >=20
+> > I'm not seeing any code which will replace this check on the thread
+> > enabled register.  Is that really what you intend?
+>=20
+> it is calling pnv_xive_tm_get_xive() which calls pnv_xive_is_cpu_enabled()
+> which does the same check in better.
 
-Yes but the feature may have too much unnecessary dependencies:=20
-dedicated library, guest agent, host agent etc. This can only work for=20
-some specific setups and will lead vendor specific implementations.
+Ah, yes of course, thanks.
 
+Applied to ppc-for-5.0.
 
->
->> - Can't work for virtio-net hardware, since it still requires a hardware
->> interface for carrying=C2=A0 offloading information
-> The HW virtio-net presumably still has a PF and hopefully reprs for
-> VFs, so why can't it attach the program there?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--cNdxnHkX5QqsyA0e
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Then you still need a interface for carrying such information? It will=20
-work like assuming we had a virtio-net VF with reprs:
+-----BEGIN PGP SIGNATURE-----
 
-libbpf(guest) -> guest agent -> host agent -> libbpf(host) -> BPF=20
-syscall -> VF reprs/PF drvier -> VF/PF reprs -> virtio-net VF
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3fIy0ACgkQbDjKyiDZ
+s5KKlA//ZOjecSkoUpaABob54W+f8yP6dZ1wXAlFGHsoXGJ2D10kP2CxHy/AXjIN
+oWJ3Z4T+FSRiKeMfvnX8caXE34eJ3I5JbBmqIC2uTyavFm7TK853tT/em5UwVFM0
+lJvcbH6OF2uzf8Rixi7mL1+09+44wjkSw6anBMvqShyuPIKvvhE5uNCFTIf5hoSh
+iT3NjdFyBCgT2MTZMBKe0/ykHy3ZqYcWogyVDfBmJ3T95prIOxfk6tIwpz/P3kRQ
+CDsyvMB++IZm0jxBpaOsJ5INlfPskZ12pCdwITvDGdKupTdwNWKZZ5BPTyMTD5C8
+JHSq2m+Durx5pz9n9ZlqXyfD92KQmzMrfmr9ylScduwCQBh15DbbJa6n5d6feiNe
+J6nyKwNMaPjjzmo9RvjY3WoKP7kMEPfRjCW2o83aI/4K/S2j1TF41aDKRGPVTSr5
+G7GJ4D2fwF9zyGsSG+WCItR5qgYadLPWEVyThdQo+Q20K/KP/PnRjEGPqn+FYQzI
+uWqxgSeqrO5TQOLx1OaJouOQd3JcpgCub1m7HdEvGHcV+S0ngvZfVSBIm5ca8pP/
+s0xN39OcTEAVom7ttUVbBVPkcs8Fa6Jt4B9ok9JkMMpDZh09ji6yQqjD81pjKTmK
+XPMFmpz03LPIbiw3k4xYOZcaoPLvJxMWk3xMII+/au51RE1ZBiQ=
+=3uNe
+-----END PGP SIGNATURE-----
 
-Still need a vendor specific way for passing eBPF commands from driver=20
-to reprs/PF, and possibility, it could still be a virtio interface there.
-
-In this proposal it will work out of box as simple as:
-
-libbpf(guest) -> guest kernel -> virtio-net driver -> virtio-net VF
-
-If the request comes from host (e.g flow offloading, configuration etc),=20
-VF reprs make perfect fit. But if the request comes from guest, having=20
-much longer journey looks quite like a burden (dependencies, bugs etc) .
-
-What's more important, we can not assume the how virtio-net HW is=20
-structured, it could even not a SRIOV or PCI card.
-
-
->
->> - Implement at the level of kernel may help for future extension like
->>    BPF object pinning and eBPF helper etc.
-> No idea what you mean by this.
-
-
-My understanding is, we should narrow the gap between non-offloaded eBPF=20
-program and offloaded eBPF program. Making maps or progs to be visible=20
-to kernel may help to persist a unified API e.g object pinning through=20
-sysfs, tracepoint, debug etc.
-
-
->
->> Basically, this series is trying to have an implementation of
->> transporting eBPF through virtio, so it's not necessarily a guest to
->> host but driver and device. For device, it could be either a virtual one
->> (as done in qemu) or a real hardware.
-> SmartNIC with a multi-core 64bit ARM CPUs is as much of a host as
-> is the x86 hypervisor side. This set turns the kernel into a uAPI
-> forwarder.
-
-
-Not necessarily, as what has been done by NFP, driver filter out the=20
-features that is not supported, and the bpf object is still visible in=20
-the kernel (and see above comment).
-
-
->
-> 3 years ago my answer to this proposal would have been very different.
-> Today after all the CPU bugs it seems like the SmartNICs (which are
-> just another CPU running proprietary code) may just take off..
->
-
-That's interesting but vendor may choose to use FPGA other than SoC in=20
-this case. Anyhow discussion like this is somehow out of the scope of=20
-the series.
-
-
->>> If kernel performs no significant work (or "adds value", pardon the
->>> expression), and problem can easily be solved otherwise we shouldn't
->>> do the work of maintaining the mechanism.
->> My understanding is that it should not be much difference compared to
->> other offloading technology.
-> I presume you mean TC offloads? In virtualization there is inherently a
-> hypervisor which will receive the request, be it an IO hub/SmartNIC or
-> the traditional hypervisor on the same CPU.
->
-> The ACL/routing offloads differ significantly, because it's either the
-> driver that does all the HW register poking directly or the complexity
-> of programming a rule into a HW table is quite low.
->
-> Same is true for the NFP BPF offload, BTW, the driver does all the
-> heavy lifting and compiles the final machine code image.
-
-
-Yes and this series benefit from the infrastructure invented from NFP.=20
-But I'm not sure this is a good point since, technically the machine=20
-code could be generated by smart NIC as well.
-
-
->
-> You can't say verifying and JITing BPF code into machine code entirely
-> in the hypervisor is similarly simple.
-
-
-Yes and that's why we choose to do in on the device (host) to simplify=20
-things.
-
-
->
-> So no, there is a huge difference.
->
-
->>> The approach of kernel generating actual machine code which is then
->>> loaded into a sandbox on the hypervisor/SmartNIC is another story.
->> We've considered such way, but actual machine code is not as portable as
->> eBPF bytecode consider we may want:
->>
->> - Support migration
->> - Further offload the program to smart NIC (e.g through macvtap
->>    passthrough mode etc).
-> You can re-JIT or JIT for SmartNIC..? Having the BPF bytecode does not
-> guarantee migration either,
-
-
-Yes, but it's more portable than machine code.
-
-
-> if the environment is expected to be
-> running different version of HW and SW.
-
-
-Right, we plan to have feature negotiation.
-
-
-> But yes, JITing in the guest
-> kernel when you don't know what to JIT for may be hard,
-
-
-Yes.
-
-
-> I was just
-> saying that I don't mean to discourage people from implementing
-> sandboxes which run JITed code on SmartNICs. My criticism is (as
-> always?) against turning the kernel into a one-to-one uAPI forwarder
-> into unknown platform code.
-
-
-We have FUSE and I think it's not only the forwarder, and we may do much=20
-more work on top in the future. For unknown platform code, I'm not sure=20
-why we need care about that. There's no way for us to prevent such=20
-implementation and if we try to formalize it through a specification=20
-(virtio spec and probably eBPF spec), it may help actually.
-
-
->
-> For cloud use cases I believe the higher layer should solve this.
->
-
-Technically possible, but have lots of drawbacks.
-
-Thanks
-
+--cNdxnHkX5QqsyA0e--
 
