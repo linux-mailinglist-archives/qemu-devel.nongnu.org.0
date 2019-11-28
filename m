@@ -2,50 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C074510CA4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:22:18 +0100 (CET)
-Received: from localhost ([::1]:49530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49C510CA58
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:29:24 +0100 (CET)
+Received: from localhost ([::1]:49594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKgS-00053j-6V
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:22:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47891)
+	id 1iaKnI-0000SU-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iaK9Q-0004MC-LA
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:12 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iaKDn-0006aF-TY
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iaK9M-0008AS-W9
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:06 -0500
-Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:56803)
+ (envelope-from <pbonzini@redhat.com>) id 1iaKDd-00071B-It
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27247
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK9M-0007oT-Ok
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:04 -0500
-Received: from player688.ha.ovh.net (unknown [10.108.57.188])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1755414C826
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:48:00 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 12D28C94B6CE;
- Thu, 28 Nov 2019 13:47:53 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 7/7] target/ppc: Enforce that the root page directory size
- must be at least 5
-Date: Thu, 28 Nov 2019 14:47:00 +0100
-Message-Id: <20191128134700.16091-8-clg@kaod.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
-References: <20191128134700.16091-1-clg@kaod.org>
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iaKDd-0006js-Do
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:52:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574949145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SGCbpaHpF1H1MImu0dEy65dgZ6Op5SK82aXIs9CJRYI=;
+ b=jKeypN1bC9nbEYMbfTNg06LHV9K4AjTdpqlV/39++C20L49Iib/uebCzUxjIhS9S+rLhMR
+ 2wJfhxLQiZxS8OcacBccHv+UPncYfRM/CrY+R0FVnaLGQXg/7l6xiPaz3qPRt/0Vz7Yvvq
+ fZAraKbWauWgJFN/ATjTNcfoml0xKfI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-1-DJ4-2DPTOgJHSzw0bTLA-1; Thu, 28 Nov 2019 08:52:22 -0500
+Received: by mail-wr1-f72.google.com with SMTP id h7so13938751wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 05:52:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SGCbpaHpF1H1MImu0dEy65dgZ6Op5SK82aXIs9CJRYI=;
+ b=D46MMGhQtoyFFa/ise19fp5sld6kZUs1rt1QDG+chtDoq0Wc7jBwjNnPIc8KNLhQkF
+ tY3yTjJ9iZR28e3o6YLtO9MGZla357ru74o3pPfwaRcCTZkUNp8Jn3Y7fWDGnTkZTeSZ
+ oFAZtJFNuzdiDjjRawnWGWK869/61oGnHVEn3SIrG6Z6eajvhjUcjovJwTXulqSM/+pQ
+ SJfO+R8lsH541UVJYfgr3gw5YJLxEm+CrUK3BJYicB3tCFEWhkr5zuDW7cu7ZdW1Ri4i
+ 7iAsyvmaW2yXOag/yMyCUppOYmr8Oq120/vmZx/uWNIUyD571hkv2GW7iSdKmZOZZFBN
+ Deaw==
+X-Gm-Message-State: APjAAAXc//fuccJWrBi10bI4yNwecUCECW0ksWIs8RhOfZF6aARJik3t
+ Zm65rB7jtUJSwx12BMTOqIMOh79HGF5XAtW10rXQDwIqejKpfELpoQUlARzmJwuDSuYs2+qgV19
+ +loR03kUdTabQV94=
+X-Received: by 2002:a5d:5091:: with SMTP id a17mr927642wrt.362.1574949140991; 
+ Thu, 28 Nov 2019 05:52:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw8eOjBTnXUhOmAcHEPLwaZZkIJc8IXP3v3jLYmCjXlPEOmsZYqUUrADpabxW1SI7vtCzOXcw==
+X-Received: by 2002:a5d:5091:: with SMTP id a17mr927618wrt.362.1574949140609; 
+ Thu, 28 Nov 2019 05:52:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
+ ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
+ by smtp.gmail.com with ESMTPSA id r2sm10954051wma.44.2019.11.28.05.52.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 05:52:19 -0800 (PST)
+Subject: Re: [PATCH v2 5/5] hvf: save away type as well as vector so we can
+ reinject them
+To: Cameron Esfahani <dirty@apple.com>
+References: <cover.1574625592.git.dirty@apple.com>
+ <e07e6085d8ab9054e58f85ae58e112df6adc024d.1574625592.git.dirty@apple.com>
+ <eb3a2de7-fcfe-f0d5-8534-1c59ff40f61e@redhat.com>
+ <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
+ <524CCF5D-EED6-4710-A561-6AD634015F5F@apple.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <19f45c8c-7029-6fd7-6dd0-59541a99b9a2@redhat.com>
+Date: Thu, 28 Nov 2019 14:52:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14992201686115978214
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <524CCF5D-EED6-4710-A561-6AD634015F5F@apple.com>
+Content-Language: en-US
+X-MC-Unique: 1-DJ4-2DPTOgJHSzw0bTLA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.61.94
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,44 +95,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+On 28/11/19 06:57, Cameron Esfahani wrote:
+> 
+> What we were seeing was, under heavy loads, running many concurrent
+macOS VMs, that we would get spurious interrupts.  Tracking it down, we
+discovered that VMCS_INTR_T_SWINTR was getting injected when
+VMCS_INTR_T_HWINTR was expected.
+> 
+> If I take our proposed patch code, which built on top of master from a
+> few days ago, and has fd13f23b8c95311eff74426921557eee592b0ed3,  and add
+> an assert, like the following:
+> 
+>>     if (env->interrupt_injected != -1) {
+>>         /* Type and vector are both saved in interrupt_injected. */
+>>         vector = env->interrupt_injected & VMCS_IDT_VEC_VECNUM;
+>>         intr_type = env->interrupt_injected & VMCS_IDT_VEC_TYPE;
+>>         if (VMCS_INTR_T_SWINTR != intr_type) {
+>>             printf("VMCS_INTR_T_SWINTR (%x) != intr_type (%llx)\n", VMCS_INTR_T_SWINTR, intr_type);
+>>             assert(VMCS_INTR_T_SWINTR == intr_type);
+>>         }
+>>     } else if (env->exception_nr != -1) {
+> 
+> Then we will see the assert trigger and get the following output:
+> 
+>> VMCS_INTR_T_SWINTR (400) != intr_type (0)
+>> Assertion failed: (VMCS_INTR_T_SWINTR == intr_type), function hvf_inject_interrupts, file qemu_upstream/target/i386/hvf/x86hvf.c, line 362.
 
-According to the ISA the root page directory size of a radix tree for
-either process or partition scoped translation must be >=3D 5.
+Great, thanks.  It's good to know that it's only software vs. hardware
+interrupt.  I'll compare the KVM and QEMU source code to see why KVM
+does not lose software vs. hardware interrupt, since the QEMU event
+injection code was modeled against KVM's.
 
-Thus add this to the list of conditions checked when validating the
-partition table entry in validate_pate();
-
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-[clg: - checkpatch fixes ]
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- target/ppc/mmu-radix64.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 066e324464db..b8ecb8fa1d51 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -212,6 +212,9 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t l=
-pid, ppc_v3_pate_t *pate)
-     if (lpid =3D=3D 0 && !msr_hv) {
-         return false;
-     }
-+    if ((pate->dw0 & PATE1_R_PRTS) < 5) {
-+        return false;
-+    }
-     /* More checks ... */
-     return true;
- }
---=20
-2.21.0
+Paolo
 
 
