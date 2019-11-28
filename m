@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ACA10C3C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 06:47:53 +0100 (CET)
-Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D230C10C3D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 06:59:30 +0100 (CET)
+Received: from localhost ([::1]:45570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaCee-0008VA-3T
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 00:47:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48851)
+	id 1iaCpt-0006AD-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 00:59:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrew@aj.id.au>) id 1iaCbD-0006sP-2j
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:44:20 -0500
+ (envelope-from <dirty@apple.com>) id 1iaCoa-0005gV-ID
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:58:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew@aj.id.au>) id 1iaCbC-000219-3E
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:44:18 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:48381)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrew@aj.id.au>)
- id 1iaCbA-0001vq-0c; Thu, 28 Nov 2019 00:44:16 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id BCC242274C;
- Thu, 28 Nov 2019 00:44:15 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 28 Nov 2019 00:44:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=hIc79k55330sL
- qRdCwQIUBdcco3hdPjvxZSvpVOEKc8=; b=eA0+3v5+/zvBS2+vagzNxpbiYLaUC
- xuKavTEb0iBxdqxd11txssmI0eFOr6PRbfSnk6Ta3Z+DH0u/egTH3jnNXeji3pya
- dzw7Ox6cAr0Pys3xRt5q2zyLilOMl4vXMsTtlF9FsXKVjtBmCQ2zrswb3DdqxWFi
- ppXo+lNc1BTT3sXTriBNm6K/N6EtPa9nrh6jsBTyIjEsHFMbLsLsiybxpNWxapkX
- JV1ODtm1JuZKFlZ0LLcMZEcMyIKl++9eiZq/+MlGbUe6oRq9P1Fjg3vutN42kosl
- QFKXaXFEPlk9AX8SfRKMdS0TETki64yHm5EnHeS6TeTX6gTbwuOFP6q7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=hIc79k55330sLqRdCwQIUBdcco3hdPjvxZSvpVOEKc8=; b=UJz8gHZX
- FJ/jRZKjz2VZSIBfjSghAlk8MYDHnQh0cuaVADzsMO/BwNdqXnX/qJe3DWpPz1HI
- VvaNON17PHueO65OMf/sFZWfB0MiLpmA3WisO56A4U/9r6kIZsX5tR8g5jjYD2aU
- vlTNY1xMQDnxeJlE+7FlV7m3HqmsPCTxGmr5CQp5oap6SKOyteGOC7qHD7SFQdGs
- tyRq/rxj4zIVqARmhHI+CraLmcs8e57YXviI3jLxRtv13mwFkN3dRbDCxLSxYKLD
- ihb2AJjp+IhbGbzawPWOCrbxgl1zr9bOfMHwJW/aFpYq7ZRqt0MpjOkfnNCWXYkx
- 3m7SNjNCnUQGGA==
-X-ME-Sender: <xms:r17fXcEK6hfiSG05qbjUHsIHjU_qonzIvxX6eJN13KwyoV1qVVN_4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeiiedgkeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecukfhppedvtddvrdekuddrudekrdeftdenucfrrghrrghmpehmrg
- hilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigv
- pedu
-X-ME-Proxy: <xmx:r17fXWuRVh5OBvRBCln-ZUM64hG8ECoLKNz8yNruvNRkesJjMO4PAw>
- <xmx:r17fXfbL3CUBX4GIrEgdfe4Sw0PFriQy1aT_3tmiwtY5aaA9B16K4Q>
- <xmx:r17fXWWSAN3imU6NXhFUh6M8Ei7iXLuEJsvuaOEgy5S8v998XsXfNw>
- <xmx:r17fXVq5HbS7887GKfFiPwnROYwlT5JjZmXxT7R75M5ZLBds6BsNXQ>
-Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id 634E08005B;
- Thu, 28 Nov 2019 00:44:13 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: qemu-arm@nongnu.org
-Subject: [PATCH 4/4] ast2600: Configure CNTFRQ at 1125MHz
-Date: Thu, 28 Nov 2019 16:15:27 +1030
-Message-Id: <20191128054527.25450-5-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128054527.25450-1-andrew@aj.id.au>
-References: <20191128054527.25450-1-andrew@aj.id.au>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 66.111.4.26
+ (envelope-from <dirty@apple.com>) id 1iaCoY-0003p8-F1
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:58:08 -0500
+Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:39860)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1iaCoW-0003mB-CP
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 00:58:04 -0500
+Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp03.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ xAS5qD3L031284; Wed, 27 Nov 2019 21:58:01 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=sender : content-type
+ : mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to; s=20180706;
+ bh=RQO/zO3qgoUpIwqQUBwfPO7J+2Ti+xjEWPNRuUk//aw=;
+ b=D4+F/DM3fKegHQQZ9RXuvWBeoD8uhz9AcIDPDOPUW8aJpssqlYS63KURtuTDdQyuCi00
+ JnfAP/+nTRqL9/jFvPpUEsKJOCgOUwGo/Uw4EgbvrDrZd7/HNlkk/Psm9SL+mfwwlzdN
+ dieViV7bmO6kp7G8O84CTh19lYUjm1p2gEnt8nXXt0Uq1KbNJz9qkkHiUEDMOKBaPTx7
+ cIDtmneLoBCrZkD1EVj8Qd+jG8rzFNwNzza4Aw35dsrpdBwhTDhayWqWj6sogW/Lb+Ww
+ Q22KkGmxc+YtWn98srefE2/V2CNDNOyQMpF2G/Mp01Tz4vSe9AJSNEx2+OeVzuuf33CJ VQ== 
+Received: from ma1-mtap-s03.corp.apple.com (ma1-mtap-s03.corp.apple.com
+ [17.40.76.7])
+ by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 2wf4n89x0c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Wed, 27 Nov 2019 21:58:01 -0800
+Received: from nwk-mmpp-sz11.apple.com
+ (nwk-mmpp-sz11.apple.com [17.128.115.155]) by ma1-mtap-s03.corp.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) with ESMTPS id <0Q1O009P70KOXZ50@ma1-mtap-s03.corp.apple.com>; Wed,
+ 27 Nov 2019 21:58:01 -0800 (PST)
+Received: from process_milters-daemon.nwk-mmpp-sz11.apple.com by
+ nwk-mmpp-sz11.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) id <0Q1O00I00092GX00@nwk-mmpp-sz11.apple.com>; Wed,
+ 27 Nov 2019 21:58:00 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: 07468e1da2f6e987d649ff6cb4055ea6
+X-Va-E-CD: 41404d9c28fbc215bab670c20d826187
+X-Va-R-CD: eb29b0577443ea815658bc1e1be1b1f2
+X-Va-CD: 0
+X-Va-ID: ae3096fb-6ecc-4156-b25a-7ec69f9c8718
+X-V-A: 
+X-V-T-CD: 07468e1da2f6e987d649ff6cb4055ea6
+X-V-E-CD: 41404d9c28fbc215bab670c20d826187
+X-V-R-CD: eb29b0577443ea815658bc1e1be1b1f2
+X-V-CD: 0
+X-V-ID: 5dacfd3d-d8f6-4776-9a08-736b7b3218fe
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
+ definitions=2019-11-27_07:,, signatures=0
+Received: from [17.234.102.11] (unknown [17.234.102.11])
+ by nwk-mmpp-sz11.apple.com
+ (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
+ 2019)) with ESMTPSA id <0Q1O00J8E0KNYE10@nwk-mmpp-sz11.apple.com>; Wed,
+ 27 Nov 2019 21:58:00 -0800 (PST)
+Content-type: text/plain; charset=us-ascii
+MIME-version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [PATCH v2 5/5] hvf: save away type as well as vector so we can
+ reinject them
+In-reply-to: <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
+Date: Wed, 27 Nov 2019 21:57:58 -0800
+Cc: qemu-devel@nongnu.org
+Content-transfer-encoding: quoted-printable
+Message-id: <524CCF5D-EED6-4710-A561-6AD634015F5F@apple.com>
+References: <cover.1574625592.git.dirty@apple.com>
+ <e07e6085d8ab9054e58f85ae58e112df6adc024d.1574625592.git.dirty@apple.com>
+ <eb3a2de7-fcfe-f0d5-8534-1c59ff40f61e@redhat.com>
+ <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-27_07:, , signatures=0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 17.171.2.72
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +97,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, clg@kaod.org,
- joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Cameron Esfahani <dirty@apple.com>
+From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-This matches the configuration set by u-boot on the AST2600.
+I added some asserts to our internal version of QEMU.  It's a few months =
+off of master and, specifically, doesn't have =
+fd13f23b8c95311eff74426921557eee592b0ed3.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- hw/arm/aspeed_ast2600.c | 3 +++
- 1 file changed, 3 insertions(+)
+With the previous version of hvf_inject_interrupts(), before our fix, =
+the code looked like the following:
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 931887ac681f..5aecc3b3caec 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -259,6 +259,9 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-         object_property_set_int(OBJECT(&s->cpu[i]), aspeed_calc_affinity(i),
-                                 "mp-affinity", &error_abort);
- 
-+        object_property_set_int(OBJECT(&s->cpu[i]), 1125000000, "cntfrq",
-+                                &error_abort);
-+
-         /*
-          * TODO: the secondary CPUs are started and a boot helper
-          * is needed when using -kernel
--- 
-2.20.1
+>     if (env->interrupt_injected !=3D -1) {
+>         vector =3D env->interrupt_injected;
+>         intr_type =3D VMCS_INTR_T_SWINTR;
+>     } else if (env->exception_injected !=3D -1) {
+
+
+What we were seeing was, under heavy loads, running many concurrent =
+macOS VMs, that we would get spurious interrupts.  Tracking it down, we =
+discovered that VMCS_INTR_T_SWINTR was getting injected when =
+VMCS_INTR_T_HWINTR was expected.
+
+If I take our proposed patch code, which built on top of master from a =
+few days ago, and has fd13f23b8c95311eff74426921557eee592b0ed3,  and add =
+an assert, like the following:
+
+>     if (env->interrupt_injected !=3D -1) {
+>         /* Type and vector are both saved in interrupt_injected. */
+>         vector =3D env->interrupt_injected & VMCS_IDT_VEC_VECNUM;
+>         intr_type =3D env->interrupt_injected & VMCS_IDT_VEC_TYPE;
+>         if (VMCS_INTR_T_SWINTR !=3D intr_type) {
+>             printf("VMCS_INTR_T_SWINTR (%x) !=3D intr_type (%llx)\n", =
+VMCS_INTR_T_SWINTR, intr_type);
+>             assert(VMCS_INTR_T_SWINTR =3D=3D intr_type);
+>         }
+>     } else if (env->exception_nr !=3D -1) {
+
+
+Then we will see the assert trigger and get the following output:
+
+> VMCS_INTR_T_SWINTR (400) !=3D intr_type (0)
+> Assertion failed: (VMCS_INTR_T_SWINTR =3D=3D intr_type), function =
+hvf_inject_interrupts, file qemu_upstream/target/i386/hvf/x86hvf.c, line =
+362.
+
+
+So, as far as I can see, the proposed changes are still necessary.
+
+Cameron Esfahani
+dirty@apple.com
+
+"Americans are very skilled at creating a custom meaning from something =
+that's mass-produced."
+
+Ann Powers
+
+
+> On Nov 26, 2019, at 12:04 PM, Cameron Esfahani via =
+<qemu-devel@nongnu.org> wrote:
+>=20
+> Our test case was booting many concurrent macOS VMs under heavy system =
+load.  I don't know if I could create one to replicate that.
+>=20
+> Cameron Esfahani
+> dirty@apple.com
+>=20
+> "In the elder days of Art, Builders wrought with greatest care each =
+minute and unseen part; For the gods see everywhere."
+>=20
+> "The Builders", H. W. Longfellow
+>=20
+>=20
+>=20
+>> On Nov 25, 2019, at 2:26 AM, Paolo Bonzini <pbonzini@redhat.com> =
+wrote:
+>>=20
+>> On 24/11/19 21:05, Cameron Esfahani wrote:
+>>> Save away type as well as vector in hvf_store_events() so we can
+>>> correctly reinject both in hvf_inject_interrupts().
+>>>=20
+>>> Make sure to clear ins_len and has_error_code when ins_len isn't
+>>> valid and error_code isn't set.
+>>=20
+>> Do you have a testcase for this?  (I could guess it's about the INT1
+>> instruction).
+>>=20
+>> Paolo
+>>=20
+>=20
+>=20
 
 
