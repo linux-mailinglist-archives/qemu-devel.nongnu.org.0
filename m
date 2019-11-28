@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6BB10CA44
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:18:56 +0100 (CET)
-Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38AB010CA28
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:12:06 +0100 (CET)
+Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKdC-0003HW-4x
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:18:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46789)
+	id 1iaKWZ-00084Q-3D
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:12:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iaK9F-0004DK-8x
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:59 -0500
+ (envelope-from <clg@kaod.org>) id 1iaK9L-0004H7-5z
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iaK97-00072Y-UP
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:53 -0500
-Received: from 18.mo3.mail-out.ovh.net ([87.98.172.162]:46881)
+ (envelope-from <clg@kaod.org>) id 1iaK9G-0007hx-K0
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:00 -0500
+Received: from 4.mo5.mail-out.ovh.net ([178.33.111.247]:53839)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK97-0006nI-J7
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:49 -0500
-Received: from player688.ha.ovh.net (unknown [10.108.35.128])
- by mo3.mail-out.ovh.net (Postfix) with ESMTP id 76479234131
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:46 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK9G-0007Lx-8x
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:58 -0500
+Received: from player688.ha.ovh.net (unknown [10.109.146.50])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 400A725CC42
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:53 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id E85E1C94B4FD;
- Thu, 28 Nov 2019 13:47:38 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 4044DC94B5F4;
+ Thu, 28 Nov 2019 13:47:46 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 5/7] target/ppc: Add privileged message send facilities
-Date: Thu, 28 Nov 2019 14:46:58 +0100
-Message-Id: <20191128134700.16091-6-clg@kaod.org>
+Subject: [PATCH 6/7] target/ppc: add support for Hypervisor Facility
+ Unavailable Exception
+Date: Thu, 28 Nov 2019 14:46:59 +0100
+Message-Id: <20191128134700.16091-7-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
 References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14988542510787234790
+X-Ovh-Tracer-Id: 14990231361968507878
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.172.162
+X-Received-From: 178.33.111.247
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,285 +63,213 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-
-Privileged message send facilities exist on POWER8 processors and
-later and include a register and instructions which can be used to
-generate, observe/modify the state of and clear privileged doorbell
-exceptions as described below.
-
-The Directed Privileged Doorbell Exception State (DPDES) register
-reflects the state of pending privileged doorbell exceptions and can
-also be used to modify that state. The register can be used to read
-and modify the state of privileged doorbell exceptions for all threads
-of a subprocessor and thus is a shared facility for that subprocessor.
-The register can be read/written by the hypervisor and read by the
-supervisor if enabled in the HFSCR, otherwise a hypervisor facility
-unavailable exception is generated.
-
 The privileged message send and clear instructions (msgsndp & msgclrp)
-are used to generate and clear the presence of a directed privileged
-doorbell exception, respectively. The msgsndp instruction can be used
-to target any thread of the current subprocessor, msgclrp acts on the
-thread issuing the instruction. These instructions are privileged, but
-will generate a hypervisor facility unavailable exception if not
-enabled in the HFSCR and executed in privileged non-hypervisor
-state. The HV facility unavailable exception will be addressed in
-other patch.
+are privileged, but will generate a hypervisor facility unavailable
+exception if not enabled in the HFSCR and executed in privileged
+non-hypervisor state.
 
-Add and implement this register and instructions by reading or
-modifying the pending interrupt state of the cpu.
+Add checks when accessing the DPDES register and when using the
+msgsndp and msgclrp isntructions.
 
-Note that TCG only supports one thread per core and so we only need to
-worry about the cpu making the access.
+Based on previous work from Suraj Jitindar Singh.
 
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-[clg: - introduced a book3s_msgsnd_common() helper to reduce code
-      	duplication
-      - modified book3s_dbell2irq()
-      - moved out the support for hypervisor facility unavailable
-      	exception
-      - modified commit log to add a statement on the HV FU exception
-      - checkpatch fixes
-      - compile fixes for the ppc-softmmu and linux-user targets ]
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
+Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/helper.h             |  4 +++
- target/ppc/excp_helper.c        | 43 ++++++++++++++++++++++++++++-----
- target/ppc/misc_helper.c        | 22 +++++++++++++++++
- target/ppc/translate.c          | 26 ++++++++++++++++++++
- target/ppc/translate_init.inc.c | 20 ++++++++++++---
- 5 files changed, 105 insertions(+), 10 deletions(-)
+ target/ppc/cpu.h                |  6 ++++++
+ target/ppc/helper.h             |  1 +
+ target/ppc/excp_helper.c        |  9 +++++++++
+ target/ppc/misc_helper.c        | 24 ++++++++++++++++++++++++
+ target/ppc/translate.c          |  4 ++++
+ target/ppc/translate_init.inc.c | 18 ++++++++++++++++++
+ 6 files changed, 62 insertions(+)
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 8ffcfa0ea162..52608dfe6ff4 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -397,6 +397,10 @@ typedef struct ppc_v3_pate_t {
+ #define PSSCR_ESL         PPC_BIT(42) /* Enable State Loss */
+ #define PSSCR_EC          PPC_BIT(43) /* Exit Criterion */
+=20
++/* HFSCR bits */
++#define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities=
+ */
++#define HFSCR_IC_MSGP  0xA
++
+ #define msr_sf   ((env->msr >> MSR_SF)   & 1)
+ #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
+ #define msr_shv  ((env->msr >> MSR_SHV)  & 1)
+@@ -1333,6 +1337,8 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHy=
+pervisor *vhyp);
+ #endif
+=20
+ void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
++void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
+bit,
++                              int sprn, int cause);
+=20
+ static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
+ {
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index cd0dfe383a2a..76518a1df6f0 100644
+index 76518a1df6f0..14c9a30a45c9 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -657,6 +657,10 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, t=
-l, env)
- DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
- DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_2(store_ptcr, void, env, tl)
-+DEF_HELPER_FLAGS_1(load_dpdes, TCG_CALL_NO_RWG, tl, env)
-+DEF_HELPER_FLAGS_2(store_dpdes, TCG_CALL_NO_RWG, void, env, tl)
-+DEF_HELPER_1(book3s_msgsndp, void, tl)
-+DEF_HELPER_2(book3s_msgclrp, void, env, tl)
- #endif
- DEF_HELPER_2(store_sdr1, void, env, tl)
- DEF_HELPER_2(store_pidr, void, env, tl)
+@@ -643,6 +643,7 @@ DEF_HELPER_3(store_dcr, void, env, tl, tl)
+=20
+ DEF_HELPER_2(load_dump_spr, void, env, i32)
+ DEF_HELPER_2(store_dump_spr, void, env, i32)
++DEF_HELPER_4(hfscr_facility_check, void, env, i32, i32, i32)
+ DEF_HELPER_4(fscr_facility_check, void, env, i32, i32, i32)
+ DEF_HELPER_4(msr_facility_check, void, env, i32, i32, i32)
+ DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env)
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 50b004d00d1e..5a247945e97f 100644
+index 5a247945e97f..17dad626b74e 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -898,7 +898,11 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-         }
-         if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-             env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
--            powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
-+            if (env->insns_flags & PPC_SEGMENT_64B) {
-+                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_SDOOR);
-+            } else {
-+                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
-+            }
-             return;
-         }
-         if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDOORBELL)) {
-@@ -1219,7 +1223,7 @@ void helper_msgsnd(target_ulong rb)
- }
-=20
- /* Server Processor Control */
--static int book3s_dbell2irq(target_ulong rb)
-+static int book3s_dbell2irq(target_ulong rb, bool hv_dbell)
- {
-     int msg =3D rb & DBELL_TYPE_MASK;
-=20
-@@ -1228,12 +1232,16 @@ static int book3s_dbell2irq(target_ulong rb)
-      * message type is 5. All other types are reserved and the
-      * instruction is a no-op
-      */
--    return msg =3D=3D DBELL_TYPE_DBELL_SERVER ? PPC_INTERRUPT_HDOORBELL =
-: -1;
-+    if (msg =3D=3D DBELL_TYPE_DBELL_SERVER) {
-+        return hv_dbell ? PPC_INTERRUPT_HDOORBELL : PPC_INTERRUPT_DOORBE=
-LL;
-+    }
-+
-+    return -1;
- }
-=20
- void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
- {
--    int irq =3D book3s_dbell2irq(rb);
-+    int irq =3D book3s_dbell2irq(rb, 1);
-=20
-     if (irq < 0) {
-         return;
-@@ -1242,9 +1250,9 @@ void helper_book3s_msgclr(CPUPPCState *env, target_=
-ulong rb)
-     env->pending_interrupts &=3D ~(1 << irq);
- }
-=20
--void helper_book3s_msgsnd(target_ulong rb)
-+static void book3s_msgsnd_common(target_ulong rb, bool hv_dbell)
- {
--    int irq =3D book3s_dbell2irq(rb);
-+    int irq =3D book3s_dbell2irq(rb, hv_dbell);
-     int pir =3D rb & DBELL_PROCIDTAG_MASK;
-     CPUState *cs;
-=20
-@@ -1265,6 +1273,29 @@ void helper_book3s_msgsnd(target_ulong rb)
-     }
-     qemu_mutex_unlock_iothread();
- }
-+
-+void helper_book3s_msgsnd(target_ulong rb)
-+{
-+    book3s_msgsnd_common(rb, 1);
-+}
-+
-+#if defined(TARGET_PPC64)
-+void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
-+{
-+    int irq =3D book3s_dbell2irq(rb, 0);
-+
-+    if (irq < 0) {
-+        return;
-+    }
-+
-+    env->pending_interrupts &=3D ~(1 << irq);
-+}
-+
-+void helper_book3s_msgsndp(target_ulong rb)
-+{
-+    book3s_msgsnd_common(rb, 0);
-+}
+@@ -469,6 +469,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+     case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
+     */
+ #ifdef TARGET_PPC64
+         env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
 +#endif
++        break;
++    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
+ption */
++#ifdef TARGET_PPC64
++        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
+IC_POS);
++        srr0 =3D SPR_HSRR0;
++        srr1 =3D SPR_HSRR1;
++        new_msr |=3D (target_ulong)MSR_HVB;
++        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
  #endif
-=20
- void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+         break;
+     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
+t    */
 diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 2318f3ab45b2..a0e7bd9c32d3 100644
+index a0e7bd9c32d3..0cd44c6edd82 100644
 --- a/target/ppc/misc_helper.c
 +++ b/target/ppc/misc_helper.c
-@@ -105,6 +105,28 @@ void helper_store_pcr(CPUPPCState *env, target_ulong=
- value)
-=20
-     env->spr[SPR_PCR] =3D value & pcc->pcr_mask;
+@@ -41,6 +41,17 @@ void helper_store_dump_spr(CPUPPCState *env, uint32_t =
+sprn)
  }
-+
-+target_ulong helper_load_dpdes(CPUPPCState *env)
-+{
-+    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-+        return 1;
-+    }
-+    return 0;
-+}
-+
-+void helper_store_dpdes(CPUPPCState *env, target_ulong val)
-+{
-+    PowerPCCPU *cpu =3D env_archcpu(env);
-+    CPUState *cs =3D CPU(cpu);
-+
-+    if (val) {
-+        /* Only one cpu for now */
-+        env->pending_interrupts |=3D 1 << PPC_INTERRUPT_DOORBELL;
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    } else {
-+        env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
-+    }
-+}
- #endif /* defined(TARGET_PPC64) */
 =20
- void helper_store_pidr(CPUPPCState *env, target_ulong val)
+ #ifdef TARGET_PPC64
++static void raise_hv_fu_exception(CPUPPCState *env, uint32_t bit,
++                                  uint32_t sprn, uint32_t cause,
++                                  uintptr_t raddr)
++{
++    qemu_log("Facility SPR %d is unavailable (SPR HFSCR:%d)\n", sprn, bi=
+t);
++
++    env->spr[SPR_HFSCR] &=3D ~((target_ulong)FSCR_IC_MASK << FSCR_IC_POS=
+);
++
++    raise_exception_err_ra(env, POWERPC_EXCP_HV_FU, cause, raddr);
++}
++
+ static void raise_fu_exception(CPUPPCState *env, uint32_t bit,
+                                uint32_t sprn, uint32_t cause,
+                                uintptr_t raddr)
+@@ -55,6 +66,17 @@ static void raise_fu_exception(CPUPPCState *env, uint3=
+2_t bit,
+ }
+ #endif
+=20
++void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
++                                 uint32_t sprn, uint32_t cause)
++{
++#ifdef TARGET_PPC64
++    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
++                                     !(env->spr[SPR_HFSCR] & (1UL << bit=
+))) {
++        raise_hv_fu_exception(env, bit, sprn, cause, GETPC());
++    }
++#endif
++}
++
+ void helper_fscr_facility_check(CPUPPCState *env, uint32_t bit,
+                                 uint32_t sprn, uint32_t cause)
+ {
+@@ -108,6 +130,8 @@ void helper_store_pcr(CPUPPCState *env, target_ulong =
+value)
+=20
+ target_ulong helper_load_dpdes(CPUPPCState *env)
+ {
++    helper_hfscr_facility_check(env, HFSCR_MSGP, SPR_DPDES,
++                                HFSCR_IC_MSGP);
+     if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
+         return 1;
+     }
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index f5fe5d06118a..ba759ab2bb0f 100644
+index ba759ab2bb0f..e9e70ca149fd 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -6645,6 +6645,28 @@ static void gen_msgsnd(DisasContext *ctx)
+@@ -6652,6 +6652,8 @@ static void gen_msgclrp(DisasContext *ctx)
+     GEN_PRIV;
+ #else
+     CHK_SV;
++    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
++                             HFSCR_IC_MSGP);
+     gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
  #endif /* defined(CONFIG_USER_ONLY) */
  }
-=20
-+#if defined(TARGET_PPC64)
-+static void gen_msgclrp(DisasContext *ctx)
-+{
-+#if defined(CONFIG_USER_ONLY)
-+    GEN_PRIV;
-+#else
-+    CHK_SV;
-+    gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
-+#endif /* defined(CONFIG_USER_ONLY) */
-+}
-+
-+static void gen_msgsndp(DisasContext *ctx)
-+{
-+#if defined(CONFIG_USER_ONLY)
-+    GEN_PRIV;
-+#else
-+    CHK_SV;
-+    gen_helper_book3s_msgsndp(cpu_gpr[rB(ctx->opcode)]);
-+#endif /* defined(CONFIG_USER_ONLY) */
-+}
-+#endif
-+
- static void gen_msgsync(DisasContext *ctx)
- {
- #if defined(CONFIG_USER_ONLY)
-@@ -7187,6 +7209,10 @@ GEN_HANDLER(vmladduhm, 0x04, 0x11, 0xFF, 0x0000000=
-0, PPC_ALTIVEC),
- GEN_HANDLER_E(maddhd_maddhdu, 0x04, 0x18, 0xFF, 0x00000000, PPC_NONE,
-               PPC2_ISA300),
- GEN_HANDLER_E(maddld, 0x04, 0x19, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
-0),
-+GEN_HANDLER2_E(msgsndp, "msgsndp", 0x1F, 0x0E, 0x04, 0x03ff0001,
-+               PPC_NONE, PPC2_ISA207S),
-+GEN_HANDLER2_E(msgclrp, "msgclrp", 0x1F, 0x0E, 0x05, 0x03ff0001,
-+               PPC_NONE, PPC2_ISA207S),
- #endif
-=20
- #undef GEN_INT_ARITH_ADD
+@@ -6662,6 +6664,8 @@ static void gen_msgsndp(DisasContext *ctx)
+     GEN_PRIV;
+ #else
+     CHK_SV;
++    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
++                             HFSCR_IC_MSGP);
+     gen_helper_book3s_msgsndp(cpu_gpr[rB(ctx->opcode)]);
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
 diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
 inc.c
-index 9815df6f77c8..7c74a763ba66 100644
+index 7c74a763ba66..154e01451270 100644
 --- a/target/ppc/translate_init.inc.c
 +++ b/target/ppc/translate_init.inc.c
-@@ -464,6 +464,17 @@ static void spr_write_pcr(DisasContext *ctx, int spr=
-n, int gprn)
+@@ -468,11 +468,15 @@ static void spr_write_pcr(DisasContext *ctx, int sp=
+rn, int gprn)
+ /* DPDES */
+ static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
  {
-     gen_helper_store_pcr(cpu_env, cpu_gpr[gprn]);
- }
-+
-+/* DPDES */
-+static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
-+{
-+    gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
-+}
-+
-+static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
-+{
-+    gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
-+}
- #endif
- #endif
-=20
-@@ -8233,10 +8244,11 @@ static void gen_spr_power8_dpdes(CPUPPCState *env=
-)
- {
- #if !defined(CONFIG_USER_ONLY)
-     /* Directed Privileged Door-bell Exception State, used for IPI */
--    spr_register(env, SPR_DPDES, "DPDES",
--                 SPR_NOACCESS, SPR_NOACCESS,
--                 &spr_read_generic, SPR_NOACCESS,
--                 0x00000000);
-+    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
-+                        SPR_NOACCESS, SPR_NOACCESS,
-+                        &spr_read_dpdes, SPR_NOACCESS,
-+                        &spr_read_dpdes, &spr_write_dpdes,
-+                        KVM_REG_PPC_DPDES, 0x00000000);
- #endif
++    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
++                             HFSCR_IC_MSGP);
+     gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
  }
 =20
+ static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
+ {
++    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
++                             HFSCR_IC_MSGP);
+     gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
+ }
+ #endif
+@@ -7523,6 +7527,20 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
+ #define POWERPC970_HID5_INIT 0x00000000
+ #endif
+=20
++void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
+bit,
++                              int sprn, int cause)
++{
++    TCGv_i32 t1 =3D tcg_const_i32(bit);
++    TCGv_i32 t2 =3D tcg_const_i32(sprn);
++    TCGv_i32 t3 =3D tcg_const_i32(cause);
++
++    gen_helper_hfscr_facility_check(cpu_env, t1, t2, t3);
++
++    tcg_temp_free_i32(t3);
++    tcg_temp_free_i32(t2);
++    tcg_temp_free_i32(t1);
++}
++
+ static void gen_fscr_facility_check(DisasContext *ctx, int facility_sprn=
+,
+                                     int bit, int sprn, int cause)
+ {
 --=20
 2.21.0
 
