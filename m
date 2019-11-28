@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A4710CC82
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:11:27 +0100 (CET)
-Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7EAE10CCA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:18:27 +0100 (CET)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaMO6-0002ju-2V
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:11:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37557)
+	id 1iaMUr-0007fi-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:18:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iaLBc-0006r5-P1
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iaLN8-0004Yt-Ar
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iaLBV-0002sN-8c
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32897
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaLBU-0002SC-Ph
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:54:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574952855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eHV1Eyf8uC3LYSu2U8Zq/CxZWGGQvWuQ1uaFhUtf0BA=;
- b=SHcI5E+UDL46uSO0E7o+xTEUDazI2FMPak6nnJ9k9RgxxXP24l2xy1aO/ilGczmSwVkvRU
- 2pcz7r/W9L1mpVolTwKk3iXkjmvA3MRg+g0hSLEMbal9AWWjp9Tb46ymNbFy386qx7RKf5
- 2kIfBcmme3Esy8wNe0mDS71buqY49ME=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-O3MjHpYgPA-NsRudOOLeyg-1; Thu, 28 Nov 2019 09:54:14 -0500
-Received: by mail-wm1-f72.google.com with SMTP id n18so3246802wmi.8
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:54:13 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iaLN2-0008AY-Ff
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:18 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34130)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iaLN1-0007pg-Ta
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:16 -0500
+Received: by mail-oi1-x244.google.com with SMTP id l136so7939060oig.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 07:06:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qTJ8l4vPpwMcbWyg5Ry3AYSw37e3ZU0Z6+Wr1vz5I14=;
+ b=YtO/iwi5sQBP3B1l2aJQBwFSG3XxWE23z0znn7dbTQCPChdeJ12diNcPz0M0kUxWbk
+ tdSwe+nwKa7iWcX7x0POY5N4PC57yXx0+BxsBKWegak1fP09uwH8P0BKL4uk7SVYneiM
+ VKyL27Jwsd9KCqiNoZjsqljcOPOmQp75sAZO2erXS4bES2hyly8WRhuunfZL6153JK0i
+ CcDIcOZV26W5eBdRdy4sjgoKgUKaQDKUXm4VKGjzt0MJo/VktZ37nI2tRuSwSsw/ot+B
+ UTn/RWs2SK1JsL8bpkfw5IdE6VbKDyi8ugLWjVnrZs8PTsfwHJkQrj6+G31vGTJ2PX0i
+ xkjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p3E/8222RacGj97HRp98RDwGuYZify7STc5zCtCPmlA=;
- b=kP+BKdWB5Z5wY4WzS8tgRSdKd284jPzUSbKF/2x2Q55xw3jexOsUVfX7k1nFOeSh9o
- D+K0wbrdMOmuxPegwhcca1SgCrAWd1T1+Xz6BY12aCaFAleVOgrSqEXsldqiWl0XWLrq
- qCWCGKy9N40TP8NEMkfeVy7FilLXgp0rUOQu3nR98LyFoIa0pT+ItzJyCe6JYz+4IALZ
- xauLAfBICICp9o2mYToT+/1ha1mm4BlJvbL3IaA+bfCZ4tWTKdra8/rfBHfzW+QbkBNc
- ufxisYSeUscYUDpYUdYPFN2bxI/1thkjEqoYMygTEUg9T9Jrt3gu7AT3V/pYFb1PDcrd
- IohA==
-X-Gm-Message-State: APjAAAU6BhSTb01KseOCgKXvgbY4b7UnVOQ36zGqlCqwQhF9YsXJpTWb
- vfzK6V33fz9KsGVoHI9EetSJHKWxRfaO+jdxw89bvFbFa3FY+w3o/SV1Rrwh4dfbVDERX0eRw17
- 8qZPba1nl9qpcDLc=
-X-Received: by 2002:a05:600c:2049:: with SMTP id
- p9mr9991235wmg.128.1574952853043; 
- Thu, 28 Nov 2019 06:54:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzCKb/aNTSW2ihQ+T777nqsOYp6qTkaYQMxiBlXU7Z4sX3nKr7CirYN4GyG4/ya3fezDQCLKw==
-X-Received: by 2002:a05:600c:2049:: with SMTP id
- p9mr9991217wmg.128.1574952852855; 
- Thu, 28 Nov 2019 06:54:12 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id y6sm23896220wrn.21.2019.11.28.06.54.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Nov 2019 06:54:12 -0800 (PST)
-Subject: Re: [PATCH] vfio-ccw: Fix error message
-To: Boris Fiuczynski <fiuczy@linux.ibm.com>, qemu-s390x@nongnu.org,
- cohuck@redhat.com, alex.williamson@redhat.com, farman@linux.ibm.com
-References: <20191128143015.5231-1-fiuczy@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1d285275-5964-2415-e52e-1b60397d2918@redhat.com>
-Date: Thu, 28 Nov 2019 15:54:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qTJ8l4vPpwMcbWyg5Ry3AYSw37e3ZU0Z6+Wr1vz5I14=;
+ b=snjkjc/ybDxpKguhOPblyq42P+Z8RoT3HiDpSppJ52xiOvMxdRTiCrtxOAKimibJpi
+ wJiXNt+WbQe6EMw85gmo04wIaLE396R+LFM6rfqL/QuwpvIAfm5jauKcL+DY3Zc5BVp1
+ Mva/UITCYI2gmvWBOEXHA24a/oHbUd/apO2lrzx9EnTox2G0xk9Dy7sBNh6f8hXkDF3G
+ ggUW+YbXZZqsPbGe88BuTx790+eC0xElLIbUFQrjbptpHTao5+2eas8O5PTvbB6QupxK
+ Lrwymmlum5A8dZq0hTNeiSue4B8waW+ciI2UdJ2LU28QhadWxU/SjPlkXswC3qUe8u6m
+ s7lA==
+X-Gm-Message-State: APjAAAUesWLaFnUWXIe/6NhQEvgefJ6AnGq/wNkYjUvX8rcQGSWP770A
+ 9CVebr4QsdVGdW1aheA6GaPOq7wY2rwUD95GRLsx/w==
+X-Google-Smtp-Source: APXvYqybYEPmDQPi/2vtteUZNXtPnvohh3aw65UDte47LgxCmt7S9JzEz5mXTZThfRtkyUErsbbf4O6G/v/mY3dhODk=
+X-Received: by 2002:aca:ba82:: with SMTP id k124mr7012763oif.170.1574953566869; 
+ Thu, 28 Nov 2019 07:06:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191128143015.5231-1-fiuczy@linux.ibm.com>
-Content-Language: en-US
-X-MC-Unique: O3MjHpYgPA-NsRudOOLeyg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
+ <52e295af-3b34-6cb7-ba52-a26ae70aebcd@de.ibm.com>
+ <20191128134517.7caf3496.cohuck@redhat.com>
+ <bbfd3b99-c38f-ccb0-9c16-24bad35f357a@de.ibm.com>
+In-Reply-To: <bbfd3b99-c38f-ccb0-9c16-24bad35f357a@de.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Nov 2019 15:05:55 +0000
+Message-ID: <CAFEAcA_vJP_nBRCtD=E2Lya1MejNBz0=Me-RcS6G39=VZ2zbAg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] pc-bios/s390-ccw: fix sclp_get_loadparm_ascii
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,34 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/19 3:30 PM, Boris Fiuczynski wrote:
-> Signed-off-by: Boris Fiuczynski <fiuczy@linux.ibm.com>
-> Reviewed-by: Eric Farman <farman@linux.ibm.com>
-> ---
->   hw/vfio/ccw.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 6863f6c69f..3b5520ae75 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -102,7 +102,7 @@ again:
->           if (errno =3D=3D EAGAIN) {
->               goto again;
->           }
-> -        error_report("vfio-ccw: wirte I/O region failed with errno=3D%d"=
-, errno);
-> +        error_report("vfio-ccw: write I/O region failed with errno=3D%d"=
-, errno);
->           ret =3D -errno;
->       } else {
->           ret =3D region->ret_code;
->=20
+On Thu, 28 Nov 2019 at 12:48, Christian Borntraeger
+<borntraeger@de.ibm.com> wrote:
+>
+>
+>
+> On 28.11.19 13:45, Cornelia Huck wrote:
+> > On Thu, 28 Nov 2019 13:35:29 +0100
+> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> >
+> >> Ack.
+> >>
+> >> Conny, I think this would be really nice to have for 4.2 (together with a bios rebuild)
+> >> as this fixes a regression. Opinions?
+> >
+> > I fear that this is a bit late for 4.2... but this should get a
+> > cc:stable.
+>
+> So we would rather ship a qemu regression instead of pushing a 1 line fixup?
+> Peter, what is the current state of 4.2? does it look like we will have an rc4
+> or is everything else silent.
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+There isn't currently anything else that would need an rc4.
 
+thanks
+-- PMM
 
