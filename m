@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B2810CA0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:02:49 +0100 (CET)
-Received: from localhost ([::1]:49318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B2D10CA27
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:11:12 +0100 (CET)
+Received: from localhost ([::1]:49428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKNc-0002id-2K
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:02:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44965)
+	id 1iaKVi-0007Zz-Qs
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:11:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iaK8v-0003zj-5j
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:39 -0500
+ (envelope-from <clg@kaod.org>) id 1iaK93-00045l-SR
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iaK8s-0005m5-V6
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:36 -0500
-Received: from 2.mo68.mail-out.ovh.net ([46.105.52.162]:51584)
+ (envelope-from <clg@kaod.org>) id 1iaK8z-0006Kn-Dt
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:43 -0500
+Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:59885)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK8s-0005fE-MN
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:34 -0500
-Received: from player688.ha.ovh.net (unknown [10.108.54.52])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 01EB4145AF2
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:31 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK8z-0006Au-5O
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:41 -0500
+Received: from player688.ha.ovh.net (unknown [10.108.35.119])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id E433F1B7633
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:38 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 0BD76C94B37B;
- Thu, 28 Nov 2019 13:47:25 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id D8A41C94B45E;
+ Thu, 28 Nov 2019 13:47:31 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 3/7] target/ppc: Add SPR ASDR
-Date: Thu, 28 Nov 2019 14:46:56 +0100
-Message-Id: <20191128134700.16091-4-clg@kaod.org>
+Subject: [PATCH 4/7] target/ppc: Add SPR TBU40
+Date: Thu, 28 Nov 2019 14:46:57 +0100
+Message-Id: <20191128134700.16091-5-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
 References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14984320386766703590
+X-Ovh-Tracer-Id: 14986290712008362982
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.52.162
+X-Received-From: 188.165.52.147
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,52 +64,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The Access Segment Descriptor Register (ASDR) provides information about
-the storage element when taking a hypervisor storage interrupt. When
-performing nested radix address translation, this is normally the guest
-real address. This register is present on POWER9 processors and later.
+The spr TBU40 is used to set the upper 40 bits of the timebase
+register, present on POWER5+ and later processors.
 
-Implement the ADSR, note read and write access is limited to the
-hypervisor.
+This register can only be written by the hypervisor, and cannot be read.
 
 Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h                | 1 +
- target/ppc/translate_init.inc.c | 6 ++++++
- 2 files changed, 7 insertions(+)
+ target/ppc/cpu.h                |  1 +
+ target/ppc/helper.h             |  1 +
+ hw/ppc/ppc.c                    | 13 +++++++++++++
+ target/ppc/timebase_helper.c    |  5 +++++
+ target/ppc/translate_init.inc.c | 19 +++++++++++++++++++
+ 5 files changed, 39 insertions(+)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 9128dbefbdb0..646a94370dba 100644
+index 646a94370dba..8ffcfa0ea162 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -1780,6 +1780,7 @@ typedef PowerPCCPU ArchCPU;
- #define SPR_MPC_MD_DBRAM1     (0x32A)
- #define SPR_RCPU_L2U_RA3      (0x32B)
- #define SPR_TAR               (0x32F)
-+#define SPR_ASDR              (0x330)
- #define SPR_IC                (0x350)
- #define SPR_VTB               (0x351)
- #define SPR_MMCRC             (0x353)
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index 6105e74e9dc6..a3cf1d8a450c 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -8290,6 +8290,12 @@ static void gen_spr_power9_mmu(CPUPPCState *env)
-                         SPR_NOACCESS, SPR_NOACCESS,
-                         &spr_read_generic, &spr_write_ptcr,
-                         KVM_REG_PPC_PTCR, 0x00000000);
-+    /* Address Segment Descriptor Register */
-+    spr_register_hv(env, SPR_ASDR, "ASDR",
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    SPR_NOACCESS, SPR_NOACCESS,
-+                    &spr_read_generic, &spr_write_generic,
-+                    0x0000000000000000);
- #endif
+@@ -1312,6 +1312,7 @@ target_ulong cpu_ppc_load_decr(CPUPPCState *env);
+ void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
+ target_ulong cpu_ppc_load_hdecr(CPUPPCState *env);
+ void cpu_ppc_store_hdecr(CPUPPCState *env, target_ulong value);
++void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value);
+ uint64_t cpu_ppc_load_purr(CPUPPCState *env);
+ void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
+ uint32_t cpu_ppc601_load_rtcl(CPUPPCState *env);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 356a14d8a639..cd0dfe383a2a 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -672,6 +672,7 @@ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void,=
+ env, tl)
+ DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_hid0_601, void, env, tl)
+ DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+ DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 353f11b91d40..3666e58865b3 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -710,6 +710,19 @@ void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t va=
+lue)
+                      &tb_env->vtb_offset, value);
  }
 =20
++void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value)
++{
++    ppc_tb_t *tb_env =3D env->tb_env;
++    uint64_t tb;
++
++    tb =3D cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                        tb_env->tb_offset);
++    tb &=3D 0xFFFFFFUL;
++    tb |=3D (value & ~0xFFFFFFUL);
++    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                     &tb_env->tb_offset, tb);
++}
++
+ static void cpu_ppc_tb_stop (CPUPPCState *env)
+ {
+     ppc_tb_t *tb_env =3D env->tb_env;
+diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+index 2395295b778c..703bd9ed18b9 100644
+--- a/target/ppc/timebase_helper.c
++++ b/target/ppc/timebase_helper.c
+@@ -128,6 +128,11 @@ void helper_store_vtb(CPUPPCState *env, target_ulong=
+ val)
+     cpu_ppc_store_vtb(env, val);
+ }
+=20
++void helper_store_tbu40(CPUPPCState *env, target_ulong val)
++{
++    cpu_ppc_store_tbu40(env, val);
++}
++
+ target_ulong helper_load_40x_pit(CPUPPCState *env)
+ {
+     return load_40x_pit(env);
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index a3cf1d8a450c..9815df6f77c8 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -327,6 +327,11 @@ static void spr_write_vtb(DisasContext *ctx, int spr=
+n, int gprn)
+     gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
+ }
+=20
++static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
++}
++
+ #endif
+ #endif
+=20
+@@ -7848,6 +7853,16 @@ static void gen_spr_power5p_ear(CPUPPCState *env)
+                  0x00000000);
+ }
+=20
++static void gen_spr_power5p_tb(CPUPPCState *env)
++{
++    /* TBU40 (High 40 bits of the Timebase register */
++    spr_register_hv(env, SPR_TBU40, "TBU40",
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    SPR_NOACCESS, SPR_NOACCESS,
++                    SPR_NOACCESS, &spr_write_tbu40,
++                    0x00000000);
++}
++
+ #if !defined(CONFIG_USER_ONLY)
+ static void spr_write_hmer(DisasContext *ctx, int sprn, int gprn)
+ {
+@@ -8399,6 +8414,7 @@ static void init_proc_power5plus(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+=20
+     /* env variables */
+     env->dcache_line_size =3D 128;
+@@ -8511,6 +8527,7 @@ static void init_proc_POWER7(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power7_book4(env);
+@@ -8652,6 +8669,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power8_tce_address_control(env);
+@@ -8842,6 +8860,7 @@ static void init_proc_POWER9(CPUPPCState *env)
+     gen_spr_power5p_common(env);
+     gen_spr_power5p_lpar(env);
+     gen_spr_power5p_ear(env);
++    gen_spr_power5p_tb(env);
+     gen_spr_power6_common(env);
+     gen_spr_power6_dbg(env);
+     gen_spr_power8_tce_address_control(env);
 --=20
 2.21.0
 
