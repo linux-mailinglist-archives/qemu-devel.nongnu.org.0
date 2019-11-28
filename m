@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7370610CF99
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 22:48:06 +0100 (CET)
-Received: from localhost ([::1]:53442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3A410CF8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 22:33:34 +0100 (CET)
+Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaRdq-0003j8-PO
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 16:48:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49050)
+	id 1iaRPp-0005Zm-J7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 16:33:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51290)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iaPpP-0005c5-Ra
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:51:57 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaQ3a-0004Ub-0f
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:06:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iaPk4-0005J9-IQ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:23 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40346)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iaPk0-00057J-Qc
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:19 -0500
-Received: by mail-wr1-x444.google.com with SMTP id c14so7825079wrn.7
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:46:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IGkE42M4Q3eQbdw5NzOuWOoq/KgXpAh9fYfQ2Axv8vw=;
- b=t5CELZuy5IsnSKVq33/vHd6UsAbIp+WNKtT/fV6zNifx6sXJzyMpnMpwLBdlrYGI7P
- Jc8h0ZR0o30ZgS64CpEajP24pPnCUCNR079/oMc56yejh3RtOhpu8LPJZlWFk35yr49P
- 8yO2L5QUmUg1RpGjcBElMpfRy0YeHjwtZxBjZekgHiE8JBHXHGwkJnh8PNBhOOc8kNP5
- BWnS46LIdOHUN9FjMov7Kwbj/R0pckcADMxrFE1Azp6vWsVQe+fdc4BNCvI0qy8ltwhy
- 9hw+Tuk50kr//ovJbkyyhkcT2zVlDMQrB8x0Eqpq0mOdsRCAkjaXoDZa1lmMcRNYUlj0
- P8Og==
+ (envelope-from <philmd@redhat.com>) id 1iaQ3U-0005QC-Rs
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:06:25 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21752
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaQ3T-000586-TY
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:06:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574971580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XDIym4OHMEWbiOUI+TteBrIR8mDSvy/eXHajOEdeLrc=;
+ b=hM/K15A9FdJIKix92bEc+6ThYU/GssuF5LXs/mQGSgg7NABHBxcEA8GRvZUWdXx6aghmKO
+ VqLoRJ7z7VQGTP90ubUKP/BHiNPV/QMrSNKmHiLe3BM7KzFlGc1tl4+g9LrtI2CLfBiKjo
+ B9ltqjgJt9yBTdw5rKC74JdChLl5zAo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-0aW-LHWLNnScH6VQryMaCA-1; Thu, 28 Nov 2019 15:06:18 -0500
+Received: by mail-wm1-f72.google.com with SMTP id v8so3820489wml.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 12:06:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IGkE42M4Q3eQbdw5NzOuWOoq/KgXpAh9fYfQ2Axv8vw=;
- b=DrI9ateNLqJfbPAtCHq1Q08xvQgAxYkrf4dfN6rT0IyITUDE5I9j59bUhnXQ80UESw
- iv4Njn+2eBRo7MzXTZ3S4R/TLFovHblgje+/4T2yYwGblOgLVljZ27MZMZ7opb+RWLEh
- mZ4CfvfREiZJz/L8+YfXcjwUD5g4qH3PoAtWr4+8OQyMfHx+Z0ATUwqStc74K9kFDMFd
- FuaaU1c/+izxrWhJlWStXBvA8FsZvRQsneswrQUCf/KA2xEb+wZdJATQ6yvsXmtKYjZL
- UWpxlgtFg6UfQgG8eeY50eFOlJae0MnRDXSQVG38nG8B8RTvI9VMjxlFna31f9Xssayk
- Tbpg==
-X-Gm-Message-State: APjAAAWKM8IzoUA8fElq+9PEYJuJ43MEgzcSC1H+3bTlnfDFgGJmT55E
- zR+L0Z/U5HrMkdVQdCUTDRggpA==
-X-Google-Smtp-Source: APXvYqzYEDxbwW18VYylleGOTbvv60+5s7sO3Gifiuvhgck1ZHOg9Wl3PXeRlDutt+lvHA7I5SWY+g==
-X-Received: by 2002:a5d:6886:: with SMTP id h6mr32189927wru.154.1574970372552; 
- Thu, 28 Nov 2019 11:46:12 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r6sm11550494wrv.40.2019.11.28.11.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2019 11:46:08 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E20F51FF92;
- Thu, 28 Nov 2019 19:46:03 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] linux-user: convert target_munmap debug to a tracepoint
-Date: Thu, 28 Nov 2019 19:46:03 +0000
-Message-Id: <20191128194603.24818-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128194603.24818-1-alex.bennee@linaro.org>
-References: <20191128194603.24818-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wQQAyUg+BrOixEIVEvxdKaMHKTPSyqFGtJrsl6yh4YQ=;
+ b=oUF8/13RZuutcUY6BmiqcjQoJbrw3Tmxs0AC4YePOJeJMG7I8b2j+GlO1hPDdhgvNj
+ CUb+7E3Kl0SMlhsAlt8m5o7D13oTy7SdGsYIY4hoYPy836wBsGVSWqbeGf/xEBf2sApH
+ nJ6ZfAUSfZeEkdZslV13cduUgeMUCAl5+4P0wOUHq+oON10JC5Xg8l30WkwLfFY2Rxki
+ 7Uwhxk5e4a/NTXf2WyP0cQnx8F3vBGKG9wCl89CkAcE27Nm+FVuBDIXztdoVVj2nQb0n
+ gPkKarWT7+tkj9RYFgW+/OSoQh9LWQuCDoguuiJ6OCo662u8NeXVh12Sz6DNroXIFSSO
+ 6HXw==
+X-Gm-Message-State: APjAAAUP08b/3QMYK1+9M+XyOow92cLSFXpBFCLieeoWM9eZJdBJM7jV
+ XxGQZiHym1QD7fvKy12qHfS28KsSJkIIMc+M50QsnIGRsbh1zi9eBngR5/KQfYt4E2R1Qv4XXau
+ 9S22ExNWQ5yaK+Jo=
+X-Received: by 2002:a1c:16:: with SMTP id 22mr11780638wma.0.1574971577712;
+ Thu, 28 Nov 2019 12:06:17 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz2BJOP3QE8Sh41903YIBaee7wgj2r3OwRTPFwlc9B8w8WII5KoonJ3cstqA3cUxfON5E85bA==
+X-Received: by 2002:a1c:16:: with SMTP id 22mr11780626wma.0.1574971577527;
+ Thu, 28 Nov 2019 12:06:17 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id z15sm10886615wmi.12.2019.11.28.12.06.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 12:06:16 -0800 (PST)
+Subject: Re: [PATCH v2 0/2] Run tcg tests with tci on Travis
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191128153525.2646-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cdc19981-6440-403e-a668-67d1f71fc12f@redhat.com>
+Date: Thu, 28 Nov 2019 21:06:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <20191128153525.2646-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 0aW-LHWLNnScH6VQryMaCA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,58 +91,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the final bit of DEBUG_MMAP to a tracepoint and remove the
-last remanents of the #ifdef hackery.
+On 11/28/19 4:35 PM, Thomas Huth wrote:
+> It's now possible to run some TCG-based tests with our Tiny Code
+> Generator Interpreter (TCI), too. These two patches enable the
+> testing on Travis.
+>=20
+> Alex Benn=C3=A9e (1):
+>    configure: allow disable of cross compilation containers
+>=20
+> Thomas Huth (1):
+>    travis.yml: Run tcg tests with tci
+>=20
+>   .travis.yml            | 7 ++++---
+>   configure              | 8 +++++++-
+>   tests/tcg/configure.sh | 6 ++++--
+>   3 files changed, 15 insertions(+), 6 deletions(-)
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- linux-user/mmap.c       | 9 ++-------
- linux-user/trace-events | 1 +
- 2 files changed, 3 insertions(+), 7 deletions(-)
+Good idea to add/use '--disable-containers'.
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index c2755fcba1f..137aa3eb95f 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -21,8 +21,6 @@
- #include "exec/log.h"
- #include "qemu.h"
- 
--//#define DEBUG_MMAP
--
- static pthread_mutex_t mmap_mutex = PTHREAD_MUTEX_INITIALIZER;
- static __thread int mmap_lock_count;
- 
-@@ -639,11 +637,8 @@ int target_munmap(abi_ulong start, abi_ulong len)
-     abi_ulong end, real_start, real_end, addr;
-     int prot, ret;
- 
--#ifdef DEBUG_MMAP
--    printf("munmap: start=0x" TARGET_ABI_FMT_lx " len=0x"
--           TARGET_ABI_FMT_lx "\n",
--           start, len);
--#endif
-+    trace_target_munmap(start, len);
-+
-     if (start & ~TARGET_PAGE_MASK)
-         return -TARGET_EINVAL;
-     len = TARGET_PAGE_ALIGN(len);
-diff --git a/linux-user/trace-events b/linux-user/trace-events
-index 774280cefbd..bd897add252 100644
---- a/linux-user/trace-events
-+++ b/linux-user/trace-events
-@@ -16,3 +16,4 @@ user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_add
- target_mprotect(uint64_t start, uint64_t len, char *flags) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=%s"
- target_mmap(uint64_t start, uint64_t len, char *pflags, char *mflags, int fd, uint64_t offset) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=%s flags=%s fd=%d offset=0x%"PRIx64
- target_mmap_complete(uint64_t retaddr) "retaddr=0x%"PRIx64
-+target_munmap(uint64_t start, uint64_t len) "start=0x%"PRIx64" len=0x%"PRIx64
--- 
-2.20.1
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
