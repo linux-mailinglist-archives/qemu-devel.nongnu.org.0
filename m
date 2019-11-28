@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A0D10C59A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:04:37 +0100 (CET)
-Received: from localhost ([::1]:46702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB1010C5C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:16:22 +0100 (CET)
+Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaFj1-0004f6-Tt
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:04:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40507)
+	id 1iaFuP-00005E-Oz
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:16:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iaFgX-00049J-IW
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:02:02 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaFrZ-0007VM-2O
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:13:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iaFgV-0001da-4n
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:02:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39510
+ (envelope-from <thuth@redhat.com>) id 1iaFrV-0006Xa-Kc
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:13:23 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29805
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iaFgU-0001ac-R4
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:01:58 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaFrT-0006SG-Tj
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:13:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574931717;
+ s=mimecast20190719; t=1574932396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gbb9JXrQgEserkknB+O3EJkKzXPp+V7pfYaZcO4LMME=;
- b=g+YNzGDmjkEo6lI1OTgQ3HFcdjR0AjRQ7DCvqgxZYCWx8z4mjJx+Bh2stOKCilBrVk8/Dd
- 5M2WkOS1MIrNCQtJR/YD+6UUSXF1OPzHcXNlIRq5A3lZS78U28A9Gt10kw1IolePooVSR6
- sHr7nsczS1keXFjljdBR2WIkXD1uDfs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-2eLQlSGiPSqd2FSepXrDqw-1; Thu, 28 Nov 2019 04:01:54 -0500
-Received: by mail-wm1-f72.google.com with SMTP id t203so3311954wmt.7
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 01:01:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vhyAKYKqMWjJHjLNdpgw1XhGD7Ekasd3+ZidITCTS8Q=;
- b=Tx3gbSQMCXfrTQ/n1Z6VL6yLxTO+kPZQz0pB7o6HLA6yIl/67XI+QadYV+3DttMzmC
- NHHvHhsFW2N+0PLANilGuhozw6+S1l8f0skKvDVfc/+bWeuIJ+kwbQOA7B1ehtRpyWOu
- TdX6ukJwClWV4zvXWxusd5J+wvmydeNZEyrFvjMgtZNUrSURp3MSjkaZBByPPJpIwaBl
- 72sNspW1DOXsZhA7RAmLAT69PU0yzWJ0wqbGZryoyUuDNaa3rPE1pcOG7B6AgdMnJf5q
- mmIsZ/ytuhnN4gKXHOhZJm1F89rzVsaeu2bg5Vu3PWBqW5gQ6JJwlTXDx+jUaqw839q9
- XsNw==
-X-Gm-Message-State: APjAAAWHnTzEfq1HoxdbDJk2AKYSra/XkH0A0TZz/hrFew8VvPdcCulH
- S56TsmvJr1mJMGyyMgKjnhFsS/JkCYkGjr0TTikwY1Dkou5l4CmQHBD89RpKtz2gJIaTEGOqaVM
- ukpmu/HApYzBSQeo=
-X-Received: by 2002:adf:ba4b:: with SMTP id t11mr45328762wrg.331.1574931713219; 
- Thu, 28 Nov 2019 01:01:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxJUvhesVtTe4By/qHpiEF3i3KstVbl4eQBg2lwguR4A0odG/ih7gCxZ+zCOF+91LXKL/T2hA==
-X-Received: by 2002:adf:ba4b:: with SMTP id t11mr45328726wrg.331.1574931712810; 
- Thu, 28 Nov 2019 01:01:52 -0800 (PST)
-Received: from steredhat (host28-88-dynamic.16-87-r.retail.telecomitalia.it.
- [87.16.88.28])
- by smtp.gmail.com with ESMTPSA id x6sm22980362wrw.34.2019.11.28.01.01.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2019 01:01:52 -0800 (PST)
-Date: Thu, 28 Nov 2019 10:01:49 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: pannengyuan@huawei.com
-Subject: Re: [PATCH] block/nbd: fix memory leak in nbd_open()
-Message-ID: <20191128090149.it5w2gijbqaw3tpg@steredhat>
-References: <1574930410-43468-1-git-send-email-pannengyuan@huawei.com>
+ bh=cYjZT/dVpGUgQJjJwGTxHqxZI3kccmQJTjEZD49/Z2Y=;
+ b=d1LOQjIdxPYhKxpGhKipAByNH6ykrchSV/qJOhS9P4fAVYdPeE0B/HWvf+3uap83pdZwqz
+ ppfZ12J8Fw9GePiKyCBOjsAeMOrGUQGZBeKXv+bHElL5K12L69HjHHgCuWXhHXNgnX/HdB
+ dzPwKj7HPppRh2rmmeJ9P6tAmOfoRJ0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-vW_nv-_EMyWVS6MOMbvzbQ-1; Thu, 28 Nov 2019 04:13:15 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28207107ACFA;
+ Thu, 28 Nov 2019 09:13:14 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F19A608B9;
+ Thu, 28 Nov 2019 09:13:09 +0000 (UTC)
+Subject: Re: [PATCH v5] s390x: Move initial reset
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191127175046.4911-4-frankja@linux.ibm.com>
+ <20191128083723.11937-1-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <645ac357-046f-1778-85cf-dfd28e19670f@redhat.com>
+Date: Thu, 28 Nov 2019 10:13:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <1574930410-43468-1-git-send-email-pannengyuan@huawei.com>
-X-MC-Unique: 2eLQlSGiPSqd2FSepXrDqw-1
+In-Reply-To: <20191128083723.11937-1-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: vW_nv-_EMyWVS6MOMbvzbQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.61
@@ -87,103 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, liyiting@huawei.com, zhang.zhanghailiang@huawei.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kuhn.chenqun@huawei.com
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 04:40:10PM +0800, pannengyuan@huawei.com wrote:
-
-Hi,
-I don't know nbd code very well, the patch LGTM, but just a comment
-below:
-
-> From: PanNengyuan <pannengyuan@huawei.com>
->=20
-> In currently implementation there will be a memory leak when
-> nbd_client_connect() returns error status. Here is an easy way to reprodu=
-ce:
->=20
-> 1. run qemu-iotests as follow and check the result with asan:
->     ./check -raw 143
->=20
-> Following is the asan output backtrack:
-> Direct leak of 40 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
->     #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
->     #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-=
-rc0/qapi/qobject-input-visitor.c:295
->     #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi=
-/qapi-visit-core.c:49
->     #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-socket=
-s.c:386
->     #5 0x56281da8062f in nbd_config  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:=
-1716
->     #6 0x56281da8062f in nbd_process_options  /mnt/sdb/qemu-4.2.0-rc0/blo=
-ck/nbd.c:1829
->     #7 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:18=
-73
->=20
-> Direct leak of 15 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc  (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup  (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1834
->     #4 0x56281da804ac in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:18=
-73
->=20
-> Indirect leak of 24 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281dab41a3 in qobject_input_type_str_keyval   /mnt/sdb/qemu-4.=
-2.0-rc0/qapi/qobject-input-visitor.c:536
->     #4 0x56281dab2ee9 in visit_type_str   /mnt/sdb/qemu-4.2.0-rc0/qapi/qa=
-pi-visit-core.c:297
->     #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members  qapi/qapi-=
-visit-sockets.c:141
->     #6 0x56281dad17b6 in visit_type_SocketAddress_members      qapi/qapi-=
-visit-sockets.c:366
->     #7 0x56281dad186a in visit_type_SocketAddress     qapi/qapi-visit-soc=
-kets.c:393
->     #8 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c=
-:1716
->     #9 0x56281da8062f in nbd_process_options   /mnt/sdb/qemu-4.2.0-rc0/bl=
-ock/nbd.c:1829
->     #10 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1=
-873
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+On 28/11/2019 09.37, Janosch Frank wrote:
+> Let's move the intial reset into the reset handler and cleanup
+> afterwards.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > ---
->  block/nbd.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 1239761..bc40a25 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -1881,6 +1881,11 @@ static int nbd_open(BlockDriverState *bs, QDict *o=
-ptions, int flags,
-> =20
->      ret =3D nbd_client_connect(bs, errp);
->      if (ret < 0) {
-> +        object_unref(OBJECT(s->tlscreds));
-> +        qapi_free_SocketAddress(s->saddr);
-> +        g_free(s->export);
-> +        g_free(s->tlscredsid);
-> +        g_free(s->x_dirty_bitmap);
+> 
+> Fixed the kvm vcpu reset.
+> 
+> ---
+>   target/s390x/cpu-qom.h |  2 +-
+>   target/s390x/cpu.c     | 46 +++++++++++++++++-------------------------
+>   target/s390x/cpu.h     |  2 +-
+>   target/s390x/sigp.c    |  2 +-
+>   4 files changed, 21 insertions(+), 31 deletions(-)
 
-Since with this patch we are doing these cleanups in 3 places (here,
-nbd_close(), and nbd_process_options()), should be better to add a new
-function to do these cleanups?
-
-Maybe I'd create a series adding a patch before this one, implementing this
-new function, and change this patch calling it.
-
-Thanks,
-Stefano
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
