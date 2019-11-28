@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B8310C1D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:46:02 +0100 (CET)
-Received: from localhost ([::1]:44602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DAC10C1E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:53:00 +0100 (CET)
+Received: from localhost ([::1]:44648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia8sa-00049f-O8
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:46:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52504)
+	id 1ia8zL-0007cY-Mi
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chen.zhang@intel.com>) id 1ia8qH-00024y-0Z
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:43:38 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ia8x4-0005zm-9Y
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1ia8aG-0003vl-Os
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:27:05 -0500
-Received: from mga14.intel.com ([192.55.52.115]:63169)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1ia8aG-0003ko-FJ
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:27:04 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2019 17:26:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,251,1571727600"; d="scan'208";a="211859490"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga003.jf.intel.com with ESMTP; 27 Nov 2019 17:26:57 -0800
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 27 Nov 2019 17:26:53 -0800
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 27 Nov 2019 17:26:52 -0800
-Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 27 Nov 2019 17:26:52 -0800
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.108]) by
- SHSMSX103.ccr.corp.intel.com ([169.254.4.60]) with mapi id 14.03.0439.000;
- Thu, 28 Nov 2019 09:26:50 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Daniel Cho
- <danielcho@qnap.com>, "lukasstraub2@web.de" <lukasstraub2@web.de>
-Subject: RE: Network connection with COLO VM
-Thread-Topic: Network connection with COLO VM
-Thread-Index: AQHVpNpTPcqw102+1EeSLCuWtdaGTKeeUWSAgACH4yA=
-Date: Thu, 28 Nov 2019 01:26:50 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780631A02A@shsmsx102.ccr.corp.intel.com>
-References: <CA+XQNE4eP8tfHB5eV8813bqaE+L5yooBDFCdbMWJPysvev4UKg@mail.gmail.com>
- <20191127105121.GA3017@work-vm>
-In-Reply-To: <20191127105121.GA3017@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYzI3MmY1NzQtNmJjNy00OGI4LWJhMTUtNTJiY2M1NmZjOWM1IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoieWhqVFlMcHMzNWVQVTVFUThXNWZINHhXaWhJZVZGb2xPTyszUlAzRUd4MEh4ZFF3T2srYVdwSG4yeEtZcFwvSWcifQ==
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ia8x2-00047t-Tv
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:38 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36366)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ia8x2-000433-K0
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:36 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p17so4056272wma.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:50:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aUgVeH27R35pwY41F87tdQ2FgVzHC+Qd4AbTg6PJLdg=;
+ b=Ezb+txGeDQkYTKNGMJLvfaI5vIOdDh0vb+zray8vhieXBGxhlQHlAIoNDJtlZ25pEW
+ Mu0hhp1xsVvYRbOuT1RjG0yd3BAM86IseSW9Ch64r/dQQtVlNOpKdvnVfzydevGRpDxG
+ rpmj+jQ+yv217Tw//d+WDGq17FsXuMYHhY9vyAE8P+s/77lp22Ic3zksHqV4YYutlFGk
+ gehCmoDI3qYgX5UCiHPONDlNhi0nNxKNqWKgCgbW5Ac8Wer73T0ZQskTWXGi7pybgDxy
+ ONu9f77nfyREdVjvpJ8AaWP7FFpIXOy7xzOQetYSDtHAxkAVR1nSLk425ejrXbfEEalt
+ MWug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=aUgVeH27R35pwY41F87tdQ2FgVzHC+Qd4AbTg6PJLdg=;
+ b=tCkQx5KxxNFvVwvP2z+uQEhuzgarWSFpUDghg88fe5Yb80KKBX3j2kqxRUEPT37lZi
+ ICbiD1wsnWqX+RYawc9+2OzepOLcd8HBLDS9FRfuRpVaW98wXDrzFPXEuH6M0Q3QC8L6
+ y2aFGHtbZy9X0p+OoF9JQBY+UMVq/tNrifKOdiS58NyZ+U3umHdTMeOvhqTaRooXAtzZ
+ 1XeHRkiTqFvvWvh9RpUgzjcLVwdzFb9GvMCYbE930GIvA7EwjtBRr6jLC6KZfELbXWt/
+ TvCwkHxXXUm7afV3RaKY5tczoWgLJpC+tnFdjxi4ikT0xvYkttNyfS2qv/W9QF0lUtl3
+ ZQlg==
+X-Gm-Message-State: APjAAAWSVQt9Ve4IdghaEjue4BmDCvb5cMTbJUEnkMaWyh7tkcE8cCMN
+ /cSiUtHjJWlGvZPPg+sIe525VCpr
+X-Google-Smtp-Source: APXvYqy34Xu4euaYhv6+9CS40DK2aYjlCFJ43KxOkMuh5TxvXwD3uRjmfd6esNEiyP8CJ9neeILKCA==
+X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr7227406wmk.98.1574905833487; 
+ Wed, 27 Nov 2019 17:50:33 -0800 (PST)
+Received: from x1w.redhat.com (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id k16sm8738061wru.0.2019.11.27.17.50.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Nov 2019 17:50:31 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+	Michael Rolnik <mrolnik@gmail.com>
+Subject: [RFC PATCH 00/10] hw/avr: Introduce the Arduino board
+Date: Thu, 28 Nov 2019 02:50:20 +0100
+Message-Id: <20191128015030.27543-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.115
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,65 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Michael,
 
+I complained I'd rather have QEMU model real hardware, with
+documentation (schematics).
+Since your series is almost ready to get merged, I prefered to
+spend some time now to write down what I wanted. This is mostly
+a rewrite of your board, but matching the Arduino boards.
 
-> -----Original Message-----
-> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Sent: Wednesday, November 27, 2019 6:51 PM
-> To: Daniel Cho <danielcho@qnap.com>; Zhang, Chen
-> <chen.zhang@intel.com>; lukasstraub2@web.de
-> Cc: qemu-devel@nongnu.org
-> Subject: Re: Network connection with COLO VM
->=20
-> * Daniel Cho (danielcho@qnap.com) wrote:
-> > Hello everyone,
-> >
-> > Could we ssh to colo VM (means PVM & SVM are starting)?
-> >
->=20
-> Lets cc in Zhang Chen and Lukas Straub.
+Some bug slipped in (uart interrupt not raised) but I'm too tired
+to find it, and since I won't have time to look at it the next
+days, I prefer to send this now.
 
-Thanks Dave.
+The first part of the series are quick review notes, which you
+should squash in your previous patches.
 
->=20
-> > SSH will connect to colo VM for a while, but it will disconnect with
-> > error
-> > *client_loop: send disconnect: Broken pipe*
-> >
-> > It seems to colo VM could not keep network session.
-> >
-> > Does it be a known issue?
->=20
-> That sounds like the COLO proxy is getting upset; it's supposed to compar=
-e
-> packets sent by the primary and secondary and only send one to the outsid=
-e
-> - you shouldn't be talking directly to the guest, but always via the prox=
-y.  See
-> docs/colo-proxy.txt
->=20
+I still have in my TODO before merge:
+- Fix the USART IRQ bug
+- Split "Add limited support for USART and 16 bit timer peripherals"
+  in 3 patches: USART/Timer16/INTC
 
-Hi Daniel,
+And TODO after merge is:
+- Extract Timer8 common parts from Timer16
+- Add GPIOs
+- Connect LED to GPIO on Arduino
 
-I have try ssh to COLO guest with 8 hours, not occurred this issue.
-Please check your network/qemu configuration.
-But I found another problem maybe related this issue, if no network communi=
-cation for a period of time(maybe 10min), the first message send to guest h=
-ave a chance with delay(maybe 1-5 sec), I will try to fix it when I have ti=
-me.
+Thank you for having insisted with this during so long!
 
-Thanks
-Zhang Chen
+Regards,
 
-> Dave
->=20
-> > Best Regard,
-> > Daniel Cho
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Phil.
+
+Based-on: <20191127175257.23480-1-mrolnik@gmail.com>
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg661553.html
+
+Philippe Mathieu-Daudé (10):
+  hw/avr: Kludge to fix build failure
+  target/avr: Remove unused include
+  target/avr: Add missing definitions
+  target/avr: Fix IRQ count
+  hw/char/avr: Reduce USART I/O size
+  hw/avr: Add ATmega microcontrollers
+  hw/avr: Add few Arduino boards
+  tests/acceptance: Keep multilines comment consistent with other tests
+  tests/acceptance: Use the ATmega2560 board
+  hw/avr: Remove the 'sample' board
+
+ hw/avr/atmega.h                  |  58 +++++
+ include/hw/char/avr_usart.h      |   2 +
+ target/avr/cpu.h                 |   2 +
+ hw/avr/arduino.c                 | 173 ++++++++++++++
+ hw/avr/atmega.c                  | 379 +++++++++++++++++++++++++++++++
+ hw/avr/sample.c                  | 282 -----------------------
+ hw/char/avr_usart.c              |   2 +-
+ target/avr/cpu.c                 |   2 +-
+ target/avr/helper.c              |   1 -
+ hw/avr/Makefile.objs             |   3 +-
+ tests/acceptance/machine_avr6.py |  10 +-
+ 11 files changed, 623 insertions(+), 291 deletions(-)
+ create mode 100644 hw/avr/atmega.h
+ create mode 100644 hw/avr/arduino.c
+ create mode 100644 hw/avr/atmega.c
+ delete mode 100644 hw/avr/sample.c
+
+-- 
+2.21.0
 
 
