@@ -2,67 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2A110C4CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:17:35 +0100 (CET)
-Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9DCE10C50B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:24:21 +0100 (CET)
+Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaEzV-0002UP-PQ
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:17:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1iaF64-0006He-Dj
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:24:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iaEvR-0008E5-LQ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:13:23 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iaF3G-00045z-S8
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iaEvN-0003hU-PR
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:13:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33644
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iaF3D-0007TT-A7
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:24 -0500
+Received: from mga01.intel.com ([192.55.52.88]:64316)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaEvN-0003cS-7W
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:13:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574928796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qUqd44mi0bKs4otIpCe2ihfMhJEHKpNX5E/0VDYnRiE=;
- b=JRbZaawhhvfuniKjQ+aHUqmrcSt07FMoe/ltome6DMCwuFFERgnc1cswp7Uw7IbMTJMfEy
- rTCGwgMYxPhVdDNZEyKyryYPCpiYCsAsQHbhlI1RiNmiV33aAAkTwVHaOUg2Vpuyrit98F
- n3L4cdh9T2qukB/1tSSZYQZlamTQPFE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-YFBb3yjvPj6VLUMN-oGvjA-1; Thu, 28 Nov 2019 03:13:12 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 151BB157299D;
- Thu, 28 Nov 2019 08:13:11 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 365835D9E1;
- Thu, 28 Nov 2019 08:13:06 +0000 (UTC)
-Subject: Re: [PATCH] travis.yml: Run tcg tests with tci
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191127154857.3590-1-thuth@redhat.com>
- <87zhghf9lg.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <02c92ddf-e65a-2d2d-40fa-027aa4e4c558@redhat.com>
-Date: Thu, 28 Nov 2019 09:13:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iaF3C-000738-Va
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:23 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2019 00:21:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,252,1571727600"; d="scan'208";a="207017125"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Nov 2019 00:21:11 -0800
+From: Tao Xu <tao3.xu@intel.com>
+To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
+ lvivier@redhat.com
+Subject: [PATCH v19 0/8] Build ACPI Heterogeneous Memory Attribute Table (HMAT)
+Date: Thu, 28 Nov 2019 16:21:01 +0800
+Message-Id: <20191128082109.30081-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87zhghf9lg.fsf@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: YFBb3yjvPj6VLUMN-oGvjA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,61 +54,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/11/2019 19.38, Alex Benn=C3=A9e wrote:
->=20
-> Thomas Huth <thuth@redhat.com> writes:
->=20
->> So far we only have compile coverage for tci. But since commit
->> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
->> for INDEX_op_ld16u_i64") has been included, we can also run the
->> x86 TCG tests with tci, so let's enable them in Travis now.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   .travis.yml | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/.travis.yml b/.travis.yml
->> index c09b6a0014..b0b634d484 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -218,7 +218,7 @@ matrix:
->>       # We manually include builds which we disable "make check" for
->=20
-> this comment is out of date now (or rather has been for a while)
->=20
->>       - env:
->>           - CONFIG=3D"--enable-debug --enable-tcg-interpreter"
->=20
-> Perhaps as linux-user doesn't add much to testing the TCG we could limit
-> by MAIN_SOFTMMU_TARGETS here?
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-Limiting is a good idea, but I think we should use the architectures=20
-that are supported by tests/boot-serial-test.c instead.
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
 
->> -        - TEST_CMD=3D""
->> +        - TEST_CMD=3D"make run-tcg-tests-x86_64-softmmu V=3D1"
->=20
-> How about "make check-qtest check-tcg"
-> > Which will exercise the moderate boot code tests of various
-> architectures as well as x86_64 (if we include the --disable-docker
-> configure stanza)
+The V18 patches link:
+https://patchwork.kernel.org/cover/11263551/
 
-I tried "check-tcg" before switching to "run-tcg-tests-x86_64-softmmu",=20
-but "check-tcg" then resulted in a docker error:
+Changelog:
+v19:
+    - Add description about the machine property 'hmat' in commit
+      message (Markus)
+    - Update the QAPI comments
+    - Add a check for no memory side cache
+    - Add some fail cases for hmat-cache when level=0
+v18:
+    - Defer patches 01/14~06/14 of V17, use qapi type uint64 and
+      only nanosecond for latency (Markus)
+    - Rewrite the lines over 80 characters(Igor)
+v17:
+    - Add check when user input latency or bandwidth 0, the
+      lb_info_provided should also be 0. Because in ACPI 6.3 5.2.27.4,
+      0 means the corresponding latency or bandwidth information is
+      not provided.
+    - Fix the infinite loop when node->latency is 0.
+    - Use NumaHmatCacheOptions to replace HMAT_Cache_Info (Igor)
+    - Add check for unordered cache level input (Igor)
+    - Add some fail test cases (Igor)
+v16:
+    - Add and use qemu_strtold_finite to parse size, support full
+      64bit precision, modify related test cases (Eduardo and Markus)
+    - Simplify struct HMAT_LB_Info and related code, unify latency
+      and bandwidth (Igor)
+    - Add cross check with hmat_lb data (Igor)
+    - Fields in Cache Attributes are promoted to uint32_t before
+      shifting (Igor)
+    - Add case for QMP build HMAT (Igor)
+v15:
+    - Add a new patch to refactor do_strtosz() (Eduardo)
+    - Make tests without breaking CI (Michael)
+v14:
+    - Reuse the codes of do_strtosz to build qemu_strtotime_ns
+      (Eduardo)
+    - Squash patch v13 01/12 and 02/12 together (Daniel and Eduardo)
+    - Drop time unit picosecond (Eric)
+    - Use qemu ctz64 and clz64 instead of builtin function
+v13:
+    - Modify some text description
+    - Drop "initiator_valid" field in struct NodeInfo
+    - Reuse Garray to store the raw bandwidth and bandwidth data
+    - Calculate common base unit using range bitmap
+    - Add a patch to alculate hmat latency and bandwidth entry list
+    - Drop the total_levels option and use readable cache size
+    - Remove the unnecessary head file
+    - Use decimal notation with appropriate suffix for cache size
+v12:
+    - Fix a bug that a memory-only node without initiator setting
+      doesn't report error. (reported by Danmei Wei)
+    - Fix a bug that if HMAT is enabled and without hmat-lb setting,
+      QEMU will crash. (reported by Danmei Wei)
 
-  https://travis-ci.com/huth/qemu/jobs/260949876#L11974
+Liu Jingqi (5):
+  numa: Extend CLI to provide memory latency and bandwidth information
+  numa: Extend CLI to provide memory side cache information
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
 
-... so looks like we indeed have to use --disable-docker in that case.
+Tao Xu (3):
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/numa: Add case for QMP build HMAT
+  tests/bios-tables-test: add test cases for ACPI HMAT
 
-I'll have a try and send a v2 if that works out fine.
+ hw/acpi/Kconfig                       |   7 +-
+ hw/acpi/Makefile.objs                 |   1 +
+ hw/acpi/hmat.c                        | 268 ++++++++++++++++++++++++
+ hw/acpi/hmat.h                        |  42 ++++
+ hw/core/machine.c                     |  64 ++++++
+ hw/core/numa.c                        | 290 ++++++++++++++++++++++++++
+ hw/i386/acpi-build.c                  |   5 +
+ include/sysemu/numa.h                 |  63 ++++++
+ qapi/machine.json                     | 180 +++++++++++++++-
+ qemu-options.hx                       |  95 ++++++++-
+ tests/bios-tables-test-allowed-diff.h |   8 +
+ tests/bios-tables-test.c              |  44 ++++
+ tests/data/acpi/pc/APIC.acpihmat      |   0
+ tests/data/acpi/pc/DSDT.acpihmat      |   0
+ tests/data/acpi/pc/HMAT.acpihmat      |   0
+ tests/data/acpi/pc/SRAT.acpihmat      |   0
+ tests/data/acpi/q35/APIC.acpihmat     |   0
+ tests/data/acpi/q35/DSDT.acpihmat     |   0
+ tests/data/acpi/q35/HMAT.acpihmat     |   0
+ tests/data/acpi/q35/SRAT.acpihmat     |   0
+ tests/numa-test.c                     | 213 +++++++++++++++++++
+ 21 files changed, 1269 insertions(+), 11 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
-  Thomas
+-- 
+2.20.1
 
 
