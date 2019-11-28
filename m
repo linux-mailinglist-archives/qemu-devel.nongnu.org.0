@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A1110C80A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:36:21 +0100 (CET)
-Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A4810C847
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:57:02 +0100 (CET)
+Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaI5r-0005ly-0G
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:36:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41115)
+	id 1iaIPt-0005jJ-Qn
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:57:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53689)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ning.bo9@zte.com.cn>) id 1iaHxk-00019L-KQ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:27:58 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iaI0V-00047z-Ot
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:30:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ning.bo9@zte.com.cn>) id 1iaHxi-0002YQ-3r
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:27:55 -0500
-Received: from mxhk.zte.com.cn ([63.217.80.70]:26908)
+ (envelope-from <kraxel@redhat.com>) id 1iaI0Q-0001rS-Tw
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:30:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46341
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ning.bo9@zte.com.cn>) id 1iaHxh-0001nQ-LL
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:27:54 -0500
-Received: from mse-fl1.zte.com.cn (unknown [10.30.14.238])
- by Forcepoint Email with ESMTPS id 258394830638078F26E1;
- Thu, 28 Nov 2019 19:27:44 +0800 (CST)
-Received: from kjyxapp04.zte.com.cn ([10.30.12.203])
- by mse-fl1.zte.com.cn with SMTP id xASBQl3C034180;
- Thu, 28 Nov 2019 19:26:47 +0800 (GMT-8)
- (envelope-from ning.bo9@zte.com.cn)
-Received: from mapi (kjyxapp03[null]) by mapi (Zmail) with MAPI id mid14;
- Thu, 28 Nov 2019 19:26:47 +0800 (CST)
-Date: Thu, 28 Nov 2019 19:26:47 +0800 (CST)
-X-Zmail-TransId: 2b055ddfaef79ae9d416
-X-Mailer: Zmail v1.0
-Message-ID: <201911281926474453744@zte.com.cn>
-In-Reply-To: <20190809134134.GA8594@stefanha-x1.localdomain>
-References: 1564975951-29263-1-git-send-email-ning.bo9@zte.com.cn,
- 20190809134134.GA8594@stefanha-x1.localdomain
-Mime-Version: 1.0
-From: <ning.bo9@zte.com.cn>
-To: <stefanha@gmail.com>
-Subject: =?UTF-8?B?UmU6W1FlbXUtZGV2ZWxdIFtQQVRDSCB2Ml0gdmhvc3QtdnNvY2s6IHJlcG9ydCBRTVAgZXZlbnQgd2hlbiBzZXRydW5uaW5n?=
-Content-Type: multipart/mixed;
-	boundary="=====_001_next====="
-X-MAIL: mse-fl1.zte.com.cn xASBQl3C034180
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iaI0P-0001nL-GN
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:30:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574940637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kfo2fE9iiEDRp7+mq/qNcsEdSe0jZED3P9/5jUO5Y/A=;
+ b=CYcKvwKomU1KYFGaR6BUFeTTAJZM4xJ+/rJxztPr1ZA9Ymu0fO8EVIFm4DRAtgTKsxVgBP
+ 9sy5zD9l49bUS8R9bijzzqSbR1lUDrcGq6AN/KfVFqt/0Pjs4qR+maCUiZZBswqxIsDqnK
+ 7XFygLAOTW5TZ50GYadHOM9X/pYsLio=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-xRJ1FGEEPwa68Y-lwoZ_FQ-1; Thu, 28 Nov 2019 06:30:25 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96953911E8;
+ Thu, 28 Nov 2019 11:30:24 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
+ [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54DE35D6C8;
+ Thu, 28 Nov 2019 11:30:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8B905A1E0; Thu, 28 Nov 2019 12:30:23 +0100 (CET)
+Date: Thu, 28 Nov 2019 12:30:23 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: aaron.zakhrov@gmail.com
+Subject: Re: [RFC 0/1] ATI R300 emulated grpahics card V2
+Message-ID: <20191128113023.gdw63adoooqlider@sirius.home.kraxel.org>
+References: <20191128064350.20727-1-aaron.zakhrov@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20191128064350.20727-1-aaron.zakhrov@gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: xRJ1FGEEPwa68Y-lwoZ_FQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 63.217.80.70
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,88 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Nov 28, 2019 at 12:13:49PM +0530, aaron.zakhrov@gmail.com wrote:
+> From: Aaron Dominick <aaron.zakhrov@gmail.com>
+>=20
+> This is the cleaned up patchset to my previous RFC patch set.
+> I could not reliably clean up my previous commits so I deleted my fork an=
+d started from scratch.
+> The patch looks like a lot of changes but most of it is just register def=
+initions copied from the kernel radeon DRM tree.
 
+Adding headers should be a separate patch.
 
---=====_001_next=====
-Content-Type: multipart/alternative;
-	boundary="=====_003_next====="
+Qemu has some infrastructure to sync files with the linux kernel tree
+(see scripts/update-linux-headers.sh).  It's intended for uapi include
+files though, so it might not work for you.  Also the register specs are
+not going to change, so future updates are unlikely, so doing a one-time
+manual copy wouldn't be too bad maintenance-wise.
 
+The code should probably be integrated with the existing ati-vga instead
+of just copying the code, i.e. it'll be "-device ati-vga,model=3Dr300".
+As far I know crtc programming doesn't change much across models, so
+there should be a good chunk of shareable code.
 
---=====_003_next=====
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+The infrastructure to branch into model-specific code is pretty rough
+right now, we might refine that, for example with some helper functions
+(ati_get_model() returning an enum, or ati_is_$model() functions
+returning bool, or both).
 
-TGV0IG1lIGRlc2NyaWJlIHRoZSBpc3N1ZSB3aXRoIGFuIGV4YW1wbGUgdmlhIGBuYy12c29ja2A6
-CgpMZXQncyBhc3N1bWUgdGhlIEd1ZXN0IGNpZCBpcyAzLgpleGVjdXRlICdybW1vZCB2bXdfdnNv
-Y2tfdmlydGlvX3RyYW5zcG9ydCcgaW4gR3Vlc3QsCnRoZW4gZXhlY3V0ZSAnd2hpbGUgdHJ1ZTsg
-ZG8gbmMtdnNvY2sgMyAxMjM0JyBpbiBIb3N0LgoKSG9zdCAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgR3Vlc3QKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBybW1vZCB2bXdf
-dnNvY2tfdmlydGlvX3RyYW5zcG9ydAoKIyB3aGlsZSB0cnVlOyBkbyAuL25jLXZzb2NrIDMgMTIz
-NDsgZG9uZQooYWZ0ZXIgMiBzZWNvbmQpCmNvbm5lY3Q6IENvbm5lY3Rpb24gdGltZWQgb3V0Cihh
-ZnRlciAyIHNlY29uZCkKY29ubmVjdDogQ29ubmVjdGlvbiB0aW1lZCBvdXQKLi4uCgogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAjIG1vZHByb2JlIHZtd192c29ja192aXJ0aW9fdHJh
-bnNwb3J0Cgpjb25uZWN0OiBDb25uZWN0aW9uIHJlc2V0IGJ5IHBlZXIKY29ubmVjdDogQ29ubmVj
-dGlvbiByZXNldCBieSBwZWVyCmNvbm5lY3Q6IENvbm5lY3Rpb24gcmVzZXQgYnkgcGVlcgouLi4K
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgbmMtdnNvY2sgLWwgMTIzNAogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBDb25uZXRpb24gZnJvbSBjaWQgMiBwb3J0ICoq
-Ki4uLgooc3RvcCBwcmludGluZykKCgpUaGUgYWJvdmUgcHJvY2VzcyBzaW11bGF0ZXMgdGhlIGNv
-bW11bmljYXRpb24gcHJvY2VzcyBiZXR3ZWVuCnRoZSBga2F0YS1ydW50aW1lYCBhbmQgYGthdGEt
-YWdlbnRgIGFmdGVyIHN0YXJ0aW5nIHRoZSBHdWVzdC4KSW4gb3JkZXIgdG8gY29ubmVjdCB0byBg
-a2F0YS1hZ2VudGAgYXMgc29vbiBhcyBwb3NzaWJsZSwgCmBrYXRhLXJ1bnRpbWVgIHdpbGwgY29u
-dGludW91c2x5IHRyeSB0byBjb25uZWN0IHRvIGBrYXRhLWFnZW50YCBpbiBhIGxvb3AuCnNlZSBo
-dHRwczovL2dpdGh1Yi5jb20va2F0YS1jb250YWluZXJzL3J1bnRpbWUvYmxvYi9kMDU0NTU2ZjYw
-ZjA5MjMzNWEyMmEyODgwMTFmYTI5NTM5YWQ0Y2NjL3ZlbmRvci9naXRodWIuY29tL2thdGEtY29u
-dGFpbmVycy9hZ2VudC9wcm90b2NvbHMvY2xpZW50L2NsaWVudC5nbyNMMzI3CkJ1dCB3aGVuIHRo
-ZSB2c29jayBkZXZpY2UgaW4gdGhlIEd1ZXN0IGlzIG5vdCByZWFkeSwgdGhlIGNvbm5lY3Rpb24K
-d2lsbCBibG9jayBmb3IgMiBzZWNvbmRzLiBUaGlzIHNpdHVhdGlvbiBhY3R1YWxseSBzbG93cyBk
-b3duCnRoZSBlbnRpcmUgc3RhcnR1cCB0aW1lIG9mIGBrYXRhLXJ1bnRpbWVgLgoKCj4gSSB0aGlu
-ayB0aGF0IGFkZGluZyBhIFFNUCBldmVudCBpcyB3b3JraW5nIGFyb3VuZCB0aGUgaXNzdWUgcmF0
-aGVyIHRoYW4KPiBmaXhpbmcgdGhlIHJvb3QgY2F1c2UuICBUaGlzIGlzIHByb2JhYmx5IGEgdmhv
-c3RfdnNvY2sua28gcHJvYmxlbSBhbmQKPiBzaG91bGQgYmUgZml4ZWQgdGhlcmUuCgpBZnRlciBs
-b29raW5nIGF0IHRoZSBzb3VyY2UgY29kZSBvZiB2aG9zdF92c29jay5rbywgCkkgdGhpbmsgaXQg
-aXMgcG9zc2libGUgdG8gb3B0aW1pemUgdGhlIGxvZ2ljIGhlcmUgdG9vLgpUaGUgc2ltcGxlIHBh
-dGNoIGlzIGFzIGZvbGxvd3MuIERvIHlvdSB0aGluayB0aGUgbW9kaWZpY2F0aW9uIGlzIGFwcHJv
-cHJpYXRlPwoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmhvc3QvdnNvY2suYyBiL2RyaXZlcnMvdmhv
-c3QvdnNvY2suYwppbmRleCA5ZjU3NzM2Zi4uOGZhZDY3YmUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-dmhvc3QvdnNvY2suYworKysgYi9kcml2ZXJzL3Zob3N0L3Zzb2NrLmMKQEAgLTUxLDYgKzUxLDcg
-QEAgc3RydWN0IHZob3N0X3Zzb2NrIHsKIAlhdG9taWNfdCBxdWV1ZWRfcmVwbGllczsKCiAJdTMy
-IGd1ZXN0X2NpZDsKKwl1MzIgc3RhdGU7CiB9OwoKIHN0YXRpYyB1MzIgdmhvc3RfdHJhbnNwb3J0
-X2dldF9sb2NhbF9jaWQodm9pZCkKQEAgLTQ5Nyw2ICs1NDEsNyBAQCBzdGF0aWMgaW50IHZob3N0
-X3Zzb2NrX3N0YXJ0KHN0cnVjdCB2aG9zdF92c29jayAqdnNvY2spCgogCQltdXRleF91bmxvY2so
-JnZxLT5tdXRleCk7CiAJfQorCXZzb2NrLT5zdGF0ZSA9IDE7CgogCW11dGV4X3VubG9jaygmdnNv
-Y2stPmRldi5tdXRleCk7CiAJcmV0dXJuIDA7CkBAIC01MzUsNiArNTgwLDcgQEAgc3RhdGljIGlu
-dCB2aG9zdF92c29ja19zdG9wKHN0cnVjdCB2aG9zdF92c29jayAqdnNvY2spCiAJCXZxLT5wcml2
-YXRlX2RhdGEgPSBOVUxMOwogCQltdXRleF91bmxvY2soJnZxLT5tdXRleCk7CiAJfQorCXZzb2Nr
-LT5zdGF0ZSA9IDA7CgogZXJyOgogCW11dGV4X3VubG9jaygmdnNvY2stPmRldi5tdXRleCk7CkBA
-IC03ODYsNiArODMyLDI3IEBAIHN0YXRpYyBzdHJ1Y3QgbWlzY2RldmljZSB2aG9zdF92c29ja19t
-aXNjID0gewogCS5mb3BzID0gJnZob3N0X3Zzb2NrX2ZvcHMsCiB9OwoKK2ludCB2aG9zdF90cmFu
-c3BvcnRfY29ubmVjdChzdHJ1Y3QgdnNvY2tfc29jayAqdnNrKSB7CisJc3RydWN0IHZob3N0X3Zz
-b2NrICp2c29jazsKKworCXJjdV9yZWFkX2xvY2soKTsKKworCS8qIEZpbmQgdGhlIHZob3N0X3Zz
-b2NrIGFjY29yZGluZyB0byBndWVzdCBjb250ZXh0IGlkICAqLworCXZzb2NrID0gdmhvc3RfdnNv
-Y2tfZ2V0KHZzay0+cmVtb3RlX2FkZHIuc3ZtX2NpZCk7CisJaWYgKCF2c29jaykgeworCQlyY3Vf
-cmVhZF91bmxvY2soKTsKKwkJcmV0dXJuIC1FTk9ERVY7CisJfQorCisJcmN1X3JlYWRfdW5sb2Nr
-KCk7CisKKwlpZiAodnNvY2stPnN0YXRlID09IDEpIHsKKwkJcmV0dXJuIHZpcnRpb190cmFuc3Bv
-cnRfY29ubmVjdCh2c2spOworCX0gZWxzZSB7CisJCXJldHVybiAtRUNPTk5SRVNFVDsKKwl9Cit9
-CisKIHN0YXRpYyBzdHJ1Y3QgdmlydGlvX3RyYW5zcG9ydCB2aG9zdF90cmFuc3BvcnQgPSB7CiAJ
-LnRyYW5zcG9ydCA9IHsKIAkJLmdldF9sb2NhbF9jaWQgICAgICAgICAgICA9IHZob3N0X3RyYW5z
-cG9ydF9nZXRfbG9jYWxfY2lkLApAQCAtNzkzLDcgKzg2MCw3IEBAIHN0YXRpYyBzdHJ1Y3Qgdmly
-dGlvX3RyYW5zcG9ydCB2aG9zdF90cmFuc3BvcnQgPSB7CiAJCS5pbml0ICAgICAgICAgICAgICAg
-ICAgICAgPSB2aXJ0aW9fdHJhbnNwb3J0X2RvX3NvY2tldF9pbml0LAogCQkuZGVzdHJ1Y3QgICAg
-ICAgICAgICAgICAgID0gdmlydGlvX3RyYW5zcG9ydF9kZXN0cnVjdCwKIAkJLnJlbGVhc2UgICAg
-ICAgICAgICAgICAgICA9IHZpcnRpb190cmFuc3BvcnRfcmVsZWFzZSwKLQkJLmNvbm5lY3QgICAg
-ICAgICAgICAgICAgICA9IHZpcnRpb190cmFuc3BvcnRfY29ubmVjdCwKKwkJLmNvbm5lY3QgICAg
-ICAgICAgICAgICAgICA9IHZob3N0X3RyYW5zcG9ydF9jb25uZWN0LAogCQkuc2h1dGRvd24gICAg
-ICAgICAgICAgICAgID0gdmlydGlvX3RyYW5zcG9ydF9zaHV0ZG93biwKIAkJLmNhbmNlbF9wa3Qg
-ICAgICAgICAgICAgICA9IHZob3N0X3RyYW5zcG9ydF9jYW5jZWxfcGt0LA==
+Patches usually should pass scripts/checkpatch.pl codestyle checking.
+We can make exceptions when reasonable (headers copied from elsewhere
+for example).
 
+> What I have implemented so far seems to get a Linux guest to load the
+> DRM and KMS drivers but it cannot find any CRTCs.
 
---=====_003_next=====--
+Might be the vgabios tables are lacking information,
+see https://git.seabios.org/cgit/seabios.git/tree/vgasrc/ati-tables.S
 
---=====_001_next=====--
+Might be i2c emulation needs tweaks (so EDID fetch works).
+
+Trouble-shooting linux guests shouldn't be too hard, you have the source
+code so you can check what the driver tries to do and you can add debug
+printk's to trace where exactly things are failing ;)
+
+HTH,
+  Gerd
 
 
