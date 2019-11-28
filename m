@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6A010CA63
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:31:28 +0100 (CET)
-Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B794710CAE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:57:31 +0100 (CET)
+Received: from localhost ([::1]:49824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKpK-0001Ar-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:31:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37961)
+	id 1iaLEV-0006Vu-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:57:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iaKMD-00040S-Vf
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaKb5-0003vU-DG
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:16:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iaKM8-0001p3-3v
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53725
+ (envelope-from <philmd@redhat.com>) id 1iaKb1-00039M-DN
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:16:41 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26271
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iaKM4-0001i7-J3
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaKb1-00033v-55
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:16:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574949665;
+ s=mimecast20190719; t=1574950593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=imKrZIDAcl0nebVmsApMWpj6CWOw1uCyO5++70aPho0=;
- b=CvzJxl5zg0jIQBURBzUIsJbJD5gByyGfj2MtPfNIuM7jfya4aIgeyxaXPJMzv5OZd4Dm5+
- O5wg6sqJJE+nS611u54Gry71ucRc8UgPWgQrXjOavgsvo+hRgyFWcWqjyQwv6dj3oYs9VF
- od5lUo0bKiXVzneFCjdCLnRu7UW5smU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-3D96Tgx5P4CV3FL5VjOnmg-1; Thu, 28 Nov 2019 09:01:00 -0500
-X-MC-Unique: 3D96Tgx5P4CV3FL5VjOnmg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53AEF800D41;
- Thu, 28 Nov 2019 14:00:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-182.brq.redhat.com
- [10.40.204.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C74C600C8;
- Thu, 28 Nov 2019 14:00:57 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 02/31] block: Add BdrvChildRole
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191127131624.1062403-1-mreitz@redhat.com>
- <20191127131624.1062403-3-mreitz@redhat.com>
- <9d6e35ea-eed6-716a-75aa-e8f47f35b6b7@virtuozzo.com>
- <02c29aee-6f92-0648-c60a-875a3d8ca305@redhat.com>
- <7ca7fa9d-b464-7ff1-cb28-3ffb52efedb0@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cab438c9-3630-c236-e5a6-ccc30a606fed@redhat.com>
-Date: Thu, 28 Nov 2019 15:00:56 +0100
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LCVw4mrAw9FF5xe6tYaRDcNiKwElj0FBQRlhKCvaSnU=;
+ b=ITdPEGUpzMQduuT7GjnPby5vS4SD+9FTWmjMqHxki9jzu/3oqQ1h8wcmuGIXaYFY/KOh/a
+ d8qKsRykJzgXTvVme5YTEdfPGwcgDIw94Gf5saRkOQHoIXT2x9DDS3KdAh0Mv9tOautXVM
+ vMTeL5CLAXJaFPxN8zoG/DKIqP2Xxeo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-TbsMH3a4OaemuJvquJpedg-1; Thu, 28 Nov 2019 09:16:31 -0500
+Received: by mail-wm1-f72.google.com with SMTP id t203so3614415wmt.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:16:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LCVw4mrAw9FF5xe6tYaRDcNiKwElj0FBQRlhKCvaSnU=;
+ b=j3XC04J1TuytTairJ6RkY3/FNdOeJuHp5v7AFmNiyisvc0voxJBefJAYpX5ZwZuPlr
+ Wza6puwKUtV4xowSC41IX1JUOqA0WDg6v8dYb0w7tDVGIn5TiTBGtM+5rasVTOSIm+Vc
+ 4tGnKWPwHRqi2F2oeP7EvACh+bm99IZksscPjfGiC0zrMAHRbXs7O7o98jF3KhYmolJj
+ 7il1KZHemCNtZm170VGRDJ3YWixOwbPRSLUeMMFb4zQGjSh0H+UK40E0akafXDJbwMmU
+ /YrYJCPGv3lB5y5tvBlscdLpSH97eK4WyNceOQUN9M7NoF/Jg/BQ6wr2TAytStvgknrd
+ Mttw==
+X-Gm-Message-State: APjAAAUSUyAw4QBRNipMQyORMcuRYVNLF/uRm+fZYUuvKjjcJ3P3tD2A
+ pIFNZOpqabBOgl1A+H/t/qHL3vwheLEUK0ES3vO5tk11kmt/c/Tn9D5lZzqCvWHOR4aRlcVdOEd
+ 50VDceUo3LxeCRoI=
+X-Received: by 2002:a5d:55ce:: with SMTP id i14mr2413244wrw.182.1574950590735; 
+ Thu, 28 Nov 2019 06:16:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy0L9kd3BPAw52AlSjzGsKFJbEleN58RYuZ08iVCbUoP50VSmiI+nJgobGnDpkGaF7A2Lhc/A==
+X-Received: by 2002:a5d:55ce:: with SMTP id i14mr2413220wrw.182.1574950590490; 
+ Thu, 28 Nov 2019 06:16:30 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id i127sm11086176wma.35.2019.11.28.06.16.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 06:16:29 -0800 (PST)
+Subject: Re: [PATCH v37 00/17] QEMU AVR 8 bit cores
+To: Michael Rolnik <mrolnik@gmail.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <20191127175257.23480-1-mrolnik@gmail.com>
+ <CAL1e-=isp_-zF71STK-v5D8r5sGYiZbRFmSzjfQtR2FC5YknHQ@mail.gmail.com>
+ <CAK4993iniaLhSYCe9hfuNpujpEdqPtZqqsJirBwYG9HqUVx6dA@mail.gmail.com>
+ <CAL1e-=h+ZHM9qOOMj2KASuN2J4rSYcn1KP1hOzTWp+EpBY3=5A@mail.gmail.com>
+ <CAK4993jDe+c7XsNn=fBwMu6TLuF8KgxNvUziXkwAUuOVArjrsA@mail.gmail.com>
+ <5a784557-f322-dc3a-4ff1-a7d9a0409448@redhat.com>
+ <CAL1e-=jJ5uNvYq7yNQYFhMJ0k94-d6mrybs-NyVjVi9Agb4Aeg@mail.gmail.com>
+ <CAK4993i8zPyYH2hGxx0hP4qQKr9oTJV2T5JDtQmKHZe2EpAsvw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2540f517-5662-2afb-fb2f-4720fddd7eb5@redhat.com>
+Date: Thu, 28 Nov 2019 15:16:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <7ca7fa9d-b464-7ff1-cb28-3ffb52efedb0@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CAK4993i8zPyYH2hGxx0hP4qQKr9oTJV2T5JDtQmKHZe2EpAsvw@mail.gmail.com>
+Content-Language: en-US
+X-MC-Unique: TbsMH3a4OaemuJvquJpedg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,89 +98,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, QEMU Developers <qemu-devel@nongnu.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx
-Content-Type: multipart/mixed; boundary="ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS"
+On 11/28/19 2:46 PM, Michael Rolnik wrote:
+> I will rename them.
 
---ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Please wait comments from Richard before a version respin.
 
-On 28.11.19 12:24, Vladimir Sementsov-Ogievskiy wrote:
-> 28.11.2019 13:52, Max Reitz wrote:
->> On 28.11.19 10:31, Vladimir Sementsov-Ogievskiy wrote:
->>> 27.11.2019 16:15, Max Reitz wrote:
->>>> This enum will supplement BdrvChildClass when it comes to what role (o=
-r
->>>> combination of roles) a child takes for its parent.
->>>>
->>>> Because empty enums are not allowed, let us just start with it filled.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>    include/block/block.h | 38 ++++++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 38 insertions(+)
->>>>
->>>> diff --git a/include/block/block.h b/include/block/block.h
->>>> index 38963ef203..36817d5689 100644
->>>> --- a/include/block/block.h
->>>> +++ b/include/block/block.h
->>>> @@ -279,6 +279,44 @@ enum {
->>>>        DEFAULT_PERM_UNCHANGED      =3D BLK_PERM_ALL & ~DEFAULT_PERM_PA=
-SSTHROUGH,
->>>>    };
->>>>   =20
->>>> +typedef enum BdrvChildRole {
->>>
->>> Don't you want to call it just BdrvChildFlags ?
->>> Benefits:
->>>
->>> 1. Do not intersect with old BdrvChildRole.
->>
->> Well, that doesn=E2=80=99t change the fact that the old BdrvChildRole ju=
-st
->> doesn=E2=80=99t describe a role.
->>
->>> 2. I think, BDRV_CHILD_STAY_AT_NODE is not a role, but just a property =
-or flag..
->>
->> I can be convinced to let STAY_AT_NODE stay a property of
->> BdrvChildClass. :-)
->=20
-> or BdrvChild if we want it to be property of object, not class.
-
-Sure, but that would then no longer concern this series, I think.  (That
-is, either I make STAY_AT_NODE a BdrvChildRole in this series, or I just
-don=E2=80=99t.)
-
-Max
-
-
---ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS--
-
---JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3f0xgACgkQ9AfbAGHV
-z0CfIAf+Im5powytEOzpofCiPZ/ONhc1mwwcbyGR2cOvciQOA0hdrOYlyvIzMiW4
-eMhbUlafGRMVfqKPUj40QNIcpQbiWmHxEUrNqXWxcv4zbVwFJj7RbEfBcLLt8uGL
-fXIv8puEL4FiFKhbmYJDGaDD1oDtGIh3VeKTaee4Ib5Md9woH4xRHGe2Jqdvvvyt
-8x1xhiDCklmbyqVfJHyfn2bwk+ccVin4IZ1GWsKZfVipsOuka0E0Qtf3r6BrbMpU
-8hzm4iEyw6Iz8KXTEHpEUKES5nfqtIaVNis28LqZmkFy9gRX08+ybbSXfyFy/bbx
-6f9VES7qe0LTIYYnPAquSnmmKH/AAQ==
-=qJLT
------END PGP SIGNATURE-----
-
---JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx--
+> On Thu, Nov 28, 2019 at 3:41 PM Aleksandar Markovic 
+> <aleksandar.m.mail@gmail.com <mailto:aleksandar.m.mail@gmail.com>> wrote:
+[...]
+> 
+> 
+>         If I understand Aleksandar correctly, the naming is incorrect
+>         because too generic to AVR family, why Sarah only modeled the
+>         Atmel implementation.
+> 
+>         Renaming devices such hw/char/avr_usart.c ->
+>         hw/char/atmel_usart.c (similarly with the macros) would be
+>         enough Aleksandar?
+> 
+> 
+> 
+>     Some renaming could help, perhaps not quite like the one above, but
+>     my point (which I find hard to believe I can't explain to you) is
+>     that peripherals inside the chip evolved over time, as starkly
+>     opposed to external peripherals that are set in stone...
 
 
