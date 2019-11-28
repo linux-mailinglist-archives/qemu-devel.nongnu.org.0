@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0AD10CDFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:39:57 +0100 (CET)
-Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7458110CE17
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:50:50 +0100 (CET)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaNli-0001CG-Gj
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:39:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33145)
+	id 1iaNwF-0006uv-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:50:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iaNZg-0005nt-K5
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:30 -0500
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iaNeA-0007y9-Rr
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:32:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iaNZU-0001Gx-4U
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60743
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iaNZT-000151-QQ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574962033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+R5PWYXJvVvQKKcR3qhd1xVJQaSdG9qK/VSPYGunzn0=;
- b=K6HaT/QJ0IDfnUymj0O1HyG6uERgmKYpOHcggvntrkk3+BNJuwXBId7kLqUuUu6zdQ4adm
- j22MiLi4jqkPOyjgVI8RD1+7fESWGWzD2Zv89qle9Qr6mstBm6Xy9jhr+99XR751zSCZQz
- RtWClbdeOcpS3cxOvHjU1SayYPcQb/Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-8kFq9tAWNkmkr9IwKhPnTw-1; Thu, 28 Nov 2019 12:27:12 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2069210054E3;
- Thu, 28 Nov 2019 17:27:11 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D3C15D9E1;
- Thu, 28 Nov 2019 17:27:07 +0000 (UTC)
-Date: Thu, 28 Nov 2019 18:27:05 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
-Message-ID: <20191128182705.0635d1d4@redhat.com>
-In-Reply-To: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
-References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iaNe2-0002Za-OD
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:32:01 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42483)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1iaNe2-0001w9-E9; Thu, 28 Nov 2019 12:31:58 -0500
+Received: by mail-wr1-x444.google.com with SMTP id a15so32078982wrf.9;
+ Thu, 28 Nov 2019 09:31:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=RUAtXCwHBRXukIu2vFZGce5SNLV3tHMb23DnTijKFks=;
+ b=GEdoaCe3Dx6hEqHhO1xeFdxa4hXx95GFpr30ZQy51Msr7WNwS9nTtpxGio7Hc+9ldY
+ s82mT+lxqx3A7MOyeVRk1gL4wXBZ32HkJCB33695878of8i7AvWq10gUWcicsXDgy729
+ u2V6odTmkc7DLqRyStUKRdB22iJV1lIAtr+X+2Ze7sXQ8a8YfLf9tftNcCKcehlYKzlZ
+ j3MW4Afb4bb/K4jl5ZgtXrMz6AXH0yevp8WIqo92LuU9ak/2D8ThWtB/qb9MKtOzZx4I
+ J3DC4hkM1AHXqjEPpgPAXpL+GgFb7vA3j3884Dqf6l0D5CDa9Z88wZ8nu3QRTiSKhhUT
+ k98Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RUAtXCwHBRXukIu2vFZGce5SNLV3tHMb23DnTijKFks=;
+ b=PMNo83k2eFu/jHkQL8M4HwpZbLUBi0QozuuFGqo+cZvZRBpw7P2/KNDmkj1+HMm68Y
+ t2ms0Y+BMzpwyBAdm3SMWJCbvwk9fKD2GBKzi+085lNbTnn+5g1G0KBA4CU5lsB0Y1tN
+ XJskmeJLVcTiXQz7y4F5u1t0LpHwGiglGXbVcgaHKrHaWTp734/HHYxxkvezKnQa0iM/
+ +uU8GJ1XxGUL8rSELLfoXZT0t3LaWQD2/ojhxKO1IpcAuwkTBsJ9CindZfLtNcH7skxR
+ Q35Q7lSgmrQejoON8/XTDZJ2XpMfyYyipAaNYrijEtcSZZzEp4WT7mZNUqrMhNmaRmOl
+ qPEA==
+X-Gm-Message-State: APjAAAVFra5pt9kzwY+AasfHwgmahNHXM8U9jEpbvJZszWLIM8c3bcVv
+ mWeE5qF+DEufphUj/7Dh8gE=
+X-Google-Smtp-Source: APXvYqyLUaQy9iFo+npHGAFtwj+0V0hnzDxJD3u4Dtsc0y34IcUfAAKANkv+seiTjwi7Kb79yQA1Zw==
+X-Received: by 2002:adf:f2d0:: with SMTP id d16mr5473504wrp.110.1574962310277; 
+ Thu, 28 Nov 2019 09:31:50 -0800 (PST)
+Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
+ [34.244.242.0])
+ by smtp.gmail.com with ESMTPSA id z8sm8041183wrq.22.2019.11.28.09.31.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 09:31:49 -0800 (PST)
+Date: Thu, 28 Nov 2019 18:31:52 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: "Wasim, Bilal" <Bilal_Wasim@mentor.com>
+Subject: Re: [PATCH] Updating the GEM MAC IP to properly filter out the
+ multicast addresses
+Message-ID: <20191128173152.GC29312@toto>
+References: <2632212d4c8a40bead72ffdcf288e600@SVR-IES-MBX-03.mgc.mentorg.com>
+ <20191128155956.GB29312@toto>
+ <2b7a42487a5d4a258062bd209a0d13fa@SVR-IES-MBX-03.mgc.mentorg.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 8kFq9tAWNkmkr9IwKhPnTw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b7a42487a5d4a258062bd209a0d13fa@SVR-IES-MBX-03.mgc.mentorg.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,86 +81,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "alistair@alistair23.me" <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Nov 2019 16:00:06 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> Hi; this is a question which came up in Damien's reset series
-> which I don't know the answer to:
+On Thu, Nov 28, 2019 at 05:02:00PM +0000, Wasim, Bilal wrote:
+> This was one of my first attempts, and so I was sure to miss something.. I've incorporated all the updates in this patch.. Let me know what you think about this.. 
 > 
-> What is the interaction of the QOM device lifecycle (instance_init/realize/
-> unrealize/instance_finalize) with hotplug and hot-unplug ? I couldn't
-> find any documentation of this but maybe I was looking in the wrong
-> place...
+> net/cadence_gem: Updating the GEM MAC IP to properly filter out the multicast addresses.
 > 
-> Looking at device_set_realized() it seems like we treat "realize"
-> as meaning "and also do the hot-plug if this is a device we're
-> trying to hotplug". On the other hand hot-unplug is I think the
-> other way around: when we get a hot-unplug event we assume that
-> it should also imply an "unrealize" (but just unrealizing doesn't
-> auto-hot-unplug) ?
+> The current code makes a bad assumption that the most-significant byte
+> of the MAC address is used to determine if the address is multicast or
+> unicast, but in reality only a single bit is used to determine this.
+> This caused IPv6 to not work.. Fix is now in place and has been tested
+> with ZCU102-A53 / IPv6 on a TAP interface. Works well..
 
-Let me try to describe it.
+Thanks Bilal,
 
-device 'hotplug' interface is poorly named nowadays as it's
-just 'plug' interface which checks/wires device into existing machine.
-'hotplug' attribute is just informs plug controller that it might
-wish to take additional actions to complete device initialization
-and notify guest.
+This looks better but not quite there yet.
 
-plug workflow is as follow:
+* You don't seem to be using git-send-email to post patches, try it,
+it will make life easier wrt to formatting. The patch should be in a
+separate email. The subject line should be the subject of the email.
+git-format-patch and git-send-email will take care of that for you.
 
-  DeviceState::realize()
-     hotplug_ctrl = qdev_get_hotplug_handler(dev);
-     hotplug_handler_pre_plug(hotplug_ctrl, dev) // check / prepare / reserve resources, can fail
-     // call concrete device realize_fn()
-     hotplug_handler_plug(hotplug_ctrl, dev) // wire device up to board/bus/notify guest, shouldn't fail
+* You don't need to define IS_MULTICAST, you can directly
+use is_multicast_ether_addr() and friends.
 
- * now old bus based qdev hotplug are tied to _plug callback that
-   controller (hotplug_ctrl) that owns bus sets during bus creation.
-   (Ideally we should split that on _pre_plug and _plug parts)
- * also any other QOM object could be controller, to allow buss-less
-   hotplug (ex: arm-virt machine or pc/q35 machines)
+* The patch still has long lines (longer than 80 chars)
+You can run scripts/checkpatch.pl on your commit before
+posting the patch.
 
-Unplug is a different beast, it could be originated from mgmt side
-device_del() and/or from guest side.
+Cheers,
+Edgar
 
-device_del() can go 2 ways: qdev_unplug()
- * devices that support surprise removal (i.e. does not require guest cooperation)
-   go directly to
-       hotplug_handler_unplug() // tear down device from machine
-       object_unparent(); -> unrealize() + finalize() // device gone
-   essentially it's old qdev code behavior as is.
-      
- * async removal a bit different, instead of removal it asks
-   controller to process unplug request hotplug_handler_unplug_request()
-   and does nothing else.
-   After guest is prepared to device removal it notifies QEMU in some way
-   to eject device. That calls the same sequence
-     hotplug_handler_unplug()
-     object_unparent()
 
-> Once a device is hot-unplugged (and thus unrealized) is it valid
-> for it to be re-hot-plugged, or is the assumption that it's then
-> destroyed and a fresh device is created if the user wants to plug
-> something in again later ? Put another way, is it valid for a qdev
-> device to see state transitions realize -> unrealize -> realize ?
-
-I don't think we do it currently (or maybe we do with failover but
-I missed that train), but I don't see why it can't be done.
-
-I theory it's upto the place where actual eject request is originated from,
-it could do unrealize -> realize instead of unparent as far as it calls
-hotplug_handler_unplug().
 
 > 
-> thanks
-> -- PMM
+> Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
+> ---
+>  hw/net/cadence_gem.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 > 
-
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index b8be73dc55..98efb93f8a 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -34,6 +34,7 @@
+>  #include "qemu/module.h"
+>  #include "sysemu/dma.h"
+>  #include "net/checksum.h"
+> +#include "net/eth.h"
+>  
+>  #ifdef CADENCE_GEM_ERR_DEBUG
+>  #define DB_PRINT(...) do { \
+> @@ -315,6 +316,12 @@
+>  
+>  #define GEM_MODID_VALUE 0x00020118
+>  
+> +/* IEEE has specified that the most significant bit of the most significant byte be used for
+> + * distinguishing between Unicast and Multicast addresses.
+> + * If its a 1, that means multicast, 0 means unicast.   */
+> +#define IS_MULTICAST(address)           is_multicast_ether_addr(address)
+> +#define IS_UNICAST(address)             is_unicast_ether_addr(address)
+> +
+>  static inline uint64_t tx_desc_get_buffer(CadenceGEMState *s, uint32_t *desc)
+>  {
+>      uint64_t ret = desc[0];
+> @@ -601,7 +608,7 @@ static void gem_receive_updatestats(CadenceGEMState *s, const uint8_t *packet,
+>      }
+>  
+>      /* Error-free Multicast Frames counter */
+> -    if (packet[0] == 0x01) {
+> +    if (IS_MULTICAST(packet)) {
+>          s->regs[GEM_RXMULTICNT]++;
+>      }
+>  
+> @@ -690,21 +697,21 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
+>      }
+>  
+>      /* Accept packets -w- hash match? */
+> -    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> -        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+> +    if ((IS_MULTICAST(packet) && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> +        (IS_UNICAST(packet)   && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+>          unsigned hash_index;
+>  
+>          hash_index = calc_mac_hash(packet);
+>          if (hash_index < 32) {
+>              if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
+> -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> +                                              GEM_RX_UNICAST_HASH_ACCEPT;
+>              }
+>          } else {
+>              hash_index -= 32;
+>              if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
+> -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> +                                              GEM_RX_UNICAST_HASH_ACCEPT;
+>              }
+>          }
+>      }
+> -- 
+> 2.19.1.windows.1
+> 
+> ------------------------------------------------------------------------------------------------------------------------------
+> -----Original Message-----
+> From: Edgar E. Iglesias [mailto:edgar.iglesias@gmail.com] 
+> Sent: Thursday, November 28, 2019 9:00 PM
+> To: Wasim, Bilal <Bilal_Wasim@mentor.com>
+> Cc: qemu-devel@nongnu.org; alistair@alistair23.me; peter.maydell@linaro.org; qemu-arm@nongnu.org
+> Subject: Re: [PATCH] Updating the GEM MAC IP to properly filter out the multicast addresses
+> 
+> On Thu, Nov 28, 2019 at 03:10:16PM +0000, Wasim, Bilal wrote:
+> > [PATCH] Updating the GEM MAC IP to properly filter out the multicast 
+> > addresses. The current code makes a bad assumption that the 
+> > most-significant byte of the MAC address is used to determine if the 
+> > address is multicast or unicast, but in reality only a single bit is 
+> > used to determine this. This caused IPv6 to not work.. Fix is now in 
+> > place and has been tested with
+> > ZCU102-A53 / IPv6 on a TAP interface. Works well..
+> 
+> Hi Bilal,
+> 
+> The fix looks right to me but I have a few comments.
+> 
+> * Your patch seems a little wrongly formated.
+> [PATCH] goes into the Subject line for example and you're missing path prefixes.
+> 
+> Do a git log -- hw/net/cadence_gem.c to see examples on how it should look.
+> 
+> * The patch will probably not pass checkpatch since you seem to have long lines.
+> 
+> * We also need to update gem_receive_updatestats() to use the corrected macros.
+> 
+> More inline:
+> 
+> > 
+> > Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
+> > ---
+> > hw/net/cadence_gem.c | 18 ++++++++++++------
+> > 1 file changed, 12 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c index 
+> > b8be73d..f8bcbb3 100644
+> > --- a/hw/net/cadence_gem.c
+> > +++ b/hw/net/cadence_gem.c
+> > @@ -315,6 +315,12 @@
+> >  #define GEM_MODID_VALUE 0x00020118
+> > +/* IEEE has specified that the most significant bit of the most 
+> > +significant byte be used for
+> > + * distinguishing between Unicast and Multicast addresses.
+> > + * If its a 1, that means multicast, 0 means unicast.   */
+> > +#define IS_MULTICAST(address)           (((address[0] & 0x01) == 0x01) ? 1 : 0)
+> 
+> 
+> 
+> This can be simplified:
+> #define IS_MULTICAST(address) (address[0] & 1)
+> 
+> Actually, looking closer, we already have functions to do these checks in:
+> include/net/eth.h
+> 
+> static inline int is_multicast_ether_addr(const uint8_t *addr) static inline int is_broadcast_ether_addr(const uint8_t *addr) static inline int is_unicast_ether_addr(const uint8_t *addr)
+> 
+> 
+> 
+> > +#define IS_UNICAST(address)             (!IS_MULTICAST(address))
+> > +
+> > static inline uint64_t tx_desc_get_buffer(CadenceGEMState *s, uint32_t 
+> > *desc) {
+> >      uint64_t ret = desc[0];
+> > @@ -690,21 +696,21 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
+> >      }
+> >      /* Accept packets -w- hash match? */
+> > -    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> > -        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+> > +    if ((IS_MULTICAST(packet) && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> > +        (IS_UNICAST(packet)   && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+> >          unsigned hash_index;
+> >          hash_index = calc_mac_hash(packet);
+> >          if (hash_index < 32) {
+> >              if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
+> > -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> > -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> > +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> > +                                              
+> > + GEM_RX_UNICAST_HASH_ACCEPT;
+> >              }
+> >          } else {
+> >              hash_index -= 32;
+> >              if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
+> > -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> > -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> > +                return IS_MULTICAST(packet) ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> > +                                              
+> > + GEM_RX_UNICAST_HASH_ACCEPT;
+> >              }
+> >          }
+> >      }
+> > --
+> > 2.9.3
+> > 
 
