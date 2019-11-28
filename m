@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC5F10C204
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:56:53 +0100 (CET)
-Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42AF10C1E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:53:01 +0100 (CET)
+Received: from localhost ([::1]:44650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia936-0003qN-1F
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52165)
+	id 1ia8zM-0007lP-H2
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:53:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8x7-00060I-9e
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:43 -0500
+ id 1ia8x9-00062h-Jy
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8x6-0004Fm-BC
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:41 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44770)
+ id 1ia8x7-0004Ih-Ji
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:43 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35557)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8x6-0004Dp-4s
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:40 -0500
-Received: by mail-wr1-x442.google.com with SMTP id i12so29015783wrn.11
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:50:40 -0800 (PST)
+ id 1ia8x7-0004HD-Dl
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:41 -0500
+Received: by mail-wm1-x343.google.com with SMTP id n5so9963121wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4v1ufCU3OmUo7Hl9SRgGbYrzRMi0K0vlNG4YbI/LyYw=;
- b=F+g86bRUIXqueZi0H88FMyG2aVI3z25sm1JzdeeSWJfLoHZyDGs7xkBAVyftClkWbi
- v0IzQm2sbB/PLUrLNwLwaNXBjOva18hIX2SKm7El2WIWKaJ1x30HCxH9cwVAa+M3y+3f
- uYyJkW15XFCt5umWi3jWPLZ1qtB+jo28SHiZt6Ua0FReNp5T8tg2kWW29Cm5aHuMx8is
- QTNvIUKBOrCEbyyUUv1X7g/BVWkcJrHE9kvC8EslNt144b4/GWUKFbJ/UF1RKZw+aGy5
- YyO/KiXSTa45t9Jb0Zg1yck9BvudskxVM94pUMDRZDV9llSBPTtW/NwIl0QGYvCqbquT
- Sb9g==
+ bh=jb2tbtaquf5VPvDAi0c6Lc2EAVperS+YrEI9rjM8y3s=;
+ b=p50P8t8KmQXkFd4gXWDe51BHDwBJQeIarz6PfZ7ZE4rJMcJuAJ6ckTovmFHNa4TvEk
+ FGi2jtnZV8pu7egesd7HeK2vfE4UB2uIcNK95r/8Imb8hysTrgV5DELmWtgZQ9wNHdN6
+ nvVkTLaw8WwOj//4xC/a7/I29vOOaMHXWOp2MYrXoQ7iFY8usyFhbwcn3B60qQmmcBJf
+ rx9u/ylfTyno66P7ATNHnk04HVrbP359AbXAxAqHX7r9Y9o2VVpmRwA5PZdParTJ3ejz
+ cwB82d6WHaHfT/VfpTfELi1t7+7eWMUFKUQ2cw2dCJM9IyvNDip9IwrrZrjBg9ejCttT
+ N4sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4v1ufCU3OmUo7Hl9SRgGbYrzRMi0K0vlNG4YbI/LyYw=;
- b=Ajhr+2XN/WDtaiUv3QWEHeFOYkQZMBYQfuxh93uweZogL/BBCYkJQiZc2X7KU3dF4b
- ftZ4dSwcGmoJEElK+XQG9KpJchhTxT9PCdJWM32JouQfRY/SDRPiquijyRnADHLrNDIL
- bn3lbUHQuABsB1DhPtQvwb6WgXoOwY7+EDnDmFgzTAu8oEx9tH8VWtk9Hzl/2ibNKSHK
- +g8Sa/t+C08jh+KUmA37cwZGesjPA/GVz1Aq1K34cSmzrbCEvWWqtIGW+pLK0998w4fE
- Cl/SDoanKT9w5Pzxaa8TZw7qkfAtyL51dq/P2/OtGO0n/+olZcPKPm/oyRQ/xBV4UX1z
- e9UA==
-X-Gm-Message-State: APjAAAWErGaT/p9e893l2tRRg4di9f81zGYULoCvdmlHhCEjGlBP49dY
- SxFeLZPETdN4rC3Ugk8ln8UE5WI5
-X-Google-Smtp-Source: APXvYqxsiilrpxy5/V3MbIeKGLjft1fXPUCy7ZZQqL+PjohRDedTcybCRVuvbVdzpwCvJaKLGLGxsA==
-X-Received: by 2002:a5d:5050:: with SMTP id h16mr48891832wrt.380.1574905839018; 
- Wed, 27 Nov 2019 17:50:39 -0800 (PST)
+ bh=jb2tbtaquf5VPvDAi0c6Lc2EAVperS+YrEI9rjM8y3s=;
+ b=iDckRlyfEBGb8bQFg3krRrTUSkC37Ltr5T6ASI1CNw8ZG/jqQJ7Yb5n99HRx9eTz/q
+ 9laEO53R6e+VauE6qiBpZndWOtCQnxepEf9Sg8qQZtSOYG0Wt532epMXp/Map9iQ3qSY
+ CMBCPRdSd0tWIQv7QS4OA6ruL76sNMgtVwGcaHe01MpbVS/oh5Mwv1lNYCT5FDs+QuXR
+ CqMw7klYNpnaGPlmpgR+jplZE3MYaemGY/AeIVJ4hA50yYtPKfmIg6s03x1Vb5xyHedm
+ dGvig5mYyrrJLD3Qj6bKXbwomaIoxZd0lpzAgB8GeaUwaDoT66VMP3QaZqheEqlgSwxm
+ HwYQ==
+X-Gm-Message-State: APjAAAVTqd/LWgKkZtg3zbgTff0YWInNRvveh3x9ht4sDOZj1jjg75Nu
+ 8yUC0wE/bZb6Orf+55Ado5pgfJRB
+X-Google-Smtp-Source: APXvYqxbBzJYE08XuYkn3WvaGb5yc4wXkxMSc4VG3aOGwn3uCVC4M/bILGZOMqQYPJzdhsY4sqSizQ==
+X-Received: by 2002:a1c:ed05:: with SMTP id l5mr7471477wmh.161.1574905840352; 
+ Wed, 27 Nov 2019 17:50:40 -0800 (PST)
 Received: from x1w.redhat.com (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id k16sm8738061wru.0.2019.11.27.17.50.37
+ by smtp.gmail.com with ESMTPSA id k16sm8738061wru.0.2019.11.27.17.50.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2019 17:50:38 -0800 (PST)
+ Wed, 27 Nov 2019 17:50:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Michael Rolnik <mrolnik@gmail.com>
-Subject: [NOTFORMERGE PATCH 04/10] target/avr: Fix IRQ count
-Date: Thu, 28 Nov 2019 02:50:24 +0100
-Message-Id: <20191128015030.27543-5-f4bug@amsat.org>
+Subject: [RFC PATCH 05/10] hw/char/avr: Reduce USART I/O size
+Date: Thu, 28 Nov 2019 02:50:25 +0100
+Message-Id: <20191128015030.27543-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191128015030.27543-1-f4bug@amsat.org>
 References: <20191128015030.27543-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,27 +93,26 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a SEGV when using IRQ#57 by expanding to 64 IRQs.
-64 is a magic number.
+Per the datasheet the USART uses 6 consecutive 8-bit registers.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.c | 2 +-
+ hw/char/avr_usart.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 52ec21dd16..8198f9d49c 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -129,7 +129,7 @@ static void avr_cpu_initfn(Object *obj)
- 
- #ifndef CONFIG_USER_ONLY
-     /* Set the number of interrupts supported by the CPU. */
--    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 57);
-+    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int, 64);
- #endif
- }
- 
+diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+index d039689c56..ba17bdd470 100644
+--- a/hw/char/avr_usart.c
++++ b/hw/char/avr_usart.c
+@@ -284,7 +284,7 @@ static void avr_usart_init(Object *obj)
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
+-    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 8);
++    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 6);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+     qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
+     s->enabled = true;
 -- 
 2.21.0
 
