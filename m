@@ -2,130 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A292510CE51
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 19:06:16 +0100 (CET)
-Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD06110CE87
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 19:26:35 +0100 (CET)
+Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaOBC-0005FC-EH
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 13:06:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51571)
+	id 1iaOUr-0006eA-Gm
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 13:26:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iaMoI-0005Pb-Oo
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:38:32 -0500
+ (envelope-from <felipe@nutanix.com>) id 1iaMyA-0002bk-VQ
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iaMoH-0004m2-Fe
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:38:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38930
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <felipe@nutanix.com>) id 1iaMy8-0002BR-0a
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:41 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:35042)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iaMoH-0004bS-6O
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:38:29 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xASGbaG0013373
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:38:27 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2whcxs9p6r-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:38:26 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 28 Nov 2019 16:38:25 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 28 Nov 2019 16:38:22 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xASGcKVb34275470
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Nov 2019 16:38:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6A45D11C052;
- Thu, 28 Nov 2019 16:38:20 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E84EE11C050;
- Thu, 28 Nov 2019 16:38:19 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.11.73])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 28 Nov 2019 16:38:19 +0000 (GMT)
-Subject: Re: [PATCH 08/15] s390x: protvirt: KVM intercept changes
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-9-frankja@linux.ibm.com>
- <d081f111-857c-048b-c753-3cc021304102@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Date: Thu, 28 Nov 2019 17:38:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iaMxy-00025f-Su
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:33 -0500
+Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xASGd55C019889; Thu, 28 Nov 2019 08:48:27 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=9/y86O0fcib9u/3XfLFuPCy111agbrDNp4oh2CTm8h8=;
+ b=2ukjRON2Lwj0JCvW5SJBzkxbUdtK3uY8YNzDc79lzzHiJ3oUqIQ8jyiLE9UFA53codDe
+ OHRdrU+LkOPpBuLRVMh9djdFwwe2S/Fsmwy5cMZcSstuV4tXkj2ilKwC7Hyx77QjctKT
+ HPrnZzIbZmkTfcjdAY9XOotG4xZe9kVZ8HkIQQ8UYj/6qs3RZOZm8h8ivW8ZCuyfuIZr
+ HdNez679vC/qW30qEmks4BdagjS8xdX6YkRsijcoG0n0bR5smuCAIAh7GqRC4t0ts/2N
+ 4Dy/eKFd2IPMxxnUmc8xgL7Z0MWaqA0/wqErhUnuv0H2zFxyYHo677s6X1mYop87G2gN bw== 
+Received: from nam03-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam03lp2059.outbound.protection.outlook.com [104.47.41.59])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 2whnfju44h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Nov 2019 08:48:27 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JArq1is3NeGsT1OUQvsWZ53yBkQ3bToWG65NXxZcCJjqtC44fnUdMe4yDdITgQXh92Batosall0CGqgJdM9y274ct9rcOwg4DajAJhPrUIdq4bw2sf7bYpOXn7/5WiqVNhvv6fw4uhmOkYnpWM//Trw5y8+Qif+Oqfjfa/0DVqOMPyFY/cDcRWbfdVDVk6LDID/AI0KoqAvrwm3K/DTfVtLBCCEq6WDNF2iXxvePmxuPXpDnL3zwUAq0h7J/QgPsQP8MlcI32ho55eFIRQTo98/J5rDiHHQNV8300FkblgAZAkCCus4UIi8qJybqRQOyQuvFhxfkf4s6QU1OXhsCYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9/y86O0fcib9u/3XfLFuPCy111agbrDNp4oh2CTm8h8=;
+ b=HzllTd7jIDRavjrZtHKz35hALoj5oV/mqIkUUxx2EyDZLXgsvRPnjMdN1TB/7i2QQoZwDjDcB1RKVr67R7zNxVY48x5RfyYbB5cYImR3bHuN3tQWmYPqsQkZr/UC3E7x/XeD3rfImafOvw1NPf5HVq7gUVfh7OpKouwfk2ReHhb2nljlENUqy395hRHmcLhHb2ge4JoVzHG4g5XylOW/rfjaNAN6dSz2qftkqjOe05NSLzKPHfLpIW/8f1IvJY6A7JoxbJ3c+xiE180vkHPI0TdXn5GDbnyXkhGYLFz3samxNWL3Cm1RMdXRbPqFMkD4Hy+x22HeQDZ2MZLhxgmITQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
+ MWHPR02MB2398.namprd02.prod.outlook.com (10.168.243.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Thu, 28 Nov 2019 16:48:25 +0000
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::f801:763d:e7fc:6bf]) by MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::f801:763d:e7fc:6bf%7]) with mapi id 15.20.2474.023; Thu, 28 Nov 2019
+ 16:48:25 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: Marc-Andre Lureau <marcandre.lureau@gmail.com>, Philippe Mathieu-Daude
+ <philmd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>, Alexey
+ Kardashevskiy <aik@ozlabs.ru>
+Subject: [PATCH v2 0/4] Improve default object property_add uint helpers
+Thread-Topic: [PATCH v2 0/4] Improve default object property_add uint helpers
+Thread-Index: AQHVpgumwd/y95y1Kk69/TuE/fVBnA==
+Date: Thu, 28 Nov 2019 16:48:25 +0000
+Message-ID: <20191128164810.54279-1-felipe@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM3PR05CA0154.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::32) To MWHPR02MB2656.namprd02.prod.outlook.com
+ (2603:10b6:300:45::14)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.20.1
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fb4b719e-5890-40f8-dd4d-08d77422c95b
+x-ms-traffictypediagnostic: MWHPR02MB2398:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB2398B08F83CED393CD8043FED7470@MWHPR02MB2398.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0235CBE7D0
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(366004)(376002)(39860400002)(136003)(54534003)(189003)(199004)(102836004)(110136005)(256004)(14444005)(36756003)(14454004)(2616005)(6436002)(66066001)(4326008)(386003)(6506007)(186003)(26005)(52116002)(66556008)(64756008)(1076003)(71190400001)(66946007)(5660300002)(71200400001)(6486002)(66446008)(66476007)(86362001)(6512007)(478600001)(54906003)(8936002)(50226002)(316002)(81166006)(2906002)(8676002)(7736002)(305945005)(81156014)(99286004)(25786009)(6116002)(3846002)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2398;
+ H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /aJmYHOK7SlYd4n7P0+EGavDAcVJ6WY/e/BJrPUqDjmzRtXnH1xqfM2B3Zm9qjyviYgYqpta4zYOFIzAJUUBOp3IygX7wVPLPAekzCochTYutO09qWLMO0zBRm6Sc70WGarV7c3nFZxQpJoMO3ef5OCYD6HPTgSFJrDE4MUoSUq/pIMody5oMZvKVN/g1GGk2rgLyubGKJ3KhJNyqs16VEY2hQWxU5pRI0Z8RJPO63IaQDOqe7tXqb3zxwjqaaGk30j2qHOCefoOa6iiEY2P4z0NWdLKErLfkXMnFC1kAcFI3E3zpzVswRwOFBUCHGg/2BXiVGJZVy2YxEW3fYSwI2Jf9C30uZXSz/4aLxjAcuTuAvwQGprClbgiVE23U33fLr2q/cOmPgjHi17bZmUpiLpVL8AGezFHChpLUtG/l3CLBvPDzOMfSDBu779B9tR6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <d081f111-857c-048b-c753-3cc021304102@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SvwVap38SCxj5JY8H7HI0f0gyW2LVoDfP"
-X-TM-AS-GCONF: 00
-x-cbid: 19112816-0020-0000-0000-00000390368D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112816-0021-0000-0000-000021E74582
-Message-Id: <da848181-41a3-0738-84f8-258046965671@linux.ibm.com>
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb4b719e-5890-40f8-dd4d-08d77422c95b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2019 16:48:25.3744 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wluDqy6a4toX3BK+XR4cH1YoUmiCQ5KR+2Xy/ALx0w4VKpZC1WlANcRFOJqn0YtcBtzb9vb1k5nqioo5Xi1WWdPLgzKAkhIkvznXkYZe1Yw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2398
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-28_05:2019-11-28,2019-11-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- mlxlogscore=999 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- mlxscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911280140
+X-Proofpoint-Spam-Reason: safe
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.151.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,124 +121,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Felipe Franciosi <felipe@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SvwVap38SCxj5JY8H7HI0f0gyW2LVoDfP
-Content-Type: multipart/mixed; boundary="6tNXO267PGQti6CyePYDg4oakptW0pE8K"
-
---6tNXO267PGQti6CyePYDg4oakptW0pE8K
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 11/21/19 4:11 PM, Thomas Huth wrote:
-> On 20/11/2019 12.43, Janosch Frank wrote:
->> Secure guests no longer intercept with code 4 for an instruction
->> interception. Instead they have codes 104 and 108 for secure
->> instruction interception and secure instruction notification
->> respectively.
->>
->> The 104 mirrors the 4, but the 108 is a notification, that something
->> happened and the hypervisor might need to adjust its tracking data to
->> that fact. An example for that is the set prefix notification
->> interception, where KVM only reads the new prefix, but does not update=
-
->> the prefix in the state description.
->>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> ---
->>  target/s390x/kvm.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->> index 418154ccfe..58251c0229 100644
->> --- a/target/s390x/kvm.c
->> +++ b/target/s390x/kvm.c
->> @@ -115,6 +115,8 @@
->>  #define ICPT_CPU_STOP                   0x28
->>  #define ICPT_OPEREXC                    0x2c
->>  #define ICPT_IO                         0x40
->> +#define ICPT_PV_INSTR                   0x68
->> +#define ICPT_PV_INSTR_NOT               0x6c
->> =20
->>  #define NR_LOCAL_IRQS 32
->>  /*
->> @@ -151,6 +153,7 @@ static int cap_s390_irq;
->>  static int cap_ri;
->>  static int cap_gs;
->>  static int cap_hpage_1m;
->> +static int cap_protvirt;
->> =20
->>  static int active_cmma;
->> =20
->> @@ -336,6 +339,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>      cap_async_pf =3D kvm_check_extension(s, KVM_CAP_ASYNC_PF);
->>      cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->>      cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);=
-
->> +    cap_protvirt =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
->> =20
->>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
->>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
->> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
->>              (long)cs->kvm_run->psw_addr);
->>      switch (icpt_code) {
->>          case ICPT_INSTRUCTION:
->> +        case ICPT_PV_INSTR:
->> +        case ICPT_PV_INSTR_NOT:
->>              r =3D handle_instruction(cpu, run);
->=20
-> Even if this works by default, my gut feeling tells me that it would be=
-
-> safer and cleaner to have a separate handler for this...
-> Otherwise we might get surprising results if future machine generations=
-
-> intercept/notify for more or different instructions, I guess?
->=20
-> However, it's just a gut feeling ... I really don't have much experienc=
-e
-> with this PV stuff yet ... what do the others here think?
->=20
->  Thomas
-
-
-Adding a handle_instruction_pv doesn't hurt me too much.
-The default case can then do an error_report() and exit(1);
-
-PV was designed in a way that we can re-use as much code as possible, so
-I tried using the normal instruction handlers and only change as little
-as possible in the instructions themselves.
-
-
-
---6tNXO267PGQti6CyePYDg4oakptW0pE8K--
-
---SvwVap38SCxj5JY8H7HI0f0gyW2LVoDfP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3f9/sACgkQ41TmuOI4
-ufhSLRAAujnEVd3eSF+hRpQtUQ8O6MHeLYVy7pMN/nR1Mv0o/+MXdIBp5B22zbQG
-vZN1goS+GAuT840F8lC/tm/9SOqTtGpXHrxtn97tQfClmu69dQjUU4nZvsF0zdc3
-xiXXc5Bz1a/jkxIJE6OoVY8PLVD3P0si6cb/VXOzfq9w6h5XqpASFY3TuwUNhWIT
-SO7KiNhSSr4scatKdNnkaHbPUixI/HNQV404r4j4phdpWcOd4ZUIAOWaC0ncL0td
-Byi9MWtys6apG1+XyL+j22zpCpG8cOHIBtPj+wOkaO6AeVNEeSfEbow3GUIRRDej
-5wcU/zKDfN1YGbQqC1lZZhvBn4qFHJtZ8/jJ/0ItAxYbWpxiK+8TUbDjyJxHx2WC
-4kEnNvuWcArZyF4+EXLy0QSTVxVtj0CpYb3BTuIUyqU9tZS1Ry7r6oA4BuTx0Y2H
-BR0z8jZEAqVL87tlKMV1UAGbtoN0wfwOxP+S/jLOI8INAZ4BkCiPbpYusVoRp/nE
-aIJPjuEU5z1fyS9w5XcvDHu8IqQJoX0PhUnYNT1iPM/eikIQ38nY/JrEEFlAA4Hz
-0qeN9hNb6LYr44PY4eYEuvs33JHLnABMS/+x91hgj/DSl+ymSLwm/FARDo3ybs56
-4NpbYM3wW3zZpVELz4J7bQUvO2kBkQ0y8njoE7RTW77j4obsK+U=
-=SbWu
------END PGP SIGNATURE-----
-
---SvwVap38SCxj5JY8H7HI0f0gyW2LVoDfP--
-
+VGhpcyBpbXByb3ZlcyB0aGUgZmFtaWx5IG9mIG9iamVjdF9wcm9wZXJ0eV9hZGRfdWludFhYX3B0
+ciBoZWxwZXJzIGJ5IGVuYWJsaW5nDQphIGRlZmF1bHQgZ2V0dGVyL3NldHRlciBvbmx5IHdoZW4g
+ZGVzaXJlZC4gVG8gcHJldmVudCBhbiBBUEkgYmVoYXZpb3VyYWwgY2hhbmdlDQooZnJvbSBjbGll
+bnRzIHRoYXQgYWxyZWFkeSB1c2VkIHRoZXNlIGhlbHBlcnMgYW5kIGRpZCBub3Qgd2FudCBhIHNl
+dHRlciksIHdlDQphZGQgYSBPQkpfUFJPUF9GTEFHX1JEIGZsYWcgdGhhdCBhbGxvdyBjbGllbnRz
+IHRvIG9ubHkgaGF2ZSBhIGdldHRlci4gUGF0Y2ggMQ0KZW5oYW5jZXMgdGhlIEFQSSBhbmQgbW9k
+aWZ5IGN1cnJlbnQgdXNlcnMuDQoNCldoaWxlIG1vZGlmeWluZyB0aGUgY2xpZW50cyBvZiB0aGUg
+QVBJLCBhIGNvdXBsZSBvZiBpbXByb3ZlbWVudCBvcHBvcnR1bml0aWVzDQp3ZXJlIG9ic2VydmVk
+IGluIGljaDkuIFRoZXNlIHdlcmUgYWRkZWQgaW4gc2VwYXJhdGUgcGF0Y2hlcyAoMiBhbmQgMyku
+DQoNClBhdGNoIDMgY2xlYW5zIHVwIGEgbG90IG9mIGV4aXN0aW5nIGNvZGUgYnkgbW92aW5nIHZh
+cmlvdXMgb2JqZWN0cyB0byB0aGUNCmVuaGFuY2VkIEFQSS4gUHJldmlvdXNseSwgdGhvc2Ugb2Jq
+ZWN0cyBoYWQgdGhlaXIgb3duIGdldHRlcnMvc2V0dGVycyB0aGF0IG9ubHkNCnVwZGF0ZWQgdGhl
+IHZhbHVlcyB3aXRob3V0IGZ1cnRoZXIgY2hlY2tzLiBTb21lIG9mIHRoZW0gYWN0dWFsbHkgbGFj
+a2VkIGEgY2hlY2sNCmZvciBzZXR0aW5nIG92ZXJmbG93cywgd2hpY2ggY291bGQgaGF2ZSByZXN1
+bHRlZCBpbiB1bmRlc2lyZWQgdmFsdWVzIGJlaW5nIHNldC4NClRoZSBuZXcgZGVmYXVsdCBzZXR0
+ZXJzIGluY2x1ZGUgYSBjaGVjayBmb3IgdGhhdCwgbm90IHVwZGF0aW5nIHRoZSB2YWx1ZXMgaW4N
+CmNhc2Ugb2YgZXJyb3JzIChhbmQgcHJvcGFnYXRpbmcgdGhlbSkuIElmIHRoZXkgZGlkIG5vdCBw
+cm92aWRlIGFuIGVycm9yDQpwb2ludGVyLCB0aGVuIHRoYXQgYmVoYXZpb3VyIHdhcyBtYWludGFp
+bmVkLg0KDQoNCkZlbGlwZSBGcmFuY2lvc2kgKDQpOg0KICBxb20vb2JqZWN0OiBlbmFibGUgc2V0
+dGVyIGZvciB1aW50IHR5cGVzDQogIGljaDk6IGZpeCBnZXR0ZXIgdHlwZSBmb3Igc2NpX2ludCBw
+cm9wZXJ0eQ0KICBpY2g5OiBTaW1wbGlmeSBpY2g5X2xwY19pbml0Zm4NCiAgcW9tL29iamVjdDog
+VXNlIGNvbW1vbiBnZXQvc2V0IHVpbnQgaGVscGVycw0KDQogaHcvYWNwaS9pY2g5LmMgICAgICAg
+fCAxMDMgKysrLS0tLS0tLS0tLS0tLS0tLS0tDQogaHcvYWNwaS9wY2locC5jICAgICAgfCAgIDcg
+Ky0NCiBody9hY3BpL3BpaXg0LmMgICAgICB8ICAxMiArLS0NCiBody9pc2EvbHBjX2ljaDkuYyAg
+ICB8ICAyOCArKy0tLS0NCiBody9taXNjL2VkdS5jICAgICAgICB8ICAxNCArLS0NCiBody9wY2kt
+aG9zdC9xMzUuYyAgICB8ICAxNCArLS0NCiBody9wcGMvc3BhcHIuYyAgICAgICB8ICAxOSArLS0t
+DQogaHcvcHBjL3NwYXByX2RyYy5jICAgfCAgIDIgKy0NCiBody92ZmlvL3BjaS1xdWlya3MuYyB8
+ICAyMCArKy0tDQogaW5jbHVkZS9xb20vb2JqZWN0LmggfCAgNDIgKysrKysrKy0tDQogbWVtb3J5
+LmMgICAgICAgICAgICAgfCAgMTUgKy0tDQogcW9tL29iamVjdC5jICAgICAgICAgfCAyMTYgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLQ0KIHRhcmdldC9hcm0vY3B1
+LmMgICAgIHwgIDIzICstLS0tDQogdGFyZ2V0L2kzODYvc2V2LmMgICAgfCAxMDYgKystLS0tLS0t
+LS0tLS0tLS0tLS0tDQogdWkvY29uc29sZS5jICAgICAgICAgfCAgIDQgKy0NCiAxNSBmaWxlcyBj
+aGFuZ2VkLCAyOTMgaW5zZXJ0aW9ucygrKSwgMzMyIGRlbGV0aW9ucygtKQ0KDQotLSANCjIuMjAu
+MQ0KDQpDaGFuZ2Vsb2c6DQotIFVwZGF0ZSBzY2lfaW50IGRpcmVjdGx5IGluc3RlYWQgb2YgdXNp
+bmcgc3RhY2sgdmFyaWFibGUNCi0gRGVmaW5pbmcgYW4gZW5oYW5jZWQgT2JqZWN0UHJvcGVydHlG
+bGFncyBpbnN0ZWFkIG9mIGp1c3QgJ3JlYWRvbmx5Jw0KLSBFcnJvcmluZyBvdXQgZGlyZWN0bHkg
+KGluc3RlYWQgb2YgdXNpbmcgZ290b3MpIG9uIGRlZmF1bHQgc2V0dGVycw0KLSBSZXRhaW5pbmcg
+bGFjayBvZiBlcnJwIHBhc3Npbmcgd2hlbiBpdCB3YXNuJ3QgdGhlcmUNCg==
 
