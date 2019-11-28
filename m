@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD9910C70F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 11:47:13 +0100 (CET)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326B810C739
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 11:52:12 +0100 (CET)
+Received: from localhost ([::1]:47550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaHKK-0005Xi-O1
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 05:47:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52175)
+	id 1iaHP9-0000aw-AB
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 05:52:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1iaHF6-0003Rl-OF
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:50 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1iaHF8-0003Ob-40
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1iaHF4-0006XH-2a
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:47 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24207
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <sgarzare@redhat.com>) id 1iaHEz-0006BD-KY
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38000
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1iaHF3-0006Tw-PB
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:45 -0500
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iaHEx-000660-Au
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 05:41:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574937705;
+ s=mimecast20190719; t=1574937696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5D/pkDJCK2cS43Bw1M9Bu1vuuXBxNgDOLQ+LuhjnYnQ=;
- b=WElqqkQEvC77OrILEkDw/7SvoHvZNccF1I5nKbiJPVHmIkJvDhTiVT5pfbLVNtQL13lE1Q
- SYt/c5S9b3Q8V9lD7Uz1SHnSywlrXIHJHFfxzrsztHKUFDQJuBByuHd31CGNIoWVIbQVmR
- NjVCv2rD+0OhJQC1zDGzrw+LvGLEVLo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-LSB13DW3NACDaYCq0Zi-Zw-1; Thu, 28 Nov 2019 05:41:44 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28907800D41;
- Thu, 28 Nov 2019 10:41:43 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C73010013A7;
- Thu, 28 Nov 2019 10:41:41 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/4] blockdev: honor bdrv_try_set_aio_context() context
- requirements
-Date: Thu, 28 Nov 2019 11:41:29 +0100
-Message-Id: <20191128104129.250206-5-slp@redhat.com>
-In-Reply-To: <20191128104129.250206-1-slp@redhat.com>
-References: <20191128104129.250206-1-slp@redhat.com>
+ bh=TAso0zZrcK7oyN9cBQr4oMSvDDLZNhWKMhoo8vr5p2M=;
+ b=fqO0n/CvC04QMf/ge+f6d3TdeMtZwddVBzR5iPheIT/rVuLil9axg4swBv78QrcKZawyJC
+ 2oRb8oEBMAjHGiqU74vmLH+O3nXbGorzawfo9dVdK2ta9iWanHYeWsVZeZe2cF0VVpppKk
+ V62JT1oYx3hP0lvpue9yTI9H5GqPohQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-ZRj1eXtyMkOIDSERxUS-Jg-1; Thu, 28 Nov 2019 05:41:34 -0500
+Received: by mail-wr1-f70.google.com with SMTP id l20so3823326wrc.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 02:41:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aoamNYF5Es+DKHVN7S9sZBwJiEagpA1NQ3zDMlmeG/4=;
+ b=JRTxoRCM237LoE0yHYDKO1pM8pFRW6w/RYRlMzxsVBVkjdxz3ZE/Huc+dNkZ3ST1Kp
+ XlmuXkee1ZIyGhgH4ZQCW1/P0KxkshnbBSm7AaeF2DKPmKAp6fZJAQoEPe2E8602c7zs
+ ihFarOwbjFsUPhunvkyuKZEyjKIUCGTr3rmncnfz3cMDW5HFbhME9IBFJzSgblEXV55V
+ G/Y6faJZnyWmUu8/PWMCn6TnvF97gwxzx3PlLZbiubuArsBl7iSn75tmDlw3YFVDyk/+
+ al7VelnOH1HlPyGLK8z1QkvbklrdO4Eut6JFzW17OUqkw5X5VLIuEbF6SQha7oDWJh/2
+ qHjQ==
+X-Gm-Message-State: APjAAAWnjMRWQ6eVYDTjMGG/qbcFEj/EWYgF6liCecYkyTTNfllTgR0W
+ CDKnuW1QFmqV2rMhp1W61Lrnt4UA4dy+zdS62vmmN4bceh67UXlAsXlj/7/ytTvCou0fG2tTJM+
+ mwsRA5GguFRcc804=
+X-Received: by 2002:adf:e2cc:: with SMTP id d12mr45358137wrj.168.1574937693366; 
+ Thu, 28 Nov 2019 02:41:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzF3kxZOfcxP0Z7yviD6/givRGjSpN2aFkESoa0KxjfkQQapoeOZq/oVgElAgoi6xf3Xzemyg==
+X-Received: by 2002:adf:e2cc:: with SMTP id d12mr45358118wrj.168.1574937693056; 
+ Thu, 28 Nov 2019 02:41:33 -0800 (PST)
+Received: from steredhat (host28-88-dynamic.16-87-r.retail.telecomitalia.it.
+ [87.16.88.28])
+ by smtp.gmail.com with ESMTPSA id x8sm22652078wrm.7.2019.11.28.02.41.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 02:41:32 -0800 (PST)
+Date: Thu, 28 Nov 2019 11:41:30 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: pannengyuan <pannengyuan@huawei.com>
+Subject: Re: [PATCH] block/nbd: fix memory leak in nbd_open()
+Message-ID: <20191128104130.a2sycwcvevuajb3o@steredhat>
+References: <1574930410-43468-1-git-send-email-pannengyuan@huawei.com>
+ <20191128090149.it5w2gijbqaw3tpg@steredhat>
+ <52fe4ac4-25a8-827d-6c09-42d73ff7858b@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: LSB13DW3NACDaYCq0Zi-Zw-1
+In-Reply-To: <52fe4ac4-25a8-827d-6c09-42d73ff7858b@huawei.com>
+X-MC-Unique: ZRj1eXtyMkOIDSERxUS-Jg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,225 +89,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, liyiting@huawei.com, zhang.zhanghailiang@huawei.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_try_set_aio_context() requires that the old context is held, and
-the new context is not held. Fix all the occurrences where it's not
-done this way.
+On Thu, Nov 28, 2019 at 06:32:49PM +0800, pannengyuan wrote:
+> Hi,
+> I think it's a better way, you can implement this new function before
+> this patch.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- blockdev.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 62 insertions(+), 10 deletions(-)
+If you want to do it, so you can send everything together, for me there's
+no problem, it was just a suggestion.
 
-diff --git a/blockdev.c b/blockdev.c
-index 152a0f7454..e33abd7fd2 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1535,6 +1535,7 @@ static void external_snapshot_prepare(BlkActionState =
-*common,
-                              DO_UPCAST(ExternalSnapshotState, common, comm=
-on);
-     TransactionAction *action =3D common->action;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     int ret;
-=20
-     /* 'blockdev-snapshot' and 'blockdev-snapshot-sync' have similar
-@@ -1675,7 +1676,16 @@ static void external_snapshot_prepare(BlkActionState=
- *common,
-         goto out;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(state->new_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-     ret =3D bdrv_try_set_aio_context(state->new_bs, aio_context, errp);
-+
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     if (ret < 0) {
-         goto out;
-     }
-@@ -1775,11 +1785,13 @@ static void drive_backup_prepare(BlkActionState *co=
-mmon, Error **errp)
-     BlockDriverState *target_bs;
-     BlockDriverState *source =3D NULL;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     QDict *options;
-     Error *local_err =3D NULL;
-     int flags;
-     int64_t size;
-     bool set_backing_hd =3D false;
-+    int ret;
-=20
-     assert(common->action->type =3D=3D TRANSACTION_ACTION_KIND_DRIVE_BACKU=
-P);
-     backup =3D common->action->u.drive_backup.data;
-@@ -1868,6 +1880,20 @@ static void drive_backup_prepare(BlkActionState *com=
-mon, Error **errp)
-         goto out;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-     if (set_backing_hd) {
-         bdrv_set_backing_hd(target_bs, source, &local_err);
-         if (local_err) {
-@@ -1947,6 +1973,8 @@ static void blockdev_backup_prepare(BlkActionState *c=
-ommon, Error **errp)
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-+    int ret;
-=20
-     assert(common->action->type =3D=3D TRANSACTION_ACTION_KIND_BLOCKDEV_BA=
-CKUP);
-     backup =3D common->action->u.blockdev_backup.data;
-@@ -1961,7 +1989,18 @@ static void blockdev_backup_prepare(BlkActionState *=
-common, Error **errp)
-         return;
-     }
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-     aio_context =3D bdrv_get_aio_context(bs);
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_acquire(old_context);
-+
-+    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    if (ret < 0) {
-+        aio_context_release(old_context);
-+        return;
-+    }
-+
-+    aio_context_release(old_context);
-     aio_context_acquire(aio_context);
-     state->bs =3D bs;
-=20
-@@ -3562,7 +3601,6 @@ static BlockJob *do_backup_common(BackupCommon *backu=
-p,
-     BlockJob *job =3D NULL;
-     BdrvDirtyBitmap *bmap =3D NULL;
-     int job_flags =3D JOB_DEFAULT;
--    int ret;
-=20
-     if (!backup->has_speed) {
-         backup->speed =3D 0;
-@@ -3586,11 +3624,6 @@ static BlockJob *do_backup_common(BackupCommon *back=
-up,
-         backup->compress =3D false;
-     }
-=20
--    ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
--    if (ret < 0) {
--        return NULL;
--    }
--
-     if ((backup->sync =3D=3D MIRROR_SYNC_MODE_BITMAP) ||
-         (backup->sync =3D=3D MIRROR_SYNC_MODE_INCREMENTAL)) {
-         /* done before desugaring 'incremental' to print the right message=
- */
-@@ -3825,6 +3858,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-     BlockDriverState *bs;
-     BlockDriverState *source, *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     BlockMirrorBackingMode backing_mode;
-     Error *local_err =3D NULL;
-     QDict *options =3D NULL;
-@@ -3937,10 +3971,19 @@ void qmp_drive_mirror(DriveMirror *arg, Error **err=
-p)
-                    (arg->mode =3D=3D NEW_IMAGE_MODE_EXISTING ||
-                     !bdrv_has_zero_init(target_bs)));
-=20
-+
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-+    aio_context_release(aio_context);
-+    aio_context_acquire(old_context);
-+
-     ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     if (ret < 0) {
--        bdrv_unref(target_bs);
--        goto out;
-+        goto unref;
-     }
-=20
-     blockdev_mirror_common(arg->has_job_id ? arg->job_id : NULL, bs, targe=
-t_bs,
-@@ -3957,8 +4000,10 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp=
+If you don't have time, I can do it.
+
+Cheers,
+Stefano
+
+>=20
+> Thanks.
+>=20
+> On 2019/11/28 17:01, Stefano Garzarella wrote:
+> > On Thu, Nov 28, 2019 at 04:40:10PM +0800, pannengyuan@huawei.com wrote:
+> >=20
+> > Hi,
+> > I don't know nbd code very well, the patch LGTM, but just a comment
+> > below:
+> >=20
+> >> From: PanNengyuan <pannengyuan@huawei.com>
+> >>
+> >> In currently implementation there will be a memory leak when
+> >> nbd_client_connect() returns error status. Here is an easy way to repr=
+oduce:
+> >>
+> >> 1. run qemu-iotests as follow and check the result with asan:
+> >>     ./check -raw 143
+> >>
+> >> Following is the asan output backtrack:
+> >> Direct leak of 40 byte(s) in 1 object(s) allocated from:
+> >>     #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
+> >>     #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x500=
+15)
+> >>     #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2=
+.0-rc0/qapi/qobject-input-visitor.c:295
+> >>     #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/q=
+api/qapi-visit-core.c:49
+> >>     #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-soc=
+kets.c:386
+> >>     #5 0x56281da8062f in nbd_config  /mnt/sdb/qemu-4.2.0-rc0/block/nbd=
+.c:1716
+> >>     #6 0x56281da8062f in nbd_process_options  /mnt/sdb/qemu-4.2.0-rc0/=
+block/nbd.c:1829
+> >>     #7 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c=
+:1873
+> >>
+> >> Direct leak of 15 byte(s) in 1 object(s) allocated from:
+> >>     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
+> >>     #1 0x7f6295e7dfbd in g_malloc  (/usr/lib64/libglib-2.0.so.0+0x4ffb=
+d)
+> >>     #2 0x7f6295e96ace in g_strdup  (/usr/lib64/libglib-2.0.so.0+0x68ac=
+e)
+> >>     #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/b=
+lock/nbd.c:1834
+> >>     #4 0x56281da804ac in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c=
+:1873
+> >>
+> >> Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+> >>     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
+> >>     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd=
 )
-                            arg->has_auto_finalize, arg->auto_finalize,
-                            arg->has_auto_dismiss, arg->auto_dismiss,
-                            &local_err);
--    bdrv_unref(target_bs);
-     error_propagate(errp, local_err);
-+
-+unref:
-+    bdrv_unref(target_bs);
- out:
-     aio_context_release(aio_context);
- }
-@@ -3984,6 +4029,7 @@ void qmp_blockdev_mirror(bool has_job_id, const char =
-*job_id,
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     AioContext *aio_context;
-+    AioContext *old_context;
-     BlockMirrorBackingMode backing_mode =3D MIRROR_LEAVE_BACKING_CHAIN;
-     Error *local_err =3D NULL;
-     bool zero_target;
-@@ -4001,10 +4047,16 @@ void qmp_blockdev_mirror(bool has_job_id, const cha=
-r *job_id,
-=20
-     zero_target =3D (sync =3D=3D MIRROR_SYNC_MODE_FULL);
-=20
-+    /* Honor bdrv_try_set_aio_context() context acquisition requirements. =
-*/
-+    old_context =3D bdrv_get_aio_context(target_bs);
-     aio_context =3D bdrv_get_aio_context(bs);
--    aio_context_acquire(aio_context);
-+    aio_context_acquire(old_context);
-=20
-     ret =3D bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+
-+    aio_context_release(old_context);
-+    aio_context_acquire(aio_context);
-+
-     if (ret < 0) {
-         goto out;
-     }
+> >>     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace=
+)
+> >>     #3 0x56281dab41a3 in qobject_input_type_str_keyval   /mnt/sdb/qemu=
+-4.2.0-rc0/qapi/qobject-input-visitor.c:536
+> >>     #4 0x56281dab2ee9 in visit_type_str   /mnt/sdb/qemu-4.2.0-rc0/qapi=
+/qapi-visit-core.c:297
+> >>     #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members  qapi/qa=
+pi-visit-sockets.c:141
+> >>     #6 0x56281dad17b6 in visit_type_SocketAddress_members      qapi/qa=
+pi-visit-sockets.c:366
+> >>     #7 0x56281dad186a in visit_type_SocketAddress     qapi/qapi-visit-=
+sockets.c:393
+> >>     #8 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nb=
+d.c:1716
+> >>     #9 0x56281da8062f in nbd_process_options   /mnt/sdb/qemu-4.2.0-rc0=
+/block/nbd.c:1829
+> >>     #10 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.=
+c:1873
+> >>
+> >> Reported-by: Euler Robot <euler.robot@huawei.com>
+> >> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+> >> ---
+> >>  block/nbd.c | 5 +++++
+> >>  1 file changed, 5 insertions(+)
+> >>
+> >> diff --git a/block/nbd.c b/block/nbd.c
+> >> index 1239761..bc40a25 100644
+> >> --- a/block/nbd.c
+> >> +++ b/block/nbd.c
+> >> @@ -1881,6 +1881,11 @@ static int nbd_open(BlockDriverState *bs, QDict=
+ *options, int flags,
+> >> =20
+> >>      ret =3D nbd_client_connect(bs, errp);
+> >>      if (ret < 0) {
+> >> +        object_unref(OBJECT(s->tlscreds));
+> >> +        qapi_free_SocketAddress(s->saddr);
+> >> +        g_free(s->export);
+> >> +        g_free(s->tlscredsid);
+> >> +        g_free(s->x_dirty_bitmap);
+> >=20
+> > Since with this patch we are doing these cleanups in 3 places (here,
+> > nbd_close(), and nbd_process_options()), should be better to add a new
+> > function to do these cleanups?
+> >=20
+> > Maybe I'd create a series adding a patch before this one, implementing =
+this
+> > new function, and change this patch calling it.
+> >=20
+> > Thanks,
+> > Stefano
+> >=20
+> >=20
+> > .
+> >=20
+>=20
+
 --=20
-2.23.0
 
 
