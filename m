@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF58310C2ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 04:41:26 +0100 (CET)
-Received: from localhost ([::1]:45002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3677710C2F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 04:43:17 +0100 (CET)
+Received: from localhost ([::1]:45040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaAgH-0006tk-Os
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 22:41:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1iaAi4-0001Ez-8J
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 22:43:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <uli@fpond.eu>) id 1iaAdu-0005Z6-Vt
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:38:59 -0500
+ (envelope-from <uli@fpond.eu>) id 1iaAeM-0005nt-FG
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <uli@fpond.eu>) id 1iaAdt-0003k4-QR
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:38:58 -0500
-Received: from mo6-p02-ob.smtp.rzone.de ([2a01:238:20a:202:5302::2]:28300)
+ (envelope-from <uli@fpond.eu>) id 1iaAeI-0004BH-U2
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:25 -0500
+Received: from mo6-p02-ob.smtp.rzone.de ([2a01:238:20a:202:5302::8]:20558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <uli@fpond.eu>) id 1iaAdt-0003fj-J0
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:38:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574912335;
+ (Exim 4.71) (envelope-from <uli@fpond.eu>) id 1iaAeC-00042V-On
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 22:39:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574912354;
  s=strato-dkim-0002; d=fpond.eu;
  h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=va5LV254c4pnUOB90TgtULX8HfyB7kptyTfdt98+XQ0=;
- b=W1lZd6ROgJkHpvB2vrObHztoe5P/QoryMHJrhiM5vdSwhwRHackMQiH/o0zhNYzbmF
- HSkqyEYOdlZVUplRctX+ZqQ9a6AMI4O88mlF5ddPmQwa4JlpAyko3Q7/C7DBi4Jatt+i
- hJZfnvCsnrXYfMbZk/5UO9V090yHYeJtkDXzb3Rt2nAfTwAwbc0ur4BejLwSg41Hhhca
- o1xPziQ4i8UaiHmOSy93mgimg3fd8hLumg/bdixoShr9h2MKtHFAt3c0C2J0tQWBnT5o
- YxBzoAwahz2dWJoqlgS/3lfgZYi/n5NIWjCdQQV17oT/yba3fQekE5M4R7X1nGvQYiyK
- M20A==
+ bh=qjrBmargKbQJaNw983uGNYrR6fuiqDOtF3J2Kjzo0RU=;
+ b=i1gMsNMXf9t2MDd4ubDvI69BiLvc5slwHRe0DwVRSbX6ostEWc5KWJFySN/VupB5on
+ Ae3lxb/X+AMyJ7LjKppwwoqrFDqhy2ytzsU/TWnZaUVSHuwkWS/68YGbWItafLvVuhm2
+ ++OAsXPZY36ZWOg62MwbRxp9TMeTwsHQ6ptUJ+gklTSl1xUyDjojEcZsTmSdsWv+QEXo
+ EhzAC+cNRVbN5NVabf9wiDlzQeG7Ryiewl6DxGNcGEn6Or82B48LPj6gjwMc87N/55cP
+ L619cKoLoqRJibp8100q0Y5ZKqxVnk/htG0GqJHg6MvIrBA4/bEijO7fl4jb6BBD2hSR
+ Ijqg==
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
 X-RZG-CLASS-ID: mo00
 Received: from oxapp04-01.back.ox.d0m.de by smtp-ox.front (RZmta 46.0.0 AUTH)
- with ESMTPSA id 604beevAS3ct2Ip
+ with ESMTPSA id 604beevAS3dE2Ir
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Thu, 28 Nov 2019 04:38:55 +0100 (CET)
-Date: Thu, 28 Nov 2019 04:38:55 +0100 (CET)
+ Thu, 28 Nov 2019 04:39:14 +0100 (CET)
+Date: Thu, 28 Nov 2019 04:39:14 +0100 (CET)
 From: Ulrich Hecht <uli@fpond.eu>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Linus Walleij <linus.walleij@linaro.org>,
@@ -48,12 +48,11 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Mark Rutland <mark.rutland@arm.com>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Message-ID: <1979629875.1467698.1574912335764@webmail.strato.com>
-In-Reply-To: <20191127084253.16356-3-geert+renesas@glider.be>
+Message-ID: <1581673808.1467700.1574912354104@webmail.strato.com>
+In-Reply-To: <20191127084253.16356-4-geert+renesas@glider.be>
 References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-3-geert+renesas@glider.be>
-Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table
- lookup
+ <20191127084253.16356-4-geert+renesas@glider.be>
+Subject: Re: [PATCH v3 3/7] gpiolib: Add support for GPIO line table lookup
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -63,7 +62,7 @@ X-Mailer: Open-Xchange Mailer v7.10.1-Rev22
 X-Originating-IP: 112.198.74.215
 X-Originating-Client: open-xchange-appsuite
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 2a01:238:20a:202:5302::2
+X-Received-From: 2a01:238:20a:202:5302::8
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,65 +88,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > On November 27, 2019 at 9:42 AM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 > 
 > 
-> Currently GPIO controllers can only be referred to by label in GPIO
-> lookup tables.
+> Currently GPIOs can only be referred to by GPIO controller and offset in
+> GPIO lookup tables.
 > 
-> Add support for looking them up by "gpiochipN" name, with "N" either the
-> corresponding GPIO device's ID number, or the GPIO controller's first
-> GPIO number.
+> Add support for looking them up by line name.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> If this is rejected, the GPIO Aggregator documentation must be updated.
-> 
-> The second variant is currently used by the legacy sysfs interface only,
-> so perhaps the chip->base check should be dropped?
+> If this is rejected, the GPIO Aggregator documentation and code must be
+> updated.
 > 
 > v3:
 >   - New.
 > ---
->  drivers/gpio/gpiolib.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
+>  drivers/gpio/gpiolib.c       | 12 ++++++++++++
+>  include/linux/gpio/machine.h |  2 +-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index c9e47620d2434983..d24a3d79dcfe69ad 100644
+> index d24a3d79dcfe69ad..cb608512ad6bbded 100644
 > --- a/drivers/gpio/gpiolib.c
 > +++ b/drivers/gpio/gpiolib.c
-> @@ -1746,9 +1746,29 @@ static int gpiochip_match_name(struct gpio_chip *chip, void *data)
->  	return !strcmp(chip->label, name);
->  }
+> @@ -4475,6 +4475,18 @@ static struct gpio_desc *gpiod_find(struct device *dev, const char *con_id,
+>  		if (p->con_id && (!con_id || strcmp(p->con_id, con_id)))
+>  			continue;
 >  
-> +static int gpiochip_match_id(struct gpio_chip *chip, void *data)
-> +{
-> +	int id = (uintptr_t)data;
+> +		if (p->chip_hwnum == (u16)-1) {
+> +			desc = gpio_name_to_desc(p->chip_label);
+> +			if (desc) {
+> +				*flags = p->flags;
+> +				return desc;
+> +			}
 > +
-> +	return id == chip->base || id == chip->gpiodev->id;
-> +}
+> +			dev_warn(dev, "cannot find GPIO line %s, deferring\n",
+> +				 p->chip_label);
+> +			return ERR_PTR(-EPROBE_DEFER);
+> +		}
 > +
->  static struct gpio_chip *find_chip_by_name(const char *name)
->  {
-> -	return gpiochip_find((void *)name, gpiochip_match_name);
-> +	struct gpio_chip *chip;
-> +	int id;
-> +
-> +	chip = gpiochip_find((void *)name, gpiochip_match_name);
-> +	if (chip)
-> +		return chip;
-> +
-> +	if (!str_has_prefix(name, GPIOCHIP_NAME))
-> +		return NULL;
-> +
-> +	if (kstrtoint(name + strlen(GPIOCHIP_NAME), 10, &id))
-> +		return NULL;
-> +
-> +	return gpiochip_find((void *)(uintptr_t)id, gpiochip_match_id);
->  }
+>  		chip = find_chip_by_name(p->chip_label);
 >  
->  #ifdef CONFIG_GPIOLIB_IRQCHIP
+>  		if (!chip) {
+> diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
+> index 1ebe5be05d5f81fa..84c1c097e55eefaf 100644
+> --- a/include/linux/gpio/machine.h
+> +++ b/include/linux/gpio/machine.h
+> @@ -31,7 +31,7 @@ enum gpio_lookup_flags {
+>   */
+>  struct gpiod_lookup {
+>  	const char *chip_label;
+> -	u16 chip_hwnum;
+> +	u16 chip_hwnum;			/* if -1, chip_label is named line */
+
+The magic number "-1" might deserve a #define.
+
+>  	const char *con_id;
+>  	unsigned int idx;
+>  	unsigned long flags;
 > -- 
 > 2.17.1
 >
 
+With or without #define,
 Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
 CU
