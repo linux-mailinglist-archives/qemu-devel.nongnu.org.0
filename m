@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FF610CF77
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 22:14:28 +0100 (CET)
-Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65E110CF83
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 22:29:36 +0100 (CET)
+Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaR7J-0005zZ-6N
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 16:14:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35701)
+	id 1iaRLz-0004PE-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 16:29:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iaP5f-0000MY-Iw
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:04:37 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iaPpO-0005h1-8d
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:51:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iaP5T-0008Cb-JJ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:04:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52560
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iaP5O-00085f-VC
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:04:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574967854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HkIjpVMoK29zBry6sgENV6+GCi7g75x2CVM9YOheebk=;
- b=bTZFiwyANcO+qXT4adntcfKvYF+WBKb8dAmqSCs4qn2nobsp9Cp/yyPeT4PaPjWrpL98rO
- geCsFY9Ka0sw7NeJu6iUI/L9RzOZLzl3GYWEQvfRO7Iex8nlWhAAsSYiGG/qpS63JligaK
- hVA5Q/rYDWNiLcQ6Z22i/nAoak6Dbu0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-cRtOlO5sNTGF13AolSc_JA-1; Thu, 28 Nov 2019 14:04:12 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07EA1107ACC7
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 19:04:12 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06F805D6D2;
- Thu, 28 Nov 2019 19:04:10 +0000 (UTC)
-Date: Thu, 28 Nov 2019 19:04:08 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1iaPkT-0006Wc-2V
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:47 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38497)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iaPjw-0004uS-R1
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 14:46:44 -0500
+Received: by mail-wm1-x343.google.com with SMTP id z19so12823187wmk.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cHVkaylNoydLTY4nbj39jRtqYAY0ZylLt+xXhgtOIDo=;
+ b=aq5bJ/2tZo0aALMDdwz2F9WXwqSRrwAxd+JPToJf42+vwWV/v7XiEDIuau/L+SpIIx
+ R8N2zkgVL+IRJtg2xe96v6YPXIVIoenjIJL/MGDKBBr7k0kRRSSm9kk+5O/HnQL9Gsfm
+ ICcnJhEiWbbVCvRnsuxUf+Ga3c/F1NH/EXovxm5YmM5R3Cd+Zvus2+b5dTmmJJpJI5HR
+ EZXKy5v6bZnPQTv6uL1eJ0ZQnWMrk5P/PWa7LVW6Iil+DoSEztDPqjQFmQPJwtAEvrAN
+ Tga8AruCWC0r/RxZ5SHeNHrUFM2c/JPciRNaest/7P4GBnOJ8hTaD+S/+2eAQy3+tBtg
+ B/BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cHVkaylNoydLTY4nbj39jRtqYAY0ZylLt+xXhgtOIDo=;
+ b=qgXXkRegy4V+oU/n7sgB0fkft+qgQnJhh1WbWK+1RMYUjWN3fplHl+/Cy/mKsYJwHD
+ w4jqml+Q7oVL/ccnR07WDkZ3PINZsCnwp1CiqYGjVFGYopv4Pax/zD4aYeGFpgHy5luG
+ Wtd4/vLuuZnObdkyErMMPpD+T0IOUxqhYKJf8jMXeJtyfYceO09/ZRercWjJccSnq0NH
+ sQWy2TQqKRwVVNFsrIAnYG+eEVP51rH4XozX0sbbI2d922QX88l3E5fDTF1nkM/eL9bZ
+ FRQooW7u/PT3mpCACg6NiB461fAHqqM+HBylBhT5dooaupIpLo2mqXVkV1rtoFnGuGF8
+ klvw==
+X-Gm-Message-State: APjAAAX05fGGi5o1DMM3mVSigSWeK22sXcDF11YX1bBAvFzQfJtuvIgG
+ 1Xb8HYUBvcH+6+BcUXYrHx1n8A==
+X-Google-Smtp-Source: APXvYqxgva5Fbsr15ZBZx/gLGLlrh0LNutneNJiwPoII/GI6nQzPk5fBOOo5bTq3WBNimIDU1oEBww==
+X-Received: by 2002:a7b:c055:: with SMTP id u21mr11456859wmc.55.1574970365731; 
+ Thu, 28 Nov 2019 11:46:05 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p9sm24335043wrs.55.2019.11.28.11.46.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 11:46:04 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D84A1FF8C;
+ Thu, 28 Nov 2019 19:46:03 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: libcap vs libcap-ng mess
-Message-ID: <20191128190408.GC3294@work-vm>
+Subject: [PATCH v1 1/5] linux-user: convert target_mprotect debug to tracepoint
+Date: Thu, 28 Nov 2019 19:45:59 +0000
+Message-Id: <20191128194603.24818-2-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191128194603.24818-1-alex.bennee@linaro.org>
+References: <20191128194603.24818-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: cRtOlO5sNTGF13AolSc_JA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,39 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, vgoyal@redhat.com
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-  We seem to have a bit of a mess with libcap and libcap-ng; and I'm not
-sure if we should try and untangle it.
+It is a pain to re-compile when you need to debug and tracepoints are
+a fairly low impact way to instrument QEMU.
 
-a) Our configure script has tests for both libcap and libcap-ng
-  for libcap it says $cap, for libcap-ng it says $cap_ng (ok)
-  If $cap is set - nothing happens?
-  If $cap_ng is set - we define CONFIG_LIBCAP  (!)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ linux-user/mmap.c       | 17 +++++++++--------
+ linux-user/trace-events |  3 +++
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-b) We use both
-  1) pr-helper and bridge-helper use CONFIG_LIBCAP and use cap-ng
-  2) 9p's virtfs-proxy-helper uses libcap - it's got a check in
-     configure to make sure you have libcap if you've asked for 9p
-
-c) Our gitlab-ci.yml installs libcap-dev to get the 9p stuff tested
-  but never installes libcap-ng-dev
-
-I hit this because we're using libcap in virtiofsd at the moment.
-
-So hmm how to fix?
-I'm tempted to:
-  x) Replace CONFIG_LIBCAP by CONFIG_LIBCAPNG to make it clear
-  y) Should we flip over to only using one or the other - what
-     are the advantages?
-  z) We should probably add the other one to the ci.
-
-Dave
-
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 46a6e3a761a..66868762519 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -17,7 +17,7 @@
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+ #include "qemu/osdep.h"
+-
++#include "trace.h"
+ #include "qemu.h"
+ 
+ //#define DEBUG_MMAP
+@@ -66,13 +66,14 @@ int target_mprotect(abi_ulong start, abi_ulong len, int prot)
+     abi_ulong end, host_start, host_end, addr;
+     int prot1, ret;
+ 
+-#ifdef DEBUG_MMAP
+-    printf("mprotect: start=0x" TARGET_ABI_FMT_lx
+-           "len=0x" TARGET_ABI_FMT_lx " prot=%c%c%c\n", start, len,
+-           prot & PROT_READ ? 'r' : '-',
+-           prot & PROT_WRITE ? 'w' : '-',
+-           prot & PROT_EXEC ? 'x' : '-');
+-#endif
++    if (TRACE_TARGET_MPROTECT_ENABLED) {
++        char prot_str[4];
++        prot_str[0] = prot & PROT_READ ? 'r' : '-';
++        prot_str[1] = prot & PROT_WRITE ? 'w' : '-';
++        prot_str[2] = prot & PROT_EXEC ? 'x' : '-';
++        prot_str[3] = 0;
++        trace_target_mprotect(start, len, prot_str);
++    }
+ 
+     if ((start & ~TARGET_PAGE_MASK) != 0)
+         return -TARGET_EINVAL;
+diff --git a/linux-user/trace-events b/linux-user/trace-events
+index 6df234bbb67..41d72e61abb 100644
+--- a/linux-user/trace-events
++++ b/linux-user/trace-events
+@@ -11,3 +11,6 @@ user_handle_signal(void *env, int target_sig) "env=%p signal %d"
+ user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
+ user_queue_signal(void *env, int target_sig) "env=%p signal %d"
+ user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
++
++# mmap.c
++target_mprotect(uint64_t start, uint64_t len, char *flags) "start=0x%"PRIx64 " len=0x%"PRIx64 " prot=%s"
+-- 
+2.20.1
 
 
