@@ -2,47 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB7010CE28
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:57:19 +0100 (CET)
-Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB16910CDE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:32:13 +0100 (CET)
+Received: from localhost ([::1]:51370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaO2V-0002i4-St
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:57:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
+	id 1iaNeE-0005yZ-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:32:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maz@kernel.org>) id 1iaMUJ-0000lc-1l
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:52 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iaMec-000775-1T
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:28:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maz@kernel.org>) id 1iaMUG-00056n-1N
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:49 -0500
-Received: from inca-roads.misterjones.org ([213.251.177.50]:58025)
+ (envelope-from <imammedo@redhat.com>) id 1iaMeW-0002cK-QI
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:28:27 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34841)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maz@kernel.org>) id 1iaMUE-0004yY-Ha
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:47 -0500
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
- helo=why.lan) by cheepnis.misterjones.org with esmtpsa
- (TLSv1.2:DHE-RSA-AES128-GCM-SHA256:128) (Exim 4.80)
- (envelope-from <maz@kernel.org>)
- id 1iaMU2-0002vd-SP; Thu, 28 Nov 2019 17:17:35 +0100
-From: Marc Zyngier <maz@kernel.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] target/arm: Honor HCR_EL2.TID2 trapping requirements
-Date: Thu, 28 Nov 2019 16:17:16 +0000
-Message-Id: <20191128161718.24361-2-maz@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128161718.24361-1-maz@kernel.org>
-References: <20191128161718.24361-1-maz@kernel.org>
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iaMeV-0002E5-Es
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:28:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574958500;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wpoLOjdZwNkDuObU2v9krvOE3FaeA4ApFjAT/JTGTGY=;
+ b=Nhe31ZJpujEXO7bcOrZTMvGi8Y/drblq2/dn3nYSv3N41fiPZ2Li4Ju1QeSSxyjLuGrTBs
+ kKVJlxCMC68yELQ98GChNOoKuSzoC8O+W8icBauGrzVNkelhELfc7O1OthZTaDhDBe15HO
+ pRxevzXu4fzqQnWhEiNNgFgruGgtZLg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-clBAei7TPl-kXTnsdgkfWQ-1; Thu, 28 Nov 2019 11:28:17 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 283CE800C75;
+ Thu, 28 Nov 2019 16:28:16 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 676625D6D2;
+ Thu, 28 Nov 2019 16:28:09 +0000 (UTC)
+Date: Thu, 28 Nov 2019 17:28:07 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+Message-ID: <20191128172807.788e6aeb@redhat.com>
+In-Reply-To: <20191128141518.628245-3-marcandre.lureau@redhat.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu,
- peter.maydell@linaro.org, richard.henderson@linaro.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
- SAEximRunCond expanded to false
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 213.251.177.50
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: clBAei7TPl-kXTnsdgkfWQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,86 +70,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
- kvmarm@lists.cs.columbia.edu
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, stefanha@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HCR_EL2.TID2 mandates that access from EL1 to CTR_EL0, CCSIDR_EL1,
-CCSIDR2_EL1, CLIDR_EL1, CSSELR_EL1 are trapped to EL2, and QEMU
-completely ignores it, making impossible for hypervisors to
-virtualize the cache hierarchy.
+On Thu, 28 Nov 2019 18:15:18 +0400
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> wrote:
 
-Do the right thing by trapping to EL2 if HCR_EL2.TID2 is set.
+> Add an option to simplify shared memory / vhost-user setup.
+>=20
+> Currently, using vhost-user requires NUMA setup such as:
+> -m 4G -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,=
+share=3Don -numa node,memdev=3Dmem
+>=20
+> As there is no other way to allocate shareable RAM, afaik.
+>=20
+> -mem-shared aims to have a simple way instead: -m 4G -mem-shared
+User always can write a wrapper script if verbose CLI is too much,
+and we won't have to deal with myriad permutations to maintain.
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- target/arm/helper.c | 28 +++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+Also current -mem-path/prealloc in combination with memdevs is
+the source of problems (as ram allocation uses 2 different paths).
+It's possible to fix with a kludge but I'd rather fix it properly.
+So during 5.0, I'm planning to consolidate -mem-path/prealloc
+handling around memory backend internally (and possibly deprecate them),
+so the only way to allocate RAM for guest would be via memdevs.
+(reducing number of options an globals that they use)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0bf8f53d4b..0b6887b100 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1910,6 +1910,17 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-     raw_write(env, ri, value);
- }
- 
-+static CPAccessResult access_aa64_tid2(CPUARMState *env,
-+                                       const ARMCPRegInfo *ri,
-+                                       bool isread)
-+{
-+    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TID2)) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+
-+    return CP_ACCESS_OK;
-+}
-+
- static uint64_t ccsidr_read(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -2110,10 +2121,14 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-       .writefn = pmintenclr_write },
-     { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 0,
--      .access = PL1_R, .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
-+      .access = PL1_R,
-+      .accessfn = access_aa64_tid2,
-+      .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
-     { .name = "CSSELR", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 2, .opc2 = 0,
--      .access = PL1_RW, .writefn = csselr_write, .resetvalue = 0,
-+      .access = PL1_RW,
-+      .accessfn = access_aa64_tid2,
-+      .writefn = csselr_write, .resetvalue = 0,
-       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.csselr_s),
-                              offsetof(CPUARMState, cp15.csselr_ns) } },
-     /* Auxiliary ID register: this actually has an IMPDEF value but for now
-@@ -5204,6 +5219,11 @@ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
-     if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
-         return CP_ACCESS_TRAP;
-     }
-+
-+    if (arm_hcr_el2_eff(env) & HCR_TID2) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+
-     return CP_ACCESS_OK;
- }
- 
-@@ -6184,7 +6204,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         ARMCPRegInfo clidr = {
-             .name = "CLIDR", .state = ARM_CP_STATE_BOTH,
-             .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 1,
--            .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->clidr
-+            .access = PL1_R, .type = ARM_CP_CONST,
-+            .accessfn = access_aa64_tid2,
-+            .resetvalue = cpu->clidr
-         };
-         define_one_arm_cp_reg(cpu, &clidr);
-         define_arm_cp_regs(cpu, v7_cp_reginfo);
--- 
-2.20.1
+So user who wants something non trivial could override default
+non-numa behavior with
+  -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=
+=3Don \
+  -machine memdev=3Dmem
+or use any other backend that suits theirs needs.
+
+
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  exec.c                  | 11 ++++++++++-
+>  hw/core/numa.c          | 16 +++++++++++++++-
+>  include/sysemu/sysemu.h |  1 +
+>  qemu-options.hx         | 10 ++++++++++
+>  vl.c                    |  4 ++++
+>  5 files changed, 40 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/exec.c b/exec.c
+> index ffdb518535..4e53937eaf 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -72,6 +72,10 @@
+>  #include "qemu/mmap-alloc.h"
+>  #endif
+> =20
+> +#ifdef CONFIG_POSIX
+> +#include "qemu/memfd.h"
+> +#endif
+> +
+>  #include "monitor/monitor.h"
+> =20
+>  //#define DEBUG_SUBPAGE
+> @@ -2347,7 +2351,12 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size=
+, MemoryRegion *mr,
+>      bool created;
+>      RAMBlock *block;
+> =20
+> -    fd =3D file_ram_open(mem_path, memory_region_name(mr), &created, err=
+p);
+> +    if (mem_path) {
+> +        fd =3D file_ram_open(mem_path, memory_region_name(mr), &created,=
+ errp);
+> +    } else {
+> +        fd =3D qemu_memfd_open(mr->name, size,
+> +                             F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL, =
+errp);
+> +    }
+
+that's what I'm mostly against, as it spills out memdev impl. details
+into generic code.
+
+>      if (fd < 0) {
+>          return NULL;
+>      }
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index e3332a984f..6f72cddb1c 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -493,7 +493,8 @@ static void allocate_system_memory_nonnuma(MemoryRegi=
+on *mr, Object *owner,
+>      if (mem_path) {
+>  #ifdef __linux__
+>          Error *err =3D NULL;
+> -        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0, 0=
+,
+> +        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0,
+> +                                         mem_shared ? RAM_SHARED : 0,
+>                                           mem_path, &err);
+this will be gone and replaced by memory region that memdev initializes.
+
+>          if (err) {
+>              error_report_err(err);
+> @@ -513,6 +514,19 @@ static void allocate_system_memory_nonnuma(MemoryReg=
+ion *mr, Object *owner,
+>  #else
+>          fprintf(stderr, "-mem-path not supported on this host\n");
+>          exit(1);
+> +#endif
+> +    } else if (mem_shared) {
+> +#ifdef CONFIG_POSIX
+> +        Error *err =3D NULL;
+> +        memory_region_init_ram_from_file(mr, owner, NULL, ram_size, 0,
+> +                                         RAM_SHARED, NULL, &err);
+> +        if (err) {
+> +            error_report_err(err);
+> +            exit(1);
+> +        }
+> +#else
+> +        fprintf(stderr, "-mem-shared not supported on this host\n");
+> +        exit(1);
+>  #endif
+>      } else {
+>          memory_region_init_ram_nomigrate(mr, owner, name, ram_size, &err=
+or_fatal);
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 80c57fdc4e..80db8465a9 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -55,6 +55,7 @@ extern bool enable_cpu_pm;
+>  extern QEMUClockType rtc_clock;
+>  extern const char *mem_path;
+>  extern int mem_prealloc;
+> +extern int mem_shared;
+> =20
+>  #define MAX_OPTION_ROMS 16
+>  typedef struct QEMUOptionRom {
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 65c9473b73..4c69b03ad3 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -394,6 +394,16 @@ STEXI
+>  Preallocate memory when using -mem-path.
+>  ETEXI
+> =20
+> +DEF("mem-shared", 0, QEMU_OPTION_mem_shared,
+> +    "-mem-shared     allocate shared memory\n", QEMU_ARCH_ALL)
+> +STEXI
+> +@item -mem-shared
+> +@findex -mem-shared
+> +Allocate guest RAM with shared mapping.  Whether the allocation is
+> +anonymous or not (with -mem-path), QEMU will allocate a shared memory th=
+at
+> +can be shared by unrelated processes, such as vhost-user backends.
+> +ETEXI
+> +
+>  DEF("k", HAS_ARG, QEMU_OPTION_k,
+>      "-k language     use keyboard layout (for example 'fr' for French)\n=
+",
+>      QEMU_ARCH_ALL)
+> diff --git a/vl.c b/vl.c
+> index 6a65a64bfd..53b1155455 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -143,6 +143,7 @@ const char* keyboard_layout =3D NULL;
+>  ram_addr_t ram_size;
+>  const char *mem_path =3D NULL;
+>  int mem_prealloc =3D 0; /* force preallocation of physical target memory=
+ */
+> +int mem_shared =3D 0;
+Also what happened to no more globals policy?
+
+>  bool enable_mlock =3D false;
+>  bool enable_cpu_pm =3D false;
+>  int nb_nics;
+> @@ -3172,6 +3173,9 @@ int main(int argc, char **argv, char **envp)
+>              case QEMU_OPTION_mem_prealloc:
+>                  mem_prealloc =3D 1;
+>                  break;
+> +            case QEMU_OPTION_mem_shared:
+> +                mem_shared =3D 1;
+> +                break;
+>              case QEMU_OPTION_d:
+>                  log_mask =3D optarg;
+>                  break;
 
 
