@@ -2,129 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D973310CC21
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:54:39 +0100 (CET)
-Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55F010CC62
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:02:13 +0100 (CET)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaM7o-0002le-7A
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34597)
+	id 1iaMF9-0005dY-4a
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:02:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iaLtI-0004qU-KV
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:39:38 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaL7b-0004wL-OB
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iaLtD-0002ZS-Hr
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:39:33 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8092)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iaLtB-0002RJ-It
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:39:31 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xASFbK3T043481
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 10:39:27 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2whmt0u70b-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 10:39:26 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Thu, 28 Nov 2019 15:39:21 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 28 Nov 2019 15:39:18 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xASFdGwV53936148
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Nov 2019 15:39:16 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 98E5C11C04A;
- Thu, 28 Nov 2019 15:39:16 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2D11511C058;
- Thu, 28 Nov 2019 15:39:16 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.11.73])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 28 Nov 2019 15:39:16 +0000 (GMT)
-Subject: Re: [PATCH 12/15] s390x: protvirt: Set guest IPL PSW
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-13-frankja@linux.ibm.com>
- <514819c7-261b-4d7e-4531-2da7d28526c7@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
- qLqYr+qrG3buymJJRD9xkp4mqgasHdB5WR9MhXWKH08EvtvAMkEJLnqxgbqf8td3pCQ2cEpv
- 15mH49iKSmlTcJ+PvJpGZcq/jE42u9/0YFHhozm8GfQdb9SOI/wBSsOqcXcLTUeAvbdqSBZe
- zuMRBivJQQI1esD9HuADmxdE7c4AeMlap9MvxvUtWk4ZJ/1Z3swMVCGzZb2Xg/9jZpLsyQzb
- lDbbTlEeyBACeED7DYLZI3d0SFKeJZ1SUyMmSOcr9zeSh4S4h4w8xgDDGmeDVygBQZa1HaoL
- Esb8Y4avOYIgYDhgkCh0nol7XQ5i/yKLtnNThubAcxNyryw1xSstnKlxPRoxtqTsxMAiSekk
- 0m3WJwvwd1s878HrQNK0orWd8BzzlSswzjNfQYLF466JOjHPWFOok9pzRs+ucrs6MUwDJj0S
- cITWU9Rxb04XyigY4XmZ8dywaxwi2ZVTEg+MD+sPmRrTw+5F+sU83cUstuymF3w1GmyofgsU
- Z+/ldjToHnq21MNa1wx0lCEipCCyE/8K9B9bg9pUwy5lfx7yORP3JuAUfCYb8DVSHWBPHKNj
- HTOLb2g2UT65AjZEQE95U2AY9iYm5usMqaWD39pAHfhC09/7NQARAQABtCVKYW5vc2NoIEZy
- YW5rIDxmcmFua2phQGxpbnV4LmlibS5jb20+iQI3BBMBCAAhBQJbm6Q+AhsjBQsJCAcCBhUI
- CQoLAgQWAgMBAh4BAheAAAoJEONU5rjiOLn4p9gQALjkdj5euJVI2nNT3/IAxAhQSmRhPEt0
- AmnCYnuTcHRWPujNr5kqgtyER9+EMQ0ZkX44JU2q7OWxTdSNSAN/5Z7qmOR9JySvDOf4d3mS
- bMB5zxL9d8SbnSs1uW96H9ZBTlTQnmLfsiM9TetAjSrR8nUmjGhe2YUhJLR1v1LguME+YseT
- eXnLzIzqqpu311/eYiiIGcmaOjPCE+vFjcXL5oLnGUE73qSYiujwhfPCCUK0850o1fUAYq5p
- CNBCoKT4OddZR+0itKc/cT6NwEDwdokeg0+rAhxb4Rv5oFO70lziBplEjOxu3dqgIKbHbjza
- EXTb+mr7VI9O4tTdqrwJo2q9zLqqOfDBi7NDvZFLzaCewhbdEpDYVu6/WxprAY94hY3F4trT
- rQMHJKQENtF6ZTQc9fcT5I3gAmP+OEvDE5hcTALpWm6Z6SzxO7gEYCnF+qGXqp8sJVrweMub
- UscyLqHoqdZC2UG4LQ1OJ97nzDpIRe0g6oJ9ZIYHKmfw5jjwH6rASTld5MFWajWdNsqK15k/
- RZnHAGICKVIBOBsq26m4EsBlfCdt3b/6emuBjUXR1pyjHMz2awWzCq6/6OWs5eANZ0sdosNq
- dq2v0ULYTazJz2rlCXV89qRa7ukkNwdBSZNEwsD4eEMicj1LSrqWDZMAALw50L4jxaMD7lPL
- jJbauQINBFubpD4BEADAcUTRqXF/aY53OSH7IwIK9lFKxIm0IoFkOEh7LMfp7FGzaP7ANrZd
- cIzhZi38xyOkcaFY+npGEWvko7rlIAn0JpBO4x3hfhmhBD/WSY8LQIFQNNjEm3vzrMo7b9Jb
- JAqQxfbURY3Dql3GUzeWTG9uaJ00u+EEPlY8zcVShDltIl5PLih20e8xgTnNzx5c110lQSu0
- iZv2lAE6DM+2bJQTsMSYiwKlwTuv9LI9Chnoo6+tsN55NqyMxYqJgElk3VzlTXSr3+rtSCwf
- tq2cinETbzxc1XuhIX6pu/aCGnNfuEkM34b7G1D6CPzDMqokNFbyoO6DQ1+fW6c5gctXg/lZ
- 602iEl4C4rgcr3+EpfoPUWzKeM8JXv5Kpq4YDxhvbitr8Dm8gr38+UKFZKlWLlwhQ56r/zAU
- v6LIsm11GmFs2/cmgD1bqBTNHHcTWwWtRTLgmnqJbVisMJuYJt4KNPqphTWsPY8SEtbufIlY
- HXOJ2lqUzOReTrie2u0qcSvGAbSfec9apTFl2Xko/ddqPcZMpKhBiXmY8tJzSPk3+G4tqur4
- 6TYAm5ouitJsgAR61Cu7s+PNuq/pTLDhK+6/Njmc94NGBcRA4qTuysEGE79vYWP2oIAU4Fv6
- gqaWHZ4MEI2XTqH8wiwzPdCQPYsSE0fXWiYu7ObeErT6iLSTZGx4rQARAQABiQIfBBgBCAAJ
- BQJbm6Q+AhsMAAoJEONU5rjiOLn4DDEP/RuyckW65SZcPG4cMfNgWxZF8rVjeVl/9PBfy01K
- 8R0hajU40bWtXSMiby7j0/dMjz99jN6L+AJHJvrLz4qYRzn2Ys843W+RfXj62Zde4YNBE5SL
- jJweRCbMWKaJLj6499fctxTyeb9+AMLQS4yRSwHuAZLmAb5AyCW1gBcTWZb8ON5BmWnRqeGm
- IgC1EvCnHy++aBnHTn0m+zV89BhTLTUal35tcjUFwluBY39R2ux/HNlBO1GY3Z+WYXhBvq7q
- katThLjaQSmnOrMhzqYmdShP1leFTVbzXUUIYv/GbynO/YrL2gaQpaP1bEUEi8lUAfXJbEWG
- dnHFkciryi092E8/9j89DJg4mmZqOau7TtUxjRMlBcIliXkzSLUk+QvD4LK1kWievJse4mte
- FBdkWHfP4BH/+8DxapRcG1UAheSnSRQ5LiO50annOB7oXF+vgKIaie2TBfZxQNGAs3RQ+bga
- DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
- Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
- phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Date: Thu, 28 Nov 2019 16:39:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaL7X-0003hN-82
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:17 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45027)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iaL7W-0003VM-Sa
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:15 -0500
+Received: by mail-oi1-x242.google.com with SMTP id s71so23465882oih.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=1lkH4xky3Q5ZBaB5y2a3Jy8bzDQjw8UjawwDq59sEWg=;
+ b=qCc3mGj5u5NUIgzfYDYIkKaCEdHQrK/+dws884kCHykHtW1Lk+VxJj3n9h5ADMZIQw
+ d21VKLgypMGOH0hV2YHBXAVnp6QUY5afXkBeY7cAutKTRypAgbSZ1JrDo1o4ipOt3y0m
+ pApo6Sl5eGEjrErvCnv40WnUwJAGWfUPZ7QYYSpecOakPREmruw8ahcHX8sDUa95/flq
+ E5uJfpqOMcvwp7/89OxxXnc4BJ1305pnniNRgpkRkY0pzE15qDONojtMZm1+k9WIJuD/
+ j2awmgZnp72v583z1nINOCY5q/bJinFoVwT/sZxfg0G7gx3IzBKPOiJP7Cyg3JtGrYTf
+ n0pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=1lkH4xky3Q5ZBaB5y2a3Jy8bzDQjw8UjawwDq59sEWg=;
+ b=FOIjw7axvbY1aMygxjDhHT9z4XrKpiBr0Irr+mp2QVHEBzj2tRNc6kgdblx/udGCOl
+ eSTPSp5ig9vmtGbVlrEanDHNX+44xrIekQ8SPUjYO3yw7dCxMUZwAFzp05x43I+zvVla
+ 8Abf4PZtFutp7u6HjM5uT2IFZl2b2VFET7lPj0cYmGGPSj0l9uIJC2bqKqAk18ZyFg1/
+ zBWjW1lOcYXRP+h/k9vZUPWCFmkR7bzhzSQkOjmmvDQ3L5C47i6Rm3DKFN0M+UTYn2Ln
+ VlhxckMZ9HwCupn/HPW4HjxuTwJPMavtbzMlSDxiDcyy1tJFs5Bm4P6jJq3SuKhoYRR4
+ wyqw==
+X-Gm-Message-State: APjAAAXoItLxDnIxeJtA1dMI0QFQHo+SfCFFnYTS9HHw0cx2Z/i6gyk8
+ ABg5MU7lJJi7U6XkxrPLieJ4XDeNc4qSqubEC48=
+X-Google-Smtp-Source: APXvYqzPKWaCt62AHDiaHtIvQ72uSvng+9o+4tkfM1bkMpQBjm/v3HwQb9eZufoP813Uc6vQLwK7jWa+Be9nI3dgvMc=
+X-Received: by 2002:aca:d985:: with SMTP id q127mr9048516oig.62.1574952612518; 
+ Thu, 28 Nov 2019 06:50:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <514819c7-261b-4d7e-4531-2da7d28526c7@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="G5FXMsxPZzBd2Pxhy9GajkqiW7vcesIdd"
-X-TM-AS-GCONF: 00
-x-cbid: 19112815-4275-0000-0000-00000387905A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112815-4276-0000-0000-0000389B22D1
-Message-Id: <b96d5414-4b70-b29f-00eb-342145479b80@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-28_03:2019-11-28,2019-11-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- spamscore=0 suspectscore=0 mlxscore=0 clxscore=1015 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911280133
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Thu, 28 Nov 2019 06:50:11
+ -0800 (PST)
+In-Reply-To: <2540f517-5662-2afb-fb2f-4720fddd7eb5@redhat.com>
+References: <20191127175257.23480-1-mrolnik@gmail.com>
+ <CAL1e-=isp_-zF71STK-v5D8r5sGYiZbRFmSzjfQtR2FC5YknHQ@mail.gmail.com>
+ <CAK4993iniaLhSYCe9hfuNpujpEdqPtZqqsJirBwYG9HqUVx6dA@mail.gmail.com>
+ <CAL1e-=h+ZHM9qOOMj2KASuN2J4rSYcn1KP1hOzTWp+EpBY3=5A@mail.gmail.com>
+ <CAK4993jDe+c7XsNn=fBwMu6TLuF8KgxNvUziXkwAUuOVArjrsA@mail.gmail.com>
+ <5a784557-f322-dc3a-4ff1-a7d9a0409448@redhat.com>
+ <CAL1e-=jJ5uNvYq7yNQYFhMJ0k94-d6mrybs-NyVjVi9Agb4Aeg@mail.gmail.com>
+ <CAK4993i8zPyYH2hGxx0hP4qQKr9oTJV2T5JDtQmKHZe2EpAsvw@mail.gmail.com>
+ <2540f517-5662-2afb-fb2f-4720fddd7eb5@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 28 Nov 2019 15:50:11 +0100
+Message-ID: <CAL1e-=jiNWB4LhWBrhhvihPt+oGOq21qva=yoQqqWzPLhK3Eaw@mail.gmail.com>
+Subject: Re: [PATCH v37 00/17] QEMU AVR 8 bit cores
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000001dfc80598693b18"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,89 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---G5FXMsxPZzBd2Pxhy9GajkqiW7vcesIdd
-Content-Type: multipart/mixed; boundary="Seg0chGbDrV9YKHNj2TyfsOe7M0EbBv6u"
-
---Seg0chGbDrV9YKHNj2TyfsOe7M0EbBv6u
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--00000000000001dfc80598693b18
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 11/28/19 3:30 PM, Thomas Huth wrote:
-> On 20/11/2019 12.43, Janosch Frank wrote:
->> Handling of CPU reset and setting of the IPL psw from guest storage at=
+On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
 
->> offset 0 is done by a Ultravisor call. Let's only fetch it if
->> necessary.
+> On 11/28/19 2:46 PM, Michael Rolnik wrote:
+>
+>> I will rename them.
 >>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> ---
->>  hw/s390x/pv.c              | 5 +++++
->>  hw/s390x/pv.h              | 1 +
->>  hw/s390x/s390-virtio-ccw.c | 3 ++-
->>  linux-headers/linux/kvm.h  | 1 +
->>  target/s390x/cpu.c         | 9 ++++++++-
->>  5 files changed, 17 insertions(+), 2 deletions(-)
+>
+>>
+Renaming alone won't solve anything.
+
+
+> Please wait comments from Richard before a version respin.
+>
+> On Thu, Nov 28, 2019 at 3:41 PM Aleksandar Markovic <
+>> aleksandar.m.mail@gmail.com <mailto:aleksandar.m.mail@gmail.com>> wrote:
+>>
 > [...]
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 6fd50b4c42..e020b92854 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -404,7 +404,8 @@ static void s390_machine_reset(MachineState *machi=
-ne)
->>          s390_ipl_pv_unpack();
->>          /* Verify integrity */
->>          s390_pv_verify();
->> -        s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
->> +        env->pv =3D true;
->=20
-> Ah, here you set env->pv =3D true manually ... so maybe that's another
-> good reason to get rid of patch 05/15 ("s390x: protvirt: Sync PV state"=
-)
-> in the end?
+>
+>>
+>>
+>>         If I understand Aleksandar correctly, the naming is incorrect
+>>         because too generic to AVR family, why Sarah only modeled the
+>>         Atmel implementation.
+>>
+>>         Renaming devices such hw/char/avr_usart.c ->
+>>         hw/char/atmel_usart.c (similarly with the macros) would be
+>>         enough Aleksandar?
+>>
+>>
+>>
+>>     Some renaming could help, perhaps not quite like the one above, but
+>>     my point (which I find hard to believe I can't explain to you) is
+>>     that peripherals inside the chip evolved over time, as starkly
+>>     opposed to external peripherals that are set in stone...
+>>
+>
+>
 
-Given that QEMU triggers the state changes that would make sense.
+--00000000000001dfc80598693b18
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+<br><br>On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a =
+href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">On 11/28/19 2:46 PM, Michael Rolnik wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+I will rename them.<br>
+</blockquote>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><br></blockquote></blockquote><div><br></div=
+><div>Renaming alone won&#39;t solve anything.</div><div>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">
+Please wait comments from Richard before a version respin.<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Thu, Nov 28, 2019 at 3:41 PM Aleksandar Markovic &lt;<a href=3D"mailto:a=
+leksandar.m.mail@gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.com</=
+a> &lt;mailto:<a href=3D"mailto:aleksandar.m.mail@gmail.com" target=3D"_bla=
+nk">aleksandar.m.mail@<wbr>gmail.com</a>&gt;&gt; wrote:<br>
+</blockquote>
+[...]<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 If I understand Aleksandar correctly, the namin=
+g is incorrect<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 because too generic to AVR family, why Sarah on=
+ly modeled the<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Atmel implementation.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Renaming devices such hw/char/avr_usart.c -&gt;=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 hw/char/atmel_usart.c (similarly with the macro=
+s) would be<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 enough Aleksandar?<br>
+<br>
+<br>
+<br>
+=C2=A0 =C2=A0 Some renaming could help, perhaps not quite like the one abov=
+e, but<br>
+=C2=A0 =C2=A0 my point (which I find hard to believe I can&#39;t explain to=
+ you) is<br>
+=C2=A0 =C2=A0 that peripherals inside the chip evolved over time, as starkl=
+y<br>
+=C2=A0 =C2=A0 opposed to external peripherals that are set in stone...<br>
+</blockquote>
+<br>
+</blockquote>
 
-Thanks!
-
->=20
->=20
-
-
-
---Seg0chGbDrV9YKHNj2TyfsOe7M0EbBv6u--
-
---G5FXMsxPZzBd2Pxhy9GajkqiW7vcesIdd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3f6iMACgkQ41TmuOI4
-ufioQQ//Rpit9/gvWKZuUSgF+yLQvW7FLrhiO1suQNS7qhCtN/w0XrurImCvf/u0
-Aa2F/fwt/cHMp9okOe76+ofYGs1QDq8JUfvUZLmsnk+ZsE4mEUAGiUDMs/j86QAL
-dZD+khIEn9g8WE9wCg/9APNvzKki06EWqQNjtAs1jzYqjqKqqDFh0V3Oa/LPLeSe
-4nDuIJqaGMGtivlivTf/0HeTIh/6JCQx0mdfuWvlH+XWVwy96V3OHWYWBNNwF0Sa
-TgcIdI7bVmjW7QnI1DNEtU6CaGKGmiSu+MsXYahYnZ9dKE1SI7zuUSsaOSdvlnem
-q/AC5h9PlXhaHaP+4+8xYT81KB0lzmiuut1lZQukNXCzwKuBey6W2YDk4xrW+dUW
-uRSFuP7IyEJW4J+56Jsz1J5WKwaTUNMCAXuRjQVaM1/aaDVN+wGSn7eIin/gim9x
-89dhRUnAEinnKbGYMQ4JQ94xeA5S7lUZLWRA739acZmcqh6js+HebaH51CdCr/mz
-d7vdJwtNH57WEno0Lu01viDLe10lHC7KlfJKIcaeJkhze+Y0o+suO0Rc+RHhZdu8
-wPSoCE8dgImYGf6t1kuSKcOAcguAiC7PC00QJF3PhXvmoQGPW6lDBF8WgyXBiHfC
-qDEVKZa38oJXTl8AbR608rGBdqnOgthjm8um684/WImqBjE+JU8=
-=jeWW
------END PGP SIGNATURE-----
-
---G5FXMsxPZzBd2Pxhy9GajkqiW7vcesIdd--
-
+--00000000000001dfc80598693b18--
 
