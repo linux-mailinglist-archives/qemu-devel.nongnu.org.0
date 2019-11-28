@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC6710CBA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:21:42 +0100 (CET)
-Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05A010CB67
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:11:08 +0100 (CET)
+Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLbv-00026R-3I
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:21:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32925)
+	id 1iaLRj-0005C4-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:11:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iaKSm-0007hc-RB
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:10 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iaKXJ-0001dj-1y
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iaKSe-0007oE-II
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:02 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25988
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iaKWy-00060z-7T
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51312
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaKSe-0007d3-D9
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:00 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iaKWx-0005cE-RK
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574950077;
+ s=mimecast20190719; t=1574950343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=9IovY7Zm/jx6vaSCF+0uBvmDzAACSFaTJDzrlSPqkOU=;
- b=Kr6NST/1tOs0HYICCgKb/obixVBSa8iqahE/JlM1PMGDr/+UWGxxxVtzGHZCvRQNPTbk7h
- QETIAN59t0K/sqnmh3M0Q4F6DkNIc7JXwB4/dzCfhhrMZPyTQBQvwd71C1djj9tycVJYDr
- 733InrCt+YTbwb7CN+2kHVrwkDI0QPg=
+ in-reply-to:in-reply-to:references:references;
+ bh=gCdFFAGqgMwV85fIMPgikuTLpGOeyP5t/aaUax7dNPQ=;
+ b=a83Nf4fT1iLyNjHkPAHZFta5svvE0dvnByjqftHoq5kMfSxmieeUN937gd66i04WI4i9Qc
+ PwV+i/tljMfR4X2t+ukhfdL+cHUhstqyn+lGcjjMPOFlEXR1wxIanuhO1fO5IlcKj6WoUR
+ 1PQDTFrFk6kWidaf6nmva7jFcK/1Hdc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-1QnonueZPP6I_R4Ati5u7w-1; Thu, 28 Nov 2019 09:07:54 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-79-NZkHJEYWOCqT8Qs13ps2iQ-1; Thu, 28 Nov 2019 09:12:21 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B972107ACC9;
- Thu, 28 Nov 2019 14:07:53 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AD2360BE0;
- Thu, 28 Nov 2019 14:07:47 +0000 (UTC)
-Subject: Re: [PATCH 06/15] s390x: protvirt: Support unpack facility
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-7-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <b00e03a4-6ed8-f109-102a-dfb40009c8e5@redhat.com>
-Date: Thu, 28 Nov 2019 15:07:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 952ED10054E3;
+ Thu, 28 Nov 2019 14:12:20 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-95.ams2.redhat.com [10.36.117.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB7F6600C8;
+ Thu, 28 Nov 2019 14:12:19 +0000 (UTC)
+Date: Thu, 28 Nov 2019 15:12:18 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH for-5.0 02/31] block: Add BdrvChildRole
+Message-ID: <20191128141218.GA4944@linux.fritz.box>
+References: <20191127131624.1062403-1-mreitz@redhat.com>
+ <20191127131624.1062403-3-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191120114334.2287-7-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 1QnonueZPP6I_R4Ati5u7w-1
+In-Reply-To: <20191127131624.1062403-3-mreitz@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: NZkHJEYWOCqT8Qs13ps2iQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,146 +73,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/11/2019 12.43, Janosch Frank wrote:
-> When a guest has saved a ipib of type 5 and call diagnose308 with
-> subcode 10, we have to setup the protected processing environment via
-> Ultravisor calls. The calls are done by KVM and are exposed via an API.
+Am 27.11.2019 um 14:15 hat Max Reitz geschrieben:
+> This enum will supplement BdrvChildClass when it comes to what role (or
+> combination of roles) a child takes for its parent.
 >=20
-> The following steps are necessary:
-> 1. Create a VM (register it with the Ultravisor)
-> 2. Create secure CPUs for all of our current cpus
-> 3. Forward the secure header to the Ultravisor (has all information on
-> how to decrypt the image and VM information)
-> 4. Protect image pages from the host and decrypt them
-> 5. Verify the image integrity
+> Because empty enums are not allowed, let us just start with it filled.
 >=20
-> Only after step 5 a protected VM is allowed to run.
->=20
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
-[...]
-> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-> index a077926f36..50501fcd27 100644
-> --- a/hw/s390x/ipl.c
-> +++ b/hw/s390x/ipl.c
-> @@ -33,6 +33,7 @@
->  #include "qemu/cutils.h"
->  #include "qemu/option.h"
->  #include "exec/exec-all.h"
-> +#include "pv.h"
+>  include/block/block.h | 38 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>=20
+> diff --git a/include/block/block.h b/include/block/block.h
+> index 38963ef203..36817d5689 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -279,6 +279,44 @@ enum {
+>      DEFAULT_PERM_UNCHANGED      =3D BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHR=
+OUGH,
+>  };
 > =20
->  #define KERN_IMAGE_START                0x010000UL
->  #define LINUX_MAGIC_ADDR                0x010008UL
-> @@ -668,6 +669,38 @@ static void s390_ipl_prepare_qipl(S390CPU *cpu)
->      cpu_physical_memory_unmap(addr, len, 1, len);
->  }
-> =20
-> +int s390_ipl_prepare_pv_header(void)
-> +{
-> +    int rc;
-> +    IplParameterBlock *iplb =3D s390_ipl_get_iplb_secure();
-> +    IPLBlockPV *ipib_pv =3D &iplb->pv;
-> +    void *hdr =3D g_malloc(ipib_pv->pv_header_len);
+> +typedef enum BdrvChildRole {
+> +    /*
+> +     * If present, bdrv_replace_node() will not change the node this
+> +     * BdrvChild points to.
+> +     */
+> +    BDRV_CHILD_STAY_AT_NODE =3D (1 << 0),
 > +
-> +    cpu_physical_memory_read(ipib_pv->pv_header_addr, hdr,
-> +                             ipib_pv->pv_header_len);
-> +    rc =3D s390_pv_set_sec_parms((uint64_t)hdr,
-> +                               ipib_pv->pv_header_len);
-> +    g_free(hdr);
-> +    return rc;
-> +}
+> +    /* Child stores data */
+> +    BDRV_CHILD_DATA         =3D (1 << 1),
 > +
-> +int s390_ipl_pv_unpack(void)
-> +{
-> +    int i, rc;
-> +    IplParameterBlock *iplb =3D s390_ipl_get_iplb_secure();
-> +    IPLBlockPV *ipib_pv =3D &iplb->pv;
+> +    /* Child stores metadata */
+> +    BDRV_CHILD_METADATA     =3D (1 << 2),
 > +
-> +    for (i =3D 0; i < ipib_pv->num_comp; i++) {
-> +        rc =3D s390_pv_unpack(ipib_pv->components[i].addr,
-> +                            TARGET_PAGE_ALIGN(ipib_pv->components[i].siz=
-e),
-> +                            ipib_pv->components[i].tweak_pref);
-> +        if (rc) {
-> +            return rc;
-> +        }
-> +    }
-> +    return rc;
-> +}
+> +    /* Filtered child */
+> +    BDRV_CHILD_FILTERED     =3D (1 << 3),
+> +
+> +    /* Child to COW from (backing child) */
+> +    BDRV_CHILD_COW          =3D (1 << 4),
+> +
+> +    /* Child is expected to be a protocol node */
+> +    BDRV_CHILD_PROTOCOL     =3D (1 << 5),
+> +
+> +    /* Child is expected to be a format node */
+> +    BDRV_CHILD_FORMAT       =3D (1 << 6),
 
-For both functions, s390_ipl_prepare_pv_header() and
-s390_ipl_pv_unpack(), you're ignoring the return code at the calling
-site, so errors go completely unnoticed. I suggest to either do an
-error_report() here or at the calling site...
+In theory, a node shouldn't care what other nodes it has as its
+children. For a parent, protocols and formats look exactly the same.
 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> new file mode 100644
-> index 0000000000..0218070322
-> --- /dev/null
-> +++ b/hw/s390x/pv.c
-> @@ -0,0 +1,118 @@
-> +/*
-> + * Secure execution functions
-> + *
-> + * Copyright IBM Corp. 2019
-> + * Author(s):
-> + *  Janosch Frank <frankja@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (a=
-t
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#include "qemu/osdep.h"
-> +#include <sys/ioctl.h>
-> +
-> +#include <linux/kvm.h>
-> +
-> +#include "qemu/error-report.h"
-> +#include "sysemu/kvm.h"
-> +#include "pv.h"
-> +
-> +static int s390_pv_cmd(uint32_t cmd, void *data)
-> +{
-> +    int rc;
-> +    struct kvm_pv_cmd pv_cmd =3D {
-> +        .cmd =3D cmd,
-> +        .data =3D (uint64_t)data,
-> +    };
-> +
-> +    rc =3D kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
-> +    if (rc) {
-> +        error_report("KVM PV command failed cmd: %d rc: %d", cmd, rc);
-> +        exit(1);
-> +    }
-> +    return rc;
-> +}
-> +
-> +static int s390_pv_cmd_vcpu(CPUState *cs, uint32_t cmd, void *data)
-> +{
-> +    int rc;
-> +    struct kvm_pv_cmd pv_cmd =3D {
-> +        .cmd =3D cmd,
-> +        .data =3D (uint64_t)data,
-> +    };
-> +
-> +    rc =3D kvm_vcpu_ioctl(cs, KVM_S390_PV_COMMAND_VCPU, &pv_cmd);
-> +    if (rc) {
-> +        error_report("KVM PV VCPU command failed cmd: %d rc: %d", cmd, r=
-c);
-> +        exit(1);
-> +    }
-> +    return rc;
-> +}
+Of course, we do have BDRV_O_PROTOCOL, but if I'm not mistaken this is
+basically only about probing or not probing an image format when a
+legacy filename is given rather than BlockdevOptions.
 
-... or even better, since these functions exit on error anyway, make
-these functions and all the others "void" instead?
+Therefore, unless you have a real reason for this to be here, I'd prefer
+if we could keep such legacy flags outside of the core infrastructure if
+at all possible.
 
- Thomas
+> +    /*
+> +     * The primary child.  For most drivers, this is the child whose
+> +     * filename applies best to the parent node.
+> +     */
+> +    BDRV_CHILD_PRIMARY      =3D (1 << 7),
+
+If primary is a flag of each BdrvChild, then you could end up having
+multiple children that claim that they're the primary child. On the
+other hand, if we have a bs->primary_child instead to make sure that we
+only have one primary child, we'd have to keep this consistent when
+children change.
+
+So maybe just document that this flag must be given to only one
+BdrvChild link for each parent.
+
+> +    /* Useful combination of flags */
+> +    BDRV_CHILD_IMAGE        =3D BDRV_CHILD_DATA
+> +                              | BDRV_CHILD_METADATA
+> +                              | BDRV_CHILD_PROTOCOL
+> +                              | BDRV_CHILD_PRIMARY,
+> +} BdrvChildRole;
+> +
+>  char *bdrv_perm_names(uint64_t perm);
+>  uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm);
+
+Kevin
 
 
