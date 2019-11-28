@@ -2,51 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E7110CE18
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:51:40 +0100 (CET)
-Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0AD10CDFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 18:39:57 +0100 (CET)
+Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaNx2-0008HP-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:51:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43861)
+	id 1iaNli-0001CG-Gj
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 12:39:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maz@kernel.org>) id 1iaMlh-0002x7-UY
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:35:51 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iaNZg-0005nt-K5
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maz@kernel.org>) id 1iaMlg-0004M4-CS
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:35:49 -0500
-Received: from inca-roads.misterjones.org ([213.251.177.50]:39704)
+ (envelope-from <imammedo@redhat.com>) id 1iaNZU-0001Gx-4U
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60743
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maz@kernel.org>) id 1iaMlg-0004Ih-2l
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:35:48 -0500
-Received: from www-data by cheepnis.misterjones.org with local (Exim 4.80)
- (envelope-from <maz@kernel.org>)
- id 1iaMld-00038D-8Q; Thu, 28 Nov 2019 17:35:45 +0100
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iaNZT-000151-QQ
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:27:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574962033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+R5PWYXJvVvQKKcR3qhd1xVJQaSdG9qK/VSPYGunzn0=;
+ b=K6HaT/QJ0IDfnUymj0O1HyG6uERgmKYpOHcggvntrkk3+BNJuwXBId7kLqUuUu6zdQ4adm
+ j22MiLi4jqkPOyjgVI8RD1+7fESWGWzD2Zv89qle9Qr6mstBm6Xy9jhr+99XR751zSCZQz
+ RtWClbdeOcpS3cxOvHjU1SayYPcQb/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-8kFq9tAWNkmkr9IwKhPnTw-1; Thu, 28 Nov 2019 12:27:12 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2069210054E3;
+ Thu, 28 Nov 2019 17:27:11 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D3C15D9E1;
+ Thu, 28 Nov 2019 17:27:07 +0000 (UTC)
+Date: Thu, 28 Nov 2019 18:27:05 +0100
+From: Igor Mammedov <imammedo@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 0/3] target/arm: More =?UTF-8?Q?HCR=5FEL=32=2ETIDx=20f?=
- =?UTF-8?Q?ixes?=
-X-PHP-Originating-Script: 0:main.inc
+Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
+Message-ID: <20191128182705.0635d1d4@redhat.com>
+In-Reply-To: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
+References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 8kFq9tAWNkmkr9IwKhPnTw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Date: Thu, 28 Nov 2019 16:35:45 +0000
-From: Marc Zyngier <maz@kernel.org>
-In-Reply-To: <CAFEAcA8GvqnwfGiKHi7OgcUqUu1JL9UKTe6J77-VHMnzRpKX_A@mail.gmail.com>
-References: <20191128161718.24361-1-maz@kernel.org>
- <CAFEAcA8GvqnwfGiKHi7OgcUqUu1JL9UKTe6J77-VHMnzRpKX_A@mail.gmail.com>
-Message-ID: <782ea75ba2ef3cff597ab07d7128dbc9@www.loen.fr>
-X-Sender: maz@kernel.org
-User-Agent: Roundcube Webmail/0.7.2
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- kvmarm@lists.cs.columbia.edu, richard.henderson@linaro.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
- SAEximRunCond expanded to false
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 213.251.177.50
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,45 +70,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019-11-28 16:30, Peter Maydell wrote:
-> On Thu, 28 Nov 2019 at 16:17, Marc Zyngier <maz@kernel.org> wrote:
->>
->> I started looking the rest of the missing TIDx handling,
->> and this resulted in the following patches.
->>
->> There is still one thing I'm a bit puzzled by though:
->>
->> HCR_EL2.TID0 mandates trapping of the AArch32 JIDR
->> register, but I couldn't find a trace of it in the QEMU
->> code, and trying to read it seems to generate an exception.
->>
->> It isn't like anyone is going to miss it, but I wonder if
->> it should be implemented... It could also be that I'm missing
->> the obvious and that my testing is broken! ;-)
->
-> Hmm, I was under the impression that we correctly implemented
-> 'trivial Jazelle', but we obviously missed some of it
-> (we do have the handling of BXJ insns).
-> We should, yes, ideally, have RAZ/WI implementations
-> of JIDR, JMCR and JOSCR.
+On Thu, 28 Nov 2019 16:00:06 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-OK, I'll have a look at this, and plumb the handling of TID0
-in JIDR.
+> Hi; this is a question which came up in Damien's reset series
+> which I don't know the answer to:
+> 
+> What is the interaction of the QOM device lifecycle (instance_init/realize/
+> unrealize/instance_finalize) with hotplug and hot-unplug ? I couldn't
+> find any documentation of this but maybe I was looking in the wrong
+> place...
+> 
+> Looking at device_set_realized() it seems like we treat "realize"
+> as meaning "and also do the hot-plug if this is a device we're
+> trying to hotplug". On the other hand hot-unplug is I think the
+> other way around: when we get a hot-unplug event we assume that
+> it should also imply an "unrealize" (but just unrealizing doesn't
+> auto-hot-unplug) ?
 
-> We also I think don't get right the fiddly detail about
-> attempting an exception return with SPSR.J set, but that's
-> not worth messing about with IMHO.
+Let me try to describe it.
 
-Indeed. The less we hear about Jazelle, the better... ;-)
+device 'hotplug' interface is poorly named nowadays as it's
+just 'plug' interface which checks/wires device into existing machine.
+'hotplug' attribute is just informs plug controller that it might
+wish to take additional actions to complete device initialization
+and notify guest.
 
-Thanks,
+plug workflow is as follow:
 
-         M.
--- 
-Jazz is not dead. It just smells funny...
+  DeviceState::realize()
+     hotplug_ctrl = qdev_get_hotplug_handler(dev);
+     hotplug_handler_pre_plug(hotplug_ctrl, dev) // check / prepare / reserve resources, can fail
+     // call concrete device realize_fn()
+     hotplug_handler_plug(hotplug_ctrl, dev) // wire device up to board/bus/notify guest, shouldn't fail
+
+ * now old bus based qdev hotplug are tied to _plug callback that
+   controller (hotplug_ctrl) that owns bus sets during bus creation.
+   (Ideally we should split that on _pre_plug and _plug parts)
+ * also any other QOM object could be controller, to allow buss-less
+   hotplug (ex: arm-virt machine or pc/q35 machines)
+
+Unplug is a different beast, it could be originated from mgmt side
+device_del() and/or from guest side.
+
+device_del() can go 2 ways: qdev_unplug()
+ * devices that support surprise removal (i.e. does not require guest cooperation)
+   go directly to
+       hotplug_handler_unplug() // tear down device from machine
+       object_unparent(); -> unrealize() + finalize() // device gone
+   essentially it's old qdev code behavior as is.
+      
+ * async removal a bit different, instead of removal it asks
+   controller to process unplug request hotplug_handler_unplug_request()
+   and does nothing else.
+   After guest is prepared to device removal it notifies QEMU in some way
+   to eject device. That calls the same sequence
+     hotplug_handler_unplug()
+     object_unparent()
+
+> Once a device is hot-unplugged (and thus unrealized) is it valid
+> for it to be re-hot-plugged, or is the assumption that it's then
+> destroyed and a fresh device is created if the user wants to plug
+> something in again later ? Put another way, is it valid for a qdev
+> device to see state transitions realize -> unrealize -> realize ?
+
+I don't think we do it currently (or maybe we do with failover but
+I missed that train), but I don't see why it can't be done.
+
+I theory it's upto the place where actual eject request is originated from,
+it could do unrealize -> realize instead of unparent as far as it calls
+hotplug_handler_unplug().
+
+> 
+> thanks
+> -- PMM
+> 
+
 
