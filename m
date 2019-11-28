@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D026A10C20E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:59:21 +0100 (CET)
-Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBC310C20B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 02:58:11 +0100 (CET)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ia95U-0006wl-TY
-	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:59:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52595)
+	id 1ia94M-0005H4-Dz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Nov 2019 20:58:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40915)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8xD-00067T-Lj
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:50 -0500
+ id 1ia92Y-0003xd-RM
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:56:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8xC-0004Sw-F3
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:47 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33406)
+ id 1ia92W-0004cZ-MN
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:56:18 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:34712)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ia8xC-0004Ri-8E
- for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:50:46 -0500
-Received: by mail-wr1-x442.google.com with SMTP id w9so29149335wrr.0
- for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3BT3meJheG4+qZxzcdyTyi7aZ+LLbjh+2zS7fhUeV8o=;
- b=V7lxyamULmYm0JNSFEaEm5URDVCz11S7Smo2ba4Fpy2j4A+iB2kD3bNkL2zAN2lkgw
- ss46HPEUX0OHpAv9anJzZGdK7dbH4u0AF+frvglp190qsIGiAB/iNlgS96oYmWxFyEII
- F5CUHlTK1e4HvNhgairh+Oj/I/ow07GUNDupjjy1MS44Xw6M+0cNMZuh0AISP2WiZZv6
- 03O5MRgpX5ntrIGGppQy3auaQ7yIUP018XMzrV2SinoxavDFOZod9En304MjWhRnAJir
- TgPO4l02mAY77CNblDirea4zYp6u72mbKshsIsvRyQfD+8VkTMxY45TfvEMKvV4qpC8o
- 2fZg==
+ id 1ia92S-0004Uc-Qj
+ for qemu-devel@nongnu.org; Wed, 27 Nov 2019 20:56:14 -0500
+Received: by mail-yw1-f65.google.com with SMTP id l14so6380542ywh.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Nov 2019 17:56:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3BT3meJheG4+qZxzcdyTyi7aZ+LLbjh+2zS7fhUeV8o=;
- b=aIWHGKhvPt35TY6ghjZ61z5UA81T+3ZobnUfgNJ8nY3w+j8VjbHgouTq9dEIO6c2TM
- 7ZLiNYUPxupKPoOePrIXaIGGsg/xz2z8BtOxyDqsJU3GfRvrsPx8LID7Qv9oga7ThGsk
- SRU4cMa+hy1vmb4u6676euXmqEQKu3/kt7BMNEsnysLg08TWob4B5pJZX6zviuo0ZDaN
- +GsxYALE9jRGP2q+qKngNIUwpV7NsLHj/6GbIWkkma3CTdRwdaFG1T5HpuQxD9wj0KRV
- rP2JeDZJwuhiKnO6Zd3bYMJFdPueXoAaZ4DYJWZ+6AszhGKf2AYK099cB2cXBBlV05bt
- jXiQ==
-X-Gm-Message-State: APjAAAXD4nf7BrXWZopwbwzTka1Lfp/iwfCP4wMR1AW2q8Asym6YQ0+E
- 1xl0778kbmTEdCLA/EwngDV38fvR
-X-Google-Smtp-Source: APXvYqx2jYNlrywBT4RRgikYXDDz5RNk+//Py3wtRrzfM/DmLJZ2f8XScZTGwC3gSC6Pau5+GAep4w==
-X-Received: by 2002:adf:dd10:: with SMTP id a16mr21946010wrm.213.1574905845092; 
- Wed, 27 Nov 2019 17:50:45 -0800 (PST)
-Received: from x1w.redhat.com (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id k16sm8738061wru.0.2019.11.27.17.50.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Nov 2019 17:50:44 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Michael Rolnik <mrolnik@gmail.com>
-Subject: [PATCH 08/10] tests/acceptance: Keep multilines comment consistent
- with other tests
-Date: Thu, 28 Nov 2019 02:50:28 +0100
-Message-Id: <20191128015030.27543-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191128015030.27543-1-f4bug@amsat.org>
-References: <20191128015030.27543-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9USG4mgpvp0dd6xIcahnoYauzfXdRp/3eI0e3G+vWkc=;
+ b=lagI3LRsWxnhl9Fp7nB63Frbt7Cd4pfJuCR7CjuNFh+Txop1ZynpXu3t87V0GS19OH
+ +5BsJl6mAH9Y5DBJrht7vI7wK7ua6e2VC5G3PaOuZAgrdyoItLCnvEq7yLtSNcNM5hNf
+ 5LKX9nUIXOL1YPWDQ5OiVlRN6MActLjykNywQaHOTZN8Uq2x+d9YWfD9i+4aYSNF2+x5
+ iivlMbsDRrsrazKOVgw506fD1AfGwhUexMuKZzcEW2YHj+obvc4eb4qajSLPSFlM46Uj
+ Jvun3CXVHLzWFET358mtR9p57bFe9oCyd7GY+OUYlVuU0VEXwGk5QP5cbNUfdO40WWP8
+ dTgg==
+X-Gm-Message-State: APjAAAXvvR3sOu49eyuGTGVPGV1MrEz42F71BgzPE69PXtnTzVz/U0xH
+ 35uNjkm9DdM/8IzrjXdz9Lpb3IDEuYqp6GYDuOQJJg==
+X-Google-Smtp-Source: APXvYqw+M2OGyfhS8cAGEzpZB7aKDuDFrO+TU3HJawB8mxxjaEu/NdeE7pgL6nn2ZIobCPNYXOw9LCurvYphAm82eBU=
+X-Received: by 2002:a81:c609:: with SMTP id l9mr5187929ywi.37.1574906165422;
+ Wed, 27 Nov 2019 17:56:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+References: <20191128015030.27543-1-f4bug@amsat.org>
+ <20191128015030.27543-7-f4bug@amsat.org>
+In-Reply-To: <20191128015030.27543-7-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Thu, 28 Nov 2019 02:55:54 +0100
+Message-ID: <CAAdtpL4mscutkOxXxORJXGd-OeWEtnAGeCy4LY8RG7YuqtEi+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.161.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,36 +70,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Igor Mammedov <imammedo@redhat.com>,
  Thomas Huth <huth@tuxfamily.org>, Joaquin de Andres <me@xcancerberox.com.ar>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/acceptance/machine_avr6.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Thu, Nov 28, 2019 at 2:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Add famous ATmega MCUs:
+>
+> - middle range: ATmega168 and ATmega328
+> - high range: ATmega1280 and ATmega2560
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/avr/atmega.h      |  58 +++++++
+>  hw/avr/atmega.c      | 379 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/avr/Makefile.objs |   1 +
+>  3 files changed, 438 insertions(+)
+>  create mode 100644 hw/avr/atmega.h
+>  create mode 100644 hw/avr/atmega.c
+>
+> diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
+> new file mode 100644
+> index 0000000000..d22d90a962
+> --- /dev/null
+> +++ b/hw/avr/atmega.h
+> @@ -0,0 +1,58 @@
+> +/*
+> + * QEMU ATmega MCU
+> + *
+> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
+> + *
+> + * This work is licensed under the terms of the GNU GPLv2 or later.
+> + * See the COPYING file in the top-level directory.
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef HW_AVR_ATMEGA_H
+> +#define HW_AVR_ATMEGA_H
+> +
+> +#include "hw/char/avr_usart.h"
+> +#include "hw/char/avr_usart.h"
 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-index ba1f47dd70..2ef4a9ac2c 100644
---- a/tests/acceptance/machine_avr6.py
-+++ b/tests/acceptance/machine_avr6.py
-@@ -37,9 +37,9 @@ class AVR6Machine(Test):
-         https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-         constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-         """
--        rom_url = 'https://github.com/seharris/qemu-avr-tests'
--        rom_sha1= '36c3e67b8755dcf37e06af6730ef5d477b8ed16d'
--        rom_url += '/raw/' + rom_sha1 + '/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-+        rom_url = ('https://github.com/seharris/qemu-avr-tests'
-+                   '/raw/36c3e67b8755dcf/free-rtos/Demo'
-+                   '/AVR_ATMega2560_GCC/demo.elf')
-         rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-         rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
- 
--- 
-2.21.0
+Oops duplicated header.
 
+> +#include "hw/timer/avr_timer16.h"
+> +#include "hw/misc/avr_mask.h"
+> +#include "target/avr/cpu.h"
+[...]
 
