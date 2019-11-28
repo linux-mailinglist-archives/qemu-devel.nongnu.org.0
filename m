@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06EE10CEDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:24:50 +0100 (CET)
-Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6355510CEBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:05:47 +0100 (CET)
+Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPPF-00013n-J9
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:24:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47017)
+	id 1iaP6n-0007Me-T4
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:05:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iaMwH-0001jv-Vr
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:49 -0500
+ (envelope-from <mst@redhat.com>) id 1iaNJm-0005P9-IE
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:11:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iaMvx-000778-N1
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23601
+ (envelope-from <mst@redhat.com>) id 1iaNCF-0007kI-Ta
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:03:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41192
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaMvu-0006nc-NT
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:23 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iaNCC-0007dp-8H
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 12:03:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574959579;
+ s=mimecast20190719; t=1574960589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B7Zyor4f+SnOoIGq937UVRKBknDfuK/yutmUID31h3k=;
- b=RG1866re+HojnIJqKNXlPYsIHNMctbKCco2gucqooBx/fkZF+1Cgk8pRHvybicuA6zaI1W
- 2CGYVeo5bTvhKRiv/bOr12DjaCksasOms9yzL0sYHshBVqeX/qL1J+b3G5H4XIU88E/04m
- ZQUHHroKJjTQcQec2PIePz3mH5ZjnYI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-QGmmLYneM6eiL5jCIKSH0w-1; Thu, 28 Nov 2019 11:46:16 -0500
-X-MC-Unique: QGmmLYneM6eiL5jCIKSH0w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7554A107ACC5;
- Thu, 28 Nov 2019 16:46:14 +0000 (UTC)
-Received: from gondolin (ovpn-116-200.ams2.redhat.com [10.36.116.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7279600CA;
- Thu, 28 Nov 2019 16:46:09 +0000 (UTC)
-Date: Thu, 28 Nov 2019 17:45:57 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH 08/15] s390x: protvirt: KVM intercept changes
-Message-ID: <20191128174557.2e421e94.cohuck@redhat.com>
-In-Reply-To: <da848181-41a3-0738-84f8-258046965671@linux.ibm.com>
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-9-frankja@linux.ibm.com>
- <d081f111-857c-048b-c753-3cc021304102@redhat.com>
- <da848181-41a3-0738-84f8-258046965671@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=8bQIwbEI20fAZjznsj0+8Bd272sprVzfBXUoEjBgKkU=;
+ b=Q8+LhT3ku4G80DknD0GQeRyaQTSy82qOkAPLwd+o7wUdBUxctozvxyjHlLfOXUYzFlcoJ3
+ 46iScyRawL+51EXRJR3TlJHwZ9+LgIHluqBq5lUHTgY/HRPh3r+q+bBG2Ko4uUaNRJtgMH
+ tY2MOQfHerr/aWY08xRsZw291YUONJ0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-kwUxxOT6OpeCsy5iWdM88A-1; Thu, 28 Nov 2019 12:03:07 -0500
+Received: by mail-qt1-f200.google.com with SMTP id e37so2971735qtk.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 09:03:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=J1rWe+koydqVDwGxNtZI3ABYIVF/u593BoVS7LpgStY=;
+ b=dfhXq9m4trJwpi9UUpwReMHUrXyScvJtB5A8Eae5HjrpkoHhGz0gZYwPZopcxl/WFT
+ l4wjFSWJAMII7hqvLNTVk22LJLwWr3W+LxDxqpVaZWMDYtV8c0k+QWi5Q1/ZBpU6RQ5C
+ UltWZdKf9jMUEHwZV6Aj/6PI+7dhzbBTf/SiA0ztcPez1nKmZ3bV3Yqq2oeMDuCkr9/l
+ kAmKV1kOXTCRXPVnUqCuinZxhg3h/Fo46zPJDzmHeLJiIYMyhn10edNtMi4JM7GWEorO
+ raleqMVoLwjNo5XLoEwYix/42UshXYFKPSIC6cn0laqP7kPRP6vfx7eFHyZnpICgOqeC
+ HXKA==
+X-Gm-Message-State: APjAAAUjC30AQgEj/ZNpeO+0S57PU6lUlCZxcaLvV4L1gYrASWNAUK7Q
+ jbtGioBP4ZDHRRayj+cwhd7YELEi6P7lR89zi3vhbDg9ATWwbtJKflllgMCMBIr0xRYPHLEulhE
+ YC3Ar5+VbzDpO1m0=
+X-Received: by 2002:a37:4782:: with SMTP id u124mr2342307qka.8.1574960587211; 
+ Thu, 28 Nov 2019 09:03:07 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw6ALny5alMin3D4cba7Y/YXReCyvXIoQrVPnK5W+rBvUiaXIMSr59wKbP3PkIGKnufCnvSCA==
+X-Received: by 2002:a37:4782:: with SMTP id u124mr2342283qka.8.1574960586915; 
+ Thu, 28 Nov 2019 09:03:06 -0800 (PST)
+Received: from redhat.com (bzq-79-181-48-215.red.bezeqint.net. [79.181.48.215])
+ by smtp.gmail.com with ESMTPSA id 206sm948987qkf.132.2019.11.28.09.03.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 09:03:06 -0800 (PST)
+Date: Thu, 28 Nov 2019 12:03:01 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2] virtio-pci: disable vring processing when
+ bus-mastering is disabled
+Message-ID: <20191128120223-mutt-send-email-mst@kernel.org>
+References: <20191120005003.27035-1-mdroth@linux.vnet.ibm.com>
+ <20191128174800.2d4a2cc2.pasic@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20191128174800.2d4a2cc2.pasic@linux.ibm.com>
+X-MC-Unique: kwUxxOT6OpeCsy5iWdM88A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; boundary="Sig_/2f+4qa5JN6ldMWPdpHobzcs";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,123 +88,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: Janosch Frank <frankja@linux.ibm.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/2f+4qa5JN6ldMWPdpHobzcs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 28 Nov 2019 17:38:19 +0100
-Janosch Frank <frankja@linux.ibm.com> wrote:
-
-> On 11/21/19 4:11 PM, Thomas Huth wrote:
-> > On 20/11/2019 12.43, Janosch Frank wrote: =20
-> >> Secure guests no longer intercept with code 4 for an instruction
-> >> interception. Instead they have codes 104 and 108 for secure
-> >> instruction interception and secure instruction notification
-> >> respectively.
-> >>
-> >> The 104 mirrors the 4, but the 108 is a notification, that something
-> >> happened and the hypervisor might need to adjust its tracking data to
-> >> that fact. An example for that is the set prefix notification
-> >> interception, where KVM only reads the new prefix, but does not update
-> >> the prefix in the state description.
-> >>
-> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> >> ---
-> >>  target/s390x/kvm.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> >> index 418154ccfe..58251c0229 100644
-> >> --- a/target/s390x/kvm.c
-> >> +++ b/target/s390x/kvm.c
-> >> @@ -115,6 +115,8 @@
-> >>  #define ICPT_CPU_STOP                   0x28
-> >>  #define ICPT_OPEREXC                    0x2c
-> >>  #define ICPT_IO                         0x40
-> >> +#define ICPT_PV_INSTR                   0x68
-> >> +#define ICPT_PV_INSTR_NOT               0x6c
-> >> =20
-> >>  #define NR_LOCAL_IRQS 32
-> >>  /*
-> >> @@ -151,6 +153,7 @@ static int cap_s390_irq;
-> >>  static int cap_ri;
-> >>  static int cap_gs;
-> >>  static int cap_hpage_1m;
-> >> +static int cap_protvirt;
-> >> =20
-> >>  static int active_cmma;
-> >> =20
-> >> @@ -336,6 +339,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >>      cap_async_pf =3D kvm_check_extension(s, KVM_CAP_ASYNC_PF);
-> >>      cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
-> >>      cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
-> >> +    cap_protvirt =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
-> >> =20
-> >>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
-> >>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
-> >> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
-> >>              (long)cs->kvm_run->psw_addr);
-> >>      switch (icpt_code) {
-> >>          case ICPT_INSTRUCTION:
-> >> +        case ICPT_PV_INSTR:
-> >> +        case ICPT_PV_INSTR_NOT:
-> >>              r =3D handle_instruction(cpu, run); =20
-> >=20
-> > Even if this works by default, my gut feeling tells me that it would be
-> > safer and cleaner to have a separate handler for this...
-> > Otherwise we might get surprising results if future machine generations
-> > intercept/notify for more or different instructions, I guess?
-> >=20
-> > However, it's just a gut feeling ... I really don't have much experienc=
-e
-> > with this PV stuff yet ... what do the others here think?
-> >=20
-> >  Thomas =20
+On Thu, Nov 28, 2019 at 05:48:00PM +0100, Halil Pasic wrote:
+> On Tue, 19 Nov 2019 18:50:03 -0600
+> Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
 >=20
+> [..]
+> > I.e. the calling code is only scheduling a one-shot BH for
+> > virtio_blk_data_plane_stop_bh, but somehow we end up trying to process
+> > an additional virtqueue entry before we get there. This is likely due
+> > to the following check in virtio_queue_host_notifier_aio_poll:
+> >=20
+> >   static bool virtio_queue_host_notifier_aio_poll(void *opaque)
+> >   {
+> >       EventNotifier *n =3D opaque;
+> >       VirtQueue *vq =3D container_of(n, VirtQueue, host_notifier);
+> >       bool progress;
+> >=20
+> >       if (!vq->vring.desc || virtio_queue_empty(vq)) {
+> >           return false;
+> >       }
+> >=20
+> >       progress =3D virtio_queue_notify_aio_vq(vq);
+> >=20
+> > namely the call to virtio_queue_empty(). In this case, since no new
+> > requests have actually been issued, shadow_avail_idx =3D=3D last_avail_=
+idx,
+> > so we actually try to access the vring via vring_avail_idx() to get
+> > the latest non-shadowed idx:
+> >=20
+> >   int virtio_queue_empty(VirtQueue *vq)
+> >   {
+> >       bool empty;
+> >       ...
+> >=20
+> >       if (vq->shadow_avail_idx !=3D vq->last_avail_idx) {
+> >           return 0;
+> >       }
+> >=20
+> >       rcu_read_lock();
+> >       empty =3D vring_avail_idx(vq) =3D=3D vq->last_avail_idx;
+> >       rcu_read_unlock();
+> >       return empty;
+> >=20
+> > but since the IOMMU region has been disabled we get a bogus value (0
+> > usually), which causes virtio_queue_empty() to falsely report that
+> > there are entries to be processed, which causes errors such as:
+> >=20
+> >   "virtio: zero sized buffers are not allowed"
+> >=20
+> > or
+> >=20
+> >   "virtio-blk missing headers"
+> >=20
+> > and puts the device in an error state.
+> >=20
 >=20
-> Adding a handle_instruction_pv doesn't hurt me too much.
-> The default case can then do an error_report() and exit(1);
+> I've seen something similar on s390x with virtio-ccw-blk under
+> protected virtualization, that made me wonder about how virtio-blk in
+> particular but also virtio in general handles shutdown and reset.
 >=20
-> PV was designed in a way that we can re-use as much code as possible, so
-> I tried using the normal instruction handlers and only change as little
-> as possible in the instructions themselves.
+> This makes me wonder if bus-mastering disabled is the only scenario when
+> a something like vdev->disabled should be used.
+>=20
+> In particular I have the following mechanism in mind=20
+>=20
+> qemu_system_reset() --> ... --> qemu_devices_reset() --> ... -->=20
+> --> virtio_[transport]_reset() --> ... --> virtio_bus_stop_ioeventfd()
+> --> virtio_blk_data_plane_stop()
+>=20
+> which in turn triggesrs the following cascade:
+> virtio_blk_data_plane_stop_bh --> virtio_queue_aio_set_host_notifier_hand=
+ler() -->
+> --> virtio_queue_host_notifier_aio_read()=20
+> which however calls=20
+> virtio_queue_notify_aio_vq() if the notifier tests as
+> positive.=20
+>=20
+> Since we still have vq->handle_aio_output that means we may
+> call virtqueue_pop() during the reset procedure.
+>=20
+> This was a problem for us, because (due to a bug) the shared pages that
+> constitute the virtio ring weren't shared any more. And thus we got
+> the infamous =20
+> virtio_error(vdev, "virtio: zero sized buffers are not allowed").
+>=20
+> Now the bug is no more, and we can tolerate that somewhat late access
+> to the virtio ring.
+>=20
+> But it keeps nagging me, is it really OK for the device to access the
+> virtio ring during reset? My intuition tells me that the device should
+> not look for new requests after it has been told to reset.
 
-I think we could argue that handling 4 and 104 in the same function
-makes sense; but the 108 notification should really be separate, I
-think. From what I've seen, the expectation of what the hypervisor
-needs to do is just something else in this case ("hey, I did something;
-just to let you know").
 
-Is the set of instructions you get a 104 for always supposed to be a
-subset of the instructions you get a 4 for? I'd expect it to be so.
+Well it's after it was told to reset but it's not after
+it completed reset. So I think it's fine ...
 
---Sig_/2f+4qa5JN6ldMWPdpHobzcs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3f+cYACgkQ3s9rk8bw
-L69xqQ//Su8xJ7klpJMmBc/Y378NiwOiiq3Nutjg48MGgoXAsWUaKBYqABkt26m/
-waBInOH6v8R53cj7UvJNVjzq9OtYiOaiEVW1lGJgy6VUvjkLBewsC24zKiEPWdEp
-xWEYkstrF496hFPgW0riIHoHQrZGEbfvRH1Qc1pbzv91dBUU7Rhz6Cl5bIpQbtd2
-AHkAkt4QMH7AmAbPYX/nBfjqbteH1DyzpX8Qz7SdCbN1aka8VPs2FcdqGR6KFQhh
-xGjgUqFWzp7GS/UL8s8+utBqdKW3Jjow/ye0MbOgBl6PPDVegBqUYkphLq8oVBX8
-dhFKwetrQdh11x0HspQq4PLJwt3Jhj6z25zsRKTaLhWrXmjfRgrM/U4/lJV53lae
-RUZ9SSte9Opnjo+4LMoH1parGmKjrD20It/JKd+M18PR0MDORA4PFGn6Sq3pW6DN
-3KUrwHckq+BZm9TMQGiqY4afpq0DWDujBj6LNzuuprmp42nDlleR+33ow5z3VQiL
-p+3e0ujT/X7soKLaoQa5jBLdqoaAbj1oenCWi6H0MfC83MXyM1i1weOnlv+wN27e
-J2GUwukIyYAZrTGyZKpnS6Oy2xEJeIW2mJAGGhRJhqi08WzHm4nxnoMpPHXkp7Mv
-4kW8Z714SXSgzMpPnkJpSALs5j7RN71lyEnlFiFiNHQDG6Snv2M=
-=0Bmj
------END PGP SIGNATURE-----
-
---Sig_/2f+4qa5JN6ldMWPdpHobzcs--
+> Opinions? (Michael, Connie)
+>=20
+> Regards,
+> Halil
+>=20
+> > This patch works around the issue by introducing virtio_set_disabled(),
+> > which sets a 'disabled' flag to bypass checks like virtio_queue_empty()
+> > when bus-mastering is disabled. Since we'd check this flag at all the
+> > same sites as vdev->broken, we replace those checks with an inline
+> > function which checks for either vdev->broken or vdev->disabled.
+> >=20
+> > The 'disabled' flag is only migrated when set, which should be fairly
+> > rare, but to maintain migration compatibility we disable it's use for
+> > older machine types. Users requiring the use of the flag in conjunction
+> > with older machine types can set it explicitly as a virtio-device
+> > option.
+> >=20
 
 
