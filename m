@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AB210C9FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 14:59:49 +0100 (CET)
-Received: from localhost ([::1]:49306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65AD10C9E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 14:54:04 +0100 (CET)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKKi-00011X-2e
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 08:59:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37470)
+	id 1iaKF7-0005qv-76
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 08:54:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iaJyT-00078S-Uy
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:36:52 -0500
+ (envelope-from <clg@kaod.org>) id 1iaK8l-0003wd-8y
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iaJyP-0005uX-3o
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:36:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21041
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1iaK8h-0005OR-NV
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:26 -0500
+Received: from 6.mo173.mail-out.ovh.net ([46.105.43.93]:56534)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iaJyO-0005rB-Uv
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:36:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574948204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eZ8QD9y1PnI81CGPc75Po7wxubsc0fvkYKsrjfuN+mM=;
- b=SlCN2WbR+AdA3rYGuqiKa8pulWvnFnqVS3OyOqoIcQQX/T14ianisA+J1lbzgxTVOxGmU1
- hXQkLZpzvQIdTWGCTARRLGaqMyI1BhGhvMFIdd+Ik7HqE6t9Li06Mf1orO6gZLWvn47UME
- RjzfnIO1L2XTh3a3yGLiRHQ65t+WDlU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-xILTtdejPSS7XCAE-zNfDw-1; Thu, 28 Nov 2019 08:36:42 -0500
-Received: by mail-wm1-f70.google.com with SMTP id f16so3584013wmb.2
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 05:36:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=stDyuDTZos9RhvuhP7pxj220FEA2jim+mLtDz5Ccuek=;
- b=gGD7DaN3SWJbJZpIbo5Vvu9EpZ2LT7Luib0TOmST05D+Fe4E8r+eh24E8zhwD4CWgg
- iT/iU0zXYBVBjMnwhaDli50jBIV/09osMGFv53Gg4z1FEYY6RtiVWNXd4jweHUNl7HOU
- LT5nqvgszbQtNptNMfxFJOACUIufn+FcPKcq1wukupu07nwNZ7SltH0Z+7GXdLPdxpjk
- wg9BcTTvNTm5Xa6Kz5yq4iRlZXAZENcs6qK1ZpexJ6lBifcA2PvknDQJ1Gv3rjimDvQl
- DZzyTmcjNmF+gVXGtZ2ZKx36kxEDBsmXt6E1LzNlfTCObNlrv+nb746BNeNQvRIlhnLj
- XHBA==
-X-Gm-Message-State: APjAAAW1RbXYKTEf/3ofwCY2T1B30R3UFQkAC/HsxL41qpSyorVx87LA
- U6FVzfA1cTX8GAp8XrXsie4Qnne/j0YoIW2125Z6knRHZUBz+i4FqB2wTgLmtFiTFE/SYElJXNv
- r519h6fDeSNgek2c=
-X-Received: by 2002:a5d:5308:: with SMTP id e8mr41001569wrv.77.1574948201584; 
- Thu, 28 Nov 2019 05:36:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyoUjHwh7JOUa1NN3YEeaZ8JVnF7VAQUxYXjHTk6fIbrELYeyIHDr/T85y9gFxMuZ1OaZM4+Q==
-X-Received: by 2002:a5d:5308:: with SMTP id e8mr41001504wrv.77.1574948200814; 
- Thu, 28 Nov 2019 05:36:40 -0800 (PST)
-Received: from steredhat (host28-88-dynamic.16-87-r.retail.telecomitalia.it.
- [87.16.88.28])
- by smtp.gmail.com with ESMTPSA id m13sm10603656wmc.41.2019.11.28.05.36.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Nov 2019 05:36:40 -0800 (PST)
-Date: Thu, 28 Nov 2019 14:36:37 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: pannengyuan@huawei.com
-Subject: Re: [PATCH V2] block/nbd: fix memory leak in nbd_open()
-Message-ID: <20191128133637.gntn2a5jjpepa2sy@steredhat>
-References: <1574942971-49208-1-git-send-email-pannengyuan@huawei.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK8h-0004yE-Cb
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:23 -0500
+Received: from player688.ha.ovh.net (unknown [10.108.57.211])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 22B6F124561
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:17 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 35B34C94B209;
+ Thu, 28 Nov 2019 13:47:11 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 1/7] target/ppc: Implement the VTB for HV access
+Date: Thu, 28 Nov 2019 14:46:54 +0100
+Message-Id: <20191128134700.16091-2-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
+References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <1574942971-49208-1-git-send-email-pannengyuan@huawei.com>
-X-MC-Unique: xILTtdejPSS7XCAE-zNfDw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 14980379737802836966
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.43.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,163 +56,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, liyiting@huawei.com, zhang.zhanghailiang@huawei.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kuhn.chenqun@huawei.com
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 08:09:31PM +0800, pannengyuan@huawei.com wrote:
-> From: PanNengyuan <pannengyuan@huawei.com>
->=20
-> In currently implementation there will be a memory leak when
-> nbd_client_connect() returns error status. Here is an easy way to
-> reproduce:
->=20
-> 1. run qemu-iotests as follow and check the result with asan:
->     ./check -raw 143
->=20
-> Following is the asan output backtrack:
-> Direct leak of 40 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
->     #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
->     #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-=
-rc0/qapi/qobject-input-visitor.c:295
->     #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi=
-/qapi-visit-core.c:49
->     #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-socket=
-s.c:386
->     #5 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c=
-:1716
->     #6 0x56281da8062f in nbd_process_options  /mnt/sdb/qemu-4.2.0-rc0/blo=
-ck/nbd.c:1829
->     #7 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:18=
-73
->=20
-> Direct leak of 15 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1834
->     #4 0x56281da804ac in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:187=
-3
->=20
-> Indirect leak of 24 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281dab41a3 in qobject_input_type_str_keyval  /mnt/sdb/qemu-4.2=
-.0-rc0/qapi/qobject-input-visitor.c:536
->     #4 0x56281dab2ee9 in visit_type_str  /mnt/sdb/qemu-4.2.0-rc0/qapi/qap=
-i-visit-core.c:297
->     #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members qapi/qapi-v=
-isit-sockets.c:141
->     #6 0x56281dad17b6 in visit_type_SocketAddress_members  qapi/qapi-visi=
-t-sockets.c:366
->     #7 0x56281dad186a in visit_type_SocketAddress qapi/qapi-visit-sockets=
-.c:393
->     #8 0x56281da8062f in nbd_config /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1=
-716
->     #9 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1829
->     #10 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:18=
-73
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-> ---
-> Changes v2 to v1:
-> - add a new function to do the common cleanups (suggested by Stefano Garz=
-arella).
-> ---
->  block/nbd.c | 26 ++++++++++++++++----------
->  1 file changed, 16 insertions(+), 10 deletions(-)
->=20
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 1239761..f8aa2a8 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -94,6 +94,8 @@ typedef struct BDRVNBDState {
-> =20
->  static int nbd_client_connect(BlockDriverState *bs, Error **errp);
-> =20
-> +static void nbd_free_bdrvstate_prop(BDRVNBDState *s);
-> +
->  static void nbd_channel_error(BDRVNBDState *s, int ret)
->  {
->      if (ret =3D=3D -EIO) {
-> @@ -1486,6 +1488,17 @@ static int nbd_client_connect(BlockDriverState *bs=
-, Error **errp)
->      }
->  }
-> =20
-> +static void nbd_free_bdrvstate_prop(BDRVNBDState *s)
-> +{
-> +    object_unref(OBJECT(s->tlscreds));
-> +    qapi_free_SocketAddress(s->saddr);
-> +    g_free(s->export);
-> +    g_free(s->tlscredsid);
-> +    if (s->x_dirty_bitmap) {
-       ^ it is not needed, g_free() handles NULL pointers.
-> +        g_free(s->x_dirty_bitmap);
-> +    }
-> +}
-> +
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-Please, split this patch in two patches:
-- the first patch where you add this function and use it in
-  nbd_process_options() and nbd_close()
-- the second patch where you fix the leak in nbd_open()
+The virtual timebase register (VTB) is a 64-bit register which
+increments at the same rate as the timebase register, present on POWER8
+and later processors.
 
-Thanks,
-Stefano
+The register is able to be read/written by the hypervisor and read by
+the supervisor. All other accesses are illegal.
 
->  /*
->   * Parse nbd_open options
->   */
-> @@ -1855,10 +1868,7 @@ static int nbd_process_options(BlockDriverState *b=
-s, QDict *options,
-> =20
->   error:
->      if (ret < 0) {
-> -        object_unref(OBJECT(s->tlscreds));
-> -        qapi_free_SocketAddress(s->saddr);
-> -        g_free(s->export);
-> -        g_free(s->tlscredsid);
-> +        nbd_free_bdrvstate_prop(s);
->      }
->      qemu_opts_del(opts);
->      return ret;
-> @@ -1881,6 +1891,7 @@ static int nbd_open(BlockDriverState *bs, QDict *op=
-tions, int flags,
-> =20
->      ret =3D nbd_client_connect(bs, errp);
->      if (ret < 0) {
-> +        nbd_free_bdrvstate_prop(s);
->          return ret;
->      }
->      /* successfully connected */
-> @@ -1937,12 +1948,7 @@ static void nbd_close(BlockDriverState *bs)
->      BDRVNBDState *s =3D bs->opaque;
-> =20
->      nbd_client_close(bs);
-> -
-> -    object_unref(OBJECT(s->tlscreds));
-> -    qapi_free_SocketAddress(s->saddr);
-> -    g_free(s->export);
-> -    g_free(s->tlscredsid);
-> -    g_free(s->x_dirty_bitmap);
-> +    nbd_free_bdrvstate_prop(s);
->  }
-> =20
->  static int64_t nbd_getlength(BlockDriverState *bs)
-> --=20
-> 2.7.2.windows.1
->=20
->=20
->=20
+Currently the VTB is just an alias for the timebase (TB) register.
 
+Implement the VTB so that is can be read/written independent of the TB.
+Make use of the existing method for accessing timebase facilities where
+by the compensation is stored and used to compute the value on reads/is
+updated on writes.
+
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+[ clg: rebased on current ppc tree ]
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ include/hw/ppc/ppc.h            |  1 +
+ target/ppc/cpu.h                |  2 ++
+ target/ppc/helper.h             |  2 ++
+ hw/ppc/ppc.c                    | 16 ++++++++++++++++
+ linux-user/ppc/cpu_loop.c       |  5 +++++
+ target/ppc/timebase_helper.c    | 10 ++++++++++
+ target/ppc/translate_init.inc.c | 19 +++++++++++++++----
+ 7 files changed, 51 insertions(+), 4 deletions(-)
+
+diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+index 585be6ab98c5..02481cd27c36 100644
+--- a/include/hw/ppc/ppc.h
++++ b/include/hw/ppc/ppc.h
+@@ -24,6 +24,7 @@ struct ppc_tb_t {
+     /* Time base management */
+     int64_t  tb_offset;    /* Compensation                    */
+     int64_t  atb_offset;   /* Compensation                    */
++    int64_t  vtb_offset;
+     uint32_t tb_freq;      /* TB frequency                    */
+     /* Decrementer management */
+     uint64_t decr_next;    /* Tick for next decr interrupt    */
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index e3e82327b723..19d6e724bb5a 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1305,6 +1305,8 @@ uint64_t cpu_ppc_load_atbl(CPUPPCState *env);
+ uint32_t cpu_ppc_load_atbu(CPUPPCState *env);
+ void cpu_ppc_store_atbl(CPUPPCState *env, uint32_t value);
+ void cpu_ppc_store_atbu(CPUPPCState *env, uint32_t value);
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env);
++void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value);
+ bool ppc_decr_clear_on_delivery(CPUPPCState *env);
+ target_ulong cpu_ppc_load_decr(CPUPPCState *env);
+ void cpu_ppc_store_decr(CPUPPCState *env, target_ulong value);
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index f843814b8aa8..a5f53bb421a7 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -649,6 +649,7 @@ DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env=
+)
+ DEF_HELPER_FLAGS_1(load_tbu, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_atbl, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_atbu, TCG_CALL_NO_RWG, tl, env)
++DEF_HELPER_FLAGS_1(load_vtb, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_601_rtcl, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl, env)
+ #if !defined(CONFIG_USER_ONLY)
+@@ -669,6 +670,7 @@ DEF_HELPER_FLAGS_1(load_decr, TCG_CALL_NO_RWG, tl, en=
+v)
+ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_hid0_601, void, env, tl)
+ DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+ DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 8dd982fc1e40..263922052536 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -694,6 +694,22 @@ void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t =
+value)
+                      &tb_env->atb_offset, ((uint64_t)value << 32) | tb);
+ }
+=20
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
++{
++    ppc_tb_t *tb_env =3D env->tb_env;
++
++    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                          tb_env->vtb_offset);
++}
++
++void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value)
++{
++    ppc_tb_t *tb_env =3D env->tb_env;
++
++    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                     &tb_env->vtb_offset, value);
++}
++
+ static void cpu_ppc_tb_stop (CPUPPCState *env)
+ {
+     ppc_tb_t *tb_env =3D env->tb_env;
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index d5704def2902..5b27f8603e33 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -47,6 +47,11 @@ uint32_t cpu_ppc_load_atbu(CPUPPCState *env)
+     return cpu_ppc_get_tb(env) >> 32;
+ }
+=20
++uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
++{
++    return cpu_ppc_get_tb(env);
++}
++
+ uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env)
+ __attribute__ (( alias ("cpu_ppc_load_tbu") ));
+=20
+diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+index 73363e08ae71..8c3c2fe67c2c 100644
+--- a/target/ppc/timebase_helper.c
++++ b/target/ppc/timebase_helper.c
+@@ -45,6 +45,11 @@ target_ulong helper_load_atbu(CPUPPCState *env)
+     return cpu_ppc_load_atbu(env);
+ }
+=20
++target_ulong helper_load_vtb(CPUPPCState *env)
++{
++    return cpu_ppc_load_vtb(env);
++}
++
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ target_ulong helper_load_purr(CPUPPCState *env)
+ {
+@@ -113,6 +118,11 @@ void helper_store_hdecr(CPUPPCState *env, target_ulo=
+ng val)
+     cpu_ppc_store_hdecr(env, val);
+ }
+=20
++void helper_store_vtb(CPUPPCState *env, target_ulong val)
++{
++    cpu_ppc_store_vtb(env, val);
++}
++
+ target_ulong helper_load_40x_pit(CPUPPCState *env)
+ {
+     return load_40x_pit(env);
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index ba726dec4d00..5a560164d4a4 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -312,6 +312,16 @@ static void spr_write_hdecr(DisasContext *ctx, int s=
+prn, int gprn)
+     }
+ }
+=20
++static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
++{
++    gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
++}
++
++static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
++}
++
+ #endif
+ #endif
+=20
+@@ -8169,10 +8179,11 @@ static void gen_spr_power8_ebb(CPUPPCState *env)
+ /* Virtual Time Base */
+ static void gen_spr_vtb(CPUPPCState *env)
+ {
+-    spr_register_kvm(env, SPR_VTB, "VTB",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_tbl, SPR_NOACCESS,
+-                 KVM_REG_PPC_VTB, 0x00000000);
++    spr_register_kvm_hv(env, SPR_VTB, "VTB",
++                        SPR_NOACCESS, SPR_NOACCESS,
++                        &spr_read_vtb, SPR_NOACCESS,
++                        &spr_read_vtb, &spr_write_vtb,
++                        KVM_REG_PPC_VTB, 0x00000000);
+ }
+=20
+ static void gen_spr_power8_fscr(CPUPPCState *env)
 --=20
+2.21.0
 
 
