@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55F010CC62
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:02:13 +0100 (CET)
-Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D376A10CC81
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:11:16 +0100 (CET)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaMF9-0005dY-4a
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:02:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50715)
+	id 1iaMNu-0002QD-RY
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:11:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaL7b-0004wL-OB
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:21 -0500
+ (envelope-from <bounces@canonical.com>) id 1iaLN1-0004WO-4h
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaL7X-0003hN-82
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:17 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45027)
+ (envelope-from <bounces@canonical.com>) id 1iaLMt-0007p8-4x
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50468)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iaL7W-0003VM-Sa
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:50:15 -0500
-Received: by mail-oi1-x242.google.com with SMTP id s71so23465882oih.11
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=1lkH4xky3Q5ZBaB5y2a3Jy8bzDQjw8UjawwDq59sEWg=;
- b=qCc3mGj5u5NUIgzfYDYIkKaCEdHQrK/+dws884kCHykHtW1Lk+VxJj3n9h5ADMZIQw
- d21VKLgypMGOH0hV2YHBXAVnp6QUY5afXkBeY7cAutKTRypAgbSZ1JrDo1o4ipOt3y0m
- pApo6Sl5eGEjrErvCnv40WnUwJAGWfUPZ7QYYSpecOakPREmruw8ahcHX8sDUa95/flq
- E5uJfpqOMcvwp7/89OxxXnc4BJ1305pnniNRgpkRkY0pzE15qDONojtMZm1+k9WIJuD/
- j2awmgZnp72v583z1nINOCY5q/bJinFoVwT/sZxfg0G7gx3IzBKPOiJP7Cyg3JtGrYTf
- n0pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=1lkH4xky3Q5ZBaB5y2a3Jy8bzDQjw8UjawwDq59sEWg=;
- b=FOIjw7axvbY1aMygxjDhHT9z4XrKpiBr0Irr+mp2QVHEBzj2tRNc6kgdblx/udGCOl
- eSTPSp5ig9vmtGbVlrEanDHNX+44xrIekQ8SPUjYO3yw7dCxMUZwAFzp05x43I+zvVla
- 8Abf4PZtFutp7u6HjM5uT2IFZl2b2VFET7lPj0cYmGGPSj0l9uIJC2bqKqAk18ZyFg1/
- zBWjW1lOcYXRP+h/k9vZUPWCFmkR7bzhzSQkOjmmvDQ3L5C47i6Rm3DKFN0M+UTYn2Ln
- VlhxckMZ9HwCupn/HPW4HjxuTwJPMavtbzMlSDxiDcyy1tJFs5Bm4P6jJq3SuKhoYRR4
- wyqw==
-X-Gm-Message-State: APjAAAXoItLxDnIxeJtA1dMI0QFQHo+SfCFFnYTS9HHw0cx2Z/i6gyk8
- ABg5MU7lJJi7U6XkxrPLieJ4XDeNc4qSqubEC48=
-X-Google-Smtp-Source: APXvYqzPKWaCt62AHDiaHtIvQ72uSvng+9o+4tkfM1bkMpQBjm/v3HwQb9eZufoP813Uc6vQLwK7jWa+Be9nI3dgvMc=
-X-Received: by 2002:aca:d985:: with SMTP id q127mr9048516oig.62.1574952612518; 
- Thu, 28 Nov 2019 06:50:12 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iaLMr-0007lY-09
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:06:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iaLMm-0002Fc-Mc
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 15:06:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A79E82E80CC
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 15:06:00 +0000 (UTC)
 MIME-Version: 1.0
-Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Thu, 28 Nov 2019 06:50:11
- -0800 (PST)
-In-Reply-To: <2540f517-5662-2afb-fb2f-4720fddd7eb5@redhat.com>
-References: <20191127175257.23480-1-mrolnik@gmail.com>
- <CAL1e-=isp_-zF71STK-v5D8r5sGYiZbRFmSzjfQtR2FC5YknHQ@mail.gmail.com>
- <CAK4993iniaLhSYCe9hfuNpujpEdqPtZqqsJirBwYG9HqUVx6dA@mail.gmail.com>
- <CAL1e-=h+ZHM9qOOMj2KASuN2J4rSYcn1KP1hOzTWp+EpBY3=5A@mail.gmail.com>
- <CAK4993jDe+c7XsNn=fBwMu6TLuF8KgxNvUziXkwAUuOVArjrsA@mail.gmail.com>
- <5a784557-f322-dc3a-4ff1-a7d9a0409448@redhat.com>
- <CAL1e-=jJ5uNvYq7yNQYFhMJ0k94-d6mrybs-NyVjVi9Agb4Aeg@mail.gmail.com>
- <CAK4993i8zPyYH2hGxx0hP4qQKr9oTJV2T5JDtQmKHZe2EpAsvw@mail.gmail.com>
- <2540f517-5662-2afb-fb2f-4720fddd7eb5@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 28 Nov 2019 15:50:11 +0100
-Message-ID: <CAL1e-=jiNWB4LhWBrhhvihPt+oGOq21qva=yoQqqWzPLhK3Eaw@mail.gmail.com>
-Subject: Re: [PATCH v37 00/17] QEMU AVR 8 bit cores
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000001dfc80598693b18"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 Nov 2019 14:52:09 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1852196@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek philmd
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <157355353271.7205.5763587027166419396.malonedeb@gac.canonical.com>
+Message-Id: <157495272942.21735.14449487928343967817.malone@soybean.canonical.com>
+Subject: [Bug 1852196] Re: update edk2 submodule & binaries to
+ edk2-stable201911
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9b83c5d440427b4c40facc85538251295e26a986
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,113 +69,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Joaquin de Andres <me@xcancerberox.com.ar>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, QEMU Developers <qemu-devel@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Pavel Dovgalyuk <dovgaluk@ispras.ru>
+Reply-To: Bug 1852196 <1852196@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000001dfc80598693b18
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Laszlo,
 
-On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
+Do you have a particular reason to update the submodule *after* the v4.2.0 =
+release?
+I'd rather see QEMU 4.2 released with edk2-stable201911, as it fixes variou=
+s CVE (therefore a patch for 4.2-rc4 seems acceptable to me).
 
-> On 11/28/19 2:46 PM, Michael Rolnik wrote:
->
->> I will rename them.
->>
->
->>
-Renaming alone won't solve anything.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1852196
 
-> Please wait comments from Richard before a version respin.
->
-> On Thu, Nov 28, 2019 at 3:41 PM Aleksandar Markovic <
->> aleksandar.m.mail@gmail.com <mailto:aleksandar.m.mail@gmail.com>> wrote:
->>
-> [...]
->
->>
->>
->>         If I understand Aleksandar correctly, the naming is incorrect
->>         because too generic to AVR family, why Sarah only modeled the
->>         Atmel implementation.
->>
->>         Renaming devices such hw/char/avr_usart.c ->
->>         hw/char/atmel_usart.c (similarly with the macros) would be
->>         enough Aleksandar?
->>
->>
->>
->>     Some renaming could help, perhaps not quite like the one above, but
->>     my point (which I find hard to believe I can't explain to you) is
->>     that peripherals inside the chip evolved over time, as starkly
->>     opposed to external peripherals that are set in stone...
->>
->
->
+Title:
+  update edk2 submodule & binaries to edk2-stable201911
 
---00000000000001dfc80598693b18
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Status in QEMU:
+  New
 
-<br><br>On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9 &lt;<a =
-href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On 11/28/19 2:46 PM, Michael Rolnik wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-I will rename them.<br>
-</blockquote>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><br></blockquote></blockquote><div><br></div=
-><div>Renaming alone won&#39;t solve anything.</div><div>=C2=A0</div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">
-Please wait comments from Richard before a version respin.<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Thu, Nov 28, 2019 at 3:41 PM Aleksandar Markovic &lt;<a href=3D"mailto:a=
-leksandar.m.mail@gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.com</=
-a> &lt;mailto:<a href=3D"mailto:aleksandar.m.mail@gmail.com" target=3D"_bla=
-nk">aleksandar.m.mail@<wbr>gmail.com</a>&gt;&gt; wrote:<br>
-</blockquote>
-[...]<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 If I understand Aleksandar correctly, the namin=
-g is incorrect<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 because too generic to AVR family, why Sarah on=
-ly modeled the<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Atmel implementation.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Renaming devices such hw/char/avr_usart.c -&gt;=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 hw/char/atmel_usart.c (similarly with the macro=
-s) would be<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 enough Aleksandar?<br>
-<br>
-<br>
-<br>
-=C2=A0 =C2=A0 Some renaming could help, perhaps not quite like the one abov=
-e, but<br>
-=C2=A0 =C2=A0 my point (which I find hard to believe I can&#39;t explain to=
- you) is<br>
-=C2=A0 =C2=A0 that peripherals inside the chip evolved over time, as starkl=
-y<br>
-=C2=A0 =C2=A0 opposed to external peripherals that are set in stone...<br>
-</blockquote>
-<br>
-</blockquote>
+Bug description:
+  edk2-stable201911 will be tagged soon:
 
---00000000000001dfc80598693b18--
+    https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-
+  Release-Planning
+
+    https://github.com/tianocore/edk2/releases/tag/edk2-stable201911
+    [upcoming link]
+
+  It should be picked up by QEMU, after the v4.2.0 release.
+
+  Relevant fixes / features in edk2, since edk2-stable201905 (which is
+  what QEMU bundles at the moment, from LP#1831477):
+
+  - enable UEFI HTTPS Boot in ArmVirtQemu* platforms
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D1009
+    (this is from edk2-stable201908)
+
+  - fix CVE-2019-14553 (Invalid server certificate accepted in HTTPS Boot)
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D960
+
+  - consume OpenSSL-1.1.1d, for fixing CVE-2019-1543, CVE-2019-1552 and
+    CVE-2019-1563
+    https://bugzilla.tianocore.org/show_bug.cgi?id=3D2226
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1852196/+subscriptions
 
