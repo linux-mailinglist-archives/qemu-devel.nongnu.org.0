@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B8A10CCE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:38:36 +0100 (CET)
-Received: from localhost ([::1]:50840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BDD10CD09
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 17:48:43 +0100 (CET)
+Received: from localhost ([::1]:50898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaMoN-0003pr-7G
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:38:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
+	id 1iaMyA-0000bz-03
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 11:48:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iaLiz-0007hO-CT
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:28:58 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaLlT-0007lt-9D
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:31:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iaLir-0002Gg-KX
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:28:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50764
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iaLkK-0007c0-1t
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:30:22 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51778
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaLir-00026H-79
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:28:49 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaLkJ-0007Xn-Ra
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 10:30:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574954927;
+ s=mimecast20190719; t=1574955017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=3y0wq24NcdU8h2Ck+tdEM6abb+2ByMt1MxN+VqmIzdM=;
- b=Z9YOLiGmHnxLa0lGXtZF48ol7YOKoDtZ5bHShlCPWhKSamLB1R9xU1mrR4d9ddW874Oe3e
- n1VIJxqgYrToH1YV+AciWu27q6+IvMLw+Bu/rNABptKO7ibB/yuJ0oeUt53Y8ZhKhy85dj
- G+CC35tFqgha5Mpwy3XUk3Ixx4Esi70=
+ bh=nKpmQDeOmCSuPn+Ua2rOrBfQDwfIH01UUgrhvdL2BhE=;
+ b=PcK1NBnm8NkxUwKBI/X6aNRqpo4lHWIq2B8rx6g7YPh2mbtcJlnh0xx+PQdjO3p2ljDLFp
+ M38fj3wms6p1bXW1KGNpCa9CQkHw8nOqGnaOXUej+/rL1SoWPFxwFsBq8FupFV7Bx+TJuc
+ h9/cYvXjJzu7dnVG/S6WjTn8EcBsI5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-LGpy3DJaM6WcY98UN0A53g-1; Thu, 28 Nov 2019 10:28:43 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-274-vrDNxMijOtSMxq2NFYJVLQ-1; Thu, 28 Nov 2019 10:30:14 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 239A31005502;
- Thu, 28 Nov 2019 15:28:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B6641005510;
+ Thu, 28 Nov 2019 15:30:13 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A40695D6D0;
- Thu, 28 Nov 2019 15:28:37 +0000 (UTC)
-Subject: Re: [PATCH 14/15] s390x: protvirt: Disable address checks for PV
- guest IO emulation
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BE3D60BE2;
+ Thu, 28 Nov 2019 15:30:08 +0000 (UTC)
+Subject: Re: [PATCH 15/15] s390x: protvirt: Handle SIGP store status correctly
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191120114334.2287-15-frankja@linux.ibm.com>
+ <20191120114334.2287-16-frankja@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <db581b32-2b84-683c-0e7e-b6ee908eb701@redhat.com>
-Date: Thu, 28 Nov 2019 16:28:36 +0100
+Message-ID: <e01bc651-b895-2140-6bbd-e1d8f18f98c3@redhat.com>
+Date: Thu, 28 Nov 2019 16:30:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191120114334.2287-15-frankja@linux.ibm.com>
+In-Reply-To: <20191120114334.2287-16-frankja@linux.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: LGpy3DJaM6WcY98UN0A53g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: vrDNxMijOtSMxq2NFYJVLQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,116 +81,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 20/11/2019 12.43, Janosch Frank wrote:
-> IO instruction data is routed through SIDAD for protected guests, so
-> adresses do not need to be checked, as this is kernel memory.
+> Status storing is obviously not done by qemu anymore.
 > 
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  target/s390x/ioinst.c | 46 +++++++++++++++++++++++++++----------------
->  1 file changed, 29 insertions(+), 17 deletions(-)
+>  target/s390x/sigp.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
-> index c437a1d8c6..d3bd422ddd 100644
-> --- a/target/s390x/ioinst.c
-> +++ b/target/s390x/ioinst.c
-> @@ -110,11 +110,13 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
->      int cssid, ssid, schid, m;
->      SubchDev *sch;
->      SCHIB schib;
-> -    uint64_t addr;
-> +    uint64_t addr = 0;
->      CPUS390XState *env = &cpu->env;
-> -    uint8_t ar;
-> +    uint8_t ar = 0;
->  
-> -    addr = decode_basedisp_s(env, ipb, &ar);
-> +    if (!env->pv) {
-> +        addr = decode_basedisp_s(env, ipb, &ar);
-> +    }
->      if (addr & 3) {
->          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->          return;
-> @@ -167,11 +169,13 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
->      int cssid, ssid, schid, m;
->      SubchDev *sch;
->      ORB orig_orb, orb;
-> -    uint64_t addr;
-> +    uint64_t addr = 0;
->      CPUS390XState *env = &cpu->env;
-> -    uint8_t ar;
-> +    uint8_t ar = 0;
->  
-> -    addr = decode_basedisp_s(env, ipb, &ar);
-> +    if (!env->pv) {
-> +        addr = decode_basedisp_s(env, ipb, &ar);
-> +    }
->      if (addr & 3) {
->          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->          return;
-> @@ -198,12 +202,14 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
->  void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, uintptr_t ra)
->  {
->      CRW crw;
-> -    uint64_t addr;
-> +    uint64_t addr = 0;
->      int cc;
->      CPUS390XState *env = &cpu->env;
-> -    uint8_t ar;
-> +    uint8_t ar = 0;
->  
-> -    addr = decode_basedisp_s(env, ipb, &ar);
-> +    if (!env->pv) {
-> +        addr = decode_basedisp_s(env, ipb, &ar);
-> +    }
->      if (addr & 3) {
->          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->          return;
-> @@ -228,13 +234,15 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
->  {
->      int cssid, ssid, schid, m;
->      SubchDev *sch;
-> -    uint64_t addr;
-> +    uint64_t addr = 0;
->      int cc;
->      SCHIB schib;
->      CPUS390XState *env = &cpu->env;
-> -    uint8_t ar;
-> +    uint8_t ar = 0;
->  
-> -    addr = decode_basedisp_s(env, ipb, &ar);
-> +    if (!env->pv) {
-> +        addr = decode_basedisp_s(env, ipb, &ar);
-> +    }
->      if (addr & 3) {
->          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->          return;
-> @@ -294,16 +302,18 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb, uintptr_t ra)
->      int cssid, ssid, schid, m;
->      SubchDev *sch;
->      IRB irb;
-> -    uint64_t addr;
-> +    uint64_t addr = 0;
->      int cc, irb_len;
-> -    uint8_t ar;
-> +    uint8_t ar = 0;
->  
->      if (ioinst_disassemble_sch_ident(reg1, &m, &cssid, &ssid, &schid)) {
->          s390_program_interrupt(env, PGM_OPERAND, ra);
->          return -EIO;
+> diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+> index 2ce22d4dc1..68634d694a 100644
+> --- a/target/s390x/sigp.c
+> +++ b/target/s390x/sigp.c
+> @@ -144,7 +144,9 @@ static void sigp_stop_and_store_status(CPUState *cs, run_on_cpu_data arg)
+>      case S390_CPU_STATE_STOPPED:
+>          /* already stopped, just store the status */
+>          cpu_synchronize_state(cs);
+> -        s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
+> +        if (!cpu->env.pv) {
+> +            s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
+> +        }
+>          break;
 >      }
->      trace_ioinst_sch_id("tsch", cssid, ssid, schid);
-> -    addr = decode_basedisp_s(env, ipb, &ar);
-> +    if (!env->pv) {
-> +        addr = decode_basedisp_s(env, ipb, &ar);
-> +    }
->      if (addr & 3) {
->          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
->          return -EIO;
+>      si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
+> @@ -497,7 +499,8 @@ void do_stop_interrupt(CPUS390XState *env)
+>      if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
+>          qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>      }
+> -    if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
+> +    /* Storing will occur on next SIE entry for fmt 4 */
+> +    if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS && !env->pv) {
+>          s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
+>      }
+>      env->sigp_order = 0;
+> 
 
-Would it make sense to hide all these changes in decode_basedisp_s()
-instead? ... so that decode_basedisp_s() returns 0 if env->pv == true ?
-... or are there still cases where we need real values from
-decode_basedisp_s() in case of env->pv==true?
+Maybe move the check into the s390_store_status() function instead?
 
 Anyway,
 Reviewed-by: Thomas Huth <thuth@redhat.com>
