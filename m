@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44D910C50E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:24:34 +0100 (CET)
-Received: from localhost ([::1]:46388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01DE10C518
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:28:41 +0100 (CET)
+Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaF6H-0006ec-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:24:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48770)
+	id 1iaFAH-0002aH-1b
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:28:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49237)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iaF3W-0004Ex-5R
+ (envelope-from <tao3.xu@intel.com>) id 1iaF3V-0004JL-LT
  for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iaF3O-00080Y-6d
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:35 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iaF3R-0008A0-4e
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:39 -0500
 Received: from mga01.intel.com ([192.55.52.88]:64342)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iaF3N-0007q4-OY
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:34 -0500
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iaF3Q-0007q4-Lk
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:21:37 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2019 00:21:33 -0800
+ 28 Nov 2019 00:21:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,252,1571727600"; d="scan'208";a="207017247"
+X-IronPort-AV: E=Sophos;i="5.69,252,1571727600"; d="scan'208";a="207017262"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga008.fm.intel.com with ESMTP; 28 Nov 2019 00:21:30 -0800
+ by fmsmga008.fm.intel.com with ESMTP; 28 Nov 2019 00:21:33 -0800
 From: Tao Xu <tao3.xu@intel.com>
 To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
  sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
  lvivier@redhat.com
-Subject: [PATCH v19 7/8] tests/numa: Add case for QMP build HMAT
-Date: Thu, 28 Nov 2019 16:21:08 +0800
-Message-Id: <20191128082109.30081-8-tao3.xu@intel.com>
+Subject: [PATCH v19 8/8] tests/bios-tables-test: add test cases for ACPI HMAT
+Date: Thu, 28 Nov 2019 16:21:09 +0800
+Message-Id: <20191128082109.30081-9-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191128082109.30081-1-tao3.xu@intel.com>
 References: <20191128082109.30081-1-tao3.xu@intel.com>
@@ -56,261 +56,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, jonathan.cameron@huawei.com
+Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
+ jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check configuring HMAT usecase
+ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
+Heterogeneous Memory with boot option '-numa node'.
+
+Add test cases on PC and Q35 machines with 2 numa nodes.
+Because HMAT is generated when system enable numa, the
+following tables need to be added for this test:
+    tests/data/acpi/pc/APIC.acpihmat
+    tests/data/acpi/pc/SRAT.acpihmat
+    tests/data/acpi/pc/HMAT.acpihmat
+    tests/data/acpi/pc/DSDT.acpihmat
+    tests/data/acpi/q35/APIC.acpihmat
+    tests/data/acpi/q35/SRAT.acpihmat
+    tests/data/acpi/q35/HMAT.acpihmat
+    tests/data/acpi/q35/DSDT.acpihmat
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Daniel Black <daniel@linux.ibm.com>
+Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
 Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
-Changes in v19:
-    - Add some fail cases for hmat-cache when level=0
+No changes in v19.
 
 Changes in v18:
-    - Rewrite the lines over 80 characters
+    - Remove unit "ns".
 
-Chenges in v17:
-    - Add some fail test cases (Igor)
+Changes in v17:
+    - Update the latency and bandwidth
+
+Changes in v15:
+    - Make tests without breaking CI (Michael)
+
+Changes in v13:
+    - Use decimal notation with appropriate suffix for cache size
 ---
- tests/numa-test.c | 213 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 213 insertions(+)
+ tests/bios-tables-test-allowed-diff.h |  8 +++++
+ tests/bios-tables-test.c              | 44 +++++++++++++++++++++++++++
+ tests/data/acpi/pc/APIC.acpihmat      |  0
+ tests/data/acpi/pc/DSDT.acpihmat      |  0
+ tests/data/acpi/pc/HMAT.acpihmat      |  0
+ tests/data/acpi/pc/SRAT.acpihmat      |  0
+ tests/data/acpi/q35/APIC.acpihmat     |  0
+ tests/data/acpi/q35/DSDT.acpihmat     |  0
+ tests/data/acpi/q35/HMAT.acpihmat     |  0
+ tests/data/acpi/q35/SRAT.acpihmat     |  0
+ 10 files changed, 52 insertions(+)
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
-diff --git a/tests/numa-test.c b/tests/numa-test.c
-index 8de8581231..aed7b2f31b 100644
---- a/tests/numa-test.c
-+++ b/tests/numa-test.c
-@@ -327,6 +327,216 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     qtest_quit(qs);
+diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
+index dfb8523c8b..3c9e0c979b 100644
+--- a/tests/bios-tables-test-allowed-diff.h
++++ b/tests/bios-tables-test-allowed-diff.h
+@@ -1 +1,9 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/APIC.acpihmat",
++"tests/data/acpi/pc/SRAT.acpihmat",
++"tests/data/acpi/pc/HMAT.acpihmat",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/q35/APIC.acpihmat",
++"tests/data/acpi/q35/SRAT.acpihmat",
++"tests/data/acpi/q35/HMAT.acpihmat",
++"tests/data/acpi/q35/DSDT.acpihmat",
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 79f5da092f..cb1de58053 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
+ 
  }
  
-+static void pc_hmat_build_cfg(const void *data)
++static void test_acpi_tcg_acpi_hmat(const char *machine)
 +{
-+    QTestState *qs = qtest_initf("%s -nodefaults --preconfig -machine hmat=on "
-+                     "-smp 2,sockets=2 "
-+                     "-m 128M,slots=2,maxmem=1G "
-+                     "-object memory-backend-ram,size=64M,id=m0 "
-+                     "-object memory-backend-ram,size=64M,id=m1 "
-+                     "-numa node,nodeid=0,memdev=m0 "
-+                     "-numa node,nodeid=1,memdev=m1,initiator=0 "
-+                     "-numa cpu,node-id=0,socket-id=0 "
-+                     "-numa cpu,node-id=0,socket-id=1",
-+                     data ? (char *)data : "");
++    test_data data;
 +
-+    /* Fail: Initiator should be less than the number of nodes */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 2, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")));
-+
-+    /* Fail: Target should be less than the number of nodes */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 2,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")));
-+
-+    /* Fail: Initiator should contain cpu */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 1, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")));
-+
-+    /* Fail: Data-type mismatch */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"write-latency\","
-+        " 'bandwidth': 524288000 } }")));
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"read-bandwidth\","
-+        " 'latency': 5 } }")));
-+
-+    /* Fail: Bandwidth should be 1MB (1048576) aligned */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
-+        " 'bandwidth': 1048575 } }")));
-+
-+    /* Configuring HMAT bandwidth and latency details */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 1 } }")));    /* 1 ns */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 5 } }")));    /* Fail: Duplicate configuration */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
-+        " 'bandwidth': 68717379584 } }")));    /* 65534 MB/s */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 65534 } }")));    /* 65534 ns */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
-+        " 'bandwidth': 34358689792 } }")));    /* 32767 MB/s */
-+
-+    /* Fail: node_id should be less than the number of nodes */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 2, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+
-+    /* Fail: level should be less than HMAT_LB_LEVELS (4) */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 4, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+
-+    /* Fail: assoc option should be 'none', if level is 0 */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 0, 'assoc': \"direct\", 'policy': \"none\","
-+        " 'line': 0 } }")));
-+    /* Fail: policy option should be 'none', if level is 0 */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 0, 'assoc': \"none\", 'policy': \"write-back\","
-+        " 'line': 0 } }")));
-+    /* Fail: line option should be 0, if level is 0 */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 0, 'assoc': \"none\", 'policy': \"none\","
-+        " 'line': 8 } }")));
-+
-+    /* Configuring HMAT memory side cache attributes */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));    /* Fail: Duplicate configuration */
-+    /* Fail: The size of level 2 size should be small than level 1 */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 2, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+    /* Fail: The size of level 0 size should be larger than level 1 */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 0, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 1, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+
-+    /* let machine initialization to complete and run */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs,
-+                                       "{ 'execute': 'x-exit-preconfig' }")));
-+    qtest_qmp_eventwait(qs, "RESUME");
-+
-+    qtest_quit(qs);
++    memset(&data, 0, sizeof(data));
++    data.machine = machine;
++    data.variant = ".acpihmat";
++    test_acpi_one(" -machine hmat=on"
++                  " -smp 2,sockets=2"
++                  " -m 128M,slots=2,maxmem=1G"
++                  " -object memory-backend-ram,size=64M,id=m0"
++                  " -object memory-backend-ram,size=64M,id=m1"
++                  " -numa node,nodeid=0,memdev=m0"
++                  " -numa node,nodeid=1,memdev=m1,initiator=0"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=0,socket-id=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=65534M"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=65534"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=32767M"
++                  " -numa hmat-cache,node-id=0,size=10K,level=1,assoc=direct,"
++                  "policy=write-back,line=8"
++                  " -numa hmat-cache,node-id=1,size=10K,level=1,assoc=direct,"
++                  "policy=write-back,line=8",
++                  &data);
++    free_test_data(&data);
 +}
 +
-+static void pc_hmat_off_cfg(const void *data)
++static void test_acpi_q35_tcg_acpi_hmat(void)
 +{
-+    QTestState *qs = qtest_initf("%s -nodefaults --preconfig "
-+                     "-smp 2,sockets=2 "
-+                     "-m 128M,slots=2,maxmem=1G "
-+                     "-object memory-backend-ram,size=64M,id=m0 "
-+                     "-object memory-backend-ram,size=64M,id=m1 "
-+                     "-numa node,nodeid=0,memdev=m0",
-+                     data ? (char *)data : "");
-+
-+    /*
-+     * Fail: Enable HMAT with -machine hmat=on
-+     * before using any of hmat specific options
-+     */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'node', 'nodeid': 1, 'memdev': \"m1\","
-+        " 'initiator': 0 } }")));
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'node', 'nodeid': 1, 'memdev': \"m1\" } }")));
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 1 } }")));
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+
-+    /* let machine initialization to complete and run */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs,
-+                                       "{ 'execute': 'x-exit-preconfig' }")));
-+    qtest_qmp_eventwait(qs, "RESUME");
-+
-+    qtest_quit(qs);
++    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
 +}
 +
-+static void pc_hmat_erange_cfg(const void *data)
++static void test_acpi_piix4_tcg_acpi_hmat(void)
 +{
-+    QTestState *qs = qtest_initf("%s -nodefaults --preconfig -machine hmat=on "
-+                     "-smp 2,sockets=2 "
-+                     "-m 128M,slots=2,maxmem=1G "
-+                     "-object memory-backend-ram,size=64M,id=m0 "
-+                     "-object memory-backend-ram,size=64M,id=m1 "
-+                     "-numa node,nodeid=0,memdev=m0 "
-+                     "-numa node,nodeid=1,memdev=m1,initiator=0 "
-+                     "-numa cpu,node-id=0,socket-id=0 "
-+                     "-numa cpu,node-id=0,socket-id=1",
-+                     data ? (char *)data : "");
-+
-+    /* Can't store the compressed latency */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 1 } }")));    /* 1 ns */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-latency\","
-+        " 'latency': 65535 } }")));    /* 65535 ns */
-+
-+    /* Test the 0 input (bandwidth not provided) */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 0,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
-+        " 'bandwidth': 0 } }")));    /* 0 MB/s */
-+    /* Fail: bandwidth should be provided before memory side cache attributes */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-cache', 'node-id': 0, 'size': 10240,"
-+        " 'level': 1, 'assoc': \"direct\", 'policy': \"write-back\","
-+        " 'line': 8 } }")));
-+
-+    /* Can't store the compressed bandwidth */
-+    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-+        " 'arguments': { 'type': 'hmat-lb', 'initiator': 0, 'target': 1,"
-+        " 'hierarchy': \"memory\", 'data-type': \"access-bandwidth\","
-+        " 'bandwidth': 68718428160 } }")));    /* 65535 MB/s */
-+
-+    /* let machine initialization to complete and run */
-+    g_assert(!qmp_rsp_is_err(qtest_qmp(qs,
-+                                       "{ 'execute': 'x-exit-preconfig' }")));
-+    qtest_qmp_eventwait(qs, "RESUME");
-+
-+    qtest_quit(qs);
++    test_acpi_tcg_acpi_hmat(MACHINE_PC);
 +}
 +
- int main(int argc, char **argv)
+ static void test_acpi_virt_tcg(void)
  {
-     const char *args = NULL;
-@@ -346,6 +556,9 @@ int main(int argc, char **argv)
-     if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
-         qtest_add_data_func("/numa/pc/cpu/explicit", args, pc_numa_cpu);
-         qtest_add_data_func("/numa/pc/dynamic/cpu", args, pc_dynamic_cpu_cfg);
-+        qtest_add_data_func("/numa/pc/hmat/build", args, pc_hmat_build_cfg);
-+        qtest_add_data_func("/numa/pc/hmat/off", args, pc_hmat_off_cfg);
-+        qtest_add_data_func("/numa/pc/hmat/erange", args, pc_hmat_erange_cfg);
-     }
- 
-     if (!strcmp(arch, "ppc64")) {
+     test_data data = {
+@@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
++        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
++        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT.acpihmat
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
 2.20.1
 
