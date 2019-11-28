@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E525B10C62C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:51:07 +0100 (CET)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3571F10C626
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:47:30 +0100 (CET)
+Received: from localhost ([::1]:46986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaGS2-0004Dw-Sc
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:51:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59897)
+	id 1iaGOV-0001j8-33
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:47:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGKQ-0007RC-4n
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGKQ-0007RF-L8
  for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:43:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGDk-0006mn-Qh
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGDk-0006lk-Jn
  for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:36:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:46682)
+Received: from relay.sw.ru ([185.231.240.75]:46678)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iaGDk-0006aa-HY; Thu, 28 Nov 2019 04:36:20 -0500
+ id 1iaGDk-0006aV-A7; Thu, 28 Nov 2019 04:36:20 -0500
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iaGDd-0001D9-Uv; Thu, 28 Nov 2019 12:36:14 +0300
+ id 1iaGDe-0001D9-24; Thu, 28 Nov 2019 12:36:14 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v10 2/3] qcow2: Allow writing compressed data of multiple
- clusters
-Date: Thu, 28 Nov 2019 12:36:12 +0300
-Message-Id: <1574933773-293866-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v10 3/3] tests/qemu-iotests: add case to write compressed data
+ of multiple clusters
+Date: Thu, 28 Nov 2019 12:36:13 +0300
+Message-Id: <1574933773-293866-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574933773-293866-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1574933773-293866-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -52,150 +52,95 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU currently supports writing compressed data of the size equal to
-one cluster. This patch allows writing QCOW2 compressed data that
-exceed one cluster. Now, we split buffered data into separate clusters
-and write them compressed using the block/aio_task API.
+Add the case to the iotest #214 that checks possibility of writing
+compressed data of more than one cluster size. The test case involves
+the compress filter driver showing a sample usage of that.
 
-Suggested-by: Pavel Butsykin <pbutsykin@virtuozzo.com>
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 102 ++++++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 75 insertions(+), 27 deletions(-)
+ tests/qemu-iotests/214     | 43 +++++++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/214.out | 14 ++++++++++++++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 7c18721..0e03a1a 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4222,10 +4222,8 @@ fail:
-     return ret;
- }
+diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
+index 21ec8a2..0b6ea0b 100755
+--- a/tests/qemu-iotests/214
++++ b/tests/qemu-iotests/214
+@@ -89,6 +89,49 @@ _check_test_img -r all
+ $QEMU_IO -c "read  -P 0x11  0 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
+ $QEMU_IO -c "read  -P 0x22 4M 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
  
--/* XXX: put compressed sectors first, then all the cluster aligned
--   tables to avoid losing bytes in alignment */
- static coroutine_fn int
--qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-+qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
-                                  uint64_t offset, uint64_t bytes,
-                                  QEMUIOVector *qiov, size_t qiov_offset)
- {
-@@ -4235,32 +4233,11 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-     uint8_t *buf, *out_buf;
-     uint64_t cluster_offset;
- 
--    if (has_data_file(bs)) {
--        return -ENOTSUP;
--    }
--
--    if (bytes == 0) {
--        /* align end of file to a sector boundary to ease reading with
--           sector based I/Os */
--        int64_t len = bdrv_getlength(bs->file->bs);
--        if (len < 0) {
--            return len;
--        }
--        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, NULL);
--    }
--
--    if (offset_into_cluster(s, offset)) {
--        return -EINVAL;
--    }
-+    assert(bytes == s->cluster_size || (bytes < s->cluster_size &&
-+           (offset + bytes == bs->total_sectors << BDRV_SECTOR_BITS)));
- 
-     buf = qemu_blockalign(bs, s->cluster_size);
--    if (bytes != s->cluster_size) {
--        if (bytes > s->cluster_size ||
--            offset + bytes != bs->total_sectors << BDRV_SECTOR_BITS)
--        {
--            qemu_vfree(buf);
--            return -EINVAL;
--        }
-+    if (bytes < s->cluster_size) {
-         /* Zero-pad last write if image size is not cluster aligned */
-         memset(buf + bytes, 0, s->cluster_size - bytes);
-     }
-@@ -4309,6 +4286,77 @@ fail:
-     return ret;
- }
- 
-+static coroutine_fn int qcow2_co_pwritev_compressed_task_entry(AioTask *task)
-+{
-+    Qcow2AioTask *t = container_of(task, Qcow2AioTask, task);
++echo
++echo "=== Write compressed data of multiple clusters ==="
++echo
++cluster_size=0x10000
++_make_test_img 2M -o cluster_size=$cluster_size
 +
-+    assert(!t->cluster_type && !t->l2meta);
++echo "Write uncompressed data:"
++let data_size="8 * $cluster_size"
++$QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
++         2>&1 | _filter_qemu_io | _filter_testdir
++sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
++        sed -n '/"actual-size":/ s/[^0-9]//gp')
 +
-+    return qcow2_co_pwritev_compressed_task(t->bs, t->offset, t->bytes, t->qiov,
-+                                            t->qiov_offset);
-+}
++_make_test_img 2M -o cluster_size=$cluster_size
++echo "Write compressed data:"
++let data_size="3 * $cluster_size + $cluster_size / 2"
++# Set compress on. That will align the written data
++# by the cluster size and will write them compressed.
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
++$QEMU_IO -c "write -P 0xbb 0 $data_size" --image-opts \
++         "driver=compress,file.driver=$IMGFMT,file.file.driver=file,file.file.filename=$TEST_IMG" \
++         2>&1 | _filter_qemu_io | _filter_testdir
 +
-+/*
-+ * XXX: put compressed sectors first, then all the cluster aligned
-+ * tables to avoid losing bytes in alignment
-+ */
-+static coroutine_fn int
-+qcow2_co_pwritev_compressed_part(BlockDriverState *bs,
-+                                 uint64_t offset, uint64_t bytes,
-+                                 QEMUIOVector *qiov, size_t qiov_offset)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    AioTaskPool *aio = NULL;
-+    int ret = 0;
++let offset="4 * $cluster_size + $cluster_size / 4"
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
++$QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
++    'driver': 'compress',
++    'file': {'driver': '$IMGFMT',
++             'file': {'driver': 'file',
++                      'filename': '$TEST_IMG'}}}" | \
++                          _filter_qemu_io | _filter_testdir
 +
-+    if (has_data_file(bs)) {
-+        return -ENOTSUP;
-+    }
++sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
++        sed -n '/"actual-size":/ s/[^0-9]//gp')
 +
-+    if (bytes == 0) {
-+        /*
-+         * align end of file to a sector boundary to ease reading with
-+         * sector based I/Os
-+         */
-+        int64_t len = bdrv_getlength(bs->file->bs);
-+        if (len < 0) {
-+            return len;
-+        }
-+        return bdrv_co_truncate(bs->file, len, false, PREALLOC_MODE_OFF, NULL);
-+    }
++if [ $sizeA -le $sizeB ]
++then
++    echo "Compression ERROR"
++fi
 +
-+    if (offset_into_cluster(s, offset)) {
-+        return -EINVAL;
-+    }
++$QEMU_IMG check --output=json "$TEST_IMG" |
++          sed -n 's/,$//; /"compressed-clusters":/ s/^ *//p'
 +
-+    while (bytes && aio_task_pool_status(aio) == 0) {
-+        uint64_t chunk_size = MIN(bytes, s->cluster_size);
+ # success, all done
+ echo '*** done'
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/214.out b/tests/qemu-iotests/214.out
+index 0fcd8dc..9fc6728 100644
+--- a/tests/qemu-iotests/214.out
++++ b/tests/qemu-iotests/214.out
+@@ -32,4 +32,18 @@ read 4194304/4194304 bytes at offset 0
+ 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ read 4194304/4194304 bytes at offset 4194304
+ 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 +
-+        if (!aio && chunk_size != bytes) {
-+            aio = aio_task_pool_new(QCOW2_MAX_WORKERS);
-+        }
++=== Write compressed data of multiple clusters ===
 +
-+        ret = qcow2_add_task(bs, aio, qcow2_co_pwritev_compressed_task_entry,
-+                             0, 0, offset, chunk_size, qiov, qiov_offset, NULL);
-+        if (ret < 0) {
-+            break;
-+        }
-+        qiov_offset += chunk_size;
-+        offset += chunk_size;
-+        bytes -= chunk_size;
-+    }
-+
-+    if (aio) {
-+        aio_task_pool_wait_all(aio);
-+        if (ret == 0) {
-+            ret = aio_task_pool_status(aio);
-+        }
-+        g_free(aio);
-+    }
-+
-+    return ret;
-+}
-+
- static int coroutine_fn
- qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
++Write uncompressed data:
++wrote 524288/524288 bytes at offset 0
++512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
++Write compressed data:
++wrote 229376/229376 bytes at offset 0
++224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 229376/229376 bytes at offset 278528
++224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++"compressed-clusters": 8
+ *** done
 -- 
 1.8.3.1
 
