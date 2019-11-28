@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05A010CB67
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:11:08 +0100 (CET)
-Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7F010CBA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:22:44 +0100 (CET)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLRj-0005C4-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:11:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
+	id 1iaLcv-0002OZ-SV
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:22:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iaKXJ-0001dj-1y
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:52 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iaKa2-0003WM-Rn
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:15:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iaKWy-00060z-7T
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51312
+ (envelope-from <marcandre.lureau@redhat.com>) id 1iaKZx-00087R-RB
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:15:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36966
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iaKWx-0005cE-RK
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:12:28 -0500
+ (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1iaKZx-00080X-Fr
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:15:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574950343;
+ s=mimecast20190719; t=1574950532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gCdFFAGqgMwV85fIMPgikuTLpGOeyP5t/aaUax7dNPQ=;
- b=a83Nf4fT1iLyNjHkPAHZFta5svvE0dvnByjqftHoq5kMfSxmieeUN937gd66i04WI4i9Qc
- PwV+i/tljMfR4X2t+ukhfdL+cHUhstqyn+lGcjjMPOFlEXR1wxIanuhO1fO5IlcKj6WoUR
- 1PQDTFrFk6kWidaf6nmva7jFcK/1Hdc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=puC+z5moYUYh7PWMjjaV25+AlBlMja4kgHyGd2FvV3o=;
+ b=c6yOl1Xvm3G6sQn8f6H0mYxyUmWHjK0LxZ7LvHRS9AbRjaOvIUDyvScCaEdZApn0Zxk48P
+ MSaUGMHCn7+1aZoxbCMwsOhuZRMUrAvvOF5HGmwFMaMH8RhA1cgQ2K6OVZbzXqj4dHmg8e
+ Tw/If4G0B+rZnt5K5TYKYkb98myT8FM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-NZkHJEYWOCqT8Qs13ps2iQ-1; Thu, 28 Nov 2019 09:12:21 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-345-X-F4WMyIO56wB_o_9tE24w-1; Thu, 28 Nov 2019 09:15:30 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 952ED10054E3;
- Thu, 28 Nov 2019 14:12:20 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-95.ams2.redhat.com [10.36.117.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB7F6600C8;
- Thu, 28 Nov 2019 14:12:19 +0000 (UTC)
-Date: Thu, 28 Nov 2019 15:12:18 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH for-5.0 02/31] block: Add BdrvChildRole
-Message-ID: <20191128141218.GA4944@linux.fritz.box>
-References: <20191127131624.1062403-1-mreitz@redhat.com>
- <20191127131624.1062403-3-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E548DB3D;
+ Thu, 28 Nov 2019 14:15:29 +0000 (UTC)
+Received: from localhost (ovpn-112-17.ams2.redhat.com [10.36.112.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 558A3608B9;
+ Thu, 28 Nov 2019 14:15:21 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] RFC: add -mem-shared option
+Date: Thu, 28 Nov 2019 18:15:16 +0400
+Message-Id: <20191128141518.628245-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191127131624.1062403-3-mreitz@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: NZkHJEYWOCqT8Qs13ps2iQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: X-F4WMyIO56wB_o_9tE24w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -73,91 +68,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, stefanha@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2019 um 14:15 hat Max Reitz geschrieben:
-> This enum will supplement BdrvChildClass when it comes to what role (or
-> combination of roles) a child takes for its parent.
->=20
-> Because empty enums are not allowed, let us just start with it filled.
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  include/block/block.h | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
->=20
-> diff --git a/include/block/block.h b/include/block/block.h
-> index 38963ef203..36817d5689 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -279,6 +279,44 @@ enum {
->      DEFAULT_PERM_UNCHANGED      =3D BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHR=
-OUGH,
->  };
-> =20
-> +typedef enum BdrvChildRole {
-> +    /*
-> +     * If present, bdrv_replace_node() will not change the node this
-> +     * BdrvChild points to.
-> +     */
-> +    BDRV_CHILD_STAY_AT_NODE =3D (1 << 0),
-> +
-> +    /* Child stores data */
-> +    BDRV_CHILD_DATA         =3D (1 << 1),
-> +
-> +    /* Child stores metadata */
-> +    BDRV_CHILD_METADATA     =3D (1 << 2),
-> +
-> +    /* Filtered child */
-> +    BDRV_CHILD_FILTERED     =3D (1 << 3),
-> +
-> +    /* Child to COW from (backing child) */
-> +    BDRV_CHILD_COW          =3D (1 << 4),
-> +
-> +    /* Child is expected to be a protocol node */
-> +    BDRV_CHILD_PROTOCOL     =3D (1 << 5),
-> +
-> +    /* Child is expected to be a format node */
-> +    BDRV_CHILD_FORMAT       =3D (1 << 6),
+Hi,
 
-In theory, a node shouldn't care what other nodes it has as its
-children. For a parent, protocols and formats look exactly the same.
+Setting up shared memory for vhost-user is a bit complicated from
+command line, as it requires NUMA setup such as: m 4G -object
+memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3Don -numa
+node,memdev=3Dmem.
 
-Of course, we do have BDRV_O_PROTOCOL, but if I'm not mistaken this is
-basically only about probing or not probing an image format when a
-legacy filename is given rather than BlockdevOptions.
+Instead, I suggest to add a -mem-shared option for non-numa setups,
+that will make the -mem-path or anonymouse memory shareable.
 
-Therefore, unless you have a real reason for this to be here, I'd prefer
-if we could keep such legacy flags outside of the core infrastructure if
-at all possible.
+Comments welcome,
 
-> +    /*
-> +     * The primary child.  For most drivers, this is the child whose
-> +     * filename applies best to the parent node.
-> +     */
-> +    BDRV_CHILD_PRIMARY      =3D (1 << 7),
+Marc-Andr=C3=A9 Lureau (2):
+  memfd: add qemu_memfd_open()
+  Add -mem-shared option
 
-If primary is a flag of each BdrvChild, then you could end up having
-multiple children that claim that they're the primary child. On the
-other hand, if we have a bs->primary_child instead to make sure that we
-only have one primary child, we'd have to keep this consistent when
-children change.
+ exec.c                  | 11 ++++++++++-
+ hw/core/numa.c          | 16 +++++++++++++++-
+ include/qemu/memfd.h    |  3 +++
+ include/sysemu/sysemu.h |  1 +
+ qemu-options.hx         | 10 ++++++++++
+ util/memfd.c            | 39 +++++++++++++++++++++++++--------------
+ vl.c                    |  4 ++++
+ 7 files changed, 68 insertions(+), 16 deletions(-)
 
-So maybe just document that this flag must be given to only one
-BdrvChild link for each parent.
-
-> +    /* Useful combination of flags */
-> +    BDRV_CHILD_IMAGE        =3D BDRV_CHILD_DATA
-> +                              | BDRV_CHILD_METADATA
-> +                              | BDRV_CHILD_PROTOCOL
-> +                              | BDRV_CHILD_PRIMARY,
-> +} BdrvChildRole;
-> +
->  char *bdrv_perm_names(uint64_t perm);
->  uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm);
-
-Kevin
+--=20
+2.24.0
 
 
