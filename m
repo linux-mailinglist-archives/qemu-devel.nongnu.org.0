@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDCA10C84A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:59:27 +0100 (CET)
-Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B0F10C857
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 13:05:26 +0100 (CET)
+Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaISD-0007LS-Qm
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52289)
+	id 1iaIY0-0002tw-U5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 07:05:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55703)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iaIMi-000568-JM
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:53:45 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaI65-0006dn-Et
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:36:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iaIMc-0002dF-Dk
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:53:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24774
+ (envelope-from <philmd@redhat.com>) id 1iaI61-00027Y-Pw
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:36:31 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42815
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaIMc-0002OJ-4j
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:53:38 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaI61-0001x4-FC
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:36:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574942015;
+ s=mimecast20190719; t=1574940987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CKNyJyxqMCJZ6tXQZfEdGoDAnFa/vTjzlVjmZ87v7WE=;
- b=SZToRSrnhYlKOHitc8bcDd1uA2km1Btbd/I6mNuW8A98MtFrjw1VELX4kNzBU8qkomtIsJ
- gW47EOpk+zToUwprBA8uaNZCPl6bDqU3cEl2v4Mi0ViWSgX0VvyKUeQ8mZRKb4zBnASyBF
- lnErWTVFvKsKPn9TtVTPo8uZQb15Z7o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-0rvC_2U4M7iBYRM2sYzi4w-1; Thu, 28 Nov 2019 06:53:31 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502E380183D;
- Thu, 28 Nov 2019 11:53:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C550819C6A;
- Thu, 28 Nov 2019 11:53:23 +0000 (UTC)
-Subject: Re: [PATCH v19 7/8] tests/numa: Add case for QMP build HMAT
-To: Markus Armbruster <armbru@redhat.com>, Tao Xu <tao3.xu@intel.com>
-References: <20191128082109.30081-1-tao3.xu@intel.com>
- <20191128082109.30081-8-tao3.xu@intel.com>
- <87pnhcnru9.fsf@dusky.pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <09bb1d3f-222a-e84e-ab6a-55496bba1d9a@redhat.com>
-Date: Thu, 28 Nov 2019 12:53:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ bh=SBA+Y5IMo3FuK6mTgARuQfkJj5mKM3LT8f4XWzeTp5w=;
+ b=X03JpaMU6orunFgj1X/6tnt+7qZT3Z82KyNfRHGhcPf+eYIzkcxxhAgbSyADwiklqLZmv8
+ yYtttAQ9qicn77dEr37SqLbex/6dMeXDmT0NM9cSQrFxyy/a316k55F0PFfL7MpIGtRsPg
+ TZnE3zFSgA9u4wxHYiSjVZKhYrhxMHU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-x7ggK8B6PHiyQueOIj1yMA-1; Thu, 28 Nov 2019 06:36:24 -0500
+Received: by mail-wr1-f71.google.com with SMTP id c6so13648791wrm.18
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 03:36:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vAXoxG/hPH26hxWqwi0YG+AgRN0sCIrtZCnFIU7bVn4=;
+ b=JT/nCRP5hUEaFVYOKNcIzs71Q9cQKgRPilw2kubaySc+kFHV8Z7VC1GJ009blJBGOZ
+ tip9WR/LLUViw2bLJZ4fJsngQ4WOS0ryDWzoyftf8YfglyEn6mVV9hRkGihQcgPM+WY4
+ V/iIukUDVCaFMCh8h+yV0J8MhFG6wnZAW6I6YfWO2gaKzLnPYFaCJNmmiwM2EF0bFEYG
+ HhqM8hI0NrF4yum6NeqAg6Oc6Mfbf+IIxJKQuToa+KdjAGXphA/+an3bC29uiKTFMe3R
+ oJE1tQO+JosWLpFTjPfMoAdmADWAu+hvHFfVpENfvISx4ORCzuBp+IrwToFzbZwaoV58
+ 0Q6w==
+X-Gm-Message-State: APjAAAXlP6sqakcA/gcxkz/b5Ty+uFaBL/pGBuVSQtAzM+CTraOtpecf
+ T3ecA6chvGzxSRkI383/tYe37iqvRVP3Upd2hmBCYMUuVXCczZ8rj8Tyv06DN7BStpRNRoSe1RZ
+ zY0/8JWH/w7obVoI=
+X-Received: by 2002:adf:f60a:: with SMTP id t10mr48021365wrp.29.1574940982867; 
+ Thu, 28 Nov 2019 03:36:22 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyNVN59Eh2TVgmCfPDoc/HtWnAz9aI1/W+G/DhQ/3Zi1NYh4vKKMohC7DerYRfEJdwFf6C3xQ==
+X-Received: by 2002:adf:f60a:: with SMTP id t10mr48021332wrp.29.1574940982575; 
+ Thu, 28 Nov 2019 03:36:22 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id o21sm9719652wmc.17.2019.11.28.03.36.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 03:36:22 -0800 (PST)
+Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20191128015030.27543-1-f4bug@amsat.org>
+ <20191128015030.27543-7-f4bug@amsat.org>
+ <CAL1e-=i=1zhx3q4xzh7oPzXLWAHwtEkUVTSHKqv5yy9BBRrVKw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d9590609-9bcb-41da-cb2d-a7e373ca3909@redhat.com>
+Date: Thu, 28 Nov 2019 12:36:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <87pnhcnru9.fsf@dusky.pond.sub.org>
+In-Reply-To: <CAL1e-=i=1zhx3q4xzh7oPzXLWAHwtEkUVTSHKqv5yy9BBRrVKw@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 0rvC_2U4M7iBYRM2sYzi4w-1
+X-MC-Unique: x7ggK8B6PHiyQueOIj1yMA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -75,72 +94,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- jonathan.cameron@huawei.com, sw@weilnetz.de, fan.du@intel.com,
- mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org, jingqi.liu@intel.com,
- imammedo@redhat.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+ Thomas Huth <huth@tuxfamily.org>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/11/2019 12.49, Markus Armbruster wrote:
-> Tao Xu <tao3.xu@intel.com> writes:
-> 
->> Check configuring HMAT usecase
->>
->> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->> Suggested-by: Igor Mammedov <imammedo@redhat.com>
->> Signed-off-by: Tao Xu <tao3.xu@intel.com>
->> ---
->>
->> Changes in v19:
->>      - Add some fail cases for hmat-cache when level=0
->>
->> Changes in v18:
->>      - Rewrite the lines over 80 characters
->>
->> Chenges in v17:
->>      - Add some fail test cases (Igor)
->> ---
->>   tests/numa-test.c | 213 ++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 213 insertions(+)
->>
->> diff --git a/tests/numa-test.c b/tests/numa-test.c
->> index 8de8581231..aed7b2f31b 100644
->> --- a/tests/numa-test.c
->> +++ b/tests/numa-test.c
->> @@ -327,6 +327,216 @@ static void pc_dynamic_cpu_cfg(const void *data)
->>       qtest_quit(qs);
->>   }
->>   
->> +static void pc_hmat_build_cfg(const void *data)
->> +{
->> +    QTestState *qs = qtest_initf("%s -nodefaults --preconfig -machine hmat=on "
->> +                     "-smp 2,sockets=2 "
->> +                     "-m 128M,slots=2,maxmem=1G "
->> +                     "-object memory-backend-ram,size=64M,id=m0 "
->> +                     "-object memory-backend-ram,size=64M,id=m1 "
->> +                     "-numa node,nodeid=0,memdev=m0 "
->> +                     "-numa node,nodeid=1,memdev=m1,initiator=0 "
->> +                     "-numa cpu,node-id=0,socket-id=0 "
->> +                     "-numa cpu,node-id=0,socket-id=1",
->> +                     data ? (char *)data : "");
->> +
->> +    /* Fail: Initiator should be less than the number of nodes */
->> +    g_assert(qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
->> +        " 'arguments': { 'type': 'hmat-lb', 'initiator': 2, 'target': 0,"
->> +        " 'hierarchy': \"memory\", 'data-type': \"access-latency\" } }")));
-> 
-> Code smell: side effect within assert().
-> 
-> Harmless here, because compiling tests with NDEBUG is pointless.  Still,
-> it sets a bad example.  Not your idea, the pattern seems to go back to
-> commit c35665e1ee3 and fb1e58f72ba.
+Hi Aleksandar, Richard.
 
-... maybe best to use g_assert_true() which can't be disabled and thus 
-should be used in tests. See:
+On 11/28/19 10:28 AM, Aleksandar Markovic wrote:
+> On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org=20
+> <mailto:f4bug@amsat.org>> wrote:
+>=20
+>     Add famous ATmega MCUs:
+>=20
+>     - middle range: ATmega168 and ATmega328
+>     - high range: ATmega1280 and ATmega2560
+>=20
+>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org
+>     <mailto:f4bug@amsat.org>>
+>     ---
+>=20
+>=20
+> Philippe, hi.
+>=20
+> Thank you for the impetus you give us all.
+>=20
+> However, is this the right direction?
 
-  https://developer.gnome.org/glib/unstable/glib-Testing.html#g-assert-true
+I am not the maintainer who will merge the AVR port, so I'm not an=20
+authoritative figure. I simply wanted to help Michael and Joaquin, so=20
+spent 6h of my personal time here.
 
-  Thomas
+> Let's analyse some bits and pieces.
+>=20
+> Starting from the commit message, the word "famous" is used, but I=20
+> really don't see enumerated CPUs/MCUs are any special in Atmel lineup.=20
+> Other than we often used the doc describing them=C2=A0(cited several time=
+s in=20
+> our discussions)=C2=A0as=C2=A0our reference, but that=C2=A0doesn't make t=
+hem "famous".=20
+> Ofcourse, there other docs for other Atmel CPUs/MCUs, of at lest=20
+> equivalent significance. For example, "tiny" ones are at least as famous=
+=20
+> as "mega" ones.
+
+As noted in the cover, this is sent as RFC and I was quite tired when=20
+posting so the documentation is rather scarce, but the patches were=20
+targeted at Michael/Joaquin as example how they could properly add AVR=20
+machines.
+
+> Then, you introduce the term MCU, without proper discussion with others=
+=20
+> on terminology. In parlance of QEMU, ATmega168 at al. are CPUs (we all=20
+> know and assume that that are some peripherals in it). I am not against=
+=20
+> using the term MCU, but let's first sync up on that.
+>=20
+> The added terminology trouble is that MCUs, as you defined them, have in=
+=20
+> array atmega_mcu[] a field called "cpu_type" - why is that field not=20
+> called "mcu_type"? *Very* confusing for any future reader. And then,=20
+> similar terminology conundrum continues with macro AVR_CPU_TYPE_NAME().
+>=20
+> All of the above is far less important than this question: What are we=20
+> achieving with proposed CPU/MCU definitions? I certainly see the value=20
+> of fitting the complex variety of AVR CPUs/MCUs into QEMU object model.=
+=20
+> No question about that. However, is this the right moment to do it?=20
+> There are still some unresolved architectural problems with peripheral=20
+> definitions, as I noted in yhe comment to Michael's last cover letter.=20
+> This patch does not solve them. It just assumes everything is ready with=
+=20
+> peripherals, let's build CPUs/MCUs. The machines based on proposed=20
+> CPUs/MCUs are not more real that machine based on Michael's "sample"=20
+> machine. At least Michal says "this is not a real machine". If we used=20
+> proposed CPUs/MCUs from this patch, the resulting machine is as "paper"=
+=20
+> machine as yhe "sample" machine. We would just live in a la-la lend of=20
+> thinking: "wow, we model real hardware now".
+>=20
+> I would rather accept into QEMU a series admitting we are still far from=
+=20
+> modelling real machine or CPU/MCU, than a series that gives an illusion=
+=20
+> that we are modelling real machine or CPU/MCU.
+
+These patches try to do the same as the 'sample' machine modeled by=20
+Michael, but reordered in a different way.
+The only documentation was "The CPU is an approximation of an=20
+ATmega2560" so I assumed he could be using the Arduino MEGA2560 board=20
+which matches. I used the same peripherals that Michael used, simply=20
+presented a more QEMU-up-to-date way.
+
+> As far as utility of this patch for Michael's series, it looks to me=20
+> they add more headake than help (not saying that the help is not=20
+> present) to Michael. He would have anotter abstraction layer to think=20
+> of, at the moment he desperately needs (in my opinion) to focus on=20
+> providing the as solid as possible, and as complete as possinle=20
+> foundations. This patch looks like building castles in the air. Again, I=
+=20
+> am not claiming that the patch is not helpful at all.
+>=20
+> In summary, I think that this patch is premature.
+
+If we merge the 'sample' board, the deprecation process will take at=20
+least 8 months, hoping no-one start to hack it.
+
+So to save time, we can merge the architectural part (target/avr) of=20
+Michael work, without the hardware part (hw/avr).
+
+Michael/Sarah can still test their 'instruction-tests' [*] suite using=20
+the 'none' machine.
+
+See this example which creates a testing machine with a AVR3 core and=20
+1MB of RAM mapped at 0x0000:
+
+$ avr-softmmu/qemu-system-avr -M none -cpu avr3-avr-cpu -m 1 -S -monitor=20
+stdio
+QEMU 4.1.93 monitor - type 'help' for more information
+(qemu) info mtree
+address-space: cpu-memory-0
+   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+     0000000000000000-00000000000fffff (prio 0, ram): ram
+
+(qemu) info qom-tree
+/machine (none-machine)
+   /unattached (container)
+     /ram[0] (qemu:memory-region)
+     /sysbus (System)
+     /system[0] (qemu:memory-region)
+     /io[0] (qemu:memory-region)
+     /device[0] (avr3-avr-cpu)
+     [...]
+
+They won't be able to run the FreeRTOS test suite [*] until we find a=20
+consensus with the AVR hardware/boards.
+
+This seems the clever outcome, so the AVR architectural part get merged=20
+as soon as 5.0 opens, and we have time to improve the hardware part.
+And Michael won't have to repost his series until v42 :)
+
+Richard, you seem to be the de-facto maintainer, is that correct?
+If you agree with my suggestion, I can prepare a v38 based on Michael's=20
+last series, sanitized and without the HW part, so it you can queue it=20
+for avr-next.
+
+[*] https://github.com/seharris/qemu-avr-tests
 
 
