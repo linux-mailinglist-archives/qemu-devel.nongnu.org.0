@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DF110CB47
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:05:38 +0100 (CET)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC6710CBA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:21:42 +0100 (CET)
+Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLMN-0002df-Og
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:05:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47977)
+	id 1iaLbv-00026R-3I
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:21:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mhartmay@linux.ibm.com>) id 1iaJ9z-0006UI-6d
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 07:44:40 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaKSm-0007hc-RB
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mhartmay@linux.ibm.com>) id 1iaJ9u-0008VH-Sq
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 07:44:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26954)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mhartmay@linux.ibm.com>)
- id 1iaJ9u-0008Qf-Ig
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 07:44:34 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xASCgwiO060820
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 07:44:33 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2whmt0njpj-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 07:44:33 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mhartmay@linux.ibm.com>;
- Thu, 28 Nov 2019 12:44:31 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 28 Nov 2019 12:44:27 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xASChk4w41746848
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Nov 2019 12:43:46 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B7204C052;
- Thu, 28 Nov 2019 12:44:26 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C4D734C040;
- Thu, 28 Nov 2019 12:44:25 +0000 (GMT)
-Received: from marcibm (unknown [9.152.224.228])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 28 Nov 2019 12:44:25 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] pc-bios/s390-ccw: fix sclp_get_loadparm_ascii
-In-Reply-To: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
-References: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
-Date: Thu, 28 Nov 2019 13:44:13 +0100
+ (envelope-from <thuth@redhat.com>) id 1iaKSe-0007oE-II
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25988
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaKSe-0007d3-D9
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:08:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574950077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=9IovY7Zm/jx6vaSCF+0uBvmDzAACSFaTJDzrlSPqkOU=;
+ b=Kr6NST/1tOs0HYICCgKb/obixVBSa8iqahE/JlM1PMGDr/+UWGxxxVtzGHZCvRQNPTbk7h
+ QETIAN59t0K/sqnmh3M0Q4F6DkNIc7JXwB4/dzCfhhrMZPyTQBQvwd71C1djj9tycVJYDr
+ 733InrCt+YTbwb7CN+2kHVrwkDI0QPg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-1QnonueZPP6I_R4Ati5u7w-1; Thu, 28 Nov 2019 09:07:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B972107ACC9;
+ Thu, 28 Nov 2019 14:07:53 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AD2360BE0;
+ Thu, 28 Nov 2019 14:07:47 +0000 (UTC)
+Subject: Re: [PATCH 06/15] s390x: protvirt: Support unpack facility
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-7-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <b00e03a4-6ed8-f109-102a-dfb40009c8e5@redhat.com>
+Date: Thu, 28 Nov 2019 15:07:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191120114334.2287-7-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 1QnonueZPP6I_R4Ati5u7w-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-x-cbid: 19112812-0028-0000-0000-000003C11C48
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112812-0029-0000-0000-0000248426F4
-Message-Id: <87lfs09nmq.fsf@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-28_03:2019-11-28,2019-11-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- spamscore=0 suspectscore=1 mlxscore=0 clxscore=1011 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911280112
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
-X-Mailman-Approved-At: Thu, 28 Nov 2019 09:21:54 -0500
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,58 +75,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 01:33 PM +0100, Claudio Imbrenda <imbrenda@linux.ib=
-m.com> wrote:
-> The existing s390 bios gets the LOADPARM information from the system using
-> an SCLP call that specifies a buffer length too small to contain all the
-> output.
->
-> The recent fixes in the SCLP code have exposed this bug, since now the
-> SCLP call will return an error (as per architecture) instead of
-> writing partially and completing successfully.
->
-> The solution is simply to specify the full page length as the SCCB
-> length instead of a smaller size.
->
-> Fixes: 832be0d8a3bb ("s390x: sclp: Report insufficient SCCB length")
-> Fixes: 9a22473c70f3 ("pc-bios/s390-ccw: get LOADPARM stored in SCP Read I=
-nfo")
->
-> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+On 20/11/2019 12.43, Janosch Frank wrote:
+> When a guest has saved a ipib of type 5 and call diagnose308 with
+> subcode 10, we have to setup the protected processing environment via
+> Ultravisor calls. The calls are done by KVM and are exposed via an API.
+>=20
+> The following steps are necessary:
+> 1. Create a VM (register it with the Ultravisor)
+> 2. Create secure CPUs for all of our current cpus
+> 3. Forward the secure header to the Ultravisor (has all information on
+> how to decrypt the image and VM information)
+> 4. Protect image pages from the host and decrypt them
+> 5. Verify the image integrity
+>=20
+> Only after step 5 a protected VM is allowed to run.
+>=20
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  pc-bios/s390-ccw/sclp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/pc-bios/s390-ccw/sclp.c b/pc-bios/s390-ccw/sclp.c
-> index c0223fa..7251f9a 100644
-> --- a/pc-bios/s390-ccw/sclp.c
-> +++ b/pc-bios/s390-ccw/sclp.c
-> @@ -112,7 +112,7 @@ void sclp_get_loadparm_ascii(char *loadparm)
->      ReadInfo *sccb =3D (void *)_sccb;
->
->      memset((char *)_sccb, 0, sizeof(ReadInfo));
-> -    sccb->h.length =3D sizeof(ReadInfo);
-> +    sccb->h.length =3D SCCB_SIZE;
->      if (!sclp_service_call(SCLP_CMDW_READ_SCP_INFO, sccb)) {
->          ebcdic_to_ascii((char *) sccb->loadparm, loadparm, LOADPARM_LEN);
->      }
-> --=20
-> 2.7.4
+[...]
+> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+> index a077926f36..50501fcd27 100644
+> --- a/hw/s390x/ipl.c
+> +++ b/hw/s390x/ipl.c
+> @@ -33,6 +33,7 @@
+>  #include "qemu/cutils.h"
+>  #include "qemu/option.h"
+>  #include "exec/exec-all.h"
+> +#include "pv.h"
+> =20
+>  #define KERN_IMAGE_START                0x010000UL
+>  #define LINUX_MAGIC_ADDR                0x010008UL
+> @@ -668,6 +669,38 @@ static void s390_ipl_prepare_qipl(S390CPU *cpu)
+>      cpu_physical_memory_unmap(addr, len, 1, len);
+>  }
+> =20
+> +int s390_ipl_prepare_pv_header(void)
+> +{
+> +    int rc;
+> +    IplParameterBlock *iplb =3D s390_ipl_get_iplb_secure();
+> +    IPLBlockPV *ipib_pv =3D &iplb->pv;
+> +    void *hdr =3D g_malloc(ipib_pv->pv_header_len);
+> +
+> +    cpu_physical_memory_read(ipib_pv->pv_header_addr, hdr,
+> +                             ipib_pv->pv_header_len);
+> +    rc =3D s390_pv_set_sec_parms((uint64_t)hdr,
+> +                               ipib_pv->pv_header_len);
+> +    g_free(hdr);
+> +    return rc;
+> +}
+> +
+> +int s390_ipl_pv_unpack(void)
+> +{
+> +    int i, rc;
+> +    IplParameterBlock *iplb =3D s390_ipl_get_iplb_secure();
+> +    IPLBlockPV *ipib_pv =3D &iplb->pv;
+> +
+> +    for (i =3D 0; i < ipib_pv->num_comp; i++) {
+> +        rc =3D s390_pv_unpack(ipib_pv->components[i].addr,
+> +                            TARGET_PAGE_ALIGN(ipib_pv->components[i].siz=
+e),
+> +                            ipib_pv->components[i].tweak_pref);
+> +        if (rc) {
+> +            return rc;
+> +        }
+> +    }
+> +    return rc;
+> +}
 
-Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+For both functions, s390_ipl_prepare_pv_header() and
+s390_ipl_pv_unpack(), you're ignoring the return code at the calling
+site, so errors go completely unnoticed. I suggest to either do an
+error_report() here or at the calling site...
 
-Kind regards / Beste Gr=C3=BC=C3=9Fe
-   Marc Hartmayer
+> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+> new file mode 100644
+> index 0000000000..0218070322
+> --- /dev/null
+> +++ b/hw/s390x/pv.c
+> @@ -0,0 +1,118 @@
+> +/*
+> + * Secure execution functions
+> + *
+> + * Copyright IBM Corp. 2019
+> + * Author(s):
+> + *  Janosch Frank <frankja@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (a=
+t
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include <sys/ioctl.h>
+> +
+> +#include <linux/kvm.h>
+> +
+> +#include "qemu/error-report.h"
+> +#include "sysemu/kvm.h"
+> +#include "pv.h"
+> +
+> +static int s390_pv_cmd(uint32_t cmd, void *data)
+> +{
+> +    int rc;
+> +    struct kvm_pv_cmd pv_cmd =3D {
+> +        .cmd =3D cmd,
+> +        .data =3D (uint64_t)data,
+> +    };
+> +
+> +    rc =3D kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
+> +    if (rc) {
+> +        error_report("KVM PV command failed cmd: %d rc: %d", cmd, rc);
+> +        exit(1);
+> +    }
+> +    return rc;
+> +}
+> +
+> +static int s390_pv_cmd_vcpu(CPUState *cs, uint32_t cmd, void *data)
+> +{
+> +    int rc;
+> +    struct kvm_pv_cmd pv_cmd =3D {
+> +        .cmd =3D cmd,
+> +        .data =3D (uint64_t)data,
+> +    };
+> +
+> +    rc =3D kvm_vcpu_ioctl(cs, KVM_S390_PV_COMMAND_VCPU, &pv_cmd);
+> +    if (rc) {
+> +        error_report("KVM PV VCPU command failed cmd: %d rc: %d", cmd, r=
+c);
+> +        exit(1);
+> +    }
+> +    return rc;
+> +}
 
-IBM Deutschland Research & Development GmbH
-Vorsitzende des Aufsichtsrats: Matthias Hartmann
-Gesch=C3=A4ftsf=C3=BChrung: Dirk Wittkopp
-Sitz der Gesellschaft: B=C3=B6blingen
-Registergericht: Amtsgericht Stuttgart, HRB 243294
+... or even better, since these functions exit on error anyway, make
+these functions and all the others "void" instead?
+
+ Thomas
 
 
