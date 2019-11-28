@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909C410CE3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 19:04:35 +0100 (CET)
-Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A713810CE6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 19:15:13 +0100 (CET)
+Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaO9Z-0005aQ-KC
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 13:04:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57333)
+	id 1iaOJr-0001xs-GZ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 13:15:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <maz@kernel.org>) id 1iaMUJ-0000lY-1L
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:53 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iaMVe-0001Fp-IN
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:19:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maz@kernel.org>) id 1iaMUG-000574-3U
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:49 -0500
-Received: from inca-roads.misterjones.org ([213.251.177.50]:44631)
+ (envelope-from <cohuck@redhat.com>) id 1iaMVM-0007Fk-O0
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:18:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41970
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maz@kernel.org>) id 1iaMUE-0004ya-Hm
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:17:47 -0500
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
- helo=why.lan) by cheepnis.misterjones.org with esmtpsa
- (TLSv1.2:DHE-RSA-AES128-GCM-SHA256:128) (Exim 4.80)
- (envelope-from <maz@kernel.org>)
- id 1iaMU3-0002vd-9I; Thu, 28 Nov 2019 17:17:35 +0100
-From: Marc Zyngier <maz@kernel.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/arm: Honor HCR_EL2.TID1 trapping requirements
-Date: Thu, 28 Nov 2019 16:17:17 +0000
-Message-Id: <20191128161718.24361-3-maz@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128161718.24361-1-maz@kernel.org>
-References: <20191128161718.24361-1-maz@kernel.org>
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaMVL-0007DI-Eo
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:18:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574957934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MuoeCvQxPY2zi6GOIRuPI1p5MgGz09ELKDH59B2pOMQ=;
+ b=FGzO0MhUYdSK+CgGa6A20rOkhbRfksMc63Cy0pk7dyd+1wac9HnM79R6GPJdPevy2oMv2J
+ IIebUjwkv38SGkXzmgiUuqRtvJBR2coN5fs/XuBEDcyRK9yWcy3A0obiWTXG3rK0qUPNpH
+ Wvk5UJ9hH0gzBLzrzKFkAIOohrqfc2E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-T-FGe5s-MYyakSyHbZj-bQ-1; Thu, 28 Nov 2019 11:18:52 -0500
+X-MC-Unique: T-FGe5s-MYyakSyHbZj-bQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5560A18C841A;
+ Thu, 28 Nov 2019 16:18:51 +0000 (UTC)
+Received: from gondolin (ovpn-116-200.ams2.redhat.com [10.36.116.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F6FF5C1B2;
+ Thu, 28 Nov 2019 16:18:46 +0000 (UTC)
+Date: Thu, 28 Nov 2019 17:18:32 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 14/15] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
+Message-ID: <20191128171832.191f2636.cohuck@redhat.com>
+In-Reply-To: <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-15-frankja@linux.ibm.com>
+ <db581b32-2b84-683c-0e7e-b6ee908eb701@redhat.com>
+ <be2aece1-8879-d3d3-81ff-7bbbb8052548@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu,
- peter.maydell@linaro.org, richard.henderson@linaro.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
- SAEximRunCond expanded to false
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 213.251.177.50
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; boundary="Sig_/LZphlgqIj6YWahpLPlxClG2";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,99 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
- kvmarm@lists.cs.columbia.edu
+Cc: Thomas Huth <thuth@redhat.com>, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HCR_EL2.TID1 mandates that access from EL1 to REVIDR_EL1, AIDR_EL1
-(and their 32bit equivalents) as well as TCMTR, TLBTR are trapped
-to EL2. QEMU ignores it, naking it harder for a hypervisor to
-virtualize the HW (though to be fair, no known hypervisor actually
-cares).
+--Sig_/LZphlgqIj6YWahpLPlxClG2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Do the right thing by trapping to EL2 if HCR_EL2.TID1 is set.
+On Thu, 28 Nov 2019 17:10:38 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- target/arm/helper.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+> On 11/28/19 4:28 PM, Thomas Huth wrote:
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0b6887b100..9bff769692 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1973,6 +1973,26 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     return ret;
- }
- 
-+static CPAccessResult access_aa64_tid1(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                       bool isread)
-+{
-+    if (arm_hcr_el2_eff(env) & HCR_TID1) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+
-+    return CP_ACCESS_OK;
-+}
-+
-+static CPAccessResult access_aa32_tid1(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                       bool isread)
-+{
-+    if (arm_feature(env, ARM_FEATURE_V8)) {
-+        return access_aa64_tid1(env, ri, isread);
-+    }
-+
-+    return CP_ACCESS_OK;
-+}
-+
- static const ARMCPRegInfo v7_cp_reginfo[] = {
-     /* the old v6 WFI, UNPREDICTABLE in v7 but we choose to NOP */
-     { .name = "NOP", .cp = 15, .crn = 7, .crm = 0, .opc1 = 0, .opc2 = 4,
-@@ -2136,7 +2156,9 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-      */
-     { .name = "AIDR", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 7,
--      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0 },
-+      .access = PL1_R, .type = ARM_CP_CONST,
-+      .accessfn = access_aa64_tid1,
-+      .resetvalue = 0 },
-     /* Auxiliary fault status registers: these also are IMPDEF, and we
-      * choose to RAZ/WI for all cores.
-      */
-@@ -6732,7 +6754,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R, .resetvalue = cpu->midr },
-             { .name = "REVIDR_EL1", .state = ARM_CP_STATE_BOTH,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 6,
--              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
-+              .access = PL1_R,
-+              .accessfn = access_aa64_tid1,
-+              .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
-             REGINFO_SENTINEL
-         };
-         ARMCPRegInfo id_cp_reginfo[] = {
-@@ -6747,14 +6771,18 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             /* TCMTR and TLBTR exist in v8 but have no 64-bit versions */
-             { .name = "TCMTR",
-               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 2,
--              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0 },
-+              .access = PL1_R,
-+              .accessfn = access_aa32_tid1,
-+              .type = ARM_CP_CONST, .resetvalue = 0 },
-             REGINFO_SENTINEL
-         };
-         /* TLBTR is specific to VMSA */
-         ARMCPRegInfo id_tlbtr_reginfo = {
-               .name = "TLBTR",
-               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 3,
--              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0,
-+              .access = PL1_R,
-+              .accessfn = access_aa32_tid1,
-+              .type = ARM_CP_CONST, .resetvalue = 0,
-         };
-         /* MPUIR is specific to PMSA V6+ */
-         ARMCPRegInfo id_mpuir_reginfo = {
--- 
-2.20.1
+> > Would it make sense to hide all these changes in decode_basedisp_s()
+> > instead? ... so that decode_basedisp_s() returns 0 if env->pv =3D=3D tr=
+ue ?
+> > ... or are there still cases where we need real values from
+> > decode_basedisp_s() in case of env->pv=3D=3Dtrue? =20
+>=20
+> I'd like to keep decode_basedisp_s() as is, but how about a static
+> function in ioinst.c called something like get_address_from_regs()?
+>=20
+> It'll call decode_basedisp_s() or return 0.
+
+We could do something like that; but do we ever get there for other
+instruction formats as well? It feels a bit odd to single out this one.
+
+--Sig_/LZphlgqIj6YWahpLPlxClG2
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3f81gACgkQ3s9rk8bw
+L6/N6w/+I1Zi0qQtBep1W1Goik+TdmFew+kOx34q7yY03YfbBdfBRLeWxsZ0r7O/
+yCMbbTHZQBBgXru6uB7aaKH0/g+e+nNfNO+dw5GNYj/cZ1NxT+AlYCqA+sBS4/gg
+Cr2QuDv8N8s5NxEVCNnhR3ZcGxiZc4Hmg3NunkV4kqhvmEms4ZHaZu6E4yImKeOK
+AXbrhT1CPwfwCk2giS66EyN3sT3YMhue/qh7+yBLr/BERH872BvMRQkQpE2CNpTv
+L1Q7bCinL4HZ/N+RTnK9NZtgrLbdUDCw6/qrLUMSCCchMeUY9GpLRFCxDJXNhIDl
+Y5OdMtsnHz/+vW60dg1Z8DRp2rlBPKn8OK1P5MS9EZ/JivjMVRFX/WyPVjMgmpjy
+cUd1aWB1ZbeK/q/lqmpBFP+5LYkk7OhkUIK64ED9bolGk9z3V6yu4QFz8d+CvDvD
+8xrhspOR7Oa9h+ZU0hEirp0hnwdW+5ykA+R28fPbShLDwn1wcG9ZO9So6lxQxopM
+9WD8wvcFE3IeWZ4xpC5q0KvY6AtjCnQieMm4mTCCaJA4pZvG4l7UTDxHojNcbXqC
+bDYTlZNylkVWdG4CWvUy+o2ValsDe1xT0WqipBva6d4j4Q3Fk44gGwBCIGWK1vI0
+ix89lZrLR1B196Zyq25GnLFij7aDbzpyfEBeNp1hUrmSKr+6TZM=
+=URKD
+-----END PGP SIGNATURE-----
+
+--Sig_/LZphlgqIj6YWahpLPlxClG2--
 
 
