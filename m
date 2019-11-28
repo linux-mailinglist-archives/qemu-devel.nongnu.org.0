@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B785D10CB5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:09:42 +0100 (CET)
-Received: from localhost ([::1]:49888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B78610CBAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 16:26:19 +0100 (CET)
+Received: from localhost ([::1]:49986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaLQI-0004Vu-Fg
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:09:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
+	id 1iaLgP-0004Zl-IH
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 10:26:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iaKsk-0004wE-9c
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:35:00 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaKyi-00005T-S1
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:41:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iaKsX-0005lO-UT
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:34:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33471
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iaKye-0001aY-3Y
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:41:05 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52896
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iaKsX-0005VK-Hw
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:34:45 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaKyc-0001Vb-TI
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:41:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574951682;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1574952059;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=giQQ4/7BVy848X6md8gfCg5J2ksXZL5YKLXxEegmkb4=;
- b=LK5m2WKPzJ9GJaDFHu90bfb+J3vsB0R430ELrBBpeTNteSMjX0AWQERvJbQhe47cO2k/Uo
- 8l9Ue3OhLMBgwWI4o+0Okg3DfyYYrNmQ/wpXfCbpzIvnUKcUIIsKKTgMZeJAtMmcUM8l4N
- KJW3ELdp9AymRhFXJucr8oMa+bv5AEY=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=TKlTX6HFnw2gyDnrdDUfSY3uCJDvk1E1h4HaRELYzeA=;
+ b=GjPJGPMAcW4CHe0YcUQhoq7Nck0rUEZm6KF/Ii0ZdLf6K1HXGlEvSV9tnmBRqY5LfbjniQ
+ Bl86eMHo0+phG+huk2vCADoOArvl4PhsfhhC5Bsc/qIHp5R1bBmeM6trehyKjTJpsl8qCu
+ CkQ/LICfmBs1e1xmh2GptN3Ox9dvQ0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-EvdJNSicPJiv8dnQ1dlmAg-1; Thu, 28 Nov 2019 09:34:38 -0500
+ us-mta-303-P2UO5UKYO3mcw-koXhPV1Q-1; Thu, 28 Nov 2019 09:40:58 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46102593A1
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:34:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F70119C4F;
- Thu, 28 Nov 2019 14:34:30 +0000 (UTC)
-Date: Thu, 28 Nov 2019 14:34:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 1/7] console: add graphic_hw_update_done()
-Message-ID: <20191128143428.GK248361@redhat.com>
-References: <20191127115202.375107-1-marcandre.lureau@redhat.com>
- <20191127115202.375107-2-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BA8519057A0;
+ Thu, 28 Nov 2019 14:40:57 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-114.ams2.redhat.com [10.36.116.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69FBC19C4F;
+ Thu, 28 Nov 2019 14:40:52 +0000 (UTC)
+Subject: Re: [PATCH 13/15] s390x: protvirt: Move diag 308 data over SIDAD
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-14-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <6ad100b6-db72-4a21-6715-399a6ff69dc0@redhat.com>
+Date: Thu, 28 Nov 2019 15:40:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191127115202.375107-2-marcandre.lureau@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191120114334.2287-14-frankja@linux.ibm.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: EvdJNSicPJiv8dnQ1dlmAg-1
+X-MC-Unique: P2UO5UKYO3mcw-koXhPV1Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,41 +75,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 27, 2019 at 03:51:56PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> Add a function to be called when a graphic update is done.
->=20
-> Declare the QXL renderer as async: render_update_cookie_num counts the
-> number of outstanding updates, and graphic_hw_update_done() is called
-> when it reaches none.
->=20
-> (note: this is preliminary work for asynchronous screendump support)
->=20
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+On 20/11/2019 12.43, Janosch Frank wrote:
+> For protected guests the IPIB is written/read to/from the sattelite
+
+satellite
+
+> block, so we need to make those accesses virtual to make them go
+> through KBM mem ops.
+
+What's KBM ?
+
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  hw/display/qxl-render.c | 9 +++++++--
->  hw/display/qxl.c        | 1 +
->  include/ui/console.h    | 2 ++
->  ui/console.c            | 9 +++++++++
->  4 files changed, 19 insertions(+), 2 deletions(-)
+>  target/s390x/diag.c | 26 +++++++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+> index db6d79cef3..d96d8bdc6c 100644
+> --- a/target/s390x/diag.c
+> +++ b/target/s390x/diag.c
+> @@ -88,6 +88,7 @@ static int diag308_parm_check(CPUS390XState *env, uint6=
+4_t r1, uint64_t addr,
+>  void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintp=
+tr_t ra)
+>  {
+>      CPUState *cs =3D env_cpu(env);
+> +    S390CPU *cpu =3D S390_CPU(cs);
+>      uint64_t addr =3D  env->regs[r1];
+>      uint64_t subcode =3D env->regs[r3];
+>      IplParameterBlock *iplb;
+> @@ -118,14 +119,27 @@ void handle_diag_308(CPUS390XState *env, uint64_t r=
+1, uint64_t r3, uintptr_t ra)
+>          if (diag308_parm_check(env, r1, addr, ra, false)) {
+>              return;
+>          }
+> +
+>          iplb =3D g_new0(IplParameterBlock, 1);
+> -        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
+> +        if (!env->pv) {
+> +            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
+> +        } else {
+> +            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, sizeof(iplb->len));
+> +            s390_cpu_virt_mem_handle_exc(cpu, ra);
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+I'm looking forward to protected virt support in TCG ;-)
 
+> +        }
+> +
+>          if (!iplb_valid_len(iplb)) {
+>              env->regs[r1 + 1] =3D DIAG_308_RC_INVALID;
+>              goto out;
+>          }
+> =20
+> -        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+> +        if (!env->pv) {
+> +            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len))=
+;
+> +        } else {
+> +            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, be32_to_cpu(iplb->le=
+n));
+> +            s390_cpu_virt_mem_handle_exc(cpu, ra);
+> +        }
+> +
+> =20
+>          if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb) &&
+>              !(iplb_valid_se(iplb) && s390_ipl_pv_check_comp(iplb) >=3D 0=
+)) {
+> @@ -149,7 +163,13 @@ out:
+>              iplb =3D s390_ipl_get_iplb();
+>          }
+>          if (iplb) {
+> -            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len)=
+);
+> +            if (!env->pv) {
+> +                cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->=
+len));
+> +            } else {
+> +                s390_cpu_virt_mem_write(cpu, 0, 0, iplb,
+> +                                        be32_to_cpu(iplb->len));
+> +                s390_cpu_virt_mem_handle_exc(cpu, ra);
+> +            }
+>              env->regs[r1 + 1] =3D DIAG_308_RC_OK;
+>          } else {
+>              env->regs[r1 + 1] =3D DIAG_308_RC_NO_CONF;
+>=20
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+I wonder whether we maybe want to have some wrapper functions for these
+reads and writes, something like:
+
+void s390_cpu_physical_memory_write(...)
+{
+    if (!env->pv) {
+        cpu_physical_memory_write(...);
+    } else {
+        s390_cpu_virt_mem_write(...);
+    }
+}
+
+?
+
+ Thomas
 
 
