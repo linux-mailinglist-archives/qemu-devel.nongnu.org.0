@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A915710CECF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:19:26 +0100 (CET)
-Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06EE10CEDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:24:50 +0100 (CET)
+Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPK0-0005NS-R2
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:19:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43637)
+	id 1iaPPF-00013n-J9
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:24:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47017)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iaMvQ-00019A-18
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:45:53 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iaMwH-0001jv-Vr
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iaMum-0002kn-AF
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:45:14 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44070)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iaMtk-0007Rg-QI
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:45:12 -0500
-Received: by mail-oi1-x243.google.com with SMTP id s71so23742049oih.11
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 08:44:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UrqjRlYshahOVD0HWvkyoW+BrcTjmjDcjr0CPqteerY=;
- b=U0+sLiTXuzfJL+EfdbfQBYtsRgLQjipRkXJdhhWbGCPoz3IEsrZQFTth8RcBzngWaV
- 7aZRnbcYsS+zVYBBJ3/C/RsvKCmm7WaWDPm3DMJr2/P/1h8Z+McYEtsvsImh5j5rqD5d
- AkruxRCf1j2EfZkCojw9Vk3rzSQY43B7/U1xuTxB5vMz66iz8KfKX57x+pnq9YExtuA2
- 7d9nIEIdrTDycB4fgM5YJlWfBDAcDRCU5Gyc5+1iplyLs8IQbe6nVtk/CHJFN5cLLqZ/
- EQpGOv1WkIkLqm1Ahzf2SuL4YVYJ298fxFrBR6htoGbIFof74Va+g6DPLAhZja9bqMKD
- FJyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UrqjRlYshahOVD0HWvkyoW+BrcTjmjDcjr0CPqteerY=;
- b=W3Hq58v6vwJA7609gMva9kPLNiNqvjY035a8DAd9uzN5RoCyffeQS8HAGdyl2O61E8
- BH7MNlSl2CAvYh4RsZzkVuvalRMFXB5ioKnw2yn5gT+RoBZ+4tT+VSSHxiN0PV3RkBo0
- eV+zXl7Z1w4O5SzgXWT/vYjT36BqUekAS+Xe2x1nf7pY6GkReEvGkgwtWfrnBy82YsXv
- +0qbjJPfhktmC75SOVNrJ4Lb0nbd6YOciN3ZcW/dg36v4lmF6RBLW7FyIL50N/qG4tsi
- CF2eTRR7xHYH4ACWOst68+9dRXjA/HBhGt7y+ugwNJF4x2q4eyAsh2ts3pEWmvPv/0H4
- Zlnw==
-X-Gm-Message-State: APjAAAUgXhNziXA6D8Bmmt2zkVLSjSMnmV/MbCyn6sPuqLTn9k2MTKDV
- b7JLba+rHFjWUTMLeJfqTtp0vGKMNKN/RfAxG0AXeA==
-X-Google-Smtp-Source: APXvYqypesqVZT4oybvArW5JCDJ2y4Ta5ubYLBbf7eQYXLluxYuXe6tXLFf2zJQOmqwRh6WESRLJQUcrFy6VOoT3s4I=
-X-Received: by 2002:aca:ba82:: with SMTP id k124mr7347586oif.170.1574959445482; 
- Thu, 28 Nov 2019 08:44:05 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1iaMvx-000778-N1
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23601
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaMvu-0006nc-NT
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:46:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574959579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B7Zyor4f+SnOoIGq937UVRKBknDfuK/yutmUID31h3k=;
+ b=RG1866re+HojnIJqKNXlPYsIHNMctbKCco2gucqooBx/fkZF+1Cgk8pRHvybicuA6zaI1W
+ 2CGYVeo5bTvhKRiv/bOr12DjaCksasOms9yzL0sYHshBVqeX/qL1J+b3G5H4XIU88E/04m
+ ZQUHHroKJjTQcQec2PIePz3mH5ZjnYI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-QGmmLYneM6eiL5jCIKSH0w-1; Thu, 28 Nov 2019 11:46:16 -0500
+X-MC-Unique: QGmmLYneM6eiL5jCIKSH0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7554A107ACC5;
+ Thu, 28 Nov 2019 16:46:14 +0000 (UTC)
+Received: from gondolin (ovpn-116-200.ams2.redhat.com [10.36.116.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7279600CA;
+ Thu, 28 Nov 2019 16:46:09 +0000 (UTC)
+Date: Thu, 28 Nov 2019 17:45:57 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH 08/15] s390x: protvirt: KVM intercept changes
+Message-ID: <20191128174557.2e421e94.cohuck@redhat.com>
+In-Reply-To: <da848181-41a3-0738-84f8-258046965671@linux.ibm.com>
+References: <20191120114334.2287-1-frankja@linux.ibm.com>
+ <20191120114334.2287-9-frankja@linux.ibm.com>
+ <d081f111-857c-048b-c753-3cc021304102@redhat.com>
+ <da848181-41a3-0738-84f8-258046965671@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20191128161718.24361-1-maz@kernel.org>
- <20191128161718.24361-4-maz@kernel.org>
-In-Reply-To: <20191128161718.24361-4-maz@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Nov 2019 16:43:53 +0000
-Message-ID: <CAFEAcA_MED0Rtqo1=HNnn7v_zQZGDsoJVsbXAsdhb_sAjvJ40Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/arm: Handle trapping to EL2 of AArch32 VMRS
- instructions
-To: Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; boundary="Sig_/2f+4qa5JN6ldMWPdpHobzcs";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,169 +73,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
+Cc: Thomas Huth <thuth@redhat.com>, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Nov 2019 at 16:17, Marc Zyngier <maz@kernel.org> wrote:
->
-> HCR_EL2.TID3 requires that AArch32 reads of MVFR[012] are trapped to
-> EL2, and that HCR_EL2.TID0 does the same for reads of FPSID.
-> In order to handle this, introduce a new TCG helper function that
-> checks for these control bits before executing the VMRC instruction.
->
-> Tested with a hacked-up version of KVM/arm64 that sets the control
-> bits for 32bit guests.
->
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  target/arm/helper-a64.h        |  2 ++
->  target/arm/internals.h         |  8 ++++++++
->  target/arm/translate-vfp.inc.c | 12 +++++++++---
->  target/arm/vfp_helper.c        | 27 +++++++++++++++++++++++++++
->  4 files changed, 46 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
-> index a915c1247f..311ced44e6 100644
-> --- a/target/arm/helper-a64.h
-> +++ b/target/arm/helper-a64.h
-> @@ -102,3 +102,5 @@ DEF_HELPER_FLAGS_3(autda, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(autdb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
->  DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
-> +
-> +DEF_HELPER_3(check_hcr_el2_trap, void, env, int, int)
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index f5313dd3d4..5a55e960de 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -430,6 +430,14 @@ static inline uint32_t syn_simd_access_trap(int cv, int cond, bool is_16bit)
->          | (cv << 24) | (cond << 20) | (1 << 5);
->  }
->
-> +static inline uint32_t syn_vmrs_trap(int rt, int reg)
-> +{
-> +    return (EC_FPIDTRAP << ARM_EL_EC_SHIFT)
-> +        | ARM_EL_IL
-> +        | (1 << 24) | (0xe << 20) | (7 << 14)
-> +        | (reg << 10) | (rt << 5) | 1;
-> +}
-> +
->  static inline uint32_t syn_sve_access_trap(void)
->  {
->      return EC_SVEACCESSTRAP << ARM_EL_EC_SHIFT;
-> diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-> index 85c5ef897b..4c435b6c35 100644
-> --- a/target/arm/translate-vfp.inc.c
-> +++ b/target/arm/translate-vfp.inc.c
-> @@ -759,15 +759,21 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
->      }
->
->      if (a->l) {
-> +        TCGv_i32 tcg_rt, tcg_reg;
-> +
->          /* VMRS, move VFP special register to gp register */
->          switch (a->reg) {
-> +        case ARM_VFP_MVFR0:
-> +        case ARM_VFP_MVFR1:
-> +        case ARM_VFP_MVFR2:
->          case ARM_VFP_FPSID:
-> +            tcg_rt = tcg_const_i32(a->rt);
-> +            tcg_reg = tcg_const_i32(a->reg);
+--Sig_/2f+4qa5JN6ldMWPdpHobzcs
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Since the syndrome value depends only on these two things,
-you might as well generate the full syndrome value at
-translate time rather than doing it at runtime; then
-you only need to pass one thing through to the helper rather
-than two.
+On Thu, 28 Nov 2019 17:38:19 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-> +            gen_helper_check_hcr_el2_trap(cpu_env, tcg_rt, tcg_reg);
+> On 11/21/19 4:11 PM, Thomas Huth wrote:
+> > On 20/11/2019 12.43, Janosch Frank wrote: =20
+> >> Secure guests no longer intercept with code 4 for an instruction
+> >> interception. Instead they have codes 104 and 108 for secure
+> >> instruction interception and secure instruction notification
+> >> respectively.
+> >>
+> >> The 104 mirrors the 4, but the 108 is a notification, that something
+> >> happened and the hypervisor might need to adjust its tracking data to
+> >> that fact. An example for that is the set prefix notification
+> >> interception, where KVM only reads the new prefix, but does not update
+> >> the prefix in the state description.
+> >>
+> >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >> ---
+> >>  target/s390x/kvm.c | 6 ++++++
+> >>  1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> >> index 418154ccfe..58251c0229 100644
+> >> --- a/target/s390x/kvm.c
+> >> +++ b/target/s390x/kvm.c
+> >> @@ -115,6 +115,8 @@
+> >>  #define ICPT_CPU_STOP                   0x28
+> >>  #define ICPT_OPEREXC                    0x2c
+> >>  #define ICPT_IO                         0x40
+> >> +#define ICPT_PV_INSTR                   0x68
+> >> +#define ICPT_PV_INSTR_NOT               0x6c
+> >> =20
+> >>  #define NR_LOCAL_IRQS 32
+> >>  /*
+> >> @@ -151,6 +153,7 @@ static int cap_s390_irq;
+> >>  static int cap_ri;
+> >>  static int cap_gs;
+> >>  static int cap_hpage_1m;
+> >> +static int cap_protvirt;
+> >> =20
+> >>  static int active_cmma;
+> >> =20
+> >> @@ -336,6 +339,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> >>      cap_async_pf =3D kvm_check_extension(s, KVM_CAP_ASYNC_PF);
+> >>      cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+> >>      cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
+> >> +    cap_protvirt =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
+> >> =20
+> >>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
+> >>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
+> >> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
+> >>              (long)cs->kvm_run->psw_addr);
+> >>      switch (icpt_code) {
+> >>          case ICPT_INSTRUCTION:
+> >> +        case ICPT_PV_INSTR:
+> >> +        case ICPT_PV_INSTR_NOT:
+> >>              r =3D handle_instruction(cpu, run); =20
+> >=20
+> > Even if this works by default, my gut feeling tells me that it would be
+> > safer and cleaner to have a separate handler for this...
+> > Otherwise we might get surprising results if future machine generations
+> > intercept/notify for more or different instructions, I guess?
+> >=20
+> > However, it's just a gut feeling ... I really don't have much experienc=
+e
+> > with this PV stuff yet ... what do the others here think?
+> >=20
+> >  Thomas =20
+>=20
+>=20
+> Adding a handle_instruction_pv doesn't hurt me too much.
+> The default case can then do an error_report() and exit(1);
+>=20
+> PV was designed in a way that we can re-use as much code as possible, so
+> I tried using the normal instruction handlers and only change as little
+> as possible in the instructions themselves.
 
-This helper call is potentially going to throw an exception
-at runtime. QEMU's JIT doesn't write back all the state
-of the CPU to the CPU state structure fields for helper
-calls, so to avoid losing non-written-back state there are
-two possible approaches:
+I think we could argue that handling 4 and 104 in the same function
+makes sense; but the 108 notification should really be separate, I
+think. From what I've seen, the expectation of what the hypervisor
+needs to do is just something else in this case ("hey, I did something;
+just to let you know").
 
-(1) manually write back the state before the call; for
-aarch32 this looks like
-            gen_set_condexec(s);
-            gen_set_pc_im(s, s->pc_curr);
-(you can see this done before we call the access_check_cp_reg()
-helper, for instance)
+Is the set of instructions you get a 104 for always supposed to be a
+subset of the instructions you get a 4 for? I'd expect it to be so.
 
-(2) in the helper function, instead of raise_exception(),
-call raise_exception_ra(..., GETPC())
-This says "when we take the exception, also re-sync the
-CPU state by looking at the host PC value in the JITted
-code (ie the address of the callsite of the helper) and
-looking through a table for this translation block that
-cross-references the host PC against the guest PC and
-condexec values for that point in execution".
+--Sig_/2f+4qa5JN6ldMWPdpHobzcs
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Option 1 is better if the expectation is that the trap will
-be taken always, often or usually; option 2 is what we
-use if the trap is unlikely (it's how we handle
-exceptions on guest load/store insns, which are the main
-reason we have the mechanism at all).
+-----BEGIN PGP SIGNATURE-----
 
-Since it's unlikely that guest code will be doing ID
-register accesses in hot codepaths, I'd go with option 1,
-mostly just for consistency with how we do coprocessor
-register access-check function calls.
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3f+cYACgkQ3s9rk8bw
+L69xqQ//Su8xJ7klpJMmBc/Y378NiwOiiq3Nutjg48MGgoXAsWUaKBYqABkt26m/
+waBInOH6v8R53cj7UvJNVjzq9OtYiOaiEVW1lGJgy6VUvjkLBewsC24zKiEPWdEp
+xWEYkstrF496hFPgW0riIHoHQrZGEbfvRH1Qc1pbzv91dBUU7Rhz6Cl5bIpQbtd2
+AHkAkt4QMH7AmAbPYX/nBfjqbteH1DyzpX8Qz7SdCbN1aka8VPs2FcdqGR6KFQhh
+xGjgUqFWzp7GS/UL8s8+utBqdKW3Jjow/ye0MbOgBl6PPDVegBqUYkphLq8oVBX8
+dhFKwetrQdh11x0HspQq4PLJwt3Jhj6z25zsRKTaLhWrXmjfRgrM/U4/lJV53lae
+RUZ9SSte9Opnjo+4LMoH1parGmKjrD20It/JKd+M18PR0MDORA4PFGn6Sq3pW6DN
+3KUrwHckq+BZm9TMQGiqY4afpq0DWDujBj6LNzuuprmp42nDlleR+33ow5z3VQiL
+p+3e0ujT/X7soKLaoQa5jBLdqoaAbj1oenCWi6H0MfC83MXyM1i1weOnlv+wN27e
+J2GUwukIyYAZrTGyZKpnS6Oy2xEJeIW2mJAGGhRJhqi08WzHm4nxnoMpPHXkp7Mv
+4kW8Z714SXSgzMpPnkJpSALs5j7RN71lyEnlFiFiNHQDG6Snv2M=
+=0Bmj
+-----END PGP SIGNATURE-----
 
-> +            /* fall through */
->          case ARM_VFP_FPEXC:
->          case ARM_VFP_FPINST:
->          case ARM_VFP_FPINST2:
-> -        case ARM_VFP_MVFR0:
-> -        case ARM_VFP_MVFR1:
-> -        case ARM_VFP_MVFR2:
->              tmp = load_cpu_field(vfp.xregs[a->reg]);
->              break;
->          case ARM_VFP_FPSCR:
-> diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-> index 9710ef1c3e..44e538e51c 100644
-> --- a/target/arm/vfp_helper.c
-> +++ b/target/arm/vfp_helper.c
-> @@ -1322,4 +1322,31 @@ float64 HELPER(frint64_d)(float64 f, void *fpst)
->      return frint_d(f, fpst, 64);
->  }
->
-> +void HELPER(check_hcr_el2_trap)(CPUARMState *env, int rt, int reg)
-> +{
-> +    if (arm_current_el(env) != 1) {
-> +        return;
-> +    }
-> +
-> +    switch (reg) {
-> +    case ARM_VFP_MVFR0:
-> +    case ARM_VFP_MVFR1:
-> +    case ARM_VFP_MVFR2:
-> +        if (!(arm_hcr_el2_eff(env) & HCR_TID3)) {
-> +            return;
-> +        }
-> +        break;
-> +    case ARM_VFP_FPSID:
-> +        if (!(arm_hcr_el2_eff(env) & HCR_TID0)) {
-> +            return;
-> +        }
-> +        break;
-> +    default:
-> +        /* Shouldn't be here... */
-> +        return;
+--Sig_/2f+4qa5JN6ldMWPdpHobzcs--
 
-We usually write 'impossible' default cases as:
-           g_assert_not_reached();
-
-> +    }
-> +
-> +    raise_exception(env, EXCP_HYP_TRAP, syn_vmrs_trap(rt, reg), 2);
-> +}
-> +
->  #endif
-
-thanks
--- PMM
 
