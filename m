@@ -2,102 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F3B10C62E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:52:36 +0100 (CET)
-Received: from localhost ([::1]:47026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F5910C638
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:54:25 +0100 (CET)
+Received: from localhost ([::1]:47038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaGTT-0005Tp-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:52:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34496)
+	id 1iaGVE-0007CQ-CR
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:54:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iaGKr-0007ZS-1G
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:43:42 -0500
+ (envelope-from <S.E.Harris@kent.ac.uk>) id 1iaGKR-0007WK-S3
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:43:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iaG95-0002vz-GJ
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:31:32 -0500
-Received: from mail-eopbgr50118.outbound.protection.outlook.com
- ([40.107.5.118]:26837 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ (envelope-from <S.E.Harris@kent.ac.uk>) id 1iaG99-0003Ct-Kc
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:31:40 -0500
+Received: from mail-eopbgr30075.outbound.protection.outlook.com
+ ([40.107.3.75]:8258 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iaG94-0002jm-Mr; Thu, 28 Nov 2019 04:31:31 -0500
+ (Exim 4.71) (envelope-from <S.E.Harris@kent.ac.uk>)
+ id 1iaG98-0002xJ-Uh
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:31:35 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SZh01scV7UGBztQK8dB4oQtJUjk4koqft6ovSmnaAz68k4UrKm6V2+e4kGU0vK6BAR4rtkzETiyRS7Jd8xCHebqysrtyiD9bPW75GDiKyNUeWQENQkSzI11le7443hoXQolfvxKXQVBIp6DK+8q34wLZx1fV3LyU2C+P/OKbpctmAPi1Krm4eNqZcKoC1owfgaieeXo23t5JCj/cRby0cEVJ9t1/H9yVPbngFkwbCRDTzDUtGOJ5D/tNwtEKwlU5QWikDAz8Hu8FpUa1Bfw941pC13EYngDwN0Dbpx137gtYBIBUOKgBd1WrFysn1IbpaGGl2hBn8L1qTbIQEgGLvg==
+ b=ccA8Y0nsu3G3+C+A1fY++xKNKTqfmNkechaYmMtOz9K+usWuF+valXPzeccQvahK/YajwUDl4lPQFQ4cCpPL6ejovhi+hV2NRwQO1MzFAxVL3n0BOIzeYjP7FTEuabp+IRlGilUT9F2mqlBFSnlc5spqcGZyS60xV21Z/ZMKUq+gom+rWkjQ8iVQPsRZ0fbu32yPYiV2jVb0Vop6SHpDCpHkjVM/vPA0IJ4raZzNs8D2UPDmBqDDtnSeqLO6knMZTMl/L4FGVry4bUitmY3gSxGR4U38QyaJPraWpMSMOMIw064kCrySZeNUOxMK6Gcjao+mt7Yv/mRNDKfkOuCU4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s5B1XVgthzw/L75zO05RP6LhrbFkNimWydJ3zgRrJJw=;
- b=fR3gVyMiDZD0BUNyAdSqPy4LNJzwrrBp1lnPYUdT2Cb98zBdHnbB4lJsom5M2l+lC40uuiNPzGWyU4H93553UO7EjFjOeczIlHozNZlXvySn9onwklUx7q19eJDWJWTuQVO87VMhRVqjwV0k0e1xoP39Qip+oLbNFRolSo7GgQ8fmUbGknb11RB6Fjyjbw2wkMjF+pU9HecpgY7OvBmFndyiIzkjdzHw4hbFzNrm8DZbAjqKfRUXGzyPsL/OH2cxrOFOtFw75xZfu/TdHu6i2q9B8g6MIqbTjPDlK3OvUZN23qS9Vejrjdf5TGqj3tnjl1Rq34JihAHxuQEj3fkXlg==
+ bh=fivhCeuul1FnYNFenddXo6gIhptQSwQcneebQO0J2jg=;
+ b=GGEdC0q2tz4ZCGTPRl0Rq+SGMuErz4y+OJuS+z7Pmk9uKaMGkF6AcnDzh9xGZ1969XggaHvX7gm/dpbOJqil86LRGKbknrIuLyz0bY+TPqMQyyA2zjUXBqz0iJ/RYn/1Vv5AumGQr8z1g/d4laMs7iSE/dhwYDVqN0IT/r702Si/sHIL81G7fyjUJU+ZrtqG55dmlfXb1cbiRopiLBzJvxbDvcObAVrKtQi4wEMMksaAzeVh9OuT0kFuQbRvxgWNUb3pqn0K65yI3E0kll/lFQjkN49pngvNZTHRb7PdvnYg72z3+WAnclRWs5hD7FbWh8SXVWEZcPHrDXnF1Z47TA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=kent.ac.uk; dmarc=pass action=none header.from=kent.ac.uk;
+ dkim=pass header.d=kent.ac.uk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livekentac.onmicrosoft.com; s=selector2-livekentac-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s5B1XVgthzw/L75zO05RP6LhrbFkNimWydJ3zgRrJJw=;
- b=hupenJMnLBvONemkXSYgYcDGmyjg/MuxKOd8ZSl+9do8a0GlCaJ6jSEjMZfOSvKKuyKjGG40d4e7rqIaCPBmPCzPkjUuO2Lycaxn2nTNqczVQ5yfpLNF/Y4bfdZdZ8CtTSjwIPCRXCl8A2aR2CZUBPPJ5CRa2cwWWhnhPn0QCCI=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3271.eurprd08.prod.outlook.com (52.135.164.152) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.20; Thu, 28 Nov 2019 09:31:26 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2474.023; Thu, 28 Nov 2019
- 09:31:26 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH for-5.0 02/31] block: Add BdrvChildRole
-Thread-Topic: [PATCH for-5.0 02/31] block: Add BdrvChildRole
-Thread-Index: AQHVpSYN9F2/RBWt9UO3N3Nh8sSJa6egUucA
-Date: Thu, 28 Nov 2019 09:31:26 +0000
-Message-ID: <9d6e35ea-eed6-716a-75aa-e8f47f35b6b7@virtuozzo.com>
-References: <20191127131624.1062403-1-mreitz@redhat.com>
- <20191127131624.1062403-3-mreitz@redhat.com>
-In-Reply-To: <20191127131624.1062403-3-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
+ bh=fivhCeuul1FnYNFenddXo6gIhptQSwQcneebQO0J2jg=;
+ b=NmZ1hrPqhUUSJhImMoh9yG8dWMrHgChATmz/rBxijekmlQ9Y5R9pNAW5hRA9hmKDx6GYWuQ6x0H/+ZUcgGxHrIixytKpgLKEKKk8BtoZLVpFzTmrVUm4OR4X5ptD3i7/Tpo8rx5N5t00nV/gYWhFqG1PHDohqlPQ/Uy1n1Gh1Tk=
+Received: from DB7PR01MB4348.eurprd01.prod.exchangelabs.com (52.135.135.22) by
+ DB7PR01MB4267.eurprd01.prod.exchangelabs.com (52.135.134.32) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.16; Thu, 28 Nov 2019 09:31:29 +0000
+Received: from DB7PR01MB4348.eurprd01.prod.exchangelabs.com
+ ([fe80::c426:70fc:26fe:b0e3]) by DB7PR01MB4348.eurprd01.prod.exchangelabs.com
+ ([fe80::c426:70fc:26fe:b0e3%3]) with mapi id 15.20.2474.023; Thu, 28 Nov 2019
+ 09:31:29 +0000
+From: Sarah Harris <seh53@kent.ac.uk>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Subject: Re: [PATCH v35 10/13] target/avr: Add limited support for USART and
+ 16 bit timer peripherals
+Thread-Topic: [PATCH v35 10/13] target/avr: Add limited support for USART and
+ 16 bit timer peripherals
+Thread-Index: AQHVjp9xkfwQU2MQhU6RI1c47qT536eXcJQAgATEPwCAADJjAIAEGMEA
+Date: Thu, 28 Nov 2019 09:31:29 +0000
+Message-ID: <20191128093126.39c8125329aa78c92f7bbc8f@kent.ac.uk>
+References: <20191029212430.20617-1-mrolnik@gmail.com>
+ <20191029212430.20617-11-mrolnik@gmail.com>
+ <CAL1e-=i5S65283Ypg6-qDKkrhcG1r=w5ZqMyxp3CaAcAkPskUw@mail.gmail.com>
+ <20191125155728.aaedf5d65b5121be1ad9f52f@kent.ac.uk>
+ <CAL1e-=gMzamQs7BGg4cm8y23GqzEw7M=CptEV_UGyhFrOpeyJg@mail.gmail.com>
+In-Reply-To: <CAL1e-=gMzamQs7BGg4cm8y23GqzEw7M=CptEV_UGyhFrOpeyJg@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0102CA0058.eurprd01.prod.exchangelabs.com
- (2603:10a6:7:7d::35) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
+x-clientproxiedby: LO2P265CA0146.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9::14) To DB7PR01MB4348.eurprd01.prod.exchangelabs.com
+ (2603:10a6:5:2f::22)
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
+ smtp.mailfrom=S.E.Harris@kent.ac.uk; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191128123124127
-x-originating-ip: [185.231.240.5]
+x-mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
+x-originating-ip: [80.189.49.198]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 42c296e9-c3e2-4660-c52d-08d773e5bd85
-x-ms-traffictypediagnostic: AM6PR08MB3271:
-x-microsoft-antispam-prvs: <AM6PR08MB32715F9CD6D88F8B9E33F872C1470@AM6PR08MB3271.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-office365-filtering-correlation-id: 14bb8e3d-f3a8-48c4-87bf-08d773e5bf51
+x-ms-traffictypediagnostic: DB7PR01MB4267:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB7PR01MB4267B6B0AE762E94821A82E8F7470@DB7PR01MB4267.eurprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0235CBE7D0
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(39840400004)(366004)(136003)(346002)(376002)(189003)(199004)(8936002)(186003)(81166006)(25786009)(386003)(2501003)(86362001)(256004)(6506007)(81156014)(54906003)(110136005)(31696002)(229853002)(305945005)(8676002)(6246003)(14454004)(6436002)(102836004)(7736002)(66066001)(6486002)(316002)(26005)(3846002)(6116002)(66476007)(66556008)(64756008)(66446008)(52116002)(66946007)(76176011)(71200400001)(71190400001)(2906002)(446003)(99286004)(31686004)(5660300002)(4326008)(36756003)(2616005)(478600001)(11346002)(6512007)(156123004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3271;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ SFS:(10009020)(4636009)(136003)(396003)(39860400002)(376002)(366004)(346002)(199004)(189003)(8676002)(229853002)(52116002)(66946007)(81156014)(6116002)(81166006)(3846002)(5660300002)(55236004)(102836004)(478600001)(26005)(36756003)(6486002)(4326008)(64756008)(66556008)(2906002)(66476007)(66446008)(786003)(66066001)(1076003)(305945005)(7736002)(6916009)(6246003)(25786009)(256004)(14444005)(186003)(99286004)(6436002)(14454004)(316002)(30864003)(6512007)(54906003)(76176011)(53546011)(8936002)(386003)(50226002)(6506007)(2616005)(11346002)(446003)(71190400001)(71200400001)(21314003)(579004)(559001)(569006);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB7PR01MB4267;
+ H:DB7PR01MB4348.eurprd01.prod.exchangelabs.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: kent.ac.uk does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cjY6CMFJyi9ptxKmoWAW81wjAmdD98lh+5osNMd/G6hd/nm2lkhPrPDPmFWcKuiXb6ALhH2QpjItWUWp7dhcex59qnpwly/uLbbFAv140wULHi138pw6c604EgMZKyQZHnxWvJq5fZY9JEH00z6l4f8yHwkQaSVYfF/NG52t+MeTb8rKdKRCJe5uEu3+GjpJNkQbpNNZBjdCB5tJqw/F9H/TTSVhzBMedp5IQhnd8Mmcp2kyoJR15IsMgoNRCQsnyaEgBx5XodL8G6519VjKi86GJUaKlNaEz7BK2NlJ2k4zrtbv8Y+wLMZk/TaL/nwkl7VQa4CsP+bqHPJs5VJrpKtOBZSSjFEMQkL5sdlUVeoDWp7gG2P2aKPSCBKrrdit1u/D2jBvCW5VerW4iti/v7LJ2o8+Bo+4l7EhBJ18UkSrUppjAEfAJCjJbdn0c+ju
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <66CE08E2E81E5F47AAAA340434AB6B51@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: qQcAmndy2p+ip/LkO3h134usKZf59erDszJ1vA8tRBZ8gUO/sxFfri/DbraXbcUIn53LTbLsp0QNo2fE3w8/OqcImccEIW46M6KNIV4sTSJ/naTxXAv9QOGsYShJgeTMPYXIrz8qEwhwPBkAnMxbcJnGbHC3M2x7e6Hp1MD48PZtY9+OtqMbcjOI+OQxDh4AkG5ZgTjkb9rkhmSTmc0sCrvavRT4mAxwBBOf7wULDhkz2ZvncKw3ZxSN49yegNmX9Apq976wzWgtX+0uQ5kxLeH8i6XUnoJVReZM1kal3M59gTkYSr57Xmow+zDUHApv/Vs5qRRE9BjZISQ//ffYeZMgT2O17EYkDmPDv6/oZGiX3juMMoaacIhQUbrcV6aVJi3bYTCC4gNgZ9bJWA3aV90CCRUmN7QKKmjVjDt9qX9Sad9QcUtBoKIs/wF5b4ri
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <965D2526C19B774C82C4682F0CC182A2@eurprd01.prod.exchangelabs.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42c296e9-c3e2-4660-c52d-08d773e5bd85
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2019 09:31:26.1859 (UTC)
+X-OriginatorOrg: kent.ac.uk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14bb8e3d-f3a8-48c4-87bf-08d773e5bf51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2019 09:31:29.4149 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-id: 51a9fa56-3f32-449a-a721-3e3f49aa5e9a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D+mDt6Vh4jG/qKtJHifWitYj5fx2B19mJwhBKEJyJNwwOxJIvoVKgu97ecXfn9sm4jjjcvXKRbQVBCM3meyfht8WVKZAHMYrBdZ1A3MLjIo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3271
+X-MS-Exchange-CrossTenant-userprincipalname: Wa6RqvsDBSCus1SwizlU+P+ABfl8jgH/AUlKVXbT0q6yyfhebf0Ay9ChQ0KVnd1dD632eVKp+378R191Osjbqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR01MB4267
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.118
+X-Received-From: 40.107.3.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,50 +115,1685 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "S.Harris" <S.E.Harris@kent.ac.uk>, QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjcuMTEuMjAxOSAxNjoxNSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBUaGlzIGVudW0gd2lsbCBzdXBw
-bGVtZW50IEJkcnZDaGlsZENsYXNzIHdoZW4gaXQgY29tZXMgdG8gd2hhdCByb2xlIChvcg0KPiBj
-b21iaW5hdGlvbiBvZiByb2xlcykgYSBjaGlsZCB0YWtlcyBmb3IgaXRzIHBhcmVudC4NCj4gDQo+
-IEJlY2F1c2UgZW1wdHkgZW51bXMgYXJlIG5vdCBhbGxvd2VkLCBsZXQgdXMganVzdCBzdGFydCB3
-aXRoIGl0IGZpbGxlZC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heCBSZWl0eiA8bXJlaXR6QHJl
-ZGhhdC5jb20+DQo+IC0tLQ0KPiAgIGluY2x1ZGUvYmxvY2svYmxvY2suaCB8IDM4ICsrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDM4IGlu
-c2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2Jsb2NrL2Jsb2NrLmggYi9p
-bmNsdWRlL2Jsb2NrL2Jsb2NrLmgNCj4gaW5kZXggMzg5NjNlZjIwMy4uMzY4MTdkNTY4OSAxMDA2
-NDQNCj4gLS0tIGEvaW5jbHVkZS9ibG9jay9ibG9jay5oDQo+ICsrKyBiL2luY2x1ZGUvYmxvY2sv
-YmxvY2suaA0KPiBAQCAtMjc5LDYgKzI3OSw0NCBAQCBlbnVtIHsNCj4gICAgICAgREVGQVVMVF9Q
-RVJNX1VOQ0hBTkdFRCAgICAgID0gQkxLX1BFUk1fQUxMICYgfkRFRkFVTFRfUEVSTV9QQVNTVEhS
-T1VHSCwNCj4gICB9Ow0KPiAgIA0KPiArdHlwZWRlZiBlbnVtIEJkcnZDaGlsZFJvbGUgew0KDQpE
-b24ndCB5b3Ugd2FudCB0byBjYWxsIGl0IGp1c3QgQmRydkNoaWxkRmxhZ3MgPw0KQmVuZWZpdHM6
-DQoNCjEuIERvIG5vdCBpbnRlcnNlY3Qgd2l0aCBvbGQgQmRydkNoaWxkUm9sZS4NCjIuIEkgdGhp
-bmssIEJEUlZfQ0hJTERfU1RBWV9BVF9OT0RFIGlzIG5vdCBhIHJvbGUsIGJ1dCBqdXN0IGEgcHJv
-cGVydHkgb3IgZmxhZy4uDQoNCj4gKyAgICAvKg0KPiArICAgICAqIElmIHByZXNlbnQsIGJkcnZf
-cmVwbGFjZV9ub2RlKCkgd2lsbCBub3QgY2hhbmdlIHRoZSBub2RlIHRoaXMNCj4gKyAgICAgKiBC
-ZHJ2Q2hpbGQgcG9pbnRzIHRvLg0KPiArICAgICAqLw0KPiArICAgIEJEUlZfQ0hJTERfU1RBWV9B
-VF9OT0RFID0gKDEgPDwgMCksDQo+ICsNCj4gKyAgICAvKiBDaGlsZCBzdG9yZXMgZGF0YSAqLw0K
-PiArICAgIEJEUlZfQ0hJTERfREFUQSAgICAgICAgID0gKDEgPDwgMSksDQo+ICsNCj4gKyAgICAv
-KiBDaGlsZCBzdG9yZXMgbWV0YWRhdGEgKi8NCj4gKyAgICBCRFJWX0NISUxEX01FVEFEQVRBICAg
-ICA9ICgxIDw8IDIpLA0KPiArDQo+ICsgICAgLyogRmlsdGVyZWQgY2hpbGQgKi8NCj4gKyAgICBC
-RFJWX0NISUxEX0ZJTFRFUkVEICAgICA9ICgxIDw8IDMpLA0KPiArDQo+ICsgICAgLyogQ2hpbGQg
-dG8gQ09XIGZyb20gKGJhY2tpbmcgY2hpbGQpICovDQo+ICsgICAgQkRSVl9DSElMRF9DT1cgICAg
-ICAgICAgPSAoMSA8PCA0KSwNCj4gKw0KPiArICAgIC8qIENoaWxkIGlzIGV4cGVjdGVkIHRvIGJl
-IGEgcHJvdG9jb2wgbm9kZSAqLw0KPiArICAgIEJEUlZfQ0hJTERfUFJPVE9DT0wgICAgID0gKDEg
-PDwgNSksDQo+ICsNCj4gKyAgICAvKiBDaGlsZCBpcyBleHBlY3RlZCB0byBiZSBhIGZvcm1hdCBu
-b2RlICovDQo+ICsgICAgQkRSVl9DSElMRF9GT1JNQVQgICAgICAgPSAoMSA8PCA2KSwNCj4gKw0K
-PiArICAgIC8qDQo+ICsgICAgICogVGhlIHByaW1hcnkgY2hpbGQuICBGb3IgbW9zdCBkcml2ZXJz
-LCB0aGlzIGlzIHRoZSBjaGlsZCB3aG9zZQ0KPiArICAgICAqIGZpbGVuYW1lIGFwcGxpZXMgYmVz
-dCB0byB0aGUgcGFyZW50IG5vZGUuDQo+ICsgICAgICovDQo+ICsgICAgQkRSVl9DSElMRF9QUklN
-QVJZICAgICAgPSAoMSA8PCA3KSwNCj4gKw0KPiArICAgIC8qIFVzZWZ1bCBjb21iaW5hdGlvbiBv
-ZiBmbGFncyAqLw0KPiArICAgIEJEUlZfQ0hJTERfSU1BR0UgICAgICAgID0gQkRSVl9DSElMRF9E
-QVRBDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IEJEUlZfQ0hJTERfTUVUQURB
-VEENCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgQkRSVl9DSElMRF9QUk9UT0NP
-TA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBCRFJWX0NISUxEX1BSSU1BUlks
-DQo+ICt9IEJkcnZDaGlsZFJvbGU7DQo+ICsNCj4gICBjaGFyICpiZHJ2X3Blcm1fbmFtZXModWlu
-dDY0X3QgcGVybSk7DQo+ICAgdWludDY0X3QgYmRydl9xYXBpX3Blcm1fdG9fYmxrX3Blcm0oQmxv
-Y2tQZXJtaXNzaW9uIHFhcGlfcGVybSk7DQo+ICAgDQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRz
-LA0KVmxhZGltaXINCg==
+Hi Aleksandar,
+
+> Sarah, thanks for taking your tome to respond!
+No problem! :)
+
+> do we fully support what is said in:
+> * 22.6.2 Sending Frames with 9 Data Bit
+> * 22.7.2 Receiving Frames with 9 Data Bits
+No, QEMU's character device system only supports 8 bit characters.
+Shorter characters can be padded easily, but longer is a problem.
+At the moment we just emit a warning and ignore the extra bit in UCSRnB (i.=
+e. behave as if 8 bits was selected).
+
+> And the same question for section:
+> * 22.9 Multi-processor Communication Mode
+No, this was out of scope for testing use.
+This case is checked when writing to the UCSRnA register, `if (value & USAR=
+T_CSRA_MPCM)`, and causes a warning.
+I don't know if we should crash instead, but at the moment we just log the =
+warning and continue.
+(USART emulation will be incorrect from when this happens and until MPCM is=
+ disabled)
+
+Kind regards,
+Sarah Harris
+
+
+On Mon, 25 Nov 2019 19:57:48 +0100
+Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
+
+> On Mon, Nov 25, 2019 at 4:57 PM Sarah Harris <seh53@kent.ac.uk> wrote:
+> >
+> > Hi Aleksandar,
+> >
+> > > - Is there a place in docs that explain its implementation in general=
+?
+> > This implementation was based on the datasheet for the ATmega2560 ("ATm=
+ega640/1280/1281/2560/2561 datasheet" available from Microchip's website).
+> > (I'm not sure if posting a URL will trigger any spam filters, so I'll l=
+eave it for now)
+> > See section 22.10, "USART - Register Description".
+> >
+>=20
+> OK.
+>=20
+> > > - Why do cases 4, 5, 6 issue relatively unclear error message
+> > > ""update_char_mask(): Reserved character size <mode>"? Is there a
+> > > better wording perhaps? Where is justification in the doc for these
+> > > cases?
+> > The hardware can send/receive characters of various lengths, specified =
+by settings in these configuration registers.
+> > The cases are defined in table 22-7, "UCSZn Bits Settings", which speci=
+fies that modes 4, 5, and 6 are reserved and should not be used.
+> > I'm not sure how better to explain this fault to the user; this is an e=
+dge case that I'd expect only an AVR developer testing their own program to=
+ see, so describing it in the same way as the datasheet seems a good idea.
+> >
+>=20
+> OK. I somehow missed table 22-7 while comparing the code and specs - my b=
+ad.
+>=20
+> > > - What would be the docs justification for case 7? Why is an error
+> > > message issued, but still "char_mask" is set, and I guess, further
+> > > processing will go on? Why the error message says "Nine bit character
+> > > requested"? Who said that (that *nine* bit characters were requested?
+> > > :-)
+> > Case 7 also comes from table 22-7, and specifies that the USART should =
+send/receive 9 bits per character.
+> > For characters <=3D 8 bits it's easy to pad them to the 8 bit bytes tha=
+t the character device subsystem operates on.
+> > For characters of 9 bits we'd have to throw away one bit, which seems l=
+ike a bad thing to do.
+> > I decided it wasn't enough to justify crashing, but the user should be =
+made aware that data is being lost and the output might not be what they wo=
+uld otherwise expect.
+> >
+>=20
+> Sarah, thanks for taking your tome to respond! Could you just explain
+> to me do we fully support what is said in:
+>=20
+> * 22.6.2 Sending Frames with 9 Data Bit
+> * 22.7.2 Receiving Frames with 9 Data Bits
+>=20
+> or perhaps there are some limitations?
+>=20
+> And the same question for section:
+>=20
+> * 22.9 Multi-processor Communication Mode
+>=20
+> Please note that I don't suggest amending or extending your
+> implementation, I just want to understand it better.
+>=20
+> Best regards,
+> Aleksandar
+>=20
+>=20
+> > Kind regards,
+> > Sarah Harris
+> >
+> >
+> > On Fri, 22 Nov 2019 16:10:02 +0100
+> > Aleksandar Markovic <aleksandar.m.mail@gmail.com> wrote:
+> >
+> > > On Tue, Oct 29, 2019 at 10:25 PM Michael Rolnik <mrolnik@gmail.com> w=
+rote:
+> > > >
+> > > > From: Sarah Harris <S.E.Harris@kent.ac.uk>
+> > > >
+> > > > These were designed to facilitate testing but should provide enough=
+ function to be useful in other contexts.
+> > > > Only a subset of the functions of each peripheral is implemented, m=
+ainly due to the lack of a standard way to handle electrical connections (l=
+ike GPIO pins).
+> > > >
+> > > > Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> > > > ---
+> > > >  hw/char/Kconfig                |   3 +
+> > > >  hw/char/Makefile.objs          |   1 +
+> > > >  hw/char/avr_usart.c            | 324 ++++++++++++++++++
+> > > >  hw/misc/Kconfig                |   3 +
+> > > >  hw/misc/Makefile.objs          |   2 +
+> > > >  hw/misc/avr_mask.c             | 112 ++++++
+> > > >  hw/timer/Kconfig               |   3 +
+> > > >  hw/timer/Makefile.objs         |   2 +
+> > > >  hw/timer/avr_timer16.c         | 605 +++++++++++++++++++++++++++++=
+++++
+> > > >  include/hw/char/avr_usart.h    |  97 ++++++
+> > > >  include/hw/misc/avr_mask.h     |  47 +++
+> > > >  include/hw/timer/avr_timer16.h |  97 ++++++
+> > > >  12 files changed, 1296 insertions(+)
+> > > >  create mode 100644 hw/char/avr_usart.c
+> > > >  create mode 100644 hw/misc/avr_mask.c
+> > > >  create mode 100644 hw/timer/avr_timer16.c
+> > > >  create mode 100644 include/hw/char/avr_usart.h
+> > > >  create mode 100644 include/hw/misc/avr_mask.h
+> > > >  create mode 100644 include/hw/timer/avr_timer16.h
+> > > >
+> > > > diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+> > > > index 40e7a8b8bb..331b20983f 100644
+> > > > --- a/hw/char/Kconfig
+> > > > +++ b/hw/char/Kconfig
+> > > > @@ -46,3 +46,6 @@ config SCLPCONSOLE
+> > > >
+> > > >  config TERMINAL3270
+> > > >      bool
+> > > > +
+> > > > +config AVR_USART
+> > > > +    bool
+> > > > diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
+> > > > index 02d8a66925..f05c1f5667 100644
+> > > > --- a/hw/char/Makefile.objs
+> > > > +++ b/hw/char/Makefile.objs
+> > > > @@ -21,6 +21,7 @@ obj-$(CONFIG_PSERIES) +=3D spapr_vty.o
+> > > >  obj-$(CONFIG_DIGIC) +=3D digic-uart.o
+> > > >  obj-$(CONFIG_STM32F2XX_USART) +=3D stm32f2xx_usart.o
+> > > >  obj-$(CONFIG_RASPI) +=3D bcm2835_aux.o
+> > > > +common-obj-$(CONFIG_AVR_USART) +=3D avr_usart.o
+> > > >
+> > > >  common-obj-$(CONFIG_CMSDK_APB_UART) +=3D cmsdk-apb-uart.o
+> > > >  common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_ser.o
+> > > > diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+> > > > new file mode 100644
+> > > > index 0000000000..9ca3c2a1cd
+> > > > --- /dev/null
+> > > > +++ b/hw/char/avr_usart.c
+> > > > @@ -0,0 +1,324 @@
+> > > > +/*
+> > > > + * AVR USART
+> > > > + *
+> > > > + * Copyright (c) 2018 University of Kent
+> > > > + * Author: Sarah Harris
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +#include "qemu/osdep.h"
+> > > > +#include "hw/char/avr_usart.h"
+> > > > +#include "qemu/log.h"
+> > > > +#include "hw/irq.h"
+> > > > +#include "hw/qdev-properties.h"
+> > > > +
+> > > > +static int avr_usart_can_receive(void *opaque)
+> > > > +{
+> > > > +    AVRUsartState *usart =3D opaque;
+> > > > +
+> > > > +    if (usart->data_valid || !(usart->csrb & USART_CSRB_RXEN)) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +    return 1;
+> > > > +}
+> > > > +
+> > > > +static void avr_usart_receive(void *opaque, const uint8_t *buffer,=
+ int size)
+> > > > +{
+> > > > +    AVRUsartState *usart =3D opaque;
+> > > > +    assert(size =3D=3D 1);
+> > > > +    assert(!usart->data_valid);
+> > > > +    usart->data =3D buffer[0];
+> > > > +    usart->data_valid =3D true;
+> > > > +    usart->csra |=3D USART_CSRA_RXC;
+> > > > +    if (usart->csrb & USART_CSRB_RXCIE) {
+> > > > +        qemu_set_irq(usart->rxc_irq, 1);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static void update_char_mask(AVRUsartState *usart)
+> > > > +{
+> > > > +    uint8_t mode =3D ((usart->csrc & USART_CSRC_CSZ0) ? 1 : 0) |
+> > > > +        ((usart->csrc & USART_CSRC_CSZ1) ? 2 : 0) |
+> > > > +        ((usart->csrb & USART_CSRB_CSZ2) ? 4 : 0);
+> > > > +    switch (mode) {
+> > > > +    case 0:
+> > > > +        usart->char_mask =3D 0b11111;
+> > > > +        break;
+> > > > +    case 1:
+> > > > +        usart->char_mask =3D 0b111111;
+> > > > +        break;
+> > > > +    case 2:
+> > > > +        usart->char_mask =3D 0b1111111;
+> > > > +        break;
+> > > > +    case 3:
+> > > > +        usart->char_mask =3D 0b11111111;
+> > > > +        break;
+> > > > +    case 4:
+> > > > +        /* Fallthrough. */
+> > > > +    case 5:
+> > > > +        /* Fallthrough. */
+> > > > +    case 6:
+> > > > +        qemu_log_mask(
+> > > > +            LOG_GUEST_ERROR,
+> > > > +            "%s: Reserved character size 0x%x\n",
+> > > > +            __func__,
+> > > > +            mode);
+> > > > +        break;
+> > > > +    case 7:
+> > > > +        qemu_log_mask(
+> > > > +            LOG_GUEST_ERROR,
+> > > > +            "%s: Nine bit character size not supported (forcing ei=
+ght)\n",
+> > > > +            __func__);
+> > > > +        usart->char_mask =3D 0b11111111;
+> > > > +        break;
+> > > > +    default:
+> > > > +        assert(0);
+> > > > +    }
+> > > > +}
+> > > > +
+> > >
+> > > Hello, Michael.
+> > >
+> > > Please explain to me some details of update_char_mask():
+> > >
+> > > - Is there a place in docs that explain its implementation in general=
+?
+> > >
+> > > - Why do cases 4, 5, 6 issue relatively unclear error message
+> > > ""update_char_mask(): Reserved character size <mode>"? Is there a
+> > > better wording perhaps? Where is justification in the doc for these
+> > > cases?
+> > >
+> > > - What would be the docs justification for case 7? Why is an error
+> > > message issued, but still "char_mask" is set, and I guess, further
+> > > processing will go on? Why the error message says "Nine bit character
+> > > requested"? Who said that (that *nine* bit characters were requested?
+> > > :-)
+> > >
+> > > Sincerely,
+> > > Aleksandar
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +static void avr_usart_reset(DeviceState *dev)
+> > > > +{
+> > > > +    AVRUsartState *usart =3D AVR_USART(dev);
+> > > > +    usart->data_valid =3D false;
+> > > > +    usart->csra =3D 0b00100000;
+> > > > +    usart->csrb =3D 0b00000000;
+> > > > +    usart->csrc =3D 0b00000110;
+> > > > +    usart->brrl =3D 0;
+> > > > +    usart->brrh =3D 0;
+> > > > +    update_char_mask(usart);
+> > > > +    qemu_set_irq(usart->rxc_irq, 0);
+> > > > +    qemu_set_irq(usart->txc_irq, 0);
+> > > > +    qemu_set_irq(usart->dre_irq, 0);
+> > > > +}
+> > > > +
+> > > > +static uint64_t avr_usart_read(void *opaque, hwaddr addr, unsigned=
+ int size)
+> > > > +{
+> > > > +    AVRUsartState *usart =3D opaque;
+> > > > +    uint8_t data;
+> > > > +    assert(size =3D=3D 1);
+> > > > +
+> > > > +    if (!usart->enabled) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +
+> > > > +    switch (addr) {
+> > > > +    case USART_DR:
+> > > > +        if (!(usart->csrb & USART_CSRB_RXEN)) {
+> > > > +            /* Receiver disabled, ignore. */
+> > > > +            return 0;
+> > > > +        }
+> > > > +        if (usart->data_valid) {
+> > > > +            data =3D usart->data & usart->char_mask;
+> > > > +            usart->data_valid =3D false;
+> > > > +        } else {
+> > > > +            data =3D 0;
+> > > > +        }
+> > > > +        usart->csra &=3D 0xff ^ USART_CSRA_RXC;
+> > > > +        qemu_set_irq(usart->rxc_irq, 0);
+> > > > +        qemu_chr_fe_accept_input(&usart->chr);
+> > > > +        return data;
+> > > > +    case USART_CSRA:
+> > > > +        return usart->csra;
+> > > > +    case USART_CSRB:
+> > > > +        return usart->csrb;
+> > > > +    case USART_CSRC:
+> > > > +        return usart->csrc;
+> > > > +    case USART_BRRL:
+> > > > +        return usart->brrl;
+> > > > +    case USART_BRRH:
+> > > > +        return usart->brrh;
+> > > > +    default:
+> > > > +        qemu_log_mask(
+> > > > +            LOG_GUEST_ERROR,
+> > > > +            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
+> > > > +            __func__,
+> > > > +            addr);
+> > > > +    }
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > > +static void avr_usart_write(void *opaque, hwaddr addr, uint64_t va=
+lue,
+> > > > +                                unsigned int size)
+> > > > +{
+> > > > +    AVRUsartState *usart =3D opaque;
+> > > > +    uint8_t mask;
+> > > > +    uint8_t data;
+> > > > +    assert((value & 0xff) =3D=3D value);
+> > > > +    assert(size =3D=3D 1);
+> > > > +
+> > > > +    if (!usart->enabled) {
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    switch (addr) {
+> > > > +    case USART_DR:
+> > > > +        if (!(usart->csrb & USART_CSRB_TXEN)) {
+> > > > +            /* Transmitter disabled, ignore. */
+> > > > +            return;
+> > > > +        }
+> > > > +        usart->csra |=3D USART_CSRA_TXC;
+> > > > +        usart->csra |=3D USART_CSRA_DRE;
+> > > > +        if (usart->csrb & USART_CSRB_TXCIE) {
+> > > > +            qemu_set_irq(usart->txc_irq, 1);
+> > > > +            usart->csra &=3D 0xff ^ USART_CSRA_TXC;
+> > > > +        }
+> > > > +        if (usart->csrb & USART_CSRB_DREIE) {
+> > > > +            qemu_set_irq(usart->dre_irq, 1);
+> > > > +        }
+> > > > +        data =3D value;
+> > > > +        qemu_chr_fe_write_all(&usart->chr, &data, 1);
+> > > > +        break;
+> > > > +    case USART_CSRA:
+> > > > +        mask =3D 0b01000011;
+> > > > +        /* Mask read-only bits. */
+> > > > +        value =3D (value & mask) | (usart->csra & (0xff ^ mask));
+> > > > +        usart->csra =3D value;
+> > > > +        if (value & USART_CSRA_TXC) {
+> > > > +            usart->csra ^=3D USART_CSRA_TXC;
+> > > > +            qemu_set_irq(usart->txc_irq, 0);
+> > > > +        }
+> > > > +        if (value & USART_CSRA_MPCM) {
+> > > > +            qemu_log_mask(
+> > > > +                LOG_GUEST_ERROR,
+> > > > +                "%s: MPCM not supported by USART\n",
+> > > > +                __func__);
+> > > > +        }
+> > > > +        break;
+> > > > +    case USART_CSRB:
+> > > > +        mask =3D 0b11111101;
+> > > > +        /* Mask read-only bits. */
+> > > > +        value =3D (value & mask) | (usart->csrb & (0xff ^ mask));
+> > > > +        usart->csrb =3D value;
+> > > > +        if (!(value & USART_CSRB_RXEN)) {
+> > > > +            /* Receiver disabled, flush input buffer. */
+> > > > +            usart->data_valid =3D false;
+> > > > +        }
+> > > > +        qemu_set_irq(usart->rxc_irq,
+> > > > +            ((value & USART_CSRB_RXCIE) &&
+> > > > +            (usart->csra & USART_CSRA_RXC)) ? 1 : 0);
+> > > > +        qemu_set_irq(usart->txc_irq,
+> > > > +            ((value & USART_CSRB_TXCIE) &&
+> > > > +            (usart->csra & USART_CSRA_TXC)) ? 1 : 0);
+> > > > +        qemu_set_irq(usart->dre_irq,
+> > > > +            ((value & USART_CSRB_DREIE) &&
+> > > > +            (usart->csra & USART_CSRA_DRE)) ? 1 : 0);
+> > > > +        update_char_mask(usart);
+> > > > +        break;
+> > > > +    case USART_CSRC:
+> > > > +        usart->csrc =3D value;
+> > > > +        if ((value & USART_CSRC_MSEL1) && (value & USART_CSRC_MSEL=
+0)) {
+> > > > +            qemu_log_mask(
+> > > > +                LOG_GUEST_ERROR,
+> > > > +                "%s: SPI mode not supported by USART\n",
+> > > > +                __func__);
+> > > > +        }
+> > > > +        if ((value & USART_CSRC_MSEL1) && !(value & USART_CSRC_MSE=
+L0)) {
+> > > > +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad USART mode\n",=
+ __func__);
+> > > > +        }
+> > > > +        if (!(value & USART_CSRC_PM1) && (value & USART_CSRC_PM0))=
+ {
+> > > > +            qemu_log_mask(
+> > > > +                LOG_GUEST_ERROR,
+> > > > +                "%s: Bad USART parity mode\n",
+> > > > +                __func__);
+> > > > +        }
+> > > > +        update_char_mask(usart);
+> > > > +        break;
+> > > > +    case USART_BRRL:
+> > > > +        usart->brrl =3D value;
+> > > > +        break;
+> > > > +    case USART_BRRH:
+> > > > +        usart->brrh =3D value & 0b00001111;
+> > > > +        break;
+> > > > +    default:
+> > > > +        qemu_log_mask(
+> > > > +            LOG_GUEST_ERROR,
+> > > > +            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
+> > > > +            __func__,
+> > > > +            addr);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static const MemoryRegionOps avr_usart_ops =3D {
+> > > > +    .read =3D avr_usart_read,
+> > > > +    .write =3D avr_usart_write,
+> > > > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> > > > +    .impl =3D {.min_access_size =3D 1, .max_access_size =3D 1}
+> > > > +};
+> > > > +
+> > > > +static Property avr_usart_properties[] =3D {
+> > > > +    DEFINE_PROP_CHR("chardev", AVRUsartState, chr),
+> > > > +    DEFINE_PROP_END_OF_LIST(),
+> > > > +};
+> > > > +
+> > > > +static void avr_usart_pr(void *opaque, int irq, int level)
+> > > > +{
+> > > > +    AVRUsartState *s =3D AVR_USART(opaque);
+> > > > +
+> > > > +    s->enabled =3D !level;
+> > > > +
+> > > > +    if (!s->enabled) {
+> > > > +        avr_usart_reset(DEVICE(s));
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static void avr_usart_init(Object *obj)
+> > > > +{
+> > > > +    AVRUsartState *s =3D AVR_USART(obj);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
+> > > > +    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_A=
+VR_USART, 8);
+> > > > +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+> > > > +    qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
+> > > > +    s->enabled =3D true;
+> > > > +}
+> > > > +
+> > > > +static void avr_usart_realize(DeviceState *dev, Error **errp)
+> > > > +{
+> > > > +    AVRUsartState *s =3D AVR_USART(dev);
+> > > > +    qemu_chr_fe_set_handlers(&s->chr, avr_usart_can_receive,
+> > > > +                             avr_usart_receive, NULL, NULL,
+> > > > +                             s, NULL, true);
+> > > > +    avr_usart_reset(dev);
+> > > > +}
+> > > > +
+> > > > +static void avr_usart_class_init(ObjectClass *klass, void *data)
+> > > > +{
+> > > > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > > > +
+> > > > +    dc->reset =3D avr_usart_reset;
+> > > > +    dc->props =3D avr_usart_properties;
+> > > > +    dc->realize =3D avr_usart_realize;
+> > > > +}
+> > > > +
+> > > > +static const TypeInfo avr_usart_info =3D {
+> > > > +    .name          =3D TYPE_AVR_USART,
+> > > > +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> > > > +    .instance_size =3D sizeof(AVRUsartState),
+> > > > +    .instance_init =3D avr_usart_init,
+> > > > +    .class_init    =3D avr_usart_class_init,
+> > > > +};
+> > > > +
+> > > > +static void avr_usart_register_types(void)
+> > > > +{
+> > > > +    type_register_static(&avr_usart_info);
+> > > > +}
+> > > > +
+> > > > +type_init(avr_usart_register_types)
+> > > > diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+> > > > index 2164646553..e79841e3a4 100644
+> > > > --- a/hw/misc/Kconfig
+> > > > +++ b/hw/misc/Kconfig
+> > > > @@ -125,4 +125,7 @@ config MAC_VIA
+> > > >      select MOS6522
+> > > >      select ADB
+> > > >
+> > > > +config AVR_MASK
+> > > > +    bool
+> > > > +
+> > > >  source macio/Kconfig
+> > > > diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+> > > > index ba898a5781..3a8093be6a 100644
+> > > > --- a/hw/misc/Makefile.objs
+> > > > +++ b/hw/misc/Makefile.objs
+> > > > @@ -82,3 +82,5 @@ common-obj-$(CONFIG_NRF51_SOC) +=3D nrf51_rng.o
+> > > >  obj-$(CONFIG_MAC_VIA) +=3D mac_via.o
+> > > >
+> > > >  common-obj-$(CONFIG_GRLIB) +=3D grlib_ahb_apb_pnp.o
+> > > > +
+> > > > +obj-$(CONFIG_AVR_MASK) +=3D avr_mask.o
+> > > > diff --git a/hw/misc/avr_mask.c b/hw/misc/avr_mask.c
+> > > > new file mode 100644
+> > > > index 0000000000..3af82ed9c1
+> > > > --- /dev/null
+> > > > +++ b/hw/misc/avr_mask.c
+> > > > @@ -0,0 +1,112 @@
+> > > > +/*
+> > > > + * AVR Power Reduction
+> > > > + *
+> > > > + * Copyright (c) 2019 Michael Rolnik
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +#include "qemu/osdep.h"
+> > > > +#include "hw/misc/avr_mask.h"
+> > > > +#include "qemu/log.h"
+> > > > +#include "hw/qdev-properties.h"
+> > > > +#include "hw/irq.h"
+> > > > +
+> > > > +#define DB_PRINT(fmt, args...) /* Nothing */
+> > > > +/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__,=
+ ## args)*/
+> > > > +
+> > > > +static void avr_mask_reset(DeviceState *dev)
+> > > > +{
+> > > > +    AVRMaskState *s =3D AVR_MASK(dev);
+> > > > +
+> > > > +    s->val =3D 0x00;
+> > > > +
+> > > > +    for (int i =3D 0; i < 8; i++) {
+> > > > +        qemu_set_irq(s->irq[i], 0);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static uint64_t avr_mask_read(void *opaque, hwaddr offset, unsigne=
+d size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    assert(offset =3D=3D 0);
+> > > > +    AVRMaskState *s =3D opaque;
+> > > > +
+> > > > +    return (uint64_t)s->val;
+> > > > +}
+> > > > +
+> > > > +static void avr_mask_write(void *opaque, hwaddr offset,
+> > > > +                              uint64_t val64, unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    assert(offset =3D=3D 0);
+> > > > +    AVRMaskState *s =3D opaque;
+> > > > +    uint8_t val8 =3D val64;
+> > > > +
+> > > > +    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
+> > > > +
+> > > > +    s->val =3D val8;
+> > > > +    for (int i =3D 0; i < 8; i++) {
+> > > > +        qemu_set_irq(s->irq[i], (val8 & (1 << i)) !=3D 0);
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static const MemoryRegionOps avr_mask_ops =3D {
+> > > > +    .read =3D avr_mask_read,
+> > > > +    .write =3D avr_mask_write,
+> > > > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> > > > +    .impl =3D {.max_access_size =3D 1}
+> > > > +};
+> > > > +
+> > > > +static void avr_mask_init(Object *dev)
+> > > > +{
+> > > > +    AVRMaskState *s =3D AVR_MASK(dev);
+> > > > +    SysBusDevice *busdev =3D SYS_BUS_DEVICE(dev);
+> > > > +
+> > > > +    memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_A=
+VR_MASK,
+> > > > +            0x01);
+> > > > +    sysbus_init_mmio(busdev, &s->iomem);
+> > > > +
+> > > > +    for (int i =3D 0; i < 8; i++) {
+> > > > +        sysbus_init_irq(busdev, &s->irq[i]);
+> > > > +    }
+> > > > +    s->val =3D 0x00;
+> > > > +}
+> > > > +
+> > > > +static void avr_mask_class_init(ObjectClass *klass, void *data)
+> > > > +{
+> > > > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > > > +
+> > > > +    dc->reset =3D avr_mask_reset;
+> > > > +}
+> > > > +
+> > > > +static const TypeInfo avr_mask_info =3D {
+> > > > +    .name          =3D TYPE_AVR_MASK,
+> > > > +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> > > > +    .instance_size =3D sizeof(AVRMaskState),
+> > > > +    .class_init    =3D avr_mask_class_init,
+> > > > +    .instance_init =3D avr_mask_init,
+> > > > +};
+> > > > +
+> > > > +static void avr_mask_register_types(void)
+> > > > +{
+> > > > +    type_register_static(&avr_mask_info);
+> > > > +}
+> > > > +
+> > > > +type_init(avr_mask_register_types)
+> > > > diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+> > > > index a990f9fe35..4343bc23f3 100644
+> > > > --- a/hw/timer/Kconfig
+> > > > +++ b/hw/timer/Kconfig
+> > > > @@ -34,3 +34,6 @@ config CMSDK_APB_TIMER
+> > > >  config CMSDK_APB_DUALTIMER
+> > > >      bool
+> > > >      select PTIMER
+> > > > +
+> > > > +config AVR_TIMER16
+> > > > +    bool
+> > > > diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+> > > > index dece235fd7..af0913ca3b 100644
+> > > > --- a/hw/timer/Makefile.objs
+> > > > +++ b/hw/timer/Makefile.objs
+> > > > @@ -35,3 +35,5 @@ common-obj-$(CONFIG_CMSDK_APB_TIMER) +=3D cmsdk-a=
+pb-timer.o
+> > > >  common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) +=3D cmsdk-apb-dualtimer.=
+o
+> > > >  common-obj-$(CONFIG_MSF2) +=3D mss-timer.o
+> > > >  common-obj-$(CONFIG_RASPI) +=3D bcm2835_systmr.o
+> > > > +
+> > > > +obj-$(CONFIG_AVR_TIMER16) +=3D avr_timer16.o
+> > > > diff --git a/hw/timer/avr_timer16.c b/hw/timer/avr_timer16.c
+> > > > new file mode 100644
+> > > > index 0000000000..ac6ef73e77
+> > > > --- /dev/null
+> > > > +++ b/hw/timer/avr_timer16.c
+> > > > @@ -0,0 +1,605 @@
+> > > > +/*
+> > > > + * AVR 16 bit timer
+> > > > + *
+> > > > + * Copyright (c) 2018 University of Kent
+> > > > + * Author: Ed Robbins
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +/*
+> > > > + * Driver for 16 bit timers on 8 bit AVR devices.
+> > > > + * Note:
+> > > > + * ATmega640/V-1280/V-1281/V-2560/V-2561/V timers 1, 3, 4 and 5 ar=
+e 16 bit
+> > > > + */
+> > > > +
+> > > > +/*
+> > > > + * XXX TODO: Power Reduction Register support
+> > > > + *           prescaler pause support
+> > > > + *           PWM modes, GPIO, output capture pins, input compare p=
+in
+> > > > + */
+> > > > +
+> > > > +#include "qemu/osdep.h"
+> > > > +#include "hw/timer/avr_timer16.h"
+> > > > +#include "qemu/log.h"
+> > > > +#include "hw/irq.h"
+> > > > +#include "hw/qdev-properties.h"
+> > > > +
+> > > > +/* Register offsets */
+> > > > +#define T16_CRA     0x0
+> > > > +#define T16_CRB     0x1
+> > > > +#define T16_CRC     0x2
+> > > > +#define T16_CNTL    0x4
+> > > > +#define T16_CNTH    0x5
+> > > > +#define T16_ICRL    0x6
+> > > > +#define T16_ICRH    0x7
+> > > > +#define T16_OCRAL   0x8
+> > > > +#define T16_OCRAH   0x9
+> > > > +#define T16_OCRBL   0xa
+> > > > +#define T16_OCRBH   0xb
+> > > > +#define T16_OCRCL   0xc
+> > > > +#define T16_OCRCH   0xd
+> > > > +
+> > > > +/* Field masks */
+> > > > +#define T16_CRA_WGM01   0x3
+> > > > +#define T16_CRA_COMC    0xc
+> > > > +#define T16_CRA_COMB    0x30
+> > > > +#define T16_CRA_COMA    0xc0
+> > > > +#define T16_CRA_OC_CONF \
+> > > > +    (T16_CRA_COMA | T16_CRA_COMB | T16_CRA_COMC)
+> > > > +
+> > > > +#define T16_CRB_CS      0x7
+> > > > +#define T16_CRB_WGM23   0x18
+> > > > +#define T16_CRB_ICES    0x40
+> > > > +#define T16_CRB_ICNC    0x80
+> > > > +
+> > > > +#define T16_CRC_FOCC    0x20
+> > > > +#define T16_CRC_FOCB    0x40
+> > > > +#define T16_CRC_FOCA    0x80
+> > > > +
+> > > > +/* Fields masks both TIMSK and TIFR (interrupt mask/flag registers=
+) */
+> > > > +#define T16_INT_TOV    0x1 /* Timer overflow */
+> > > > +#define T16_INT_OCA    0x2 /* Output compare A */
+> > > > +#define T16_INT_OCB    0x4 /* Output compare B */
+> > > > +#define T16_INT_OCC    0x8 /* Output compare C */
+> > > > +#define T16_INT_IC     0x20 /* Input capture */
+> > > > +
+> > > > +/* Clock source values */
+> > > > +#define T16_CLKSRC_STOPPED     0
+> > > > +#define T16_CLKSRC_DIV1        1
+> > > > +#define T16_CLKSRC_DIV8        2
+> > > > +#define T16_CLKSRC_DIV64       3
+> > > > +#define T16_CLKSRC_DIV256      4
+> > > > +#define T16_CLKSRC_DIV1024     5
+> > > > +#define T16_CLKSRC_EXT_FALLING 6
+> > > > +#define T16_CLKSRC_EXT_RISING  7
+> > > > +
+> > > > +/* Timer mode values (not including PWM modes) */
+> > > > +#define T16_MODE_NORMAL     0
+> > > > +#define T16_MODE_CTC_OCRA   4
+> > > > +#define T16_MODE_CTC_ICR    12
+> > > > +
+> > > > +/* Accessors */
+> > > > +#define CLKSRC(t16) (t16->crb & T16_CRB_CS)
+> > > > +#define MODE(t16)   (((t16->crb & T16_CRB_WGM23) >> 1) | \
+> > > > +                     (t16->cra & T16_CRA_WGM01))
+> > > > +#define CNT(t16)    VAL16(t16->cntl, t16->cnth)
+> > > > +#define OCRA(t16)   VAL16(t16->ocral, t16->ocrah)
+> > > > +#define OCRB(t16)   VAL16(t16->ocrbl, t16->ocrbh)
+> > > > +#define OCRC(t16)   VAL16(t16->ocrcl, t16->ocrch)
+> > > > +#define ICR(t16)    VAL16(t16->icrl, t16->icrh)
+> > > > +
+> > > > +/* Helper macros */
+> > > > +#define VAL16(l, h) ((h << 8) | l)
+> > > > +#define ERROR(fmt, args...) \
+> > > > +    qemu_log_mask(LOG_GUEST_ERROR, "%s: " fmt "\n", __func__, ## a=
+rgs)
+> > > > +#define DB_PRINT(fmt, args...) /* Nothing */
+> > > > +/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__,=
+ ## args)*/
+> > > > +
+> > > > +static inline int64_t avr_timer16_ns_to_ticks(AVRTimer16State *t16=
+, int64_t t)
+> > > > +{
+> > > > +    if (t16->period_ns =3D=3D 0) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +    return t / t16->period_ns;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_update_cnt(AVRTimer16State *t16)
+> > > > +{
+> > > > +    uint16_t cnt;
+> > > > +    cnt =3D avr_timer16_ns_to_ticks(t16, qemu_clock_get_ns(QEMU_CL=
+OCK_VIRTUAL) -
+> > > > +                                       t16->reset_time_ns);
+> > > > +    t16->cntl =3D (uint8_t)(cnt & 0xff);
+> > > > +    t16->cnth =3D (uint8_t)((cnt & 0xff00) >> 8);
+> > > > +}
+> > > > +
+> > > > +static inline void avr_timer16_recalc_reset_time(AVRTimer16State *=
+t16)
+> > > > +{
+> > > > +    t16->reset_time_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -
+> > > > +                         CNT(t16) * t16->period_ns;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_clock_reset(AVRTimer16State *t16)
+> > > > +{
+> > > > +    t16->cntl =3D 0;
+> > > > +    t16->cnth =3D 0;
+> > > > +    t16->reset_time_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_clksrc_update(AVRTimer16State *t16)
+> > > > +{
+> > > > +    uint16_t divider =3D 0;
+> > > > +    switch (CLKSRC(t16)) {
+> > > > +    case T16_CLKSRC_EXT_FALLING:
+> > > > +    case T16_CLKSRC_EXT_RISING:
+> > > > +        ERROR("external clock source unsupported");
+> > > > +        goto end;
+> > > > +    case T16_CLKSRC_STOPPED:
+> > > > +        goto end;
+> > > > +    case T16_CLKSRC_DIV1:
+> > > > +        divider =3D 1;
+> > > > +        break;
+> > > > +    case T16_CLKSRC_DIV8:
+> > > > +        divider =3D 8;
+> > > > +        break;
+> > > > +    case T16_CLKSRC_DIV64:
+> > > > +        divider =3D 64;
+> > > > +        break;
+> > > > +    case T16_CLKSRC_DIV256:
+> > > > +        divider =3D 256;
+> > > > +        break;
+> > > > +    case T16_CLKSRC_DIV1024:
+> > > > +        divider =3D 1024;
+> > > > +        break;
+> > > > +    default:
+> > > > +        goto end;
+> > > > +    }
+> > > > +    t16->freq_hz =3D t16->cpu_freq_hz / divider;
+> > > > +    t16->period_ns =3D 1000000000ULL / t16->freq_hz;
+> > > > +    DB_PRINT("Timer frequency %" PRIu64 " hz, period %" PRIu64 " n=
+s (%f s)",
+> > > > +             t16->freq_hz, t16->period_ns, 1 / (double)t16->freq_h=
+z);
+> > > > +end:
+> > > > +    return;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_set_alarm(AVRTimer16State *t16)
+> > > > +{
+> > > > +    if (CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_FALLING ||
+> > > > +        CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_RISING ||
+> > > > +        CLKSRC(t16) =3D=3D T16_CLKSRC_STOPPED) {
+> > > > +        /* Timer is disabled or set to external clock source (unsu=
+pported) */
+> > > > +        goto end;
+> > > > +    }
+> > > > +
+> > > > +    uint64_t alarm_offset =3D 0xffff;
+> > > > +    enum NextInterrupt next_interrupt =3D OVERFLOW;
+> > > > +
+> > > > +    switch (MODE(t16)) {
+> > > > +    case T16_MODE_NORMAL:
+> > > > +        /* Normal mode */
+> > > > +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16) &&
+> > > > +            (t16->imsk & T16_INT_OCA)) {
+> > > > +            alarm_offset =3D OCRA(t16);
+> > > > +            next_interrupt =3D COMPA;
+> > > > +        }
+> > > > +        break;
+> > > > +    case T16_MODE_CTC_OCRA:
+> > > > +        /* CTC mode, top =3D ocra */
+> > > > +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16)) {
+> > > > +            alarm_offset =3D OCRA(t16);
+> > > > +            next_interrupt =3D COMPA;
+> > > > +        }
+> > > > +       break;
+> > > > +    case T16_MODE_CTC_ICR:
+> > > > +        /* CTC mode, top =3D icr */
+> > > > +        if (ICR(t16) < alarm_offset && ICR(t16) > CNT(t16)) {
+> > > > +            alarm_offset =3D ICR(t16);
+> > > > +            next_interrupt =3D CAPT;
+> > > > +        }
+> > > > +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16) &&
+> > > > +            (t16->imsk & T16_INT_OCA)) {
+> > > > +            alarm_offset =3D OCRA(t16);
+> > > > +            next_interrupt =3D COMPA;
+> > > > +        }
+> > > > +        break;
+> > > > +    default:
+> > > > +        ERROR("pwm modes are unsupported");
+> > > > +        goto end;
+> > > > +    }
+> > > > +    if (OCRB(t16) < alarm_offset && OCRB(t16) > CNT(t16) &&
+> > > > +        (t16->imsk & T16_INT_OCB)) {
+> > > > +        alarm_offset =3D OCRB(t16);
+> > > > +        next_interrupt =3D COMPB;
+> > > > +    }
+> > > > +    if (OCRC(t16) < alarm_offset && OCRB(t16) > CNT(t16) &&
+> > > > +        (t16->imsk & T16_INT_OCC)) {
+> > > > +        alarm_offset =3D OCRB(t16);
+> > > > +        next_interrupt =3D COMPC;
+> > > > +    }
+> > > > +    alarm_offset -=3D CNT(t16);
+> > > > +
+> > > > +    t16->next_interrupt =3D next_interrupt;
+> > > > +    uint64_t alarm_ns =3D
+> > > > +        t16->reset_time_ns + ((CNT(t16) + alarm_offset) * t16->per=
+iod_ns);
+> > > > +    timer_mod(t16->timer, alarm_ns);
+> > > > +
+> > > > +    DB_PRINT("next alarm %" PRIu64 " ns from now",
+> > > > +        alarm_offset * t16->period_ns);
+> > > > +
+> > > > +end:
+> > > > +    return;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_interrupt(void *opaque)
+> > > > +{
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    uint8_t mode =3D MODE(t16);
+> > > > +
+> > > > +    avr_timer16_update_cnt(t16);
+> > > > +
+> > > > +    if (CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_FALLING ||
+> > > > +        CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_RISING ||
+> > > > +        CLKSRC(t16) =3D=3D T16_CLKSRC_STOPPED) {
+> > > > +        /* Timer is disabled or set to external clock source (unsu=
+pported) */
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    DB_PRINT("interrupt, cnt =3D %d", CNT(t16));
+> > > > +
+> > > > +    /* Counter overflow */
+> > > > +    if (t16->next_interrupt =3D=3D OVERFLOW) {
+> > > > +        DB_PRINT("0xffff overflow");
+> > > > +        avr_timer16_clock_reset(t16);
+> > > > +        if (t16->imsk & T16_INT_TOV) {
+> > > > +            t16->ifr |=3D T16_INT_TOV;
+> > > > +            qemu_set_irq(t16->ovf_irq, 1);
+> > > > +        }
+> > > > +    }
+> > > > +    /* Check for ocra overflow in CTC mode */
+> > > > +    if (mode =3D=3D T16_MODE_CTC_OCRA && t16->next_interrupt =3D=
+=3D COMPA) {
+> > > > +        DB_PRINT("CTC OCRA overflow");
+> > > > +        avr_timer16_clock_reset(t16);
+> > > > +    }
+> > > > +    /* Check for icr overflow in CTC mode */
+> > > > +    if (mode =3D=3D T16_MODE_CTC_ICR && t16->next_interrupt =3D=3D=
+ CAPT) {
+> > > > +        DB_PRINT("CTC ICR overflow");
+> > > > +        avr_timer16_clock_reset(t16);
+> > > > +        if (t16->imsk & T16_INT_IC) {
+> > > > +            t16->ifr |=3D T16_INT_IC;
+> > > > +            qemu_set_irq(t16->capt_irq, 1);
+> > > > +        }
+> > > > +    }
+> > > > +    /* Check for output compare interrupts */
+> > > > +    if (t16->imsk & T16_INT_OCA && t16->next_interrupt =3D=3D COMP=
+A) {
+> > > > +        t16->ifr |=3D T16_INT_OCA;
+> > > > +        qemu_set_irq(t16->compa_irq, 1);
+> > > > +    }
+> > > > +    if (t16->imsk & T16_INT_OCB && t16->next_interrupt =3D=3D COMP=
+B) {
+> > > > +        t16->ifr |=3D T16_INT_OCB;
+> > > > +        qemu_set_irq(t16->compb_irq, 1);
+> > > > +    }
+> > > > +    if (t16->imsk & T16_INT_OCC && t16->next_interrupt =3D=3D COMP=
+C) {
+> > > > +        t16->ifr |=3D T16_INT_OCC;
+> > > > +        qemu_set_irq(t16->compc_irq, 1);
+> > > > +    }
+> > > > +    avr_timer16_set_alarm(t16);
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_reset(DeviceState *dev)
+> > > > +{
+> > > > +    AVRTimer16State *t16 =3D AVR_TIMER16(dev);
+> > > > +
+> > > > +    avr_timer16_clock_reset(t16);
+> > > > +    avr_timer16_clksrc_update(t16);
+> > > > +    avr_timer16_set_alarm(t16);
+> > > > +
+> > > > +    qemu_set_irq(t16->capt_irq, 0);
+> > > > +    qemu_set_irq(t16->compa_irq, 0);
+> > > > +    qemu_set_irq(t16->compb_irq, 0);
+> > > > +    qemu_set_irq(t16->compc_irq, 0);
+> > > > +    qemu_set_irq(t16->ovf_irq, 0);
+> > > > +}
+> > > > +
+> > > > +static uint64_t avr_timer16_read(void *opaque, hwaddr offset, unsi=
+gned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    uint8_t retval =3D 0;
+> > > > +
+> > > > +    switch (offset) {
+> > > > +    case T16_CRA:
+> > > > +        retval =3D t16->cra;
+> > > > +        break;
+> > > > +    case T16_CRB:
+> > > > +        retval =3D t16->crb;
+> > > > +        break;
+> > > > +    case T16_CRC:
+> > > > +        retval =3D t16->crc;
+> > > > +        break;
+> > > > +    case T16_CNTL:
+> > > > +        avr_timer16_update_cnt(t16);
+> > > > +        t16->rtmp =3D t16->cnth;
+> > > > +        retval =3D t16->cntl;
+> > > > +        break;
+> > > > +    case T16_CNTH:
+> > > > +        retval =3D t16->rtmp;
+> > > > +        break;
+> > > > +    case T16_ICRL:
+> > > > +        /*
+> > > > +         * The timer copies cnt to icr when the input capture pin =
+changes
+> > > > +         * state or when the analog comparator has a match. We don=
+'t
+> > > > +         * emulate this behaviour. We do support it's use for defi=
+ning a
+> > > > +         * TOP value in T16_MODE_CTC_ICR
+> > > > +         */
+> > > > +        t16->rtmp =3D t16->icrh;
+> > > > +        retval =3D t16->icrl;
+> > > > +        break;
+> > > > +    case T16_ICRH:
+> > > > +        retval =3D t16->rtmp;
+> > > > +        break;
+> > > > +    case T16_OCRAL:
+> > > > +        retval =3D t16->ocral;
+> > > > +        break;
+> > > > +    case T16_OCRAH:
+> > > > +        retval =3D t16->ocrah;
+> > > > +        break;
+> > > > +    case T16_OCRBL:
+> > > > +        retval =3D t16->ocrbl;
+> > > > +        break;
+> > > > +    case T16_OCRBH:
+> > > > +        retval =3D t16->ocrbh;
+> > > > +        break;
+> > > > +    case T16_OCRCL:
+> > > > +        retval =3D t16->ocrcl;
+> > > > +        break;
+> > > > +    case T16_OCRCH:
+> > > > +        retval =3D t16->ocrch;
+> > > > +        break;
+> > > > +    default:
+> > > > +        break;
+> > > > +    }
+> > > > +    return (uint64_t)retval;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_write(void *opaque, hwaddr offset,
+> > > > +                              uint64_t val64, unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    uint8_t val8 =3D (uint8_t)val64;
+> > > > +    uint8_t prev_clk_src =3D CLKSRC(t16);
+> > > > +
+> > > > +    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
+> > > > +
+> > > > +    switch (offset) {
+> > > > +    case T16_CRA:
+> > > > +        t16->cra =3D val8;
+> > > > +        if (t16->cra & T16_CRA_OC_CONF) {
+> > > > +            ERROR("output compare pins unsupported");
+> > > > +        }
+> > > > +        break;
+> > > > +    case T16_CRB:
+> > > > +        t16->crb =3D val8;
+> > > > +        if (t16->crb & T16_CRB_ICNC) {
+> > > > +            ERROR("input capture noise canceller unsupported");
+> > > > +        }
+> > > > +        if (t16->crb & T16_CRB_ICES) {
+> > > > +            ERROR("input capture unsupported");
+> > > > +        }
+> > > > +        if (CLKSRC(t16) !=3D prev_clk_src) {
+> > > > +            avr_timer16_clksrc_update(t16);
+> > > > +            if (prev_clk_src =3D=3D T16_CLKSRC_STOPPED) {
+> > > > +                t16->reset_time_ns =3D qemu_clock_get_ns(QEMU_CLOC=
+K_VIRTUAL);
+> > > > +            }
+> > > > +        }
+> > > > +        break;
+> > > > +    case T16_CRC:
+> > > > +        t16->crc =3D val8;
+> > > > +        ERROR("output compare pins unsupported");
+> > > > +        break;
+> > > > +    case T16_CNTL:
+> > > > +        /*
+> > > > +         * CNT is the 16-bit counter value, it must be read/writte=
+n via
+> > > > +         * a temporary register (rtmp) to make the read/write atom=
+ic.
+> > > > +         */
+> > > > +        /* ICR also has this behaviour, and shares rtmp */
+> > > > +        /*
+> > > > +         * Writing CNT blocks compare matches for one clock cycle.
+> > > > +         * Writing CNT to TOP or to an OCR value (if in use) will
+> > > > +         * skip the relevant interrupt
+> > > > +         */
+> > > > +        t16->cntl =3D val8;
+> > > > +        t16->cnth =3D t16->rtmp;
+> > > > +        avr_timer16_recalc_reset_time(t16);
+> > > > +        break;
+> > > > +    case T16_CNTH:
+> > > > +        t16->rtmp =3D val8;
+> > > > +        break;
+> > > > +    case T16_ICRL:
+> > > > +        /* ICR can only be written in mode T16_MODE_CTC_ICR */
+> > > > +        if (MODE(t16) =3D=3D T16_MODE_CTC_ICR) {
+> > > > +            t16->icrl =3D val8;
+> > > > +            t16->icrh =3D t16->rtmp;
+> > > > +        }
+> > > > +        break;
+> > > > +    case T16_ICRH:
+> > > > +        if (MODE(t16) =3D=3D T16_MODE_CTC_ICR) {
+> > > > +            t16->rtmp =3D val8;
+> > > > +        }
+> > > > +        break;
+> > > > +    case T16_OCRAL:
+> > > > +        /*
+> > > > +         * OCRn cause the relevant output compare flag to be raise=
+d, and
+> > > > +         * trigger an interrupt, when CNT is equal to the value he=
+re
+> > > > +         */
+> > > > +        t16->ocral =3D val8;
+> > > > +        break;
+> > > > +    case T16_OCRAH:
+> > > > +        t16->ocrah =3D val8;
+> > > > +        break;
+> > > > +    case T16_OCRBL:
+> > > > +        t16->ocrbl =3D val8;
+> > > > +        break;
+> > > > +    case T16_OCRBH:
+> > > > +        t16->ocrbh =3D val8;
+> > > > +        break;
+> > > > +    case T16_OCRCL:
+> > > > +        t16->ocrcl =3D val8;
+> > > > +        break;
+> > > > +    case T16_OCRCH:
+> > > > +        t16->ocrch =3D val8;
+> > > > +        break;
+> > > > +    default:
+> > > > +        break;
+> > > > +    }
+> > > > +    avr_timer16_set_alarm(t16);
+> > > > +}
+> > > > +
+> > > > +static uint64_t avr_timer16_imsk_read(void *opaque,
+> > > > +                                      hwaddr offset,
+> > > > +                                      unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    if (offset !=3D 0) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +    return t16->imsk;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_imsk_write(void *opaque, hwaddr offset,
+> > > > +                                   uint64_t val64, unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    if (offset !=3D 0) {
+> > > > +        return;
+> > > > +    }
+> > > > +    t16->imsk =3D (uint8_t)val64;
+> > > > +}
+> > > > +
+> > > > +static uint64_t avr_timer16_ifr_read(void *opaque,
+> > > > +                                     hwaddr offset,
+> > > > +                                     unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    if (offset !=3D 0) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +    return t16->ifr;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_ifr_write(void *opaque, hwaddr offset,
+> > > > +                                  uint64_t val64, unsigned size)
+> > > > +{
+> > > > +    assert(size =3D=3D 1);
+> > > > +    AVRTimer16State *t16 =3D opaque;
+> > > > +    if (offset !=3D 0) {
+> > > > +        return;
+> > > > +    }
+> > > > +    t16->ifr =3D (uint8_t)val64;
+> > > > +}
+> > > > +
+> > > > +static const MemoryRegionOps avr_timer16_ops =3D {
+> > > > +    .read =3D avr_timer16_read,
+> > > > +    .write =3D avr_timer16_write,
+> > > > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> > > > +    .impl =3D {.max_access_size =3D 1}
+> > > > +};
+> > > > +
+> > > > +static const MemoryRegionOps avr_timer16_imsk_ops =3D {
+> > > > +    .read =3D avr_timer16_imsk_read,
+> > > > +    .write =3D avr_timer16_imsk_write,
+> > > > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> > > > +    .impl =3D {.max_access_size =3D 1}
+> > > > +};
+> > > > +
+> > > > +static const MemoryRegionOps avr_timer16_ifr_ops =3D {
+> > > > +    .read =3D avr_timer16_ifr_read,
+> > > > +    .write =3D avr_timer16_ifr_write,
+> > > > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
+> > > > +    .impl =3D {.max_access_size =3D 1}
+> > > > +};
+> > > > +
+> > > > +static Property avr_timer16_properties[] =3D {
+> > > > +    DEFINE_PROP_UINT64("cpu-frequency-hz", struct AVRTimer16State,
+> > > > +                       cpu_freq_hz, 20000000),
+> > > > +    DEFINE_PROP_END_OF_LIST(),
+> > > > +};
+> > > > +
+> > > > +static void avr_timer16_pr(void *opaque, int irq, int level)
+> > > > +{
+> > > > +    AVRTimer16State *s =3D AVR_TIMER16(opaque);
+> > > > +
+> > > > +    s->enabled =3D !level;
+> > > > +
+> > > > +    if (!s->enabled) {
+> > > > +        avr_timer16_reset(DEVICE(s));
+> > > > +    }
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_init(Object *obj)
+> > > > +{
+> > > > +    AVRTimer16State *s =3D AVR_TIMER16(obj);
+> > > > +
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->capt_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compa_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compb_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->compc_irq);
+> > > > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->ovf_irq);
+> > > > +
+> > > > +    memory_region_init_io(&s->iomem, obj, &avr_timer16_ops,
+> > > > +                          s, TYPE_AVR_TIMER16, 0xe);
+> > > > +    memory_region_init_io(&s->imsk_iomem, obj, &avr_timer16_imsk_o=
+ps,
+> > > > +                          s, TYPE_AVR_TIMER16, 0x1);
+> > > > +    memory_region_init_io(&s->ifr_iomem, obj, &avr_timer16_ifr_ops=
+,
+> > > > +                          s, TYPE_AVR_TIMER16, 0x1);
+> > > > +
+> > > > +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
+> > > > +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->imsk_iomem);
+> > > > +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->ifr_iomem);
+> > > > +    qdev_init_gpio_in(DEVICE(s), avr_timer16_pr, 1);
+> > > > +
+> > > > +    s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, avr_timer16_inte=
+rrupt, s);
+> > > > +    s->enabled =3D true;
+> > > > +}
+> > > > +
+> > > > +static void avr_timer16_class_init(ObjectClass *klass, void *data)
+> > > > +{
+> > > > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > > > +
+> > > > +    dc->reset =3D avr_timer16_reset;
+> > > > +    dc->props =3D avr_timer16_properties;
+> > > > +}
+> > > > +
+> > > > +static const TypeInfo avr_timer16_info =3D {
+> > > > +    .name          =3D TYPE_AVR_TIMER16,
+> > > > +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> > > > +    .instance_size =3D sizeof(AVRTimer16State),
+> > > > +    .instance_init =3D avr_timer16_init,
+> > > > +    .class_init    =3D avr_timer16_class_init,
+> > > > +};
+> > > > +
+> > > > +static void avr_timer16_register_types(void)
+> > > > +{
+> > > > +    type_register_static(&avr_timer16_info);
+> > > > +}
+> > > > +
+> > > > +type_init(avr_timer16_register_types)
+> > > > diff --git a/include/hw/char/avr_usart.h b/include/hw/char/avr_usar=
+t.h
+> > > > new file mode 100644
+> > > > index 0000000000..8e9ee88bbd
+> > > > --- /dev/null
+> > > > +++ b/include/hw/char/avr_usart.h
+> > > > @@ -0,0 +1,97 @@
+> > > > +/*
+> > > > + * AVR USART
+> > > > + *
+> > > > + * Copyright (c) 2018 University of Kent
+> > > > + * Author: Sarah Harris
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +#ifndef HW_AVR_USART_H
+> > > > +#define HW_AVR_USART_H
+> > > > +
+> > > > +#include "hw/sysbus.h"
+> > > > +#include "chardev/char-fe.h"
+> > > > +#include "hw/hw.h"
+> > > > +
+> > > > +/* Offsets of registers. */
+> > > > +#define USART_DR   0x06
+> > > > +#define USART_CSRA  0x00
+> > > > +#define USART_CSRB  0x01
+> > > > +#define USART_CSRC  0x02
+> > > > +#define USART_BRRH 0x05
+> > > > +#define USART_BRRL 0x04
+> > > > +
+> > > > +/* Relevant bits in regiters. */
+> > > > +#define USART_CSRA_RXC    (1 << 7)
+> > > > +#define USART_CSRA_TXC    (1 << 6)
+> > > > +#define USART_CSRA_DRE    (1 << 5)
+> > > > +#define USART_CSRA_MPCM   (1 << 0)
+> > > > +
+> > > > +#define USART_CSRB_RXCIE  (1 << 7)
+> > > > +#define USART_CSRB_TXCIE  (1 << 6)
+> > > > +#define USART_CSRB_DREIE  (1 << 5)
+> > > > +#define USART_CSRB_RXEN   (1 << 4)
+> > > > +#define USART_CSRB_TXEN   (1 << 3)
+> > > > +#define USART_CSRB_CSZ2   (1 << 2)
+> > > > +#define USART_CSRB_RXB8   (1 << 1)
+> > > > +#define USART_CSRB_TXB8   (1 << 0)
+> > > > +
+> > > > +#define USART_CSRC_MSEL1  (1 << 7)
+> > > > +#define USART_CSRC_MSEL0  (1 << 6)
+> > > > +#define USART_CSRC_PM1    (1 << 5)
+> > > > +#define USART_CSRC_PM0    (1 << 4)
+> > > > +#define USART_CSRC_CSZ1   (1 << 2)
+> > > > +#define USART_CSRC_CSZ0   (1 << 1)
+> > > > +
+> > > > +#define TYPE_AVR_USART "avr-usart"
+> > > > +#define AVR_USART(obj) \
+> > > > +    OBJECT_CHECK(AVRUsartState, (obj), TYPE_AVR_USART)
+> > > > +
+> > > > +typedef struct {
+> > > > +    /* <private> */
+> > > > +    SysBusDevice parent_obj;
+> > > > +
+> > > > +    /* <public> */
+> > > > +    MemoryRegion mmio;
+> > > > +
+> > > > +    CharBackend chr;
+> > > > +
+> > > > +    bool enabled;
+> > > > +
+> > > > +    uint8_t data;
+> > > > +    bool data_valid;
+> > > > +    uint8_t char_mask;
+> > > > +    /* Control and Status Registers */
+> > > > +    uint8_t csra;
+> > > > +    uint8_t csrb;
+> > > > +    uint8_t csrc;
+> > > > +    /* Baud Rate Registers (low/high byte) */
+> > > > +    uint8_t brrh;
+> > > > +    uint8_t brrl;
+> > > > +
+> > > > +    /* Receive Complete */
+> > > > +    qemu_irq rxc_irq;
+> > > > +    /* Transmit Complete */
+> > > > +    qemu_irq txc_irq;
+> > > > +    /* Data Register Empty */
+> > > > +    qemu_irq dre_irq;
+> > > > +} AVRUsartState;
+> > > > +
+> > > > +#endif /* HW_AVR_USART_H */
+> > > > diff --git a/include/hw/misc/avr_mask.h b/include/hw/misc/avr_mask.=
+h
+> > > > new file mode 100644
+> > > > index 0000000000..d3e21972d8
+> > > > --- /dev/null
+> > > > +++ b/include/hw/misc/avr_mask.h
+> > > > @@ -0,0 +1,47 @@
+> > > > +/*
+> > > > + * AVR Power Reduction
+> > > > + *
+> > > > + * Copyright (c) 2019 Michael Rolnik
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +#ifndef HW_avr_mask_H
+> > > > +#define HW_avr_mask_H
+> > > > +
+> > > > +#include "hw/sysbus.h"
+> > > > +#include "chardev/char-fe.h"
+> > > > +#include "hw/hw.h"
+> > > > +
+> > > > +
+> > > > +#define TYPE_AVR_MASK "avr-mask"
+> > > > +#define AVR_MASK(obj) OBJECT_CHECK(AVRMaskState, (obj), TYPE_AVR_M=
+ASK)
+> > > > +
+> > > > +typedef struct {
+> > > > +    /* <private> */
+> > > > +    SysBusDevice parent_obj;
+> > > > +
+> > > > +    /* <public> */
+> > > > +    MemoryRegion iomem;
+> > > > +
+> > > > +    uint8_t val;
+> > > > +    qemu_irq irq[8];
+> > > > +} AVRMaskState;
+> > > > +
+> > > > +#endif /* HW_avr_mask_H */
+> > > > diff --git a/include/hw/timer/avr_timer16.h b/include/hw/timer/avr_=
+timer16.h
+> > > > new file mode 100644
+> > > > index 0000000000..5639074ce5
+> > > > --- /dev/null
+> > > > +++ b/include/hw/timer/avr_timer16.h
+> > > > @@ -0,0 +1,97 @@
+> > > > +/*
+> > > > + * AVR 16 bit timer
+> > > > + *
+> > > > + * Copyright (c) 2018 University of Kent
+> > > > + * Author: Ed Robbins
+> > > > + *
+> > > > + * Permission is hereby granted, free of charge, to any person obt=
+aining a copy
+> > > > + * of this software and associated documentation files (the "Softw=
+are"), to deal
+> > > > + * in the Software without restriction, including without limitati=
+on the rights
+> > > > + * to use, copy, modify, merge, publish, distribute, sublicense, a=
+nd/or sell
+> > > > + * copies of the Software, and to permit persons to whom the Softw=
+are is
+> > > > + * furnished to do so, subject to the following conditions:
+> > > > + *
+> > > > + * The above copyright notice and this permission notice shall be =
+included in
+> > > > + * all copies or substantial portions of the Software.
+> > > > + *
+> > > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,=
+ EXPRESS OR
+> > > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHAN=
+TABILITY,
+> > > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVE=
+NT SHALL
+> > > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAG=
+ES OR OTHER
+> > > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,=
+ ARISING FROM,
+> > > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER D=
+EALINGS IN
+> > > > + * THE SOFTWARE.
+> > > > + */
+> > > > +
+> > > > +/*
+> > > > + * Driver for 16 bit timers on 8 bit AVR devices.
+> > > > + * Note:
+> > > > + * On ATmega640/V-1280/V-1281/V-2560/V-2561/V timers 1, 3, 4 and 5=
+ are 16 bit
+> > > > + */
+> > > > +
+> > > > +#ifndef AVR_TIMER16_H
+> > > > +#define AVR_TIMER16_H
+> > > > +
+> > > > +#include "hw/sysbus.h"
+> > > > +#include "qemu/timer.h"
+> > > > +#include "hw/hw.h"
+> > > > +
+> > > > +enum NextInterrupt {
+> > > > +    OVERFLOW,
+> > > > +    COMPA,
+> > > > +    COMPB,
+> > > > +    COMPC,
+> > > > +    CAPT
+> > > > +};
+> > > > +
+> > > > +#define TYPE_AVR_TIMER16 "avr-timer16"
+> > > > +#define AVR_TIMER16(obj) \
+> > > > +    OBJECT_CHECK(AVRTimer16State, (obj), TYPE_AVR_TIMER16)
+> > > > +
+> > > > +typedef struct AVRTimer16State {
+> > > > +    /* <private> */
+> > > > +    SysBusDevice parent_obj;
+> > > > +
+> > > > +    /* <public> */
+> > > > +    MemoryRegion iomem;
+> > > > +    MemoryRegion imsk_iomem;
+> > > > +    MemoryRegion ifr_iomem;
+> > > > +    QEMUTimer *timer;
+> > > > +    qemu_irq capt_irq;
+> > > > +    qemu_irq compa_irq;
+> > > > +    qemu_irq compb_irq;
+> > > > +    qemu_irq compc_irq;
+> > > > +    qemu_irq ovf_irq;
+> > > > +
+> > > > +    bool enabled;
+> > > > +
+> > > > +    /* registers */
+> > > > +    uint8_t cra;
+> > > > +    uint8_t crb;
+> > > > +    uint8_t crc;
+> > > > +    uint8_t cntl;
+> > > > +    uint8_t cnth;
+> > > > +    uint8_t icrl;
+> > > > +    uint8_t icrh;
+> > > > +    uint8_t ocral;
+> > > > +    uint8_t ocrah;
+> > > > +    uint8_t ocrbl;
+> > > > +    uint8_t ocrbh;
+> > > > +    uint8_t ocrcl;
+> > > > +    uint8_t ocrch;
+> > > > +    /*
+> > > > +     * Reads and writes to CNT and ICR utilise a bizarre temporary
+> > > > +     * register, which we emulate
+> > > > +     */
+> > > > +    uint8_t rtmp;
+> > > > +    uint8_t imsk;
+> > > > +    uint8_t ifr;
+> > > > +
+> > > > +    uint64_t cpu_freq_hz;
+> > > > +    uint64_t freq_hz;
+> > > > +    uint64_t period_ns;
+> > > > +    uint64_t reset_time_ns;
+> > > > +    enum NextInterrupt next_interrupt;
+> > > > +} AVRTimer16State;
+> > > > +
+> > > > +#endif /* AVR_TIMER16_H */
+> > > > --
+> > > > 2.17.2 (Apple Git-113)
+> > > >
 
