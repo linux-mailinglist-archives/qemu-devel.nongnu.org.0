@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10FB10C7EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:31:10 +0100 (CET)
-Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AD710C835
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 12:51:50 +0100 (CET)
+Received: from localhost ([::1]:48138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaI0r-00037L-Id
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:31:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56721)
+	id 1iaIKq-0002Ve-T7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 06:51:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmorel@linux.ibm.com>) id 1iaHjc-0001K1-Hg
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:13:25 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaHvd-0008PZ-5d
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:25:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmorel@linux.ibm.com>) id 1iaHXU-000450-VE
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:00:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25222)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmorel@linux.ibm.com>)
- id 1iaHXS-00041I-VK
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:00:48 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xASAvCn6003984
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:00:46 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2whmt0j8mq-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 06:00:45 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <pmorel@linux.ibm.com>;
- Thu, 28 Nov 2019 11:00:43 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 28 Nov 2019 11:00:41 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xASB0ddv50659456
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Nov 2019 11:00:39 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9A99D4C05E;
- Thu, 28 Nov 2019 11:00:39 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C8B04C04A;
- Thu, 28 Nov 2019 11:00:39 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.185.119])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 28 Nov 2019 11:00:39 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Subject: [PATCH v2 1/1] s390x: css: pong, channel subsystem test device
-Date: Thu, 28 Nov 2019 12:00:37 +0100
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1574938837-21078-1-git-send-email-pmorel@linux.ibm.com>
-References: <1574938837-21078-1-git-send-email-pmorel@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19112811-4275-0000-0000-000003877545
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112811-4276-0000-0000-0000389B06C7
-Message-Id: <1574938837-21078-2-git-send-email-pmorel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-28_01:2019-11-28,2019-11-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- spamscore=0 suspectscore=3 mlxscore=0 clxscore=1015 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911280095
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iaHvX-0005ld-DQ
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:25:41 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39312)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iaHvU-0005g2-Dx
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 06:25:37 -0500
+Received: by mail-oi1-x242.google.com with SMTP id a67so4253240oib.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 03:25:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=dRqoXWSIhcaQl37hxAQb6rOMoglmuist2IsCW2cpXMo=;
+ b=T0GhHif9xwLLylvxqlmt8LIJ7H0b9PB44dVuoe5gADqpSqBKS/75n3Y/OLGvaEIio/
+ /1ctzpllWauqc5MPErPmouV3M6UrMsnNbePlxgEY7bL2NNwLUMv4ijWCipuyoAUJJZaw
+ A4yF1DruzS8gLh30zEz9Oy+RUll+lHIeymIsyaj2uPnnkfsAUgTzpUrLTedmsK+m2bL8
+ LrZKClkXWHXx3wOwCKhEmV34Oddd17Sx6/MSYYdFEQLDcG2YwHErqDloz8fnTXuYs7YT
+ h6eJflX7xo3tt3IU1x+Bn/SMRh4h16X5PzRDMrGlCuo/0YDrawxuFjtEtPPvPw+S41iz
+ HyAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=dRqoXWSIhcaQl37hxAQb6rOMoglmuist2IsCW2cpXMo=;
+ b=brH7u8qO7ah5s4BxY+bP+mK5kje/nvxpLEaWZj6LS7E9cCCMFuW7SNt2X/JEABHDSJ
+ HzxHQ9QDDxp7t+A2KtFu6xuWVkEzEdM6HR/G/Z/fDDl+dyhwZ2s2Yp6FmfW7Obpdv2V+
+ SkNdf49XpMZERJUte89/WdiwqME2h17N4M3gsJqjZ6DA+PPNvw5POn7JAr3eTnoSwQII
+ WZOzlg2nnFNZ4NARfue/5i2L2oFvogh/hQ3cdxKEmxM8RygI3Lof5EhyvBPn9rJZ0R+2
+ 50hk58Q75qr/x833d+PdKa/cnqJ5xrFDQmWRs0JlCPQA1sQImMg9olFIDVNyIopUrzNN
+ HhYA==
+X-Gm-Message-State: APjAAAU02zZyr+oPAfgvm0z6DdOWanTSskAc9Y7MTVc74CLtzP/HyHh4
+ qUDOWNePr+pIxRWHsdndhr6RE9awNRn60vqigqFK7g==
+X-Google-Smtp-Source: APXvYqz7whixOvZaada5XoVuhXKyt5HF8cQVIArl1lSjA5KxkUogF0ChCH3BpGEvPxcGEBAIOlXG5BPrC08cqclMGUM=
+X-Received: by 2002:aca:d17:: with SMTP id 23mr8181302oin.136.1574940334173;
+ Thu, 28 Nov 2019 03:25:34 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Thu, 28 Nov 2019 03:25:33
+ -0800 (PST)
+In-Reply-To: <90a1f5a14be4a6e225e6bf99484c4718@ispras.ru>
+References: <20191128015030.27543-1-f4bug@amsat.org>
+ <20191128015030.27543-7-f4bug@amsat.org>
+ <CAL1e-=i=1zhx3q4xzh7oPzXLWAHwtEkUVTSHKqv5yy9BBRrVKw@mail.gmail.com>
+ <4ed9736f9e88d9d242a0aed10fb65aac@ispras.ru>
+ <CAL1e-=ib7h8szh48ckOk8yvF+7SQd9_hyoYU3E+K=CGy0EJkGA@mail.gmail.com>
+ <90a1f5a14be4a6e225e6bf99484c4718@ispras.ru>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 28 Nov 2019 12:25:33 +0100
+Message-ID: <CAL1e-=juWKu5Kv0wrzUGgjyfzKsFmLgLspjG_A==cUEZWq4dsg@mail.gmail.com>
+Subject: Re: [RFC PATCH 06/10] hw/avr: Add ATmega microcontrollers
+To: dovgaluk <dovgaluk@ispras.ru>
+Content-Type: multipart/alternative; boundary="0000000000002932360598665fcb"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,259 +78,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a test device for channel subsystem.
-Most of the CSS instructions are handled by the common code.
+--0000000000002932360598665fcb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The PONG_READ and PONG_WRITE CCW commands allow to test the
-SSCH instruction with both read and write commands.
+On Thursday, November 28, 2019, dovgaluk <dovgaluk@ispras.ru> wrote:
 
-It is also possible to define the Control Unit type
-with the cu_type property.
-Currently only the kvm-unit-test css test uses the PONG device.
+> Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 13:20:
+>
+>> On Thursday, November 28, 2019, dovgaluk <dovgaluk@ispras.ru> wrote:
+>>
+>> Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 12:28:
+>>> On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9
+>>> <f4bug@amsat.org> wrote:
+>>>
+>>> Add famous ATmega MCUs:
+>>>
+>>> - middle range: ATmega168 and ATmega328
+>>> - high range: ATmega1280 and ATmega2560
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> ---
+>>>
+>>> Philippe, hi.
+>>>
+>>> Thank you for the impetus you give us all.
+>>>
+>>> However, is this the right direction?
+>>>
+>>> Let's analyse some bits and pieces.
+>>>
+>>> Starting from the commit message, the word "famous" is used, but I
+>>> really don't see enumerated CPUs/MCUs are any special in Atmel
+>>> lineup.
+>>> Other than we often used the doc describing them (cited several
+>>> times
+>>> in our discussions) as our reference, but that doesn't make them
+>>> "famous". Ofcourse, there other docs for other Atmel CPUs/MCUs, of
+>>> at
+>>> lest equivalent significance. For example, "tiny" ones are at least
+>>> as
+>>> famous as "mega" ones.
+>>>
+>>> Then, you introduce the term MCU, without proper discussion with
+>>> others on terminology. In parlance of QEMU, ATmega168 at al. are
+>>> CPUs
+>>> (we all know and assume that that are some peripherals in it). I am
+>>> not against using the term MCU, but let's first sync up on that.
+>>>
+>>> The added terminology trouble is that MCUs, as you defined them,
+>>> have
+>>> in array atmega_mcu[] a field called "cpu_type" - why is that field
+>>> not called "mcu_type"? *Very* confusing for any future reader. And
+>>> then, similar terminology conundrum continues with macro
+>>> AVR_CPU_TYPE_NAME().
+>>>
+>>
+>> MCU is a system-on-chip which includes CPU core and peripheral
+>> devices.
+>> Separating this is better that including everything into the machine.
+>>
+>> E.g., different MCUs may have different IO addresses for USART.
+>>
+>> Pavel,
+>>
+>> Do you know how is this resolved for other platforms?
+>>
+>> How other platfirms organize and use terms "soc", "mcu", "cpu",
+>> "core", "cpu core"? And what is the relation between each of them and
+>> QEMU command line options "-cpu" and "-machine"? Is thar organization
+>> the same accross all platforms?
+>>
+>
+> Here is an ARM example:
+>  SoCs: hw/arm/aspeed_soc.c include/hw/arm/aspeed_soc.h
+>  Boards: hw/arm/aspeed.c
+>
+> (I am asking you as you most likely have much wider experience in the
+>> topic, sincr mine i limited to mips emulation)
+>>
+>
+> As far as I know, there are MIPS SoCs too.
+> Doesn't QEMU emulate any of them?
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- default-configs/s390x-softmmu.mak |   1 +
- hw/s390x/Kconfig                  |   3 +
- hw/s390x/Makefile.objs            |   1 +
- hw/s390x/ccw-pong.c               | 134 ++++++++++++++++++++++++++++++
- include/hw/s390x/pong.h           |  48 +++++++++++
- 5 files changed, 187 insertions(+)
- create mode 100644 hw/s390x/ccw-pong.c
- create mode 100644 include/hw/s390x/pong.h
 
-diff --git a/default-configs/s390x-softmmu.mak b/default-configs/s390x-softmmu.mak
-index f2287a133f..72711912cd 100644
---- a/default-configs/s390x-softmmu.mak
-+++ b/default-configs/s390x-softmmu.mak
-@@ -7,6 +7,7 @@
- #CONFIG_VFIO_CCW=n
- #CONFIG_VIRTIO_PCI=n
- #CONFIG_WDT_DIAG288=n
-+#CONFIG_CCW_TESTDEV=n
- 
- # Boards:
- #
-diff --git a/hw/s390x/Kconfig b/hw/s390x/Kconfig
-index 5e7d8a2bae..041ede333e 100644
---- a/hw/s390x/Kconfig
-+++ b/hw/s390x/Kconfig
-@@ -10,3 +10,6 @@ config S390_CCW_VIRTIO
-     select SCLPCONSOLE
-     select VIRTIO_CCW
-     select MSI_NONBROKEN
-+
-+config CCW_TESTDEV
-+    default y if TEST_DEVICES
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index e02ed80b68..e74d0efd9d 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -34,3 +34,4 @@ obj-$(CONFIG_KVM) += s390-stattrib-kvm.o
- obj-y += s390-ccw.o
- obj-y += ap-device.o
- obj-y += ap-bridge.o
-+obj-y += ccw-pong.o
-diff --git a/hw/s390x/ccw-pong.c b/hw/s390x/ccw-pong.c
-new file mode 100644
-index 0000000000..ae09357f72
---- /dev/null
-+++ b/hw/s390x/ccw-pong.c
-@@ -0,0 +1,134 @@
-+/*
-+ * CCW PING-PONG
-+ *
-+ * Copyright 2019 IBM Corp.
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+#include "cpu.h"
-+#include "exec/address-spaces.h"
-+#include "hw/s390x/css.h"
-+#include "hw/s390x/css-bridge.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/s390x/pong.h"
-+
-+#define PONG_BUF_SIZE 0x1000
-+static char buf[PONG_BUF_SIZE];
-+
-+static int pong_ccw_cb(SubchDev *sch, CCW1 ccw)
-+{
-+    int rc = 0;
-+    static int value;
-+    int len;
-+
-+    len = (ccw.count > PONG_BUF_SIZE) ? PONG_BUF_SIZE : ccw.count;
-+    switch (ccw.cmd_code) {
-+    case PONG_WRITE:
-+        rc = ccw_dstream_read_buf(&sch->cds, buf, len);
-+        value = atol(buf);
-+        break;
-+    case PONG_READ:
-+        sprintf(buf, "%08x", value + 1);
-+        rc = ccw_dstream_write_buf(&sch->cds, buf, len);
-+        break;
-+    default:
-+        rc = -ENOSYS;
-+        break;
-+    }
-+
-+    sch->curr_status.scsw.count = ccw_dstream_residual_count(&sch->cds);
-+
-+    if (rc == -EIO) {
-+        /* I/O error, specific devices generate specific conditions */
-+        SCHIB *schib = &sch->curr_status;
-+
-+        sch->curr_status.scsw.dstat = SCSW_DSTAT_UNIT_CHECK;
-+        sch->sense_data[0] = 0x40;    /* intervention-req */
-+        schib->scsw.ctrl &= ~SCSW_ACTL_START_PEND;
-+        schib->scsw.ctrl &= ~SCSW_CTRL_MASK_STCTL;
-+        schib->scsw.ctrl |= SCSW_STCTL_PRIMARY | SCSW_STCTL_SECONDARY |
-+                   SCSW_STCTL_ALERT | SCSW_STCTL_STATUS_PEND;
-+    }
-+    return rc;
-+}
-+
-+static void pong_ccw_realize(DeviceState *ds, Error **errp)
-+{
-+    uint16_t chpid;
-+    CcwPONGDevice *dev = CCW_PONG(ds);
-+    CcwDevice *cdev = CCW_DEVICE(ds);
-+    CCWDeviceClass *cdk = CCW_DEVICE_GET_CLASS(cdev);
-+    SubchDev *sch;
-+    Error *err = NULL;
-+
-+    sch = css_create_sch(cdev->devno, errp);
-+    if (!sch) {
-+        return;
-+    }
-+
-+    sch->driver_data = dev;
-+    cdev->sch = sch;
-+    chpid = css_find_free_chpid(sch->cssid);
-+
-+    if (chpid > MAX_CHPID) {
-+        error_setg(&err, "No available chpid to use.");
-+        goto out_err;
-+    }
-+
-+    sch->id.reserved = 0xff;
-+    sch->id.cu_type = dev->cu_type;
-+    css_sch_build_virtual_schib(sch, (uint8_t)chpid, CCW_PONG_CHPID_TYPE);
-+    sch->do_subchannel_work = do_subchannel_work_virtual;
-+    sch->ccw_cb = pong_ccw_cb;
-+
-+    cdk->realize(cdev, &err);
-+    if (err) {
-+        goto out_err;
-+    }
-+
-+    css_reset_sch(sch);
-+    return;
-+
-+out_err:
-+    error_propagate(errp, err);
-+    css_subch_assign(sch->cssid, sch->ssid, sch->schid, sch->devno, NULL);
-+    cdev->sch = NULL;
-+    g_free(sch);
-+}
-+
-+static Property pong_ccw_properties[] = {
-+    DEFINE_PROP_UINT16("cu_type", CcwPONGDevice, cu_type, CCW_PONG_CU_TYPE),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pong_ccw_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->props = pong_ccw_properties;
-+    dc->bus_type = TYPE_VIRTUAL_CSS_BUS;
-+    dc->realize = pong_ccw_realize;
-+    dc->hotpluggable = false;
-+}
-+
-+static const TypeInfo pong_ccw_info = {
-+    .name = TYPE_CCW_PONG,
-+    .parent = TYPE_CCW_DEVICE,
-+    .instance_size = sizeof(CcwPONGDevice),
-+    .class_init = pong_ccw_class_init,
-+    .class_size = sizeof(CcwPONGClass),
-+};
-+
-+static void pong_ccw_register(void)
-+{
-+    type_register_static(&pong_ccw_info);
-+}
-+
-+type_init(pong_ccw_register)
-diff --git a/include/hw/s390x/pong.h b/include/hw/s390x/pong.h
-new file mode 100644
-index 0000000000..b14af7ca86
---- /dev/null
-+++ b/include/hw/s390x/pong.h
-@@ -0,0 +1,48 @@
-+/*
-+ *  ccw-attached PONG definitions
-+ *
-+ * Copyright 2019 IBM Corp.
-+ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#ifndef HW_S390X_PONG_CCW_H
-+#define HW_S390X_PONG_CCW_H
-+
-+#include "hw/sysbus.h"
-+#include "hw/s390x/css.h"
-+#include "hw/s390x/ccw-device.h"
-+
-+#define CCW_PONG_CU_TYPE    0xc0ca
-+#define CCW_PONG_CHPID_TYPE 0xd0
-+
-+#define TYPE_CCW_PONG "ccw-pong"
-+
-+/* Local Channel Commands */
-+#define PONG_WRITE 0x21         /* Write */
-+#define PONG_READ  0x22         /* Read buffer */
-+
-+#define CCW_PONG(obj) \
-+     OBJECT_CHECK(CcwPONGDevice, (obj), TYPE_CCW_PONG)
-+#define CCW_PONG_CLASS(klass) \
-+     OBJECT_CLASS_CHECK(CcwPONGClass, (klass), TYPE_CCW_PONG)
-+#define CCW_PONG_GET_CLASS(obj) \
-+     OBJECT_GET_CLASS(CcwPONGClass, (obj), TYPE_CCW_PONG)
-+
-+typedef struct CcwPONGDevice {
-+    CcwDevice parent_obj;
-+    uint16_t cu_type;
-+} CcwPONGDevice;
-+
-+typedef struct CcwPONGClass {
-+    CCWDeviceClass parent_class;
-+
-+    void (*init)(CcwPONGDevice *, Error **);
-+    int (*read_payload)(CcwPONGDevice *);
-+    int (*write_payload)(CcwPONGDevice *, uint8_t);
-+} CcwPONGClass;
-+
-+#endif
--- 
-2.17.0
+It does, but, admitedly, we could do a much better job in that area, and we
+are certainly not good as a reference platform in that area. Some features
+of MIPS SoCs are extremely difficult to implement in QEMU though (for
+example, so called hardware miltithreading).
 
+Thanks,
+Aleksandar
+
+
+>
+> All of the above is far less important than this question: What
+>>>> are we
+>>>> achieving with proposed CPU/MCU definitions? I certainly see the
+>>>> value
+>>>> of fitting the complex variety of AVR CPUs/MCUs into QEMU object
+>>>> model. No question about that. However, is this the right moment
+>>>> to do
+>>>> it? There are still some unresolved architectural problems with
+>>>> peripheral definitions, as I noted in yhe comment to Michael's
+>>>> last
+>>>> cover letter. This patch does not solve them. It just assumes
+>>>> everything is ready with peripherals, let's build CPUs/MCUs. The
+>>>> machines based on proposed CPUs/MCUs are not more real that
+>>>> machine
+>>>> based on Michael's "sample" machine. At least Michal says "this is
+>>>> not
+>>>> a real machine". If we used proposed CPUs/MCUs from this patch,
+>>>> the
+>>>> resulting machine is as "paper" machine as yhe "sample" machine.
+>>>> We
+>>>> would just live in a la-la lend of thinking: "wow, we model real
+>>>> hardware now".
+>>>>
+>>>> I would rather accept into QEMU a series admitting we are still
+>>>> far
+>>>> from modelling real machine or CPU/MCU, than a series that gives
+>>>> an
+>>>> illusion that we are modelling real machine or CPU/MCU.
+>>>>
+>>>> As far as utility of this patch for Michael's series, it looks to
+>>>> me
+>>>> they add more headake than help (not saying that the help is not
+>>>> present) to Michael. He would have anotter abstraction layer to
+>>>> think
+>>>> of, at the moment he desperately needs (in my opinion) to focus on
+>>>> providing the as solid as possible, and as complete as possinle
+>>>> foundations. This patch looks like building castles in the air.
+>>>> Again,
+>>>> I am not claiming that the patch is not helpful at all.
+>>>>
+>>>> In summary, I think that this patch is premature.
+>>>>
+>>>
+>
+>
+> Pavel Dovgalyuk
+>
+>
+
+--0000000000002932360598665fcb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Thursday, November 28, 2019, dovgaluk &lt;<a href=3D"mailto:dovg=
+aluk@ispras.ru">dovgaluk@ispras.ru</a>&gt; wrote:<br><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 13:2=
+0:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Thursday, November 28, 2019, dovgaluk &lt;<a href=3D"mailto:dovgaluk@isp=
+ras.ru" target=3D"_blank">dovgaluk@ispras.ru</a>&gt; wrote:<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Aleksandar Markovic =D0=BF=D0=B8=D1=81=D0=B0=D0=BB 2019-11-28 12:28:<br>
+On Thursday, November 28, 2019, Philippe Mathieu-Daud=C3=A9<br>
+&lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a=
+>&gt; wrote:<br>
+<br>
+Add famous ATmega MCUs:<br>
+<br>
+- middle range: ATmega168 and ATmega328<br>
+- high range: ATmega1280 and ATmega2560<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+---<br>
+<br>
+Philippe, hi.<br>
+<br>
+Thank you for the impetus you give us all.<br>
+<br>
+However, is this the right direction?<br>
+<br>
+Let&#39;s analyse some bits and pieces.<br>
+<br>
+Starting from the commit message, the word &quot;famous&quot; is used, but =
+I<br>
+really don&#39;t see enumerated CPUs/MCUs are any special in Atmel<br>
+lineup.<br>
+Other than we often used the doc describing them (cited several<br>
+times<br>
+in our discussions) as our reference, but that doesn&#39;t make them<br>
+&quot;famous&quot;. Ofcourse, there other docs for other Atmel CPUs/MCUs, o=
+f<br>
+at<br>
+lest equivalent significance. For example, &quot;tiny&quot; ones are at lea=
+st<br>
+as<br>
+famous as &quot;mega&quot; ones.<br>
+<br>
+Then, you introduce the term MCU, without proper discussion with<br>
+others on terminology. In parlance of QEMU, ATmega168 at al. are<br>
+CPUs<br>
+(we all know and assume that that are some peripherals in it). I am<br>
+not against using the term MCU, but let&#39;s first sync up on that.<br>
+<br>
+The added terminology trouble is that MCUs, as you defined them,<br>
+have<br>
+in array atmega_mcu[] a field called &quot;cpu_type&quot; - why is that fie=
+ld<br>
+not called &quot;mcu_type&quot;? *Very* confusing for any future reader. An=
+d<br>
+then, similar terminology conundrum continues with macro<br>
+AVR_CPU_TYPE_NAME().<br>
+</blockquote>
+<br>
+MCU is a system-on-chip which includes CPU core and peripheral<br>
+devices.<br>
+Separating this is better that including everything into the machine.<br>
+<br>
+E.g., different MCUs may have different IO addresses for USART.<br>
+<br>
+Pavel,<br>
+<br>
+Do you know how is this resolved for other platforms?<br>
+<br>
+How other platfirms organize and use terms &quot;soc&quot;, &quot;mcu&quot;=
+, &quot;cpu&quot;,<br>
+&quot;core&quot;, &quot;cpu core&quot;? And what is the relation between ea=
+ch of them and<br>
+QEMU command line options &quot;-cpu&quot; and &quot;-machine&quot;? Is tha=
+r organization<br>
+the same accross all platforms?<br>
+</blockquote>
+<br>
+Here is an ARM example:<br>
+=C2=A0SoCs: hw/arm/aspeed_soc.c include/hw/arm/aspeed_soc.h<br>
+=C2=A0Boards: hw/arm/aspeed.c<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+(I am asking you as you most likely have much wider experience in the<br>
+topic, sincr mine i limited to mips emulation)<br>
+</blockquote>
+<br>
+As far as I know, there are MIPS SoCs too.<br>
+Doesn&#39;t QEMU emulate any of them?</blockquote><div><br></div><div>It do=
+es, but, admitedly, we could do a much better job in that area, and we are =
+certainly not good as a reference platform in that area. Some features of M=
+IPS SoCs are extremely difficult to implement in QEMU though (for example, =
+so=C2=A0called hardware miltithreading).</div><div><br></div><div>Thanks,</=
+div><div>Aleksandar</div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">
+All of the above is far less important than this question: What<br>
+are we<br>
+achieving with proposed CPU/MCU definitions? I certainly see the<br>
+value<br>
+of fitting the complex variety of AVR CPUs/MCUs into QEMU object<br>
+model. No question about that. However, is this the right moment<br>
+to do<br>
+it? There are still some unresolved architectural problems with<br>
+peripheral definitions, as I noted in yhe comment to Michael&#39;s<br>
+last<br>
+cover letter. This patch does not solve them. It just assumes<br>
+everything is ready with peripherals, let&#39;s build CPUs/MCUs. The<br>
+machines based on proposed CPUs/MCUs are not more real that<br>
+machine<br>
+based on Michael&#39;s &quot;sample&quot; machine. At least Michal says &qu=
+ot;this is<br>
+not<br>
+a real machine&quot;. If we used proposed CPUs/MCUs from this patch,<br>
+the<br>
+resulting machine is as &quot;paper&quot; machine as yhe &quot;sample&quot;=
+ machine.<br>
+We<br>
+would just live in a la-la lend of thinking: &quot;wow, we model real<br>
+hardware now&quot;.<br>
+<br>
+I would rather accept into QEMU a series admitting we are still<br>
+far<br>
+from modelling real machine or CPU/MCU, than a series that gives<br>
+an<br>
+illusion that we are modelling real machine or CPU/MCU.<br>
+<br>
+As far as utility of this patch for Michael&#39;s series, it looks to<br>
+me<br>
+they add more headake than help (not saying that the help is not<br>
+present) to Michael. He would have anotter abstraction layer to<br>
+think<br>
+of, at the moment he desperately needs (in my opinion) to focus on<br>
+providing the as solid as possible, and as complete as possinle<br>
+foundations. This patch looks like building castles in the air.<br>
+Again,<br>
+I am not claiming that the patch is not helpful at all.<br>
+<br>
+In summary, I think that this patch is premature.<br>
+</blockquote></blockquote></blockquote>
+<br>
+<br>
+<br>
+Pavel Dovgalyuk<br>
+<br>
+</blockquote>
+
+--0000000000002932360598665fcb--
 
