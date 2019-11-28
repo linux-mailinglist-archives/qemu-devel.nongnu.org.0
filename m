@@ -2,84 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDEF10CEEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:37:00 +0100 (CET)
-Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EF010CEF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:47:12 +0100 (CET)
+Received: from localhost ([::1]:52678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPaz-00068C-Ol
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:36:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49471)
+	id 1iaPks-0002Jn-K7
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:47:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pasic@linux.ibm.com>) id 1iaMxi-0002J5-Qk
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:16 -0500
+ (envelope-from <felipe@nutanix.com>) id 1iaMyN-0002m7-TL
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pasic@linux.ibm.com>) id 1iaMxf-0001Zz-KH
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:13 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54266)
+ (envelope-from <felipe@nutanix.com>) id 1iaMyM-0002KM-3I
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:55 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:65190)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1iaMxf-0001UN-Cm
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:11 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xASGlOtF158989
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:48:08 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wjar8q4nr-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:48:08 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
- Thu, 28 Nov 2019 16:48:05 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 28 Nov 2019 16:48:03 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xASGm1r249217646
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Nov 2019 16:48:01 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85545AE053;
- Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 437FDAE04D;
- Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.152.224.151])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
-Date: Thu, 28 Nov 2019 17:48:00 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] virtio-pci: disable vring processing when
- bus-mastering is disabled
-In-Reply-To: <20191120005003.27035-1-mdroth@linux.vnet.ibm.com>
-References: <20191120005003.27035-1-mdroth@linux.vnet.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1iaMyF-0002A0-Ov
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:49 -0500
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xASGlf7g014210; Thu, 28 Nov 2019 08:48:31 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=9zPGVjyV5VQnm3bt6A02V0umR+NCvpD843NmYvStucM=;
+ b=pBxhw4psSBrPR4mEWz79S6a/zLnTdpBRRR7Rd5LLfAgaK+NohiQowSHJXukcESRoR6at
+ ceABUv5g+PQ11HfvgU6SqpuyFV/ZSpw7CUIHO0V4TtnLQxmcPAIVga06IdtJbuWgOJpU
+ xb15FPJHxEoAfviueRAlnde7CNY8gJzl9Ke9E1X/sAcXAOtj69+2wpN35CRm+A31gDau
+ 61Wqql8RMsYICw33PMIrMypOqTQoO/JQgOeLAqai/M0/GCCqknfwGiN7qplOE5fPMmUx
+ zGr8t58OWwDiHMzjVhIfEg6znmlb3Pmhv/qbc+xzhFla+fIpWHkOwsvEtoS7l2XxlFHf Ag== 
+Received: from nam01-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam01lp2054.outbound.protection.outlook.com [104.47.32.54])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 2whhdhujgh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Nov 2019 08:48:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PZP8cGeDOqo9DoltyMY3it1r7N7B4n/XkNl4J8sdCU3dde78eZavRAknQew4DncpBOuVhoUHOwybmu+ozC5bJSsS9n+1MRIMS6Tu/sb23PwR+IVXkr4IH9H654vl66bCa5kRJgL1HCxJLtWi6NxDdXaWJioMdzITw6bITDmHRd0ZxkQLnWn/D2fpAL/j8MrOqFnN0ZU+g54s03Xcu+1SkRqJzzYiLhpdQkBABOAhX6HfKuikJpfRbfucaA9Aj07liGb1sWxBRTZTAEP+R53dlhS4LiFY/YcQiTxQCadeYnqWBS2h+OFWR3bbYDLaV4t2sneVRG51HZTPJKsBQUGZaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9zPGVjyV5VQnm3bt6A02V0umR+NCvpD843NmYvStucM=;
+ b=iZxw2qeea+/jqWxG12osTJ9+rEsAXR405ckIeUJ6ZN8QHYvOTxVj6ZAZAsQngnwd/9gSIdAC38szEVXxwTBy0mtvGMDyWVs4u3bpCvzwuCQAN4l5kGV7zyyo1BgOcCGbH+0mNwBMwT1pLXNFZ5mu6HXjb3HXWthVUYk+OFxkI+lOoWQ3kOVV4REKsSiauzXph72IZOjZE8fqTSwEgh6zWZv9iPEUtOUOnuj4UnJfjTCOy0utog/ydU26Fd2ujpPYnV1qWDTHlzFimmQ2UsPT3HZ2hQAz/HEG5azS9eO+3GkAX0Q/Ys4OzfMGqq3fbRc640xoTRZIs3an9mWPS3G1RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com (10.168.206.142) by
+ MWHPR02MB2398.namprd02.prod.outlook.com (10.168.243.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Thu, 28 Nov 2019 16:48:29 +0000
+Received: from MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::f801:763d:e7fc:6bf]) by MWHPR02MB2656.namprd02.prod.outlook.com
+ ([fe80::f801:763d:e7fc:6bf%7]) with mapi id 15.20.2474.023; Thu, 28 Nov 2019
+ 16:48:29 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: Marc-Andre Lureau <marcandre.lureau@gmail.com>, Philippe Mathieu-Daude
+ <philmd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>, Alexey
+ Kardashevskiy <aik@ozlabs.ru>
+Subject: [PATCH v2 2/4] ich9: fix getter type for sci_int property
+Thread-Topic: [PATCH v2 2/4] ich9: fix getter type for sci_int property
+Thread-Index: AQHVpgupAr8vV7eYO0SbN77IztInIw==
+Date: Thu, 28 Nov 2019 16:48:29 +0000
+Message-ID: <20191128164810.54279-3-felipe@nutanix.com>
+References: <20191128164810.54279-1-felipe@nutanix.com>
+In-Reply-To: <20191128164810.54279-1-felipe@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM3PR05CA0154.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::32) To MWHPR02MB2656.namprd02.prod.outlook.com
+ (2603:10b6:300:45::14)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.20.1
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c3ebc907-9432-46bf-d22f-08d77422cbfb
+x-ms-traffictypediagnostic: MWHPR02MB2398:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR02MB239894288465DE9ABA462A1DD7470@MWHPR02MB2398.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-forefront-prvs: 0235CBE7D0
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(366004)(376002)(39860400002)(136003)(189003)(199004)(102836004)(110136005)(256004)(446003)(36756003)(14454004)(2616005)(6436002)(11346002)(66066001)(4326008)(386003)(6506007)(186003)(26005)(52116002)(76176011)(66556008)(64756008)(1076003)(71190400001)(66946007)(5660300002)(71200400001)(6486002)(66446008)(66476007)(86362001)(6512007)(478600001)(54906003)(8936002)(50226002)(316002)(81166006)(2906002)(8676002)(7736002)(305945005)(81156014)(99286004)(25786009)(6116002)(3846002)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR02MB2398;
+ H:MWHPR02MB2656.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sakWcFsPGuyDQ4F2JHvM3MlGmytwk1zgsQZBaRt3eq55qRz2GMqcZwbIzE08+d8fo4Z3Uljb1Jy7Q8RuUNtnM2Y+xK/otvhd0aL01G3T4X0tkF3033vpyxql1BX+ws13OcBeABCEmoE5Zx2afyN5B/vWZYV3GLksPdQhhLUrzYHiUOa0M+o+rF+y+07ysY1PcSUKElfFWC0DbxVXDN5qbV+uX53L/bSNMVXWMXNYeBrj6qExJU2B5NjtNvJeU89qo+plaZN5zZmIV97oRFRwzSTQufX19hcSGWfl1GbFUfvIZipmokutFm9wO4KZlIiALNQRSdgp7g/bmAMFBmY8VZV/OU/r78L02o316rEpgN6gGmiTkj8M4fo/k05VFn1AVsQFHoTrB4ninTjTwFHIr1dsek24mwnePhQ2Be+cqIbnwT446UeRaQWv5EGDpU+B
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112816-0008-0000-0000-000003397A79
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112816-0009-0000-0000-00004A588781
-Message-Id: <20191128174800.2d4a2cc2.pasic@linux.ibm.com>
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3ebc907-9432-46bf-d22f-08d77422cbfb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2019 16:48:29.7642 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bqyxkR1a/XZU04I+zcTEI9im8N5vNbJ8ag/rIW80CKA17hiXjU304NATgg2jRPR9GUJ3q5V6VxAYEo88YSYgWsvVDVoB3fVnNMvu2mwwctc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2398
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-28_05:2019-11-28,2019-11-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- phishscore=0 impostorscore=0 clxscore=1015 suspectscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911280142
+X-Proofpoint-Spam-Reason: safe
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.151.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,117 +123,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Felipe Franciosi <felipe@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Nov 2019 18:50:03 -0600
-Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
-
-[..]
-> I.e. the calling code is only scheduling a one-shot BH for
-> virtio_blk_data_plane_stop_bh, but somehow we end up trying to process
-> an additional virtqueue entry before we get there. This is likely due
-> to the following check in virtio_queue_host_notifier_aio_poll:
-> 
->   static bool virtio_queue_host_notifier_aio_poll(void *opaque)
->   {
->       EventNotifier *n = opaque;
->       VirtQueue *vq = container_of(n, VirtQueue, host_notifier);
->       bool progress;
-> 
->       if (!vq->vring.desc || virtio_queue_empty(vq)) {
->           return false;
->       }
-> 
->       progress = virtio_queue_notify_aio_vq(vq);
-> 
-> namely the call to virtio_queue_empty(). In this case, since no new
-> requests have actually been issued, shadow_avail_idx == last_avail_idx,
-> so we actually try to access the vring via vring_avail_idx() to get
-> the latest non-shadowed idx:
-> 
->   int virtio_queue_empty(VirtQueue *vq)
->   {
->       bool empty;
->       ...
-> 
->       if (vq->shadow_avail_idx != vq->last_avail_idx) {
->           return 0;
->       }
-> 
->       rcu_read_lock();
->       empty = vring_avail_idx(vq) == vq->last_avail_idx;
->       rcu_read_unlock();
->       return empty;
-> 
-> but since the IOMMU region has been disabled we get a bogus value (0
-> usually), which causes virtio_queue_empty() to falsely report that
-> there are entries to be processed, which causes errors such as:
-> 
->   "virtio: zero sized buffers are not allowed"
-> 
-> or
-> 
->   "virtio-blk missing headers"
-> 
-> and puts the device in an error state.
-> 
-
-I've seen something similar on s390x with virtio-ccw-blk under
-protected virtualization, that made me wonder about how virtio-blk in
-particular but also virtio in general handles shutdown and reset.
-
-This makes me wonder if bus-mastering disabled is the only scenario when
-a something like vdev->disabled should be used.
-
-In particular I have the following mechanism in mind 
-
-qemu_system_reset() --> ... --> qemu_devices_reset() --> ... --> 
---> virtio_[transport]_reset() --> ... --> virtio_bus_stop_ioeventfd()
---> virtio_blk_data_plane_stop()
-
-which in turn triggesrs the following cascade:
-virtio_blk_data_plane_stop_bh --> virtio_queue_aio_set_host_notifier_handler() -->
---> virtio_queue_host_notifier_aio_read() 
-which however calls 
-virtio_queue_notify_aio_vq() if the notifier tests as
-positive. 
-
-Since we still have vq->handle_aio_output that means we may
-call virtqueue_pop() during the reset procedure.
-
-This was a problem for us, because (due to a bug) the shared pages that
-constitute the virtio ring weren't shared any more. And thus we got
-the infamous  
-virtio_error(vdev, "virtio: zero sized buffers are not allowed").
-
-Now the bug is no more, and we can tolerate that somewhat late access
-to the virtio ring.
-
-But it keeps nagging me, is it really OK for the device to access the
-virtio ring during reset? My intuition tells me that the device should
-not look for new requests after it has been told to reset.
-
-Opinions? (Michael, Connie)
-
-Regards,
-Halil
-
-> This patch works around the issue by introducing virtio_set_disabled(),
-> which sets a 'disabled' flag to bypass checks like virtio_queue_empty()
-> when bus-mastering is disabled. Since we'd check this flag at all the
-> same sites as vdev->broken, we replace those checks with an inline
-> function which checks for either vdev->broken or vdev->disabled.
-> 
-> The 'disabled' flag is only migrated when set, which should be fairly
-> rare, but to maintain migration compatibility we disable it's use for
-> older machine types. Users requiring the use of the flag in conjunction
-> with older machine types can set it explicitly as a virtio-device
-> option.
-> 
-
+V2hlbiBRT00gQVBJcyB3ZXJlIGFkZGVkIHRvIGljaDkgaW4gNmYxNDI2YWIsIHRoZSBnZXR0ZXIg
+Zm9yIHNjaV9pbnQgd2FzDQp3cml0dGVuIHVzaW5nIHVpbnQzMl90LiBIb3dldmVyLCB0aGUgb2Jq
+ZWN0IHByb3BlcnR5IGlzIHVpbnQ4X3QuIFRoaXMNCmZpeGVzIHRoZSBnZXR0ZXIgZm9yIGNvcnJl
+Y3RuZXNzLg0KDQpTaWduZWQtb2ZmLWJ5OiBGZWxpcGUgRnJhbmNpb3NpIDxmZWxpcGVAbnV0YW5p
+eC5jb20+DQotLS0NCiBody9pc2EvbHBjX2ljaDkuYyB8IDYgKystLS0tDQogMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2h3L2lz
+YS9scGNfaWNoOS5jIGIvaHcvaXNhL2xwY19pY2g5LmMNCmluZGV4IGY1NTI2ZjljM2IuLjNhOWM0
+ZjA1MDMgMTAwNjQ0DQotLS0gYS9ody9pc2EvbHBjX2ljaDkuYw0KKysrIGIvaHcvaXNhL2xwY19p
+Y2g5LmMNCkBAIC02MzEsOSArNjMxLDcgQEAgc3RhdGljIHZvaWQgaWNoOV9scGNfZ2V0X3NjaV9p
+bnQoT2JqZWN0ICpvYmosIFZpc2l0b3IgKnYsIGNvbnN0IGNoYXIgKm5hbWUsDQogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqb3BhcXVlLCBFcnJvciAqKmVycnApDQogew0K
+ICAgICBJQ0g5TFBDU3RhdGUgKmxwYyA9IElDSDlfTFBDX0RFVklDRShvYmopOw0KLSAgICB1aW50
+MzJfdCB2YWx1ZSA9IGxwYy0+c2NpX2dzaTsNCi0NCi0gICAgdmlzaXRfdHlwZV91aW50MzIodiwg
+bmFtZSwgJnZhbHVlLCBlcnJwKTsNCisgICAgdmlzaXRfdHlwZV91aW50OCh2LCBuYW1lLCAmbHBj
+LT5zY2lfZ3NpLCBlcnJwKTsNCiB9DQogDQogc3RhdGljIHZvaWQgaWNoOV9scGNfYWRkX3Byb3Bl
+cnRpZXMoSUNIOUxQQ1N0YXRlICpscGMpDQpAQCAtNjQxLDcgKzYzOSw3IEBAIHN0YXRpYyB2b2lk
+IGljaDlfbHBjX2FkZF9wcm9wZXJ0aWVzKElDSDlMUENTdGF0ZSAqbHBjKQ0KICAgICBzdGF0aWMg
+Y29uc3QgdWludDhfdCBhY3BpX2VuYWJsZV9jbWQgPSBJQ0g5X0FQTV9BQ1BJX0VOQUJMRTsNCiAg
+ICAgc3RhdGljIGNvbnN0IHVpbnQ4X3QgYWNwaV9kaXNhYmxlX2NtZCA9IElDSDlfQVBNX0FDUElf
+RElTQUJMRTsNCiANCi0gICAgb2JqZWN0X3Byb3BlcnR5X2FkZChPQkpFQ1QobHBjKSwgQUNQSV9Q
+TV9QUk9QX1NDSV9JTlQsICJ1aW50MzIiLA0KKyAgICBvYmplY3RfcHJvcGVydHlfYWRkKE9CSkVD
+VChscGMpLCBBQ1BJX1BNX1BST1BfU0NJX0lOVCwgInVpbnQ4IiwNCiAgICAgICAgICAgICAgICAg
+ICAgICAgICBpY2g5X2xwY19nZXRfc2NpX2ludCwNCiAgICAgICAgICAgICAgICAgICAgICAgICBO
+VUxMLCBOVUxMLCBOVUxMLCBOVUxMKTsNCiAgICAgb2JqZWN0X3Byb3BlcnR5X2FkZF91aW50OF9w
+dHIoT0JKRUNUKGxwYyksIEFDUElfUE1fUFJPUF9BQ1BJX0VOQUJMRV9DTUQsDQotLSANCjIuMjAu
+MQ0KDQo=
 
