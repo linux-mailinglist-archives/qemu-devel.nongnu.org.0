@@ -2,136 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB27D10CA85
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:43:56 +0100 (CET)
-Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6A010CA63
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:31:28 +0100 (CET)
+Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaL1O-0000fF-Pf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:43:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60748)
+	id 1iaKpK-0001Ar-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:31:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iaKKU-0002UI-86
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:59:35 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iaKMD-00040S-Vf
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iaKKR-0004RS-T0
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:59:32 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41961)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iaKKR-0004G1-Lj
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:59:31 -0500
-Received: by mail-wr1-x444.google.com with SMTP id b18so31257021wrj.8
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 05:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Rhdijia0hZMRHsdzmaRhUmQVSrNSVP0n8e+Ir9YtrnM=;
- b=bulfqgiZZFlPlm+cmezt1pf/4ylUjFBjC1smsN8YW7R6/mcC/oJCLpjam/D9wj+P9i
- IyqXet7luE3vNB/pDj1fRli3IWjYZtABspBQzPhNjqDWsdX5dXNQT2oWjnJp33Svbjnw
- P9yLOS/D/XuanEyowQBLl6huiCc1Tv/avQ6+CvQHuRp8TYuUwC5gxr3RV6o9PxvkiBZ5
- q1x5iiBYLtPRt3l0QdHB/JUiSYgd8X8U6KdvP0KHQ1kzqzh++ntVCyqAUAGrmTNEskRl
- +THeeX+LiWVfaIsXM3lQuIoXedSQ0nBWrSWeZZ9ZyIskxf/eTTESf8PXiP3MActw9e6K
- yGtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Rhdijia0hZMRHsdzmaRhUmQVSrNSVP0n8e+Ir9YtrnM=;
- b=gr4t7qAHh3lKc8w2XNfMSaObmpEf1lSMMmKD7e5j9mD73bEMNVIJOmCA0oHbDF9Ofw
- Ci2iCygZbXMojZLArw2TDy7PZpMdpZvsPluBqrDoiLyiIYCTh0WLXt66+0uh9WQYWRuH
- +xIflnj5EzHSFd3JTdhTiN8fAXPojf0/6VQMguZjg8UKMXLEZJtGpuT9Uq9yARezhOZO
- futPsK9LT8116wlba6KxK8XqGBKwkDJM0NFHt1lDQuaxxFYA1JRptqNU3Pz5Wu2inO2t
- rThVTDEOokZ7HZiQcwdpkTLKG6TQrP/cHJO14bgQRrTtF2lqVCPbHIachqVt76MGEjrb
- sCPg==
-X-Gm-Message-State: APjAAAVvxBd/f4KN7pzRZL4LyBToyVmKhMuWuxCpQo8NtqMP1qJZKN7x
- GLmK358N8okyNg3vsD/Ls0Spt2Xt
-X-Google-Smtp-Source: APXvYqyRtFGJUWgjbRS4VmnaAOB5jLP6e1q+w7UfCa/Q3qNO/b/ZCnhO+CLHUAC6R+VANIkIswk5rQ==
-X-Received: by 2002:adf:9cc9:: with SMTP id h9mr46368462wre.137.1574949568389; 
- Thu, 28 Nov 2019 05:59:28 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
- ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
- by smtp.googlemail.com with ESMTPSA id z15sm10008328wmi.12.2019.11.28.05.59.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Nov 2019 05:59:27 -0800 (PST)
-Subject: Re: [PATCH v2 5/5] hvf: save away type as well as vector so we can
- reinject them
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Cameron Esfahani <dirty@apple.com>
-References: <cover.1574625592.git.dirty@apple.com>
- <e07e6085d8ab9054e58f85ae58e112df6adc024d.1574625592.git.dirty@apple.com>
- <eb3a2de7-fcfe-f0d5-8534-1c59ff40f61e@redhat.com>
- <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
- <cdc4958b-6ef5-aee2-1cf2-8cb59ca031fe@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
- uUHgL9dKIfvpm+rNXRn9wAwGjk0X/A==
-Message-ID: <61d55b9d-260e-2d4d-0527-35901024b793@redhat.com>
-Date: Thu, 28 Nov 2019 14:59:27 +0100
+ (envelope-from <mreitz@redhat.com>) id 1iaKM8-0001p3-3v
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53725
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iaKM4-0001i7-J3
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 09:01:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574949665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=imKrZIDAcl0nebVmsApMWpj6CWOw1uCyO5++70aPho0=;
+ b=CvzJxl5zg0jIQBURBzUIsJbJD5gByyGfj2MtPfNIuM7jfya4aIgeyxaXPJMzv5OZd4Dm5+
+ O5wg6sqJJE+nS611u54Gry71ucRc8UgPWgQrXjOavgsvo+hRgyFWcWqjyQwv6dj3oYs9VF
+ od5lUo0bKiXVzneFCjdCLnRu7UW5smU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-3D96Tgx5P4CV3FL5VjOnmg-1; Thu, 28 Nov 2019 09:01:00 -0500
+X-MC-Unique: 3D96Tgx5P4CV3FL5VjOnmg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53AEF800D41;
+ Thu, 28 Nov 2019 14:00:59 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-182.brq.redhat.com
+ [10.40.204.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C74C600C8;
+ Thu, 28 Nov 2019 14:00:57 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 02/31] block: Add BdrvChildRole
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191127131624.1062403-1-mreitz@redhat.com>
+ <20191127131624.1062403-3-mreitz@redhat.com>
+ <9d6e35ea-eed6-716a-75aa-e8f47f35b6b7@virtuozzo.com>
+ <02c29aee-6f92-0648-c60a-875a3d8ca305@redhat.com>
+ <7ca7fa9d-b464-7ff1-cb28-3ffb52efedb0@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cab438c9-3630-c236-e5a6-ccc30a606fed@redhat.com>
+Date: Thu, 28 Nov 2019 15:00:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <cdc4958b-6ef5-aee2-1cf2-8cb59ca031fe@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <7ca7fa9d-b464-7ff1-cb28-3ffb52efedb0@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -143,51 +102,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/11/19 14:56, Paolo Bonzini wrote:
-> On 26/11/19 21:04, Cameron Esfahani wrote:
->> Our test case was booting many concurrent macOS VMs under heavy
->> system load.  I don't know if I could create one to replicate that.
-> 
-> Does this work?
-> 
-> diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-> index 1485b95776..26c6c3a49f 100644
-> --- a/target/i386/hvf/x86hvf.c
-> +++ b/target/i386/hvf/x86hvf.c
-> @@ -357,7 +357,11 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
->      bool have_event = true;
->      if (env->interrupt_injected != -1) {
->          vector = env->interrupt_injected;
-> -        intr_type = VMCS_INTR_T_SWINTR;
-> +        if (env->ins_len) {
-> +            intr_type = VMCS_INTR_T_SWINTR;
-> +        } else {
-> +            intr_type = VMCS_INTR_T_HWINTR;
-> +        }
->      } else if (env->exception_nr != -1) {
->          vector = env->exception_nr;
->          if (vector == EXCP03_INT3 || vector == EXCP04_INTO) {
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx
+Content-Type: multipart/mixed; boundary="ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS"
 
-Better include this too:
+--ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 784e67d77e..5dc7515841 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -637,6 +637,7 @@ static void hvf_store_events(CPUState *cpu, uint32_t
-ins_len, uint64_t idtvec_in
-     env->exception_injected = 0;
-     env->interrupt_injected = -1;
-     env->nmi_injected = false;
-+    env->ins_len = 0;
-     if (idtvec_info & VMCS_IDT_VEC_VALID) {
-         switch (idtvec_info & VMCS_IDT_VEC_TYPE) {
-         case VMCS_IDT_VEC_HWINTR:
+On 28.11.19 12:24, Vladimir Sementsov-Ogievskiy wrote:
+> 28.11.2019 13:52, Max Reitz wrote:
+>> On 28.11.19 10:31, Vladimir Sementsov-Ogievskiy wrote:
+>>> 27.11.2019 16:15, Max Reitz wrote:
+>>>> This enum will supplement BdrvChildClass when it comes to what role (o=
+r
+>>>> combination of roles) a child takes for its parent.
+>>>>
+>>>> Because empty enums are not allowed, let us just start with it filled.
+>>>>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>>    include/block/block.h | 38 ++++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 38 insertions(+)
+>>>>
+>>>> diff --git a/include/block/block.h b/include/block/block.h
+>>>> index 38963ef203..36817d5689 100644
+>>>> --- a/include/block/block.h
+>>>> +++ b/include/block/block.h
+>>>> @@ -279,6 +279,44 @@ enum {
+>>>>        DEFAULT_PERM_UNCHANGED      =3D BLK_PERM_ALL & ~DEFAULT_PERM_PA=
+SSTHROUGH,
+>>>>    };
+>>>>   =20
+>>>> +typedef enum BdrvChildRole {
+>>>
+>>> Don't you want to call it just BdrvChildFlags ?
+>>> Benefits:
+>>>
+>>> 1. Do not intersect with old BdrvChildRole.
+>>
+>> Well, that doesn=E2=80=99t change the fact that the old BdrvChildRole ju=
+st
+>> doesn=E2=80=99t describe a role.
+>>
+>>> 2. I think, BDRV_CHILD_STAY_AT_NODE is not a role, but just a property =
+or flag..
+>>
+>> I can be convinced to let STAY_AT_NODE stay a property of
+>> BdrvChildClass. :-)
+>=20
+> or BdrvChild if we want it to be property of object, not class.
 
-Paolo
+Sure, but that would then no longer concern this series, I think.  (That
+is, either I make STAY_AT_NODE a BdrvChildRole in this series, or I just
+don=E2=80=99t.)
+
+Max
+
+
+--ckbYbiZPGxYJS9ypxybWHQaKYVi9IxgSS--
+
+--JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3f0xgACgkQ9AfbAGHV
+z0CfIAf+Im5powytEOzpofCiPZ/ONhc1mwwcbyGR2cOvciQOA0hdrOYlyvIzMiW4
+eMhbUlafGRMVfqKPUj40QNIcpQbiWmHxEUrNqXWxcv4zbVwFJj7RbEfBcLLt8uGL
+fXIv8puEL4FiFKhbmYJDGaDD1oDtGIh3VeKTaee4Ib5Md9woH4xRHGe2Jqdvvvyt
+8x1xhiDCklmbyqVfJHyfn2bwk+ccVin4IZ1GWsKZfVipsOuka0E0Qtf3r6BrbMpU
+8hzm4iEyw6Iz8KXTEHpEUKES5nfqtIaVNis28LqZmkFy9gRX08+ybbSXfyFy/bbx
+6f9VES7qe0LTIYYnPAquSnmmKH/AAQ==
+=qJLT
+-----END PGP SIGNATURE-----
+
+--JOrfAI5HptpgXkAJtSZ57ar3JK8cjL8Qx--
 
 
