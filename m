@@ -2,100 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F15D10CF8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 22:41:53 +0100 (CET)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC8010CFB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 23:08:36 +0100 (CET)
+Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaRXq-00019N-Vv
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 16:41:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55782)
+	id 1iaRxi-0003p9-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 17:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sw@weilnetz.de>) id 1iaRQa-0006wp-VI
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 16:34:23 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaQGi-0001xh-Oy
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:20:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1iaRQW-00042I-JG
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 16:34:18 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:39512
- helo=v2201612906741603.powersrv.de)
+ (envelope-from <philmd@redhat.com>) id 1iaQGS-00056B-Nj
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:19:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55122
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1iaRQW-0003V5-BN
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 16:34:16 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id EE5AFDB9922;
- Thu, 28 Nov 2019 22:33:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id 5P6ot63nGw2M; Thu, 28 Nov 2019 22:33:53 +0100 (CET)
-Received: from edv-macbook-pro.fritz.box (p57B42DA4.dip0.t-ipconnect.de
- [87.180.45.164])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 04B53DB9920;
- Thu, 28 Nov 2019 22:33:52 +0100 (CET)
-Subject: Re: [PATCH v2 2/2] travis.yml: Run tcg tests with tci
-From: Stefan Weil <sw@weilnetz.de>
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20191128153525.2646-1-thuth@redhat.com>
- <20191128153525.2646-3-thuth@redhat.com>
- <672f7c1a-71d6-5dfa-101a-ed3070be0b05@weilnetz.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=sw@weilnetz.de; keydata=
- mQINBFXCNBcBEACUbHx9FWsS1ATrhLGAS+Nc6bFQHPR3CpUQ4v++RiMg25bF6Ov1RsYEcovI
- 0DXGh6Ma+l6dRlvUXV8tMvNwqghDUr5KY7LN6tgcFKjBbXdv9VlKiWiMLKBrARcFKxx1sfLp
- 1P8RiaUdKsgy2Hq4T1PPy9ENTL1/FBG6P/Rw0rO9zOB+yNHcRJ5diDnERbi3x7qoaPUra2Ig
- lmQk/uxXKC0aNIhpNLNiQ+YpwTUN9q3eG6B9/3CG8RGtFzH9vDPlLvtUX+01a2gCifTi3iH3
- 8EEK8ACXIRs2dszlxMneKTvflXfvyCM1O+59wGcICQxltxLLhHSCJjOQyWdR2JUtn//XjVWM
- mf6bBT7Imx3DhhfFRlA+/Lw9Zah66DJrZgiV0LqoN/2f031TzD3FCBiGQEMC072MvSQ1DdJN
- OiRE1iWO0teLOxaFSbvJS9ij8CFSQQTnSVZs0YXGBal+1kMeaKo9sO4tkaAR2190IlMNanig
- CTJfeFqxzZkoki378grSHdGUTGKfwNPflTOA6Pw6xuUcxW55LB3lBsPqb0289P8o9dTR7582
- e6XTkpzqe/z/fYmfI9YXIjGY8WBMRbsuQA30JLq1/n/zwxAOr2P9y4nqTMMgFOtQS8w4G46K
- UMY/5IspZp2VnPwvazUo2zpYiUSLo1hFHx2jrePYNu2KLROXpwARAQABtBxTdGVmYW4gV2Vp
- bCA8c3dAd2VpbG5ldHouZGU+iQI6BBMBCAAkAhsDBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheA
- BQJV04LlAhkBAAoJEOCMIdVndFCtP5QP/1U8yWZzHeHufRFxtMsK1PERiLuKyGRH2oE5NWVc
- 5QQHZZ2ypXu53o2ZbZxmdy8+4lXiPWWwYVqto3V7bPaMTvQhIT0I3c3ZEZsvwyEEE6QdRs52
- haZwX+TzNMQ5mOePdM2m4WqO0oU7YHU2WFf54MBmAGtj3FAQEAlZAaMiJs2aApw/4t35ICL1
- Sb0FY8d8lKBbIFOAaFfrlQTC3y8eMTk1QxOVtdXpRrOl6OE0alWn97NRqeZlBm0P+BEvdgTP
- Qt+9rxbe4ulgKME2LkbDhLqf0m2+xMXb7T4LiHbQYnnWKGZyogpFaw3PuRVd9m8uxx1F8b4U
- jNzI9x2Ez5LDv8NHpSY0LGwvVmkgELYbcbyiftbuw81gJuM7k4IW5GR85kTH6y/Sq6JNaI4p
- 909IK8X4eeoCkAqEVmDOo1D5DytgxIV/PErrin82OIDXLENzOWfPPtUTO+H7qUe80NS2HLPG
- IveYSjuYKBB6n2JhPkUD7xxMEdh5Ukqi1WIBSV4Tuk3/ubHajP5bqg4QP3Wo1AyICX09A1QQ
- DajtMkyxXhYxr826EGcRD2WUUprGNYwaks4YiPuvOAJxSYprKWT6UDHzE3S8u4uZZm9H8cyg
- Fa3pysJwTmbmrBAP1lMolwXHky60dPnKPmFyArGC0utAH7QELXzBybnE/vSNttNT1D+HuQIN
- BFXcnj0BEAC32cCu2MWeqZEcvShjkoKsXk42mHrGbeuh/viVn8JOQbTO706GZtazoww2weAz
- uVEYhwqi7u9RATz9MReHf7R5F0KIRhc/2NhNNeixT/7L+E5jffH1LD+0IQdeLPoz6unvg7U/
- 7OpdKWbHzPM3Lfd0N1dRP5sXULpjtYQKEgiOU58sc4F5rM10KoPFEMz8Ip4j9RbH/CbTPUM0
- S4PxytRciB3Fjd0ECbVsErTjX7cZc/yBgs3ip7BPVWgbflhrc+utML/MwC6ZqCOIXf/U0ICY
- fp5I7PDbUSWgMFHvorWegMYJ9EzZ2nTvytL8E75C2U3j5RZAuQH5ysfGpdaTS76CRrYDtkEc
- ViTL+hRUgrX9qvqzCdNEePbQZr6u6TNx3FBEnaTAZ5GuosfUk7ynvam2+zAzLNU+GTywTZL2
- WU+tvOePp9z1/mbLnH2LkWHgy3bPu77AFJ1yTbBXl5OEQ/PtTOJeC1urvgeNru26hDFSFyk4
- gFcqXxswu2PGU7tWYffXZXN+IFipCS718eDcT8eL66ifZ8lqJ8Vu5WJmp9mr1spP9RYbT7Rw
- pzZ3iiz7e7AZyOtpSMIVJeYZTbtiqJbyN4zukhrTdCgCFYgf0CkA5UGpYXp2sXPr+gVxKX2p
- tj/gid4n95vR7KMeWV6DJ0YS4hKGtdhkuJCpJfjKP/e8TwARAQABiQIfBBgBCAAJBQJV3J49
- AhsMAAoJEOCMIdVndFCtYRoQAJOu3RZTEvUBPoFqsnd849VmOKKg77cs+HD3xyLtp95JwQrz
- hwa/4ouDFrC86jt1vARfpVx5C8nQtNnWhg+5h5kyOIbtB1/27CCTdXAd/hL2k3GyrJXEc+i0
- 31E9bCqgf2KGY7+aXu4LeAfRIWJT9FGVzdz1f+77pJuRIRRmtSs8VAond2l+OcDdEI9Mjd9M
- qvyPJwDkDkDvsNptrcv4xeNzvX+2foxkJmYru6dJ+leritsasiAxacUowGB5E41RZEUg6bmV
- F4SMseIAEKWLy3hPGvYBOzADhq2YLgnM/wn9Y9Z7bEMy+w5e75saBbkFI7TncxDPUnIl/UTE
- KU1ORi5WWbvXYkUTtfNzZyD0/v3oojcIoZvK1OlpOtXHdlqOodjXF9nLe8eiVHyl8ZnzFxhe
- EW2QPvX8FLKqmSs9W9saQtk6bhv9LNYIYINjH3EEH/+bbmV+ln4O7a73Wm8L3tnpC3LmdGn2
- Rm8B6J2ZK6ci1TRDiMpCUWefpnIuE+TibC5VJR5zx0Yh11rxxBFob8mWktRmLZyeEoCcZoBo
- sbJxD80QxWO03zPpkcJ7d4BrVsQ/BJkBtEe4Jn4iqHqA/OcrzwuEZSv+/MdgoqfblBZhDusm
- LYfVy7wFDeVClG6eQIiK2EnmDChLRkVIQzbkV0iG+NJVVJHLGK7/OsO47+zq
-Message-ID: <bf0e3625-b719-6baf-9148-c9a864ac499f@weilnetz.de>
-Date: Thu, 28 Nov 2019 22:33:52 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.1
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaQGR-0004pc-Hy
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 15:19:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574972384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5sduL7II40w/cS2ue0sJWFIoxWVRAF6DHrBU2iCFbRA=;
+ b=Mrn7CLIflA9SNmpkyuA8/8ryVvu5IudROrakRIRkTX1xXnpiopgzaYyzBHxnYdRK6OW0xW
+ AqpdxBUgRpz3pkDZjS0mTpdNmXg63LMNkjSWOyrirFCXukAh1RRHoJeKGDkU06MKJYaC92
+ sdF7CswOnn3HOSmuUwacwWDngfdPazo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-yI5mYEVyNHS7Qq6qkaqLDg-1; Thu, 28 Nov 2019 15:19:41 -0500
+Received: by mail-wr1-f72.google.com with SMTP id 92so14382378wro.14
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 12:19:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5sduL7II40w/cS2ue0sJWFIoxWVRAF6DHrBU2iCFbRA=;
+ b=e5DkR0FieiveVhxQsumr0+uNkhuL9yq4vpoZslOs3wd55lhR0LX8+qnqkvappAbMgR
+ lLer+LgUmouyX11r/IgSPRV7cjj33+Uw7expqzQGG52GrW9Cem2CjU265Gtb1LuIJjQ1
+ 5ih+EmP+MOY5Y8J5GZtgC/m8B1ebH+zFwZTZvq29UT2RBy/vTWq+XX1khd8vl2oifLbP
+ 6oadfEVpEbuwnYMh0vjwp0QS2SDDgarKet/0fAmFxd4mOOLqMFBmUVmb25JVEX6O9aP5
+ 2o9iTSvVhJMqhFiPCINikVJLU53uFy6/eYvptzNPqsEXlHaB88pE0Py9CRP4BgVA4x3f
+ PmKA==
+X-Gm-Message-State: APjAAAULUJ5JA/YtJD6nYU5XR+ldoM9AIi/KL1gWyIOzecgEbylwBUxu
+ s7kMKXLJcgBebDxD9NU2FCWbZlbxn1s3NlEbL1dyjsdNlS5CwNUUXBygvyuvzErjBBx4aZ5bb0Y
+ u5kmr9QtCEfJtIw0=
+X-Received: by 2002:a05:600c:2410:: with SMTP id
+ 16mr10667842wmp.36.1574972379989; 
+ Thu, 28 Nov 2019 12:19:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxD1SikqTfQnRZ70id3xincedWHw20WQ3bYfFDnUXyXcp7I8YOqLrX2H7hJ78gFguC6v5XP3g==
+X-Received: by 2002:a05:600c:2410:: with SMTP id
+ 16mr10667835wmp.36.1574972379781; 
+ Thu, 28 Nov 2019 12:19:39 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id e16sm24685543wrj.80.2019.11.28.12.19.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Nov 2019 12:19:39 -0800 (PST)
+Subject: Re: [PATCH v37 17/17] target/avr: Update MAINTAINERS file
+To: Michael Rolnik <mrolnik@gmail.com>, qemu-devel@nongnu.org
+References: <20191127175257.23480-1-mrolnik@gmail.com>
+ <20191127175257.23480-18-mrolnik@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c5e57667-cedf-ac3c-b753-8b46fb99c71b@redhat.com>
+Date: Thu, 28 Nov 2019 21:19:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <672f7c1a-71d6-5dfa-101a-ed3070be0b05@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191127175257.23480-18-mrolnik@gmail.com>
+Content-Language: en-US
+X-MC-Unique: yI5mYEVyNHS7Qq6qkaqLDg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 37.120.169.71
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,30 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: thuth@redhat.com, me@xcancerberox.com.ar, richard.henderson@linaro.org,
+ dovgaluk@ispras.ru, imammedo@redhat.com, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.11.19 um 22:06 schrieb Stefan Weil:
+On 11/27/19 6:52 PM, Michael Rolnik wrote:
+> Include AVR maintaners in MAINTAINERS file
+> 
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> ---
+>   MAINTAINERS | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5e5e3e52d6..d7bfb62791 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -163,6 +163,17 @@ S: Maintained
+>   F: hw/arm/smmu*
+>   F: include/hw/arm/smmu*
+>   
+> +AVR TCG CPUs
+> +M: Michael Rolnik <mrolnik@gmail.com>
+> +R: Sarah Harris <S.E.Harris@kent.ac.uk>
+> +S: Maintained
+> +F: target/avr/
 
-> Am 28.11.19 um 16:35 schrieb Thomas Huth:
->
->> So far we only have compile coverage for tci. But since commit
->> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
->> for INDEX_op_ld16u_i64") has been included now, we can also run the
->> "tcg" and "qtest" tests with tci, so let's enable them in Travis now.
->> Since we don't gain much additional test coverage by compiling all
->> targets, and TCI is broken e.g. with the Sparc targets, we also limit
->
-> As far as I know it is broken with Sparc hosts (not Sparc targets).
->
-> I tested without limiting the target list on an x86_64 host, and the
-> tests passed.
+^ This is the architectural part section
 
+v This part should go under a new 'AVR Machines' section.
+   (See 'Alpha Machines' for example).
 
-Sorry, I have to correct myself: check-qtest-sparc64 fails. I'll examine
-that.
-
-Stefan
+> +F: hw/misc/avr_mask.c
+> +F: hw/char/avr_usart.c
+> +F: hw/timer/avr_timer16.c
+> +F: hw/avr/
+> +F: tests/acceptance/machine_avr6.py
+> +
+>   CRIS TCG CPUs
+>   M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+>   S: Maintained
+> 
 
 
