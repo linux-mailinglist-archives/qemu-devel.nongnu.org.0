@@ -2,43 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD59D10C569
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:47:53 +0100 (CET)
-Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 029BB10C572
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 09:50:57 +0100 (CET)
+Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaFSq-0004TZ-Gd
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:47:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
+	id 1iaFVo-00069b-1Y
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 03:50:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iaFR0-0003pg-DF
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:45:59 -0500
+ (envelope-from <clg@kaod.org>) id 1iaFRe-00048B-9T
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:46:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iaFQz-0004Is-2P
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:45:58 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2269 helo=huawei.com)
+ (envelope-from <clg@kaod.org>) id 1iaFRc-0005RN-T3
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:46:38 -0500
+Received: from 14.mo6.mail-out.ovh.net ([46.105.56.113]:42395)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iaFM5-0008P6-Ho; Thu, 28 Nov 2019 03:40:53 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 685EEA3C9EBAACD49D55;
- Thu, 28 Nov 2019 16:40:43 +0800 (CST)
-Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 28 Nov 2019 16:40:34 +0800
-From: <pannengyuan@huawei.com>
-To: <eblake@redhat.com>, <kwolf@redhat.com>, <mreitz@redhat.com>
-Subject: [PATCH] block/nbd: fix memory leak in nbd_open()
-Date: Thu, 28 Nov 2019 16:40:10 +0800
-Message-ID: <1574930410-43468-1-git-send-email-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.7.2.windows.1
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaFRc-0005Jf-Mi
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 03:46:36 -0500
+Received: from player734.ha.ovh.net (unknown [10.109.146.166])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 4A6F31EF111
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 09:46:33 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id 0E1E0C919A07;
+ Thu, 28 Nov 2019 08:46:26 +0000 (UTC)
+Subject: Re: [PATCH 2/4] target/arm: Abstract the generic timer frequency
+To: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org
+References: <20191128054527.25450-1-andrew@aj.id.au>
+ <20191128054527.25450-3-andrew@aj.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cd0b8fe7-ce7a-1ba4-2c5c-1bec0a2d1a57@kaod.org>
+Date: Thu, 28 Nov 2019 09:46:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20191128054527.25450-3-andrew@aj.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 9901163780868115264
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeiiedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeefgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 46.105.56.113
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,75 +59,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liyiting@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- PanNengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- kuhn.chenqun@huawei.com
+Cc: peter.maydell@linaro.org, joel@jms.id.au, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+On 28/11/2019 06:45, Andrew Jeffery wrote:
+> Prepare for SoCs such as the ASPEED AST2600 whose firmware configures
+> CNTFRQ to values significantly larger than the static 62.5MHz value
+> currently derived from GTIMER_SCALE. As the OS potentially derives its
+> timer periods from the CNTFRQ value the lack of support for running
+> QEMUTimers at the appropriate rate leads to sticky behaviour in the
+> guest.
+> 
+> Substitute the GTIMER_SCALE constant with use of a helper to derive the
+> period from gt_cntfrq stored in struct ARMCPU. Initially set gt_cntfrq
+> to the frequency associated with GTIMER_SCALE so current behaviour is
+> maintained.
+> 
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  target/arm/cpu.c    |  2 ++
+>  target/arm/cpu.h    | 10 ++++++++++
+>  target/arm/helper.c | 10 +++++++---
+>  3 files changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 7a4ac9339bf9..5698a74061bb 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -974,6 +974,8 @@ static void arm_cpu_initfn(Object *obj)
+>      if (tcg_enabled()) {
+>          cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
+>      }
+> +
+> +    cpu->gt_cntfrq = NANOSECONDS_PER_SECOND / GTIMER_SCALE;
+>  }
+>  
+>  static Property arm_cpu_reset_cbar_property =
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 83a809d4bac4..666c03871fdf 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -932,8 +932,18 @@ struct ARMCPU {
+>       */
+>      DECLARE_BITMAP(sve_vq_map, ARM_MAX_VQ);
+>      DECLARE_BITMAP(sve_vq_init, ARM_MAX_VQ);
+> +
+> +    /* Generic timer counter frequency, in Hz */
+> +    uint64_t gt_cntfrq;
+>  };
+>  
+> +static inline unsigned int gt_cntfrq_period_ns(ARMCPU *cpu)
+> +{
+> +    /* XXX: Could include qemu/timer.h to get NANOSECONDS_PER_SECOND? */
+> +    const unsigned int ns_per_s = 1000 * 1000 * 1000;
+> +    return ns_per_s > cpu->gt_cntfrq ? ns_per_s / cpu->gt_cntfrq : 1;
+> +}
 
-In currently implementation there will be a memory leak when
-nbd_client_connect() returns error status. Here is an easy way to reproduce:
+Are you inlining this helper for performance reasons ? 
 
-1. run qemu-iotests as follow and check the result with asan:
-    ./check -raw 143
+C. 
 
-Following is the asan output backtrack:
-Direct leak of 40 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:295
-    #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:49
-    #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-sockets.c:386
-    #5 0x56281da8062f in nbd_config  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #6 0x56281da8062f in nbd_process_options  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #7 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
 
-Direct leak of 15 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc  (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup  (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1834
-    #4 0x56281da804ac in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Indirect leak of 24 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281dab41a3 in qobject_input_type_str_keyval   /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:536
-    #4 0x56281dab2ee9 in visit_type_str   /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:297
-    #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members  qapi/qapi-visit-sockets.c:141
-    #6 0x56281dad17b6 in visit_type_SocketAddress_members      qapi/qapi-visit-sockets.c:366
-    #7 0x56281dad186a in visit_type_SocketAddress     qapi/qapi-visit-sockets.c:393
-    #8 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #9 0x56281da8062f in nbd_process_options   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #10 0x56281da8062f in nbd_open  /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
----
- block/nbd.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/block/nbd.c b/block/nbd.c
-index 1239761..bc40a25 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1881,6 +1881,11 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     ret = nbd_client_connect(bs, errp);
-     if (ret < 0) {
-+        object_unref(OBJECT(s->tlscreds));
-+        qapi_free_SocketAddress(s->saddr);
-+        g_free(s->export);
-+        g_free(s->tlscredsid);
-+        g_free(s->x_dirty_bitmap);
-         return ret;
-     }
-     /* successfully connected */
--- 
-2.7.2.windows.1
-
+>  void arm_cpu_post_init(Object *obj);
+>  
+>  uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz);
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 65c4441a3896..1cc0551081a0 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -2409,7 +2409,9 @@ static CPAccessResult gt_stimer_access(CPUARMState *env,
+>  
+>  static uint64_t gt_get_countervalue(CPUARMState *env)
+>  {
+> -    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / GTIMER_SCALE;
+> +    ARMCPU *cpu = env_archcpu(env);
+> +
+> +    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) / gt_cntfrq_period_ns(cpu);
+>  }
+>  
+>  static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
+> @@ -2445,7 +2447,7 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeridx)
+>           * set the timer for as far in the future as possible. When the
+>           * timer expires we will reset the timer for any remaining period.
+>           */
+> -        if (nexttick > INT64_MAX / GTIMER_SCALE) {
+> +        if (nexttick > INT64_MAX / gt_cntfrq_period_ns(cpu)) {
+>              timer_mod_ns(cpu->gt_timer[timeridx], INT64_MAX);
+>          } else {
+>              timer_mod(cpu->gt_timer[timeridx], nexttick);
+> @@ -2874,11 +2876,13 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
+>  
+>  static uint64_t gt_virt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>  {
+> +    ARMCPU *cpu = env_archcpu(env);
+> +
+>      /* Currently we have no support for QEMUTimer in linux-user so we
+>       * can't call gt_get_countervalue(env), instead we directly
+>       * call the lower level functions.
+>       */
+> -    return cpu_get_clock() / GTIMER_SCALE;
+> +    return cpu_get_clock() / gt_cntfrq_period(cpu);
+>  }
+>  
+>  static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
+> 
 
 
