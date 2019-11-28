@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AB010CA28
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:12:06 +0100 (CET)
-Received: from localhost ([::1]:49436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C074510CA4E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 15:22:18 +0100 (CET)
+Received: from localhost ([::1]:49530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaKWZ-00084Q-3D
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:12:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1iaKgS-00053j-6V
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 09:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47891)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iaK9L-0004H7-5z
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:06 -0500
+ (envelope-from <clg@kaod.org>) id 1iaK9Q-0004MC-LA
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iaK9G-0007hx-K0
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:00 -0500
-Received: from 4.mo5.mail-out.ovh.net ([178.33.111.247]:53839)
+ (envelope-from <clg@kaod.org>) id 1iaK9M-0008AS-W9
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:06 -0500
+Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:56803)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK9G-0007Lx-8x
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:47:58 -0500
-Received: from player688.ha.ovh.net (unknown [10.109.146.50])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 400A725CC42
- for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:47:53 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iaK9M-0007oT-Ok
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 08:48:04 -0500
+Received: from player688.ha.ovh.net (unknown [10.108.57.188])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 1755414C826
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 14:48:00 +0100 (CET)
 Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
  (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 4044DC94B5F4;
- Thu, 28 Nov 2019 13:47:46 +0000 (UTC)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 12D28C94B6CE;
+ Thu, 28 Nov 2019 13:47:53 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 6/7] target/ppc: add support for Hypervisor Facility
- Unavailable Exception
-Date: Thu, 28 Nov 2019 14:46:59 +0100
-Message-Id: <20191128134700.16091-7-clg@kaod.org>
+Subject: [PATCH 7/7] target/ppc: Enforce that the root page directory size
+ must be at least 5
+Date: Thu, 28 Nov 2019 14:47:00 +0100
+Message-Id: <20191128134700.16091-8-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191128134700.16091-1-clg@kaod.org>
 References: <20191128134700.16091-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 14990231361968507878
+X-Ovh-Tracer-Id: 14992201686115978214
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpledtrdejiedrhedtrddvvdefnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedu
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.111.247
+X-Received-From: 46.105.61.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,213 +63,37 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The privileged message send and clear instructions (msgsndp & msgclrp)
-are privileged, but will generate a hypervisor facility unavailable
-exception if not enabled in the HFSCR and executed in privileged
-non-hypervisor state.
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-Add checks when accessing the DPDES register and when using the
-msgsndp and msgclrp isntructions.
+According to the ISA the root page directory size of a radix tree for
+either process or partition scoped translation must be >=3D 5.
 
-Based on previous work from Suraj Jitindar Singh.
+Thus add this to the list of conditions checked when validating the
+partition table entry in validate_pate();
 
-Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+[clg: - checkpatch fixes ]
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h                |  6 ++++++
- target/ppc/helper.h             |  1 +
- target/ppc/excp_helper.c        |  9 +++++++++
- target/ppc/misc_helper.c        | 24 ++++++++++++++++++++++++
- target/ppc/translate.c          |  4 ++++
- target/ppc/translate_init.inc.c | 18 ++++++++++++++++++
- 6 files changed, 62 insertions(+)
+ target/ppc/mmu-radix64.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 8ffcfa0ea162..52608dfe6ff4 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -397,6 +397,10 @@ typedef struct ppc_v3_pate_t {
- #define PSSCR_ESL         PPC_BIT(42) /* Enable State Loss */
- #define PSSCR_EC          PPC_BIT(43) /* Exit Criterion */
-=20
-+/* HFSCR bits */
-+#define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities=
- */
-+#define HFSCR_IC_MSGP  0xA
-+
- #define msr_sf   ((env->msr >> MSR_SF)   & 1)
- #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
- #define msr_shv  ((env->msr >> MSR_SHV)  & 1)
-@@ -1333,6 +1337,8 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHy=
-pervisor *vhyp);
- #endif
-=20
- void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
-+void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
-bit,
-+                              int sprn, int cause);
-=20
- static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
- {
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 76518a1df6f0..14c9a30a45c9 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -643,6 +643,7 @@ DEF_HELPER_3(store_dcr, void, env, tl, tl)
-=20
- DEF_HELPER_2(load_dump_spr, void, env, i32)
- DEF_HELPER_2(store_dump_spr, void, env, i32)
-+DEF_HELPER_4(hfscr_facility_check, void, env, i32, i32, i32)
- DEF_HELPER_4(fscr_facility_check, void, env, i32, i32, i32)
- DEF_HELPER_4(msr_facility_check, void, env, i32, i32, i32)
- DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env)
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 5a247945e97f..17dad626b74e 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -469,6 +469,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
-     case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
-     */
- #ifdef TARGET_PPC64
-         env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
-+#endif
-+        break;
-+    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
-ption */
-+#ifdef TARGET_PPC64
-+        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
-IC_POS);
-+        srr0 =3D SPR_HSRR0;
-+        srr1 =3D SPR_HSRR1;
-+        new_msr |=3D (target_ulong)MSR_HVB;
-+        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
- #endif
-         break;
-     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index a0e7bd9c32d3..0cd44c6edd82 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -41,6 +41,17 @@ void helper_store_dump_spr(CPUPPCState *env, uint32_t =
-sprn)
- }
-=20
- #ifdef TARGET_PPC64
-+static void raise_hv_fu_exception(CPUPPCState *env, uint32_t bit,
-+                                  uint32_t sprn, uint32_t cause,
-+                                  uintptr_t raddr)
-+{
-+    qemu_log("Facility SPR %d is unavailable (SPR HFSCR:%d)\n", sprn, bi=
-t);
-+
-+    env->spr[SPR_HFSCR] &=3D ~((target_ulong)FSCR_IC_MASK << FSCR_IC_POS=
-);
-+
-+    raise_exception_err_ra(env, POWERPC_EXCP_HV_FU, cause, raddr);
-+}
-+
- static void raise_fu_exception(CPUPPCState *env, uint32_t bit,
-                                uint32_t sprn, uint32_t cause,
-                                uintptr_t raddr)
-@@ -55,6 +66,17 @@ static void raise_fu_exception(CPUPPCState *env, uint3=
-2_t bit,
- }
- #endif
-=20
-+void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-+                                 uint32_t sprn, uint32_t cause)
-+{
-+#ifdef TARGET_PPC64
-+    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
-+                                     !(env->spr[SPR_HFSCR] & (1UL << bit=
-))) {
-+        raise_hv_fu_exception(env, bit, sprn, cause, GETPC());
-+    }
-+#endif
-+}
-+
- void helper_fscr_facility_check(CPUPPCState *env, uint32_t bit,
-                                 uint32_t sprn, uint32_t cause)
- {
-@@ -108,6 +130,8 @@ void helper_store_pcr(CPUPPCState *env, target_ulong =
-value)
-=20
- target_ulong helper_load_dpdes(CPUPPCState *env)
- {
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, SPR_DPDES,
-+                                HFSCR_IC_MSGP);
-     if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-         return 1;
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 066e324464db..b8ecb8fa1d51 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -212,6 +212,9 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t l=
+pid, ppc_v3_pate_t *pate)
+     if (lpid =3D=3D 0 && !msr_hv) {
+         return false;
      }
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index ba759ab2bb0f..e9e70ca149fd 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -6652,6 +6652,8 @@ static void gen_msgclrp(DisasContext *ctx)
-     GEN_PRIV;
- #else
-     CHK_SV;
-+    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
-+                             HFSCR_IC_MSGP);
-     gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
- #endif /* defined(CONFIG_USER_ONLY) */
++    if ((pate->dw0 & PATE1_R_PRTS) < 5) {
++        return false;
++    }
+     /* More checks ... */
+     return true;
  }
-@@ -6662,6 +6664,8 @@ static void gen_msgsndp(DisasContext *ctx)
-     GEN_PRIV;
- #else
-     CHK_SV;
-+    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, 0,
-+                             HFSCR_IC_MSGP);
-     gen_helper_book3s_msgsndp(cpu_gpr[rB(ctx->opcode)]);
- #endif /* defined(CONFIG_USER_ONLY) */
- }
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-index 7c74a763ba66..154e01451270 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -468,11 +468,15 @@ static void spr_write_pcr(DisasContext *ctx, int sp=
-rn, int gprn)
- /* DPDES */
- static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
- {
-+    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
-+                             HFSCR_IC_MSGP);
-     gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
- }
-=20
- static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
- {
-+    gen_hfscr_facility_check(ctx, SPR_HFSCR, HFSCR_MSGP, sprn,
-+                             HFSCR_IC_MSGP);
-     gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
- }
- #endif
-@@ -7523,6 +7527,20 @@ POWERPC_FAMILY(e600)(ObjectClass *oc, void *data)
- #define POWERPC970_HID5_INIT 0x00000000
- #endif
-=20
-+void gen_hfscr_facility_check(DisasContext *ctx, int facility_sprn, int =
-bit,
-+                              int sprn, int cause)
-+{
-+    TCGv_i32 t1 =3D tcg_const_i32(bit);
-+    TCGv_i32 t2 =3D tcg_const_i32(sprn);
-+    TCGv_i32 t3 =3D tcg_const_i32(cause);
-+
-+    gen_helper_hfscr_facility_check(cpu_env, t1, t2, t3);
-+
-+    tcg_temp_free_i32(t3);
-+    tcg_temp_free_i32(t2);
-+    tcg_temp_free_i32(t1);
-+}
-+
- static void gen_fscr_facility_check(DisasContext *ctx, int facility_sprn=
-,
-                                     int bit, int sprn, int cause)
- {
 --=20
 2.21.0
 
