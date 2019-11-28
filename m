@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED02010C62B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:50:09 +0100 (CET)
-Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4786310C625
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 10:46:51 +0100 (CET)
+Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaGR6-0003mX-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60145)
+	id 1iaGNr-0000wh-T5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 04:46:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGKP-0007RF-Ix
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGKO-0007RC-G6
  for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:43:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGDl-0006nq-AR
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1iaGDk-0006mU-Nw
  for qemu-devel@nongnu.org; Thu, 28 Nov 2019 04:36:23 -0500
-Received: from relay.sw.ru ([185.231.240.75]:46686)
+Received: from relay.sw.ru ([185.231.240.75]:46676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iaGDk-0006ab-Lg; Thu, 28 Nov 2019 04:36:21 -0500
+ id 1iaGDk-0006aU-EZ; Thu, 28 Nov 2019 04:36:20 -0500
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1iaGDd-0001D9-Dn; Thu, 28 Nov 2019 12:36:13 +0300
+ id 1iaGDd-0001D9-OT; Thu, 28 Nov 2019 12:36:13 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH v10 0/3] qcow2: advanced compression options
-Date: Thu, 28 Nov 2019 12:36:10 +0300
-Message-Id: <1574933773-293866-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v10 1/3] block: introduce compress filter driver
+Date: Thu, 28 Nov 2019 12:36:11 +0300
+Message-Id: <1574933773-293866-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1574933773-293866-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1574933773-293866-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -49,36 +51,237 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The compression filter driver is introduced as suggested by Max.
-A sample usage of the filter can be found in the test #214.
-Now, multiple clusters can be written compressed.
-It is useful for the backup job.
+Allow writing all the data compressed through the filter driver.
+The written data will be aligned by the cluster size.
+Based on the QEMU current implementation, that data can be written to
+unallocated clusters only. May be used for a backup job.
 
-v10:
-  01: The option 'compress' moved up in the QAPI BlockdevDriver list
-      to fit its alphabetic order (noticed by Eric).
-  02: bdrv_filter_default_perms assigned to .bdrv_child_perm in the
-      compression filter driver interface (suggested by Max, noticed
-      by Vladimir).
-
-  Discussed in the email thread with the message ID:
-  <1574779398-88772-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-
-Andrey Shinkevich (3):
-  block: introduce compress filter driver
-  qcow2: Allow writing compressed data of multiple clusters
-  tests/qemu-iotests: add case to write compressed data of multiple
-    clusters
-
- block/Makefile.objs        |   1 +
- block/filter-compress.c    | 166 +++++++++++++++++++++++++++++++++++++++++++++
- block/qcow2.c              | 102 ++++++++++++++++++++--------
- qapi/block-core.json       |  10 +--
- tests/qemu-iotests/214     |  43 ++++++++++++
- tests/qemu-iotests/214.out |  14 ++++
- 6 files changed, 305 insertions(+), 31 deletions(-)
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ block/Makefile.objs     |   1 +
+ block/filter-compress.c | 166 ++++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/block-core.json    |  10 +--
+ 3 files changed, 173 insertions(+), 4 deletions(-)
  create mode 100644 block/filter-compress.c
 
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index e394fe0..330529b 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -43,6 +43,7 @@ block-obj-y += crypto.o
+ 
+ block-obj-y += aio_task.o
+ block-obj-y += backup-top.o
++block-obj-y += filter-compress.o
+ 
+ common-obj-y += stream.o
+ 
+diff --git a/block/filter-compress.c b/block/filter-compress.c
+new file mode 100644
+index 0000000..4aa189b
+--- /dev/null
++++ b/block/filter-compress.c
+@@ -0,0 +1,166 @@
++/*
++ * Compress filter block driver
++ *
++ * Copyright (c) 2019 Virtuozzo International GmbH
++ *
++ * Author:
++ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
++ *   (based on block/copy-on-read.c by Max Reitz)
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) any later version of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "block/block_int.h"
++#include "qemu/module.h"
++#include "qapi/error.h"
++
++
++static int compress_open(BlockDriverState *bs, QDict *options, int flags,
++                         Error **errp)
++{
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
++                               errp);
++    if (!bs->file) {
++        return -EINVAL;
++    }
++
++    if (!bs->file->bs->drv || !block_driver_can_compress(bs->file->bs->drv)) {
++        error_setg(errp, "Compression is not supported with this drive %s",
++                   bdrv_get_device_name(bs->file->bs));
++        return -ENOTSUP;
++    }
++
++    bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
++        (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
++
++    bs->supported_zero_flags = BDRV_REQ_WRITE_UNCHANGED |
++        ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
++            bs->file->bs->supported_zero_flags);
++
++    return 0;
++}
++
++
++static int64_t compress_getlength(BlockDriverState *bs)
++{
++    return bdrv_getlength(bs->file->bs);
++}
++
++
++static int coroutine_fn compress_co_preadv_part(BlockDriverState *bs,
++                                                uint64_t offset, uint64_t bytes,
++                                                QEMUIOVector *qiov,
++                                                size_t qiov_offset,
++                                                int flags)
++{
++    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                               flags);
++}
++
++
++static int coroutine_fn compress_co_pwritev_part(BlockDriverState *bs,
++                                                 uint64_t offset,
++                                                 uint64_t bytes,
++                                                 QEMUIOVector *qiov,
++                                                 size_t qiov_offset, int flags)
++{
++    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset,
++                                flags | BDRV_REQ_WRITE_COMPRESSED);
++}
++
++
++static int coroutine_fn compress_co_pwrite_zeroes(BlockDriverState *bs,
++                                                  int64_t offset, int bytes,
++                                                  BdrvRequestFlags flags)
++{
++    return bdrv_co_pwrite_zeroes(bs->file, offset, bytes, flags);
++}
++
++
++static int coroutine_fn compress_co_pdiscard(BlockDriverState *bs,
++                                             int64_t offset, int bytes)
++{
++    return bdrv_co_pdiscard(bs->file, offset, bytes);
++}
++
++
++static void compress_refresh_limits(BlockDriverState *bs, Error **errp)
++{
++    BlockDriverInfo bdi;
++    int ret;
++
++    if (!bs->file) {
++        return;
++    }
++
++    ret = bdrv_get_info(bs->file->bs, &bdi);
++    if (ret < 0 || bdi.cluster_size == 0) {
++        return;
++    }
++
++    bs->bl.request_alignment = bdi.cluster_size;
++}
++
++
++static void compress_eject(BlockDriverState *bs, bool eject_flag)
++{
++    bdrv_eject(bs->file->bs, eject_flag);
++}
++
++
++static void compress_lock_medium(BlockDriverState *bs, bool locked)
++{
++    bdrv_lock_medium(bs->file->bs, locked);
++}
++
++
++static bool compress_recurse_is_first_non_filter(BlockDriverState *bs,
++                                                 BlockDriverState *candidate)
++{
++    return bdrv_recurse_is_first_non_filter(bs->file->bs, candidate);
++}
++
++
++static BlockDriver bdrv_compress = {
++    .format_name                        = "compress",
++
++    .bdrv_open                          = compress_open,
++    .bdrv_child_perm                    = bdrv_filter_default_perms,
++
++    .bdrv_getlength                     = compress_getlength,
++
++    .bdrv_co_preadv_part                = compress_co_preadv_part,
++    .bdrv_co_pwritev_part               = compress_co_pwritev_part,
++    .bdrv_co_pwrite_zeroes              = compress_co_pwrite_zeroes,
++    .bdrv_co_pdiscard                   = compress_co_pdiscard,
++    .bdrv_refresh_limits                = compress_refresh_limits,
++
++    .bdrv_eject                         = compress_eject,
++    .bdrv_lock_medium                   = compress_lock_medium,
++
++    .bdrv_co_block_status               = bdrv_co_block_status_from_backing,
++
++    .bdrv_recurse_is_first_non_filter   = compress_recurse_is_first_non_filter,
++
++    .has_variable_length                = true,
++    .is_filter                          = true,
++};
++
++static void bdrv_compress_init(void)
++{
++    bdrv_register(&bdrv_compress);
++}
++
++block_init(bdrv_compress_init);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0cf68fe..93ee04e 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2884,15 +2884,16 @@
+ # @copy-on-read: Since 3.0
+ # @blklogwrites: Since 3.0
+ # @blkreplay: Since 4.2
++# @compress: Since 5.0
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevDriver',
+   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+-            'cloop', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
+-            'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'luks',
+-            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', 'qcow',
+-            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
++            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
++            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
++            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
++            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+             'sheepdog',
+             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', 'vxhs' ] }
+@@ -4044,6 +4045,7 @@
+       'blkreplay':  'BlockdevOptionsBlkreplay',
+       'bochs':      'BlockdevOptionsGenericFormat',
+       'cloop':      'BlockdevOptionsGenericFormat',
++      'compress':   'BlockdevOptionsGenericFormat',
+       'copy-on-read':'BlockdevOptionsGenericFormat',
+       'dmg':        'BlockdevOptionsGenericFormat',
+       'file':       'BlockdevOptionsFile',
 -- 
 1.8.3.1
 
