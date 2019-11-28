@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117DE10CEE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:29:36 +0100 (CET)
-Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDEF10CEEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Nov 2019 20:37:00 +0100 (CET)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaPTq-0002qO-LG
-	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:29:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38095)
+	id 1iaPaz-00068C-Ol
+	for lists+qemu-devel@lfdr.de; Thu, 28 Nov 2019 14:36:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1iaOgT-0006EM-8x
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:38:36 -0500
+ (envelope-from <pasic@linux.ibm.com>) id 1iaMxi-0002J5-Qk
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1iaOg7-00089e-BU
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:38:12 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40325
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1iaOg5-0007sD-Ut
- for qemu-devel@nongnu.org; Thu, 28 Nov 2019 13:38:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574966287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fdgt50hjQpCcnDwoPcms4KQ6G0kR/izkzJKfGW8hlVo=;
- b=Dew3G0v/VybL6SQLMndRRakHUrygB3zk+HpoCx+pCiVz763c7YEy4CjTgSJNfqPkeEvJVA
- 1xez/+l6nwXiwa4rrIVB7c0UkWaVitHyjH9oCJFjfMqCK/fRv7UM8DHegkq0HwB9ZMSfUQ
- PdTA8gDYfSWNtM3/r72WL9sB2AvshoA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-di8Dn4O8NIWDu5yr6Isx2Q-1; Thu, 28 Nov 2019 13:38:06 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 172E6107ACC4;
- Thu, 28 Nov 2019 18:38:05 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-145.ams2.redhat.com
- [10.36.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9912D5C1B0;
- Thu, 28 Nov 2019 18:38:01 +0000 (UTC)
-Subject: Re: [PATCH v2] qga: fence guest-set-time if hwclock not available
-To: Cornelia Huck <cohuck@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>
-References: <20191128181100.23187-1-cohuck@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a3c19a0f-54bd-b406-aff3-d68ec95c0cff@redhat.com>
-Date: Thu, 28 Nov 2019 19:38:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <pasic@linux.ibm.com>) id 1iaMxf-0001Zz-KH
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:13 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54266)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1iaMxf-0001UN-Cm
+ for qemu-devel@nongnu.org; Thu, 28 Nov 2019 11:48:11 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xASGlOtF158989
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:48:08 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wjar8q4nr-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 11:48:08 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
+ Thu, 28 Nov 2019 16:48:05 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 28 Nov 2019 16:48:03 -0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xASGm1r249217646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Nov 2019 16:48:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85545AE053;
+ Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 437FDAE04D;
+ Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.152.224.151])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 28 Nov 2019 16:48:01 +0000 (GMT)
+Date: Thu, 28 Nov 2019 17:48:00 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Michael Roth <mdroth@linux.vnet.ibm.com>
+Subject: Re: [PATCH v2] virtio-pci: disable vring processing when
+ bus-mastering is disabled
+In-Reply-To: <20191120005003.27035-1-mdroth@linux.vnet.ibm.com>
+References: <20191120005003.27035-1-mdroth@linux.vnet.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191128181100.23187-1-cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: di8Dn4O8NIWDu5yr6Isx2Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112816-0008-0000-0000-000003397A79
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112816-0009-0000-0000-00004A588781
+Message-Id: <20191128174800.2d4a2cc2.pasic@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-28_05:2019-11-28,2019-11-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 clxscore=1015 suspectscore=0 mlxlogscore=999
+ adultscore=0 malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911280142
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,90 +91,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P_._Berrang=c3=a9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Janosch Frank <frankja@linux.ibm.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cornelia,
+On Tue, 19 Nov 2019 18:50:03 -0600
+Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
 
-On 11/28/19 19:11, Cornelia Huck wrote:
-> The Posix implementation of guest-set-time invokes hwclock to
-> set/retrieve the time to/from the hardware clock. If hwclock
-> is not available, the user is currently informed that "hwclock
-> failed to set hardware clock to system time", which is quite
-> misleading. This may happen e.g. on s390x, which has a different
-> timekeeping concept anyway.
+[..]
+> I.e. the calling code is only scheduling a one-shot BH for
+> virtio_blk_data_plane_stop_bh, but somehow we end up trying to process
+> an additional virtqueue entry before we get there. This is likely due
+> to the following check in virtio_queue_host_notifier_aio_poll:
 > 
-> Let's check for the availability of the hwclock command and
-> return QERR_UNSUPPORTED for guest-set-time if it is not available.
+>   static bool virtio_queue_host_notifier_aio_poll(void *opaque)
+>   {
+>       EventNotifier *n = opaque;
+>       VirtQueue *vq = container_of(n, VirtQueue, host_notifier);
+>       bool progress;
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
+>       if (!vq->vring.desc || virtio_queue_empty(vq)) {
+>           return false;
+>       }
 > 
-> v1 (RFC) -> v2:
-> - use hwclock_path[]
-> - use access() instead of stat()
+>       progress = virtio_queue_notify_aio_vq(vq);
 > 
-> ---
->  qga/commands-posix.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> namely the call to virtio_queue_empty(). In this case, since no new
+> requests have actually been issued, shadow_avail_idx == last_avail_idx,
+> so we actually try to access the vring via vring_avail_idx() to get
+> the latest non-shadowed idx:
 > 
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 1c1a165daed8..ffb6420fa9cd 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
->      pid_t pid;
->      Error *local_err = NULL;
->      struct timeval tv;
-> +    const char hwclock_path[] = "/sbin/hwclock";
+>   int virtio_queue_empty(VirtQueue *vq)
+>   {
+>       bool empty;
+>       ...
+> 
+>       if (vq->shadow_avail_idx != vq->last_avail_idx) {
+>           return 0;
+>       }
+> 
+>       rcu_read_lock();
+>       empty = vring_avail_idx(vq) == vq->last_avail_idx;
+>       rcu_read_unlock();
+>       return empty;
+> 
+> but since the IOMMU region has been disabled we get a bogus value (0
+> usually), which causes virtio_queue_empty() to falsely report that
+> there are entries to be processed, which causes errors such as:
+> 
+>   "virtio: zero sized buffers are not allowed"
+> 
+> or
+> 
+>   "virtio-blk missing headers"
+> 
+> and puts the device in an error state.
+> 
 
-Did you drop the "static" storage-class specifier on purpose?
+I've seen something similar on s390x with virtio-ccw-blk under
+protected virtualization, that made me wonder about how virtio-blk in
+particular but also virtio in general handles shutdown and reset.
 
-> +    static int hwclock_available = -1;
-> +
-> +    if (hwclock_available < 0) {
-> +        hwclock_available = (access(hwclock_path, X_OK) == 0);
-> +    }
-> +
-> +    if (!hwclock_available) {
-> +        error_setg(errp, QERR_UNSUPPORTED);
-> +        return;
-> +    }
->  
->      /* If user has passed a time, validate and set it. */
->      if (has_time) {
-> @@ -195,7 +206,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
->  
->          /* Use '/sbin/hwclock -w' to set RTC from the system time,
->           * or '/sbin/hwclock -s' to set the system time from RTC. */
-> -        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
-> +        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
+This makes me wonder if bus-mastering disabled is the only scenario when
+a something like vdev->disabled should be used.
 
-I think it's somewhat obscure now that arg="hwclock" is supposed to
-match the last pathname component in hwclock_path="/sbin/hwclock".
+In particular I have the following mechanism in mind 
 
-There are multiple ways to compute "arg" like that, of course. But I
-think they all look uglier than the above. So I'm fine if we just keep this.
+qemu_system_reset() --> ... --> qemu_devices_reset() --> ... --> 
+--> virtio_[transport]_reset() --> ... --> virtio_bus_stop_ioeventfd()
+--> virtio_blk_data_plane_stop()
 
+which in turn triggesrs the following cascade:
+virtio_blk_data_plane_stop_bh --> virtio_queue_aio_set_host_notifier_handler() -->
+--> virtio_queue_host_notifier_aio_read() 
+which however calls 
+virtio_queue_notify_aio_vq() if the notifier tests as
+positive. 
 
-If you purposely dropped the "static", then:
+Since we still have vq->handle_aio_output that means we may
+call virtqueue_pop() during the reset procedure.
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+This was a problem for us, because (due to a bug) the shared pages that
+constitute the virtio ring weren't shared any more. And thus we got
+the infamous  
+virtio_error(vdev, "virtio: zero sized buffers are not allowed").
 
-If you just missed the "static" and now intend to add it back, then for v3:
+Now the bug is no more, and we can tolerate that somewhat late access
+to the virtio ring.
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+But it keeps nagging me, is it really OK for the device to access the
+virtio ring during reset? My intuition tells me that the device should
+not look for new requests after it has been told to reset.
 
-Thanks
-Laszlo
+Opinions? (Michael, Connie)
 
+Regards,
+Halil
 
-
->                 NULL, environ);
->          _exit(EXIT_FAILURE);
->      } else if (pid < 0) {
+> This patch works around the issue by introducing virtio_set_disabled(),
+> which sets a 'disabled' flag to bypass checks like virtio_queue_empty()
+> when bus-mastering is disabled. Since we'd check this flag at all the
+> same sites as vdev->broken, we replace those checks with an inline
+> function which checks for either vdev->broken or vdev->disabled.
+> 
+> The 'disabled' flag is only migrated when set, which should be fairly
+> rare, but to maintain migration compatibility we disable it's use for
+> older machine types. Users requiring the use of the flag in conjunction
+> with older machine types can set it explicitly as a virtio-device
+> option.
 > 
 
 
