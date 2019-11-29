@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C884010D370
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:48:40 +0100 (CET)
-Received: from localhost ([::1]:56468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E931410D385
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:56:45 +0100 (CET)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iactC-0001WE-7g
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:48:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56772)
+	id 1iad13-0006hO-1R
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:56:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iacgk-000248-NS
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:35:47 -0500
+ (envelope-from <berrange@redhat.com>) id 1iacl4-0005i0-NR
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:40:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iacgg-00018y-7i
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:35:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51521
+ (envelope-from <berrange@redhat.com>) id 1iacks-00060N-Oz
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:40:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37554
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iacgg-00013x-2K
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:35:42 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iackr-0005nP-KN
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:40:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575020136;
+ s=mimecast20190719; t=1575020399;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DMsZARe2XDdIVriaT1Gq502tc7sHsm5MBzXp838lYsU=;
- b=cyI4Q21YuIniR2qFQuoGcfMU9hw6DrsJ2mP3ucoGox/FcaTBM085usOOkynCESZPvn3L8L
- 5Qz+WWMZfzCARFui6wZfY86GkL0MMn+Jg6zThB2iQeJtD+NK+yxozclRtlj1Wbhz4339jY
- TBq6gZMRpoCVen35V1gw/nJWI1xULHA=
+ bh=cEi63xphGA0hDHE99c1lbTzYSPufT+CNiHr6UJwxBtM=;
+ b=Y1PK7SC5WtZJwldtd8x3bz8xKDRGP+HXfHmzDfmyzhTAlq/BD6aW7zQB6XG0lwuQMXAb0e
+ mKADcOKi5puuYY8LIyJfTYCj3a9eBqbW+XR2O97JK69NBQamFqtyLk/QQdtec1cZ/Nvzz7
+ Wt2Mnh5+tAb0bXtvQ/GymG94QIg/6BI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-B510O55nOeCYx6q8vYYNlQ-1; Fri, 29 Nov 2019 04:35:33 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-327-Yrfb_ilDNeyUFGTe4a4Gtg-1; Fri, 29 Nov 2019 04:39:56 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD50C80183C;
- Fri, 29 Nov 2019 09:35:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 003D1107ACC4;
+ Fri, 29 Nov 2019 09:39:55 +0000 (UTC)
 Received: from redhat.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 135C110013A7;
- Fri, 29 Nov 2019 09:35:29 +0000 (UTC)
-Date: Fri, 29 Nov 2019 09:35:26 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B09AF60BF1;
+ Fri, 29 Nov 2019 09:39:44 +0000 (UTC)
+Date: Fri, 29 Nov 2019 09:39:41 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v2] qga: fence guest-set-time if hwclock not available
-Message-ID: <20191129093526.GC2260471@redhat.com>
-References: <20191128181100.23187-1-cohuck@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
+Message-ID: <20191129093941.GD2260471@redhat.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191129070253.5hwksjrapomk434x@sirius.home.kraxel.org>
+ <CAMxuvawieN7JQZkRku19v5X-o6q664Wz1Rtx3+Wz3d33m-7Tug@mail.gmail.com>
+ <20191129092713.GA2260471@redhat.com>
+ <6b441014-1852-3257-2bc5-897cc51d08dc@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191128181100.23187-1-cohuck@redhat.com>
+In-Reply-To: <6b441014-1852-3257-2bc5-897cc51d08dc@redhat.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: B510O55nOeCYx6q8vYYNlQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Yrfb_ilDNeyUFGTe4a4Gtg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -74,35 +78,30 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laszlo Ersek <lersek@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 07:11:00PM +0100, Cornelia Huck wrote:
-> The Posix implementation of guest-set-time invokes hwclock to
-> set/retrieve the time to/from the hardware clock. If hwclock
-> is not available, the user is currently informed that "hwclock
-> failed to set hardware clock to system time", which is quite
-> misleading. This may happen e.g. on s390x, which has a different
-> timekeeping concept anyway.
+On Fri, Nov 29, 2019 at 10:33:39AM +0100, Paolo Bonzini wrote:
+> On 29/11/19 10:27, Daniel P. Berrang=C3=A9 wrote:
+> >> Yes, with a fallback path currently using a temporary file under /tmp
+> >> (we may want to use shm_open() instead, or a different location such
+> >> as XDG_RUNTIME_DIR? - and use O_TMPFILE)
+> > We can't assume either /tmp or XDG_RUNTIME_DIR is on tmpfs as that is n=
+o
+> > where near standard across all OS distros, and even if on tmpfs these
+> > dirs can be size limited to a significant subset of available RAM. IOW
+> > we can't safely use them unless explicitly told to.
 >=20
-> Let's check for the availability of the hwclock command and
-> return QERR_UNSUPPORTED for guest-set-time if it is not available.
->=20
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->=20
-> v1 (RFC) -> v2:
-> - use hwclock_path[]
-> - use access() instead of stat()
->=20
-> ---
->  qga/commands-posix.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> Agreed, mkstemp+shm_open seems better.  Perhaps this could be done in
+> hostmem-memfd.c though, basically as a fallback option?  In principle
+> one could even use getmntent to search for a hugetlbfs mount.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
+With mkstemp you still need to pick a location, and I don't think it
+is clear there is a reliable choice that will always work.
 
 Regards,
 Daniel
