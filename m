@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0A810D5AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:28:33 +0100 (CET)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF010D554
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:01:22 +0100 (CET)
+Received: from localhost ([::1]:57847 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafNv-0004al-VD
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:28:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48068)
+	id 1iaexa-0000St-9z
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:01:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iaeQD-0003pt-57
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:26:51 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iaef9-0006sC-TT
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iaeQ8-0006pR-78
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:26:45 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41661
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iaef2-0000rw-9B
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57058
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iaeQ6-0006lc-8N
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:26:44 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaef2-0000gD-3b
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575026800;
+ s=mimecast20190719; t=1575027726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GdJ7wFtpkbCYQb0UUv7JqqkrdQ5bZAFgG4V/lCfE4cs=;
- b=R5pAcHc/X3Lw+xUFHeO+6FkoqksUqHh8nvPO6CP9O7w4iYiI2D+csRFNmrKOc3X/OFhjE3
- asA4NtTBsl8/LYRs9biIBPbcr3H8N5orGb45dnm8oDRjtzVmRt5kU90adEabrf2dJ0t7QZ
- qEe/i9w/ZyvvgG1J+AqHD8Xt8VIQu/w=
+ bh=kmZVuKEFiONgUFEeMlmk46DxyuEvOn8n4lTM36ThZdA=;
+ b=Pmp8CQ47l7EkHOouowb9DFB6ygUgOT76WEU7wfnrnw1YREr1KIDglIAOxMpcY+6F4ZVZIQ
+ T1oXozr4W64Ae6Nu4Lmg/vcRvUv0Q4B2GsMvv0YOdYGPMkNC8jjVxJ/oWqxJWQp5kGzspX
+ 6UaksbHCm6aOjejMbtYtKIRduKMOZRc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-XDe4H-CyODK-p-4lczFucw-1; Fri, 29 Nov 2019 06:26:38 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-210-LQlLx7BYN2aJyJirqzA6nA-1; Fri, 29 Nov 2019 06:42:03 -0500
+X-MC-Unique: LQlLx7BYN2aJyJirqzA6nA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAE3980183C;
- Fri, 29 Nov 2019 11:26:37 +0000 (UTC)
-Received: from work-vm (ovpn-117-253.ams2.redhat.com [10.36.117.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C34EA19C4F;
- Fri, 29 Nov 2019 11:26:36 +0000 (UTC)
-Date: Fri, 29 Nov 2019 11:26:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] build: rename CONFIG_LIBCAP to CONFIG_LIBCAP_NG
-Message-ID: <20191129112634.GB2837@work-vm>
-References: <20191129111632.22840-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C61C61800D42;
+ Fri, 29 Nov 2019 11:42:01 +0000 (UTC)
+Received: from gondolin (ovpn-116-140.ams2.redhat.com [10.36.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BFC25D9E1;
+ Fri, 29 Nov 2019 11:41:55 +0000 (UTC)
+Date: Fri, 29 Nov 2019 12:41:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v2 01/13] s390x: protvirt: Add diag308 subcodes 8 - 10
+Message-ID: <20191129124140.5f2e7d59.cohuck@redhat.com>
+In-Reply-To: <46d14db9-f7cc-adce-df1c-d35cd26dc546@linux.ibm.com>
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-2-frankja@linux.ibm.com>
+ <d12fe27e-fcce-1704-8ac3-5dca18627422@redhat.com>
+ <46d14db9-f7cc-adce-df1c-d35cd26dc546@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20191129111632.22840-1-pbonzini@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: XDe4H-CyODK-p-4lczFucw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/36xmoFmHr8fWMKGpbfJB/A7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,131 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, groug@kaod.org
+Cc: thuth@redhat.com, pmorel@linux.ibm.com,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> Since we are using the newer capng library, rename the symbol to match.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+--Sig_/36xmoFmHr8fWMKGpbfJB/A7
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Fri, 29 Nov 2019 12:18:56 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-> ---
->  configure             |  2 +-
->  qemu-bridge-helper.c  |  6 +++---
->  scsi/qemu-pr-helper.c | 12 ++++++------
->  3 files changed, 10 insertions(+), 10 deletions(-)
+> On 11/29/19 11:09 AM, David Hildenbrand wrote:
+
+> >> @@ -94,6 +115,7 @@ enum s390_reset {
+> >>      S390_RESET_REIPL,
+> >>      S390_RESET_MODIFIED_CLEAR,
+> >>      S390_RESET_LOAD_NORMAL,
+> >> +    S390_RESET_PV, =20
+> >=20
+> > I do wonder if that should be called S390_RESET_PV_START =20
 >=20
-> diff --git a/configure b/configure
-> index 6099be1d84..afe9393f04 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6759,7 +6759,7 @@ if test "$l2tpv3" =3D "yes" ; then
->    echo "CONFIG_L2TPV3=3Dy" >> $config_host_mak
->  fi
->  if test "$cap_ng" =3D "yes" ; then
-> -  echo "CONFIG_LIBCAP=3Dy" >> $config_host_mak
-> +  echo "CONFIG_LIBCAP_NG=3Dy" >> $config_host_mak
->  fi
->  echo "CONFIG_AUDIO_DRIVERS=3D$audio_drv_list" >> $config_host_mak
->  for drv in $audio_drv_list; do
-> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-> index 3d50ec094c..88b26747fc 100644
-> --- a/qemu-bridge-helper.c
-> +++ b/qemu-bridge-helper.c
-> @@ -43,7 +43,7 @@
-> =20
->  #include "net/tap-linux.h"
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  #include <cap-ng.h>
->  #endif
-> =20
-> @@ -207,7 +207,7 @@ static int send_fd(int c, int fd)
->      return sendmsg(c, &msg, 0);
->  }
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int drop_privileges(void)
->  {
->      /* clear all capabilities */
-> @@ -246,7 +246,7 @@ int main(int argc, char **argv)
->      int access_allowed, access_denied;
->      int ret =3D EXIT_SUCCESS;
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->      /* if we're run from an suid binary, immediately drop privileges pre=
-serving
->       * cap_net_admin */
->      if (geteuid() =3D=3D 0 && getuid() !=3D geteuid()) {
-> diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-> index debb18f4aa..0659ceef09 100644
-> --- a/scsi/qemu-pr-helper.c
-> +++ b/scsi/qemu-pr-helper.c
-> @@ -24,7 +24,7 @@
->  #include <linux/dm-ioctl.h>
->  #include <scsi/sg.h>
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  #include <cap-ng.h>
->  #endif
->  #include <pwd.h>
-> @@ -70,7 +70,7 @@ static int num_active_sockets =3D 1;
->  static int noisy;
->  static int verbose;
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int uid =3D -1;
->  static int gid =3D -1;
->  #endif
-> @@ -97,7 +97,7 @@ static void usage(const char *name)
->  "                            (default '%s')\n"
->  "  -T, --trace [[enable=3D]<pattern>][,events=3D<file>][,file=3D<file>]\=
-n"
->  "                            specify tracing options\n"
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  "  -u, --user=3DUSER           user to drop privileges to\n"
->  "  -g, --group=3DGROUP         group to drop privileges to\n"
->  #endif
-> @@ -827,7 +827,7 @@ static void close_server_socket(void)
->      num_active_sockets--;
->  }
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int drop_privileges(void)
->  {
->      /* clear all capabilities */
-> @@ -920,7 +920,7 @@ int main(int argc, char **argv)
->              pidfile =3D g_strdup(optarg);
->              pidfile_specified =3D true;
->              break;
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->          case 'u': {
->              unsigned long res;
->              struct passwd *userinfo =3D getpwnam(optarg);
-> @@ -1056,7 +1056,7 @@ int main(int argc, char **argv)
->          exit(EXIT_FAILURE);
->      }
-> =20
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->      if (drop_privileges() < 0) {
->          error_report("Failed to drop privileges: %s", strerror(errno));
->          exit(EXIT_FAILURE);
-> --=20
-> 2.21.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I have no strong feelings for the name, whatever floats you boat(s)
+
+PVY_MC_PVFACE?
+
+But seriously speaking, I'd also prefer S390_RESET_PV_START.
+
+--Sig_/36xmoFmHr8fWMKGpbfJB/A7
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3hA/QACgkQ3s9rk8bw
+L6/mJRAAlkXp+fNPteWY51QePojOEknL4C+Dl9mzA9coLHZB74Hj2+ORXEANx0Le
+5L2377LqeoScm0ZDsyyAD1+EBDVC/KOjYiw9s4rDbuOk/mWyAjilXwz4GYgCs5BF
+hN7PWL1k3bZJ8PO4LAQzRLLrYfLIvl61PIHP5ppODD0p4juoOrsdfFCSDRnAvnL3
+Hfn1FP2+FTk1su9ict/3TXTn4vywDJYLHW6kuhh1JFuv/zIryEac0w6uHp9C2IcP
+m//dwjBdU38ueS6mVPrfoRGmUAMNBfS8yrx8UB+LFxqw/wMLZrqi/26KaZ9fjUiO
+yS16n01cX+ZF35vc/F+12Snjj3GxN/tqDt/3yQNbC7y3raX1SkA8Q2VeVQEww6iF
+e6eWjP4ooenf23hbhxOSEPySGuXrSOAZLnNLuMHqgob766lujalxfWvBrL4ZavMa
+1yKL2oOKI150aTOF0SvWYenGK45ahvoZh38tTpQr18QCMhvOwQN4ye67wAMW1JtO
+WD3hvyuIIupif7yTHF0+3pYq43VlGbaMKT1firwtGPsTlQTrUEQv61c/7d2jytJk
+rIHt9jXUFxqrBVdeFxrl18mDC3QOIf45dRJZfiD7xP8MtzTASp9rYiF8CWETB5JZ
+o8tS88g0EvujDBKbiIoiF8K0EiF4sYxqtyat7/l18OEA6sR+ktM=
+=XpF8
+-----END PGP SIGNATURE-----
+
+--Sig_/36xmoFmHr8fWMKGpbfJB/A7--
 
 
