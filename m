@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE35410D240
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:10:06 +0100 (CET)
-Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F016F10D26B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:27:21 +0100 (CET)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iabLo-00089o-1z
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:10:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38624)
+	id 1iabcW-00089w-DH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:27:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44567)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1iab9R-0000jU-KY
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:57:19 -0500
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iabCR-0002h0-AA
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:00:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1iab9K-0001s4-Ta
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:57:12 -0500
-Received: from mga17.intel.com ([192.55.52.151]:7656)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iab9J-0001FI-FZ
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:57:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2019 23:56:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,256,1571727600"; d="scan'208";a="207273400"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga008.fm.intel.com with ESMTP; 28 Nov 2019 23:56:56 -0800
-From: Tao Xu <tao3.xu@intel.com>
-To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
- sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
- lvivier@redhat.com
-Subject: [PATCH v20 8/8] tests/bios-tables-test: add test cases for ACPI HMAT
-Date: Fri, 29 Nov 2019 15:56:34 +0800
-Message-Id: <20191129075634.682-9-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191129075634.682-1-tao3.xu@intel.com>
-References: <20191129075634.682-1-tao3.xu@intel.com>
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iabCM-0003jk-QQ
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:00:21 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38471)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1iabCM-0003U6-HN
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:00:18 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p17so1041425wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 00:00:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=+ee4XCjoKvbrVyPiVj9oLKOCyeyLum3UV/GHyTlIxYM=;
+ b=kUM/t9eNYO5Sj0IK08qF8PQQ3uaXFcMDeHjDR09kJr24eyxL361WeKH+MWmhYp2wQy
+ 1r3b0WIR7AtHvu8K5/0zpVt9KM3KKM2iRwiG6rCLZGCU1cqysANrWn1it1ux0dwlgB93
+ 9LE40KS+b7nnu/pRuB3n7hnolaq63YKMSJHDSPrRc3jGgyNDDOb1Zb+KejnOHTHs1hCO
+ e+oORBIEuXvCC56Mbl96z5scxTX4BCW0JQTbl3SdEZCFdxmRZdMKQbxsYuZ8KyO+/YYN
+ eGHcY0dgJboBRWNtrtyYjcCBhO+/rPZNuYmnz8gJ82fIqfh5I53gFs+mW/ECV+vLzZ8H
+ JiAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+ee4XCjoKvbrVyPiVj9oLKOCyeyLum3UV/GHyTlIxYM=;
+ b=HST4UHAQoiyKvHGmQST2J1vtkA0HQsjWpeIEXoTCXs9RYRKMWaNhwBfeeVeGAW2Vza
+ 2hxZD5pz1kAiplAiqH2NSaE2Z617XOvdk2CHwbi80BVnZ1ikQjqKGAePjceCHg8X/ihQ
+ WBn117AKwZ69woOIGmQRwOZGoonWaW18ttASpJV4qm1YVfOSliU7UdEDX0zsTCfe0H7d
+ mZHOpQ8XZ26Evgl5dbbJgHkfMBEAEJD/lsgk5URon1en/dPPRJyrBxRDS4/40pQujxi6
+ RZiqEoee6Po5+nHm+RH6L3MJOjYVSxpQWgWRv5h00BFBOTincJbV35sDfVriRJBzkETL
+ 4ieg==
+X-Gm-Message-State: APjAAAVxuvIs3eczE4ODe5lk2YOxHtPdOXFqw5fCuG6dIkiedLue4giV
+ 2urKd283qdTFn9DIJnRqsbv/rtkE0t0=
+X-Google-Smtp-Source: APXvYqwe09tQue8nHFk39vsJX6xeXrU4LjnL73ldh1erXrGAbZkkczFZHKsgHhvq7oyW2aznTfQtgA==
+X-Received: by 2002:a1c:3cd4:: with SMTP id j203mr8250680wma.90.1575014413834; 
+ Fri, 29 Nov 2019 00:00:13 -0800 (PST)
+Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
+ [34.244.242.0])
+ by smtp.gmail.com with ESMTPSA id i127sm13433594wma.35.2019.11.29.00.00.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Nov 2019 00:00:13 -0800 (PST)
+Date: Fri, 29 Nov 2019 09:00:15 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH 2/3] target/arm: Honor HCR_EL2.TID1 trapping requirements
+Message-ID: <20191129080015.GE29312@toto>
+References: <20191128161718.24361-1-maz@kernel.org>
+ <20191128161718.24361-3-maz@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191128161718.24361-3-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,170 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <Jingqi.liu@intel.com>, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org, Daniel Black <daniel@linux.ibm.com>,
- jonathan.cameron@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI table HMAT has been introduced, QEMU now builds HMAT tables for
-Heterogeneous Memory with boot option '-numa node'.
+On Thu, Nov 28, 2019 at 04:17:17PM +0000, Marc Zyngier wrote:
+> HCR_EL2.TID1 mandates that access from EL1 to REVIDR_EL1, AIDR_EL1
+> (and their 32bit equivalents) as well as TCMTR, TLBTR are trapped
+> to EL2. QEMU ignores it, naking it harder for a hypervisor to
 
-Add test cases on PC and Q35 machines with 2 numa nodes.
-Because HMAT is generated when system enable numa, the
-following tables need to be added for this test:
-    tests/data/acpi/pc/APIC.acpihmat
-    tests/data/acpi/pc/SRAT.acpihmat
-    tests/data/acpi/pc/HMAT.acpihmat
-    tests/data/acpi/pc/DSDT.acpihmat
-    tests/data/acpi/q35/APIC.acpihmat
-    tests/data/acpi/q35/SRAT.acpihmat
-    tests/data/acpi/q35/HMAT.acpihmat
-    tests/data/acpi/q35/DSDT.acpihmat
+Typo: "making it harder"
 
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel Black <daniel@linux.ibm.com>
-Reviewed-by: Jingqi Liu <Jingqi.liu@intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
 
-No changes in v20.
+> virtualize the HW (though to be fair, no known hypervisor actually
+> cares).
+> 
+> Do the right thing by trapping to EL2 if HCR_EL2.TID1 is set.
+> 
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  target/arm/helper.c | 36 ++++++++++++++++++++++++++++++++----
+>  1 file changed, 32 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 0b6887b100..9bff769692 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1973,6 +1973,26 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>      return ret;
+>  }
+>  
+> +static CPAccessResult access_aa64_tid1(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                                       bool isread)
+> +{
+> +    if (arm_hcr_el2_eff(env) & HCR_TID1) {
+> +        return CP_ACCESS_TRAP_EL2;
+> +    }
 
-Changes in v18:
-    - Remove unit "ns".
+I think we need to check for EL1 here?
 
-Changes in v17:
-    - Update the latency and bandwidth
+Otherwise:
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Changes in v15:
-    - Make tests without breaking CI (Michael)
+Cheers,
+Edgar
 
-Changes in v13:
-    - Use decimal notation with appropriate suffix for cache size
----
- tests/bios-tables-test-allowed-diff.h |  8 +++++
- tests/bios-tables-test.c              | 44 +++++++++++++++++++++++++++
- tests/data/acpi/pc/APIC.acpihmat      |  0
- tests/data/acpi/pc/DSDT.acpihmat      |  0
- tests/data/acpi/pc/HMAT.acpihmat      |  0
- tests/data/acpi/pc/SRAT.acpihmat      |  0
- tests/data/acpi/q35/APIC.acpihmat     |  0
- tests/data/acpi/q35/DSDT.acpihmat     |  0
- tests/data/acpi/q35/HMAT.acpihmat     |  0
- tests/data/acpi/q35/SRAT.acpihmat     |  0
- 10 files changed, 52 insertions(+)
- create mode 100644 tests/data/acpi/pc/APIC.acpihmat
- create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
- create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
- create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
-diff --git a/tests/bios-tables-test-allowed-diff.h b/tests/bios-tables-test-allowed-diff.h
-index dfb8523c8b..3c9e0c979b 100644
---- a/tests/bios-tables-test-allowed-diff.h
-+++ b/tests/bios-tables-test-allowed-diff.h
-@@ -1 +1,9 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/APIC.acpihmat",
-+"tests/data/acpi/pc/SRAT.acpihmat",
-+"tests/data/acpi/pc/HMAT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/q35/APIC.acpihmat",
-+"tests/data/acpi/q35/SRAT.acpihmat",
-+"tests/data/acpi/q35/HMAT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 79f5da092f..9823820043 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -947,6 +947,48 @@ static void test_acpi_virt_tcg_numamem(void)
- 
- }
- 
-+static void test_acpi_tcg_acpi_hmat(const char *machine)
-+{
-+    test_data data;
-+
-+    memset(&data, 0, sizeof(data));
-+    data.machine = machine;
-+    data.variant = ".acpihmat";
-+    test_acpi_one(" -machine hmat=on"
-+                  " -smp 2,sockets=2"
-+                  " -m 128M,slots=2,maxmem=1G"
-+                  " -object memory-backend-ram,size=64M,id=m0"
-+                  " -object memory-backend-ram,size=64M,id=m1"
-+                  " -numa node,nodeid=0,memdev=m0"
-+                  " -numa node,nodeid=1,memdev=m1,initiator=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=65534M"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=65534"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=32767M"
-+                  " -numa hmat-cache,node-id=0,size=10K,level=1,"
-+                  "associativity=direct,policy=write-back,line=8"
-+                  " -numa hmat-cache,node-id=1,size=10K,level=1,"
-+                  "associativity=direct,policy=write-back,line=8",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_q35_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_Q35);
-+}
-+
-+static void test_acpi_piix4_tcg_acpi_hmat(void)
-+{
-+    test_acpi_tcg_acpi_hmat(MACHINE_PC);
-+}
-+
- static void test_acpi_virt_tcg(void)
- {
-     test_data data = {
-@@ -991,6 +1033,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-+        qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-diff --git a/tests/data/acpi/pc/APIC.acpihmat b/tests/data/acpi/pc/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/HMAT.acpihmat b/tests/data/acpi/pc/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/SRAT.acpihmat b/tests/data/acpi/pc/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/APIC.acpihmat b/tests/data/acpi/q35/APIC.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/HMAT.acpihmat b/tests/data/acpi/q35/HMAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/SRAT.acpihmat b/tests/data/acpi/q35/SRAT.acpihmat
-new file mode 100644
-index 0000000000..e69de29bb2
--- 
-2.20.1
-
+> +
+> +    return CP_ACCESS_OK;
+> +}
+> +
+> +static CPAccessResult access_aa32_tid1(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                                       bool isread)
+> +{
+> +    if (arm_feature(env, ARM_FEATURE_V8)) {
+> +        return access_aa64_tid1(env, ri, isread);
+> +    }
+> +
+> +    return CP_ACCESS_OK;
+> +}
+> +
+>  static const ARMCPRegInfo v7_cp_reginfo[] = {
+>      /* the old v6 WFI, UNPREDICTABLE in v7 but we choose to NOP */
+>      { .name = "NOP", .cp = 15, .crn = 7, .crm = 0, .opc1 = 0, .opc2 = 4,
+> @@ -2136,7 +2156,9 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+>       */
+>      { .name = "AIDR", .state = ARM_CP_STATE_BOTH,
+>        .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 7,
+> -      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0 },
+> +      .access = PL1_R, .type = ARM_CP_CONST,
+> +      .accessfn = access_aa64_tid1,
+> +      .resetvalue = 0 },
+>      /* Auxiliary fault status registers: these also are IMPDEF, and we
+>       * choose to RAZ/WI for all cores.
+>       */
+> @@ -6732,7 +6754,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>                .access = PL1_R, .resetvalue = cpu->midr },
+>              { .name = "REVIDR_EL1", .state = ARM_CP_STATE_BOTH,
+>                .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 6,
+> -              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+> +              .access = PL1_R,
+> +              .accessfn = access_aa64_tid1,
+> +              .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+>              REGINFO_SENTINEL
+>          };
+>          ARMCPRegInfo id_cp_reginfo[] = {
+> @@ -6747,14 +6771,18 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>              /* TCMTR and TLBTR exist in v8 but have no 64-bit versions */
+>              { .name = "TCMTR",
+>                .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 2,
+> -              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0 },
+> +              .access = PL1_R,
+> +              .accessfn = access_aa32_tid1,
+> +              .type = ARM_CP_CONST, .resetvalue = 0 },
+>              REGINFO_SENTINEL
+>          };
+>          /* TLBTR is specific to VMSA */
+>          ARMCPRegInfo id_tlbtr_reginfo = {
+>                .name = "TLBTR",
+>                .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 3,
+> -              .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = 0,
+> +              .access = PL1_R,
+> +              .accessfn = access_aa32_tid1,
+> +              .type = ARM_CP_CONST, .resetvalue = 0,
+>          };
+>          /* MPUIR is specific to PMSA V6+ */
+>          ARMCPRegInfo id_mpuir_reginfo = {
+> -- 
+> 2.20.1
+> 
+> 
 
