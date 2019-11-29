@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C62810D284
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:35:59 +0100 (CET)
-Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88FA10D28A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:42:30 +0100 (CET)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iabkr-0004OT-8R
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:35:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
+	id 1iabrB-0000Ce-PM
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:42:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60337)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iabHW-0006BF-V8
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:05:41 -0500
+ (envelope-from <thuth@redhat.com>) id 1iabLj-0000uV-6Z
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:10:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iabHS-00029w-IO
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:05:35 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37314)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iabHS-0001uf-7U
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:05:34 -0500
-Received: by mail-wm1-x343.google.com with SMTP id f129so13928345wmf.2
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 00:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J9JetO+uhJXA5OT8wAQIKGJ1b25Un92xYXGpLfxp5oY=;
- b=DhsbK8cAFsaCAlVAMiVxICNCpqi3OESlZiB2UHbSTAZpcETCc5UOBnzYdfOMV1Sv/h
- rG+nC9o81r5fXxQIkgjc+90Fgow8rzk81i6MGsVqqrVgUV5zZg6+p6+QJv0PS50Bqktj
- tcJanpW/hV0f6Hpsg3hPjdAEVS6GRSFJcRA1V+5lkwCcOHPAHHFJQR0UPTnPanQ7TKa3
- h/kkFHTxYTRHpEL0KiaP+l257Eeq4WuHjWfJzcF9X3c+h/FjhyU90LWV4nv9RtZwnyj/
- TKFs5KcEr8HURaVMsGNUv9AornGxR9Mhd0CFiEG3clTkvoAIrlhjQhXb8RqkSwxjf7Te
- 7TUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J9JetO+uhJXA5OT8wAQIKGJ1b25Un92xYXGpLfxp5oY=;
- b=ZKqK1ZYo5bcHDvbCiRN41oVY4X8vhK5zh8M2c2dMH5MuqItM/pg/aJmM05DV8yYwz0
- kz/gXMfcW8yAvtCDrPPfsRrAvwnGXD7EvdRpmicOv3qNqrVT32MU2OAoPdSpanWXAXtA
- LyEwQlY7Zh+KqQiR54Jw1Jx2EnI0xMWvMSBQudpbH1GkEvdwQdrWjc7RYTlbTPNXX37p
- kqq++90LqTP7kUsJ9i1wrRkcRMvKuLWtrcewIJXm+x3hAXPRPriNBPq1YpG1heBTqQNp
- aYe4Fxsn4RWkQ9TRNqsG2JOeGSCRVp3z/4QWmUltowgNb6QNhdYVfxOZPm515/XEjJNj
- 77bw==
-X-Gm-Message-State: APjAAAUTFxy5ZlypAMdgX60+lD8TiBdUaKomxeBVgESV5RxhXjAaFmie
- bAjDNpoTyI4usXV6v3nZibhldKH9jw0msJZHSTY=
-X-Google-Smtp-Source: APXvYqxT7cTQK/Xs1jA2VVA4ALckISk+Yv9+B1enKTbLqYQTzyFkpcjwVebulzuzuDzS05RSrmqGcHO9xHTLdMsdFFo=
-X-Received: by 2002:a05:600c:20e:: with SMTP id
- 14mr12594677wmi.107.1575014730534; 
- Fri, 29 Nov 2019 00:05:30 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1iabLb-00076o-U4
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:09:54 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32913
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iabLN-0006v3-2K
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:09:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575014973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=i6mODMKzHLcFZc7atK8pZ0aym6OtQ3BRKt0+fWq/cLw=;
+ b=TPkvUIVQ/mgqHpfv7BN7o04t6tHWs+j8oaNcnKC4o1tJEYWj9QzalW+Ny50DHWqvVQjipo
+ oVV6QH8FvTjhk29n2aTVZEN0CQrP90+DOxeuDllQ6/kRuMCAUYoc/OjTv3ccbkzht8/5An
+ cqXE9/AaDPpGjqsiJtyCatnTnnRndyo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-kKkep36ZMFCeLApah1V2xw-1; Fri, 29 Nov 2019 03:09:30 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91DC9800D54;
+ Fri, 29 Nov 2019 08:09:29 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-159.ams2.redhat.com [10.36.116.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C0660901;
+ Fri, 29 Nov 2019 08:09:25 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] travis.yml: Run tcg tests with tci
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191128153525.2646-1-thuth@redhat.com>
+ <20191128153525.2646-3-thuth@redhat.com>
+ <672f7c1a-71d6-5dfa-101a-ed3070be0b05@weilnetz.de>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <81dcaadd-8941-a192-bb15-5791f0d8e17b@redhat.com>
+Date: Fri, 29 Nov 2019 09:09:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191128164810.54279-1-felipe@nutanix.com>
- <20191128164810.54279-3-felipe@nutanix.com>
-In-Reply-To: <20191128164810.54279-3-felipe@nutanix.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 29 Nov 2019 12:05:18 +0400
-Message-ID: <CAJ+F1C+p_Sz6abgsYAyty4BwLDX4=rFTSnSV82E6ioVVpLRWdA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] ich9: fix getter type for sci_int property
-To: Felipe Franciosi <felipe@nutanix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <672f7c1a-71d6-5dfa-101a-ed3070be0b05@weilnetz.de>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: kKkep36ZMFCeLApah1V2xw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,60 +77,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe Mathieu-Daude <philmd@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 8:48 PM Felipe Franciosi <felipe@nutanix.com> wrote=
-:
->
-> When QOM APIs were added to ich9 in 6f1426ab, the getter for sci_int was
-> written using uint32_t. However, the object property is uint8_t. This
-> fixes the getter for correctness.
->
-> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
+On 28/11/2019 22.06, Stefan Weil wrote:
+> Am 28.11.19 um 16:35 schrieb Thomas Huth:
+> 
+>> So far we only have compile coverage for tci. But since commit
+>> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
+>> for INDEX_op_ld16u_i64") has been included now, we can also run the
+>> "tcg" and "qtest" tests with tci, so let's enable them in Travis now.
+>> Since we don't gain much additional test coverage by compiling all
+>> targets, and TCI is broken e.g. with the Sparc targets, we also limit
+> 
+> 
+> As far as I know it is broken with Sparc hosts (not Sparc targets).
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+It was definitely hanging with sparc64-softmmu:
 
-> ---
->  hw/isa/lpc_ich9.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> index f5526f9c3b..3a9c4f0503 100644
-> --- a/hw/isa/lpc_ich9.c
-> +++ b/hw/isa/lpc_ich9.c
-> @@ -631,9 +631,7 @@ static void ich9_lpc_get_sci_int(Object *obj, Visitor=
- *v, const char *name,
->                                   void *opaque, Error **errp)
->  {
->      ICH9LPCState *lpc =3D ICH9_LPC_DEVICE(obj);
-> -    uint32_t value =3D lpc->sci_gsi;
-> -
-> -    visit_type_uint32(v, name, &value, errp);
-> +    visit_type_uint8(v, name, &lpc->sci_gsi, errp);
->  }
->
->  static void ich9_lpc_add_properties(ICH9LPCState *lpc)
-> @@ -641,7 +639,7 @@ static void ich9_lpc_add_properties(ICH9LPCState *lpc=
-)
->      static const uint8_t acpi_enable_cmd =3D ICH9_APM_ACPI_ENABLE;
->      static const uint8_t acpi_disable_cmd =3D ICH9_APM_ACPI_DISABLE;
->
-> -    object_property_add(OBJECT(lpc), ACPI_PM_PROP_SCI_INT, "uint32",
-> +    object_property_add(OBJECT(lpc), ACPI_PM_PROP_SCI_INT, "uint8",
->                          ich9_lpc_get_sci_int,
->                          NULL, NULL, NULL, NULL);
->      object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_ENABLE_=
-CMD,
-> --
-> 2.20.1
->
+ https://travis-ci.com/huth/qemu/jobs/261335163
 
+... but since you've mentioned that it should work with the 32-bit
+sparc-softmmu, I'll give it another try with sparc-softmmu.
 
---=20
-Marc-Andr=C3=A9 Lureau
+>> the target list to a reasonable subset now (which should still get
+>> us test coverage by tests/boot-serial-test for example).
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  .travis.yml | 7 ++++---
+>>  1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/.travis.yml b/.travis.yml
+>> index c09b6a0014..de7559e777 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -215,10 +215,11 @@ matrix:
+>>          - TEST_CMD=""
+>>  
+>>  
+>> -    # We manually include builds which we disable "make check" for
+>> +    # Check the TCG interpreter (TCI)
+>>      - env:
+>> -        - CONFIG="--enable-debug --enable-tcg-interpreter"
+>> -        - TEST_CMD=""
+>> +        - CONFIG="--enable-debug --enable-tcg-interpreter --disable-containers
+> 
+> 
+> You could also --disable-kvm. It should not be needed, and disabling it
+> might need less build resources.
+
+Good idea. KVM is not usable by default in Travis, so we should not
+accidentally use it for the tests that specify "accel=kvm:tcg", but in
+case that changes with a future version of the environment, we should
+maybe be prepared.
+
+>> +            --target-list=alpha-softmmu,arm-softmmu,hppa-softmmu,m68k-softmmu,microblaze-softmmu,moxie-softmmu,ppc-softmmu,s390x-softmmu,x86_64-softmmu"
+>> +        - TEST_CMD="make check-qtest check-tcg V=1"
+>>  
+>>  
+>>      # We don't need to exercise every backend with every front-end
+> 
+> 
+> Thank you for adding these tests.
+> 
+> Tested-by: Stefan Weil <sw@weilnetz.de>
+
+ Thanks,
+  Thomas
+
 
