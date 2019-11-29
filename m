@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929CB10D593
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:16:58 +0100 (CET)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1013610D5A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:22:28 +0100 (CET)
+Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafCj-0004SO-M6
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:16:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
+	id 1iafI1-0000C6-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:22:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40587)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iaeLG-0008RB-Ly
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:21:44 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iaeM9-0000fg-C7
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:22:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iaeLC-0000rS-8D
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:21:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58808)
+ (envelope-from <frankja@linux.ibm.com>) id 1iaeM5-0003H7-39
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:22:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23520)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iaeLB-0000bV-Is
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:21:37 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1iaeM4-0003AE-PH
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:22:33 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xATBLUdh117488
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:21:33 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wjah7jhan-1
+ xATBLdEP146752
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:22:30 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wjvfgbhtq-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:21:33 -0500
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:22:30 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 29 Nov 2019 11:21:26 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Fri, 29 Nov 2019 11:22:28 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 29 Nov 2019 11:21:23 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xATBLLNq63176806
+ Fri, 29 Nov 2019 11:22:25 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xATBMNlP52887648
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Nov 2019 11:21:22 GMT
+ Fri, 29 Nov 2019 11:22:23 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DB4E242047;
- Fri, 29 Nov 2019 11:21:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7787F4204B;
+ Fri, 29 Nov 2019 11:22:23 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68DAE4204C;
- Fri, 29 Nov 2019 11:21:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 09BFD4203F;
+ Fri, 29 Nov 2019 11:22:23 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.188.128])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 29 Nov 2019 11:21:21 +0000 (GMT)
-Subject: Re: [PATCH v2 08/13] s390x: protvirt: Add new VCPU reset functions
+ Fri, 29 Nov 2019 11:22:22 +0000 (GMT)
+Subject: Re: [PATCH v2 05/13] s390x: protvirt: Add pv state to cpu env
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-9-frankja@linux.ibm.com>
- <e399a2ea-f011-9716-f878-36d021733573@redhat.com>
+ <20191129094809.26684-6-frankja@linux.ibm.com>
+ <bcf1db05-2366-85a5-2e90-39e4bc2e89da@redhat.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -101,27 +102,27 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Date: Fri, 29 Nov 2019 12:21:20 +0100
+Date: Fri, 29 Nov 2019 12:22:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <e399a2ea-f011-9716-f878-36d021733573@redhat.com>
+In-Reply-To: <bcf1db05-2366-85a5-2e90-39e4bc2e89da@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="sMlxiUMOQ24p2DDqTRfy8Qd51GOEyLwmc"
+ boundary="X8XqA9UllIdce6jtRICbynRozW4VxQ6Wv"
 X-TM-AS-GCONF: 00
-x-cbid: 19112911-0028-0000-0000-000003C196AC
+x-cbid: 19112911-0012-0000-0000-0000036DDDF2
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112911-0029-0000-0000-00002484A515
-Message-Id: <069361ba-8ae0-d7fb-b155-d5005f4024cf@linux.ibm.com>
+x-cbparentid: 19112911-0013-0000-0000-000021A98E9C
+Message-Id: <f68ddc53-d2df-41f5-7698-be94d713a026@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-29_03:2019-11-29,2019-11-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0
- mlxscore=0 suspectscore=0 impostorscore=0 clxscore=1015 bulkscore=0
- adultscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911290100
+ mlxscore=0 mlxlogscore=999
+ adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911290100
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
@@ -141,179 +142,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sMlxiUMOQ24p2DDqTRfy8Qd51GOEyLwmc
-Content-Type: multipart/mixed; boundary="3HAGGKjE9dozk0L57gnxZzsZl6JKCNDbn"
+--X8XqA9UllIdce6jtRICbynRozW4VxQ6Wv
+Content-Type: multipart/mixed; boundary="0l71lYL7b2DfWfl2b2L4Lj7fltdAvzyIh"
 
---3HAGGKjE9dozk0L57gnxZzsZl6JKCNDbn
+--0l71lYL7b2DfWfl2b2L4Lj7fltdAvzyIh
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 11/29/19 11:47 AM, David Hildenbrand wrote:
+On 11/29/19 11:30 AM, David Hildenbrand wrote:
 > On 29.11.19 10:48, Janosch Frank wrote:
->> CPU resets for protected guests need to be done via Ultravisor
->> calls. Hence we need a way to issue these calls for each reset.
->>
->> As we formerly had only one reset function and it was called for
->> initial, as well as for the clear reset, we now need a new interface.
+>> We need to know if we run in pv state or not when emulating
+>> instructions.
 >>
 >> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 >> ---
->>  target/s390x/cpu.c       | 14 ++++++++++++--
->>  target/s390x/kvm-stub.c  | 10 +++++++++-
->>  target/s390x/kvm.c       | 38 ++++++++++++++++++++++++++++++++------
->>  target/s390x/kvm_s390x.h |  4 +++-
->>  4 files changed, 56 insertions(+), 10 deletions(-)
+>>  hw/s390x/s390-virtio-ccw.c | 2 ++
+>>  target/s390x/cpu.h         | 1 +
+>>  2 files changed, 3 insertions(+)
 >>
->> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
->> index bd39cb54b7..52fefa1586 100644
->> --- a/target/s390x/cpu.c
->> +++ b/target/s390x/cpu.c
->> @@ -131,8 +131,18 @@ static void s390_cpu_reset(CPUState *s, cpu_reset=
-_type type)
->>      }
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index e2a302398d..6fcd695b81 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -357,6 +357,7 @@ static void s390_machine_reset(MachineState *machi=
+ne)
+>>                  s390_pv_vcpu_destroy(t);
+>>              }
+>>              s390_pv_vm_destroy();
+>> +            env->pv =3D false;
+>>          }
 >> =20
->>      /* Reset state inside the kernel that we cannot access yet from Q=
-EMU. */
->> -    if (kvm_enabled() && type !=3D S390_CPU_RESET_NORMAL) {
->> -        kvm_s390_reset_vcpu(cpu);
->> +    if (kvm_enabled()) {
->> +        switch (type) {
->> +        case S390_CPU_RESET_CLEAR:
->> +            kvm_s390_reset_vcpu_clear(cpu);
->> +            break;
->> +        case S390_CPU_RESET_INITIAL:
->> +            kvm_s390_reset_vcpu_initial(cpu);
->> +            break;
->> +        case S390_CPU_RESET_NORMAL:
->> +            kvm_s390_reset_vcpu_normal(cpu);
->> +            break;
->> +        }
+>>          qemu_devices_reset();
+>> @@ -406,6 +407,7 @@ static void s390_machine_reset(MachineState *machi=
+ne)
+>>          s390_ipl_pv_unpack();
+>>          /* Verify integrity */
+>>          s390_pv_verify();
+>> +        env->pv =3D true;
+>>          s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+>>          break;
+>>      default:
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index d2af13b345..43e6c286d2 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -116,6 +116,7 @@ struct CPUS390XState {
+>> =20
+>>      /* Fields up to this point are cleared by a CPU reset */
+>>      struct {} end_reset_fields;
+>> +    bool pv; /* protected virtualization */
 >=20
-> I would have assumed you only have to do that for pv? For ordinary
-> guests we can avoid unnecessary ioctls IMHO.
-
-Remember the reset normal IRQ fix in KVM?
-Without it we're not architecture compliant.
-
+> so ... the preceding patches fail to compile?
 >=20
->>      }
->>  }
->> =20
->> diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
->> index 5152e2bdf1..c4cd497f85 100644
->> --- a/target/s390x/kvm-stub.c
->> +++ b/target/s390x/kvm-stub.c
->> @@ -83,7 +83,15 @@ void kvm_s390_cmma_reset(void)
->>  {
->>  }
->> =20
->> -void kvm_s390_reset_vcpu(S390CPU *cpu)
->> +void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
->> +{
->> +}
->> +
->> +void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
->> +{
->> +}
->> +
->> +void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
->>  {
->>  }
->> =20
->> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->> index b802d02ff5..5b1ed3acb4 100644
->> --- a/target/s390x/kvm.c
->> +++ b/target/s390x/kvm.c
->> @@ -154,6 +154,7 @@ static int cap_ri;
->>  static int cap_gs;
->>  static int cap_hpage_1m;
->>  static int cap_protvirt;
->> +static int cap_vcpu_resets;
->> =20
->>  static int active_cmma;
->> =20
->> @@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>      cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->>      cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);=
-
->>      cap_protvirt =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
->> +    cap_vcpu_resets =3D kvm_check_extension(s, KVM_CAP_S390_VCPU_RESE=
-TS);
->> =20
->>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
->>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
->> @@ -407,20 +409,44 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
->>      return 0;
->>  }
->> =20
->> -void kvm_s390_reset_vcpu(S390CPU *cpu)
->> +static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
->>  {
->>      CPUState *cs =3D CPU(cpu);
->> =20
->> -    /* The initial reset call is needed here to reset in-kernel
->> -     * vcpu data that we can't access directly from QEMU
->> -     * (i.e. with older kernels which don't support sync_regs/ONE_REG=
-).
->> -     * Before this ioctl cpu_synchronize_state() is called in common =
-kvm
->> -     * code (kvm-all) */
->> +    /*
->> +     * The reset call is needed here to reset in-kernel vcpu data tha=
-t
->> +     * we can't access directly from QEMU (i.e. with older kernels
->> +     * which don't support sync_regs/ONE_REG).  Before this ioctl
->> +     * cpu_synchronize_state() is called in common kvm code
->> +     * (kvm-all).
->> +     */
->> +    if (cap_vcpu_resets) {
->> +        if (kvm_vcpu_ioctl(cs, KVM_S390_VCPU_RESET, type)) {
->> +            error_report("CPU reset type %ld failed on CPU %i",
->> +                         type, cs->cpu_index);
->> +        }
->> +        return;> +    }
->=20
-> This is broken for S390_CPU_RESET_NORMAL where we don't do a
-> KVM_S390_INITIAL_RESET for !pv ...
->=20
-> Can't we limit that new handling to pv only and keep it out of this pat=
-h?
-
-Look above
-
->=20
->=20
-> [...]
->=20
+> Please properly squash that ...
 >=20
 
+Sure, will do.
 
 
---3HAGGKjE9dozk0L57gnxZzsZl6JKCNDbn--
+--0l71lYL7b2DfWfl2b2L4Lj7fltdAvzyIh--
 
---sMlxiUMOQ24p2DDqTRfy8Qd51GOEyLwmc
+--X8XqA9UllIdce6jtRICbynRozW4VxQ6Wv
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3g/zEACgkQ41TmuOI4
-ufhFEg/9HiGpsVdbwvz0sM0W0LVQiPKCA6hW1pQtbH4wDu1g+qb2cfuZodKOspCC
-N7sL8nlt/+VlsC6fdJe739Ex/N+xMLR+5alyX21Q2txisoULqAgsaN2gBXZ1/hv4
-v4S6Ap6gVVMPLr+gds5OCY3gzcsdXCUlFZOow4+OY7Amy/iha9mZ5O2TMdkjQuc4
-tY9lB7Nc7vK+40lC3t0kVCTZThMNjrEVlRrFezBj/v2+Mx9IoYZgjwML2ivKQQGM
-JreOrgw/V7CAgd8UzVrMalGFx0H6p7Bm2ZUay719a3i9tmxgMqX5v+0TzORCRlDf
-6LhuBbOKlzb3YPZDIuCmvf1EX3c1bqXWieREaXoeNEPlMdLUMnZ/8UOVHDT+7005
-8jdvpQry+Wkdyexvy/+LvxroFpESZPJEXxxjWC8dtql2IjktkyIwqdgY939rPu0J
-nYP9N5td6Ro2r4Ou1i9a5nJI7KvhrqDWD7ojlOgiVSOwBck2ZHJRjsXKzEUwcaCt
-nLYsVpIDd3iTQnKBtLgM/gUTfpWPiCK0wE2HmDNXLzuxSaf3udBRGcGEyDVd0qAL
-iai/Zf2QXT13CSN9JZxMepy0ZI35Ua0p3yGstopU4lD0DqupR6FrYIMe/wNSOc7y
-dMG/MmEEODO53b9qtB5fxMV/vQ6C/pl8oF2AomplQoFUocJB048=
-=WG8b
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3g/24ACgkQ41TmuOI4
+ufjZTQ/8Ci9b7jMomn6talsHTZ5Y/F/zXT/wNY3H0XOdgmPz3xC4k7pzC/PUYRTI
+xnk0D5EwvrRVIk1Wy+sHGypzn2E75nNPsRytAPenxnqBeDZ0cbvcPyPBxYaDDuAp
+rseQSsYfPQUy17z969mzBB7JmFbbKgd/NVIVscocZ4BtPoCKZLR8AGJjvukmIMjy
+Nf9mrJVUC+DRRcdwNkUiUxrFX71ozsWPT+HJ5JaMHEmdvW0ATSeM32CUs6dSr73Q
+ARSJY4kbMbcHKbd+d0VT0KJOP7zU35FhKWURX20ZQgOuo30Qw1j107hFEFtsFCi3
+6LGMvSKYtIOnd2M2dkQvRU1FQsrxApTrmgi/AqtvbZXQzqMYQe76eib9c8XQOUDH
+tKxMDmZA7xUJlvLuDRiw3VQa3rHCN1OGPRgkrQMnVsuhntpy4YiSQZOQIjTswhWO
+1UriKNvcnaE5yPlSonAuR5vjfzMjTWJWcmP28oc/hjjUxq9lDkgZdzRBC0yaUc6K
+qRlEglMpc33PSlZEgxSj/m+VCqWrdapx3HtsmuBwF5Q43u8PJlmPLUha6pDcn/v6
+P4JqoypNx813B21DDAqCnAkysVGqKlQkhDzHF8BeL6OEkBE0EN6bZ7usJYV0Ev19
+xbg7x44XkbG0aqFyjvJojOSgNyJSXWowiPUKg3RKjyqK5uLlMRM=
+=tkwE
 -----END PGP SIGNATURE-----
 
---sMlxiUMOQ24p2DDqTRfy8Qd51GOEyLwmc--
+--X8XqA9UllIdce6jtRICbynRozW4VxQ6Wv--
 
 
