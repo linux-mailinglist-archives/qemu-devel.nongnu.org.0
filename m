@@ -2,111 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814CF10D5C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:42:08 +0100 (CET)
-Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75DF10D5EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:56:37 +0100 (CET)
+Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafb5-0004od-D5
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:42:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
+	id 1iafp3-00075U-KW
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:56:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52871)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iaeUX-0006Z8-9C
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:31:19 -0500
+ (envelope-from <armbru@redhat.com>) id 1iaeyQ-0003KX-MS
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iaeUF-0003Im-CD
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:31:00 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42829
+ (envelope-from <armbru@redhat.com>) id 1iaeyL-0000Rq-PC
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:07 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49754
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iaeUF-000300-7h
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:30:59 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iaeyL-0000Oy-Hm
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575027054;
+ s=mimecast20190719; t=1575028924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ep2ga5Go+58il611/urWiugIRAereRYyq3+NQsVtPH4=;
- b=EHK2B74KGKHRPLq7+dX/QFLWvQZnK3aYaCGISInZ6gO4rdzRfl/+qSLBLmOmRu18TOMSUp
- t2O5bKFElxLYWBXuhEGt/K0BNhUETVzOTjgE4GiQY5EE7gyvgsZTUOofzWyaU9Hg0JTlSG
- hIHoZq0IGr86tuLKEO4JhKV/df9tyEg=
+ in-reply-to:in-reply-to:references:references;
+ bh=09lOm2d0Z6P6U4KAbWDiXZg7WKQjTZqYIf3Hv51a2N4=;
+ b=NzITEttslX+zDzWCWvZgIatIP2RU6fCYowTrHhl7SXPds2MI6AsXPjsoR4e/eNQqv+8Jxu
+ TEvSqjWgDHQXPhY03aRyG51GxkG01jiGWv1xOE2OTW/WWmIT/H78qR/HxTnVBKQPj4zvro
+ kAvX7JLcrhRF/+VCIP+v1ZCnMJXmgZQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-81BftYuuPBy1xLfmalOkmQ-1; Fri, 29 Nov 2019 06:30:48 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-150-kG1zZJGnNOiFYpcna6e37A-1; Fri, 29 Nov 2019 07:01:59 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F391005509;
- Fri, 29 Nov 2019 11:30:47 +0000 (UTC)
-Received: from [10.36.118.44] (unknown [10.36.118.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 449A45D6D2;
- Fri, 29 Nov 2019 11:30:45 +0000 (UTC)
-Subject: Re: [PATCH v2 10/13] s390x: protvirt: Set guest IPL PSW
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-11-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <cfcde766-51a6-d245-e58d-b00a4d9e1f13@redhat.com>
-Date: Fri, 29 Nov 2019 12:30:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D20A010054E3;
+ Fri, 29 Nov 2019 12:01:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EB2F7600C8;
+ Fri, 29 Nov 2019 12:01:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7B0371138606; Fri, 29 Nov 2019 13:01:54 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
+ <20191128172807.788e6aeb@redhat.com>
+ <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
+ <20191129110703.2b15c541@redhat.com>
+ <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com>
+Date: Fri, 29 Nov 2019 13:01:54 +0100
+In-Reply-To: <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com> (Paolo
+ Bonzini's message of "Fri, 29 Nov 2019 11:11:09 +0100")
+Message-ID: <87imn2uc0d.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191129094809.26684-11-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 81BftYuuPBy1xLfmalOkmQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: kG1zZJGnNOiFYpcna6e37A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,116 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.11.19 10:48, Janosch Frank wrote:
-> Handling of CPU reset and setting of the IPL psw from guest storage at
-> offset 0 is done by a Ultravisor call. Let's only fetch it if
-> necessary.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/s390x/pv.c              | 5 +++++
->  hw/s390x/pv.h              | 1 +
->  hw/s390x/s390-virtio-ccw.c | 2 +-
->  linux-headers/linux/kvm.h  | 1 +
->  target/s390x/cpu.c         | 9 ++++++++-
->  5 files changed, 16 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-> index 0218070322..106252833f 100644
-> --- a/hw/s390x/pv.c
-> +++ b/hw/s390x/pv.c
-> @@ -88,6 +88,11 @@ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length)
->      return s390_pv_cmd(KVM_PV_VM_SET_SEC_PARMS, &args);
->  }
->  
-> +int s390_pv_set_ipl_psw(CPUState *cs)
-> +{
-> +    return s390_pv_cmd_vcpu(cs, KVM_PV_VCPU_SET_IPL_PSW, NULL);
-> +}
-> +
->  /*
->   * Called for each component in the SE type IPL parameter block 0.
->   */
-> diff --git a/hw/s390x/pv.h b/hw/s390x/pv.h
-> index eb074e4bc9..e670c67270 100644
-> --- a/hw/s390x/pv.h
-> +++ b/hw/s390x/pv.h
-> @@ -18,6 +18,7 @@ int s390_pv_vm_destroy(void);
->  int s390_pv_vcpu_destroy(CPUState *cs);
->  int s390_pv_vcpu_create(CPUState *cs);
->  int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
-> +int s390_pv_set_ipl_psw(CPUState *cs);
->  int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
->  int s390_pv_perf_clear_reset(void);
->  int s390_pv_verify(void);
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 6fcd695b81..1133de9423 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -408,7 +408,7 @@ static void s390_machine_reset(MachineState *machine)
->          /* Verify integrity */
->          s390_pv_verify();
->          env->pv = true;
-> -        s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
-> +        run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
->          break;
->      default:
->          g_assert_not_reached();
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index 4448d59960..7c6118c703 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -1484,6 +1484,7 @@ enum pv_cmd_id {
->  	KVM_PV_VM_UNSHARE,
->  	KVM_PV_VCPU_CREATE,
->  	KVM_PV_VCPU_DESTROY,
-> +	KVM_PV_VCPU_SET_IPL_PSW,
->  };
->  
->  struct kvm_pv_cmd {
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index 52fefa1586..8c673dab2c 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -37,6 +37,7 @@
->  #include "sysemu/hw_accel.h"
->  #include "hw/qdev-properties.h"
->  #ifndef CONFIG_USER_ONLY
-> +#include "hw/s390x/pv.h"
->  #include "hw/boards.h"
->  #include "sysemu/arch_init.h"
->  #include "sysemu/sysemu.h"
-> @@ -76,7 +77,13 @@ static bool s390_cpu_has_work(CPUState *cs)
->  static void s390_cpu_load_normal(CPUState *s)
->  {
->      S390CPU *cpu = S390_CPU(s);
-> -    cpu->env.psw.addr = ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
-> +    CPUS390XState *env = &cpu->env;
-> +
-> +    if (!env->pv) {
-> +        cpu->env.psw.addr = ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
-> +    } else {
-> +        s390_pv_set_ipl_psw(s);
-> +    }
->      cpu->env.psw.mask = PSW_MASK_32 | PSW_MASK_64;
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Isn't that dead code for pv? AFAIKS, the psw is not synced back ...
-maybe we should.
+> On 29/11/19 11:07, Igor Mammedov wrote:
+>>>> So user who wants something non trivial could override default
+>>>> non-numa behavior with
+>>>>   -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,s=
+hare=3Don \
+>>>>   -machine memdev=3Dmem
+>>>> or use any other backend that suits theirs needs. =20
+>>> That's nice, but not as friendly as a simple -mem-shared.
+>> (I still do not like idea of convenience options but it won't
+>> get onto the way much if implemented as "global property" to memdev,
+>> so I won't object if there is real demand for it)
+>
+> I agree with Igor, we should always think about the generic ("object
+> model") options and only then add convenience option.
 
->      s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
->  }
-> 
++1
 
-
--- 
-Thanks,
-
-David / dhildenb
+[...]
 
 
