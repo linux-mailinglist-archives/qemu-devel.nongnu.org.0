@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5944D10D374
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:49:31 +0100 (CET)
-Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0520310D35F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:41:52 +0100 (CET)
+Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iacu1-0001jB-Em
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51668)
+	id 1iacmb-0005IF-O5
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iacdA-0007mF-Nv
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:32:05 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iacey-0000pq-2C
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iaccx-0008K1-95
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:31:52 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46584
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iaceq-0005Wv-Pj
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:33:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40016
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iaccw-00084s-4N
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:31:51 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iacep-0005P3-S5
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:33:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575019901;
+ s=mimecast20190719; t=1575020023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gDFO3Tr884+CXFho/NF2ORgr9UhXxuyz6Bfi0NpiBz0=;
- b=PjsZEiRnE/ITiyXb3H3G9IWNr3j00Gk15lZK3pU8mrZWgFL/j1QkYdfZOpRexVxqKL8I2o
- R02x0oyHqUVNMg5RE6PQ7ImRd/dM4qM0/ZSgaQrmR+6Bv1gvDQV1wyZJ5WV/J+tnsVAcIr
- J5WkBxXU7Ss94jx98EC9M4z5XvXy6nQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-J8zP5kxmPMGgEPEoa0Zp7Q-1; Fri, 29 Nov 2019 04:31:39 -0500
-Received: by mail-wm1-f72.google.com with SMTP id y14so4124265wmj.9
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 01:31:39 -0800 (PST)
+ bh=3qp03P3CCkaNPpSFfnRZDlsJdXjRmnti1042vHc0s1s=;
+ b=adxezOzL4Q20SkU5sYB5VAH64pEURJFZvlh5UYvrb/0uJsdB+RPxr41iwua/Vtdb2VpeaD
+ CPSNTd/R3gEA2LgjxEJCY6VigxegnkgeoyJKa1iAmBWfg5y2h2DlHbr18tPKq28F45+YlY
+ mNIehHdJ5bev9urYNo2up0ur43aRd8w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-kGCwj-GQOGq9adFbcsEFrw-1; Fri, 29 Nov 2019 04:33:42 -0500
+Received: by mail-wr1-f70.google.com with SMTP id h30so1718196wrh.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 01:33:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wSBoanCvEavmJVqM3Nj1qCBmDZmbemLflV/jI36ZfcM=;
- b=qUYjovU8WP/qebMwTI/TFgZAyYJB1PZQntt0WseDdppZXcytHjUDR09YZvZ97dgw7s
- HlLdt0DS95Mo5bF+cLSXEA0uuzGnRSnQ6ZwRAqU7GLkc5aAwfvXHih17HFjzgHRswMfX
- 7iCJDs1bRR/oTv083ykZ9lpUlrYFfec1WBNi0qWqt/1aM7IXr/8w/EAQ7L+/OWXJS13W
- HtSPvEwfM5638GG6ecttu0a2NrppdGD1zev9xaUjxKQP59s5CbqzwrYat1xFSTeMiwHk
- YfuXuP/sUULWZPQl7qNmB2mJhTsslQBA/Tvrg1urUJOmP72xjz87LC5J0i5LfRGqG8YO
- NaBQ==
-X-Gm-Message-State: APjAAAWZ39TDzUl0W3CqfKR8zWEadBnIL/kD6cdxb8SLA/Pnfb6HSU51
- cTXR2cjuur4ggaVQE/IoI2ZxAtQ0ps6OULpE8p64naJRjDF1qZKFeuQU4Dv2Go31FSAa0ljQepC
- zZqfLoBmLCu5Fzgs=
-X-Received: by 2002:a05:6000:1612:: with SMTP id
- u18mr28666682wrb.306.1575019898051; 
- Fri, 29 Nov 2019 01:31:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMKRUYiA2R/Vg1mjWuum9W1dXilTfdA1J7Hs7sNsbV5gS+4hXuPy9rlanfIJtKXvG7fuSftQ==
-X-Received: by 2002:a05:6000:1612:: with SMTP id
- u18mr28666657wrb.306.1575019897738; 
- Fri, 29 Nov 2019 01:31:37 -0800 (PST)
+ bh=dke7NLkmdO8ceMJ8pQ8q9FeM5rNXBmV8jAUI3+iEJIY=;
+ b=A5nydah5pbEGXPL78E+/ut9+VLGXBZwNaZpfneO0fqH39iT0fiUOm69Nx84iXPAedO
+ 5yv70L3bI64V23WYb3W0c+LIhfdXYJxJ17wdYfaXh7QW8DwFnbOnnvKf42CdwzuoXr9v
+ 4oylwAPr4bnqNp6jWJe9n3rvyIhofFboIzIjD5WA4ljxfu4B993wKSQLd+QXvYBqIOtF
+ VxsO7Qt2RcD+QC/kO5MrhyATXaqVhoCRJ3XLCTA6Lx/ZdHa/I5LDEmgn9IfgCh7eranD
+ MAxXnFVfwmM5Il41nA1UDYHP1NTeNF76SVZA2GLTEtDBzrxamHOUm5TEOzCltrFTNgsu
+ LQxA==
+X-Gm-Message-State: APjAAAXH0zIRtyIhqCSDy7XduQ+/yacKQXtyLNgpqerMBtA4QCbKsYkj
+ XR++2FoYSeMNRyBwfEfL3u4I5H2WC9oCd6qV5pdd/GKrhHY3HP38WG/N5eQZ+cy2uMMzDLKvrGa
+ a4Jfklt+KOTm/5I8=
+X-Received: by 2002:adf:c50a:: with SMTP id q10mr13389728wrf.374.1575020021191; 
+ Fri, 29 Nov 2019 01:33:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyqsTrSM1CMo34niefpDp2+yx6rOvL3laSZdsDfaw3gcInRpvq3L5nLx2IcByRNm/zkY8/IOQ==
+X-Received: by 2002:adf:c50a:: with SMTP id q10mr13389709wrf.374.1575020020932; 
+ Fri, 29 Nov 2019 01:33:40 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
  ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
- by smtp.gmail.com with ESMTPSA id b186sm12607036wmb.21.2019.11.29.01.31.36
+ by smtp.gmail.com with ESMTPSA id u18sm6545537wrn.19.2019.11.29.01.33.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Nov 2019 01:31:37 -0800 (PST)
+ Fri, 29 Nov 2019 01:33:40 -0800 (PST)
 Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
-To: Eduardo Habkost <ehabkost@redhat.com>,
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
- <20191128161021.GA14595@habkost.net>
+ <20191129070253.5hwksjrapomk434x@sirius.home.kraxel.org>
+ <CAMxuvawieN7JQZkRku19v5X-o6q664Wz1Rtx3+Wz3d33m-7Tug@mail.gmail.com>
+ <20191129092713.GA2260471@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <fb122bbe-3fc4-e3cd-899a-c3538237203a@redhat.com>
-Date: Fri, 29 Nov 2019 10:31:36 +0100
+Message-ID: <6b441014-1852-3257-2bc5-897cc51d08dc@redhat.com>
+Date: Fri, 29 Nov 2019 10:33:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191128161021.GA14595@habkost.net>
+In-Reply-To: <20191129092713.GA2260471@redhat.com>
 Content-Language: en-US
-X-MC-Unique: J8zP5kxmPMGgEPEoa0Zp7Q-1
+X-MC-Unique: kGCwj-GQOGq9adFbcsEFrw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,53 +94,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org,
+Cc: qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/11/19 17:10, Eduardo Habkost wrote:
-> On Thu, Nov 28, 2019 at 06:15:16PM +0400, Marc-Andr=C3=A9 Lureau wrote:
->> Hi,
->>
->> Setting up shared memory for vhost-user is a bit complicated from
->> command line, as it requires NUMA setup such as: m 4G -object
->> memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3Don -n=
-uma
->> node,memdev=3Dmem.
->>
->> Instead, I suggest to add a -mem-shared option for non-numa setups,
->> that will make the -mem-path or anonymouse memory shareable.
->=20
-> Can we make this be a "-m" option?
->=20
-> Or, even better: can we make "-m" options be automatically
-> translated to memory-backend-* options somehow?
->=20
+On 29/11/19 10:27, Daniel P. Berrang=C3=A9 wrote:
+>> Yes, with a fallback path currently using a temporary file under /tmp
+>> (we may want to use shm_open() instead, or a different location such
+>> as XDG_RUNTIME_DIR? - and use O_TMPFILE)
+> We can't assume either /tmp or XDG_RUNTIME_DIR is on tmpfs as that is no
+> where near standard across all OS distros, and even if on tmpfs these
+> dirs can be size limited to a significant subset of available RAM. IOW
+> we can't safely use them unless explicitly told to.
 
-The original idea was to always support one NUMA node, so that you could
-do "-numa node,memdev=3D..." to specify a memory backend with -object.
-However, this is not possible anymore since
-
-    if (!mc->cpu_index_to_instance_props ||
-        !mc->get_default_cpu_node_id) {
-        error_setg(errp, "NUMA is not supported by this machine-type");
-        return;
-    }
-
-has been added to hw/core/numa.c.
-
-Therefore, I think instead of -mem-shared we should add a "-m
-memdev=3D..." option.  This option:
-
-* would be mutually exclusive with both -mem-path
-
-* would be handled from allocate_system_memory_nonnuma.
-
-* could be mutually exclusive "-numa node", or could just be mutually
-exclusive with "-numa node,memdev=3D..." (the logical conclusion of that
-however would be an undeprecation of "-numa node,mem=3D...", so that has
-to be taken into account as well).
+Agreed, mkstemp+shm_open seems better.  Perhaps this could be done in
+hostmem-memfd.c though, basically as a fallback option?  In principle
+one could even use getmntent to search for a hugetlbfs mount.
 
 Paolo
 
