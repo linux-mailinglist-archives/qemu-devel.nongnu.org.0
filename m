@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF6110D6A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:08:05 +0100 (CET)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F313710D6FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:27:37 +0100 (CET)
+Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iagwD-0004a3-La
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:08:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37121)
+	id 1iahFB-0001dZ-3L
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:27:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37093)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iagqt-00028G-EU
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iagqs-00023c-C8
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iagqn-0003NB-75
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:31 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39942)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iagqp-0003PG-AR
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:29 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55820)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iagqm-0003I2-UZ
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:25 -0500
-Received: by mail-wr1-x434.google.com with SMTP id c14so10716892wrn.7
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:02:23 -0800 (PST)
+ id 1iagqn-0003KQ-WC
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:27 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id a131so9970522wme.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bl/q66EQnB/Vpv+0jM7P6EssXQ6U7FEXGyqS8D7LPwk=;
- b=n2sU53h1JPh4ueANeHRgmU8jWPm7UL0w7WWkdFZ8WFvzmpuXpGNlh5l+MIffaGR5xk
- HF5zPpxZW1oMvwgNRYRLuHIZow6Flsdgnp0uJ0pt7j9Of2xkHMzKN7IzVK02OoaXGgGr
- oixjlf1p/pKUgwtw53CILGiDFIvAg2N+WUXegg3mi5TeCyCBJ5BYF5nenOk/BfGJONu0
- rQ916JbNRPLxUMViPlEo5yB+xrIAnOu/DBAmqrE0ZByl9rtm5qhQdhuHhcNXZkiStN7L
- HSVhuf8HcH3EQyvtnI/84b+lIvnfiAdSfQpayt60fpUpJr5vzqv+VvF9jn5Q+BbjeRa3
- GYUg==
+ bh=lx6DGULeUoiZGfGxG0Zx1Ji9gkFvHa0kVzeH7vCeWUY=;
+ b=UShhFgHgj7KXd3tkLQdDvEoS53pMxysTrfFinCoHFFXVTGxzt18RDKP+ejfL3aOznk
+ X3KxEpLftVXodMQtLkT+2Lt1TO2FlVBCUvdIfJjxWjLmnPPG7n6ciXjRhrMidz/oFHUJ
+ 2ygckf+rr0pGuZ9AkRDyIuv9BcH64+cxLJa0zEAP64yIIA9ecD1ivytSGBPVKkPXbnMt
+ +FMVW949mYPiQvr/awp90c636Bkf+Ol137xH30PTJP+grKhrKQjVhKfoACkT0Fwl3bOe
+ eqRWpciXBTFl1TweGMRGa8pCyuU0WAFmt4MCUynoSKazl+7QsTG9PR+8/9XDfrr7cM6Z
+ Rvlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Bl/q66EQnB/Vpv+0jM7P6EssXQ6U7FEXGyqS8D7LPwk=;
- b=Kt67rsqJDLxZrnr9BZZMIzZBc1Zq0StqtloTfAmiN+sxngLViDd1irmIhIIntTnxNW
- R6ONaPGUIDvET9aVsw/vAMoxcK2q7V8P5H4LmXovyqiFHMthF9LcR5rAehtXXw5dV0VN
- Evu4yUTDzdohsaoDsCQXPVkW3dvBCIopdYosLH+uNFGjUvCkFiJn6z9fKGacH3N0I1Ud
- VJP+ZEupPPoqCkor9xRzT0YvqfYlM17nmx16usBLg3J5KaEW+otKy2gsRnXLuSDo1iz7
- 3xqDM7gAZ6hdvDKVPu/+btaalEUuHEJkPsEDqTcjyNVfon8tEsHTQQHZ/XzM8CBCNa8W
- /6TQ==
-X-Gm-Message-State: APjAAAUdHpzU/IyMOGaHT3M93jFCrs/YDZo3N9ADA4PYZFEm2Ux+yKWS
- 5m0XxrnRhjCRJR7Uamzc/K1jaQCC
-X-Google-Smtp-Source: APXvYqzE05ST/aPpBmHHr+HdmKgPdF+s6wFeYrBUZZ4wP6cUXVJfYztL48liJJagUSJ3DNjvQne6qA==
-X-Received: by 2002:adf:db86:: with SMTP id u6mr57316160wri.318.1575036141866; 
- Fri, 29 Nov 2019 06:02:21 -0800 (PST)
+ bh=lx6DGULeUoiZGfGxG0Zx1Ji9gkFvHa0kVzeH7vCeWUY=;
+ b=OWOIMU9P0/B/mHvaTiLWvyZSANh1zD+PVNEGOEBTt4FzEAN/gItmWhVof6DabRDt8H
+ OhB7nIJW6R9AkgdnnbMViZWxt88i9uugEsKOqXP+brHvLwpBC6NWko+N6PR/ZSwhVv73
+ oRrTo9MRe0iw7J36BaJrR9ZV64s4QTtZXAOJ6ZnjBW9vd8iNlfiBMOnYZ+ajppJcCt2h
+ KMlpkv2xpqgUx642+qFqluWuvvNlPlLI7eJBrXuJORwBQfBIoO3hUjTDXAmqk/jaGmJK
+ laA/PJL2alEc6SLDDBnzNvKFT9wv/U0oYLtRMCrJOJj3AZNohD8olctVZckK2Uwjhp+A
+ GhgQ==
+X-Gm-Message-State: APjAAAWLy+RLUnqppILRVq5g2/AFjNTikR6gs7q8k2gQ+DAdagJt7L1n
+ SO/nCYmbEwD8HCCwpL3oGoL6fMym
+X-Google-Smtp-Source: APXvYqxEX0gDZelP6dDZvN6wTc+eVVBc3e5ru1citNwTAnnyTXXEuEHG/PpxfDkSuB0gPFTAj/GZFA==
+X-Received: by 2002:a1c:9602:: with SMTP id y2mr14039647wmd.23.1575036142861; 
+ Fri, 29 Nov 2019 06:02:22 -0800 (PST)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
  by smtp.gmail.com with ESMTPSA id
  e7sm14190030wrp.43.2019.11.29.06.02.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Nov 2019 06:02:21 -0800 (PST)
+ Fri, 29 Nov 2019 06:02:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] docs/conf.py: Enable use of kerneldoc sphinx extension
-Date: Fri, 29 Nov 2019 15:02:12 +0100
-Message-Id: <20191129140217.17797-4-pbonzini@redhat.com>
+Subject: [PATCH 4/8] Makefile: disable Sphinx nitpicking
+Date: Fri, 29 Nov 2019 15:02:13 +0100
+Message-Id: <20191129140217.17797-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191129140217.17797-1-pbonzini@redhat.com>
 References: <20191129140217.17797-1-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,35 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
+Turn off Sphinx nitpicking as a temporary (?) measure so
+sphinx builds complete even with warnings about missing
+references.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20190521122519.12573-4-peter.maydell@linaro.org>
+Message-Id: <20190521122519.12573-11-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/conf.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index b7edb0666b..259c6049da 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -54,7 +54,7 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['qmp_lexer']
-+extensions = ['kerneldoc', 'qmp_lexer']
+diff --git a/Makefile b/Makefile
+index b437a346d7..fcf16dc4cf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1010,7 +1010,7 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index
+ # Note the use of different doctree for each (manual, builder) tuple;
+ # this works around Sphinx not handling parallel invocation on
+ # a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+-build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
++build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
  
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
-@@ -216,3 +216,8 @@ texinfo_documents = [
- 
- 
- 
-+# We use paths starting from qemu_docdir here so that you can run
-+# sphinx-build from anywhere and the kerneldoc extension can still
-+# find everything.
-+kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
-+kerneldoc_srctree = os.path.join(qemu_docdir, '..')
 -- 
 2.21.0
 
