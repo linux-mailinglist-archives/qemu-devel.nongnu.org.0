@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6347710D442
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:36:17 +0100 (CET)
-Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD25810D44A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:41:11 +0100 (CET)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaddI-0001Wf-Ed
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:36:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48171)
+	id 1iadi1-0005Fu-RW
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:41:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iactV-00032E-71
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:48:58 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iactp-0003IZ-7h
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:49:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iactQ-0004XR-Rp
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:48:55 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13630)
+ (envelope-from <frankja@linux.ibm.com>) id 1iacto-0005TQ-2T
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:49:17 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42230)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iactQ-0004Gz-Jj
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:48:52 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1iactm-0005Pg-3I
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:49:15 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAT9mR6F118074
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:48:48 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wjah7ft25-1
+ xAT9n04K164781
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:49:12 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wjar9f7k9-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:48:45 -0500
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:49:06 -0500
 Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 29 Nov 2019 09:48:41 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Fri, 29 Nov 2019 09:48:48 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 29 Nov 2019 09:48:39 -0000
+ Fri, 29 Nov 2019 09:48:45 -0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xAT9mbIC44564904
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xAT9mhE555509240
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Nov 2019 09:48:37 GMT
+ Fri, 29 Nov 2019 09:48:43 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B0B3A4053;
- Fri, 29 Nov 2019 09:48:37 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id ABD97A4040;
+ Fri, 29 Nov 2019 09:48:43 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7ABE5A4051;
- Fri, 29 Nov 2019 09:48:35 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0E3D0A404D;
+ Fri, 29 Nov 2019 09:48:42 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.188.128])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 29 Nov 2019 09:48:35 +0000 (GMT)
+ Fri, 29 Nov 2019 09:48:41 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/13] s390x: protvirt: Add new VCPU reset functions
-Date: Fri, 29 Nov 2019 04:48:04 -0500
+Subject: [PATCH v2 11/13] s390x: protvirt: Move diag 308 data over SIDAD
+Date: Fri, 29 Nov 2019 04:48:07 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191129094809.26684-1-frankja@linux.ibm.com>
 References: <20191129094809.26684-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 19112909-0016-0000-0000-000002CDD4FC
+x-cbid: 19112909-4275-0000-0000-00000387EFCF
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112909-0017-0000-0000-0000332FBEE4
-Message-Id: <20191129094809.26684-9-frankja@linux.ibm.com>
+x-cbparentid: 19112909-4276-0000-0000-0000389B8457
+Message-Id: <20191129094809.26684-12-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-11-29_02:2019-11-29,2019-11-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0
- mlxscore=0 suspectscore=1 impostorscore=0 clxscore=1015 bulkscore=0
- adultscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911290086
+ lowpriorityscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 clxscore=1015 suspectscore=1 mlxlogscore=809
+ adultscore=0 malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1911290086
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,152 +94,72 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CPU resets for protected guests need to be done via Ultravisor
-calls. Hence we need a way to issue these calls for each reset.
-
-As we formerly had only one reset function and it was called for
-initial, as well as for the clear reset, we now need a new interface.
+For protected guests the IPIB is written/read to/from the satellite
+block, so we need to make those accesses virtual to make them go
+through KVM mem ops.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- target/s390x/cpu.c       | 14 ++++++++++++--
- target/s390x/kvm-stub.c  | 10 +++++++++-
- target/s390x/kvm.c       | 38 ++++++++++++++++++++++++++++++++------
- target/s390x/kvm_s390x.h |  4 +++-
- 4 files changed, 56 insertions(+), 10 deletions(-)
+ target/s390x/diag.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index bd39cb54b7..52fefa1586 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -131,8 +131,18 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
-     }
- 
-     /* Reset state inside the kernel that we cannot access yet from QEMU. */
--    if (kvm_enabled() && type != S390_CPU_RESET_NORMAL) {
--        kvm_s390_reset_vcpu(cpu);
-+    if (kvm_enabled()) {
-+        switch (type) {
-+        case S390_CPU_RESET_CLEAR:
-+            kvm_s390_reset_vcpu_clear(cpu);
-+            break;
-+        case S390_CPU_RESET_INITIAL:
-+            kvm_s390_reset_vcpu_initial(cpu);
-+            break;
-+        case S390_CPU_RESET_NORMAL:
-+            kvm_s390_reset_vcpu_normal(cpu);
-+            break;
+diff --git a/target/s390x/diag.c b/target/s390x/diag.c
+index 5489fc721a..6d78759151 100644
+--- a/target/s390x/diag.c
++++ b/target/s390x/diag.c
+@@ -88,6 +88,7 @@ static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
+ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+ {
+     CPUState *cs = env_cpu(env);
++    S390CPU *cpu = S390_CPU(cs);
+     uint64_t addr =  env->regs[r1];
+     uint64_t subcode = env->regs[r3];
+     IplParameterBlock *iplb;
+@@ -118,14 +119,27 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+         if (diag308_parm_check(env, r1, addr, ra, false)) {
+             return;
+         }
++
+         iplb = g_new0(IplParameterBlock, 1);
+-        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
++        if (!env->pv) {
++            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
++        } else {
++            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, sizeof(iplb->len));
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
 +        }
-     }
- }
- 
-diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
-index 5152e2bdf1..c4cd497f85 100644
---- a/target/s390x/kvm-stub.c
-+++ b/target/s390x/kvm-stub.c
-@@ -83,7 +83,15 @@ void kvm_s390_cmma_reset(void)
- {
- }
- 
--void kvm_s390_reset_vcpu(S390CPU *cpu)
-+void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
-+{
-+}
 +
-+void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
-+{
-+}
-+
-+void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
- {
- }
+         if (!iplb_valid_len(iplb)) {
+             env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+             goto out;
+         }
  
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index b802d02ff5..5b1ed3acb4 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -154,6 +154,7 @@ static int cap_ri;
- static int cap_gs;
- static int cap_hpage_1m;
- static int cap_protvirt;
-+static int cap_vcpu_resets;
- 
- static int active_cmma;
- 
-@@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
-     cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
-     cap_protvirt = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
-+    cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
- 
-     if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
-         || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
-@@ -407,20 +409,44 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
-     return 0;
- }
- 
--void kvm_s390_reset_vcpu(S390CPU *cpu)
-+static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
- {
-     CPUState *cs = CPU(cpu);
- 
--    /* The initial reset call is needed here to reset in-kernel
--     * vcpu data that we can't access directly from QEMU
--     * (i.e. with older kernels which don't support sync_regs/ONE_REG).
--     * Before this ioctl cpu_synchronize_state() is called in common kvm
--     * code (kvm-all) */
-+    /*
-+     * The reset call is needed here to reset in-kernel vcpu data that
-+     * we can't access directly from QEMU (i.e. with older kernels
-+     * which don't support sync_regs/ONE_REG).  Before this ioctl
-+     * cpu_synchronize_state() is called in common kvm code
-+     * (kvm-all).
-+     */
-+    if (cap_vcpu_resets) {
-+        if (kvm_vcpu_ioctl(cs, KVM_S390_VCPU_RESET, type)) {
-+            error_report("CPU reset type %ld failed on CPU %i",
-+                         type, cs->cpu_index);
+-        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
++        if (!env->pv) {
++            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
++        } else {
++            s390_cpu_virt_mem_read(cpu, 0, 0, iplb, be32_to_cpu(iplb->len));
++            s390_cpu_virt_mem_handle_exc(cpu, ra);
 +        }
-+        return;
-+    }
-     if (kvm_vcpu_ioctl(cs, KVM_S390_INITIAL_RESET, NULL)) {
-         error_report("Initial CPU reset failed on CPU %i", cs->cpu_index);
-     }
- }
++
  
-+void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
-+{
-+    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_INITIAL);
-+}
-+
-+void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
-+{
-+    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_CLEAR);
-+}
-+
-+void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
-+{
-+    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_NORMAL);
-+}
-+
- static int can_sync_regs(CPUState *cs, int regs)
- {
-     return cap_sync_regs && (cs->kvm_run->kvm_valid_regs & regs) == regs;
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index caf985955b..0b21789796 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -34,7 +34,9 @@ int kvm_s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch,
-                                     int vq, bool assign);
- int kvm_s390_cmma_active(void);
- void kvm_s390_cmma_reset(void);
--void kvm_s390_reset_vcpu(S390CPU *cpu);
-+void kvm_s390_reset_vcpu_clear(S390CPU *cpu);
-+void kvm_s390_reset_vcpu_normal(S390CPU *cpu);
-+void kvm_s390_reset_vcpu_initial(S390CPU *cpu);
- int kvm_s390_set_mem_limit(uint64_t new_limit, uint64_t *hw_limit);
- void kvm_s390_set_max_pagesize(uint64_t pagesize, Error **errp);
- void kvm_s390_crypto_reset(void);
+         if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb) &&
+             !(iplb_valid_se(iplb) && s390_ipl_pv_check_comp(iplb) >= 0)) {
+@@ -149,7 +163,13 @@ out:
+             iplb = s390_ipl_get_iplb();
+         }
+         if (iplb) {
+-            cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
++            if (!env->pv) {
++                cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
++            } else {
++                s390_cpu_virt_mem_write(cpu, 0, 0, iplb,
++                                        be32_to_cpu(iplb->len));
++                s390_cpu_virt_mem_handle_exc(cpu, ra);
++            }
+             env->regs[r1 + 1] = DIAG_308_RC_OK;
+         } else {
+             env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
 -- 
 2.20.1
 
