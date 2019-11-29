@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA38810D3C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:17:34 +0100 (CET)
-Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774E410D3B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:13:25 +0100 (CET)
+Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iadLA-0004tP-Pk
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:17:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1iadH9-0002D7-6A
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:13:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iacwS-00058P-3M
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:52:01 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iacxd-0005qC-Nh
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:53:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iacwL-0005Kt-Gx
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:51:55 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42750)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iacwL-0005ES-8O
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:51:53 -0500
-Received: by mail-oi1-x242.google.com with SMTP id o12so25536234oic.9
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 01:51:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F573XsxzX5sf/nxyxfqM8N2v84gU2Xd4IPR9VlS2F48=;
- b=l8j0zi42iC+kaUMBQEKmsKX+XYLVXAmYdWnEzYB4l4dwVvffkTkV4S/5cew5jdbvWh
- HlokksfnDIgDi8lrnGAR6RqrAvT3MGK8jsc9/zwXdOtlLYAgWP4fW1cgM9ZYzqQQ/D8M
- lfGR7UsXEA8UeDlzvWO0J/g0mbbXpC7PbJ6p5BO89t7yHnjA8y1dgsGysBUuiGW4MXvt
- IEjx00VOZQrQZJtgGTsby4HpLZQkoVfxXPeSCwgHj4pzhhxgQf1fG0HRE2g542zyKAKd
- adzvWMjVSqxJucEFQBcmE9EmM04JpexeFW5b4Ow+5U0MOv/kVU/DnTiV5XryJ+CoQ6dv
- 6t/w==
+ (envelope-from <pbonzini@redhat.com>) id 1iacxW-0000fG-7u
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:53:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43675
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iacxV-0000Rp-QU
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:53:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575021182;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G9vurAtotf8R/71XQlmxYgExuHEcLajFRppiFZySOoU=;
+ b=Du0Qysq6ha2Z/JKngkET+ydJPKMFJQT8gogJ76Uc23vh6rMGOCGEgiTNcjNi3/TWDW6G6s
+ gn4DMCPqF6lTyN7E10Q1HkjElSfVEiEIi+GDUobcdG8C5zh0HUKyOcF/4Eoo8c7UbOs7W4
+ vSzOPjaElInvE3iKIgaI17AwURrpU+0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-vxzAkzwTPGWGsL7g302UZA-1; Fri, 29 Nov 2019 04:53:00 -0500
+Received: by mail-wr1-f71.google.com with SMTP id q12so15369022wrr.3
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 01:53:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F573XsxzX5sf/nxyxfqM8N2v84gU2Xd4IPR9VlS2F48=;
- b=G5HMDQfyoE6Zd93Hc16F/Wy4TL46bW05FTW03lU/5cmsrjzlmqiEk9aUjD2VO5SRuZ
- iX5kHbrQ6rowraoQqsFML4h0NzrteTvQ33yKy1okiylD8G7gPn9Fg1uPcZ8HC+IQfLZL
- NExeRA98jSuwH1xIRNzgddkmfkhbPJNPr1mEffrv3YbeHtzdhV6RuRN76t8mhYrO4kGF
- F/Wge65FIPo5bsEWylxIC6PcifVYzwuotDw5NAqEruF87BL+f0bn5BQb7WONFqaVEap8
- yvD7mKtHYoYZIQpzyEiAyQbQhmuFEcmbKTQmdzORhwuApjOZVa8wT90qH0SxNWBB9lRw
- VwmA==
-X-Gm-Message-State: APjAAAXs2vonBvj/rYua5X2uYiIPEoatI2p+0cV8ybSa5EqfqFTPJkqM
- XILOMIwV6djZELOOSf1LNvKOL/pVsDKVQS2DQi+8PQ==
-X-Google-Smtp-Source: APXvYqwXBm+2V83stX0WqwadtUKNURHmmj6F1Djs+8HjBqNtwmHx2/fTKPXWzRLjT/kVekGe9wvhCH2MTvK3O6x+Ohg=
-X-Received: by 2002:aca:3182:: with SMTP id x124mr1100650oix.170.1575021111512; 
- Fri, 29 Nov 2019 01:51:51 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uwHvZtXS7dRyGmv2nIlunqWCOnSZBeS8uZMDrsfda/M=;
+ b=nMvHQVIht0PVAmBYQXwakA2h7wa1uEGG0QRBmmXJxS8UEJGJ3XZmI3hG7rBoOSmFEd
+ /F0Y6n2zWotbsF9BYcKYmqzuO8H6eM/WPv1+1r2GeTKuIIo/vzrJUKtppL6PtLExyPK1
+ jkCVc+6j7rc9WnXvgA6mgY44LaRPSktnX8CI/RFV8Ao9Cjd4iEvq6HTg9HM7Q6zXQpjh
+ re2MUJiLh8RYK94Lx/LPJte0TSGqYw4KOscI2U8HuOiqSDE3mBXOOeXjbGd+XMTvXcSN
+ BYM5gDVpYQM2+75rEt095NTXuH4EE9ZZEARADFkTL/8Y5QZOV0w9+OorfoZLx2NVMuyQ
+ 4J7Q==
+X-Gm-Message-State: APjAAAXxJefwj4dmHwfFriI8txxKqPhOy9xPIHVlut/f5bPOcNiuJTe2
+ i92LfJI81bSH4NQmbnHlbZF+iaIit5W+o5mpvFRzscMLu/+5TTPMXw7V2BxibrB62F6XAiPfaNX
+ O9mcj6pg/1mSMDfI=
+X-Received: by 2002:a1c:4e03:: with SMTP id g3mr110110wmh.22.1575021179180;
+ Fri, 29 Nov 2019 01:52:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxNgjiypjC4rsoN/C6tzA40X+v6zGfe/AObWpq7XBqWZqXmOOQFqtytryyvaAST46v4Cd316g==
+X-Received: by 2002:a1c:4e03:: with SMTP id g3mr110086wmh.22.1575021178877;
+ Fri, 29 Nov 2019 01:52:58 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
+ ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
+ by smtp.gmail.com with ESMTPSA id h17sm1446198wrs.18.2019.11.29.01.52.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2019 01:52:58 -0800 (PST)
+Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191129070253.5hwksjrapomk434x@sirius.home.kraxel.org>
+ <CAMxuvawieN7JQZkRku19v5X-o6q664Wz1Rtx3+Wz3d33m-7Tug@mail.gmail.com>
+ <20191129092713.GA2260471@redhat.com>
+ <6b441014-1852-3257-2bc5-897cc51d08dc@redhat.com>
+ <20191129093941.GD2260471@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <49e9c7b6-bd0b-655b-0f19-174382ed763b@redhat.com>
+Date: Fri, 29 Nov 2019 10:52:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191128161718.24361-1-maz@kernel.org>
- <20191128161718.24361-4-maz@kernel.org>
- <20191129082806.GF29312@toto> <3a53b096bd101f9627d4c61ecfd742de@www.loen.fr>
- <20191129094557.GB25295@toto>
-In-Reply-To: <20191129094557.GB25295@toto>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Nov 2019 09:51:40 +0000
-Message-ID: <CAFEAcA_HM5hCpY=cC9KLy3sFDFydhLNCEmtOhBCr+aQkBKwXhw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/arm: Handle trapping to EL2 of AArch32 VMRS
- instructions
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <20191129093941.GD2260471@redhat.com>
+Content-Language: en-US
+X-MC-Unique: vxzAkzwTPGWGsL7g302UZA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,29 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Nov 2019 at 09:45, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
-> IIRC, the current EL was always known at translation time but I've
-> not been tracking recent changes.
+On 29/11/19 10:39, Daniel P. Berrang=C3=A9 wrote:
+> On Fri, Nov 29, 2019 at 10:33:39AM +0100, Paolo Bonzini wrote:
+>> On 29/11/19 10:27, Daniel P. Berrang=C3=A9 wrote:
+>>>> Yes, with a fallback path currently using a temporary file under /tmp
+>>>> (we may want to use shm_open() instead, or a different location such
+>>>> as XDG_RUNTIME_DIR? - and use O_TMPFILE)
+>>> We can't assume either /tmp or XDG_RUNTIME_DIR is on tmpfs as that is n=
+o
+>>> where near standard across all OS distros, and even if on tmpfs these
+>>> dirs can be size limited to a significant subset of available RAM. IOW
+>>> we can't safely use them unless explicitly told to.
+>>
+>> Agreed, mkstemp+shm_open seems better.  Perhaps this could be done in
+>> hostmem-memfd.c though, basically as a fallback option?  In principle
+>> one could even use getmntent to search for a hugetlbfs mount.
+>=20
+> With mkstemp you still need to pick a location, and I don't think it
+> is clear there is a reliable choice that will always work.
 
-Yes, it's known at translate time, in dc->current_el.
-(The code is structured to make it difficult to accidentally
-use info that's not known at translate-time: most translate.c
-code only has access to the DisasContext struct, and that
-struct only has info that is safe to use.)
+Sorry, I meant mktemp (which is almost never the right choice so my
+brain fat-fingered it...) + shm_open(O_CREAT|O_EXCL).
 
-We need to know the EL at translate time anyway because we
-need to generate the right kind of guest load/store, where
-the code generated is different for different ELs (they
-get looked up in different TLBs because the access
-permissions can differ).
+Paolo
 
-thanks
--- PMM
 
