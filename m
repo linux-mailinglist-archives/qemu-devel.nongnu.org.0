@@ -2,66 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF010D554
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:01:22 +0100 (CET)
-Received: from localhost ([::1]:57847 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E46010D56D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:07:20 +0100 (CET)
+Received: from localhost ([::1]:57956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaexa-0000St-9z
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:01:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
+	id 1iaf3N-0005kX-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:07:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iaef9-0006sC-TT
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:18 -0500
+ (envelope-from <david@redhat.com>) id 1iaefc-0007AU-W3
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iaef2-0000rw-9B
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57058
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1iaefa-0002ln-NU
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60997
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaef2-0000gD-3b
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:08 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iaefZ-0002em-2H
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:42:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575027726;
+ s=mimecast20190719; t=1575027758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kmZVuKEFiONgUFEeMlmk46DxyuEvOn8n4lTM36ThZdA=;
- b=Pmp8CQ47l7EkHOouowb9DFB6ygUgOT76WEU7wfnrnw1YREr1KIDglIAOxMpcY+6F4ZVZIQ
- T1oXozr4W64Ae6Nu4Lmg/vcRvUv0Q4B2GsMvv0YOdYGPMkNC8jjVxJ/oWqxJWQp5kGzspX
- 6UaksbHCm6aOjejMbtYtKIRduKMOZRc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0ozx4NaRhnaMq/vC5GdAuGEnLntHIe9W2dK5UMerzLo=;
+ b=NVLM+jM4KnxmSAERzDmu7PauYxrERGKHRkO15qdO3sPFE4nsP/uGOAVKDzEweLGLA+pwr6
+ Pv1k3HbQ6//mO5gXs70cP3P9XnfIayROwyb9EU0625DWqoufYM7tZoQSvyHue5AN+aCaRr
+ uLC9yEkEa/Z8WucaVbqnQxblPtxs0DU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-LQlLx7BYN2aJyJirqzA6nA-1; Fri, 29 Nov 2019 06:42:03 -0500
-X-MC-Unique: LQlLx7BYN2aJyJirqzA6nA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-85-9PfmNpOpMgayfp4SjC64TA-1; Fri, 29 Nov 2019 06:42:35 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C61C61800D42;
- Fri, 29 Nov 2019 11:42:01 +0000 (UTC)
-Received: from gondolin (ovpn-116-140.ams2.redhat.com [10.36.116.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BFC25D9E1;
- Fri, 29 Nov 2019 11:41:55 +0000 (UTC)
-Date: Fri, 29 Nov 2019 12:41:40 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v2 01/13] s390x: protvirt: Add diag308 subcodes 8 - 10
-Message-ID: <20191129124140.5f2e7d59.cohuck@redhat.com>
-In-Reply-To: <46d14db9-f7cc-adce-df1c-d35cd26dc546@linux.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1D6B1800D42;
+ Fri, 29 Nov 2019 11:42:33 +0000 (UTC)
+Received: from [10.36.118.44] (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 447011001F43;
+ Fri, 29 Nov 2019 11:42:32 +0000 (UTC)
+Subject: Re: [PATCH v2 12/13] s390x: protvirt: Disable address checks for PV
+ guest IO emulation
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-2-frankja@linux.ibm.com>
- <d12fe27e-fcce-1704-8ac3-5dca18627422@redhat.com>
- <46d14db9-f7cc-adce-df1c-d35cd26dc546@linux.ibm.com>
+ <20191129094809.26684-13-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
 Organization: Red Hat GmbH
+Message-ID: <dca12928-99dd-49a5-5ea3-afa48caaf760@redhat.com>
+Date: Fri, 29 Nov 2019 12:42:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20191129094809.26684-13-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 9PfmNpOpMgayfp4SjC64TA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; boundary="Sig_/36xmoFmHr8fWMKGpbfJB/A7";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,56 +119,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
  borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/36xmoFmHr8fWMKGpbfJB/A7
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 29.11.19 10:48, Janosch Frank wrote:
+> IO instruction data is routed through SIDAD for protected guests, so
+> adresses do not need to be checked, as this is kernel memory.
 
-On Fri, 29 Nov 2019 12:18:56 +0100
-Janosch Frank <frankja@linux.ibm.com> wrote:
+"do not need" - is it actually evil to check? I would have assumed the
+kernel checks and these checks are just superfluous but not dangerous?
 
-> On 11/29/19 11:09 AM, David Hildenbrand wrote:
+IOW, some overhead we can ignore for now easily.
 
-> >> @@ -94,6 +115,7 @@ enum s390_reset {
-> >>      S390_RESET_REIPL,
-> >>      S390_RESET_MODIFIED_CLEAR,
-> >>      S390_RESET_LOAD_NORMAL,
-> >> +    S390_RESET_PV, =20
-> >=20
-> > I do wonder if that should be called S390_RESET_PV_START =20
->=20
-> I have no strong feelings for the name, whatever floats you boat(s)
+Same comment regarding doing the SIDAD access differently ...
 
-PVY_MC_PVFACE?
+-- 
+Thanks,
 
-But seriously speaking, I'd also prefer S390_RESET_PV_START.
-
---Sig_/36xmoFmHr8fWMKGpbfJB/A7
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3hA/QACgkQ3s9rk8bw
-L6/mJRAAlkXp+fNPteWY51QePojOEknL4C+Dl9mzA9coLHZB74Hj2+ORXEANx0Le
-5L2377LqeoScm0ZDsyyAD1+EBDVC/KOjYiw9s4rDbuOk/mWyAjilXwz4GYgCs5BF
-hN7PWL1k3bZJ8PO4LAQzRLLrYfLIvl61PIHP5ppODD0p4juoOrsdfFCSDRnAvnL3
-Hfn1FP2+FTk1su9ict/3TXTn4vywDJYLHW6kuhh1JFuv/zIryEac0w6uHp9C2IcP
-m//dwjBdU38ueS6mVPrfoRGmUAMNBfS8yrx8UB+LFxqw/wMLZrqi/26KaZ9fjUiO
-yS16n01cX+ZF35vc/F+12Snjj3GxN/tqDt/3yQNbC7y3raX1SkA8Q2VeVQEww6iF
-e6eWjP4ooenf23hbhxOSEPySGuXrSOAZLnNLuMHqgob766lujalxfWvBrL4ZavMa
-1yKL2oOKI150aTOF0SvWYenGK45ahvoZh38tTpQr18QCMhvOwQN4ye67wAMW1JtO
-WD3hvyuIIupif7yTHF0+3pYq43VlGbaMKT1firwtGPsTlQTrUEQv61c/7d2jytJk
-rIHt9jXUFxqrBVdeFxrl18mDC3QOIf45dRJZfiD7xP8MtzTASp9rYiF8CWETB5JZ
-o8tS88g0EvujDBKbiIoiF8K0EiF4sYxqtyat7/l18OEA6sR+ktM=
-=XpF8
------END PGP SIGNATURE-----
-
---Sig_/36xmoFmHr8fWMKGpbfJB/A7--
+David / dhildenb
 
 
