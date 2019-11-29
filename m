@@ -2,90 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BFE10D46E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:54:27 +0100 (CET)
-Received: from localhost ([::1]:57044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D3310D448
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:37:29 +0100 (CET)
+Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iadur-0005nX-Jy
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:54:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1iadeP-0001sr-2B
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:37:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iadRV-0003hJ-N0
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:24:06 -0500
+ (envelope-from <david@redhat.com>) id 1iadYP-0008VI-85
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:31:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iadRR-0000RF-ED
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:24:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25572
+ (envelope-from <david@redhat.com>) id 1iadYL-0002Pb-Qd
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:31:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42634
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iadRR-0008TX-8K
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:24:01 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iadYJ-0002KA-Se
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:31:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575023036;
+ s=mimecast20190719; t=1575023462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+mqEvMMCrRSM43GPLWy/5fFqds4INmHRH+3BYbGbktw=;
- b=L7FHQ13kxRKJEiE75ayjov3J84vgn2JIau2K7sJnJSzPpOEK6HHShJODLGpLvqRoUwMXYi
- UzL4iTAk5Qn1STw5gaCrH5cYLUwCYE4fW/4RWJlP7yAU2BvK7r6KabeW65nFWG0gdw7O//
- ENwz/H5VW30ecbxWa3Q6XOHTJGTkd/Y=
+ bh=VruLL9u0LCXaC3ZIBcmgLOb/1/iYF0FDs6xB31vMAqY=;
+ b=GoALN4r0nEjgeUDkcxBvgfDDUB8COmgenhXCWuaSxnSkIaSmSGIwXmLLQddECWxVJDPq1w
+ 1kLq8XN+dM3pNzdY2zmv6L/zZlAFbTofQ740LgL+6Jf5FAg4zEpTvb9MrzDlu8vY0PD7Hj
+ Bn3GYAJN4eEA8D7UFcgsCOtBZkgqgLs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-oGUQ95lGNFmfu4nUsJoqng-1; Fri, 29 Nov 2019 05:23:52 -0500
-X-MC-Unique: oGUQ95lGNFmfu4nUsJoqng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-80-BvUgVrX_MYOx_xrlLlBytg-1; Fri, 29 Nov 2019 05:30:59 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 384D21856A62;
- Fri, 29 Nov 2019 10:23:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-206-40.brq.redhat.com
- [10.40.206.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBABF19C4F;
- Fri, 29 Nov 2019 10:23:49 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v2 06/23] block: Add bdrv_recurse_can_replace()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-7-mreitz@redhat.com>
- <5370cd61-413a-0208-541c-49894ad0c630@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c9dff2ff-cea7-8397-8fc6-b393723a4895@redhat.com>
-Date: Fri, 29 Nov 2019 11:23:47 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24430800D41;
+ Fri, 29 Nov 2019 10:30:58 +0000 (UTC)
+Received: from [10.36.118.44] (unknown [10.36.118.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DFF25D9E1;
+ Fri, 29 Nov 2019 10:30:52 +0000 (UTC)
+Subject: Re: [PATCH v2 05/13] s390x: protvirt: Add pv state to cpu env
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-6-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <bcf1db05-2366-85a5-2e90-39e4bc2e89da@redhat.com>
+Date: Fri, 29 Nov 2019 11:30:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <5370cd61-413a-0208-541c-49894ad0c630@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20191129094809.26684-6-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: BvUgVrX_MYOx_xrlLlBytg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VybphVaT0HhmcYlCTJPgfN43ZhFoLxlsx"
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -100,156 +118,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VybphVaT0HhmcYlCTJPgfN43ZhFoLxlsx
-Content-Type: multipart/mixed; boundary="b6h5Pviy6scTzhRnfLSn32gQwp1sG6M1W"
+On 29.11.19 10:48, Janosch Frank wrote:
+> We need to know if we run in pv state or not when emulating
+> instructions.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 2 ++
+>  target/s390x/cpu.h         | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index e2a302398d..6fcd695b81 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -357,6 +357,7 @@ static void s390_machine_reset(MachineState *machine)
+>                  s390_pv_vcpu_destroy(t);
+>              }
+>              s390_pv_vm_destroy();
+> +            env->pv = false;
+>          }
+>  
+>          qemu_devices_reset();
+> @@ -406,6 +407,7 @@ static void s390_machine_reset(MachineState *machine)
+>          s390_ipl_pv_unpack();
+>          /* Verify integrity */
+>          s390_pv_verify();
+> +        env->pv = true;
+>          s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+>          break;
+>      default:
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index d2af13b345..43e6c286d2 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -116,6 +116,7 @@ struct CPUS390XState {
+>  
+>      /* Fields up to this point are cleared by a CPU reset */
+>      struct {} end_reset_fields;
+> +    bool pv; /* protected virtualization */
 
---b6h5Pviy6scTzhRnfLSn32gQwp1sG6M1W
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+so ... the preceding patches fail to compile?
 
-On 29.11.19 10:34, Vladimir Sementsov-Ogievskiy wrote:
-> 11.11.2019 19:01, Max Reitz wrote:
->> After a couple of follow-up patches, this function will replace
->> bdrv_recurse_is_first_non_filter() in check_to_replace_node().
->>
->> bdrv_recurse_is_first_non_filter() is both not sufficiently specific for
->> check_to_replace_node() (it allows cases that should not be allowed,
->> like replacing child nodes of quorum with dissenting data that have more
->> parents than just quorum), and it is too restrictive (it is perfectly
->> fine to replace filters).
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block.c                   | 38 ++++++++++++++++++++++++++++++++++++++
->>   include/block/block_int.h | 10 ++++++++++
->>   2 files changed, 48 insertions(+)
->>
->> diff --git a/block.c b/block.c
->> index 9b1049786a..de53addeb0 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -6205,6 +6205,44 @@ bool bdrv_recurse_is_first_non_filter(BlockDriver=
-State *bs,
->>       return false;
->>   }
->>  =20
->> +/*
->> + * This function checks whether the given @to_replace is allowed to be
->> + * replaced by a node that always shows the same data as @bs.  This is
->> + * used for example to verify whether the mirror job can replace
->> + * @to_replace by the target mirrored from @bs.
->> + * To be replaceable, @bs and @to_replace may either be guaranteed to
->> + * always show the same data (because they are only connected through
->> + * filters), or some driver may allow replacing one of its children
->> + * because it can guarantee that this child's data is not visible at
->> + * all (for example, for dissenting quorum children that have no other
->> + * parents).
->> + */
->> +bool bdrv_recurse_can_replace(BlockDriverState *bs,
->> +                              BlockDriverState *to_replace)
->> +{
->> +    if (!bs || !bs->drv) {
->> +        return false;
->> +    }
->> +
->> +    if (bs =3D=3D to_replace) {
->> +        return true;
->> +    }
->> +
->> +    /* See what the driver can do */
->> +    if (bs->drv->bdrv_recurse_can_replace) {
->> +        return bs->drv->bdrv_recurse_can_replace(bs, to_replace);
->> +    }
->> +
->> +    /* For filters without an own implementation, we can recurse on our=
- own */
->> +    if (bs->drv->is_filter) {
->> +        BdrvChild *child =3D bs->file ?: bs->backing;
->=20
-> should we check that child !=3D NULL ?
+Please properly squash that ...
 
-I=92d say that normally (once they are open) filters must have a child,
-and so I=92d make it an assertion.  But then again an assertion isn=92t muc=
-h
-better than the dereferencing that follows, I think. :?
+-- 
+Thanks,
 
-Max
-
->> +        return bdrv_recurse_can_replace(child->bs, to_replace);
->> +    }
->> +
->> +    /* Safe default */
->> +    return false;
->> +}
->> +
->>   BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
->>                                           const char *node_name, Error *=
-*errp)
->>   {
->> diff --git a/include/block/block_int.h b/include/block/block_int.h
->> index dd033d0b37..75f03dcc38 100644
->> --- a/include/block/block_int.h
->> +++ b/include/block/block_int.h
->> @@ -102,6 +102,13 @@ struct BlockDriver {
->>        */
->>       bool (*bdrv_recurse_is_first_non_filter)(BlockDriverState *bs,
->>                                                BlockDriverState *candida=
-te);
->> +    /*
->> +     * Return true if @to_replace can be replaced by a BDS with the
->> +     * same data as @bs without it affecting @bs's behavior (that is,
->> +     * without it being visible to @bs's parents).
->> +     */
->> +    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
->> +                                     BlockDriverState *to_replace);
->>  =20
->>       int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *fi=
-lename);
->>       int (*bdrv_probe_device)(const char *filename);
->> @@ -1264,6 +1271,9 @@ void bdrv_format_default_perms(BlockDriverState *b=
-s, BdrvChild *c,
->>                                  uint64_t perm, uint64_t shared,
->>                                  uint64_t *nperm, uint64_t *nshared);
->>  =20
->> +bool bdrv_recurse_can_replace(BlockDriverState *bs,
->> +                              BlockDriverState *to_replace);
->> +
->>   /*
->>    * Default implementation for drivers to pass bdrv_co_block_status() t=
-o
->>    * their file.
->>
->=20
->=20
-
-
-
---b6h5Pviy6scTzhRnfLSn32gQwp1sG6M1W--
-
---VybphVaT0HhmcYlCTJPgfN43ZhFoLxlsx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3g8bMACgkQ9AfbAGHV
-z0A+LQf/Ztu5DPdEOjUvyTjc4OnjaAtEvjQHhjvTleY/lN7XY/tYe8tygvrnNIuR
-3sI4W8OWLMc4pM3g62NXGgtWYWQl+7eZi6nX2hw5Qzu51T2kffBrrM9uZQH1+5s0
-ocvjEY97FQAH8c+iD1gda25Sx1ra+aVzZJyQF4kjJJiFFkKccfhw8/LP6x4lqDFg
-lm9rAkbXb6P/9dxZEhky59h5sQwPFRNWI6Bqu2WGwadKV2vndBzhKwwZP80jA8QE
-8Exci/TSDCJAZ3EzJdqnWTyMamyDo8bTgDDSZ59BlS67EPBNnZlwG/i9qZSE9xhB
-N4+SlDmQqKM27bGzqEOUqDzMcmoO4w==
-=Y0Id
------END PGP SIGNATURE-----
-
---VybphVaT0HhmcYlCTJPgfN43ZhFoLxlsx--
+David / dhildenb
 
 
