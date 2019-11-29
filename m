@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE4F10D489
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 12:06:53 +0100 (CET)
-Received: from localhost ([::1]:57136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87D810D49E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 12:17:12 +0100 (CET)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iae6t-0005F3-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 06:06:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52226)
+	id 1iaeGt-0003sD-Ad
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 06:17:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iadD3-0000XS-Sy
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:09:12 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iadFA-00024F-FQ
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:11:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iadCm-0004d1-Ln
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:08:53 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20471
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iadF8-0002eE-EF
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:11:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45946
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iadCm-0004OW-I8
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:08:52 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iadF8-0002a9-4q
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:11:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575022128;
+ s=mimecast20190719; t=1575022275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JntduGVPnovslM3w6eXjQkNXJznSTMtCtIW0cq3CicQ=;
- b=bOMg4dwJb+SGKZ9yhh2T+iZd9eDdjL+HfL/NqwbuKg+ZsY4AT9bx+dboMmxEdcit8Yj9hd
- fkwrlWA3OvOfKzIJV38iwz3Wrqymjt+XJiGtgNCgWkUoGh6rY79cJHEmKpGsAFQvSCmv6f
- 1AOQCT+JwNiPyiALfKPqr2I2+wiLlf4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-1qtNUzIvNN-VB31_-Fb4NQ-1; Fri, 29 Nov 2019 05:08:44 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66DAC801E58;
- Fri, 29 Nov 2019 10:08:43 +0000 (UTC)
-Received: from thuth.com (ovpn-116-159.ams2.redhat.com [10.36.116.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B20605D6D2;
- Fri, 29 Nov 2019 10:08:40 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/2] pc-bios/s390-ccw: fix sclp_get_loadparm_ascii
-Date: Fri, 29 Nov 2019 11:08:34 +0100
-Message-Id: <20191129100835.21734-2-thuth@redhat.com>
-In-Reply-To: <20191129100835.21734-1-thuth@redhat.com>
-References: <20191129100835.21734-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 1qtNUzIvNN-VB31_-Fb4NQ-1
+ bh=bT7Naek2MFdovtr/nNhC4ejYeS7bQC7PxzdXaVFB78o=;
+ b=PJ6fbX3Ji0C0kQ3w25TaVEEX9VyhAHep9R6gMXBrc4oXEbpnuMxlY38Nq4GC3e6xyHIttj
+ 02xXEbK0UgrANQ9zhkVXFetAyzB2gm8M6pT2UcQFGcNAtZ2evF9DkdsCcnKmIr1KpeqA7c
+ 3OXpOTrx0nP1hZs533hnAw5u+BAHsEE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-lfJQyQ5SMNWzOtWsidwf4w-1; Fri, 29 Nov 2019 05:11:12 -0500
+Received: by mail-wm1-f70.google.com with SMTP id g8so4173083wmg.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 02:11:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bT7Naek2MFdovtr/nNhC4ejYeS7bQC7PxzdXaVFB78o=;
+ b=lN/Q/RBpN2/mC47coJWVoX3bRM7MOGtwLXIfgOW7xRSntx/bXQ7t6OXt7x5RQILp8k
+ wwa1RF42JRymjcfH8XeY82fgR3Il88Rw4CLrqvi1AaEEvPASZIIetMmifLlbnAorJW8n
+ iasgV89MFW3CHOQQwTkkag+OXUjOChs6sms9SFZ3s3vRkfs5odRjkZg8F/Nv/MgEuhKk
+ dwbA+danZ6XNLHyouwdd9uy95qIQ9jmzl5gwU2j1t1zjBh20Zvt9YnM/1/u+UGdDe6oO
+ J/PTwVmJh0oXmDH7yseyHq6ubMz3NmtP+ijTwL/F0KMO7wScSN96rd9uFu7VWGCUJY/3
+ sbiQ==
+X-Gm-Message-State: APjAAAWvBOY9B1yIjoJzBPMcKHCnweuq+tELjr4a3qViYikZRKTOH2YT
+ WlWTmKVL7Yxhrlmy3l4D8QOKlLVA0l2E9asKjhj9rBvJTWgM8FjLTrDJvyLEIEj51Pvn1+PFsfu
+ mJshMJlOczWzry6I=
+X-Received: by 2002:a05:600c:2911:: with SMTP id
+ i17mr13274479wmd.83.1575022271161; 
+ Fri, 29 Nov 2019 02:11:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxuIB4qxJSHi6we38U3XMvtsXcjrJ82ImJ7eSBjPk4u4PSwpitv21aPt5M/+lwa4pNsCVud6Q==
+X-Received: by 2002:a05:600c:2911:: with SMTP id
+ i17mr13274447wmd.83.1575022270877; 
+ Fri, 29 Nov 2019 02:11:10 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:459f:99a9:39f1:65ba?
+ ([2001:b07:6468:f312:459f:99a9:39f1:65ba])
+ by smtp.gmail.com with ESMTPSA id s9sm12717745wmj.22.2019.11.29.02.11.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2019 02:11:10 -0800 (PST)
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+To: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
+ <20191128172807.788e6aeb@redhat.com>
+ <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
+ <20191129110703.2b15c541@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com>
+Date: Fri, 29 Nov 2019 11:11:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191129110703.2b15c541@redhat.com>
+Content-Language: en-US
+X-MC-Unique: lfJQyQ5SMNWzOtWsidwf4w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,55 +97,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Marc Hartmayer <mhartmay@linux.ibm.com>, cohuck@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+On 29/11/19 11:07, Igor Mammedov wrote:
+>>> So user who wants something non trivial could override default
+>>> non-numa behavior with
+>>>   -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on \
+>>>   -machine memdev=mem
+>>> or use any other backend that suits theirs needs.  
+>> That's nice, but not as friendly as a simple -mem-shared.
+> (I still do not like idea of convenience options but it won't
+> get onto the way much if implemented as "global property" to memdev,
+> so I won't object if there is real demand for it)
 
-The existing s390 bios gets the LOADPARM information from the system using
-an SCLP call that specifies a buffer length too small to contain all the
-output.
+I agree with Igor, we should always think about the generic ("object
+model") options and only then add convenience option.
 
-The recent fixes in the SCLP code have exposed this bug, since now the
-SCLP call will return an error (as per architecture) instead of
-writing partially and completing successfully.
+It looks like the remaining point is to decide between "-m memdev" and
+"-machine memdev".
 
-The solution is simply to specify the full page length as the SCCB
-length instead of a smaller size.
-
-Fixes: 832be0d8a3bb ("s390x: sclp: Report insufficient SCCB length")
-Fixes: 9a22473c70f3 ("pc-bios/s390-ccw: get LOADPARM stored in SCP Read Inf=
-o")
-
-Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Message-Id: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- pc-bios/s390-ccw/sclp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/pc-bios/s390-ccw/sclp.c b/pc-bios/s390-ccw/sclp.c
-index c0223fab0b..7251f9af4d 100644
---- a/pc-bios/s390-ccw/sclp.c
-+++ b/pc-bios/s390-ccw/sclp.c
-@@ -112,7 +112,7 @@ void sclp_get_loadparm_ascii(char *loadparm)
-     ReadInfo *sccb =3D (void *)_sccb;
-=20
-     memset((char *)_sccb, 0, sizeof(ReadInfo));
--    sccb->h.length =3D sizeof(ReadInfo);
-+    sccb->h.length =3D SCCB_SIZE;
-     if (!sclp_service_call(SCLP_CMDW_READ_SCP_INFO, sccb)) {
-         ebcdic_to_ascii((char *) sccb->loadparm, loadparm, LOADPARM_LEN);
-     }
---=20
-2.18.1
+Paolo
 
 
