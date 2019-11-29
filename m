@@ -2,79 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073A510D384
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:56:08 +0100 (CET)
-Received: from localhost ([::1]:56518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7825A10D386
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:56:57 +0100 (CET)
+Received: from localhost ([::1]:56524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iad0R-0005lh-45
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:56:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42537)
+	id 1iad1C-0006qt-Hh
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:56:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43849)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlureau@redhat.com>) id 1iacqF-0000g9-QG
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:45:37 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iacr2-0001Eo-1j
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:46:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1iacqA-0003MZ-Of
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:45:33 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50546
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1iacq7-0003Ia-No
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:45:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575020726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ye2aTxTIPGkyOiCJQcRakJoRxytgzjLIMI3tVbksxpg=;
- b=UL79x4qQRtsa/1Dbh/bgbqw5O06zcsa4QRIDL92y6OKbbtRWVrrUcY2StoLE6qUnNpXbGC
- vYTCjA2d0tXqTwJWKbD0n+vb4sKhu1U4sj3Sipqtr5p6xZlhjorqunpu0IDZv4MnWfwiZo
- tk0r0rJRMPAYOpaiA8YZs36N1DZbgro=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-sXgAAF0nOsKHmS5GeWDqDg-1; Fri, 29 Nov 2019 04:45:23 -0500
-Received: by mail-oi1-f199.google.com with SMTP id k15so1493779oik.11
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 01:45:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ye2aTxTIPGkyOiCJQcRakJoRxytgzjLIMI3tVbksxpg=;
- b=fFIt3kd1+LU9tLIMAKesTNaYYdjECIhDcI3t/hNfghk26+NYnPfnyhziUqhJbpTUV9
- Tv5Eqqh6ce3Q9yqB4rnuaoofdbOnfHYa2ezeh4NQ9QsGTAqb+iQ9roBXh3RZLbaT9KRB
- vGAI2NjxQc9/0p6r7+uPNXEibddVbNoopJfUyqVAkzugiLMf7niaLiZ6wuMnfor5jjXt
- tVAXPEdu3nHbK3l7cvf9xCwjnmAV+K33zLpl+oGXoIhGnnoljhlI9N/SQ8hur4rQ/4qz
- WMphbgDDQUDMs2Exes/ztlnkLCwqhLVFtbYxzC8MKuUb28+aM9Hj0BBkYKV5rKwD9lS5
- ls/Q==
-X-Gm-Message-State: APjAAAVbYo0N/Ol3ioGZF4ERk3sSaD6z9yINc0fpJumIrZovUoge9uFY
- 4ChzNC3SqrMiMsa3xNV4BMe+YoxXkEzyNJ+VIWJzqziOQ0TRu9aPRGtFAXJscolqjy0bQTU3bJl
- 3N1HSSNCYD5eS6cwDtzsgUYu/lSt/MOs=
-X-Received: by 2002:aca:52c4:: with SMTP id g187mr8734814oib.76.1575020722871; 
- Fri, 29 Nov 2019 01:45:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzbXis50IuxthAYcApbk0rerbJyKVbF3OTbHhiesJGVyXswIsVYMLGr2UE7SYUC4WckeA4huq1tpHitrmL06A4=
-X-Received: by 2002:aca:52c4:: with SMTP id g187mr8734798oib.76.1575020722613; 
- Fri, 29 Nov 2019 01:45:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
- <20191129070253.5hwksjrapomk434x@sirius.home.kraxel.org>
- <CAMxuvawieN7JQZkRku19v5X-o6q664Wz1Rtx3+Wz3d33m-7Tug@mail.gmail.com>
- <20191129092713.GA2260471@redhat.com>
- <CAMxuvaw=o9xP4G1GD95xVUb2as9R_pUB_85muRUVP8p3pEeqxw@mail.gmail.com>
- <20191129094230.GE2260471@redhat.com>
-In-Reply-To: <20191129094230.GE2260471@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 29 Nov 2019 13:45:11 +0400
-Message-ID: <CAMxuvayDmXcFSvjyBC+e=40tO6N15rbBETDsP_kYoHOU1xKrpg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-X-MC-Unique: sXgAAF0nOsKHmS5GeWDqDg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iacqy-0005d8-53
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:46:21 -0500
+Received: from mail-eopbgr40120.outbound.protection.outlook.com
+ ([40.107.4.120]:3394 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iacqx-0005Vo-MF; Fri, 29 Nov 2019 04:46:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bu4QgG0vbrkwg+h7dVIJbj6fnS7YP5uxHGvnDmrkPwK4ZOkktkKxcuNkIlr8zO6jI96ZBgVbh+fAaz/+YELq2enJzHa15QKeQK9QDID5X6dwnSlnHTKWabkwr3QMGLOlbQVsaqPZlmRrGbTCHSsNzbFRIOtOzZ0qSpRSPNoT6kS7zTZQx49wbmqwu/xlDoPuaJtdV0TE5IpsXZ041tnBSYre7cDaOD2oBRTg0WuVB+UQ1eKH7F/VunRKrWlKY1NXEqHvcmtIrjd0Pby9HPh00CGCJ1ZDctMN/1Mw+HGT3mkAncLfYjsrAB6OwzJT4nziX2Iiq19vHY1uh7+WScZolg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bi3DiJ3rFEJ+M40zJQpkRN9ItQelKQ21E0UsMG7/0Lo=;
+ b=ipReS7pCA26NZ60oDznyDVZnKwlT44z0vJgXYV38L3DMeQ8YNaYKrb518QMN1pbvtPtDfCi93poKa4+DnT1R6ukJ69CwzsyPVGdmLZ/sQA775lT4L9JtQ0kOFpOzeaZ6AEE4Ky1h0xMD7iud4S/H32yymnkjpAgqfkW1YmZtszirK0Jpp4zKyyr7hJKFu2jbKQ09UMoiHPtoHX6TNrqrg8iZwdINKjMP60C61+qdtdCGyCAcUxocUmgyBbEFvyxf6XQnJk+JErOTmhVEdNrr+99Mfh73ygJAdEtX+6tVbNeuiYU7WoUYzDDMlvq953aiP3VL1iDL9+NLEIEMroUtCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bi3DiJ3rFEJ+M40zJQpkRN9ItQelKQ21E0UsMG7/0Lo=;
+ b=EeysIzjHv7Wo4seh1kWrju5Kj5pgY+tRqKRi90yBKajAjotmLSGgalF76RmaJTeJYrkWBfcS7YG72RYqpgCamUEtejQ1vuLM0xQJHRt5FtyvoBT+mBTOCQ0Yy11yeSoRGUf9CCmOjPtR0iswJ91jC4Kz/LvaL+Nxizi36Mvph9M=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3720.eurprd08.prod.outlook.com (20.178.91.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Fri, 29 Nov 2019 09:46:15 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
+ 09:46:15 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 08/23] quorum: Store children in own structure
+Thread-Topic: [PATCH for-5.0 v2 08/23] quorum: Store children in own structure
+Thread-Index: AQHVmKl40OStCzeJgEm0QklkJhZCC6eiAlgA
+Date: Fri, 29 Nov 2019 09:46:14 +0000
+Message-ID: <a516b94f-e5e0-26b3-db2f-4963340c8c47@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-9-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-9-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0301CA0001.eurprd03.prod.outlook.com
+ (2603:10a6:3:76::11) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191129124612447
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7ebd7187-1be2-4ca4-e20b-08d774b0f952
+x-ms-traffictypediagnostic: AM6PR08MB3720:
+x-microsoft-antispam-prvs: <AM6PR08MB37204615DD22417BC7EBDF45C1460@AM6PR08MB3720.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:820;
+x-forefront-prvs: 0236114672
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(136003)(39840400004)(346002)(396003)(189003)(199004)(2906002)(31696002)(52116002)(305945005)(66476007)(66946007)(316002)(86362001)(66556008)(386003)(6436002)(229853002)(558084003)(6486002)(64756008)(110136005)(54906003)(7736002)(66446008)(6506007)(36756003)(6512007)(2501003)(5660300002)(81166006)(8936002)(81156014)(31686004)(3846002)(71190400001)(71200400001)(6116002)(8676002)(25786009)(2616005)(4326008)(14454004)(256004)(26005)(76176011)(6246003)(446003)(11346002)(102836004)(99286004)(186003)(66066001)(478600001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3720;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C5JFfIG3GRNbUoOooCiJdU+PTvbf2U7LyPgfr94RncC8FY+8PDRuaL47cd7x2F9YVbzoXwMoHB96aMD5nEel2Tvq5qweJh+wy/HhM2uw3Uxyw5N2l1Cl0FGdW7jX2Rli/0WRLni4WgjuZYogggQV7ttA/DpmaAsW+0/k0Giyq5LvAjZg9AfYSqBa/YC4HIwBZAg6KUffC9di1bLb+Wbrf9KpEFq2IraJKVN/2PVzEb0dV8FA7m7A6ksdK3uLFYqkS15i1anTAqeB68NN2FrYk/7XwLypVGkZwCCi1gsI5RWnqRAOSZlHxwIgB2KCEOPztr0Lh4xog1c1DuKdmwCxz+Y7uYq2jsN+ByrMedL4b4nbuO/UL1aUJ9xVrHECtGrtAtoTRKhxrEc7k6d2v8Nr0J1J5fhwM1CwzOwQo+MhRaOf6jBbCBviI/VjGzYw9Nco
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <21C0816DA7987E4EAECA47D8A6F9FBD4@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ebd7187-1be2-4ca4-e20b-08d774b0f952
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 09:46:14.4388 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9BGpkdmNtuDqpZlsSWRJpqmdzra9pVrM+zzFP8IvWNccAhinqi3BZLwpxyqEKou0jMcdoVC1VGh+qB1+4GX4mgFAULYaDBstDvu0jJ8B/+c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3720
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,67 +109,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 29, 2019 at 1:42 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Fri, Nov 29, 2019 at 01:31:11PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Fri, Nov 29, 2019 at 1:27 PM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com> wrote:
-> > >
-> > > On Fri, Nov 29, 2019 at 11:30:51AM +0400, Marc-Andr=C3=A9 Lureau wrot=
-e:
-> > > > Hi
-> > > >
-> > > > On Fri, Nov 29, 2019 at 11:03 AM Gerd Hoffmann <kraxel@redhat.com> =
-wrote:
-> > > > >
-> > > > > On Thu, Nov 28, 2019 at 06:15:16PM +0400, Marc-Andr=C3=A9 Lureau =
-wrote:
-> > > > > > Hi,
-> > > > > >
-> > > > > > Setting up shared memory for vhost-user is a bit complicated fr=
-om
-> > > > > > command line, as it requires NUMA setup such as: m 4G -object
-> > > > > > memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,shar=
-e=3Don -numa
-> > > > > > node,memdev=3Dmem.
-> > > > > >
-> > > > > > Instead, I suggest to add a -mem-shared option for non-numa set=
-ups,
-> > > > > > that will make the -mem-path or anonymouse memory shareable.
-> > > > >
-> > > > > Is it an option to just use memfd by default (if available)?
-> > > >
-> > > > Yes, with a fallback path currently using a temporary file under /t=
-mp
-> > > > (we may want to use shm_open() instead, or a different location suc=
-h
-> > > > as XDG_RUNTIME_DIR? - and use O_TMPFILE)
-> > >
-> > > We can't assume either /tmp or XDG_RUNTIME_DIR is on tmpfs as that is=
- no
-> > > where near standard across all OS distros, and even if on tmpfs these
-> > > dirs can be size limited to a significant subset of available RAM. IO=
-W
-> > > we can't safely use them unless explicitly told to.
-> >
-> > Is shm_open() acceptable instead?
-> >
-> > Imho, -mem-shared should do a best effort by default, but can fail.
->
-> Possibly, but if we're relying on shm_open choosing the path, then
-> its harder for users to know what files to clean up when QEMU crashes
-> or otherwise exits wthout a shm_unlink
+11.11.2019 19:02, Max Reitz wrote:
+> This will be useful when we want to store additional attributes for each
+> child.
+>=20
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-True, although I think you can call shm_unlink() right after
-shm_open() that should limit the risk of those forgotten files.
+you forget my
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+--=20
+Best regards,
+Vladimir
 
