@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D5410D611
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:26:22 +0100 (CET)
-Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AC510D5F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:02:33 +0100 (CET)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iagHr-0001Mm-Dn
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:26:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58077)
+	id 1iafum-0002D4-FX
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47607)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmathieu@redhat.com>) id 1iafWD-0003TV-Dy
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:37:07 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iafiF-0003OJ-J6
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:49:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmathieu@redhat.com>) id 1iafW9-0000e3-P1
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:37:03 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28305
+ (envelope-from <mreitz@redhat.com>) id 1iafi9-0007u5-3O
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:49:28 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57634
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1iafW9-0000Mj-Kw
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:37:01 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iafi8-0007fa-VT
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575031017;
+ s=mimecast20190719; t=1575031762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qm+T1ASCH95EZ3Qw1MlwASDvflxC/HYi5p5Vtox9SuM=;
- b=U8+PzlRMztsNdry+nsb5ECzFd4U7OV6HCLX+BFm72GTJ1ShKA4pjbCCfjtQZtAahmY4YqX
- rati1LsC64rPwQI6kLUDwR2hdq4GyQuZCYVgVj8F6nnF2/Y/YsJZ3Q8ZK5oj0vnNanacXF
- MOlRJ0kEByJoGPGoysn1AVMoIcFKup0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-x-QRIQ6eP1yJD4IbTFTNIQ-1; Fri, 29 Nov 2019 07:36:56 -0500
-Received: by mail-wr1-f69.google.com with SMTP id q12so15571258wrr.3
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:36:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qm+T1ASCH95EZ3Qw1MlwASDvflxC/HYi5p5Vtox9SuM=;
- b=p0D86WDmCHS2vfVBW6AzMh1aKfr8kD8MJJ7eYHVv2ss3JSvmnUT4JchZop/AkmyXgX
- df80zWAiJJ3XshJc7UuqFtuaWDHVBxPbg+QgDIyIEj675T2VQFtztb3eFeU2wJhBpFKX
- mqbZcSWxdsBk9oZx57ZqXxYVcj6lKjs/k/MextVAS0dKLz3i9OEXicysRt2AFt6hrpEm
- F+Hs7ye+7Vi7cxZ5CnaBwqvYTL6yzMpVfI7C07xm2xqIq4oUAd3xtD1hmk8aXM66qKs+
- vBvgYF3L6uE4LK/1AQbocvnbmjgQuuojCI12gdnjnXrylmn2DGjw4+c/bHvP1zwsSvEN
- STSA==
-X-Gm-Message-State: APjAAAXzJBKNpXPNDBp8uJcSZwA4Q56VMxyOqQrBfDa8LIcDzVWTpYKT
- 4BmPYX92lYwZr2MgnCjv359Kd4y7uPegWI1ek19TiBAun+Tv8q9U+mlAlcICFi605Vfqf1wNLfu
- mC3Ot6PD/h5pRIUPljH0fcXQGZMVUHxo=
-X-Received: by 2002:adf:90d0:: with SMTP id i74mr51611007wri.298.1575031014914; 
- Fri, 29 Nov 2019 04:36:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwArhIg+Xa24mInLmTL2NSaJK5dIz19H4h7sFf68AUBvB3I2zEBunH4GO/LpvRm8F1l1T0veAlS5pUUCi++7TA=
-X-Received: by 2002:adf:90d0:: with SMTP id i74mr51610980wri.298.1575031014691; 
- Fri, 29 Nov 2019 04:36:54 -0800 (PST)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=s4p+WzTSZ25A8c0rSIuH0mBx9LJfTwgqIj2AF5c6uRU=;
+ b=JkGwgQXbk5CJYnhyGqdbm2LyNty/U9sZNajIcymDdrTLkg2UC1EA9cuIB6OB/45fONkN0n
+ TQRkRTzxJyuyXu6A2g7fFeU/uF+7tO5BGrkj2s1bX8LrzTqmgZfBL/c3Tm4abnHc5SPziJ
+ YZ2scJaDJj6KpwAEqmC4graOCx36Wvg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-INkWfQXtPlOLEPjxVST_RQ-1; Fri, 29 Nov 2019 07:49:18 -0500
+X-MC-Unique: INkWfQXtPlOLEPjxVST_RQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 516A918557C0;
+ Fri, 29 Nov 2019 12:49:17 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-206-40.brq.redhat.com
+ [10.40.206.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3DA91001281;
+ Fri, 29 Nov 2019 12:49:15 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 00/23] block: Fix check_to_replace_node()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <a134c8a6-17c1-34bc-79f6-76062ff0c668@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <2fd76d27-d60e-a9d1-f42a-89b9bd0d5dcb@redhat.com>
+Date: Fri, 29 Nov 2019 13:49:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191129104457.1991-1-philmd@redhat.com>
- <9e052d2b-50c9-9370-a279-002987375f89@redhat.com>
-In-Reply-To: <9e052d2b-50c9-9370-a279-002987375f89@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Fri, 29 Nov 2019 13:36:43 +0100
-Message-ID: <CAP+75-W4hi7oU636CN9f8d1aqrasxBYywwY7gvcVVSh36jnpOw@mail.gmail.com>
-Subject: Re: [PATCH-for-4.2? 0/1] roms/edk2: update submodule to
- edk2-stable201911, fixing low severity CVEs
-To: Laszlo Ersek <lersek@redhat.com>
-X-MC-Unique: x-QRIQ6eP1yJD4IbTFTNIQ-1
+In-Reply-To: <a134c8a6-17c1-34bc-79f6-76062ff0c668@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="LMEiHe91IaBnmo8BxjhFaaMMpmL0Bw1WO"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,52 +99,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- Cole Robinson <crobinso@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>, Bruce Rogers <brogers@suse.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 29, 2019 at 1:10 PM Laszlo Ersek <lersek@redhat.com> wrote:
->
-> Hi Phil,
->
-> On 11/29/19 11:44, Philippe Mathieu-Daud=C3=A9 wrote:
-> > I had this commit ready for when the next EDK2 release were go out,
-> > which just happened: https://edk2.groups.io/g/devel/message/51502
-> >
-> > Laszlo doesn't think it's worth the churn to rush to get this update
-> > into into 4.2-rc4: https://bugs.launchpad.net/qemu/+bug/1852196/comment=
-s/2
-> >
-> > I agree with Laszlo, users shouldn't use the EDK2 bundled within QEMU
-> > in production, and should rather build it from source. However some
-> > distributions seem to rely on this convenience way to package EDK2,
-> > and few CVEs are fixed in this new release. So it might be worthwhile
-> > to get this into 4.2-rc4. Anyhow distributions don't use QEMU stable
-> > tag directly and backport patches, so if there is no other rc4 patch,
-> > we could skip this for after 4.2, as Laszlo originally planned.
-> >
-> > Philippe Mathieu-Daud=C3=A9 (1):
-> >   roms/edk2: update submodule from edk2-stable201905 to
-> >     edk2-stable201911
-> >
-> >  roms/edk2 | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
->
-> if we want to do this, then the above diffstat is not enough.
->
-> - please evaluate whether we should do something like 9153b9d7401f
-> ("roms/Makefile.edk2: update input file list for
-> "pc-bios/edk2-licenses.txt"", 2019-06-14)
->
-> - we need to rebuild the binaries: 3583cb29f28f ("pc-bios: refresh edk2
-> build artifacts for edk2-stable201905", 2019-06-14)
->
-> - we should update the README file: 541617cad344 ("pc-bios: update the
-> README file with edk2-stable201905 information", 2019-06-14)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--LMEiHe91IaBnmo8BxjhFaaMMpmL0Bw1WO
+Content-Type: multipart/mixed; boundary="OMmrX9A78RoVAFCtcPab66gxQGHyjdmbI"
 
-Oops sorry for missing all these points, I'll do them.
+--OMmrX9A78RoVAFCtcPab66gxQGHyjdmbI
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.11.19 13:24, Vladimir Sementsov-Ogievskiy wrote:
+> 3 last iotests patches don't apply now.. Do you have a branch pushed some=
+where?
+
+Hm, it=E2=80=99s based on =E2=80=9Ciotests: Test failing mirror complete=E2=
+=80=9D, maybe because
+of that.
+
+Does this work?
+
+https://git.xanclic.moe/XanClic/qemu.git fix-can-replace-v2
+
+Max
+
+
+--OMmrX9A78RoVAFCtcPab66gxQGHyjdmbI--
+
+--LMEiHe91IaBnmo8BxjhFaaMMpmL0Bw1WO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3hE8oACgkQ9AfbAGHV
+z0AyUAf/UszUz6SNcMUjGGSO/Cba0BWSJeK1UVWLjJPQokB/vy76ajgqvS/MBB7o
+/Q/r5yMbYmIS/bBGqEtYA0yvJqmKwILrxsQoQ+tnEzrb8WpeuOUxeVnhtk2IN8UF
+DSbvtKXKxffhONmNKAaSXZoUFvOmuGu3M/0tQqXLWpJlM109OfMq7G3E2DOCkmi6
+7D57K3+QiBdkNAvKUJ5HgQDHRU03TjEfkvLElqzOfCjubE4jIqgLD10Dl+4llFIp
+LKzAlKoE4w3sTwY6788Ya7HpyOyWDJezNslJjOUGQQM6pCXlIfL/nCvFt5cBamGg
+kDXWP9WUwm9ML4niuWYaRLCBgYD5/A==
+=ZC7l
+-----END PGP SIGNATURE-----
+
+--LMEiHe91IaBnmo8BxjhFaaMMpmL0Bw1WO--
 
 
