@@ -2,102 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1023610D702
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:30:37 +0100 (CET)
-Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3D510D78A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:58:32 +0100 (CET)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iahI3-0003GU-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:30:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36980)
+	id 1iahj4-0001dK-Fy
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:58:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iah5e-00053u-3s
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:17:47 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iah63-00057m-4p
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:18:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iah5Z-0006KU-53
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:17:43 -0500
-Received: from mail-he1eur02on0722.outbound.protection.outlook.com
- ([2a01:111:f400:fe05::722]:4078
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iah5Y-00064C-T2; Fri, 29 Nov 2019 09:17:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MPGjctGi0ObsfRLgY8W6JVAuStufHfPIHOZX62KE4/i8KRSp2QPcn5zants4LFE/+d6WvLmLKTKidJb2FdvDo83G4DXlcPK/JyzpBNfZguX/UwT/BaycjekximOsl8EMbLFNoxWOyNDKhq6NXNchEa/RwAqO25JOgnh8Ui9vTm2LhpsMIVnIMph3owuf2+CJgWRyutkJf2mfSlTVlRRPLGjaDnFSdcI9V5DV/dKgUQy2XQllaRkBzw8ktCk8uCZ1MSYh0ytwgoS+ENjNmS8pSpf1Z86jutYRqCDJj+aFRDj5jy/LpUEM3AdsYcH02uvv2h8lgo2OT7DkhLEv7mIs9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FvWJCe7wF+Dy7BOmazRmeKWlZ+l0MbX+QvAdlX1zUkc=;
- b=BdQHVB9HD2whCCW33zeMOBZhbFFDt88pygJjXRe2KG3Iw8qXSthdzf74i972Wg8RulR2VpEnKariupH+SNZHxlva3BziUF4YLFzBvh3dNtr6TSb8gSRC4lmI6ASB/x69hs1RwfaJerB5hsZqQpvKzvrmCAO11kXWfrHHzr3q181cOld3IftCaXKDTHtE41fTnNhQkrZMxZTaFscAwqoI0+i6TFTXSikOyGGhm3T0bsoeKt8tFgU1/PoKFl5UpwGx+qx7nLqactn16BFTagHkh0yXBl1q2jwFmOpZVz0uufEYeb6JioIFMpxYLiIiGFbi7u7G+A3NIlYaZks9F/J7hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FvWJCe7wF+Dy7BOmazRmeKWlZ+l0MbX+QvAdlX1zUkc=;
- b=LBQW2dhi1FS4Yizw67dFdVYWSJDQOoEaDkAMdUjHVITTgT3dIt2ljNXJRV8B4stplcrCxWftEPDhrNZajBVAqoIwrD0zWAJccZmgxztz/+IkLdUrDlcuJJLiblLGLySW+LqKqc55uMQ54IwsGSURaYxzNxZyYNu8eBMDxKWpxSI=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3400.eurprd08.prod.outlook.com (20.177.112.155) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.21; Fri, 29 Nov 2019 14:17:36 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
- 14:17:35 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v6] nbd: well form nbd_iter_channel_error errp handler
-Thread-Topic: [PATCH v6] nbd: well form nbd_iter_channel_error errp handler
-Thread-Index: AQHVpVYYOOqrL+0ML0i4F9pC4GQXY6eiJjTSgAAOm4A=
-Date: Fri, 29 Nov 2019 14:17:35 +0000
-Message-ID: <2c082987-6d6b-557f-2b9d-28643c445a0c@virtuozzo.com>
-References: <20191127190840.15773-1-vsementsov@virtuozzo.com>
- <878snyu85p.fsf@dusky.pond.sub.org>
-In-Reply-To: <878snyu85p.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0102CA0015.eurprd01.prod.exchangelabs.com
- (2603:10a6:7:14::28) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191129171733210
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6f6d1ea7-6714-4d2a-2b2a-08d774d6e1d6
-x-ms-traffictypediagnostic: AM6PR08MB3400:
-x-microsoft-antispam-prvs: <AM6PR08MB34003F544B4171BDEAB24680C1460@AM6PR08MB3400.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-forefront-prvs: 0236114672
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(376002)(366004)(346002)(396003)(39840400004)(199004)(189003)(66556008)(66476007)(66446008)(66946007)(31686004)(14444005)(81166006)(81156014)(8676002)(8936002)(256004)(25786009)(99286004)(64756008)(6116002)(3846002)(5660300002)(14454004)(478600001)(66066001)(2906002)(386003)(6506007)(7736002)(102836004)(86362001)(6512007)(36756003)(26005)(76176011)(186003)(4326008)(52116002)(6246003)(6916009)(305945005)(2616005)(6486002)(31696002)(54906003)(11346002)(446003)(71200400001)(71190400001)(229853002)(6436002)(316002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3400;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: aJ9e597XISphEgloDabBFZvaOTToh8Gri7qp1Bi735EGPn2xRVgwbc4gBoITq5Wzm32JOYqSkoJTFwdZ0JoWt0nhicUy9f+y3jsKT9Ekr7VC/4zKwcOSZtFVDfS9QoLeUMWpU2/1Kgja12eLUF9oYs7/ZB6rfAKPTeMNEQouX3B8helu1op+DWClNuRvH5II1AQOAMGeeCPk1Am8RuCl3tUtK3on0bjdPPWl7pfLw0RparXA7OpJ7pMOTt1vcwWhd/FuSOA23Vk5UN+W2ZcYWvVXniXRkZyLAxtkh8Ld3Gzwifwfuudli28DDYuVLxqCmBckGOBuaih0QMFJwjfk+49nKVy+VGRWAsJZC18E+ci/mheID6ibGt5/PNf9ITgeYHJm7JMSkBDhNm1oqDGnC+4cKSTkuQnozPpnGQkF+NkFN4fxcFLXlnvTIHNcAJ9X
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A29F862D1092274DA9906CBD1268DFA5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1iah5r-0006uE-Ai
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:18:00 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31203
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iah5r-0006qs-3i
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:17:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575037076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Sr/bkscq4Uo/GUPRYwYoVU65u5LfCePnvDHHFyXYVu4=;
+ b=NCoHkiytjdWESW4D1tFPf1v8wK6DBhVG9sjTuVlWUmE58wa4JYGJTXXRfYpIU/vh64sssw
+ 8dJUbRPZr/WGcIQhHcR4101XodGeMtpjkFA1/SgyJHO6YF5PRevhf9KRoUP9nqzjnT7h9l
+ 1Y7Kh2PPjUT566G1m/mvracRAkGSs6g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-KizBumAXPy6HXOlKuFuR2Q-1; Fri, 29 Nov 2019 09:17:52 -0500
+X-MC-Unique: KizBumAXPy6HXOlKuFuR2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE6CD800D53;
+ Fri, 29 Nov 2019 14:17:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-206-40.brq.redhat.com
+ [10.40.206.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75EA9600C8;
+ Fri, 29 Nov 2019 14:17:49 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 15/23] mirror: Prevent loops
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-16-mreitz@redhat.com>
+ <2c47c1be-e633-c769-88fe-684fe1ebe80f@virtuozzo.com>
+ <88baa19f-1433-178e-33eb-16c275dec909@redhat.com>
+ <c85c5101-2b88-5fb7-1d32-09261646b57c@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <af704f0a-273e-e4eb-3348-c7bec6936f87@redhat.com>
+Date: Fri, 29 Nov 2019 15:17:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f6d1ea7-6714-4d2a-2b2a-08d774d6e1d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 14:17:35.8316 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4kNE/CGvGuxer+4K9P+ZnLAI2DVmm1GjAyokavYcRa3ZWG5YYBiCdUUZQrBrEzvF5qdLALw1OrvTf7uaNQwisoSnohLqfOoYj24MNSrTJNA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3400
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe05::722
+In-Reply-To: <c85c5101-2b88-5fb7-1d32-09261646b57c@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="QfWkkwtvGdVj4eXv5YKWpPj5tuBkkIWoL"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,49 +102,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjkuMTEuMjAxOSAxNjoyNSwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFZsYWRpbWlyIFNl
-bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiAN
-Cj4+IE1ha2UgbmJkX2l0ZXJfY2hhbm5lbF9lcnJvciBlcnJwIGhhbmRsZXIgd2VsbCBmb3JtZWQ6
-DQo+PiByZW5hbWUgbG9jYWxfZXJyIHRvIGVycnBfaW4sIGFzIGl0IGlzIElOLXBhcmFtZXRlciBo
-ZXJlICh3aGljaCBpcw0KPj4gdW51c3VhbCBmb3IgRXJyb3IqKikuDQo+Pg0KPj4gU2lnbmVkLW9m
-Zi1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8u
-Y29tPg0KPj4gUmV2aWV3ZWQtYnk6IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPg0KPj4g
-LS0tDQo+Pg0KPj4gdjY6IGZpeCBjb21taXQgbWVzc2FnZQ0KPj4gICAgICBhZGQgRXJpYydzIHIt
-Yg0KPj4NCj4+ICAgYmxvY2svbmJkLmMgfCAxMCArKysrKy0tLS0tDQo+PiAgIDEgZmlsZSBjaGFu
-Z2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBh
-L2Jsb2NrL25iZC5jIGIvYmxvY2svbmJkLmMNCj4+IGluZGV4IDVmMThmNzhhOTQuLjM0NWJmOTAy
-ZTMgMTAwNjQ0DQo+PiAtLS0gYS9ibG9jay9uYmQuYw0KPj4gKysrIGIvYmxvY2svbmJkLmMNCj4+
-IEBAIC04NjQsMTggKzg2NCwxOCBAQCB0eXBlZGVmIHN0cnVjdCBOQkRSZXBseUNodW5rSXRlciB7
-DQo+PiAgIH0gTkJEUmVwbHlDaHVua0l0ZXI7DQo+PiAgIA0KPj4gICBzdGF0aWMgdm9pZCBuYmRf
-aXRlcl9jaGFubmVsX2Vycm9yKE5CRFJlcGx5Q2h1bmtJdGVyICppdGVyLA0KPj4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IHJldCwgRXJyb3IgKipsb2NhbF9lcnIpDQo+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgcmV0LCBFcnJvciAqKmVy
-cnBfaW4pDQo+PiAgIHsNCj4+IC0gICAgYXNzZXJ0KHJldCA8IDApOw0KPj4gKyAgICBhc3NlcnQo
-cmV0IDwgMCAmJiBlcnJwX2luICYmICplcnJwX2luKTsNCj4+ICAgDQo+PiAgICAgICBpZiAoIWl0
-ZXItPnJldCkgew0KPj4gICAgICAgICAgIGl0ZXItPnJldCA9IHJldDsNCj4+IC0gICAgICAgIGVy
-cm9yX3Byb3BhZ2F0ZSgmaXRlci0+ZXJyLCAqbG9jYWxfZXJyKTsNCj4+ICsgICAgICAgIGVycm9y
-X3Byb3BhZ2F0ZSgmaXRlci0+ZXJyLCAqZXJycF9pbik7DQo+PiAgICAgICB9IGVsc2Ugew0KPj4g
-LSAgICAgICAgZXJyb3JfZnJlZSgqbG9jYWxfZXJyKTsNCj4+ICsgICAgICAgIGVycm9yX2ZyZWUo
-KmVycnBfaW4pOw0KPj4gICAgICAgfQ0KPj4gICANCj4+IC0gICAgKmxvY2FsX2VyciA9IE5VTEw7
-DQo+PiArICAgICplcnJwX2luID0gTlVMTDsNCj4gDQo+IFRoaXMgb25lIGlzIGFjdHVhbGx5IGlu
-L291dC4NCj4gDQo+IElmIHdlIHVzZSB0aGUgY29udmVudGlvbg0KPiANCj4gICAgICBBbnkgRXJy
-b3IgKiogcGFyYW1ldGVyIG1lYW50IGZvciBwYXNzaW5nIGFuIGVycm9yIHRvIHRoZSBjYWxsZXIg
-bXVzdA0KPiAgICAgIGJlIG5hbWVkIEBlcnJwLiAgTm8gb3RoZXIgRXJyb3IgKiogcGFyYW1ldGVy
-IG1heSBiZSBuYW1lZCBAZXJycC4NCj4gDQo+IHRoZW4gdGhlIG9sZCBuYW1lIGlzIGFzIGdvb2Qg
-YXMgdGhlIG5ldyBvbmUuICBCdXQgdGhlIG5ldyBvbmUncyAiaW4iDQo+IHN1Z2dlc3Rpb24gaXMg
-bWlzbGVhZGluZy4NCj4gDQoNCkFncmVlZC4gRG8geW91IGhhdmUgYSBzdWdnZXN0aW9uIGhvdyB0
-byByZW5hbWUgZXJycCBpbiBzdWNoIGNhc2VzICh1c2luZw0KbG9jYWxfZXJyIGluIGdlbmVyYWwg
-d2lsbCBiZSBtaXNsZWFkaW5nIHRvbykuLg0KDQpNYXliZSwgImZpbGxlZF9lcnJwIiA/IFNlZW1z
-IHRvbyBsb25nLi4NCiJzZXRfZXJycCIgaXMgc2hvcnRlciwgYnV0IG5vIG9uZSB3aWxsIGd1ZXNz
-IHRoYXQgdGhpcyBpcyB0aGUgdGhpcmQgZm9ybSBvZiB0aGUgdmVyYi4uDQoNCj4+ICAgfQ0KPj4g
-ICANCj4+ICAgc3RhdGljIHZvaWQgbmJkX2l0ZXJfcmVxdWVzdF9lcnJvcihOQkRSZXBseUNodW5r
-SXRlciAqaXRlciwgaW50IHJldCkNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1p
-cg0K
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--QfWkkwtvGdVj4eXv5YKWpPj5tuBkkIWoL
+Content-Type: multipart/mixed; boundary="jadzCEVEMg2IEEusv2OCeQHH28yfAdM7L"
+
+--jadzCEVEMg2IEEusv2OCeQHH28yfAdM7L
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.11.19 14:55, Vladimir Sementsov-Ogievskiy wrote:
+> 29.11.2019 16:46, Max Reitz wrote:
+>> On 29.11.19 13:01, Vladimir Sementsov-Ogievskiy wrote:
+>>> 11.11.2019 19:02, Max Reitz wrote:
+>>>> While bdrv_replace_node() will not follow through with it, a specific
+>>>> @replaces asks the mirror job to create a loop.
+>>>>
+>>>> For example, say both the source and the target share a child where th=
+e
+>>>> source is a filter; by letting @replaces point to the common child, yo=
+u
+>>>> ask for a loop.
+>>>>
+>>>> Or if you use @replaces in drive-mirror with sync=3Dnone and
+>>>> mode=3Dabsolute-paths, you generally ask for a loop (@replaces must po=
+int
+>>>> to a child of the source, and sync=3Dnone makes the source the backing
+>>>> file of the target after the job).
+>>>>
+>>>> bdrv_replace_node() will not create those loops, but by doing so, it
+>>>> ignores the user-requested configuration, which is not ideally either.
+>>>> (In the first example above, the target's child will remain what it wa=
+s,
+>>>> which may still be reasonable.  But in the second example, the target
+>>>> will just not become a child of the source, which is precisely what wa=
+s
+>>>> requested with @replaces.)
+>>>>
+>>>> So prevent such configurations, both before the job, and before it
+>>>> actually completes.
+>>>>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>>    block.c                   | 30 ++++++++++++++++++++++++
+>>>>    block/mirror.c            | 19 +++++++++++++++-
+>>>>    blockdev.c                | 48 ++++++++++++++++++++++++++++++++++++=
+++-
+>>>>    include/block/block_int.h |  3 +++
+>>>>    4 files changed, 98 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/block.c b/block.c
+>>>> index 0159f8e510..e3922a0474 100644
+>>>> --- a/block.c
+>>>> +++ b/block.c
+>>>> @@ -6259,6 +6259,36 @@ out:
+>>>>        return to_replace_bs;
+>>>>    }
+>>>>   =20
+>>>> +/*
+>>>> + * Return true iff @child is a (recursive) child of @parent, with at
+>>>> + * least @min_level edges between them.
+>>>> + *
+>>>> + * (If @min_level =3D=3D 0, return true if @child =3D=3D @parent.  Fo=
+r
+>>>> + * @min_level =3D=3D 1, @child needs to be at least a real child; for
+>>>> + * @min_level =3D=3D 2, it needs to be at least a grand-child; and so=
+ on.)
+>>>> + */
+>>>> +bool bdrv_is_child_of(BlockDriverState *child, BlockDriverState *pare=
+nt,
+>>>> +                      int min_level)
+>>>> +{
+>>>> +    BdrvChild *c;
+>>>> +
+>>>> +    if (child =3D=3D parent && min_level <=3D 0) {
+>>>> +        return true;
+>>>> +    }
+>>>> +
+>>>> +    if (!parent) {
+>>>> +        return false;
+>>>> +    }
+>>>> +
+>>>> +    QLIST_FOREACH(c, &parent->children, next) {
+>>>> +        if (bdrv_is_child_of(child, c->bs, min_level - 1)) {
+>>>> +            return true;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>> +    return false;
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * Iterates through the list of runtime option keys that are said t=
+o
+>>>>     * be "strong" for a BDS.  An option is called "strong" if it chang=
+es
+>>>> diff --git a/block/mirror.c b/block/mirror.c
+>>>> index 68a4404666..b258c7e98b 100644
+>>>> --- a/block/mirror.c
+>>>> +++ b/block/mirror.c
+>>>> @@ -701,7 +701,24 @@ static int mirror_exit_common(Job *job)
+>>>>             * there.
+>>>>             */
+>>>>            if (bdrv_recurse_can_replace(src, to_replace)) {
+>>>> -            bdrv_replace_node(to_replace, target_bs, &local_err);
+>>>> +            /*
+>>>> +             * It is OK for @to_replace to be an immediate child of
+>>>> +             * @target_bs, because that is what happens with
+>>>> +             * drive-mirror sync=3Dnone mode=3Dabsolute-paths: target=
+_bs's
+>>>> +             * backing file will be the source node, which is also
+>>>> +             * to_replace (by default).
+>>>> +             * bdrv_replace_node() handles this case by not letting
+>>>> +             * target_bs->backing point to itself, but to the source
+>>>> +             * still.
+>>>> +             */
+>>>
+>>> Hmm.. So, we want the following valid case:
+>>>
+>>> (other parents of source) ----> source =3D to_replace <--- backing --- =
+target
+>>>
+>>> becomes
+>>>
+>>> (other parents of source) ----> target --- backing ---> source
+>>>
+>>> But it seems for me, that the following is not less valid:
+>>>
+>>> (other parents of source) ----> source =3D to_replace <--- backing --- =
+X <--- backing --- target
+>>>
+>>> becomes
+>>>
+>>> (other parents of source) ----> target --- backing ---> X --- backing -=
+--> source
+>>
+>> I think it is less valid.  The first case works with sync=3Dnone, becaus=
+e
+>> target is initially empty and then you just copy all new data, so the
+>> target keeps looking like the source.
+>>
+>> But in the second case, there are intermediate nodes that mean that
+>> target may well not look like the source.
+>=20
+> Maybe, it's valid if target node is a filter? Or, otherwise, it's backing=
+ is a filter,
+> but this seems less useful.
+
+The question to me is whether it=92s really useful.  The thing is that
+maybe bdrv_replace_node() can make sense of it.  But still, from the
+user=92s perspective, they kind of are asking for a loop whenever
+to_replace is a child of target.  It just so happens that we must allow
+one of these cases because it=92s the default case for sync=3Dnone.
+
+So I=92d rather forbid all such cases, because it should be understandable
+to users why...
+
+Max
+
+
+--jadzCEVEMg2IEEusv2OCeQHH28yfAdM7L--
+
+--QfWkkwtvGdVj4eXv5YKWpPj5tuBkkIWoL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3hKIwACgkQ9AfbAGHV
+z0B74Qf/SpnK9LlEu+JtDulcEm2NPMXpqC3S7ffgWoaxg51X2kgXZxLdZKjaGeiU
+UVrral6gdsCm2CAG7F1TjoVla46s0ys0qkJPxlTZwpedWtCsADWCYWbajaWUDPk2
+1VU6RWgmR2w8gcTH0X+bsA0AuWgkrpkZ0DByqeV518bfttyYjxVu/0AcCO1XO0Vr
+GDNJWs785nLfAn8rZtD/Yr6awZJPbkcUpOqtuzZ5KftM7y9T8+DrebT2gZ8IPXP9
+dmyZxcVuX8RyiHBAHT/HeO5imo6EL2GqoLHoAodQnGFF7egKSDf4pI7/CKdN7cTk
+eogVOdkAyZP0cTY637LFkLqJGWgZnQ==
+=e7ya
+-----END PGP SIGNATURE-----
+
+--QfWkkwtvGdVj4eXv5YKWpPj5tuBkkIWoL--
+
 
