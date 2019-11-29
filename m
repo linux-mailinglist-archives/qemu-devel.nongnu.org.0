@@ -2,47 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297CC10D119
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 06:41:33 +0100 (CET)
-Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9777A10D125
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 06:53:17 +0100 (CET)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaZ20-0005HP-Ul
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 00:41:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55695)
+	id 1iaZDP-0003iK-KJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 00:53:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iaYuy-0002h1-CH
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 00:34:14 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iaYz4-0005Fn-Pq
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 00:38:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iaYuu-0002uz-Sk
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 00:34:11 -0500
-Received: from ozlabs.org ([203.11.71.1]:47053)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iaYuu-0002Mn-GQ; Fri, 29 Nov 2019 00:34:08 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47PNV00zrLz9sR8; Fri, 29 Nov 2019 16:33:59 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1575005640;
- bh=eSymelUFtceSa3fIrS+iMSr+NirExn0qwY6U9PuT39U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mif7cP/8eQ0/WPbEJIW4malfvYPzeMSlReIlzlrMvzpuV5y4Bs6CUGXckGJAHt3sc
- T4+ePium7VXm5es1txjsWH8fed3Xf/ldWU1dkkR4OiigSAxFEwKENHMo2D3vr0HnuW
- q2HVdmP2CyFL3igPSDm6MjlT2jsVBlCKSRXWjymg=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: groug@kaod.org,
-	clg@kaod.org
-Subject: [for-5.0 4/4] spapr: Simplify ovec diff
-Date: Fri, 29 Nov 2019 16:33:56 +1100
-Message-Id: <20191129053356.232413-5-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191129053356.232413-1-david@gibson.dropbear.id.au>
-References: <20191129053356.232413-1-david@gibson.dropbear.id.au>
+ (envelope-from <no-reply@patchew.org>) id 1iaYyz-0007J2-HL
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 00:38:23 -0500
+Resent-Date: Fri, 29 Nov 2019 00:38:22 -0500
+Resent-Message-Id: <E1iaYyz-0007J2-HL@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21122)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iaYyz-000759-4h
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 00:38:21 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1575005699; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RH4b1LVMr33IEambYAnaiV44/AyARSESdWAPPT1pARDhL/VOwLTZvfYkHpH/GJOA4ESGyhSXLPX3Q7NhD5RWVr0odhmKgJoOr1sUpxf5lR5oRQym5OEk7j0FtwTJrXtil7aiE+LKudVJHZ84KTBiOR0n9rFJZqCZ2Z5/m1pnEME=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1575005699;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=JzMwrCibrqf+WP1NqDjagy3DJz3LE0wNpKto0FMBjts=; 
+ b=D/RU/3D6rgbSLsjxmYek0n8JuvmVgx5JOs3bXRsB4KF+AxyvQaQGScYSfNTtHE3oeEpGk/L0+8ySWa/vRNjaEtbeQeA7TMr6VkzFWXoyUiW7M+XrMuNmLKUgPN8x2uIqEtFRITkWwas6XpvuJdwnPEHvmZQLMJ+ndvVykTDY/KQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1575005697887233.08838934653045;
+ Thu, 28 Nov 2019 21:34:57 -0800 (PST)
+In-Reply-To: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
+Message-ID: <157500569655.16987.1064228686679092901@37313f22b938>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: marcandre.lureau@redhat.com
+Date: Thu, 28 Nov 2019 21:34:57 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,170 +64,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_ovec_diff(ov, old, new) has somewhat complex semantics.  ov is set
-to those bits which are in new but not old, and it returns as a boolean
-whether or not there are any bits in old but not new.
-
-It turns out that both callers only care about the second, not the first.
-This is basically equivalent to a bitmap subset operation, which is easie=
-r
-to understand and implement.  So replace spapr_ovec_diff() with
-spapr_ovec_subset().
-
-Cc: Mike Roth <mdroth@linux.vnet.ibm.com>
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr.c              | 14 +++-----------
- hw/ppc/spapr_hcall.c        |  8 ++------
- hw/ppc/spapr_ovec.c         | 30 ++++++++++--------------------
- include/hw/ppc/spapr_ovec.h |  4 +---
- 4 files changed, 16 insertions(+), 40 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 5187f5b0a5..32e1cc1d3f 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1840,8 +1840,6 @@ static bool spapr_ov5_cas_needed(void *opaque)
- {
-     SpaprMachineState *spapr =3D opaque;
-     SpaprOptionVector *ov5_mask =3D spapr_ovec_new();
--    SpaprOptionVector *ov5_legacy =3D spapr_ovec_new();
--    SpaprOptionVector *ov5_removed =3D spapr_ovec_new();
-     bool cas_needed;
-=20
-     /* Prior to the introduction of SpaprOptionVector, we had two option
-@@ -1873,17 +1871,11 @@ static bool spapr_ov5_cas_needed(void *opaque)
-     spapr_ovec_set(ov5_mask, OV5_DRCONF_MEMORY);
-     spapr_ovec_set(ov5_mask, OV5_DRMEM_V2);
-=20
--    /* spapr_ovec_diff returns true if bits were removed. we avoid using
--     * the mask itself since in the future it's possible "legacy" bits m=
-ay be
--     * removed via machine options, which could generate a false positiv=
-e
--     * that breaks migration.
--     */
--    spapr_ovec_intersect(ov5_legacy, spapr->ov5, ov5_mask);
--    cas_needed =3D spapr_ovec_diff(ov5_removed, spapr->ov5, ov5_legacy);
-+    /* We need extra information if we have any bits outside the mask
-+     * defined above */
-+    cas_needed =3D !spapr_ovec_subset(spapr->ov5, ov5_mask);
-=20
-     spapr_ovec_cleanup(ov5_mask);
--    spapr_ovec_cleanup(ov5_legacy);
--    spapr_ovec_cleanup(ov5_removed);
-=20
-     return cas_needed;
- }
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 0f19be794c..f1799b1b70 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1671,7 +1671,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-     target_ulong fdt_bufsize =3D args[2];
-     target_ulong ov_table;
-     uint32_t cas_pvr;
--    SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old, *ov5_updates=
-;
-+    SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old;
-     bool guest_radix;
-     Error *local_err =3D NULL;
-     bool raw_mode_supported =3D false;
-@@ -1770,9 +1770,7 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-     /* capabilities that have been added since CAS-generated guest reset=
-.
-      * if capabilities have since been removed, generate another reset
-      */
--    ov5_updates =3D spapr_ovec_new();
--    spapr->cas_reboot =3D spapr_ovec_diff(ov5_updates,
--                                        ov5_cas_old, spapr->ov5_cas);
-+    spapr->cas_reboot =3D !spapr_ovec_subset(ov5_cas_old, spapr->ov5_cas=
-);
-     spapr_ovec_cleanup(ov5_cas_old);
-     /* Now that processing is finished, set the radix/hash bit for the
-      * guest if it requested a valid mode; otherwise terminate the boot.=
- */
-@@ -1849,8 +1847,6 @@ static target_ulong h_client_architecture_support(P=
-owerPCCPU *cpu,
-         spapr->fdt_blob =3D fdt;
-     }
-=20
--    spapr_ovec_cleanup(ov5_updates);
--
-     if (spapr->cas_reboot) {
-         qemu_system_reset_request(SHUTDOWN_CAUSE_SUBSYSTEM_RESET);
-     }
-diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
-index 811fadf143..0ff6d1aeae 100644
---- a/hw/ppc/spapr_ovec.c
-+++ b/hw/ppc/spapr_ovec.c
-@@ -76,31 +76,21 @@ void spapr_ovec_intersect(SpaprOptionVector *ov,
-     bitmap_and(ov->bitmap, ov1->bitmap, ov2->bitmap, OV_MAXBITS);
- }
-=20
--/* returns true if options bits were removed, false otherwise */
--bool spapr_ovec_diff(SpaprOptionVector *ov,
--                     SpaprOptionVector *ov_old,
--                     SpaprOptionVector *ov_new)
-+/* returns true if ov1 has a subset of bits in ov2 */
-+bool spapr_ovec_subset(SpaprOptionVector *ov1, SpaprOptionVector *ov2)
- {
--    unsigned long *change_mask =3D bitmap_new(OV_MAXBITS);
--    unsigned long *removed_bits =3D bitmap_new(OV_MAXBITS);
--    bool bits_were_removed =3D false;
-+    unsigned long *tmp =3D bitmap_new(OV_MAXBITS);
-+    bool result;
-=20
--    g_assert(ov);
--    g_assert(ov_old);
--    g_assert(ov_new);
--
--    bitmap_xor(change_mask, ov_old->bitmap, ov_new->bitmap, OV_MAXBITS);
--    bitmap_and(ov->bitmap, ov_new->bitmap, change_mask, OV_MAXBITS);
--    bitmap_and(removed_bits, ov_old->bitmap, change_mask, OV_MAXBITS);
-+    g_assert(ov1);
-+    g_assert(ov2);
-=20
--    if (!bitmap_empty(removed_bits, OV_MAXBITS)) {
--        bits_were_removed =3D true;
--    }
-+    bitmap_andnot(tmp, ov1->bitmap, ov2->bitmap, OV_MAXBITS);
-+    result =3D bitmap_empty(tmp, OV_MAXBITS);
-=20
--    g_free(change_mask);
--    g_free(removed_bits);
-+    g_free(tmp);
-=20
--    return bits_were_removed;
-+    return result;
- }
-=20
- void spapr_ovec_cleanup(SpaprOptionVector *ov)
-diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-index 7891e9caac..2bed517a2b 100644
---- a/include/hw/ppc/spapr_ovec.h
-+++ b/include/hw/ppc/spapr_ovec.h
-@@ -66,9 +66,7 @@ SpaprOptionVector *spapr_ovec_clone(SpaprOptionVector *=
-ov_orig);
- void spapr_ovec_intersect(SpaprOptionVector *ov,
-                           SpaprOptionVector *ov1,
-                           SpaprOptionVector *ov2);
--bool spapr_ovec_diff(SpaprOptionVector *ov,
--                     SpaprOptionVector *ov_old,
--                     SpaprOptionVector *ov_new);
-+bool spapr_ovec_subset(SpaprOptionVector *ov1, SpaprOptionVector *ov2);
- void spapr_ovec_cleanup(SpaprOptionVector *ov);
- void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
- void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
---=20
-2.23.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTEyODE0MTUxOC42Mjgy
+NDUtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCAwLzJdIFJGQzogYWRkIC1tZW0t
+c2hhcmVkIG9wdGlvbgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTExMjgxNDE1MTguNjI4
+MjQ1LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
+PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
+ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
+Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
+Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
+ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmUyNTM3ZGEgQWRkIC1tZW0t
+c2hhcmVkIG9wdGlvbgo2MjNkMDQ0IG1lbWZkOiBhZGQgcWVtdV9tZW1mZF9vcGVuKCkKCj09PSBP
+VVRQVVQgQkVHSU4gPT09CjEvMiBDaGVja2luZyBjb21taXQgNjIzZDA0NDAyM2QxIChtZW1mZDog
+YWRkIHFlbXVfbWVtZmRfb3BlbigpKQoyLzIgQ2hlY2tpbmcgY29tbWl0IGUyNTM3ZGEzNDY2MyAo
+QWRkIC1tZW0tc2hhcmVkIG9wdGlvbikKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNlIGdsb2JhbHMg
+dG8gMCBvciBOVUxMCiMxMjM6IEZJTEU6IHZsLmM6MTQ2OgoraW50IG1lbV9zaGFyZWQgPSAwOwoK
+dG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA5MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzIg
+aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
+cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
+Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
+YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMTI4MTQxNTE4LjYyODI0NS0xLW1hcmNhbmRyZS5s
+dXJlYXVAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
+YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
+cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
+b20=
 
 
