@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A595010D821
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:56:48 +0100 (CET)
-Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4C910D7FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:41:24 +0100 (CET)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaidS-0006Lu-90
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:56:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41665)
+	id 1iaiOZ-0003aq-55
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:41:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iahQD-0004IP-4D
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:39:02 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iaiIu-0000RR-Oh
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:35:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iahQ6-0003zj-AQ
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:38:55 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42518
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iahQ5-0003rq-1X
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:38:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575038331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SAh+xBH+NG0Z678qWnFJqufizw6LtGi5UK/C+k8Yxxg=;
- b=RiHA9WyLIEXI99OqhbsQw2NZp+qU0oTFf2G3IhHrtrRf6Uvv3b/wp2IvcIwlM08X2zitfh
- 7eCBbBbKljeZwFYIDjsokMjqZW9e1TnkSVkpeF8cdFmOnGYmLT6u7feQVp9Y+LAYYi7kjV
- eB8OGFcpqpg3h2HQ/acjvlwD8bz3PMs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-133hq1IwPzST0w5cXsRA-g-1; Fri, 29 Nov 2019 09:38:49 -0500
-X-MC-Unique: 133hq1IwPzST0w5cXsRA-g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9C8800D41;
- Fri, 29 Nov 2019 14:38:48 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-206-40.brq.redhat.com
- [10.40.206.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAFF119C58;
- Fri, 29 Nov 2019 14:38:46 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 v2 15/23] mirror: Prevent loops
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-16-mreitz@redhat.com>
- <2c47c1be-e633-c769-88fe-684fe1ebe80f@virtuozzo.com>
- <88baa19f-1433-178e-33eb-16c275dec909@redhat.com>
- <c85c5101-2b88-5fb7-1d32-09261646b57c@virtuozzo.com>
- <af704f0a-273e-e4eb-3348-c7bec6936f87@redhat.com>
- <4249aa4c-0e85-f25c-f1cc-672dd3245878@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ac678e61-a59b-ed7c-a679-d3877ccbaac4@redhat.com>
-Date: Fri, 29 Nov 2019 15:38:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iaiIq-0001HS-Ov
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:35:32 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37414)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iaiIp-00016t-RR
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:35:28 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w15so4738375wru.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 07:35:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rdS0pBsjTbXU6XBuj/RG0shyMUIgzZcBtNWsn0zEOxs=;
+ b=ONg1H5GRSDxsu3eWxM92PQ80BcXX8E+GIvtikR2347cdtT74G8NhXHIsSyIZDjGd56
+ IkuB0ZPViOX1QHPfVcmCBw3i+WY6XfZ/RwJ7isXXbD9sKR8JptbUzPFn0xKG7Q7z8h42
+ 501XibOxnFTLlhbfwVTFNKtUhoJjXSbmtDL81YRokno9H31Dy+ljpJ5/aWrQQIJ03i9a
+ vA9SCVk4toFpmb616l7SW2v6suCpwhxkwaRKQavLRywSHuSq00p/+fILsbHeEKlFdf6u
+ 4CzMcEP5FaB0V5UHW5EmbGrOU3qM1aoxYrpd7dPof/0NtuayfvbQ9FYnDAa5172WfpAh
+ 8i9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rdS0pBsjTbXU6XBuj/RG0shyMUIgzZcBtNWsn0zEOxs=;
+ b=ZyK4U3iW9YKkA4NXHDgMz5AU3xKHOP7z/3Ci/CoiNKtNzoCjmhNbpVfpC+1dMX1i26
+ DysJw/hqgsfM/SoqYzEGwfAziv3vVsf/LhXHHxmJTCA52cYpuQlMmzn4oRE+JGIH+jJy
+ jqokKau9KZlBRKCZu+CCuCP6qGVOznWn71Ii2lJiVSVLGx2uk+WJacV8XIV99qddtaK9
+ h9jprcLreFlLE4dT49hG9hLa+9iD46uBzS1E07dHISvzSKifcyoy9OeTFhvh7Z/tfhWV
+ tIF+2hnK/XUQX2scZivjUrBNs4VWpYJex3BErIOIvz231ojTdzCr44yJpk89hzO4as9j
+ NyFw==
+X-Gm-Message-State: APjAAAX1MITg+0Bio35rbPss2x78RI9lMdDl3oVzjEm0Ulf1VxXK2fos
+ Q1K8vAm4ndO21gW6LcIrAIdID73mybt0Bo4Wb44=
+X-Google-Smtp-Source: APXvYqyLU0PffhFZdSgVNReI6JDSbqw1WV1fuMK+8MpfsI8EjDK0ch+Plew77RsHXXuuflmi7ByMtsh05bIu8tfHVTU=
+X-Received: by 2002:a5d:670a:: with SMTP id o10mr57124362wru.312.1575041723371; 
+ Fri, 29 Nov 2019 07:35:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4249aa4c-0e85-f25c-f1cc-672dd3245878@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191128164810.54279-1-felipe@nutanix.com>
+ <20191128164810.54279-2-felipe@nutanix.com>
+ <CAJ+F1C+5poE0Cfsw3WqwLMa_1Rke6m+nUmchxBSYPfZg8+muHw@mail.gmail.com>
+ <6E7B22ED-0FF0-4D5A-BEBF-8EED3DCF2A1C@nutanix.com>
+In-Reply-To: <6E7B22ED-0FF0-4D5A-BEBF-8EED3DCF2A1C@nutanix.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 29 Nov 2019 19:35:10 +0400
+Message-ID: <CAJ+F1C+JJK5YXp=rjB4Cy97OQxCc8pXDaR_jTwmQYGWarEJ-1A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] qom/object: enable setter for uint types
+To: Felipe Franciosi <felipe@nutanix.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,234 +76,685 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe Mathieu-Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o
-Content-Type: multipart/mixed; boundary="GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6"
+Hi
 
---GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 29.11.19 15:26, Vladimir Sementsov-Ogievskiy wrote:
-> 29.11.2019 17:17, Max Reitz wrote:
->> On 29.11.19 14:55, Vladimir Sementsov-Ogievskiy wrote:
->>> 29.11.2019 16:46, Max Reitz wrote:
->>>> On 29.11.19 13:01, Vladimir Sementsov-Ogievskiy wrote:
->>>>> 11.11.2019 19:02, Max Reitz wrote:
->>>>>> While bdrv_replace_node() will not follow through with it, a specifi=
-c
->>>>>> @replaces asks the mirror job to create a loop.
->>>>>>
->>>>>> For example, say both the source and the target share a child where =
-the
->>>>>> source is a filter; by letting @replaces point to the common child, =
-you
->>>>>> ask for a loop.
->>>>>>
->>>>>> Or if you use @replaces in drive-mirror with sync=3Dnone and
->>>>>> mode=3Dabsolute-paths, you generally ask for a loop (@replaces must =
-point
->>>>>> to a child of the source, and sync=3Dnone makes the source the backi=
-ng
->>>>>> file of the target after the job).
->>>>>>
->>>>>> bdrv_replace_node() will not create those loops, but by doing so, it
->>>>>> ignores the user-requested configuration, which is not ideally eithe=
-r.
->>>>>> (In the first example above, the target's child will remain what it =
-was,
->>>>>> which may still be reasonable.  But in the second example, the targe=
+On Fri, Nov 29, 2019 at 7:14 PM Felipe Franciosi <felipe@nutanix.com> wrote=
+:
+>
+> Heya,
+>
+> > On Nov 28, 2019, at 8:35 PM, Marc-Andr=C3=A9 Lureau <marcandre.lureau@g=
+mail.com> wrote:
+> >
+> > Hi
+> >
+> > On Thu, Nov 28, 2019 at 8:48 PM Felipe Franciosi <felipe@nutanix.com> w=
+rote:
+> >>
+> >> Traditionally, the uint-specific property helpers only offer getters.
+> >> When adding object (or class) uint types, one must therefore use the
+> >> generic property helper if a setter is needed (and probably duplicate
+> >> some code writing their own getters/setters).
+> >>
+> >> This enhances the uint-specific property helper APIs by adding a
+> >> bitwise-or'd 'flags' field and modifying all clients of that API to se=
 t
->>>>>> will just not become a child of the source, which is precisely what =
-was
->>>>>> requested with @replaces.)
->>>>>>
->>>>>> So prevent such configurations, both before the job, and before it
->>>>>> actually completes.
->>>>>>
->>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>>>> ---
->>>>>>     block.c                   | 30 ++++++++++++++++++++++++
->>>>>>     block/mirror.c            | 19 +++++++++++++++-
->>>>>>     blockdev.c                | 48 +++++++++++++++++++++++++++++++++=
-+++++-
->>>>>>     include/block/block_int.h |  3 +++
->>>>>>     4 files changed, 98 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/block.c b/block.c
->>>>>> index 0159f8e510..e3922a0474 100644
->>>>>> --- a/block.c
->>>>>> +++ b/block.c
->>>>>> @@ -6259,6 +6259,36 @@ out:
->>>>>>         return to_replace_bs;
->>>>>>     }
->>>>>>    =20
->>>>>> +/*
->>>>>> + * Return true iff @child is a (recursive) child of @parent, with a=
-t
->>>>>> + * least @min_level edges between them.
->>>>>> + *
->>>>>> + * (If @min_level =3D=3D 0, return true if @child =3D=3D @parent.  =
-For
->>>>>> + * @min_level =3D=3D 1, @child needs to be at least a real child; f=
-or
->>>>>> + * @min_level =3D=3D 2, it needs to be at least a grand-child; and =
-so on.)
->>>>>> + */
->>>>>> +bool bdrv_is_child_of(BlockDriverState *child, BlockDriverState *pa=
-rent,
->>>>>> +                      int min_level)
->>>>>> +{
->>>>>> +    BdrvChild *c;
->>>>>> +
->>>>>> +    if (child =3D=3D parent && min_level <=3D 0) {
->>>>>> +        return true;
->>>>>> +    }
->>>>>> +
->>>>>> +    if (!parent) {
->>>>>> +        return false;
->>>>>> +    }
->>>>>> +
->>>>>> +    QLIST_FOREACH(c, &parent->children, next) {
->>>>>> +        if (bdrv_is_child_of(child, c->bs, min_level - 1)) {
->>>>>> +            return true;
->>>>>> +        }
->>>>>> +    }
->>>>>> +
->>>>>> +    return false;
->>>>>> +}
->>>>>> +
->>>>>>     /**
->>>>>>      * Iterates through the list of runtime option keys that are sai=
-d to
->>>>>>      * be "strong" for a BDS.  An option is called "strong" if it ch=
-anges
->>>>>> diff --git a/block/mirror.c b/block/mirror.c
->>>>>> index 68a4404666..b258c7e98b 100644
->>>>>> --- a/block/mirror.c
->>>>>> +++ b/block/mirror.c
->>>>>> @@ -701,7 +701,24 @@ static int mirror_exit_common(Job *job)
->>>>>>              * there.
->>>>>>              */
->>>>>>             if (bdrv_recurse_can_replace(src, to_replace)) {
->>>>>> -            bdrv_replace_node(to_replace, target_bs, &local_err);
->>>>>> +            /*
->>>>>> +             * It is OK for @to_replace to be an immediate child of
->>>>>> +             * @target_bs, because that is what happens with
->>>>>> +             * drive-mirror sync=3Dnone mode=3Dabsolute-paths: targ=
-et_bs's
->>>>>> +             * backing file will be the source node, which is also
->>>>>> +             * to_replace (by default).
->>>>>> +             * bdrv_replace_node() handles this case by not letting
->>>>>> +             * target_bs->backing point to itself, but to the sourc=
-e
->>>>>> +             * still.
->>>>>> +             */
->>>>>
->>>>> Hmm.. So, we want the following valid case:
->>>>>
->>>>> (other parents of source) ----> source =3D to_replace <--- backing --=
-- target
->>>>>
->>>>> becomes
->>>>>
->>>>> (other parents of source) ----> target --- backing ---> source
->>>>>
->>>>> But it seems for me, that the following is not less valid:
->>>>>
->>>>> (other parents of source) ----> source =3D to_replace <--- backing --=
-- X <--- backing --- target
->>>>>
->>>>> becomes
->>>>>
->>>>> (other parents of source) ----> target --- backing ---> X --- backing=
- ---> source
->>>>
->>>> I think it is less valid.  The first case works with sync=3Dnone, beca=
-use
->>>> target is initially empty and then you just copy all new data, so the
->>>> target keeps looking like the source.
->>>>
->>>> But in the second case, there are intermediate nodes that mean that
->>>> target may well not look like the source.
->>>
->>> Maybe, it's valid if target node is a filter? Or, otherwise, it's backi=
-ng is a filter,
->>> but this seems less useful.
->>
->> The question to me is whether it=92s really useful.  The thing is that
->> maybe bdrv_replace_node() can make sense of it.  But still, from the
->> user=92s perspective, they kind of are asking for a loop whenever
->> to_replace is a child of target.  It just so happens that we must allow
->> one of these cases because it=92s the default case for sync=3Dnone.
->>
->> So I=92d rather forbid all such cases, because it should be understandab=
-le
->> to users why...
->>
->=20
-> Okay, I don't have more arguments:) Honestly, I just feel that relying on=
- existing
-> of chains between nodes of some hardcoded length is not good generic crit=
-eria...
->=20
-> bdrv_replace_node never creates loops.. Maybe, just document this behavio=
-r in
-> qapi? And (maybe) return error, if we see that bdrv_replace_node will be =
-noop?
->=20
-> And if it is not noop, may be user don't tries to create a loop, but inst=
-ead,
-> user is powerful, knows how bdrv_replace_node works and wants exactly thi=
-s
-> behavior?
+> >> this paramater to OBJ_PROP_FLAG_RD. This maintains the current behavio=
+ur
+> >> whilst allowing others to also set OBJ_PROP_FLAG_WR in the future (whi=
+ch
+> >> will automatically install a setter). Other flags may be added later.
+> >
+> > For readability, I would have the full spelling:
+> > OBJECT_PROPERTY_FLAG_READ/OBJECT_PROPERTY_FLAG_WRITE (and an alias
+> > OBJECT_PROPERTY_FLAG_READWRITE =3D READ|WRITE)
+>
+> I personally prefer the abbreviated version because, IMHO, it's
+> sufficiently understandable and make the code cleaner.
 
-I don=92t know whether that=92s a good point.  We have strong restrictions
-on @replaces anyway (that=92s the point of this series, to fix them).  So
-if we want to loosen those restrictions and allow the user to do
-anything they want because it=92s their job to be careful, that would be a
-whole different series.
+I disagree, abbreviations make the code unnecessarily harder to read.
+Typing it is a one time thing, and often editor can auto-complete.
 
-Also, one of the examples in the commit message is using @replaces with
-drive-mirror sync=3Dnone mode=3Dabsolute-paths.  @replaces must be a child
-of the source.  So what will happen is that it=92s replaced and then we
-can=92t attach the source as the backing file of the target.  So the
-target will probably just read garbage, given that it now lacks the
-source as its backing file.
+>
+> Clients of these are already having to use fairly long function names
+> (eg.  object_property_add_uint64_ptr -- 30 chars long) and then would
+> need to use equally long flags (eg. OBJECT_PROPERTY_FLAG_READWRITE
+> also has 30 chars).
+>
+> I looked it up and found precedence for both models:
+>
+> https://github.com/qemu/qemu/blob/master/include/block/block.h#L234
+> BlockOpType defines enums like BLOCK_OP_TYPE_EJECT
+>
+> https://github.com/qemu/qemu/blob/master/include/block/block.h#L264
+> The permission enums are abbreviated (eg. BLK_PERM_RESIZE)
+>
+> Is there a broader direction that we should follow here?
+>
+> Otherwise, can I persuade you to meet me in the middle and we change
+> _RD to _READ, _WR to _WRITE, but continue using OBJ_PROP_FLAG?
+> Note that I didn't abuse it by going with OBJ_PROP_FL_ :)
 
-So I=92m not sold on =93If the user knows what=92ll happen, it=92s all good=
-=94.
-Because I don=92t think they=92ll really know.  I=92d rather keep it tight
-until someone complains.
+We use OBJECT_ prefix for object.h pretty consistently
 
-Max
+OBJ_PROP_LINK is imho a bad precedent (I just noticed), but since it
+exists, one may want to stick to OBJ_PROP_ prefix for now for
+consitency.
+
+>
+> As for the alias, I noticed your suggestion in the previous e-mail.
+> But I have never seen such combinations in enums that define
+> bitwise-or'd flags. For example:
+> https://github.com/qemu/qemu/blob/master/include/standard-headers/drivers=
+/infiniband/hw/vmw_pvrdma/pvrdma_verbs.h#L106
+> https://github.com/qemu/qemu/blob/master/include/qapi/qmp/dispatch.h#L21
+>
+> It would make sense if this was pound-defined and not enum'd. What do
+> you reckon? I'm happy to switch to pound-define and include the
+> _READWRITE, but if sticking to enum I think we're better without it.
+
+enum are better imho, see for ex G_PARAM_READWRITE:
+
+https://gitlab.gnome.org/GNOME/glib/blob/master/gobject/gparam.h#L150
 
 
---GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6--
+> >
+> >>
+> >> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
+> >> ---
+> >> hw/acpi/ich9.c       |   4 +-
+> >> hw/acpi/pcihp.c      |   7 +-
+> >> hw/acpi/piix4.c      |  12 +--
+> >> hw/isa/lpc_ich9.c    |   4 +-
+> >> hw/ppc/spapr_drc.c   |   2 +-
+> >> include/qom/object.h |  42 +++++++--
+> >> qom/object.c         | 216 ++++++++++++++++++++++++++++++++++++++-----
+> >> ui/console.c         |   4 +-
+> >> 8 files changed, 243 insertions(+), 48 deletions(-)
+> >>
+> >> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> >> index 2034dd749e..236300d2a9 100644
+> >> --- a/hw/acpi/ich9.c
+> >> +++ b/hw/acpi/ich9.c
+> >> @@ -454,12 +454,12 @@ void ich9_pm_add_properties(Object *obj, ICH9LPC=
+PMRegs *pm, Error **errp)
+> >>     pm->s4_val =3D 2;
+> >>
+> >>     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+> >> -                                   &pm->pm_io_base, errp);
+> >> +                                   &pm->pm_io_base, OBJ_PROP_FLAG_RD,=
+ errp);
+> >>     object_property_add(obj, ACPI_PM_PROP_GPE0_BLK, "uint32",
+> >>                         ich9_pm_get_gpe0_blk,
+> >>                         NULL, NULL, pm, NULL);
+> >>     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_GPE0_BLK_LEN,
+> >> -                                   &gpe0_len, errp);
+> >> +                                   &gpe0_len, OBJ_PROP_FLAG_RD, errp)=
+;
+> >>     object_property_add_bool(obj, "memory-hotplug-support",
+> >>                              ich9_pm_get_memory_hotplug_support,
+> >>                              ich9_pm_set_memory_hotplug_support,
+> >> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+> >> index 8413348a33..c8a7194b19 100644
+> >> --- a/hw/acpi/pcihp.c
+> >> +++ b/hw/acpi/pcihp.c
+> >> @@ -80,7 +80,8 @@ static void *acpi_set_bsel(PCIBus *bus, void *opaque=
+)
+> >>
+> >>         *bus_bsel =3D (*bsel_alloc)++;
+> >>         object_property_add_uint32_ptr(OBJECT(bus), ACPI_PCIHP_PROP_BS=
+EL,
+> >> -                                       bus_bsel, &error_abort);
+> >> +                                       bus_bsel, OBJ_PROP_FLAG_RD,
+> >> +                                       &error_abort);
+> >>     }
+> >>
+> >>     return bsel_alloc;
+> >> @@ -373,9 +374,9 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState=
+ *s, PCIBus *root_bus,
+> >>     memory_region_add_subregion(address_space_io, s->io_base, &s->io);
+> >>
+> >>     object_property_add_uint16_ptr(owner, ACPI_PCIHP_IO_BASE_PROP, &s-=
+>io_base,
+> >> -                                   &error_abort);
+> >> +                                   OBJ_PROP_FLAG_RD, &error_abort);
+> >>     object_property_add_uint16_ptr(owner, ACPI_PCIHP_IO_LEN_PROP, &s->=
+io_len,
+> >> -                                   &error_abort);
+> >> +                                   OBJ_PROP_FLAG_RD, &error_abort);
+> >> }
+> >>
+> >> const VMStateDescription vmstate_acpi_pcihp_pci_status =3D {
+> >> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> >> index 93aec2dd2c..06d964a840 100644
+> >> --- a/hw/acpi/piix4.c
+> >> +++ b/hw/acpi/piix4.c
+> >> @@ -443,17 +443,17 @@ static void piix4_pm_add_propeties(PIIX4PMState =
+*s)
+> >>     static const uint16_t sci_int =3D 9;
+> >>
+> >>     object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_ACPI_ENABLE_=
+CMD,
+> >> -                                  &acpi_enable_cmd, NULL);
+> >> +                                  &acpi_enable_cmd, OBJ_PROP_FLAG_RD,=
+ NULL);
+> >>     object_property_add_uint8_ptr(OBJECT(s), ACPI_PM_PROP_ACPI_DISABLE=
+_CMD,
+> >> -                                  &acpi_disable_cmd, NULL);
+> >> +                                  &acpi_disable_cmd, OBJ_PROP_FLAG_RD=
+, NULL);
+> >>     object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK,
+> >> -                                  &gpe0_blk, NULL);
+> >> +                                  &gpe0_blk, OBJ_PROP_FLAG_RD, NULL);
+> >>     object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_GPE0_BLK_LE=
+N,
+> >> -                                  &gpe0_blk_len, NULL);
+> >> +                                  &gpe0_blk_len, OBJ_PROP_FLAG_RD, NU=
+LL);
+> >>     object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
+> >> -                                  &sci_int, NULL);
+> >> +                                  &sci_int, OBJ_PROP_FLAG_RD, NULL);
+> >>     object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> >> -                                  &s->io_base, NULL);
+> >> +                                  &s->io_base, OBJ_PROP_FLAG_RD, NULL=
+);
+> >> }
+> >>
+> >> static void piix4_pm_realize(PCIDevice *dev, Error **errp)
+> >> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> >> index 17c292e306..f5526f9c3b 100644
+> >> --- a/hw/isa/lpc_ich9.c
+> >> +++ b/hw/isa/lpc_ich9.c
+> >> @@ -645,9 +645,9 @@ static void ich9_lpc_add_properties(ICH9LPCState *=
+lpc)
+> >>                         ich9_lpc_get_sci_int,
+> >>                         NULL, NULL, NULL, NULL);
+> >>     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_ENABL=
+E_CMD,
+> >> -                                  &acpi_enable_cmd, NULL);
+> >> +                                  &acpi_enable_cmd, OBJ_PROP_FLAG_RD,=
+ NULL);
+> >>     object_property_add_uint8_ptr(OBJECT(lpc), ACPI_PM_PROP_ACPI_DISAB=
+LE_CMD,
+> >> -                                  &acpi_disable_cmd, NULL);
+> >> +                                  &acpi_disable_cmd, OBJ_PROP_FLAG_RD=
+, NULL);
+> >>
+> >>     ich9_pm_add_properties(OBJECT(lpc), &lpc->pm, NULL);
+> >> }
+> >> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> >> index 62f1a42592..ace2db0413 100644
+> >> --- a/hw/ppc/spapr_drc.c
+> >> +++ b/hw/ppc/spapr_drc.c
+> >> @@ -553,7 +553,7 @@ static void spapr_dr_connector_instance_init(Objec=
+t *obj)
+> >>     SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(obj);
+> >>     SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> >>
+> >> -    object_property_add_uint32_ptr(obj, "id", &drc->id, NULL);
+> >> +    object_property_add_uint32_ptr(obj, "id", &drc->id, OBJ_PROP_FLAG=
+_RD, NULL);
+> >>     object_property_add(obj, "index", "uint32", prop_get_index,
+> >>                         NULL, NULL, NULL, NULL);
+> >>     object_property_add(obj, "fdt", "struct", prop_get_fdt,
+> >> diff --git a/include/qom/object.h b/include/qom/object.h
+> >> index 128d00c77f..4836c54e93 100644
+> >> --- a/include/qom/object.h
+> >> +++ b/include/qom/object.h
+> >> @@ -1579,65 +1579,91 @@ void object_class_property_add_tm(ObjectClass =
+*klass, const char *name,
+> >>                                   void (*get)(Object *, struct tm *, E=
+rror **),
+> >>                                   Error **errp);
+> >>
+> >> +typedef enum {
+> >> +    /* Automatically add a getter to the property */
+> >> +    OBJ_PROP_FLAG_RD =3D (1UL << 0),
+> >> +    /* Automatically add a setter to the property */
+> >> +    OBJ_PROP_FLAG_WR =3D (1UL << 1),
+> >> +} ObjectPropertyFlags;
+> >> +
+> >> /**
+> >>  * object_property_add_uint8_ptr:
+> >>  * @obj: the object to add a property to
+> >>  * @name: the name of the property
+> >>  * @v: pointer to value
+> >> + * @flags: bitwise-or'd ObjectPropertyFlags
+> >>  * @errp: if an error occurs, a pointer to an area to store the error
+> >>  *
+> >>  * Add an integer property in memory.  This function will add a
+> >>  * property of type 'uint8'.
+> >>  */
+> >> void object_property_add_uint8_ptr(Object *obj, const char *name,
+> >> -                                   const uint8_t *v, Error **errp);
+> >> +                                   const uint8_t *v, ObjectPropertyFl=
+ags flags,
+> >> +                                   Error **errp);
+> >> void object_class_property_add_uint8_ptr(ObjectClass *klass, const cha=
+r *name,
+> >> -                                         const uint8_t *v, Error **er=
+rp);
+> >> +                                         const uint8_t *v,
+> >> +                                         ObjectPropertyFlags flags,
+> >> +                                         Error **errp);
+> >>
+> >> /**
+> >>  * object_property_add_uint16_ptr:
+> >>  * @obj: the object to add a property to
+> >>  * @name: the name of the property
+> >>  * @v: pointer to value
+> >> + * @flags: bitwise-or'd ObjectPropertyFlags
+> >>  * @errp: if an error occurs, a pointer to an area to store the error
+> >>  *
+> >>  * Add an integer property in memory.  This function will add a
+> >>  * property of type 'uint16'.
+> >>  */
+> >> void object_property_add_uint16_ptr(Object *obj, const char *name,
+> >> -                                    const uint16_t *v, Error **errp);
+> >> +                                    const uint16_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **errp);
+> >> void object_class_property_add_uint16_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint16_t *v, Error **=
+errp);
+> >> +                                          const uint16_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **errp);
+> >>
+> >> /**
+> >>  * object_property_add_uint32_ptr:
+> >>  * @obj: the object to add a property to
+> >>  * @name: the name of the property
+> >>  * @v: pointer to value
+> >> + * @flags: bitwise-or'd ObjectPropertyFlags
+> >>  * @errp: if an error occurs, a pointer to an area to store the error
+> >>  *
+> >>  * Add an integer property in memory.  This function will add a
+> >>  * property of type 'uint32'.
+> >>  */
+> >> void object_property_add_uint32_ptr(Object *obj, const char *name,
+> >> -                                    const uint32_t *v, Error **errp);
+> >> +                                    const uint32_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **errp);
+> >> void object_class_property_add_uint32_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint32_t *v, Error **=
+errp);
+> >> +                                          const uint32_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **errp);
+> >>
+> >> /**
+> >>  * object_property_add_uint64_ptr:
+> >>  * @obj: the object to add a property to
+> >>  * @name: the name of the property
+> >>  * @v: pointer to value
+> >> + * @flags: bitwise-or'd ObjectPropertyFlags
+> >>  * @errp: if an error occurs, a pointer to an area to store the error
+> >>  *
+> >>  * Add an integer property in memory.  This function will add a
+> >>  * property of type 'uint64'.
+> >>  */
+> >> void object_property_add_uint64_ptr(Object *obj, const char *name,
+> >> -                                    const uint64_t *v, Error **Errp);
+> >> +                                    const uint64_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **Errp);
+> >> void object_class_property_add_uint64_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint64_t *v, Error **=
+Errp);
+> >> +                                          const uint64_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **Errp);
+> >>
+> >> /**
+> >>  * object_property_add_alias:
+> >> diff --git a/qom/object.c b/qom/object.c
+> >> index d51b57fba1..6f300b5317 100644
+> >> --- a/qom/object.c
+> >> +++ b/qom/object.c
+> >> @@ -2326,6 +2326,22 @@ static void property_get_uint8_ptr(Object *obj,=
+ Visitor *v, const char *name,
+> >>     visit_type_uint8(v, name, &value, errp);
+> >> }
+> >>
+> >> +static void property_set_uint8_ptr(Object *obj, Visitor *v, const cha=
+r *name,
+> >> +                                   void *opaque, Error **errp)
+> >> +{
+> >> +    uint8_t *field =3D opaque;
+> >> +    uint8_t value;
+> >> +    Error *local_err =3D NULL;
+> >> +
+> >> +    visit_type_uint8(v, name, &value, &local_err);
+> >> +    if (local_err) {
+> >> +        error_propagate(errp, local_err);
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    *field =3D value;
+> >> +}
+> >> +
+> >> static void property_get_uint16_ptr(Object *obj, Visitor *v, const cha=
+r *name,
+> >>                                     void *opaque, Error **errp)
+> >> {
+> >> @@ -2333,6 +2349,22 @@ static void property_get_uint16_ptr(Object *obj=
+, Visitor *v, const char *name,
+> >>     visit_type_uint16(v, name, &value, errp);
+> >> }
+> >>
+> >> +static void property_set_uint16_ptr(Object *obj, Visitor *v, const ch=
+ar *name,
+> >> +                                    void *opaque, Error **errp)
+> >> +{
+> >> +    uint16_t *field =3D opaque;
+> >> +    uint16_t value;
+> >> +    Error *local_err =3D NULL;
+> >> +
+> >> +    visit_type_uint16(v, name, &value, &local_err);
+> >> +    if (local_err) {
+> >> +        error_propagate(errp, local_err);
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    *field =3D value;
+> >> +}
+> >> +
+> >> static void property_get_uint32_ptr(Object *obj, Visitor *v, const cha=
+r *name,
+> >>                                     void *opaque, Error **errp)
+> >> {
+> >> @@ -2340,6 +2372,22 @@ static void property_get_uint32_ptr(Object *obj=
+, Visitor *v, const char *name,
+> >>     visit_type_uint32(v, name, &value, errp);
+> >> }
+> >>
+> >> +static void property_set_uint32_ptr(Object *obj, Visitor *v, const ch=
+ar *name,
+> >> +                                    void *opaque, Error **errp)
+> >> +{
+> >> +    uint32_t *field =3D opaque;
+> >> +    uint32_t value;
+> >> +    Error *local_err =3D NULL;
+> >> +
+> >> +    visit_type_uint32(v, name, &value, &local_err);
+> >> +    if (local_err) {
+> >> +        error_propagate(errp, local_err);
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    *field =3D value;
+> >> +}
+> >> +
+> >> static void property_get_uint64_ptr(Object *obj, Visitor *v, const cha=
+r *name,
+> >>                                     void *opaque, Error **errp)
+> >> {
+> >> @@ -2347,60 +2395,180 @@ static void property_get_uint64_ptr(Object *o=
+bj, Visitor *v, const char *name,
+> >>     visit_type_uint64(v, name, &value, errp);
+> >> }
+> >>
+> >> +static void property_set_uint64_ptr(Object *obj, Visitor *v, const ch=
+ar *name,
+> >> +                                    void *opaque, Error **errp)
+> >> +{
+> >> +    uint64_t *field =3D opaque;
+> >> +    uint64_t value;
+> >> +    Error *local_err =3D NULL;
+> >> +
+> >> +    visit_type_uint64(v, name, &value, &local_err);
+> >> +    if (local_err) {
+> >> +        error_propagate(errp, local_err);
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    *field =3D value;
+> >> +}
+> >> +
+> >> void object_property_add_uint8_ptr(Object *obj, const char *name,
+> >> -                                   const uint8_t *v, Error **errp)
+> >> +                                   const uint8_t *v,
+> >> +                                   ObjectPropertyFlags flags,
+> >> +                                   Error **errp)
+> >> {
+> >> -    object_property_add(obj, name, "uint8", property_get_uint8_ptr,
+> >> -                        NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint8_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint8_ptr;
+> >> +    }
+> >> +
+> >> +    object_property_add(obj, name, "uint8",
+> >> +                        getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_class_property_add_uint8_ptr(ObjectClass *klass, const cha=
+r *name,
+> >> -                                         const uint8_t *v, Error **er=
+rp)
+> >> +                                         const uint8_t *v,
+> >> +                                         ObjectPropertyFlags flags,
+> >> +                                         Error **errp)
+> >> {
+> >> -    object_class_property_add(klass, name, "uint8", property_get_uint=
+8_ptr,
+> >> -                              NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint8_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint8_ptr;
+> >> +    }
+> >> +
+> >> +    object_class_property_add(klass, name, "uint8",
+> >> +                              getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_property_add_uint16_ptr(Object *obj, const char *name,
+> >> -                                    const uint16_t *v, Error **errp)
+> >> +                                    const uint16_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **errp)
+> >> {
+> >> -    object_property_add(obj, name, "uint16", property_get_uint16_ptr,
+> >> -                        NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint16_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint16_ptr;
+> >> +    }
+> >> +
+> >> +    object_property_add(obj, name, "uint16",
+> >> +                        getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_class_property_add_uint16_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint16_t *v, Error **=
+errp)
+> >> +                                          const uint16_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **errp)
+> >> {
+> >> -    object_class_property_add(klass, name, "uint16", property_get_uin=
+t16_ptr,
+> >> -                              NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint16_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint16_ptr;
+> >> +    }
+> >> +
+> >> +    object_class_property_add(klass, name, "uint16",
+> >> +                              getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_property_add_uint32_ptr(Object *obj, const char *name,
+> >> -                                    const uint32_t *v, Error **errp)
+> >> +                                    const uint32_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **errp)
+> >> {
+> >> -    object_property_add(obj, name, "uint32", property_get_uint32_ptr,
+> >> -                        NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint32_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint32_ptr;
+> >> +    }
+> >> +
+> >> +    object_property_add(obj, name, "uint32",
+> >> +                        getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_class_property_add_uint32_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint32_t *v, Error **=
+errp)
+> >> +                                          const uint32_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **errp)
+> >> {
+> >> -    object_class_property_add(klass, name, "uint32", property_get_uin=
+t32_ptr,
+> >> -                              NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint32_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint32_ptr;
+> >> +    }
+> >> +
+> >> +    object_class_property_add(klass, name, "uint32",
+> >> +                              getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_property_add_uint64_ptr(Object *obj, const char *name,
+> >> -                                    const uint64_t *v, Error **errp)
+> >> +                                    const uint64_t *v,
+> >> +                                    ObjectPropertyFlags flags,
+> >> +                                    Error **errp)
+> >> {
+> >> -    object_property_add(obj, name, "uint64", property_get_uint64_ptr,
+> >> -                        NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint64_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint64_ptr;
+> >> +    }
+> >> +
+> >> +    object_property_add(obj, name, "uint64",
+> >> +                        getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> void object_class_property_add_uint64_ptr(ObjectClass *klass, const ch=
+ar *name,
+> >> -                                          const uint64_t *v, Error **=
+errp)
+> >> +                                          const uint64_t *v,
+> >> +                                          ObjectPropertyFlags flags,
+> >> +                                          Error **errp)
+> >> {
+> >> -    object_class_property_add(klass, name, "uint64", property_get_uin=
+t64_ptr,
+> >> -                              NULL, NULL, (void *)v, errp);
+> >> +    ObjectPropertyAccessor *getter =3D NULL;
+> >> +    ObjectPropertyAccessor *setter =3D NULL;
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_RD) =3D=3D OBJ_PROP_FLAG_RD) {
+> >> +        getter =3D property_get_uint64_ptr;
+> >> +    }
+> >> +
+> >> +    if ((flags & OBJ_PROP_FLAG_WR) =3D=3D OBJ_PROP_FLAG_WR) {
+> >> +        setter =3D property_set_uint64_ptr;
+> >> +    }
+> >> +
+> >> +    object_class_property_add(klass, name, "uint64",
+> >> +                              getter, setter, NULL, (void *)v, errp);
+> >> }
+> >>
+> >> typedef struct {
+> >> diff --git a/ui/console.c b/ui/console.c
+> >> index 82d1ddac9c..7d6ef90978 100644
+> >> --- a/ui/console.c
+> >> +++ b/ui/console.c
+> >> @@ -1296,8 +1296,8 @@ static QemuConsole *new_console(DisplayState *ds=
+, console_type_t console_type,
+> >>                              object_property_allow_set_link,
+> >>                              OBJ_PROP_LINK_STRONG,
+> >>                              &error_abort);
+> >> -    object_property_add_uint32_ptr(obj, "head",
+> >> -                                   &s->head, &error_abort);
+> >> +    object_property_add_uint32_ptr(obj, "head", &s->head,
+> >> +                                   OBJ_PROP_FLAG_RD, &error_abort);
+> >>
+> >>     if (!active_console || ((active_console->console_type !=3D GRAPHIC=
+_CONSOLE) &&
+> >>         (console_type =3D=3D GRAPHIC_CONSOLE))) {
+> >> --
+> >> 2.20.1
+> >>
+> >
+> >
+> > looks good otherwise
+>
+> Thanks,
+> Felipe
+>
+>
+> >
+>
+> > --
+> > Marc-Andr=C3=A9 Lureau
+>
 
---lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3hLXUACgkQ9AfbAGHV
-z0C+Owf+L9Q4wXZ2X/whO17JBx9yVzt5MH9qH6nHVvbxioc+1rmNv2DdTs+HRRMR
-aTP8nbqni6HlTLZr5SBVjKfd1DfJBQ+ExSE0RbXWzBjvc547PXWjhYrfXjaC2zQJ
-unHbEV/kzQ1c9sVj66ROSHWcdC7LV+hI1Gu1z1LIIEmtQO3XobKpksfoyBMldlqj
-mlt025IA4Dx3wmxSXCnrcvuZpWl4YCIc9xY6F+dcXLAF9bljQvnjGLX189NBH2mi
-/R5GqNjFP1cdujc2P1yl05lSGYbB1ARMUs4Q1/zj09gzPuFeOVqgv7eIwQdWDx0S
-/2ourG1aGuF19tCsHLF/JhNtqiNr/w==
-=Si2Y
------END PGP SIGNATURE-----
-
---lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o--
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
