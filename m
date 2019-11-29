@@ -2,66 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24ED10D371
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:48:44 +0100 (CET)
-Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF87F10D360
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 10:42:00 +0100 (CET)
+Received: from localhost ([::1]:56422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iactG-0001Hi-Sn
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:48:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55199)
+	id 1iacml-0005Iy-UH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 04:41:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iacfS-000147-9A
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:27 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iacfs-0001Ho-16
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iacfN-0006h2-Jo
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:22 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20117
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iacfN-0006Ma-68
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575020056;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RrFcwju3Yymoi3vvIyukp363JjxfJ8/8a4R1dkta3jc=;
- b=fuKph44C5Dip1ESxckB5sNAHtzFq8fqTAfUdXEapsh1G1BhTWyV7/N129vs6LyWNFg3qoc
- SXivIWjYf0DrpPky++67QUppmtS1t0tqU6fW7XVqvTin9HMJMKgv7XRY4LfQb2dooLpdOl
- a/tgMFA1a7Qv9/ZvI3UupIdJYIsZLcM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-KRFQxWLENYq7dcXlcdh4uw-1; Fri, 29 Nov 2019 04:34:14 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8CED100E368
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 09:34:13 +0000 (UTC)
-Received: from redhat.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 27AE55C545;
- Fri, 29 Nov 2019 09:34:11 +0000 (UTC)
-Date: Fri, 29 Nov 2019 09:34:09 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: libcap vs libcap-ng mess
-Message-ID: <20191129093409.GB2260471@redhat.com>
-References: <20191128190408.GC3294@work-vm>
-MIME-Version: 1.0
-In-Reply-To: <20191128190408.GC3294@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: KRFQxWLENYq7dcXlcdh4uw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iacfn-0007Z2-0t
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:34:48 -0500
+Received: from mail-eopbgr150139.outbound.protection.outlook.com
+ ([40.107.15.139]:14468 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iacfl-0007SW-5D; Fri, 29 Nov 2019 04:34:46 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rpp2noCnBfFAwKtn8Ni3S3fk4SBgSb83v+8jGLPbkYnyZX1OdNx2sp29e6CoV6eJz/yoeuUNdppIfolV84yNwv0O/1Zamd99dGcUtFahu6YYVnr8ydxxnkP4boOmyTNl4mASeAwH4UyLYDqPUD2CgMsGTgiKtk+LTIzIJ8YvJiPx7jG+ViLgwNPgB+oXOYAUhIvDBxMCuwP59h8GfVTnvC9pVBLqLsOK4kbXHJ0A3tduq8tL2Ti/EAysED338llPorqpRixC34N37hCDSOTFai08AIQ5TS7vtdrKStAU4yYW0QEJ6MoMQSA7iuIzsIGQmFZou+AKvpoJtFb8jtsgMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T1y/HOWnexxqiTth4ig8+hlmOw//d/QmSdj570G5Y5I=;
+ b=lQnZl37ciSofMUTVQixfUJGd9EI2OsQxv+ydqLTpHcxilYexsMdWDHNcBsoxJYFBGTa5A32OyIAjoy9dXG52zAK82Q/dLZTiXb6G+GiITu4RgsqisyxFV+ODWo5XgQbR8U3yIXf10EwgnfFG5dK84kQe/eJbA1jFl0g5bTMHCcheQWbL8ngwoBS52pAu4AIhitautm9K1LZosZD/IXxbOnJQsfsBF9s1++0IagAA6toRf94pyy93OLc9rWoWkTbPLeRPdoK+W6E9oAKA5cOyceToohBGfkbeayRlkgnpOGM7PQJmILD1cGo1Vb6MlPp0oAnRHyky0APsxBsYhaRiOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T1y/HOWnexxqiTth4ig8+hlmOw//d/QmSdj570G5Y5I=;
+ b=pd8CLBf5hU44g16X8YsS43jWtYPTrncGtcPPgs5swGbEhYAHJGDYiLJ/lkexYdeUjbwAkFVhR9sSeVHHi4gluEdEN9kFV3U/Ismxm5Igc3ZsUd5QQ82zNNgNR0HsgIIdKZN8nN0B+HXbnaQEnsJIhVfi8eJMTxS2bY8cwNccK1M=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4788.eurprd08.prod.outlook.com (10.255.96.208) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.21; Fri, 29 Nov 2019 09:34:41 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
+ 09:34:41 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 06/23] block: Add bdrv_recurse_can_replace()
+Thread-Topic: [PATCH for-5.0 v2 06/23] block: Add bdrv_recurse_can_replace()
+Thread-Index: AQHVmKl0WF/VLFkw5UGbjTiBCl5Dpaeh/xwA
+Date: Fri, 29 Nov 2019 09:34:40 +0000
+Message-ID: <5370cd61-413a-0208-541c-49894ad0c630@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-7-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-7-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0902CA0048.eurprd09.prod.outlook.com
+ (2603:10a6:7:15::37) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191129123438644
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d995a12b-9175-41b7-7c4e-08d774af5bf2
+x-ms-traffictypediagnostic: AM6PR08MB4788:
+x-microsoft-antispam-prvs: <AM6PR08MB47884D9F2C4442DC930B8C30C1460@AM6PR08MB4788.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0236114672
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(396003)(136003)(39840400004)(366004)(189003)(199004)(64756008)(66556008)(66476007)(229853002)(66446008)(66946007)(7736002)(305945005)(36756003)(2906002)(31686004)(6246003)(6512007)(86362001)(6436002)(110136005)(186003)(478600001)(54906003)(446003)(99286004)(2616005)(4326008)(11346002)(316002)(31696002)(6486002)(102836004)(66066001)(71200400001)(71190400001)(76176011)(5660300002)(52116002)(26005)(256004)(14444005)(386003)(6506007)(25786009)(81166006)(81156014)(8676002)(14454004)(8936002)(2501003)(3846002)(6116002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4788;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cPBia2joT7gppYx39Zm9jL+7iWZYePTPHqbYPwYFebTuNF+YIQVViyFfTVqS43l9kvygs4RvR7Y3yj9I0WAmDe4oEYG5nVEW8bRlqEhHjJeH77pY2tnRB3fDRqWpgqnHgmjV//S6/McN5XNbTGsDm1jxOdln7h0zB+thkqKkbekffVvl/LcusNYer6O7Nu7dhb/oAQ0Kc2mZvPCebAcQ9q6FeQtOFsnXCiMdqzuEVy+kNq5ZSEbMTPjOzaTzDh47t3oCZRpnM710/ktuGWUmnAs4oyQm5VXc8sSwWGecIJzLPQmaQ4CmXSdwOLHYTd0RDh/BYsmNMDZ+jZ1Y7ZEk3Ilq6T9s1KXeesgbZmA0A8+b2le5Q8Llvl/wKtE4ibkcfmsOzn9KsteQebdIuFMoYQ/yiNuz667JuNHsVzNUoC7xx61EhNbPKLzrRwS1oW+u
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <4C46167583989D4BA77629D248CC7976@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d995a12b-9175-41b7-7c4e-08d774af5bf2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 09:34:41.0139 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 01s58WZ325+0+hajWu/fp80hnKGW3MB/oNgt+/MO+h8R68kLjTkNICmpxzbW8d/iVkGn76AQAVd9tdNpMizSQsvcfFmOylI0v2Dl23JrfUA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4788
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.139
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,66 +109,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- vgoyal@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 07:04:08PM +0000, Dr. David Alan Gilbert wrote:
-> Hi,
->   We seem to have a bit of a mess with libcap and libcap-ng; and I'm not
-> sure if we should try and untangle it.
+11.11.2019 19:01, Max Reitz wrote:
+> After a couple of follow-up patches, this function will replace
+> bdrv_recurse_is_first_non_filter() in check_to_replace_node().
 >=20
-> a) Our configure script has tests for both libcap and libcap-ng
->   for libcap it says $cap, for libcap-ng it says $cap_ng (ok)
->   If $cap is set - nothing happens?
->   If $cap_ng is set - we define CONFIG_LIBCAP  (!)
-
-Wow, confusing to the max.
-
-> b) We use both
->   1) pr-helper and bridge-helper use CONFIG_LIBCAP and use cap-ng
->   2) 9p's virtfs-proxy-helper uses libcap - it's got a check in
->      configure to make sure you have libcap if you've asked for 9p
+> bdrv_recurse_is_first_non_filter() is both not sufficiently specific for
+> check_to_replace_node() (it allows cases that should not be allowed,
+> like replacing child nodes of quorum with dissenting data that have more
+> parents than just quorum), and it is too restrictive (it is perfectly
+> fine to replace filters).
 >=20
-> c) Our gitlab-ci.yml installs libcap-dev to get the 9p stuff tested
->   but never installes libcap-ng-dev
-
-Opps.
-
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c                   | 38 ++++++++++++++++++++++++++++++++++++++
+>   include/block/block_int.h | 10 ++++++++++
+>   2 files changed, 48 insertions(+)
 >=20
-> I hit this because we're using libcap in virtiofsd at the moment.
+> diff --git a/block.c b/block.c
+> index 9b1049786a..de53addeb0 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -6205,6 +6205,44 @@ bool bdrv_recurse_is_first_non_filter(BlockDriverS=
+tate *bs,
+>       return false;
+>   }
+>  =20
+> +/*
+> + * This function checks whether the given @to_replace is allowed to be
+> + * replaced by a node that always shows the same data as @bs.  This is
+> + * used for example to verify whether the mirror job can replace
+> + * @to_replace by the target mirrored from @bs.
+> + * To be replaceable, @bs and @to_replace may either be guaranteed to
+> + * always show the same data (because they are only connected through
+> + * filters), or some driver may allow replacing one of its children
+> + * because it can guarantee that this child's data is not visible at
+> + * all (for example, for dissenting quorum children that have no other
+> + * parents).
+> + */
+> +bool bdrv_recurse_can_replace(BlockDriverState *bs,
+> +                              BlockDriverState *to_replace)
+> +{
+> +    if (!bs || !bs->drv) {
+> +        return false;
+> +    }
+> +
+> +    if (bs =3D=3D to_replace) {
+> +        return true;
+> +    }
+> +
+> +    /* See what the driver can do */
+> +    if (bs->drv->bdrv_recurse_can_replace) {
+> +        return bs->drv->bdrv_recurse_can_replace(bs, to_replace);
+> +    }
+> +
+> +    /* For filters without an own implementation, we can recurse on our =
+own */
+> +    if (bs->drv->is_filter) {
+> +        BdrvChild *child =3D bs->file ?: bs->backing;
+
+should we check that child !=3D NULL ?
+
+> +        return bdrv_recurse_can_replace(child->bs, to_replace);
+> +    }
+> +
+> +    /* Safe default */
+> +    return false;
+> +}
+> +
+>   BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+>                                           const char *node_name, Error **=
+errp)
+>   {
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index dd033d0b37..75f03dcc38 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -102,6 +102,13 @@ struct BlockDriver {
+>        */
+>       bool (*bdrv_recurse_is_first_non_filter)(BlockDriverState *bs,
+>                                                BlockDriverState *candidat=
+e);
+> +    /*
+> +     * Return true if @to_replace can be replaced by a BDS with the
+> +     * same data as @bs without it affecting @bs's behavior (that is,
+> +     * without it being visible to @bs's parents).
+> +     */
+> +    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
+> +                                     BlockDriverState *to_replace);
+>  =20
+>       int (*bdrv_probe)(const uint8_t *buf, int buf_size, const char *fil=
+ename);
+>       int (*bdrv_probe_device)(const char *filename);
+> @@ -1264,6 +1271,9 @@ void bdrv_format_default_perms(BlockDriverState *bs=
+, BdrvChild *c,
+>                                  uint64_t perm, uint64_t shared,
+>                                  uint64_t *nperm, uint64_t *nshared);
+>  =20
+> +bool bdrv_recurse_can_replace(BlockDriverState *bs,
+> +                              BlockDriverState *to_replace);
+> +
+>   /*
+>    * Default implementation for drivers to pass bdrv_co_block_status() to
+>    * their file.
 >=20
-> So hmm how to fix?
-> I'm tempted to:
->   x) Replace CONFIG_LIBCAP by CONFIG_LIBCAPNG to make it clear
 
-Definitely
 
->   y) Should we flip over to only using one or the other - what
->      are the advantages?
-
-In libvirt we use libcap-ng. We picked this originally as its API
-design allows you do write simpler code than libcap in some cases
-You can see some docs & examples here:
-
-  https://people.redhat.com/sgrubb/libcap-ng/
-
-So I vote for changing the 9p code to use libcap-ng.
-
->   z) We should probably add the other one to the ci.
-
-Yep.
-
-Regards,
-Daniel
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+Best regards,
+Vladimir
 
