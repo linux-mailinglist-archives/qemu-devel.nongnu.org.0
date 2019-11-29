@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B364810DA0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 20:12:46 +0100 (CET)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B762C10DA12
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 20:24:21 +0100 (CET)
+Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ialh7-00029j-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 14:12:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52071)
+	id 1ialsJ-0001HF-BR
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 14:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ialag-0000YD-Sk
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:06:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ialc2-00015N-5M
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:07:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ialaZ-0006gz-HL
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:06:02 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:33587)
+ (envelope-from <peter.maydell@linaro.org>) id 1ialby-0002ko-OR
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:07:29 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32781)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ialaZ-0006Y7-Bk
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:05:59 -0500
-Received: by mail-oi1-x242.google.com with SMTP id x21so19784228oic.0
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 11:05:58 -0800 (PST)
+ id 1ialbq-00025A-Qi
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 14:07:25 -0500
+Received: by mail-ot1-x342.google.com with SMTP id d17so2049143otc.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 11:07:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HCgtPr845B2uezEWIf0YsHqUlkKctP/29CRYu6CMd48=;
- b=RqCKpxF0ubH7YuN6IHRysAOic/R7j+8y7KB0bVFxAHLVKXJ34ssu6VLoZRlEScWNHW
- vRLC4zvfgCrKsZBwaGoMnOp0aWaz7h0LHu/Qg3TySxKFeXAC19pTgtWyWgVqy43zglpJ
- /+2jxMgUsJHYDzQR0PLmT64EHjBhOxS1ZCPNCNw1i3wKB4+T6UbJZoGKcPCI0K5Zezs7
- WclMYC0B9M1pGhwx/NKPZGfbhBwweBH7ge3ClsafMXqzr9/mTjSlNb0a1TlXxMK3Xx7A
- qwcED8kr6niSScuud36zVqb7Bw/dbVlZpH49kUiGzrsvQHKboIIHC1f1OP/t8D47mVxq
- BW8g==
+ :cc; bh=+FtFsuQtq3eVlLtLusxL2dw9FGxIT8kWy5OnLveth6I=;
+ b=d2aGixWd7g5bE3+AyqaOyriJ/3AMKr+cfuMkOT24yV/t3bg3VDL9KI9z/Jji5pD7CI
+ FWZsy7kpuiVyQiCRCYyYsoNGppsjvQ+ZFswedEakglw6ma66mHdvSy5Rr5QRqy7f1oQW
+ Ze6Xz7GdJvNa6eeC8jGbPj6PqUBMO5tAG/O9dyAtABsXvVEyVcA/H6VIVb+zIgoG+no7
+ OHgFp5T92/j8q5k7hs58H0m6dF8crUHzbrfGj4rOTfjKUjYLRSg6Hnht4SgSJEe1VUY+
+ YM1MAyQVJS08iY0/lLhL7ol5SUPck+qY1bZP2FS0ARFm7e7VhjBequn/PXU6jwewdsCi
+ uw9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HCgtPr845B2uezEWIf0YsHqUlkKctP/29CRYu6CMd48=;
- b=WUJ+qjzpxjSIbMAtwTt+WzB0LhRreddLvsgCwMAj4ddxmidTRZFPFxL7lUfVz143Gc
- 1Hco9Xf02u1Ciqw+kyM0+nDxN6XgHc6d+SPjnRrjO0U5ssWGDGZW8wQnzRXNs5hDYnMS
- EJ88AtyKC+xkJLAzfW7r+Epr5UXOFm2SfAnsEENzjtidWp/7QxVtGqViXNUc1zZ+NWJG
- mbyrrQJnrvI1O84Am9N14elysbNf76mdW3mn97pxzwCk+g10hPORp9C8L8WMJ9HoOwTd
- CZntCxL0W47a9RrtBZyE/59f07epH+pXkHNnUhRzjpXCZ+1oa0WzawAFRPGq7falsN1k
- JqiA==
-X-Gm-Message-State: APjAAAWR1jFRNLQNkPzfAHC8xlK+6EDlr7utDvnra56HQ6tGQrh4q03y
- yb5y2z5l4URtCNtKcPbCB10V6xKikX35fSAPlJV/tw==
-X-Google-Smtp-Source: APXvYqykYrmsPIKMnSqZt9OzSU9BOhuCY752oPqw8Jmx7TI6IL4vqxR2W076O8rXTNFDkqZc+t6o1ojqIjEZ3lxKtN8=
-X-Received: by 2002:aca:f484:: with SMTP id s126mr10843226oih.48.1575054357126; 
- Fri, 29 Nov 2019 11:05:57 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=+FtFsuQtq3eVlLtLusxL2dw9FGxIT8kWy5OnLveth6I=;
+ b=Z+38wLwtaMYOSqfN7DWE6DXlH+vkCIBidPQJnMaUraTq+eIAERN1LhCU+sYcZV0ETd
+ vXZetsUGGa4IWQV8JYVDjPKvvLBIdamOsD7xwQL6BV5g+UvMnEAvTxO7bAV1BIobAFZK
+ yO84LqY4Q9nx3OPVYOMTWfW68JO1NNaPWWXNHsIEVA1rH0NH8E1hP1yPh6NBizigOEf6
+ q4U7RZ3hN9NlPaQdn81pLxF3J47uHxZXRVSTq6i4T7WyJ16/sIgSSRX6W17yxdYznyJc
+ kw4w77NONbImVgXAlBKPDTQlQMFK+fZbtxvEWE6n9pYWx7iX8VtpcnZ1NyVPums7BLOr
+ E1Zg==
+X-Gm-Message-State: APjAAAUB/AtoZpZXRQWFaL9oXgdHMpntyMwWf55evyq2HvTnZLLFgnFA
+ ST1LMuWLod7hcyglZIfS+TmGOxCdW4bhfiwp78QycQ==
+X-Google-Smtp-Source: APXvYqwFFgtbZ55HnxPHaKhrFgSMWYNN3KTl86rSIJxhph8nzoCcUpwBqeHUrsAPZtTeOPkaABd0OHdYbz0/OqPw0xI=
+X-Received: by 2002:a9d:6357:: with SMTP id y23mr12375124otk.91.1575054432823; 
+ Fri, 29 Nov 2019 11:07:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20191018150630.31099-1-damien.hedde@greensocs.com>
- <20191018150630.31099-13-damien.hedde@greensocs.com>
-In-Reply-To: <20191018150630.31099-13-damien.hedde@greensocs.com>
+In-Reply-To: <20191018150630.31099-1-damien.hedde@greensocs.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Nov 2019 19:05:46 +0000
-Message-ID: <CAFEAcA-YiD6B1wMTrOvj5=QbYY3uuqdbJbSP57zg3S86nU=k-Q@mail.gmail.com>
-Subject: Re: [PATCH v5 12/13] hw/gpio/bcm2835_gpio: Isolate sdbus reparenting
+Date: Fri, 29 Nov 2019 19:07:02 +0000
+Message-ID: <CAFEAcA8yMWyXyP08HWWkAo72KUQgN4JwbaSHA-Y8msiCLLrvzQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] Multi-phase reset mechanism
 To: Damien Hedde <damien.hedde@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,69 +74,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "Daniel P. Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
  Cornelia Huck <cohuck@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Edgar Iglesias <edgari@xilinx.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Oct 2019 at 16:07, Damien Hedde <damien.hedde@greensocs.com> wro=
-te:
+On Fri, 18 Oct 2019 at 16:07, Damien Hedde <damien.hedde@greensocs.com> wrote:
 >
-> Split gpfsel_set() in 2 so that the sdbus reparenting is done
-> in a dedicated function.
+> Hi all,
 >
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Cc: qemu-arm@nongnu.org
-> ---
->  hw/gpio/bcm2835_gpio.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+> The purpose of this series is to split the current reset procedure
+> into multiple phases. This will help to solve some ordering
+> difficulties we have during reset. Previous version can be found here:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg04359.html
 >
-> diff --git a/hw/gpio/bcm2835_gpio.c b/hw/gpio/bcm2835_gpio.c
-> index 91ce3d10cc..81fe07132f 100644
-> --- a/hw/gpio/bcm2835_gpio.c
-> +++ b/hw/gpio/bcm2835_gpio.c
-> @@ -75,7 +75,10 @@ static void gpfsel_set(BCM2835GpioState *s, uint8_t re=
-g, uint32_t value)
->              s->fsel[index] =3D fsel;
->          }
->      }
-> +}
+> This series adds resettable interface and transitions base Device and
+> Bus classes (sysbus subclasses are ok too). It provides new reset
+> functions but does not switch anymore the old functions
+> (device_reset() and qdev/qbus_reset_all()) to resettable interface.
+> These functions keep the exact same behavior as before.
 >
-> +static void gpfsel_update_sdbus(BCM2835GpioState *s)
-> +{
->      /* SD controller selection (48-53) */
->      if (s->sd_fsel !=3D 0
->              && (s->fsel[48] =3D=3D 0) /* SD_CLK_R */
-> @@ -86,6 +89,7 @@ static void gpfsel_set(BCM2835GpioState *s, uint8_t reg=
-, uint32_t value)
->              && (s->fsel[53] =3D=3D 0) /* SD_DATA3_R */
->              ) {
->          /* SDHCI controller selected */
-> +        sdbus_reparent_card(&s->sdbus, s->sdbus_sdhci);
->          sdbus_reparent_card(s->sdbus_sdhost, s->sdbus_sdhci);
->          s->sd_fsel =3D 0;>      } else if (s->sd_fsel !=3D 4
-> @@ -97,6 +101,7 @@ static void gpfsel_set(BCM2835GpioState *s, uint8_t re=
-g, uint32_t value)
->              && (s->fsel[53] =3D=3D 4) /* SD_DATA3_R */
->              ) {
->          /* SDHost controller selected */
-> +        sdbus_reparent_card(&s->sdbus, s->sdbus_sdhost);
->          sdbus_reparent_card(s->sdbus_sdhci, s->sdbus_sdhost);
+> The series also transition the main reset handlers registration which
+> has no impact until devices and buses are transitioned.
+>
+> I think this version is way better regarding the transition from the
+> legacy to the resettable interface than the previous one.
+> After this series, the plan is then to transition devices, buses and
+> legacy reset call sites. Devices and buses have to be transitioned
+> from mother class to daughter classes order but until the final
+> (daughter) class is transitioned, old monolitic reset behavior will
+> be kept for this class.
 
-The commit message says it's just splitting the function in two,
-but these two hunks are adding extra calls to sdbus_reparent_card().
-Why do we need to call it twice ?
-
->          s->sd_fsel =3D 4;
->      }
+Hi; I finally got back to reviewing this patchset, and I've
+left comments on various patches (minor stuff only). I didn't
+bother to comment on a few patches that I was happy with and
+somebody else had already reviewed.
 
 thanks
 -- PMM
