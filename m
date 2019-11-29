@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D095E10D5FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:08:25 +0100 (CET)
-Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D701B10D604
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:20:45 +0100 (CET)
+Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iag0V-0006TJ-Sh
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:08:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49621)
+	id 1iagCR-0006Ug-Ff
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:20:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iafAZ-0004cZ-9K
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:14:53 -0500
+ (envelope-from <groug@kaod.org>) id 1iafSD-000183-1I
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:32:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iafAU-0004ql-GD
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:14:41 -0500
-Received: from 7.mo5.mail-out.ovh.net ([178.32.124.100]:52925)
+ (envelope-from <groug@kaod.org>) id 1iafS7-00058x-LT
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:32:54 -0500
+Received: from 8.mo4.mail-out.ovh.net ([188.165.33.112]:60650)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iafAU-0004D7-5O
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:14:38 -0500
-Received: from player711.ha.ovh.net (unknown [10.109.143.145])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 46E4B25CDB1
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 13:14:26 +0100 (CET)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iafS6-00050B-Lu
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:32:51 -0500
+Received: from player714.ha.ovh.net (unknown [10.109.146.213])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 900F621587B
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 13:32:47 +0100 (CET)
 Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
  [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player711.ha.ovh.net (Postfix) with ESMTPSA id 77978C9700C1;
- Fri, 29 Nov 2019 12:14:22 +0000 (UTC)
-Date: Fri, 29 Nov 2019 13:14:21 +0100
+ by player714.ha.ovh.net (Postfix) with ESMTPSA id 65FC9CA4DA19;
+ Fri, 29 Nov 2019 12:32:42 +0000 (UTC)
+Date: Fri, 29 Nov 2019 13:32:41 +0100
 From: Greg Kurz <groug@kaod.org>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] build: rename CONFIG_LIBCAP to CONFIG_LIBCAP_NG
-Message-ID: <20191129131421.6a3f0db5@bahia.w3ibm.bluemix.net>
-In-Reply-To: <20191129111632.22840-1-pbonzini@redhat.com>
-References: <20191129111632.22840-1-pbonzini@redhat.com>
+Subject: Re: [PATCH] virtfs-proxy-helper: switch from libcap to libcap-ng
+Message-ID: <20191129133241.738b70ed@bahia.w3ibm.bluemix.net>
+In-Reply-To: <20191129111632.22840-2-pbonzini@redhat.com>
+References: <20191129111632.22840-2-pbonzini@redhat.com>
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 837951006930147790
+X-Ovh-Tracer-Id: 1148136431425722830
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeiledgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeiledgfeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedugedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.124.100
+X-Received-From: 188.165.33.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,126 +56,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, berrange@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Nov 2019 12:16:31 +0100
+On Fri, 29 Nov 2019 12:16:32 +0100
 Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Since we are using the newer capng library, rename the symbol to match.
+> virtfs-proxy-helper is the only user of libcap; everyone else is using
+> the simpler libcap-ng API.  Switch and remove the configure code to
+> detect libcap.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
 
+Nice. :)
+
 Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  configure             |  2 +-
->  qemu-bridge-helper.c  |  6 +++---
->  scsi/qemu-pr-helper.c | 12 ++++++------
->  3 files changed, 10 insertions(+), 10 deletions(-)
+Paolo,
+
+I can take this through my 9p tree if you want. Otherwise,
+
+Acked-by: Greg Kurz <groug@kaod.org>
+
+
+
+Also, this calls for some extra cleanup in travis.yml and gitlab-ci.yml
+which were recently amended by Thomas to install libcap-dev.
+
+commit c269447f78b7cfb0e85d14bc7bb8cb0d25d19781
+Author: Thomas Huth <thuth@redhat.com>
+Date:   Thu Sep 5 13:33:46 2019 +0200
+
+    travis.yml: Install libcap-dev for testing virito-9p
+
+and
+
+commit e7dc804ef0d7cac9ac8b4a1324ab7dbfafb55704
+Author: Thomas Huth <thuth@redhat.com>
+Date:   Thu Sep 5 12:36:50 2019 +0200
+
+    gitlab-ci.yml: Install libattr-devel and libcap-devel to test virtio-9p
+
+
+
+>  configure                   |  18 +------
+>  fsdev/virtfs-proxy-helper.c | 100 ++++++++++++++++--------------------
+>  2 files changed, 46 insertions(+), 72 deletions(-)
 > 
 > diff --git a/configure b/configure
-> index 6099be1d84..afe9393f04 100755
+> index afe9393f04..2216662bf6 100755
 > --- a/configure
 > +++ b/configure
-> @@ -6759,7 +6759,7 @@ if test "$l2tpv3" = "yes" ; then
->    echo "CONFIG_L2TPV3=y" >> $config_host_mak
+> @@ -3863,22 +3863,6 @@ else
+>    mpathpersist=no
 >  fi
->  if test "$cap_ng" = "yes" ; then
-> -  echo "CONFIG_LIBCAP=y" >> $config_host_mak
-> +  echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
+>  
+> -##########################################
+> -# libcap probe
+> -
+> -if test "$cap" != "no" ; then
+> -  cat > $TMPC <<EOF
+> -#include <stdio.h>
+> -#include <sys/capability.h>
+> -int main(void) { cap_t caps; caps = cap_init(); return caps != NULL; }
+> -EOF
+> -  if compile_prog "" "-lcap" ; then
+> -    cap=yes
+> -  else
+> -    cap=no
+> -  fi
+> -fi
+> -
+>  ##########################################
+>  # pthread probe
+>  PTHREADLIBS_LIST="-pthread -lpthread -lpthreadGC2"
+> @@ -6204,7 +6188,7 @@ if test "$want_tools" = "yes" ; then
 >  fi
->  echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
->  for drv in $audio_drv_list; do
-> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-> index 3d50ec094c..88b26747fc 100644
-> --- a/qemu-bridge-helper.c
-> +++ b/qemu-bridge-helper.c
-> @@ -43,7 +43,7 @@
->  
->  #include "net/tap-linux.h"
->  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  #include <cap-ng.h>
+>  if test "$softmmu" = yes ; then
+>    if test "$linux" = yes; then
+> -    if test "$virtfs" != no && test "$cap" = yes && test "$attr" = yes ; then
+> +    if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+>        virtfs=yes
+>        tools="$tools fsdev/virtfs-proxy-helper\$(EXESUF)"
+>      else
+> diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
+> index 6f132c5ff1..0d4de49dcf 100644
+> --- a/fsdev/virtfs-proxy-helper.c
+> +++ b/fsdev/virtfs-proxy-helper.c
+> @@ -13,7 +13,6 @@
+>  #include <sys/resource.h>
+>  #include <getopt.h>
+>  #include <syslog.h>
+> -#include <sys/capability.h>
+>  #include <sys/fsuid.h>
+>  #include <sys/vfs.h>
+>  #include <sys/ioctl.h>
+> @@ -21,6 +20,7 @@
+>  #ifdef CONFIG_LINUX_MAGIC_H
+>  #include <linux/magic.h>
 >  #endif
->  
-> @@ -207,7 +207,7 @@ static int send_fd(int c, int fd)
->      return sendmsg(c, &msg, 0);
+> +#include <cap-ng.h>
+>  #include "qemu-common.h"
+>  #include "qemu/sockets.h"
+>  #include "qemu/xattr.h"
+> @@ -79,49 +79,10 @@ static void do_perror(const char *string)
+>      }
 >  }
 >  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int drop_privileges(void)
+> -static int do_cap_set(cap_value_t *cap_value, int size, int reset)
+> -{
+> -    cap_t caps;
+> -    if (reset) {
+> -        /*
+> -         * Start with an empty set and set permitted and effective
+> -         */
+> -        caps = cap_init();
+> -        if (caps == NULL) {
+> -            do_perror("cap_init");
+> -            return -1;
+> -        }
+> -        if (cap_set_flag(caps, CAP_PERMITTED, size, cap_value, CAP_SET) < 0) {
+> -            do_perror("cap_set_flag");
+> -            goto error;
+> -        }
+> -    } else {
+> -        caps = cap_get_proc();
+> -        if (!caps) {
+> -            do_perror("cap_get_proc");
+> -            return -1;
+> -        }
+> -    }
+> -    if (cap_set_flag(caps, CAP_EFFECTIVE, size, cap_value, CAP_SET) < 0) {
+> -        do_perror("cap_set_flag");
+> -        goto error;
+> -    }
+> -    if (cap_set_proc(caps) < 0) {
+> -        do_perror("cap_set_proc");
+> -        goto error;
+> -    }
+> -    cap_free(caps);
+> -    return 0;
+> -
+> -error:
+> -    cap_free(caps);
+> -    return -1;
+> -}
+> -
+>  static int init_capabilities(void)
 >  {
->      /* clear all capabilities */
-> @@ -246,7 +246,7 @@ int main(int argc, char **argv)
->      int access_allowed, access_denied;
->      int ret = EXIT_SUCCESS;
->  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->      /* if we're run from an suid binary, immediately drop privileges preserving
->       * cap_net_admin */
->      if (geteuid() == 0 && getuid() != geteuid()) {
-> diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-> index debb18f4aa..0659ceef09 100644
-> --- a/scsi/qemu-pr-helper.c
-> +++ b/scsi/qemu-pr-helper.c
-> @@ -24,7 +24,7 @@
->  #include <linux/dm-ioctl.h>
->  #include <scsi/sg.h>
->  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  #include <cap-ng.h>
->  #endif
->  #include <pwd.h>
-> @@ -70,7 +70,7 @@ static int num_active_sockets = 1;
->  static int noisy;
->  static int verbose;
->  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int uid = -1;
->  static int gid = -1;
->  #endif
-> @@ -97,7 +97,7 @@ static void usage(const char *name)
->  "                            (default '%s')\n"
->  "  -T, --trace [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
->  "                            specify tracing options\n"
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  "  -u, --user=USER           user to drop privileges to\n"
->  "  -g, --group=GROUP         group to drop privileges to\n"
->  #endif
-> @@ -827,7 +827,7 @@ static void close_server_socket(void)
->      num_active_sockets--;
+>      /* helper needs following capabilities only */
+> -    cap_value_t cap_list[] = {
+> +    int cap_list[] = {
+>          CAP_CHOWN,
+>          CAP_DAC_OVERRIDE,
+>          CAP_FOWNER,
+> @@ -130,7 +91,34 @@ static int init_capabilities(void)
+>          CAP_MKNOD,
+>          CAP_SETUID,
+>      };
+> -    return do_cap_set(cap_list, ARRAY_SIZE(cap_list), 1);
+> +    int i;
+> +
+> +    capng_clear(CAPNG_SELECT_BOTH);
+> +    for (i = 0; i < ARRAY_SIZE(cap_list); i++) {
+> +        if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE | CAPNG_PERMITTED,
+> +                         cap_list[i]) < 0) {
+> +            do_perror("capng_update");
+> +            return -1;
+> +        }
+> +    }
+> +    if (capng_apply(CAPNG_SELECT_BOTH) < 0) {
+> +        do_perror("capng_apply");
+> +        return -1;
+> +    }
+> +
+> +    /* Prepare effective set for setugid.  */
+> +    for (i = 0; i < ARRAY_SIZE(cap_list); i++) {
+> +        if (cap_list[i] == CAP_DAC_OVERRIDE) {
+> +            continue;
+> +        }
+> +
+> +        if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE,
+> +                         cap_list[i]) < 0) {
+> +            do_perror("capng_update");
+> +            return -1;
+> +        }
+> +    }
+> +    return 0;
 >  }
 >  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->  static int drop_privileges(void)
+>  static int socket_read(int sockfd, void *buff, ssize_t size)
+> @@ -295,14 +283,6 @@ static int setugid(int uid, int gid, int *suid, int *sgid)
 >  {
->      /* clear all capabilities */
-> @@ -920,7 +920,7 @@ int main(int argc, char **argv)
->              pidfile = g_strdup(optarg);
->              pidfile_specified = true;
->              break;
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->          case 'u': {
->              unsigned long res;
->              struct passwd *userinfo = getpwnam(optarg);
-> @@ -1056,7 +1056,7 @@ int main(int argc, char **argv)
->          exit(EXIT_FAILURE);
+>      int retval;
+>  
+> -    /*
+> -     * We still need DAC_OVERRIDE because we don't change
+> -     * supplementary group ids, and hence may be subjected DAC rules
+> -     */
+> -    cap_value_t cap_list[] = {
+> -        CAP_DAC_OVERRIDE,
+> -    };
+> -
+>      *suid = geteuid();
+>      *sgid = getegid();
+>  
+> @@ -316,11 +296,21 @@ static int setugid(int uid, int gid, int *suid, int *sgid)
+>          goto err_sgid;
 >      }
 >  
-> -#ifdef CONFIG_LIBCAP
-> +#ifdef CONFIG_LIBCAP_NG
->      if (drop_privileges() < 0) {
->          error_report("Failed to drop privileges: %s", strerror(errno));
->          exit(EXIT_FAILURE);
+> -    if (uid != 0 || gid != 0) {
+> -        if (do_cap_set(cap_list, ARRAY_SIZE(cap_list), 0) < 0) {
+> -            retval = -errno;
+> -            goto err_suid;
+> -        }
+> +    if (uid == 0 && gid == 0) {
+> +        /* Linux has already copied the permitted set to the effective set.  */
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * All capabilities have been cleared from the effective set.  However
+> +     * we still need DAC_OVERRIDE because we don't change supplementary
+> +     * group ids, and hence may be subject to DAC rules.  init_capabilities
+> +     * left the set of capabilities that we want in libcap-ng's state.
+> +     */
+> +    if (capng_apply(CAPNG_SELECT_CAPS) < 0) {
+> +        retval = -errno;
+> +        do_perror("capng_apply");
+> +        goto err_suid;
+>      }
+>      return 0;
+>  
 
 
