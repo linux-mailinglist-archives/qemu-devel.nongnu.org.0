@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FE610D81E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:53:34 +0100 (CET)
-Received: from localhost ([::1]:60380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021E810D825
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:58:46 +0100 (CET)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaiaK-0003wr-7P
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:53:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35629)
+	id 1iaifN-0007hN-0R
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:58:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iaiTH-0007vZ-3F
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:46:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1iaiYB-0003rz-Ix
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:51:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iaiTB-0006jm-Nt
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:46:11 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:41485)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iaiSA-0003bh-9l
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:46:09 -0500
-Received: by mail-ot1-x329.google.com with SMTP id r27so10627146otc.8
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 07:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2bFMa6yuo3vxrq8boL8zGhd6D54DrKvC6NtwvjUCuS8=;
- b=xJKn/FRN5A8l1oMzRqFePTVp15EXe4vUeOSlVNmP+iC18jj6i1hBpbw5bOghUHry9E
- xEOiyBh1A2ViNsrb7GftK/FRVDxgxs+RMifRd/yz+GJW2TJdB2Wx9xl6gkB7DaS0mTXQ
- 6BS1ppeEECIAeVVq72wr6d6VVx0mr9cFoXDN5JOH205s5WXTMb4b+jP7mlNEHMgkkakF
- Fg4JrAXPohxMoh6DzpEo8p9LRHFjPx10O5Ds8O+PddgX129N3CKQYtJ102ym3ok7EnKB
- r+C/h78Qo5qZJzMaIW7YcYr4tM7AxbnVJIdHqIfDJ71nOnvrslc/JZu7vBFSIpBp3nt/
- Bt1Q==
+ (envelope-from <philmd@redhat.com>) id 1iaiY8-0004ci-4y
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:51:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27707
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaiY7-0004Vi-Td
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:51:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575042673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+XJxQxMMVOlGRd7VcDUfkaDTkTsObMIZmGCHSto/32k=;
+ b=F1m4/cL1fuROWvMttA2vilht+96PuL9gwfEXT0XRHXS/fgg4OL81eajz8ZfZ5NXVD5L9IG
+ xmHhwHrK8wCAcn6POqLH1NtZr45VNpsqzzbo5XpZcRXI2qNHx5lThGE9LtyELHJj5mXqS6
+ pq9rTCRvptD/H9LEpCUbyAjNgqwJmmQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-qFvFcXCkMVm-Jbe8pWONgA-1; Fri, 29 Nov 2019 10:51:10 -0500
+Received: by mail-wr1-f71.google.com with SMTP id t3so3048493wrm.23
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 07:51:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2bFMa6yuo3vxrq8boL8zGhd6D54DrKvC6NtwvjUCuS8=;
- b=jBT6v4DpKYpRbf+PWTgm7UnD5Ukmuaxj8ZLAam7kZ33lNS4orLcdTGVQmn77lX4uHA
- /v6FQtq+hadnJQIjG6GLYWiv4MuNnt8kSQDsBoDWdM1qLEZ1GNvK8Md5v+KKiWlgBLjQ
- +2rR7ygUIq/myRqOsRJf3jGy1jbVJqz4pC64YAA85Ti9e77WFwzT88LI+dBrV6LPdtWw
- MZbDiDqWL8P0UclQqnUCTRmM+N+G6PSS6J0adrkM7dpH3vq9ul1fTe6KJmQ+Mk4Ktvoq
- IcMunPGX4htil5epd1G6GBdGEzFYeXfqkkhHg9yJufiZaoyGW0iE2j17mJ1XPqij2C4F
- JNzQ==
-X-Gm-Message-State: APjAAAXISDyI0kGX9SDqQuPk5/VAgauc8aMN9zUFCwg4SOqd+5AFY66p
- J0pWCRDl3CaMXEvC8vGBRsWA/1ndVSWyIHrFCbVG0Q==
-X-Google-Smtp-Source: APXvYqy5HPWCYzqziwCSo2D3i6BTE8WpBrVHxAsN+TZpSNaQRE4svx3wFxCkD2vJj5NAGoj5SbcMWIIqJwIiA9Jvl1E=
-X-Received: by 2002:a9d:12d2:: with SMTP id g76mr12045438otg.232.1575042301400; 
- Fri, 29 Nov 2019 07:45:01 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P5MaXAGOEtqCjQSFhr61tNxB779w5vvW5JZg9oLQQik=;
+ b=LP3HTcf98H7ZWrtdXFBcOlg6M98SLOnYEKo03gOSDzU3sp9Sr9Q3WCanAxkqLCIpn5
+ My2q325w6ODGmHMCf3Z10GX9aF5kITj7+5Zd/tETN6+XCa4lJ/qDvX8ppMyh4adqAYoc
+ qnCIhyWnpBuvOES98SrP17w5aerOqntcp4x77B66ZdBdSSPYMYHe7F+wwdbes9mmPq+t
+ hod3T7AIh5NcmN1vMMLKPUNZUdz68K2dYqa2wZJ2dpIbfhnWEtTTSNria7+rLn4RusgR
+ bmNgftX6Od1C7xqknWm2k9F5uaSgQfiyc90CQZuM4oNos0vTDx+TVxiOHzK1H6qfDuqw
+ 0Pnw==
+X-Gm-Message-State: APjAAAW0LkORRK2ZxJDuMlMKj6Nyt7O0GcAclFCT0YU1M2BtAlDWNiwu
+ p6CAzHG8njLU9wI/eud7+RkO2mjjl7YSdFJCoO0UxR9tD7tA6K5uQMB6ux7i7S0oITNbqwVxAaa
+ nIxyvx8pKZMYOobc=
+X-Received: by 2002:a1c:152:: with SMTP id 79mr14945499wmb.70.1575042669585;
+ Fri, 29 Nov 2019 07:51:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwNpSLGurGkg6kUM5yS+PqHi7l7C9yEd+SwpgXgz4LQa7tFSiiFYWZuPd8jkzBVah0pdr/TeA==
+X-Received: by 2002:a1c:152:: with SMTP id 79mr14945476wmb.70.1575042669382;
+ Fri, 29 Nov 2019 07:51:09 -0800 (PST)
+Received: from [192.168.1.74] (67.23.27.109.rev.sfr.net. [109.27.23.67])
+ by smtp.gmail.com with ESMTPSA id e19sm14014011wme.6.2019.11.29.07.51.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Nov 2019 07:51:08 -0800 (PST)
+Subject: Re: [PATCH] ci: Use libcap-ng
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, thuth@redhat.com, pbonzini@redhat.com
+References: <20191129142126.32967-1-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <47dadf72-dc93-afa7-0535-6c4ec7e85e36@redhat.com>
+Date: Fri, 29 Nov 2019 16:51:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191129100835.21734-1-thuth@redhat.com>
-In-Reply-To: <20191129100835.21734-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Nov 2019 15:44:50 +0000
-Message-ID: <CAFEAcA97BPGG7v0BBdoFwR-xTx8JEg-QNFNB+S7UeciF4MxopA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Fix for the s390-ccw bios
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+In-Reply-To: <20191129142126.32967-1-dgilbert@redhat.com>
+Content-Language: en-US
+X-MC-Unique: qFvFcXCkMVm-Jbe8pWONgA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Marc Hartmayer <mhartmay@linux.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Nov 2019 at 10:08, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit 1a61a081ac33ae6cb7dd2e38d119a572f416c7f7:
->
->   Update version for v4.2.0-rc3 release (2019-11-26 21:52:26 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2019-11-29
->
-> for you to fetch changes up to bf876a688c9319b506d5ff1175ba7189cd933d91:
->
->   pc-bios/s390: Update firmware image with the "fix sclp_get_loadparm_ascii" patch (2019-11-29 10:12:33 +0100)
->
-> ----------------------------------------------------------------
-> A fix for regression in the s390-ccw bios
-> ----------------------------------------------------------------
+On 11/29/19 3:21 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> We currently enable libcap-dev in build-clang to pick up the 9p proxy
+> helper.  Paolo's patch changes that to use libcap-ng, so switch to using
 
+It is not obvious you are referring to "virtfs-proxy-helper: switch from=20
+libcap to libcap-ng" he recently posted.
 
-Applied, thanks.
+Since Greg is going to take Paolo's patch, I'd suggest he also takes=20
+this one, so he can update the commit description with either "the=20
+previous patch" or the commit sha1.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
-for any user-visible changes.
+> it.  This also means we'll be testing the scsi pr manager and the bridge
+> helper.
 
--- PMM
+This is good news.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>   .gitlab-ci.yml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index be57c6a454..62a9609798 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -59,7 +59,7 @@ build-user:
+>  =20
+>   build-clang:
+>    script:
+> - - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-dev
+> + - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
+>         xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev lib=
+rbd-dev
+>    - ./configure --cc=3Dclang --cxx=3Dclang++ --enable-werror
+>         --target-list=3D"alpha-softmmu arm-softmmu m68k-softmmu mips64-so=
+ftmmu
+>=20
+
 
