@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9793210D6C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:14:26 +0100 (CET)
-Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE0B10D6A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:07:21 +0100 (CET)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iah2N-0001DR-NY
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:14:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37057)
+	id 1iagvV-0003tA-OO
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:07:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iagqp-00022Y-A7
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:32 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iagqq-00022S-7x
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iagqm-0003Ls-W3
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iagqm-0003Lc-Vm
  for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:27 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53950)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39876)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iagql-0003AM-04
+ id 1iagql-0003GP-GW
  for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:02:24 -0500
-Received: by mail-wm1-x333.google.com with SMTP id u18so14303099wmc.3
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:02:20 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id y11so32194906wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=unO0AhiSffm5fivkmBiYQ+YrTXmYNV33KVgfzx6rDvU=;
- b=dyxA31STwqLSNudN0MNrbdRrTijK1iVacrACxDesD2vIkeL5OTDhpaZ9VEs3csMdcV
- 6WqF1vHjz6ya6pHNevP6GLM5k16QLjV8U8ke8oOE2tGrksxmSyd/Cc2MODjuCRaSWGWW
- tDx44NWpd5N8rVNoUbhXj0HU1PpNy/KKFGq3vORadP55QgmgbVhQgx9m4BAEwNLF7Yr+
- PhSfSUBYa6tVMRbLyRfrut2ICubXL6fVI5++7I8Uvc1KnxMGSiwuMKj6rPZZ3zkldybI
- XmagfHzsxaVSpfQvnrs0dvvZC8L49eVlgK2Irii8N7l34GnkCgQgjzHi4hGfEQwcjtqo
- dkKA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GITb2fVxR4h7bhXASG9JI0LI0GYSIzOlpGLPA3IIb7s=;
+ b=BtCZJWTy83YusnG4CVFiGPT8sh8Ir2hKiWbxTImDaD7IbNKb1WeTZkBhm0QKl3hyJC
+ mV0VmrZNiFUizECkEes+pqJ3C+Q8TV9t8FrOtjM/RdBHzL4qANIXMY149FXyxaB/8Lbb
+ Elqrqfsr9JF+Hvf/9dkMjbnlM0xamfGOZTBiqrOKgOoazFEpSMJU4fXxMzBKTuTKA2AA
+ 2TNpOKffEXGrbD5YORdGiH7vgctjuxr6ZHDrxHZrcOsIHFhHGmLkTNzPk6j6STaWw9XQ
+ u9/c9lpyHu7a9LFHCRGiNkKnQUbrYuFFXbKJqQQs5relNBqrdrnmiKvxVilTIaOSv+si
+ N1ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=unO0AhiSffm5fivkmBiYQ+YrTXmYNV33KVgfzx6rDvU=;
- b=TyJC+zOkA8x6Lca4N5f2vxoBGjX+p6PCeSCyo6wZU14S8pftc/cGymow6Ubo8MXk4q
- GIXRhm7QGt1OYmrU4zLd/YGeyktSuN1GwYP3lat6ApK/N6Nxk5h5vw1wmqCJIoTaowcd
- ii0l3QS4Kt2GB4/Q/VD4yQclMHnSpezQEBuYZ38155V17EH2en9SOAdhu4fhVytoK9QG
- kwa7mcWvutgRhNpIm5SvCru1AtINhRJ2Lh3F4a0zW34+Exa7YpdqYs9mSYaVehspVU9e
- G0euTejVyO9YGIoCASzAABpxO/n9xJobCh5wkNOMFTi6gUO72yOzJkvRpmlegbW4ND1g
- xsqg==
-X-Gm-Message-State: APjAAAVmM7UAgqX6ld8e/IpXAAbQk3Aq/U64rlRY0ZZjj2EEXezKkiBF
- X7OJ2ILEZiVHpTF4FpKJP/GOLmoL
-X-Google-Smtp-Source: APXvYqwism2Ph8gr/4IaAQw5eWydvSwcY99X9CS+726m94I9AxkfsH77cKGTasDHWYW+MZHouqaqtw==
-X-Received: by 2002:a1c:7209:: with SMTP id n9mr15676908wmc.9.1575036139000;
- Fri, 29 Nov 2019 06:02:19 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=GITb2fVxR4h7bhXASG9JI0LI0GYSIzOlpGLPA3IIb7s=;
+ b=sOWBDEFrIZ090gxzZjrt+D92O/YuMgUwyH6Cqr4/P+Ia4sE9Hlg4GVc7xwADaV91pT
+ 5QSKYQY4q4nIuYj9XOIvXOZXTl+RRIipXRWn5cKoYj+fNWfoeqxW3w7BLTeGuHMsjsxT
+ yANR1ebvhqg/1CQ9epC1xVNxEQyYieNaqa49KoZs1Z8ThIjeBdkqv1urto166IDZQtw5
+ AU41z+UtnKnd0ChqHfX/4d1Zy25G0oKDJsT16vn2Kh4KV71QKDOSD+PTFkz9dLioIPUe
+ Fdu6K/tKKD3mtccFTjhBfYAOF/G3oRxweSLwgBgsdN3NnRggp0Ap3iEfnGhe4GuC63q6
+ sd2Q==
+X-Gm-Message-State: APjAAAXalXKEvOsBU3y7mPtwk4hAcFjniKp1jOYQxmIq8xwqnJlw3XbW
+ rjozjQPPQ7YIX3/VNXupEqjhVF7m
+X-Google-Smtp-Source: APXvYqw160vQLb3isYSsvCCQqbqH5wYFoSNDhtpGMfItvozNk7Z/QqoHJbfJtSM0lK9S3v4d1shYvQ==
+X-Received: by 2002:adf:f50b:: with SMTP id q11mr54720687wro.343.1575036141020; 
+ Fri, 29 Nov 2019 06:02:21 -0800 (PST)
 Received: from donizetti.redhat.com ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
  by smtp.gmail.com with ESMTPSA id
- e7sm14190030wrp.43.2019.11.29.06.02.17
+ e7sm14190030wrp.43.2019.11.29.06.02.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Nov 2019 06:02:18 -0800 (PST)
+ Fri, 29 Nov 2019 06:02:20 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.0 0/8] docs: integrate doc comments with Sphinx build
-Date: Fri, 29 Nov 2019 15:02:09 +0100
-Message-Id: <20191129140217.17797-1-pbonzini@redhat.com>
+Subject: [PATCH 2/8] docs: tweak kernel-doc for QEMU coding standards
+Date: Fri, 29 Nov 2019 15:02:11 +0100
+Message-Id: <20191129140217.17797-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191129140217.17797-1-pbonzini@redhat.com>
+References: <20191129140217.17797-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,38 +82,93 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This merges my series and Peter's into one.  Both the memory API and bitwise
-operation APIs are covered.
+Surprisingly, QEMU does have a pretty consistent doc comment style and
+it is not very different from the Linux kernel's.  Of the documentation
+"sigils", only "#" separates the QEMU doc comment style from Linux's,
+and it has 200+ instances vs. 6 for the kernel's '&struct foo' (all in
+accel/tcg/translate-all.c), so it's clear that the two standards are
+different in this respect.  In addition, our structs are typedefed and
+recognized by CamelCase names.
 
-Paolo Bonzini (4):
-  docs: import Linux kernel-doc script and extension
-  docs: tweak kernel-doc for QEMU coding standards
-  memory.h: Silence kernel-doc complaints
-  docs: add memory API reference
+Adjust kernel-doc's parser for these two aspects of the QEMU coding
+standards.  The patch has been valid, with hardly any change, for over
+two years, so it should not be an issue to keep kernel-doc in sync with
+the Linux copy.
 
-Peter Maydell (4):
-  docs/conf.py: Enable use of kerneldoc sphinx extension
-  Makefile: disable Sphinx nitpicking
-  bitops.h: Silence kernel-doc complaints
-  docs: Create bitops.rst as example of kernel-docs
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/kernel-doc | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
- Makefile                 |    2 +-
- docs/conf.py             |    7 +-
- docs/devel/bitops.rst    |    8 +
- docs/devel/index.rst     |    1 +
- docs/devel/memory.rst    |    5 +
- docs/sphinx/kerneldoc.py |  172 +++
- docs/sphinx/kernellog.py |   28 +
- include/exec/memory.h    |   16 +-
- include/qemu/bitops.h    |   52 +-
- scripts/kernel-doc       | 2236 ++++++++++++++++++++++++++++++++++++++
- 10 files changed, 2499 insertions(+), 28 deletions(-)
- create mode 100644 docs/devel/bitops.rst
- create mode 100644 docs/sphinx/kerneldoc.py
- create mode 100644 docs/sphinx/kernellog.py
- create mode 100755 scripts/kernel-doc
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 81dc91760b..af470eb321 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -215,12 +215,12 @@ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+ my $type_env = '(\$\w+)';
+-my $type_enum = '\&(enum\s*([_\w]+))';
+-my $type_struct = '\&(struct\s*([_\w]+))';
+-my $type_typedef = '\&(typedef\s*([_\w]+))';
+-my $type_union = '\&(union\s*([_\w]+))';
+-my $type_member = '\&([_\w]+)(\.|->)([_\w]+)';
+-my $type_fallback = '\&([_\w]+)';
++my $type_enum = '#(enum\s*([_\w]+))';
++my $type_struct = '#(struct\s*([_\w]+))';
++my $type_typedef = '#(([A-Z][_\w]*))';
++my $type_union = '#(union\s*([_\w]+))';
++my $type_member = '#([_\w]+)(\.|->)([_\w]+)';
++my $type_fallback = '(?!)';    # this never matches
+ my $type_member_func = $type_member . '\(\)';
+ 
+ # Output conversion substitutions.
+@@ -1050,6 +1050,14 @@ sub output_blockhead {
+ sub dump_declaration($$) {
+     no strict 'refs';
+     my ($prototype, $file) = @_;
++    if ($decl_type eq 'type name') {
++       if ($prototype =~ /^(enum|struct|union)\s+/) {
++	   $decl_type = $1;
++	} else {
++	   return;
++       }
++    }
++
+     my $func = "dump_" . $decl_type;
+     &$func(@_);
+ }
+@@ -1878,7 +1886,7 @@ sub process_name($$) {
+     }
+     elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*-/) {
++	if (/\s*([\w\s]+?)(\s*-|:)/) {
+ 	    $identifier = $1;
+ 	}
+ 
+@@ -1888,7 +1896,7 @@ sub process_name($$) {
+ 	$contents = "";
+ 	$section = $section_default;
+ 	$new_start_line = $. + 1;
+-	if (/-(.*)/) {
++	if (/[-:](.*)/) {
+ 	    # strip leading/trailing/multiple spaces
+ 	    $descr= $1;
+ 	    $descr =~ s/^\s*//;
+@@ -1906,7 +1914,9 @@ sub process_name($$) {
+ 	    ++$warnings;
+ 	}
+ 
+-	if ($identifier =~ m/^struct\b/) {
++	if ($identifier =~ m/^[A-Z]/) {
++	    $decl_type = 'type name';
++	} elsif ($identifier =~ m/^struct\b/) {
+ 	    $decl_type = 'struct';
+ 	} elsif ($identifier =~ m/^union\b/) {
+ 	    $decl_type = 'union';
 -- 
 2.21.0
+
 
 
