@@ -2,131 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EE310D1FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:45:57 +0100 (CET)
-Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A8210D223
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:59:55 +0100 (CET)
+Received: from localhost ([::1]:55694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaayP-0003oB-MO
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:45:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34557)
+	id 1iabBv-0000W8-0B
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:59:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1iaarv-00024y-3b
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:39:13 -0500
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iab6B-0007kE-2n
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:53:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1iaarr-0006Pb-Vc
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:39:09 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16782)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1iaarr-0006AT-L6
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:39:07 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xAT7bZ87045905
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 02:39:03 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wjugde3yr-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 02:39:03 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Fri, 29 Nov 2019 07:39:01 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 29 Nov 2019 07:38:57 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xAT7ctx149414184
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Nov 2019 07:38:55 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADC3C4203F;
- Fri, 29 Nov 2019 07:38:55 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3519242041;
- Fri, 29 Nov 2019 07:38:55 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.168])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 29 Nov 2019 07:38:55 +0000 (GMT)
-Subject: Re: [PATCH v1 1/1] pc-bios/s390-ccw: fix sclp_get_loadparm_ascii
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
- <52e295af-3b34-6cb7-ba52-a26ae70aebcd@de.ibm.com>
- <20191128134517.7caf3496.cohuck@redhat.com>
- <bbfd3b99-c38f-ccb0-9c16-24bad35f357a@de.ibm.com>
- <CAFEAcA_vJP_nBRCtD=E2Lya1MejNBz0=Me-RcS6G39=VZ2zbAg@mail.gmail.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Fri, 29 Nov 2019 08:38:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <edgar.iglesias@gmail.com>) id 1iab67-0007ub-QW
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:53:52 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34362)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1iab67-0007mH-GA
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:53:51 -0500
+Received: by mail-wm1-x344.google.com with SMTP id j18so9082204wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Nov 2019 23:53:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=f1gpxuNh24lQFcttp3T24kzfWn/kvbMTIewYEDBYMKY=;
+ b=d9UYstAaUZn4HQta3frKN/Y613skfSz1RKjxccxpdwlsyUgQuUkvlC0k1JDptRt9NI
+ e198Oc1b8rLDxAWV4ABkPVlgolFmMbZnVwlS0AmmCsl5bL0Cxco1ShpcsZ0FpMKKsvE9
+ axXKLRx4BJh59c086Gio87DrPL/AjVFsoaGEeVGqsy2xXynI8o4o/P7uBVzjvGu9WXM4
+ IpkirL5ijgz0MRWySoVR+/9wfxmHCfaqzPEboIjsf036KQVsp+eaEpRq5qvP/C8wV06m
+ IjJKQhdSHqrO7DDLSb3uYVMN9LqnBEyTBswZLxUoVUK1H4KiaRmXBv+S4XJ4K418B/gu
+ 5MMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=f1gpxuNh24lQFcttp3T24kzfWn/kvbMTIewYEDBYMKY=;
+ b=EFX0HJMReaCQjNb3nmYxP3V0XvwulPhVZ6P6L+64oTvQViMN2OcBqqbHZClYdjgWWf
+ sdijvXDD6betTIG74Kkn9qj04VTbofoGWRhN2P0sC/GaXTT79cOiZY3vV/YieIR8zGcQ
+ 5+AMrkX9/zqPNH30HJXt/o6W0OQvXpZFfTqwA4nVab6z+WAkm1tne+PaMYrp0zv23S54
+ F6eIvUv7soMmbhoorPOnZ6iNcfNoL4jbhQsyWajKbdvtZLbYfKwxYea3jOIhH1lUaFLX
+ UUfv/1MuCtndOOFdJvhkNVIeQQdwrKWvqRZYluQuVCTtzNeuJwAVVf97PMf2KR1bC7ZQ
+ Af8w==
+X-Gm-Message-State: APjAAAWQ0HQIhNW1UxsY7iprMuYxelIaTkjcfGyVwtsJtTIyJOnO/GBo
+ SDFsdcmd8eGh2zDhaUaYezk=
+X-Google-Smtp-Source: APXvYqxZjuTyCyxmGl5/ynsNL/fOmqdRm2nIq6H1hDDO5Sru1NWfNBGqDJSQR4EpWb0Fc7MUMBdi0Q==
+X-Received: by 2002:a1c:4b03:: with SMTP id y3mr2158247wma.91.1575014029542;
+ Thu, 28 Nov 2019 23:53:49 -0800 (PST)
+Received: from localhost (ec2-34-244-242-0.eu-west-1.compute.amazonaws.com.
+ [34.244.242.0])
+ by smtp.gmail.com with ESMTPSA id h2sm27425159wrt.45.2019.11.28.23.53.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 23:53:48 -0800 (PST)
+Date: Fri, 29 Nov 2019 08:53:51 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH 1/3] target/arm: Honor HCR_EL2.TID2 trapping requirements
+Message-ID: <20191129075351.GD29312@toto>
+References: <20191128161718.24361-1-maz@kernel.org>
+ <20191128161718.24361-2-maz@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_vJP_nBRCtD=E2Lya1MejNBz0=Me-RcS6G39=VZ2zbAg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112907-0028-0000-0000-000003C17EFD
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112907-0029-0000-0000-000024848C71
-Message-Id: <887eaf8d-2e39-83e3-acdc-f45f26004638@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-29_01:2019-11-29,2019-11-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- mlxlogscore=796 malwarescore=0 bulkscore=0 phishscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911290065
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191128161718.24361-2-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -138,40 +80,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Nov 28, 2019 at 04:17:16PM +0000, Marc Zyngier wrote:
+> HCR_EL2.TID2 mandates that access from EL1 to CTR_EL0, CCSIDR_EL1,
+> CCSIDR2_EL1, CLIDR_EL1, CSSELR_EL1 are trapped to EL2, and QEMU
+> completely ignores it, making impossible for hypervisors to
+
+Nit: "making it impossible"
 
 
-On 28.11.19 16:05, Peter Maydell wrote:
-> On Thu, 28 Nov 2019 at 12:48, Christian Borntraeger
-> <borntraeger@de.ibm.com> wrote:
->>
->>
->>
->> On 28.11.19 13:45, Cornelia Huck wrote:
->>> On Thu, 28 Nov 2019 13:35:29 +0100
->>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>
->>>> Ack.
->>>>
->>>> Conny, I think this would be really nice to have for 4.2 (together with a bios rebuild)
->>>> as this fixes a regression. Opinions?
->>>
->>> I fear that this is a bit late for 4.2... but this should get a
->>> cc:stable.
->>
->> So we would rather ship a qemu regression instead of pushing a 1 line fixup?
->> Peter, what is the current state of 4.2? does it look like we will have an rc4
->> or is everything else silent.
+> virtualize the cache hierarchy.
 > 
-> There isn't currently anything else that would need an rc4.
+> Do the right thing by trapping to EL2 if HCR_EL2.TID2 is set.
+> 
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  target/arm/helper.c | 28 +++++++++++++++++++++++++---
+>  1 file changed, 25 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 0bf8f53d4b..0b6887b100 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1910,6 +1910,17 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+>      raw_write(env, ri, value);
+>  }
+>  
+> +static CPAccessResult access_aa64_tid2(CPUARMState *env,
+> +                                       const ARMCPRegInfo *ri,
+> +                                       bool isread)
+> +{
+> +    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TID2)) {
+> +        return CP_ACCESS_TRAP_EL2;
+> +    }
+> +
+> +    return CP_ACCESS_OK;
+> +}
+> +
+>  static uint64_t ccsidr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>  {
+>      ARMCPU *cpu = env_archcpu(env);
+> @@ -2110,10 +2121,14 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+>        .writefn = pmintenclr_write },
+>      { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
+>        .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 0,
+> -      .access = PL1_R, .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
+> +      .access = PL1_R,
+> +      .accessfn = access_aa64_tid2,
+> +      .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
+>      { .name = "CSSELR", .state = ARM_CP_STATE_BOTH,
+>        .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 2, .opc2 = 0,
+> -      .access = PL1_RW, .writefn = csselr_write, .resetvalue = 0,
+> +      .access = PL1_RW,
+> +      .accessfn = access_aa64_tid2,
+> +      .writefn = csselr_write, .resetvalue = 0,
+>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.csselr_s),
+>                               offsetof(CPUARMState, cp15.csselr_ns) } },
+>      /* Auxiliary ID register: this actually has an IMPDEF value but for now
+> @@ -5204,6 +5219,11 @@ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+>      if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
+>          return CP_ACCESS_TRAP;
+>      }
+> +
+> +    if (arm_hcr_el2_eff(env) & HCR_TID2) {
+> +        return CP_ACCESS_TRAP_EL2;
+> +    }
 
-I would vote for getting this patch still in. And I think we probably do not need an
-rc4 for that, the fix seems pretty straight forward.
 
+Shouldn't we also be checking that we're in EL < 2 when trapping?
+
+Also, I think we need to somehow hook in access_aa64_tid2() for the AArch32
+view of CTR, don't we?
+
+Cheers,
+Edgar
+
+
+> +
+>      return CP_ACCESS_OK;
+>  }
+>  
+> @@ -6184,7 +6204,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>          ARMCPRegInfo clidr = {
+>              .name = "CLIDR", .state = ARM_CP_STATE_BOTH,
+>              .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 1,
+> -            .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = cpu->clidr
+> +            .access = PL1_R, .type = ARM_CP_CONST,
+> +            .accessfn = access_aa64_tid2,
+> +            .resetvalue = cpu->clidr
+>          };
+>          define_one_arm_cp_reg(cpu, &clidr);
+>          define_arm_cp_regs(cpu, v7_cp_reginfo);
+> -- 
+> 2.20.1
+> 
+> 
 
