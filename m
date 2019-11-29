@@ -2,102 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59AA10D456
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:43:54 +0100 (CET)
-Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9774B10D465
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:51:46 +0100 (CET)
+Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iadke-0006WW-Gj
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38987)
+	id 1iadsH-0003PX-63
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:51:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49165)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iad49-0001Ya-MO
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:58 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iadBQ-0007ha-De
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:07:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iad44-0004sq-S3
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:54 -0500
-Received: from mail-eopbgr10106.outbound.protection.outlook.com
- ([40.107.1.106]:64862 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iad44-0004ax-EA; Fri, 29 Nov 2019 04:59:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n4yG00kF5Hc/BesN3fbRlTr08SANKW6aQ+pjf9f+yNNHrBi4XS2uLQKqUNyCiGoynsLZ8TN+oqj5uN057Og+GrlRzlcN217uRc0Bl92UTLRxjCu3RwC1WlA9ed4lClJUz5THip495TaQN4RxkNncfA3cdBEeIzJhil4lhKxPQTQlU0f3au4+E8X6PH1543E+oSVjt9zFqbsNA5fpQtWxSIZixp/InQzhUXVLDyXtdnSfC5q6qBZm71QrKkReFDJkNMEjyR+sNwZNKCoAJPSq76Iark2LLUEtLEDb+j1Np9o4euuq/4n7V0CIqqf9rjw151pZnIk5wBQ65KzifN5tfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G73ewjXLwwwhTcMv8rRvsbzm8f5klQtmuJMR66jz5cQ=;
- b=a8SjDYkr+D9RnqwwZHtyeIO5UXVsTdH6v4AdEOA4kyK5/R+IBhei0D9sp+9wq7NXlIuRIF7XN/P2qoe0Rhi16CVDIDG47zZzpB1GKZFJSQ8Y5Fz0LY/2oyxopZPBj4C4MKazRWjj50BdbjdbOjEq/8OAw7QnZEvyw91NsLkd6vLNpiCdRjulPTAZ+YzZKluPuK2lB3kvihzqJ/RxeDKXz4DLkM1PSa6GxNaQ6wdDWYYe46Etdy+9GYoE3ugwOUBxcmskq2K4l5l3c+HZAZIR+Zy+o1ZE6JNVVCm2MsBHvb288HazRYcFvVM3cag0UIbA54UTCLa52OkspcVO51WOsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G73ewjXLwwwhTcMv8rRvsbzm8f5klQtmuJMR66jz5cQ=;
- b=CqfVazhES4EC7dK1C5cKO1apGyaAB28eVL4mGYkwFRPpM0Nn58Rv8JA7qtfDVZgVjKYfCcVe6enltW8atz6cR99n/fsKEKiMrfurndpPeGbi9zJpJN6d/m9zjj8n20sctrQX9cG3VXbGYXEh4KKon55/uojiY2SIdhHZALtUYjw=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4739.eurprd08.prod.outlook.com (10.255.97.78) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.20; Fri, 29 Nov 2019 09:59:46 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
- 09:59:46 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH for-5.0 v2 09/23] quorum: Add QuorumChild.to_be_replaced
-Thread-Topic: [PATCH for-5.0 v2 09/23] quorum: Add QuorumChild.to_be_replaced
-Thread-Index: AQHVmKl4VCwIRwSEWUCadLGn1eIb1qeiBiAA
-Date: Fri, 29 Nov 2019 09:59:46 +0000
-Message-ID: <a3884493-4cd6-d565-ece0-1bd8a14e9aa4@virtuozzo.com>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-10-mreitz@redhat.com>
-In-Reply-To: <20191111160216.197086-10-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0271.eurprd05.prod.outlook.com
- (2603:10a6:3:fc::23) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191129125944386
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 33a54ae0-863e-4bb6-866e-08d774b2dd45
-x-ms-traffictypediagnostic: AM6PR08MB4739:
-x-microsoft-antispam-prvs: <AM6PR08MB4739FD831D88825873307669C1460@AM6PR08MB4739.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:250;
-x-forefront-prvs: 0236114672
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(346002)(396003)(366004)(39840400004)(136003)(189003)(199004)(64756008)(66446008)(6116002)(5660300002)(6486002)(66556008)(7736002)(76176011)(52116002)(2906002)(6436002)(66066001)(81166006)(8936002)(99286004)(8676002)(14454004)(316002)(229853002)(305945005)(25786009)(81156014)(110136005)(478600001)(54906003)(71190400001)(4326008)(14444005)(66476007)(2501003)(66946007)(71200400001)(6246003)(26005)(102836004)(6506007)(446003)(11346002)(2616005)(6512007)(186003)(3846002)(31686004)(256004)(386003)(36756003)(31696002)(86362001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4739;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: C9lZ0FvntUiBWmGvENuyO+iHcGRhND9HYRF2T9Nlszokvc5Zl5Ma81gL4xyQvlomPOkkzGXqYgTi32Uq4ES27VlIaTONZfuZqEqAzbcng2sZ2pT/JRQ4bmWZrwJzum9n3sFLHc8mDDJBg9M0I26hCPqmXwt3DgA7S5M46m9+AyVOk74zR55toLn+s7dEGljsznQeybyXgupNkaaR466PYqnkkkCSIcegvI3lwBhtCnUmdf+/6ruGwcBRvbjVP+2f08VH8Nq71K7uXolYUjnDYSNKAU/Opqdk8wETP6oACOaJQ4ZrEoFx8RXvsbRRbnu3qUmdq/C++mJqDSjysMUYwOXtsj5ql+9s5gTVwDYW81UjlEbKbMxDPtKEGe9/mDEfycfM1fmD9wosz850di28jE1kqntnhWW5k962jebFKW+I8rbMh5p1/BRWXvYEO+mv
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <5204807F2F09EE479825FF12B0092646@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <imammedo@redhat.com>) id 1iadBG-0007WL-1d
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:07:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22596
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iadBC-0007Or-P2
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:07:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575022031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WBzj7zbfUuW2tpKskgh6zpIacjXB0VOiM3IJQezjOFs=;
+ b=Dwn32R02Cu/ba8m3bI3C/D9MEglekSswkHv2FfvVt2xjrD6V8rxFAQbJ4pbQ54hG6yHdcb
+ 7gpi5bY2b1QEFXEk0FdFJIiSrB5c6YvEM+oH9j7w2j6giuqlEnjnznWomUAo9dVkfcEPvk
+ lkQ31hJJChtzSQOTUuRNQOnN6iEu2BQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-MtxTJQHtNsyXjRw676hftQ-1; Fri, 29 Nov 2019 05:07:10 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E448107ACC4;
+ Fri, 29 Nov 2019 10:07:09 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B79660BE2;
+ Fri, 29 Nov 2019 10:07:05 +0000 (UTC)
+Date: Fri, 29 Nov 2019 11:07:03 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+Message-ID: <20191129110703.2b15c541@redhat.com>
+In-Reply-To: <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
+ <20191128172807.788e6aeb@redhat.com>
+ <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33a54ae0-863e-4bb6-866e-08d774b2dd45
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 09:59:46.2775 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u0Q9L09wVVjH3NDCm2ZWOu0gcG/SOmS4V1wL+EH94rLCEOOL0QtN389AOgVS8oCdOSxpBZaArRpVHhrujEUlxNmuvlHxgj1P409aJKCBKBI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4739
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.106
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: MtxTJQHtNsyXjRw676hftQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,88 +73,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.11.2019 19:02, Max Reitz wrote:
-> We will need this to verify that Quorum can let one of its children be
-> replaced without breaking anything else.
+On Fri, 29 Nov 2019 00:31:32 +0400
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> wrote:
+
+> Hi
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block/quorum.c | 23 +++++++++++++++++++++++
->   1 file changed, 23 insertions(+)
+> On Thu, Nov 28, 2019 at 9:25 PM Igor Mammedov <imammedo@redhat.com> wrote=
+:
+> >
+> > On Thu, 28 Nov 2019 18:15:18 +0400
+> > Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> wrote:
+> > =20
+> > > Add an option to simplify shared memory / vhost-user setup.
+> > >
+> > > Currently, using vhost-user requires NUMA setup such as:
+> > > -m 4G -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/=
+shm,share=3Don -numa node,memdev=3Dmem
+> > >
+> > > As there is no other way to allocate shareable RAM, afaik.
+> > >
+> > > -mem-shared aims to have a simple way instead: -m 4G -mem-shared =20
+> > User always can write a wrapper script if verbose CLI is too much,
+> > and we won't have to deal with myriad permutations to maintain. =20
 >=20
-> diff --git a/block/quorum.c b/block/quorum.c
-> index 59cd524502..3a824e77e3 100644
-> --- a/block/quorum.c
-> +++ b/block/quorum.c
-> @@ -67,6 +67,13 @@ typedef struct QuorumVotes {
->  =20
->   typedef struct QuorumChild {
->       BdrvChild *child;
-> +
-> +    /*
-> +     * If set, check whether this node can be replaced without any
-> +     * other parent noticing: Unshare CONSISTENT_READ, and take the
-> +     * WRITE permission.
-> +     */
-> +    bool to_be_replaced;
->   } QuorumChild;
->  =20
->   /* the following structure holds the state of one quorum instance */
-> @@ -1128,6 +1135,16 @@ static void quorum_child_perm(BlockDriverState *bs=
-, BdrvChild *c,
->                                 uint64_t perm, uint64_t shared,
->                                 uint64_t *nperm, uint64_t *nshared)
->   {
-> +    BDRVQuorumState *s =3D bs->opaque;
-> +    int i;
-> +
+> Sure, but that's not exactly making it easier for the user,
+> documentation etc (or machine that do not support numa as David
+> mentionned).
+on positive side it makes behavior consistent (and need to be documented
+in one place (memdev)), i.e. user knows that he will get what he specified=
+=20
+on CLI.
 
-loop is still useless if c =3D=3D NULL...
+With global options like you propose, good luck with figuring out
+(and documenting it in user documentation will be nightmare)
+if your config actually does what it's supposed to do or not.
+That's unfortunate the state we are in right now with
+mem-path/prealloc.
 
-if (c) {
+> > Also current -mem-path/prealloc in combination with memdevs is
+> > the source of problems (as ram allocation uses 2 different paths).
+> > It's possible to fix with a kludge but I'd rather fix it properly. =20
+>=20
+> I agree, however I think it's a separate problems. We don't have to
+> fix both simultaneously. The semantic of a new CLI -mem-shared (or
+> shared=3Don etc) can be defined and implemented in a simple way, before
+> internal refactoring.
+Well, it adds more invariants to already complex RAM allocation
+I have to untangle. So lets look into it after memdev re-factoring.
+I'll plan to post it right after merge window is open.
 
-> +    for (i =3D 0; i < s->num_children; i++) {
-> +        if (s->children[i].child =3D=3D c) {
-> +            break;
-> +        }
-> +    }
+> > So during 5.0, I'm planning to consolidate -mem-path/prealloc
+> > handling around memory backend internally (and possibly deprecate them)=
+,
+> > so the only way to allocate RAM for guest would be via memdevs.
+> > (reducing number of options an globals that they use)
+> > =20
+>=20
+> That would be great indeed. I tried to look at that in the past, but
+> was a it overwhelmed by the amount of details and/or code complexity.
+Complexity is only one side of issue, I'm mainly refactoring it because
+different approaches to allocate RAM lead to subtle bugs that's hard to
+spot and fix. That's why I'm against adding more invariants to the pile.
+
+> > So user who wants something non trivial could override default
+> > non-numa behavior with
+> >   -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,sh=
+are=3Don \
+> >   -machine memdev=3Dmem
+> > or use any other backend that suits theirs needs. =20
+>=20
+> That's nice, but not as friendly as a simple -mem-shared.
+(I still do not like idea of convenience options but it won't
+get onto the way much if implemented as "global property" to memdev,
+so I won't object if there is real demand for it)
+
+Simplicity in global options is deceiving once you have mixed
+RAM (main and as -device), good luck with documenting how it
+works in all possible configs and making it robust (so it
+won't explode later) (I wouldn't take on such task).
+And then poor user will have to figure it out as well.
+
+Verbose way makes allocating backing storage consistent,
+which is much more important (including end user).
+The rest could be scripted or one could use higher level
+mgmt tools if simplicity is desired.
 
 
-        assert(i < s->num_children);
-
-}
-
-> +
->       *nperm =3D perm & DEFAULT_PERM_PASSTHROUGH;
->  =20
->       /*
-> @@ -1137,6 +1154,12 @@ static void quorum_child_perm(BlockDriverState *bs=
-, BdrvChild *c,
->       *nshared =3D (shared & (BLK_PERM_CONSISTENT_READ |
->                             BLK_PERM_WRITE_UNCHANGED))
->                | DEFAULT_PERM_UNCHANGED;
-> +
-> +    if (c && s->children[i].to_be_replaced) {
-> +        /* Prepare for sudden data changes */
-> +        *nperm |=3D BLK_PERM_WRITE;
-> +        *nshared &=3D ~BLK_PERM_CONSISTENT_READ;
-> +    }
->   }
->  =20
->   static const char *const quorum_strong_runtime_opts[] =3D {
+> thanks
+>=20
+> > =20
+> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > ---
+> > >  exec.c                  | 11 ++++++++++-
+> > >  hw/core/numa.c          | 16 +++++++++++++++-
+> > >  include/sysemu/sysemu.h |  1 +
+> > >  qemu-options.hx         | 10 ++++++++++
+> > >  vl.c                    |  4 ++++
+> > >  5 files changed, 40 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/exec.c b/exec.c
+> > > index ffdb518535..4e53937eaf 100644
+> > > --- a/exec.c
+> > > +++ b/exec.c
+> > > @@ -72,6 +72,10 @@
+> > >  #include "qemu/mmap-alloc.h"
+> > >  #endif
+> > >
+> > > +#ifdef CONFIG_POSIX
+> > > +#include "qemu/memfd.h"
+> > > +#endif
+> > > +
+> > >  #include "monitor/monitor.h"
+> > >
+> > >  //#define DEBUG_SUBPAGE
+> > > @@ -2347,7 +2351,12 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t =
+size, MemoryRegion *mr,
+> > >      bool created;
+> > >      RAMBlock *block;
+> > >
+> > > -    fd =3D file_ram_open(mem_path, memory_region_name(mr), &created,=
+ errp);
+> > > +    if (mem_path) {
+> > > +        fd =3D file_ram_open(mem_path, memory_region_name(mr), &crea=
+ted, errp);
+> > > +    } else {
+> > > +        fd =3D qemu_memfd_open(mr->name, size,
+> > > +                             F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SE=
+AL, errp);
+> > > +    } =20
+> >
+> > that's what I'm mostly against, as it spills out memdev impl. details
+> > into generic code.
+> > =20
+> > >      if (fd < 0) {
+> > >          return NULL;
+> > >      }
+> > > diff --git a/hw/core/numa.c b/hw/core/numa.c
+> > > index e3332a984f..6f72cddb1c 100644
+> > > --- a/hw/core/numa.c
+> > > +++ b/hw/core/numa.c
+> > > @@ -493,7 +493,8 @@ static void allocate_system_memory_nonnuma(Memory=
+Region *mr, Object *owner,
+> > >      if (mem_path) {
+> > >  #ifdef __linux__
+> > >          Error *err =3D NULL;
+> > > -        memory_region_init_ram_from_file(mr, owner, name, ram_size, =
+0, 0,
+> > > +        memory_region_init_ram_from_file(mr, owner, name, ram_size, =
+0,
+> > > +                                         mem_shared ? RAM_SHARED : 0=
+,
+> > >                                           mem_path, &err); =20
+> > this will be gone and replaced by memory region that memdev initializes=
+.
+> > =20
+> > >          if (err) {
+> > >              error_report_err(err);
+> > > @@ -513,6 +514,19 @@ static void allocate_system_memory_nonnuma(Memor=
+yRegion *mr, Object *owner,
+> > >  #else
+> > >          fprintf(stderr, "-mem-path not supported on this host\n");
+> > >          exit(1);
+> > > +#endif
+> > > +    } else if (mem_shared) {
+> > > +#ifdef CONFIG_POSIX
+> > > +        Error *err =3D NULL;
+> > > +        memory_region_init_ram_from_file(mr, owner, NULL, ram_size, =
+0,
+> > > +                                         RAM_SHARED, NULL, &err);
+> > > +        if (err) {
+> > > +            error_report_err(err);
+> > > +            exit(1);
+> > > +        }
+> > > +#else
+> > > +        fprintf(stderr, "-mem-shared not supported on this host\n");
+> > > +        exit(1);
+> > >  #endif
+> > >      } else {
+> > >          memory_region_init_ram_nomigrate(mr, owner, name, ram_size, =
+&error_fatal);
+> > > diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> > > index 80c57fdc4e..80db8465a9 100644
+> > > --- a/include/sysemu/sysemu.h
+> > > +++ b/include/sysemu/sysemu.h
+> > > @@ -55,6 +55,7 @@ extern bool enable_cpu_pm;
+> > >  extern QEMUClockType rtc_clock;
+> > >  extern const char *mem_path;
+> > >  extern int mem_prealloc;
+> > > +extern int mem_shared;
+> > >
+> > >  #define MAX_OPTION_ROMS 16
+> > >  typedef struct QEMUOptionRom {
+> > > diff --git a/qemu-options.hx b/qemu-options.hx
+> > > index 65c9473b73..4c69b03ad3 100644
+> > > --- a/qemu-options.hx
+> > > +++ b/qemu-options.hx
+> > > @@ -394,6 +394,16 @@ STEXI
+> > >  Preallocate memory when using -mem-path.
+> > >  ETEXI
+> > >
+> > > +DEF("mem-shared", 0, QEMU_OPTION_mem_shared,
+> > > +    "-mem-shared     allocate shared memory\n", QEMU_ARCH_ALL)
+> > > +STEXI
+> > > +@item -mem-shared
+> > > +@findex -mem-shared
+> > > +Allocate guest RAM with shared mapping.  Whether the allocation is
+> > > +anonymous or not (with -mem-path), QEMU will allocate a shared memor=
+y that
+> > > +can be shared by unrelated processes, such as vhost-user backends.
+> > > +ETEXI
+> > > +
+> > >  DEF("k", HAS_ARG, QEMU_OPTION_k,
+> > >      "-k language     use keyboard layout (for example 'fr' for Frenc=
+h)\n",
+> > >      QEMU_ARCH_ALL)
+> > > diff --git a/vl.c b/vl.c
+> > > index 6a65a64bfd..53b1155455 100644
+> > > --- a/vl.c
+> > > +++ b/vl.c
+> > > @@ -143,6 +143,7 @@ const char* keyboard_layout =3D NULL;
+> > >  ram_addr_t ram_size;
+> > >  const char *mem_path =3D NULL;
+> > >  int mem_prealloc =3D 0; /* force preallocation of physical target me=
+mory */
+> > > +int mem_shared =3D 0; =20
+> > Also what happened to no more globals policy?
+> > =20
+> > >  bool enable_mlock =3D false;
+> > >  bool enable_cpu_pm =3D false;
+> > >  int nb_nics;
+> > > @@ -3172,6 +3173,9 @@ int main(int argc, char **argv, char **envp)
+> > >              case QEMU_OPTION_mem_prealloc:
+> > >                  mem_prealloc =3D 1;
+> > >                  break;
+> > > +            case QEMU_OPTION_mem_shared:
+> > > +                mem_shared =3D 1;
+> > > +                break;
+> > >              case QEMU_OPTION_d:
+> > >                  log_mask =3D optarg;
+> > >                  break; =20
+> >
+> > =20
+>=20
 >=20
 
-with or without "if (c)":
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-
---=20
-Best regards,
-Vladimir
 
