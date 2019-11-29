@@ -2,113 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4107310D81A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:51:27 +0100 (CET)
-Received: from localhost ([::1]:60376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A595010D821
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:56:48 +0100 (CET)
+Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaiYF-0002Wr-V1
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:51:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
+	id 1iaidS-0006Lu-90
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:56:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41665)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iahNV-0001io-Cl
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:36:15 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iahQD-0004IP-4D
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:39:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iahNS-0004Cx-0P
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:36:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41048
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iahQ6-0003zj-AQ
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:38:55 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42518
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iahNR-0004Ac-QR
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:36:09 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iahQ5-0003rq-1X
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:38:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575038169;
+ s=mimecast20190719; t=1575038331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2mTkRzXJ3qz2wWypLXK7WHLqjGGms6qurvHbRZwA7mc=;
- b=BCbWxC63Hq01MOUW5fAL+x2yAuOj3becLqETcIH+YQfQPyIhHeXoTL9uGzEnw2DAA3mK3c
- VDcyfeq5cNmWUcf7RZ5Uk8EHNJaqD71z4oSLxDOljPW0MfsH8dsgcubqPLqKregpGQ28/M
- cmrqLepF4TO1IO875u2FVtiP1lW4D1g=
+ bh=SAh+xBH+NG0Z678qWnFJqufizw6LtGi5UK/C+k8Yxxg=;
+ b=RiHA9WyLIEXI99OqhbsQw2NZp+qU0oTFf2G3IhHrtrRf6Uvv3b/wp2IvcIwlM08X2zitfh
+ 7eCBbBbKljeZwFYIDjsokMjqZW9e1TnkSVkpeF8cdFmOnGYmLT6u7feQVp9Y+LAYYi7kjV
+ eB8OGFcpqpg3h2HQ/acjvlwD8bz3PMs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-N3fiQXDONc-dG-5m2bqFDw-1; Fri, 29 Nov 2019 09:36:05 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-390-133hq1IwPzST0w5cXsRA-g-1; Fri, 29 Nov 2019 09:38:49 -0500
+X-MC-Unique: 133hq1IwPzST0w5cXsRA-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09C76100E398;
- Fri, 29 Nov 2019 14:36:04 +0000 (UTC)
-Received: from [10.36.118.44] (unknown [10.36.118.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72EAD5D9C9;
- Fri, 29 Nov 2019 14:36:02 +0000 (UTC)
-Subject: Re: [PATCH 3/3] s390x: protvirt: Add new VCPU reset functions
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191129142025.21453-1-frankja@linux.ibm.com>
- <20191129142025.21453-4-frankja@linux.ibm.com>
- <1b6b2cc3-cd28-7bfe-655c-cc3e7c084848@redhat.com>
- <a3e2f13d-9ffb-eb55-60ff-99b8f3921f83@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- SE+xAvmumFBY
-Organization: Red Hat GmbH
-Message-ID: <2e1d8e9e-b0fd-f854-b76b-d6c26906a721@redhat.com>
-Date: Fri, 29 Nov 2019 15:36:01 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9C8800D41;
+ Fri, 29 Nov 2019 14:38:48 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-206-40.brq.redhat.com
+ [10.40.206.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAFF119C58;
+ Fri, 29 Nov 2019 14:38:46 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 v2 15/23] mirror: Prevent loops
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-16-mreitz@redhat.com>
+ <2c47c1be-e633-c769-88fe-684fe1ebe80f@virtuozzo.com>
+ <88baa19f-1433-178e-33eb-16c275dec909@redhat.com>
+ <c85c5101-2b88-5fb7-1d32-09261646b57c@virtuozzo.com>
+ <af704f0a-273e-e4eb-3348-c7bec6936f87@redhat.com>
+ <4249aa4c-0e85-f25c-f1cc-672dd3245878@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <ac678e61-a59b-ed7c-a679-d3877ccbaac4@redhat.com>
+Date: Fri, 29 Nov 2019 15:38:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <a3e2f13d-9ffb-eb55-60ff-99b8f3921f83@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: N3fiQXDONc-dG-5m2bqFDw-1
+In-Reply-To: <4249aa4c-0e85-f25c-f1cc-672dd3245878@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,139 +104,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, mihajlov@linux.ibm.com,
- qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.11.19 15:34, Janosch Frank wrote:
-> On 11/29/19 3:24 PM, David Hildenbrand wrote:
->> On 29.11.19 15:20, Janosch Frank wrote:
->>> CPU resets for protected guests need to be done via Ultravisor
->>> calls. Hence we need a way to issue these calls for each reset.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o
+Content-Type: multipart/mixed; boundary="GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6"
+
+--GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.11.19 15:26, Vladimir Sementsov-Ogievskiy wrote:
+> 29.11.2019 17:17, Max Reitz wrote:
+>> On 29.11.19 14:55, Vladimir Sementsov-Ogievskiy wrote:
+>>> 29.11.2019 16:46, Max Reitz wrote:
+>>>> On 29.11.19 13:01, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> 11.11.2019 19:02, Max Reitz wrote:
+>>>>>> While bdrv_replace_node() will not follow through with it, a specifi=
+c
+>>>>>> @replaces asks the mirror job to create a loop.
+>>>>>>
+>>>>>> For example, say both the source and the target share a child where =
+the
+>>>>>> source is a filter; by letting @replaces point to the common child, =
+you
+>>>>>> ask for a loop.
+>>>>>>
+>>>>>> Or if you use @replaces in drive-mirror with sync=3Dnone and
+>>>>>> mode=3Dabsolute-paths, you generally ask for a loop (@replaces must =
+point
+>>>>>> to a child of the source, and sync=3Dnone makes the source the backi=
+ng
+>>>>>> file of the target after the job).
+>>>>>>
+>>>>>> bdrv_replace_node() will not create those loops, but by doing so, it
+>>>>>> ignores the user-requested configuration, which is not ideally eithe=
+r.
+>>>>>> (In the first example above, the target's child will remain what it =
+was,
+>>>>>> which may still be reasonable.  But in the second example, the targe=
+t
+>>>>>> will just not become a child of the source, which is precisely what =
+was
+>>>>>> requested with @replaces.)
+>>>>>>
+>>>>>> So prevent such configurations, both before the job, and before it
+>>>>>> actually completes.
+>>>>>>
+>>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>>>> ---
+>>>>>>     block.c                   | 30 ++++++++++++++++++++++++
+>>>>>>     block/mirror.c            | 19 +++++++++++++++-
+>>>>>>     blockdev.c                | 48 +++++++++++++++++++++++++++++++++=
++++++-
+>>>>>>     include/block/block_int.h |  3 +++
+>>>>>>     4 files changed, 98 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/block.c b/block.c
+>>>>>> index 0159f8e510..e3922a0474 100644
+>>>>>> --- a/block.c
+>>>>>> +++ b/block.c
+>>>>>> @@ -6259,6 +6259,36 @@ out:
+>>>>>>         return to_replace_bs;
+>>>>>>     }
+>>>>>>    =20
+>>>>>> +/*
+>>>>>> + * Return true iff @child is a (recursive) child of @parent, with a=
+t
+>>>>>> + * least @min_level edges between them.
+>>>>>> + *
+>>>>>> + * (If @min_level =3D=3D 0, return true if @child =3D=3D @parent.  =
+For
+>>>>>> + * @min_level =3D=3D 1, @child needs to be at least a real child; f=
+or
+>>>>>> + * @min_level =3D=3D 2, it needs to be at least a grand-child; and =
+so on.)
+>>>>>> + */
+>>>>>> +bool bdrv_is_child_of(BlockDriverState *child, BlockDriverState *pa=
+rent,
+>>>>>> +                      int min_level)
+>>>>>> +{
+>>>>>> +    BdrvChild *c;
+>>>>>> +
+>>>>>> +    if (child =3D=3D parent && min_level <=3D 0) {
+>>>>>> +        return true;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    if (!parent) {
+>>>>>> +        return false;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    QLIST_FOREACH(c, &parent->children, next) {
+>>>>>> +        if (bdrv_is_child_of(child, c->bs, min_level - 1)) {
+>>>>>> +            return true;
+>>>>>> +        }
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    return false;
+>>>>>> +}
+>>>>>> +
+>>>>>>     /**
+>>>>>>      * Iterates through the list of runtime option keys that are sai=
+d to
+>>>>>>      * be "strong" for a BDS.  An option is called "strong" if it ch=
+anges
+>>>>>> diff --git a/block/mirror.c b/block/mirror.c
+>>>>>> index 68a4404666..b258c7e98b 100644
+>>>>>> --- a/block/mirror.c
+>>>>>> +++ b/block/mirror.c
+>>>>>> @@ -701,7 +701,24 @@ static int mirror_exit_common(Job *job)
+>>>>>>              * there.
+>>>>>>              */
+>>>>>>             if (bdrv_recurse_can_replace(src, to_replace)) {
+>>>>>> -            bdrv_replace_node(to_replace, target_bs, &local_err);
+>>>>>> +            /*
+>>>>>> +             * It is OK for @to_replace to be an immediate child of
+>>>>>> +             * @target_bs, because that is what happens with
+>>>>>> +             * drive-mirror sync=3Dnone mode=3Dabsolute-paths: targ=
+et_bs's
+>>>>>> +             * backing file will be the source node, which is also
+>>>>>> +             * to_replace (by default).
+>>>>>> +             * bdrv_replace_node() handles this case by not letting
+>>>>>> +             * target_bs->backing point to itself, but to the sourc=
+e
+>>>>>> +             * still.
+>>>>>> +             */
+>>>>>
+>>>>> Hmm.. So, we want the following valid case:
+>>>>>
+>>>>> (other parents of source) ----> source =3D to_replace <--- backing --=
+- target
+>>>>>
+>>>>> becomes
+>>>>>
+>>>>> (other parents of source) ----> target --- backing ---> source
+>>>>>
+>>>>> But it seems for me, that the following is not less valid:
+>>>>>
+>>>>> (other parents of source) ----> source =3D to_replace <--- backing --=
+- X <--- backing --- target
+>>>>>
+>>>>> becomes
+>>>>>
+>>>>> (other parents of source) ----> target --- backing ---> X --- backing=
+ ---> source
+>>>>
+>>>> I think it is less valid.  The first case works with sync=3Dnone, beca=
+use
+>>>> target is initially empty and then you just copy all new data, so the
+>>>> target keeps looking like the source.
+>>>>
+>>>> But in the second case, there are intermediate nodes that mean that
+>>>> target may well not look like the source.
 >>>
->>> As we formerly had only one reset function and it was called for
->>> initial, as well as for the clear reset, we now need a new interface.
->>>
->>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>> ---
->>>  target/s390x/cpu.c       | 14 ++++++++++++--
->>>  target/s390x/kvm-stub.c  | 10 +++++++++-
->>>  target/s390x/kvm.c       | 38 ++++++++++++++++++++++++++++++++------
->>>  target/s390x/kvm_s390x.h |  4 +++-
->>>  4 files changed, 56 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
->>> index 829ce6ad54..906285888e 100644
->>> --- a/target/s390x/cpu.c
->>> +++ b/target/s390x/cpu.c
->>> @@ -139,8 +139,18 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
->>>      }
->>>  
->>>      /* Reset state inside the kernel that we cannot access yet from QEMU. */
->>> -    if (kvm_enabled() && type != S390_CPU_RESET_NORMAL) {
->>> -        kvm_s390_reset_vcpu(cpu);
->>> +    if (kvm_enabled()) {
->>> +        switch (type) {
->>> +        case S390_CPU_RESET_CLEAR:
->>> +            kvm_s390_reset_vcpu_clear(cpu);
->>> +            break;
->>> +        case S390_CPU_RESET_INITIAL:
->>> +            kvm_s390_reset_vcpu_initial(cpu);
->>> +            break;
->>> +        case S390_CPU_RESET_NORMAL:
->>> +            kvm_s390_reset_vcpu_normal(cpu);
->>> +            break;
->>> +        }
->>>      }
->>>  }
->>>  
->>> diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
->>> index 5152e2bdf1..c4cd497f85 100644
->>> --- a/target/s390x/kvm-stub.c
->>> +++ b/target/s390x/kvm-stub.c
->>> @@ -83,7 +83,15 @@ void kvm_s390_cmma_reset(void)
->>>  {
->>>  }
->>>  
->>> -void kvm_s390_reset_vcpu(S390CPU *cpu)
->>> +void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
->>> +{
->>> +}
->>> +
->>> +void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
->>> +{
->>> +}
->>> +
->>> +void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
->>>  {
->>>  }
->>>  
->>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->>> index ad6e38c876..502fc71664 100644
->>> --- a/target/s390x/kvm.c
->>> +++ b/target/s390x/kvm.c
->>> @@ -151,6 +151,7 @@ static int cap_s390_irq;
->>>  static int cap_ri;
->>>  static int cap_gs;
->>>  static int cap_hpage_1m;
->>> +static int cap_vcpu_resets;
->>>  
->>>  static int active_cmma;
->>>  
->>> @@ -342,6 +343,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>      cap_async_pf = kvm_check_extension(s, KVM_CAP_ASYNC_PF);
->>>      cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->>>      cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
->>> +    cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
->>>  
->>>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
->>>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
->>> @@ -403,20 +405,44 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
->>>      return 0;
->>>  }
->>>  
->>> -void kvm_s390_reset_vcpu(S390CPU *cpu)
->>> +static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
->>>  {
->>>      CPUState *cs = CPU(cpu);
->>>  
->>> -    /* The initial reset call is needed here to reset in-kernel
->>> -     * vcpu data that we can't access directly from QEMU
->>> -     * (i.e. with older kernels which don't support sync_regs/ONE_REG).
->>> -     * Before this ioctl cpu_synchronize_state() is called in common kvm
->>> -     * code (kvm-all) */
->>> +    /*
->>> +     * The reset call is needed here to reset in-kernel vcpu data that
->>> +     * we can't access directly from QEMU (i.e. with older kernels
->>> +     * which don't support sync_regs/ONE_REG).  Before this ioctl
->>> +     * cpu_synchronize_state() is called in common kvm code
->>> +     * (kvm-all).
->>> +     */
->>> +    if (cap_vcpu_resets) {
->>> +        if (kvm_vcpu_ioctl(cs, KVM_S390_VCPU_RESET, type)) {
->>> +            error_report("CPU reset type %ld failed on CPU %i",
->>> +                         type, cs->cpu_index);
->>> +        }
->>> +        return;
->>> +    }
->>>      if (kvm_vcpu_ioctl(cs, KVM_S390_INITIAL_RESET, NULL)) {
->>>          error_report("Initial CPU reset failed on CPU %i", cs->cpu_index);
->>>      }
->>>  }
+>>> Maybe, it's valid if target node is a filter? Or, otherwise, it's backi=
+ng is a filter,
+>>> but this seems less useful.
 >>
->> I think I commented this already: The issue is that without
->> cap_vcpu_requests, you would no do a KVM_S390_INITIAL_RESET for type ==
->> S390_CPU_RESET_NORMAL. You have to fence that.
-> 
-> I did fix that, but not on this branch -_-
+>> The question to me is whether it=92s really useful.  The thing is that
+>> maybe bdrv_replace_node() can make sense of it.  But still, from the
+>> user=92s perspective, they kind of are asking for a loop whenever
+>> to_replace is a child of target.  It just so happens that we must allow
+>> one of these cases because it=92s the default case for sync=3Dnone.
+>>
+>> So I=92d rather forbid all such cases, because it should be understandab=
+le
+>> to users why...
+>>
+>=20
+> Okay, I don't have more arguments:) Honestly, I just feel that relying on=
+ existing
+> of chains between nodes of some hardcoded length is not good generic crit=
+eria...
+>=20
+> bdrv_replace_node never creates loops.. Maybe, just document this behavio=
+r in
+> qapi? And (maybe) return error, if we see that bdrv_replace_node will be =
+noop?
+>=20
+> And if it is not noop, may be user don't tries to create a loop, but inst=
+ead,
+> user is powerful, knows how bdrv_replace_node works and wants exactly thi=
+s
+> behavior?
 
-You can avoid that completely once you switch to two new separate ioctls ;)
+I don=92t know whether that=92s a good point.  We have strong restrictions
+on @replaces anyway (that=92s the point of this series, to fix them).  So
+if we want to loosen those restrictions and allow the user to do
+anything they want because it=92s their job to be careful, that would be a
+whole different series.
+
+Also, one of the examples in the commit message is using @replaces with
+drive-mirror sync=3Dnone mode=3Dabsolute-paths.  @replaces must be a child
+of the source.  So what will happen is that it=92s replaced and then we
+can=92t attach the source as the backing file of the target.  So the
+target will probably just read garbage, given that it now lacks the
+source as its backing file.
+
+So I=92m not sold on =93If the user knows what=92ll happen, it=92s all good=
+=94.
+Because I don=92t think they=92ll really know.  I=92d rather keep it tight
+until someone complains.
+
+Max
 
 
--- 
-Thanks,
+--GKJM2KuyAsyO65pQbdGDYGZsjwIlqpuq6--
 
-David / dhildenb
+--lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl3hLXUACgkQ9AfbAGHV
+z0C+Owf+L9Q4wXZ2X/whO17JBx9yVzt5MH9qH6nHVvbxioc+1rmNv2DdTs+HRRMR
+aTP8nbqni6HlTLZr5SBVjKfd1DfJBQ+ExSE0RbXWzBjvc547PXWjhYrfXjaC2zQJ
+unHbEV/kzQ1c9sVj66ROSHWcdC7LV+hI1Gu1z1LIIEmtQO3XobKpksfoyBMldlqj
+mlt025IA4Dx3wmxSXCnrcvuZpWl4YCIc9xY6F+dcXLAF9bljQvnjGLX189NBH2mi
+/R5GqNjFP1cdujc2P1yl05lSGYbB1ARMUs4Q1/zj09gzPuFeOVqgv7eIwQdWDx0S
+/2ourG1aGuF19tCsHLF/JhNtqiNr/w==
+=Si2Y
+-----END PGP SIGNATURE-----
+
+--lJAnAVb2CyPxQYvYYh9FrejoYB20lJ82o--
 
 
