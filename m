@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B8E10D5C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:41:56 +0100 (CET)
-Received: from localhost ([::1]:58392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBF510D5DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:51:20 +0100 (CET)
+Received: from localhost ([::1]:58554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafar-0004Va-19
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:41:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55496)
+	id 1iafjy-0002l3-H7
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:51:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iafUw-0002rj-2l
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:35:48 -0500
+ (envelope-from <thuth@redhat.com>) id 1iafZp-0005Bo-Qd
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:40:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iafUq-0004m8-M2
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:35:42 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54823)
+ (envelope-from <thuth@redhat.com>) id 1iafZj-0001HB-HK
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:40:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57161
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iafUq-0004en-H5
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:35:40 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iafZi-0001Cy-Uq
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:40:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575030938;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1575031240;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U+CYnFvYDi6FYD+y7yJFFnm6yKgXIwavdUPgdTQjdzc=;
- b=hiKg9E2kjD9pse7dgtkl5Nw13ytmQUggDHtpvg1VvNr40WeUvGpI9z0do2qP4bZRStUAH+
- 74HPSyMlbkeQGfAf4v38zovDJFPhx2wqSTyzlehfk96vuhox2ZEHGBsCxUsBJU04/aTM0u
- JPE9jfaOgnW/g/zC+v8bxrdheAdC75M=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=hUQkvXzyTkBGb+nvxolHSFWIGiF/haKM9Encaeizypc=;
+ b=S4+zkO4Cy7MM05vYWNxY7KbSnOercU41twWMUhReg905FHsZbe5LvFINSL4B+npNSBD7T8
+ NIMk/qWSGm+WdWBqlhaMB8jOqLO7nGEHQYQOJ0D/SKFNsCQAiPJC5HOtkczAppHxtPAPNs
+ BKsY6aKnTYXrrFtxltLsYDWx1TiCLBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-flm8b1w6PVqI4EGOQJyE1w-1; Fri, 29 Nov 2019 07:35:34 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-284-z4z6Eek4M6e6UbXoB2b82A-1; Fri, 29 Nov 2019 07:40:36 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 638F1593A6;
- Fri, 29 Nov 2019 12:35:33 +0000 (UTC)
-Received: from redhat.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A071C1001B09;
- Fri, 29 Nov 2019 12:35:27 +0000 (UTC)
-Date: Fri, 29 Nov 2019 12:35:24 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH 00/15] s390x: Protected Virtualization support
-Message-ID: <20191129123524.GI2260471@redhat.com>
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191129110820.GF2260471@redhat.com>
- <699bb3bc-f42a-2fcf-acb3-b91d783e7ce4@linux.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7A32DB20;
+ Fri, 29 Nov 2019 12:40:34 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-159.ams2.redhat.com [10.36.116.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AABAD60BE2;
+ Fri, 29 Nov 2019 12:40:29 +0000 (UTC)
+Subject: Re: [PATCH v2 01/13] s390x: protvirt: Add diag308 subcodes 8 - 10
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-2-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <97db1c4b-bc9e-9db0-424d-6cd3ba348e78@redhat.com>
+Date: Fri, 29 Nov 2019 13:40:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <699bb3bc-f42a-2fcf-acb3-b91d783e7ce4@linux.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: flm8b1w6PVqI4EGOQJyE1w-1
+In-Reply-To: <20191129094809.26684-2-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: z4z6Eek4M6e6UbXoB2b82A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,100 +75,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 29, 2019 at 01:14:27PM +0100, Janosch Frank wrote:
-> On 11/29/19 12:08 PM, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Nov 20, 2019 at 06:43:19AM -0500, Janosch Frank wrote:
-> >> Most of the QEMU changes for PV are related to the new IPL type with
-> >> subcodes 8 - 10 and the execution of the necessary Ultravisor calls to
-> >> IPL secure guests. Note that we can only boot into secure mode from
-> >> normal mode, i.e. stfle 161 is not active in secure mode.
-> >>
-> >> The other changes related to data gathering for emulation and
-> >> disabling addressing checks in secure mode, as well as CPU resets.
-> >>
-> >> While working on this I sprinkled in some cleanups, as we sometimes
-> >> significantly increase line count of some functions and they got
-> >> unreadable.
-> >=20
-> > Can you give some guidance on how management applications including
-> > libvirt & layers above (oVirt, OpenStack, etc) would/should use this
-> > feature ?  What new command line / monitor calls are needed, and
-> > what feature restrictions are there on its use ?
->=20
-> management applications generally do not need to know about this
-> feature. Most of the magic is in the guest image, which boots up in a
-> certain way to become a protected machine.
->=20
-> The requirements for that to happen are:
-> * Machine/firmware support
-> * KVM & QEMU support
-> * IO only with iommu
-> * Guest needs to use IO bounce buffers
-> * A kernel image or a kernel on a disk that was prepared with special
-> tooling
+On 29/11/2019 10.47, Janosch Frank wrote:
+[...]
+> Subcodes 8-10 are not valid in protected mode, we have to do a subcode
+> 3 and then the 8 and 10 combination for a protected reboot.
 
-If the user has a guest image that's expecting to run in protected
-machine mode, presumably this will fail to boot if run on a host
-which doesn't support this feature ?
+So if 8-10 are not valid in protected mode...
 
-As a mgmt app I think there will be a need to be able to determine
-whether a host + QEMU combo is actually able to support protected
-machines. If the mgmt app is given an image and the users says it
-required protected mode, then the mgmt app needs to know which
-host(s) are able to run it.
+> @@ -59,6 +61,9 @@ int handle_diag_288(CPUS390XState *env, uint64_t r1, uint64_t r3)
+>  #define DIAG308_LOAD_NORMAL_DUMP    4
+>  #define DIAG308_SET                 5
+>  #define DIAG308_STORE               6
+> +#define DIAG308_PV_SET              8
+> +#define DIAG308_PV_STORE            9
+> +#define DIAG308_PV_START            10
+>  
+>  static int diag308_parm_check(CPUS390XState *env, uint64_t r1, uint64_t addr,
+>                                uintptr_t ra, bool write)
+> @@ -105,6 +110,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+>          s390_ipl_reset_request(cs, S390_RESET_REIPL);
+>          break;
+>      case DIAG308_SET:
+> +    case DIAG308_PV_SET:
 
-Doing version number checks is not particularly desirable, so is
-there a way libvirt can determine if QEMU + host in general supports
-protected machines, so that we can report this feature to mgmt apps ?
+... should you maybe add a check here (and the other cases) to make sure
+that the guest is currently not running in PV mode? Or is this taken
+care of by the Ultravisor already?
 
+>          if (diag308_parm_check(env, r1, addr, ra, false)) {
+>              return;
+>          }
+> @@ -117,7 +123,8 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3, uintptr_t ra)
+>  
+>          cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
+>  
+> -        if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb)) {
+> +        if (!iplb_valid_ccw(iplb) && !iplb_valid_fcp(iplb) &&
+> +            !(iplb_valid_se(iplb) && s390_ipl_pv_check_comp(iplb) >= 0)) {
+>              env->regs[r1 + 1] = DIAG_308_RC_INVALID;
+>              goto out;
+>          }
+> @@ -128,10 +135,15 @@ out:
+>          g_free(iplb);
+>          return;
+>      case DIAG308_STORE:
+> +    case DIAG308_PV_STORE:
+>          if (diag308_parm_check(env, r1, addr, ra, true)) {
+>              return;
+>          }
+> -        iplb = s390_ipl_get_iplb();
+> +        if (subcode == DIAG308_PV_STORE) {
+> +            iplb = s390_ipl_get_iplb_secure();
+> +        } else {
+> +            iplb = s390_ipl_get_iplb();
+> +        }
+>          if (iplb) {
+>              cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
+>              env->regs[r1 + 1] = DIAG_308_RC_OK;
+> @@ -139,6 +151,16 @@ out:
+>              env->regs[r1 + 1] = DIAG_308_RC_NO_CONF;
+>          }
+>          return;
+> +        break;
 
-If a guest has booted & activated protected mode is there any way
-for libvirt to query that status ? This would allow the mgmt app
-to know that the guest is not going to be migratable thereafter.
+Please remove the break. Or the return. But let's not do both.
 
-Is there any way to prevent a guest from using protected mode even
-if QEMU supports it ?  eg the mgmt app may want to be able to
-guarantee that all VMs are migratable, so don't want a guest OS
-secretly activating protected mode which blocks migration.
+> +    case DIAG308_PV_START:
+> +        iplb = s390_ipl_get_iplb_secure();
+> +        if (!iplb_valid_se(iplb)) {
+> +            env->regs[r1 + 1] = DIAG_308_RC_NO_PV_CONF;
+> +            return;
+> +        }
+> +
+> +        s390_ipl_reset_request(cs, S390_RESET_PV);
+> +        break;
+>      default:
+>          s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>          break;
+> 
 
-> Such VMs are started like any other VM and run a short "normal" stub
-> that will prepare some things and then requests to be protected.
->=20
-> Most of the restrictions are memory related and might be lifted in the
-> future:
-> * No paging
-> * No migration
-
-Presumably QEMU is going to set a migration blocker when a guest
-activates protected mode ?
-
-> * No huge page backings
-> * No collaborative memory management
-
-> There are no monitor changes or cmd additions currently.
-> We're trying to insert protected VMs into the normal VM flow as much as
-> possible. You can even do a memory dump without any segfault or
-> protection exception for QEMU, however the guest's memory content will
-> be unreadable because it's encrypted.
-
-Is there any way to securely acquire a key needed to interpret this,
-or is the memory dump completely useless ?
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+ Thomas
 
 
