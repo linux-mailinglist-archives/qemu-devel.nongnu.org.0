@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B87910D2A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:50:39 +0100 (CET)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D532E10D27B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:31:49 +0100 (CET)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iabz2-0003JO-8T
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33539)
+	id 1iabgq-0001jr-BM
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:31:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iabMS-0001US-Pn
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:10:46 -0500
+ (envelope-from <armbru@redhat.com>) id 1iabXW-0007WN-0o
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:22:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iabMO-0001BN-VK
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:10:41 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56006
+ (envelope-from <armbru@redhat.com>) id 1iabXM-00050L-Ml
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:22:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43833
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iabMN-00011U-Uk
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:10:40 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iabXM-0004ll-4u
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 03:22:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575015035;
+ s=mimecast20190719; t=1575015716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=N0tS99Erwc627c3slu1qUknVMYkA1zzRQbAO5hFI1VM=;
- b=Qbv4GUkb1/FaKSuLgVa3ZxkS0mU01dL3Npz4Lea3zG5YByPZvXGkdDw1PQbTZ17aox6bUm
- upwy1EK0Nc3yM4RzUf476v5jBsIIlZvmA+BZXI9ZB14R8kZEkP1JVf2zLk2eYd45jo7ptf
- vEa2M1jh0z8wmWByaDYvNVlePSOiWZw=
+ in-reply-to:in-reply-to:references:references;
+ bh=cNauFT7i5u+Z6u8QzkkV/kr9N3eZtM7Wz+4Sx5j2UAQ=;
+ b=GdbqrsS/Kng9OveQgBE/EbqMMmV+zMf70v5DzwQHFtzUHR9SyWXkaFlrIffLD+Ex5qkJJD
+ sWQVW8P5EklvzrhaQMFUNKkm9ABqwIXmOoRW7CyGdG9VNRHkiRAVEMtTq2iC41D3SolxeA
+ s0UX1u5T7zA/ygpF0gy3pKMzNBnOpTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-ukm2CoiiPniRv7ws7GlCVQ-1; Fri, 29 Nov 2019 03:10:31 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-356-F43G1dH-OUW8cQHVDrOjLw-1; Fri, 29 Nov 2019 03:21:55 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80578188352C;
- Fri, 29 Nov 2019 08:10:30 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-159.ams2.redhat.com [10.36.116.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76330600C8;
- Fri, 29 Nov 2019 08:10:25 +0000 (UTC)
-Subject: Re: [PATCH v1 1/1] pc-bios/s390-ccw: fix sclp_get_loadparm_ascii
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <1574944437-31182-1-git-send-email-imbrenda@linux.ibm.com>
- <52e295af-3b34-6cb7-ba52-a26ae70aebcd@de.ibm.com>
- <20191128134517.7caf3496.cohuck@redhat.com>
- <bbfd3b99-c38f-ccb0-9c16-24bad35f357a@de.ibm.com>
- <CAFEAcA_vJP_nBRCtD=E2Lya1MejNBz0=Me-RcS6G39=VZ2zbAg@mail.gmail.com>
- <887eaf8d-2e39-83e3-acdc-f45f26004638@de.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <5308c96c-6f18-ff40-1965-98b9405b9706@redhat.com>
-Date: Fri, 29 Nov 2019 09:10:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A49A0DB8F;
+ Fri, 29 Nov 2019 08:21:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49E4D5D6D4;
+ Fri, 29 Nov 2019 08:21:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CFD721138606; Fri, 29 Nov 2019 09:21:47 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Yury Kotov <yury-kotov@yandex-team.ru>
+Subject: Re: [PATCH] monitor: Fix slow reading
+References: <20191122092347.28309-1-yury-kotov@yandex-team.ru>
+Date: Fri, 29 Nov 2019 09:21:47 +0100
+In-Reply-To: <20191122092347.28309-1-yury-kotov@yandex-team.ru> (Yury Kotov's
+ message of "Fri, 22 Nov 2019 12:23:47 +0300")
+Message-ID: <87v9r3w0ro.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <887eaf8d-2e39-83e3-acdc-f45f26004638@de.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ukm2CoiiPniRv7ws7GlCVQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: F43G1dH-OUW8cQHVDrOjLw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -80,44 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-s390x <qemu-s390x@nongnu.org>, Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ yc-core@yandex-team.ru,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/11/2019 08.38, Christian Borntraeger wrote:
-> 
-> 
-> On 28.11.19 16:05, Peter Maydell wrote:
->> On Thu, 28 Nov 2019 at 12:48, Christian Borntraeger
->> <borntraeger@de.ibm.com> wrote:
->>>
->>>
->>>
->>> On 28.11.19 13:45, Cornelia Huck wrote:
->>>> On Thu, 28 Nov 2019 13:35:29 +0100
->>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>>
->>>>> Ack.
->>>>>
->>>>> Conny, I think this would be really nice to have for 4.2 (together with a bios rebuild)
->>>>> as this fixes a regression. Opinions?
->>>>
->>>> I fear that this is a bit late for 4.2... but this should get a
->>>> cc:stable.
->>>
->>> So we would rather ship a qemu regression instead of pushing a 1 line fixup?
->>> Peter, what is the current state of 4.2? does it look like we will have an rc4
->>> or is everything else silent.
->>
->> There isn't currently anything else that would need an rc4.
-> 
-> I would vote for getting this patch still in. And I think we probably do not need an
-> rc4 for that, the fix seems pretty straight forward.
+Yury Kotov <yury-kotov@yandex-team.ru> writes:
 
-Ok, I'm going to build the binaries and send a pull request today.
+> The monitor_can_read (as a callback of qemu_chr_fe_set_handlers)
+> should return size of buffer which monitor_qmp_read or monitor_read
+> can process.
+> Currently, monitor_can_read returns 1 as a result of logical not.
+> Thus, for each QMP command, len(QMD) iterations of the main loop
+> are required to handle a command.
+> In fact, these both functions can process any buffer size.
+> So, return 1024 as a reasonable size which is enough to process
+> the most QMP commands, but not too big to block the main loop for
+> a long time.
+>
+> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+> ---
+>  monitor/monitor.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index 12898b6448..cac3f39727 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -50,6 +50,13 @@ typedef struct {
+>      int64_t rate;       /* Minimum time (in ns) between two events */
+>  } MonitorQAPIEventConf;
+> =20
+> +/*
+> + * The maximum buffer size which the monitor can process in one iteratio=
+n
+> + * of the main loop. We don't want to block the loop for a long time
+> + * because of JSON parser, so use a reasonable value.
+> + */
+> +#define MONITOR_READ_LEN_MAX 1024
+> +
+>  /* Shared monitor I/O thread */
+>  IOThread *mon_iothread;
+> =20
+> @@ -498,7 +505,7 @@ int monitor_can_read(void *opaque)
+>  {
+>      Monitor *mon =3D opaque;
+> =20
+> -    return !atomic_mb_read(&mon->suspend_cnt);
+> +    return atomic_mb_read(&mon->suspend_cnt) ? 0 : MONITOR_READ_LEN_MAX;
+>  }
+> =20
+>  void monitor_list_append(Monitor *mon)
 
- Thomas
+Prior attempt:
+[PATCH 1/1] monitor: increase amount of data for monitor to read
+Message-Id: <1493732857-10721-1-git-send-email-den@openvz.org>
+https://lists.nongnu.org/archive/html/qemu-devel/2017-05/msg00206.html
+
+Review concluded that it breaks HMP command migrate without -d.  QMP is
+probably okay.  Sadly, no v2.
+
+Next one:
+Subject: [PATCH] monitor: increase amount of data for monitor to read
+Message-Id: <20190610105906.28524-1-dplotnikov@virtuozzo.com>
+https://lists.nongnu.org/archive/html/qemu-devel/2019-06/msg01912.html
+
+Same patch, with a second, suspicious-looking hunk thrown in.  I didn't
+make the connection to the prior attempt back then.  I wrote "I think I
+need to (re-)examine how QMP reads input, with special consideration to
+its OOB feature."
+
+This patch is a cleaner variation on the same theme.  Its ramifications
+are as unobvious as ever.
+
+I figure the HMP situation is unchanged: not safe, although we could
+probably make it safe if we wanted to (Daniel sketched how).  My simpler
+suggestion stands: separate f_can_read() callbacks for HMP and QMP
+[PATCH 1], then change only the one for QMP [PATCH 2].
+
+The QMP situation is also unchanged: we still need to think through how
+this affects reading of QMP input, in particular OOB.
 
 
