@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00E210D5BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:34:48 +0100 (CET)
-Received: from localhost ([::1]:58322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814CF10D5C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:42:08 +0100 (CET)
+Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafTx-0000t9-Ov
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:34:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
+	id 1iafb5-0004od-D5
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:42:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iaeQk-0004F6-KE
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:27:24 -0500
+ (envelope-from <david@redhat.com>) id 1iaeUX-0006Z8-9C
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:31:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iaeQg-0000Xn-EF
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:27:19 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29935
+ (envelope-from <david@redhat.com>) id 1iaeUF-0003Im-CD
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:31:00 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42829
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iaeQg-0000LV-89
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:27:18 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iaeUF-000300-7h
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:30:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575026835;
+ s=mimecast20190719; t=1575027054;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nADeGf3p4NzoEg09jvMrUWyN0PGF9/ZirDQ5GeP/kfM=;
- b=FwkTQc/ICxbInatDKGHrnOLS/I5cUXvffjGL0M74deE4P2oqp8XhLMjm2mjw+/kMfHkkVu
- kbI83M/Z5mivI4O/C7cp6YutqqTcJRqj97kSvwa8Di+19NHFq4uvDCj/94VE+zq6Dac2if
- BFgGX86mcJDbG5XswENXim8m8DBcLiI=
+ bh=Ep2ga5Go+58il611/urWiugIRAereRYyq3+NQsVtPH4=;
+ b=EHK2B74KGKHRPLq7+dX/QFLWvQZnK3aYaCGISInZ6gO4rdzRfl/+qSLBLmOmRu18TOMSUp
+ t2O5bKFElxLYWBXuhEGt/K0BNhUETVzOTjgE4GiQY5EE7gyvgsZTUOofzWyaU9Hg0JTlSG
+ hIHoZq0IGr86tuLKEO4JhKV/df9tyEg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-xodSKIs8M8CiE8musc-3PA-1; Fri, 29 Nov 2019 06:27:12 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-63-81BftYuuPBy1xLfmalOkmQ-1; Fri, 29 Nov 2019 06:30:48 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1431DC21;
- Fri, 29 Nov 2019 11:27:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F391005509;
+ Fri, 29 Nov 2019 11:30:47 +0000 (UTC)
 Received: from [10.36.118.44] (unknown [10.36.118.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 014ED1001B08;
- Fri, 29 Nov 2019 11:27:07 +0000 (UTC)
-Subject: Re: [PATCH v2 07/13] s390x: protvirt: SCLP interpretation
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 449A45D6D2;
+ Fri, 29 Nov 2019 11:30:45 +0000 (UTC)
+Subject: Re: [PATCH v2 10/13] s390x: protvirt: Set guest IPL PSW
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-8-frankja@linux.ibm.com>
- <e2e732cb-dafd-5038-abc6-bd273ceec062@redhat.com>
- <009ff19d-9674-4694-9c5b-243198d3766a@linux.ibm.com>
+ <20191129094809.26684-11-frankja@linux.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -94,21 +92,21 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  +8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
  SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <1fd52c42-de25-1ecf-ab99-d89c2c5c2318@redhat.com>
-Date: Fri, 29 Nov 2019 12:27:07 +0100
+Message-ID: <cfcde766-51a6-d245-e58d-b00a4d9e1f13@redhat.com>
+Date: Fri, 29 Nov 2019 12:30:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <009ff19d-9674-4694-9c5b-243198d3766a@linux.ibm.com>
+In-Reply-To: <20191129094809.26684-11-frankja@linux.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: xodSKIs8M8CiE8musc-3PA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 81BftYuuPBy1xLfmalOkmQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -125,32 +123,106 @@ Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.11.19 12:15, Janosch Frank wrote:
-> On 11/29/19 11:43 AM, David Hildenbrand wrote:
->> On 29.11.19 10:48, Janosch Frank wrote:
->>> SCLP for a protected guest is done over the SIDAD, so we need to use
->>> the s390_cpu_virt_mem_* functions to access the SIDAD instead of guest
->>> memory when reading/writing SCBs.
->>
->> ... Can you elaborate a bit more how that is going to be used? Did you
->> hack in special memory access to something called "SIDAD" via
->> s390_cpu_virt_mem_*?
+On 29.11.19 10:48, Janosch Frank wrote:
+> Handling of CPU reset and setting of the IPL psw from guest storage at
+> offset 0 is done by a Ultravisor call. Let's only fetch it if
+> necessary.
 > 
-> For secure guests we can't ever access virtual guest memory, since we
-> have no access to the guest translation tables.
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/s390x/pv.c              | 5 +++++
+>  hw/s390x/pv.h              | 1 +
+>  hw/s390x/s390-virtio-ccw.c | 2 +-
+>  linux-headers/linux/kvm.h  | 1 +
+>  target/s390x/cpu.c         | 9 ++++++++-
+>  5 files changed, 16 insertions(+), 2 deletions(-)
 > 
-> Hence we have the satellite block (SIDA) as a bounce buffer. SIE will
-> bounce referenced blocks of data (like the SCCB) over the SIDA.
-> 
-> The virt_mem functions go through the KVM mem op API. A KVM patch
-> reroutes mem op access to the SIDA. The alternative would be to map the
-> SIDA into vcpu_run.
-> 
+> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+> index 0218070322..106252833f 100644
+> --- a/hw/s390x/pv.c
+> +++ b/hw/s390x/pv.c
+> @@ -88,6 +88,11 @@ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length)
+>      return s390_pv_cmd(KVM_PV_VM_SET_SEC_PARMS, &args);
+>  }
+>  
+> +int s390_pv_set_ipl_psw(CPUState *cs)
+> +{
+> +    return s390_pv_cmd_vcpu(cs, KVM_PV_VCPU_SET_IPL_PSW, NULL);
+> +}
+> +
+>  /*
+>   * Called for each component in the SE type IPL parameter block 0.
+>   */
+> diff --git a/hw/s390x/pv.h b/hw/s390x/pv.h
+> index eb074e4bc9..e670c67270 100644
+> --- a/hw/s390x/pv.h
+> +++ b/hw/s390x/pv.h
+> @@ -18,6 +18,7 @@ int s390_pv_vm_destroy(void);
+>  int s390_pv_vcpu_destroy(CPUState *cs);
+>  int s390_pv_vcpu_create(CPUState *cs);
+>  int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+> +int s390_pv_set_ipl_psw(CPUState *cs);
+>  int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+>  int s390_pv_perf_clear_reset(void);
+>  int s390_pv_verify(void);
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 6fcd695b81..1133de9423 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -408,7 +408,7 @@ static void s390_machine_reset(MachineState *machine)
+>          /* Verify integrity */
+>          s390_pv_verify();
+>          env->pv = true;
+> -        s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+> +        run_on_cpu(cs, s390_do_cpu_load_normal, RUN_ON_CPU_NULL);
+>          break;
+>      default:
+>          g_assert_not_reached();
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 4448d59960..7c6118c703 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1484,6 +1484,7 @@ enum pv_cmd_id {
+>  	KVM_PV_VM_UNSHARE,
+>  	KVM_PV_VCPU_CREATE,
+>  	KVM_PV_VCPU_DESTROY,
+> +	KVM_PV_VCPU_SET_IPL_PSW,
+>  };
+>  
+>  struct kvm_pv_cmd {
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 52fefa1586..8c673dab2c 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -37,6 +37,7 @@
+>  #include "sysemu/hw_accel.h"
+>  #include "hw/qdev-properties.h"
+>  #ifndef CONFIG_USER_ONLY
+> +#include "hw/s390x/pv.h"
+>  #include "hw/boards.h"
+>  #include "sysemu/arch_init.h"
+>  #include "sysemu/sysemu.h"
+> @@ -76,7 +77,13 @@ static bool s390_cpu_has_work(CPUState *cs)
+>  static void s390_cpu_load_normal(CPUState *s)
+>  {
+>      S390CPU *cpu = S390_CPU(s);
+> -    cpu->env.psw.addr = ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
+> +    CPUS390XState *env = &cpu->env;
+> +
+> +    if (!env->pv) {
+> +        cpu->env.psw.addr = ldl_phys(s->as, 4) & PSW_MASK_ESA_ADDR;
+> +    } else {
+> +        s390_pv_set_ipl_psw(s);
+> +    }
+>      cpu->env.psw.mask = PSW_MASK_32 | PSW_MASK_64;
 
-I'd prefer *anything* over going via  s390_cpu_virt_mem_*, because as
-you say "For secure guests we can't ever access virtual guest memory".
-Introduce a new interface or go via vcpu_run. IMHO that's much cleaner.
+Isn't that dead code for pv? AFAIKS, the psw is not synced back ...
+maybe we should.
 
+>      s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+>  }
+> 
 
 
 -- 
