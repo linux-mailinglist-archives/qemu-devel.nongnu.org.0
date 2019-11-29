@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6CF10D94D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 19:05:08 +0100 (CET)
-Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0905C10D968
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 19:07:48 +0100 (CET)
+Received: from localhost ([::1]:33346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iakdf-000260-41
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 13:05:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55818)
+	id 1iakgF-00045V-6P
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 13:07:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iaka5-0000qT-0P
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:01:29 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1iakbv-00022U-7U
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:03:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iakZz-00023U-8V
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:01:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43725
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <balaton@eik.bme.hu>) id 1iakbt-0006Z8-9m
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:03:18 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20538)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iakZw-0001xz-84
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:01:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575050468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X5u1/UP9ViJmraIHgBX1gw8H4uE9NUjyP4nOUVJwPFY=;
- b=iMe7FaBjnn3JV+I7GOT2rDiliAERE2MChGblhAqXdSYywQMOGDCr+dAurPhB3Uq3a36XHp
- MFzuwtMi0i1KIOkuk+0Q3QTb66PkxcoPrI+ncLD+1NYR3qK/DpQowIPtEfuBgyldtQZ5nY
- oE6muigfCzKG5KyB48pUxGmS+080+rk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-x_j8Ii5APySfMLHZ76lc9w-1; Fri, 29 Nov 2019 13:01:07 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CF7880183C
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 18:01:06 +0000 (UTC)
-Received: from work-vm (ovpn-117-253.ams2.redhat.com [10.36.117.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 730CE60904;
- Fri, 29 Nov 2019 18:01:05 +0000 (UTC)
-Date: Fri, 29 Nov 2019 18:01:03 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: libcap vs libcap-ng mess
-Message-ID: <20191129180103.GA2840@work-vm>
-References: <20191128190408.GC3294@work-vm>
- <20191129093409.GB2260471@redhat.com>
- <98520a07-cf5d-a2a9-cfa4-944839b94c7c@redhat.com>
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1iakbs-0006BB-Do
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 13:03:17 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 49C1C7456ED;
+ Fri, 29 Nov 2019 19:03:05 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 27A577456CD; Fri, 29 Nov 2019 19:03:05 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 23E9474568D;
+ Fri, 29 Nov 2019 19:03:05 +0100 (CET)
+Date: Fri, 29 Nov 2019 19:03:05 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Aaron Zakhrov <aaron.zakhrov@gmail.com>
+Subject: Re: [RFC 00/10] R300 QEMU device V2
+In-Reply-To: <CAApBzg9c9rwgAd1forny9QGgz8-fA60QBcRQbsMSmTwB_h12pQ@mail.gmail.com>
+Message-ID: <alpine.BSF.2.21.99999.352.1911291837080.15049@zero.eik.bme.hu>
+References: <20191126124433.860-1-aaron.zakhrov@gmail.com>
+ <20191126141924.GQ556568@redhat.com>
+ <09273ecd-be76-ab61-304f-7ea0f1f0b107@redhat.com>
+ <20191127150520.GG2131806@redhat.com>
+ <20191127161210.ractqwwymzkpbu6n@sirius.home.kraxel.org>
+ <20191127163219.GI2131806@redhat.com>
+ <CAApBzg9c9rwgAd1forny9QGgz8-fA60QBcRQbsMSmTwB_h12pQ@mail.gmail.com>
+User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
 MIME-Version: 1.0
-In-Reply-To: <98520a07-cf5d-a2a9-cfa4-944839b94c7c@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: x_j8Ii5APySfMLHZ76lc9w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +58,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, vgoyal@redhat.com
+Cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 29/11/19 10:34, Daniel P. Berrang=E9 wrote:
-> >>   y) Should we flip over to only using one or the other - what
-> >>      are the advantages?
-> > In libvirt we use libcap-ng. We picked this originally as its API
-> > design allows you do write simpler code than libcap in some cases
-> > You can see some docs & examples here:
-> >=20
-> >   https://people.redhat.com/sgrubb/libcap-ng/
-> >=20
-> > So I vote for changing the 9p code to use libcap-ng.
->=20
-> It's not entirely trivial because fsdev-proxy-helper wants to keep the
-> effective set and clear the permitted set; in libcap-ng you can only
-> apply both sets at once, and you cannot choose only one of them in
-> capng_clear/capng_get_caps_process.  But it's doable, I'll take a look.
+Hello,
 
-I'm having some difficulties making the same conversion for virtiofsd;
-all it wants to do is drop (and later recover) CAP_FSETID
-from it's effective set;  so I'm calling capng_get_caps_process
-(it used to be cap_get_proc).  While libcap survives just using the
-capget syscall, libcap-ng wants to read /proc/<TID>/status - and
-that's a problem because we're in a sandbox without /proc mounted
-at that point.
+On Thu, 28 Nov 2019, Aaron Zakhrov wrote:
+> I tested my code with the vgabios-ati.bin rom file and it seems to get
+> passed the earlier issue I had.
 
-Dave
+Good, so then the BIOS problem seems to be sorted for now. (Maybe it 
+needed the tables or EDID support that some drivers use from the VGA 
+BIOS.)
 
-> In the meanwhile, if someone else wants to look at the CI I would
-> appreciate that.
->=20
-> Paolo
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I have cleaned up my code and have sent a new patch series. The new one is
 
+I still got pathces twice so rebase may not have worked completely and 
+changes are still not separate patches but hopefully there are less 
+unnecessary files in the last series. If you have problem with rebase and 
+using git to rework patches you could also start from a clean git tree 
+then apply patches with patch command and make new separate commits to 
+clean them up. This may be easier to do until you get familiar with git's 
+more obscure commands.
+
+> pretty big but it contains only the necessary header files and it should be
+> a little easier to review
+
+I don't have time now to check all the added registers but is there a 
+reason you're targetting r300 instead of trying to make rv100 working 
+first? RV100 is a simpler chip with less features so you probably will 
+have less to implement and it's also clearer what might be needed than 
+having to implement a lot of new features the newer r300 may have. Once 
+rv100 works it may be easier to update that to r300 than going for that 
+right away, at least that's what I thought. If you think you can do all of 
+r300 features or you need that for some reason I'm fine with trying to 
+target r300 just saying that a more incremental approach may be easier to 
+do.
+
+I haven't checked this but I think what you get now is that the driver is 
+trying to set up shared memory buffers via GART that it will use to send 
+command packets to the GPU that the emulated chip will need to parse and 
+convert to register access. This is the microengine/command 
+processor/CCE/PM4 I've referred to before. Unless we implement this in 
+some way it won't work as communication between the driver and card is 
+done using this facility so this should be the next step before adding 
+more registers and emulation. If you search for "ati microengine" it may 
+turn up some documentation on this where the buffers and command packets 
+are described but the actual microengine and it's microcode appears to be 
+undocumented. I've also said before that Xenia emulator has some code to 
+parse command packets of the XBox 360 GPU which is similar to some late 
+r5xx GPUs so some of these might be useful for emulating previous Radeons 
+as well.
+
+Regards,
+BALATON Zoltan
 
