@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C158F10D1CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:29:13 +0100 (CET)
-Received: from localhost ([::1]:55508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5E310D1DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:37:47 +0100 (CET)
+Received: from localhost ([::1]:55580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaaiG-0002xU-9E
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:29:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
+	id 1iaaqX-0008SB-Qt
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:37:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iaaJ1-0002Ew-QY
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:03:09 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1iaafM-0002fJ-Nl
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:26:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iaaIw-00061V-UA
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:03:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33686
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pannengyuan@huawei.com>) id 1iaafI-0003GF-JX
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:26:10 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2203 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iaaIw-0005vA-M6
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:03:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575010981;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i2XHTASMnNH0Loh1s/hx6+fJsEOls944Fh9INrY8qw4=;
- b=TUtyJvTxKCpzWsHgJL764VhoRW5oM3GtrIXWbw4qLKGKs/UplUtydJjf2/J2co0jYlNefl
- 7UMnxm+X8AO6x2ACUAoGE/l3ipYq6tHS5s7Kk8iuLzwZxzy3UJdBBNd9BXuepKzYLjqFbr
- rWI/5v2rtD3Bm8xfIA8PpMdgZ2fSK58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-_NtBWrDROSC-Cm2sKCRw1g-1; Fri, 29 Nov 2019 02:03:00 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CA5A107ACC4;
- Fri, 29 Nov 2019 07:02:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFDF95D6D4;
- Fri, 29 Nov 2019 07:02:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CB77D16E08; Fri, 29 Nov 2019 08:02:53 +0100 (CET)
-Date: Fri, 29 Nov 2019 08:02:53 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
-Message-ID: <20191129070253.5hwksjrapomk434x@sirius.home.kraxel.org>
-References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1iaafA-0002CG-Lc; Fri, 29 Nov 2019 02:26:01 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id BE8314124DCD790455EC;
+ Fri, 29 Nov 2019 15:25:46 +0800 (CST)
+Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 29 Nov 2019 15:25:40 +0800
+From: <pannengyuan@huawei.com>
+To: <eblake@redhat.com>, <kwolf@redhat.com>, <mreitz@redhat.com>,
+ <sgarzare@redhat.com>
+Subject: [PATCH V3 1/2] block/nbd: extract the common cleanup code
+Date: Fri, 29 Nov 2019 15:25:25 +0800
+Message-ID: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.7.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20191128141518.628245-1-marcandre.lureau@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: _NtBWrDROSC-Cm2sKCRw1g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,27 +51,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org, stefanha@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: liyiting@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ PanNengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 28, 2019 at 06:15:16PM +0400, Marc-Andr=E9 Lureau wrote:
-> Hi,
->=20
-> Setting up shared memory for vhost-user is a bit complicated from
-> command line, as it requires NUMA setup such as: m 4G -object
-> memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3Don -nu=
-ma
-> node,memdev=3Dmem.
->=20
-> Instead, I suggest to add a -mem-shared option for non-numa setups,
-> that will make the -mem-path or anonymouse memory shareable.
+From: PanNengyuan <pannengyuan@huawei.com>
 
-Is it an option to just use memfd by default (if available)?
+The BDRVNBDState cleanup code is common in two places, add
+nbd_free_bdrvstate_prop() function to do these cleanups (suggested by
+Stefano Garzarella).
 
-cheers,
-  Gerd
+Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+---
+ block/nbd.c | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/block/nbd.c b/block/nbd.c
+index 1239761..5805979 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -94,6 +94,8 @@ typedef struct BDRVNBDState {
+ 
+ static int nbd_client_connect(BlockDriverState *bs, Error **errp);
+ 
++static void nbd_free_bdrvstate_prop(BDRVNBDState *s);
++
+ static void nbd_channel_error(BDRVNBDState *s, int ret)
+ {
+     if (ret == -EIO) {
+@@ -1486,6 +1488,15 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
+     }
+ }
+ 
++static void nbd_free_bdrvstate_prop(BDRVNBDState *s)
++{
++    object_unref(OBJECT(s->tlscreds));
++    qapi_free_SocketAddress(s->saddr);
++    g_free(s->export);
++    g_free(s->tlscredsid);
++    g_free(s->x_dirty_bitmap);
++}
++
+ /*
+  * Parse nbd_open options
+  */
+@@ -1855,10 +1866,7 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+ 
+  error:
+     if (ret < 0) {
+-        object_unref(OBJECT(s->tlscreds));
+-        qapi_free_SocketAddress(s->saddr);
+-        g_free(s->export);
+-        g_free(s->tlscredsid);
++        nbd_free_bdrvstate_prop(s);
+     }
+     qemu_opts_del(opts);
+     return ret;
+@@ -1937,12 +1945,7 @@ static void nbd_close(BlockDriverState *bs)
+     BDRVNBDState *s = bs->opaque;
+ 
+     nbd_client_close(bs);
+-
+-    object_unref(OBJECT(s->tlscreds));
+-    qapi_free_SocketAddress(s->saddr);
+-    g_free(s->export);
+-    g_free(s->tlscredsid);
+-    g_free(s->x_dirty_bitmap);
++    nbd_free_bdrvstate_prop(s);
+ }
+ 
+ static int64_t nbd_getlength(BlockDriverState *bs)
+-- 
+2.7.2.windows.1
+
 
 
