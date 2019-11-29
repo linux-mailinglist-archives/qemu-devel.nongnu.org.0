@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D4A10D82E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 17:03:56 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A601810D846
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 17:10:04 +0100 (CET)
+Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaikL-0003Hv-NK
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 11:03:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43773)
+	id 1iaiqJ-0008Jz-Oh
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 11:10:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iaiaa-0004B7-CQ
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:53:50 -0500
+ (envelope-from <armbru@redhat.com>) id 1iaikg-0004Uf-J8
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 11:04:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iaiYR-0005SV-3n
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:51:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24186
+ (envelope-from <armbru@redhat.com>) id 1iaikd-0005xz-1Z
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 11:04:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46333
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iaiYQ-0005P4-Vb
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 10:51:35 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iaikZ-0005sj-O9
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 11:04:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575042693;
+ s=mimecast20190719; t=1575043444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+XJxQxMMVOlGRd7VcDUfkaDTkTsObMIZmGCHSto/32k=;
- b=e1ET0UqsHG40jiN516Be1U8J/bs9uygDhru6NH0lhCPxcYmzKKU/Sbep5zpPKV37dtSk/f
- WD0DlUpmWL5yzVVUfsaHciqkDagHB2HBBxgrTQi+iP79Z6SbtkoFItJjyxY+jw96upqozh
- mNxyS/cFATWR9+c6167Qp5eEVEA+D3U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-jqYH_cEcN6--stTKIkWGUQ-1; Fri, 29 Nov 2019 10:51:31 -0500
-Received: by mail-wr1-f70.google.com with SMTP id e3so15727501wrs.17
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 07:51:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P5MaXAGOEtqCjQSFhr61tNxB779w5vvW5JZg9oLQQik=;
- b=LK/KXhcm10X0J51poQuWAOWMejCekV2pQHhqEjqvziZKw/J/v/K0Q5R4CKUbt6Lg5F
- LfH9WLZPdyLMe5dafsxZZUPRKKbXqW8YhteLqiCrT1Qaxt8hs1BI3yJwdq2d/3gkbm/C
- 3uMww3IDjEbVkJZ9Y2W3xX/PZ3rq3FcgEXnwgvodgneg/8RmiU6BckL3Bg3rj0l59qjn
- aKkvtpbx+Vqb3J71H1eeHZ9lJtXcI/qw7IHZ292v6yglcvYgeAK1uHyzozkDlXeRrB3v
- U4jtIPbV6fFtuPBDxHsCQwhXlpFm1szXx8V9GUsyFE+ItrTDH3cF4zXGZ7ZRryjVJkid
- AlqA==
-X-Gm-Message-State: APjAAAXYaRe1kilVjD2LSPA+WsvBdgH2TjOb999hOqUgfbUBOeHaFWD1
- vL86MCl8XxpfyTqhrnnyQtM+Ss4s4+B1zU9PQga7zhBYiV57HOWjbrgUWBM6V34ttnP36rBc8x3
- ZgVEIzGzx2Nh9j0A=
-X-Received: by 2002:a1c:2745:: with SMTP id n66mr15216851wmn.171.1575042690840; 
- Fri, 29 Nov 2019 07:51:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxOd/qxYO+iE8UFAFf4xVqtpdnTdKjcuE0mDhnMQEBPNan5CZAGNFCITnSTe/FoyaSbLdxhVw==
-X-Received: by 2002:a1c:2745:: with SMTP id n66mr15216833wmn.171.1575042690618; 
- Fri, 29 Nov 2019 07:51:30 -0800 (PST)
-Received: from [192.168.1.74] (67.23.27.109.rev.sfr.net. [109.27.23.67])
- by smtp.gmail.com with ESMTPSA id i9sm26977398wrb.2.2019.11.29.07.51.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Nov 2019 07:51:30 -0800 (PST)
-Subject: Re: [PATCH] ci: Use libcap-ng
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, thuth@redhat.com, pbonzini@redhat.com,
- Greg Kurz <groug@kaod.org>
-References: <20191129142126.32967-1-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3297c897-69ab-c30f-98dd-dd3138e6325b@redhat.com>
-Date: Fri, 29 Nov 2019 16:51:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=anOpDiA6emSbWzFeH6+g4YSXSysyxwQIb0TLIecJ5tE=;
+ b=Lv0ICVjP0tIvQdsUNEZ6vao9oi3kWqQz820sP5poXBmjuERDCmj6GYOWykfUJOh8d150GH
+ GydQHOpoj7xiXyV+tdGKAmRq6T51fdtiR83zqEyN+ACuTaq2gboi5rguorSl7msLuOeYss
+ LaS3W9vYZYiqFf/IjC1DslQ8IiFyjt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-pvhifRcCMxy1Qvb_qvuqTg-1; Fri, 29 Nov 2019 11:04:00 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE77CDBB2;
+ Fri, 29 Nov 2019 16:03:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E0B25C57C;
+ Fri, 29 Nov 2019 16:03:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8CD9A1138606; Fri, 29 Nov 2019 17:03:56 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v6] error: rename errp to errp_in where it is IN-argument
+References: <20191127183704.14825-1-vsementsov@virtuozzo.com>
+ <878so05bca.fsf@dusky.pond.sub.org>
+ <f901e0db-61df-898f-ce18-096bfeadf525@virtuozzo.com>
+ <87mucf218w.fsf@dusky.pond.sub.org>
+ <80e563ee-31fb-da43-ddde-c8666e4b92c6@virtuozzo.com>
+ <87eexqda3c.fsf@dusky.pond.sub.org>
+ <41f32448-f2b8-1822-25df-f02c61df9bc4@virtuozzo.com>
+Date: Fri, 29 Nov 2019 17:03:56 +0100
+In-Reply-To: <41f32448-f2b8-1822-25df-f02c61df9bc4@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Fri, 29 Nov 2019 15:09:07 +0000")
+Message-ID: <878snybrf7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191129142126.32967-1-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: jqYH_cEcN6--stTKIkWGUQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: pvhifRcCMxy1Qvb_qvuqTg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -91,49 +81,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/19 3:21 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> We currently enable libcap-dev in build-clang to pick up the 9p proxy
-> helper.  Paolo's patch changes that to use libcap-ng, so switch to using
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-It is not obvious you are referring to "virtfs-proxy-helper: switch from=20
-libcap to libcap-ng" he recently posted.
+> 29.11.2019 17:35, Markus Armbruster wrote:
+>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>=20
+>>> 28.11.2019 23:29, Markus Armbruster wrote:
+>>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>>
+>>>>> 28.11.2019 17:23, Markus Armbruster wrote:
+>>>>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>>>>>
+>>>>>>> Error **errp is almost always OUT-argument: it's assumed to be NULL=
+, or
+>>>>>>> pointer to NULL-initialized pointer, or pointer to error_abort or
+>>>>>>> error_fatal, for callee to report error.
+>>>>>>>
+>>>>>>> But very few functions instead get Error **errp as IN-argument:
+>>>>>>> it's assumed to be set (or, maybe, NULL), and callee should clean i=
+t,
+>>>>>>> or add some information.
+>>>>>>>
+>>>>>>> In such cases, rename errp to errp_in.
+>>>>>>
+>>>>>> Missing: why is the rename useful?
+>>>>>
+>>>>> The main reason is to prepare for coccinelle part.
+>>>>
+>>>> It's not a prerequisite for applying the patches Coccinelle produces,
+>>>> only a prerequisite for running Coccinelle.
+>>>>
+>>>>>> It's useful if it helps readers recognize unusual Error ** parameter=
+s,
+>>>>>> and recognizing unusual Error ** parameters is actually a problem.  =
+I'm
+>>>>>> not sure it is, but my familiarity with the Error interface may blin=
+d
+>>>>>> me.
+>>>>>>
+>>>>>> How many functions have unusual Error **parameters?  How are they us=
+ed?
+>>>>>> Any calls that could easily be mistaken as the usual case?  See [*]
+>>>>>> below.
+>> [...]
+>>>>>> [*] The information I asked for above is buried in these patches.  I=
+'ll
+>>>>>> try to dig it up as I go reviewing them.
+>>>>>>
+>>>>>> Second, it risks some of these "further patches" overtake this one, =
+and
+>>>>>> then its commit message will be misleading.  Moreover, the other com=
+mits
+>>>>>> will lack context.
+>> [...]
+>>>>>>> diff --git a/util/error.c b/util/error.c
+>>>>>>> index d4532ce318..275586faa8 100644
+>>>>>>> --- a/util/error.c
+>>>>>>> +++ b/util/error.c
+>> [...]
+>>>>>>> @@ -271,11 +271,11 @@ void error_free(Error *err)
+>>>>>>>         }
+>>>>>>>     }
+>>>>>>>    =20
+>>>>>>> -void error_free_or_abort(Error **errp)
+>>>>>>> +void error_free_or_abort(Error **errp_in)
+>>>>>>>     {
+>>>>>>> -    assert(errp && *errp);
+>>>>>>> -    error_free(*errp);
+>>>>>>> -    *errp =3D NULL;
+>>>>>>> +    assert(errp_in && *errp_in);
+>>>>>>> +    error_free(*errp_in);
+>>>>>>> +    *errp_in =3D NULL;
+>>>>
+>>>> This one is actually in/out.
+>>>>
+>>>> To make the compiler check errp_in is truly an in-argument, we can
+>>>> declare it as Error *const *errp_in.
+>>>>
+>>>> But we can save ourselves the trouble of renaming it; the const should
+>>>> suffice to tell both human readers and Coccinelle that this is not you=
+r
+>>>> common out-argument.  I think I like this better than relying on a
+>>>> naming convention.  What about you?
+>>>
+>>> I think it's good idea... But what to do with error_free_or_abort, and =
+other functions
+>>> which get filled errp, and want to set it to NULL? Patch 21 adds three =
+such functions..
+>>>
+>>> Maybe, add assert(errp) at start of such functions, and catch it by coc=
+cinelle (not sure
+>>> that it is possible)?
+>>=20
+>> I went through the git branch you provided.
+>>=20
+>> These get rid of unusual Error ** parameters:
+>>=20
+>>      01e10667d1 hmp: drop Error pointer indirection in hmp_handle_error
+>>      606bfb7520 vnc: drop Error pointer indirection in vnc_client_io_err=
+or
+>>=20
+>>      Get rid of them by peeling off an indirection.
+>>=20
+>> These try to make unusual Error ** parameters stand out:
+>>=20
+>>      51e73b3305 error: rename errp to errp_in where it is IN-argument
+>>=20
+>>      Four renames.
+>>=20
+>>      Three functions modify the error, name @errp_in is okay, my const
+>>      proposal works.
+>>=20
+>>      error_free_or_abort() clears *errp_in, name @errp_in is misleading,
+>>      const doesn't work.
+>>=20
+>>      f7bdfd42da qdev-monitor: well form error hint helpers
+>>=20
+>>      Two renames.  Both functions modify the error, rename is okay, cons=
+t
+>>      works.
+>>=20
+>>      9d4aac7299 nbd: well form nbd_iter_channel_error errp handler
+>>=20
+>>      One rename, from @local_err.  nbd_iter_channel_error() clears *errp=
+_in,
+>>      name @errp_in is misleading, const doesn't work.
+>>=20
+>>      fb1bd83c40 ppc: well form kvmppc_hint_smt_possible error hint helpe=
+r
+>>=20
+>>      One rename.  The function modify the error, rename is okay, const w=
+orks.
+>>=20
+>>      e024e89b10 9pfs: well form error hint helpers
+>>=20
+>>      Two renames.  Both functions modify the error, rename is okay, cons=
+t
+>>      works.
+>>=20
+>> These make usual Error ** parameters look, well, more usual:
+>>=20
+>>      c01649d999 hw/core/qdev: cleanup Error ** variables
+>>      a5f6424163 block/snapshot: rename Error ** parameter to more common=
+ errp
+>>      ae200ca21e hw/i386/amd_iommu: rename Error ** parameter to more com=
+mon errp
+>>      561f73e681 qga: rename Error ** parameter to more common errp
+>>      12589a96cd monitor/qmp-cmds: rename Error ** parameter to more comm=
+on errp
+>>      f608fc5999 hw/s390x: rename Error ** parameter to more common errp
+>>      747a90d044 hw/tpm: rename Error ** parameter to more common errp
+>>      3d19e66610 hw/usb: rename Error ** parameter to more common errp
+>>      07366648ef include/qom/object.h: rename Error ** parameter to more =
+common errp
+>>=20
+>> These don't touch Error ** parameter declarations:
+>>=20
+>>      f6e4fffc16 hw/core/loader-fit: fix freeing errp in fit_load_fdt
+>>      b5bba880ae net/net: Clean up variable shadowing in net_client_init(=
+)
+>>      4a4462ce4c hw/sd: drop extra whitespace in sdhci_sysbus_realize() h=
+eader
+>>      d52d44e822 backends/cryptodev: drop local_err from cryptodev_backen=
+d_complete()
+>>      7e95d30766 hw/vfio/ap: drop local_err from vfio_ap_realize
+>>=20
+>> Unusual Error ** parameters that can be made Error *const *errp should
+>> not also need a rename, neither to avoid confusion about @errp's role,
+>> nor to help Coccinelle.
+>>=20
+>> Unusual Error ** parameters that can't be made Error *const *errp:
+>>=20
+>>      nbd_iter_channel_error(): parameter is called @local_err.  Confusio=
+n
+>>      seems as unlikely without the rename as with it.  Coccinelle should
+>>      not need the rename.  No need to touch.  I'm willing to accept your
+>>      assertion change.
+>
+> Hmm but you reverted it.. Will you keep an assertion?
 
-Since Greg is going to take Paolo's patch, I'd suggest he also takes=20
-this one, so he can update the commit description with either "the=20
-previous patch" or the commit sha1.
+You decide whether to change the assertion in v7.
 
-> it.  This also means we'll be testing the scsi pr manager and the bridge
-> helper.
+>>      error_free_or_abort(): parameter is called @errp.  Confusion seems
+>>      as unlikely without the rename as with it.  Coccinelle should not
+>>      need the rename.  I'm willing to accept a rename to @local_err
+>>      regardless.
+>
+> So, either we rename it to local_err, or coccinelle should distinguish it
+> by assertion at the top.
 
-This is good news.
+Yes.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I'm also willing to consider a rename to a name other than @local_err,
+if you can come up with a good, non-misleading one.
 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   .gitlab-ci.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index be57c6a454..62a9609798 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -59,7 +59,7 @@ build-user:
->  =20
->   build-clang:
->    script:
-> - - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-dev
-> + - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
->         xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev lib=
-rbd-dev
->    - ./configure --cc=3Dclang --cxx=3Dclang++ --enable-werror
->         --target-list=3D"alpha-softmmu arm-softmmu m68k-softmmu mips64-so=
-ftmmu
->=20
+>> I pushed my fixups to git://repo.or.cz/qemu/armbru.git branch error-prep
+>> for your convenience.  The commit messages of the fixed up commits need
+>> rephrasing, of course.
+>>=20
+>
+> Looked through fixups, looks OK for me, thanks! What next?
+
+Let me finish my fixing incorrect dereferences of errp, and then we
+figure out what to include in v7.
 
 
