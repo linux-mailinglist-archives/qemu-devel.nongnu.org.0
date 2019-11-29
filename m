@@ -2,65 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA5410D231
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:03:24 +0100 (CET)
-Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761FC10D245
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 09:13:05 +0100 (CET)
+Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iabFJ-0002it-4S
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:03:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37852)
+	id 1iabOh-0002Bc-CO
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 03:13:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iab8w-0000QJ-UE
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:56:49 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1iab97-0000XY-Tp
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:57:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iab8o-0000Xj-Tb
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:56:40 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59145
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <tao3.xu@intel.com>) id 1iab90-0001CC-As
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:56:53 -0500
+Received: from mga17.intel.com ([192.55.52.151]:7630)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iab8n-0008WK-NQ
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:56:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575014191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0yY8LoFUfQZeQENdfkF9j+qRSJ3HGQ9ejMRlDygOXz0=;
- b=Hn/W+rJKSaPfNJNVcMdx9KPezRRZypwUNm7v4JTGAPRBUejt3S/O5ezxNn7qpZqt6k4vq1
- 1XUGUOdpkZUFBiggqa+pIoE7CA7ruGKSsvkXexhgny2nz8VU7xbdr4PEATQgiy4mPuaeVT
- nGi8vJPb6AbMISV6lyGimpVuJ+1Wk9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-B4jAes0kMRyVEUbV1pv4AA-1; Fri, 29 Nov 2019 02:56:28 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24EB2DB61;
- Fri, 29 Nov 2019 07:56:27 +0000 (UTC)
-Received: from gondolin (ovpn-116-140.ams2.redhat.com [10.36.116.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE5C5608C9;
- Fri, 29 Nov 2019 07:56:25 +0000 (UTC)
-Date: Fri, 29 Nov 2019 08:56:23 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH v2] qga: fence guest-set-time if hwclock not available
-Message-ID: <20191129085623.498e76b2.cohuck@redhat.com>
-In-Reply-To: <a3c19a0f-54bd-b406-aff3-d68ec95c0cff@redhat.com>
-References: <20191128181100.23187-1-cohuck@redhat.com>
- <a3c19a0f-54bd-b406-aff3-d68ec95c0cff@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1iab90-0000XB-0c
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:56:50 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2019 23:56:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,256,1571727600"; d="scan'208";a="207273308"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Nov 2019 23:56:36 -0800
+From: Tao Xu <tao3.xu@intel.com>
+To: mst@redhat.com, imammedo@redhat.com, eblake@redhat.com,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, armbru@redhat.com,
+ sw@weilnetz.de, mdroth@linux.vnet.ibm.com, thuth@redhat.com,
+ lvivier@redhat.com
+Subject: [PATCH v20 0/8] Build ACPI Heterogeneous Memory Attribute Table (HMAT)
+Date: Fri, 29 Nov 2019 15:56:26 +0800
+Message-Id: <20191129075634.682-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: B4jAes0kMRyVEUbV1pv4AA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,106 +54,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Nov 2019 19:38:00 +0100
-Laszlo Ersek <lersek@redhat.com> wrote:
+This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+according to the command line. The ACPI HMAT describes the memory attributes,
+such as memory side cache attributes and bandwidth and latency details,
+related to the Memory Proximity Domain.
+The software is expected to use HMAT information as hint for optimization.
 
-> Hi Cornelia,
-> 
-> On 11/28/19 19:11, Cornelia Huck wrote:
-> > The Posix implementation of guest-set-time invokes hwclock to
-> > set/retrieve the time to/from the hardware clock. If hwclock
-> > is not available, the user is currently informed that "hwclock
-> > failed to set hardware clock to system time", which is quite
-> > misleading. This may happen e.g. on s390x, which has a different
-> > timekeeping concept anyway.
-> > 
-> > Let's check for the availability of the hwclock command and
-> > return QERR_UNSUPPORTED for guest-set-time if it is not available.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> > 
-> > v1 (RFC) -> v2:
-> > - use hwclock_path[]
-> > - use access() instead of stat()
-> > 
-> > ---
-> >  qga/commands-posix.c | 13 ++++++++++++-
-> >  1 file changed, 12 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> > index 1c1a165daed8..ffb6420fa9cd 100644
-> > --- a/qga/commands-posix.c
-> > +++ b/qga/commands-posix.c
-> > @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
-> >      pid_t pid;
-> >      Error *local_err = NULL;
-> >      struct timeval tv;
-> > +    const char hwclock_path[] = "/sbin/hwclock";  
-> 
-> Did you drop the "static" storage-class specifier on purpose?
+In the linux kernel, the codes in drivers/acpi/hmat/hmat.c parse and report
+the platform's HMAT tables.
 
-No, I just need to do patches when I'm less tired :/
+The V19 patches link:
+https://patchwork.kernel.org/cover/11265525/
 
-> 
-> > +    static int hwclock_available = -1;
-> > +
-> > +    if (hwclock_available < 0) {
-> > +        hwclock_available = (access(hwclock_path, X_OK) == 0);
-> > +    }
-> > +
-> > +    if (!hwclock_available) {
-> > +        error_setg(errp, QERR_UNSUPPORTED);
-> > +        return;
-> > +    }
-> >  
-> >      /* If user has passed a time, validate and set it. */
-> >      if (has_time) {
-> > @@ -195,7 +206,7 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
-> >  
-> >          /* Use '/sbin/hwclock -w' to set RTC from the system time,
-> >           * or '/sbin/hwclock -s' to set the system time from RTC. */
-> > -        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
-> > +        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",  
-> 
-> I think it's somewhat obscure now that arg="hwclock" is supposed to
-> match the last pathname component in hwclock_path="/sbin/hwclock".
-> 
-> There are multiple ways to compute "arg" like that, of course. But I
-> think they all look uglier than the above. So I'm fine if we just keep this.
+Changelog:
+v20:
+    - Use g_assert_true and g_assert_false to replace g_assert
+      (Thomas and Markus)
+    - Rename assoc as associativity, update the QAPI description (Markus)
+    - Disable cache level 0 in hmat-cache option (Igor)
+    - Keep base and bitmap unchanged when latency or bandwidth
+      out of range
+    - Fix the broken CI case when user input latency or bandwidth
+      less than required.
+v19:
+    - Add description about the machine property 'hmat' in commit
+      message (Markus)
+    - Update the QAPI comments
+    - Add a check for no memory side cache
+    - Add some fail cases for hmat-cache when level=0
+v18:
+    - Defer patches 01/14~06/14 of V17, use qapi type uint64 and
+      only nanosecond for latency (Markus)
+    - Rewrite the lines over 80 characters(Igor)
+v17:
+    - Add check when user input latency or bandwidth 0, the
+      lb_info_provided should also be 0. Because in ACPI 6.3 5.2.27.4,
+      0 means the corresponding latency or bandwidth information is
+      not provided.
+    - Fix the infinite loop when node->latency is 0.
+    - Use NumaHmatCacheOptions to replace HMAT_Cache_Info (Igor)
+    - Add check for unordered cache level input (Igor)
+    - Add some fail test cases (Igor)
+v16:
+    - Add and use qemu_strtold_finite to parse size, support full
+      64bit precision, modify related test cases (Eduardo and Markus)
+    - Simplify struct HMAT_LB_Info and related code, unify latency
+      and bandwidth (Igor)
+    - Add cross check with hmat_lb data (Igor)
+    - Fields in Cache Attributes are promoted to uint32_t before
+      shifting (Igor)
+    - Add case for QMP build HMAT (Igor)
+v15:
+    - Add a new patch to refactor do_strtosz() (Eduardo)
+    - Make tests without breaking CI (Michael)
+v14:
+    - Reuse the codes of do_strtosz to build qemu_strtotime_ns
+      (Eduardo)
+    - Squash patch v13 01/12 and 02/12 together (Daniel and Eduardo)
+    - Drop time unit picosecond (Eric)
+    - Use qemu ctz64 and clz64 instead of builtin function
+v13:
+    - Modify some text description
+    - Drop "initiator_valid" field in struct NodeInfo
+    - Reuse Garray to store the raw bandwidth and bandwidth data
+    - Calculate common base unit using range bitmap
+    - Add a patch to alculate hmat latency and bandwidth entry list
+    - Drop the total_levels option and use readable cache size
+    - Remove the unnecessary head file
+    - Use decimal notation with appropriate suffix for cache size
 
-Yes, I was not able to come up with something elegant, either.
+Liu Jingqi (5):
+  numa: Extend CLI to provide memory latency and bandwidth information
+  numa: Extend CLI to provide memory side cache information
+  hmat acpi: Build Memory Proximity Domain Attributes Structure(s)
+  hmat acpi: Build System Locality Latency and Bandwidth Information
+    Structure(s)
+  hmat acpi: Build Memory Side Cache Information Structure(s)
 
-[Side note: does really everyone put hwclock under /sbin (i.e., nobody
-doing something creative?)]
+Tao Xu (3):
+  numa: Extend CLI to provide initiator information for numa nodes
+  tests/numa: Add case for QMP build HMAT
+  tests/bios-tables-test: add test cases for ACPI HMAT
 
-> 
-> 
-> If you purposely dropped the "static", then:
-> 
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> 
-> If you just missed the "static" and now intend to add it back, then for v3:
-> 
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> 
-> Thanks
-> Laszlo
+ hw/acpi/Kconfig                       |   7 +-
+ hw/acpi/Makefile.objs                 |   1 +
+ hw/acpi/hmat.c                        | 268 +++++++++++++++++++++++
+ hw/acpi/hmat.h                        |  42 ++++
+ hw/core/machine.c                     |  64 ++++++
+ hw/core/numa.c                        | 297 ++++++++++++++++++++++++++
+ hw/i386/acpi-build.c                  |   5 +
+ include/sysemu/numa.h                 |  63 ++++++
+ qapi/machine.json                     | 180 +++++++++++++++-
+ qemu-options.hx                       |  95 +++++++-
+ tests/bios-tables-test-allowed-diff.h |   8 +
+ tests/bios-tables-test.c              |  44 ++++
+ tests/data/acpi/pc/APIC.acpihmat      |   0
+ tests/data/acpi/pc/DSDT.acpihmat      |   0
+ tests/data/acpi/pc/HMAT.acpihmat      |   0
+ tests/data/acpi/pc/SRAT.acpihmat      |   0
+ tests/data/acpi/q35/APIC.acpihmat     |   0
+ tests/data/acpi/q35/DSDT.acpihmat     |   0
+ tests/data/acpi/q35/HMAT.acpihmat     |   0
+ tests/data/acpi/q35/SRAT.acpihmat     |   0
+ tests/numa-test.c                     | 213 ++++++++++++++++++
+ 21 files changed, 1276 insertions(+), 11 deletions(-)
+ create mode 100644 hw/acpi/hmat.c
+ create mode 100644 hw/acpi/hmat.h
+ create mode 100644 tests/data/acpi/pc/APIC.acpihmat
+ create mode 100644 tests/data/acpi/pc/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/pc/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/pc/SRAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat
 
-Thanks for looking! There'll be a v3.
-
-> 
-> 
-> 
-> >                 NULL, environ);
-> >          _exit(EXIT_FAILURE);
-> >      } else if (pid < 0) {
-> >   
-> 
+-- 
+2.20.1
 
 
