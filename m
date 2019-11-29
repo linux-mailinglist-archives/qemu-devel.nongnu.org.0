@@ -2,69 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3E010D4C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 12:26:58 +0100 (CET)
-Received: from localhost ([::1]:57342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B8310D4A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 12:18:58 +0100 (CET)
+Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaeQI-0001ac-Rv
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 06:26:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51341)
+	id 1iaeIc-000559-0q
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 06:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iaeDv-0002vP-0K
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:14:09 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iaeDu-0002uE-E6
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:14:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iae55-0001Mk-O6
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:05:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27625
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iae54-00015h-KH
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:04:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575025494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=CuniD5dlIlu4vXcm/G2gBvB7rS1uABDxmqF4GAK8I4I=;
- b=Hzm+40O1513JW++HXYYqa+atQx+FFZoX+x9/bajzMiog8T0dUVr5uNtceqpc6oZqPCfduB
- G9SlCEJmrrHvLLwFgeSLs6uo0WwV07z7ez2KMTRrGR4baItq3Dv9aiLUOIoI6zUmSLpNcH
- cS7BLvVyrikBd1sT7mVzBmGfjFAR+1U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-FELRzENvPryPpxFLpcJfzw-1; Fri, 29 Nov 2019 06:04:50 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 851831005502;
- Fri, 29 Nov 2019 11:04:49 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-159.ams2.redhat.com [10.36.116.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDCFA5C1BB;
- Fri, 29 Nov 2019 11:04:44 +0000 (UTC)
-Subject: Re: [PATCH v2 13/13] s390x: protvirt: Handle SIGP store status
- correctly
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-14-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <95062d3b-425f-1df4-8e33-1db0b883bd2f@redhat.com>
-Date: Fri, 29 Nov 2019 12:04:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191129094809.26684-14-frankja@linux.ibm.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iae7V-0000DL-Dd
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 06:07:31 -0500
+Received: from mail-eopbgr150112.outbound.protection.outlook.com
+ ([40.107.15.112]:60580 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iae7U-0008Jm-VP; Fri, 29 Nov 2019 06:07:29 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E6ACfmI7/vF8aoHo/8QutRzZa2MXu7iERn1j7KsDqs1eGypcJR2/pu0FvAwfoIKTQ2C3A0WcDb6q+sVTyHZtkV1nPMdqCbLNdN5VE/C2siJACxH13aQ1SJ1WxvZJEKMuy9E4d6TiprF+SEMo5f/3LPMNl7xpuxBiS7owvQt43dk+JJ0pGZ13O3gTdJNSKhrRNHDPvELrGDKZkMN3iGp4qn8C+1cDiu7eHfnoDlwirZqSyHO4KhdUsXq2LobEdKYuvX3jJ/K8CG4gGfN7t8fMiYsyjPQLb7MJoDme7qxNlQnkQwybPZlVwLtIEk0FZ2HPr1T2OIKUzWRLxv8Nr2pAjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Cp5QCdwTgBbNFn5WtHNu8Y96rz8vq24fyUyG/CRR1I=;
+ b=RnBDcWSOtbBIAF9PG3KNng4YQGtfVNHoqBU+ySnMEk0xwOv/ckkVWsX5AVm+rytol1p5Bi6iVkPXD0HqodUCSawLDao+JFASM+TfYMJLWNd0Wds+smgWrRzM0vVM7Ws9ya1UTr+l1skOu10fGdbLsWmi2GEGrqAGdCDIutaDzt8S+u9bQJxMvb7An4hkI/Cd4tcbPOQC7uA6Je1M0ZZD6amStSlwY11O+cRUnEaAqnWYq6gWzSCmw25aHLvnw+cU70n9IGWFBizbPfdUHH6HVTXQc3gglzbfs9ZODLkzz2RB9HVyKvljgkfoe9HxcyYyFxp5/Xhkrcg2ccpLdbfMHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Cp5QCdwTgBbNFn5WtHNu8Y96rz8vq24fyUyG/CRR1I=;
+ b=P9oz9FkVaiq4UtbNxcXh9phd5RQFgeJfgI4fiq1H6a+zlJMiBxP383fsCqjGsDgjY2yksmJj9HKv4Jkd6lwyXlK4gUg4Z5KVAgfQ4IPokDWDyg7Osmm5Aip3BbODxrVeBx2TdafbYTgkgkTQJ/eN8J1RUTYLtmdOQ7lX/QboXJk=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4642.eurprd08.prod.outlook.com (10.255.22.81) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Fri, 29 Nov 2019 11:07:23 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
+ 11:07:23 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 11/23] block: Use bdrv_recurse_can_replace()
+Thread-Topic: [PATCH for-5.0 v2 11/23] block: Use bdrv_recurse_can_replace()
+Thread-Index: AQHVmKl85zGf9jZeAEO7AyqHglq3C6eiGQSA
+Date: Fri, 29 Nov 2019 11:07:23 +0000
+Message-ID: <81e6ac08-2f89-9606-0642-4f4f92aeba2e@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-12-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-12-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: FELRzENvPryPpxFLpcJfzw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR07CA0013.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::23) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191129140721442
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2ed3db3a-5a50-4f0a-5a9d-08d774bc4f47
+x-ms-traffictypediagnostic: AM6PR08MB4642:
+x-microsoft-antispam-prvs: <AM6PR08MB46423E7266289FA4B0954C19C1460@AM6PR08MB4642.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:989;
+x-forefront-prvs: 0236114672
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(39840400004)(396003)(346002)(376002)(136003)(199004)(189003)(31686004)(76176011)(102836004)(186003)(2616005)(11346002)(52116002)(26005)(8676002)(8936002)(6246003)(66556008)(6116002)(446003)(2906002)(3846002)(71200400001)(386003)(6506007)(14444005)(4326008)(71190400001)(2501003)(86362001)(14454004)(256004)(81156014)(81166006)(66476007)(36756003)(31696002)(305945005)(66946007)(7736002)(25786009)(6512007)(99286004)(6436002)(110136005)(54906003)(66446008)(5660300002)(316002)(66066001)(478600001)(6486002)(229853002)(64756008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4642;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yN+rv6x9W5B+fJWPc/aeHF/uXAQAWRcnyh7p1W1EnwDC0l18iUMIH4iBlmOg0E1CnaWZ6f38jNz11Kf/nvOFnsRE527TAcHgu95TgMGhb71GzkaL6rYauXVDE3wsx0rdSpbInfy4kB+2YCr+wlT20EvxCC3pSgG2sB1IlWHHOtrnkwukkCtTV89Nrk2ao606jN8zWEyj2WsR3NMdR35Vw/7bUIqCwZPuneTF5zjbMoYz1Rp/n05IKosK7/u6XcfuwG1q2Ebg2EYORNTc1Ryppsk145cEhCuBaefyMbrn8DXxPTyOQyOOcDjS76GYMfwsNpkXfe7gOLijt3ydkZm9Qh6N2Pz8IKIM7iNJA8NHcsbRMb+/xByLlzabu5NIu4Th5ecH6ndKf0XiWraESBCYU6JOVaVDo9xVbPeetSW+0u2qpireSreuncwhDOiAIuwI
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <75EF53EF687C8F439D311CA11EAE70D2@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ed3db3a-5a50-4f0a-5a9d-08d774bc4f47
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 11:07:23.1622 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g71UU+lU+svNVORYqRqaTs7ypTm0DingSAFNMoz/EpzxeG7uQJhHsZ92o5Zkz5ekyafkzXaZgUEjCVXeBgLUg1SKQ4eaXRbJnTYowf4f3i8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4642
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.112
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,51 +109,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/11/2019 10.48, Janosch Frank wrote:
-> Status storing is obviously not done by qemu anymore.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+11.11.2019 19:02, Max Reitz wrote:
+> Let check_to_replace_node() use the more specialized
+> bdrv_recurse_can_replace() instead of
+> bdrv_recurse_is_first_non_filter(), which is too restrictive.
+
+or not enough restrictive in case of quorum
+
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  target/s390x/helper.c | 4 ++++
->  target/s390x/sigp.c   | 1 +
->  2 files changed, 5 insertions(+)
-> 
-> diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-> index a3a49164e4..3800c4b395 100644
-> --- a/target/s390x/helper.c
-> +++ b/target/s390x/helper.c
-> @@ -246,6 +246,10 @@ int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch)
->      hwaddr len = sizeof(*sa);
->      int i;
->  
-> +    if (cpu->env.pv) {
-> +        return 0;
-> +    }
-> +
->      sa = cpu_physical_memory_map(addr, &len, 1);
->      if (!sa) {
->          return -EFAULT;
-> diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-> index 727875bb4a..2007946299 100644
-> --- a/target/s390x/sigp.c
-> +++ b/target/s390x/sigp.c
-> @@ -497,6 +497,7 @@ void do_stop_interrupt(CPUS390XState *env)
->      if (s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu) == 0) {
->          qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->      }
-> +    /* Storing will occur on next SIE entry for fmt 4 */
->      if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
->          s390_store_status(cpu, S390_STORE_STATUS_DEF_ADDR, true);
->      }
-> 
+>   block.c | 18 ++++++++++++++++--
+>   1 file changed, 16 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/block.c b/block.c
+> index de53addeb0..7608f21570 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -6243,6 +6243,17 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs=
+,
+>       return false;
+>   }
+>  =20
+> +/*
+> + * Check whether the given @node_name can be replaced by a node that
+> + * has the same data as @parent_bs.  If so, return @node_name's BDS;
+> + * NULL otherwise.
+> + *
+> + * @node_name must be a (recursive) *child of @parent_bs (or this
+> + * function will return NULL).
+> + *
+> + * The result (whether the node can be replaced or not) is only valid
+> + * for as long as no graph changes occur.
 
-I'd suggest to move the comment to the if-statement in helper.c, too.
+actually, no graph changes neither any permission changes or updates.
 
- Thomas
+> + */
+>   BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+>                                           const char *node_name, Error **=
+errp)
+>   {
+> @@ -6267,8 +6278,11 @@ BlockDriverState *check_to_replace_node(BlockDrive=
+rState *parent_bs,
+>        * Another benefit is that this tests exclude backing files which a=
+re
+>        * blocked by the backing blockers.
+>        */
+> -    if (!bdrv_recurse_is_first_non_filter(parent_bs, to_replace_bs)) {
+> -        error_setg(errp, "Only top most non filter can be replaced");
+> +    if (!bdrv_recurse_can_replace(parent_bs, to_replace_bs)) {
+> +        error_setg(errp, "Cannot replace '%s' by a node mirrored from '%=
+s', "
+> +                   "because it cannot be guaranteed that doing so would =
+not "
+> +                   "lead to an abrupt change of visible data",
+> +                   node_name, parent_bs->node_name);
+>           to_replace_bs =3D NULL;
+>           goto out;
+>       }
+>=20
 
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+--=20
+Best regards,
+Vladimir
 
