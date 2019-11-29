@@ -2,66 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE7610D470
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:55:02 +0100 (CET)
-Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59AA10D456
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 11:43:54 +0100 (CET)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iadvQ-00061e-CK
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:55:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38575)
+	id 1iadke-0006WW-Gj
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 05:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iad3z-0001RF-JU
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:50 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iad49-0001Ya-MO
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iad3t-0004DN-6n
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49727
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iad3s-000408-0L
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575021577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NuFJtOeLCF+ZRD2qYbBHzg3Tz1iz/6vPD326Ir0gOQQ=;
- b=hjr8wtMNLYmb3USKVnmvpossY6nPte1cEqV3kh3fQU1XqEy0V/HZmRPOp1aK42JTx1+JN5
- o34U+4aDiptZ3L6hDhcODKsrv2zdyurE5aT9uzrLw/6tmpE/xWvDg87QtpxNl0QqV2yLUz
- TwWAAGmmhGxvzN5ExlZGIlt1/MTszlo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-76w3fbA0OFK-8QpARZ5gFg-1; Fri, 29 Nov 2019 04:59:30 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59FF310054E3;
- Fri, 29 Nov 2019 09:59:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25F0360BE2;
- Fri, 29 Nov 2019 09:59:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A9A611138606; Fri, 29 Nov 2019 10:59:27 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/6] Makefile: Make Makefile depend on generated qga files, too
-Date: Fri, 29 Nov 2019 10:59:27 +0100
-Message-Id: <20191129095927.17382-1-armbru@redhat.com>
-In-Reply-To: <20191120182551.23795-1-armbru@redhat.com>
-References: <20191120182551.23795-1-armbru@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 76w3fbA0OFK-8QpARZ5gFg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iad44-0004sq-S3
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 04:59:54 -0500
+Received: from mail-eopbgr10106.outbound.protection.outlook.com
+ ([40.107.1.106]:64862 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iad44-0004ax-EA; Fri, 29 Nov 2019 04:59:52 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n4yG00kF5Hc/BesN3fbRlTr08SANKW6aQ+pjf9f+yNNHrBi4XS2uLQKqUNyCiGoynsLZ8TN+oqj5uN057Og+GrlRzlcN217uRc0Bl92UTLRxjCu3RwC1WlA9ed4lClJUz5THip495TaQN4RxkNncfA3cdBEeIzJhil4lhKxPQTQlU0f3au4+E8X6PH1543E+oSVjt9zFqbsNA5fpQtWxSIZixp/InQzhUXVLDyXtdnSfC5q6qBZm71QrKkReFDJkNMEjyR+sNwZNKCoAJPSq76Iark2LLUEtLEDb+j1Np9o4euuq/4n7V0CIqqf9rjw151pZnIk5wBQ65KzifN5tfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G73ewjXLwwwhTcMv8rRvsbzm8f5klQtmuJMR66jz5cQ=;
+ b=a8SjDYkr+D9RnqwwZHtyeIO5UXVsTdH6v4AdEOA4kyK5/R+IBhei0D9sp+9wq7NXlIuRIF7XN/P2qoe0Rhi16CVDIDG47zZzpB1GKZFJSQ8Y5Fz0LY/2oyxopZPBj4C4MKazRWjj50BdbjdbOjEq/8OAw7QnZEvyw91NsLkd6vLNpiCdRjulPTAZ+YzZKluPuK2lB3kvihzqJ/RxeDKXz4DLkM1PSa6GxNaQ6wdDWYYe46Etdy+9GYoE3ugwOUBxcmskq2K4l5l3c+HZAZIR+Zy+o1ZE6JNVVCm2MsBHvb288HazRYcFvVM3cag0UIbA54UTCLa52OkspcVO51WOsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G73ewjXLwwwhTcMv8rRvsbzm8f5klQtmuJMR66jz5cQ=;
+ b=CqfVazhES4EC7dK1C5cKO1apGyaAB28eVL4mGYkwFRPpM0Nn58Rv8JA7qtfDVZgVjKYfCcVe6enltW8atz6cR99n/fsKEKiMrfurndpPeGbi9zJpJN6d/m9zjj8n20sctrQX9cG3VXbGYXEh4KKon55/uojiY2SIdhHZALtUYjw=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4739.eurprd08.prod.outlook.com (10.255.97.78) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.20; Fri, 29 Nov 2019 09:59:46 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::31bd:5bb3:377e:706f%3]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
+ 09:59:46 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 09/23] quorum: Add QuorumChild.to_be_replaced
+Thread-Topic: [PATCH for-5.0 v2 09/23] quorum: Add QuorumChild.to_be_replaced
+Thread-Index: AQHVmKl4VCwIRwSEWUCadLGn1eIb1qeiBiAA
+Date: Fri, 29 Nov 2019 09:59:46 +0000
+Message-ID: <a3884493-4cd6-d565-ece0-1bd8a14e9aa4@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-10-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-10-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0271.eurprd05.prod.outlook.com
+ (2603:10a6:3:fc::23) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191129125944386
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 33a54ae0-863e-4bb6-866e-08d774b2dd45
+x-ms-traffictypediagnostic: AM6PR08MB4739:
+x-microsoft-antispam-prvs: <AM6PR08MB4739FD831D88825873307669C1460@AM6PR08MB4739.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:250;
+x-forefront-prvs: 0236114672
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(396003)(366004)(39840400004)(136003)(189003)(199004)(64756008)(66446008)(6116002)(5660300002)(6486002)(66556008)(7736002)(76176011)(52116002)(2906002)(6436002)(66066001)(81166006)(8936002)(99286004)(8676002)(14454004)(316002)(229853002)(305945005)(25786009)(81156014)(110136005)(478600001)(54906003)(71190400001)(4326008)(14444005)(66476007)(2501003)(66946007)(71200400001)(6246003)(26005)(102836004)(6506007)(446003)(11346002)(2616005)(6512007)(186003)(3846002)(31686004)(256004)(386003)(36756003)(31696002)(86362001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4739;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: C9lZ0FvntUiBWmGvENuyO+iHcGRhND9HYRF2T9Nlszokvc5Zl5Ma81gL4xyQvlomPOkkzGXqYgTi32Uq4ES27VlIaTONZfuZqEqAzbcng2sZ2pT/JRQ4bmWZrwJzum9n3sFLHc8mDDJBg9M0I26hCPqmXwt3DgA7S5M46m9+AyVOk74zR55toLn+s7dEGljsznQeybyXgupNkaaR466PYqnkkkCSIcegvI3lwBhtCnUmdf+/6ruGwcBRvbjVP+2f08VH8Nq71K7uXolYUjnDYSNKAU/Opqdk8wETP6oACOaJQ4ZrEoFx8RXvsbRRbnu3qUmdq/C++mJqDSjysMUYwOXtsj5ql+9s5gTVwDYW81UjlEbKbMxDPtKEGe9/mDEfycfM1fmD9wosz850di28jE1kqntnhWW5k962jebFKW+I8rbMh5p1/BRWXvYEO+mv
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <5204807F2F09EE479825FF12B0092646@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33a54ae0-863e-4bb6-866e-08d774b2dd45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 09:59:46.2775 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: u0Q9L09wVVjH3NDCm2ZWOu0gcG/SOmS4V1wL+EH94rLCEOOL0QtN389AOgVS8oCdOSxpBZaArRpVHhrujEUlxNmuvlHxgj1P409aJKCBKBI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4739
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.106
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,89 +109,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generated .h need to be generated before compiling any .c using them.
-To know which .h a .c uses, we need to compile it.
+11.11.2019 19:02, Max Reitz wrote:
+> We will need this to verify that Quorum can let one of its children be
+> replaced without breaking anything else.
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block/quorum.c | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+>=20
+> diff --git a/block/quorum.c b/block/quorum.c
+> index 59cd524502..3a824e77e3 100644
+> --- a/block/quorum.c
+> +++ b/block/quorum.c
+> @@ -67,6 +67,13 @@ typedef struct QuorumVotes {
+>  =20
+>   typedef struct QuorumChild {
+>       BdrvChild *child;
+> +
+> +    /*
+> +     * If set, check whether this node can be replaced without any
+> +     * other parent noticing: Unshare CONSISTENT_READ, and take the
+> +     * WRITE permission.
+> +     */
+> +    bool to_be_replaced;
+>   } QuorumChild;
+>  =20
+>   /* the following structure holds the state of one quorum instance */
+> @@ -1128,6 +1135,16 @@ static void quorum_child_perm(BlockDriverState *bs=
+, BdrvChild *c,
+>                                 uint64_t perm, uint64_t shared,
+>                                 uint64_t *nperm, uint64_t *nshared)
+>   {
+> +    BDRVQuorumState *s =3D bs->opaque;
+> +    int i;
+> +
 
-Since commit 4115852bb0 "build: do not sprinkle around
-GENERATED_HEADERS dependencies", we break this circular dependency the
-simple & stupid way: the generated headers are a prerequisite of
-Makefile, which causes Make to generate them first, then start over.
+loop is still useless if c =3D=3D NULL...
 
-Except for qga we still use the older method of making all its .o
-summarily depend on all its generated .h (commit 016c77ad62 "Makefile:
-add missing deps on $(GENERATED_HEADERS)").
+if (c) {
 
-Add qga's generated files to generated-files-y to get rid of this
-exception.
+> +    for (i =3D 0; i < s->num_children; i++) {
+> +        if (s->children[i].child =3D=3D c) {
+> +            break;
+> +        }
+> +    }
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- Makefile | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 8dad949483..d4138343cd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -130,6 +130,15 @@ GENERATED_QAPI_FILES +=3D qapi/qapi-doc.texi
-=20
- generated-files-y +=3D $(GENERATED_QAPI_FILES)
-=20
-+GENERATED_QGA_FILES :=3D qga-qapi-types.c qga-qapi-types.h
-+GENERATED_QGA_FILES +=3D qga-qapi-visit.c qga-qapi-visit.h
-+GENERATED_QGA_FILES +=3D qga-qapi-commands.h qga-qapi-commands.c
-+GENERATED_QGA_FILES +=3D qga-qapi-init-commands.h qga-qapi-init-commands.c
-+GENERATED_QGA_FILES +=3D qga-qapi-doc.texi
-+GENERATED_QGA_FILES :=3D $(addprefix qga/qapi-generated/, $(GENERATED_QGA_=
-FILES))
-+
-+generated-files-y +=3D $(GENERATED_QGA_FILES)
-+
- generated-files-y +=3D trace/generated-tcg-tracers.h
-=20
- generated-files-y +=3D trace/generated-helpers-wrappers.h
-@@ -608,12 +617,7 @@ $(SRC_PATH)/scripts/qapi/types.py \
- $(SRC_PATH)/scripts/qapi/visit.py \
- $(SRC_PATH)/scripts/qapi-gen.py
-=20
--qga/qapi-generated/qga-qapi-types.c qga/qapi-generated/qga-qapi-types.h \
--qga/qapi-generated/qga-qapi-visit.c qga/qapi-generated/qga-qapi-visit.h \
--qga/qapi-generated/qga-qapi-commands.h qga/qapi-generated/qga-qapi-command=
-s.c \
--qga/qapi-generated/qga-qapi-init-commands.h qga/qapi-generated/qga-qapi-in=
-it-commands.c \
--qga/qapi-generated/qga-qapi-doc.texi: \
--qga/qapi-generated/qapi-gen-timestamp ;
-+$(GENERATED_QGA_FILES): qga/qapi-generated/qapi-gen-timestamp ;
- qga/qapi-generated/qapi-gen-timestamp: $(SRC_PATH)/qga/qapi-schema.json $(=
-qapi-py)
- =09$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
- =09=09-o qga/qapi-generated -p "qga-" $<, \
-@@ -630,9 +634,6 @@ qapi-gen-timestamp: $(qapi-modules) $(qapi-py)
- =09=09"GEN","$(@:%-timestamp=3D%)")
- =09@>$@
-=20
--QGALIB_GEN=3D$(addprefix qga/qapi-generated/, qga-qapi-types.h qga-qapi-vi=
-sit.h qga-qapi-commands.h qga-qapi-init-commands.h)
--$(qga-obj-y): $(QGALIB_GEN)
--
- qemu-ga$(EXESUF): $(qga-obj-y) $(COMMON_LDADDS)
- =09$(call LINK, $^)
-=20
-@@ -722,7 +723,7 @@ clean: recurse-clean
- =09rm -f trace/generated-tracers-dtrace.h*
- =09rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
- =09rm -f qapi-gen-timestamp
--=09rm -rf qga/qapi-generated
-+=09rm -f qga/qapi-generated/qapi-gen-timestamp
- =09rm -f config-all-devices.mak
-=20
- VERSION ?=3D $(shell cat VERSION)
+        assert(i < s->num_children);
+
+}
+
+> +
+>       *nperm =3D perm & DEFAULT_PERM_PASSTHROUGH;
+>  =20
+>       /*
+> @@ -1137,6 +1154,12 @@ static void quorum_child_perm(BlockDriverState *bs=
+, BdrvChild *c,
+>       *nshared =3D (shared & (BLK_PERM_CONSISTENT_READ |
+>                             BLK_PERM_WRITE_UNCHANGED))
+>                | DEFAULT_PERM_UNCHANGED;
+> +
+> +    if (c && s->children[i].to_be_replaced) {
+> +        /* Prepare for sudden data changes */
+> +        *nperm |=3D BLK_PERM_WRITE;
+> +        *nshared &=3D ~BLK_PERM_CONSISTENT_READ;
+> +    }
+>   }
+>  =20
+>   static const char *const quorum_strong_runtime_opts[] =3D {
+>=20
+
+with or without "if (c)":
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+
 --=20
-2.21.0
-
+Best regards,
+Vladimir
 
