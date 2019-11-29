@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B6A10DB26
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 22:37:38 +0100 (CET)
-Received: from localhost ([::1]:35378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5731B10DB5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 22:48:25 +0100 (CET)
+Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ianxI-000263-Ml
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 16:37:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48154)
+	id 1iao7k-0006J0-0O
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 16:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48153)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1ianug-00006N-R1
+ (envelope-from <alxndr@bu.edu>) id 1ianug-00006K-Q4
  for qemu-devel@nongnu.org; Fri, 29 Nov 2019 16:34:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1ianue-0002tr-TC
+ (envelope-from <alxndr@bu.edu>) id 1ianue-0002te-P4
  for qemu-devel@nongnu.org; Fri, 29 Nov 2019 16:34:54 -0500
-Received: from mail-eopbgr740102.outbound.protection.outlook.com
- ([40.107.74.102]:45028 helo=NAM01-BN3-obe.outbound.protection.outlook.com)
+Received: from mail-eopbgr790122.outbound.protection.outlook.com
+ ([40.107.79.122]:35989 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1ianue-0002ik-OB
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1ianud-0002ny-Gw
  for qemu-devel@nongnu.org; Fri, 29 Nov 2019 16:34:52 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J65QzqwDkGw31QhB5yTDIfKtkreWOlm8BOFx58Wp6Jux5uLbnCV+8s6hlNpThVEpy869IMgugeC8zkC0jXoPJXI4pa1qfSj98CqKp4JvddN1XGMzfmU94tGSmLlb+TnCxQb/CG9mg5DQb4vh/aNPI03p/v7/PKjoOf46WrlRXLG4HyNhR7ZyE6cUgDqsvRKTrbFIQXHwND5H2/LWPkJ/VN8HFZWC4fvOD7jUld3CII3J5JGvjC/rHxoaNe6S8/gNLL01Z3Ppf5zYfur1wgv+V50gLPUw/h4YPyPXae7l0sv4+11s4MKWY23I4p2DRlCddoniDXPgxgs/qMBrb0HFtg==
+ b=R9DN2KfNRHwJ+o0XOJN8pl0gZTYQuWEg6Du17zhx1qFJtB00KVJGugMDTT/pM9j5pYIuF9o5PcKXwHbfA1bknZ8kdSkYv5kHx9al4mxf7ImxVHjDQMxeZMeRkDNEijb3iqs9980qqx3fw36VUVY7CvFHiVBHEkxBS8TA8995FaJNgWL2dEOwVVY3qcQG/JiZMvUMwWUXLAcQE08/gjBsWH+pJHPR9dGrmnGF+/D3IBrTzJcc3UTfwCH9InZA+qMBGdu3ZZQ44loErHXrhn7g6QbAnCcualZTfFSEsJjq9BnSRzV3Gx6dY2TGjZjF8aw0HAE5cx+NHBxYzjYqjfXziQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J4nelNm3ViXjGXTRA25BmE9nzrHl/hX1sLHB7lbI+P8=;
- b=WdmHP9pFFok1rtJuzw5F3jrdU8F9b1+ikmBRMhzz20zJ2gpAc9CurRRr8o/GKIouaMz1ogQEOexpJl3zESF2Pf756qzZk01ByJSF06YTy7ToucjMURTYxmQF1mVmAsuko450aFybNZTqzxVSkLleE5N3qo/3zoIGWb03iR3TUSGEyLEpfkHpDfqReobKTF4RtwpKnwOz8jYqT1d2d4smqH+wq6ZQmnOO5YXauRowPDJzCB1A480oQ1l0uP85KQfjgMZPHeEN7VNyE6fqJmbJZgudJ9Yk85e1/vFKVUoEIv9Qu7SIwlDu2pwLwkAnck4Dr0KYjkJe6uGSV9OL+7yZwg==
+ bh=44b5c10DB+Wmml3F/rSxGkbqkBuWfsco+2BPPiJFi9U=;
+ b=bISLcEakqkN11HVTBUCGBnnx1I+QnqiglqvL5yOm2raf4376xRVziDkFl7XBSa2EASTFLhUGFwZY7Ib9AVCXnWY1pvwHAS/AvHKk1ZzYbC6i8K7iFRHYRpBmiqw2pWC0R/VwgXMn4gEkLLVCFrIqH4nmMxr02JPQHjqIxIHxaFD3xf16RqNBmiuCzlagb0iuHrjlMm7iGCni3kPSiTjdtUr5IkP90uzC7bLajj3zf+9NqO6kVhYolUuYEsOF6UOf/p2wd17RBxX3+UzEKtropGq/eyo19kmKGJ4BM5MVKi2wpjieSnYkXvJIbEL7/NBLY+GVLkMJW3vQ6AHb1XQbBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J4nelNm3ViXjGXTRA25BmE9nzrHl/hX1sLHB7lbI+P8=;
- b=sLelXzwS/HPhK6Lfi74phHGFY2gv5XgSoR7J7RyXcGaNbanENTD0j+b62IK0bTp6UVIMCgug+eEs1T5dKU1Kld0OwvpZfQTbOGYDe2m19oTjEgvduVhSgJEZ9vcRqQaVnryWqYgq+AkC8Me9uR028or8njYKY00dQlJCOb6c1BU=
+ bh=44b5c10DB+Wmml3F/rSxGkbqkBuWfsco+2BPPiJFi9U=;
+ b=dYclkLuQ/h+kilzQ6x5HHnrPKe6tF8zBhq4DPHE0VTgIK1NzBt9W0KQ2CA8XfIa2kVc3E4xc7DmVDrFX+ulkEXfKsVf6KRmguAXNLvg66MC2r96wY2ctxW6jemwLvoKSsBx+BCQj73beyN8SUX82lz1HSx9vRTVvAOn2sSeVx/M=
 Received: from DM6PR03MB4795.namprd03.prod.outlook.com (20.179.107.22) by
  DM6PR03MB5050.namprd03.prod.outlook.com (10.141.161.209) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.18; Fri, 29 Nov 2019 21:34:45 +0000
+ 15.20.2495.18; Fri, 29 Nov 2019 21:34:44 +0000
 Received: from DM6PR03MB4795.namprd03.prod.outlook.com
  ([fe80::2557:454e:205e:4d74]) by DM6PR03MB4795.namprd03.prod.outlook.com
  ([fe80::2557:454e:205e:4d74%2]) with mapi id 15.20.2495.014; Fri, 29 Nov 2019
- 21:34:45 +0000
+ 21:34:44 +0000
 From: "Oleinik, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v6 09/21] libqos: split qos-test and libqos makefile vars
-Thread-Topic: [PATCH v6 09/21] libqos: split qos-test and libqos makefile vars
-Thread-Index: AQHVpvzRY5riVEmp4kicqYKMIrRnGQ==
+Subject: [PATCH v6 08/21] tests: provide test variables to other targets
+Thread-Topic: [PATCH v6 08/21] tests: provide test variables to other targets
+Thread-Index: AQHVpvzQ6XC4DFFAukqfVNsShezdMg==
 Date: Fri, 29 Nov 2019 21:34:44 +0000
-Message-ID: <20191129213424.6290-10-alxndr@bu.edu>
+Message-ID: <20191129213424.6290-9-alxndr@bu.edu>
 References: <20191129213424.6290-1-alxndr@bu.edu>
 In-Reply-To: <20191129213424.6290-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -65,14 +65,14 @@ x-clientproxiedby: BL0PR1501CA0025.namprd15.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 46d2f7f7-984a-4f9e-25c1-08d77513f3a0
+x-ms-office365-filtering-correlation-id: 92cdf1b3-5324-4e9c-7892-08d77513f324
 x-ms-traffictypediagnostic: DM6PR03MB5050:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR03MB5050B46984277604F1B8A092BA460@DM6PR03MB5050.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2150;
+x-microsoft-antispam-prvs: <DM6PR03MB505008A7921FDB296D349C79BA460@DM6PR03MB5050.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 0236114672
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(366004)(346002)(39860400002)(136003)(396003)(199004)(189003)(54906003)(81156014)(81166006)(66066001)(6436002)(3846002)(8936002)(66946007)(6116002)(1076003)(66446008)(64756008)(66476007)(256004)(66556008)(316002)(786003)(8676002)(6512007)(102836004)(6486002)(478600001)(71190400001)(71200400001)(2351001)(86362001)(6506007)(14454004)(2501003)(75432002)(386003)(5640700003)(2906002)(6916009)(7736002)(2616005)(25786009)(26005)(52116002)(88552002)(99286004)(5660300002)(76176011)(186003)(446003)(11346002)(305945005)(50226002)(36756003)(4326008);
+ SFS:(10019020)(376002)(366004)(346002)(39860400002)(136003)(396003)(199004)(189003)(54906003)(81156014)(81166006)(66066001)(6436002)(3846002)(8936002)(66946007)(6116002)(1076003)(66446008)(64756008)(66476007)(14444005)(256004)(66556008)(316002)(786003)(8676002)(6512007)(102836004)(6486002)(478600001)(71190400001)(71200400001)(2351001)(86362001)(6506007)(14454004)(2501003)(75432002)(386003)(5640700003)(2906002)(6916009)(7736002)(2616005)(25786009)(26005)(52116002)(88552002)(99286004)(5660300002)(76176011)(186003)(446003)(11346002)(305945005)(50226002)(36756003)(4326008);
  DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR03MB5050;
  H:DM6PR03MB4795.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -80,20 +80,20 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hOXbl2sZk4+I3hdVnCtIIElUCZPGpXfFVUGS7l07xq4pqVLYbTfDQa1BlT2RgoBpR84mJcem3+9Ro7rCTjV6DtAX8vRiNTtl+3IaaE0pB97sw2oYi0QeBDo3R/5Tt4TdactZrA8fLzEb/ikrfZTJFNOosuwUdLWSw26EPp8H3E7AtzqZR6BWdZ4pWNBsjfFbR+xp5i3vs1WZukeG6Oay6OfRYHGDZbzBTrhI2AuiceJArpsuIZ9IcA+A2eaC5ctC6YMYNZNA6YDb3FOPPioEZ0oPiR+Ion2zSQQzEeyMsmL6+UJkjWONOtSrDVpljq/NGyorf/3X6glXscy0Nt3KpLXe16mRAvnsDzY8YRjSKbkmAQ2ktAtJx9gen6AsS0OYOvhsQb15BHJ0DTRdanMG0Yf6jkUWnbzW+ttWGYOWK4IhP9sbVFgsywF28MAarzHS
+x-microsoft-antispam-message-info: LA8GAId/mgfjOYLUZzpiBNVFg+/w+fKjrlD8BsXFFpLn/2p1SvDU+yQ/MtOLelI/9mZOXyllCZ2qJkRM9sBvNY5ab701pt5rfZ+kIFAsdQ0CKg5M5IMUEjDsE2T0iknCoYI2CuwjQThZMRjAWePGzz53sdPl5bxpZvGS/TKTDGyDWpI5iiGmk1VI8DLVgAHFkScAbzsD6Y6wrsMnSkmFtAIGma84v8OSPRIbQqidYPa/Zo7EK5wLFg/52R25UvLojLTNdqQEWYwypVuN3uVqhkZPBtPyEkx9HGhED/D412D8MiSmBytXNMPyXgmz3QCfXW2G4bbXgr2CR879mLe3xUfh7q+zoVuKrleIURf12rs2GDyPKzElwix3D06Ta869G/OqimI3a3Oyk4EOdlsb4sh78R4kzCUifU47gOVdBGJbzGDdWh2dIVOQuBsHQ89v
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46d2f7f7-984a-4f9e-25c1-08d77513f3a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 21:34:45.0210 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92cdf1b3-5324-4e9c-7892-08d77513f324
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 21:34:44.2545 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ny3G5H/fEH6Tw8PcUpORfr10gBfBR0yBrK4JEkkXISSf0lRyDDTYtSh4KNVEmwy7
+X-MS-Exchange-CrossTenant-userprincipalname: /FHQPEEBD+KIxwbYG9dX8CwqNDJ4YjXcPT1c5nfNy6g3i236Ok3hfhoqCN2TugoS
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5050
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.74.102
+X-Received-From: 40.107.79.122
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,124 +112,42 @@ Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most qos-related objects were specified in the qos-test-obj-y variable.
-qos-test-obj-y also included qos-test.o which defines a main().
-This made it difficult to repurpose qos-test-obj-y to link anything
-beside tests/qos-test against libqos. This change separates objects that
-are libqos-specific and ones that are qos-test specific into different
-variables.
+Before, when tests/Makefile.include was included, the contents would be
+ignored if config-host.mak was defined. Moving the ifneq responsible for
+this allows a target to depend on both testing-related and host-related
+objects. For example the virtual-device fuzzer relies on both
+libqtest/libqos objects and softmmu objects.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/Makefile.include | 71 +++++++++++++++++++++---------------------
- 1 file changed, 36 insertions(+), 35 deletions(-)
+ tests/Makefile.include | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3669fd1dc3..031240df4b 100644
+index 8566f5f119..3669fd1dc3 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -703,52 +703,53 @@ tests/test-crypto-block$(EXESUF): tests/test-crypto-b=
-lock.o $(test-crypto-obj-y)
+@@ -27,7 +27,6 @@ check-help:
+ 	@echo "Default options are -k and (for $(MAKE) V=3D1) --verbose; they can=
+ be"
+ 	@echo "changed with variable GTESTER_OPTIONS."
 =20
- libqgraph-obj-y =3D tests/libqos/qgraph.o
+-ifneq ($(wildcard config-host.mak),)
+ export SRC_PATH
 =20
--libqos-obj-y =3D $(libqgraph-obj-y) tests/libqos/pci.o tests/libqos/fw_cfg=
-.o
--libqos-obj-y +=3D tests/libqos/malloc.o
--libqos-obj-y +=3D tests/libqos/libqos.o
--libqos-spapr-obj-y =3D $(libqos-obj-y) tests/libqos/malloc-spapr.o
-+libqos-core-obj-y =3D $(libqgraph-obj-y) tests/libqos/pci.o tests/libqos/f=
-w_cfg.o
-+libqos-core-obj-y +=3D tests/libqos/malloc.o
-+libqos-core-obj-y +=3D tests/libqos/libqos.o
-+libqos-spapr-obj-y =3D $(libqos-core-obj-y) tests/libqos/malloc-spapr.o
- libqos-spapr-obj-y +=3D tests/libqos/libqos-spapr.o
- libqos-spapr-obj-y +=3D tests/libqos/rtas.o
- libqos-spapr-obj-y +=3D tests/libqos/pci-spapr.o
--libqos-pc-obj-y =3D $(libqos-obj-y) tests/libqos/pci-pc.o
-+libqos-pc-obj-y =3D $(libqos-core-obj-y) tests/libqos/pci-pc.o
- libqos-pc-obj-y +=3D tests/libqos/malloc-pc.o tests/libqos/libqos-pc.o
- libqos-pc-obj-y +=3D tests/libqos/ahci.o
- libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-pc-obj-y) tests/libqos=
-/usb.o
+ # TODO don't duplicate $(SRC_PATH)/Makefile's qapi-py here
+@@ -878,6 +877,8 @@ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y=
+)
 =20
- # Devices
--qos-test-obj-y =3D tests/qos-test.o $(libqgraph-obj-y)
--qos-test-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
--qos-test-obj-y +=3D tests/libqos/e1000e.o
--qos-test-obj-y +=3D tests/libqos/i2c.o
--qos-test-obj-y +=3D tests/libqos/i2c-imx.o
--qos-test-obj-y +=3D tests/libqos/i2c-omap.o
--qos-test-obj-y +=3D tests/libqos/sdhci.o
--qos-test-obj-y +=3D tests/libqos/tpci200.o
--qos-test-obj-y +=3D tests/libqos/virtio.o
--qos-test-obj-$(CONFIG_VIRTFS) +=3D tests/libqos/virtio-9p.o
--qos-test-obj-y +=3D tests/libqos/virtio-balloon.o
--qos-test-obj-y +=3D tests/libqos/virtio-blk.o
--qos-test-obj-y +=3D tests/libqos/virtio-mmio.o
--qos-test-obj-y +=3D tests/libqos/virtio-net.o
--qos-test-obj-y +=3D tests/libqos/virtio-pci.o
--qos-test-obj-y +=3D tests/libqos/virtio-pci-modern.o
--qos-test-obj-y +=3D tests/libqos/virtio-rng.o
--qos-test-obj-y +=3D tests/libqos/virtio-scsi.o
--qos-test-obj-y +=3D tests/libqos/virtio-serial.o
-+libqos-obj-y =3D $(libqgraph-obj-y)
-+libqos-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
-+libqos-obj-y +=3D tests/libqos/e1000e.o
-+libqos-obj-y +=3D tests/libqos/i2c.o
-+libqos-obj-y +=3D tests/libqos/i2c-imx.o
-+libqos-obj-y +=3D tests/libqos/i2c-omap.o
-+libqos-obj-y +=3D tests/libqos/sdhci.o
-+libqos-obj-y +=3D tests/libqos/tpci200.o
-+libqos-obj-y +=3D tests/libqos/virtio.o
-+libqos-obj-$(CONFIG_VIRTFS) +=3D tests/libqos/virtio-9p.o
-+libqos-obj-y +=3D tests/libqos/virtio-balloon.o
-+libqos-obj-y +=3D tests/libqos/virtio-blk.o
-+libqos-obj-y +=3D tests/libqos/virtio-mmio.o
-+libqos-obj-y +=3D tests/libqos/virtio-net.o
-+libqos-obj-y +=3D tests/libqos/virtio-pci.o
-+libqos-obj-y +=3D tests/libqos/virtio-pci-modern.o
-+libqos-obj-y +=3D tests/libqos/virtio-rng.o
-+libqos-obj-y +=3D tests/libqos/virtio-scsi.o
-+libqos-obj-y +=3D tests/libqos/virtio-serial.o
+ SPEED =3D quick
 =20
- # Machines
--qos-test-obj-y +=3D tests/libqos/aarch64-xlnx-zcu102-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-imx25-pdk-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-n800-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-raspi2-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-sabrelite-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-smdkc210-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-virt-machine.o
--qos-test-obj-y +=3D tests/libqos/arm-xilinx-zynq-a9-machine.o
--qos-test-obj-y +=3D tests/libqos/ppc64_pseries-machine.o
--qos-test-obj-y +=3D tests/libqos/x86_64_pc-machine.o
-+libqos-obj-y +=3D tests/libqos/aarch64-xlnx-zcu102-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-imx25-pdk-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-n800-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-raspi2-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-sabrelite-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-smdkc210-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-virt-machine.o
-+libqos-obj-y +=3D tests/libqos/arm-xilinx-zynq-a9-machine.o
-+libqos-obj-y +=3D tests/libqos/ppc64_pseries-machine.o
-+libqos-obj-y +=3D tests/libqos/x86_64_pc-machine.o
-=20
- # Tests
-+qos-test-obj-y =3D tests/qos-test.o
- qos-test-obj-y +=3D tests/ac97-test.o
- qos-test-obj-y +=3D tests/ds1338-test.o
- qos-test-obj-y +=3D tests/e1000-test.o
-@@ -780,7 +781,7 @@ check-unit-y +=3D tests/test-qgraph$(EXESUF)
- tests/test-qgraph$(EXESUF): tests/test-qgraph.o $(libqgraph-obj-y)
-=20
- check-qtest-generic-y +=3D tests/qos-test$(EXESUF)
--tests/qos-test$(EXESUF): $(qos-test-obj-y)
-+tests/qos-test$(EXESUF): $(qos-test-obj-y) $(libqos-obj-y)
-=20
- tests/qmp-test$(EXESUF): tests/qmp-test.o
- tests/qmp-cmd-test$(EXESUF): tests/qmp-cmd-test.o
++ifneq ($(wildcard config-host.mak),)
++
+ # gtester tests, possibly with verbose output
+ # do_test_tap runs all tests, even if some of them fail, while do_test_hum=
+an
+ # stops at the first failure unless -k is given on the command line
 --=20
 2.23.0
 
