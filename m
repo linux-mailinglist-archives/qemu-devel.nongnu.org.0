@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2EF10D781
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 15:53:55 +0100 (CET)
-Received: from localhost ([::1]:59918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8A810D790
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:03:18 +0100 (CET)
+Received: from localhost ([::1]:60014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iahec-0005hK-CE
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 09:53:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54148)
+	id 1iahne-0005E4-VH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:03:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iahXM-0001Fm-Cg
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:46:26 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1iah8m-0006dU-4Y
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:21:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iahXC-0008F1-QU
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:46:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47641
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iahXC-00081G-Bm
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:46:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575038771;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Di7uQA2HHyg73uxLQJ8zPwLIciX+YCP4JngFAPEOks=;
- b=C+ZHFF29M4UQj5rHRGaQCmQ6Vf58VMtw+u+C3v+YhnUVri2sCYzZh4mYkz+/nZC4xCApas
- nUDa3pJ7sCBNh8IHDyLdG3IMSYc4i9/G1zzHgpzMcinJyGuZ5bhta4PcIcbSIOsn1IcEmY
- QxE9WhuWbq+5Z1dBc3yU9z8ym7aRonU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-eGsKxySJMQepwR6SVusXeQ-1; Fri, 29 Nov 2019 09:46:07 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C6E5800D41
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 14:46:07 +0000 (UTC)
-Received: from redhat.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47F6F5D6D2;
- Fri, 29 Nov 2019 14:46:05 +0000 (UTC)
-Date: Fri, 29 Nov 2019 14:46:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] ci: Use libcap-ng
-Message-ID: <20191129144602.GJ2260471@redhat.com>
-References: <20191129142126.32967-1-dgilbert@redhat.com>
+ (envelope-from <frankja@linux.ibm.com>) id 1iah8i-0007BT-24
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:20:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33242
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1iah8h-00075F-TT
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:20:55 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xATEIf02023785
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 09:20:54 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2wjtq03mng-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 09:20:54 -0500
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Fri, 29 Nov 2019 14:20:52 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 29 Nov 2019 14:20:49 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xATEKliF47055020
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Nov 2019 14:20:47 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 968FCA4040;
+ Fri, 29 Nov 2019 14:20:47 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F98FA4053;
+ Fri, 29 Nov 2019 14:20:46 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.188.128])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 29 Nov 2019 14:20:45 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/3] Sync reset
+Date: Fri, 29 Nov 2019 09:20:24 -0500
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191129142025.21453-1-frankja@linux.ibm.com>
+References: <20191129142025.21453-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20191129142126.32967-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: eGsKxySJMQepwR6SVusXeQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19112914-0012-0000-0000-0000036DF1F9
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19112914-0013-0000-0000-000021A9A347
+Message-Id: <20191129142025.21453-3-frankja@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-29_04:2019-11-29,2019-11-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=1 adultscore=0 mlxscore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911290124
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,52 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 29, 2019 at 02:21:26PM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> We currently enable libcap-dev in build-clang to pick up the 9p proxy
-> helper.  Paolo's patch changes that to use libcap-ng, so switch to using
-> it.  This also means we'll be testing the scsi pr manager and the bridge
-> helper.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  .gitlab-ci.yml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index be57c6a454..62a9609798 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -59,7 +59,7 @@ build-user:
-> =20
->  build-clang:
->   script:
-> - - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-dev
-> + - apt-get install -y -qq clang libsdl2-dev libattr1-dev libcap-ng-dev
->        xfslibs-dev libiscsi-dev libnfs-dev libseccomp-dev gnutls-dev libr=
-bd-dev
->   - ./configure --cc=3Dclang --cxx=3Dclang++ --enable-werror
->        --target-list=3D"alpha-softmmu arm-softmmu m68k-softmmu mips64-sof=
-tmmu
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ linux-headers/linux/kvm.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 3d9b18f7f8..3dd7c407e0 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1000,6 +1000,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PMU_EVENT_FILTER 173
+ #define KVM_CAP_ARM_IRQ_LINE_LAYOUT_2 174
+ #define KVM_CAP_HYPERV_DIRECT_TLBFLUSH 175
++#define KVM_CAP_S390_VCPU_RESETS 180
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1461,6 +1462,12 @@ struct kvm_enc_region {
+ /* Available with KVM_CAP_ARM_SVE */
+ #define KVM_ARM_VCPU_FINALIZE	  _IOW(KVMIO,  0xc2, int)
+ 
++#define KVM_S390_VCPU_RESET_NORMAL	0
++#define KVM_S390_VCPU_RESET_INITIAL	1
++#define KVM_S390_VCPU_RESET_CLEAR	2
++
++#define KVM_S390_VCPU_RESET    _IO(KVMIO,   0xc3)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ 	/* Guest initialization commands */
+-- 
+2.20.1
 
 
