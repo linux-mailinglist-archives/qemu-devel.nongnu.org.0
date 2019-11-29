@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75DF10D5EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:56:37 +0100 (CET)
-Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5082E10D5B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:32:29 +0100 (CET)
+Received: from localhost ([::1]:58286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafp3-00075U-KW
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:56:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52871)
+	id 1iafRi-0007Qb-Vg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:32:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iaeyQ-0003KX-MS
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:11 -0500
+ (envelope-from <thuth@redhat.com>) id 1iaf4B-0008FP-BC
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:08:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iaeyL-0000Rq-PC
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:07 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49754
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iaf48-0002Ri-BG
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:08:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43510
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iaeyL-0000Oy-Hm
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:02:05 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iaf48-0002ND-6d
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:08:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575028924;
+ s=mimecast20190719; t=1575029282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=09lOm2d0Z6P6U4KAbWDiXZg7WKQjTZqYIf3Hv51a2N4=;
- b=NzITEttslX+zDzWCWvZgIatIP2RU6fCYowTrHhl7SXPds2MI6AsXPjsoR4e/eNQqv+8Jxu
- TEvSqjWgDHQXPhY03aRyG51GxkG01jiGWv1xOE2OTW/WWmIT/H78qR/HxTnVBKQPj4zvro
- kAvX7JLcrhRF/+VCIP+v1ZCnMJXmgZQ=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=7yo/vmnvVWeeoGfOYDkf/p5Vz38rcr8vLA0gBBHr+8s=;
+ b=MilspKpxqGnkaGZqD4Wm7U3FPSlgkmBbXBUwdYAoh1IPqIGIu124DfsONTyGG5cSyWOi2M
+ l5SKzXVe0D3Kq/g09iPaizqz2X7p8eX4U1Db5ciBZijqvzh5Gsdt8N7t7ukSkcv9mFS5kg
+ H9+96hUsGhMIij1f267GJkb4Tz0wsWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-kG1zZJGnNOiFYpcna6e37A-1; Fri, 29 Nov 2019 07:01:59 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-345-R3TYYLe2PdS5QZ4Uy2Zktg-1; Fri, 29 Nov 2019 07:08:01 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D20A010054E3;
- Fri, 29 Nov 2019 12:01:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB2F7600C8;
- Fri, 29 Nov 2019 12:01:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7B0371138606; Fri, 29 Nov 2019 13:01:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/2] Add -mem-shared option
-References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
- <20191128141518.628245-3-marcandre.lureau@redhat.com>
- <20191128172807.788e6aeb@redhat.com>
- <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
- <20191129110703.2b15c541@redhat.com>
- <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com>
-Date: Fri, 29 Nov 2019 13:01:54 +0100
-In-Reply-To: <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com> (Paolo
- Bonzini's message of "Fri, 29 Nov 2019 11:11:09 +0100")
-Message-ID: <87imn2uc0d.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 362CB800D41;
+ Fri, 29 Nov 2019 12:08:00 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-159.ams2.redhat.com [10.36.116.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA11D5D9E1;
+ Fri, 29 Nov 2019 12:07:58 +0000 (UTC)
+Subject: Re: [PULL 0/2] Fix for the s390-ccw bios
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191129100835.21734-1-thuth@redhat.com>
+ <CAFEAcA8J4tJfa3-m_Lf4TUs6yvycp5v4umo8zp6-Cck6ACk=MA@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <f5203ce4-6684-42f5-8cf2-c5e2a54b5947@redhat.com>
+Date: Fri, 29 Nov 2019 13:07:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: kG1zZJGnNOiFYpcna6e37A-1
+In-Reply-To: <CAFEAcA8J4tJfa3-m_Lf4TUs6yvycp5v4umo8zp6-Cck6ACk=MA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: R3TYYLe2PdS5QZ4Uy2Zktg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,32 +75,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 29/11/2019 11.46, Peter Maydell wrote:
+> On Fri, 29 Nov 2019 at 10:08, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>  Hi Peter,
+>>
+>> the following changes since commit 1a61a081ac33ae6cb7dd2e38d119a572f416c=
+7f7:
+>>
+>>   Update version for v4.2.0-rc3 release (2019-11-26 21:52:26 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-11-29
+>>
+>> for you to fetch changes up to bf876a688c9319b506d5ff1175ba7189cd933d91:
+>>
+>>   pc-bios/s390: Update firmware image with the "fix sclp_get_loadparm_as=
+cii" patch (2019-11-29 10:12:33 +0100)
+>>
+>> ----------------------------------------------------------------
+>> A fix for regression in the s390-ccw bios
+>> ----------------------------------------------------------------
+>>
+>> ... it would be good to still get this into 4.2 if possible!
+>=20
+> Well, it's possible, but this is currently the only thing
+> that would need an rc4, so the question is how important
+> is the regression and how safe is the fix? If it's just
+> a minor corner case then it's tempting to not have an rc4
+> unless we need it for some other reason.
+>=20
+> Summary: it can go into 4.2 but you need to provide some
+> rationale in the pullreq cover letter to make the case for it :-)
 
-> On 29/11/19 11:07, Igor Mammedov wrote:
->>>> So user who wants something non trivial could override default
->>>> non-numa behavior with
->>>>   -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,s=
-hare=3Don \
->>>>   -machine memdev=3Dmem
->>>> or use any other backend that suits theirs needs. =20
->>> That's nice, but not as friendly as a simple -mem-shared.
->> (I still do not like idea of convenience options but it won't
->> get onto the way much if implemented as "global property" to memdev,
->> so I won't object if there is real demand for it)
->
-> I agree with Igor, we should always think about the generic ("object
-> model") options and only then add convenience option.
+ Hi Peter,
 
-+1
+without the fix, certain boot scenarios break:
 
-[...]
+- "-boot menu=3Don" does not work anymore.
+
+- It's not possible anymore to specify the s390x-specific "loadparm"
+  option (can be used e.g. with "-machine s390-ccw-virtio,loadparm=3Dxyz")
+  This is e.g. important for booting alternate kernel that are installed
+  on the guest's hard disk image.
+
+The fix is just a one-liner, has been reviewed and tested by multiple
+people already, so it should not cause any other regressions.
+
+I think you could merge it also without doing another RC next week - the
+people who care about s390x on the list already have checked the fix, so
+we won't get too much additional testing coverage if you release yet
+another RC before the final release.
+
+ Thomas
 
 
