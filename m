@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B440B10D641
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:44:57 +0100 (CET)
-Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722EA10D624
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 14:32:49 +0100 (CET)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iagZq-0006sh-CI
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:44:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51489)
+	id 1iagO7-00049O-GR
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 08:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bilalwasim676@gmail.com>) id 1iadRs-0003um-Cd
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:24:30 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iafcR-00071K-6p
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:43:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bilalwasim676@gmail.com>) id 1iadRp-0001yq-0w
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 05:24:26 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42603)
+ (envelope-from <peter.maydell@linaro.org>) id 1iafcP-00084o-01
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:43:30 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35958)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bilalwasim676@gmail.com>)
- id 1iadRo-0001jB-O6; Fri, 29 Nov 2019 05:24:24 -0500
-Received: by mail-wr1-x441.google.com with SMTP id a15so34481351wrf.9;
- Fri, 29 Nov 2019 02:24:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3vLHdln1DbX8BhwYGzhWQv2zwN23+8GT4g7zmpr3u9E=;
- b=KLMMCDDvzQbjNZiuFf8HPcoa8P565LXBj5IVn/3rtTW94oK74YD6K7GsO5GN5ygyd/
- TOvOtM7reXvFVTL1prqrX4dtuFZgX6QJkCnGBfGqNGxoS7nUt/VALUyNfobtiYOUtaWu
- d1WcOUhOTnl+s7mcrIwfqSmAzzTmuA6XOt6mZ3R123raDcMmL9nHqL6xH0zNdhd+eKq9
- AC8vIN4LCr1xGnr/daGCzjqj4HCn8hN9+C/5/wLPGALwYUCYrkRghKcJ9vpSv2sEcDLL
- 1FTsguk01vWrEKRiiwDNkc7Ug4OcLx6pYQmVPc8X2V9jC/GT2QnlU3KXmchJY0O+m68e
- 97Qg==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iafcK-0007xe-Bv
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:43:28 -0500
+Received: by mail-oi1-x241.google.com with SMTP id c16so3823951oic.3
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:43:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qxAHFu+3cqO2839SH/Af/vJRTg8BAmcYc9dW3TUL0z8=;
+ b=rdMQUklIhBjdmOSi73uUyFjW1XKXPSfEomjc0wae6K4M+XOO0bhRWASGctCx3gE7EH
+ dNpVyJJ1LkLWDUex35IZZyAwGEABcPPsv8CwSJ4I0U0gv202U49MX1z5iBKOhuKQRUbM
+ hNzHZJu9y8Z+8iRSn1ezq7kPdi2S6UIhkbi7DN085QbEADVr3eHR0quUazu6vOYfeFiT
+ BP1tL2VNvX0TYroM4IiRdhZYKPRYgZpnebN3WSo5WYnzHsCjJOY9wsm+t8ImjZtKyIay
+ M6yS6IfcGx+Rx2VrSTP142SCl3NvJ2eu68HC9dPoyiHrP1aFTWYM83VluTNAWBB71Azn
+ aV6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3vLHdln1DbX8BhwYGzhWQv2zwN23+8GT4g7zmpr3u9E=;
- b=IJGNvn+hqLNgMrv/0BMn66PPdw8KJbP7XfLZOOrUwrJVRZIkdikQhzopx13nHPScrc
- qalTAQBVG/yW+gx79uiRlz8hSy47L+nfrDpkH/ni6OBfBD3uf28V7O+HcYD/X2MENQnB
- tPTNA3hr/ouZOTGlHFlIELErvZ9YBUgi1AR4V7wm7BBrdAmwwr0B5qCBJhWYotLZ8256
- wttn7hThPMP1M53dcZZqh8BkvB47D7fONSWPVfVlM598lvGBIEq9t/L9Gq8twquITuF4
- UWthpBmwdp+OSqVLTksyDPYAvll8o0p8L8Q8NJlow67E6SAegb2STnJfRMEQcMeOaGtN
- wcVA==
-X-Gm-Message-State: APjAAAUmF3UXrhpupjtAiK7jYB2rzSlAbs0CzMt9o2HYlmx1zQfIV9Ik
- KrU4I0+ePGa+h3p5Xm7XPiM9hUnxpd8=
-X-Google-Smtp-Source: APXvYqxYuik7Uk3HEIinicPHFfngD9h79KY5ssbi9euvevLnoEg9vKEzqgb4wMcnGRG1ltJ2584pQg==
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr2093577wrw.31.1575023060081; 
- Fri, 29 Nov 2019 02:24:20 -0800 (PST)
-Received: from PKL-BWASIM-LT.mgc.mentorg.com ([110.93.212.98])
- by smtp.gmail.com with ESMTPSA id a26sm12698479wmm.14.2019.11.29.02.24.18
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 29 Nov 2019 02:24:19 -0800 (PST)
-From: bilalwasim676@gmail.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] net/cadence_gem: Updating the GEM MAC IP to properly
- filter out multicast addresses.
-Date: Fri, 29 Nov 2019 15:24:14 +0500
-Message-Id: <20191129102414.14060-1-bilalwasim676@gmail.com>
-X-Mailer: git-send-email 2.19.1.windows.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qxAHFu+3cqO2839SH/Af/vJRTg8BAmcYc9dW3TUL0z8=;
+ b=FgBhN4EFQ75CoaI6GWn26Ih4ErRjVDqOkw9MOI36MsaChyOO5vdQ+JP6+5OA0ToF8g
+ IEmCaErhddzRXas9MRW+Rnt+e/bhUOm0jje+R3lJWEv0HYfV2Sm8ESbb363530NTSw+w
+ IbKP9foPEqOYlCUoRfQfk3jnM8snEuYc8a4IjS5tjIt6+AnwPV9Q46zLYKWIbl+DHaAU
+ 6PYLyg2rXazkAxabG3zEJUnCzCssPrwhrhVfswKTfErGoOojYdRTQT5er/gtzY5vto5h
+ 3iSjU5zLfkMHInb5e7XwK+f8Iby14nPNHdE2BYKp1FMQ8GWqWQylTduf56A4TWuldpZ0
+ AYog==
+X-Gm-Message-State: APjAAAVG+8ZM/qsXJGFKPYwY1E3ZZ/oItfbje76nHP7qBvI/FZWuURw9
+ SRNYYsYLlQn4cK1W9qH0mHzbfnhaNdja+1Pwuvn2yQ==
+X-Google-Smtp-Source: APXvYqxxtEPhNW9hbGxa5Ro5RyWG7o9j44fE59I5V36IGOGzyIB+sWuKRcsmzGeXuimMAipIIQB/erF1bFReaN5j0Ss=
+X-Received: by 2002:aca:f484:: with SMTP id s126mr9518142oih.48.1575031396192; 
+ Fri, 29 Nov 2019 04:43:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191129100835.21734-1-thuth@redhat.com>
+ <CAFEAcA8J4tJfa3-m_Lf4TUs6yvycp5v4umo8zp6-Cck6ACk=MA@mail.gmail.com>
+ <f5203ce4-6684-42f5-8cf2-c5e2a54b5947@redhat.com>
+In-Reply-To: <f5203ce4-6684-42f5-8cf2-c5e2a54b5947@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Nov 2019 12:43:05 +0000
+Message-ID: <CAFEAcA-g9HNCx_4XSeSLgmOQeq0FxZOp5LRKwnmTkgKH3g1tVg@mail.gmail.com>
+Subject: Re: [PULL 0/2] Fix for the s390-ccw bios
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-X-Mailman-Approved-At: Fri, 29 Nov 2019 08:30:37 -0500
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,87 +73,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@gmail.com, qemu-arm@nongnu.org, bilal_wasim@mentor.com,
- alistair@alistair23.me, peter.maydell@linaro.org
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Marc Hartmayer <mhartmay@linux.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: bwasim <bilal_wasim@mentor.com>
+On Fri, 29 Nov 2019 at 12:08, Thomas Huth <thuth@redhat.com> wrote:
+> without the fix, certain boot scenarios break:
+>
+> - "-boot menu=on" does not work anymore.
+>
+> - It's not possible anymore to specify the s390x-specific "loadparm"
+>   option (can be used e.g. with "-machine s390-ccw-virtio,loadparm=xyz")
+>   This is e.g. important for booting alternate kernel that are installed
+>   on the guest's hard disk image.
+>
+> The fix is just a one-liner, has been reviewed and tested by multiple
+> people already, so it should not cause any other regressions.
 
-The current code makes a bad assumption that the most-significant byte
-of the MAC address is used to determine if the address is multicast or
-unicast, but in reality only a single bit is used to determine this.
-This caused IPv6 to not work.. Fix is now in place and has been tested
-with ZCU102-A53 / IPv6 on a TAP interface. Works well..
+OK, that sounds worth fixing.
 
-Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
----
- hw/net/cadence_gem.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+> I think you could merge it also without doing another RC next week
 
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index b8be73dc55..6400b3653b 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -34,6 +34,7 @@
- #include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "net/checksum.h"
-+#include "net/eth.h"
- 
- #ifdef CADENCE_GEM_ERR_DEBUG
- #define DB_PRINT(...) do { \
-@@ -601,7 +602,7 @@ static void gem_receive_updatestats(CadenceGEMState *s, const uint8_t *packet,
-     }
- 
-     /* Error-free Multicast Frames counter */
--    if (packet[0] == 0x01) {
-+    if (is_multicast_ether_addr(packet)) {
-         s->regs[GEM_RXMULTICNT]++;
-     }
- 
-@@ -690,21 +691,25 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
-     }
- 
-     /* Accept packets -w- hash match? */
--    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
--        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-+    if ((is_multicast_ether_addr(packet)
-+        && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
-+        (is_unicast_ether_addr(packet)
-+        && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-         unsigned hash_index;
- 
-         hash_index = calc_mac_hash(packet);
-         if (hash_index < 32) {
-             if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
-+                return is_multicast_ether_addr(packet) ?
-+                       GEM_RX_MULTICAST_HASH_ACCEPT :
-+                       GEM_RX_UNICAST_HASH_ACCEPT;
-             }
-         } else {
-             hash_index -= 32;
-             if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
-+                return is_multicast_ether_addr(packet) ?
-+                       GEM_RX_MULTICAST_HASH_ACCEPT :
-+                       GEM_RX_UNICAST_HASH_ACCEPT;
-             }
-         }
-     }
-@@ -1083,7 +1088,7 @@ static void gem_transmit_updatestats(CadenceGEMState *s, const uint8_t *packet,
-     }
- 
-     /* Error-free Multicast Frames counter */
--    if (packet[0] == 0x01) {
-+    if (is_multicast_ether_addr(packet)) {
-         s->regs[GEM_TXMCNT]++;
-     }
- 
--- 
-2.19.1.windows.1
+I never do releases which have any changes which haven't been in
+an RC. This is a rule I'm not willing to break. Sometimes we do
+an RC with less than the usual week's delay if there's just one
+last simple bug to be fixed.
 
+thanks
+-- PMM
 
