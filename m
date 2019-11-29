@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E861310D5C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:44:20 +0100 (CET)
-Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7ECC10D5E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 13:52:52 +0100 (CET)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iafdB-0006fF-Km
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:44:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35015)
+	id 1iaflS-0004cl-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 07:52:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41571)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iafaI-0005K7-7e
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:41:19 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iafeU-00009t-Rm
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:45:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iafaC-0001la-K1
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:41:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27124
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iafaC-0001fm-CU
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:41:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575031268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LefiRVZq6vvmGxdToinGL95lCi6FpxY8ErQNEKkjQns=;
- b=gKWHxVkmzsS3o3p84ec6jnZJZb1U2foiE5kjAA4kT0jcjJtOYRX4uECBo2uqL4koVGiwt0
- 0Qm/xS0MakWpeF8j2E9JKsRnqLH5txK3hGH1WgkVWPYexR+hW6C7KfYBfWmkb4wWDTXE5G
- 3ppa5IDvCPnLj0QjJ42p2DreHXhdUNQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-gXJDuNDpPy-Lo_n_NRNMkA-1; Fri, 29 Nov 2019 07:41:05 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70EF7100E378;
- Fri, 29 Nov 2019 12:41:04 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44528600CA;
- Fri, 29 Nov 2019 12:40:56 +0000 (UTC)
-Date: Fri, 29 Nov 2019 13:40:55 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
-Message-ID: <20191129134055.08f27e7a@redhat.com>
-In-Reply-To: <20191128163358.GC14595@habkost.net>
-References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
- <20191128163358.GC14595@habkost.net>
+ (envelope-from <peter.maydell@linaro.org>) id 1iafeS-0005Vq-RW
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:45:38 -0500
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:38829)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iafeF-0005GD-B2
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 07:45:28 -0500
+Received: by mail-oi1-x235.google.com with SMTP id a14so25974426oid.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 04:45:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GykbMelGlwlX8WRaocx9HMeCFyPIwcWqRXoTX3pvRFU=;
+ b=iFJumeMPqEZlR7biGOIT+Ja1XJCCIT32rNfE9N8rlIMjB3X2pAU5aJVdiEUXOPoXca
+ oc3mCwdoGotBT1aRyvzy+KmT+B6aDqqbHbGIjSQnDi+j7Wo4DxfTP0wE19VsBrH5/ZIo
+ T5ph4ZcITaA0lIAobb3ec1bTw+UNUBYk7xciKbforqlHvpyk/x9Y4aOT2LQYxAmZRKML
+ 4HdJY6gspAcl5sL7vdxXTXxKLiwhZFP74IE/OMufpw1FSIv2JpfoGMI7iPhiSdCrdmzJ
+ ZC1NtDwja7wgRqyrFn/PMGfosAz+ltH6b58ZkptDr4qubDoHe6xb7iFQsF5TgwQi7euB
+ orqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GykbMelGlwlX8WRaocx9HMeCFyPIwcWqRXoTX3pvRFU=;
+ b=O953+63JkOGik3hiT93G3GxGeCSaa9q839ltiyqBRPQ5O74k3SH2S+LdokW2879hxc
+ ORgmZDlkxfVeH4kpirqIzi8mA98kKOs5YqbDPykqmuBB0dfOfGwVU4u6gdkgorTtyLxZ
+ /VhUnGm3tHP831p0W3U7I4K92ZmWDyhrSOXM/CbpRJFSZJrIyCzw3bN4UnPYaD0xEB32
+ 5hNOo0M+HBiAlrbxuz16XWbbtAAD1vj+goCqUThbZhVDJBKe58UoYHI7qppfUcL7sh8x
+ 6mChFPMLoG0t4eOd6KN8N5JXBEvpGmt8sVl8WZhFPLKzaaRSeAoD8Et7eyHyi/XGu3Up
+ UP3w==
+X-Gm-Message-State: APjAAAXuatpihHjYQjw/O7gke9P9BQul9a22+RgUVeCZplp0RfTWIjUS
+ uUICTgNBJ14/Rh4D4vofhFdUTAEkTqu2NiRrzsifeA==
+X-Google-Smtp-Source: APXvYqwQUYaJksTKJ+ZOXIX4nRoaTKBNmB5tRVpWTZBqcTplbCzVoa8UCUkeKN5BPsnBgS+4Gwko/CyNASlPHBCn9x8=
+X-Received: by 2002:aca:edd5:: with SMTP id l204mr629348oih.98.1575031520929; 
+ Fri, 29 Nov 2019 04:45:20 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: gXJDuNDpPy-Lo_n_NRNMkA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
+ <20191128182705.0635d1d4@redhat.com>
+ <CAFEAcA-qA6n49KdHsGLqt422L_b_9xPfSaJB3tATQvRdfKt-xw@mail.gmail.com>
+ <20191129132641.4c7da6c5@redhat.com>
+In-Reply-To: <20191129132641.4c7da6c5@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Nov 2019 12:45:09 +0000
+Message-ID: <CAFEAcA_gcxqu+N5iV0L5WLyWmm5yxTFNMtmqQryBgVd4CCCT8A@mail.gmail.com>
+Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::235
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,55 +75,28 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Nov 2019 13:33:58 -0300
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Fri, 29 Nov 2019 at 12:26, Igor Mammedov <imammedo@redhat.com> wrote:
+> But from the my very limited understanding, on real hardware,
+> once device is uplugged it's gone (finalized) from machine
+> perspective, so it's unclear to my why someone would use
+> realize->unrealize->realize hotplug scenario.
 
-> On Thu, Nov 28, 2019 at 04:00:06PM +0000, Peter Maydell wrote:
-> > Hi; this is a question which came up in Damien's reset series
-> > which I don't know the answer to:
-> > 
-> > What is the interaction of the QOM device lifecycle (instance_init/realize/
-> > unrealize/instance_finalize) with hotplug and hot-unplug ? I couldn't
-> > find any documentation of this but maybe I was looking in the wrong
-> > place...
-> > 
-> > Looking at device_set_realized() it seems like we treat "realize"
-> > as meaning "and also do the hot-plug if this is a device we're
-> > trying to hotplug". On the other hand hot-unplug is I think the
-> > other way around: when we get a hot-unplug event we assume that
-> > it should also imply an "unrealize" (but just unrealizing doesn't
-> > auto-hot-unplug) ?  
-> 
-> Your description seems accurate, and I agree it is confusing.
-> 
-> It would be more consistent if realized=true didn't plug the
-> device automatically, and qdev_device_add() asked the hotplug
-> handler to plug the device instead.
-agreed, it's confusing. But that would not allow to
-  o = object_new()
-  set props
-  o.realize()
-reuse the same plug handlers.
+Well, on real hardware 'unplug' is different from 'unrealize'.
+So I think for QEMU if we wanted to allow this sort of 'unplug
+and replug the same device' we should do it by:
 
-we potentially can convert it to device_add input arguments
-and then call qdev_device_add() instead, which would then
-handle plug handlers, not sure it's doable though.
-Other than that I don't have any ideas how to make it less confusing.
+ instance_init -> realize -> plug -> unplug -> plug -> unplug ->
+   unrealize -> finalize
 
-> > Once a device is hot-unplugged (and thus unrealized) is it valid
-> > for it to be re-hot-plugged, or is the assumption that it's then
-> > destroyed and a fresh device is created if the user wants to plug
-> > something in again later ? Put another way, is it valid for a qdev
-> > device to see state transitions realize -> unrealize -> realize ?  
-> 
-> My interpretation is that this is valid in theory, but likely to
-> crash a large portion of our devices if we tried it.
-> 
+So unrealize/finalize is when the device is actually destroyed,
+and if you're going to replug the device you don't destroy it
+on unplug.
 
+thanks
+-- PMM
 
