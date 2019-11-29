@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E2B10D78D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:01:40 +0100 (CET)
-Received: from localhost ([::1]:60006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8488310D7AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 16:09:12 +0100 (CET)
+Received: from localhost ([::1]:60066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iahm6-0003WM-Qd
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:01:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57109)
+	id 1iahtO-0008S8-39
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 10:09:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43233)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mihajlov@linux.ibm.com>) id 1iahI6-0005cm-Ul
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:30:40 -0500
+ (envelope-from <cminyard@mvista.com>) id 1iahR2-0004vZ-4h
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:39:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mihajlov@linux.ibm.com>) id 1iahI3-00086v-PI
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:30:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16088)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mihajlov@linux.ibm.com>)
- id 1iahI3-0007zr-3E
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:30:35 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xATERFLC108625
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 09:30:33 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wjvsg12np-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 09:30:32 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mihajlov@linux.ibm.com>;
- Fri, 29 Nov 2019 14:30:30 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 29 Nov 2019 14:30:27 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xATEUQmD34799936
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Nov 2019 14:30:26 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A30FA405F;
- Fri, 29 Nov 2019 14:30:26 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0E4BA4054;
- Fri, 29 Nov 2019 14:30:25 +0000 (GMT)
-Received: from oc6604088431.ibm.com (unknown [9.152.222.31])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 29 Nov 2019 14:30:25 +0000 (GMT)
-Subject: Re: [PATCH 00/15] s390x: Protected Virtualization support
-To: Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20191120114334.2287-1-frankja@linux.ibm.com>
- <20191129110820.GF2260471@redhat.com>
- <699bb3bc-f42a-2fcf-acb3-b91d783e7ce4@linux.ibm.com>
- <20191129123524.GI2260471@redhat.com>
- <c2c4b71b-d42e-3487-01d8-ae4f5751748b@linux.ibm.com>
-From: Viktor Mihajlovski <mihajlov@linux.ibm.com>
-Date: Fri, 29 Nov 2019 15:30:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <cminyard@mvista.com>) id 1iahQv-0006ik-22
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:39:46 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42766)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <cminyard@mvista.com>) id 1iahQu-0006J1-Gc
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 09:39:44 -0500
+Received: by mail-oi1-x243.google.com with SMTP id o12so26208108oic.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Nov 2019 06:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mvista-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=68Rd/tu1dOffmnGRfw3iEccusmAPrnJ6YjSc+2ugT7A=;
+ b=Q6mhWuGSv/dXUhvIAovA4XN+L8TNuGSfR6AG/AJtU3vDSsNuXBft9QfD4iwTIfQwEH
+ 9dUT7cFge7W3Q1I/6MBrC7F+/w43dJg0g/UaV+6sNvoy5k+RRLwoH3U1DQheCFCZiA5U
+ tvzyvBku2TJ/CKJIrCRmHdSjzI3SYiBPxu+WK059lmMQQEKjWEgHPmY4H/RlxGcJDI9f
+ cmPE6GvEvdVEz+IqXFAYAFH3A+Oj4vUFMlw9Z7Djlj/qKNPqGg31EGPPeo8Mf0Nb/XRQ
+ +RVRrP+MdcXbGG9f2o9ctQEmOPyeKSrgovElUGg0VWSAgpoPWfN63GDvw8hRr2S4rtjJ
+ +w0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=68Rd/tu1dOffmnGRfw3iEccusmAPrnJ6YjSc+2ugT7A=;
+ b=maWA2Nwa5yxbd762l+t5e644pAAqVd7NxhRI2dnTAUfOXfMZGwnaZP1jypoTodOAFt
+ dxwpAy1zmYvozVoh7YOqvOV19wTqU8Uq+Kcmklhqy+7fZZMFC6ukQ5+a6WYovPpHq0r1
+ PDlX50pbDk1fm3SCosefTPenOj3jhJj/mrthdZ5WHr8LDgWVlvpx2W2Wkqo6KO2U+D6c
+ SLy6XxPxgvozZjcNoBVrjGPlk30yytVOBYfiDQACiRjYQNj2CIqXyyzetlD0LAEm+2Ph
+ B6qTQKGFIV51FuYQIPR0vqEsZdkEANPvkpLWxv6ho84ApAS8a5wsfIFDQQajjXIXJu3z
+ gmYg==
+X-Gm-Message-State: APjAAAVZqUNsI7IXU2qpzxhy6dH5PDs4RQE9OjqPoDa8mvhg0DjXA846
+ ICCLzuod1t/ZQwcWQZI9r0lL1w==
+X-Google-Smtp-Source: APXvYqyvYf2kH/xWCiTZBKYJ8Ph4KnMg+D1jDAQnwP9N1oDI0jga/a2nbmlrhPvyxiokMnymLVilTg==
+X-Received: by 2002:aca:728a:: with SMTP id
+ p132mr12995370oic.113.1575038376505; 
+ Fri, 29 Nov 2019 06:39:36 -0800 (PST)
+Received: from minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id l20sm7286547oii.26.2019.11.29.06.39.35
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 29 Nov 2019 06:39:35 -0800 (PST)
+Date: Fri, 29 Nov 2019 08:39:34 -0600
+From: Corey Minyard <cminyard@mvista.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v4 31/37] smbus-eeprom: remove PROP_PTR
+Message-ID: <20191129143934.GA3176@minyard.net>
+References: <20191120152442.26657-1-marcandre.lureau@redhat.com>
+ <20191120152442.26657-32-marcandre.lureau@redhat.com>
+ <20191121224351.GN3556@minyard.net>
+ <CAJ+F1CKCp2McVyeEou4erXaGZmPmByKCtT0SpK9RVfmcqc9Opw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <c2c4b71b-d42e-3487-01d8-ae4f5751748b@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19112914-0008-0000-0000-00000339F15A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19112914-0009-0000-0000-00004A5901B1
-Message-Id: <d654442f-58f3-d691-76c9-8ed3db2d1d67@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-29_04:2019-11-29,2019-11-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 lowpriorityscore=0 impostorscore=0 spamscore=0 bulkscore=0
- priorityscore=1501 clxscore=1011 phishscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911290125
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CKCp2McVyeEou4erXaGZmPmByKCtT0SpK9RVfmcqc9Opw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,42 +84,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Reply-To: cminyard@mvista.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Nov 29, 2019 at 01:06:41PM +0400, Marc-André Lureau wrote:
+> Hi Corey
+> 
+> On Fri, Nov 22, 2019 at 2:44 AM Corey Minyard <cminyard@mvista.com> wrote:
+> >
+> > On Wed, Nov 20, 2019 at 07:24:36PM +0400, Marc-André Lureau wrote:
+> > > Instead, set the initial data field directly.
+> > >
+> > > (the initial data is an array of 256 bytes. As I don't know if it may
+> > > change over time, I keep the pointer to original buffer as is, but it
+> > > might be worth to consider to copy it instead)
+> >
+> > This looks ok to me, I can add it to my tree.  I think we are in hard
+> > freeze now, so this will have to wait until that's done.
+> 
+> Thanks, I think I would rather keep it in this series, as the goal is
+> to remove PROP_PTR, and tracking various subsystems will be tedious.
+> Instead, we can hopefully do it in one go.
+> 
+> Does it get your reviewed-by then?
 
+Yes, I thought I had done that.
 
-On 11/29/19 3:02 PM, Janosch Frank wrote:
-[...]
->>
->> As a mgmt app I think there will be a need to be able to determine
->> whether a host + QEMU combo is actually able to support protected
->> machines. If the mgmt app is given an image and the users says it
->> required protected mode, then the mgmt app needs to know which
->> host(s) are able to run it.
->>
->> Doing version number checks is not particularly desirable, so is
->> there a way libvirt can determine if QEMU + host in general supports
->> protected machines, so that we can report this feature to mgmt apps ?
-> 
-> I thought that would be visible via the cpu model by checking for the
-> unpack facility (161)?
-> Time for somebody else to explain that.
-> 
-> 
-> @Viktor @Boris: This one's for you.
-> 
-Right, a management app could check the supported CPU model, with 
-something like virsh domcapabilities. The domain's CPU model would have 
-to require the 'unpack' facility. So, in theory any management app 
-establishing CPU model compatibility using the libvirt APIs should be 
-able to find appropriate hosts.
-[...]
--- 
-Kind Regards,
-    Viktor
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 
+> 
+> >
+> > -corey
+> >
+> > >
+> > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > ---
+> > >  hw/i2c/smbus_eeprom.c | 17 ++++++++---------
+> > >  1 file changed, 8 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+> > > index 54c86a0112..533c728b3b 100644
+> > > --- a/hw/i2c/smbus_eeprom.c
+> > > +++ b/hw/i2c/smbus_eeprom.c
+> > > @@ -44,7 +44,7 @@
+> > >  typedef struct SMBusEEPROMDevice {
+> > >      SMBusDevice smbusdev;
+> > >      uint8_t data[SMBUS_EEPROM_SIZE];
+> > > -    void *init_data;
+> > > +    uint8_t *init_data;
+> > >      uint8_t offset;
+> > >      bool accessed;
+> > >  } SMBusEEPROMDevice;
+> > > @@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
+> > >
+> > >  static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
+> > >  {
+> > > +    SMBusEEPROMDevice *eeprom = SMBUS_EEPROM(dev);
+> > > +
+> > >      smbus_eeprom_reset(dev);
+> > > +    if (eeprom->init_data == NULL) {
+> > > +        error_setg(errp, "init_data cannot be NULL");
+> > > +    }
+> > >  }
+> > >
+> > > -static Property smbus_eeprom_properties[] = {
+> > > -    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
+> > > -    DEFINE_PROP_END_OF_LIST(),
+> > > -};
+> > > -
+> > >  static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+> > >  {
+> > >      DeviceClass *dc = DEVICE_CLASS(klass);
+> > > @@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+> > >      dc->reset = smbus_eeprom_reset;
+> > >      sc->receive_byte = eeprom_receive_byte;
+> > >      sc->write_data = eeprom_write_data;
+> > > -    dc->props = smbus_eeprom_properties;
+> > >      dc->vmsd = &vmstate_smbus_eeprom;
+> > > -    /* Reason: pointer property "data" */
+> > > +    /* Reason: init_data */
+> > >      dc->user_creatable = false;
+> > >  }
+> > >
+> > > @@ -172,7 +171,7 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t *eeprom_buf)
+> > >
+> > >      dev = qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
+> > >      qdev_prop_set_uint8(dev, "address", address);
+> > > -    qdev_prop_set_ptr(dev, "data", eeprom_buf);
+> > > +    SMBUS_EEPROM(dev)->init_data = eeprom_buf;
+> > >      qdev_init_nofail(dev);
+> > >  }
+> > >
+> > > --
+> > > 2.24.0
+> > >
+> >
+> 
+> 
+> -- 
+> Marc-André Lureau
 
