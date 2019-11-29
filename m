@@ -2,46 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B3110D1D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:31:01 +0100 (CET)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1EF10D1E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Nov 2019 08:37:56 +0100 (CET)
+Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iaajz-0004UR-NP
-	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:30:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41614)
+	id 1iaaqh-0000BM-9z
+	for lists+qemu-devel@lfdr.de; Fri, 29 Nov 2019 02:37:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46317)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iaafN-0002fk-J0
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:26:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iaaij-000558-1f
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:29:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iaafI-0003FU-Bv
- for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:26:11 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53406 helo=huawei.com)
+ (envelope-from <cohuck@redhat.com>) id 1iaaih-0003fx-O3
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:29:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52602
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iaafB-0002Sh-PV; Fri, 29 Nov 2019 02:26:02 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id CF14DE5F7989B9981DAF;
- Fri, 29 Nov 2019 15:25:51 +0800 (CST)
-Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 29 Nov 2019 15:25:41 +0800
-From: <pannengyuan@huawei.com>
-To: <eblake@redhat.com>, <kwolf@redhat.com>, <mreitz@redhat.com>,
- <sgarzare@redhat.com>
-Subject: [PATCH V3 2/2] block/nbd: fix memory leak in nbd_open()
-Date: Fri, 29 Nov 2019 15:25:26 +0800
-Message-ID: <1575012326-51324-2-git-send-email-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.7.2.windows.1
-In-Reply-To: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
-References: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iaaih-0003XA-JG
+ for qemu-devel@nongnu.org; Fri, 29 Nov 2019 02:29:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575012577;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=myiM2jB3BAAt+97hTTYInGs4H8+sWsiz2awia6JDoGY=;
+ b=H6d4dUyI9EpSoo5OWSvlfc2P9x4k9n3kYk+Ty6b5UDgsngRS3VbzgwzBhx9kTOjC3Hf9SP
+ EgMdVolruRYsQLXT4B8/A/bur+BQZz5zgnVt3/BvVFjNqzFm5v/Xe3Q6jtEzRaswb4/WlP
+ UlXAZzYk7nXBDReit2/N29J1e+vhWCU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-7QyO11nNObmT_7vW29Bs_Q-1; Fri, 29 Nov 2019 02:29:33 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46010800D41;
+ Fri, 29 Nov 2019 07:29:31 +0000 (UTC)
+Received: from gondolin (ovpn-116-140.ams2.redhat.com [10.36.116.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1B6860900;
+ Fri, 29 Nov 2019 07:29:25 +0000 (UTC)
+Date: Fri, 29 Nov 2019 08:29:23 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] hw: add compat machines for 5.0
+Message-ID: <20191129082923.1c4d72fc.cohuck@redhat.com>
+In-Reply-To: <20191128203811.GD14595@habkost.net>
+References: <20191112104811.30323-1-cohuck@redhat.com>
+ <20191128183706.21b1fe0e.cohuck@redhat.com>
+ <20191128203811.GD14595@habkost.net>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 7QyO11nNObmT_7vW29Bs_Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,79 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liyiting@huawei.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- PanNengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- kuhn.chenqun@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: PanNengyuan <pannengyuan@huawei.com>
+On Thu, 28 Nov 2019 17:38:11 -0300
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-In currently implementation there will be a memory leak when
-nbd_client_connect() returns error status. Here is an easy way to
-reproduce:
+> On Thu, Nov 28, 2019 at 06:37:06PM +0100, Cornelia Huck wrote:
+> > On Tue, 12 Nov 2019 11:48:11 +0100
+> > Cornelia Huck <cohuck@redhat.com> wrote:
+> >   
+> > > Add 5.0 machine types for arm/i440fx/q35/s390x/spapr.
+> > > 
+> > > For i440fx and q35, unversioned cpu models are still translated
+> > > to -v1; I'll leave changing this (if desired) to the respective
+> > > maintainers.
+> > > 
+> > > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > > ---
+> > > 
+> > > also pushed out to https://github.com/cohuck/qemu machine-5.0
+> > > 
+> > > x86 folks: if you want to change the cpu model versioning, I
+> > > can do it in this patch, or just do it on top yourselves  
+> > 
+> > So, do we have a final verdict yet (keep it at v1)?
+> > 
+> > If yes, I'll queue this via the s390 tree, unless someone else beats me
+> > to it.  
+> 
+> We won't change default_cpu_version in 5.0, so:
+> 
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
 
-1. run qemu-iotests as follow and check the result with asan:
-    ./check -raw 143
+Thanks!
 
-Following is the asan output backtrack:
-Direct leak of 40 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
-    #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
-    #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:295
-    #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:49
-    #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-sockets.c:386
-    #5 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #6 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #7 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Direct leak of 15 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1834
-    #4 0x56281da804ac in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Indirect leak of 24 byte(s) in 1 object(s) allocated from:
-    #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
-    #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
-    #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
-    #3 0x56281dab41a3 in qobject_input_type_str_keyval /mnt/sdb/qemu-4.2.0-rc0/qapi/qobject-input-visitor.c:536
-    #4 0x56281dab2ee9 in visit_type_str /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi-visit-core.c:297
-    #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members qapi/qapi-visit-sockets.c:141
-    #6 0x56281dad17b6 in visit_type_SocketAddress_members qapi/qapi-visit-sockets.c:366
-    #7 0x56281dad186a in visit_type_SocketAddress qapi/qapi-visit-sockets.c:393
-    #8 0x56281da8062f in nbd_config /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1716
-    #9 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1829
-    #10 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1873
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
----
-Changes v2 to v1:
-- add a new function to do the common cleanups (suggested by Stefano
-  Garzarella).
----
-Changes v3 to v2:
-- split in two patches(suggested by Stefano Garzarella)
----
- block/nbd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/block/nbd.c b/block/nbd.c
-index 5805979..09d6925 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1889,6 +1889,7 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     ret = nbd_client_connect(bs, errp);
-     if (ret < 0) {
-+        nbd_free_bdrvstate_prop(s);
-         return ret;
-     }
-     /* successfully connected */
--- 
-2.7.2.windows.1
-
+Will queue through the s390 tree.
 
 
