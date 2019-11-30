@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F5210DD3B
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 09:59:14 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B9610DD3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 10:02:20 +0100 (CET)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iayav-0000PL-0d
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 03:59:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57940)
+	id 1iaydv-0003av-L6
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 04:02:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iayP2-0003nA-Nk
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:46:58 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iayWl-0004zi-Ql
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:54:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iayOz-000463-K9
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:46:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38499
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iayOz-00044X-3p
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:46:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575103612;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IcUoPLnLCCQYKbAEba8CM92HrhcnVga6pUy/wnWOGOM=;
- b=Aq4e29uYBPi6/qXt1Y3nabkcMEImv1NNXMTp9izCfQurmaOWSyGn1NM4hBT6endQp+M6fx
- BPfwF9maEKGMMbO8G0dztYTBGppCtk6rp5MvZCyIaUZ1Tuq6s9k9e1qATqEBVVbUtZmdJj
- +CIBUpbA9mHymsJ6KlLym8byaUEAVaE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-gj3nyB2YOMi8Q0Qcy0jqBg-1; Sat, 30 Nov 2019 03:46:50 -0500
-Received: by mail-wr1-f69.google.com with SMTP id l20so7076119wrc.13
- for <qemu-devel@nongnu.org>; Sat, 30 Nov 2019 00:46:50 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1iayWk-0006ay-85
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:54:55 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37247)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iayWj-0006Yy-Vh
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 03:54:54 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w15so6842789wru.4
+ for <qemu-devel@nongnu.org>; Sat, 30 Nov 2019 00:54:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wMWcP86dFfxoFCRo+Y7X3QjBtQNUy7uzWavkLda0OPM=;
+ b=BZEo51bFOFQaBiq7JgDDqfLRwyyqR56QtpkZ+YQGmQF75Mvn7xSpv2YFDs8j9skbof
+ dHuA15HeTcuYnX7y2NhvLTTxVEc8BcxujVddEy2/DqQRVezVSRU0yaHDGZ9AOAgCzxF3
+ AE9oZ5b4PbH4SfETatnCt108vEyF3f0qfQ1fk4aklbf+ukovFL+x1N/zuSbolkq8AFgZ
+ JD+YPB8nTeHLtl1U0SUwjrkns1mI6sxmvyem1KQHI5eTkd8ZN68e2t6RVsi5P7TebgjP
+ j+s0QcnJtouFyo7K6Y/NByk95YB3lxLB0SVwt4vP17NVmD6ZREky799GlTLMNIRMAHr5
+ tQ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IcUoPLnLCCQYKbAEba8CM92HrhcnVga6pUy/wnWOGOM=;
- b=IM/U4zW0fIz1RzYuf5+gQIl7A7Il7Ip72Pgx4Nj8xLg2km7u5DM76Cclk2mtzs1BUX
- 77waQDM7t+12oTRDQ8ShURZhIDwCiPj7aN4TTd4Y6eStGPV11f1892ElyB7X5k3bucpu
- VozVN+ZIhMHrxlay2NRhnpp/5Zkahv2V1EVdd9ydY9MiHD01RHiguN4riggzlTwpeueM
- ZQVNuL7FgIV8W5f+NuDjhH7QlknN22467amb2SUkL4MG8wyceucNfnqzpTTz1/n7z/Vr
- Xxh5O2WV9JigOGTykIQhun63Jl8dpd8XKumMMIuRfb4Oc9dPtV2SQiltigucaHZXycOG
- MKmg==
-X-Gm-Message-State: APjAAAVAI1/bVj//TdnFiHrYjkIxOHb/lLBTp/qVI3udQp04gcX20MKk
- J5dgu7BODFym6hJdHp3lmdjdr82mKgN95+W9wpeHiDTIo4F4h0y83/isI6aOplrXka1W7xh20qK
- OV75yQ27zrjlU8Us=
-X-Received: by 2002:adf:fe0c:: with SMTP id n12mr57607040wrr.174.1575103609415; 
- Sat, 30 Nov 2019 00:46:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwamOoF3NCaCticX1ohgF7EN1/Y7xLpjN7Qpgir4cufXuzV8QNcDTbdWh0g0I8wYjRv+Sj8qw==
-X-Received: by 2002:adf:fe0c:: with SMTP id n12mr57607026wrr.174.1575103609168; 
- Sat, 30 Nov 2019 00:46:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:8cc3:8abd:4519:2cd6?
- ([2001:b07:6468:f312:8cc3:8abd:4519:2cd6])
- by smtp.gmail.com with ESMTPSA id d67sm15803856wmd.13.2019.11.30.00.46.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Nov 2019 00:46:48 -0800 (PST)
-Subject: Re: [PATCH v2 5/5] hvf: save away type as well as vector so we can
- reinject them
-To: Cameron Esfahani <dirty@apple.com>
-References: <cover.1574625592.git.dirty@apple.com>
- <e07e6085d8ab9054e58f85ae58e112df6adc024d.1574625592.git.dirty@apple.com>
- <eb3a2de7-fcfe-f0d5-8534-1c59ff40f61e@redhat.com>
- <5F8C8B54-3653-4417-9A08-E724032294F9@apple.com>
- <cdc4958b-6ef5-aee2-1cf2-8cb59ca031fe@redhat.com>
- <4EA34107-C294-47F4-8747-5407588BCA5C@apple.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ad54c701-7aef-362c-1580-416b9e41bc29@redhat.com>
-Date: Sat, 30 Nov 2019 09:46:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wMWcP86dFfxoFCRo+Y7X3QjBtQNUy7uzWavkLda0OPM=;
+ b=gFS8m2lrmITwlt6HGjw+aU7r5XMbthDRPHlbUosihQ1LvpPIaBdRKuw48CqFPaTRmL
+ TawvTUnt5na2JjRnJxu/Z02K5Eytv4rMN9zOL+2s/66LHOmrFYV0Vk0iAEk6W+XPptxb
+ otHronDqadMS9v1W4X2O7v6ncKcD9s3UASEQ4CnSZ6BPhbn2wUFlPmuAZdwkrjWdcZ5K
+ oecD4UmiAt1sdNmmgPP4p59rgmrOcsc++TFSqdyd7wvhSAuJI8Kwohsl0HoF9ODUfQaM
+ R/g9J4JKhHi0HpWCvF9LjnSEl5R2p5wpv4IswsjQhebHDjCbyA+aqyl5ZFhqkAaVK9d3
+ lxfQ==
+X-Gm-Message-State: APjAAAWONRzoKnwv9to1hm5fOqp0NUMKuIXNSSaAa0vcFzqN98BD8L5U
+ xpHTkku3z3ijTCieZ8t7CUTzvw==
+X-Google-Smtp-Source: APXvYqyPs8p1fVrqmvMBqsWtU1Imm3MLvVEcdCOJCgViZyEA6tDgA62kYgCOJGwXQBX+lQR2LHLpQw==
+X-Received: by 2002:adf:e40e:: with SMTP id g14mr38104754wrm.264.1575104091870; 
+ Sat, 30 Nov 2019 00:54:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s65sm320942wmf.48.2019.11.30.00.54.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Nov 2019 00:54:50 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A60D01FF9A;
+ Sat, 30 Nov 2019 08:46:05 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 11/14] target/arm: default SVE length to 64 bytes for
+ linux-user
+Date: Sat, 30 Nov 2019 08:45:59 +0000
+Message-Id: <20191130084602.10818-12-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191130084602.10818-1-alex.bennee@linaro.org>
+References: <20191130084602.10818-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <4EA34107-C294-47F4-8747-5407588BCA5C@apple.com>
-Content-Language: en-US
-X-MC-Unique: gj3nyB2YOMi8Q0Qcy0jqBg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,78 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org, richard.henderson@linaro.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/11/19 09:31, Cameron Esfahani wrote:
-> So far so good.  Without any workaround, I could get it to fail
-> within a few seconds.  With your change, I've been running for a few
-> minutes without a problem.  But, this is on my laptop, so I'll wait
-> until I can test it on a wider-range of machines at work next week.
-> If it continues to work, I'll update my patch to include this fix.
+The Linux kernel chooses the default of 64 bytes for SVE registers on
+the basis that it is the largest size that won't grow the signal
+frame. When debugging larger sizes are also unwieldy in gdb as each
+zreg will take over a page of terminal to display.
 
-Great!  Note that there was a follow-up hunk in another email.
+The user can of course always specify a larger size with the
+sve-max-vq property on the command line:
 
-> Now, can you help me understand why this approach is better than what
-> I had written?  When we're in hvf_store_events(), we have vector type
-> and number.  All the information we need to reinject later.  So why
-> not save vector type away, instead of attempting to reconstruct it
-> from other information (env->ins_len) in hvf_inject_interrupts()?
+  -cpu max,sve-max-vq=16
 
-No huge reason, I agree.  However, the event injection code in the
-Android emulator was broken for pretty much every corner case, so when
-we rewrote it in QEMU for Summer of Code we took KVM as a model (commit
-b7394c8394, "i386: hvf: refactor event injection code for hvf",
-2017-12-22).  Keeping the code similar can help with debugging, so I
-prefer having the same meaning for env->interrupt_injected and
-env->exception_nr across HVF and KVM.
+This should not make any difference to SVE enabled software as the SVE
+is of course vector length agnostic.
 
-I didn't write the code for KVM, so I cannot really say why they chose
-to not save the event type.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/arm/cpu64.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks,
-
-Paolo
-
-> 
-> Cameron Esfahani
-> dirty@apple.com
-> 
-> "There are times in the life of a nation when the only place a decent man can find himself is in prison."
-> 
-> 
-> 
->> On Nov 28, 2019, at 5:56 AM, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 26/11/19 21:04, Cameron Esfahani wrote:
->>> Our test case was booting many concurrent macOS VMs under heavy
->>> system load.  I don't know if I could create one to replicate that.
->>
->> Does this work?
->>
->> diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
->> index 1485b95776..26c6c3a49f 100644
->> --- a/target/i386/hvf/x86hvf.c
->> +++ b/target/i386/hvf/x86hvf.c
->> @@ -357,7 +357,11 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
->>     bool have_event = true;
->>     if (env->interrupt_injected != -1) {
->>         vector = env->interrupt_injected;
->> -        intr_type = VMCS_INTR_T_SWINTR;
->> +        if (env->ins_len) {
->> +            intr_type = VMCS_INTR_T_SWINTR;
->> +        } else {
->> +            intr_type = VMCS_INTR_T_HWINTR;
->> +        }
->>     } else if (env->exception_nr != -1) {
->>         vector = env->exception_nr;
->>         if (vector == EXCP03_INT3 || vector == EXCP04_INTO) {
->>
->> Thanks,
->>
->> Paolo
->>
-> 
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index a39d6fcea34..bc5d6c4b974 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -703,6 +703,9 @@ static void aarch64_max_initfn(Object *obj)
+          */
+         cpu->ctr = 0x80038003; /* 32 byte I and D cacheline size, VIPT icache */
+         cpu->dcz_blocksize = 7; /*  512 bytes */
++
++        /* Default sve-max-vq to a reasonable numer */
++        cpu->sve_max_vq = 4;
+ #endif
+     }
+ 
+-- 
+2.20.1
 
 
