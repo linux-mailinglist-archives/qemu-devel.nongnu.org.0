@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D1510DF1E
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:54:37 +0100 (CET)
-Received: from localhost ([::1]:37746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3895410DF20
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:57:01 +0100 (CET)
+Received: from localhost ([::1]:37782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ib8pA-00032x-4C
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53527)
+	id 1ib8rU-0005ga-1r
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:57:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53666)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ib8ds-0006Tg-Qh
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:01 -0500
+ (envelope-from <armbru@redhat.com>) id 1ib8dx-0006ZB-AV
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ib8dq-000593-Rj
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44727
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ib8dv-0005Dg-30
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58791
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8do-00055U-RT
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:54 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8du-00058P-NP
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575142972;
+ s=mimecast20190719; t=1575142974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ui6GrgoIca+XbfoMtNNhuIbZOCAX//qMjn54wOZVwE0=;
- b=i8x+bWHk/bEay8rChZ+/Wcnz78mjLGl55F1Cl9DigIi/wcVZfLbFVuynjUexWw4GSqd09p
- dbbvOSNbh/oDseodB24HxVamc4sFO/UtPWNBZOyXciLnsJFwn7TTINE+bvELuMFkwm3VLs
- MV4gyUO76PQU0QfoVx9luLhCh61+UnU=
+ bh=X9ohRhZMo4PHmP3e4xms+2hvoD8VFoiNZy3Ldir0HdM=;
+ b=eeSy0kdkA+bbWAoUd78/xvxkibviBfUDclG4MyCVT9G3ckA/gFhsRAfbGN00+0ehsu9nR+
+ t+ltbwqgEu2jTQ4ASnADU01Myz+EJvC4jPfrl+V6J1qZBXI8eoS9hnzXoaTtdfjhZu1tjk
+ 0xG3XDd9UYn71fALP1dWyrKuB648iE4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-rIGtdbenONej9jLdE2_7DA-1; Sat, 30 Nov 2019 14:42:48 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-416-WPtqNFc0MAiS_p9OoaEAfg-1; Sat, 30 Nov 2019 14:42:52 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9A63107ACC4;
- Sat, 30 Nov 2019 19:42:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8B6480183D;
+ Sat, 30 Nov 2019 19:42:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ABFA5C219;
- Sat, 30 Nov 2019 19:42:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC2115D6D6;
+ Sat, 30 Nov 2019 19:42:48 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1FDE611366E6; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
+ id 2340A11366EC; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/21] exec: Fix latent file_ram_alloc() error handling bug
-Date: Sat, 30 Nov 2019 20:42:27 +0100
-Message-Id: <20191130194240.10517-9-armbru@redhat.com>
+Subject: [PATCH 09/21] hw/acpi: Fix latent legacy CPU plug error handling bug
+Date: Sat, 30 Nov 2019 20:42:28 +0100
+Message-Id: <20191130194240.10517-10-armbru@redhat.com>
 In-Reply-To: <20191130194240.10517-1-armbru@redhat.com>
 References: <20191130194240.10517-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: rIGtdbenONej9jLdE2_7DA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: WPtqNFc0MAiS_p9OoaEAfg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, vsementsov@virtuozzo.com
+Cc: Igor Mammedov <imammedo@redhat.com>, vsementsov@virtuozzo.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When os_mem_prealloc() fails, file_ram_alloc() calls qemu_ram_munmap()
-and returns null.  Except it doesn't when its @errp argument is null,
-because it checks for failure with (errp && *errp).  Messed up in
-commit 056b68af77 "fix qemu exit on memory hotplug when allocation
-fails at prealloc time".
+legacy_acpi_cpu_plug_cb() crashes when acpi_set_cpu_present_bit()
+fails and its @errp argument is null.  Messed up in commit cc43364de7
+"acpi/cpu-hotplug: introduce helper function to keep bit setting in
+one place".
 
-The bug can't bite as no caller actually passes null.  Fix it anyway.
+The bug can't bite as no caller actually passes null, and
+acpi_set_cpu_present_bit() can't actually fail.  Fix it anyway.
 
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- exec.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/acpi/cpu_hotplug.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index ffdb518535..45695a5f2d 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1841,6 +1841,7 @@ static void *file_ram_alloc(RAMBlock *block,
-                             bool truncate,
-                             Error **errp)
+diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
+index 3ac2045a95..9c3bcc84de 100644
+--- a/hw/acpi/cpu_hotplug.c
++++ b/hw/acpi/cpu_hotplug.c
+@@ -55,8 +55,7 @@ static const MemoryRegionOps AcpiCpuHotplug_ops =3D {
+     },
+ };
+=20
+-static void acpi_set_cpu_present_bit(AcpiCpuHotplug *g, CPUState *cpu,
+-                                     Error **errp)
++static void acpi_set_cpu_present_bit(AcpiCpuHotplug *g, CPUState *cpu)
  {
-+    Error *err =3D NULL;
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-     void *area;
+     CPUClass *k =3D CPU_GET_CLASS(cpu);
+     int64_t cpu_id;
+@@ -74,10 +73,7 @@ static void acpi_set_cpu_present_bit(AcpiCpuHotplug *g, =
+CPUState *cpu,
+ void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev,
+                              AcpiCpuHotplug *g, DeviceState *dev, Error **=
+errp)
+ {
+-    acpi_set_cpu_present_bit(g, CPU(dev), errp);
+-    if (*errp !=3D NULL) {
+-        return;
+-    }
++    acpi_set_cpu_present_bit(g, CPU(dev));
+     acpi_send_event(DEVICE(hotplug_dev), ACPI_CPU_HOTPLUG_STATUS);
+ }
 =20
-@@ -1898,8 +1899,9 @@ static void *file_ram_alloc(RAMBlock *block,
+@@ -92,7 +88,7 @@ void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, O=
+bject *owner,
+     gpe_cpu->device =3D owner;
+=20
+     CPU_FOREACH(cpu) {
+-        acpi_set_cpu_present_bit(gpe_cpu, cpu, &error_abort);
++        acpi_set_cpu_present_bit(gpe_cpu, cpu);
      }
+ }
 =20
-     if (mem_prealloc) {
--        os_mem_prealloc(fd, area, memory, ms->smp.cpus, errp);
--        if (errp && *errp) {
-+        os_mem_prealloc(fd, area, memory, ms->smp.cpus, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-             qemu_ram_munmap(fd, area, memory);
-             return NULL;
-         }
 --=20
 2.21.0
 
