@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D762610DF12
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:51:41 +0100 (CET)
-Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4873310DEFA
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:45:33 +0100 (CET)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ib8mK-0007lL-FL
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:51:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53529)
+	id 1ib8gN-0008Fa-OE
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:45:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ib8ds-0006Tk-Qx
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:57 -0500
+ (envelope-from <armbru@redhat.com>) id 1ib8ds-0006Tl-RB
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ib8dq-00058y-S1
+ (envelope-from <armbru@redhat.com>) id 1ib8dq-000595-SK
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50963
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48547
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8do-00055M-R1
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8do-000554-R3
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1575142971;
@@ -27,41 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QqX1QH5afYUXC10/rVNgiR/DuTiOhSvgW/1+jEyMUHQ=;
- b=PusjTVadOOL0gYMTMQTwaBTkp9riFIDJDgmNj+yPLQDcTSmWnxlsi6IAI59wQA78aDIhoI
- xLsmUF/Fela5AQuuvLG7S4FLk1OEbKNDf9zfK78hPKMUKR8JW980xki8UJn5y5XrgRTL/u
- YEUkof/kt3lxebig+gj4y8CdK7z7Ll8=
+ bh=fiBMWv3b4dYJ2SZifg0hNYS4tAtr7MwqgE6vP+ma9M0=;
+ b=OTqWS+sEt3BwwOwUL5rWIB+g4J0pgOGWMJOSaQw+jvi73PTh7QNVsoteIREG7CJIOQKyzw
+ fgvVLRzDca3wkYid/BIZvBq/cICe5aKG4gGJKk56mUu1+N4KY4/geNoFrLt2qYfWFNpf0z
+ 052w95tAD5H6DJ7LH9t3rjGy9qwSC6k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-EOCCzsdjN-WplvAgIhdMUg-1; Sat, 30 Nov 2019 14:42:49 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-98-itZyFkEUPZ2YQnrYZa-nvQ-1; Sat, 30 Nov 2019 14:42:49 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB7EE800D41;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA4D7DB20;
  Sat, 30 Nov 2019 19:42:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7145B19C5B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 712AC1001281;
  Sat, 30 Nov 2019 19:42:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 082C811385C7; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
+ id 0BC5811366CC; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/21] net/virtio: Drop useless n->primary_dev not null checks
-Date: Sat, 30 Nov 2019 20:42:20 +0100
-Message-Id: <20191130194240.10517-2-armbru@redhat.com>
+Subject: [PATCH 02/21] net/virtio: Fix failover error handling crash bugs
+Date: Sat, 30 Nov 2019 20:42:21 +0100
+Message-Id: <20191130194240.10517-3-armbru@redhat.com>
 In-Reply-To: <20191130194240.10517-1-armbru@redhat.com>
 References: <20191130194240.10517-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: EOCCzsdjN-WplvAgIhdMUg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: itZyFkEUPZ2YQnrYZa-nvQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,52 +78,90 @@ Cc: vsementsov@virtuozzo.com, Jens Freimann <jfreimann@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio_net_handle_migration_primary() returns early when it can't
-ensure n->primary_dev is non-null.  Checking it again right after that
-early return is redundant.  Drop.
+Functions that take an Error ** parameter to pass an error to the
+caller expect the parameter to point to null.
+failover_replug_primary() violates this precondition in several
+places:
 
-If n->primary_dev is null on entering failover_replug_primary(), @pdev
-will become null, and pdev->partially_hotplugged will crash.  Checking
-n->primary_dev later is useless.  It can't actually be null, because
-its caller virtio_net_handle_migration_primary() ensures it isn't.
-Drop the useless check.
+* After qemu_opts_from_qdict() failed, *errp is no longer null.
+  Passing it to error_setg() is wrong, and will trip the assertion in
+  error_setv().  Messed up in commit 150ab54aa6 "net/virtio: fix
+  re-plugging of primary device".  Simply drop the error_setg().
 
+* Passing @errp to qemu_opt_set_bool(), hotplug_handler_pre_plug(),
+  and hotplug_handler_plug() is wrong.  If one of the first two fails,
+  *errp is no longer null.  Risks tripping the same assertion.
+  Moreover, continuing after such errors is unsafe.  Messed up in
+  commit 9711cd0dfc "net/virtio: add failover support".  Fix by
+  handling each error properly.
+
+failover_replug_primary() crashes when passed a null @errp.  Also
+messed up in commit 9711cd0dfc.  This bug can't bite as no caller
+actually passes null.  Fix it anyway.
+
+Fixes: 9711cd0dfc3fa414f7f64935713c07134ae67971
+Fixes: 150ab54aa6934583180f88a2bd540bc6fc4fbff3
 Cc: Jens Freimann <jfreimann@redhat.com>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/net/virtio-net.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ hw/net/virtio-net.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 3c31471026..87088ba374 100644
+index 87088ba374..db3d7c38e6 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -2810,11 +2810,6 @@ static bool failover_replug_primary(VirtIONet *n, Er=
-ror **errp)
-             goto out;
+@@ -2795,6 +2795,7 @@ static bool failover_unplug_primary(VirtIONet *n)
+=20
+ static bool failover_replug_primary(VirtIONet *n, Error **errp)
+ {
++    Error *err =3D NULL;
+     HotplugHandler *hotplug_ctrl;
+     PCIDevice *pdev =3D PCI_DEVICE(n->primary_dev);
+=20
+@@ -2806,27 +2807,33 @@ static bool failover_replug_primary(VirtIONet *n, E=
+rror **errp)
+                 qemu_find_opts("device"),
+                 n->primary_device_dict, errp);
+         if (!n->primary_device_opts) {
+-            error_setg(errp, "virtio_net: couldn't find primary device opt=
+s");
+-            goto out;
++            return false;
          }
      }
--    if (!n->primary_dev) {
--            error_setg(errp, "virtio_net: couldn't find primary device");
--            goto out;
--    }
--
      n->primary_bus =3D n->primary_dev->parent_bus;
      if (!n->primary_bus) {
          error_setg(errp, "virtio_net: couldn't find primary bus");
-@@ -2849,8 +2844,7 @@ static void virtio_net_handle_migration_primary(VirtI=
-ONet *n,
-         }
+-        goto out;
++        return false;
+     }
+     qdev_set_parent_bus(n->primary_dev, n->primary_bus);
+     n->primary_should_be_hidden =3D false;
+     qemu_opt_set_bool(n->primary_device_opts,
+-                      "partially_hotplugged", true, errp);
++                      "partially_hotplugged", true, &err);
++    if (err) {
++        goto out;
++    }
+     hotplug_ctrl =3D qdev_get_hotplug_handler(n->primary_dev);
+     if (hotplug_ctrl) {
+-        hotplug_handler_pre_plug(hotplug_ctrl, n->primary_dev, errp);
++        hotplug_handler_pre_plug(hotplug_ctrl, n->primary_dev, &err);
++        if (err) {
++            goto out;
++        }
+         hotplug_handler_plug(hotplug_ctrl, n->primary_dev, errp);
      }
 =20
--    if (migration_in_setup(s) && !should_be_hidden &&
--        n->primary_dev) {
-+    if (migration_in_setup(s) && !should_be_hidden) {
-         if (failover_unplug_primary(n)) {
-             vmstate_unregister(n->primary_dev, qdev_get_vmsd(n->primary_de=
-v),
-                     n->primary_dev);
+ out:
+-    return *errp =3D=3D NULL;
++    error_propagate(errp, err);
++    return !err;
+ }
+=20
+ static void virtio_net_handle_migration_primary(VirtIONet *n,
 --=20
 2.21.0
 
