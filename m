@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6A410DF29
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 21:02:54 +0100 (CET)
-Received: from localhost ([::1]:37878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45AF310DF27
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 21:01:17 +0100 (CET)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ib8xB-0003yp-IE
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 15:02:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
+	id 1ib8vb-0002Ox-VY
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 15:01:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ib8dx-0006Zv-Jx
+ (envelope-from <armbru@redhat.com>) id 1ib8dx-0006ZU-DQ
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ib8dv-0005DX-2X
+ (envelope-from <armbru@redhat.com>) id 1ib8dv-0005Dz-5F
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23562
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49912
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8du-00058t-M8
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:58 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8du-0005An-U7
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575142974;
+ s=mimecast20190719; t=1575142976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lwveq/Hd1QbJmTtcX2t0aVbraIXH0lWuf5V+vTtMWvM=;
- b=TACeyDGHsd9S/0cmzE+f7QHTx4spedE5eOcV4bOzfofw+4q4gyQqzxOKvLOtyl0NltBbLY
- 2cE0ti+lrmMurjuTAhpkPMDQS3guFqRZdk9KojiiXDapwf1g2XWW2A6pcs8vb8V6Be2mFe
- BNfiWBxYqkYo7bXWimun6k4Z97qKKeU=
+ bh=+6r20tme1c3K1oItK55VjhZNP4i1wewMOCLwqCimvoE=;
+ b=PRRBV4WR4pKNXKfHpcYILi1xHZ8qSIi9QKplOISlVIeX++2h/uAvNzntPdlXHHHvmiujLq
+ bcE60AZ1OlvglGJ1Ys+Uq/x8dN/TJS/uiaiwEg1vu1ZZpsnMxshCKMkfXJtQljZygmOs8u
+ SxqP+2CbhLZyD0z0+WOPEmkvCHWRNM0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-2qicZGfxP_KjNJUjYTuOFQ-1; Sat, 30 Nov 2019 14:42:51 -0500
+ us-mta-266-tflcyL6LMEmznqfwm4cVFg-1; Sat, 30 Nov 2019 14:42:51 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A4721005502;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66772DB21;
  Sat, 30 Nov 2019 19:42:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22A74611DB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 354586608A;
  Sat, 30 Nov 2019 19:42:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3D2E81135A5A; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
+ id 487DE1135A70; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/21] s390x: Fix latent query-cpu-model-FOO error handling
- bugs
-Date: Sat, 30 Nov 2019 20:42:36 +0100
-Message-Id: <20191130194240.10517-18-armbru@redhat.com>
+Subject: [PATCH 20/21] hw/intc/s390: Simplify error handling in
+ kvm_s390_flic_realize()
+Date: Sat, 30 Nov 2019 20:42:39 +0100
+Message-Id: <20191130194240.10517-21-armbru@redhat.com>
 In-Reply-To: <20191130194240.10517-1-armbru@redhat.com>
 References: <20191130194240.10517-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 2qicZGfxP_KjNJUjYTuOFQ-1
+X-MC-Unique: tflcyL6LMEmznqfwm4cVFg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -74,156 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, vsementsov@virtuozzo.com,
- David Hildenbrand <david@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, vsementsov@virtuozzo.com,
+ Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_model_from_info() is a helper for qmp_query_cpu_model_expansion(),
-qmp_query_cpu_model_comparison(), qmp_query_cpu_model_baseline().  It
-crashes when the visitor or the QOM setter fails, and its @errp
-argument is null.  Messed up in commit 137974cea3 's390x/cpumodel:
-implement QMP interface "query-cpu-model-expansion"'.
-
-Its three callers have the same bug.  Messed up in commit 4e82ef0502
-'s390x/cpumodel: implement QMP interface "query-cpu-model-comparison"'
-and commit f1a47d08ef 's390x/cpumodel: implement QMP interface
-"query-cpu-model-baseline"'.
-
-The bugs can't bite as no caller actually passes null.  Fix them
-anyway.
-
-Cc: David Hildenbrand <david@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
 Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/s390x/cpu_models.c | 43 ++++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ hw/intc/s390_flic_kvm.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index c702e34a26..3ed301b5e5 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -477,6 +477,7 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error =
-**errp)
- static void cpu_model_from_info(S390CPUModel *model, const CpuModelInfo *i=
-nfo,
-                                 Error **errp)
- {
-+    Error *err =3D NULL;
-     const QDict *qdict =3D NULL;
-     const QDictEntry *e;
-     Visitor *visitor;
-@@ -513,24 +514,26 @@ static void cpu_model_from_info(S390CPUModel *model, =
-const CpuModelInfo *info,
+diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
+index 30d50c2369..dddd33ea61 100644
+--- a/hw/intc/s390_flic_kvm.c
++++ b/hw/intc/s390_flic_kvm.c
+@@ -586,16 +586,17 @@ static void kvm_s390_flic_realize(DeviceState *dev, E=
+rror **errp)
 =20
-     if (qdict) {
-         visitor =3D qobject_input_visitor_new(info->props);
--        visit_start_struct(visitor, NULL, NULL, 0, errp);
--        if (*errp) {
-+        visit_start_struct(visitor, NULL, NULL, 0, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-             visit_free(visitor);
-             object_unref(obj);
-             return;
-         }
-         for (e =3D qdict_first(qdict); e; e =3D qdict_next(qdict, e)) {
--            object_property_set(obj, visitor, e->key, errp);
--            if (*errp) {
-+            object_property_set(obj, visitor, e->key, &err);
-+            if (err) {
-                 break;
-             }
-         }
--        if (!*errp) {
-+        if (!err) {
-             visit_check_struct(visitor, errp);
-         }
-         visit_end_struct(visitor, NULL);
-         visit_free(visitor);
--        if (*errp) {
-+        if (err) {
-+            error_propagate(errp, err);
-             object_unref(obj);
-             return;
-         }
-@@ -595,13 +598,15 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(=
-CpuModelExpansionType type,
-                                                       CpuModelInfo *model,
-                                                       Error **errp)
- {
-+    Error *err =3D NULL;
-     CpuModelExpansionInfo *expansion_info =3D NULL;
-     S390CPUModel s390_model;
-     bool delta_changes =3D false;
-=20
-     /* convert it to our internal representation */
--    cpu_model_from_info(&s390_model, model, errp);
--    if (*errp) {
-+    cpu_model_from_info(&s390_model, model, &err);
-+    if (err) {
+     KVM_S390_FLIC_GET_CLASS(dev)->parent_realize(dev, &err);
+     if (err) {
+-        goto fail;
 +        error_propagate(errp, err);
-         return NULL;
++        return;
      }
+     flic_state->fd =3D -1;
 =20
-@@ -634,18 +639,21 @@ CpuModelCompareInfo *qmp_query_cpu_model_comparison(C=
-puModelInfo *infoa,
-                                                      CpuModelInfo *infob,
-                                                      Error **errp)
- {
-+    Error *err =3D NULL;
-     CpuModelCompareResult feat_result, gen_result;
-     CpuModelCompareInfo *compare_info;
-     S390FeatBitmap missing, added;
-     S390CPUModel modela, modelb;
-=20
-     /* convert both models to our internal representation */
--    cpu_model_from_info(&modela, infoa, errp);
--    if (*errp) {
-+    cpu_model_from_info(&modela, infoa, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return NULL;
+     cd.type =3D KVM_DEV_TYPE_FLIC;
+     ret =3D kvm_vm_ioctl(kvm_state, KVM_CREATE_DEVICE, &cd);
+     if (ret < 0) {
+-        error_setg_errno(&err, errno, "Creating the KVM device failed");
++        error_setg_errno(errp, errno, "Creating the KVM device failed");
+         trace_flic_create_device(errno);
+-        goto fail;
++        return;
      }
--    cpu_model_from_info(&modelb, infob, errp);
--    if (*errp) {
-+    cpu_model_from_info(&modelb, infob, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return NULL;
-     }
-     compare_info =3D g_new0(CpuModelCompareInfo, 1);
-@@ -707,6 +715,7 @@ CpuModelBaselineInfo *qmp_query_cpu_model_baseline(CpuM=
-odelInfo *infoa,
-                                                     CpuModelInfo *infob,
-                                                     Error **errp)
- {
-+    Error *err =3D NULL;
-     CpuModelBaselineInfo *baseline_info;
-     S390CPUModel modela, modelb, model;
-     uint16_t cpu_type;
-@@ -714,13 +723,15 @@ CpuModelBaselineInfo *qmp_query_cpu_model_baseline(Cp=
-uModelInfo *infoa,
-     uint8_t max_gen;
+     flic_state->fd =3D cd.fd;
 =20
-     /* convert both models to our internal representation */
--    cpu_model_from_info(&modela, infoa, errp);
--    if (*errp) {
-+    cpu_model_from_info(&modela, infoa, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return NULL;
-     }
+@@ -603,9 +604,6 @@ static void kvm_s390_flic_realize(DeviceState *dev, Err=
+or **errp)
+     test_attr.group =3D KVM_DEV_FLIC_CLEAR_IO_IRQ;
+     flic_state->clear_io_supported =3D !ioctl(flic_state->fd,
+                                             KVM_HAS_DEVICE_ATTR, test_attr=
+);
+-    return;
+-fail:
+-    error_propagate(errp, err);
+ }
 =20
--    cpu_model_from_info(&modelb, infob, errp);
--    if (*errp) {
-+    cpu_model_from_info(&modelb, infob, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return NULL;
-     }
-=20
+ static void kvm_s390_flic_reset(DeviceState *dev)
 --=20
 2.21.0
 
