@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBA010DF13
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:51:44 +0100 (CET)
-Received: from localhost ([::1]:37722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E41510DF21
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:57:04 +0100 (CET)
+Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ib8mN-0007vZ-Ev
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:51:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53637)
+	id 1ib8rX-0005n8-Dd
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53597)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ib8dw-0006YD-Pa
+ (envelope-from <armbru@redhat.com>) id 1ib8dv-0006Wf-T5
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ib8du-0005Co-Lu
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:00 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53230
+ (envelope-from <armbru@redhat.com>) id 1ib8du-0005Cp-Lr
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:59 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40440
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8dt-00056y-Sz
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8ds-0005Ab-O5
  for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575142973;
+ s=mimecast20190719; t=1575142976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6+WDpTr2l+S+ufHYzRrbqlPbh/3TDGw8iJU+PKCkrjo=;
- b=Ll7KZcHRfqNxPZNHs8Y5cb4izbiCW9BTQDGUFXLa3nz9m9VlmySK1UEgCsNANq9SAoM3Hz
- wKLgy//IDVv/qRbZghojZWJMMABC8wGRECEIbLHXu8lpWVJootKoDf0TX6L4YhFPbgwlHY
- GQBefCOwfGqRdpltQIJ5iM4k3wpSkEo=
+ bh=g6s54Yx9MNo545FwLDDs16iRJ9KAV1CQQ70D0Qc5Xbg=;
+ b=aZQyXUqxekN8ylM+kM9rNRss1jN2iiZncEpvW9/64w2QhGhE/qjKgzzDqW+gaIHxop1Zdy
+ gv1SfxcIZp9rP4CyMHuP3SpGXcYzTdiIkyDhj+SqkHEZekRAwu2tEEdTU/RtQTfBPXhIeT
+ ICHqx2eWpUEnawUkq41vduajxL6gblY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-xQaGg6W7MmW7h5WDQbly0Q-1; Sat, 30 Nov 2019 14:42:50 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-212-20_MptBPOImtUrb2Gi73Ew-1; Sat, 30 Nov 2019 14:42:52 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F84B80183C;
- Sat, 30 Nov 2019 19:42:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF9FB184CAB8;
+ Sat, 30 Nov 2019 19:42:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3A6F5D6D8;
- Sat, 30 Nov 2019 19:42:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 063AB19C5B;
+ Sat, 30 Nov 2019 19:42:49 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2D12111366F3; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
+ id 33716113639C; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/21] qga: Fix latent guest-get-fsinfo error handling bug
-Date: Sat, 30 Nov 2019 20:42:31 +0100
-Message-Id: <20191130194240.10517-13-armbru@redhat.com>
+Subject: [PATCH 14/21] s390x/event-facility: Fix latent realize() error
+ handling bug
+Date: Sat, 30 Nov 2019 20:42:33 +0100
+Message-Id: <20191130194240.10517-15-armbru@redhat.com>
 In-Reply-To: <20191130194240.10517-1-armbru@redhat.com>
 References: <20191130194240.10517-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: xQaGg6W7MmW7h5WDQbly0Q-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 20_MptBPOImtUrb2Gi73Ew-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -73,51 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, vsementsov@virtuozzo.com,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-build_guest_fsinfo_for_virtual_device() crashes when
-build_guest_fsinfo_for_device() fails and its @errp argument is null.
-Messed up in commit 46d4c5723e "qga: Add guest-get-fsinfo command".
+sclp_events_bus_realize() crashes when object_property_set_bool()
+fails and its @errp argument is null.  Messed up in commit f6102c329c
+"s390/sclp: rework sclp event facility initialization + device
+realization".
 
 The bug can't bite as no caller actually passes null.  Fix it anyway.
 
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/commands-posix.c | 6 ++++--
+ hw/s390x/event-facility.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 1c1a165dae..0be527ccb8 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1049,6 +1049,7 @@ static void build_guest_fsinfo_for_virtual_device(cha=
-r const *syspath,
-                                                   GuestFilesystemInfo *fs,
-                                                   Error **errp)
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 66205697ae..cdcf9154c4 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -339,14 +339,16 @@ out:
+=20
+ static void sclp_events_bus_realize(BusState *bus, Error **errp)
  {
 +    Error *err =3D NULL;
-     DIR *dir;
-     char *dirpath;
-     struct dirent *entry;
-@@ -1078,10 +1079,11 @@ static void build_guest_fsinfo_for_virtual_device(c=
-har const *syspath,
+     BusChild *kid;
 =20
-             g_debug(" slave device '%s'", entry->d_name);
-             path =3D g_strdup_printf("%s/slaves/%s", syspath, entry->d_nam=
-e);
--            build_guest_fsinfo_for_device(path, fs, errp);
-+            build_guest_fsinfo_for_device(path, fs, &err);
-             g_free(path);
+     /* TODO: recursive realization has to be done in common code */
+     QTAILQ_FOREACH(kid, &bus->children, sibling) {
+         DeviceState *dev =3D kid->child;
 =20
--            if (*errp) {
-+            if (err) {
-+                error_propagate(errp, err);
-                 break;
-             }
+-        object_property_set_bool(OBJECT(dev), true, "realized", errp);
+-        if (*errp) {
++        object_property_set_bool(OBJECT(dev), true, "realized", &err);
++        if (errp) {
++            error_propagate(errp, err);
+             return;
          }
+     }
 --=20
 2.21.0
 
