@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B9210DE8C
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 19:35:47 +0100 (CET)
-Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F0510DF14
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Nov 2019 20:51:47 +0100 (CET)
+Received: from localhost ([::1]:37724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ib7ar-00081W-Ma
-	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 13:35:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43891)
+	id 1ib8mP-00085m-Ph
+	for lists+qemu-devel@lfdr.de; Sat, 30 Nov 2019 14:51:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ib7Va-0003DC-8M
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 13:30:19 -0500
+ (envelope-from <armbru@redhat.com>) id 1ib8dx-0006aA-R0
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ib6Jz-0000KT-HQ
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 12:14:16 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46437)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ib6Jz-0000KE-AI
- for qemu-devel@nongnu.org; Sat, 30 Nov 2019 12:14:15 -0500
-Received: by mail-oi1-x242.google.com with SMTP id a124so5009350oii.13
- for <qemu-devel@nongnu.org>; Sat, 30 Nov 2019 09:14:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=tEJX813xRO4hBm2i8UTGTU77czTWGr1JsvPGVdiF6EA=;
- b=dubnSMsj3XjMg+vCLCUBFePF73cCkv8w6HDV5rOSaPbC5Se+ymDustxZeMa+fbBJCg
- 7Rs3qFzLFpFzYlLntc96fEKIC/0BTvhRWLUq7uhaAqH4KjM79AiLNOQz0wiOGOUkqy2Q
- 9WoU0HgjEIVf2Ua8eRt8fXRjtvFDQWGD/XwJOnNMDDHlzTYo09uK2H+AuW0qwsqQ/f7a
- iLfE80gOE9xzNd6LD8/FvOJHfhNVDU5RUm2V8Ck7pNzixiQx4R+tpenVTgjkGcVSmCZa
- LKP2OPPXXbiaRP38D9beJ+xtYWOJ1J7bSgOVFDv7l1ksVK6Xf7t6wIFLl9rixZbv9bmT
- SeWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=tEJX813xRO4hBm2i8UTGTU77czTWGr1JsvPGVdiF6EA=;
- b=eAD1GzGPiAz2BTh/+7a+pkol4AdjjYr8bChWX3xt67ruBBEL6gh6K5gUV55R59cP8T
- 9Q45Wp6y0O8HJWqVJzsZsmqEznX8KoyLcXIiN2ZMiTykvoFf+zSeVozmzQeOc+kxEkZS
- k3V1KAgSqW8Jp7OUuVl0/5T8YFkOt50+dQwMOVUHRQfvMPsiLIVTqqojd7nrQajXOdut
- 8wXW8aaSy9AJ7FP+xNbGQuEbY3yOtTxM8qVn4G07KZwHXc6Cjcnid4Jr7RYKJ9M8JUh3
- 6Va0WoyZhOwjaVoD8kM5WxQ7GsrXsX17rdd4RDi8FJsvkpvTKj2jyVzR21n68vY5R8f0
- 8NfQ==
-X-Gm-Message-State: APjAAAXJTRuZD44/+utjlqfh3NkHrrGOVVkXK43ZDRk45erG5MUSY2QQ
- drBM4SBoa3J+52uIDfKVwLUfqi0WyO3x6lGvZFg=
-X-Google-Smtp-Source: APXvYqw2vhhVu2oFHeHugYj7R9cM7Zp+9AQUaiZWRCrut5UavE1g4loRIHn8pgl7uDsQgvBJDdikJ/JmVi6uxm7TDSU=
-X-Received: by 2002:a05:6808:98b:: with SMTP id
- a11mr3052638oic.62.1575134054397; 
- Sat, 30 Nov 2019 09:14:14 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1ib8du-0005DD-Uf
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:43:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24941
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ib8du-0005Bm-L6
+ for qemu-devel@nongnu.org; Sat, 30 Nov 2019 14:42:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575142977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gdd4Q4RMRSDm5tLmjp/rTzPoz4CH3l8cFoEEj9kufmM=;
+ b=Tx+s3EK0eSHtxdLPDobsViG/I2cnt/82NhjvEvlYyFTCawosY5l5cagAWJPPsagoVyPfk4
+ oEWjc3oj6hJUeDRM6Z0a9RIXcaB7dyiBeLbThu3D/r4Xl4gPBU5w89+rtVJHMfk/TzlQ6A
+ 0lxb26oxMtyER8IdhKQ3JDkm7hA+QXY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-q2tjNsQpPReh9ZZkLbu7ww-1; Sat, 30 Nov 2019 14:42:52 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CAF780183C;
+ Sat, 30 Nov 2019 19:42:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59C1E6404A;
+ Sat, 30 Nov 2019 19:42:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 058361138606; Sat, 30 Nov 2019 20:42:41 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/21] Error handling fixes, may contain 4.2 material
+Date: Sat, 30 Nov 2019 20:42:19 +0100
+Message-Id: <20191130194240.10517-1-armbru@redhat.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6830:1391:0:0:0:0 with HTTP; Sat, 30 Nov 2019 09:14:13
- -0800 (PST)
-In-Reply-To: <CAK4993gztHpfAViSboHQAio7oHMOoJk3gDr_T9w4e9mjA9avBA@mail.gmail.com>
-References: <20191127175257.23480-1-mrolnik@gmail.com>
- <20191127175257.23480-6-mrolnik@gmail.com>
- <CAL1e-=jzJ3XAEqHOr4Z4UwyRZcfNs_nbKjvvUiX+BSKv6sPH5g@mail.gmail.com>
- <CAL1e-=i9ft-Py65fjuNt=TBFqw+EOerp9JBUsZa2i0wN8mAPJw@mail.gmail.com>
- <CAK4993gztHpfAViSboHQAio7oHMOoJk3gDr_T9w4e9mjA9avBA@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 30 Nov 2019 18:14:13 +0100
-Message-ID: <CAL1e-=ix-h9GHKdh9auec+TMrzY4wQMsbtN=Dh7J9yP=p02t3A@mail.gmail.com>
-Subject: Re: [PATCH v37 05/17] target/avr: Add instruction translation -
- Arithmetic and Logic Instructions
-To: Michael Rolnik <mrolnik@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c939cd05989379cf"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: q2tjNsQpPReh9ZZkLbu7ww-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,201 +70,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "thuth@redhat.com" <thuth@redhat.com>,
- "me@xcancerberox.com.ar" <me@xcancerberox.com.ar>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dovgaluk@ispras.ru" <dovgaluk@ispras.ru>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Corey Minyard <cminyard@mvista.com>,
+ vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Nishanth Aravamudan <naravamudan@digitalocean.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c939cd05989379cf
-Content-Type: text/plain; charset="UTF-8"
+PATCH 2-4 fix crash bugs.  Including them would be a no-brainer at
+-rc0.  But we're post -rc3, and even for crash bugs we require a
+certain likelihood of users getting bitten.
 
-On Saturday, November 30, 2019, Michael Rolnik <mrolnik@gmail.com> wrote:
+Jens, please assess impact of PATCH 2's crash bug.
 
-> Hi Aleksandar.
->
-> thanks for pointing that out I was not aware of that.
-> I can fix it.
->
+Kevin, please do the same for PATCH 3.
 
-That'd be great!
+Daniel, please do the same for PATCH 4.
 
-Thanks,
-Aleksandar
+The remainder is definitely not 4.2 material.
 
+Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Corey Minyard <cminyard@mvista.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Jens Freimann <jfreimann@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Nishanth Aravamudan <naravamudan@digitalocean.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 
+Markus Armbruster (21):
+  net/virtio: Drop useless n->primary_dev not null checks
+  net/virtio: Fix failover error handling crash bugs
+  block/file-posix: Fix laio_init() error handling crash bug
+  crypto: Fix certificate file error handling crash bug
+  crypto: Fix typo in QCryptoTLSSession's <example> comment
+  io: Fix Error usage in a comment <example>
+  tests: Clean up initialization of Error *err variables
+  exec: Fix latent file_ram_alloc() error handling bug
+  hw/acpi: Fix latent legacy CPU plug error handling bug
+  hw/core: Fix latent fit_load_fdt() error handling bug
+  hw/ipmi: Fix latent realize() error handling bugs
+  qga: Fix latent guest-get-fsinfo error handling bug
+  memory-device: Fix latent memory pre-plug error handling bugs
+  s390x/event-facility: Fix latent realize() error handling bug
+  s390x/cpu_models: Fix latent feature property error handling bugs
+  s390/cpu_modules: Fix latent realize() error handling bugs
+  s390x: Fix latent query-cpu-model-FOO error handling bugs
+  s390x: Fix latent query-cpu-definitions error handling bug
+  error: Clean up unusual names of Error * variables
+  hw/intc/s390: Simplify error handling in kvm_s390_flic_realize()
+  tests-blockjob: Use error_free_or_abort()
 
->
-> Regards,
-> Michael Rolnik
->
-> On Sat, Nov 30, 2019 at 6:29 PM Aleksandar Markovic <
-> aleksandar.m.mail@gmail.com> wrote:
->
->>
->>
->> On Saturday, November 30, 2019, Aleksandar Markovic <
->> aleksandar.m.mail@gmail.com> wrote:
->>
->>>
->>>
->>> On Wednesday, November 27, 2019, Michael Rolnik <mrolnik@gmail.com>
->>> wrote:
->>>
->>> +
->>>> +
->>>> +/*
->>>> + *  Performs the logical AND between the contents of register Rd and
->>>> register
->>>> + *  Rr and places the result in the destination register Rd.
->>>> + */
->>>> +static bool trans_AND(DisasContext *ctx, arg_AND *a)
->>>> +{
->>>> +    TCGv Rd = cpu_r[a->rd];
->>>> +    TCGv Rr = cpu_r[a->rr];
->>>> +    TCGv R = tcg_temp_new_i32();
->>>> +
->>>> +    /* op */
->>>> +    tcg_gen_and_tl(R, Rd, Rr); /* Rd = Rd and Rr */
->>>> +
->>>> +    /* Vf */
->>>> +    tcg_gen_movi_tl(cpu_Vf, 0); /* Vf = 0 */
->>>> +
->>>> +    /* Zf */
->>>> +    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
->>>> +
->>>> +    gen_ZNSf(R);
->>>> +
->>>> +    /* R */
->>>> +    tcg_gen_mov_tl(Rd, R);
->>>> +
->>>> +    tcg_temp_free_i32(R);
->>>> +
->>>> +    return true;
->>>> +}
->>>> +
->>>> +
->>>>
->>>
->>> According to specs:
->>>
->>> http://ww1.microchip.com/downloads/en/devicedoc/atmel-42505-8-bit-avr-
->>> microcontrollers-attiny102-attiny104_datasheet.pdf
->>>
->>> ... the chips in question have cores with 16 GPRs (that correspond to
->>> GPRs R16-R31 of more common AVR cores with 32 GPRs).
->>>
->>>
->> There are more examples;
->>
->> http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-8127-avr-8-bit-
->> microcontroller-attiny4-attiny5-attiny9-attiny10_datasheet.pdf
->>
->> Also ATtiny20, ATtiny40.
->>
->> How do you handle such cores?
->>>
->>> I don't see here anything preventing usage of all 32 GPRs, resulting, of
->>> course, in an inaccurate emulation.
->>>
->>> Thanks,
->>> Aleksandar
->>>
->>
->
-> --
-> Best Regards,
-> Michael Rolnik
->
+ include/crypto/tlssession.h         |  2 +-
+ include/io/task.h                   |  2 +-
+ block/file-posix.c                  |  2 +-
+ crypto/tlscredsx509.c               |  2 +-
+ exec.c                              |  6 +-
+ hw/acpi/cpu_hotplug.c               | 10 +--
+ hw/core/loader-fit.c                | 15 ++---
+ hw/intc/s390_flic_kvm.c             | 16 +++--
+ hw/ipmi/isa_ipmi_bt.c               |  7 ++-
+ hw/ipmi/isa_ipmi_kcs.c              |  7 ++-
+ hw/ipmi/pci_ipmi_bt.c               |  6 +-
+ hw/ipmi/pci_ipmi_kcs.c              |  6 +-
+ hw/mem/memory-device.c              |  6 +-
+ hw/net/virtio-net.c                 | 27 ++++----
+ hw/ppc/spapr_pci.c                  | 16 ++---
+ hw/ppc/spapr_pci_nvlink2.c          | 10 +--
+ hw/s390x/event-facility.c           |  6 +-
+ qga/commands-posix.c                |  6 +-
+ target/s390x/cpu_models.c           | 98 +++++++++++++++++------------
+ tests/test-blockjob.c               | 15 +++--
+ tests/test-qobject-output-visitor.c |  8 +--
+ tests/test-string-output-visitor.c  |  4 +-
+ 22 files changed, 154 insertions(+), 123 deletions(-)
 
---000000000000c939cd05989379cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+2.21.0
 
-<br><br>On Saturday, November 30, 2019, Michael Rolnik &lt;<a href=3D"mailt=
-o:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><div dir=3D"ltr">Hi Aleksandar.<div><br></div><div>thanks for=
- pointing that out I was not aware=C2=A0of that.</div><div>I can fix it.</d=
-iv></div></blockquote><div><br></div><div>That&#39;d be great!</div><div><b=
-r></div><div>Thanks,</div><div>Aleksandar</div><div><br></div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><br></div><div>Reg=
-ards,</div><div>Michael Rolnik</div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 30, 2019 at 6:29 PM Aleksan=
-dar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com" target=3D"_=
-blank">aleksandar.m.mail@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><br><br>On Saturday, November 30, 2019, A=
-leksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com" targe=
-t=3D"_blank">aleksandar.m.mail@gmail.com</a>&gt; wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><br><br>On Wednesday, November 27, 2019, =
-Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" target=3D"_blank">m=
-rolnik@gmail.com</a>&gt; wrote:<div><br><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-+<br>
-+<br>
-+/*<br>
-+ *=C2=A0 Performs the logical AND between the contents of register Rd and =
-register<br>
-+ *=C2=A0 Rr and places the result in the destination register Rd.<br>
-+ */<br>
-+static bool trans_AND(DisasContext *ctx, arg_AND *a)<br>
-+{<br>
-+=C2=A0 =C2=A0 TCGv Rd =3D cpu_r[a-&gt;rd];<br>
-+=C2=A0 =C2=A0 TCGv Rr =3D cpu_r[a-&gt;rr];<br>
-+=C2=A0 =C2=A0 TCGv R =3D tcg_temp_new_i32();<br>
-+<br>
-+=C2=A0 =C2=A0 /* op */<br>
-+=C2=A0 =C2=A0 tcg_gen_and_tl(R, Rd, Rr); /* Rd =3D Rd and Rr */<br>
-+<br>
-+=C2=A0 =C2=A0 /* Vf */<br>
-+=C2=A0 =C2=A0 tcg_gen_movi_tl(cpu_Vf, 0); /* Vf =3D 0 */<br>
-+<br>
-+=C2=A0 =C2=A0 /* Zf */<br>
-+=C2=A0 =C2=A0 tcg_gen_setcondi_tl(TCG_COND_<wbr>EQ, cpu_Zf, R, 0); /* Zf =
-=3D R =3D=3D 0 */<br>
-+<br>
-+=C2=A0 =C2=A0 gen_ZNSf(R);<br>
-+<br>
-+=C2=A0 =C2=A0 /* R */<br>
-+=C2=A0 =C2=A0 tcg_gen_mov_tl(Rd, R);<br>
-+<br>
-+=C2=A0 =C2=A0 tcg_temp_free_i32(R);<br>
-+<br>
-+=C2=A0 =C2=A0 return true;<br>
-+}<br>
-+<br>
-+<br>
-</blockquote><div><br></div><div>According to specs:</div><div><br></div><d=
-iv><a href=3D"http://ww1.microchip.com/downloads/en/devicedoc/atmel-42505-8=
--bit-avr-microcontrollers-attiny102-attiny104_datasheet.pdf" target=3D"_bla=
-nk">http://ww1.microchip.com/<wbr>downloads/en/devicedoc/atmel-<wbr>42505-8=
--bit-avr-<wbr>microcontrollers-attiny102-<wbr>attiny104_datasheet.pdf</a><b=
-r></div></div><div><br></div><div>... the chips in question have cores with=
- 16 GPRs (that correspond to GPRs R16-R31 of more common AVR cores with 32 =
-GPRs).</div><div><br></div></blockquote><div><br></div><div>There are more =
-examples;</div><div><br></div><div><a href=3D"http://ww1.microchip.com/down=
-loads/en/DeviceDoc/atmel-8127-avr-8-bit-microcontroller-attiny4-attiny5-att=
-iny9-attiny10_datasheet.pdf" target=3D"_blank">http://ww1.microchip.com/<wb=
-r>downloads/en/DeviceDoc/atmel-<wbr>8127-avr-8-bit-<wbr>microcontroller-att=
-iny4-<wbr>attiny5-attiny9-attiny10_<wbr>datasheet.pdf</a><br></div><div><br=
-></div><div>Also ATtiny20, ATtiny40.</div><div><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div>How do you handle such cores?</div><d=
-iv><br></div><div>I don&#39;t see here anything preventing usage of all 32 =
-GPRs, resulting, of course, in an inaccurate emulation.</div><div><br></div=
-><div>Thanks,</div><div>Aleksandar</div>
-</blockquote>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
->Best Regards,<br>Michael Rolnik</div>
-</blockquote>
-
---000000000000c939cd05989379cf--
 
