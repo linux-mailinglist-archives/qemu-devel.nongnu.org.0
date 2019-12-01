@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4678710E18B
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:27:42 +0100 (CET)
-Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE3E10E18E
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:28:41 +0100 (CET)
+Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibNO8-00038R-Tk
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:27:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37725)
+	id 1ibNP5-0004YV-NZ
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:28:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37759)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNDw-0001fH-NB
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:09 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNE7-0001td-5L
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNDv-0000G6-Hn
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:08 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48650
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNE5-0000M5-PZ
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42218
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ibNDv-0000FX-Dn
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:07 -0500
+ id 1ibNE5-0000LZ-LS
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:17:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575199026;
+ s=mimecast20190719; t=1575199037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b5dSVQLjVail4scWe0BcLaOGlLN2baG+Nh8SgHef6BU=;
- b=btUKoCBOXVgP1EzFDgERdJRa0xiVrD//s0HtBZpG6wq056GXKn2rZoF2/xfV46mjxlTXHC
- EiAgU1J109OjyeIdYUp/LgOFw4lT59KjCwZxbw9WKbpTOo0ANkQfp/R2zsNEDyUQ5mYSA+
- r3ROBDl/EwouyTI/0747qEZ8XsKHP08=
+ bh=vb9T5sEnlrU3GX7+K7C/Qbe2848eZOW4FwS/WKG5AbM=;
+ b=af1htVreYxktVSQIbEamZ2+TEj8buqutvmdx3pC6CuRHb78UZ/B3iih7xNDWgaWPRig6p2
+ tWLaBWHlxT7WBLSMxd7SD6dnTMFzA/RwAi41/arL2cfAqpPU8kNHN66GGhI73o504Akcii
+ KSt5bPxZKM13/5+pdxa4EJxSnNWm0hk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-yk_XX_vnMfuJn23LGqJ01A-1; Sun, 01 Dec 2019 06:17:05 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-286-_XW43EasNgGSX0_993v1GA-1; Sun, 01 Dec 2019 06:17:16 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18E7D10054E3
- for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:17:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC25800D4E
+ for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:17:15 +0000 (UTC)
 Received: from localhost (unknown [10.36.112.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97BC260BF7;
- Sun,  1 Dec 2019 11:16:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D0445C541;
+ Sun,  1 Dec 2019 11:17:09 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/26] qstring: add qstring_free()
-Date: Sun,  1 Dec 2019 15:15:14 +0400
-Message-Id: <20191201111531.1136947-10-marcandre.lureau@redhat.com>
+Subject: [PATCH 10/26] object: add object_property_set_defaut_{bool, str, int,
+ uint}()
+Date: Sun,  1 Dec 2019 15:15:15 +0400
+Message-Id: <20191201111531.1136947-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 References: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: yk_XX_vnMfuJn23LGqJ01A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: _XW43EasNgGSX0_993v1GA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,70 +77,164 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to g_string_free(), optionally return the underlying char*.
-
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/qapi/qmp/qstring.h |  1 +
- qobject/qstring.c          | 27 ++++++++++++++++++++++-----
- 2 files changed, 23 insertions(+), 5 deletions(-)
+ include/qom/object.h | 37 +++++++++++++++++++++++++++++
+ qom/object.c         | 56 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 93 insertions(+)
 
-diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
-index 3e83e3a95d..e2e356e5e7 100644
---- a/include/qapi/qmp/qstring.h
-+++ b/include/qapi/qmp/qstring.h
-@@ -33,6 +33,7 @@ void qstring_append_int(QString *qstring, int64_t value);
- void qstring_append(QString *qstring, const char *str);
- void qstring_append_chr(QString *qstring, int c);
- bool qstring_is_equal(const QObject *x, const QObject *y);
-+char *qstring_free(QString *qstring, bool return_str);
- void qstring_destroy_obj(QObject *obj);
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 102d941ca5..03574473cd 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -380,6 +380,7 @@ struct ObjectProperty
+     ObjectPropertyInit *init;
+     ObjectPropertyGetDefault *get_default;
+     void *opaque;
++    QObject *defval;
+ };
 =20
- #endif /* QSTRING_H */
-diff --git a/qobject/qstring.c b/qobject/qstring.c
-index 1c6897df00..b66a2c35f2 100644
---- a/qobject/qstring.c
-+++ b/qobject/qstring.c
-@@ -149,16 +149,33 @@ bool qstring_is_equal(const QObject *x, const QObject=
- *y)
-                    qobject_to(QString, y)->string);
- }
+ /**
+@@ -1044,6 +1045,42 @@ ObjectProperty *object_class_property_add(ObjectClas=
+s *klass, const char *name,
+                                           ObjectPropertyRelease *release,
+                                           void *opaque, Error **errp);
 =20
 +/**
-+ * qstring_free(): Free the memory allocated by a QString object
++ * object_property_set_defaut_bool:
++ * @prop: the property to set
++ * @value: the value to be written to the property
 + *
-+ * Return: if @return_str, return the underlying string, to be
-+ * g_free(), otherwise NULL is returned.
++ * Set the property default value.
 + */
-+char *qstring_free(QString *qstring, bool return_str)
-+{
-+    char *rv =3D NULL;
++void object_property_set_defaut_bool(ObjectProperty *prop, bool value);
 +
-+    if (return_str) {
-+        rv =3D qstring->string;
-+    } else {
-+        g_free(qstring->string);
-+    }
++/**
++ * object_property_set_defaut_str:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_str(ObjectProperty *prop, const char *valu=
+e);
 +
-+    g_free(qstring);
++/**
++ * object_property_set_defaut_int:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_int(ObjectProperty *prop, int64_t value);
 +
-+    return rv;
-+}
++/**
++ * object_property_set_defaut_uint:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_uint(ObjectProperty *prop, uint64_t value)=
+;
 +
  /**
-  * qstring_destroy_obj(): Free all memory allocated by a QString
-  * object
-  */
- void qstring_destroy_obj(QObject *obj)
+  * object_property_find:
+  * @obj: the object
+diff --git a/qom/object.c b/qom/object.c
+index de43b30e5e..63d489553c 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -19,8 +19,10 @@
+ #include "qapi/visitor.h"
+ #include "qapi/string-input-visitor.h"
+ #include "qapi/string-output-visitor.h"
++#include "qapi/qobject-input-visitor.h"
+ #include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qjson.h"
+ #include "trace.h"
+=20
+ /* TODO: replace QObject with a simpler visitor to avoid a dependency
+@@ -264,6 +266,10 @@ static void object_property_free(gpointer data)
  {
--    QString *qs;
--
-     assert(obj !=3D NULL);
--    qs =3D qobject_to(QString, obj);
--    g_free(qs->string);
--    g_free(qs);
-+    qstring_free(qobject_to(QString, obj), FALSE);
+     ObjectProperty *prop =3D data;
+=20
++    if (prop->defval) {
++        qobject_unref(prop->defval);
++        prop->defval =3D NULL;
++    }
+     g_free(prop->name);
+     g_free(prop->type);
+     g_free(prop->description);
+@@ -1414,6 +1420,52 @@ char *object_property_get_default(ObjectProperty *pr=
+op)
+     return prop->get_default(prop);
  }
+=20
++static void object_property_init_defval(Object *obj, ObjectProperty *prop)
++{
++    Visitor *v =3D qobject_input_visitor_new(prop->defval);
++
++    assert(prop->set !=3D NULL);
++    prop->set(obj, v, prop->name, prop->opaque, &error_abort);
++
++    visit_free(v);
++}
++
++static char *object_property_get_defval(ObjectProperty *prop)
++{
++    return qstring_free(qobject_to_json(prop->defval), TRUE);
++}
++
++static void object_property_set_defaut(ObjectProperty *prop, QObject *defv=
+al)
++{
++    assert(!prop->defval);
++    assert(!prop->init);
++    assert(!prop->get_default);
++
++    prop->defval =3D defval;
++    prop->init =3D object_property_init_defval;
++    prop->get_default =3D object_property_get_defval;
++}
++
++void object_property_set_defaut_bool(ObjectProperty *prop, bool value)
++{
++    object_property_set_defaut(prop, QOBJECT(qbool_from_bool(value)));
++}
++
++void object_property_set_defaut_str(ObjectProperty *prop, const char *valu=
+e)
++{
++    object_property_set_defaut(prop, QOBJECT(qstring_from_str(value)));
++}
++
++void object_property_set_defaut_int(ObjectProperty *prop, int64_t value)
++{
++    object_property_set_defaut(prop, QOBJECT(qnum_from_int(value)));
++}
++
++void object_property_set_defaut_uint(ObjectProperty *prop, uint64_t value)
++{
++    object_property_set_defaut(prop, QOBJECT(qnum_from_uint(value)));
++}
++
+ void object_property_set_uint(Object *obj, uint64_t value,
+                               const char *name, Error **errp)
+ {
+@@ -2525,6 +2577,10 @@ void object_property_add_alias(Object *obj, const ch=
+ar *name,
+         goto out;
+     }
+     op->resolve =3D property_resolve_alias;
++    if (target_prop->get_default) {
++        op->get_default =3D target_prop->get_default;
++        op->defval =3D qobject_ref(target_prop->defval);
++    }
+=20
+     object_property_set_description(obj, op->name,
+                                     target_prop->description,
 --=20
 2.24.0
 
