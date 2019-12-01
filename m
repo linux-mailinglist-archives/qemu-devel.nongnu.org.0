@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EB410E1A5
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:36:57 +0100 (CET)
-Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B7010E1AE
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:40:37 +0100 (CET)
+Received: from localhost ([::1]:50396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibNX6-0004ri-9W
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37955)
+	id 1ibNad-0000a8-Ve
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:40:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37981)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNFR-0002Ub-QK
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:45 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNFV-0002VQ-IJ
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNFP-00019J-L3
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32141
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNFR-0001AQ-Oh
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35982
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ibNFJ-0000ze-6d
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:38 -0500
+ id 1ibNFP-00017O-L6
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:18:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575199099;
+ s=mimecast20190719; t=1575199111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HJ3s5HRWndCtFZ03zuB2XJy9MPRuZClbTMjM+Cu0Fdw=;
- b=XLZaBwizYDg3Iu3HyGiDiVTHhKZqaEPTz5S9QrLjEVMD7OBHhaUlo+ZDNiL3LaMywmKW+d
- F5DfbJQovM6MyAmwFISkg3ZHVLILy0+oz5ZR0G7w15FpC9QILklXVwZQbstASfxdtPkTeF
- 5dyreEfUMf0K8pEfEDzaNT3UIXzO3tk=
+ bh=bgNueKHODW6/ZFYS8VnwDlNSxwl1I49NzP+Ivr9lqAg=;
+ b=RsvpseetJ+0xS/eH3N4kE61JeqwLYZmC6FOcsgwFtaMHyw9cyk7/HjdPjS34WUE3/1RZKK
+ pGICycIUhJvwMFUxCTfJBYaxiL1sCHaJZUm3p61hFJUQ6xvYh5Znl/nj/hvgB4gxZg5E0H
+ F3fYGqe5flT4hG6Q8PXi9AMO8Wzwbt0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-rsAnvJPqOd2HZ8yy9yEdQQ-1; Sun, 01 Dec 2019 06:18:18 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-225-7f9aBezcOs-lO-LMoZm8YQ-1; Sun, 01 Dec 2019 06:18:28 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D8DC800D4C
- for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:18:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C48DB107ACC4
+ for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:18:27 +0000 (UTC)
 Received: from localhost (unknown [10.36.112.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B29D910013A7;
- Sun,  1 Dec 2019 11:18:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC9336609E;
+ Sun,  1 Dec 2019 11:18:23 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/26] object: add object_class_property_add_link()
-Date: Sun,  1 Dec 2019 15:15:21 +0400
-Message-Id: <20191201111531.1136947-17-marcandre.lureau@redhat.com>
+Subject: [PATCH 17/26] object: release all props
+Date: Sun,  1 Dec 2019 15:15:22 +0400
+Message-Id: <20191201111531.1136947-18-marcandre.lureau@redhat.com>
 In-Reply-To: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 References: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: rsAnvJPqOd2HZ8yy9yEdQQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 7f9aBezcOs-lO-LMoZm8YQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,124 +76,55 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Class properties may have to release resources when the object is
+destroyed. Let's use the existing release() callback for that, but
+class properties must not release ObjectProperty, as it can be shared
+by various instances.
+
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/qom/object.h |  9 +++++++++
- qom/object.c         | 46 +++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 54 insertions(+), 1 deletion(-)
+ qom/object.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 9bef5783f1..6cafc5f368 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1512,6 +1512,7 @@ typedef enum {
-=20
-     /* private */
-     OBJ_PROP_LINK_DIRECT =3D 0x2,
-+    OBJ_PROP_LINK_CLASS =3D 0x4,
- } ObjectPropertyLinkFlags;
-=20
- /**
-@@ -1560,6 +1561,14 @@ void object_property_add_link(Object *obj, const cha=
-r *name,
-                               ObjectPropertyLinkFlags flags,
-                               Error **errp);
-=20
-+ObjectProperty *object_class_property_add_link(ObjectClass *oc,
-+                              const char *name,
-+                              const char *type, ptrdiff_t offset,
-+                              void (*check)(const Object *obj, const char =
-*name,
-+                                            Object *val, Error **errp),
-+                              ObjectPropertyLinkFlags flags,
-+                              Error **errp);
-+
- /**
-  * object_property_add_str:
-  * @obj: the object to add a property to
 diff --git a/qom/object.c b/qom/object.c
-index b73fe66dc9..9227dbc08b 100644
+index 9227dbc08b..10acf9bff9 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1699,6 +1699,7 @@ typedef struct {
-     union {
-         Object **targetp;
-         Object *target; /* if OBJ_PROP_LINK_DIRECT, when holding the point=
-er  */
-+        ptrdiff_t offset; /* if OBJ_PROP_LINK_CLASS */
-     };
-     void (*check)(const Object *, const char *, Object *, Error **);
-     ObjectPropertyLinkFlags flags;
-@@ -1709,6 +1710,8 @@ object_link_get_targetp(Object *obj, LinkProperty *lp=
-rop)
- {
-     if (lprop->flags & OBJ_PROP_LINK_DIRECT) {
-         return &lprop->target;
-+    } else if (lprop->flags & OBJ_PROP_LINK_CLASS) {
-+        return (void *)obj + lprop->offset;
-     } else {
-         return lprop->targetp;
-     }
-@@ -1824,7 +1827,9 @@ static void object_release_link_property(Object *obj,=
- const char *name,
-     if ((prop->flags & OBJ_PROP_LINK_STRONG) && *targetp) {
-         object_unref(*targetp);
-     }
--    g_free(prop);
-+    if (!(prop->flags & OBJ_PROP_LINK_CLASS)) {
-+        g_free(prop);
-+    }
- }
+@@ -564,23 +564,22 @@ static inline bool object_property_is_child(ObjectPro=
+perty *prop)
 =20
- static void object_add_link_prop(Object *obj, const char *name,
-@@ -1877,6 +1882,45 @@ void object_property_add_link(Object *obj, const cha=
-r *name,
-     object_add_link_prop(obj, name, type, targetp, check, flags, errp);
- }
-=20
-+ObjectProperty *
-+object_class_property_add_link(ObjectClass *oc,
-+    const char *name,
-+    const char *type, ptrdiff_t offset,
-+    void (*check)(const Object *obj, const char *name,
-+                  Object *val, Error **errp),
-+    ObjectPropertyLinkFlags flags,
-+    Error **errp)
-+{
-+    Error *local_err =3D NULL;
-+    LinkProperty *prop =3D g_new0(LinkProperty, 1);
-+    gchar *full_type;
-+    ObjectProperty *op;
-+
-+    prop->offset =3D offset;
-+    prop->check =3D check;
-+    prop->flags =3D flags | OBJ_PROP_LINK_CLASS;
-+
-+    full_type =3D g_strdup_printf("link<%s>", type);
-+
-+    op =3D object_class_property_add(oc, name, full_type,
-+                                   object_get_link_property,
-+                                   check ? object_set_link_property : NULL=
-,
-+                                   object_release_link_property,
-+                                   prop,
-+                                   &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        g_free(prop);
-+        goto out;
-+    }
-+
-+    op->resolve =3D object_resolve_link_property;
-+
-+out:
-+    g_free(full_type);
-+    return op;
-+}
-+
- void object_property_add_const_link(Object *obj, const char *name,
-                                     Object *target, Error **errp)
+ static void object_property_del_all(Object *obj)
  {
++    g_autoptr(GHashTable) done =3D g_hash_table_new(NULL, NULL);
+     ObjectProperty *prop;
+-    GHashTableIter iter;
+-    gpointer key, value;
++    ObjectPropertyIterator iter;
+     bool released;
+=20
+     do {
+         released =3D false;
+-        g_hash_table_iter_init(&iter, obj->properties);
+-        while (g_hash_table_iter_next(&iter, &key, &value)) {
+-            prop =3D value;
+-            if (prop->release) {
+-                prop->release(obj, prop->name, prop->opaque);
+-                prop->release =3D NULL;
+-                released =3D true;
+-                break;
++        object_property_iter_init(&iter, obj);
++        while ((prop =3D object_property_iter_next(&iter)) !=3D NULL) {
++            if (g_hash_table_add(done, prop)) {
++                if (prop->release) {
++                    prop->release(obj, prop->name, prop->opaque);
++                    released =3D true;
++                    break;
++                }
+             }
+-            g_hash_table_iter_remove(&iter);
+         }
+     } while (released);
+=20
 --=20
 2.24.0
 
