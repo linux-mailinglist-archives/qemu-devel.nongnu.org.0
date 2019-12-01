@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D47010E181
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:21:18 +0100 (CET)
-Received: from localhost ([::1]:50192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F0C10E186
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:23:51 +0100 (CET)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibNHx-0003JU-2g
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:21:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37581)
+	id 1ibNKQ-0007a2-IL
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibND1-0001Ae-OG
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:13 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNDF-0001I1-V3
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibND0-0008C1-9W
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49777
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNDE-0008GW-0a
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43569
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ibNCz-0008Bh-W1
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:10 -0500
+ id 1ibNDD-0008G9-T6
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:16:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575198969;
+ s=mimecast20190719; t=1575198981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rNdleSXDTK4vp6nify9fd/tubTFRO4PlAEC/2G0isec=;
- b=SVWDv2TYSNWcSuv6M39lqyJCfdUF8EiKzYQ3c874DALUq0QvvUbBU6t+K5xt1dSqCJwIP2
- yeKjlsr2k8uoOsfxrhQk5ngOvmFn3JNxmSMYAnxBbaHOLXCNJe1CW28MuS3bJrMFXVvYJL
- occgdH3rMQ+7Z2T58wqG98PIra/n+Qs=
+ bh=Qy4UGDnZUZbRfVnfGhS9Fo6/uz5dbjMLbxon+QIkKhk=;
+ b=Of4ss9UTmeH1UONTOQqvfgJNX/MRvCUuq8O6O8oBXxZcPKPx2zPIWO7433MhMAu9UUtVKP
+ Z/74vZCoePe8Xa+r2KK+3jjdpqdP7UTMRxXx/WiCSkl97dEHfD8CmKiVr0gY0nMRn44VDB
+ AKGOs7LO3VEZ62umwScSYEDeJl0gMcE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-z8U0J58NNwWaPw4-8GIjEw-1; Sun, 01 Dec 2019 06:16:08 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-406-loMi-6YLPgWMKCFdyxjoaA-1; Sun, 01 Dec 2019 06:16:18 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6299A107ACC4
- for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:16:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6D8B107ACC4
+ for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:16:17 +0000 (UTC)
 Received: from localhost (unknown [10.36.112.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81D2F5C3FA;
- Sun,  1 Dec 2019 11:16:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5FCE5D9E1;
+ Sun,  1 Dec 2019 11:16:13 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/26] qdev: remove extraneous error
-Date: Sun,  1 Dec 2019 15:15:08 +0400
-Message-Id: <20191201111531.1136947-4-marcandre.lureau@redhat.com>
+Subject: [PATCH 04/26] qdev: move helper function to monitor/misc
+Date: Sun,  1 Dec 2019 15:15:09 +0400
+Message-Id: <20191201111531.1136947-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 References: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: z8U0J58NNwWaPw4-8GIjEw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: loMi-6YLPgWMKCFdyxjoaA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,184 +76,107 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers use error_abort, and even the function itself calls with
-error_abort.
+Move the one-user function to the place it is being used.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- hw/core/qdev.c               | 15 ++++-----------
- include/hw/qdev-properties.h |  3 +--
- target/arm/cpu.c             | 33 +++++++++++----------------------
- 3 files changed, 16 insertions(+), 35 deletions(-)
+ hw/core/qdev.c         | 26 --------------------------
+ include/hw/qdev-core.h |  2 --
+ monitor/misc.c         | 26 ++++++++++++++++++++++++++
+ 3 files changed, 26 insertions(+), 28 deletions(-)
 
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 8b93b85727..c1a338bbe4 100644
+index c1a338bbe4..90eb01bc8e 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -717,24 +717,17 @@ static void qdev_property_add_legacy(DeviceState *dev=
-, Property *prop,
-     g_free(name);
+@@ -760,32 +760,6 @@ void qdev_alias_all_properties(DeviceState *target, Ob=
+ject *source)
+     } while (class !=3D object_class_by_name(TYPE_DEVICE));
  }
 =20
--void qdev_property_add_static(DeviceState *dev, Property *prop,
--                              Error **errp)
-+void qdev_property_add_static(DeviceState *dev, Property *prop)
- {
--    Error *local_err =3D NULL;
-     Object *obj =3D OBJECT(dev);
-=20
-     if (prop->info->create) {
--        prop->info->create(obj, prop, &local_err);
-+        prop->info->create(obj, prop, &error_abort);
-     } else {
-         object_property_add(obj, prop->name, prop->info->name,
-                             prop->info->get, prop->info->set,
-                             prop->info->release,
--                            prop, &local_err);
+-static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
+-{
+-    GSList **list =3D opaque;
+-    DeviceState *dev =3D (DeviceState *)object_dynamic_cast(OBJECT(obj),
+-                                                          TYPE_DEVICE);
+-
+-    if (dev =3D=3D NULL) {
+-        return 0;
 -    }
 -
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
-+                            prop, &error_abort);
-     }
+-    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NUL=
+L)) {
+-        *list =3D g_slist_append(*list, dev);
+-    }
+-
+-    return 0;
+-}
+-
+-GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
+-{
+-    GSList *list =3D NULL;
+-
+-    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
+-
+-    return list;
+-}
+-
+ static bool device_get_realized(Object *obj, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 1518495b1e..6b0e7b265d 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -457,8 +457,6 @@ extern bool qdev_hot_removed;
 =20
-     object_property_set_description(obj, prop->name,
-@@ -989,7 +982,7 @@ static void device_initfn(Object *obj)
-     do {
-         for (prop =3D DEVICE_CLASS(class)->props; prop && prop->name; prop=
-++) {
-             qdev_property_add_legacy(dev, prop, &error_abort);
--            qdev_property_add_static(dev, prop, &error_abort);
-+            qdev_property_add_static(dev, prop);
-         }
-         class =3D object_class_get_parent(class);
-     } while (class !=3D object_class_by_name(TYPE_DEVICE));
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index a708c3870b..0a771c3ac7 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -250,13 +250,12 @@ void error_set_from_qdev_prop_error(Error **errp, int=
- ret, DeviceState *dev,
-  * qdev_property_add_static:
-  * @dev: Device to add the property to.
-  * @prop: The qdev property definition.
-- * @errp: location to store error information.
-  *
-  * Add a static QOM property to @dev for qdev property @prop.
-  * On error, store error in @errp.  Static properties access data in a str=
-uct.
-  * The type of the QOM property is derived from prop->info.
-  */
--void qdev_property_add_static(DeviceState *dev, Property *prop, Error **er=
-rp);
-+void qdev_property_add_static(DeviceState *dev, Property *prop);
+ char *qdev_get_dev_path(DeviceState *dev);
 =20
- void qdev_alias_all_properties(DeviceState *target, Object *source);
-=20
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 7a4ac9339b..a42f1c0dff 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1076,26 +1076,22 @@ void arm_cpu_post_init(Object *obj)
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_CBAR) ||
-         arm_feature(&cpu->env, ARM_FEATURE_CBAR_RO)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_cbar_property=
-,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_cbar_property=
+-GSList *qdev_build_hotpluggable_device_list(Object *peripheral);
+-
+ void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp=
 );
-     }
 =20
-     if (!arm_feature(&cpu->env, ARM_FEATURE_M)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_proper=
-ty,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_proper=
-ty);
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
-         /* Add the has_el3 state CPU property only if EL3 is allowed.  Thi=
-s will
-          * prevent "has_el3" from existing on CPUs which cannot support EL=
-3.
-          */
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el3_property,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el3_property);
-=20
- #ifndef CONFIG_USER_ONLY
-         object_property_add_link(obj, "secure-memory",
-@@ -1108,8 +1104,7 @@ void arm_cpu_post_init(Object *obj)
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_EL2)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property);
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
-@@ -1126,32 +1121,27 @@ void arm_cpu_post_init(Object *obj)
-     if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-         cpu->has_vfp =3D true;
-         if (!kvm_enabled()) {
--            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_propert=
-y,
--                                     &error_abort);
-+            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_propert=
-y);
-         }
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
-         cpu->has_neon =3D true;
-         if (!kvm_enabled()) {
--            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_proper=
-ty,
--                                     &error_abort);
-+            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_proper=
-ty);
-         }
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_M) &&
-         arm_feature(&cpu->env, ARM_FEATURE_THUMB_DSP)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_dsp_property,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_dsp_property);
-     }
-=20
-     if (arm_feature(&cpu->env, ARM_FEATURE_PMSA)) {
--        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property,
--                                 &error_abort);
-+        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property);
-         if (arm_feature(&cpu->env, ARM_FEATURE_V7)) {
-             qdev_property_add_static(DEVICE(obj),
--                                     &arm_cpu_pmsav7_dregion_property,
--                                     &error_abort);
-+                                     &arm_cpu_pmsav7_dregion_property);
-         }
-     }
-=20
-@@ -1170,8 +1160,7 @@ void arm_cpu_post_init(Object *obj)
-                             NULL, NULL, &error_abort);
-     }
-=20
--    qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property,
--                             &error_abort);
-+    qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property);
+ void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 3baa15f3bf..36c85cecf3 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1956,6 +1956,32 @@ void object_add_completion(ReadLineState *rs, int nb=
+_args, const char *str)
+     g_slist_free(list);
  }
 =20
- static void arm_cpu_finalizefn(Object *obj)
++static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
++{
++    GSList **list =3D opaque;
++    DeviceState *dev =3D (DeviceState *)object_dynamic_cast(OBJECT(obj),
++                                                          TYPE_DEVICE);
++
++    if (dev =3D=3D NULL) {
++        return 0;
++    }
++
++    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NUL=
+L)) {
++        *list =3D g_slist_append(*list, dev);
++    }
++
++    return 0;
++}
++
++static GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
++{
++    GSList *list =3D NULL;
++
++    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
++
++    return list;
++}
++
+ static void peripheral_device_del_completion(ReadLineState *rs,
+                                              const char *str, size_t len)
+ {
 --=20
 2.24.0
 
