@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F09C10E1BF
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:45:05 +0100 (CET)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F4910E1B4
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 12:42:13 +0100 (CET)
+Received: from localhost ([::1]:50426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibNey-0006uw-Cw
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:45:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38237)
+	id 1ibNcB-00031B-PG
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 06:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNGg-0003l7-8y
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:19:59 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNGw-0003w3-VH
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:20:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ibNGf-0002DY-6k
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:19:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31718
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ibNGu-0002J3-S8
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:20:14 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48102
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ibNGf-0002DK-37
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:19:57 -0500
+ id 1ibNGs-0002Ho-S7
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 06:20:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575199196;
+ s=mimecast20190719; t=1575199209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n/dYvJlEDw+8cI4YP3J98AkaGDE2IgQYRH7K5Wjxh9I=;
- b=MjPa1X4N3nqq1S0Cq+1nHVw67+/rrsIbLbgeXnvrsco0eseeBAfBaZKXaDTVrSCpNoTUS+
- OmGhiZrr9UAOdcDNkl/SQRJchRCY5clGPcIpgePI1/g7n6dXZ5Q0D1LhSt5YVpiU5UdiFa
- sQM6XQIFIWgoo8TtBRkL/vvkoq7t3wQ=
+ bh=0468PUF7tkGjn96jhD5CFLL/A1QwCQJIwdkQ4/TYVww=;
+ b=f/oTHgBofl+Bc82rGBIQqwZHcpMKjw5EF0DV+NlTvuq8Vdsl3/qYdLrBtC0dHOpncqSjKW
+ FOQ/eAcCslWuDjtzweYJuKS17RCRPunFZox2hLFN0SXDb2qpUVcUhlYWqXNLopUSYfgajU
+ xurnbc/8YiYoSbehk22pnFT97eodhsw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-LhLa07a-MkWUvc5EQYQm2w-1; Sun, 01 Dec 2019 06:19:55 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-226-1_y1pa0SOYucZhp59aQw1A-1; Sun, 01 Dec 2019 06:20:06 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AF94184CABB
- for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:19:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E52980183C
+ for <qemu-devel@nongnu.org>; Sun,  1 Dec 2019 11:20:05 +0000 (UTC)
 Received: from localhost (unknown [10.36.112.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1575E60BF7;
- Sun,  1 Dec 2019 11:19:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67D0D19C58;
+ Sun,  1 Dec 2019 11:20:00 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/26] qapi/qmp: add ObjectPropertyInfo.default-value
-Date: Sun,  1 Dec 2019 15:15:30 +0400
-Message-Id: <20191201111531.1136947-26-marcandre.lureau@redhat.com>
+Subject: [PATCH 26/26] qdev: use object_property_help()
+Date: Sun,  1 Dec 2019 15:15:31 +0400
+Message-Id: <20191201111531.1136947-27-marcandre.lureau@redhat.com>
 In-Reply-To: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 References: <20191201111531.1136947-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: LhLa07a-MkWUvc5EQYQm2w-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 1_y1pa0SOYucZhp59aQw1A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,51 +76,42 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Report the default value associated with a property.
+Use the common function introduced earlier, and report default value.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- qapi/qom.json      | 7 ++++++-
- qom/qom-qmp-cmds.c | 4 ++++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ qdev-monitor.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 32db96ffc4..471e4b484b 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -26,10 +26,15 @@
- #
- # @description: if specified, the description of the property.
- #
-+# @default-value: the default value, if any (since 5.0)
-+#
- # Since: 1.2
- ##
- { 'struct': 'ObjectPropertyInfo',
--  'data': { 'name': 'str', 'type': 'str', '*description': 'str' } }
-+  'data': { 'name': 'str',
-+            'type': 'str',
-+            '*description': 'str',
-+            '*default-value': 'str' } }
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index e6b112eb0a..5a09031e53 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -286,16 +286,11 @@ int qdev_device_help(QemuOpts *opts)
+         qemu_printf("There are no options for %s.\n", driver);
+     }
+     for (prop =3D prop_list; prop; prop =3D prop->next) {
+-        int len;
+-        qemu_printf("  %s=3D<%s>%n", prop->value->name, prop->value->type,=
+ &len);
+-        if (prop->value->has_description) {
+-            if (len < 24) {
+-                qemu_printf("%*s", 24 - len, "");
+-            }
+-            qemu_printf(" - %s\n", prop->value->description);
+-        } else {
+-            qemu_printf("\n");
+-        }
++        g_autofree char *help =3D object_property_help(prop->value->name,
++                                                     prop->value->type,
++                                                     prop->value->default_=
+value,
++                                                     prop->value->descript=
+ion);
++        qemu_printf("%s\n", help);
+     }
 =20
- ##
- # @qom-list:
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 8785816c1f..68f0a41bca 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -177,6 +177,10 @@ ObjectPropertyInfoList *qmp_device_list_properties(con=
-st char *typename,
-         info->type =3D g_strdup(prop->type);
-         info->has_description =3D !!prop->description;
-         info->description =3D g_strdup(prop->description);
-+        if (prop->get_default) {
-+            info->default_value =3D prop->get_default(prop);
-+            info->has_default_value =3D !!info->default_value;
-+        }
-=20
-         entry =3D g_malloc0(sizeof(*entry));
-         entry->value =3D info;
+     qapi_free_ObjectPropertyInfoList(prop_list);
 --=20
 2.24.0
 
