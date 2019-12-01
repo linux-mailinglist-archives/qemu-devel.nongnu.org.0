@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A487210E261
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 16:41:51 +0100 (CET)
-Received: from localhost ([::1]:52446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A21E10E29E
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Dec 2019 17:36:59 +0100 (CET)
+Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibRM6-0002dn-4B
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 10:41:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35899)
+	id 1ibSDS-0008FT-0P
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 11:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ibRKi-0001w5-MF
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 10:40:25 -0500
+ (envelope-from <dsahern@gmail.com>) id 1ibSCW-0007Sg-RC
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 11:36:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ibRKh-0007ON-Ih
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 10:40:24 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41478)
+ (envelope-from <dsahern@gmail.com>) id 1ibSCV-0003Db-KS
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 11:36:00 -0500
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:43555)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ibRKh-0007NM-Ac
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 10:40:23 -0500
-Received: by mail-wr1-x444.google.com with SMTP id b18so41001583wrj.8
- for <qemu-devel@nongnu.org>; Sun, 01 Dec 2019 07:40:23 -0800 (PST)
+ (Exim 4.71) (envelope-from <dsahern@gmail.com>) id 1ibSCV-0003CH-FD
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 11:35:59 -0500
+Received: by mail-il1-x144.google.com with SMTP id u16so5046725ilg.10
+ for <qemu-devel@nongnu.org>; Sun, 01 Dec 2019 08:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sGCDm/a/FHeafNbE+MNSSpl3yRtPXLBvDvQ7hemCMmQ=;
- b=mli0eoF2ic0jorixy+JnE6b0D+N7o29bcMlMucr2tjxw8vgGjKGeEtm2yO/b8HHUq0
- AFdgZCWFQxLxYTsiAL6GlTBxAeb0/SmnZeOPLMwChArSZ9JDfp1gaIERe8oqZ1jwW23J
- Mq0mtcOcyx36XEJlofmnkzPQdZ6Tqi5opSDSZnVp2CfsTB6G36DX+i5065BUeeGKtGcn
- gbkwjG4+yUuonCfjEcCSxOsNnWgKx+sLq5IjWd7ZJpLWG5BxDcfJK8qTN/tmBxIIwOA0
- b0s2OHDfUyZOgonTu1hISVBG+2+CLRrsJXYWX9u5tfAuBYacKfL1sHSSVV6UpiNN8wBX
- 8euQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EmKXPT8/zzRPMHZdVznWwaEqUYddRfodakHAFbk74gY=;
+ b=jBJCNYV7E9qH9/FnvkjHwjWx5oRkv2t9fLyI8atyKOxXUumjx7wHBM38zb9ReMx8U2
+ USGKsR3ENN8rxtghmGCxxtIRqixfCTbjiMV1l+u9XQGQf2qtl7u+K4JZbssMjHKR6/pB
+ NfGSe7cVzV1UBiPaiCIj63W4Jw1gaICoIKwjRL3BUCSlltKdkkbRrtfELlEJk2mqkNuP
+ fxc1ghZ8tyyEkNXnuJWYloKCmZ0KDKEelCKvtbDB/e7cehbFZBxCP3G5H++EUS8PowYP
+ MzZeVozXr8EC+YomO5nhX3fcxzCp+Cu/S5ss9+Hx33yNMmcU5NCo2GhTYsn+MnvSAaUw
+ LEcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sGCDm/a/FHeafNbE+MNSSpl3yRtPXLBvDvQ7hemCMmQ=;
- b=AZAMowUtq0IhtAdMts3qBsN3u6mGgtjT5S3jAovzK9YEzQC5voI44semgfBG9i6YV3
- LH1MGAnXUN85e+Ws52DittwjYaZruM0Mb8krHm3ConuZiR9Y74IWqwE9GPvE5E3VsnqY
- 5nV9YVxRyOXMEitdPZ9pwqK7lGpiSmX3Ow3jd3yRj18VKU7LhI4ROXBFWfKDdoNUpHEB
- Hfjl1ligakCV5/KSi//zpU+xIBJItbqf2A1JBHYzBAbf2Gxmx3Rr03LZsKz9iLLWbxqK
- ItPuBnyqcddD11nh3tlxVZWREoP5wShm+bx28NYCUv1VrQ2SHXhwbSgHGn5Xrp/FKsGc
- agsw==
-X-Gm-Message-State: APjAAAU2ee0XMARZ0zKf8LvOAJHY102NJqnnth7PcvX1m8DO6j0jmUvo
- Oj3MxR1Qkx6XbeRoh5tVd1X8P0iwqRl0n39vm7henIzyTsU=
-X-Google-Smtp-Source: APXvYqzaoC5cPoNXhabGXNpRamf3s9FHwastL6a2d+KjFx5BHHxivuN2kTI1Plhi6e04LNa7jo2s7z+zOpLZtWE2tEo=
-X-Received: by 2002:adf:e310:: with SMTP id b16mr57161881wrj.202.1575214822175; 
- Sun, 01 Dec 2019 07:40:22 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EmKXPT8/zzRPMHZdVznWwaEqUYddRfodakHAFbk74gY=;
+ b=SzenEuIw595jrVRBOJyzOI0v4DHDTEO+owO6YJvHaFNjteM1Chz8T/cp9F4yPn66IM
+ svzTzWt3J7KLnjDNSxPwkaubBDmS+BwJAj18v+PZULgzQCoGmvPb5cbm17HQO/DRQr2g
+ yFLbNdiK33bfe3w7KFWjZ1PJUFHQo9WjfOBS1evKYrHHPE1t5eZDcE47tecweDEwRfLt
+ cfyO+1anq6APwLRSBoSOwOEAK0YT5BYMavgXtwny0PQuXyrrMISe3hhdez5070xfkVEv
+ jJA5IgiVpw4LNcwmCkqeSKSwGH6TKGup90Sj/SdMLa0Cym+rW+7v9YZXOvnfSogRXKSh
+ c4xA==
+X-Gm-Message-State: APjAAAX7XOsQaaZZM0Y0CPJS3OpD9OmBdDcZh9fiiJfXcx9/fGzyJa83
+ W2ckIbrTpxalg3+UeKTPIXU=
+X-Google-Smtp-Source: APXvYqwIGHpUDCTLx6NUYZvnwluVz7GM9HsJnDjkWaPYpZXaxx4LTfh/9h7LO4SsISF4tXoychuGZw==
+X-Received: by 2002:a92:3b19:: with SMTP id i25mr16713300ila.85.1575218158458; 
+ Sun, 01 Dec 2019 08:35:58 -0800 (PST)
+Received: from dahern-DO-MB.local ([2601:282:800:fd80:fd6b:fde:b20f:61ed])
+ by smtp.googlemail.com with ESMTPSA id e73sm256972iof.63.2019.12.01.08.35.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Dec 2019 08:35:57 -0800 (PST)
+Subject: Re: [RFC net-next 07/18] tun: set offloaded xdp program
+To: Prashant Bhole <prashantbhole.linux@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+References: <20191126100744.5083-1-prashantbhole.linux@gmail.com>
+ <20191126100744.5083-8-prashantbhole.linux@gmail.com>
+From: David Ahern <dsahern@gmail.com>
+Message-ID: <e0631f09-28ce-7d13-e58c-87a700a39353@gmail.com>
+Date: Sun, 1 Dec 2019 09:35:56 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
+ Gecko/20100101 Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
- <20191128161021.GA14595@habkost.net>
- <fb122bbe-3fc4-e3cd-899a-c3538237203a@redhat.com>
- <20191129202137.GI14595@habkost.net>
-In-Reply-To: <20191129202137.GI14595@habkost.net>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sun, 1 Dec 2019 19:40:09 +0400
-Message-ID: <CAJ+F1CL1s450gUmGK9hzSgk4Y3XSNTzdt2OdU6z65y1hKGjxeQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] RFC: add -mem-shared option
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191126100744.5083-8-prashantbhole.linux@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,81 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Song Liu <songliubraving@fb.com>,
+ Jakub Kicinski <jakub.kicinski@netronome.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, netdev@vger.kernel.org,
+ Jason Wang <jasowang@redhat.com>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Yonghong Song <yhs@fb.com>,
+ Andrii Nakryiko <andriin@fb.com>, Martin KaFai Lau <kafai@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 11/26/19 4:07 AM, Prashant Bhole wrote:
+> From: Jason Wang <jasowang@redhat.com>
+> 
+> This patch introduces an ioctl way to set an offloaded XDP program
+> to tun driver. This ioctl will be used by qemu to offload XDP program
+> from virtio_net in the guest.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Prashant Bhole <prashantbhole.linux@gmail.com>
+> ---
+>  drivers/net/tun.c           | 19 ++++++++++++++-----
+>  include/uapi/linux/if_tun.h |  1 +
+>  2 files changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+> index d078b4659897..ecb49101b0b5 100644
+> --- a/drivers/net/tun.c
+> +++ b/drivers/net/tun.c
+> @@ -241,6 +241,7 @@ struct tun_struct {
+>  	struct bpf_prog __rcu *xdp_prog;
+>  	struct tun_prog __rcu *steering_prog;
+>  	struct tun_prog __rcu *filter_prog;
+> +	struct tun_prog __rcu *offloaded_xdp_prog;
 
-On Sat, Nov 30, 2019 at 12:23 AM Eduardo Habkost <ehabkost@redhat.com> wrot=
-e:
->
-> On Fri, Nov 29, 2019 at 10:31:36AM +0100, Paolo Bonzini wrote:
-> > On 28/11/19 17:10, Eduardo Habkost wrote:
-> > > On Thu, Nov 28, 2019 at 06:15:16PM +0400, Marc-Andr=C3=A9 Lureau wrot=
-e:
-> > >> Hi,
-> > >>
-> > >> Setting up shared memory for vhost-user is a bit complicated from
-> > >> command line, as it requires NUMA setup such as: m 4G -object
-> > >> memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,share=3Do=
-n -numa
-> > >> node,memdev=3Dmem.
-> > >>
-> > >> Instead, I suggest to add a -mem-shared option for non-numa setups,
-> > >> that will make the -mem-path or anonymouse memory shareable.
-> > >
-> > > Can we make this be a "-m" option?
-> > >
-> > > Or, even better: can we make "-m" options be automatically
-> > > translated to memory-backend-* options somehow?
-> > >
-> >
-> > The original idea was to always support one NUMA node, so that you coul=
-d
-> > do "-numa node,memdev=3D..." to specify a memory backend with -object.
-> > However, this is not possible anymore since
-> >
-> >     if (!mc->cpu_index_to_instance_props ||
-> >         !mc->get_default_cpu_node_id) {
-> >         error_setg(errp, "NUMA is not supported by this machine-type");
-> >         return;
-> >     }
-> >
-> > has been added to hw/core/numa.c.
-> >
-> > Therefore, I think instead of -mem-shared we should add a "-m
-> > memdev=3D..." option.  This option:
-> >
-> > * would be mutually exclusive with both -mem-path
-> >
-> > * would be handled from allocate_system_memory_nonnuma.
-> >
-> > * could be mutually exclusive "-numa node", or could just be mutually
-> > exclusive with "-numa node,memdev=3D..." (the logical conclusion of tha=
-t
-> > however would be an undeprecation of "-numa node,mem=3D...", so that ha=
-s
-> > to be taken into account as well).
->
-> I completely agree we could do this.  I just think this misses
-> completely the point of this series, because usability of:
->
->   -object memory-backend-file,...,share=3Don,id=3Dmem -m ...,memdev=3Dmem
->
-> is not much better than the usability of:
->
->   -object memory-backend-file,...,share=3Don,id=3Dmem -numa node,memdev=
-=3Dmem
->
+I have been looking into running XDP pograms in the TX path of a tap
+device [1] where the program is installed and managed by a process in
+the host. The code paths are the same as what you are doing with XDP
+offload, so how about calling this xdp_prog_tx?
 
-+1
-Perhaps when all RAM allocation will occur through memory-backend,
-"-mem-shared" could be simply an alias to "-global
-memory-backend.shared=3Don"
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+[1]
+https://github.com/dsahern/linux/commit/f2303d05187c8a604cdb70b288338e9b1d1b0db6
 
