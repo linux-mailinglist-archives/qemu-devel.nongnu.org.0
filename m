@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446BB10E861
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 11:14:42 +0100 (CET)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4346E10E847
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 11:12:56 +0100 (CET)
+Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibij1-0005jt-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 05:14:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60009)
+	id 1ibihK-0003Mj-PW
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 05:12:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ibifP-0001b2-5i
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:56 -0500
+ (envelope-from <thuth@redhat.com>) id 1ibifS-0001iJ-JJ
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ibifO-0004tJ-5i
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56240
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ibifR-0004wa-Ho
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53606
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ibifO-0004t7-2C
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:54 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ibifR-0004wK-EP
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:10:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575281453;
+ s=mimecast20190719; t=1575281457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F6xpS5jn3FPueHeHNbHmw7PW4u/jvYS3g/pddsd2v1A=;
- b=UFDp5nfgYrCY6SE6z87vjUyCPLoBlF2kpA4UL0cU3iQWjVzONbjeoNYEyFWd645/2tIG+/
- t5D9UMyPtGAQOr3PERI69txUV1E1XexB4xBbmnSqwtkbmIXoZAm8zf+ZIMUwtYNE5IlZeB
- WuMoUAeSt/cBKsD8forq/3B/znuDfoI=
+ bh=O2Z3+As+UUjZZvK4a3KeXRi6hSKm32Oq0U6w7Ks/Y0U=;
+ b=TwEU5MEZ0m7GH3po1qWkqL4c2xf37vZQ8O+JPJ/31ELaUj2lR+KU2WZCMEA8gQwNdounKV
+ PD8gxLSiM3RflB6Up73jCiWpcHHwB0c6Ind2vjLlqmZRwlRWedOhOEmg2aup79q4qUDrBP
+ l+839AkgcDwOmZFeIXzoVhsAmuWQcS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-n13LhOoUOaK26A141wEq1g-1; Mon, 02 Dec 2019 05:10:52 -0500
+ us-mta-65-AMy0sVu2NX6K8nzevX3hXw-1; Mon, 02 Dec 2019 05:10:55 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78192800D4C;
- Mon,  2 Dec 2019 10:10:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AC3C18B5FA3;
+ Mon,  2 Dec 2019 10:10:54 +0000 (UTC)
 Received: from thuth.com (ovpn-117-196.ams2.redhat.com [10.36.117.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AFE319C68;
- Mon,  2 Dec 2019 10:10:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7D8C19C68;
+ Mon,  2 Dec 2019 10:10:51 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  Max Reitz <mreitz@redhat.com>
-Subject: [PATCH v4 2/6] iotests: Test 041 only works on certain systems
-Date: Mon,  2 Dec 2019 11:10:35 +0100
-Message-Id: <20191202101039.8981-3-thuth@redhat.com>
+Subject: [PATCH v4 3/6] iotests: Test 183 does not work on macOS and OpenBSD
+Date: Mon,  2 Dec 2019 11:10:36 +0100
+Message-Id: <20191202101039.8981-4-thuth@redhat.com>
 In-Reply-To: <20191202101039.8981-1-thuth@redhat.com>
 References: <20191202101039.8981-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: n13LhOoUOaK26A141wEq1g-1
+X-MC-Unique: AMy0sVu2NX6K8nzevX3hXw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,27 +74,32 @@ Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-041 works fine on Linux, FreeBSD, NetBSD and OpenBSD, but fails on macOS.
-Let's mark it as only supported on the systems where we know that it is
-working fine.
+In the long term, we might want to add test 183 to the "auto" group
+(but it still fails occasionally, so we cannot do that yet). However,
+when running 183 in Cirrus-CI on macOS, or with our vm-build-openbsd
+target, it currently always fails with an "Timeout waiting for return
+on handle 0" error.
+
+Let's mark it as supported only on systems where the test is working
+fine (i.e. Linux, FreeBSD and NetBSD).
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/041 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/183 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index 8568426311..0326888c98 100755
---- a/tests/qemu-iotests/041
-+++ b/tests/qemu-iotests/041
-@@ -1123,4 +1123,5 @@ class TestOrphanedSource(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
+index bced83fae0..0bbae13647 100755
+--- a/tests/qemu-iotests/183
++++ b/tests/qemu-iotests/183
+@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ . ./common.qemu
 =20
- if __name__ =3D=3D '__main__':
-     iotests.main(supported_fmts=3D['qcow2', 'qed'],
--                 supported_protocols=3D['file'])
-+                 supported_protocols=3D['file'],
-+                 supported_platforms=3D['linux', 'freebsd', 'netbsd', 'ope=
-nbsd'])
++_supported_os Linux FreeBSD NetBSD
+ _supported_fmt qcow2 raw qed quorum
+ _supported_proto file
+=20
 --=20
 2.18.1
 
