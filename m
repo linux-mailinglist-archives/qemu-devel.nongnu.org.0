@@ -2,40 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AA310E9F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 13:17:46 +0100 (CET)
-Received: from localhost ([::1]:34848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45C710E9FE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 13:20:24 +0100 (CET)
+Received: from localhost ([::1]:34878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibke9-00015X-3Q
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 07:17:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
+	id 1ibkgh-0004D3-O6
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 07:20:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ibkbm-00086H-9L
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 07:15:19 -0500
+ (envelope-from <kraxel@redhat.com>) id 1ibkfR-0003HB-GU
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 07:19:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ibkbl-0005q6-0J
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 07:15:18 -0500
-Received: from relay.sw.ru ([185.231.240.75]:45002)
+ (envelope-from <kraxel@redhat.com>) id 1ibkfO-00076B-Dc
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 07:19:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43670
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ibkbk-0005ny-PD; Mon, 02 Dec 2019 07:15:16 -0500
-Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ibkbb-0005N6-00; Mon, 02 Dec 2019 15:15:07 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v12 3/3] tests/qemu-iotests: add case to write compressed data
- of multiple clusters
-Date: Mon,  2 Dec 2019 15:15:06 +0300
-Message-Id: <1575288906-551879-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1575288906-551879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1575288906-551879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ibkfO-00075f-9R
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 07:19:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575289141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXI6FVHSSTkGPDVpkIsTnkCCtFb+jaXFpCDz8AIyH+0=;
+ b=bw3KXNwWABhsKxGzKCELyKjyy713b4FWFPA9H6KV3F7iavlVEARYCg2z3hOd4V1Z8t5a0W
+ V+b7QJrK1JuIa94uQtualRle4c1Rp2WFZI9DLzfYYMyYWoLxGLaGu+kvJDTjRbUVRIH2V/
+ gqAj4zsMMPdLyGsyfse1XgRKojRyzyQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-2aTf_Q_iOJWuI3pl9wh0MQ-1; Mon, 02 Dec 2019 07:18:57 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E96CD8017CC
+ for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 12:18:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
+ [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B24B19C6A;
+ Mon,  2 Dec 2019 12:18:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3D92F16E05; Mon,  2 Dec 2019 13:18:53 +0100 (CET)
+Date: Mon, 2 Dec 2019 13:18:53 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: iPXE: update submodule
+Message-ID: <20191202121853.shigtyrko725vmmg@sirius.home.kraxel.org>
+References: <d33644db-ec7e-0b51-b6e6-b5fc15f37665@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <d33644db-ec7e-0b51-b6e6-b5fc15f37665@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 2aTf_Q_iOJWuI3pl9wh0MQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,101 +74,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the case to the iotest #214 that checks possibility of writing
-compressed data of more than one cluster size. The test case involves
-the compress filter driver showing a sample usage of that.
+On Mon, Dec 02, 2019 at 12:19:50PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Hi Gerd,
+>=20
+> 'make -C roms efirom' is failing on Fedora 30.
+>=20
+> Can you update the iPXE submodule so we get these buildsys commits:
+>=20
+> c742c576 [build] Move predefined all-drivers build shortcut to Makefile
+> a4f8c6e3 [build] Do not apply WORKAROUND_CFLAGS for host compiler
+> 1dd56dbd [build] Workaround compilation error with gcc 9.1
+> 412acd78 [build] Fix "'%s' directive argument is null" error
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/214     | 43 +++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/214.out | 14 ++++++++++++++
- 2 files changed, 57 insertions(+)
+Hmm.  Sure, can do that, but the question is for 4.2 or 5.0.  Updating
+ipxe that close to the release makes me nervous, but shipping a ipxe
+version which doesn't build with recent compilers in the release tarball
+isn't great either.
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 21ec8a2..0b6ea0b 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -89,6 +89,49 @@ _check_test_img -r all
- $QEMU_IO -c "read  -P 0x11  0 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "read  -P 0x22 4M 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- 
-+echo
-+echo "=== Write compressed data of multiple clusters ==="
-+echo
-+cluster_size=0x10000
-+_make_test_img 2M -o cluster_size=$cluster_size
-+
-+echo "Write uncompressed data:"
-+let data_size="8 * $cluster_size"
-+$QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+_make_test_img 2M -o cluster_size=$cluster_size
-+echo "Write compressed data:"
-+let data_size="3 * $cluster_size + $cluster_size / 2"
-+# Set compress on. That will align the written data
-+# by the cluster size and will write them compressed.
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xbb 0 $data_size" --image-opts \
-+         "driver=compress,file.driver=$IMGFMT,file.file.driver=file,file.file.filename=$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+
-+let offset="4 * $cluster_size + $cluster_size / 4"
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
-+    'driver': 'compress',
-+    'file': {'driver': '$IMGFMT',
-+             'file': {'driver': 'file',
-+                      'filename': '$TEST_IMG'}}}" | \
-+                          _filter_qemu_io | _filter_testdir
-+
-+sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+if [ $sizeA -le $sizeB ]
-+then
-+    echo "Compression ERROR"
-+fi
-+
-+$QEMU_IMG check --output=json "$TEST_IMG" |
-+          sed -n 's/,$//; /"compressed-clusters":/ s/^ *//p'
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/214.out b/tests/qemu-iotests/214.out
-index 0fcd8dc..9fc6728 100644
---- a/tests/qemu-iotests/214.out
-+++ b/tests/qemu-iotests/214.out
-@@ -32,4 +32,18 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 4194304/4194304 bytes at offset 4194304
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Write compressed data of multiple clusters ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write uncompressed data:
-+wrote 524288/524288 bytes at offset 0
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write compressed data:
-+wrote 229376/229376 bytes at offset 0
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 229376/229376 bytes at offset 278528
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+"compressed-clusters": 8
- *** done
--- 
-1.8.3.1
+I'd tend to go the 5.0 route.
+Comments?
+Suggestions?
+
+cheers,
+  Gerd
 
 
