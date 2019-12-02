@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A602410F3AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 00:59:18 +0100 (CET)
-Received: from localhost ([::1]:45876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC7B10F3C9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 01:04:51 +0100 (CET)
+Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibvb3-0000A7-7a
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 18:59:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46472)
+	id 1ibvgQ-0005AB-Gv
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 19:04:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1ibvXf-0006fl-VA
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:49 -0500
+ (envelope-from <dirty@apple.com>) id 1ibvXf-0006fg-Av
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1ibvXd-0008TF-H3
+ (envelope-from <dirty@apple.com>) id 1ibvXc-0008RI-Tp
  for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:47 -0500
-Received: from nwk-aaemail-lapp01.apple.com ([17.151.62.66]:37134)
+Received: from nwk-aaemail-lapp01.apple.com ([17.151.62.66]:37060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1ibvXd-0008QE-6i
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:45 -0500
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1ibvXc-0008NS-J3
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:44 -0500
 Received: from pps.filterd (nwk-aaemail-lapp01.apple.com [127.0.0.1])
  by nwk-aaemail-lapp01.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- xB2Nq6Lx044435; Mon, 2 Dec 2019 15:55:44 -0800
+ xB2Nq6Lt044435; Mon, 2 Dec 2019 15:55:43 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
  h=sender : from : to :
  cc : subject : date : message-id : in-reply-to : references : mime-version
  : content-transfer-encoding; s=20180706;
- bh=M6Amdn5tTnG0+MiIbSoHQ+Q5fB9Zaizyl4VxdLmO/kM=;
- b=WSsFoc2QN+FRvFnnaFf9wNSRpt83JFp5LRorxfI690Lrr2oorXypbCMG0XER0J0enOhp
- T6oFK04qrqzQ63FT1fe0SP86bugzhBEJXqRpnIrF44uN7foQ9Mb2Gab10yU28e37KwOy
- YjRaetdmKd4MWL3YHL5+LPtWJNNJ9xqVuB9tC22Ne5WZ/tvvQPj9VMJ3fbVpMT37Z3nP
- HAAeLi3lZykTtgwGdsmlR+k1eBYEW5xui1RAZ25xsbh5AOBMH5GsupQbqkWhhqCaN8MF
- u4n10T5SbmQPP6GqfsRrVZ6bi7pl4CzQ4gjn0aYiB6Iv6lF2Lf8c860CNpQXT6OrHjVT FQ== 
+ bh=wRHRznstE4ygu+dw0oZlTjgC4qDfVbGvHZR4xPqtjbk=;
+ b=p8FokfvnUovlofAEK7/6CGp8JpoY8enOaMoxdpGsEGi+VWDbbbtTt/NsQH7lc+I4Sz+6
+ GWkDLQMWaT+90E6wWoVaYvhbB1ih89XHZaJzZrUwkMzloxJbkhK2yvM3wqVuXuEuAyCv
+ V0vdoV7Q5htH+sAiGB8kRZ2SUZzrm/D+RGEV0t7+4u7N13v/zSkiTLaw/DowF+NqynTl
+ 93pC2TrdDn1WPo5w9M5mEdsXLMKY7HCaBC0DPY3eKipq706LWyqv5XaxgRbD2t3wvGIJ
+ 3WMZkIjvcqhMINjIBxa7VNh7iz8VZUY/RZI53BnkbRWGmc9MA5s2voU3apRqvi/BSRhx dQ== 
 Received: from ma1-mtap-s03.corp.apple.com (ma1-mtap-s03.corp.apple.com
  [17.40.76.7])
- by nwk-aaemail-lapp01.apple.com with ESMTP id 2wkr83ys1h-5
+ by nwk-aaemail-lapp01.apple.com with ESMTP id 2wkr83ys1h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 02 Dec 2019 15:55:44 -0800
+ Mon, 02 Dec 2019 15:55:43 -0800
 Received: from nwk-mmpp-sz12.apple.com
  (nwk-mmpp-sz12.apple.com [17.128.115.204]) by ma1-mtap-s03.corp.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
  2019)) with ESMTPS id <0Q1W00D69T4U1O50@ma1-mtap-s03.corp.apple.com>; Mon,
- 02 Dec 2019 15:55:43 -0800 (PST)
+ 02 Dec 2019 15:55:42 -0800 (PST)
 Received: from process_milters-daemon.nwk-mmpp-sz12.apple.com by
  nwk-mmpp-sz12.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
@@ -50,16 +50,16 @@ Received: from process_milters-daemon.nwk-mmpp-sz12.apple.com by
  02 Dec 2019 15:55:42 -0800 (PST)
 X-Va-A: 
 X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: e901bae79aabc4d8f90935e818db0bf1
-X-Va-R-CD: 717efc5767b68d0267f4c572528f496b
+X-Va-E-CD: 15deaa169f2b4447ffc7b83b019c30c6
+X-Va-R-CD: 78d6d63b5531fbab8eb6146b51df527c
 X-Va-CD: 0
-X-Va-ID: 5dcc9b38-72a6-4400-9259-6c6f6ae2f8c4
+X-Va-ID: b53dabe8-dd64-404f-a4c5-158f110531ff
 X-V-A: 
 X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: e901bae79aabc4d8f90935e818db0bf1
-X-V-R-CD: 717efc5767b68d0267f4c572528f496b
+X-V-E-CD: 15deaa169f2b4447ffc7b83b019c30c6
+X-V-R-CD: 78d6d63b5531fbab8eb6146b51df527c
 X-V-CD: 0
-X-V-ID: d94293ff-4d4d-4fb9-b533-5ed91a6a0d7a
+X-V-ID: af441b0f-30ac-468e-9048-7f5023588c78
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
  definitions=2019-12-02_06:,, signatures=0
 Received: from pontoon.com (unknown [17.193.42.217]) by nwk-mmpp-sz12.apple.com
@@ -68,10 +68,10 @@ Received: from pontoon.com (unknown [17.193.42.217]) by nwk-mmpp-sz12.apple.com
  02 Dec 2019 15:55:42 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v3 5/5] hvf: correctly inject VMCS_INTR_T_HWINTR versus
- VMCS_INTR_T_SWINTR.
-Date: Mon, 02 Dec 2019 15:55:41 -0800
-Message-id: <bf8d945ea1b423786d7802bbcf769517d1fd01f8.1575330463.git.dirty@apple.com>
+Subject: [PATCH v3 1/5] hvf: non-RAM, non-ROMD memory ranges are now correctly
+ mapped in
+Date: Mon, 02 Dec 2019 15:55:37 -0800
+Message-id: <148d7842c00839ebc55d9391de83d86cf83b5fa8.1575330463.git.dirty@apple.com>
 X-Mailer: git-send-email 2.24.0
 In-reply-to: <cover.1575330463.git.dirty@apple.com>
 References: <cover.1575330463.git.dirty@apple.com>
@@ -97,95 +97,164 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Cameron Esfahani <dirty@apple.com>
 From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-Previous implementation in hvf_inject_interrupts() would always inject
-VMCS_INTR_T_SWINTR even when VMCS_INTR_T_HWINTR was required.  Now
-correctly determine when VMCS_INTR_T_HWINTR is appropriate versus
-VMCS_INTR_T_SWINTR.
-
-Make sure to clear ins_len and has_error_code when ins_len isn't
-valid and error_code isn't set.
+If an area is non-RAM and non-ROMD, then remove mappings so accesses
+will trap and can be emulated.  Change hvf_find_overlap_slot() to take
+a size instead of an end address: it wouldn't return a slot because
+callers would pass the same address for start and end.  Don't always
+map area as read/write/execute, respect area flags.
 
 Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/hvf/hvf.c    |  4 +++-
- target/i386/hvf/x86hvf.c | 14 +++++++++-----
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ target/i386/hvf/hvf.c | 50 ++++++++++++++++++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 15 deletions(-)
 
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 784e67d77e..d72543dc31 100644
+index 231732aaf7..0b50cfcbc6 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -637,6 +637,8 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
-     env->exception_injected = 0;
-     env->interrupt_injected = -1;
-     env->nmi_injected = false;
-+    env->ins_len = 0;
-+    env->has_error_code = false;
-     if (idtvec_info & VMCS_IDT_VEC_VALID) {
-         switch (idtvec_info & VMCS_IDT_VEC_TYPE) {
-         case VMCS_IDT_VEC_HWINTR:
-@@ -659,7 +661,7 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
-             (idtvec_info & VMCS_IDT_VEC_TYPE) == VMCS_IDT_VEC_SWINTR) {
-             env->ins_len = ins_len;
-         }
--        if (idtvec_info & VMCS_INTR_DEL_ERRCODE) {
-+        if (idtvec_info & VMCS_IDT_VEC_ERRCODE_VALID) {
-             env->has_error_code = true;
-             env->error_code = rvmcs(cpu->hvf_fd, VMCS_IDT_VECTORING_ERROR);
-         }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 1485b95776..edefe5319a 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -345,8 +345,6 @@ void vmx_clear_int_window_exiting(CPUState *cpu)
-              ~VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING);
+@@ -107,14 +107,14 @@ static void assert_hvf_ok(hv_return_t ret)
  }
  
--#define NMI_VEC 2
--
- bool hvf_inject_interrupts(CPUState *cpu_state)
+ /* Memory slots */
+-hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t end)
++hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
  {
-     X86CPU *x86cpu = X86_CPU(cpu_state);
-@@ -357,7 +355,11 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-     bool have_event = true;
-     if (env->interrupt_injected != -1) {
-         vector = env->interrupt_injected;
--        intr_type = VMCS_INTR_T_SWINTR;
-+        if (env->ins_len) {
-+            intr_type = VMCS_INTR_T_SWINTR;
-+        } else {
-+            intr_type = VMCS_INTR_T_HWINTR;
-+        }
-     } else if (env->exception_nr != -1) {
-         vector = env->exception_nr;
-         if (vector == EXCP03_INT3 || vector == EXCP04_INTO) {
-@@ -366,7 +368,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-             intr_type = VMCS_INTR_T_HWEXCEPTION;
+     hvf_slot *slot;
+     int x;
+     for (x = 0; x < hvf_state->num_slots; ++x) {
+         slot = &hvf_state->slots[x];
+         if (slot->size && start < (slot->start + slot->size) &&
+-            end > slot->start) {
++            (start + size) > slot->start) {
+             return slot;
          }
-     } else if (env->nmi_injected) {
--        vector = NMI_VEC;
-+        vector = EXCP02_NMI;
-         intr_type = VMCS_INTR_T_NMI;
-     } else {
-         have_event = false;
-@@ -390,6 +392,8 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-             if (env->has_error_code) {
-                 wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_EXCEPTION_ERROR,
-                       env->error_code);
-+                /* Indicate that VMCS_ENTRY_EXCEPTION_ERROR is valid */
-+                info |= VMCS_INTR_DEL_ERRCODE;
+     }
+@@ -129,12 +129,10 @@ struct mac_slot {
+ };
+ 
+ struct mac_slot mac_slots[32];
+-#define ALIGN(x, y)  (((x) + (y) - 1) & ~((y) - 1))
+ 
+-static int do_hvf_set_memory(hvf_slot *slot)
++static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
+ {
+     struct mac_slot *macslot;
+-    hv_memory_flags_t flags;
+     hv_return_t ret;
+ 
+     macslot = &mac_slots[slot->slot_id];
+@@ -151,8 +149,6 @@ static int do_hvf_set_memory(hvf_slot *slot)
+         return 0;
+     }
+ 
+-    flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
+-
+     macslot->present = 1;
+     macslot->gpa_start = slot->start;
+     macslot->size = slot->size;
+@@ -165,14 +161,24 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+ {
+     hvf_slot *mem;
+     MemoryRegion *area = section->mr;
++    bool writeable = !area->readonly && !area->rom_device;
++    hv_memory_flags_t flags;
+ 
+     if (!memory_region_is_ram(area)) {
+-        return;
++        if (writeable) {
++            return;
++        } else if (!memory_region_is_romd(area)) {
++            /*
++             * If the memory device is not in romd_mode, then we actually want
++             * to remove the hvf memory slot so all accesses will trap.
++             */
++             add = false;
++        }
+     }
+ 
+     mem = hvf_find_overlap_slot(
+             section->offset_within_address_space,
+-            section->offset_within_address_space + int128_get64(section->size));
++            int128_get64(section->size));
+ 
+     if (mem && add) {
+         if (mem->size == int128_get64(section->size) &&
+@@ -186,7 +192,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+     /* Region needs to be reset. set the size to 0 and remap it. */
+     if (mem) {
+         mem->size = 0;
+-        if (do_hvf_set_memory(mem)) {
++        if (do_hvf_set_memory(mem, 0)) {
+             error_report("Failed to reset overlapping slot");
+             abort();
+         }
+@@ -196,6 +202,13 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+         return;
+     }
+ 
++    if (area->readonly ||
++        (!memory_region_is_ram(area) && memory_region_is_romd(area))) {
++        flags = HV_MEMORY_READ | HV_MEMORY_EXEC;
++    } else {
++        flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
++    }
++
+     /* Now make a new slot. */
+     int x;
+ 
+@@ -216,7 +229,7 @@ void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
+     mem->start = section->offset_within_address_space;
+     mem->region = area;
+ 
+-    if (do_hvf_set_memory(mem)) {
++    if (do_hvf_set_memory(mem, flags)) {
+         error_report("Error registering new memory slot");
+         abort();
+     }
+@@ -345,7 +358,14 @@ static bool ept_emulation_fault(hvf_slot *slot, uint64_t gpa, uint64_t ept_qual)
+         return false;
+     }
+ 
+-    return !slot;
++    if (!slot) {
++        return true;
++    }
++    if (!memory_region_is_ram(slot->region) &&
++        !(read && memory_region_is_romd(slot->region))) {
++        return true;
++    }
++    return false;
+ }
+ 
+ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+@@ -354,7 +374,7 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+ 
+     slot = hvf_find_overlap_slot(
+             section->offset_within_address_space,
+-            section->offset_within_address_space + int128_get64(section->size));
++            int128_get64(section->size));
+ 
+     /* protect region against writes; begin tracking it */
+     if (on) {
+@@ -720,7 +740,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+             ret = EXCP_INTERRUPT;
+             break;
+         }
+-            /* Need to check if MMIO or unmmaped fault */
++        /* Need to check if MMIO or unmapped fault */
+         case EXIT_REASON_EPT_FAULT:
+         {
+             hvf_slot *slot;
+@@ -731,7 +751,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+                 vmx_set_nmi_blocking(cpu);
              }
-             /*printf("reinject  %lx err %d\n", info, err);*/
-             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
-@@ -399,7 +403,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-     if (cpu_state->interrupt_request & CPU_INTERRUPT_NMI) {
-         if (!(env->hflags2 & HF2_NMI_MASK) && !(info & VMCS_INTR_VALID)) {
-             cpu_state->interrupt_request &= ~CPU_INTERRUPT_NMI;
--            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | NMI_VEC;
-+            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | EXCP02_NMI;
-             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
-         } else {
-             vmx_set_nmi_window_exiting(cpu_state);
+ 
+-            slot = hvf_find_overlap_slot(gpa, gpa);
++            slot = hvf_find_overlap_slot(gpa, 1);
+             /* mmio */
+             if (ept_emulation_fault(slot, gpa, exit_qual)) {
+                 struct x86_decode decode;
 -- 
 2.24.0
 
