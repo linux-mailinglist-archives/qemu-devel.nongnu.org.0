@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B12410EC55
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 16:33:56 +0100 (CET)
-Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91C610EC58
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 16:34:39 +0100 (CET)
+Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibnhz-0001F2-4D
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 10:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46153)
+	id 1ibnig-0004Tf-WF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 10:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1ibnbD-0005zF-Ux
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:26:58 -0500
+ (envelope-from <armbru@redhat.com>) id 1ibncD-0006bM-PM
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1ibnbC-0001pB-Qt
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:26:55 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:58364)
+ (envelope-from <armbru@redhat.com>) id 1ibnc9-0002CJ-SZ
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:55 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54644
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1ibnbC-0001oV-Kv
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:26:54 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 6DFF996EF0;
- Mon,  2 Dec 2019 15:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1575300412;
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ibnc9-0002BK-9u
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575300472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BsAO0TXNx3/Ne29sFkbPePTSRB3HY1L/JUQ7joKU74w=;
- b=saZrTluPqrp4xjct6a8MJe/haNrmVvFId2U7OvvIe002GsXMICnqrWvn95WYA8QPKTGAdL
- DMx9ZvkoWjbzvSkVWOoIxRbpg+tHSqyfLsvdOX1Q/jrsZMNfxaGmXOUr/r6oTkTrLnPYT3
- cqwp+/+CYa/FLW4WVNAp3yh5RbYEoUo=
-Subject: Re: [PATCH v2 03/14] gdbstub: move str_buf to GDBState and use GString
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191130084602.10818-1-alex.bennee@linaro.org>
- <20191130084602.10818-4-alex.bennee@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <2950506f-5441-6924-9625-70c631366723@greensocs.com>
-Date: Mon, 2 Dec 2019 16:26:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jnK+3aDCfAVfgTaTDHNOIQOyWxkt0Vd8XIfHq3g49jk=;
+ b=JbsslFl67qEAssgpC6Fvm/7p1/5nCmVprPuhEXnxv4b8U213ME4GCWHnhgQnXJG0t7q56I
+ LwW9oGFq0UJmsA2ARxO9yJqRuRTsLD1g5rCJLMxbOwqbWshiioOfaNlvFQsXcrLDgW5KRl
+ 2ky8AnvbDk4OocG1rSX1WSI8biu3o6E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-LF3Eo7wvPuORtB8IrVPDwQ-1; Mon, 02 Dec 2019 10:27:51 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C526618C030E
+ for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 15:27:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9680A619DB
+ for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 15:27:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1C25E1138606; Mon,  2 Dec 2019 16:27:46 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL for-4.2 0/3] Error reporting patches for 2019-12-02
+Date: Mon,  2 Dec 2019 16:27:43 +0100
+Message-Id: <20191202152746.32292-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191130084602.10818-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1575300412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BsAO0TXNx3/Ne29sFkbPePTSRB3HY1L/JUQ7joKU74w=;
- b=aPwgX9sfF6L7mCYpy5pbjQXGAafsJn99DZhDWCrRwn0XmZYYhoZhQrYqqRuWB38AJf9lng
- o/suTwtSYqGTYP+KJl2Y3UdS7lu5z/0JSng8pU+2qhH+ZTbxgF9e2lWQHmIXIXqVGwKIo/
- J+rzMYRLQJb/eIoe9/CBL6TivREy6h0=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575300412; a=rsa-sha256; cv=none;
- b=KjByxLCzu9lZ5BRj0C7li1oRJpAoKJ18SqMbi0R5iQz5S4OLL8myieez4WaoEStXzcHj7c
- peNXkCHDXB/qExs7DEmUYD/bpePWE4/PBf8Ft3G53in0JbWl9jnWvjoURl1YfLPEVR7+ks
- Nx9BdzeAqsqqgJOcKNfkoBESy8FA+zI=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: LF3Eo7wvPuORtB8IrVPDwQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,33 +70,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.machado@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+PATCH 1+2 fix a crash in virtio-net failover error handling.  Failover
+is new in 4.2.  Jens Freimann would prefer this fix to go into 4.2.
 
+PATCH 3 fixes a crash in Linux AIO initialization error handling.
+Stefan Hajnoczi thinks it's worth including in 4.2.
 
-On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
-> Rather than having a static buffer replace str_buf with a GString
-> which we know can grow on demand. Convert the internal functions to
-> take a GString instead of a char * and length.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
-> ---
-> v2
->   - fix conflict from status gdbserver_state
->   - add put_strbuf helper
-> ---
->  gdbstub.c | 195 +++++++++++++++++++++++++-----------------------------
->  1 file changed, 90 insertions(+), 105 deletions(-)
->=20
+Both fixes are straightforward.
 
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+The following changes since commit fb2246882a2c8d7f084ebe0617e97ac78467d156=
+:
 
---
-Damien
+  .travis.yml: drop xcode9.4 from build matrix (2019-11-29 15:51:52 +0000)
+
+are available in the Git repository at:
+
+  git://repo.or.cz/qemu/armbru.git tags/pull-error-2019-12-02
+
+for you to fetch changes up to cb09104ea8418d9521d9a9d36ea0527b84ce51ac:
+
+  block/file-posix: Fix laio_init() error handling crash bug (2019-12-02 16=
+:14:41 +0100)
+
+----------------------------------------------------------------
+Error reporting patches for 2019-12-02
+
+----------------------------------------------------------------
+Markus Armbruster (3):
+      net/virtio: Drop useless n->primary_dev not null checks
+      net/virtio: Fix failover error handling crash bugs
+      block/file-posix: Fix laio_init() error handling crash bug
+
+ block/file-posix.c  |  2 +-
+ hw/net/virtio-net.c | 27 ++++++++++++++-------------
+ 2 files changed, 15 insertions(+), 14 deletions(-)
+
+--=20
+2.21.0
+
 
