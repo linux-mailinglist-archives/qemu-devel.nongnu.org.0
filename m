@@ -2,43 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BE110E938
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 11:59:59 +0100 (CET)
-Received: from localhost ([::1]:33938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C10110E966
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 12:13:53 +0100 (CET)
+Received: from localhost ([::1]:34108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibjQs-0002df-9d
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 05:59:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38314)
+	id 1ibjeK-000180-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 06:13:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ibjOB-0007es-7I
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:57:12 -0500
+ (envelope-from <bounces@canonical.com>) id 1ibjcK-0008W2-CM
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 06:11:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ibjO9-0001Wj-TV
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:57:11 -0500
-Received: from relay.sw.ru ([185.231.240.75]:40854)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ibjO9-0001Vo-Lo; Mon, 02 Dec 2019 05:57:09 -0500
-Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ibjO2-0003e4-Sn; Mon, 02 Dec 2019 13:57:02 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH v11 3/3] tests/qemu-iotests: add case to write compressed data
- of multiple clusters
-Date: Mon,  2 Dec 2019 13:57:02 +0300
-Message-Id: <1575284222-548831-4-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1575284222-548831-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1575284222-548831-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <bounces@canonical.com>) id 1ibjcF-0006iy-5T
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 06:11:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49092)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ibjcE-0006hf-W3
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 06:11:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ibjcC-0007YZ-DK
+ for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 11:11:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6348B2E8085
+ for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 11:11:40 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Dec 2019 11:02:22 -0000
+From: Launchpad Bug Tracker <1848556@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Fix Released; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Fix Released; importance=Medium;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Tags: verification-done verification-done-eoan
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor paelzer rodsmith sil2100 tjaalton
+ ubuntu-sru-bot xanclic
+X-Launchpad-Bug-Reporter: Rod Smith (rodsmith)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <157133449178.19203.719001918774596241.malonedeb@gac.canonical.com>
+Message-Id: <157528454888.8939.495514277184391841.malone@ackee.canonical.com>
+Subject: [Bug 1848556] Re: qemu-img check failing on remote image in Eoan
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 13923c14c74c5c02fcf11b062189158bf969e833
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -47,101 +77,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- mreitz@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org
+Reply-To: Bug 1848556 <1848556@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the case to the iotest #214 that checks possibility of writing
-compressed data of more than one cluster size. The test case involves
-the compress filter driver showing a sample usage of that.
+This bug was fixed in the package qemu - 1:4.0+dfsg-0ubuntu9.2
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/214     | 43 +++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/214.out | 14 ++++++++++++++
- 2 files changed, 57 insertions(+)
+---------------
+qemu (1:4.0+dfsg-0ubuntu9.2) eoan; urgency=3Dmedium
 
-diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
-index 21ec8a2..0b6ea0b 100755
---- a/tests/qemu-iotests/214
-+++ b/tests/qemu-iotests/214
-@@ -89,6 +89,49 @@ _check_test_img -r all
- $QEMU_IO -c "read  -P 0x11  0 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- $QEMU_IO -c "read  -P 0x22 4M 4M" "$TEST_IMG" 2>&1 | _filter_qemu_io | _filter_testdir
- 
-+echo
-+echo "=== Write compressed data of multiple clusters ==="
-+echo
-+cluster_size=0x10000
-+_make_test_img 2M -o cluster_size=$cluster_size
-+
-+echo "Write uncompressed data:"
-+let data_size="8 * $cluster_size"
-+$QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+_make_test_img 2M -o cluster_size=$cluster_size
-+echo "Write compressed data:"
-+let data_size="3 * $cluster_size + $cluster_size / 2"
-+# Set compress on. That will align the written data
-+# by the cluster size and will write them compressed.
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xbb 0 $data_size" --image-opts \
-+         "driver=compress,file.driver=$IMGFMT,file.file.driver=file,file.file.filename=$TEST_IMG" \
-+         2>&1 | _filter_qemu_io | _filter_testdir
-+
-+let offset="4 * $cluster_size + $cluster_size / 4"
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+$QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
-+    'driver': 'compress',
-+    'file': {'driver': '$IMGFMT',
-+             'file': {'driver': 'file',
-+                      'filename': '$TEST_IMG'}}}" | \
-+                          _filter_qemu_io | _filter_testdir
-+
-+sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
-+        sed -n '/"actual-size":/ s/[^0-9]//gp')
-+
-+if [ $sizeA -le $sizeB ]
-+then
-+    echo "Compression ERROR"
-+fi
-+
-+$QEMU_IMG check --output=json "$TEST_IMG" |
-+          sed -n 's/,$//; /"compressed-clusters":/ s/^ *//p'
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/214.out b/tests/qemu-iotests/214.out
-index 0fcd8dc..9fc6728 100644
---- a/tests/qemu-iotests/214.out
-+++ b/tests/qemu-iotests/214.out
-@@ -32,4 +32,18 @@ read 4194304/4194304 bytes at offset 0
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 4194304/4194304 bytes at offset 4194304
- 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Write compressed data of multiple clusters ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write uncompressed data:
-+wrote 524288/524288 bytes at offset 0
-+512 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=2097152
-+Write compressed data:
-+wrote 229376/229376 bytes at offset 0
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 229376/229376 bytes at offset 278528
-+224 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+"compressed-clusters": 8
- *** done
--- 
-1.8.3.1
+  * d/p/ubuntu/lp-1848556-curl-Handle-success-in-multi_check_completion.pat=
+ch:
+    fix a potential hang when qemu or qemu-img where accessing http backed
+    disks via libcurl (LP: #1848556)
+  * d/p/u/lp-1848497-virtio-balloon-fix-QEMU-4.0-config-size-migration-in.p=
+atch:
+    fix migration issue from qemu <4.0 when using virtio-balloon (LP: #1848=
+497)
 
+ -- Christian Ehrhardt <christian.ehrhardt@canonical.com>  Mon, 21 Oct
+2019 14:51:45 +0200
+
+** Changed in: qemu (Ubuntu Eoan)
+       Status: Fix Committed =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1848556
+
+Title:
+  qemu-img check failing on remote image in Eoan
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Eoan:
+  Fix Released
+Status in qemu source package in Focal:
+  Fix Released
+
+Bug description:
+  Ubuntu SRU Template:
+
+  [Impact]
+
+   * There is fallout due to changes in libcurl that affect qemu and might =
+
+     lead to a hang.
+
+   * Fix by backporting the upstream fix
+
+  [Test Case]
+
+   * If you have network just run
+     $ qemu-img check http://10.193.37.117/cloud/eoan-server-cloudimg-amd64=
+.img
+
+   * Without network, install apache2, and get a complex qemu file (like a =
+
+     cloud image) onto the system. Then access the file via apache http but =
+
+     not localhost (that would work)
+
+  [Regression Potential]
+
+   * The change is local to the libcurl usage of qemu, so that could be =
+
+     affected. But then this is what has been found to not work here, so I'=
+d =
+
+     expect not too much trouble. But if so then in the curl usage (which =
+
+     means disks on http)
+
+  [Other Info]
+   =
+
+   * n/a
+
+  ---
+
+  The "qemu-img check" function is failing on remote (HTTP-hosted)
+  images, beginning with Ubuntu 19.10 (qemu-utils version 1:4.0+dfsg-
+  0ubuntu9). With previous versions, through Ubuntu 19.04/qemu-utils
+  version 1:3.1+dfsg-2ubuntu3.5, the following worked:
+
+  $ /usr/bin/qemu-img check  http://10.193.37.117/cloud/eoan-server-cloudim=
+g-amd64.img
+  No errors were found on the image.
+  19778/36032 =3D 54.89% allocated, 90.34% fragmented, 89.90% compressed cl=
+usters
+  Image end offset: 514064384
+
+  The 10.193.37.117 server holds an Apache server that hosts the cloud
+  images on a LAN. Beginning with Ubuntu 19.10/qemu-utils 1:4.0+dfsg-
+  0ubuntu9, the same command never returns. (I've left it for up to an
+  hour with no change.) I'm able to wget the image from the same server
+  and installation on which qemu-img check fails. I've tried several
+  .img files on the server, ranging from Bionic to Eoan, with the same
+  results with all of them.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1848556/+subscriptions
 
