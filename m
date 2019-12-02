@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91C610EC58
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 16:34:39 +0100 (CET)
-Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D679A10EC5E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 16:36:00 +0100 (CET)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibnig-0004Tf-WF
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 10:34:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46253)
+	id 1ibnjz-0006b2-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 10:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ibncD-0006bM-PM
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:59 -0500
+ (envelope-from <armbru@redhat.com>) id 1ibncL-0006dW-6O
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:28:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ibnc9-0002CJ-SZ
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:55 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54644
+ (envelope-from <armbru@redhat.com>) id 1ibncH-0002Hj-LL
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:28:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21701
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ibnc9-0002BK-9u
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:27:53 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ibncF-0002FU-P3
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 10:28:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575300472;
+ s=mimecast20190719; t=1575300478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jnK+3aDCfAVfgTaTDHNOIQOyWxkt0Vd8XIfHq3g49jk=;
- b=JbsslFl67qEAssgpC6Fvm/7p1/5nCmVprPuhEXnxv4b8U213ME4GCWHnhgQnXJG0t7q56I
- LwW9oGFq0UJmsA2ARxO9yJqRuRTsLD1g5rCJLMxbOwqbWshiioOfaNlvFQsXcrLDgW5KRl
- 2ky8AnvbDk4OocG1rSX1WSI8biu3o6E=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9kcUZTGSiLMTPm77liPqmIhGfhTUFPmm1VSRjsADLlM=;
+ b=LplcCK1jm33rAY7hd/eNEMDxI/UlFJ5r2osLqUaQCOG7hMl1Lq39wpUKBWoRPrxWPjLk5G
+ bsR28XNg8mfQKrC9u3zZDR8YtE16IRTvSxO2x6ZPRTzzPwWYDPXLlqY790ZdQbJNUQSaFx
+ H1fNvFtV1Au0cnd62P7/rgJhB3pMj3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-LF3Eo7wvPuORtB8IrVPDwQ-1; Mon, 02 Dec 2019 10:27:51 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-60-O79bpIUPMbuSYLELkLm5qQ-1; Mon, 02 Dec 2019 10:27:57 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C526618C030E
- for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 15:27:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3ECB8C02D1
+ for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 15:27:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9680A619DB
- for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 15:27:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 93F5D5E240;
+ Mon,  2 Dec 2019 15:27:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1C25E1138606; Mon,  2 Dec 2019 16:27:46 +0100 (CET)
+ id 1F70311385C7; Mon,  2 Dec 2019 16:27:46 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL for-4.2 0/3] Error reporting patches for 2019-12-02
-Date: Mon,  2 Dec 2019 16:27:43 +0100
-Message-Id: <20191202152746.32292-1-armbru@redhat.com>
+Subject: [PULL for-4.2 1/3] net/virtio: Drop useless n->primary_dev not null
+ checks
+Date: Mon,  2 Dec 2019 16:27:44 +0100
+Message-Id: <20191202152746.32292-2-armbru@redhat.com>
+In-Reply-To: <20191202152746.32292-1-armbru@redhat.com>
+References: <20191202152746.32292-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: LF3Eo7wvPuORtB8IrVPDwQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: O79bpIUPMbuSYLELkLm5qQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,44 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jens Freimann <jfreimann@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PATCH 1+2 fix a crash in virtio-net failover error handling.  Failover
-is new in 4.2.  Jens Freimann would prefer this fix to go into 4.2.
+virtio_net_handle_migration_primary() returns early when it can't
+ensure n->primary_dev is non-null.  Checking it again right after that
+early return is redundant.  Drop.
 
-PATCH 3 fixes a crash in Linux AIO initialization error handling.
-Stefan Hajnoczi thinks it's worth including in 4.2.
+If n->primary_dev is null on entering failover_replug_primary(), @pdev
+will become null, and pdev->partially_hotplugged will crash.  Checking
+n->primary_dev later is useless.  It can't actually be null, because
+its caller virtio_net_handle_migration_primary() ensures it isn't.
+Drop the useless check.
 
-Both fixes are straightforward.
+Cc: Jens Freimann <jfreimann@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20191130194240.10517-2-armbru@redhat.com>
+Reviewed-by: Jens Freimann <jfreimann@redhat.com>
+---
+ hw/net/virtio-net.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-The following changes since commit fb2246882a2c8d7f084ebe0617e97ac78467d156=
-:
-
-  .travis.yml: drop xcode9.4 from build matrix (2019-11-29 15:51:52 +0000)
-
-are available in the Git repository at:
-
-  git://repo.or.cz/qemu/armbru.git tags/pull-error-2019-12-02
-
-for you to fetch changes up to cb09104ea8418d9521d9a9d36ea0527b84ce51ac:
-
-  block/file-posix: Fix laio_init() error handling crash bug (2019-12-02 16=
-:14:41 +0100)
-
-----------------------------------------------------------------
-Error reporting patches for 2019-12-02
-
-----------------------------------------------------------------
-Markus Armbruster (3):
-      net/virtio: Drop useless n->primary_dev not null checks
-      net/virtio: Fix failover error handling crash bugs
-      block/file-posix: Fix laio_init() error handling crash bug
-
- block/file-posix.c  |  2 +-
- hw/net/virtio-net.c | 27 ++++++++++++++-------------
- 2 files changed, 15 insertions(+), 14 deletions(-)
-
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 3c31471026..87088ba374 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2810,11 +2810,6 @@ static bool failover_replug_primary(VirtIONet *n, Er=
+ror **errp)
+             goto out;
+         }
+     }
+-    if (!n->primary_dev) {
+-            error_setg(errp, "virtio_net: couldn't find primary device");
+-            goto out;
+-    }
+-
+     n->primary_bus =3D n->primary_dev->parent_bus;
+     if (!n->primary_bus) {
+         error_setg(errp, "virtio_net: couldn't find primary bus");
+@@ -2849,8 +2844,7 @@ static void virtio_net_handle_migration_primary(VirtI=
+ONet *n,
+         }
+     }
+=20
+-    if (migration_in_setup(s) && !should_be_hidden &&
+-        n->primary_dev) {
++    if (migration_in_setup(s) && !should_be_hidden) {
+         if (failover_unplug_primary(n)) {
+             vmstate_unregister(n->primary_dev, qdev_get_vmsd(n->primary_de=
+v),
+                     n->primary_dev);
 --=20
 2.21.0
 
