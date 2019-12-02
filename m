@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6A310F270
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:56:14 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C812F10F25D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:49:43 +0100 (CET)
+Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibtfx-0001Y6-El
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:56:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38407)
+	id 1ibtZe-0003zu-Q6
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:49:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxl-0002nO-Hq
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:37 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxg-0002hs-Uy
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxg-0000n0-Tt
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:33 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33855)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxa-0000jx-6P
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:27 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41607)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ibsxc-0000aw-OK; Mon, 02 Dec 2019 16:10:27 -0500
-Received: by mail-wm1-x342.google.com with SMTP id f4so776132wmj.1;
- Mon, 02 Dec 2019 13:10:06 -0800 (PST)
+ id 1ibsxQ-0000b8-Pf; Mon, 02 Dec 2019 16:10:13 -0500
+Received: by mail-wr1-x441.google.com with SMTP id b18so983379wrj.8;
+ Mon, 02 Dec 2019 13:10:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FG2UWWMlSaxSuJKFPn2Bzn2BvM9nYHlOC0LTH9A/EEA=;
- b=mmEM1tcuBs1pApAkRW/Cs+IyRYZJHNvhCYySGcrz/cjA6wfqCZRnxI9gk6F0vWiMLB
- kLIIdvPM3vKLrUM6OeB8oAHcIJAksbVqFYU/gwHwNQu+g1fumxWAwck3B5Al2LVA2+ZC
- mseMqbt5UWRf8/Z1fLF3TuD5ebL0npanJ2SID5v4a+DQ5mhvH+wMpEGMN0+dhgOYlvRK
- VQzkVTiYjSbf32W+tWBnJ/dDfQ3hfc3B0i1NOhmfedoXTwQ+8V4RyPnBLx3EUJ7wsHgv
- 0DhyJP/yqIEULFpwfYlDMlnlfkeaUvhaa8E450dfzKIP12b8VQqWXACw5sVwt+1g2KVd
- 1W7w==
+ bh=YSSdKKG1i6JVSlPytRsAwGL4WTE2dxtGdKjtspalJFE=;
+ b=L7ZszqUzkHcluseCQLaWzNFJkI+6teYGz8kuF4ZzyMxGNDrQjkB1q3yD4lB0aSz1t2
+ 4WgoAtsG1TqhLzlPY6scu4WFW5vve946/3lHfjOcecVoDicSS53/rs7DIXcFQbEW+smO
+ HoGj+UsxG+J/smctlkiTJnmBHksNt9KsnixK4M34VWwG9hrCbW/UO8LoCofv+6iB2pGs
+ fmUecTmhJf5HdwFMGVdat0iCixJRq6nlFChReialxQJmlf8prJJxVlJiqzqivWEKkBI8
+ VWTkyLJb+olapWmqYemz1GpeTCJdfVrAN8Z9LT8BzMO6dfw7GDhUgJLLZCH47Cv7KOfw
+ 5XNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=FG2UWWMlSaxSuJKFPn2Bzn2BvM9nYHlOC0LTH9A/EEA=;
- b=mThSlxNsltOENPvCGIiuQQRX2lCh/efSf6/51Jr/HOy0bwowr1dp68TqiQ5CbHBjmH
- H/zMcYozxmIChwlYhvb1E6BaJsNte4CApxYiNi5Fi9YOB6jhUA5yRqWiuIvhZIjn1EM1
- /OuI1J00cghilD9KKcl9rsWcIHrgN3rXo2W57uvV57CHX7l861j5NyB7yRuzkDaSBBjk
- f1gnguUYedmEHeUfb2PanxU6/vEj+eLloJsNprsSZUO7acWk16Aob0zUjf0btGfXHY1G
- lvAPaVzLhEoIO0quMav96EwEYRvI6cKilOCKn74ftj6dQgoN1NFjPTLfdrHLhQWTxI0J
- fe2Q==
-X-Gm-Message-State: APjAAAXig0mFDnu4MMHRPItgEgV3Vq/QTAfJ+sK3yijMoScMafHMJcqI
- S2oJTV57XkLRYZZRxicvJ5e7EoOE
-X-Google-Smtp-Source: APXvYqxkUVQbysCp0r9yWIfoUfymPGWiSpWIKEPr2FcyhlKmKCgodGSk+l5hQBH8JNXYTGwfSuApsQ==
-X-Received: by 2002:a1c:f416:: with SMTP id z22mr29848831wma.72.1575321005043; 
+ bh=YSSdKKG1i6JVSlPytRsAwGL4WTE2dxtGdKjtspalJFE=;
+ b=FUYpHTd04WBfPD0Tzcr5h10VBlV+I6VcmDPSgmnGvV2rmw7DEhA8Q8do2R98IE5K4c
+ vdzhLsbKmOSlsNuTocWq96VCD6oojdDlZ5fIDm2NJITE8NcJIQmBmKc3uGu85T22yXjr
+ y5mCmkk7SVc2jL4DALsN/a051GEVPlQzLnF/excNYXE+XjZxCelPq1nN3RfY+Dtkcccs
+ 8Zek+8Qmge7IvmAskSXT9Xkgrj0qWLJcLaPE5xmK5cmD1Dle+/QHrLaA+8Iiv2WjqPBQ
+ +2Busx4fmHKuFx7fUVHHdGWcy2obLDmRlqODaG3LhMCarB5F/PgRUt19+C07TptPiAO2
+ Oitg==
+X-Gm-Message-State: APjAAAUIYTTcBSU9aMyCibpqxqdXHItBbH25brEIH2csRGgSHICmW9DL
+ F0ml87b7K6lud4+9pj0zXIp15fQ4
+X-Google-Smtp-Source: APXvYqwQkNFAKM4YhPm2hslVoloXVTCFDw47qe/cJqMSf2UxnufyFhxJppZZ3oE4wZQwnsa3gqhQ8g==
+X-Received: by 2002:adf:edd0:: with SMTP id v16mr1112264wro.310.1575321005843; 
  Mon, 02 Dec 2019 13:10:05 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.10.03
+ by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.10.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2019 13:10:03 -0800 (PST)
+ Mon, 02 Dec 2019 13:10:05 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/10] arm: allwinner-h3: add SD/MMC host controller
-Date: Mon,  2 Dec 2019 22:09:46 +0100
-Message-Id: <20191202210947.3603-10-nieklinnenbank@gmail.com>
+Subject: [PATCH 10/10] arm: allwinner-h3: add EMAC ethernet device
+Date: Mon,  2 Dec 2019 22:09:47 +0100
+Message-Id: <20191202210947.3603-11-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-X-Mailman-Approved-At: Mon, 02 Dec 2019 16:38:24 -0500
+X-Received-From: 2a00:1450:4864:20::441
+X-Mailman-Approved-At: Mon, 02 Dec 2019 16:38:22 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,130 +79,129 @@ Cc: b.galvani@gmail.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Allwinner H3 System on Chip contains an integrated storage
-controller for Secure Digital (SD) and Multi Media Card (MMC)
-interfaces. This commit adds support for the Allwinner H3
-SD/MMC storage controller with the following emulated features:
+The Allwinner H3 System on Chip includes an Ethernet MAC (EMAC)
+which provides 10M/100M/1000M Ethernet connectivity. This commit
+adds support for the Allwinner H3 EMAC, including emulation for
+the following functionality:
 
  * DMA transfers
- * Direct FIFO I/O
- * Short/Long format command responses
- * Auto-Stop command (CMD12)
- * Insert & remove card detection
+ * MII interface
+ * Transmit CRC calculation
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- hw/arm/allwinner-h3.c               |  20 +
- hw/arm/orangepi.c                   |  17 +
- hw/sd/Makefile.objs                 |   1 +
- hw/sd/allwinner-h3-sdhost.c         | 791 ++++++++++++++++++++++++++++
- hw/sd/trace-events                  |   7 +
- include/hw/arm/allwinner-h3.h       |   2 +
- include/hw/sd/allwinner-h3-sdhost.h |  73 +++
- 7 files changed, 911 insertions(+)
- create mode 100644 hw/sd/allwinner-h3-sdhost.c
- create mode 100644 include/hw/sd/allwinner-h3-sdhost.h
+ hw/arm/Kconfig                     |   1 +
+ hw/arm/allwinner-h3.c              |  17 +
+ hw/arm/orangepi.c                  |   7 +
+ hw/net/Kconfig                     |   3 +
+ hw/net/Makefile.objs               |   1 +
+ hw/net/allwinner-h3-emac.c         | 786 +++++++++++++++++++++++++++++
+ hw/net/trace-events                |  10 +
+ include/hw/arm/allwinner-h3.h      |   2 +
+ include/hw/net/allwinner-h3-emac.h |  69 +++
+ 9 files changed, 896 insertions(+)
+ create mode 100644 hw/net/allwinner-h3-emac.c
+ create mode 100644 include/hw/net/allwinner-h3-emac.h
 
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index ebf8d2325f..551cff3442 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -294,6 +294,7 @@ config ALLWINNER_A10
+ config ALLWINNER_H3
+     bool
+     select ALLWINNER_A10_PIT
++    select ALLWINNER_H3_EMAC
+     select SERIAL
+     select ARM_TIMER
+     select ARM_GIC
 diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-index 4fc4c8c725..c2972caf88 100644
+index c2972caf88..274b8548c0 100644
 --- a/hw/arm/allwinner-h3.c
 +++ b/hw/arm/allwinner-h3.c
-@@ -50,6 +50,9 @@ static void aw_h3_init(Object *obj)
+@@ -53,6 +53,9 @@ static void aw_h3_init(Object *obj)
  
-     sysbus_init_child_obj(obj, "sid", &s->sid, sizeof(s->sid),
-                           TYPE_AW_H3_SID);
+     sysbus_init_child_obj(obj, "mmc0", &s->mmc0, sizeof(s->mmc0),
+                           TYPE_AW_H3_SDHOST);
 +
-+    sysbus_init_child_obj(obj, "mmc0", &s->mmc0, sizeof(s->mmc0),
-+                          TYPE_AW_H3_SDHOST);
++    sysbus_init_child_obj(obj, "emac", &s->emac, sizeof(s->emac),
++                          TYPE_AW_H3_EMAC);
  }
  
  static void aw_h3_realize(DeviceState *dev, Error **errp)
-@@ -217,6 +220,23 @@ static void aw_h3_realize(DeviceState *dev, Error **errp)
+@@ -237,6 +240,20 @@ static void aw_h3_realize(DeviceState *dev, Error **errp)
+         return;
      }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sid), 0, AW_H3_SID_BASE);
  
-+    /* SD/MMC */
-+    object_property_set_bool(OBJECT(&s->mmc0), true, "realized", &err);
++    /* EMAC */
++    if (nd_table[0].used) {
++        qemu_check_nic_model(&nd_table[0], TYPE_AW_H3_EMAC);
++        qdev_set_nic_properties(DEVICE(&s->emac), &nd_table[0]);
++    }
++    object_property_set_bool(OBJECT(&s->emac), true, "realized", &err);
 +    if (err != NULL) {
 +        error_propagate(errp, err);
 +        return;
 +    }
-+    sysbusdev = SYS_BUS_DEVICE(&s->mmc0);
-+    sysbus_mmio_map(sysbusdev, 0, AW_H3_MMC0_BASE);
-+    sysbus_connect_irq(sysbusdev, 0, s->irq[AW_H3_GIC_SPI_MMC0]);
-+
-+    object_property_add_alias(OBJECT(s), "sd-bus", OBJECT(&s->mmc0),
-+                              "sd-bus", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
++    sysbusdev = SYS_BUS_DEVICE(&s->emac);
++    sysbus_mmio_map(sysbusdev, 0, AW_H3_EMAC_BASE);
++    sysbus_connect_irq(sysbusdev, 0, s->irq[AW_H3_GIC_SPI_EMAC]);
 +
      /* Universal Serial Bus */
      sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI0_BASE,
                           s->irq[AW_H3_GIC_SPI_EHCI0]);
 diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index 5ef2735f81..dee3efaf08 100644
+index dee3efaf08..8a61eb0e69 100644
 --- a/hw/arm/orangepi.c
 +++ b/hw/arm/orangepi.c
-@@ -39,6 +39,10 @@ typedef struct OrangePiState {
- static void orangepi_init(MachineState *machine)
- {
-     OrangePiState *s = g_new(OrangePiState, 1);
-+    DriveInfo *di;
-+    BlockBackend *blk;
-+    BusState *bus;
-+    DeviceState *carddev;
-     Error *err = NULL;
- 
-     s->h3 = AW_H3(object_new(TYPE_AW_H3));
-@@ -64,6 +68,18 @@ static void orangepi_init(MachineState *machine)
+@@ -61,6 +61,13 @@ static void orangepi_init(MachineState *machine)
          exit(1);
      }
  
-+    /* Create and plug in the SD card */
-+    di = drive_get_next(IF_SD);
-+    blk = di ? blk_by_legacy_dinfo(di) : NULL;
-+    bus = qdev_get_child_bus(DEVICE(s->h3), "sd-bus");
-+    if (bus == NULL) {
-+        error_report("No SD/MMC found in H3 object");
++    /* Setup EMAC properties */
++    object_property_set_int(OBJECT(&s->h3->emac), 1, "phy-addr", &err);
++    if (err != NULL) {
++        error_reportf_err(err, "Couldn't set phy address: ");
 +        exit(1);
 +    }
-+    carddev = qdev_create(bus, TYPE_SD_CARD);
-+    qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
-+    object_property_set_bool(OBJECT(carddev), true, "realized", &error_fatal);
 +
-     /* RAM */
-     memory_region_allocate_system_memory(&s->sdram, NULL, "orangepi.ram",
-                                          machine->ram_size);
-@@ -80,6 +96,7 @@ static void orangepi_machine_init(MachineClass *mc)
- {
-     mc->desc = "Orange Pi PC";
-     mc->init = orangepi_init;
-+    mc->block_default_type = IF_SD;
-     mc->units_per_default_bus = 1;
-     mc->min_cpus = AW_H3_NUM_CPUS;
-     mc->max_cpus = AW_H3_NUM_CPUS;
-diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
-index a884c238df..e7cc5ab739 100644
---- a/hw/sd/Makefile.objs
-+++ b/hw/sd/Makefile.objs
-@@ -4,6 +4,7 @@ common-obj-$(CONFIG_SD) += sd.o core.o sdmmc-internal.o
- common-obj-$(CONFIG_SDHCI) += sdhci.o
- common-obj-$(CONFIG_SDHCI_PCI) += sdhci-pci.o
+     /* Mark H3 object realized */
+     object_property_set_bool(OBJECT(s->h3), true, "realized", &err);
+     if (err != NULL) {
+diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+index 3856417d42..36d3923992 100644
+--- a/hw/net/Kconfig
++++ b/hw/net/Kconfig
+@@ -74,6 +74,9 @@ config MIPSNET
+ config ALLWINNER_EMAC
+     bool
  
-+obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3-sdhost.o
- obj-$(CONFIG_MILKYMIST) += milkymist-memcard.o
- obj-$(CONFIG_OMAP) += omap_mmc.o
- obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
-diff --git a/hw/sd/allwinner-h3-sdhost.c b/hw/sd/allwinner-h3-sdhost.c
++config ALLWINNER_H3_EMAC
++    bool
++
+ config IMX_FEC
+     bool
+ 
+diff --git a/hw/net/Makefile.objs b/hw/net/Makefile.objs
+index 7907d2c199..5548deb07a 100644
+--- a/hw/net/Makefile.objs
++++ b/hw/net/Makefile.objs
+@@ -23,6 +23,7 @@ common-obj-$(CONFIG_XGMAC) += xgmac.o
+ common-obj-$(CONFIG_MIPSNET) += mipsnet.o
+ common-obj-$(CONFIG_XILINX_AXI) += xilinx_axienet.o
+ common-obj-$(CONFIG_ALLWINNER_EMAC) += allwinner_emac.o
++common-obj-$(CONFIG_ALLWINNER_H3_EMAC) += allwinner-h3-emac.o
+ common-obj-$(CONFIG_IMX_FEC) += imx_fec.o
+ 
+ common-obj-$(CONFIG_CADENCE) += cadence_gem.o
+diff --git a/hw/net/allwinner-h3-emac.c b/hw/net/allwinner-h3-emac.c
 new file mode 100644
-index 0000000000..26e113a144
+index 0000000000..37f6f44406
 --- /dev/null
-+++ b/hw/sd/allwinner-h3-sdhost.c
-@@ -0,0 +1,791 @@
++++ b/hw/net/allwinner-h3-emac.c
+@@ -0,0 +1,786 @@
 +/*
-+ * Allwinner H3 SD Host Controller emulation
++ * Allwinner H3 EMAC emulation
 + *
 + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
 + *
@@ -221,822 +220,820 @@ index 0000000000..26e113a144
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "sysemu/blockdev.h"
-+#include "hw/irq.h"
-+#include "hw/sd/allwinner-h3-sdhost.h"
++#include "hw/sysbus.h"
 +#include "migration/vmstate.h"
++#include "net/net.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "qemu/log.h"
 +#include "trace.h"
++#include "net/checksum.h"
++#include "qemu/module.h"
++#include "exec/cpu-common.h"
++#include "hw/net/allwinner-h3-emac.h"
 +
-+#define TYPE_AW_H3_SDHOST_BUS "allwinner-h3-sdhost-bus"
-+#define AW_H3_SDHOST_BUS(obj) \
-+    OBJECT_CHECK(SDBus, (obj), TYPE_AW_H3_SDHOST_BUS)
++/* EMAC register offsets */
++#define REG_BASIC_CTL_0        (0x0000) /* Basic Control 0 */
++#define REG_BASIC_CTL_1        (0x0004) /* Basic Control 1 */
++#define REG_INT_STA            (0x0008) /* Interrupt Status */
++#define REG_INT_EN             (0x000C) /* Interrupt Enable */
++#define REG_TX_CTL_0           (0x0010) /* Transmit Control 0 */
++#define REG_TX_CTL_1           (0x0014) /* Transmit Control 1 */
++#define REG_TX_FLOW_CTL        (0x001C) /* Transmit Flow Control */
++#define REG_TX_DMA_DESC_LIST   (0x0020) /* Transmit Descriptor List Address */
++#define REG_RX_CTL_0           (0x0024) /* Receive Control 0 */
++#define REG_RX_CTL_1           (0x0028) /* Receive Control 1 */
++#define REG_RX_DMA_DESC_LIST   (0x0034) /* Receive Descriptor List Address */
++#define REG_FRM_FLT            (0x0038) /* Receive Frame Filter */
++#define REG_RX_HASH_0          (0x0040) /* Receive Hash Table 0 */
++#define REG_RX_HASH_1          (0x0044) /* Receive Hash Table 1 */
++#define REG_MII_CMD            (0x0048) /* Management Interface Command */
++#define REG_MII_DATA           (0x004C) /* Management Interface Data */
++#define REG_ADDR_HIGH          (0x0050) /* MAC Address High */
++#define REG_ADDR_LOW           (0x0054) /* MAC Address Low */
++#define REG_TX_DMA_STA         (0x00B0) /* Transmit DMA Status */
++#define REG_TX_CUR_DESC        (0x00B4) /* Transmit Current Descriptor */
++#define REG_TX_CUR_BUF         (0x00B8) /* Transmit Current Buffer */
++#define REG_RX_DMA_STA         (0x00C0) /* Receive DMA Status */
++#define REG_RX_CUR_DESC        (0x00C4) /* Receive Current Descriptor */
++#define REG_RX_CUR_BUF         (0x00C8) /* Receive Current Buffer */
++#define REG_RGMII_STA          (0x00D0) /* RGMII Status */
 +
-+/* SD Host register offsets */
-+#define REG_SD_GCTL        (0x00)  /* Global Control */
-+#define REG_SD_CKCR        (0x04)  /* Clock Control */
-+#define REG_SD_TMOR        (0x08)  /* Timeout */
-+#define REG_SD_BWDR        (0x0C)  /* Bus Width */
-+#define REG_SD_BKSR        (0x10)  /* Block Size */
-+#define REG_SD_BYCR        (0x14)  /* Byte Count */
-+#define REG_SD_CMDR        (0x18)  /* Command */
-+#define REG_SD_CAGR        (0x1C)  /* Command Argument */
-+#define REG_SD_RESP0       (0x20)  /* Response Zero */
-+#define REG_SD_RESP1       (0x24)  /* Response One */
-+#define REG_SD_RESP2       (0x28)  /* Response Two */
-+#define REG_SD_RESP3       (0x2C)  /* Response Three */
-+#define REG_SD_IMKR        (0x30)  /* Interrupt Mask */
-+#define REG_SD_MISR        (0x34)  /* Masked Interrupt Status */
-+#define REG_SD_RISR        (0x38)  /* Raw Interrupt Status */
-+#define REG_SD_STAR        (0x3C)  /* Status */
-+#define REG_SD_FWLR        (0x40)  /* FIFO Water Level */
-+#define REG_SD_FUNS        (0x44)  /* FIFO Function Select */
-+#define REG_SD_DBGC        (0x50)  /* Debug Enable */
-+#define REG_SD_A12A        (0x58)  /* Auto command 12 argument */
-+#define REG_SD_NTSR        (0x5C)  /* SD NewTiming Set */
-+#define REG_SD_SDBG        (0x60)  /* SD newTiming Set Debug */
-+#define REG_SD_HWRST       (0x78)  /* Hardware Reset Register */
-+#define REG_SD_DMAC        (0x80)  /* Internal DMA Controller Control */
-+#define REG_SD_DLBA        (0x84)  /* Descriptor List Base Address */
-+#define REG_SD_IDST        (0x88)  /* Internal DMA Controller Status */
-+#define REG_SD_IDIE        (0x8C)  /* Internal DMA Controller IRQ Enable */
-+#define REG_SD_THLDC       (0x100) /* Card Threshold Control */
-+#define REG_SD_DSBD        (0x10C) /* eMMC DDR Start Bit Detection Control */
-+#define REG_SD_RES_CRC     (0x110) /* Response CRC from card/eMMC */
-+#define REG_SD_DATA7_CRC   (0x114) /* CRC Data 7 from card/eMMC */
-+#define REG_SD_DATA6_CRC   (0x118) /* CRC Data 6 from card/eMMC */
-+#define REG_SD_DATA5_CRC   (0x11C) /* CRC Data 5 from card/eMMC */
-+#define REG_SD_DATA4_CRC   (0x120) /* CRC Data 4 from card/eMMC */
-+#define REG_SD_DATA3_CRC   (0x124) /* CRC Data 3 from card/eMMC */
-+#define REG_SD_DATA2_CRC   (0x128) /* CRC Data 2 from card/eMMC */
-+#define REG_SD_DATA1_CRC   (0x12C) /* CRC Data 1 from card/eMMC */
-+#define REG_SD_DATA0_CRC   (0x130) /* CRC Data 0 from card/eMMC */
-+#define REG_SD_CRC_STA     (0x134) /* CRC status from card/eMMC during write */
-+#define REG_SD_FIFO        (0x200) /* Read/Write FIFO */
++/* EMAC register flags */
++#define BASIC_CTL0_100Mbps     (0b11 << 2)
++#define BASIC_CTL0_FD          (1 << 0)
++#define BASIC_CTL1_SOFTRST     (1 << 0)
 +
-+/* SD Host register flags */
-+#define SD_GCTL_FIFO_AC_MOD     (1 << 31)
-+#define SD_GCTL_DDR_MOD_SEL     (1 << 10)
-+#define SD_GCTL_CD_DBC_ENB      (1 << 8)
-+#define SD_GCTL_DMA_ENB         (1 << 5)
-+#define SD_GCTL_INT_ENB         (1 << 4)
-+#define SD_GCTL_DMA_RST         (1 << 2)
-+#define SD_GCTL_FIFO_RST        (1 << 1)
-+#define SD_GCTL_SOFT_RST        (1 << 0)
++#define INT_STA_RGMII_LINK     (1 << 16)
++#define INT_STA_RX_EARLY       (1 << 13)
++#define INT_STA_RX_OVERFLOW    (1 << 12)
++#define INT_STA_RX_TIMEOUT     (1 << 11)
++#define INT_STA_RX_DMA_STOP    (1 << 10)
++#define INT_STA_RX_BUF_UA      (1 << 9)
++#define INT_STA_RX             (1 << 8)
++#define INT_STA_TX_EARLY       (1 << 5)
++#define INT_STA_TX_UNDERFLOW   (1 << 4)
++#define INT_STA_TX_TIMEOUT     (1 << 3)
++#define INT_STA_TX_BUF_UA      (1 << 2)
++#define INT_STA_TX_DMA_STOP    (1 << 1)
++#define INT_STA_TX             (1 << 0)
 +
-+#define SD_CMDR_LOAD            (1 << 31)
-+#define SD_CMDR_CLKCHANGE       (1 << 21)
-+#define SD_CMDR_WRITE           (1 << 10)
-+#define SD_CMDR_AUTOSTOP        (1 << 12)
-+#define SD_CMDR_DATA            (1 << 9)
-+#define SD_CMDR_RESPONSE_LONG   (1 << 7)
-+#define SD_CMDR_RESPONSE        (1 << 6)
-+#define SD_CMDR_CMDID_MASK      (0x3f)
++#define INT_EN_RX_EARLY        (1 << 13)
++#define INT_EN_RX_OVERFLOW     (1 << 12)
++#define INT_EN_RX_TIMEOUT      (1 << 11)
++#define INT_EN_RX_DMA_STOP     (1 << 10)
++#define INT_EN_RX_BUF_UA       (1 << 9)
++#define INT_EN_RX              (1 << 8)
++#define INT_EN_TX_EARLY        (1 << 5)
++#define INT_EN_TX_UNDERFLOW    (1 << 4)
++#define INT_EN_TX_TIMEOUT      (1 << 3)
++#define INT_EN_TX_BUF_UA       (1 << 2)
++#define INT_EN_TX_DMA_STOP     (1 << 1)
++#define INT_EN_TX              (1 << 0)
 +
-+#define SD_RISR_CARD_REMOVE     (1 << 31)
-+#define SD_RISR_CARD_INSERT     (1 << 30)
-+#define SD_RISR_AUTOCMD_DONE    (1 << 14)
-+#define SD_RISR_DATA_COMPLETE   (1 << 3)
-+#define SD_RISR_CMD_COMPLETE    (1 << 2)
-+#define SD_RISR_NO_RESPONSE     (1 << 1)
++#define TX_CTL0_TX_EN          (1 << 31)
++#define TX_CTL1_TX_DMA_START   (1 << 31)
++#define TX_CTL1_TX_DMA_EN      (1 << 30)
++#define TX_CTL1_TX_FLUSH       (1 << 0)
 +
-+#define SD_STAR_CARD_PRESENT    (1 << 8)
++#define RX_CTL0_RX_EN          (1 << 31)
++#define RX_CTL0_STRIP_FCS      (1 << 28)
++#define RX_CTL0_CRC_IPV4       (1 << 27)
 +
-+#define SD_IDST_SUM_RECEIVE_IRQ (1 << 8)
-+#define SD_IDST_RECEIVE_IRQ     (1 << 1)
-+#define SD_IDST_TRANSMIT_IRQ    (1 << 0)
-+#define SD_IDST_IRQ_MASK        (SD_IDST_RECEIVE_IRQ | SD_IDST_TRANSMIT_IRQ | \
-+                                 SD_IDST_SUM_RECEIVE_IRQ)
-+#define SD_IDST_WR_MASK         (0x3ff)
++#define RX_CTL1_RX_DMA_START   (1 << 31)
++#define RX_CTL1_RX_DMA_EN      (1 << 30)
++#define RX_CTL1_RX_MD          (1 << 1)
 +
-+/* SD Host register reset values */
-+#define REG_SD_GCTL_RST         (0x00000300)
-+#define REG_SD_CKCR_RST         (0x0)
-+#define REG_SD_TMOR_RST         (0xFFFFFF40)
-+#define REG_SD_BWDR_RST         (0x0)
-+#define REG_SD_BKSR_RST         (0x00000200)
-+#define REG_SD_BYCR_RST         (0x00000200)
-+#define REG_SD_CMDR_RST         (0x0)
-+#define REG_SD_CAGR_RST         (0x0)
-+#define REG_SD_RESP_RST         (0x0)
-+#define REG_SD_IMKR_RST         (0x0)
-+#define REG_SD_MISR_RST         (0x0)
-+#define REG_SD_RISR_RST         (0x0)
-+#define REG_SD_STAR_RST         (0x00000100)
-+#define REG_SD_FWLR_RST         (0x000F0000)
-+#define REG_SD_FUNS_RST         (0x0)
-+#define REG_SD_DBGC_RST         (0x0)
-+#define REG_SD_A12A_RST         (0x0000FFFF)
-+#define REG_SD_NTSR_RST         (0x00000001)
-+#define REG_SD_SDBG_RST         (0x0)
-+#define REG_SD_HWRST_RST        (0x00000001)
-+#define REG_SD_DMAC_RST         (0x0)
-+#define REG_SD_DLBA_RST         (0x0)
-+#define REG_SD_IDST_RST         (0x0)
-+#define REG_SD_IDIE_RST         (0x0)
-+#define REG_SD_THLDC_RST        (0x0)
-+#define REG_SD_DSBD_RST         (0x0)
-+#define REG_SD_RES_CRC_RST      (0x0)
-+#define REG_SD_DATA_CRC_RST     (0x0)
-+#define REG_SD_CRC_STA_RST      (0x0)
-+#define REG_SD_FIFO_RST         (0x0)
++#define RX_FRM_FLT_DIS_ADDR    (1 << 31)
 +
-+/* Data transfer descriptor for DMA */
-+typedef struct TransferDescriptor {
-+    uint32_t status; /* Status flags */
-+    uint32_t size;   /* Data buffer size */
-+    uint32_t addr;   /* Data buffer address */
-+    uint32_t next;   /* Physical address of next descriptor */
-+} TransferDescriptor;
++#define MII_CMD_PHY_ADDR_SHIFT (12)
++#define MII_CMD_PHY_ADDR_MASK  (0xf000)
++#define MII_CMD_PHY_REG_SHIFT  (4)
++#define MII_CMD_PHY_REG_MASK   (0xf0)
++#define MII_CMD_PHY_RW         (1 << 1)
++#define MII_CMD_PHY_BUSY       (1 << 0)
 +
-+/* Data transfer descriptor flags */
-+#define DESC_STATUS_HOLD   (1 << 31) /* Set when descriptor is in use by DMA */
-+#define DESC_STATUS_ERROR  (1 << 30) /* Set when DMA transfer error occurred */
-+#define DESC_STATUS_CHAIN  (1 << 4)  /* Indicates chained descriptor. */
-+#define DESC_STATUS_FIRST  (1 << 3)  /* Set on the first descriptor */
-+#define DESC_STATUS_LAST   (1 << 2)  /* Set on the last descriptor */
-+#define DESC_STATUS_NOIRQ  (1 << 1)  /* Skip raising interrupt after transfer */
++#define TX_DMA_STA_STOP        (0b000)
++#define TX_DMA_STA_RUN_FETCH   (0b001)
++#define TX_DMA_STA_WAIT_STA    (0b010)
 +
-+#define DESC_SIZE_MASK     (0xfffffffc)
++#define RX_DMA_STA_STOP        (0b000)
++#define RX_DMA_STA_RUN_FETCH   (0b001)
++#define RX_DMA_STA_WAIT_FRM    (0b011)
 +
-+static void aw_h3_sdhost_update_irq(AwH3SDHostState *s)
++#define RGMII_LINK_UP          (1 << 3)
++#define RGMII_FD               (1 << 0)
++
++/* EMAC register reset values */
++#define REG_BASIC_CTL_1_RST    (0x08000000)
++
++/* EMAC constants */
++#define AW_H3_EMAC_MIN_PKT_SZ  (64)
++
++/* Transmit/receive frame descriptor */
++typedef struct FrameDescriptor {
++    uint32_t status;
++    uint32_t status2;
++    uint32_t addr;
++    uint32_t next;
++} FrameDescriptor;
++
++/* Frame descriptor flags */
++#define DESC_STATUS_CTL                 (1 << 31)
++#define DESC_STATUS2_BUF_SIZE_MASK      (0x7ff)
++
++/* Transmit frame descriptor flags */
++#define TX_DESC_STATUS_LENGTH_ERR       (1 << 14)
++#define TX_DESC_STATUS2_FIRST_DESC      (1 << 29)
++#define TX_DESC_STATUS2_LAST_DESC       (1 << 30)
++#define TX_DESC_STATUS2_CHECKSUM_MASK   (0x3 << 27)
++
++/* Receive frame descriptor flags */
++#define RX_DESC_STATUS_FIRST_DESC       (1 << 9)
++#define RX_DESC_STATUS_LAST_DESC        (1 << 8)
++#define RX_DESC_STATUS_FRM_LEN_MASK     (0x3fff0000)
++#define RX_DESC_STATUS_FRM_LEN_SHIFT    (16)
++#define RX_DESC_STATUS_NO_BUF           (1 << 14)
++#define RX_DESC_STATUS_HEADER_ERR       (1 << 7)
++#define RX_DESC_STATUS_LENGTH_ERR       (1 << 4)
++#define RX_DESC_STATUS_CRC_ERR          (1 << 1)
++#define RX_DESC_STATUS_PAYLOAD_ERR      (1 << 0)
++#define RX_DESC_STATUS2_RX_INT_CTL      (1 << 31)
++
++/* MII register offsets */
++#define MII_REG_CR                      (0x0)
++#define MII_REG_ST                      (0x1)
++#define MII_REG_ID_HIGH                 (0x2)
++#define MII_REG_ID_LOW                  (0x3)
++
++/* MII register flags */
++#define MII_REG_CR_RESET                (1 << 15)
++#define MII_REG_CR_POWERDOWN            (1 << 11)
++#define MII_REG_CR_10Mbit               (0)
++#define MII_REG_CR_100Mbit              (1 << 13)
++#define MII_REG_CR_1000Mbit             (1 << 6)
++#define MII_REG_CR_AUTO_NEG             (1 << 12)
++#define MII_REG_CR_AUTO_NEG_RESTART     (1 << 9)
++#define MII_REG_CR_FULLDUPLEX           (1 << 8)
++
++#define MII_REG_ST_100BASE_T4           (1 << 15)
++#define MII_REG_ST_100BASE_X_FD         (1 << 14)
++#define MII_REG_ST_100BASE_X_HD         (1 << 13)
++#define MII_REG_ST_10_FD                (1 << 12)
++#define MII_REG_ST_10_HD                (1 << 11)
++#define MII_REG_ST_100BASE_T2_FD        (1 << 10)
++#define MII_REG_ST_100BASE_T2_HD        (1 << 9)
++#define MII_REG_ST_AUTONEG_COMPLETE     (1 << 5)
++#define MII_REG_ST_AUTONEG_AVAIL        (1 << 3)
++#define MII_REG_ST_LINK_UP              (1 << 2)
++
++/* MII constants */
++#define MII_PHY_ID_HIGH                 (0x0044)
++#define MII_PHY_ID_LOW                  (0x1400)
++
++static void aw_h3_emac_mii_set_link(AwH3EmacState *s, bool link_active)
 +{
-+    uint32_t irq_en = s->global_ctl & SD_GCTL_INT_ENB;
-+    uint32_t irq = irq_en ? s->irq_status & s->irq_mask : 0;
-+
-+    trace_aw_h3_sdhost_update_irq(irq);
-+    qemu_set_irq(s->irq, irq);
-+}
-+
-+static void aw_h3_sdhost_update_transfer_cnt(AwH3SDHostState *s, uint32_t bytes)
-+{
-+    if (s->transfer_cnt > bytes) {
-+        s->transfer_cnt -= bytes;
++    if (link_active) {
++        s->mii_st |= MII_REG_ST_LINK_UP;
 +    } else {
-+        s->transfer_cnt = 0;
-+    }
-+
-+    if (!s->transfer_cnt) {
-+        s->irq_status |= SD_RISR_DATA_COMPLETE | SD_RISR_AUTOCMD_DONE;
++        s->mii_st &= ~MII_REG_ST_LINK_UP;
 +    }
 +}
 +
-+static void aw_h3_sdhost_set_inserted(DeviceState *dev, bool inserted)
++static void aw_h3_emac_mii_reset(AwH3EmacState *s, bool link_active)
 +{
-+    AwH3SDHostState *s = AW_H3_SDHOST(dev);
++    s->mii_cr = MII_REG_CR_100Mbit | MII_REG_CR_AUTO_NEG |
++                MII_REG_CR_FULLDUPLEX;
++    s->mii_st = MII_REG_ST_100BASE_T4 | MII_REG_ST_100BASE_X_FD |
++                MII_REG_ST_100BASE_X_HD | MII_REG_ST_10_FD | MII_REG_ST_10_HD |
++                MII_REG_ST_100BASE_T2_FD | MII_REG_ST_100BASE_T2_HD |
++                MII_REG_ST_AUTONEG_COMPLETE | MII_REG_ST_AUTONEG_AVAIL;
 +
-+    trace_aw_h3_sdhost_set_inserted(inserted);
-+
-+    if (inserted) {
-+        s->irq_status |= SD_RISR_CARD_INSERT;
-+        s->irq_status &= ~SD_RISR_CARD_REMOVE;
-+        s->status |= SD_STAR_CARD_PRESENT;
-+    } else {
-+        s->irq_status &= ~SD_RISR_CARD_INSERT;
-+        s->irq_status |= SD_RISR_CARD_REMOVE;
-+        s->status &= ~SD_STAR_CARD_PRESENT;
-+    }
-+
-+    aw_h3_sdhost_update_irq(s);
++    aw_h3_emac_mii_set_link(s, link_active);
 +}
 +
-+static void aw_h3_sdhost_send_command(AwH3SDHostState *s)
++static void aw_h3_emac_mii_cmd(AwH3EmacState *s)
 +{
-+    SDRequest request;
-+    uint8_t resp[16];
-+    int rlen;
++    uint8_t addr, reg;
 +
-+    /* Auto clear load flag */
-+    s->command &= ~SD_CMDR_LOAD;
++    addr = (s->mii_cmd & MII_CMD_PHY_ADDR_MASK) >> MII_CMD_PHY_ADDR_SHIFT;
++    reg = (s->mii_cmd & MII_CMD_PHY_REG_MASK) >> MII_CMD_PHY_REG_SHIFT;
 +
-+    /* Clock change does not actually interact with the SD bus */
-+    if (!(s->command & SD_CMDR_CLKCHANGE)) {
++    if (addr != s->mii_phy_addr) {
++        return;
++    }
 +
-+        /* Prepare request */
-+        request.cmd = s->command & SD_CMDR_CMDID_MASK;
-+        request.arg = s->command_arg;
++    /* Read or write a PHY register? */
++    if (s->mii_cmd & MII_CMD_PHY_RW) {
++        trace_aw_h3_emac_mii_write_reg(reg, s->mii_data);
 +
-+        /* Send request to SD bus */
-+        rlen = sdbus_do_command(&s->sdbus, &request, resp);
-+        if (rlen < 0) {
-+            goto error;
-+        }
-+
-+        /* If the command has a response, store it in the response registers */
-+        if ((s->command & SD_CMDR_RESPONSE)) {
-+            if (rlen == 0 ||
-+               (rlen == 4 && (s->command & SD_CMDR_RESPONSE_LONG))) {
-+                goto error;
-+            }
-+            if (rlen != 4 && rlen != 16) {
-+                goto error;
-+            }
-+            if (rlen == 4) {
-+                s->response[0] = ldl_be_p(&resp[0]);
-+                s->response[1] = s->response[2] = s->response[3] = 0;
++        switch (reg) {
++        case MII_REG_CR:
++            if (s->mii_data & MII_REG_CR_RESET) {
++                aw_h3_emac_mii_reset(s, s->mii_st & MII_REG_ST_LINK_UP);
 +            } else {
-+                s->response[0] = ldl_be_p(&resp[12]);
-+                s->response[1] = ldl_be_p(&resp[8]);
-+                s->response[2] = ldl_be_p(&resp[4]);
-+                s->response[3] = ldl_be_p(&resp[0]);
++                s->mii_cr = s->mii_data & ~(MII_REG_CR_RESET |
++                                            MII_REG_CR_AUTO_NEG_RESTART);
 +            }
++            break;
++        default:
++            qemu_log_mask(LOG_UNIMP, "allwinner-h3-emac: write access to "
++                                     "unknown MII register 0x%x\n", reg);
++            break;
 +        }
-+    }
++    } else {
++        switch (reg) {
++        case MII_REG_CR:
++            s->mii_data = s->mii_cr;
++            break;
++        case MII_REG_ST:
++            s->mii_data = s->mii_st;
++            break;
++        case MII_REG_ID_HIGH:
++            s->mii_data = MII_PHY_ID_HIGH;
++            break;
++        case MII_REG_ID_LOW:
++            s->mii_data = MII_PHY_ID_LOW;
++            break;
++        default:
++            qemu_log_mask(LOG_UNIMP, "allwinner-h3-emac: read access to "
++                                     "unknown MII register 0x%x\n", reg);
++            s->mii_data = 0;
++            break;
++        }
 +
-+    /* Set interrupt status bits */
-+    s->irq_status |= SD_RISR_CMD_COMPLETE;
-+    return;
-+
-+error:
-+    s->irq_status |= SD_RISR_NO_RESPONSE;
-+}
-+
-+static void aw_h3_sdhost_auto_stop(AwH3SDHostState *s)
-+{
-+    /*
-+     * The stop command (CMD12) ensures the SD bus
-+     * returns to the transfer state.
-+     */
-+    if ((s->command & SD_CMDR_AUTOSTOP) && (s->transfer_cnt == 0)) {
-+        /* First save current command registers */
-+        uint32_t saved_cmd = s->command;
-+        uint32_t saved_arg = s->command_arg;
-+
-+        /* Prepare stop command (CMD12) */
-+        s->command &= ~SD_CMDR_CMDID_MASK;
-+        s->command |= 12; /* CMD12 */
-+        s->command_arg = 0;
-+
-+        /* Put the command on SD bus */
-+        aw_h3_sdhost_send_command(s);
-+
-+        /* Restore command values */
-+        s->command = saved_cmd;
-+        s->command_arg = saved_arg;
++        trace_aw_h3_emac_mii_read_reg(reg, s->mii_data);
 +    }
 +}
 +
-+static uint32_t aw_h3_sdhost_process_desc(AwH3SDHostState *s,
-+                                          hwaddr desc_addr,
-+                                          TransferDescriptor *desc,
-+                                          bool is_write, uint32_t max_bytes)
++static void aw_h3_emac_update_irq(AwH3EmacState *s)
 +{
-+    uint32_t num_done = 0;
-+    uint32_t num_bytes = max_bytes;
-+    uint8_t buf[1024];
-+
-+    /* Read descriptor */
-+    cpu_physical_memory_read(desc_addr, desc, sizeof(*desc));
-+    if (desc->size == 0) {
-+        desc->size = 0xffff + 1;
-+    }
-+    if (desc->size < num_bytes) {
-+        num_bytes = desc->size;
-+    }
-+
-+    trace_aw_h3_sdhost_process_desc(desc_addr, desc->size, is_write, max_bytes);
-+
-+    while (num_done < num_bytes) {
-+        /* Try to completely fill the local buffer */
-+        uint32_t buf_bytes = num_bytes - num_done;
-+        if (buf_bytes > sizeof(buf)) {
-+            buf_bytes = sizeof(buf);
-+        }
-+
-+        /* Write to SD bus */
-+        if (is_write) {
-+            cpu_physical_memory_read((desc->addr & DESC_SIZE_MASK) + num_done,
-+                                      buf, buf_bytes);
-+
-+            for (uint32_t i = 0; i < buf_bytes; i++) {
-+                sdbus_write_data(&s->sdbus, buf[i]);
-+            }
-+
-+        /* Read from SD bus */
-+        } else {
-+            for (uint32_t i = 0; i < buf_bytes; i++) {
-+                buf[i] = sdbus_read_data(&s->sdbus);
-+            }
-+            cpu_physical_memory_write((desc->addr & DESC_SIZE_MASK) + num_done,
-+                                       buf, buf_bytes);
-+        }
-+        num_done += buf_bytes;
-+    }
-+
-+    /* Clear hold flag and flush descriptor */
-+    desc->status &= ~DESC_STATUS_HOLD;
-+    cpu_physical_memory_write(desc_addr, desc, sizeof(*desc));
-+
-+    return num_done;
++    qemu_set_irq(s->irq, (s->int_sta & s->int_en) != 0);
 +}
 +
-+static void aw_h3_sdhost_dma(AwH3SDHostState *s)
++static uint32_t aw_h3_emac_next_desc(FrameDescriptor *desc, size_t min_size)
 +{
-+    TransferDescriptor desc;
-+    hwaddr desc_addr = s->desc_base;
-+    bool is_write = (s->command & SD_CMDR_WRITE);
-+    uint32_t bytes_done = 0;
++    uint32_t paddr = desc->next;
 +
-+    /* Check if DMA can be performed */
-+    if (s->byte_count == 0 || s->block_size == 0 ||
-+      !(s->global_ctl & SD_GCTL_DMA_ENB)) {
-+        return;
++    cpu_physical_memory_read(paddr, desc, sizeof(*desc));
++
++    if ((desc->status & DESC_STATUS_CTL) &&
++        (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
++        return paddr;
++    } else {
++        return 0;
 +    }
++}
 +
-+    /*
-+     * For read operations, data must be available on the SD bus
-+     * If not, it is an error and we should not act at all
-+     */
-+    if (!is_write && !sdbus_data_ready(&s->sdbus)) {
-+        return;
-+    }
++static uint32_t aw_h3_emac_get_desc(FrameDescriptor *desc, uint32_t start_addr,
++                                    size_t min_size)
++{
++    uint32_t desc_addr = start_addr;
 +
-+    /* Process the DMA descriptors until all data is copied */
-+    while (s->byte_count > 0) {
-+        bytes_done = aw_h3_sdhost_process_desc(s, desc_addr, &desc,
-+                                               is_write, s->byte_count);
-+        aw_h3_sdhost_update_transfer_cnt(s, bytes_done);
++    /* Note that the list is a cycle. Last entry points back to the head. */
++    while (desc_addr != 0) {
++        cpu_physical_memory_read(desc_addr, desc, sizeof(*desc));
 +
-+        if (bytes_done <= s->byte_count) {
-+            s->byte_count -= bytes_done;
-+        } else {
-+            s->byte_count = 0;
-+        }
-+
-+        if (desc.status & DESC_STATUS_LAST) {
++        if ((desc->status & DESC_STATUS_CTL) &&
++            (desc->status2 & DESC_STATUS2_BUF_SIZE_MASK) >= min_size) {
++            return desc_addr;
++        } else if (desc->next == start_addr) {
 +            break;
 +        } else {
-+            desc_addr = desc.next;
++            desc_addr = desc->next;
 +        }
 +    }
 +
-+    /* Raise IRQ to signal DMA is completed */
-+    s->irq_status |= SD_RISR_DATA_COMPLETE | SD_RISR_AUTOCMD_DONE;
-+
-+    /* Update DMAC bits */
-+    if (is_write) {
-+        s->dmac_status |= SD_IDST_TRANSMIT_IRQ;
-+    } else {
-+        s->dmac_status |= (SD_IDST_SUM_RECEIVE_IRQ | SD_IDST_RECEIVE_IRQ);
-+    }
++    return 0;
 +}
 +
-+static uint64_t aw_h3_sdhost_read(void *opaque, hwaddr offset,
-+                                  unsigned size)
++static uint32_t aw_h3_emac_get_rx_desc(AwH3EmacState *s, FrameDescriptor *desc,
++                                       size_t min_size)
 +{
-+    AwH3SDHostState *s = (AwH3SDHostState *)opaque;
-+    uint32_t res = 0;
++    return aw_h3_emac_get_desc(desc, s->rx_desc_curr, min_size);
++}
 +
-+    switch (offset) {
-+    case REG_SD_GCTL:      /* Global Control */
-+        res = s->global_ctl;
-+        break;
-+    case REG_SD_CKCR:      /* Clock Control */
-+        res = s->clock_ctl;
-+        break;
-+    case REG_SD_TMOR:      /* Timeout */
-+        res = s->timeout;
-+        break;
-+    case REG_SD_BWDR:      /* Bus Width */
-+        res = s->bus_width;
-+        break;
-+    case REG_SD_BKSR:      /* Block Size */
-+        res = s->block_size;
-+        break;
-+    case REG_SD_BYCR:      /* Byte Count */
-+        res = s->byte_count;
-+        break;
-+    case REG_SD_CMDR:      /* Command */
-+        res = s->command;
-+        break;
-+    case REG_SD_CAGR:      /* Command Argument */
-+        res = s->command_arg;
-+        break;
-+    case REG_SD_RESP0:     /* Response Zero */
-+        res = s->response[0];
-+        break;
-+    case REG_SD_RESP1:     /* Response One */
-+        res = s->response[1];
-+        break;
-+    case REG_SD_RESP2:     /* Response Two */
-+        res = s->response[2];
-+        break;
-+    case REG_SD_RESP3:     /* Response Three */
-+        res = s->response[3];
-+        break;
-+    case REG_SD_IMKR:      /* Interrupt Mask */
-+        res = s->irq_mask;
-+        break;
-+    case REG_SD_MISR:      /* Masked Interrupt Status */
-+        res = s->irq_status & s->irq_mask;
-+        break;
-+    case REG_SD_RISR:      /* Raw Interrupt Status */
-+        res = s->irq_status;
-+        break;
-+    case REG_SD_STAR:      /* Status */
-+        res = s->status;
-+        break;
-+    case REG_SD_FWLR:      /* FIFO Water Level */
-+        res = s->fifo_wlevel;
-+        break;
-+    case REG_SD_FUNS:      /* FIFO Function Select */
-+        res = s->fifo_func_sel;
-+        break;
-+    case REG_SD_DBGC:      /* Debug Enable */
-+        res = s->debug_enable;
-+        break;
-+    case REG_SD_A12A:      /* Auto command 12 argument */
-+        res = s->auto12_arg;
-+        break;
-+    case REG_SD_NTSR:      /* SD NewTiming Set */
-+        res = s->newtiming_set;
-+        break;
-+    case REG_SD_SDBG:      /* SD newTiming Set Debug */
-+        res = s->newtiming_debug;
-+        break;
-+    case REG_SD_HWRST:     /* Hardware Reset Register */
-+        res = s->hardware_rst;
-+        break;
-+    case REG_SD_DMAC:      /* Internal DMA Controller Control */
-+        res = s->dmac;
-+        break;
-+    case REG_SD_DLBA:      /* Descriptor List Base Address */
-+        res = s->desc_base;
-+        break;
-+    case REG_SD_IDST:      /* Internal DMA Controller Status */
-+        res = s->dmac_status;
-+        break;
-+    case REG_SD_IDIE:      /* Internal DMA Controller Interrupt Enable */
-+        res = s->dmac_irq;
-+        break;
-+    case REG_SD_THLDC:     /* Card Threshold Control */
-+        res = s->card_threshold;
-+        break;
-+    case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
-+        res = s->startbit_detect;
-+        break;
-+    case REG_SD_RES_CRC:   /* Response CRC from card/eMMC */
-+        res = s->response_crc;
-+        break;
-+    case REG_SD_DATA7_CRC: /* CRC Data 7 from card/eMMC */
-+    case REG_SD_DATA6_CRC: /* CRC Data 6 from card/eMMC */
-+    case REG_SD_DATA5_CRC: /* CRC Data 5 from card/eMMC */
-+    case REG_SD_DATA4_CRC: /* CRC Data 4 from card/eMMC */
-+    case REG_SD_DATA3_CRC: /* CRC Data 3 from card/eMMC */
-+    case REG_SD_DATA2_CRC: /* CRC Data 2 from card/eMMC */
-+    case REG_SD_DATA1_CRC: /* CRC Data 1 from card/eMMC */
-+    case REG_SD_DATA0_CRC: /* CRC Data 0 from card/eMMC */
-+        res = s->data_crc[((offset - REG_SD_DATA7_CRC) / sizeof(uint32_t))];
-+        break;
-+    case REG_SD_CRC_STA:   /* CRC status from card/eMMC in write operation */
-+        res = s->status_crc;
-+        break;
-+    case REG_SD_FIFO:      /* Read/Write FIFO */
-+        if (sdbus_data_ready(&s->sdbus)) {
-+            res = sdbus_read_data(&s->sdbus);
-+            res |= sdbus_read_data(&s->sdbus) << 8;
-+            res |= sdbus_read_data(&s->sdbus) << 16;
-+            res |= sdbus_read_data(&s->sdbus) << 24;
-+            aw_h3_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-+            aw_h3_sdhost_auto_stop(s);
-+            aw_h3_sdhost_update_irq(s);
++static uint32_t aw_h3_emac_get_tx_desc(AwH3EmacState *s, FrameDescriptor *desc,
++                                       size_t min_size)
++{
++    return aw_h3_emac_get_desc(desc, s->tx_desc_head, min_size);
++}
++
++static void aw_h3_emac_flush_desc(FrameDescriptor *desc, uint32_t phys_addr)
++{
++    cpu_physical_memory_write(phys_addr, desc, sizeof(*desc));
++}
++
++static int aw_h3_emac_can_receive(NetClientState *nc)
++{
++    AwH3EmacState *s = qemu_get_nic_opaque(nc);
++    FrameDescriptor desc;
++
++    return (s->rx_ctl0 & RX_CTL0_RX_EN) &&
++           (aw_h3_emac_get_rx_desc(s, &desc, 0) != 0);
++}
++
++static ssize_t aw_h3_emac_receive(NetClientState *nc, const uint8_t *buf,
++                                  size_t size)
++{
++    AwH3EmacState *s = qemu_get_nic_opaque(nc);
++    FrameDescriptor desc;
++    size_t bytes_left = size;
++    size_t desc_bytes = 0;
++    size_t pad_fcs_size = 4;
++    size_t padding = 0;
++
++    if (!(s->rx_ctl0 & RX_CTL0_RX_EN)) {
++        return -1;
++    }
++
++    s->rx_desc_curr = aw_h3_emac_get_rx_desc(s, &desc, AW_H3_EMAC_MIN_PKT_SZ);
++    if (!s->rx_desc_curr) {
++        s->int_sta |= INT_STA_RX_BUF_UA;
++    }
++
++    /* Keep filling RX descriptors until the whole frame is written */
++    while (s->rx_desc_curr && bytes_left > 0) {
++        desc.status &= ~DESC_STATUS_CTL;
++        desc.status &= ~RX_DESC_STATUS_FRM_LEN_MASK;
++
++        if (bytes_left == size) {
++            desc.status |= RX_DESC_STATUS_FIRST_DESC;
++        }
++
++        if ((desc.status2 & DESC_STATUS2_BUF_SIZE_MASK) <
++            (bytes_left + pad_fcs_size)) {
++            desc_bytes = desc.status2 & DESC_STATUS2_BUF_SIZE_MASK;
++            desc.status |= desc_bytes << RX_DESC_STATUS_FRM_LEN_SHIFT;
 +        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
-+                          __func__);
++            padding = pad_fcs_size;
++            if (bytes_left < AW_H3_EMAC_MIN_PKT_SZ) {
++                padding += (AW_H3_EMAC_MIN_PKT_SZ - bytes_left);
++            }
++
++            desc_bytes = (bytes_left);
++            desc.status |= RX_DESC_STATUS_LAST_DESC;
++            desc.status |= (bytes_left + padding)
++                            << RX_DESC_STATUS_FRM_LEN_SHIFT;
 +        }
-+        break;
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+                      __func__, offset);
-+        res = 0;
-+        break;
++
++        cpu_physical_memory_write(desc.addr, buf, desc_bytes);
++        aw_h3_emac_flush_desc(&desc, s->rx_desc_curr);
++        trace_aw_h3_emac_receive(s->rx_desc_curr, desc.addr, desc_bytes);
++
++        /* Check if frame needs to raise the receive interrupt */
++        if (!(desc.status2 & RX_DESC_STATUS2_RX_INT_CTL)) {
++            s->int_sta |= INT_STA_RX;
++        }
++
++        /* Increment variables */
++        buf += desc_bytes;
++        bytes_left -= desc_bytes;
++
++        /* Move to the next descriptor */
++        s->rx_desc_curr = aw_h3_emac_next_desc(&desc, 64);
++        if (!s->rx_desc_curr) {
++            /* Not enough buffer space available */
++            s->int_sta |= INT_STA_RX_BUF_UA;
++            s->rx_desc_curr = s->rx_desc_head;
++            break;
++        }
 +    }
 +
-+    trace_aw_h3_sdhost_read(offset, res, size);
-+    return res;
++    /* Report receive DMA is finished */
++    s->rx_ctl1 &= ~RX_CTL1_RX_DMA_START;
++    aw_h3_emac_update_irq(s);
++
++    return size;
 +}
 +
-+static void aw_h3_sdhost_write(void *opaque, hwaddr offset,
-+                               uint64_t value, unsigned size)
++static void aw_h3_emac_transmit(AwH3EmacState *s)
 +{
-+    AwH3SDHostState *s = (AwH3SDHostState *)opaque;
++    NetClientState *nc = qemu_get_queue(s->nic);
++    FrameDescriptor desc;
++    size_t bytes = 0;
++    size_t packet_bytes = 0;
++    size_t transmitted = 0;
++    static uint8_t packet_buf[2048];
 +
-+    trace_aw_h3_sdhost_write(offset, value, size);
++    s->tx_desc_curr = aw_h3_emac_get_tx_desc(s, &desc, 0);
++
++    /* Read all transmit descriptors */
++    while (s->tx_desc_curr != 0) {
++
++        /* Read from physical memory into packet buffer */
++        bytes = desc.status2 & DESC_STATUS2_BUF_SIZE_MASK;
++        if (bytes + packet_bytes > sizeof(packet_buf)) {
++            desc.status |= TX_DESC_STATUS_LENGTH_ERR;
++            break;
++        }
++        cpu_physical_memory_read(desc.addr, packet_buf + packet_bytes, bytes);
++        packet_bytes += bytes;
++        desc.status &= ~DESC_STATUS_CTL;
++        aw_h3_emac_flush_desc(&desc, s->tx_desc_curr);
++
++        /* After the last descriptor, send the packet */
++        if (desc.status2 & TX_DESC_STATUS2_LAST_DESC) {
++            if (desc.status2 & TX_DESC_STATUS2_CHECKSUM_MASK) {
++                net_checksum_calculate(packet_buf, packet_bytes);
++            }
++
++            qemu_send_packet(nc, packet_buf, packet_bytes);
++            trace_aw_h3_emac_transmit(s->tx_desc_curr, desc.addr, bytes);
++
++            packet_bytes = 0;
++            transmitted++;
++        }
++        s->tx_desc_curr = aw_h3_emac_next_desc(&desc, 0);
++    }
++
++    /* Raise transmit completed interrupt */
++    if (transmitted > 0) {
++        s->int_sta |= INT_STA_TX;
++        s->tx_ctl1 &= ~TX_CTL1_TX_DMA_START;
++        aw_h3_emac_update_irq(s);
++    }
++}
++
++static void aw_h3_emac_reset(DeviceState *dev)
++{
++    AwH3EmacState *s = AW_H3_EMAC(dev);
++    NetClientState *nc = qemu_get_queue(s->nic);
++
++    trace_aw_h3_emac_reset();
++
++    s->mii_cmd = 0;
++    s->mii_data = 0;
++    s->basic_ctl0 = 0;
++    s->basic_ctl1 = 0;
++    s->int_en = 0;
++    s->int_sta = 0;
++    s->frm_flt = 0;
++    s->rx_ctl0 = 0;
++    s->rx_ctl1 = RX_CTL1_RX_MD;
++    s->rx_desc_head = 0;
++    s->rx_desc_curr = 0;
++    s->tx_ctl0 = 0;
++    s->tx_ctl1 = 0;
++    s->tx_desc_head = 0;
++    s->tx_desc_curr = 0;
++    s->tx_flowctl = 0;
++
++    aw_h3_emac_mii_reset(s, !nc->link_down);
++}
++
++static uint64_t aw_h3_emac_read(void *opaque, hwaddr offset, unsigned size)
++{
++    AwH3EmacState *s = opaque;
++    uint64_t value = 0;
++    FrameDescriptor desc;
 +
 +    switch (offset) {
-+    case REG_SD_GCTL:      /* Global Control */
-+        s->global_ctl = value;
-+        s->global_ctl &= ~(SD_GCTL_DMA_RST | SD_GCTL_FIFO_RST |
-+                           SD_GCTL_SOFT_RST);
-+        aw_h3_sdhost_update_irq(s);
++    case REG_BASIC_CTL_0:       /* Basic Control 0 */
++        value = s->basic_ctl0;
 +        break;
-+    case REG_SD_CKCR:      /* Clock Control */
-+        s->clock_ctl = value;
++    case REG_BASIC_CTL_1:       /* Basic Control 1 */
++        value = s->basic_ctl1;
 +        break;
-+    case REG_SD_TMOR:      /* Timeout */
-+        s->timeout = value;
++    case REG_INT_STA:           /* Interrupt Status */
++        value = s->int_sta;
 +        break;
-+    case REG_SD_BWDR:      /* Bus Width */
-+        s->bus_width = value;
++    case REG_INT_EN:            /* Interupt Enable */
++        value = s->int_en;
 +        break;
-+    case REG_SD_BKSR:      /* Block Size */
-+        s->block_size = value;
++    case REG_TX_CTL_0:          /* Transmit Control 0 */
++        value = s->tx_ctl0;
 +        break;
-+    case REG_SD_BYCR:      /* Byte Count */
-+        s->byte_count = value;
-+        s->transfer_cnt = value;
++    case REG_TX_CTL_1:          /* Transmit Control 1 */
++        value = s->tx_ctl1;
 +        break;
-+    case REG_SD_CMDR:      /* Command */
-+        s->command = value;
-+        if (value & SD_CMDR_LOAD) {
-+            aw_h3_sdhost_send_command(s);
-+            aw_h3_sdhost_dma(s);
-+            aw_h3_sdhost_auto_stop(s);
++    case REG_TX_FLOW_CTL:       /* Transmit Flow Control */
++        value = s->tx_flowctl;
++        break;
++    case REG_TX_DMA_DESC_LIST:  /* Transmit Descriptor List Address */
++        value = s->tx_desc_head;
++        break;
++    case REG_RX_CTL_0:          /* Receive Control 0 */
++        value = s->rx_ctl0;
++        break;
++    case REG_RX_CTL_1:          /* Receive Control 1 */
++        value = s->rx_ctl1;
++        break;
++    case REG_RX_DMA_DESC_LIST:  /* Receive Descriptor List Address */
++        value = s->rx_desc_head;
++        break;
++    case REG_FRM_FLT:           /* Receive Frame Filter */
++        value = s->frm_flt;
++        break;
++    case REG_RX_HASH_0:         /* Receive Hash Table 0 */
++    case REG_RX_HASH_1:         /* Receive Hash Table 1 */
++        break;
++    case REG_MII_CMD:           /* Management Interface Command */
++        value = s->mii_cmd;
++        break;
++    case REG_MII_DATA:          /* Management Interface Data */
++        value = s->mii_data;
++        break;
++    case REG_ADDR_HIGH:         /* MAC Address High */
++        value = *(((uint32_t *) (s->conf.macaddr.a)) + 1);
++        break;
++    case REG_ADDR_LOW:          /* MAC Address Low */
++        value = *(uint32_t *) (s->conf.macaddr.a);
++        break;
++    case REG_TX_DMA_STA:        /* Transmit DMA Status */
++        break;
++    case REG_TX_CUR_DESC:       /* Transmit Current Descriptor */
++        value = s->tx_desc_curr;
++        break;
++    case REG_TX_CUR_BUF:        /* Transmit Current Buffer */
++        if (s->tx_desc_curr != 0) {
++            cpu_physical_memory_read(s->tx_desc_curr, &desc, sizeof(desc));
++            value = desc.addr;
++        } else {
++            value = 0;
 +        }
-+        aw_h3_sdhost_update_irq(s);
 +        break;
-+    case REG_SD_CAGR:      /* Command Argument */
-+        s->command_arg = value;
++    case REG_RX_DMA_STA:        /* Receive DMA Status */
 +        break;
-+    case REG_SD_RESP0:     /* Response Zero */
-+        s->response[0] = value;
++    case REG_RX_CUR_DESC:       /* Receive Current Descriptor */
++        value = s->rx_desc_curr;
 +        break;
-+    case REG_SD_RESP1:     /* Response One */
-+        s->response[1] = value;
-+        break;
-+    case REG_SD_RESP2:     /* Response Two */
-+        s->response[2] = value;
-+        break;
-+    case REG_SD_RESP3:     /* Response Three */
-+        s->response[3] = value;
-+        break;
-+    case REG_SD_IMKR:      /* Interrupt Mask */
-+        s->irq_mask = value;
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_MISR:      /* Masked Interrupt Status */
-+    case REG_SD_RISR:      /* Raw Interrupt Status */
-+        s->irq_status &= ~value;
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_STAR:      /* Status */
-+        s->status &= ~value;
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_FWLR:      /* FIFO Water Level */
-+        s->fifo_wlevel = value;
-+        break;
-+    case REG_SD_FUNS:      /* FIFO Function Select */
-+        s->fifo_func_sel = value;
-+        break;
-+    case REG_SD_DBGC:      /* Debug Enable */
-+        s->debug_enable = value;
-+        break;
-+    case REG_SD_A12A:      /* Auto command 12 argument */
-+        s->auto12_arg = value;
-+        break;
-+    case REG_SD_NTSR:      /* SD NewTiming Set */
-+        s->newtiming_set = value;
-+        break;
-+    case REG_SD_SDBG:      /* SD newTiming Set Debug */
-+        s->newtiming_debug = value;
-+        break;
-+    case REG_SD_HWRST:     /* Hardware Reset Register */
-+        s->hardware_rst = value;
-+        break;
-+    case REG_SD_DMAC:      /* Internal DMA Controller Control */
-+        s->dmac = value;
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_DLBA:      /* Descriptor List Base Address */
-+        s->desc_base = value;
-+        break;
-+    case REG_SD_IDST:      /* Internal DMA Controller Status */
-+        s->dmac_status &= (~SD_IDST_WR_MASK) | (~value & SD_IDST_WR_MASK);
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_IDIE:      /* Internal DMA Controller Interrupt Enable */
-+        s->dmac_irq = value;
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_THLDC:     /* Card Threshold Control */
-+        s->card_threshold = value;
-+        break;
-+    case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
-+        s->startbit_detect = value;
-+        break;
-+    case REG_SD_FIFO:      /* Read/Write FIFO */
-+        sdbus_write_data(&s->sdbus, value & 0xff);
-+        sdbus_write_data(&s->sdbus, (value >> 8) & 0xff);
-+        sdbus_write_data(&s->sdbus, (value >> 16) & 0xff);
-+        sdbus_write_data(&s->sdbus, (value >> 24) & 0xff);
-+        aw_h3_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-+        aw_h3_sdhost_auto_stop(s);
-+        aw_h3_sdhost_update_irq(s);
-+        break;
-+    case REG_SD_RES_CRC:   /* Response CRC from card/eMMC */
-+    case REG_SD_DATA7_CRC: /* CRC Data 7 from card/eMMC */
-+    case REG_SD_DATA6_CRC: /* CRC Data 6 from card/eMMC */
-+    case REG_SD_DATA5_CRC: /* CRC Data 5 from card/eMMC */
-+    case REG_SD_DATA4_CRC: /* CRC Data 4 from card/eMMC */
-+    case REG_SD_DATA3_CRC: /* CRC Data 3 from card/eMMC */
-+    case REG_SD_DATA2_CRC: /* CRC Data 2 from card/eMMC */
-+    case REG_SD_DATA1_CRC: /* CRC Data 1 from card/eMMC */
-+    case REG_SD_DATA0_CRC: /* CRC Data 0 from card/eMMC */
-+    case REG_SD_CRC_STA:   /* CRC status from card/eMMC in write operation */
++    case REG_RX_CUR_BUF:        /* Receive Current Buffer */
++        if (s->rx_desc_curr != 0) {
++            cpu_physical_memory_read(s->rx_desc_curr, &desc, sizeof(desc));
++            value = desc.addr;
++        } else {
++            value = 0;
++        }
 +        break;
 +    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset %"HWADDR_PRIx"\n",
-+                      __func__, offset);
++        qemu_log_mask(LOG_UNIMP, "allwinner-h3-emac: read access to unknown "
++                                 "EMAC register 0x" TARGET_FMT_plx "\n",
++                                  offset);
++    }
++
++    trace_aw_h3_emac_read(offset, value);
++    return value;
++}
++
++static void aw_h3_emac_write(void *opaque, hwaddr offset, uint64_t value,
++                             unsigned size)
++{
++    AwH3EmacState *s = opaque;
++    NetClientState *nc = qemu_get_queue(s->nic);
++
++    trace_aw_h3_emac_write(offset, value);
++
++    switch (offset) {
++    case REG_BASIC_CTL_0:       /* Basic Control 0 */
++        s->basic_ctl0 = value;
 +        break;
++    case REG_BASIC_CTL_1:       /* Basic Control 1 */
++        if (value & BASIC_CTL1_SOFTRST) {
++            aw_h3_emac_reset(DEVICE(s));
++            value &= ~BASIC_CTL1_SOFTRST;
++        }
++        s->basic_ctl1 = value;
++        if (aw_h3_emac_can_receive(nc)) {
++            qemu_flush_queued_packets(nc);
++        }
++        break;
++    case REG_INT_STA:           /* Interrupt Status */
++        s->int_sta &= ~value;
++        aw_h3_emac_update_irq(s);
++        break;
++    case REG_INT_EN:            /* Interrupt Enable */
++        s->int_en = value;
++        aw_h3_emac_update_irq(s);
++        break;
++    case REG_TX_CTL_0:          /* Transmit Control 0 */
++        s->tx_ctl0 = value;
++        break;
++    case REG_TX_CTL_1:          /* Transmit Control 1 */
++        s->tx_ctl1 = value;
++        if (value & TX_CTL1_TX_DMA_EN) {
++            aw_h3_emac_transmit(s);
++        }
++        break;
++    case REG_TX_FLOW_CTL:       /* Transmit Flow Control */
++        s->tx_flowctl = value;
++        break;
++    case REG_TX_DMA_DESC_LIST:  /* Transmit Descriptor List Address */
++        s->tx_desc_head = value;
++        s->tx_desc_curr = value;
++        break;
++    case REG_RX_CTL_0:          /* Receive Control 0 */
++        s->rx_ctl0 = value;
++        break;
++    case REG_RX_CTL_1:          /* Receive Control 1 */
++        s->rx_ctl1 = value | RX_CTL1_RX_MD;
++        if ((value & RX_CTL1_RX_DMA_EN) && aw_h3_emac_can_receive(nc)) {
++            qemu_flush_queued_packets(nc);
++        }
++        break;
++    case REG_RX_DMA_DESC_LIST:  /* Receive Descriptor List Address */
++        s->rx_desc_head = value;
++        s->rx_desc_curr = value;
++        break;
++    case REG_FRM_FLT:           /* Receive Frame Filter */
++        s->frm_flt = value;
++        break;
++    case REG_RX_HASH_0:         /* Receive Hash Table 0 */
++    case REG_RX_HASH_1:         /* Receive Hash Table 1 */
++        break;
++    case REG_MII_CMD:           /* Management Interface Command */
++        s->mii_cmd = value & ~MII_CMD_PHY_BUSY;
++        aw_h3_emac_mii_cmd(s);
++        break;
++    case REG_MII_DATA:          /* Management Interface Data */
++        s->mii_data = value;
++        break;
++    case REG_ADDR_HIGH:         /* MAC Address High */
++        s->conf.macaddr.a[4] = (value & 0xff);
++        s->conf.macaddr.a[5] = (value & 0xff00) >> 8;
++        break;
++    case REG_ADDR_LOW:          /* MAC Address Low */
++        s->conf.macaddr.a[0] = (value & 0xff);
++        s->conf.macaddr.a[1] = (value & 0xff00) >> 8;
++        s->conf.macaddr.a[2] = (value & 0xff0000) >> 16;
++        s->conf.macaddr.a[3] = (value & 0xff000000) >> 24;
++        break;
++    case REG_TX_DMA_STA:        /* Transmit DMA Status */
++    case REG_TX_CUR_DESC:       /* Transmit Current Descriptor */
++    case REG_TX_CUR_BUF:        /* Transmit Current Buffer */
++    case REG_RX_DMA_STA:        /* Receive DMA Status */
++    case REG_RX_CUR_DESC:       /* Receive Current Descriptor */
++    case REG_RX_CUR_BUF:        /* Receive Current Buffer */
++    case REG_RGMII_STA:         /* RGMII Status */
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "allwinner-h3-emac: write access to unknown "
++                                 "EMAC register 0x" TARGET_FMT_plx "\n",
++                                  offset);
 +    }
 +}
 +
-+static const MemoryRegionOps aw_h3_sdhost_ops = {
-+    .read = aw_h3_sdhost_read,
-+    .write = aw_h3_sdhost_write,
++static void aw_h3_emac_set_link(NetClientState *nc)
++{
++    AwH3EmacState *s = qemu_get_nic_opaque(nc);
++
++    trace_aw_h3_emac_set_link(!nc->link_down);
++    aw_h3_emac_mii_set_link(s, !nc->link_down);
++}
++
++static const MemoryRegionOps aw_h3_emac_mem_ops = {
++    .read = aw_h3_emac_read,
++    .write = aw_h3_emac_write,
 +    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
 +};
 +
-+static const VMStateDescription vmstate_aw_h3_sdhost = {
-+    .name = TYPE_AW_H3_SDHOST,
++static NetClientInfo net_aw_h3_emac_info = {
++    .type = NET_CLIENT_DRIVER_NIC,
++    .size = sizeof(NICState),
++    .can_receive = aw_h3_emac_can_receive,
++    .receive = aw_h3_emac_receive,
++    .link_status_changed = aw_h3_emac_set_link,
++};
++
++static void aw_h3_emac_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    AwH3EmacState *s = AW_H3_EMAC(obj);
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &aw_h3_emac_mem_ops, s,
++                          TYPE_AW_H3_EMAC, AW_H3_EMAC_REGS_MEM_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++    sysbus_init_irq(sbd, &s->irq);
++}
++
++static void aw_h3_emac_realize(DeviceState *dev, Error **errp)
++{
++    AwH3EmacState *s = AW_H3_EMAC(dev);
++
++    qemu_macaddr_default_if_unset(&s->conf.macaddr);
++    s->nic = qemu_new_nic(&net_aw_h3_emac_info, &s->conf,
++                          object_get_typename(OBJECT(dev)), dev->id, s);
++    qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
++}
++
++static Property aw_h3_emac_properties[] = {
++    DEFINE_NIC_PROPERTIES(AwH3EmacState, conf),
++    DEFINE_PROP_UINT8("phy-addr", AwH3EmacState, mii_phy_addr, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static int aw_h3_emac_post_load(void *opaque, int version_id)
++{
++    AwH3EmacState *s = opaque;
++
++    aw_h3_emac_set_link(qemu_get_queue(s->nic));
++
++    return 0;
++}
++
++static const VMStateDescription vmstate_aw_emac = {
++    .name = TYPE_AW_H3_EMAC,
 +    .version_id = 1,
 +    .minimum_version_id = 1,
++    .post_load = aw_h3_emac_post_load,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(global_ctl, AwH3SDHostState),
-+        VMSTATE_UINT32(clock_ctl, AwH3SDHostState),
-+        VMSTATE_UINT32(timeout, AwH3SDHostState),
-+        VMSTATE_UINT32(bus_width, AwH3SDHostState),
-+        VMSTATE_UINT32(block_size, AwH3SDHostState),
-+        VMSTATE_UINT32(byte_count, AwH3SDHostState),
-+        VMSTATE_UINT32(transfer_cnt, AwH3SDHostState),
-+        VMSTATE_UINT32(command, AwH3SDHostState),
-+        VMSTATE_UINT32(command_arg, AwH3SDHostState),
-+        VMSTATE_UINT32_ARRAY(response, AwH3SDHostState, 4),
-+        VMSTATE_UINT32(irq_mask, AwH3SDHostState),
-+        VMSTATE_UINT32(irq_status, AwH3SDHostState),
-+        VMSTATE_UINT32(status, AwH3SDHostState),
-+        VMSTATE_UINT32(fifo_wlevel, AwH3SDHostState),
-+        VMSTATE_UINT32(fifo_func_sel, AwH3SDHostState),
-+        VMSTATE_UINT32(debug_enable, AwH3SDHostState),
-+        VMSTATE_UINT32(auto12_arg, AwH3SDHostState),
-+        VMSTATE_UINT32(newtiming_set, AwH3SDHostState),
-+        VMSTATE_UINT32(newtiming_debug, AwH3SDHostState),
-+        VMSTATE_UINT32(hardware_rst, AwH3SDHostState),
-+        VMSTATE_UINT32(dmac, AwH3SDHostState),
-+        VMSTATE_UINT32(desc_base, AwH3SDHostState),
-+        VMSTATE_UINT32(dmac_status, AwH3SDHostState),
-+        VMSTATE_UINT32(dmac_irq, AwH3SDHostState),
-+        VMSTATE_UINT32(card_threshold, AwH3SDHostState),
-+        VMSTATE_UINT32(startbit_detect, AwH3SDHostState),
-+        VMSTATE_UINT32(response_crc, AwH3SDHostState),
-+        VMSTATE_UINT32_ARRAY(data_crc, AwH3SDHostState, 8),
-+        VMSTATE_UINT32(status_crc, AwH3SDHostState),
++        VMSTATE_UINT8(mii_phy_addr, AwH3EmacState),
++        VMSTATE_UINT32(mii_cmd, AwH3EmacState),
++        VMSTATE_UINT32(mii_data, AwH3EmacState),
++        VMSTATE_UINT32(basic_ctl0, AwH3EmacState),
++        VMSTATE_UINT32(basic_ctl1, AwH3EmacState),
++        VMSTATE_UINT32(int_en, AwH3EmacState),
++        VMSTATE_UINT32(int_sta, AwH3EmacState),
++        VMSTATE_UINT32(frm_flt, AwH3EmacState),
++        VMSTATE_UINT32(rx_ctl0, AwH3EmacState),
++        VMSTATE_UINT32(rx_ctl1, AwH3EmacState),
++        VMSTATE_UINT32(rx_desc_head, AwH3EmacState),
++        VMSTATE_UINT32(rx_desc_curr, AwH3EmacState),
++        VMSTATE_UINT32(tx_ctl0, AwH3EmacState),
++        VMSTATE_UINT32(tx_ctl1, AwH3EmacState),
++        VMSTATE_UINT32(tx_desc_head, AwH3EmacState),
++        VMSTATE_UINT32(tx_desc_curr, AwH3EmacState),
++        VMSTATE_UINT32(tx_flowctl, AwH3EmacState),
 +        VMSTATE_END_OF_LIST()
 +    }
 +};
 +
-+static void aw_h3_sdhost_init(Object *obj)
-+{
-+    AwH3SDHostState *s = AW_H3_SDHOST(obj);
-+
-+    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
-+                        TYPE_AW_H3_SDHOST_BUS, DEVICE(s), "sd-bus");
-+
-+    memory_region_init_io(&s->iomem, obj, &aw_h3_sdhost_ops, s,
-+                          TYPE_AW_H3_SDHOST, AW_H3_SDHOST_REGS_MEM_SIZE);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
-+    sysbus_init_irq(SYS_BUS_DEVICE(s), &s->irq);
-+}
-+
-+static void aw_h3_sdhost_reset(DeviceState *dev)
-+{
-+    AwH3SDHostState *s = AW_H3_SDHOST(dev);
-+
-+    s->global_ctl = REG_SD_GCTL_RST;
-+    s->clock_ctl = REG_SD_CKCR_RST;
-+    s->timeout = REG_SD_TMOR_RST;
-+    s->bus_width = REG_SD_BWDR_RST;
-+    s->block_size = REG_SD_BKSR_RST;
-+    s->byte_count = REG_SD_BYCR_RST;
-+    s->transfer_cnt = 0;
-+
-+    s->command = REG_SD_CMDR_RST;
-+    s->command_arg = REG_SD_CAGR_RST;
-+
-+    for (int i = 0; i < sizeof(s->response) / sizeof(s->response[0]); i++) {
-+        s->response[i] = REG_SD_RESP_RST;
-+    }
-+
-+    s->irq_mask = REG_SD_IMKR_RST;
-+    s->irq_status = REG_SD_RISR_RST;
-+    s->status = REG_SD_STAR_RST;
-+
-+    s->fifo_wlevel = REG_SD_FWLR_RST;
-+    s->fifo_func_sel = REG_SD_FUNS_RST;
-+    s->debug_enable = REG_SD_DBGC_RST;
-+    s->auto12_arg = REG_SD_A12A_RST;
-+    s->newtiming_set = REG_SD_NTSR_RST;
-+    s->newtiming_debug = REG_SD_SDBG_RST;
-+    s->hardware_rst = REG_SD_HWRST_RST;
-+    s->dmac = REG_SD_DMAC_RST;
-+    s->desc_base = REG_SD_DLBA_RST;
-+    s->dmac_status = REG_SD_IDST_RST;
-+    s->dmac_irq = REG_SD_IDIE_RST;
-+    s->card_threshold = REG_SD_THLDC_RST;
-+    s->startbit_detect = REG_SD_DSBD_RST;
-+    s->response_crc = REG_SD_RES_CRC_RST;
-+
-+    for (int i = 0; i < sizeof(s->data_crc) / sizeof(s->data_crc[0]); i++) {
-+        s->data_crc[i] = REG_SD_DATA_CRC_RST;
-+    }
-+
-+    s->status_crc = REG_SD_CRC_STA_RST;
-+}
-+
-+static void aw_h3_sdhost_bus_class_init(ObjectClass *klass, void *data)
-+{
-+    SDBusClass *sbc = SD_BUS_CLASS(klass);
-+
-+    sbc->set_inserted = aw_h3_sdhost_set_inserted;
-+}
-+
-+static void aw_h3_sdhost_class_init(ObjectClass *klass, void *data)
++static void aw_h3_emac_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->reset = aw_h3_sdhost_reset;
-+    dc->vmsd = &vmstate_aw_h3_sdhost;
++    dc->realize = aw_h3_emac_realize;
++    dc->props = aw_h3_emac_properties;
++    dc->reset = aw_h3_emac_reset;
++    dc->vmsd = &vmstate_aw_emac;
 +}
 +
-+static TypeInfo aw_h3_sdhost_info = {
-+    .name          = TYPE_AW_H3_SDHOST,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AwH3SDHostState),
-+    .class_init    = aw_h3_sdhost_class_init,
-+    .instance_init = aw_h3_sdhost_init,
++static const TypeInfo aw_h3_emac_info = {
++    .name           = TYPE_AW_H3_EMAC,
++    .parent         = TYPE_SYS_BUS_DEVICE,
++    .instance_size  = sizeof(AwH3EmacState),
++    .instance_init  = aw_h3_emac_init,
++    .class_init     = aw_h3_emac_class_init,
 +};
 +
-+static const TypeInfo aw_h3_sdhost_bus_info = {
-+    .name = TYPE_AW_H3_SDHOST_BUS,
-+    .parent = TYPE_SD_BUS,
-+    .instance_size = sizeof(SDBus),
-+    .class_init = aw_h3_sdhost_bus_class_init,
-+};
-+
-+static void aw_h3_sdhost_register_types(void)
++static void aw_h3_emac_register_types(void)
 +{
-+    type_register_static(&aw_h3_sdhost_info);
-+    type_register_static(&aw_h3_sdhost_bus_info);
++    type_register_static(&aw_h3_emac_info);
 +}
 +
-+type_init(aw_h3_sdhost_register_types)
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index efcff666a2..c672a201b5 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -1,5 +1,12 @@
++type_init(aw_h3_emac_register_types)
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index e70f12bee1..e9e2f26f68 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -1,5 +1,15 @@
  # See docs/devel/tracing.txt for syntax documentation.
  
-+# allwinner-h3-sdhost.c
-+aw_h3_sdhost_set_inserted(bool inserted) "inserted %u"
-+aw_h3_sdhost_process_desc(uint64_t desc_addr, uint32_t desc_size, bool is_write, uint32_t max_bytes) "desc_addr 0x%" PRIx64 " desc_size %u is_write %u max_bytes %u"
-+aw_h3_sdhost_read(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+aw_h3_sdhost_write(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
-+aw_h3_sdhost_update_irq(uint32_t irq) "IRQ bits 0x%x"
++# allwinner-h3-emac.c
++aw_h3_emac_mii_write_reg(uint32_t reg, uint32_t value) "MII write: reg=0x%x value=0x%x"
++aw_h3_emac_mii_read_reg(uint32_t reg, uint32_t value) "MII read: reg=0x%x value=0x%x"
++aw_h3_emac_receive(uint32_t desc, uint32_t paddr, uint32_t bytes) "RX packet: desc=0x%08x paddr=0x%08x bytes=%u"
++aw_h3_emac_transmit(uint32_t desc, uint32_t paddr, uint32_t bytes) "TX packet: desc=0x%08x paddr=0x%08x bytes=%u"
++aw_h3_emac_reset(void) "HW reset"
++aw_h3_emac_set_link(bool active) "Set link: active=%u"
++aw_h3_emac_read(uint64_t offset, uint64_t val) "MMIO read: offset=0x%" PRIx64 " value=0x%" PRIx64
++aw_h3_emac_write(uint64_t offset, uint64_t val) "MMIO write: offset=0x%" PRIx64 " value=0x%" PRIx64
 +
- # bcm2835_sdhost.c
- bcm2835_sdhost_read(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
- bcm2835_sdhost_write(uint64_t offset, uint64_t data, unsigned size) "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ # etraxfs_eth.c
+ mdio_phy_read(int regnum, uint16_t value) "read phy_reg:%d value:0x%04x"
+ mdio_phy_write(int regnum, uint16_t value) "write phy_reg:%d value:0x%04x"
 diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
-index 33602599eb..7aff4ebbd2 100644
+index 7aff4ebbd2..b964a60f41 100644
 --- a/include/hw/arm/allwinner-h3.h
 +++ b/include/hw/arm/allwinner-h3.h
-@@ -30,6 +30,7 @@
- #include "hw/misc/allwinner-h3-cpucfg.h"
+@@ -31,6 +31,7 @@
  #include "hw/misc/allwinner-h3-syscon.h"
  #include "hw/misc/allwinner-h3-sid.h"
-+#include "hw/sd/allwinner-h3-sdhost.h"
+ #include "hw/sd/allwinner-h3-sdhost.h"
++#include "hw/net/allwinner-h3-emac.h"
  #include "target/arm/cpu.h"
  
  #define AW_H3_SRAM_A1_BASE     (0x00000000)
-@@ -117,6 +118,7 @@ typedef struct AwH3State {
-     AwH3CpuCfgState cpucfg;
+@@ -119,6 +120,7 @@ typedef struct AwH3State {
      AwH3SysconState syscon;
      AwH3SidState sid;
-+    AwH3SDHostState mmc0;
+     AwH3SDHostState mmc0;
++    AwH3EmacState emac;
      GICState gic;
      MemoryRegion sram_a1;
      MemoryRegion sram_a2;
-diff --git a/include/hw/sd/allwinner-h3-sdhost.h b/include/hw/sd/allwinner-h3-sdhost.h
+diff --git a/include/hw/net/allwinner-h3-emac.h b/include/hw/net/allwinner-h3-emac.h
 new file mode 100644
-index 0000000000..6c898a3c84
+index 0000000000..a007d54472
 --- /dev/null
-+++ b/include/hw/sd/allwinner-h3-sdhost.h
-@@ -0,0 +1,73 @@
++++ b/include/hw/net/allwinner-h3-emac.h
+@@ -0,0 +1,69 @@
 +/*
-+ * Allwinner H3 SD Host Controller emulation
++ * Allwinner H3 EMAC emulation
 + *
 + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
 + *
@@ -1054,58 +1051,54 @@ index 0000000000..6c898a3c84
 + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef ALLWINNER_H3_SDHOST_H
-+#define ALLWINNER_H3_SDHOST_H
++#ifndef ALLWINNER_H3_EMAC_H
++#define ALLWINNER_H3_EMAC_H
 +
++#include "qemu/units.h"
++#include "net/net.h"
++#include "qemu/fifo8.h"
++#include "hw/net/mii.h"
 +#include "hw/sysbus.h"
-+#include "hw/sd/sd.h"
 +
-+#define AW_H3_SDHOST_REGS_MEM_SIZE  (1024)
++#define AW_H3_EMAC_REGS_MEM_SIZE  (1024)
 +
-+#define TYPE_AW_H3_SDHOST "allwinner-h3-sdhost"
-+#define AW_H3_SDHOST(obj) \
-+        OBJECT_CHECK(AwH3SDHostState, (obj), TYPE_AW_H3_SDHOST)
++#define TYPE_AW_H3_EMAC "allwinner-h3-emac"
++#define AW_H3_EMAC(obj) OBJECT_CHECK(AwH3EmacState, (obj), TYPE_AW_H3_EMAC)
 +
-+typedef struct {
-+    SysBusDevice busdev;
-+    SDBus sdbus;
++typedef struct AwH3EmacState {
++    /*< private >*/
++    SysBusDevice  parent_obj;
++    /*< public >*/
++
 +    MemoryRegion iomem;
++    qemu_irq     irq;
++    NICState     *nic;
++    NICConf      conf;
 +
-+    uint32_t global_ctl;
-+    uint32_t clock_ctl;
-+    uint32_t timeout;
-+    uint32_t bus_width;
-+    uint32_t block_size;
-+    uint32_t byte_count;
-+    uint32_t transfer_cnt;
++    uint8_t      mii_phy_addr;
++    uint32_t     mii_cmd;
++    uint32_t     mii_data;
++    uint32_t     mii_cr;
++    uint32_t     mii_st;
 +
-+    uint32_t command;
-+    uint32_t command_arg;
-+    uint32_t response[4];
++    uint32_t     basic_ctl0;
++    uint32_t     basic_ctl1;
++    uint32_t     int_en;
++    uint32_t     int_sta;
++    uint32_t     frm_flt;
 +
-+    uint32_t irq_mask;
-+    uint32_t irq_status;
-+    uint32_t status;
++    uint32_t     rx_ctl0;
++    uint32_t     rx_ctl1;
++    uint32_t     rx_desc_head;
++    uint32_t     rx_desc_curr;
 +
-+    uint32_t fifo_wlevel;
-+    uint32_t fifo_func_sel;
-+    uint32_t debug_enable;
-+    uint32_t auto12_arg;
-+    uint32_t newtiming_set;
-+    uint32_t newtiming_debug;
-+    uint32_t hardware_rst;
-+    uint32_t dmac;
-+    uint32_t desc_base;
-+    uint32_t dmac_status;
-+    uint32_t dmac_irq;
-+    uint32_t card_threshold;
-+    uint32_t startbit_detect;
-+    uint32_t response_crc;
-+    uint32_t data_crc[8];
-+    uint32_t status_crc;
++    uint32_t     tx_ctl0;
++    uint32_t     tx_ctl1;
++    uint32_t     tx_desc_head;
++    uint32_t     tx_desc_curr;
++    uint32_t     tx_flowctl;
 +
-+    qemu_irq irq;
-+} AwH3SDHostState;
++} AwH3EmacState;
 +
 +#endif
 -- 
