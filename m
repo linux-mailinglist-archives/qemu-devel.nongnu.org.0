@@ -2,77 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5083010E425
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 02:14:58 +0100 (CET)
-Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA4910E42F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 02:20:57 +0100 (CET)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibaIj-0005vQ-D6
-	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 20:14:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
+	id 1ibaOW-0007eg-Aj
+	for lists+qemu-devel@lfdr.de; Sun, 01 Dec 2019 20:20:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ibaGW-0005Cl-EC
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:12:41 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1ibaNW-0007AA-Su
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:19:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ibaGV-0004jR-4Z
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:12:40 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36087)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ibaGU-0004in-VJ
- for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:12:39 -0500
-Received: by mail-pf1-x442.google.com with SMTP id b19so17642045pfd.3
- for <qemu-devel@nongnu.org>; Sun, 01 Dec 2019 17:12:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R+0EC9L+xpy86uruArLxxQ9B2WU6gwTfHvVoWgrVo1E=;
- b=OvjoxtgBKA24PisyUiTGtnX3iIOZL91N1k/fq7PCi/Bn7zJazXWjtLsNCtI4ld/wDO
- MKM2VQyu7O+B4MbkTAJHOOmh6gmVywXJBpEfUTHtS852mZaw8YJdCJrfhN4YF5q7GPx8
- S32AQ/uR3EM4OQ0KAfURcJibJPhHBLyeEzpw40weW908cDudVkqk8hGFjZ7ZslcSlhrp
- rwGcd9szEm2/yw3XAMhWfG0Ld1uMnRx6Tgb2beQNBjdse8uG+4WENxVGuFUzpfDiD/tp
- CzZUorUufyOftiTMCvLqVnt1ggRPp4El00d05biMRZnAEIxvbdjwT3RK1Y9wtX9e6Duw
- EI4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R+0EC9L+xpy86uruArLxxQ9B2WU6gwTfHvVoWgrVo1E=;
- b=PY8VjWpnzikUcOqNk8xTCw2Jc3VMHjgrGko9req1X+lSx4zusGSeOmzLsKO31rmNJ3
- GUrtW+axh4m0S27ThugziStVujvrggO+n+h9789OqaN+oOvA86uic1LFILxxjfl1Lkew
- a13DPIvmcgRCqrPJWnmuuoHNKeDPsuEu0TkroX0AgV47z4BlYyFCoAY23TqW4P7mHQdz
- zkTYMZ+lLZEqGJOZYQijC/scSx2K3Qx8aFD1edzVmzx8bbxoi/L22q8usOIGlv5A4QL8
- 0NY7mOJ+RhmhR2aVGOGzhCr80qJDaqvMO5J5g703gfp4slYkdk2Zck3wyZyerr1jcnh1
- 6bNg==
-X-Gm-Message-State: APjAAAXTXnRPcCztp7ZLuYmL5B1wVmxaz/hxtGeFXjHo3zKd3ua1zLz3
- N5SXdW91UMzmDC9bDSGksESSK2CEedU=
-X-Google-Smtp-Source: APXvYqzjAl7OoNaKigwEnnecL9BK8net54D/SH5vNnKwb1JU+RaL3cqbI06Huf8V1bu86ynoeAgU9A==
-X-Received: by 2002:a62:7683:: with SMTP id
- r125mr29772914pfc.132.1575249157904; 
- Sun, 01 Dec 2019 17:12:37 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 23sm22773446pjx.29.2019.12.01.17.12.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 01 Dec 2019 17:12:37 -0800 (PST)
-Subject: Re: [PATCH v1 3/5] linux-user: add target_mmap_complete tracepoint
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191128194603.24818-1-alex.bennee@linaro.org>
- <20191128194603.24818-4-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <04a7272d-3506-69bf-f13d-a0dfe3fd406f@linaro.org>
-Date: Sun, 1 Dec 2019 17:12:35 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ (envelope-from <pannengyuan@huawei.com>) id 1ibaNV-0000RV-J2
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:19:54 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2204 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1ibaNV-0000LG-7F
+ for qemu-devel@nongnu.org; Sun, 01 Dec 2019 20:19:53 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 6EC64E21F0F5C89F5AD2;
+ Mon,  2 Dec 2019 09:19:46 +0800 (CST)
+Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 2 Dec 2019 09:19:38 +0800
+From: <pannengyuan@huawei.com>
+To: <kraxel@redhat.com>, <mst@redhat.com>
+Subject: [PATCH] virtio-input: fix memory leak in
+ virtio_input_device_unrealize()
+Date: Mon, 2 Dec 2019 09:19:28 +0800
+Message-ID: <1575249568-52136-1-git-send-email-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.7.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20191128194603.24818-4-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+Content-Type: text/plain
+X-Originating-IP: [10.184.39.213]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,21 +52,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: liyiting@huawei.com, kuhn.chenqun@huawei.com,
+ PanNengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/28/19 7:46 PM, Alex Bennée wrote:
-> For full details we also want to see where the mmaps end up.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  linux-user/mmap.c       | 2 +-
->  linux-user/trace-events | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
+From: PanNengyuan <pannengyuan@huawei.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+vdev->vq[i] is forgot to cleanup in
+virtio_input_device_unrealize, the memory leak stack is as bellow:
+
+Direct leak of 3584 byte(s) in 1 object(s) allocated from:
+    #0 0x7f84a49f6560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
+    #1 0x7f84a3b3e015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
+    #2 0x559c0f0b33e7 in virtio_add_queue /mnt/sdb/qemu-4.2.0-rc0/hw/virtio/virtio.c:2327
+    #3 0x559c0f205c24 in virtio_input_device_realize /mnt/sdb/qemu-4.2.0-rc0/hw/input/virtio-input.c:262
+    #4 0x559c0f0b06a7 in virtio_device_realize /mnt/sdb/qemu-4.2.0-rc0/hw/virtio/virtio.c:3504
+    #5 0x559c0f1ba031 in device_set_realized  /mnt/sdb/qemu-4.2.0-rc0/hw/core/qdev.c:876
+    #6 0x559c0f32cedd in property_set_bool /mnt/sdb/qemu-4.2.0-rc0/qom/object.c:2080
+    #7 0x559c0f3314ee in object_property_set_qobject /mnt/sdb/qemu-4.2.0-rc0/qom/qom-qobject.c:26
+
+Direct leak of 3584 byte(s) in 1 object(s) allocated from:
+    #0 0x7f84a49f6560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
+    #1 0x7f84a3b3e015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
+    #2 0x559c0f0b33e7 in virtio_add_queue /mnt/sdb/qemu-4.2.0-rc0/hw/virtio/virtio.c:2327
+    #3 0x559c0f205c3f in virtio_input_device_realize /mnt/sdb/qemu-4.2.0-rc0/hw/input/virtio-input.c:263
+    #4 0x559c0f0b06a7 in virtio_device_realize /mnt/sdb/qemu-4.2.0-rc0/hw/virtio/virtio.c:3504
+    #5 0x559c0f1ba031 in device_set_realized /mnt/sdb/qemu-4.2.0-rc0/hw/core/qdev.c:876
+    #6 0x559c0f32cedd in property_set_bool /mnt/sdb/qemu-4.2.0-rc0/qom/object.c:2080
+    #7 0x559c0f3314ee in object_property_set_qobject /mnt/sdb/qemu-4.2.0-rc0/qom/qom-qobject.c:26
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
+---
+ hw/input/virtio-input.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/hw/input/virtio-input.c b/hw/input/virtio-input.c
+index 51617a5..da94da4 100644
+--- a/hw/input/virtio-input.c
++++ b/hw/input/virtio-input.c
+@@ -288,6 +288,9 @@ static void virtio_input_device_unrealize(DeviceState *dev, Error **errp)
+             return;
+         }
+     }
++    
++    virtio_del_queue(vdev, 0);
++    virtio_del_queue(vdev, 1);
+     virtio_cleanup(vdev);
+ }
+ 
+-- 
+2.7.2.windows.1
 
 
-r~
 
