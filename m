@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FDB810EB9C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 15:39:27 +0100 (CET)
-Received: from localhost ([::1]:36752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C2A10EB95
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 15:37:04 +0100 (CET)
+Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibmrG-0002Cp-4M
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 09:39:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39127)
+	id 1ibmox-0001Me-18
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 09:37:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1ibmn8-0008Hp-Dg
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:11 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ibmnY-0000Oj-T5
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1ibmn7-0008Db-3J
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:09 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:56748)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1ibmn6-0008D5-Kd
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:09 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id F3D6D96EF0;
- Mon,  2 Dec 2019 14:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1575297306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1sRT7+oVu3fi0DBceWyBHEfzyWKgU+hh2CjY/eZiGlU=;
- b=Zhd6LOvteMEVQVKxnrWfVCeZVn01iWCBTfEJdZn1jI7OkGKqCb9fsGkwL5bK/IRbWbmscv
- Sf1syJJRd7ZHeaKa/cn2PG4xpHc95E9MN3W6i5EGJIz74UZc5zKL4e252UWk56WhFzA/cr
- 39NnfXZsn4EN63qKfpn5ZdlOIA4qmWk=
-Subject: Re: [PATCH v2 01/14] gdbstub: make GDBState static and have common
- init function
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191130084602.10818-1-alex.bennee@linaro.org>
- <20191130084602.10818-2-alex.bennee@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <dcb45c47-9a0c-748f-3b2f-4b0ab2f93524@greensocs.com>
-Date: Mon, 2 Dec 2019 15:35:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <peter.maydell@linaro.org>) id 1ibmnX-0008Lr-TN
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:36 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33175)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ibmnX-0008Ll-OI
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 09:35:35 -0500
+Received: by mail-oi1-x241.google.com with SMTP id x21so25504201oic.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 06:35:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yagIx/TuVFmkuXmSVKfUN+M4CJhpe9vr7IPQM2u2PIs=;
+ b=AwGkMoSycbGw+xMuRIVpVKTB4t1Pe25RTYWodNhkHef09BzzaVYULPAxoby2NHo60Y
+ 0kUFKfsW5n1rNRgJe1Ky5bVZ++ecoqgjG6O1Y7ZVDDyd6/KW6XRso/R131oWdhNtHxmC
+ fUFm2RBfYsyyZCqa5b37RQukOqLZhRGaTffVzxgykiWi+i6HwXRHIdfvIvbZtep40U6f
+ nVHijfv+h4+uRjJZK8g02fs472lJR7NYZiPUtmhKKXJ5aCEzkOS4pcS8brJlEXszCjrg
+ XwDnPxABfBUgRMyKZCSquTlOXGyRMCc1VEnrjf+p/mf0wQ8E1RSE+Sye2zz8r7/xcYXE
+ mNPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yagIx/TuVFmkuXmSVKfUN+M4CJhpe9vr7IPQM2u2PIs=;
+ b=TP27JQwd4unRMPquaeIk3fEibCm+A4HDHUMbn4GDP5mF3JiL8Y+9PU08wKYwEgMo9N
+ x6eKDhiWjYAcIlUlPAp2754Hjqf0/CVre8/VAsC/6ZKXSb6ZOi5kWek8X48d6OC4v2Wf
+ FTAOeagHBYZ8AFszdFw4oeMgysRARTDW8oyE7Fso25aqgMFjeAAPNjc8nibY22gypxcU
+ x4Hfnwmh+CI3JBaAyuy1JBHFG9f413ZkQIs+QD9FWi4ySevXQC6p7+T3/pF11+GRPLSg
+ NnpBNEivm5qKVY2rv6PL95y3fXwqpaM+yxYWrs0gIEZPEncBWHb+AAjTmdDfhGefW0Ho
+ b6bg==
+X-Gm-Message-State: APjAAAW2QLj1b/+QQDOox2HGppiq1aJV88jy2ZNidgzWnLckYIfrIBY7
+ EUbgRU594S8kK7y8h15ZJHOhiIF5jA8cDNJ1wwDLeA==
+X-Google-Smtp-Source: APXvYqywHKp1TBf9VKYWSBuWrzhmeDV2kVzbCZabCrlAqogNg9gpaYPc8AdHipFheybSWhecqf0UxQPdy5G6zg/WjDg=
+X-Received: by 2002:aca:edd5:: with SMTP id l204mr12580766oih.98.1575297334268; 
+ Mon, 02 Dec 2019 06:35:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191130084602.10818-2-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1575297306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1sRT7+oVu3fi0DBceWyBHEfzyWKgU+hh2CjY/eZiGlU=;
- b=tpex+VOPasz/BfApDvIBgsmerVTA2BnSYqC72Y0R5lxMGp+Dr1gSq+u/57wzavB4YjjwIn
- 2OLcUW3C/F8P+dJB62i0OxmQ8N+DZrgoK8LcFqngEJ5MhhDB89ONNkmtm5r23KwhjbL2tq
- AzKtr1WyN2TPdfVjm5BBI9eSch1Rebg=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575297306; a=rsa-sha256; cv=none;
- b=SLuf8Pch7owRRFHvo1S9vLkV5HPaEumYNHgMVw7c5PePaVegR9zHGl/y4zfnFr16Wl4ZYr
- GqFDAckBTuBzIEwxw1/HXvQPaWeMmPpdW4UZNV2aogw7iQ2T0UXXnhCkHL0D+38rIVdVCR
- T3nfVJ2Gsb1psz4ahiSlPAaPE/kRyVg=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+References: <20190904125531.27545-1-damien.hedde@greensocs.com>
+ <20190904125531.27545-5-damien.hedde@greensocs.com>
+In-Reply-To: <20190904125531.27545-5-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Dec 2019 14:35:23 +0000
+Message-ID: <CAFEAcA_ekJc8a8Epgwq5M=bpetNVW_v4=tGbDJDxjOUyG1jRSw@mail.gmail.com>
+Subject: Re: [PATCH v6 4/9] qdev-monitor: print the device's clock with info
+ qtree
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,29 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.machado@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 4 Sep 2019 at 13:56, Damien Hedde <damien.hedde@greensocs.com> wrot=
+e:
+>
+> This prints the clocks attached to a DeviceState when using "info qtree" =
+monitor
+> command. For every clock, it displays the direction, the name and if the
+> clock is forwarded. For input clock, it displays also the frequency.
+>
+> This is based on the original work of Frederic Konrad.
 
+Providing a sample of the 'info qtree' output in the
+commit message would be nice.
 
-On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
-> Instead of allocating make this entirely static. We shall reduce the
-> size of the structure in later commits and dynamically allocate parts
-> of it. We introduce an init and reset helper function to keep all the
-> manipulation in one place.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Damien Hedde <damien.hedde@greensocs.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
->=20
-> ---
-> v2
->   - made entirely static, dropped dh/rth r-b tags due to changes
+>
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Modulo Richard's remark about unnecessary memset,
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
