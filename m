@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004A910F24D
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:43:32 +0100 (CET)
-Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B3A10F257
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:48:29 +0100 (CET)
+Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibtTf-0007mr-E7
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:43:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
+	id 1ibtYR-00033B-VO
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:48:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxc-0002e3-Qy
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:26 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxR-0002b7-C4
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxQ-0000h5-Q9
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:19 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51721)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxN-0000cO-IP
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:12 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51722)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ibsxM-0000YW-Jq; Mon, 02 Dec 2019 16:10:09 -0500
-Received: by mail-wm1-x343.google.com with SMTP id g206so842231wme.1;
- Mon, 02 Dec 2019 13:09:59 -0800 (PST)
+ id 1ibsxK-0000Yq-Fi; Mon, 02 Dec 2019 16:10:06 -0500
+Received: by mail-wm1-x344.google.com with SMTP id g206so842287wme.1;
+ Mon, 02 Dec 2019 13:10:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AgPJ0iFJ+07Qrw6Zp/uHV5hRBVIzjEeNp0NWpzIpFCg=;
- b=rgGZ9TSu23Brs9CWi1uIQPcIbNmWeZcN/XhCELuSS2DL2iCh23d1NIEAaKqMbOGgOr
- bfwleHIBxy6v0TxJt1nLLwfFWshKFgnNr3o6glgpKWZ1oVERhdyadmzDf/BcstzKRVej
- iqB+EGR01Dsme50rkNuGO7i9HhFilODj08WIQH06Sw95oSu6I++jH4DDdsPdnJG7JE2Z
- JQwHOI2LGmgVp++FOEUV8kQBYy2PtVpUnMB1KReteWREc9M8yf7FPYEAUudrNy/xOHPH
- pZWSeIxeuR67xVPbdpWbX13WqEDiHcy4aPTLEof5571p7UjE43IwC2cQl2AYUIKv7+dR
- pgww==
+ bh=h+Tla/hLm55CHAFtteEGlDuBFiTlLj9DvIB7CMAPe0U=;
+ b=nrfGIqVqRbt7KSSVeD1gS+X4WPnrIyzuiRlPn3nEaqGL417jGLEWJZDYs9/6XbSpLF
+ 5qB+iykwbGI4Y1wFOrjxWC1ELQWSXBhnYI33igURPxPI7CpybY/jV/L7nFbIJzNF3nlv
+ 9BqNCEZ4vlhMwgRzwtABSDJ/5IoRGlEO54niMC0t634UvtrcMG7G1K1KC32otlIBveja
+ 7VoB2smZ7SBVqXBP+uPM4Ay86xvq56uljkKe53yK6QI+NPaPYn33QTqlSO1uI3/ZG3b3
+ n7DmYkieRYnhx4Qa9cVA+foV+KYWDh4tGPEVxow6q3BfLQl2VIVpR2WtfALaPnUq8QWO
+ sasA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AgPJ0iFJ+07Qrw6Zp/uHV5hRBVIzjEeNp0NWpzIpFCg=;
- b=K1aqZI8rKogup5Jt3rCyye8u1GaWUl5yrrxtQrZgnPmVSHG9iDpSKUfKjxjyI44rKa
- 7HfiSfKAvPzU8191zwGWY670sk9rjaGPXn4yrliCM7T8mBYqc7Yxil5T2TnrPRPBJm6R
- RJCVpvO6tTPwHFKQgy6Q8PhoRlqkc9/WwNzdJiSIyIowB5jVgiEdWRdcReu4rnzpg/VR
- FJXD5//2KYq3nMesDWmMvVNT+x5riMaipOfF/p776rcF6NPNgQe8e5cFTGlq+vsNyuc3
- vpK18lwe+WOo4Xe3Ihj2J/YPG/biEvD04YglTsY33FdXODOejIjpe1M0b/AfGmo8j2pb
- YcDw==
-X-Gm-Message-State: APjAAAXn96YHcHukpXDujDG+XrXtZrZQx8mCLUzytjvvkC9yfcUcq603
- zYwgTNxZSfF8QGxZlZkUw2T+aNW9
-X-Google-Smtp-Source: APXvYqw6rG3hbLOmq69AFvJQVLQvvQcyMToopuC6AXQD8ZPprAb/qasF0hNcORuNguocsSz5Yfnm9Q==
-X-Received: by 2002:a7b:cb0b:: with SMTP id u11mr22335109wmj.64.1575320998608; 
- Mon, 02 Dec 2019 13:09:58 -0800 (PST)
+ bh=h+Tla/hLm55CHAFtteEGlDuBFiTlLj9DvIB7CMAPe0U=;
+ b=JMQ0ubyAIoLl/whuu8u0hMt9H9W/ez544SRhTXw/JGxjBleTQEvYUAIX19BK66gKZ+
+ 1vegkSQDMpOiZViNoGX3No0iNI7VwpLbfWHCQ0wVo2TlczIgd+ynPAVk484SZ7SJIniF
+ 1UF8OtlkmAuzEuFXYiD6pLn0Q57Dsdy/jluTRJkIqvcc/emW45kSj3fqNFVuW1w+gfJH
+ xEqUe80aP44kROrijwTXI8MOlUnS+gAgPsPqc9SuJ1kcWQaLSj8RUuumeJ7bC4r6f4cE
+ w1JQsnZTNpBAZiPCfBR0/jFWNKbNxkW6iXTFsJqwGhCJnFM07d7hdf/88IUiHGZgvMUY
+ f8sQ==
+X-Gm-Message-State: APjAAAUXJt5r5f4Wf5KrnDLGnK2Oq1DSgjHWTPCC8VcCcLvS4ZgYtECN
+ QAZcxQXZ5DBlXvp75mpbv/v08znf
+X-Google-Smtp-Source: APXvYqw19bYDiNd1ZTbVxqeeSMuDEmV5T0DCFA0fHOto5GoVwwhCpN0VpgyUmURETx8spDwc4DBYJg==
+X-Received: by 2002:a7b:cb87:: with SMTP id m7mr9521215wmi.148.1575320999594; 
+ Mon, 02 Dec 2019 13:09:59 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.09.57
+ by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.09.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 02 Dec 2019 13:09:58 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/10] hw: arm: add Xunlong Orange Pi PC machine
-Date: Mon,  2 Dec 2019 22:09:39 +0100
-Message-Id: <20191202210947.3603-3-nieklinnenbank@gmail.com>
+Subject: [PATCH 03/10] arm: allwinner-h3: add Clock Control Unit
+Date: Mon,  2 Dec 2019 22:09:40 +0100
+Message-Id: <20191202210947.3603-4-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-X-Mailman-Approved-At: Mon, 02 Dec 2019 16:38:22 -0500
+X-Received-From: 2a00:1450:4864:20::344
+X-Mailman-Approved-At: Mon, 02 Dec 2019 16:38:21 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,54 +79,71 @@ Cc: b.galvani@gmail.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
-based embedded computer with mainline support in both U-Boot
-and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
-512MB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
-various other I/O. This commit add support for the Xunlong
-Orange Pi PC machine.
+The Clock Control Unit is responsible for clock signal generation,
+configuration and distribution in the Allwinner H3 System on Chip.
+This commit adds support for the Clock Control Unit which emulates
+a simple read/write register interface.
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- MAINTAINERS          |  1 +
- hw/arm/Makefile.objs |  2 +-
- hw/arm/orangepi.c    | 90 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 hw/arm/orangepi.c
+ hw/arm/allwinner-h3.c              |  11 ++
+ hw/misc/Makefile.objs              |   1 +
+ hw/misc/allwinner-h3-clk.c         | 227 +++++++++++++++++++++++++++++
+ include/hw/arm/allwinner-h3.h      |   2 +
+ include/hw/misc/allwinner-h3-clk.h |  41 ++++++
+ 5 files changed, 282 insertions(+)
+ create mode 100644 hw/misc/allwinner-h3-clk.c
+ create mode 100644 include/hw/misc/allwinner-h3-clk.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 29c9936037..42c913d6cb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -485,6 +485,7 @@ L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/*/allwinner-h3*
- F: include/hw/*/allwinner-h3*
-+F: hw/arm/orangepi.c
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index 470fdfebef..5566e979ec 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -37,6 +37,9 @@ static void aw_h3_init(Object *obj)
  
- ARM PrimeCell and CMSDK devices
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
-index 956e496052..8d5ea453d5 100644
---- a/hw/arm/Makefile.objs
-+++ b/hw/arm/Makefile.objs
-@@ -34,7 +34,7 @@ obj-$(CONFIG_DIGIC) += digic.o
- obj-$(CONFIG_OMAP) += omap1.o omap2.o
- obj-$(CONFIG_STRONGARM) += strongarm.o
- obj-$(CONFIG_ALLWINNER_A10) += allwinner-a10.o cubieboard.o
--obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3.o
-+obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3.o orangepi.o
- obj-$(CONFIG_RASPI) += bcm2835_peripherals.o bcm2836.o raspi.o
- obj-$(CONFIG_STM32F205_SOC) += stm32f205_soc.o
- obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zynqmp.o xlnx-zcu102.o
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
+     sysbus_init_child_obj(obj, "timer", &s->timer, sizeof(s->timer),
+                           TYPE_AW_A10_PIT);
++
++    sysbus_init_child_obj(obj, "ccu", &s->ccu, sizeof(s->ccu),
++                          TYPE_AW_H3_CLK);
+ }
+ 
+ static void aw_h3_realize(DeviceState *dev, Error **errp)
+@@ -172,6 +175,14 @@ static void aw_h3_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(get_system_memory(), AW_H3_SRAM_C_BASE,
+                                 &s->sram_c);
+ 
++    /* Clock Control Unit */
++    object_property_set_bool(OBJECT(&s->ccu), true, "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccu), 0, AW_H3_CCU_BASE);
++
+     /* UART */
+     if (serial_hd(0)) {
+         serial_mm_init(get_system_memory(), AW_H3_UART0_REG_BASE, 2,
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index ba898a5781..200ed44ce1 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -28,6 +28,7 @@ common-obj-$(CONFIG_MACIO) += macio/
+ 
+ common-obj-$(CONFIG_IVSHMEM_DEVICE) += ivshmem.o
+ 
++common-obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3-clk.o
+ common-obj-$(CONFIG_REALVIEW) += arm_sysctl.o
+ common-obj-$(CONFIG_NSERIES) += cbus.o
+ common-obj-$(CONFIG_ECCMEMCTL) += eccmemctl.o
+diff --git a/hw/misc/allwinner-h3-clk.c b/hw/misc/allwinner-h3-clk.c
 new file mode 100644
-index 0000000000..5ef2735f81
+index 0000000000..77c55b4f92
 --- /dev/null
-+++ b/hw/arm/orangepi.c
-@@ -0,0 +1,90 @@
++++ b/hw/misc/allwinner-h3-clk.c
+@@ -0,0 +1,227 @@
 +/*
-+ * Orange Pi emulation
++ * Allwinner H3 Clock Control Unit emulation
 + *
 + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
 + *
@@ -145,76 +162,280 @@ index 0000000000..5ef2735f81
 + */
 +
 +#include "qemu/osdep.h"
-+#include "exec/address-spaces.h"
-+#include "qapi/error.h"
-+#include "cpu.h"
 +#include "hw/sysbus.h"
-+#include "hw/boards.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/arm/allwinner-h3.h"
++#include "migration/vmstate.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "hw/misc/allwinner-h3-clk.h"
 +
-+static struct arm_boot_info orangepi_binfo = {
-+    .loader_start = AW_H3_SDRAM_BASE,
-+    .board_id = -1,
++/* CCU register offsets */
++#define REG_PLL_CPUX             (0x0000) /* PLL CPUX Control */
++#define REG_PLL_AUDIO            (0x0008) /* PLL Audio Control */
++#define REG_PLL_VIDEO            (0x0010) /* PLL Video Control */
++#define REG_PLL_VE               (0x0018) /* PLL VE Control */
++#define REG_PLL_DDR              (0x0020) /* PLL DDR Control */
++#define REG_PLL_PERIPH0          (0x0028) /* PLL Peripherals 0 Control */
++#define REG_PLL_GPU              (0x0038) /* PLL GPU Control */
++#define REG_PLL_PERIPH1          (0x0044) /* PLL Peripherals 1 Control */
++#define REG_PLL_DE               (0x0048) /* PLL Display Engine Control */
++#define REG_CPUX_AXI             (0x0050) /* CPUX/AXI Configuration */
++#define REG_APB1                 (0x0054) /* ARM Peripheral Bus 1 Config */
++#define REG_APB2                 (0x0058) /* ARM Peripheral Bus 2 Config */
++#define REG_MBUS                 (0x00FC) /* MBUS Reset */
++#define REG_PLL_TIME0            (0x0200) /* PLL Stable Time 0 */
++#define REG_PLL_TIME1            (0x0204) /* PLL Stable Time 1 */
++#define REG_PLL_CPUX_BIAS        (0x0220) /* PLL CPUX Bias */
++#define REG_PLL_AUDIO_BIAS       (0x0224) /* PLL Audio Bias */
++#define REG_PLL_VIDEO_BIAS       (0x0228) /* PLL Video Bias */
++#define REG_PLL_VE_BIAS          (0x022C) /* PLL VE Bias */
++#define REG_PLL_DDR_BIAS         (0x0230) /* PLL DDR Bias */
++#define REG_PLL_PERIPH0_BIAS     (0x0234) /* PLL Peripherals 0 Bias */
++#define REG_PLL_GPU_BIAS         (0x023C) /* PLL GPU Bias */
++#define REG_PLL_PERIPH1_BIAS     (0x0244) /* PLL Peripherals 1 Bias */
++#define REG_PLL_DE_BIAS          (0x0248) /* PLL Display Engine Bias */
++#define REG_PLL_CPUX_TUNING      (0x0250) /* PLL CPUX Tuning */
++#define REG_PLL_DDR_TUNING       (0x0260) /* PLL DDR Tuning */
++#define REG_INDEX(offset)        (offset / sizeof(uint32_t))
++
++/* CCU register flags */
++#define REG_PLL_ENABLE           (1 << 31)
++#define REG_PLL_LOCK             (1 << 28)
++
++/* CCU register reset values */
++#define REG_PLL_CPUX_RST         (0x00001000)
++#define REG_PLL_AUDIO_RST        (0x00035514)
++#define REG_PLL_VIDEO_RST        (0x03006207)
++#define REG_PLL_VE_RST           (0x03006207)
++#define REG_PLL_DDR_RST          (0x00001000)
++#define REG_PLL_PERIPH0_RST      (0x00041811)
++#define REG_PLL_GPU_RST          (0x03006207)
++#define REG_PLL_PERIPH1_RST      (0x00041811)
++#define REG_PLL_DE_RST           (0x03006207)
++#define REG_CPUX_AXI_RST         (0x00010000)
++#define REG_APB1_RST             (0x00001010)
++#define REG_APB2_RST             (0x01000000)
++#define REG_MBUS_RST             (0x80000000)
++#define REG_PLL_TIME0_RST        (0x000000FF)
++#define REG_PLL_TIME1_RST        (0x000000FF)
++#define REG_PLL_CPUX_BIAS_RST    (0x08100200)
++#define REG_PLL_AUDIO_BIAS_RST   (0x10100000)
++#define REG_PLL_VIDEO_BIAS_RST   (0x10100000)
++#define REG_PLL_VE_BIAS_RST      (0x10100000)
++#define REG_PLL_DDR_BIAS_RST     (0x81104000)
++#define REG_PLL_PERIPH0_BIAS_RST (0x10100010)
++#define REG_PLL_GPU_BIAS_RST     (0x10100000)
++#define REG_PLL_PERIPH1_BIAS_RST (0x10100010)
++#define REG_PLL_DE_BIAS_RST      (0x10100000)
++#define REG_PLL_CPUX_TUNING_RST  (0x0A101000)
++#define REG_PLL_DDR_TUNING_RST   (0x14880000)
++
++static uint64_t allwinner_h3_clk_read(void *opaque, hwaddr offset,
++                                      unsigned size)
++{
++    const AwH3ClockState *s = (AwH3ClockState *)opaque;
++    const uint32_t idx = REG_INDEX(offset);
++
++    if (idx >= AW_H3_CLK_REGS_NUM) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad read offset 0x%04x\n",
++                      __func__, (uint32_t)offset);
++        return 0;
++    }
++
++    return s->regs[idx];
++}
++
++static void allwinner_h3_clk_write(void *opaque, hwaddr offset,
++                                   uint64_t val, unsigned size)
++{
++    AwH3ClockState *s = (AwH3ClockState *)opaque;
++    const uint32_t idx = REG_INDEX(offset);
++
++    if (idx >= AW_H3_CLK_REGS_NUM) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write offset 0x%04x\n",
++                      __func__, (uint32_t)offset);
++        return;
++    }
++
++    switch (offset) {
++    case REG_PLL_CPUX:    /* PLL CPUX Control */
++    case REG_PLL_AUDIO:   /* PLL Audio Control */
++    case REG_PLL_VIDEO:   /* PLL Video Control */
++    case REG_PLL_VE:      /* PLL VE Control */
++    case REG_PLL_DDR:     /* PLL DDR Control */
++    case REG_PLL_PERIPH0: /* PLL Peripherals 0 Control */
++    case REG_PLL_GPU:     /* PLL GPU Control */
++    case REG_PLL_PERIPH1: /* PLL Peripherals 1 Control */
++    case REG_PLL_DE:      /* PLL Display Engine Control */
++        if (val & REG_PLL_ENABLE) {
++            val |= REG_PLL_LOCK;
++        }
++        break;
++    default:
++        break;
++    }
++
++    s->regs[idx] = (uint32_t) val;
++}
++
++static const MemoryRegionOps allwinner_h3_clk_ops = {
++    .read = allwinner_h3_clk_read,
++    .write = allwinner_h3_clk_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++        .unaligned = false
++    }
 +};
 +
-+typedef struct OrangePiState {
-+    AwH3State *h3;
-+    MemoryRegion sdram;
-+} OrangePiState;
-+
-+static void orangepi_init(MachineState *machine)
++static void allwinner_h3_clk_reset(DeviceState *dev)
 +{
-+    OrangePiState *s = g_new(OrangePiState, 1);
-+    Error *err = NULL;
++    AwH3ClockState *s = AW_H3_CLK(dev);
 +
-+    s->h3 = AW_H3(object_new(TYPE_AW_H3));
-+
-+    /* Setup timer properties */
-+    object_property_set_int(OBJECT(&s->h3->timer), 32768, "clk0-freq", &err);
-+    if (err != NULL) {
-+        error_reportf_err(err, "Couldn't set clk0 frequency: ");
-+        exit(1);
-+    }
-+
-+    object_property_set_int(OBJECT(&s->h3->timer), 24000000, "clk1-freq",
-+                            &err);
-+    if (err != NULL) {
-+        error_reportf_err(err, "Couldn't set clk1 frequency: ");
-+        exit(1);
-+    }
-+
-+    /* Mark H3 object realized */
-+    object_property_set_bool(OBJECT(s->h3), true, "realized", &err);
-+    if (err != NULL) {
-+        error_reportf_err(err, "Couldn't realize Allwinner H3: ");
-+        exit(1);
-+    }
-+
-+    /* RAM */
-+    memory_region_allocate_system_memory(&s->sdram, NULL, "orangepi.ram",
-+                                         machine->ram_size);
-+    memory_region_add_subregion(get_system_memory(), AW_H3_SDRAM_BASE,
-+                                &s->sdram);
-+
-+    /* Load target kernel */
-+    orangepi_binfo.ram_size = machine->ram_size;
-+    orangepi_binfo.nb_cpus  = AW_H3_NUM_CPUS;
-+    arm_load_kernel(ARM_CPU(first_cpu), machine, &orangepi_binfo);
++    /* Set default values for registers */
++    s->regs[REG_INDEX(REG_PLL_CPUX)] = REG_PLL_CPUX_RST;
++    s->regs[REG_INDEX(REG_PLL_AUDIO)] = REG_PLL_AUDIO_RST;
++    s->regs[REG_INDEX(REG_PLL_VIDEO)] = REG_PLL_VIDEO_RST;
++    s->regs[REG_INDEX(REG_PLL_VE)] = REG_PLL_VE_RST;
++    s->regs[REG_INDEX(REG_PLL_DDR)] = REG_PLL_DDR_RST;
++    s->regs[REG_INDEX(REG_PLL_PERIPH0)] = REG_PLL_PERIPH0_RST;
++    s->regs[REG_INDEX(REG_PLL_GPU)] = REG_PLL_GPU_RST;
++    s->regs[REG_INDEX(REG_PLL_PERIPH1)] = REG_PLL_PERIPH1_RST;
++    s->regs[REG_INDEX(REG_PLL_DE)] = REG_PLL_DE_RST;
++    s->regs[REG_INDEX(REG_CPUX_AXI)] = REG_CPUX_AXI_RST;
++    s->regs[REG_INDEX(REG_APB1)] = REG_APB1_RST;
++    s->regs[REG_INDEX(REG_APB2)] = REG_APB2_RST;
++    s->regs[REG_INDEX(REG_MBUS)] = REG_MBUS_RST;
++    s->regs[REG_INDEX(REG_PLL_TIME0)] = REG_PLL_TIME0_RST;
++    s->regs[REG_INDEX(REG_PLL_TIME1)] = REG_PLL_TIME1_RST;
++    s->regs[REG_INDEX(REG_PLL_CPUX_BIAS)] = REG_PLL_CPUX_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_AUDIO_BIAS)] = REG_PLL_AUDIO_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_VIDEO_BIAS)] = REG_PLL_VIDEO_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_VE_BIAS)] = REG_PLL_VE_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_DDR_BIAS)] = REG_PLL_DDR_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_PERIPH0_BIAS)] = REG_PLL_PERIPH0_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_GPU_BIAS)] = REG_PLL_GPU_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_PERIPH1_BIAS)] = REG_PLL_PERIPH1_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_DE_BIAS)] = REG_PLL_DE_BIAS_RST;
++    s->regs[REG_INDEX(REG_PLL_CPUX_TUNING)] = REG_PLL_CPUX_TUNING_RST;
++    s->regs[REG_INDEX(REG_PLL_DDR_TUNING)] = REG_PLL_DDR_TUNING_RST;
 +}
 +
-+static void orangepi_machine_init(MachineClass *mc)
++static void allwinner_h3_clk_realize(DeviceState *dev, Error **errp)
 +{
-+    mc->desc = "Orange Pi PC";
-+    mc->init = orangepi_init;
-+    mc->units_per_default_bus = 1;
-+    mc->min_cpus = AW_H3_NUM_CPUS;
-+    mc->max_cpus = AW_H3_NUM_CPUS;
-+    mc->default_cpus = AW_H3_NUM_CPUS;
-+    mc->ignore_memory_transaction_failures = true;
 +}
 +
-+DEFINE_MACHINE("orangepi", orangepi_machine_init)
++static void allwinner_h3_clk_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    AwH3ClockState *s = AW_H3_CLK(obj);
++
++    /* Memory mapping */
++    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_h3_clk_ops, s,
++                          TYPE_AW_H3_CLK, AW_H3_CLK_REGS_MEM_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static const VMStateDescription allwinner_h3_clk_vmstate = {
++    .name = TYPE_AW_H3_CLK,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, AwH3ClockState, AW_H3_CLK_REGS_NUM),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void allwinner_h3_clk_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = allwinner_h3_clk_reset;
++    dc->realize = allwinner_h3_clk_realize;
++    dc->vmsd = &allwinner_h3_clk_vmstate;
++}
++
++static const TypeInfo allwinner_h3_clk_info = {
++    .name          = TYPE_AW_H3_CLK,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_init = allwinner_h3_clk_init,
++    .instance_size = sizeof(AwH3ClockState),
++    .class_init    = allwinner_h3_clk_class_init,
++};
++
++static void allwinner_h3_clk_register(void)
++{
++    type_register_static(&allwinner_h3_clk_info);
++}
++
++type_init(allwinner_h3_clk_register)
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index af368c2254..e596516c5c 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -26,6 +26,7 @@
+ #include "hw/arm/boot.h"
+ #include "hw/timer/allwinner-a10-pit.h"
+ #include "hw/intc/arm_gic.h"
++#include "hw/misc/allwinner-h3-clk.h"
+ #include "target/arm/cpu.h"
+ 
+ #define AW_H3_SRAM_A1_BASE     (0x00000000)
+@@ -109,6 +110,7 @@ typedef struct AwH3State {
+ 
+     qemu_irq irq[AW_H3_GIC_NUM_SPI];
+     AwA10PITState timer;
++    AwH3ClockState ccu;
+     GICState gic;
+     MemoryRegion sram_a1;
+     MemoryRegion sram_a2;
+diff --git a/include/hw/misc/allwinner-h3-clk.h b/include/hw/misc/allwinner-h3-clk.h
+new file mode 100644
+index 0000000000..69ea559db1
+--- /dev/null
++++ b/include/hw/misc/allwinner-h3-clk.h
+@@ -0,0 +1,41 @@
++/*
++ * Allwinner H3 Clock Control Unit emulation
++ *
++ * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_MISC_ALLWINNER_H3_CLK_H
++#define HW_MISC_ALLWINNER_H3_CLK_H
++
++#include "hw/sysbus.h"
++
++#define AW_H3_CLK_REGS_MAX_ADDR (0x304)
++#define AW_H3_CLK_REGS_NUM      (AW_H3_CLK_REGS_MAX_ADDR / sizeof(uint32_t))
++#define AW_H3_CLK_REGS_MEM_SIZE (1024)
++
++#define TYPE_AW_H3_CLK    "allwinner-h3-clk"
++#define AW_H3_CLK(obj)    OBJECT_CHECK(AwH3ClockState, (obj), TYPE_AW_H3_CLK)
++
++typedef struct AwH3ClockState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    MemoryRegion iomem;
++    uint32_t regs[AW_H3_CLK_REGS_NUM];
++} AwH3ClockState;
++
++#endif
 -- 
 2.17.1
 
