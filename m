@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD34C10F26C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:53:20 +0100 (CET)
-Received: from localhost ([::1]:44961 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28A910F27B
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 22:57:49 +0100 (CET)
+Received: from localhost ([::1]:45014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibtd8-000746-0m
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:53:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38243)
+	id 1ibthU-0002y6-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 16:57:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxc-0002e4-R8
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:26 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxR-0002b6-Bu
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxQ-0000h7-QA
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:19 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38631)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1ibsxN-0000cD-HS
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 16:10:12 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38630)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1ibsxM-0000Yv-M5; Mon, 02 Dec 2019 16:10:09 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so1104368wmi.3;
- Mon, 02 Dec 2019 13:10:01 -0800 (PST)
+ id 1ibsxK-0000Z6-MT; Mon, 02 Dec 2019 16:10:06 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p17so1104421wmi.3;
+ Mon, 02 Dec 2019 13:10:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KLiQATngYVxKEhubgojMgx0rCFF3IHtRu91h6RNCkKo=;
- b=Zzf9OofcZJUPgAFukp7W3plQeSrCvtZlB3w08FQWUlrvc1cOJJKd/V9lfWDnvp/uvB
- DU4nmVsjqPdvbdW30q4RQwg386IMMyvgbSpZqqCaeouPfeRmaZWQQHEaOxa2frHitFE5
- may7cKBTmnAu38A6Xp2ckW/dpHBWoRxtfEKwoNpIuBn+4duzdvgeiIRjjiMvhMHnCCl1
- 5Uaf53f6a9iyXnzff8IwqUanYIcGePlR8FHTm8rtBlNdWcRyMJhDIHBea1PGTmw4NxKK
- JH6ANxMWIS9yltWaRz/v4lal6C2zIktWISXu9fTbmdBxnIjwWdNK0R66Du5IG0M6DgrR
- aKhw==
+ bh=83StbJO9vc/PtHWWasIgmXL+LHo+Q8gv4+RVzsR74VQ=;
+ b=gCiXGfOnKPgloIuyHuMaCPhD8S9iAMudxA9AQQt/u5v4kMTdj4vptn1OEHUBcKCCHQ
+ csbBJqPb02EJBK4Uy433GrSxvySd0Cf1d7YqWPz7DzewkEQeBxkAIr+z27hFmPwcRfWn
+ hg7doU9HUzUPHWUdhb4wwijTF7xp/1ugQuZ8rjz6A26yu8Cok860KBsd52bKoTu6w3oQ
+ LdDdSzS7zCPpNQLHD0icoAlVEaTukdiiRW1VDkdxvgXoUBbctfM8cIpMfmlAtTKGTcQY
+ DUa+yeH2V1y0Tw4azB0rArbR9zuafu+0xotqNxk15Z4iyV+l1CeYI34OfpSneJlsOYSS
+ FrYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=KLiQATngYVxKEhubgojMgx0rCFF3IHtRu91h6RNCkKo=;
- b=j093eMlVXD5wl+sgDiYn6qaf9VWAMIacJdNtuqHaqYflM/XRVlQkkgV3v4/zzhlOju
- nEnpZ/pVQalKea3X4vHixlmo5io5gO2hn1tWhwVtgat05RUAOWw1xzoCy1kvlN3CkkTp
- Oc7nPnmo+hoOI6ywtzZBy5PtAhssuzuNUyECzqZLSo+Pfi8OzCre9ccBt1T297dLcQpy
- P20fSJ3C1nXpxO3ewDEOyU1yIaCaWWQnuK3+sIZH41O81Qzdwo538XWD6FDg0uKcPO9r
- 7UUBD4E8dlnwwScjx5dEkiKMPrWs8UToglzr1jsguGf3f/oLTcmmB6RnhtbUOrmzvJm4
- Vxbg==
-X-Gm-Message-State: APjAAAUgnkGsGTodg9eIAVkjx6UolJT6P00MlVxFwD95X5Sd+Mrq5qvR
- 0xzHzugb39cHppMYIGhuKB4Ke0Rs
-X-Google-Smtp-Source: APXvYqzsCs/54zu5WwvX5AIRGqqFYZ/xh6JgPfmACi7UrEIyvtFQ2f81q5C4DBUfolCRWIjdzP6UGg==
-X-Received: by 2002:a1c:f610:: with SMTP id w16mr12606830wmc.34.1575321000343; 
- Mon, 02 Dec 2019 13:10:00 -0800 (PST)
+ bh=83StbJO9vc/PtHWWasIgmXL+LHo+Q8gv4+RVzsR74VQ=;
+ b=ORpjx6ZpvxQDj+HHO/ryPpvFud+WyK71h/7+gSzpna6lc+YI46US2Q3lfByDC1dKzz
+ +mtUYkjYBNykboGNTcfwaFKV9weW5dWvajvzOPAAUbdsOWyEBnyoOgjHJaso3TP1GpjX
+ 0Eo8lHJTSSPJgPa8ve4iLFRRrZgG5oGwAhDWCD7GfazIZxZgA6XvFB2MvB347knX8jwQ
+ jfdKv9pqaVohX9kF3yCwVAUDdT53ssCKsgAr+uKNtkUbKjugrjboVlaRJ9c9kYyGnTop
+ idaLNZIPc8N6bC2gSKCct1CCcsFpz1aHuhugV4PZG5monH3vatuPFryyBRLP+E+Ut35w
+ Wtaw==
+X-Gm-Message-State: APjAAAU8Uf6fdP1bcxF0G34GPFlRKZhEphT/Z5XjJ/EjiJeU46lqqUtQ
+ i4ewYxxWpC+6KGG4PT1G2/tFdr6c
+X-Google-Smtp-Source: APXvYqwJLHQwAWW5duRMG7fSzTt431DYaSB/pQPPvt6Lguh49y+ClNL3iN8VJAoRaFQNaJz3T6V52Q==
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr32010469wmb.14.1575321001109; 
+ Mon, 02 Dec 2019 13:10:01 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.09.59
+ by smtp.gmail.com with ESMTPSA id f1sm770859wrp.93.2019.12.02.13.10.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2019 13:09:59 -0800 (PST)
+ Mon, 02 Dec 2019 13:10:00 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/10] arm: allwinner-h3: add USB host controller
-Date: Mon,  2 Dec 2019 22:09:41 +0100
-Message-Id: <20191202210947.3603-5-nieklinnenbank@gmail.com>
+Subject: [PATCH 05/10] arm: allwinner-h3: add System Control module
+Date: Mon,  2 Dec 2019 22:09:42 +0100
+Message-Id: <20191202210947.3603-6-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::341
 X-Mailman-Approved-At: Mon, 02 Dec 2019 16:38:22 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,104 +79,277 @@ Cc: b.galvani@gmail.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Allwinner H3 System on Chip contains multiple USB 2.0 bus
-connections which provide software access using the Enhanced
-Host Controller Interface (EHCI) and Open Host Controller
-Interface (OHCI) interfaces. This commit adds support for
-both interfaces in the Allwinner H3 System on Chip.
+The Allwinner H3 System on Chip has an System Control
+module that provides system wide generic controls and
+device information. This commit adds support for the
+Allwinner H3 System Control module.
 
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- hw/arm/allwinner-h3.c    | 20 ++++++++++++++++++++
- hw/usb/hcd-ehci-sysbus.c | 17 +++++++++++++++++
- hw/usb/hcd-ehci.h        |  1 +
- 3 files changed, 38 insertions(+)
+ hw/arm/allwinner-h3.c                 |  11 ++
+ hw/misc/Makefile.objs                 |   1 +
+ hw/misc/allwinner-h3-syscon.c         | 139 ++++++++++++++++++++++++++
+ include/hw/arm/allwinner-h3.h         |   2 +
+ include/hw/misc/allwinner-h3-syscon.h |  43 ++++++++
+ 5 files changed, 196 insertions(+)
+ create mode 100644 hw/misc/allwinner-h3-syscon.c
+ create mode 100644 include/hw/misc/allwinner-h3-syscon.h
 
 diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-index 5566e979ec..afeb49c0ac 100644
+index afeb49c0ac..ebd8fde412 100644
 --- a/hw/arm/allwinner-h3.c
 +++ b/hw/arm/allwinner-h3.c
-@@ -26,6 +26,7 @@
- #include "hw/sysbus.h"
- #include "hw/arm/allwinner-h3.h"
- #include "hw/misc/unimp.h"
-+#include "hw/usb/hcd-ehci.h"
- #include "sysemu/sysemu.h"
+@@ -41,6 +41,9 @@ static void aw_h3_init(Object *obj)
  
- static void aw_h3_init(Object *obj)
-@@ -183,6 +184,25 @@ static void aw_h3_realize(DeviceState *dev, Error **errp)
+     sysbus_init_child_obj(obj, "ccu", &s->ccu, sizeof(s->ccu),
+                           TYPE_AW_H3_CLK);
++
++    sysbus_init_child_obj(obj, "syscon", &s->syscon, sizeof(s->syscon),
++                          TYPE_AW_H3_SYSCON);
+ }
+ 
+ static void aw_h3_realize(DeviceState *dev, Error **errp)
+@@ -184,6 +187,14 @@ static void aw_h3_realize(DeviceState *dev, Error **errp)
      }
      sysbus_mmio_map(SYS_BUS_DEVICE(&s->ccu), 0, AW_H3_CCU_BASE);
  
-+    /* Universal Serial Bus */
-+    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI0_BASE,
-+                         s->irq[AW_H3_GIC_SPI_EHCI0]);
-+    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI1_BASE,
-+                         s->irq[AW_H3_GIC_SPI_EHCI1]);
-+    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI2_BASE,
-+                         s->irq[AW_H3_GIC_SPI_EHCI2]);
-+    sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI3_BASE,
-+                         s->irq[AW_H3_GIC_SPI_EHCI3]);
++    /* System Control */
++    object_property_set_bool(OBJECT(&s->syscon), true, "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->syscon), 0, AW_H3_SYSCON_BASE);
 +
-+    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI0_BASE,
-+                         s->irq[AW_H3_GIC_SPI_OHCI0]);
-+    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI1_BASE,
-+                         s->irq[AW_H3_GIC_SPI_OHCI1]);
-+    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI2_BASE,
-+                         s->irq[AW_H3_GIC_SPI_OHCI2]);
-+    sysbus_create_simple("sysbus-ohci", AW_H3_OHCI3_BASE,
-+                         s->irq[AW_H3_GIC_SPI_OHCI3]);
-+
-     /* UART */
-     if (serial_hd(0)) {
-         serial_mm_init(get_system_memory(), AW_H3_UART0_REG_BASE, 2,
-diff --git a/hw/usb/hcd-ehci-sysbus.c b/hw/usb/hcd-ehci-sysbus.c
-index 020211fd10..174c3446ef 100644
---- a/hw/usb/hcd-ehci-sysbus.c
-+++ b/hw/usb/hcd-ehci-sysbus.c
-@@ -145,6 +145,22 @@ static const TypeInfo ehci_exynos4210_type_info = {
-     .class_init    = ehci_exynos4210_class_init,
- };
+     /* Universal Serial Bus */
+     sysbus_create_simple(TYPE_AW_H3_EHCI, AW_H3_EHCI0_BASE,
+                          s->irq[AW_H3_GIC_SPI_EHCI0]);
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index 200ed44ce1..b234aefba5 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -29,6 +29,7 @@ common-obj-$(CONFIG_MACIO) += macio/
+ common-obj-$(CONFIG_IVSHMEM_DEVICE) += ivshmem.o
  
-+static void ehci_aw_h3_class_init(ObjectClass *oc, void *data)
-+{
-+    SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
-+    DeviceClass *dc = DEVICE_CLASS(oc);
+ common-obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3-clk.o
++common-obj-$(CONFIG_ALLWINNER_H3) += allwinner-h3-syscon.o
+ common-obj-$(CONFIG_REALVIEW) += arm_sysctl.o
+ common-obj-$(CONFIG_NSERIES) += cbus.o
+ common-obj-$(CONFIG_ECCMEMCTL) += eccmemctl.o
+diff --git a/hw/misc/allwinner-h3-syscon.c b/hw/misc/allwinner-h3-syscon.c
+new file mode 100644
+index 0000000000..66bd518a05
+--- /dev/null
++++ b/hw/misc/allwinner-h3-syscon.c
+@@ -0,0 +1,139 @@
++/*
++ * Allwinner H3 System Control emulation
++ *
++ * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    sec->capsbase = 0x0;
-+    sec->opregbase = 0x10;
-+    set_bit(DEVICE_CATEGORY_USB, dc->categories);
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "hw/misc/allwinner-h3-syscon.h"
++
++/* SYSCON register offsets */
++#define REG_VER                 (0x24)  /* Version */
++#define REG_EMAC_PHY_CLK        (0x30)  /* EMAC PHY Clock */
++#define REG_INDEX(offset)       (offset / sizeof(uint32_t))
++
++/* SYSCON register reset values */
++#define REG_VER_RST             (0x0)
++#define REG_EMAC_PHY_CLK_RST    (0x58000)
++
++static uint64_t allwinner_h3_syscon_read(void *opaque, hwaddr offset,
++                                         unsigned size)
++{
++    const AwH3SysconState *s = (AwH3SysconState *)opaque;
++    const uint32_t idx = REG_INDEX(offset);
++
++    if (idx >= AW_H3_SYSCON_REGS_NUM) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad read offset 0x%04x\n",
++                      __func__, (uint32_t)offset);
++        return 0;
++    }
++
++    return s->regs[idx];
 +}
 +
-+static const TypeInfo ehci_aw_h3_type_info = {
-+    .name          = TYPE_AW_H3_EHCI,
-+    .parent        = TYPE_SYS_BUS_EHCI,
-+    .class_init    = ehci_aw_h3_class_init,
++static void allwinner_h3_syscon_write(void *opaque, hwaddr offset,
++                                      uint64_t val, unsigned size)
++{
++    AwH3SysconState *s = (AwH3SysconState *)opaque;
++    const uint32_t idx = REG_INDEX(offset);
++
++    if (idx >= AW_H3_SYSCON_REGS_NUM) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write offset 0x%04x\n",
++                      __func__, (uint32_t)offset);
++        return;
++    }
++
++    switch (offset) {
++    case REG_VER:       /* Version */
++        break;
++    default:
++        s->regs[idx] = (uint32_t) val;
++        break;
++    }
++}
++
++static const MemoryRegionOps allwinner_h3_syscon_ops = {
++    .read = allwinner_h3_syscon_read,
++    .write = allwinner_h3_syscon_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++        .unaligned = false
++    }
 +};
 +
- static void ehci_tegra2_class_init(ObjectClass *oc, void *data)
- {
-     SysBusEHCIClass *sec = SYS_BUS_EHCI_CLASS(oc);
-@@ -267,6 +283,7 @@ static void ehci_sysbus_register_types(void)
-     type_register_static(&ehci_platform_type_info);
-     type_register_static(&ehci_xlnx_type_info);
-     type_register_static(&ehci_exynos4210_type_info);
-+    type_register_static(&ehci_aw_h3_type_info);
-     type_register_static(&ehci_tegra2_type_info);
-     type_register_static(&ehci_ppc4xx_type_info);
-     type_register_static(&ehci_fusbh200_type_info);
-diff --git a/hw/usb/hcd-ehci.h b/hw/usb/hcd-ehci.h
-index 0298238f0b..edb59311c4 100644
---- a/hw/usb/hcd-ehci.h
-+++ b/hw/usb/hcd-ehci.h
-@@ -342,6 +342,7 @@ typedef struct EHCIPCIState {
- #define TYPE_SYS_BUS_EHCI "sysbus-ehci-usb"
- #define TYPE_PLATFORM_EHCI "platform-ehci-usb"
- #define TYPE_EXYNOS4210_EHCI "exynos4210-ehci-usb"
-+#define TYPE_AW_H3_EHCI "aw-h3-ehci-usb"
- #define TYPE_TEGRA2_EHCI "tegra2-ehci-usb"
- #define TYPE_PPC4xx_EHCI "ppc4xx-ehci-usb"
- #define TYPE_FUSBH200_EHCI "fusbh200-ehci-usb"
++static void allwinner_h3_syscon_reset(DeviceState *dev)
++{
++    AwH3SysconState *s = AW_H3_SYSCON(dev);
++
++    /* Set default values for registers */
++    s->regs[REG_INDEX(REG_VER)] = REG_VER_RST;
++    s->regs[REG_INDEX(REG_EMAC_PHY_CLK)] = REG_EMAC_PHY_CLK_RST;
++}
++
++static void allwinner_h3_syscon_realize(DeviceState *dev, Error **errp)
++{
++}
++
++static void allwinner_h3_syscon_init(Object *obj)
++{
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    AwH3SysconState *s = AW_H3_SYSCON(obj);
++
++    /* Memory mapping */
++    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_h3_syscon_ops, s,
++                          TYPE_AW_H3_SYSCON, AW_H3_SYSCON_REGS_MEM_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static const VMStateDescription allwinner_h3_syscon_vmstate = {
++    .name = TYPE_AW_H3_SYSCON,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, AwH3SysconState, AW_H3_SYSCON_REGS_NUM),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void allwinner_h3_syscon_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = allwinner_h3_syscon_reset;
++    dc->realize = allwinner_h3_syscon_realize;
++    dc->vmsd = &allwinner_h3_syscon_vmstate;
++}
++
++static const TypeInfo allwinner_h3_syscon_info = {
++    .name          = TYPE_AW_H3_SYSCON,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_init = allwinner_h3_syscon_init,
++    .instance_size = sizeof(AwH3SysconState),
++    .class_init    = allwinner_h3_syscon_class_init,
++};
++
++static void allwinner_h3_syscon_register(void)
++{
++    type_register_static(&allwinner_h3_syscon_info);
++}
++
++type_init(allwinner_h3_syscon_register)
+diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-h3.h
+index e596516c5c..2bc526b77b 100644
+--- a/include/hw/arm/allwinner-h3.h
++++ b/include/hw/arm/allwinner-h3.h
+@@ -27,6 +27,7 @@
+ #include "hw/timer/allwinner-a10-pit.h"
+ #include "hw/intc/arm_gic.h"
+ #include "hw/misc/allwinner-h3-clk.h"
++#include "hw/misc/allwinner-h3-syscon.h"
+ #include "target/arm/cpu.h"
+ 
+ #define AW_H3_SRAM_A1_BASE     (0x00000000)
+@@ -111,6 +112,7 @@ typedef struct AwH3State {
+     qemu_irq irq[AW_H3_GIC_NUM_SPI];
+     AwA10PITState timer;
+     AwH3ClockState ccu;
++    AwH3SysconState syscon;
+     GICState gic;
+     MemoryRegion sram_a1;
+     MemoryRegion sram_a2;
+diff --git a/include/hw/misc/allwinner-h3-syscon.h b/include/hw/misc/allwinner-h3-syscon.h
+new file mode 100644
+index 0000000000..22a2f2a11b
+--- /dev/null
++++ b/include/hw/misc/allwinner-h3-syscon.h
+@@ -0,0 +1,43 @@
++/*
++ * Allwinner H3 System Control emulation
++ *
++ * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_MISC_ALLWINNER_H3_SYSCON_H
++#define HW_MISC_ALLWINNER_H3_SYSCON_H
++
++#include "hw/sysbus.h"
++
++#define AW_H3_SYSCON_REGS_MAX_ADDR  (0x30)
++#define AW_H3_SYSCON_REGS_NUM       ((AW_H3_SYSCON_REGS_MAX_ADDR / \
++                                      sizeof(uint32_t)) + 1)
++#define AW_H3_SYSCON_REGS_MEM_SIZE  (1024)
++
++#define TYPE_AW_H3_SYSCON    "allwinner-h3-syscon"
++#define AW_H3_SYSCON(obj)    OBJECT_CHECK(AwH3SysconState, (obj), \
++                                          TYPE_AW_H3_SYSCON)
++
++typedef struct AwH3SysconState {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    MemoryRegion iomem;
++    uint32_t regs[AW_H3_SYSCON_REGS_NUM];
++} AwH3SysconState;
++
++#endif
 -- 
 2.17.1
 
