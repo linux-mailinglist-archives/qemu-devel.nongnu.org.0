@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7160F10E8B2
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 11:24:08 +0100 (CET)
-Received: from localhost ([::1]:33506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0281C10E8AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 11:22:32 +0100 (CET)
+Received: from localhost ([::1]:33466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibisB-00076v-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 05:24:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
+	id 1ibiqd-0005Q0-0n
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 05:22:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60988)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ibil5-0008Im-LT
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:16:48 -0500
+ (envelope-from <thuth@redhat.com>) id 1ibilJ-0008PQ-6K
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:17:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ibil3-00088F-EA
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:16:47 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41482
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1ibilG-0008Ij-SB
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:17:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50655
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ibil1-00083s-W8
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:16:45 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ibil5-00089J-Kl
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 05:16:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575281802;
+ s=mimecast20190719; t=1575281807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fj6HDM3KE3pRtu7dxE+8pWnox8YZTgmkPdDHuXVOU1Q=;
- b=NP0B381seOQ/h42sT04uapf9AxIxShKV44K+wvP5s0YCQk92MASLPgSgNtAle9kp35Api1
- OyEyxQ6/xUh18iYMLBODzitk6tiNy43H74feYkYU0PcLm5RoD/4OxU3gM2n0p+WY9rsIDa
- wk7U5oESw53sdqZ+4CTVBPMHGJytEdo=
+ bh=06bvpxKQ3N/x7DAPDOf5iIrQAdu/5VBGhG8lLFNcv2g=;
+ b=KHqXc9ZqPV9Flr6bKHs0YekXFerluHiz+xczKmPb45fGlfkO7VLaMlGPRz6NZqai/BAh7a
+ zBm3DUWeO204PNWuqSjk8vbGozoM8LlWsruQQlIIs4gvCPPZspFnpTRb83DpAH7+PXIw3N
+ JGkbSfSx9te5W3FgUdHA7lqAA2SUegE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-IFbAkq8oNH-cIId9Sn2u8w-1; Mon, 02 Dec 2019 05:16:39 -0500
+ us-mta-279-k-X7UMKUOLeRt1Qemsk5iw-1; Mon, 02 Dec 2019 05:16:46 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF1219029EE;
- Mon,  2 Dec 2019 10:16:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AD208024C0;
+ Mon,  2 Dec 2019 10:16:45 +0000 (UTC)
 Received: from thuth.com (ovpn-117-196.ams2.redhat.com [10.36.117.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76CA467E56;
- Mon,  2 Dec 2019 10:16:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2423C67649;
+ Mon,  2 Dec 2019 10:16:38 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  Max Reitz <mreitz@redhat.com>
-Subject: [PATCH 2/3] iotests: Skip test 060 if it is not possible to create
+Subject: [PATCH 3/3] iotests: Skip test 079 if it is not possible to create
  large files
-Date: Mon,  2 Dec 2019 11:16:30 +0100
-Message-Id: <20191202101631.10003-3-thuth@redhat.com>
+Date: Mon,  2 Dec 2019 11:16:31 +0100
+Message-Id: <20191202101631.10003-4-thuth@redhat.com>
 In-Reply-To: <20191202101631.10003-1-thuth@redhat.com>
 References: <20191202101631.10003-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: IFbAkq8oNH-cIId9Sn2u8w-1
+X-MC-Unique: k-X7UMKUOLeRt1Qemsk5iw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,32 +76,33 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test 060 fails in the arm64, s390x and ppc64le LXD containers on Travis
+Test 079 fails in the arm64, s390x and ppc64le LXD containers on Travis
 (which we will hopefully enable in our CI soon). These containers
-apparently do not allow large files to be created. The repair process
-in test 060 creates a file of 64 GiB, so test first whether such large
-files are possible and skip the test if that's not the case.
+apparently do not allow large files to be created. Test 079 tries to
+create a 4G sparse file, which is apparently already too big for these
+containers, so check first whether we can really create such files before
+executing the test.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/060 | 3 +++
+ tests/qemu-iotests/079 | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
-index b91d8321bb..d96f17a484 100755
---- a/tests/qemu-iotests/060
-+++ b/tests/qemu-iotests/060
-@@ -49,6 +49,9 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
+diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+index 81f0c21f53..78536d3bbf 100755
+--- a/tests/qemu-iotests/079
++++ b/tests/qemu-iotests/079
+@@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file nfs
 =20
-+# The repair process will create a large file - so check for availability =
-first
-+_require_large_file 64G
++# Some containers (e.g. non-x86 on Travis) do not allow large files
++_require_large_file 4G
 +
- rt_offset=3D65536  # 0x10000 (XXX: just an assumption)
- rb_offset=3D131072 # 0x20000 (XXX: just an assumption)
- l1_offset=3D196608 # 0x30000 (XXX: just an assumption)
+ echo "=3D=3D=3D Check option preallocation and cluster_size =3D=3D=3D"
+ echo
+ cluster_sizes=3D"16384 32768 65536 131072 262144 524288 1048576 2097152 41=
+94304"
 --=20
 2.18.1
 
