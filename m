@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F1710E647
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 08:09:47 +0100 (CET)
-Received: from localhost ([::1]:59776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B2610E674
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Dec 2019 08:43:37 +0100 (CET)
+Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibfq6-00071X-Jo
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 02:09:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1ibgMp-0000hg-JY
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 02:43:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38779)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ibflv-0002pn-5D
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:05:29 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ibgJO-0007AI-I8
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:40:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ibflt-0001Yr-QW
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:05:27 -0500
-Received: from 2.mo68.mail-out.ovh.net ([46.105.52.162]:57110)
+ (envelope-from <imammedo@redhat.com>) id 1ibgJM-00010s-Ae
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:40:01 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40196
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ibflt-0001XV-Ja
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:05:25 -0500
-Received: from player711.ha.ovh.net (unknown [10.108.57.226])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 8A0FB14E4DE
- for <qemu-devel@nongnu.org>; Mon,  2 Dec 2019 08:05:23 +0100 (CET)
-Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
- (Authenticated sender: clg@kaod.org)
- by player711.ha.ovh.net (Postfix) with ESMTPSA id 610F5CA67345;
- Mon,  2 Dec 2019 07:05:14 +0000 (UTC)
-Subject: Re: [for-5.0 0/4] spapr: Improvements to CAS feature negotiation
-To: David Gibson <david@gibson.dropbear.id.au>, groug@kaod.org
-References: <20191129053356.232413-1-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <d2be7503-63d6-c8aa-16ba-b9483106481c@kaod.org>
-Date: Mon, 2 Dec 2019 08:05:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ibgJM-000106-2i
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 02:40:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575272398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rxSLN11W1YlrL2QdSxQKORG29JTHEsqiEXTkLrI74Bk=;
+ b=SJVvmqly2Sm0fTnK5zRkHQTkIji1gRafdD5Jp3oimDfqlNhjP02jF8/pA3yxM2cMVPwRHS
+ k4QouMPi+8MflkQYIUKmhhQOckO9Lr/iE4CLzK16JKKN3N7zTB1l4ethTmK0BJRQiYj4G1
+ nIl7fRn/whbXkvNtEwsEMUkUf189F0M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-zw2kClnFNv6HlKEbpr1eEg-1; Mon, 02 Dec 2019 02:39:55 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F20A31856A61;
+ Mon,  2 Dec 2019 07:39:53 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39A4D10021B3;
+ Mon,  2 Dec 2019 07:39:50 +0000 (UTC)
+Date: Mon, 2 Dec 2019 08:39:48 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/2] Add -mem-shared option
+Message-ID: <20191202083948.3e8bb134@redhat.com>
+In-Reply-To: <528bb183-3d44-e541-8765-9c0e01f23157@redhat.com>
+References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
+ <20191128141518.628245-3-marcandre.lureau@redhat.com>
+ <20191128172807.788e6aeb@redhat.com>
+ <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
+ <20191129110703.2b15c541@redhat.com>
+ <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com>
+ <20191129131652.6683b769@redhat.com>
+ <528bb183-3d44-e541-8765-9c0e01f23157@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191129053356.232413-1-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: zw2kClnFNv6HlKEbpr1eEg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 13236923731548801856
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudejgedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.52.162
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,42 +77,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-ppc@nongnu.org, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/11/2019 06:33, David Gibson wrote:
-> This series contains several cleanups to the handling of the
-> ibm,client-architecture-support firmware call used for boot time
-> feature negotiation between the guest OS and the firmware &
-> hypervisor.
+On Fri, 29 Nov 2019 18:46:12 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> On 29/11/19 13:16, Igor Mammedov wrote:
+> > As for "-m", I'd make it just an alias that translates
+> >  -m/mem-path/mem-prealloc  
 > 
-> Mostly it's just internal polish, but one significant user visible
-> change is that we no longer generate an extra CAS reboot to switch
-> between XICS and XIVE interrupt modes (by far the most common cause of
-> CAS reboots in practice).
+> I think we should just deprecate -mem-path/-mem-prealloc in 5.0.  CCing
+> Thomas as mister deprecation. :)
 
-
-I love it. thanks for removing this extra reboot.
-
-C. 
-
-
-> 
-> David Gibson (4):
->   spapr: Don't trigger a CAS reboot for XICS/XIVE mode changeover
->   spapr: Improve handling of fdt buffer size
->   spapr: Fold h_cas_compose_response() into
->     h_client_architecture_support()
->   spapr: Simplify ovec diff
-> 
->  hw/ppc/spapr.c              | 92 +++----------------------------------
->  hw/ppc/spapr_hcall.c        | 90 +++++++++++++++++++++++++-----------
->  hw/ppc/spapr_ovec.c         | 30 ++++--------
->  include/hw/ppc/spapr.h      |  4 +-
->  include/hw/ppc/spapr_ovec.h |  4 +-
->  5 files changed, 83 insertions(+), 137 deletions(-)
-> 
+I'll add that to my series
+ 
+[...]
 
 
