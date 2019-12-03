@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EAE111B9E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 23:25:16 +0100 (CET)
-Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5007111B64
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 23:10:42 +0100 (CET)
+Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icGbb-0005kp-6U
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 17:25:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37572)
+	id 1icGNT-0004qA-VY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 17:10:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crmull121@gmail.com>) id 1icFVj-0008TA-7x
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1icFpl-0000O8-0r
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:35:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crmull121@gmail.com>) id 1icFVg-00082K-8T
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:06 -0500
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:39451)
+ (envelope-from <bounces@canonical.com>) id 1icFpW-0004jH-GZ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:35:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33850)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <crmull121@gmail.com>) id 1icFVg-0007gi-1B
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:04 -0500
-Received: by mail-lj1-x22d.google.com with SMTP id e10so5486240ljj.6
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 13:15:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=5oATEj7h/vMT0yVmTV7JHpbZYEkGfnHC7nf8w+7PC40=;
- b=WfFFgLYmNr9XfsQoukEPi1oDHyY0w+4gZTTZJ63E1FrvQeyw3dFfWAAmL8gZ+HNDiK
- Vgug0K22n+Aw2tMxTybqVxHqkINZobZDTdR+bttoj8NsMBTVos7GYNz3RBrQrS3yHW28
- zSZf174uE/ZXxezNmiiytP4fIj0OF8lU7YcebLTVY+wl19PsW0FuWidZW9HFWz741wRO
- cZmLw+W0z50OIzxSOfzjRxOtjSe1J+7eKufjw9WeiddgxiN88R56E4Mk9H1VD97hVDIN
- A5kDw8NzqE3/F5Ac36Q0Wxs1lBb+yHa43hsYN9VWH+q6LmmxtAY663CXGNH41B13m92R
- HyAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=5oATEj7h/vMT0yVmTV7JHpbZYEkGfnHC7nf8w+7PC40=;
- b=jJz1O3HPPZL5QY6BcJeUb7tU0f3U27lmB4AZJmiaXEGfv0c9gVmr6pTQiYRNagLU7l
- HMrnqF7MMxjX5FIp4ZDZm+uhUBTRF13MDbECAE44e8RGtZ4UBv2tntUz5THA7/zGqW+W
- k7U5srtmxdy+zmxm/7jloKdOr6fDrPhjcnlqQhoqhOnMyYAAa0uYKiJ5u6My24Z7DhD3
- d03JoClZ9BF4zsB74O3Tr1yMUEYE4r4+v9AfaLaJg4DzEy4hR9iyQGuyl0IofbE6FkaP
- 1m1QxkghiErpJvLDgCpCV0NycW08ZJUklQQymplUPZse6V+jetT9Uu/A3bGTbNEcYYAa
- mtFw==
-X-Gm-Message-State: APjAAAUWzEiQdzCoI7tPbgHXnvmoHeA8w5Hn2xNPB+Y2Or7uFHWDfopI
- JGoSKay2NtbWJUkuMj9Hvp6D1usKOAtrTuOx/SegqXwM
-X-Google-Smtp-Source: APXvYqx64LCSxrvVLpsAFmWrq+kDhcP7TVe8qTwDJgsdX64sJ6uOWghIaAgnI11gH5XXFMUcNiemGVJjVi/XOfMys7s=
-X-Received: by 2002:a2e:9b05:: with SMTP id u5mr3770790lji.59.1575407698476;
- Tue, 03 Dec 2019 13:14:58 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1icFpW-0004V3-82
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:35:34 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1icFpS-0006sq-UE
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 21:35:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E0D972E8073
+ for <qemu-devel@nongnu.org>; Tue,  3 Dec 2019 21:35:30 +0000 (UTC)
 MIME-Version: 1.0
-From: Craig Mull <crmull121@gmail.com>
-Date: Tue, 3 Dec 2019 15:14:47 -0600
-Message-ID: <CAPT-DMXZr4WSUoifEQ=hi9vCU1iZ7U2k6TLWScKfsUuMHtFMwQ@mail.gmail.com>
-Subject: Lack of OS vendor support for blockdev-snapshot
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Dec 2019 21:27:23 -0000
+From: Willian Rampazzo <1855002@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::22d
-X-Mailman-Approved-At: Tue, 03 Dec 2019 16:35:03 -0500
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: wrampazz
+X-Launchpad-Bug-Reporter: Willian Rampazzo (wrampazz)
+X-Launchpad-Bug-Modifier: Willian Rampazzo (wrampazz)
+Message-Id: <157540844355.22110.14930704541117670536.malonedeb@soybean.canonical.com>
+Subject: [Bug 1855002] [NEW] Cannot boot arm kernel images on s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0b683446cda09b276dd37a450d37f0987b8b3fb3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,15 +64,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dwarcher@us.ibm.com
+Reply-To: Bug 1855002 <1855002@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any insight as to why OS vendors (RHEL and Ubuntu in particular)
-aren't supporting blockdev-snapshot?
+Public bug reported:
 
-- RHEL claims no support for Qemu-based snapshots in any flavor
-- Ubuntu hasn't enabled blockdev-snapshot in it's 19.10 release
+While running the acceptance tests on s390x, the arm tests under
+qemu/tests/acceptance/boot_linux_console.py will timeout, except the
+test using u-boot. All the arm tests run without problems on x86 and
+ppc.
 
--craig
+This test boots the kernel and wait for a kernel panic to make sure it
+can boot that kind of kernel on the host running the test. The URL for
+the kernels are available inside the python test code, but I'm listing
+them here:
+
+Fail: https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/=
+29/Everything/armhfp/os/images/pxeboot/vmlinuz
+Fail: http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmwar=
+e/raspberrypi-kernel_1.20190215-1_armhf.deb
+Fail: https://snapshot.debian.org/archive/debian/20190928T224601Z/pool/main=
+/l/linux/linux-image-4.19.0-6-armmp_4.19.67-2+deb10u1_armhf.deb
+Pass: https://raw.githubusercontent.com/Subbaraya-Sundeep/qemu-test-binarie=
+s/fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin
+
+I tried to manually investigate the problem with the first kernel of the
+list. The command I used to try to boot it was:
+
+/home/linux1/src/v4.2.0-rc3/bin/qemu-system-arm -serial stdio -machine virt=
+ -kernel /home/linux1/venv/python3/data/cache/by_location/1d5fdf8018e79b806=
+aa982600c0866b199946efc/vmlinuz
+-append "printk.time=3D0 console=3DttyAMA0"
+
+On an x86 machine, I can see it boots and ends with a kernel panic as
+expected. On s390x, it just hangs.
+
+I also tried to debug with gdb, redirecting the monitor and the serial
+console to other terminal sessions without success.
+
+QEMU version is the latest as of today,tag v4.2.0-rc4, commit
+1bdc319ab5d289ce6b822e06fb2b13666fd9278e.
+
+s390x system is a Red Hat Enterprise Linux Server 7.7 running as a z/VM
+6.4.0 guest at IBM LinuxONE Community Cloud.
+
+x86 system is a Fedora 31 running on Intel i7-8650U.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1855002
+
+Title:
+  Cannot boot arm kernel images on s390x
+
+Status in QEMU:
+  New
+
+Bug description:
+  While running the acceptance tests on s390x, the arm tests under
+  qemu/tests/acceptance/boot_linux_console.py will timeout, except the
+  test using u-boot. All the arm tests run without problems on x86 and
+  ppc.
+
+  This test boots the kernel and wait for a kernel panic to make sure it
+  can boot that kind of kernel on the host running the test. The URL for
+  the kernels are available inside the python test code, but I'm listing
+  them here:
+
+  Fail: https://archives.fedoraproject.org/pub/archive/fedora/linux/release=
+s/29/Everything/armhfp/os/images/pxeboot/vmlinuz
+  Fail: http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmw=
+are/raspberrypi-kernel_1.20190215-1_armhf.deb
+  Fail: https://snapshot.debian.org/archive/debian/20190928T224601Z/pool/ma=
+in/l/linux/linux-image-4.19.0-6-armmp_4.19.67-2+deb10u1_armhf.deb
+  Pass: https://raw.githubusercontent.com/Subbaraya-Sundeep/qemu-test-binar=
+ies/fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin
+
+  I tried to manually investigate the problem with the first kernel of
+  the list. The command I used to try to boot it was:
+
+  /home/linux1/src/v4.2.0-rc3/bin/qemu-system-arm -serial stdio -machine vi=
+rt -kernel /home/linux1/venv/python3/data/cache/by_location/1d5fdf8018e79b8=
+06aa982600c0866b199946efc/vmlinuz
+  -append "printk.time=3D0 console=3DttyAMA0"
+
+  On an x86 machine, I can see it boots and ends with a kernel panic as
+  expected. On s390x, it just hangs.
+
+  I also tried to debug with gdb, redirecting the monitor and the serial
+  console to other terminal sessions without success.
+
+  QEMU version is the latest as of today,tag v4.2.0-rc4, commit
+  1bdc319ab5d289ce6b822e06fb2b13666fd9278e.
+
+  s390x system is a Red Hat Enterprise Linux Server 7.7 running as a
+  z/VM 6.4.0 guest at IBM LinuxONE Community Cloud.
+
+  x86 system is a Fedora 31 running on Intel i7-8650U.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1855002/+subscriptions
 
