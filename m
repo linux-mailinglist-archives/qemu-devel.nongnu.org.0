@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5066811009C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 15:50:09 +0100 (CET)
-Received: from localhost ([::1]:54844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DC41100F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 16:13:14 +0100 (CET)
+Received: from localhost ([::1]:55018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic9V9-0003AB-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 09:50:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
+	id 1ic9rS-0001vC-Kc
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 10:13:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36115)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ic9On-0000ml-6q
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 09:43:34 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic9M5-0008Js-KS
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 09:40:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ic9Oe-00072R-Ep
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 09:43:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38658
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ic9Oc-0006va-FV
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 09:43:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575384197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ow6wOBzywML2XqkP3hVNuSy1VDpV46IsxVlALzlP/WM=;
- b=h012i4zHmydBXJbbZ171E3wOhfiZdQnk3me57iaDWvgNalu09v2JAPwrivNCewIPpeu6pN
- O/FlWVAjYx3F77T4wzFf46yZNm/9rRm7vN6z47+jdCCGCzv/7d6nQN3jnht/5lLufmQuxD
- BHKFGUxvly+7kfSPjY8Srz0JQSJZw6k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-EB8nnSrwPkyYBLeE-clrLQ-1; Tue, 03 Dec 2019 09:43:14 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C8111092D35;
- Tue,  3 Dec 2019 14:43:13 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A85D25D6BE;
- Tue,  3 Dec 2019 14:43:05 +0000 (UTC)
-Date: Tue, 3 Dec 2019 15:43:03 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/2] Add -mem-shared option
-Message-ID: <20191203154303.035c33b3@redhat.com>
-In-Reply-To: <1ff4cc6a-0ec8-96ff-1e39-e682429852e4@redhat.com>
-References: <20191128141518.628245-1-marcandre.lureau@redhat.com>
- <20191128141518.628245-3-marcandre.lureau@redhat.com>
- <20191128172807.788e6aeb@redhat.com>
- <CAJ+F1CLZxhMf-bOAB4sVfuB1yaUMqiO70-ogpKVS3CqfC7y5KA@mail.gmail.com>
- <20191129110703.2b15c541@redhat.com>
- <04dadf85-cd35-fd37-9642-8087cba625bd@redhat.com>
- <20191129131652.6683b769@redhat.com>
- <528bb183-3d44-e541-8765-9c0e01f23157@redhat.com>
- <20191202083948.3e8bb134@redhat.com>
- <20191202210057.GQ14595@habkost.net>
- <1ff4cc6a-0ec8-96ff-1e39-e682429852e4@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic9Lw-00080Z-S3
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 09:40:40 -0500
+Received: from mail-db5eur03on0719.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0a::719]:58859
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ic9Lu-0007Y3-5j; Tue, 03 Dec 2019 09:40:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=liKB2cqbNGHjH1SuMyZ9WmfqDfmx2lK4iOy+6sotmkmlIuMT0FkzLmcr/gi+oMgXxsHkGkjcxudY1WJ2X1/8C8KnHhdBfGI9tPKCn5C1WvOOhx/jPQW1k0pXJ+vCFFljl8YkWl8ACYo8mxIsRPmvaMevygq9g+wS6XR61nvToSOtzKBSlqNm236ncMveL+I/IcXertYjHwv541eFNxQnTkbZM5neM8mMtA5hiSs9y5pMLcYN5cnLHAjADnPtOVIbfNB/xJKSAmfu9gu0TNUgJzEnbo+OQxQku3o6nhuD78jIqVbXNZku3yrBpsRuFsoPvNb5EXYIYVJkabd77rBaIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jkjzv0Bttnp9q/WC1d1okM9TGo2WcrT+2RX7MXARveo=;
+ b=moGRg4F2fdkmSbcNyj4JevCAlq+BSN2oW5Wj+LJOesuols8etKbPl3C599b1+Sv01SpvOiWTDv7v+zMUzGkU6673uhTOJwakPXku1Gaa7OPyQSV2imi+bi6hxld1qeTrW3jmyXcpp3yG3vcoOnHlwmH/y6Bfi5UIW5vWjXVkfCj3kaVoksSk3+2+Ail+Dhoyy66p6ssM7esD0etqQyIA3eWZanGEEufMEZWTiXQlvYQj5zKz6wPkrkAbJNT/H1M2SQOrOP7B0Asax9h0ho51nuuYJbVnjkxTvRho2cn6fO9keCLRdxDg6lu25JAvUkiUt6G30URgAmSOn7rd/yiC0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jkjzv0Bttnp9q/WC1d1okM9TGo2WcrT+2RX7MXARveo=;
+ b=lQL9uRnAAFyz2W2eLGsAp5rdM0ehqItepbjO88ZM0JZHyyAPFwDg5sotyGEwFY2ek8ksRN3NutHtdyOlPRryylO267cf84Ag6uQcGCJ2ElPgiLoeWddg/Yjf8vgHNqOfY28EH14PxbVijNiAuu13aXIFoLQsFVDO0Y/TWDAo2Fg=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3143.eurprd08.prod.outlook.com (52.135.163.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.22; Tue, 3 Dec 2019 14:40:26 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
+ 14:40:26 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 21/23] iotests: Add tests for invalid Quorum
+ @replaces
+Thread-Topic: [PATCH for-5.0 v2 21/23] iotests: Add tests for invalid Quorum
+ @replaces
+Thread-Index: AQHVmKmQJNC8FFlkeUyVupPQdogsOaeond4A
+Date: Tue, 3 Dec 2019 14:40:26 +0000
+Message-ID: <6f457f17-2073-540a-386d-60fe78587151@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-22-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-22-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0202CA0047.eurprd02.prod.outlook.com
+ (2603:10a6:3:e4::33) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191203174024244
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2ff9f0db-affc-4cc2-f782-08d777febc3f
+x-ms-traffictypediagnostic: AM6PR08MB3143:
+x-microsoft-antispam-prvs: <AM6PR08MB314386BB1250299D2F5F6599C1420@AM6PR08MB3143.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1060;
+x-forefront-prvs: 02408926C4
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(396003)(39850400004)(346002)(376002)(366004)(199004)(189003)(110136005)(5660300002)(316002)(6246003)(31696002)(54906003)(6512007)(71200400001)(36756003)(71190400001)(7736002)(99286004)(186003)(26005)(305945005)(6116002)(25786009)(102836004)(31686004)(256004)(3846002)(446003)(6486002)(66476007)(229853002)(2616005)(52116002)(76176011)(64756008)(2906002)(66556008)(66446008)(8676002)(8936002)(2501003)(14454004)(478600001)(558084003)(81166006)(6436002)(11346002)(4326008)(66946007)(81156014)(386003)(86362001)(6506007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3143;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DobUoEnEn8wyx08E2c1jks4pY3w98Ae/vs7agn0ZI3/9FkWeyVrsgNlm4i/8FTFetJZisAysv/DLbBEaL72FlQ2VGMzn7/L+9eqanaqnUpUKlDoltHEGbowMCSnhqTQoESHxfpq8NI/q/BaG8GDDi25F1v0oqHTX6PHKREweN5HAl+591hPKX/i/bKdz7dr0XYT975+i8XE7M/QlZW0c1GrWW7wnssBxlVCnCGngj4XRjxPrj8l+wna2PSHLdgCpmhyTX9MXQFQbsaSe5Zwmx343uAcpwD1DH2+bjCPTehlrOou7JqbLHpLN9lLds0HKzisW3w2PVYQCRR+tLKmw1oI8M0La5ro4300xHQqzJnAdbruMCkC3nQcpRPqBflV/jOhN8E0OxVXlGzHRGM/WSGkp/Svg3fieS+9tfsREILXnrK5Vi08zetTyWLUZqtoM
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <015C843E7B2EF54BA9DE53F9DC31E822@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: EB8nnSrwPkyYBLeE-clrLQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ff9f0db-affc-4cc2-f782-08d777febc3f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 14:40:26.1710 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yH0XdDNsG8nGnxNBJ5YiMX1ovGiDuvhPrLxAvKGmfcSLFdCHnWu/AB9P1mVHGdcuvdB4vKidHfP+Uc2ji8lm+D9g+mlbrsnyk+0l0pcmm1k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3143
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe0a::719
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,64 +112,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, libvir-list@redhat.com,
- QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 09:56:15 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+11.11.2019 19:02, Max Reitz wrote:
+> Add two tests to see that you cannot replace a Quorum child with the
+> mirror job while the child is in use by a different parent.
+>=20
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-> On 02/12/2019 22.00, Eduardo Habkost wrote:
-> > On Mon, Dec 02, 2019 at 08:39:48AM +0100, Igor Mammedov wrote:  
-> >> On Fri, 29 Nov 2019 18:46:12 +0100
-> >> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >>  
-> >>> On 29/11/19 13:16, Igor Mammedov wrote:  
-> >>>> As for "-m", I'd make it just an alias that translates
-> >>>>  -m/mem-path/mem-prealloc    
-> >>>
-> >>> I think we should just deprecate -mem-path/-mem-prealloc in 5.0.  CCing
-> >>> Thomas as mister deprecation. :)  
-> >>
-> >> I'll add that to my series  
-> > 
-> > Considering that the plan is to eventually reimplement those
-> > options as syntactic sugar for memory backend options (hopefully
-> > in less than 2 QEMU releases), what's the point of deprecating
-> > them?  
-> 
-> Well, it depends on the "classification" [1] of the parameter...
-> 
-> Let's ask: What's the main purpose of the option?
-> 
-> Is it easier to use than the "full" option, and thus likely to be used
-> by a lot of people who run QEMU directly from the CLI? In that case it
-> should stay as "convenience option" and not be deprecated.
-> 
-> Or is the option merely there to give the upper layers like libvirt or
-> some few users and their scripts some more grace period to adapt their
-> code, but we all agree that the options are rather ugly and should
-> finally go away? Then it's rather a "legacy option" and the deprecation
-> process is the right way to go. Our QEMU interface is still way 
-> overcrowded, we should try to keep it as clean as possible.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-After switching to memdev for main RAM, users could use relatively
-short global options
- -global memory-backend.prealloc|share=on
-and
- -global memory-backend-file.mem-path=X|prealloc|share=on
-
-instead of us adding and maintaining slightly shorter
- -mem-shared/-mem-path/-mem-prealloc
-
->  Thomas
-> 
-> 
-> [1] Using the terms from:
->     https://www.youtube.com/watch?v=Oscjpkns7tM&t=8m
-
+--=20
+Best regards,
+Vladimir
 
