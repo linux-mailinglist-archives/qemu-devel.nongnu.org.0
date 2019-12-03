@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FD910FC38
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:11:02 +0100 (CET)
-Received: from localhost ([::1]:51702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6401D10FC6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:20:14 +0100 (CET)
+Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic657-0000wS-76
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:11:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34079)
+	id 1ic6E1-0004dH-1h
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:20:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ic61M-0007qz-Va
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:07:10 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1ic65O-0002WI-Pp
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ic61I-0003NE-OP
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:07:06 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:44189)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ic61D-0003HH-3N
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:07:02 -0500
-Received: by mail-oi1-x230.google.com with SMTP id d62so2832651oia.11
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 03:06:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YGvTsNIFCLgc1pGrF1uvCYGtRgVnSzUpI+HM84Lstq4=;
- b=JsvEHkuCf/v+3xJFqqopKK+DATkxTOH650ehjP+XGo2bk/DVm9bqpVkBb0ufIcMQ7i
- 3JuYRBxhFQP6AG5g3bKuvz4c8GsisYP8SBt96O3dNQ4yR0Sg6ASBZodiDeUBl4HdmUhq
- zva/c011kiDZUy9gUVdcjbz6tVhMR8sD3tNwubyhhN9bk9b4OCNZ50hAQTNI1JvY91/V
- xmQ6cq+AGFXik8sXgulvubF1Fu0N0qXh9NIvP0XAiaa3j/flz2bu/33Wtu1Mymuamof2
- JlE6CON/YMIp00hjv75ng+x98GULsUsdqVJT+x7yybqN0pwQpa9ns7W+8PZvbiGARFmD
- foqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YGvTsNIFCLgc1pGrF1uvCYGtRgVnSzUpI+HM84Lstq4=;
- b=EPayOt4zqSMuA2yRaptICiccxu01oZ7sbhjSH1KNNugY7J93r6G9OEQFmFwkErJCeq
- BFda9VhJEQ+5nKZfg8Fjqns9DEL04VrWJIvFIee7ZwZyq23gJOTNKt0XZrCnJFMKc3oF
- +PX8UtcoO5UO+kCfDTI1Wveri1FkBQYk6isfUyz1WhupL2qkhP6lTu8MBDlZjPSOopup
- yIPzgMVsXg8nrJGnq6ST+BYMRj5wW8i1esRchd2PTMC1peX2azmEP41twqk4Gjo6kY3V
- Q5As0YrbwX+vhuLKNK3ddKwJeFBko+A3VFVi2Ttd/IBPwg9ktmVqH34JYLLfbfF6K9Ol
- HN0w==
-X-Gm-Message-State: APjAAAVofQAwtuRbmP3hhwTSMWXht+hi38AKH4CByz5mcn1NjzQhOCWB
- bPL3ZErVbcgJF/ONtQmBT1pUD14SrDcBh9rklr+5lA==
-X-Google-Smtp-Source: APXvYqyy+/IidovA2ta05/dG21LVEmwVbFODJ4z0QmN+BEbn+3zMjxmg3Doga7CzImPKDd5w5N3+kxKGC00oA/dT3s4=
-X-Received: by 2002:aca:f5cc:: with SMTP id t195mr3054671oih.163.1575371215257; 
- Tue, 03 Dec 2019 03:06:55 -0800 (PST)
+ (envelope-from <damien.hedde@greensocs.com>) id 1ic65M-0003ee-23
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:17 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:34304)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1ic65L-0003Vd-C0
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:15 -0500
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 41CF296EF0;
+ Tue,  3 Dec 2019 11:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1575371468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JhM5Uq17n49K43hUmBenzUluJwqYIndtOXGat1c+uqE=;
+ b=kRb7ZBTU7du+gNFWEkhB27d0V7L2fy7b9RZ8sH9iUpyppoL4gjmcECxCYPlRof1MR1ayTU
+ vDd/EkmuCkYG7kGc+Vmd7YwGKQWwYgYzfM1/Ioly5cb81w/+hbMaRavWbhOEPiEka73Rk7
+ YFRXbvNyPosCteoME0UG8OEotdAzqWs=
+Subject: Re: [PATCH v2 04/14] gdbstub: move mem_buf to GDBState and use
+ GByteArray
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191130084602.10818-1-alex.bennee@linaro.org>
+ <20191130084602.10818-5-alex.bennee@linaro.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <8f9519f0-78f7-707a-007f-71be24339477@greensocs.com>
+Date: Tue, 3 Dec 2019 12:11:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20191125185021.GB3767@work-vm>
- <20191126102600.GG556568@redhat.com>
- <20191126121416.GE2928@work-vm>
- <CAFEAcA9Ln2uwg4f4s8oS6VeQk83W3BErmH9cHeyDJy7v-4gNxw@mail.gmail.com>
- <87k17ekhs9.fsf@dusky.pond.sub.org>
- <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
- <20191203105341.GB3078@work-vm>
-In-Reply-To: <20191203105341.GB3078@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Dec 2019 11:06:44 +0000
-Message-ID: <CAFEAcA8bjGAs7JSTNYYYwCH1yF06i0v0r9wjKXqZGZg_Sqy0VA@mail.gmail.com>
-Subject: Re: virtiofsd: Where should it live?
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+In-Reply-To: <20191130084602.10818-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1575371468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JhM5Uq17n49K43hUmBenzUluJwqYIndtOXGat1c+uqE=;
+ b=jbVCNBxgoYIOWtmPW2XcwlzJgBLuUbDCFYi02X2VWL6/KzPUNKwxlJh11OEiRTV5blAknT
+ 2ZIiEMPuOb+N+DDsZj1mSEieudiZmNpuYj/60JN/X9CT5Ko+TXD+ZxwwrjOALOiNJxbRbv
+ 8Os+HguOccNkkcTtFpx+eTJmy2edYDY=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575371468; a=rsa-sha256; cv=none;
+ b=f+cVYP8xyTSyHvDRkXV7KmEoKMCiBLhriTSs23X66rDqnTNTGm475ZiB2fvGhPTXVapq4a
+ VIz0cD/6LV3PiCIuEqc1HSiO0EK3xIUrRiVRuWAISMFjstuTuZeyDzqWXE6gdjhaMvh40u
+ QrLTqsldWDWV5RZo/jYufjcT8cTF9xg=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,36 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- vgoyal@redhat.com
+Cc: luis.machado@linaro.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 10:53, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
->
-> We seem to be coming to the conclusion something that:
->
->   a) It should live in the qemu tree
->   b) It shouldn't live under contrib
->   c) We'll create a new top level, i.e. 'daemons'
->   d) virtiofsd will be daemons/virtiofsd
->
-> Now, somethings I'm less clear on:
->   e) What else would move into daemons?  It was suggested
->     that if we've got virtiofsd in there, then we should move
->     libvhost-user - which I understand, but then it's not a
->     'daemons'.
->     Are there any otehr daemons that should move?
 
-I like the idea of a new top level directory, but I think
-'daemons' is a bit too specific -- for instance it seems to
-me that qemu-img would be sensible to move out of the root,
-and that's not a daemon.
 
-thanks
--- PMM
+On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
+> This is in preparation for further re-factoring of the register API
+> with the rest of the code. Theoretically the read register function
+> could overwrite the MAX_PACKET_LENGTH buffer although currently all
+> registers are well within the size range.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  gdbstub.c | 62 ++++++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 38 insertions(+), 24 deletions(-)
+>=20
+> @@ -2003,7 +2015,7 @@ static void handle_query_curr_tid(GdbCmdContext *=
+gdb_ctx, void *user_ctx)
+>      cpu =3D get_first_cpu_in_process(process);
+>      g_string_assign(gdbserver_state.str_buf, "QC");
+>      gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+> -    put_strbuf();;
+> +    put_strbuf();
+Hi Alex,
+
+The double ';' (and the two other occurrences below) is added by your
+previous patch.
+
+>  }
+> =20
+>  static void handle_query_threads(GdbCmdContext *gdb_ctx, void *user_ct=
+x)
+> @@ -2015,7 +2027,7 @@ static void handle_query_threads(GdbCmdContext *g=
+db_ctx, void *user_ctx)
+> =20
+>      g_string_assign(gdbserver_state.str_buf, "m");
+>      gdb_append_thread_id(gdbserver_state.query_cpu, gdbserver_state.st=
+r_buf);
+> -    put_strbuf();;
+> +    put_strbuf();
+>      gdbserver_state.query_cpu =3D gdb_next_attached_cpu(gdbserver_stat=
+e.query_cpu);
+>  }
+> =20
+> @@ -2058,7 +2070,7 @@ static void handle_query_thread_extra(GdbCmdConte=
+xt *gdb_ctx, void *user_ctx)
+>      }
+>      trace_gdbstub_op_extra_info(rs->str);
+>      memtohex(gdbserver_state.str_buf, (uint8_t *)rs->str, rs->len);
+> -    put_strbuf();;
+> +    put_strbuf();
+>  }
+>  =20
+
+With the ";;" fix
+Reviewed/Tested-by: Damien Hedde <damien.hedde@greensocs>
+
+--
+Damien
 
