@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F99310FDEC
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 13:43:09 +0100 (CET)
-Received: from localhost ([::1]:52786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF0D10FE10
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 13:50:37 +0100 (CET)
+Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic7WG-0006Zv-Hb
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 07:43:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58365)
+	id 1ic7dR-0002DX-Ub
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 07:50:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ic7ML-0001h2-Gu
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:32:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ic7PJ-0004No-72
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:35:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ic7MJ-0000sv-64
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:32:53 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46285)
+ (envelope-from <peter.maydell@linaro.org>) id 1ic7PC-0001Bl-VK
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:35:52 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:37745)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ic7MF-0000pO-Ig
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:32:49 -0500
-Received: by mail-ot1-x344.google.com with SMTP id g18so2675411otj.13
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 04:32:46 -0800 (PST)
+ id 1ic7O8-0005OS-BU
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:35:47 -0500
+Received: by mail-ot1-x341.google.com with SMTP id k14so2741848otn.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 04:34:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MKJvOkEfZ34CAJyeSQEqqe+6O9N0i3jFJHmwP6kfvBg=;
- b=IWypII2UbWnMhJnLCifQJh4XtShBqP4bmZgHnOBgWOPzdxcrugEn+O5K8yeBh2UzvQ
- VaFm4i7+qa6q+hAKBsQ84MrljIHsDshd7N1YcAa4ui8wvwQNkRlUtx0WhhqP+M4RDUtf
- oUMsWBp7iIJu6O22P741p2wfot/jbuimG1Jj8j9aTVh0C7/cVz5x9wuqRCwE9Gw4VKmM
- 7wj/vFdpTE+XihaYMORO2Qg6K4XLnzneksPdoXNIb2jv+QQVI9gRQCy+YS3luTTazVjJ
- 1pEOZEOyOvtqtpkcJQNmKNmCKct1GfBFigsJi/6Y+hk8KFxXYYL39ZIc5ekiPd0I00kC
- sLyQ==
+ :cc; bh=Y4Ers7w9eC9tFu3//E3iYq14QUmK3g6bRYSZTOSxXBQ=;
+ b=chSW3jeQ3yDjE9qOy+ox4lKN+4lJ9OBSxncisgX8xoaJ4nitsHCBY4f/llanEK2GOu
+ eCHPJqeSvqXBE7oPaimtA+3V1CjIP5nL/1931W6gb34Hkw80zDE8TAyqQDGlvvFtszNj
+ rVU3CLlVmK0XZRbccA/UmQElzTZk57ADj3urQ5g98oOE9uL08XymdWNW4Zzz8BK/kfJn
+ 2ETC9R7Wo+Obb+GQMBOjQnzsux8a/gq33BDL8aY2HJ8XiSdmYKEdts/3djXTOTTTVHUF
+ Fqt3Xqw9jLZZDIMjf9+T2GCvYTv809ySPvJDNx1rq91CzuoeeeqBiE0SXojf2j8aHPGL
+ Lf2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MKJvOkEfZ34CAJyeSQEqqe+6O9N0i3jFJHmwP6kfvBg=;
- b=twPG7Y4NVM+eKwhkgfGWtNVv0McL1L/bZoeZVGrDph+sLeLlK2YUIzLeQhaob0ZyC2
- 7CFft8ItMDy2WRmXnvrU35ujBnmhGJUAv42Q1W6l8TrCW3G37t6354WxflFM8QibWyg/
- wAJC3bCr1RsMZRWXtXHVQrOP0d72gL8naBu/7Xy5Mx4Hnk+wjZvzaHG02KZb5nNrDFYO
- gFMkES9h3G48OB0YNWD0hpqG/JCzWYZIOuuIjqi220o7zNr8355BHeIGM+c5NAOnsLH1
- KvisIMSgCpc+1Z2BDZ7rvxTyKY1X8BbmHcUeg4w9xiSxcSz2Jh1kZ+Ijd1309u7dE0oN
- xpCw==
-X-Gm-Message-State: APjAAAULV/WXvxM1wq5keO+iZkC3smpbgTEo4jFXm7qbhMiAyAxqThSz
- 433acpy4gzMtBOAWjw7YENFPKpKji8dk8w6AGpBWYA==
-X-Google-Smtp-Source: APXvYqy+7fGQTq5KSGdeBqw7DM04xfeH6g/kV/jLd+9QXlqPVcORZNbRbNVNfrTlSGnCLzAqTKAi7iWbhnJZWcZ033A=
-X-Received: by 2002:a05:6830:2001:: with SMTP id
- e1mr2649782otp.97.1575376365356; 
- Tue, 03 Dec 2019 04:32:45 -0800 (PST)
+ bh=Y4Ers7w9eC9tFu3//E3iYq14QUmK3g6bRYSZTOSxXBQ=;
+ b=N7aQjfL8dLil9R5vrl7EuiCDN5FMuF7wb65vgY0JHxxo5xyhL7PXYjEAmpDx9Fk06C
+ +KxFg9818CC42w3gPjlMutsv0F82RKsYLeHCnIGOXpS1jO1CmHl7Jp/j37D2er0BOiLy
+ gG39dKiIJxJvFMS+CrXPhApg947h4V4FbQLMJ53hIdIQ/lTOWY5ixP6Q5XTdrPwr33IB
+ QwK9O5YdT/C6bzIAJV2wYQu/woyEJbHL7kh7kdPfAq4kpYBEsZqEz3vOk4WKmNXpMFnc
+ JgDFE6rXP3Yvjgb/eQ8Q3jMENp9A2iqpljyTL+8TZzPOSkIAH9z+IRoyb7zj4AIy6qs0
+ ygbA==
+X-Gm-Message-State: APjAAAX0LWleyhREDCjzm3mt9zxLdyZXqR4185ZdYpcA28JYup20k57V
+ qBMxBo9os6WdcjJSy4/OQgRwWKor0yyKM83MVWRgWw==
+X-Google-Smtp-Source: APXvYqzd9j7AC2GdibUE89z/Zur7rg78vf97ol/Mb09pve+U6TZHT/0su65mecqSP48q/8PkdxOuUqNOh30zMYAKKBs=
+X-Received: by 2002:a9d:6357:: with SMTP id y23mr2932410otk.91.1575376481627; 
+ Tue, 03 Dec 2019 04:34:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20191203122753.19792-1-zhengxiang9@huawei.com>
- <20191203122753.19792-5-zhengxiang9@huawei.com>
-In-Reply-To: <20191203122753.19792-5-zhengxiang9@huawei.com>
+ <20191203122753.19792-2-zhengxiang9@huawei.com>
+In-Reply-To: <20191203122753.19792-2-zhengxiang9@huawei.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Dec 2019 12:32:34 +0000
-Message-ID: <CAFEAcA8ZRufe+6P1kj8iSc40EEWohjA_FMscxjmNLJrPPQyn-A@mail.gmail.com>
-Subject: Re: [PATCH 4/5] hw/arm/virt: Add FW_CFG_RAM_SIZE and FW_CFG_MAX_CPUS
- into fw_cfg
+Date: Tue, 3 Dec 2019 12:34:30 +0000
+Message-ID: <CAFEAcA_TbC2haopmmbLChuE1bxA2KV74fximNu5kQ1pQB9VmYA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] tests: fw_cfg: Rename pc_fw_cfg_* to fw_cfg_*
 To: Xiang Zheng <zhengxiang9@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,36 +82,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 3 Dec 2019 at 12:29, Xiang Zheng <zhengxiang9@huawei.com> wrote:
 >
-> I'm not sure whether it's neccesary to add FW_CFG_RAM_SIZE and
-> FW_CFG_MAX_CPUS into fw_cfg on virt machine. This patch just makes
-> the fw_cfg-test happy.
+> Rename pc_fw_cfg_* to fw_cfg_* to make them common for other
+> architectures so that we can run fw_cfg tests on aarch64.
 >
 > Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> ---
->  hw/arm/virt.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index d4bedc2607..26a4183775 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1084,6 +1084,9 @@ static FWCfgState *create_fw_cfg(const VirtMachineState *vms, AddressSpace *as)
->      fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16, as);
->      fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)ms->smp.cpus);
->
-> +    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-> +    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)ms->smp.max_cpus);
-> +
->      nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
->      qemu_fdt_add_subnode(vms->fdt, nodename);
->      qemu_fdt_setprop_string(vms->fdt, nodename,
-> --
 
-Is there a spec anywhere that defines the meaning of these
-FW_CFG entries ? docs/specs/fw_cfg.txt defines the
-device interface but not what the 'standard' keys mean.
-I'd prefer not to add them to the virt board without knowing
-what they mean and why we have them.
+> -static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
+> +static inline QFWCFG *fw_cfg_init(QTestState *qts)
+>  {
+> -    return io_fw_cfg_init(qts, 0x510);
+> +    const char *arch = qtest_get_arch();
+> +
+> +    if (!strcmp(arch, "aarch64")) {
+> +        return mm_fw_cfg_init(qts, 0x09020000);
+> +    } else {
+> +        return io_fw_cfg_init(qts, 0x510);
+> +    }
+
+Presence and address of the fw_cfg device depends
+on the machine type, not the architecture, so is
+it possible to write this so that it varies by
+machine type, rather than by guest arch ?
+There should also presumably be a fallback path
+for "fw_cfg not present here", I suppose.
 
 thanks
 -- PMM
