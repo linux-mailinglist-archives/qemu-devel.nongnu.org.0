@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C36710FC57
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:17:30 +0100 (CET)
-Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3310FC33
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:09:23 +0100 (CET)
+Received: from localhost ([::1]:51694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic6BM-00041L-4n
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:17:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
+	id 1ic63W-0008O4-67
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:09:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49251)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ic5w7-0005gs-83
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:01:46 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ic5yk-0006OG-JZ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:04:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ic5vk-0005b2-PQ
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:01:26 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37283)
+ (envelope-from <peter.maydell@linaro.org>) id 1ic5y5-0004qE-Fu
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:03:47 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:40655)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ic5vk-0005O4-Fe
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:01:20 -0500
-Received: by mail-oi1-x243.google.com with SMTP id x195so2871641oix.4
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 03:01:18 -0800 (PST)
+ id 1ic5y3-0004gj-N4
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:03:43 -0500
+Received: by mail-oi1-x230.google.com with SMTP id 6so2866217oix.7
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 03:03:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Rab/J5gH/QbKQ/NgfodcNxsJh57te6atcpnHBg9t3eU=;
- b=PAy2SmgTsS5JcIbgUmCWPLVJatVpMmYZxaQNPwB1EG22CiHXRxnj6VVFL7HVo0zTnm
- M/to28nX2Fz8VmLtAu7bU3dq5jMa42mW5DMsZyc1G1u9qEDZJx89zAPqCkEO/xnPV2OW
- D4xb+iTlQqXzrL/CFVqsNFXXMX/A+OcMaybP/leS4YwC5L3GqP169UlCcEgN5jFe/9gB
- CP4f3ohkRDA8UR1PJnFsBVjoWP0Fy3OZ0TrquET543REMgCB0Ry1NbPnfNh9GVLHT4Oc
- lwnjslKUAA3CHr9BNz1vnJWNYQjlz3QptrlmS42Orw4YX2KwWZLnXIazhLxbHwlsKEwj
- V6rQ==
+ :cc; bh=mAFofRSmgqPrPh0loGDyj1uY2IZMnz9aNohH5BEXoKY=;
+ b=h+Fvj1P2+tAfVae2fKhdVWOTISTPmJFA6l+6IFdzGfhKNZNPva5kjDuc+RZ2mErxdy
+ 5GtFmQrr6nS7bCL97krGhH8Tm3ESFhrHCxLR/Qi84EmoHwBl2k94waDITq7uqdCQtCPn
+ ma17Lihat+V86FEGx7jUwF4prVXDgiZsFqAqMFCA/GoIa5wgDjRLDIkeSN2ADNriJfP5
+ yWiHhIzmIAyZtxsm5SE0cyHoFqdvoe4RzYynC58gwEbNekHVQMk64rYG9Z0gkt4v3IVH
+ oRjg+EBWbD8V6Jr8T6Mxj6l5MwDF2QtYy1f46B0JwbOqgVVAnDpIuHh88J3sPokVjwhn
+ 94dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Rab/J5gH/QbKQ/NgfodcNxsJh57te6atcpnHBg9t3eU=;
- b=oGp8ayw8ZJlfbvHzcKiz/e+NA97LILPYQ0B0BE6CX3XzBXVEd328+c/PphO0ZgI8Yb
- i3pZcho2/B1icNs59cO2HMREss+GnfSRrUw41kMRoMCxsWeXaWVPJI6e/067flttUO/Z
- SnJS5zgxGz5Udv788Gf7e/zHHEdcNCnyPtxzbVlCaMxx9DyNnEn/JA2YctORXBH181G1
- K+SyuVMsBEtpF7mkKT48ykt6dy9QQ1PcdYkjHbGzZy3u+Ao/YaJ1FZDOIcBNdQoKb2pU
- kIpf/Lto1oXTccsBkAlLpdqQxkQ6vpl2mrjT7LAQr9Pv5QL0DfsQhG5J5v7W1EWrwiVr
- guDA==
-X-Gm-Message-State: APjAAAWp/y8eEt9NSwpGA3FHtz9KDvd9UpEQBxNIJ2X/iuETDZGqAtt5
- 1WhXjQUBXkkP40JbKxRYkTAeE6/gbnXmyRUib/Ei5g==
-X-Google-Smtp-Source: APXvYqzo369TCbyMLBfHzWcVH1SG1EA2iSery8uovBYdOhSZS9GbPc4LTpTMsUbh3zLDLhTJiJvlQRl1BgOK5QNoa9o=
-X-Received: by 2002:aca:1a0a:: with SMTP id a10mr2915763oia.146.1575370876886; 
- Tue, 03 Dec 2019 03:01:16 -0800 (PST)
+ bh=mAFofRSmgqPrPh0loGDyj1uY2IZMnz9aNohH5BEXoKY=;
+ b=P6ATN3Gs56gw9QxyYe3YMi6slVuuBeBVruyoTmSx7o/IbW94LGiakD+Lvf22SXVyGu
+ XeLgBzKZltaVevDW/u1H/lQp/dDQBmPUgEKchXKRJXWZCWPal4CYqF9PoEbLhHw5WffI
+ 6vH8znt9MMa4bh1J1u4Nd9F8/vFOU8/EB14PuGI0er2i84Kq6J1fMf/v2pZ2fAyx/pZO
+ KUfFYKnfWThT0OfDBFgFIq6oijmauTvJyp2vub6kSx5EDCLfDzg1kwGjHGNPgft1VDV6
+ Qhi/XxM28K2+yHXpH5N1mMGF3FvyRzsNGrBWYeVuftLv6I7vHZW7LvwNu7GwlYd+n7Zr
+ NAng==
+X-Gm-Message-State: APjAAAVZ8dbxOxTSGUDYEt5ERGf3ErPlsdzXMRh8BsBZE9QPF8MpHZMl
+ z1wrTzqDgrDxZQyXuDE6pzQpevZ9289SSjaj5TVVqkRvUZk=
+X-Google-Smtp-Source: APXvYqz2FuBFT/V+8W6t4vECp1Y+1/t+lIDN8C1k0iuq20NvRPOp9Q3wkCiDe6Fdw7bwK9rqJgGHqmO5y7zy0PUpAto=
+X-Received: by 2002:aca:edd5:: with SMTP id l204mr3152308oih.98.1575371016007; 
+ Tue, 03 Dec 2019 03:03:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-3-richard.henderson@linaro.org>
-In-Reply-To: <20191011134744.2477-3-richard.henderson@linaro.org>
+References: <20191203081259.906-1-pbonzini@redhat.com>
+In-Reply-To: <20191203081259.906-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Dec 2019 11:01:05 +0000
-Message-ID: <CAFEAcA_Ob3_fGNo3n9hgB6oa-y9abSbtN7Y1u3jpY9uaXNwbSQ@mail.gmail.com>
-Subject: Re: [PATCH v5 02/22] target/arm: Add regime_has_2_ranges
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 3 Dec 2019 11:03:25 +0000
+Message-ID: <CAFEAcA-n2aRb2Lp=Gs9oJkRBiVtPm4eAgCzWrjwMKBAwrWh0Bw@mail.gmail.com>
+Subject: Re: [PULL 0/1] HVF fix QEMU 4.2-rc
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,143 +71,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Oct 2019 at 14:48, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 3 Dec 2019 at 08:16, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> A translation with 2 ranges has both positive and negative addresses.
-> This is true for the EL1&0 and the as-yet unimplemented EL2&0 regimes.
+> The following changes since commit 39032981fa851d25fb27527f25f046fed800e585:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/internals.h     | 14 ++++++++++++++
->  target/arm/helper.c        | 22 +++++-----------------
->  target/arm/translate-a64.c |  3 +--
->  3 files changed, 20 insertions(+), 19 deletions(-)
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-error-2019-12-02' into staging (2019-12-02 16:29:41 +0000)
 >
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index dcc5d6cca3..9486680b87 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -804,6 +804,20 @@ static inline void arm_call_el_change_hook(ARMCPU *cpu)
->      }
->  }
+> are available in the Git repository at:
 >
-> +/* Return true if this address translation regime has two ranges.  */
-> +static inline bool regime_has_2_ranges(ARMMMUIdx mmu_idx)
-> +{
-> +    switch (mmu_idx) {
-> +    case ARMMMUIdx_S12NSE0:
-> +    case ARMMMUIdx_S12NSE1:
-> +    case ARMMMUIdx_S1NSE0:
-> +    case ARMMMUIdx_S1NSE1:
-> +        return true;
-
-Don't S1SE0 and S1SE1 also need to be here?
-
-> +    default:
-> +        return false;
-> +    }
-> +}
-> +
->  /* Return true if this address translation regime is secure */
->  static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
->  {
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index b690eda136..f9dee51ede 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -8774,15 +8774,8 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
->      }
+>   git://github.com/bonzini/qemu.git tags/for-upstream
 >
->      if (is_aa64) {
-> -        switch (regime_el(env, mmu_idx)) {
-> -        case 1:
-> -            if (!is_user) {
-> -                xn = pxn || (user_rw & PAGE_WRITE);
-> -            }
-> -            break;
-> -        case 2:
-> -        case 3:
-> -            break;
-> +        if (regime_has_2_ranges(mmu_idx) && !is_user) {
-> +            xn = pxn || (user_rw & PAGE_WRITE);
->          }
-
-(I was sceptical that 'regime_has_2_ranges()' was the right condition
-here, but the Arm ARM really does define it as "valid only when stage
-1 of the translation regime can support two VA ranges".)
-
->      } else if (arm_feature(env, ARM_FEATURE_V7)) {
->          switch (regime_el(env, mmu_idx)) {
-> @@ -9316,7 +9309,6 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
->                                          ARMMMUIdx mmu_idx)
->  {
->      uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
-> -    uint32_t el = regime_el(env, mmu_idx);
->      bool tbi, tbid, epd, hpd, tcma, using16k, using64k;
->      int select, tsz;
+> for you to fetch changes up to 64bef038e777208e4c35beae7f980fbd994b87eb:
 >
-> @@ -9326,7 +9318,7 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
->       */
->      select = extract64(va, 55, 1);
+>   hvf: correctly inject VMCS_INTR_T_HWINTR versus VMCS_INTR_T_SWINTR. (2019-12-03 09:11:42 +0100)
 >
-> -    if (el > 1) {
-> +    if (!regime_has_2_ranges(mmu_idx)) {
->          tsz = extract32(tcr, 0, 6);
->          using64k = extract32(tcr, 14, 1);
->          using16k = extract32(tcr, 15, 1);
-> @@ -9486,10 +9478,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
->          param = aa64_va_parameters(env, address, mmu_idx,
->                                     access_type != MMU_INST_FETCH);
->          level = 0;
-> -        /* If we are in 64-bit EL2 or EL3 then there is no TTBR1, so mark it
-> -         * invalid.
-> -         */
-> -        ttbr1_valid = (el < 2);
-> +        ttbr1_valid = regime_has_2_ranges(mmu_idx);
->          addrsize = 64 - 8 * param.tbi;
->          inputsize = 64 - param.tsz;
->      } else {
-> @@ -11095,8 +11084,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
->              ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
->              int tbii;
+> ----------------------------------------------------------------
+> * last HVF fix (Cameron)
 >
-> -            /* FIXME: ARMv8.1-VHE S2 translation regime.  */
-> -            if (regime_el(env, stage1) < 2) {
-> +            if (regime_has_2_ranges(mmu_idx)) {
+> ----------------------------------------------------------------
+> Cameron Esfahani (1):
+>       hvf: correctly inject VMCS_INTR_T_HWINTR versus VMCS_INTR_T_SWINTR.
+>
+>  target/i386/hvf/hvf.c    |  4 +++-
+>  target/i386/hvf/x86hvf.c | 14 +++++++++-----
+>  2 files changed, 12 insertions(+), 6 deletions(-)
 
-Now that the rebuild_hflags patchset has landed this is in
-rebuild_hflags_a64().
 
->                  ARMVAParameters p1 = aa64_va_parameters_both(env, -1, stage1);
->                  tbid = (p1.tbi << 1) | p0.tbi;
->                  tbii = tbid & ~((p1.tbid << 1) | p0.tbid);
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 51f3af9cd9..c85db69db4 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -175,8 +175,7 @@ static void gen_top_byte_ignore(DisasContext *s, TCGv_i64 dst,
->      if (tbi == 0) {
->          /* Load unmodified address */
->          tcg_gen_mov_i64(dst, src);
-> -    } else if (s->current_el >= 2) {
-> -        /* FIXME: ARMv8.1-VHE S2 translation regime.  */
-> +    } else if (!regime_has_2_ranges(s->mmu_idx)) {
->          /* Force tag byte to all zero */
->          tcg_gen_extract_i64(dst, src, 0, 56);
->      } else {
+Applied, thanks.
 
-The comment above this function also needs updating to no longer
-refer to "EL2 and EL3" vs "EL0 and EL1". (You might also remove
-the use of the imperial 'We' in the last sentence in it ;-))
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
 -- PMM
 
