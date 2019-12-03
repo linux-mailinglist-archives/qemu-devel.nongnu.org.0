@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F6110FEBE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:27:03 +0100 (CET)
-Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4288210FE84
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:18:29 +0100 (CET)
+Received: from localhost ([::1]:53342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic8Ck-0004SU-2F
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:27:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
+	id 1ic84S-00078l-6K
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:18:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ic7tX-0000Uu-Ei
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:07:13 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ic7xJ-0003dV-Lz
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:11:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ic7tV-0006I1-86
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:07:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60290
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ic7xH-0005G5-Mo
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:11:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57864
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ic7tT-0006En-4e
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:07:07 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ic7xF-0005Bu-MY
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:11:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575378425;
+ s=mimecast20190719; t=1575378659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Q20x6mlBEmPE5iP+/ASB20o2DZAW07uX2nBrLPOrOA=;
- b=U6SvVNup6BaYr6pe+zGX7ZkYVh2cLh5n8OGJlQed6utIKYO2RXz/QgEc1JJ3z0t3obZ9fi
- 8euGDnhhD62fRzJcATnhy+pV/RrMztHXHbHY9G2ieAMCpi74uxOJS92TDh1HnMflPzxqpx
- szKsqGpAn8xN8yPa3FIOaUD81DLfu6U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-1-RTGznxPGyDd2Wxv2WlrA-1; Tue, 03 Dec 2019 08:07:04 -0500
-Received: by mail-wm1-f70.google.com with SMTP id y133so890407wmd.8
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 05:07:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0Q20x6mlBEmPE5iP+/ASB20o2DZAW07uX2nBrLPOrOA=;
- b=hFfH9qVJn20w4lHmy13YofHsEjQXJJwnJpFJZPlZwvsEuy1nm4tdu/UpTXlxRTeJNn
- YVzE1MCqpKg9rGU2ulb10xcrLjzJgWCzQBAm3Q3Kyit+IP5r4q0NKvTFHKKF/OWYfqMd
- HegW7Sa87jVXYhCYvyhBOH2WU3Ouag8qspKKV+OQ194ZvteTjzk3iqfNWsI4NEP/dVcV
- VXRsf4mVDipvyJv3ju3VJN7aE+Ijbfjv98eCVopbYBRvrrIbx5RTIC9gl54N85QSTNwh
- 41DL1smphZ57gAY0+BP2sMLeYUEQqZ6mg4FU3b1zvPOUQnOLUX0dmxs4Gk47kbgj+l7i
- PkWw==
-X-Gm-Message-State: APjAAAVF81qL3n8Clsej8Y8jFIc8XtzeMhV4kfNpAqxR4d4nZZOiOBmL
- 862ZR97QjYnACgUdrSRxhaKmO+ZjcwoulUSbVSo4Iw88bqsAl5hT+OCiQhGLJ8THQ1TSsFhzu6a
- rHYdEwmbkukyM1ys=
-X-Received: by 2002:adf:fd84:: with SMTP id d4mr5091932wrr.211.1575378423576; 
- Tue, 03 Dec 2019 05:07:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxXdmpB1FW97B4yyQv9N5Sm4cJZsodaZoahtMwKJBlLN60/yULiOr7wgqIIxchgMJ74FCBoZw==
-X-Received: by 2002:adf:fd84:: with SMTP id d4mr5091900wrr.211.1575378423362; 
- Tue, 03 Dec 2019 05:07:03 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
- ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
- by smtp.gmail.com with ESMTPSA id n8sm3507347wrx.42.2019.12.03.05.07.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Dec 2019 05:07:02 -0800 (PST)
+ bh=hm1pGm1KwcC8wCglvp9pxz/p0Wp5M+VQua/v1lYDDTM=;
+ b=i77bn/9CIaB2yq+S4cMhjnFnAr/q2ACKtgNnzXpoe1BB9Ex0UZzOmnQRQpm8U134oo2thT
+ 59RuRdweOL5TclBHO9jPe8X96KRlPmCYjkjKCK0sW8wTzAVxCLkjITj0YfTJsHmt7IBYbd
+ HL4ERezkcrt5yD2Ow8jJnNaNMIf+Qts=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-u7Xbis8GP1yZlEIybIAvKw-1; Tue, 03 Dec 2019 08:10:56 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83FB9107ACC4;
+ Tue,  3 Dec 2019 13:10:55 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4CD65D6A7;
+ Tue,  3 Dec 2019 13:10:48 +0000 (UTC)
+Date: Tue, 3 Dec 2019 13:10:46 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, groug@kaod.org
 Subject: Re: virtiofsd: Where should it live?
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20191203131046.GF3078@work-vm>
 References: <20191125185021.GB3767@work-vm>
- <20191126102600.GG556568@redhat.com> <20191126121416.GE2928@work-vm>
+ <20191126102600.GG556568@redhat.com>
+ <20191126121416.GE2928@work-vm>
  <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
  <20191203130250.GD3078@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <dce5bc69-b7df-1ff8-39fc-81bb8486c1c5@redhat.com>
-Date: Tue, 3 Dec 2019 14:07:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ <dce5bc69-b7df-1ff8-39fc-81bb8486c1c5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191203130250.GD3078@work-vm>
-Content-Language: en-US
-X-MC-Unique: 1-RTGznxPGyDd2Wxv2WlrA-1
+In-Reply-To: <dce5bc69-b7df-1ff8-39fc-81bb8486c1c5@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: u7Xbis8GP1yZlEIybIAvKw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,29 +78,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: mszeredi@redhat.com,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
  vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/12/19 14:02, Dr. David Alan Gilbert wrote:
->> It could be in fsdev/virtiofsd,
-> fsdev is currently all 9p stuff, so that would seem very confusing.
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 03/12/19 14:02, Dr. David Alan Gilbert wrote:
+> >> It could be in fsdev/virtiofsd,
+> > fsdev is currently all 9p stuff, so that would seem very confusing.
+>=20
+> Move it to fsdev/9p?
 
-Move it to fsdev/9p?
+Greg: Are you OK with us doing that, and then having fsdev/virtiofsd for
+our side of things?
 
->> but I agree with Daniel that at this
->> point the QEMU build system introduces baggage that you may not want for
->> virtiofsd.
->
-> I've already got it wired up in contrib with qemu's build system
-> so that doesn't seem to be an issue.   The question is purely a 'where'.
+> >> but I agree with Daniel that at this
+> >> point the QEMU build system introduces baggage that you may not want f=
+or
+> >> virtiofsd.
+> >
+> > I've already got it wired up in contrib with qemu's build system
+> > so that doesn't seem to be an issue.   The question is purely a 'where'=
+.
+>=20
+> Oh I agree it's not an insurmountable problem.  For a new project I may
+> not want to deal with the complicated rules.mak stuff; however, if
+> virtiofsd doesn't have to do anything complicated then it's your choice.
 
-Oh I agree it's not an insurmountable problem.  For a new project I may
-not want to deal with the complicated rules.mak stuff; however, if
-virtiofsd doesn't have to do anything complicated then it's your choice.
+Fortunately we don't seem to have touched that.
 
-Paolo
+Dave
+
+> Paolo
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
