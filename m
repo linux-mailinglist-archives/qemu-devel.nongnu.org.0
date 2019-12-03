@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1D810FFB6
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 15:13:37 +0100 (CET)
-Received: from localhost ([::1]:54258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088A910FF88
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 15:02:22 +0100 (CET)
+Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic8vn-0003W3-6K
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 09:13:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
+	id 1ic8ku-0004aj-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 09:02:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1ic3uI-0002vX-71
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:51:44 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ic8PW-00048d-9x
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:40:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1ic3uD-0007R4-Fc
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:51:39 -0500
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:44122)
+ (envelope-from <pbonzini@redhat.com>) id 1ic8PO-0006iq-T1
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:40:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34895
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Harish_Kandiga@mentor.com>)
- id 1ic3uD-0007H2-5Y
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:51:37 -0500
-IronPort-SDR: t0BeAo8JjLRuoJpZZgLEZSXTPdSQIBDeUwk+NlEnAQYaY/dCcLVHLQO0E51/DIeAn91+p+Ewf3
- c33baJUCQJZrsrMsBajY3VV/aGCilygQpBS64sUpRngMviAIXkERrqYTl0k6H1VxMzEmlMB5Xl
- lr/5oap7UiuGjkKm+a0QzrzVeVb/5aDarjdH/YPIKrXb3Y+6uGrTgRoVgM4CHBs950G/Fpb33p
- RBCiyVJF4UMQVFaG5mHjHoX0DoCO8ruWiHEXBF/kaAPFF9rptEbQLEIet7t6ukipGMBC6Xnbe0
- uw4=
-X-IronPort-AV: E=Sophos;i="5.69,272,1571731200"; d="scan'208";a="43651534"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa2.mentor.iphmx.com with ESMTP; 03 Dec 2019 00:51:33 -0800
-IronPort-SDR: V31aPAlTL4Jd77N/4vFkI/ULg0cF5PBYkzlUKlSwB5TqW2oengXeZXGIIUezjAPeS45uGXetRj
- k8fdcbh6lAth0z2rEc/o8A8Yjx1Gs9FJcj8ClHn/v7e9trEbTEqyktunDgxc+NGMNzDE3uUt+H
- tVPkPMHeGKWmqIn4OYYFVSQrHux/WyXhsdu22AjmEmoi5aXIBAP1OBiJIM2OD+5+c39ZCXjbpa
- 5nlSWx1IxowCPCDsJce0jzoNxMJv4XdCFGcMxbpF2S+x4ddCnnoky/Je4mZZIOCotBY7rKE4oJ
- 6+w=
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be>
- <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
- <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
-From: Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <d44598a5-184e-078c-1d6c-a99b522f7e26@mentor.com>
-Date: Tue, 3 Dec 2019 14:21:21 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ic8PO-0006fm-L9
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:40:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575380403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LIm8k0scJ2bK9yiZ8iR9dDgveKvZhS/Mft46RWXwwHE=;
+ b=RPfDzrlmr20BFIdg9OOfqILWtSu/WTEfPphW/FaS54aVy5HWzBQv5xyTO0NutDcG7al6vR
+ VYnwr2BzGm5a3V+g97DGSz658KNCuPdb4qTfqfiAhQQyCJaemnQ7QTiqAf0jYvgJ/qLdTS
+ QDrzRvI/t054D3/DtEhBwePMCLzh/+w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-Oit2ZZ_nNfyfKmO4Rh1_oQ-1; Tue, 03 Dec 2019 08:40:01 -0500
+Received: by mail-wr1-f71.google.com with SMTP id c17so1787241wrp.10
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 05:40:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B8Hxq0/0hsGTIMJqqJxxw57QsGyRN8jlb1Y3fvDGz+E=;
+ b=FGnFF+4I8wkkk5JIfdrd9xbYyZ0IfpJm+DiNfOTb+pSri1w6NcekzOxHoLtB/pjPVT
+ D/8jXMkekW9dzsJtDOWXULTuf721NDwDlLpEGdosFG/tngXBA90zz0IwAVqa77lUWCUO
+ WgpAEjNeD6W6tgwydews4J7lISZnpm/D5szwRrqCq+HetwZ+myZrD+7p9V6ibToJiaPS
+ rbDl3uBXjDylGIvCw3+GqyNXQDrum2zFufg7eCyHB1ZnaF0wLhox5pOxh1D4RpeWJEGP
+ lyg1aMZjpnHmr+1Pze9r/K/FC7++kv36ZWCHzDEsm6tJn65j0G1QPTZ35J1CrnpELtJe
+ X/CA==
+X-Gm-Message-State: APjAAAU/NFNdt4rAxiP+E2aDP6+lU29l/JU8/tiMwdm5xQIzGOIOTdfp
+ Sh7h+mD0A12bBW+eWSCY7/icfvtrt3dwzeIrkkWhr8lkB4GbiDvXQ8RO4J23rx+wuU5MmHOgCxj
+ PnaG0J2YdIq5HPZM=
+X-Received: by 2002:adf:ef4e:: with SMTP id c14mr5415913wrp.142.1575380400370; 
+ Tue, 03 Dec 2019 05:40:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzSHfRxKmngzYe1OGQhB8ODvBy39RB+t/yO+a2ReNubTo0o73ehjVI+e9+S+SzX8jn97GJcFQ==
+X-Received: by 2002:adf:ef4e:: with SMTP id c14mr5415887wrp.142.1575380400066; 
+ Tue, 03 Dec 2019 05:40:00 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
+ ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
+ by smtp.gmail.com with ESMTPSA id s82sm3105499wms.28.2019.12.03.05.39.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2019 05:39:59 -0800 (PST)
+Subject: Re: [PATCH] hw/ppc/prep: Remove the deprecated "prep" machine and the
+ OpenHackware BIOS
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+References: <20191203072922.14981-1-thuth@redhat.com>
+ <2b5d3c2d-6982-03f6-26cc-7400440b990f@redhat.com>
+ <8ca69db3-7dfa-0c4d-bc50-61a80eb574c1@redhat.com>
+ <6966e660-688a-977e-c882-9cb44ef97574@redhat.com>
+ <f9c24324-b04a-f88c-3da7-3dfd2041b048@redhat.com>
+ <7528162c-ce2f-985e-7f58-9267389edd33@redhat.com>
+ <fcee5492-8a0b-c54c-0a6a-16a69532892f@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e36bf29a-bc58-2ec1-d796-643679f3c6bc@redhat.com>
+Date: Tue, 3 Dec 2019 14:39:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fcee5492-8a0b-c54c-0a6a-16a69532892f@redhat.com>
 Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.141.98
-X-Mailman-Approved-At: Tue, 03 Dec 2019 09:05:26 -0500
+X-MC-Unique: Oit2ZZ_nNfyfKmO4Rh1_oQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,75 +100,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Alexander Graf <graf@amazon.com>, "open
- list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 03/12/19 1:47 PM, Geert Uytterhoeven wrote:
-> Hi Harish,
->
-> On Tue, Dec 3, 2019 at 6:42 AM Harish Jenny K N
-> <harish_kandiga@mentor.com> wrote:
->>> +static int gpio_aggregator_probe(struct platform_device *pdev)
->>> +{
->>> +     struct device *dev = &pdev->dev;
->>> +     struct gpio_desc **descs;
->>> +     struct gpiochip_fwd *fwd;
->>> +     int i, n;
->>> +
->>> +     n = gpiod_count(dev, NULL);
->>> +     if (n < 0)
->>> +             return n;
->>> +
->>> +     descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
->>> +     if (!descs)
->>> +             return -ENOMEM;
->>> +
->>> +     for (i = 0; i < n; i++) {
->>> +             descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
->> can you please add this check as well as we need to return EPROBE_DEFER.
+On 03/12/19 14:16, Thomas Huth wrote:
+> On 03/12/2019 14.04, Paolo Bonzini wrote:
+>> On 03/12/19 10:15, Thomas Huth wrote:
+>>>>>> Maybe we can rename this as read_boot_order_mm, and the previous
+>>>>>> read_boot_order_pc as read_boot_order_io.
+>>>>>
+>>>>> I don't think it makes much sense. This was completely specific to th=
+e
+>>>>> "prep" machine, even the "40p" machine seems to prefer fw_cfg nowaday=
+s.
+>>>>> So let's simply remove this old stuff.
+>>>>>
+>>>>>> diff --git a/tests/endianness-test.c b/tests/endianness-test.c
+>>>>>> index 58527952a5..2798802c63 100644
+>>>>>> --- a/tests/endianness-test.c
+>>>>>> +++ b/tests/endianness-test.c
+>>>>>> @@ -35,7 +35,7 @@ static const TestCase test_cases[] =3D {
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { "mips64", "malta", 0x10000000=
+, .bswap =3D true },
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { "mips64el", "fulong2e", 0x1fd=
+00000 },
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { "ppc", "g3beige", 0xfe000000,=
+ .bswap =3D true, .superio =3D
+>>>>>> "i82378" },
+>>>>>> -=C2=A0=C2=A0=C2=A0 { "ppc", "prep", 0x80000000, .bswap =3D true },
+>>>>>> +=C2=A0=C2=A0=C2=A0 { "ppc", "40p", 0x80000000, .bswap =3D true },
+>>>>
+>>>> ... here you access the Super I/O behind the PCI bridge via MMIO?
+>>>
+>>> The difference is that this is an *arbitrary* address in I/O space
+>>> there.
 >>
->> if (desc[i] == ERR_PTR(-ENOENT))
->> <                 return -EPROBE_DEFER;
-> So gpiod_get_index() nevers return -EPROBE_DEFER, but returns -ENOENT
-> instead?
-> How can a driver distinguish between "GPIO not found" and "gpiochip driver
-> not yet initialized"?
-> Worse, so the *_optional() variants will return NULL in both cases, too, so
-> the caller will always fall back to optional GPIO not present?
->
-> Or am I missing something?
->
-> Gr{oetje,eeting}s,
->
->                         Geert
+>> No, it's the base address of the ISA space, to which the tests add the
+>> address of the pc-testdev device.  It's not any different from the
+>> 0x80000000 in boot-order-test.
+>=20
+> Hmm, interesting. Why is it not necessary to set up the BARs of the
+> PCI-to-ISA bridge in this case?
 
+I don't know.  Maybe the machine doesn't need it, since these are not
+really BARs, since they are positive-decode addresses on the ISA bus.
+It may also be an emulation inaccuracy in the pc87312 ISA bridge.
 
-We had earlier tested our changes on 4.14 kernel and the explicit return of -EPROBE_DEFER was needed in the inverter driver.
+Paolo
 
-probably the commit 6662ae6af82df10259a70c7569b4c12ea7f3ba93 ( gpiolib: Keep returning EPROBE_DEFER when we should)
-
-has fixed the issue and now it returns -EPROBE_DEFER.  you can ignore this comment as of now. I will test and let you know if needed.
-
-
-Thanks,
-
-Harish
+>> That said, I think it's a sensible objection that boot order doesn't
+>> come from m48t59 on 40p (does it not?).
+> Right. I'm also not an expert here, but I think the OpenBIOS on 40p
+> rather uses fw_cfg instead.
+>=20
+>  Thomas
+>=20
 
 
