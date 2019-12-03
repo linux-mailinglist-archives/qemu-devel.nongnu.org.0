@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6401D10FC6A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:20:14 +0100 (CET)
-Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6961E10FC6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:21:20 +0100 (CET)
+Received: from localhost ([::1]:51836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic6E1-0004dH-1h
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:20:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
+	id 1ic6F5-0007Cj-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:21:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1ic65O-0002WI-Pp
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:19 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ic6BD-0004xY-BL
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:17:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1ic65M-0003ee-23
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:17 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:34304)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1ic65L-0003Vd-C0
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:11:15 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 41CF296EF0;
- Tue,  3 Dec 2019 11:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1575371468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JhM5Uq17n49K43hUmBenzUluJwqYIndtOXGat1c+uqE=;
- b=kRb7ZBTU7du+gNFWEkhB27d0V7L2fy7b9RZ8sH9iUpyppoL4gjmcECxCYPlRof1MR1ayTU
- vDd/EkmuCkYG7kGc+Vmd7YwGKQWwYgYzfM1/Ioly5cb81w/+hbMaRavWbhOEPiEka73Rk7
- YFRXbvNyPosCteoME0UG8OEotdAzqWs=
-Subject: Re: [PATCH v2 04/14] gdbstub: move mem_buf to GDBState and use
- GByteArray
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191130084602.10818-1-alex.bennee@linaro.org>
- <20191130084602.10818-5-alex.bennee@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <8f9519f0-78f7-707a-007f-71be24339477@greensocs.com>
-Date: Tue, 3 Dec 2019 12:11:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <alex.bennee@linaro.org>) id 1ic6BB-0008IE-4e
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:17:18 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53748)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ic6B2-0008CU-OB
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 06:17:09 -0500
+Received: by mail-wm1-x343.google.com with SMTP id u18so2513408wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 03:17:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=czDIYX7qz+A0cudiap26LVM70Nz40ZVWYvcZEWbO/iM=;
+ b=TGPj0Eo50K6u1WHTbdZPzUCUOGbTjGEuT2zx6WxFQ2kw7VjZvmZBcXrr54ByZJWTgA
+ saJPJNIVve880j1BD5lq/Jr7b6iazlLpc+Kt7oGjsiao/DVX12d0Wb1Vk3pFUw5f5UY/
+ 56a38B/2IZK0VOQ3BUXZefILA5uI5KSQgAUAnP2hVS6lODxuDiNMNT/l7nOXF3FJRi7k
+ vAv28jrOJuAgBAbTwFze/W3/mdHAxZjYPvPH++qIiovVmmaLI50zROFqa4oqnhLWtLtI
+ uIJkHULP1cS4rQL/kBC7ctxikV4NzA2fk184z5VDp+IHDm/6sn3WCUtz8Iu5PH3SEmMj
+ YqQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=czDIYX7qz+A0cudiap26LVM70Nz40ZVWYvcZEWbO/iM=;
+ b=SQ/KyFD8C/UagRZL547Ya/zM7mNn0gicGifF2sLWG3En0cC6YNFyCoog5XV8c4cZY+
+ UGAJlyL2oyKskNGzQUB7ivC9/FPxeIT37ezzn4Vhv8OJjaVbIyFBFZxdH5NO1TK/0rba
+ FedeGLlpFuTqvHUwWsp3iNQCDy0usuosjSqPQkBd4WnSf/oMxEpC7d2HJksoXD8F2Oxb
+ wyASmzODLyHcqtVh3Wy6COUY0PvDlHVfvd1+Jku75MfgO+vp3zm/fD6H4qJdwPABgwd5
+ SjxieSs1/lh8zfkX/oDHk3xWvJj2NITfjMIVNmGn+XM8xnMUlCTAxylNdBb4RZi+5OrL
+ KAyA==
+X-Gm-Message-State: APjAAAXfLKqVSEQ/78pcaZDJ7I2SOXjfjE+2Wt53k3wKeaDs7MfgpG4a
+ bEkB2HOdrKdAeCAYkh2Zftt20g==
+X-Google-Smtp-Source: APXvYqwHW16umi/LnQ3SaNW5CWwzszx/N8EaJmlrA2u9omDEMrEVcKRJh3nmNgW5vEcQ/eFpaKepKQ==
+X-Received: by 2002:a7b:c218:: with SMTP id x24mr14064794wmi.149.1575371821952; 
+ Tue, 03 Dec 2019 03:17:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j12sm3326110wrw.54.2019.12.03.03.17.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2019 03:17:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C76C51FF87;
+ Tue,  3 Dec 2019 11:16:59 +0000 (GMT)
+References: <20191127220602.10827-1-jcmvbkbc@gmail.com>
+ <20191127220602.10827-2-jcmvbkbc@gmail.com>
+ <3c02ba4a-11fe-4d6a-e6d9-f1d164528d85@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/2] exec: flush CPU TB cache in breakpoint_invalidate
+In-reply-to: <3c02ba4a-11fe-4d6a-e6d9-f1d164528d85@linaro.org>
+Date: Tue, 03 Dec 2019 11:16:59 +0000
+Message-ID: <87immxbqvo.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191130084602.10818-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1575371468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JhM5Uq17n49K43hUmBenzUluJwqYIndtOXGat1c+uqE=;
- b=jbVCNBxgoYIOWtmPW2XcwlzJgBLuUbDCFYi02X2VWL6/KzPUNKwxlJh11OEiRTV5blAknT
- 2ZIiEMPuOb+N+DDsZj1mSEieudiZmNpuYj/60JN/X9CT5Ko+TXD+ZxwwrjOALOiNJxbRbv
- 8Os+HguOccNkkcTtFpx+eTJmy2edYDY=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575371468; a=rsa-sha256; cv=none;
- b=f+cVYP8xyTSyHvDRkXV7KmEoKMCiBLhriTSs23X66rDqnTNTGm475ZiB2fvGhPTXVapq4a
- VIz0cD/6LV3PiCIuEqc1HSiO0EK3xIUrRiVRuWAISMFjstuTuZeyDzqWXE6gdjhaMvh40u
- QrLTqsldWDWV5RZo/jYufjcT8cTF9xg=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 5.135.226.135
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,67 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.machado@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com
+Cc: Max Filippov <jcmvbkbc@gmail.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
-> This is in preparation for further re-factoring of the register API
-> with the rest of the code. Theoretically the read register function
-> could overwrite the MAX_PACKET_LENGTH buffer although currently all
-> registers are well within the size range.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  gdbstub.c | 62 ++++++++++++++++++++++++++++++++++---------------------
->  1 file changed, 38 insertions(+), 24 deletions(-)
->=20
-> @@ -2003,7 +2015,7 @@ static void handle_query_curr_tid(GdbCmdContext *=
-gdb_ctx, void *user_ctx)
->      cpu =3D get_first_cpu_in_process(process);
->      g_string_assign(gdbserver_state.str_buf, "QC");
->      gdb_append_thread_id(cpu, gdbserver_state.str_buf);
-> -    put_strbuf();;
-> +    put_strbuf();
-Hi Alex,
+> On 11/27/19 10:06 PM, Max Filippov wrote:
+>> When a breakpoint is inserted at location for which there's currently no
+>> virtual to physical translation no action is taken on CPU TB cache. If a
+>> TB for that virtual address already exists but is not visible ATM the
+>> breakpoint won't be hit next time an instruction at that address will be
+>> executed.
+>>=20
+>> Flush entire CPU TB cache in breakpoint_invalidate to force
+>> re-translation of all TBs for the breakpoint address.
+>>=20
+>> This change fixes the following scenario:
+>> - linux user application is running
+>> - a breakpoint is inserted from QEMU gdbstub for a user address that is
+>>   not currently present in the target CPU TLB
+>> - an instruction at that address is executed, but the external debugger
+>>   doesn't get control.
+>>=20
+>> Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+>> ---
+>> Changes RFC->v1:
+>> - do tb_flush in breakpoint_invalidate unconditionally
+>
+> Unlike Paolo, I don't think this is a good idea.
 
-The double ';' (and the two other occurrences below) is added by your
-previous patch.
+We previously had a general tb_flush during the MTTCG implementation as
+a temporary fix. It was changed back in 406bc339b0 and it would be nice
+to minimise the flushing of code if we can. While most interactive users
+aren't going to notice the temporary slow down it would suck for any
+automated gdb scripting.
 
->  }
-> =20
->  static void handle_query_threads(GdbCmdContext *gdb_ctx, void *user_ct=
-x)
-> @@ -2015,7 +2027,7 @@ static void handle_query_threads(GdbCmdContext *g=
-db_ctx, void *user_ctx)
-> =20
->      g_string_assign(gdbserver_state.str_buf, "m");
->      gdb_append_thread_id(gdbserver_state.query_cpu, gdbserver_state.st=
-r_buf);
-> -    put_strbuf();;
-> +    put_strbuf();
->      gdbserver_state.query_cpu =3D gdb_next_attached_cpu(gdbserver_stat=
-e.query_cpu);
->  }
-> =20
-> @@ -2058,7 +2070,7 @@ static void handle_query_thread_extra(GdbCmdConte=
-xt *gdb_ctx, void *user_ctx)
->      }
->      trace_gdbstub_op_extra_info(rs->str);
->      memtohex(gdbserver_state.str_buf, (uint8_t *)rs->str, rs->len);
-> -    put_strbuf();;
-> +    put_strbuf();
->  }
->  =20
+>
+> If I was going to change anything here, I'd change this to not use
+> cpu_get_phys_page_attrs_debug but using the caching available from the ac=
+tual
+> cputlb, using cc->tlb_fill() in probe mode -- something akin to probe_acc=
+ess(),
+> but not returning a host address, nor handling watchpoints nor notdirty.
+>
+> This would help flushing too much by distinguishing different tbs for the=
+ same
+> virtual address mapping to a different physical address.
+>
+>
+> r~
 
-With the ";;" fix
-Reviewed/Tested-by: Damien Hedde <damien.hedde@greensocs>
 
---
-Damien
+--=20
+Alex Benn=C3=A9e
 
