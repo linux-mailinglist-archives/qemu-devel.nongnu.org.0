@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4194A1105B1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 21:06:06 +0100 (CET)
-Received: from localhost ([::1]:58060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 716CD1105E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 21:22:15 +0100 (CET)
+Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icEQu-00022V-EU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 15:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50167)
+	id 1icEgU-0007jP-Qo
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 15:22:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49663)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icDKU-0001m4-65
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 13:55:25 -0500
+ (envelope-from <yuri.benditovich@daynix.com>) id 1icDWO-0008E1-3Q
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icDKH-0004J7-Vt
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 13:55:13 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49255
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icDKH-0003vV-Rb
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 13:55:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575399304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+vTHte9KGyHxaU+xTNKi6+g/HmtDH2MbLeyFm5rk6BI=;
- b=VQ9Jm1YZePcq12G0HaMTmWgcMzubBd4eEM7Q1l7oB4rgUX84rRlHBsJ7NJBxgLEIhcmV/g
- 4mHh/hHXNY0D11RzHK2kmsZsz0ys0y67r0RQBqyCW8tlugI89te0Ye94snxX8Uh7veoPkR
- TU+ffw0YN5CpSoGRni+XYb3R96y3/jU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-BiPphYx5Oly36IjCic6JSQ-1; Tue, 03 Dec 2019 13:55:02 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C717183B701;
- Tue,  3 Dec 2019 18:55:00 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 114A0600C8;
- Tue,  3 Dec 2019 18:54:58 +0000 (UTC)
-Subject: Re: for 4.2 ??? Re: [PATCH V3 2/2] block/nbd: fix memory leak in
- nbd_open()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "pannengyuan@huawei.com" <pannengyuan@huawei.com>,
- "kwolf@redhat.com" <kwolf@redhat.com>, "mreitz@redhat.com"
- <mreitz@redhat.com>, "sgarzare@redhat.com" <sgarzare@redhat.com>
-References: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
- <1575012326-51324-2-git-send-email-pannengyuan@huawei.com>
- <1cff97de-303b-3b27-f737-3f69759746b0@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <08f0d51d-f352-5d64-26a4-9a741a4cf2e0@redhat.com>
-Date: Tue, 3 Dec 2019 12:54:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <1cff97de-303b-3b27-f737-3f69759746b0@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: BiPphYx5Oly36IjCic6JSQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (envelope-from <yuri.benditovich@daynix.com>) id 1icDWL-0005A5-5D
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:39 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35820)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1icDWJ-0004jr-M0
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:37 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id u8so4873509wmu.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 11:07:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=jwWgYywEnWoSew5XhoR8bqdd7adswMy3z3eeULc55TI=;
+ b=z0Sc31hrrKPFjABURR5o/1lLDq2gxgmDdIlC7ImQqahJThDqfLYqJC7lqdEtXxU2o+
+ Teu4y0RFmbtdGv6WPXj0zQdR1uvGP6Uo/2gvJLWZPp/vYkScZNy7pAtmTQ7lrdH6uSqo
+ EIhA0aPGElVMDxoH0gbXqre9Z0ziDl42Eo7SuKY3A3zmtCqHdJZ02sDUMUw39X5scMdj
+ HrVmIP6Bij4a1dBe0kENrr95eJb+zviqe7W0ZeR50f4Sc5BgYYRGxLnU9KJaqR0I6nZh
+ RaGYusofWbVsI7oH2YJvR4AmPC1d7EATaNhduNyIuOcoKt05661wQfa1oXXbIyMfNul8
+ Re6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=jwWgYywEnWoSew5XhoR8bqdd7adswMy3z3eeULc55TI=;
+ b=uHegeHVctNYeIkO2wKsJ4XFQKaHgh1fSJ2t6uV0IH6RGW7BEtcyYqYGy5neJ05AiUq
+ sHntoBHzI1lLhJmVOdjf7gFPCDuvB91zVYSccm4GRpvoP6Q5hwKDbdMKb4OssccbEC5a
+ nAZ68z49Moae6VJpEXfe5nwBiW8xuvV4QQj6KhSqA0U34CXht9J9jCz3SOBPF2kBtAin
+ zkwWfIfpDuhkwHZYuJffHVvrROUi0jYDe7fV+N6mRxhPQ/xvr3DEAG1XdP38r02YuZkR
+ 1JEWQwbNQLlE2K83/6z8FA92XsQLZkqDZVmz0quu0tG+ru4NZKCPFICUfDfDi6ROH8ml
+ R+Bw==
+X-Gm-Message-State: APjAAAUpBafGhhxjgNAJREg0qe/93/M29goHU0p48HlWSk7ww3K9zELw
+ GD4Hgicf/TEZO6B17/nh0oAvwA==
+X-Google-Smtp-Source: APXvYqwATRl9bJHZjYgCspQOmcCUsqXSdQqOZeWAWalf8cNaL90z7jQXAqq50MdMVRpHl+dEkLlqhQ==
+X-Received: by 2002:a05:600c:21c6:: with SMTP id
+ x6mr18503342wmj.177.1575400045109; 
+ Tue, 03 Dec 2019 11:07:25 -0800 (PST)
+Received: from f2.redhat.com (bzq-79-182-78-197.red.bezeqint.net.
+ [79.182.78.197])
+ by smtp.gmail.com with ESMTPSA id t12sm4828810wrs.96.2019.12.03.11.07.21
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 03 Dec 2019 11:07:22 -0800 (PST)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, kraxel@redhat.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] Remove 'remote wakeup' flag from USB config descriptor
+Date: Tue,  3 Dec 2019 21:07:14 +0200
+Message-Id: <20191203190716.18917-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,59 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "liyiting@huawei.com" <liyiting@huawei.com>,
- "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- qemu-stable <qemu-stable@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kuhn.chenqun@huawei.com" <kuhn.chenqun@huawei.com>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/19 11:52 AM, Vladimir Sementsov-Ogievskiy wrote:
-> It's just a memory leak, but it's a regression in 4.2.
-> 
-> Should we take it into 4.2?
+This series of patches addresses possible functional problem of USB
+devices with 'remote wakeup' capability, redirected to Windows VM
+(local redirection using libusb or spice redirection using usbredir).
 
-Sorry, I was on holiday and then jury service, so I missed any chance at 
-getting this into -rc3.  The memory leak only happens on failure, and 
-you'd have to be pretty desperate to purposefully attempt to open a lot 
-of NBD devices where you know you'll get a failure just to trigger 
-enough of a leak to cause the OOM-killer to target qemu.  So I'm fine if 
-this is deferred to 5.0, and just cc's qemu-stable (now done).
+Changes from v1: minor fixes per v1 review and checkpatch
 
-I'll queue this through my NBD tree for 5.0.
+Yuri Benditovich (2):
+  usb-host: remove 'remote wakeup' flag from configuration descriptor
+  usb-redir: remove 'remote wakeup' flag from configuration descriptor
 
-> 
-> 
-> 29.11.2019 10:25, pannengyuan@huawei.com wrote:
->> From: PanNengyuan <pannengyuan@huawei.com>
-
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: PanNengyuan <pannengyuan@huawei.com>
-
-I'm not one to tell you that your name is written incorrectly, but it 
-does look odd to have a single word rather than a space between two 
-capitalized portions.  If that's really how you want your S-o-b and 
-authorship to appear, I'm happy to preserve it; but you may want to 
-consider updating your git settings, and posting a v4 with an updated 
-spelling if you would prefer something different.  (It is also 
-acceptable to use UTF-8 characters; some people like listing an S-o-b in 
-both native characters and a Westernized variant).
-
-> 
-> May add:
-> 
-> Fixes: 8f071c9db506e03ab
-
-Yes, information like that helps in deciding how long the problem has 
-been present (in this case, it is indeed a regression added in 4.2, even 
-if minor in nature).
+ hw/core/machine.c    |  2 ++
+ hw/usb/host-libusb.c | 20 ++++++++++++++++++++
+ hw/usb/redirect.c    | 20 ++++++++++++++++++++
+ hw/usb/trace-events  |  1 +
+ 4 files changed, 43 insertions(+)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.17.1
 
 
