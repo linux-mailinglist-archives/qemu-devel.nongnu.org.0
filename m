@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE391105EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 21:31:06 +0100 (CET)
-Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D112C110609
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 21:38:08 +0100 (CET)
+Received: from localhost ([::1]:58288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icEp5-0001br-MT
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 15:31:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1icEvt-0005e6-S5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 15:38:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuri.benditovich@daynix.com>) id 1icDWP-0008DD-6J
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icDi9-0007dv-OY
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:19:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuri.benditovich@daynix.com>) id 1icDWI-000561-Sy
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:37 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43004)
+ (envelope-from <alex.bennee@linaro.org>) id 1icDi3-0008Bs-OL
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:19:47 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36588)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
- id 1icDWI-0004n5-Lj
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:07:34 -0500
-Received: by mail-wr1-x441.google.com with SMTP id a15so5099115wrf.9
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 11:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/PylRFnWKtD+HhPQYtsbijiWyCF1YZ11JweXKECL7sA=;
- b=AqtdBSs8QladLyDlvHgykPQmk0rlU0JCZT7rwOGzWmzUNGszjHs+/XvTIlnyze5ogZ
- kWlxq8cuR9c3ah3bm5ui2MFouYhISghjRgNTpHFzQRfLDkpMPpAkoc9V69sGzaObjAaT
- vq5sjeVjvHnrb1jbhy5Fu3voWD+FGUlET8WqrFDh+BGtZ9J4z25qHFvx/vuYNOougjXy
- L1XI2ICdhZon493NqrXD3OS4NfXiMEzIkPnkyY5vJeqicyyZv1xOyqZ8Ng5mAUApQWcJ
- up3LXk+TpolyGj+viyw+rcZvibg+w3SvPkOuWi8kl4M8vPGeHFnzWhFjwzskExvYkaBJ
- C+Dg==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icDi0-00086i-FE
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 14:19:41 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z3so5199414wru.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 11:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=kE36sYvi1qr1Au3LY1sHoO9A4xtmGvkxhi6smvQY0S0=;
+ b=AfL6KUD44LKUqSFpPDjwZFtIMJB4iKFCsPKmwnbnWGnHaXTVXvre83C11VCbJrO2ed
+ rZLTr+LTesM5a3q2yWQeIEdfRhg7+5gpSCwTWJmH2gfsPe98Ozx44W42sUMzRGSuUWMp
+ GKlVqGI6Ledhe8vRZcn1qTQgJpK+0lxYXYmtMn6n44pjECPdhuqce2YQ13KI1qpmqS+F
+ Ve/CzeNsmuh4IRWOuG/zj0RMVT0OrWwheGEPXBnGU443o2U5Nt0P7t0zf8OUvu6JJDoP
+ LSM4CUebTGeXYLO5ij8GLm6hb+1rGNtWE5Vy7McgaAJZB2lah/ORtYf+LGx+DPi6m8xv
+ dl9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/PylRFnWKtD+HhPQYtsbijiWyCF1YZ11JweXKECL7sA=;
- b=F/8d1LcWOxNCgN482F10Arox1UlgjEEiFwz8fGs4arO9J1jRYGUhUuaPgAeSmQTii+
- qm7M6AcI5eLtRFanqNwZGOp17OsH2jRD1AUnBV+I3xx0k5RTL0nFjVatuCZoh/AzGCy4
- 5utmvi/T9HGOrVoUI5C0Do4dgfz1ZutS9L4cbcpzK2Nd2aKpSXNbPBg4fkMiwmsfQ/Jo
- AF6XoRicGazEYiRlhv3gd40YWxTsxxkfCBHOfaiAbc+JA2PgIBc2bcJtgv/2JzHxYD/L
- FoFfgrNrk6DWvL2KHmE/GDBVw+dXawjRLR6ez+bWnsBl3xtu31jltvKF26azLKjxa62p
- 8sVw==
-X-Gm-Message-State: APjAAAVnmMeOCc0z6ZWjqXTVrAYIU4ocjzBl9BuWRSv2sLpplsiY2d/U
- HecVZm/7Q38NDU/rM03fSGvzbg==
-X-Google-Smtp-Source: APXvYqyo991/uohTrjDcIJ4Wd0+xjTtepF1EgIbejzVOLo25KfTsvH3eSFHrmwvofQrqt3GgW1nu0A==
-X-Received: by 2002:a5d:50cf:: with SMTP id f15mr6857291wrt.381.1575400047195; 
- Tue, 03 Dec 2019 11:07:27 -0800 (PST)
-Received: from f2.redhat.com (bzq-79-182-78-197.red.bezeqint.net.
- [79.182.78.197])
- by smtp.gmail.com with ESMTPSA id t12sm4828810wrs.96.2019.12.03.11.07.25
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 03 Dec 2019 11:07:25 -0800 (PST)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, kraxel@redhat.com,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] usb-host: remove 'remote wakeup' flag from
- configuration descriptor
-Date: Tue,  3 Dec 2019 21:07:15 +0200
-Message-Id: <20191203190716.18917-2-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191203190716.18917-1-yuri.benditovich@daynix.com>
-References: <20191203190716.18917-1-yuri.benditovich@daynix.com>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=kE36sYvi1qr1Au3LY1sHoO9A4xtmGvkxhi6smvQY0S0=;
+ b=AlTKRxiScVIEJcckThvWJmdHt+wErBhGrkUks7769YhFP63ZlSmdpjLh73stmtgEvb
+ ZQt2G9ws3lzku5fGOedP7cgQZwIAZF/mJrUzwRAAZMY788xsP/H87DXb5bxdeiYLbcQs
+ zqnFLVrQSxv6QrFy8aFxvI2snZlINQE9p6AACyvWPlwnA2drNE2/a4UEvldW3gzS3Irj
+ jMBfe29iF4V8B4qQHxmRJNhsA+aC7ZRQXKMii84ySok8rYCj7yeLrg7WtTPNriXq2URz
+ lhb0DWCn9qcpt4oF8lLaZufO+4WET/ZDpRpKUJNb77rXvw/ajHUDLxxz1RqSpq7m33ir
+ 3Ljw==
+X-Gm-Message-State: APjAAAWl7mn7c+5zCfgJ/6Cv3w0DsfGFw/vVDsh0WdPw3vHE9586qUyY
+ o26UBxuhG/W8X8W9nvGyRzL0GQ==
+X-Google-Smtp-Source: APXvYqw+wUTkQtNPmhBlom+66D4ynJTFKgtFTYaWJfOErcUReYmW0xLhdF95qCAWhk2sCKp/7Nsu4w==
+X-Received: by 2002:adf:f1cb:: with SMTP id z11mr6703033wro.375.1575400777473; 
+ Tue, 03 Dec 2019 11:19:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p17sm4880776wrx.20.2019.12.03.11.19.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Dec 2019 11:19:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A0BD81FF87;
+ Tue,  3 Dec 2019 19:19:35 +0000 (GMT)
+References: <20191104151323.9883-1-crosa@redhat.com>
+ <20191104151323.9883-9-crosa@redhat.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 8/8] Acceptance test: add "boot_linux" tests
+In-reply-to: <20191104151323.9883-9-crosa@redhat.com>
+Date: Tue, 03 Dec 2019 19:19:35 +0000
+Message-ID: <87lfrt9pyw.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,101 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: Beraldo Leal <bleal@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-ppc@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the redirected device has this capability, Windows guest may
-place the device into D2 and expect it to wake when the device
-becomes active, but this will never happen. For example, when
-internal Bluetooth adapter is redirected, keyboards and mice
-connected to it do not work. Current commit removes this
-capability (starting from machine 4.2)
-Set 'usb-host.suppress-remote-wake' property to 'off' to keep
-'remote wake' as is or to 'on' to remove 'remote wake' on
-4.1 or earlier.
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/core/machine.c    |  1 +
- hw/usb/host-libusb.c | 20 ++++++++++++++++++++
- hw/usb/trace-events  |  1 +
- 3 files changed, 22 insertions(+)
+Cleber Rosa <crosa@redhat.com> writes:
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8..8c0eaad091 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -29,6 +29,7 @@
- 
- GlobalProperty hw_compat_4_1[] = {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
-+    { "usb-host", "suppress-remote-wake", "off" },
- };
- const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
- 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index fcf48c0193..00e0e36369 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -88,6 +88,7 @@ struct USBHostDevice {
-     bool                             needs_autoscan;
-     bool                             allow_one_guest_reset;
-     bool                             allow_all_guest_resets;
-+    bool                             suppress_remote_wake;
- 
-     /* state */
-     QTAILQ_ENTRY(USBHostDevice)      next;
-@@ -386,6 +387,8 @@ static void LIBUSB_CALL usb_host_req_complete_ctrl(struct libusb_transfer *xfer)
-     r->p->status = status_map[xfer->status];
-     r->p->actual_length = xfer->actual_length;
-     if (r->in && xfer->actual_length) {
-+        USBDevice *udev = USB_DEVICE(s);
-+        struct libusb_config_descriptor *conf = (void *)r->cbuf;
-         memcpy(r->cbuf, r->buffer + 8, xfer->actual_length);
- 
-         /* Fix up USB-3 ep0 maxpacket size to allow superspeed connected devices
-@@ -394,6 +397,21 @@ static void LIBUSB_CALL usb_host_req_complete_ctrl(struct libusb_transfer *xfer)
-             r->cbuf[7] == 9) {
-             r->cbuf[7] = 64;
-         }
-+        /*
-+         *If this is GET_DESCRIPTOR request for configuration descriptor,
-+         * remove 'remote wakeup' flag from it to prevent idle power down
-+         * in Windows guest
-+         */
-+        if (s->suppress_remote_wake &&
-+            udev->setup_buf[0] == USB_DIR_IN &&
-+            udev->setup_buf[1] == USB_REQ_GET_DESCRIPTOR &&
-+            udev->setup_buf[3] == USB_DT_CONFIG && udev->setup_buf[2] == 0 &&
-+            xfer->actual_length >
-+                offsetof(struct libusb_config_descriptor, bmAttributes) &&
-+            (conf->bmAttributes & USB_CFG_ATT_WAKEUP)) {
-+                trace_usb_host_remote_wakeup_removed(s->bus_num, s->addr);
-+                conf->bmAttributes &= ~USB_CFG_ATT_WAKEUP;
-+        }
-     }
-     trace_usb_host_req_complete(s->bus_num, s->addr, r->p,
-                                 r->p->status, r->p->actual_length);
-@@ -1596,6 +1614,8 @@ static Property usb_host_dev_properties[] = {
-                        LIBUSB_LOG_LEVEL_WARNING),
-     DEFINE_PROP_BIT("pipeline",    USBHostDevice, options,
-                     USB_HOST_OPT_PIPELINE, true),
-+    DEFINE_PROP_BOOL("suppress-remote-wake", USBHostDevice,
-+                     suppress_remote_wake, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 2d3713351c..1c24d82c09 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -266,3 +266,4 @@ usb_host_parse_config(int bus, int addr, int value, int active) "dev %d:%d, valu
- usb_host_parse_interface(int bus, int addr, int num, int alt, int active) "dev %d:%d, num %d, alt %d, active %d"
- usb_host_parse_endpoint(int bus, int addr, int ep, const char *dir, const char *type, int active) "dev %d:%d, ep %d, %s, %s, active %d"
- usb_host_parse_error(int bus, int addr, const char *errmsg) "dev %d:%d, msg %s"
-+usb_host_remote_wakeup_removed(int bus, int addr) "dev %d:%d"
--- 
-2.17.1
+> This acceptance test, validates that a full blown Linux guest can
+> successfully boot in QEMU.  In this specific case, the guest chosen is
+> Fedora version 31.
+>
+>  * x86_64, pc and q35 machine types, with and without kvm as an
+>    accellerator
+>
+>  * aarch64 and virt machine type, with and without kvm as an
+>    accellerator
+>
+>  * ppc64 and pseries machine type
+>
+>  * s390x and s390-ccw-virtio machine type
+>
+> The method for checking the successful boot is based on "cloudinit"
+> and its "phone home" feature.  The guest is given an ISO image
+> with the location of the phone home server, and the information to
+> post (the instance ID).  Upon receiving the correct information,
+> from the guest, the test is considered to have PASSed.
+>
+> This test is currently limited to user mode networking only, and
+> instructs the guest to connect to the "router" address that is hard
+> coded in QEMU.
+>
+> To create the cloudinit ISO image that will be used to configure the
+> guest, the pycdlib library is also required and has been added as
+> requirement to the virtual environment created by "check-venv".
+>
+> The console output is read by a separate thread, by means of the
+> Avocado datadrainer utility module.
 
+Hmm I'm seeing breakage with this final commit:
+
+19:16:36 [alex@zen:~/l/qemu.git] review/boot-linux-acceptance|=E2=80=A6 + /=
+bin/sh -c "cd builds/all; make check-acceptance"
+make[1]: Entering directory '/home/alex/lsrc/qemu.git/slirp'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/alex/lsrc/qemu.git/slirp'
+  VENV    /home/alex/lsrc/qemu.git/builds/all/tests/venv
+  PIP     /home/alex/lsrc/qemu.git/tests/requirements.txt
+  CC      qemu-img.o
+  LINK    qemu-img
+/usr/bin/ld: //lib/x86_64-linux-gnu/libtirpc.so.3: warning: common of `rpc_=
+createerr@@GLIBC_2.2.5' overridden by definition from //lib/x86_64-linux-gn=
+u/libc.so.6
+  AVOCADO tests/acceptance
+JOB ID     : f564c8a207a556b04abceed09e51cf945b48ca56
+JOB LOG    : /home/alex/lsrc/qemu.git/builds/all/tests/results/job-2019-12-=
+03T19.16-f564c8a/job.log
+ (01/60) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc: ERROR: Trac=
+eback (most recent call last):\n  File "/usr/lib/python3.7/imp.py", line 23=
+4, in load_module\n
+return load_source(name, filename, file)\n  File "/usr/lib/python3.7/imp.py=
+", line 171, in load_source\n    module =3D _load(spec)\n  File "<frozen im=
+portlib._b... (0.03 s)
+Interrupting job (failfast).
+RESULTS    : PASS 0 | ERROR 1 | FAIL 0 | SKIP 59 | WARN 0 | INTERRUPT 0 | C=
+ANCEL 0
+JOB TIME   : 0.15 s
+make: *** [/home/alex/lsrc/qemu.git/tests/Makefile.include:1183: check-acce=
+ptance] Error 9
+
+
+--=20
+Alex Benn=C3=A9e
 
