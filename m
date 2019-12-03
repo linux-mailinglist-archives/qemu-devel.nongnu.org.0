@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1660112044
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:28:28 +0100 (CET)
-Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9D9112020
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:18:22 +0100 (CET)
+Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icHal-0005j8-N9
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:28:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58631)
+	id 1icHQz-00074c-3I
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icH3e-0002wp-VL
+ (envelope-from <richard.henderson@linaro.org>) id 1icH3e-0002wn-TS
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icH3Z-0006uv-63
+ (envelope-from <richard.henderson@linaro.org>) id 1icH3Z-0006um-7C
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:11 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37696)
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39585)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icH3V-0006aj-9R
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:05 -0500
-Received: by mail-pf1-x443.google.com with SMTP id s18so2577878pfm.4
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 14:53:48 -0800 (PST)
+ id 1icH3X-0006cn-6X
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:09 -0500
+Received: by mail-pf1-x441.google.com with SMTP id x28so2571052pfo.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 14:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=CW2EPJtOmxl4BSZSTFMUahqoZD/6rAAwVofwfa2CqPY=;
- b=i9iXMUtl7S9kXYrXaO6jMQ2JlSFVx5US+lcZQijuDMQdlT8b5nJs7vbrHyxknWNPEH
- z16qZxgXtKzm9Tcz1TsgM1oFotzJKz6TEhVuQVxcc3RevIjgTxTaxo0HLl9PlCMNeU6g
- EKyVRdvqj+9Iepd94LK/Gyjc2UgQaQ08uzoSbR7Nf41pFK0mArn7XFWY+8fDBejAZhtN
- zLY2kqOgSY586MnxPYED5WuVfoJN2illYRT/DDfIxOeKNCLnCySkEj0Teu92k26/PhIX
- j/fOE3a6b/+IdHHkQjUSFBo40KZwsyFhbz1BxazZVcuDABIW3hZjq3kLUZAuJCIJFcsi
- qY+w==
+ bh=KQ4nnssDdUX84cYwpBX+qRuZqhWJTbkOPZT8YrFeOhs=;
+ b=eQqCE+shHPKIcO9Tsszm6MGoIgkVazn2NdvmjidCvDhFFv8TMKl5srUULllLUwbs9D
+ ZsE7wD18a6tMOt+SZPxGrNyHDWqcuT0KLg26eGWYd+FL5+RnVV396rmD1txesA4Gqq8U
+ PWsyacEjJD05oj+VqZFbx8uygjCS0/TSrTz35T9NBuWExQiYemzKe185UokdsqoILDxi
+ bgjltdW8Qw73KKdVTL6MkHDQVF/83NykJy5TwjPeP+6DbuVMexjORfGFyoEORY2qR5ge
+ MyWmzZdscFwnIqvmNHokbdwvLxU6c1n7HnVe3glHaGWLypsFKmHNZVq/HehUU8KxvW14
+ 30xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=CW2EPJtOmxl4BSZSTFMUahqoZD/6rAAwVofwfa2CqPY=;
- b=cMd6PYM4jlkTTvw7Uoj7PCj7xg79R5yE0vIt4vhV67R9O0KBthz4sAmzIvI7Y40qQY
- ip/wv//erMx9TFK9roCwT8CDSXiOzVhgMhCPhEMiulcncCV4SJomOqKiwVVPJ8OKD7q7
- eYdqg3SfN1CgKpnE8YQZ+j5DxC+vpGIY6oQCRI0u1aigY9GNH0COt3RoCPn/DIePk8sk
- kLU0kUW59HjHi7M1hYOCwPBqHPo0q8SI5O+IPCiFS1knNPnLmGYVv3y7dvdGixkQJTeC
- FIP0QTtr2z4Wdv2S2E/aTxnMpEAW60l2c74NUtEHvSBGJprOlkg2mHRnj+omGCbUgyhw
- aRQQ==
-X-Gm-Message-State: APjAAAWk1BzeOit7ADIlP++1zUpmYfF1wZ4kR3TpA0JhglR7WSRwByJR
- VCqVfRTeHM2VaXyO/s7EQF7mfta3/zY=
-X-Google-Smtp-Source: APXvYqzD/XHQ0w/WY8XON6ZVogOAj9QhVcPIzKDnKqtYgyawuVtpwL/w/sNjpmfKHnea3KoHZTdm2Q==
-X-Received: by 2002:a63:5962:: with SMTP id j34mr37304pgm.421.1575413626664;
- Tue, 03 Dec 2019 14:53:46 -0800 (PST)
+ bh=KQ4nnssDdUX84cYwpBX+qRuZqhWJTbkOPZT8YrFeOhs=;
+ b=XcnIpQgD6U5br/29QuPCsdDH1RJsDZ4+wWezWRBkkKZPpC1K28fL24Yyizxg/2mWef
+ NBJ+RvxTKYxDX4h6P8BZtHiv2tQneCLrjFfcgo2k+FY3ffZpo09aw7dALOCrurNUTXVE
+ Kc0ATDORaJr64f08mkmXgYrthFX0QUe7w0IQrXZxbB7HhqfegLEJpLSKSmBws6uNHUui
+ U0NTOmIO5xkmiKslQD3EQA9RcStjKCe3+ZRgQhOZLynjDMcLmMGdEx3Dvf0q4CQGHUNm
+ FjFr+yq7vikWCKemcLv2b2NKeZLeLCffrF3oe4vWpv0zLwHRfY1dDy/lwiYKNOIGaesy
+ GfSw==
+X-Gm-Message-State: APjAAAUQQ9GHFJtyHEbhyX5JOfLw39WwbVTMBp5tKXC3rSFUME7grors
+ HEj2UJYM97vyM+EJDo7/8X2CbRCzWyY=
+X-Google-Smtp-Source: APXvYqw2S+J4qUvWrWi2iqNjRCGoF8tWPoQg8HZ/UNWBWkEU6DRENLmBJs+BlsOPWIHlE3RKWQZtDA==
+X-Received: by 2002:a62:fb0e:: with SMTP id x14mr308844pfm.194.1575413629919; 
+ Tue, 03 Dec 2019 14:53:49 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d22sm3789713pjd.2.2019.12.03.14.53.45
+ by smtp.gmail.com with ESMTPSA id d22sm3789713pjd.2.2019.12.03.14.53.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 14:53:45 -0800 (PST)
+ Tue, 03 Dec 2019 14:53:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] target/arm: Set PAN bit as required on exception entry
-Date: Tue,  3 Dec 2019 14:53:31 -0800
-Message-Id: <20191203225333.17055-10-richard.henderson@linaro.org>
+Subject: [PATCH 11/11] target/arm: Enable ARMv8.2-ATS1E1 in -cpu max
+Date: Tue,  3 Dec 2019 14:53:33 -0800
+Message-Id: <20191203225333.17055-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191203225333.17055-1-richard.henderson@linaro.org>
 References: <20191203225333.17055-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,109 +79,52 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PAN bit is preserved, or set as per SCTLR_ELx.SPAN,
-plus several other conditions listed in the ARM ARM.
+This includes enablement of ARMv8.1-PAN.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 42 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ target/arm/cpu.c   | 4 ++++
+ target/arm/cpu64.c | 5 +++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a1dbafb9b2..043e44d73d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8634,8 +8634,12 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
-                                    uint32_t mask, uint32_t offset,
-                                    uint32_t newpc)
- {
-+    int new_el;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index f3360dbb98..3b0c466137 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2640,6 +2640,10 @@ static void arm_max_initfn(Object *obj)
+             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
+             cpu->isar.mvfr2 = t;
+ 
++            t = cpu->id_mmfr3;
++            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
++            cpu->id_mmfr3 = t;
 +
-     /* Change the CPU state so as to actually take the exception. */
-     switch_mode(env, new_mode);
-+    new_el = arm_current_el(env);
+             t = cpu->id_mmfr4;
+             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
+             cpu->id_mmfr4 = t;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 009411813f..9399253b4c 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -671,6 +671,7 @@ static void aarch64_max_initfn(Object *obj)
+         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
+         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
+         t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
++        t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
+         cpu->isar.id_aa64mmfr1 = t;
+ 
+         /* Replicate the same data to the 32-bit id registers.  */
+@@ -691,6 +692,10 @@ static void aarch64_max_initfn(Object *obj)
+         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
+         cpu->isar.id_isar6 = u;
+ 
++        u = cpu->id_mmfr3;
++        u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
++        cpu->id_mmfr3 = u;
 +
-     /*
-      * For exceptions taken to AArch32 we must clear the SS bit in both
-      * PSTATE and in the old-state value we save to SPSR_<mode>, so zero it now.
-@@ -8648,7 +8652,7 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
-     env->uncached_cpsr = (env->uncached_cpsr & ~CPSR_M) | new_mode;
-     /* Set new mode endianness */
-     env->uncached_cpsr &= ~CPSR_E;
--    if (env->cp15.sctlr_el[arm_current_el(env)] & SCTLR_EE) {
-+    if (env->cp15.sctlr_el[new_el] & SCTLR_EE) {
-         env->uncached_cpsr |= CPSR_E;
-     }
-     /* J and IL must always be cleared for exception entry */
-@@ -8659,6 +8663,14 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
-         env->thumb = (env->cp15.sctlr_el[2] & SCTLR_TE) != 0;
-         env->elr_el[2] = env->regs[15];
-     } else {
-+        /* CPSR.PAN is preserved unless target is EL1 and SCTLR.SPAN == 0. */
-+        if (cpu_isar_feature(aa64_pan, env_archcpu(env))) {
-+            env->uncached_cpsr |=
-+                (new_el == 1 &&
-+                 (env->cp15.sctlr_el[1] & SCTLR_SPAN) == 0
-+                 ? CPSR_PAN
-+                 : env->spsr & CPSR_PAN);
-+        }
          /*
-          * this is a lie, as there was no c1_sys on V4T/V5, but who cares
-          * and we should just guard the thumb mode on V4
-@@ -8921,6 +8933,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     unsigned int new_el = env->exception.target_el;
-     target_ulong addr = env->cp15.vbar_el[new_el];
-     unsigned int new_mode = aarch64_pstate_mode(new_el, true);
-+    unsigned int old_mode;
-     unsigned int cur_el = arm_current_el(env);
- 
-     /*
-@@ -9006,20 +9019,43 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     }
- 
-     if (is_a64(env)) {
--        env->banked_spsr[aarch64_banked_spsr_index(new_el)] = pstate_read(env);
-+        old_mode = pstate_read(env);
-         aarch64_save_sp(env, arm_current_el(env));
-         env->elr_el[new_el] = env->pc;
-     } else {
--        env->banked_spsr[aarch64_banked_spsr_index(new_el)] = cpsr_read(env);
-+        old_mode = cpsr_read(env);
-         env->elr_el[new_el] = env->regs[15];
- 
-         aarch64_sync_32_to_64(env);
- 
-         env->condexec_bits = 0;
-     }
-+    env->banked_spsr[aarch64_banked_spsr_index(new_el)] = old_mode;
-+
-     qemu_log_mask(CPU_LOG_INT, "...with ELR 0x%" PRIx64 "\n",
-                   env->elr_el[new_el]);
- 
-+    if (cpu_isar_feature(aa64_pan, cpu)) {
-+        /* The value of PSTATE.PAN is normally preserved, except when ... */
-+        new_mode |= old_mode & PSTATE_PAN;
-+        switch (new_el) {
-+        case 2:
-+            /* ... the target is EL2 with HCR_EL2.{E2H,TGE} == '11' ...  */
-+            if ((arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE))
-+                != (HCR_E2H | HCR_TGE)) {
-+                break;
-+            }
-+            /* fall through */
-+        case 1:
-+            /* ... the target is EL1 ... */
-+            /* ... and SCTLR_ELx.SPAN == 0, then set to 1.  */
-+            if ((env->cp15.sctlr_el[new_el] & SCTLR_SPAN) == 0) {
-+                new_mode |= PSTATE_PAN;
-+            }
-+            break;
-+        }
-+    }
-+
-     pstate_write(env, PSTATE_DAIF | new_mode);
-     env->aarch64 = 1;
-     aarch64_restore_sp(env, new_el);
+          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
+          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
 -- 
 2.17.1
 
