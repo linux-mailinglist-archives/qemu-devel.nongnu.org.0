@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B1C1101ED
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:16:02 +0100 (CET)
-Received: from localhost ([::1]:55646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C841101CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:06:27 +0100 (CET)
+Received: from [::1] (port=55534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icAqF-0003Ny-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:15:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44570)
+	id 1icAgy-0006c5-SS
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:06:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1icAON-0007cc-1Q
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:47:14 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1icAWb-0002eA-T2
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:55:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1icAOG-0001Yi-DV
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:47:05 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51762)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1icAO0-0000UT-VW
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:47:04 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id g206so3454987wme.1
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 07:46:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:subject:in-reply-to:date:message-id
- :mime-version:content-transfer-encoding;
- bh=QOTKx9PIDusdl8qlelapPVMnwrLaphVS6rQ1uM3GoEU=;
- b=xvaJG4WNdSUfDWwhISEITWLtMazigFgYfT/ppmiXs5GA7UrbaqZoLBgKAmmHDtWN+i
- 85at7I8kzDtSxJYxWpF9cwzCCfzWjVF0DfvYAATCk3mMkkXGg3v/5GoFVrbllb1CU5Yp
- ZlIGPbnMCCkK1QqoLpbp3WPu8daPkNz23oAk0kPpEh9CZRTHeKcGcNNNpWwvUxuwSbaI
- 4yXonUIv/QFNxjVNi2cGxzjFgoBN7b19GtQKv2WEFyZ8kp0E9+R6O0/CVJ013bGWDM2E
- MbvqgJAoYj8d8tTJu03Z1K3Mg6yiVrHaj5AgoYyqC9uFkJqyz2J9mybvY57/1FSO90QR
- JvyA==
+ (envelope-from <pbonzini@redhat.com>) id 1icAWS-0002LL-W2
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:55:34 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57845
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1icAWS-00026v-Jy
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:55:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575388529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mj+7N6lpeGvHNflQt3MnyFasmRG156/84fI9GvVFRt4=;
+ b=VoOeBunjd7RNQ9WvlZpLT3hHSvg2f/sTatbN8Uj5Dn6pZQ3zEGaTvD5nWwN3wUC7mbSSUz
+ rh7xSbqL6oOKI8dQMlis9v0TQ8W6n5ngrBKUJ6+PdKkCm7XkBDLeuKYubUiNPXeL9eVtH1
+ OVtzsIDNROCFrwm6lj0TWQdAlxkeLfc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-fxMzvH6AMUe3obDIwcfXvA-1; Tue, 03 Dec 2019 10:55:28 -0500
+X-MC-Unique: fxMzvH6AMUe3obDIwcfXvA-1
+Received: by mail-wr1-f71.google.com with SMTP id h30so2008677wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 07:55:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QOTKx9PIDusdl8qlelapPVMnwrLaphVS6rQ1uM3GoEU=;
- b=eVQbgEIh0uZ6p8BzzyDfU/CCgg38hC1+JQMUrvPPtNp9PYGUIt3BU1c4UVJ58YL/jS
- iUCzShRpoaTfRePztQqRZaKfZIwMLuUbUMKwdocFAncibX1bwTNh0CCp0wA0myT+Q4Il
- hCdO3Yw0Il9gcXWUhaXwL+TfRna5z+zk+57Ay+n5BfD5Q92OAjSmGEAe/KGa/yUmLLd9
- iF2zAEpbTwZ8LZ+6YN9V24WZxHBDW/6akU/F2SDrGi/eAwN8BR3h34XL/HEtWu02eZfr
- kGm01f2cS9SaNZtTqPdb0D0pbYcraVAfxW9RPo4xMeWxA0B2e9QHvx+FwMCqY9ruHMur
- BPdg==
-X-Gm-Message-State: APjAAAU5X+UrY264ujIv3YHcpqNaq2KNZ/crwGhXANutMcF2NEroNvkO
- OQ0k46RekRECca9oQVLu6LQo+YazBT0=
-X-Google-Smtp-Source: APXvYqyoj/K3IUT+H3cy/S4yCCiA22sdMdxNtwb6OurHdf3PsGd7LmeneWoeiABc+uIbOp5zWpFKxA==
-X-Received: by 2002:a1c:f702:: with SMTP id v2mr34623456wmh.157.1575387998131; 
- Tue, 03 Dec 2019 07:46:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x11sm4277677wre.68.2019.12.03.07.46.36
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 07:46:37 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D7EF1FF87
- for <qemu-devel@nongnu.org>; Tue,  3 Dec 2019 15:46:36 +0000 (GMT)
-References: <CALS5s18QBnPsv3TbtbM7ie__zekvH1T59c-o8FRd+f0EtiwqFg@mail.gmail.com>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: Custom logic gates on user space emulation
-In-reply-to: <CALS5s18QBnPsv3TbtbM7ie__zekvH1T59c-o8FRd+f0EtiwqFg@mail.gmail.com>
-Date: Tue, 03 Dec 2019 15:46:36 +0000
-Message-ID: <877e3dbeeb.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=2u1fFr+7nbDZoXZkg2jwvS1uhtaLClJtvuVPI1eGyyQ=;
+ b=n6595jnFdW5O2NkM3jFuiZWLVrHvRxZUs1R/u4KsBWfPn4as9umOW8blPN1IQNY89C
+ lG7uSY6jaWGBvql6mZCRSHmYxUpAcna00pQMel0t/K0rMfW5hkL38H7LL6e+9r0+qaVd
+ GKgPrdODJw0XyMWrTh2bUynWC/aB19L9gvN0Yv5azeoFZdix+nLYZd9c25DZ+OqyqMgz
+ 8dAyWxoK4PnWLQUU5ACXjmev2S9VFl1FQ1YVnYwp6djqSRjZpkLHq53Okks2YWWL8vFQ
+ cV0BmTK0XENL7nn6cb6SJQRhTBmOfNCfuiYL0QQDJWErVXfoTLJ6uNFFIpfJuEEe2KdS
+ k9eg==
+X-Gm-Message-State: APjAAAUru/hIxI6AptMTfxPh5KyJFxR35Cq/szUy965J7CdfDfVnW+pw
+ nsg/x9kHNP7ssBwBwVpYbfmZwux8Xhz/mT7jGJw2DBNjmJbI9NDuQ1C5zohWICpesLLHoVoF3Rv
+ h+woM6h22Ta5VyGA=
+X-Received: by 2002:a1c:39c4:: with SMTP id g187mr37312399wma.78.1575388527103; 
+ Tue, 03 Dec 2019 07:55:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyoy0CXUzMzd89pwtURaFmWkVRLx4rhMG1DfQolxrfulpCHSSDtMlRWoPz6zT0qaOOoPpeLIg==
+X-Received: by 2002:a1c:39c4:: with SMTP id g187mr37312387wma.78.1575388526870; 
+ Tue, 03 Dec 2019 07:55:26 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
+ ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
+ by smtp.gmail.com with ESMTPSA id r63sm2829147wma.2.2019.12.03.07.55.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2019 07:55:25 -0800 (PST)
+Subject: Re: [PATCH v2 05/15] stubs: add stubs for io_uring interface
+To: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20191025160444.31632-1-stefanha@redhat.com>
+ <20191025160444.31632-6-stefanha@redhat.com>
+ <20191111111347.GC7297@linux.fritz.box>
+ <20191203111600.GA167235@stefanha-x1.localdomain>
+ <20191203142845.GE5637@linux.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <df85b405-c2a8-bfa0-b4b8-d50b40869332@redhat.com>
+Date: Tue, 3 Dec 2019 16:55:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+In-Reply-To: <20191203142845.GE5637@linux.fritz.box>
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="KPkxyLXD7nrnRO1IwIWxR9204NQRUJdOI"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,41 +92,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, oleksandr@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--KPkxyLXD7nrnRO1IwIWxR9204NQRUJdOI
+Content-Type: multipart/mixed; boundary="UdBxt8IoOVuM6Oyala99KSEwz5Ko4H3vh"
 
-burak sarac <burak@linux.com> writes:
+--UdBxt8IoOVuM6Oyala99KSEwz5Ko4H3vh
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Hello All,
->  Currently I am studying qemu and I want to figure out how I can use
-> custom logic gates on user space emulation.  I am searching very basic
-> 'hello world' kind of tutorial or some resources to i.e. adding left
-> or LOR : 1 | 0 =3D 1 but 0 | 1 =3D 0 to existing x86 arch
-> ((https://en.wikibooks.org/wiki/X86_Assembly/Logic) ?).
+On 03/12/19 15:28, Kevin Wolf wrote:
+>> * It's possible to argue against this and personally I'm not that
+>> convinced by stubs for this scenario.  But io_uring.o should be
+>> consistent with how things work today with linux-aio.o.  If you feel
+>> strongly against having stubs then the linux-aio.o stubs should also be
+>> removed (see commit c2b38b277a788).
+> I don't really like having block-specific things like Linux AIO or
+> io_uring in util/async.c, but given that they have per-AioContext state,
+> it's not clearly wrong either.
 
-It's not clear what you want to do. Are you looking to extend an
-existing instruction set with additional custom instructions? Can you
-explain why you want to do this?
+A good reason to have AioContext in util/async.c is that nowadays Linux
+supports poll() via the AioContext ring too, and that would allow doing
+busy polling of network sockets.
 
-> What I want to
-> try is run this extended x86 version with qemu user space emulation.
-> Do I need a custom toolchain also for this? I found this book:
-> https://subscription.packtpub.com/book/hardware_and_creative/978178328945=
-5/1/ch01lvl1sec15/generating-a-custom-toolchain-become-an-expert
-
-For testing you don't need a custom toolchain - you can use inline
-assembly with data statements to insert your custom instructions into a
-program. Again it depends on what your eventual aim is here.
-
->
-> Sorry for my ignorance in case it is totally irrelevant and I would
-> appreciate any guidance! Or pseudo kind of road map for me!
->
-> Thank you & have a nice day
-> Burak
+Paolo
 
 
---=20
-Alex Benn=C3=A9e
+--UdBxt8IoOVuM6Oyala99KSEwz5Ko4H3vh--
+
+--KPkxyLXD7nrnRO1IwIWxR9204NQRUJdOI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl3mhWsACgkQv/vSX3jH
+roMrsgf+PGvt/z5nqP6WkysJz/wxZ97tGorj2WV6ewFPkWJxPLaxlUrTELVIUkvH
+6Sv4fipI/gRkOhGUjvRzQ4pa9grCt8FKaB/qXdrhOGjG3fzhwfe+h2LYXKWAS/+N
+gjoRWs1bZ5CGjNzbAVL4x1B01C0cFITfu98CRGKCsYPTtu8N7EJ5JCJsSHG87mzI
+Bir1BiLxzaHFuKMGUE7CNz+UbtmHiPZMY1JFDi2oDI6dnVxUaln/4kE/tY+KDrWL
+MwK0A99uhxryK0AAQ2NrzuQSWLvz02s9h3f5CUwnxCPWUOgYwqYIai4Dn5tPs/6W
+s3+HEKu3AQRBXbBep4yVZeuKsXJA3g==
+=ixiP
+-----END PGP SIGNATURE-----
+
+--KPkxyLXD7nrnRO1IwIWxR9204NQRUJdOI--
+
 
