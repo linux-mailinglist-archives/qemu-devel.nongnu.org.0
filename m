@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20540111B3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 22:59:10 +0100 (CET)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EAE111B9E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 23:25:16 +0100 (CET)
+Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icGCH-0008HI-Sf
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 16:59:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57070)
+	id 1icGbb-0005kp-6U
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 17:25:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icFrJ-0001Ea-Oo
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:37:26 -0500
+ (envelope-from <crmull121@gmail.com>) id 1icFVj-0008TA-7x
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icFrB-000355-LB
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:37:21 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56225
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icFrB-0002kE-Fu
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:37:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575409032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FBUGIMgVwqwKg7n2RfLhiuSC/TvnKSGgFJ2sYbYmtlY=;
- b=OWGCvTPzIwC4xfM7XdtQqAtp88t4KX209i22Jxws1Wdh6kkpfdcS36PaXFsYVl0nbw5KRe
- l8ZrJSzafnYct84v/ZSmTx+qEAj08GzTsMp9Hqnr1FF+yJMXiVjhTKQ12DWCBMOZ6sMoJc
- 5pOw+oNO31s98qSAfN7TkT71932zVx0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-WSeXyd6MP_-VtYiKBmQD-g-1; Tue, 03 Dec 2019 16:37:08 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 024F9800D5A;
- Tue,  3 Dec 2019 21:37:07 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B27D60BE1;
- Tue,  3 Dec 2019 21:37:03 +0000 (UTC)
-Subject: Re: [PATCH 13/21] memory-device: Fix latent memory pre-plug error
- handling bugs
-To: Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
-References: <20191130194240.10517-1-armbru@redhat.com>
- <20191130194240.10517-14-armbru@redhat.com>
- <5306b8e8-fea3-c482-badb-9b78891d7e27@redhat.com>
- <87h82jnwlx.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c3483308-e0b4-81ea-5346-9c501644046f@redhat.com>
-Date: Tue, 3 Dec 2019 15:37:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <crmull121@gmail.com>) id 1icFVg-00082K-8T
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:06 -0500
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:39451)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <crmull121@gmail.com>) id 1icFVg-0007gi-1B
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 16:15:04 -0500
+Received: by mail-lj1-x22d.google.com with SMTP id e10so5486240ljj.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 13:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=5oATEj7h/vMT0yVmTV7JHpbZYEkGfnHC7nf8w+7PC40=;
+ b=WfFFgLYmNr9XfsQoukEPi1oDHyY0w+4gZTTZJ63E1FrvQeyw3dFfWAAmL8gZ+HNDiK
+ Vgug0K22n+Aw2tMxTybqVxHqkINZobZDTdR+bttoj8NsMBTVos7GYNz3RBrQrS3yHW28
+ zSZf174uE/ZXxezNmiiytP4fIj0OF8lU7YcebLTVY+wl19PsW0FuWidZW9HFWz741wRO
+ cZmLw+W0z50OIzxSOfzjRxOtjSe1J+7eKufjw9WeiddgxiN88R56E4Mk9H1VD97hVDIN
+ A5kDw8NzqE3/F5Ac36Q0Wxs1lBb+yHa43hsYN9VWH+q6LmmxtAY663CXGNH41B13m92R
+ HyAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=5oATEj7h/vMT0yVmTV7JHpbZYEkGfnHC7nf8w+7PC40=;
+ b=jJz1O3HPPZL5QY6BcJeUb7tU0f3U27lmB4AZJmiaXEGfv0c9gVmr6pTQiYRNagLU7l
+ HMrnqF7MMxjX5FIp4ZDZm+uhUBTRF13MDbECAE44e8RGtZ4UBv2tntUz5THA7/zGqW+W
+ k7U5srtmxdy+zmxm/7jloKdOr6fDrPhjcnlqQhoqhOnMyYAAa0uYKiJ5u6My24Z7DhD3
+ d03JoClZ9BF4zsB74O3Tr1yMUEYE4r4+v9AfaLaJg4DzEy4hR9iyQGuyl0IofbE6FkaP
+ 1m1QxkghiErpJvLDgCpCV0NycW08ZJUklQQymplUPZse6V+jetT9Uu/A3bGTbNEcYYAa
+ mtFw==
+X-Gm-Message-State: APjAAAUWzEiQdzCoI7tPbgHXnvmoHeA8w5Hn2xNPB+Y2Or7uFHWDfopI
+ JGoSKay2NtbWJUkuMj9Hvp6D1usKOAtrTuOx/SegqXwM
+X-Google-Smtp-Source: APXvYqx64LCSxrvVLpsAFmWrq+kDhcP7TVe8qTwDJgsdX64sJ6uOWghIaAgnI11gH5XXFMUcNiemGVJjVi/XOfMys7s=
+X-Received: by 2002:a2e:9b05:: with SMTP id u5mr3770790lji.59.1575407698476;
+ Tue, 03 Dec 2019 13:14:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87h82jnwlx.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: WSeXyd6MP_-VtYiKBmQD-g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Craig Mull <crmull121@gmail.com>
+Date: Tue, 3 Dec 2019 15:14:47 -0600
+Message-ID: <CAPT-DMXZr4WSUoifEQ=hi9vCU1iZ7U2k6TLWScKfsUuMHtFMwQ@mail.gmail.com>
+Subject: Lack of OS vendor support for blockdev-snapshot
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::22d
+X-Mailman-Approved-At: Tue, 03 Dec 2019 16:35:03 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +68,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org
+Cc: dwarcher@us.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/19 11:07 PM, Markus Armbruster wrote:
+Any insight as to why OS vendors (RHEL and Ubuntu in particular)
+aren't supporting blockdev-snapshot?
 
->>>   {
->>> +    Error *err = NULL;
+- RHEL claims no support for Qemu-based snapshots in any flavor
+- Ubuntu hasn't enabled blockdev-snapshot in it's 19.10 release
 
->> I remember that some time ago, the best practice was to use "local_err",
->> what is the latest state of that?
-> 
-> Hundreds of local Error * variables are named @local_err, and hundreds
-> more are named @err.
-> 
-> For what it's worth, the big comment in error.h uses @err, except in one
-> place where it needs two of them.
-
-What's more, if we go through with Vladimir's Coccinelle cleanup to use 
-ERRP_AUTO_PROPAGATE, then we don't have either name to worry about (both 
-'&local_err' and '&err' are replaced by 'errp').
-
-> 
->> I still disagree that these are BUGs or even latent BUGs. If somebody
->> things these are BUGs and not cleanups, then we should probably have
->> proper "Fixes: " tags instead.
-> 
-> Let's continue that discussion in the sub-thread where you first raised
-> this objection.
-
-One benefit of fixing the style (whether or not you count it as a bug 
-fix) is that the Coccinelle script for updating to a new style is more 
-likely to apply correctly.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+-craig
 
