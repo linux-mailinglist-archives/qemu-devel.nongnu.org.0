@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677C811015F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 16:38:32 +0100 (CET)
-Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BB4110189
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 16:50:04 +0100 (CET)
+Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icAFy-0003UU-19
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 10:38:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46989)
+	id 1icAR8-0007Uh-LY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 10:50:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ic9op-0002P4-6W
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:10:34 -0500
+ (envelope-from <estebanbosse@gmail.com>) id 1icA2Z-0007FQ-7u
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:24:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ic9oi-000162-5Z
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:10:23 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:33201)
+ (envelope-from <estebanbosse@gmail.com>) id 1icA2P-0006w1-6X
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:24:33 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43274)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ic9oC-0007cR-Np
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:10:20 -0500
-Received: by mail-pl1-x641.google.com with SMTP id ay6so1820561plb.0
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 07:09:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dwqjuWSNcNr2c2ServoaUGYVWGdUe1z+kLXm78sBdfk=;
- b=c5BgjaTasi0oSrcjSWP7J9FOVQ0GIuVXSDMcnNXLXMCTXGBk7oqgN1fiZ+LKDvepsR
- xG42xzqD4fdhMxLS9tGabMJ8+t48+0hhao7GVhH22ocU1YiKDZJTmlrak+LiL2JplFmF
- hyAEsJMq5XvCzBn0OfmA3+e7cu2y7Llcu9Ojffb4ktxFedt5KlFVsAjbeZTLSZnNKXJv
- 6unAuE/PYgSnaqm20q0hj1ap+PwpiCnw93laBN8Zr0gGQINs5/h0YnZioP+NvZdqSUoD
- YwznEaXQLGL7lDMkJH+m9OVIdDWavWkyx4AbHVFg1+9wYSu4ZMkKHqFIjVC8jqVfVBv8
- TV5Q==
+ (Exim 4.71) (envelope-from <estebanbosse@gmail.com>)
+ id 1icA2N-0006fd-Rb
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:24:29 -0500
+Received: by mail-ed1-x535.google.com with SMTP id dc19so3469532edb.10
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 07:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0BFBCN04jdGlNSwxdk9GhU+61wcJ9HUdCARS1ttEYB8=;
+ b=h5zHjeZnYITC/1omSkoYMafb5pICGF9+tjiAHXdNt084hTXxOToCZja73RZjLHoCMR
+ YSeqwBK2rJ7BwFtPCXtONZODR6+v95eWELu67885flX5nY8+kKvbKUzQrNqw78MsOTA2
+ XcBy45otOEVgRr7PABnjXJ+dl2GgQb/D/bmtt9iM8JVBPIe324Thf1hGVg0+y0uecAkv
+ rYG+z1E0GIMoXXHsIN5xDq5OFTV4PdaxCqNT4gpeoBIZMOPfWMrz5T4VOJjg/zmutAki
+ 6YtaTLZ1oLicYxhfE87jZcTKoPVX5sGu2Dxbiv8FFLJcKIJMgG6pdeE6SYqREQbvqma0
+ TB7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dwqjuWSNcNr2c2ServoaUGYVWGdUe1z+kLXm78sBdfk=;
- b=DMh+bn8dSNLQacBl9wFThmrDjzuqOtr5rfsB3F+076Kf+aqHIlUvoSgsr7TFJcvgdC
- vt6opdt150e5/gTTRNeaaZu05n1pPXTLwj4FRV0fyWT8/i5/gfeC7UFF41K6GePU1PPO
- M4Yx2eOQtZvmEISq8LxHFPkAy061NIlSp43cIvw9lLVn1onl8BqDuB0yA7zDiAZ19fOp
- ViBnlB7Vd7yjqUzY9XwgPz+sDOAIoojAZZLOfy5hgm3wyNlrb1lXzRD9zrfSymP2gQoY
- WU/V87pmAR7GiUaonOep3USNbB7cZhlUABhvicyuccBeKJ3t997Q9cxRQFBeFXTz7bXm
- OFEA==
-X-Gm-Message-State: APjAAAWHFn0GklihGXgW/5yynhiRsSoO1jKSax25kHYKbjlx6P7sLyAe
- tIqcDeX2V6TgWVIWOBf0hzezGQ==
-X-Google-Smtp-Source: APXvYqwE9al6I//QLmdV7vIDw7dWoZmsH8w8QgfFs5T4V3Gdr0Jp/5VTsRmdOX+jg+XVNBH4tzL+Cw==
-X-Received: by 2002:a17:90a:5d17:: with SMTP id
- s23mr5683766pji.55.1575385784330; 
- Tue, 03 Dec 2019 07:09:44 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id ce22sm3291383pjb.17.2019.12.03.07.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Dec 2019 07:09:43 -0800 (PST)
-Subject: Re: [PATCH v5 02/22] target/arm: Add regime_has_2_ranges
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-3-richard.henderson@linaro.org>
- <CAFEAcA_Ob3_fGNo3n9hgB6oa-y9abSbtN7Y1u3jpY9uaXNwbSQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2687022d-9165-1059-233d-7b42f4f733ef@linaro.org>
-Date: Tue, 3 Dec 2019 07:09:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0BFBCN04jdGlNSwxdk9GhU+61wcJ9HUdCARS1ttEYB8=;
+ b=L/gA09XINTWs/cqH3O5emH+NjcrB7UlEqxGZCACXkdOlkcfsJuHAxVMu9i2aQ14a71
+ FVjEyiM7vO0+bG5fp8gvnWJPa3lL9f1fRgYhrrtqvHvRfx/uQpziU3NxgbT3FTEkumiF
+ Jx6d1UUvT14t7QL22irgiCh0rgKNFGCANW7ggdvcUN5G5epOBXvnxqEEtlYYs0Qio9hA
+ uDcIvHL131EDUAdKDRLiVC3fQ+aKtaI3SqAP0j0yZsgo4LU1njcUkG7oU3gSRt/0iiaL
+ kVMxl/cniar45xEPpTr3/C5both002WZcY+7DP/8s0df0qhwMFbmDJ59a3JQGtGwdZHm
+ uTOw==
+X-Gm-Message-State: APjAAAW3JkKRB4ro0MthV3/Iue4NNJ1S9GdiggOpNfswLsyaPemXnOoB
+ uYdL8Tg3ZN+Ms82HRxf4LypayUM7n+2UGWV4+PBP8SUi
+X-Google-Smtp-Source: APXvYqxr7l9XCtWxF0OTeOD/YaSY2EYKWCRleBeivwIAJJeUr7Kt/ftuNmJTamI2Lz1BK45DSElRuO1UgRODSeJx1UU=
+X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3862407eds.96.1575386664026; 
+ Tue, 03 Dec 2019 07:24:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_Ob3_fGNo3n9hgB6oa-y9abSbtN7Y1u3jpY9uaXNwbSQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAGbAg_CAh-U-xRh+d6wNLQVWoHXEA0xcW6021Qd4WsMJBGfgOg@mail.gmail.com>
+In-Reply-To: <CAGbAg_CAh-U-xRh+d6wNLQVWoHXEA0xcW6021Qd4WsMJBGfgOg@mail.gmail.com>
+From: Esteban Bosse <estebanbosse@gmail.com>
+Date: Tue, 3 Dec 2019 16:24:11 +0100
+Message-ID: <CAGbAg_A5G2trFWEuAL2da169v=XFrS44g64F6yZo5phLC+T=PQ@mail.gmail.com>
+Subject: Re: BeagleBone support, omap1, omap2, omap3, etc.
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000007e472f0598ce4a99"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2a00:1450:4864:20::535
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,25 +71,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/19 11:01 AM, Peter Maydell wrote:
->> +/* Return true if this address translation regime has two ranges.  */
->> +static inline bool regime_has_2_ranges(ARMMMUIdx mmu_idx)
->> +{
->> +    switch (mmu_idx) {
->> +    case ARMMMUIdx_S12NSE0:
->> +    case ARMMMUIdx_S12NSE1:
->> +    case ARMMMUIdx_S1NSE0:
->> +    case ARMMMUIdx_S1NSE1:
->> +        return true;
-> 
-> Don't S1SE0 and S1SE1 also need to be here?
+--0000000000007e472f0598ce4a99
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Whoops, yes.  I'll need to fix that in the VHE patch set too.
+Ping
 
+El mi=C3=A9., 6 nov. 2019 16:04, Esteban Bosse <estebanbosse@gmail.com> esc=
+ribi=C3=B3:
 
-r~
+> Hello!
+>
+> Some months ago I started to work trying to port the Beaglebone support
+> from the old qemu-linaro fork to the new QEMU mainstream.
+>
+> During my work I found that the Beaglebone have an OMAP3 mpu this mpu has
+> very strong relation with the OMAP2 and OMAP1 in qemu, they implement a l=
+ot
+> of functions in common.
+>
+> Then I understood that the omap1 and omap2 don't implement things like QO=
+M
+> and needs a lot of work to upgrade it, at the same time they are some
+> boards like: omap1_sx, palm, nseries that implement this mpus.
+>
+> Looking the datasheet of the omap1 I realized that it's an very old devic=
+e
+> and some questions like "make sense work with this old device?" comes to =
+my
+> mind.
+>
+> When I went to the KVM Forum the last week I talked with some of you, and
+> you help my with different ideas and proposal to make this task, but I
+> can't see the right way to make this work because it is a lot of work.
+>
+> My motivation is learn more about embedded devices, architecture, kernel,
+> etc. and of course contribute to the community.
+>
+> I would love to hear your opinions about this 3 related devices with they
+> respected boards.
+>
+> Maybe someone is interested to work with me.
+> I dream to make this work beautiful (like the musca board with the armsse
+> and armv7m modules) with a good variety of tests. And in the same time I
+> would like to write some documentation about the process with the final
+> idea to "make an easier way for new contributors".
+>
+> If someone want to work with me in this task, should know that I don't
+> have to much experience and I'm doing this job in my free time (this mean=
+s
+> that I work only in my free time).
+>
+> I appreciate any kind of comment or advice.
+>
+> Thanks for your time ;)
+> EstebanB
+>
+
+--0000000000007e472f0598ce4a99
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Ping=C2=A0</div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">El mi=C3=A9., 6 nov. 2019 16:04, Esteban Boss=
+e &lt;<a href=3D"mailto:estebanbosse@gmail.com">estebanbosse@gmail.com</a>&=
+gt; escribi=C3=B3:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"=
+>Hello!<br><br>Some months ago I started to work trying to port the Beagleb=
+one support from the old qemu-linaro fork to the new QEMU mainstream.<br><b=
+r>During my work I found that the Beaglebone have an OMAP3 mpu this mpu has=
+ very strong relation with the OMAP2 and OMAP1 in qemu, they implement a lo=
+t of functions in common.<br><br>Then I understood that the omap1 and omap2=
+ don&#39;t implement things like QOM and needs a lot of work to upgrade it,=
+ at the same time they are some boards like: omap1_sx, palm, nseries that i=
+mplement this mpus.<br><br>Looking the datasheet of the omap1 I realized th=
+at it&#39;s an very old device and some questions like &quot;make sense wor=
+k with this old device?&quot; comes to my mind.<br><br>When I went to the K=
+VM Forum the last week I talked with some of you, and you help my with diff=
+erent ideas and proposal to make this task, but I can&#39;t see the right w=
+ay to make this work because it is a lot of work.<br><br>My motivation is l=
+earn more about embedded devices, architecture, kernel, etc. and of course =
+contribute to the community.=C2=A0<br><br>I would love to hear your opinion=
+s about this 3 related devices with they respected boards.<br><br>Maybe som=
+eone is interested to work with me. <br>I=C2=A0dream to make this work beau=
+tiful (like the musca board with the armsse and armv7m modules) with a good=
+ variety of tests. And in the same time I would like to write some document=
+ation about the process with the final idea to &quot;make an easier way for=
+ new contributors&quot;.<br><br>If someone want to work with me in this tas=
+k, should know that I don&#39;t have to much experience and I&#39;m doing t=
+his job in my free time (this means that I work only in my free time).<br><=
+br>I appreciate any kind of comment or advice.<div><br>Thanks for your time=
+ ;)<br><div>EstebanB</div></div></div>
+</blockquote></div>
+
+--0000000000007e472f0598ce4a99--
 
