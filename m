@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9D9112020
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:18:22 +0100 (CET)
-Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D3211204B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:31:36 +0100 (CET)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icHQz-00074c-3I
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:18:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58621)
+	id 1icHdn-0007UX-0B
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:31:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icH3e-0002wn-TS
+ (envelope-from <richard.henderson@linaro.org>) id 1icH3e-0002wo-U1
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icH3Z-0006um-7C
+ (envelope-from <richard.henderson@linaro.org>) id 1icH3Z-0006vN-AG
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:11 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39585)
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:35018)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icH3X-0006cn-6X
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:09 -0500
-Received: by mail-pf1-x441.google.com with SMTP id x28so2571052pfo.6
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 14:53:51 -0800 (PST)
+ id 1icH3V-0006bt-UA
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 17:54:07 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id w23so1032520pjd.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 14:53:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KQ4nnssDdUX84cYwpBX+qRuZqhWJTbkOPZT8YrFeOhs=;
- b=eQqCE+shHPKIcO9Tsszm6MGoIgkVazn2NdvmjidCvDhFFv8TMKl5srUULllLUwbs9D
- ZsE7wD18a6tMOt+SZPxGrNyHDWqcuT0KLg26eGWYd+FL5+RnVV396rmD1txesA4Gqq8U
- PWsyacEjJD05oj+VqZFbx8uygjCS0/TSrTz35T9NBuWExQiYemzKe185UokdsqoILDxi
- bgjltdW8Qw73KKdVTL6MkHDQVF/83NykJy5TwjPeP+6DbuVMexjORfGFyoEORY2qR5ge
- MyWmzZdscFwnIqvmNHokbdwvLxU6c1n7HnVe3glHaGWLypsFKmHNZVq/HehUU8KxvW14
- 30xg==
+ bh=yh3Zl0Yfgd5t5mYjFXJ95PB0dxs1Lxcsdr6CBQV1gYs=;
+ b=MO5NaQ+fWAcCRw8VDgNrpdsX+WE2S6qwB+PHclgbzfqvmArsAARrtN2c3SHs25Vkmv
+ Cro5Zf6oeiRfhtmRbH6sFrgJGbmu1uSiQ3uVLtMAdVNqVM8aFciYg9CJK0p0vwPMtU07
+ CGPsy8tp7a3O4pSeIGPk98/FPFdn75Bi/nXOZcizAcP8Gbsv2Ood4iIf/YsmVjM7Z2qa
+ 0tPgcakSmNCO/kbPqE9QfzFc6d8ya7sGR7QB2u29z7gxOktq/atKaG/rM1UYY87aQkhQ
+ Oy5CfGzCUPFeOoWho3HAx3V8JKLDM2vE4Tax0vNiLfbZEOOApSh6u68LfirTR7U5Nvos
+ MYAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=KQ4nnssDdUX84cYwpBX+qRuZqhWJTbkOPZT8YrFeOhs=;
- b=XcnIpQgD6U5br/29QuPCsdDH1RJsDZ4+wWezWRBkkKZPpC1K28fL24Yyizxg/2mWef
- NBJ+RvxTKYxDX4h6P8BZtHiv2tQneCLrjFfcgo2k+FY3ffZpo09aw7dALOCrurNUTXVE
- Kc0ATDORaJr64f08mkmXgYrthFX0QUe7w0IQrXZxbB7HhqfegLEJpLSKSmBws6uNHUui
- U0NTOmIO5xkmiKslQD3EQA9RcStjKCe3+ZRgQhOZLynjDMcLmMGdEx3Dvf0q4CQGHUNm
- FjFr+yq7vikWCKemcLv2b2NKeZLeLCffrF3oe4vWpv0zLwHRfY1dDy/lwiYKNOIGaesy
- GfSw==
-X-Gm-Message-State: APjAAAUQQ9GHFJtyHEbhyX5JOfLw39WwbVTMBp5tKXC3rSFUME7grors
- HEj2UJYM97vyM+EJDo7/8X2CbRCzWyY=
-X-Google-Smtp-Source: APXvYqw2S+J4qUvWrWi2iqNjRCGoF8tWPoQg8HZ/UNWBWkEU6DRENLmBJs+BlsOPWIHlE3RKWQZtDA==
-X-Received: by 2002:a62:fb0e:: with SMTP id x14mr308844pfm.194.1575413629919; 
- Tue, 03 Dec 2019 14:53:49 -0800 (PST)
+ bh=yh3Zl0Yfgd5t5mYjFXJ95PB0dxs1Lxcsdr6CBQV1gYs=;
+ b=k61auEUPGg2RJV6KGzMvcQYoUB/v5Ut6efjVgEQiQ0VgGNzI8YuT8Et2lugyPTUPDo
+ qtnum2skrkmjCErB7BJygjxvunKJMV3NxGdSJHfyMNtGTfDl9pt7kmN0ICehQsOcSOA+
+ DaUSct20ZeLCDIVe106yrNvlTheIAfrEO0Rl1hzApemyLAl4j/zW+l+F2sluWvnLJtbF
+ VQCvYJ65NUIFdV5oC3UkgEEf17ykb1fhs5ODw5/9zJgZzxzqqoY1/qpvqafMNTiMYPXJ
+ C5kxSqmwtfJoxTWulDmxcmEyo1P1mwFH7rao+JO3AdWWyk2mwWfjVceafK7tKCNlyTQx
+ HJxw==
+X-Gm-Message-State: APjAAAXbsmu/w6M7p3VZ+3rh2ueFhFcSLyb83XI+H8umK6Z0r/xZ440i
+ po8diXefmwp2x5zmCLDGrDibOIiZNWE=
+X-Google-Smtp-Source: APXvYqwe5gK7CBpQMgu7t8Ovhe+hpyTDwLjOF6zmhJMiNp3XvrZmoLZUniCmcUor65vqN42DuxFghQ==
+X-Received: by 2002:a17:902:d201:: with SMTP id
+ t1mr367250ply.322.1575413628230; 
+ Tue, 03 Dec 2019 14:53:48 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id d22sm3789713pjd.2.2019.12.03.14.53.48
+ by smtp.gmail.com with ESMTPSA id d22sm3789713pjd.2.2019.12.03.14.53.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 14:53:49 -0800 (PST)
+ Tue, 03 Dec 2019 14:53:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/arm: Enable ARMv8.2-ATS1E1 in -cpu max
-Date: Tue,  3 Dec 2019 14:53:33 -0800
-Message-Id: <20191203225333.17055-12-richard.henderson@linaro.org>
+Subject: [PATCH 10/11] target/arm: Implement ATS1E1 system registers
+Date: Tue,  3 Dec 2019 14:53:32 -0800
+Message-Id: <20191203225333.17055-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191203225333.17055-1-richard.henderson@linaro.org>
 References: <20191203225333.17055-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,52 +80,95 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes enablement of ARMv8.1-PAN.
+This is a minor enhancement over ARMv8.1-PAN.
+The *_PAN mmu_idx are used with the existing do_ats_write.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c   | 4 ++++
- target/arm/cpu64.c | 5 +++++
- 2 files changed, 9 insertions(+)
+ target/arm/helper.c | 50 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 44 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f3360dbb98..3b0c466137 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2640,6 +2640,10 @@ static void arm_max_initfn(Object *obj)
-             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-             cpu->isar.mvfr2 = t;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 043e44d73d..f1eab4fb28 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3360,16 +3360,20 @@ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
  
-+            t = cpu->id_mmfr3;
-+            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+            cpu->id_mmfr3 = t;
-+
-             t = cpu->id_mmfr4;
-             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-             cpu->id_mmfr4 = t;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 009411813f..9399253b4c 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -671,6 +671,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
-         t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
-+        t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_aa64mmfr1 = t;
+     switch (ri->opc2 & 6) {
+     case 0:
+-        /* stage 1 current state PL1: ATS1CPR, ATS1CPW */
++        /* stage 1 current state PL1: ATS1CPR, ATS1CPW, ATS1CPRP, ATS1CPWP */
+         switch (el) {
+         case 3:
+             mmu_idx = ARMMMUIdx_SE3;
+             break;
+         case 2:
+-            mmu_idx = ARMMMUIdx_Stage1_E1;
+-            break;
++            g_assert(!secure);  /* TODO: ARMv8.4-SecEL2 */
++            /* fall through */
+         case 1:
+-            mmu_idx = secure ? ARMMMUIdx_SE1 : ARMMMUIdx_Stage1_E1;
++            if (ri->crm == 9 && (env->uncached_cpsr & CPSR_PAN)) {
++                mmu_idx = secure ? ARMMMUIdx_SE1_PAN : ARMMMUIdx_Stage1_E1_PAN;
++            } else {
++                mmu_idx = secure ? ARMMMUIdx_SE1 : ARMMMUIdx_Stage1_E1;
++            }
+             break;
+         default:
+             g_assert_not_reached();
+@@ -3438,8 +3442,12 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+     switch (ri->opc2 & 6) {
+     case 0:
+         switch (ri->opc1) {
+-        case 0: /* AT S1E1R, AT S1E1W */
+-            mmu_idx = secure ? ARMMMUIdx_SE1 : ARMMMUIdx_Stage1_E1;
++        case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
++            if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
++                mmu_idx = secure ? ARMMMUIdx_SE1_PAN : ARMMMUIdx_Stage1_E1_PAN;
++            } else {
++                mmu_idx = secure ? ARMMMUIdx_SE1 : ARMMMUIdx_Stage1_E1;
++            }
+             break;
+         case 4: /* AT S1E2R, AT S1E2W */
+             mmu_idx = ARMMMUIdx_E2;
+@@ -7426,6 +7434,36 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         };
+         define_arm_cp_regs(cpu, pan_reginfo);
+     }
++#ifndef CONFIG_USER_ONLY
++    if (cpu_isar_feature(aa64_ats1e1, cpu)) {
++        static const ARMCPRegInfo ats1e1_reginfo[] = {
++            { .name = "AT_S1E1R", .state = ARM_CP_STATE_AA64,
++              .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 0,
++              .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++              .writefn = ats_write64 },
++            { .name = "AT_S1E1W", .state = ARM_CP_STATE_AA64,
++              .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
++              .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++              .writefn = ats_write64 },
++            REGINFO_SENTINEL
++        };
++        define_arm_cp_regs(cpu, ats1e1_reginfo);
++    }
++    if (cpu_isar_feature(aa32_ats1e1, cpu)) {
++        static const ARMCPRegInfo ats1cp_reginfo[] = {
++            { .name = "ATS1CPRP",
++              .cp = 15, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 0,
++              .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++              .writefn = ats_write },
++            { .name = "ATS1CPWP",
++              .cp = 15, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
++              .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
++              .writefn = ats_write },
++            REGINFO_SENTINEL
++        };
++        define_arm_cp_regs(cpu, ats1cp_reginfo);
++    }
++#endif
  
-         /* Replicate the same data to the 32-bit id registers.  */
-@@ -691,6 +692,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-         cpu->isar.id_isar6 = u;
- 
-+        u = cpu->id_mmfr3;
-+        u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+        cpu->id_mmfr3 = u;
-+
-         /*
-          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
-          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
+     if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
+         static const ARMCPRegInfo vhe_reginfo[] = {
 -- 
 2.17.1
 
