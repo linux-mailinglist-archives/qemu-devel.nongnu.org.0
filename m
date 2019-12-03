@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF09710F7D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 07:32:27 +0100 (CET)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC2B10F7D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 07:34:50 +0100 (CET)
+Received: from localhost ([::1]:49161 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic1jW-0000A0-L6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 01:32:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39481)
+	id 1ic1lo-0002Ft-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 01:34:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ic1gt-00078i-Oy
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:29:44 -0500
+ (envelope-from <philmd@redhat.com>) id 1ic1hK-0007eT-Tt
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:30:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ic1gr-0006Jt-GM
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:29:42 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54283
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ic1hI-0007J4-Na
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:30:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53190
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ic1gr-0006IY-2f
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:29:41 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ic1hI-0007CJ-Hz
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 01:30:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575354580;
+ s=mimecast20190719; t=1575354606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5nU9PR0uajs4cxHZnUrTqPXNlB77BVKgH5+uS2meuUc=;
- b=hRQqEZZa05c+jrc3YYc2pFNY7yytBmRuBVzARX5FoAS/Kx43ZkbdC5h3Mroz1xsjsvC7H4
- ZuAFVLTKedpokHORI3IQXz++y76dmQJXgaduUrg7fbcgg4dg6uRtiaR2kVtiJ1gz+RBG3B
- RCY7f6TJNpDJt9pjAWhPqdW9eHCf8/g=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-5oVwH7opNHWbGATtpsmybg-1; Tue, 03 Dec 2019 01:29:38 -0500
-Received: by mail-wr1-f69.google.com with SMTP id o6so1234516wrp.8
- for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 22:29:38 -0800 (PST)
+ bh=uhgKQ7PSjxzxG+ZCagR/Excy7EMvYaMER9oxDyGY8Kg=;
+ b=d6PtMA+7FZ9cwL4NraWM4gcsUo34CoXvkJPNvrfLBAnZXGIQVVAQ8vtg4alBUJBtqfzZcA
+ q9mr3VcWjbYjWXTDcYOePMv7Hlad1aTiO2pcwA7qxlWCRoO8Vl3wE4ZRWXdKjXOqmQwwp9
+ X0JSNdwPCOJnPTx0m7k6Tehq3Z2Benc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-U0rUqiO0Op-WtpiSmt3s8g-1; Tue, 03 Dec 2019 01:30:05 -0500
+Received: by mail-wm1-f72.google.com with SMTP id y125so960200wmg.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 22:30:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oIBiYj0qsvyWA7TxxW08MKKQqm6NdBpfbJiKSMYfDAo=;
- b=mhBjJdWbkWAyMEdEqc3saazwvNCN/s9HG2HQmCRvi/jXglEDTPhvCiXpyDtsU5CHye
- aJ57R0tDoMzlSXHAvoHYCsFkpQlVm7fmXzrfYrxJdmOBQbXf2iIPbvwM9aaIZw7/BRw9
- Tm6N+USWqzu+0XFCA4MGOp+qh82/8uyfFhw0eV3Z8kNhBZMK6eqAhV2bx24+4D9rc/2y
- pM3UG9IUVjoISqgLAL8yCGJeTyZUAFW5xiQ8LzrjJgBoe6i6M6YXG0J+X5JkWDnWI6qA
- UU9Q+14VZ0YtEOlulI08wfVaKQAv5OT5u99yHOOJaK5KLchno0kb+sf5ec6P33Iwm2g/
- K8Vg==
-X-Gm-Message-State: APjAAAWCHulpPv9eyx4hriXDMzVLo/kdWiXR19U+l8+0wOtzYgP3a6bA
- 5l1FJPC1pLCtnAQC8BT03r4JhVPhn1JOgVHpq676hJ4qt/tdO+8JJmAr3SWhgv9MJ7w7Mq/RO+e
- 3Izoskh3gl+CU0Q8=
-X-Received: by 2002:adf:eb46:: with SMTP id u6mr3232557wrn.239.1575354577522; 
- Mon, 02 Dec 2019 22:29:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzbAWCVwgiQOB9mlfLyNbeCPKAaiixSxlK8b5cdjqAkcGbCQim4AovGMNsqOECeOjYUYqFMww==
-X-Received: by 2002:adf:eb46:: with SMTP id u6mr3232541wrn.239.1575354577348; 
- Mon, 02 Dec 2019 22:29:37 -0800 (PST)
+ bh=OGVUA6CUfLD/Wf1tobX3x3tudHKAT+YBlN2TfC/HIGg=;
+ b=RD3G/wxlxSNlrjEwwDNJ5ToRwhBDlgvUkGFGnJ4yyr0yhQd9icEFyVEf5BZQn0VVcf
+ G8lo2ak86RSU68vjFSRAvKJgEKtbk5C1SC+oHpC4jB0+GKgnBaMVqENCtO95ph10HN8L
+ n/w8v7iAaqFbrbtgiRcTFJQpJc54jBwyEh93zow0RJuv7JmDWJXl/zFnxE/pX9JD4E2l
+ nfldQfWxNha3jR0cMxPA+1zhfQIq76l4svf0/HyPYQT9ESkKAUk3844jOu8NGPz3tYBC
+ U8IG9vfvkncyX/AyDB3nmqRdRjHSg8BluHE01ciAN2gI/DwJjih/YROOTj/B9CIWZdHV
+ uvsQ==
+X-Gm-Message-State: APjAAAWxcueL7Vr0yDZX8YwC7EiYXiAXoKJCTwiFl3YWETiS3QKuga7Q
+ D5xBRYQnry1je+gdphWl9GqqmQgIxjvBLONFQL1Wf8nyhBWAHpaU/0/QCCSFx4nXLY3pKA8Zo6F
+ 99H7uePOa6Yfmb4s=
+X-Received: by 2002:a1c:2745:: with SMTP id n66mr32163729wmn.171.1575354604079; 
+ Mon, 02 Dec 2019 22:30:04 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwYW52xpvwLVkbXeJgMCHoUH8NV3MmmR52Y5mB3LuXMeLPr86NAKyLdk4hc2ShchWmzOKOihA==
+X-Received: by 2002:a1c:2745:: with SMTP id n66mr32163720wmn.171.1575354603885; 
+ Mon, 02 Dec 2019 22:30:03 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id p5sm2161066wrt.79.2019.12.02.22.29.36
+ by smtp.gmail.com with ESMTPSA id p10sm1766642wmi.15.2019.12.02.22.30.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Dec 2019 22:29:36 -0800 (PST)
-Subject: Re: [PATCH v4 38/40] target/arm: Pass more cpu state to
+ Mon, 02 Dec 2019 22:30:03 -0800 (PST)
+Subject: Re: [PATCH v4 39/40] target/arm: Use bool for unmasked in
  arm_excp_unmasked
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-39-richard.henderson@linaro.org>
+ <20191203022937.1474-40-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <70810930-85d3-82a0-8917-39277d84c5c6@redhat.com>
-Date: Tue, 3 Dec 2019 07:29:35 +0100
+Message-ID: <205287d7-3562-3d9b-931c-e2841d02119a@redhat.com>
+Date: Tue, 3 Dec 2019 07:30:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191203022937.1474-39-richard.henderson@linaro.org>
+In-Reply-To: <20191203022937.1474-40-richard.henderson@linaro.org>
 Content-Language: en-US
-X-MC-Unique: 5oVwH7opNHWbGATtpsmybg-1
+X-MC-Unique: U0rUqiO0Op-WtpiSmt3s8g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,105 +97,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/3/19 3:29 AM, Richard Henderson wrote:
-> Avoid redundant computation of cpu state by passing it in
-> from the caller, which has already computed it for itself.
+> The value computed is fully boolean; using int8_t is odd.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 > ---
->   target/arm/cpu.c | 22 ++++++++++++----------
->   1 file changed, 12 insertions(+), 10 deletions(-)
+>   target/arm/cpu.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index a36344d4c7..7a1177b883 100644
+> index 7a1177b883..a366448c6d 100644
 > --- a/target/arm/cpu.c
 > +++ b/target/arm/cpu.c
-> @@ -411,14 +411,13 @@ static void arm_cpu_reset(CPUState *s)
->   }
->  =20
->   static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_id=
-x,
-> -                                     unsigned int target_el)
-> +                                     unsigned int target_el,
-> +                                     unsigned int cur_el, bool secure,
-> +                                     uint64_t hcr_el2)
+> @@ -417,7 +417,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, un=
+signed int excp_idx,
 >   {
 >       CPUARMState *env =3D cs->env_ptr;
-> -    unsigned int cur_el =3D arm_current_el(env);
-> -    bool secure =3D arm_is_secure(env);
 >       bool pstate_unmasked;
->       int8_t unmasked =3D 0;
-> -    uint64_t hcr_el2;
+> -    int8_t unmasked =3D 0;
+> +    bool unmasked =3D false;
 >  =20
 >       /*
 >        * Don't take exceptions if they target a lower EL.
-> @@ -429,8 +428,6 @@ static inline bool arm_excp_unmasked(CPUState *cs, un=
+> @@ -468,7 +468,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, un=
 signed int excp_idx,
->           return false;
->       }
+>                * don't affect the masking logic, only the interrupt routi=
+ng.
+>                */
+>               if (target_el =3D=3D 3 || !secure) {
+> -                unmasked =3D 1;
+> +                unmasked =3D true;
+>               }
+>           } else {
+>               /*
+> @@ -514,7 +514,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, un=
+signed int excp_idx,
+>               }
 >  =20
-> -    hcr_el2 =3D arm_hcr_el2_eff(env);
-> -
->       switch (excp_idx) {
->       case EXCP_FIQ:
->           pstate_unmasked =3D !(env->daif & PSTATE_F);
-> @@ -535,6 +532,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
->       CPUARMState *env =3D cs->env_ptr;
->       uint32_t cur_el =3D arm_current_el(env);
->       bool secure =3D arm_is_secure(env);
-> +    uint64_t hcr_el2 =3D arm_hcr_el2_eff(env);
->       uint32_t target_el;
->       uint32_t excp_idx;
->       bool ret =3D false;
-> @@ -542,7 +540,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
->       if (interrupt_request & CPU_INTERRUPT_FIQ) {
->           excp_idx =3D EXCP_FIQ;
->           target_el =3D arm_phys_excp_target_el(cs, excp_idx, cur_el, sec=
-ure);
-> -        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
-> +        if (arm_excp_unmasked(cs, excp_idx, target_el,
-> +                              cur_el, secure, hcr_el2)) {
->               cs->exception_index =3D excp_idx;
->               env->exception.target_el =3D target_el;
->               cc->do_interrupt(cs);
-> @@ -552,7 +551,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
->       if (interrupt_request & CPU_INTERRUPT_HARD) {
->           excp_idx =3D EXCP_IRQ;
->           target_el =3D arm_phys_excp_target_el(cs, excp_idx, cur_el, sec=
-ure);
-> -        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
-> +        if (arm_excp_unmasked(cs, excp_idx, target_el,
-> +                              cur_el, secure, hcr_el2)) {
->               cs->exception_index =3D excp_idx;
->               env->exception.target_el =3D target_el;
->               cc->do_interrupt(cs);
-> @@ -562,7 +562,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
->       if (interrupt_request & CPU_INTERRUPT_VIRQ) {
->           excp_idx =3D EXCP_VIRQ;
->           target_el =3D 1;
-> -        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
-> +        if (arm_excp_unmasked(cs, excp_idx, target_el,
-> +                              cur_el, secure, hcr_el2)) {
->               cs->exception_index =3D excp_idx;
->               env->exception.target_el =3D target_el;
->               cc->do_interrupt(cs);
-> @@ -572,7 +573,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
->       if (interrupt_request & CPU_INTERRUPT_VFIQ) {
->           excp_idx =3D EXCP_VFIQ;
->           target_el =3D 1;
-> -        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
-> +        if (arm_excp_unmasked(cs, excp_idx, target_el,
-> +                              cur_el, secure, hcr_el2)) {
->               cs->exception_index =3D excp_idx;
->               env->exception.target_el =3D target_el;
->               cc->do_interrupt(cs);
+>               if ((scr || hcr) && !secure) {
+> -                unmasked =3D 1;
+> +                unmasked =3D true;
+>               }
+>           }
+>       }
 >=20
 
 
