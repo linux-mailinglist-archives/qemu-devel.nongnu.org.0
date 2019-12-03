@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FEC10F991
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 09:16:38 +0100 (CET)
-Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A485210F9BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 09:21:26 +0100 (CET)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic3MK-0004Mf-VN
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 03:16:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40935)
+	id 1ic3Qz-0006MD-P4
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 03:21:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ic3J2-00034K-1N
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:13:13 -0500
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1ic3Nu-0005aO-AU
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:18:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ic3Iv-0000DW-OT
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:13:07 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39851)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1ic3Nt-00027n-42
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:18:14 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36430)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ic3Iv-0008Qn-HB
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:13:05 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y11so2442983wrt.6
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 00:13:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ETrwLMQWqEqRlW82wI0iG/fYZD4nBOjxfTYJr7Z8waQ=;
- b=oQBZ/qCq1Qc1AOAKx4OWUDMD8Zdlul+BGXyzNgSgIlx/WjLt9kMKcU0B9WRAR9BFEp
- 3capNJSFgdb4yLn69YMDJJw5tamGZiGprMKsZPfFWPSLRtxICfysSEr9FTqn6GBMwBHb
- M9076IN7qHJF+yFa4uRCvpUuExIrObfHiIUb0aVQNSFiY1bYTF/TDEdYftTFXFk7Niz5
- WVvaXTs9vHfjm0CkG1SkSjB5TIord3a5ny34PegsSa1dF1bt3W4anH84kYyq5n+7gciZ
- 2mcO7kh5gPMGA2B/iDsX3vSwyWW5QOFz4/XNZQNttMn6DLM1dRtRH/OY5udtKJRvYirb
- /quQ==
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1ic3Ns-00025O-Re
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 03:18:13 -0500
+Received: by mail-ot1-f65.google.com with SMTP id i4so2174436otr.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 00:18:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ETrwLMQWqEqRlW82wI0iG/fYZD4nBOjxfTYJr7Z8waQ=;
- b=VWjP+/685IdwW7TuZTZFd7B2qVTZivEZB2IJdmmN+zY4gcaMOsFId8KzSWVnG+hew/
- Yc86IV15pej1ygTU4xxDcJWWec4EO8Mz67e/n0Yrt6rnoSLSJEVk8ZPEleOE53wS3LGZ
- 3YR6AVvlPV1SF1fOyukfpyjQpLImBuq4XAfsj/FZ7LYfKRxfO5xWOWRmPKN2p/isuyDM
- 2FTYgeEe7eu386CDQUxQCCgDRAXUIUNLPhN1sYHF5d1xBx5EVyJozfLZ7M6N16VSnWW0
- gWDzlviGM+KEfqvhOolePr5Gf3NkxeYIKSdWPNIGDHqTILG/Qq2PT3TtOjAYokFzeR+Q
- d4UA==
-X-Gm-Message-State: APjAAAXUGHCIF6bhYpliRdhCUYd3V3pYB61uNu9gdQPsCPhhxaYzYm/6
- a2odIZueAnssO5S2BBNPYsCZpvc1
-X-Google-Smtp-Source: APXvYqwDjFwzLbe07E0XhrKXv/jS2zIRUYoFrAE2wMaKBf73IHXZ8TmQK7+spRc+uQjo1EUqzMvazA==
-X-Received: by 2002:adf:cd0a:: with SMTP id w10mr3529397wrm.107.1575360781319; 
- Tue, 03 Dec 2019 00:13:01 -0800 (PST)
-Received: from donizetti.lan ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
- by smtp.gmail.com with ESMTPSA id d14sm2711593wru.9.2019.12.03.00.13.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 00:13:00 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] hvf: correctly inject VMCS_INTR_T_HWINTR versus
- VMCS_INTR_T_SWINTR.
-Date: Tue,  3 Dec 2019 09:12:59 +0100
-Message-Id: <20191203081259.906-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191203081259.906-1-pbonzini@redhat.com>
-References: <20191203081259.906-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gBtOE1GdWf2jzATlRbrF8r8Pac6d5nQ4OzH7cwGAR94=;
+ b=SMpzwVKdXsvY+kCM4v7JFL2aNSVmmch4m/h1wCooZwJ8RNE9q6o3zZZ8yQ13jYExy3
+ vTLNibpvEjZNcNcR2Qqx3vpEd+qc8bFioh4FxkxsBhfiU+dQo6oM5Rse9EAhnI0Ocp5J
+ zyyJDPADW/PM60CiiMb7FA2WyNV4LEHmZa36l64P8dwwHTUChB9i+AE9pMsBP8NO097f
+ MRig4551KtUpnWHj3jVn+oymL+xcX72esInwPbM79pypyV2cMrGHG73084rHjr82V/HO
+ mL9ekbd5Lti0tGfOa1qW95s6lENTZj5L0HT1GIMUGXsuot/cTT9hfOzh3KhnTG0og5Q3
+ C3Gw==
+X-Gm-Message-State: APjAAAVnVbfX01mDvTgogdPzxUY/A9v+ZE3ti4PT5xz9q17IK9QmRGHo
+ ecHbEpj6oHSO3Daf7L2ZwkEbhfszk2SsW+tiXK0=
+X-Google-Smtp-Source: APXvYqzBuvWMWrwsEDDhZ2tcNfeX7um84g4QQ5ld7WP0VV8LQtkLVFpjZhnV4oe+jaJ4tYQpo65700XzoJh4+uCOqZU=
+X-Received: by 2002:a9d:3a37:: with SMTP id j52mr2353717otc.39.1575361089532; 
+ Tue, 03 Dec 2019 00:18:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::433
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
+ <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+In-Reply-To: <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 3 Dec 2019 09:17:58 +0100
+Message-ID: <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To: Harish Jenny K N <harish_kandiga@mentor.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.210.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,104 +64,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Alexander Graf <graf@amazon.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cameron Esfahani <dirty@apple.com>
+Hi Harish,
 
-Previous implementation in hvf_inject_interrupts() would always inject
-VMCS_INTR_T_SWINTR even when VMCS_INTR_T_HWINTR was required.  Now
-correctly determine when VMCS_INTR_T_HWINTR is appropriate versus
-VMCS_INTR_T_SWINTR.
+On Tue, Dec 3, 2019 at 6:42 AM Harish Jenny K N
+<harish_kandiga@mentor.com> wrote:
+> > +static int gpio_aggregator_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct gpio_desc **descs;
+> > +     struct gpiochip_fwd *fwd;
+> > +     int i, n;
+> > +
+> > +     n = gpiod_count(dev, NULL);
+> > +     if (n < 0)
+> > +             return n;
+> > +
+> > +     descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
+> > +     if (!descs)
+> > +             return -ENOMEM;
+> > +
+> > +     for (i = 0; i < n; i++) {
+> > +             descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
+>
+> can you please add this check as well as we need to return EPROBE_DEFER.
+>
+> if (desc[i] == ERR_PTR(-ENOENT))
+> <                 return -EPROBE_DEFER;
 
-Make sure to clear ins_len and has_error_code when ins_len isn't
-valid and error_code isn't set.
+So gpiod_get_index() nevers return -EPROBE_DEFER, but returns -ENOENT
+instead?
+How can a driver distinguish between "GPIO not found" and "gpiochip driver
+not yet initialized"?
+Worse, so the *_optional() variants will return NULL in both cases, too, so
+the caller will always fall back to optional GPIO not present?
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Message-Id: <bf8d945ea1b423786d7802bbcf769517d1fd01f8.1575330463.git.dirty@apple.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/hvf/hvf.c    |  4 +++-
- target/i386/hvf/x86hvf.c | 14 +++++++++-----
- 2 files changed, 12 insertions(+), 6 deletions(-)
+Or am I missing something?
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 784e67d77e..d72543dc31 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -637,6 +637,8 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
-     env->exception_injected = 0;
-     env->interrupt_injected = -1;
-     env->nmi_injected = false;
-+    env->ins_len = 0;
-+    env->has_error_code = false;
-     if (idtvec_info & VMCS_IDT_VEC_VALID) {
-         switch (idtvec_info & VMCS_IDT_VEC_TYPE) {
-         case VMCS_IDT_VEC_HWINTR:
-@@ -659,7 +661,7 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
-             (idtvec_info & VMCS_IDT_VEC_TYPE) == VMCS_IDT_VEC_SWINTR) {
-             env->ins_len = ins_len;
-         }
--        if (idtvec_info & VMCS_INTR_DEL_ERRCODE) {
-+        if (idtvec_info & VMCS_IDT_VEC_ERRCODE_VALID) {
-             env->has_error_code = true;
-             env->error_code = rvmcs(cpu->hvf_fd, VMCS_IDT_VECTORING_ERROR);
-         }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 1485b95776..edefe5319a 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -345,8 +345,6 @@ void vmx_clear_int_window_exiting(CPUState *cpu)
-              ~VMCS_PRI_PROC_BASED_CTLS_INT_WINDOW_EXITING);
- }
- 
--#define NMI_VEC 2
--
- bool hvf_inject_interrupts(CPUState *cpu_state)
- {
-     X86CPU *x86cpu = X86_CPU(cpu_state);
-@@ -357,7 +355,11 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-     bool have_event = true;
-     if (env->interrupt_injected != -1) {
-         vector = env->interrupt_injected;
--        intr_type = VMCS_INTR_T_SWINTR;
-+        if (env->ins_len) {
-+            intr_type = VMCS_INTR_T_SWINTR;
-+        } else {
-+            intr_type = VMCS_INTR_T_HWINTR;
-+        }
-     } else if (env->exception_nr != -1) {
-         vector = env->exception_nr;
-         if (vector == EXCP03_INT3 || vector == EXCP04_INTO) {
-@@ -366,7 +368,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-             intr_type = VMCS_INTR_T_HWEXCEPTION;
-         }
-     } else if (env->nmi_injected) {
--        vector = NMI_VEC;
-+        vector = EXCP02_NMI;
-         intr_type = VMCS_INTR_T_NMI;
-     } else {
-         have_event = false;
-@@ -390,6 +392,8 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-             if (env->has_error_code) {
-                 wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_EXCEPTION_ERROR,
-                       env->error_code);
-+                /* Indicate that VMCS_ENTRY_EXCEPTION_ERROR is valid */
-+                info |= VMCS_INTR_DEL_ERRCODE;
-             }
-             /*printf("reinject  %lx err %d\n", info, err);*/
-             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
-@@ -399,7 +403,7 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
-     if (cpu_state->interrupt_request & CPU_INTERRUPT_NMI) {
-         if (!(env->hflags2 & HF2_NMI_MASK) && !(info & VMCS_INTR_VALID)) {
-             cpu_state->interrupt_request &= ~CPU_INTERRUPT_NMI;
--            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | NMI_VEC;
-+            info = VMCS_INTR_VALID | VMCS_INTR_T_NMI | EXCP02_NMI;
-             wvmcs(cpu_state->hvf_fd, VMCS_ENTRY_INTR_INFO, info);
-         } else {
-             vmx_set_nmi_window_exiting(cpu_state);
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.21.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
