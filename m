@@ -2,123 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEFD1102CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:46:42 +0100 (CET)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5973A110267
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:35:02 +0100 (CET)
+Received: from localhost ([::1]:55934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icBJw-0004ik-JT
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:46:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34243)
+	id 1icB8f-0008Ll-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:35:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1icAkS-0001jO-2a
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:10:02 -0500
+ (envelope-from <philmd@redhat.com>) id 1icAsI-0005I1-OU
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:18:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1icAkJ-0002JO-BN
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:09:53 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21008
+ (envelope-from <philmd@redhat.com>) id 1icAsF-0001bE-PI
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:18:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46345
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1icAkH-00027h-Vg
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:09:51 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icAsD-0001VM-Ec
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:18:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575389384;
+ s=mimecast20190719; t=1575389876;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ixXcqn3ePFmPziQtAvn7WCFSBnmI7Uc/RJGDFsNdthg=;
- b=Zo2+HfN9N7mZdnbe9Aoo2duxU6sDWNr+rtrWVdMCloE1ZkhxJi19G93QxApPykagy38JMz
- SqzTwLaezY2yQ71l1MJz3REdYchlMT6yenRGvpVX/01XPvseRL11JsQgbc+tkijhkkdJ+J
- ZWoOJ4KJi7vUIOP5xfLLQdmdc+1t/L4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-BHQRnsMQPeSqf0GCI5RaVw-1; Tue, 03 Dec 2019 11:09:43 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D91FB800D4C;
- Tue,  3 Dec 2019 16:09:40 +0000 (UTC)
-Received: from [10.36.117.138] (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 494E5600C8;
- Tue,  3 Dec 2019 16:09:38 +0000 (UTC)
-Subject: Re: [PULL v2 4/6] spapr: Add /chosen to FDT only at reset time to
- preserve kernel and initramdisk
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20191118105319.7658-1-lvivier@redhat.com>
- <20191118105319.7658-5-lvivier@redhat.com>
- <a65399f9-fb59-a54b-3185-1f48ee979d3d@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <13846307-0e59-53b3-38cf-54270b43ed87@redhat.com>
-Date: Tue, 3 Dec 2019 17:09:38 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=l9hNy9KFizL9y7lRPqofevpKT99+9lIRrhIrzIb2//M=;
+ b=clPCdiGRzUu71AFNJc61y7mWzSXAfCHtfY7T8eZMe7mMwdw3i40FabnneybrsciMsggugj
+ DMBK1npWBhdQ7LrKIfgYT/vmifgxRJk5+cPnhpEnJSm95VGDANxEKmmaYHkGRk9N3hDqos
+ oxLc704OdLSclh/DrPInOpl2tN7xocc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-QNUHrFboNkK7e6E5V4Hh4A-1; Tue, 03 Dec 2019 11:17:55 -0500
+Received: by mail-wr1-f72.google.com with SMTP id 90so2033015wrq.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 08:17:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/QAkCFKTCcx1vYwtIJYeZwCPGj5dFiDi5GFxeDVTh+M=;
+ b=OTyVbJ4Xv3ithNoNUUjDvjO8pexE4rjJB3GLqARya0Dt5ywdpoRle+qiSQwWvzbzla
+ MYv+4Ew/NR50Dm9wmMOruTRKx6bxBo5mAxPhLEJBo2ATMsZl3hQj2UTsL4zQ6j3aWb1b
+ 37xzS6Uoa6g72SlPNVGzLcEFJZqilpkXh1Mv+kynzKCJleo6744laGHKcs6rOpSxsD3C
+ 6NlH3bQ7guO8K5OZ2T/S2rwHAzFNa10Zi+P7tojKFv+Fbe/DzgrR5KpnoCUVzj8NAmYX
+ jP98fpS1UCX4eua8EfLYqkAjs5rk/4el2WmqkTQPwDSVX3KCkPSDb3G5PXfJSpPJEATR
+ Zc4A==
+X-Gm-Message-State: APjAAAU+FP3Fl4fxgCjugwd1mETR51563JZljpF+tZDpJFlpZMoi+S6p
+ W/qBFwe+BIset6AKWMCzRCwT8BLUXzvek8GJOM35be0TOgH3EMHxFFAUj4j7ONDHpN1YnHLy093
+ 3dn1pdHkd1ZzKvUs=
+X-Received: by 2002:a05:600c:2254:: with SMTP id
+ a20mr35046539wmm.97.1575389873701; 
+ Tue, 03 Dec 2019 08:17:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwDVyEk1W0WGONRCA2WoYnvN0mrVodw6ToPIgc13bAKCr/r8cc+fYv6P1qEAECrAK1v3N8ZuA==
+X-Received: by 2002:a05:600c:2254:: with SMTP id
+ a20mr35046498wmm.97.1575389873320; 
+ Tue, 03 Dec 2019 08:17:53 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id f24sm3464700wmb.37.2019.12.03.08.17.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2019 08:17:52 -0800 (PST)
+Subject: Re: [PATCH 1/1] tests/vm: Allow to set qemu-img path
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
+References: <20191114134246.12073-1-wainersm@redhat.com>
+ <20191114134246.12073-2-wainersm@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3bac18c1-b0db-d178-656f-6eb30e471fb0@redhat.com>
+Date: Tue, 3 Dec 2019 17:17:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <a65399f9-fb59-a54b-3185-1f48ee979d3d@redhat.com>
+In-Reply-To: <20191114134246.12073-2-wainersm@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: BHQRnsMQPeSqf0GCI5RaVw-1
+X-MC-Unique: QNUHrFboNkK7e6E5V4Hh4A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -130,92 +93,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: fam@euphon.net, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/14/19 2:42 PM, Wainer dos Santos Moschetta wrote:
+> By default VM build test use qemu-img from system's PATH to
+> create the image disk. Due the lack of qemu-img on the system
+> or the desire to simply use a version built with QEMU, it would
+> be nice to allow one to set its path. So this patch makes that
+> possible by reading the path to qemu-img from QEMU_IMG if set,
+> otherwise it fallback to default behavior.
+>=20
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Bad reply, the problem is with
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-"spapr: Render full FDT on ibm,client-architecture-support"
-
-Sorry,
-Laurent
-
-On 03/12/2019 16:57, Laurent Vivier wrote:
-> On 18/11/2019 11:53, Laurent Vivier wrote:
->> From: Alexey Kardashevskiy <aik@ozlabs.ru>
->>
->> Since "spapr: Render full FDT on ibm,client-architecture-support" we build
->> the entire flatten device tree (FDT) twice - at the reset time and
->> when "ibm,client-architecture-support" (CAS) is called. The full FDT from
->> CAS is then applied on top of the SLOF internal device tree.
->>
->> This is mostly ok, however there is a case when the QEMU is started with
->> -initrd and for some reason the guest decided to move/unpack the init RAM
->> disk image - the guest correctly notifies SLOF about the change but
->> at CAS it is overridden with the QEMU initial location addresses and
->> the guest may fail to boot if the original initrd memory was changed.
->>
->> This fixes the problem by only adding the /chosen node at the reset time
->> to prevent the original QEMU's linux,initrd-start/linux,initrd-end to
->> override the updated addresses.
->>
->> This only treats /chosen differently as we know there is a special case
->> already and it is unlikely anything else will need to change /chosen at CAS
->> we are better off not touching /chosen after we handed it over to SLOF.
->>
->> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->> Message-Id: <20191024041308.5673-1-aik@ozlabs.ru>
->> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> ---
->>  hw/ppc/spapr.c | 25 +++++++++++++++----------
->>  1 file changed, 15 insertions(+), 10 deletions(-)
->>
-> 
-> This patch breaks pseries boot when we use a pci-bridge (since v4.2.0-rc0):
-> 
-> ...
->     -device pci-bridge,id=pci_bridge1,bus=pci.0,addr=0x3,chassis_nr=1 \
->     -device virtio-scsi-pci,bus=pci_bridge1 \
-> ...
-> 
-> OF stdout device is: /vdevice/vty@71000000
-> Preparing to boot Linux version 5.4.0-rc3+ (lvivier@localhost) (gcc
-> version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC)) #2 SMP Wed Nov 13
-> 09:08:20 EST 2019
-> Detected machine type: 0000000000000101
-> command line: BOOT_IMAGE=/vmlinuz-5.4.0-rc3+ root=/dev/mapper/rhel-root
-> ro crashkernel=auto rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap
-> Max number of cores passed to firmware: 2048 (NR_CPUS = 2048)
-> Calling ibm,client-architecture-support...
-> 
-> ( 300 ) Data Storage Exception [ 1dc5f230 ]
-> 
-> 
->     R0 .. R7           R8 .. R15         R16 .. R23         R24 .. R31
-> 8000000000001000   000000001e477010   0000000000000000   000000001dc17500
-> 000000001e67afe0   0000000020000004   0000000000000000   000000001dc1bf88
-> 000000001dc21800   000000001dc5f248   000000001e477010   0000000000000003
-> 000000001dc61000   000000001e78dc2d   000000001dc1c158   000000000000f001
-> 0000000000000000   a000000000000001   0000000000008000   000000001e67b060
-> 000000001dc5f230   0000000000000000   000000000000f003   ffffffffffffffff
-> 000000001e745860   0000000000000000   0000000000000006   000000001dbf48f8
-> 000000001dc5f248   0000000000000000   000000001e67b050   000000001dc1c350
-> 
->     CR / XER           LR / CTR          SRR0 / SRR1        DAR / DSISR
->         80000808   000000001dbf34d4   000000001dbf4194   0000000020000004
-> 0000000020000000   000000001dbf48f8   8000000000001000           40000000
-> 
-> 
-> 4a >
-> 
-> Thanks,
-> Laurent
-> 
+> ---
+>   docs/devel/testing.rst    | 6 ++++--
+>   tests/vm/Makefile.include | 1 +
+>   tests/vm/basevm.py        | 5 +++++
+>   tests/vm/centos           | 2 +-
+>   tests/vm/fedora           | 4 +---
+>   tests/vm/freebsd          | 3 +--
+>   tests/vm/netbsd           | 3 +--
+>   tests/vm/openbsd          | 3 +--
+>   tests/vm/ubuntu.i386      | 2 +-
+>   9 files changed, 16 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 8e981e062d..9be6cd4410 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -418,13 +418,15 @@ access, so they SHOULD NOT be exposed to external i=
+nterfaces if you are
+>   concerned about attackers taking control of the guest and potentially
+>   exploiting a QEMU security bug to compromise the host.
+>  =20
+> -QEMU binary
+> ------------
+> +QEMU binaries
+> +-------------
+>  =20
+>   By default, qemu-system-x86_64 is searched in $PATH to run the guest. I=
+f there
+>   isn't one, or if it is older than 2.10, the test won't work. In this ca=
+se,
+>   provide the QEMU binary in env var: ``QEMU=3D/path/to/qemu-2.10+``.
+>  =20
+> +Likewise the path to qemu-img can be set in QEMU_IMG environment variabl=
+e.
+> +
+>   Make jobs
+>   ---------
+>  =20
+> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+> index fea348e845..9e7c46a473 100644
+> --- a/tests/vm/Makefile.include
+> +++ b/tests/vm/Makefile.include
+> @@ -34,6 +34,7 @@ vm-help vm-test:
+>   =09@echo "    DEBUG=3D1              =09 - Enable verbose output on hos=
+t and interactive debugging"
+>   =09@echo "    V=3D1=09=09=09=09 - Enable verbose ouput on host and gues=
+t commands"
+>   =09@echo "    QEMU=3D/path/to/qemu=09=09 - Change path to QEMU binary"
+> +=09@echo "    QEMU_IMG=3D/path/to/qemu-img=09 - Change path to qemu-img =
+tool"
+>  =20
+>   vm-build-all: $(addprefix vm-build-, $(IMAGES))
+>  =20
+> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+> index 91a9226026..d1efeb3646 100755
+> --- a/tests/vm/basevm.py
+> +++ b/tests/vm/basevm.py
+> @@ -152,6 +152,11 @@ class BaseVM(object):
+>       def build_image(self, img):
+>           raise NotImplementedError
+>  =20
+> +    def exec_qemu_img(self, *args):
+> +        cmd =3D [os.environ.get("QEMU_IMG", "qemu-img")]
+> +        cmd.extend(list(args))
+> +        subprocess.check_call(cmd)
+> +
+>       def add_source_dir(self, src_dir):
+>           name =3D "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdig=
+est()[:5]
+>           tarfile =3D os.path.join(self._tmpdir, name + ".tar")
+> diff --git a/tests/vm/centos b/tests/vm/centos
+> index 53976f1c4c..eac07dacd6 100755
+> --- a/tests/vm/centos
+> +++ b/tests/vm/centos
+> @@ -68,7 +68,7 @@ class CentosVM(basevm.BaseVM):
+>           sys.stderr.write("Extracting the image...\n")
+>           subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+>           subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"]=
+)
+> -        subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
+> +        self.exec_qemu_img("resize", img_tmp, "50G")
+>           self.boot(img_tmp, extra_args =3D ["-cdrom", self._gen_cloud_in=
+it_iso()])
+>           self.wait_ssh()
+>           self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+> diff --git a/tests/vm/fedora b/tests/vm/fedora
+> index 7fec1479fb..8e270fc0f0 100755
+> --- a/tests/vm/fedora
+> +++ b/tests/vm/fedora
+> @@ -74,9 +74,7 @@ class FedoraVM(basevm.BaseVM):
+>  =20
+>           self.print_step("Preparing iso and disk image")
+>           subprocess.check_call(["cp", "-f", cimg, iso])
+> -        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+> -                               img_tmp, self.size])
+> -
+> +        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args =3D [
+>               "-bios", "pc-bios/bios-256k.bin",
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 2a19461a90..1825cc5821 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -82,8 +82,7 @@ class FreeBSDVM(basevm.BaseVM):
+>           self.print_step("Preparing iso and disk image")
+>           subprocess.check_call(["cp", "-f", cimg, iso_xz])
+>           subprocess.check_call(["xz", "-dvf", iso_xz])
+> -        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+> -                               img_tmp, self.size])
+> +        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+>  =20
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args =3D [
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index 611e6cc5b5..ec6f3563b2 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -77,8 +77,7 @@ class NetBSDVM(basevm.BaseVM):
+>  =20
+>           self.print_step("Preparing iso and disk image")
+>           subprocess.check_call(["ln", "-f", cimg, iso])
+> -        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+> -                               img_tmp, self.size])
+> +        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+>  =20
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args =3D [
+> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+> index b92c39f89a..6df5162dbf 100755
+> --- a/tests/vm/openbsd
+> +++ b/tests/vm/openbsd
+> @@ -73,8 +73,7 @@ class OpenBSDVM(basevm.BaseVM):
+>  =20
+>           self.print_step("Preparing iso and disk image")
+>           subprocess.check_call(["cp", "-f", cimg, iso])
+> -        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
+> -                               img_tmp, self.size])
+> +        self.exec_qemu_img("create", "-f", "qcow2", img_tmp, self.size)
+>  =20
+>           self.print_step("Booting installer")
+>           self.boot(img_tmp, extra_args =3D [
+> diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+> index 38f740eabf..39bbe9cc21 100755
+> --- a/tests/vm/ubuntu.i386
+> +++ b/tests/vm/ubuntu.i386
+> @@ -70,7 +70,7 @@ class UbuntuX86VM(basevm.BaseVM):
+>               sha256sum=3D"e30091144c73483822b7c27193e9d47346dd1064229da5=
+77c3fedcf943f7cfcc")
+>           img_tmp =3D img + ".tmp"
+>           subprocess.check_call(["cp", "-f", cimg, img_tmp])
+> -        subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
+> +        self.exec_qemu_img("resize", img_tmp, "50G")
+>           self.boot(img_tmp, extra_args =3D ["-cdrom", self._gen_cloud_in=
+it_iso()])
+>           self.wait_ssh()
+>           self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+>=20
 
 
