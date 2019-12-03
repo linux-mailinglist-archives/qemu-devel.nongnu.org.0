@@ -2,130 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE6510FEFF
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:42:08 +0100 (CET)
-Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684CE10FF37
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:49:46 +0100 (CET)
+Received: from localhost ([::1]:53870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic8RL-0003bM-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:42:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34962)
+	id 1ic8Yi-0007Pl-1e
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:49:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <borntraeger@de.ibm.com>) id 1ic8J7-000128-3U
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:33:38 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic8JG-0001Bt-Jp
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:33:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <borntraeger@de.ibm.com>) id 1ic8J3-0004Nl-Ky
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:33:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37516
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic8JE-00057d-Ew
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:33:45 -0500
+Received: from mail-eopbgr130102.outbound.protection.outlook.com
+ ([40.107.13.102]:44671 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
- id 1ic8J3-0004JE-A5
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:33:33 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB3DMRlA024195
- for <qemu-devel@nongnu.org>; Tue, 3 Dec 2019 08:33:31 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wm6g9yc0b-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 08:33:30 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
- Tue, 3 Dec 2019 13:33:28 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 3 Dec 2019 13:33:27 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xB3DXPTf36634638
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 3 Dec 2019 13:33:25 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B4A8A4051;
- Tue,  3 Dec 2019 13:33:25 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B562A404D;
- Tue,  3 Dec 2019 13:33:25 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.224.20])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  3 Dec 2019 13:33:25 +0000 (GMT)
-Subject: Re: [PATCH v3 4/4] pc-bios/s390x: Fix reset psw mask
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191203132813.2734-1-frankja@linux.ibm.com>
- <20191203132813.2734-5-frankja@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
- 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
- nS4h0HDFPrrp1C2EMVYIQrMokWvlFZbCpsdYbBI=
-Date: Tue, 3 Dec 2019 14:33:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
-MIME-Version: 1.0
-In-Reply-To: <20191203132813.2734-5-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ic8JD-0004ul-NC; Tue, 03 Dec 2019 08:33:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=COQmqG4OmIeQ4m2HpNXKTKbxXCUT2O2IqZTYvlbR0UZcxNHY1jD8ejuY85mmSKOtmo3d2X6r4lCkTs4pgXcIfJ/UUj2mB9R+w1Ax1Z8jbls8Tf/7bh4g5IdWDneHEXpeV0KiHdiIpnC9DYPFm3kvsOAEnQnoK6c/o6qExL7CFYA0zc0JfNy/qrN+IaA4iHnIELsahNwrhq9ghtZbwybhpMEvr6hN8MuW1Iu8VNx7uq1fzro4pEsub3wG1lapPDrljUb3qVJOyEkFBjLmsG/kEalZnmtQkBhNZCBELwe7pHXBrvniPGLg5iLPmNvqDBiG/0iFrm5obvjEi1FcNP9iLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=io5voQRbR4yMdz6OqP2sp8h0wSy5oDsPJZERAjiBOjg=;
+ b=i2d28h2Vneyqwtv4Y5tOQBYLmkH5+Bxmw6uE5yQyWC5llcbsnjy1OaeS/aLC3NHJs6MVsGbYDWm3EJHZsG/rDzhCQe4Y1NBTCenzLyCgZdk9Fh8r1L27tRwH5oYFoPNxk2SNRRII7u1Ra2kjGG177l0v8ljzJ9o15+puwaLBEjbr81BsjCKh8Hes9FtcDL4I0etKc2gyKmMSf+lbomSC6+tCMruND/fMq5jn2vH5b70kTPvLH2+SqHqJVooFFCevLk/XRKKz7L7k7qdRuvs4uCUI/GChoy9L7AZVyDgJHVetsZP05U1Ud2+F+vIGYjQoXY6Nlfsf0cWj5vuUGK7OEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=io5voQRbR4yMdz6OqP2sp8h0wSy5oDsPJZERAjiBOjg=;
+ b=PgsrbfNG71oiyVYFuEizbpbjcoKuZOiuQgoet93mlt9mh++uwS77RhHpcbq3xwc2cxt1d8gVDQjcanMY7yrssKJZDclzy4cN315roOzQ3bV5FQ0tGktsNy7apa6iqbuPam87AqZvhHoPMErDJwr918yRdlpeBeY7vxdIP1/XJJY=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3527.eurprd08.prod.outlook.com (20.177.112.86) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.21; Tue, 3 Dec 2019 13:33:39 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
+ 13:33:39 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
+Thread-Topic: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
+Thread-Index: AQHVmKmNmeJL6G4US0WS+6Oh5cK+GqeovUSA///N8YA=
+Date: Tue, 3 Dec 2019 13:33:39 +0000
+Message-ID: <3be97c8b-fbee-a183-0cd8-dc2e5824efbc@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-20-mreitz@redhat.com>
+ <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
+In-Reply-To: <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19120313-4275-0000-0000-0000038A7C1A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120313-4276-0000-0000-0000389E19EC
-Message-Id: <e3a54a31-1b68-89b0-16ed-9b26be2b5fce@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-03_03:2019-12-02,2019-12-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912030105
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0071.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::15) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191203163337652
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3e8a40aa-ed96-42e3-2097-08d777f5681a
+x-ms-traffictypediagnostic: AM6PR08MB3527:
+x-microsoft-antispam-prvs: <AM6PR08MB352740FEB94D971DDF7B2420C1420@AM6PR08MB3527.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:185;
+x-forefront-prvs: 02408926C4
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(346002)(396003)(376002)(366004)(39840400004)(199004)(189003)(31696002)(256004)(26005)(6486002)(54906003)(36756003)(110136005)(229853002)(478600001)(99286004)(386003)(558084003)(81156014)(25786009)(14454004)(2501003)(6506007)(81166006)(8676002)(2616005)(446003)(2906002)(11346002)(71200400001)(8936002)(5660300002)(102836004)(316002)(71190400001)(66446008)(64756008)(3846002)(66476007)(6116002)(66556008)(305945005)(52116002)(186003)(6512007)(6246003)(76176011)(66946007)(6436002)(4326008)(86362001)(7736002)(31686004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3527;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AbhPIzX4Z1IgAJlsU/R1FFo0OuOmDF1hjEAPrBuSSbcmO+0tb4j7rQZdvLs07nGuJq9hz8UKlanZq1zWPENSaXvm/kLsaZk+ykrEJZpvPASna9KG/bkOJj/d9aJfz5wo8Zc+QoQUIn5mQzYtBUW/AeK1ZOC3EWaiTW0+MEVwA2jfUknSqgFWlzEzN0b1XC4UFFHtBbVabM0GtteNrV3JPzGhoKDMESZgwiFcEcUwWELB+IoX9DCKwGnCgEyVHn5u4lD4TT19s5/sw7o/OEdwpX6NMsVXWx2XhtVxWZvteI/l2F9MecaAOlLT3x3nj5aQKJ9SwQYMOmwFJE10VCQ1OWNJ9oSakgkfSOuT4t9NASLMofAuR8NXbbv/uDr9+gY7xWE8Xu92nsKx6u+szJnAuo/TdxXQEVGG9xhEBlstUDqGflaRxTe0kE7c8PUbWfq2
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <C16F3FDDCBBF654892E552A406FC02C3@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e8a40aa-ed96-42e3-2097-08d777f5681a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 13:33:39.4509 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: w96Q1+hm0COmPu7Oo0VKyPLtgA7IVdasP+5+sneUS6AuEQOxagbZBuYBx/JQR4Feb3Oh1JxmImazGiXWBRJyVX9eAKcg9hpyo2xdE6xlKRg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3527
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,76 +110,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, mihajlov@linux.ibm.com, cohuck@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+03.12.2019 16:32, Vladimir Sementsov-Ogievskiy wrote:
+> 11.11.2019 19:02, Max Reitz wrote:
+>> Signed-off-by: Max Reitz<mreitz@redhat.com>
+>=20
+>=20
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>=20
 
 
-On 03.12.19 14:28, Janosch Frank wrote:
-> We need to set the short psw indication bit in the reset psw, as it is
-> a short psw.
-> 
-> fixes: 9629823290 ("pc-bios/s390-ccw: do a subsystem reset before running the guest")
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Oops, stop. Why do you remove line "self.vm.shutdown()" ?
 
-We should also add 
-commit 24bb1fa36ff7b25ee774dbe4a18830dc782b54bf (HEAD, github-cohuck/s390-next)
-Author:     Janosch Frank <frankja@linux.ibm.com>
-AuthorDate: Fri Nov 29 09:20:23 2019 -0500
-Commit:     Cornelia Huck <cohuck@redhat.com>
-CommitDate: Mon Dec 2 09:58:57 2019 +0100
-
-    s390x: Properly fetch and test the short psw on diag308 subc 0/1
-
-or whatever the final commit id will be. While this patch is not "broken"
-it exposes the bug.
-
-
-
-> ---
->  pc-bios/s390-ccw/jump2ipl.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-> index 266f1502b9..da13c43cc0 100644
-> --- a/pc-bios/s390-ccw/jump2ipl.c
-> +++ b/pc-bios/s390-ccw/jump2ipl.c
-> @@ -12,11 +12,11 @@
->  #define KERN_IMAGE_START 0x010000UL
->  #define PSW_MASK_64 0x0000000100000000ULL
->  #define PSW_MASK_32 0x0000000080000000ULL
-> -#define IPL_PSW_MASK (PSW_MASK_32 | PSW_MASK_64)
-> +#define PSW_MASK_SHORTPSW 0x0008000000000000ULL
-> +#define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_32 | PSW_MASK_64)
->  
->  typedef struct ResetInfo {
-> -    uint32_t ipl_mask;
-> -    uint32_t ipl_addr;
-> +    uint64_t ipl_psw;
->      uint32_t ipl_continue;
->  } ResetInfo;
->  
-> @@ -50,7 +50,9 @@ void jump_to_IPL_code(uint64_t address)
->      ResetInfo *current = 0;
->  
->      save = *current;
-> -    current->ipl_addr = (uint32_t) (uint64_t) &jump_to_IPL_2;
-> +
-> +    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
-> +    current->ipl_psw |= RESET_PSW_MASK;
->      current->ipl_continue = address & 0x7fffffff;
->  
->      debug_print_int("set IPL addr to", current->ipl_continue);
-> @@ -82,7 +84,7 @@ void jump_to_low_kernel(void)
->      }
->  
->      /* Trying to get PSW at zero address */
-> -    if (*((uint64_t *)0) & IPL_PSW_MASK) {
-> +    if (*((uint64_t *)0) & RESET_PSW_MASK) {
->          jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
->      }
->  
-> 
-
+--=20
+Best regards,
+Vladimir
 
