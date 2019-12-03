@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8B8112068
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:45:57 +0100 (CET)
-Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E5D112077
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:56:29 +0100 (CET)
+Received: from localhost ([::1]:60678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icHrg-0005WO-8D
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:45:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
+	id 1icI1r-0002ay-Vc
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:56:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38763)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icHol-00048l-I6
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:57 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1icHor-000498-RR
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:43:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icHoh-0006U2-KF
+ (envelope-from <richard.henderson@linaro.org>) id 1icHoh-0006Uh-N6
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:53 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38792)
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36311)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icHof-0006Rm-S6
+ id 1icHoh-0006TE-Fg
  for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:51 -0500
-Received: by mail-pg1-x541.google.com with SMTP id t3so2383166pgl.5
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 15:42:49 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id k13so2384127pgh.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 15:42:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/dG0vms7SBwlzTpS1M8Jc87zaIsx5MqGFuBibUfxWTI=;
- b=EwwIjJ/oQT7jo5Ss3LX74mBDgAu2q4DysQI3E4xOCJan5lGbN2Fd+Vcc79UCC6//O2
- k6ZLwSK3rDnIUssYKzifUaGPafsC9m+ZhZzfdd2+6DgD5dTwB/uPFHNAV3Sb/P2VRKtk
- g/g6+5u4kum5h/BF2de/Z5fdi5aYd72bav6kyZXD5DpYUPNiSxowsSgKW1SGqQ4hPxVw
- AegURwrDSgzWt3bbELQqY+hDTtTCYj0KNOiZk0Bg6Pic2dAdoaRg1lQGWEQKQ3hmBfFz
- /10AZdAlVqUgeRp9O+aZwl5nqpR0Va1LwzYG+xZCitolkQ4Ui5XI43uewcfD5xgjfw8n
- ZY+w==
+ bh=7MVIDNVevAOck6qQcN8WApev5jEl5Rubg+oXUTbOUTk=;
+ b=P4ZZiAfxWWEoKunNKcpxLUHv0QjWTix7hf2Dg/+dcPeXA6SF/5rf+m0QydnvoMsnFX
+ 4ReacV1B0OEsRbeL6+BuF/3qnf0sBZc64mnS5heOC1+PS1DZNZNEClxQoy4FLARKsFc8
+ Lrfvt7zdJoVfYUIdU908FDHCYtnusIfPccedqZjwcpUCykPvlcaDSB9l2hmL+t0QX8cP
+ gwC0Qejgfk4T8MHQnTYOOrybFGdQPdM15s8KN5T14DCjG7FAZCCKreavbdmq1qV9imZ8
+ Usled3xEcqJDkKipJwq+6Iv9LeY1WqgxoMiaqXgFi/4iNCRpMdzPAl03LXssBwm8hpeJ
+ KIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=/dG0vms7SBwlzTpS1M8Jc87zaIsx5MqGFuBibUfxWTI=;
- b=eLeTQ+mHVaP+o4RWRTB5nGRzAZxTgvWrt8nPcEnuvhhW84ZvOzrjjwjKQtWTWDDjfy
- oAfDdKRA3QL5OXvaubVBN9e0cGChpBm7iESPh9tAnS47TEQN9D6jp8GLTA1UloZHnQU2
- rhw2zVmHahVJ2cafQ0/MYZstgVzvqjGTNZRU+5OWGr62gr6wYHiI3nqrC8BLQ59Qh9b1
- alrPx+raFixeq5iMV1b3FZSV11BOsYj+zGMbTQ1YFkhrpkwmgGFCNoOYQBJDwPx4lhSd
- O/g4NvZijl0/NJsyQXbeXWfQ4vJwnfF5FWC4tySHa5KCsY1lFu1Fzurm6er3CBcuEqKr
- YmBg==
-X-Gm-Message-State: APjAAAUJNfkJkOV7QoHO8UD5+va4xCq+HyNvNyYZZmF76s3fukkyiPRE
- pBIiTOl3tYM40ajAq6uluMQWpBkbJCI=
-X-Google-Smtp-Source: APXvYqyAIWoESinunuq9ntkMExsoYYGL6m3FKTgxKGcDyjDaXeGZEVLhFdcZGJg9fZgXaEvhwGNnGQ==
-X-Received: by 2002:a63:4e0e:: with SMTP id c14mr271849pgb.237.1575416567822; 
- Tue, 03 Dec 2019 15:42:47 -0800 (PST)
+ bh=7MVIDNVevAOck6qQcN8WApev5jEl5Rubg+oXUTbOUTk=;
+ b=jFk3XYgAO0/93R+hUIIIl/jw2Ej8pmye77dGGmZnwWNUkkxRD6pM4PGtOtl6ZB0BBQ
+ dym+WlXmGIBmXi+b8sOYhbruiBDbwtz7+3wydAhY0tHbHgtmlD23Nveg3LEopNs6630T
+ Houf8cHBPYBtC57dOZA6R2mVy5lXIS7Rv8xDQ/FhxDvIFZvivRTaIs5tWOBwYiYv+V4z
+ +J6WhV7hYi4Lgz7NTqCu5z290EL3VDPnrZ2NsWlbHmNTB+32KKfXK8oDxchiER33SZ8o
+ nqve1TlJoiYAT+Gfd1yw1u4eFvhk+Pcsj4ZZA+mbaSlupqnP8gTx9H5OAuhjioBH8gvA
+ y6eQ==
+X-Gm-Message-State: APjAAAVF1tUfQ7VXsNKmYxLs9Bgl+nv11DP4ZuA+Lmt6xbAaFVpYOxqN
+ Itvugbd3pLvMop0KozDsM5qtlz8rTUg=
+X-Google-Smtp-Source: APXvYqyOGOFecK+Ka1VpfQ6KH0eJmPGIycLSY2aLs5WUEv/PBczINSC2uG3FBqMoRHTgxpaVlmASdg==
+X-Received: by 2002:a63:d153:: with SMTP id c19mr319473pgj.78.1575416569080;
+ Tue, 03 Dec 2019 15:42:49 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id k5sm4128256pju.14.2019.12.03.15.42.46
+ by smtp.gmail.com with ESMTPSA id k5sm4128256pju.14.2019.12.03.15.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 15:42:47 -0800 (PST)
+ Tue, 03 Dec 2019 15:42:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/arm: Add ID_AA64MMFR2_EL1
-Date: Tue,  3 Dec 2019 15:42:41 -0800
-Message-Id: <20191203234244.9124-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] target/arm: Update MSR access to UAO
+Date: Tue,  3 Dec 2019 15:42:42 -0800
+Message-Id: <20191203234244.9124-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191203234244.9124-1-richard.henderson@linaro.org>
 References: <20191203234244.9124-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::52b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,83 +79,101 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add definitions for all of the fields, up to ARMv8.5.
-Convert the existing RESERVED register to a full register.
-Query KVM for the value of the register for the host.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    | 17 +++++++++++++++++
- target/arm/helper.c |  4 ++--
- target/arm/kvm64.c  |  2 ++
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ target/arm/cpu.h           |  6 ++++++
+ target/arm/helper.c        | 21 +++++++++++++++++++++
+ target/arm/translate-a64.c | 14 ++++++++++++++
+ 3 files changed, 41 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d403dc5947..cdf6caf869 100644
+index cdf6caf869..dd284ba5c7 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -864,6 +864,7 @@ struct ARMCPU {
-         uint64_t id_aa64pfr1;
-         uint64_t id_aa64mmfr0;
-         uint64_t id_aa64mmfr1;
-+        uint64_t id_aa64mmfr2;
-     } isar;
-     uint32_t midr;
-     uint32_t revidr;
-@@ -1778,6 +1779,22 @@ FIELD(ID_AA64MMFR1, PAN, 20, 4)
- FIELD(ID_AA64MMFR1, SPECSEI, 24, 4)
- FIELD(ID_AA64MMFR1, XNX, 28, 4)
+@@ -1228,6 +1228,7 @@ void pmu_init(ARMCPU *cpu);
+ #define PSTATE_IL (1U << 20)
+ #define PSTATE_SS (1U << 21)
+ #define PSTATE_PAN (1U << 22)
++#define PSTATE_UAO (1U << 23)
+ #define PSTATE_V (1U << 28)
+ #define PSTATE_C (1U << 29)
+ #define PSTATE_Z (1U << 30)
+@@ -3598,6 +3599,11 @@ static inline bool isar_feature_aa64_ats1e1(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) >= 2;
+ }
  
-+FIELD(ID_AA64MMFR2, CNP, 0, 4)
-+FIELD(ID_AA64MMFR2, UAO, 4, 4)
-+FIELD(ID_AA64MMFR2, LSM, 8, 4)
-+FIELD(ID_AA64MMFR2, IESB, 12, 4)
-+FIELD(ID_AA64MMFR2, VARANGE, 16, 4)
-+FIELD(ID_AA64MMFR2, CCIDX, 20, 4)
-+FIELD(ID_AA64MMFR2, NV, 24, 4)
-+FIELD(ID_AA64MMFR2, ST, 28, 4)
-+FIELD(ID_AA64MMFR2, AT, 32, 4)
-+FIELD(ID_AA64MMFR2, IDS, 36, 4)
-+FIELD(ID_AA64MMFR2, FWB, 40, 4)
-+FIELD(ID_AA64MMFR2, TTL, 48, 4)
-+FIELD(ID_AA64MMFR2, BBM, 52, 4)
-+FIELD(ID_AA64MMFR2, EVT, 56, 4)
-+FIELD(ID_AA64MMFR2, E0PD, 60, 4)
++static inline bool isar_feature_aa64_uao(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, UAO) != 0;
++}
 +
- FIELD(ID_DFR0, COPDBG, 0, 4)
- FIELD(ID_DFR0, COPSDBG, 4, 4)
- FIELD(ID_DFR0, MMAPDBG, 8, 4)
+ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f1eab4fb28..70f2db5447 100644
+index 70f2db5447..8941a6c10f 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6825,11 +6825,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa64_tid3,
-               .resetvalue = cpu->isar.id_aa64mmfr1 },
--            { .name = "ID_AA64MMFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
-+            { .name = "ID_AA64MMFR2_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 2,
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa64_tid3,
--              .resetvalue = 0 },
-+              .resetvalue = cpu->isar.id_aa64mmfr2 },
-             { .name = "ID_AA64MMFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 3,
-               .access = PL1_R, .type = ARM_CP_CONST,
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 876184b8fe..482e7fdfbb 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -549,6 +549,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-                               ARM64_SYS_REG(3, 0, 0, 7, 0));
-         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr1,
-                               ARM64_SYS_REG(3, 0, 0, 7, 1));
-+        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
-+                              ARM64_SYS_REG(3, 0, 0, 7, 2));
+@@ -4131,6 +4131,17 @@ static void aa64_pan_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     env->pstate = (env->pstate & ~PSTATE_PAN) | (value & PSTATE_PAN);
+ }
  
-         /*
-          * Note that if AArch32 support is not present in the host,
++static uint64_t aa64_uao_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    return env->pstate & PSTATE_UAO;
++}
++
++static void aa64_uao_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                           uint64_t value)
++{
++    env->pstate = (env->pstate & ~PSTATE_UAO) | (value & PSTATE_UAO);
++}
++
+ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+                                           const ARMCPRegInfo *ri,
+                                           bool isread)
+@@ -7464,6 +7475,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         define_arm_cp_regs(cpu, ats1cp_reginfo);
+     }
+ #endif
++    if (cpu_isar_feature(aa64_uao, cpu)) {
++        static const ARMCPRegInfo uao_reginfo[] = {
++            { .name = "UAO", .state = ARM_CP_STATE_AA64,
++              .opc0 = 3, .opc1 = 0, .crn = 4, .crm = 2, .opc2 = 4,
++              .type = ARM_CP_NO_RAW, .access = PL1_RW,
++              .readfn = aa64_uao_read, .writefn = aa64_uao_write, },
++            REGINFO_SENTINEL
++        };
++        define_arm_cp_regs(cpu, uao_reginfo);
++    }
+ 
+     if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
+         static const ARMCPRegInfo vhe_reginfo[] = {
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 7f5a68106b..2b6846ef01 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1601,6 +1601,20 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
+         s->base.is_jmp = DISAS_NEXT;
+         break;
+ 
++    case 0x03: /* UAO */
++        if (!dc_isar_feature(aa64_uao, s) || s->current_el == 0) {
++            goto do_unallocated;
++        }
++        if (crm & 1) {
++            set_pstate_bits(PSTATE_UAO);
++        } else {
++            clear_pstate_bits(PSTATE_UAO);
++        }
++        t1 = tcg_const_i32(s->current_el);
++        gen_helper_rebuild_hflags_a64(cpu_env, t1);
++        tcg_temp_free_i32(t1);
++        break;
++
+     case 0x04: /* PAN */
+         if (!dc_isar_feature(aa64_pan, s) || s->current_el == 0) {
+             goto do_unallocated;
 -- 
 2.17.1
 
