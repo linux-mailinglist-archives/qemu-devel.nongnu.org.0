@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EFA10FE8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:21:13 +0100 (CET)
-Received: from localhost ([::1]:53428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CF510FECF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:28:02 +0100 (CET)
+Received: from localhost ([::1]:53540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic876-0000pM-DW
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:21:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48366)
+	id 1ic8Dg-00056x-MR
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:28:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <buraksrc@gmail.com>) id 1ic83y-0007qW-Fv
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:18:00 -0500
+ (envelope-from <thuth@redhat.com>) id 1ic86l-0001f5-Ce
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:20:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <buraksrc@gmail.com>) id 1ic83w-0000CH-Ai
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:17:58 -0500
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:40499)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <buraksrc@gmail.com>) id 1ic83u-00008m-Al
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:17:55 -0500
-Received: by mail-lf1-x12d.google.com with SMTP id y5so2924477lfy.7
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 05:17:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:sender:from:date:message-id:subject:to;
- bh=om/lOJ/3SR5e2M2oS+aoHZhlXdrmRLH43DNF5vxr/DE=;
- b=eQeD3et4Vlmbto8O/zNj1DkjLcTQBfSf3FwyO+Ks513DalFZuS8CEIbXYUgApYvDpW
- Su7pJY2kLdsnn8u0k6A80D2TXf9nmcNcZJaOgdNTsEzz0qCX55c0exgAyI0seT5bmOG0
- qfflaKg4LsnQE3dShJRsRa12RbSlHwstNLSd7pkyijo37wSHHl7O+BXf44nFvZxefU+s
- tEbpE0p4lPKuu9/EBhtVfSWNrIMDZHisi9vNyhm1XXNXuOcMn25JjTZpv1OJmXsUgFTL
- WBCrMlUKBLo92dp6T70+mxsAu+tX5LRyaY4OmRjKRYV8gi5Gnd5pptYz9xBZ0F8/Qk7F
- cS+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
- :to; bh=om/lOJ/3SR5e2M2oS+aoHZhlXdrmRLH43DNF5vxr/DE=;
- b=ABoBk3w/M0cJW+Jx4aRjN1Z0qj1vBD4Dw+DjHd+9ZcIdiTEFxxb4r16JCS+g8pvgdz
- rVp8Wu2T/NpmPo0gI6t0XwRXw1mEqsJGdj8xo7KfQxv4sCmZ2nbYC922/jXHxhgADm6s
- HsWu4wE2AVH/AqMWCLb8lq1hHnA5FBVly3ao599C2VSE2YVRlyOi3Z4FTPRgsXXdbGxk
- pWJwre0gdRddPaGQkVKwTGAY5dolxvXXxLArLb9ois0G03x6K4Uju9KO/HJnI0Rc/eo8
- lylkdiYtvPRFjb6PyPsrBVyysn7IWgGYngFyMe+rDLnEjbOtapHSv8iMjRNjfevJCul8
- 81iw==
-X-Gm-Message-State: APjAAAXC44Qb7s5AECaJvKgjlOgvljXGBTLUW8bBPQPukjddL4btVlbg
- 0ki15vtKxJ2tnMnXsSoHsc9MAHEQuolizpqkbmuKzZC0
-X-Google-Smtp-Source: APXvYqw6GQfjKKaAljcYyqHcb/02ayKNXuTzBjMkuUKD9SZnWKCU4uNQZO7b/FTuRuphAB8UchzBqHqSwixntClzIas=
-X-Received: by 2002:a19:ac43:: with SMTP id r3mr2725519lfc.156.1575379068993; 
- Tue, 03 Dec 2019 05:17:48 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1ic86e-0005vW-Pm
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:20:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53206
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ic86c-0005qP-PM
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:20:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575379240;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=lbjTV0DnRk1clJ6fkW/fqgcEnshrujqss2ZXCafQ7C4=;
+ b=Ckn29b1snDpog5t3Fzz66+8NywhRXHsmybz3qIH5rCafSpADZ7jTzB5lMmMbVE2zZlTQBd
+ cFYNdsy64n+D6sNVp9q86RvVLs6e3RCDYRaFxE5BaIJuu0fjSQeNgNktRRkYcda0HRwqQZ
+ p3gUmIj3dk6GhyXtlGaWVPXvoYpXH/4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-4kKujdeBPyyW8JqHc-ISTQ-1; Tue, 03 Dec 2019 08:20:37 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 206B18024C8;
+ Tue,  3 Dec 2019 13:20:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-176.ams2.redhat.com [10.36.116.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCDA05D6AE;
+ Tue,  3 Dec 2019 13:20:31 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] travis.yml: Run tcg tests with tci
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191128153525.2646-1-thuth@redhat.com>
+ <20191128153525.2646-3-thuth@redhat.com>
+ <672f7c1a-71d6-5dfa-101a-ed3070be0b05@weilnetz.de>
+ <bf0e3625-b719-6baf-9148-c9a864ac499f@weilnetz.de>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d1cd763a-22ea-bdc8-ddf2-597c234a52d0@redhat.com>
+Date: Tue, 3 Dec 2019 14:20:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a19:2293:0:0:0:0:0 with HTTP;
- Tue, 3 Dec 2019 05:17:47 -0800 (PST)
-From: burak sarac <burak@linux.com>
-Date: Tue, 3 Dec 2019 14:17:47 +0100
-X-Google-Sender-Auth: 8mqS-fdqKFlQSzANKQUwdDelbZo
-Message-ID: <CALS5s18QBnPsv3TbtbM7ie__zekvH1T59c-o8FRd+f0EtiwqFg@mail.gmail.com>
-Subject: Custom logic gates on user space emulation
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::12d
+In-Reply-To: <bf0e3625-b719-6baf-9148-c9a864ac499f@weilnetz.de>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 4kKujdeBPyyW8JqHc-ISTQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,22 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello All,
- Currently I am studying qemu and I want to figure out how I can use
-custom logic gates on user space emulation.  I am searching very basic
-'hello world' kind of tutorial or some resources to i.e. adding left
-or LOR : 1 | 0 = 1 but 0 | 1 = 0 to existing x86 arch
-((https://en.wikibooks.org/wiki/X86_Assembly/Logic) ?). What I want to
-try is run this extended x86 version with qemu user space emulation.
-Do I need a custom toolchain also for this? I found this book:
-https://subscription.packtpub.com/book/hardware_and_creative/9781783289455/1/ch01lvl1sec15/generating-a-custom-toolchain-become-an-expert
+On 28/11/2019 22.33, Stefan Weil wrote:
+> Am 28.11.19 um 22:06 schrieb Stefan Weil:
+> 
+>> Am 28.11.19 um 16:35 schrieb Thomas Huth:
+>>
+>>> So far we only have compile coverage for tci. But since commit
+>>> 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add implementation
+>>> for INDEX_op_ld16u_i64") has been included now, we can also run the
+>>> "tcg" and "qtest" tests with tci, so let's enable them in Travis now.
+>>> Since we don't gain much additional test coverage by compiling all
+>>> targets, and TCI is broken e.g. with the Sparc targets, we also limit
+>>
+>> As far as I know it is broken with Sparc hosts (not Sparc targets).
+>>
+>> I tested without limiting the target list on an x86_64 host, and the
+>> tests passed.
+> 
+> 
+> Sorry, I have to correct myself: check-qtest-sparc64 fails. I'll examine
+> that.
 
-Sorry for my ignorance in case it is totally irrelevant and I would
-appreciate any guidance! Or pseudo kind of road map for me!
+The 32-bit sparc target fails, too - when doing the prom-env-test:
 
-Thank you & have a nice day
-Burak
+https://travis-ci.com/huth/qemu/jobs/262572937#L7690
+
+ Thomas
+
 
