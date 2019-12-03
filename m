@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4203B110433
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 19:26:13 +0100 (CET)
-Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F0011044C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 19:34:27 +0100 (CET)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icCsD-0005JI-U9
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 13:26:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59832)
+	id 1icD0C-0008Iw-1w
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 13:34:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1icCON-00012D-6K
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:55:26 -0500
+ (envelope-from <cohuck@redhat.com>) id 1icBtT-0002nI-NB
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:23:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1icCO1-0005ye-AQ
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:54:59 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:41119)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1icCO1-0005dk-2P
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:54:57 -0500
-Received: by mail-oi1-x230.google.com with SMTP id i1so52241oie.8
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 09:54:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2X391B/GagSeaNyVnYDRJI75Q0YwtkeLxnObUvCMQ0E=;
- b=JkrfwZhYz9RvGLbvJYc9UvhID+46AZdvohKFHj8/ZOuGaU1lerbKLZji9Mzqmt7Pa9
- BuWdFANMTwbQ9Xho+FjvC75P/liP0oVE3lCaqKxe5LDBug8IhqFBTQWra+abDk/Q2Zs9
- szuvW6DcdBj3VGi4auqdrXA0bYaPAHC5QpxByJdS3gj8szS24IaWcgeQyqQSWUfTuO1d
- s6jbTIRBh1PODHHVPo3HV1Qoq3xvzcoRoKTYdPzL7YskKlNJ80VU0qT+iq4VFAdMJOSz
- QNeBXVNw9pWBExor0AVjJNcz5TKW0XRvAz9MD2tFoq9QDJpFq8pE/BLu7QF+ZtojKD70
- I22g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2X391B/GagSeaNyVnYDRJI75Q0YwtkeLxnObUvCMQ0E=;
- b=IxbDj0q/GKxdBzmRyXeboHmFh3B6m7Dqey1lMnBqOfTDxdGuqqWDx8SjTHgKsAApMB
- UAePzWFXkTeJhV85zS5Yk/RXHUtNhQ4e1kIxYOOsmm8rutsOlF/qSO9vi3axsyYLfcia
- zJzQKNEK2eB+Qz/Aid6Erhgu0ps5X5iwPIJjMsWSyGu+a8r1dX7q2fRQqnG+ZBACfzvR
- bxxENEH7mYw/01T8sXpF8xE+Ynw+cd5t9UBbt5EQNR5zyjJfn/U3+N72b4WTwUzC40DW
- d2+cpA/Zt54SmHQcHnhzsxWsJAswgcA1bpsuzoY29jcQqqHeuk3HFUUzRAM4V4iq5cn/
- Zf4Q==
-X-Gm-Message-State: APjAAAVdYFr82c7wJZH8wfXiqOLPbi5x3Glm4iiQ8P4NBMjCpOvSDfW5
- gGcmfJ1Vmoa8M6w3fND+Ng2zomuU4ZndJJs9u2kFYg==
-X-Google-Smtp-Source: APXvYqzIeoUHCm1ssZorXmTLd5hSYuV05lKdZLwN1EfPQ6uQyU5EfrHtXklUvlcvnHHyYkX65DWGlt5NQO81vGrFxNU=
-X-Received: by 2002:aca:f5cc:: with SMTP id t195mr4675868oih.163.1575395689042; 
- Tue, 03 Dec 2019 09:54:49 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1icBtK-0000ck-KH
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:23:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30178
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1icBtH-0000V4-MJ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:23:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575393785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uivl8XWJmSz1KlMr3v+9BDEbqxH/3gVp6wVcFhQ8TZw=;
+ b=d+kLvFku9FpggUgRr4LMRawHNfp6OyAg+PB2XYY0ZPHTTPiefjvkpCSLgIjTo8AMYg8XZo
+ zJikxv1PiXSuBDH2xZHDg243hh/Q28qf9Q7fpI5IF6+mZZ3SKUSMAWrpX+Jm7Gf3c0jylm
+ Blt8Lx9X3a3FBTULQeySCADgKR3sk80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-f9n7Q7b0OhCCVvHpJFxwlw-1; Tue, 03 Dec 2019 12:22:59 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F02E800D5A;
+ Tue,  3 Dec 2019 17:22:55 +0000 (UTC)
+Received: from gondolin (ovpn-116-214.ams2.redhat.com [10.36.116.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0437C67661;
+ Tue,  3 Dec 2019 17:22:53 +0000 (UTC)
+Date: Tue, 3 Dec 2019 18:22:51 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 4/4] pc-bios/s390x: Fix reset psw mask
+Message-ID: <20191203182251.66f3ff6d.cohuck@redhat.com>
+In-Reply-To: <20191203132813.2734-5-frankja@linux.ibm.com>
+References: <20191203132813.2734-1-frankja@linux.ibm.com>
+ <20191203132813.2734-5-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20191202140552.GA5353@localhost.localdomain>
-In-Reply-To: <20191202140552.GA5353@localhost.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 3 Dec 2019 17:54:38 +0000
-Message-ID: <CAFEAcA-pOBjia36W3n1Sz-5EsUfT8gkzzn2Gpb7J6Zrjfbu6XQ@mail.gmail.com>
-Subject: Re: [RFC] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: f9n7Q7b0OhCCVvHpJFxwlw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,161 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jeff Nelson <jen@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Ademar Reis <areis@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2 Dec 2019 at 14:06, Cleber Rosa <crosa@redhat.com> wrote:
->
-> RFC: QEMU Gating CI
-> ===================
->
-> This RFC attempts to address most of the issues described in
-> "Requirements/GatinCI"[1].  An also relevant write up is the "State of
-> QEMU CI as we enter 4.0"[2].
->
-> The general approach is one to minimize the infrastructure maintenance
-> and development burden, leveraging as much as possible "other people's"
-> infrastructure and code.  GitLab's CI/CD platform is the most relevant
-> component dealt with here.
+On Tue,  3 Dec 2019 08:28:13 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-Thanks for writing up this RFC.
+> We need to set the short psw indication bit in the reset psw, as it is
+> a short psw.
+> 
+> fixes: 9629823290 ("pc-bios/s390-ccw: do a subsystem reset before running the guest")
 
-My overall view is that there's some interesting stuff in
-here and definitely some things we'll want to cover at some
-point, but there's also a fair amount that is veering away
-from solving the immediate problem we want to solve, and
-which we should thus postpone for later (beyond making some
-reasonable efforts not to design something which paints us
-into a corner so it's annoyingly hard to improve later).
+s/fixes: 9629823290/Fixes: 962982329029/
 
-> To exemplify my point, if one specific test run as part of "check-tcg"
-> is found to be faulty on a specific job (say on a specific OS), the
-> entire "check-tcg" test set may be disabled as a CI-level maintenance
-> action.  Of course a follow up action to deal with the specific test
-> is required, probably in the form of a Launchpad bug and patches
-> dealing with the issue, but without necessarily a CI related angle to
-> it.
->
-> If/when test result presentation and control mechanism evolve, we may
-> feel confident and go into finer grained granularity.  For instance, a
-> mechanism for disabling nothing but "tests/migration-test" on a given
-> environment would be possible and desirable from a CI management level.
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  pc-bios/s390-ccw/jump2ipl.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index 266f1502b9..da13c43cc0 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -12,11 +12,11 @@
+>  #define KERN_IMAGE_START 0x010000UL
+>  #define PSW_MASK_64 0x0000000100000000ULL
+>  #define PSW_MASK_32 0x0000000080000000ULL
+> -#define IPL_PSW_MASK (PSW_MASK_32 | PSW_MASK_64)
+> +#define PSW_MASK_SHORTPSW 0x0008000000000000ULL
+> +#define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_32 | PSW_MASK_64)
+>  
+>  typedef struct ResetInfo {
+> -    uint32_t ipl_mask;
+> -    uint32_t ipl_addr;
+> +    uint64_t ipl_psw;
+>      uint32_t ipl_continue;
+>  } ResetInfo;
+>  
+> @@ -50,7 +50,9 @@ void jump_to_IPL_code(uint64_t address)
+>      ResetInfo *current = 0;
+>  
+>      save = *current;
+> -    current->ipl_addr = (uint32_t) (uint64_t) &jump_to_IPL_2;
+> +
+> +    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
+> +    current->ipl_psw |= RESET_PSW_MASK;
+>      current->ipl_continue = address & 0x7fffffff;
+>  
+>      debug_print_int("set IPL addr to", current->ipl_continue);
+> @@ -82,7 +84,7 @@ void jump_to_low_kernel(void)
+>      }
+>  
+>      /* Trying to get PSW at zero address */
+> -    if (*((uint64_t *)0) & IPL_PSW_MASK) {
+> +    if (*((uint64_t *)0) & RESET_PSW_MASK) {
+>          jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
+>      }
+>  
 
-For instance, we don't have anything today for granularity of
-definition of what tests we run where or where we disable them.
-So we don't need it in order to move away from the scripting
-approach I have at the moment. We can just say "the CI system
-will run make and make check (and maybe in some hosts some
-additional test-running commands) on these hosts" and hardcode
-that into whatever yaml file the CI system's configured in.
+Looks sane to me, but would like an ack from bios maintainers.
 
-> Pre-merge
-> ~~~~~~~~~
->
-> The natural way to have pre-merge CI jobs in GitLab is to send "Merge
-> Requests"[3] (abbreviated as "MR" from now on).  In most projects, a
-> MR comes from individual contributors, usually the authors of the
-> changes themselves.  It's my understanding that the current maintainer
-> model employed in QEMU will *not* change at this time, meaning that
-> code contributions and reviews will continue to happen on the mailing
-> list.  A maintainer then, having collected a number of patches, would
-> submit a MR either in addition or in substitution to the Pull Requests
-> sent to the mailing list.
+As this is independent of the other patches (which depend on a headers
+update), I can pick this and do a rebuild of the bios(es). Unless one
+of the bios maintainers wants to do that and send me a pull req :), but
+that seems like overkill.
 
-Eventually it would be nice to allow any submaintainer
-to send a merge request to the CI system (though you would
-want it to have a "but don't apply until somebody else approves it"
-gate as well as the automated testing part). But right now all
-we need is for the one person managing merges and releases
-to be able to say "here's the branch where I merged this
-pullrequest, please test it". At any rate, supporting multiple
-submaintainers all talking to the CI independently should be
-out of scope for now.
-
-> Multi-maintainer model
-> ~~~~~~~~~~~~~~~~~~~~~~
->
-> The previous section already introduced some of the proposed workflow
-> that can enable such a multi-maintainer model.  With a Gating CI
-> system, though, it will be natural to have a smaller "Mean time
-> between (CI) failures", simply because of the expected increased
-> number of systems and checks.  A lot of countermeasures have to be
-> employed to keep that MTBF in check.
->
-> For once, it's imperative that the maintainers for such systems and
-> jobs are clearly defined and readily accessible.  Either the same
-> MAINTAINERS file or a more suitable variation of such data should be
-> defined before activating the *gating* rules.  This would allow a
-> routing to request the attention of the maintainer responsible.
->
-> In case of unresposive maintainers, or any other condition that
-> renders and keeps one or more CI jobs failing for a given previously
-> established amount of time, the job can be demoted with an
-> "allow_failure" configuration[7].  Once such a change is commited, the
-> path to promotion would be just the same as in a newly added job
-> definition.
->
-> Note: In a future phase we can evaluate the creation of rules that
-> look at changed paths in a MR (similar to "F:" entries on MAINTAINERS)
-> and the execution of specific CI jobs, which would be the
-> responsibility of a given maintainer[8].
-
-All this stuff is not needed to start with. We cope at the
-moment with "everything is gating, and if something doesn't
-pass it needs to be fixed or manually removed from the setup".
-
-> GitLab Jobs and Pipelines
-> -------------------------
->
-> GitLab CI is built around two major concepts: jobs and pipelines.  The
-> current GitLab CI configuration in QEMU uses jobs only (or putting it
-> another way, all jobs in a single pipeline stage).  Consider the
-> folowing job definition[9]:
->
->    build-tci:
->     script:
->     - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
->     - ./configure --enable-tcg-interpreter
->          --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)"
->     - make -j2
->     - make tests/boot-serial-test tests/cdrom-test tests/pxe-test
->     - for tg in $TARGETS ; do
->         export QTEST_QEMU_BINARY="${tg}-softmmu/qemu-system-${tg}" ;
->         ./tests/boot-serial-test || exit 1 ;
->         ./tests/cdrom-test || exit 1 ;
->       done
->     - QTEST_QEMU_BINARY="x86_64-softmmu/qemu-system-x86_64" ./tests/pxe-test
->     - QTEST_QEMU_BINARY="s390x-softmmu/qemu-system-s390x" ./tests/pxe-test -m slow
->
-> All the lines under "script" are performed sequentially.  It should be
-> clear that there's the possibility of breaking this down into multiple
-> stages, so that a build happens first, and then "common set of tests"
-> run in parallel.
-
-We could do this, but we don't do it today, so we don't need
-to think about this at all to start with.
-
-> In theory, there's nothing that prevents an entire QEMU build
-> directory, to be treated as an artifact.  In practice, there are
-> predefined limits on GitLab that prevents that from being possible,
-
-...so we don't need to worry about somehow defining some
-cut-down "build artefact" that we provide to the testing
-phase. Just do a build and test run as a single thing.
-We can always come back and improve later.
-
-
-Have you been able to investigate and confirm that we can
-get a gitlab-runner setup that works on non-x86 ? That seems
-to me like an important thing we should be confident about
-early before we sink too much effort into a gitlab-based
-solution.
-
-thanks
--- PMM
 
