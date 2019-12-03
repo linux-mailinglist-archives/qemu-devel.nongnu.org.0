@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FCE10FE4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:04:00 +0100 (CET)
-Received: from localhost ([::1]:52940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5F810FE6F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:11:45 +0100 (CET)
+Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic7qQ-0005Mk-Jk
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:03:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55231)
+	id 1ic7xw-0003Bn-7y
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:11:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1ic7cO-0002kq-KG
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:49:30 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ic7m3-0005iq-Hz
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1ic7cH-0002AU-4Y
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:49:23 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:37202)
+ (envelope-from <pbonzini@redhat.com>) id 1ic7lv-0006LT-Ky
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40339
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1ic7cG-0001vI-JR
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:49:21 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 7428E96EF0;
- Tue,  3 Dec 2019 12:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1575377355;
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ic7lu-0006EQ-BF
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575377953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UBHLWsT+vMJzyBlNb3W9ZOJBhe0pXctBZ7mjHo7XfHo=;
- b=krah/Xu68DxnN2Vd13vb8cV9dG6mCP0nu2w0rB/zqxRskYzdi1Gdlqw7O4pTdAOtK14Chk
- q1DkHsr1tpO2XlAHQLvGsbo5cmabq6aFSyPVh0DikMhmm1ABhFKVHlYDFBS6DR1CCjWLAP
- EgsA414iN6hzV2lGtkzZOEx+CpDczso=
-Subject: Re: [PATCH v2 03/14] gdbstub: move str_buf to GDBState and use GString
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20191130084602.10818-1-alex.bennee@linaro.org>
- <20191130084602.10818-4-alex.bennee@linaro.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <9cff21f7-607a-6244-197c-b87da96762b8@greensocs.com>
-Date: Tue, 3 Dec 2019 13:49:15 +0100
+ bh=CVcXkrQE0MBjZ9L2CSdb9vSOINsPrRYIG+sD6FoKQEs=;
+ b=gPf9+i6kf8jUJSmlz2j4w9SLQVQozn9Psm79E5H3lUC0AGWPu4f28s2Qp4qet6gLVh9pcz
+ mjVfaOasRIVLmZXzqeBMyMyCJSt9esVxB6GlUD58Cy3VR6ja1G3qRgOimovakpGTwEmptI
+ QrFsHStU/N9eg6VV+Jwl9uiW+rzLG1E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-_PnFX1TfMAeYmlAvSyD7lw-1; Tue, 03 Dec 2019 07:59:02 -0500
+Received: by mail-wm1-f72.google.com with SMTP id 7so934590wmf.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 04:59:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CVcXkrQE0MBjZ9L2CSdb9vSOINsPrRYIG+sD6FoKQEs=;
+ b=MzecbbuKFdVWDV73JWduitaEggRU+USLTDu3R6WaUBCXF8Xe76RL8BiHJM55hfrc3T
+ 3KRYYNRloTJa4+W5oPUn82F4vYsOhlOGK63twbAhc5EEGrmwJEtOS/YVtTkASkOhK0i/
+ XQn84VD/iRWu+PHyxvPQwtrGlD6CNRJQGPg22efEojBu8GJBSeXlz8d82Hi8MMv/VYzP
+ MjTxUyYXPJ//fsZlK08GgHyw2j9TMR7R9PWg5TTmzDcZTH9a/4YdBLWLtxrGWl02FO7Y
+ k/66CpnJqietLaOjH2bfqY2poZsDkzCeV8r5bQxKUL7ui+UHWxfWdSnb8rXAZ4V6YZMq
+ dcTw==
+X-Gm-Message-State: APjAAAVZp93Kzz0IPm53U59Wx4QxhiK08+MJqOfaGNsF3Xpo4yIehhJy
+ gQw4TaTdAG+znMhBItWCbJJJfisPhMs3QbJqH/Cvtk3UUEGD3pb54CNdjQMnHD7rMzs7WYCsEOH
+ gEAutYsCWICtXpCo=
+X-Received: by 2002:a5d:4a84:: with SMTP id o4mr4981407wrq.396.1575377941561; 
+ Tue, 03 Dec 2019 04:59:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwI0TUixu7roXMLrCnFcGn4FFGFBXWbnCVE0ei+SoFiyEC9g9yLMso/ro/YcduV+l+9L4SPqg==
+X-Received: by 2002:a5d:4a84:: with SMTP id o4mr4981385wrq.396.1575377941274; 
+ Tue, 03 Dec 2019 04:59:01 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
+ ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
+ by smtp.gmail.com with ESMTPSA id y139sm3027735wmd.24.2019.12.03.04.59.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Dec 2019 04:59:00 -0800 (PST)
+Subject: Re: virtiofsd: Where should it live?
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20191125185021.GB3767@work-vm>
+ <20191126102600.GG556568@redhat.com> <20191126121416.GE2928@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
+Date: Tue, 3 Dec 2019 13:59:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191130084602.10818-4-alex.bennee@linaro.org>
+In-Reply-To: <20191126121416.GE2928@work-vm>
+Content-Language: en-US
+X-MC-Unique: _PnFX1TfMAeYmlAvSyD7lw-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1575377355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UBHLWsT+vMJzyBlNb3W9ZOJBhe0pXctBZ7mjHo7XfHo=;
- b=sTMkcpAPBYZYwVtTVC0s88lbvPaC+Oxt4xIvoH/J/eTJpzU1iYJkdDv1rLQeUVhoHx8UvT
- iPN9yGk501eqv9JbglpDoDPdP9OvbW5DQ7bijzpdfT1DtE00q3XdP1xim/SI92h2MzGc/f
- R5S7sQ7xMDVYYzZq+/DAcUYggciYsNE=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575377355; a=rsa-sha256; cv=none;
- b=2pyq6XtXTcNv6fav8MMjgN3p6Ul0m58ms7yNqsqUtDpVijbesWdb7FqAFsT0zWSYS09DA9
- SwO3PwAV2PdyJhxqUcmirT1ZvOpWDSAHZAfz9ionhY5psFYS9LV6KPsjmFDYCd4EctadXW
- FjVfy4ZDt4IwJRU8R/1rD3NvZO/sT4U=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,54 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.machado@linaro.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com
+Cc: mszeredi@redhat.com, vgoyal@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 26/11/19 13:14, Dr. David Alan Gilbert wrote:
+>> IOW, if we did decide we want it in QEMU, then instead of
+>> '$GIT/contrib/virtiofsd', I'd prefer to see '$GIT/virtiofsd'.
+>
+> I'm not sure it deserves a new top level for such a specific tool.
+> 
 
-On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
-> Rather than having a static buffer replace str_buf with a GString
-> which we know can grow on demand. Convert the internal functions to
-> take a GString instead of a char * and length.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
-> ---
-> v2
->   - fix conflict from status gdbserver_state
->   - add put_strbuf helper
-> ---
->  gdbstub.c | 195 +++++++++++++++++++++++++-----------------------------
->  1 file changed, 90 insertions(+), 105 deletions(-)
->=20
-> @@ -667,25 +667,28 @@ static int put_packet(const char *buf)
+It could be in fsdev/virtiofsd, but I agree with Daniel that at this
+point the QEMU build system introduces baggage that you may not want for
+virtiofsd.
 
-Hi,
+Paolo
 
-I did some tests with my target having lot of registers and was
-wondering if we should add an assert there (or even better in
-put_packet_binary()). Something like:
-       /* FIXME: until bigger packets are supported */
-       g_assert(strlen(buf) <=3D MAX_PACKET_LENGTH);
-
-There is a memcpy() in put_packet_binary() that overflows
-in that case. With this patch, read_all_registers() can for example
-generate binary packet up to 2*MAX_PACKET_LENGTH.
-
->      return put_packet_binary(buf, strlen(buf), false);
->  }
-
-Apart from this case which don't happen with in-tree targets, it works
-fine. So,
-Tested-by: Damien Hedde <damien.hedde@greensocs.com>
-
-I'll work on the missing bits for bigger packet support I soon as I have
-some spare time.
-
-Regards,
---
-Damien
 
