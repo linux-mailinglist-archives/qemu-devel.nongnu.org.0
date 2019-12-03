@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11BF10FC17
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 11:59:23 +0100 (CET)
-Received: from localhost ([::1]:51542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877C110FC22
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 12:03:16 +0100 (CET)
+Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic5tr-0003n6-2c
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 05:59:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39521)
+	id 1ic5xa-0005O1-H6
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 06:03:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ic5ny-0002IX-EN
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:53:19 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ic5oi-0002bB-KS
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:54:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1ic5nr-0000wc-2L
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:53:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30928
+ (envelope-from <dgilbert@redhat.com>) id 1ic5ob-000338-Ki
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:53:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45495
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ic5nq-0000ly-R8
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:53:10 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ic5ob-000317-1O
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 05:53:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575370388;
+ s=mimecast20190719; t=1575370435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OldWRIEIJH5oAJkUIuZ/HVo+3cNtdpameexrTOpj0MA=;
- b=gB3d0gw8jvZqashVuJB6LdwZex88E9oscHFB3pKOfqGw+meABlYc4PmrrmhfV73VD9nw8+
- FiE0AcC9Pi454VtVD5HE6auK+eNMP8KW5l7a1VFH22ubkhyB1JDANpyxxv0XQQHCeoS5xD
- sjua5HzK2ivjxng1KH1f0Cb6UHbFMOg=
+ bh=M+XhWXtzgAHD83890r01RG1w45N1ChUn/mXqyManSr0=;
+ b=ANkB/AT9nga7ouzyh+sxW/j94LeXUtLb5Ws0mpQ1AmcI+fDdIPj4PtBmW8RAhiWlqxgxZY
+ SIuEiVA6o3pLu3xbvjSpplHzU6cSoG3cfJdqWZL59eOu+/0gUM4qHZlWqRA5RCdDdvgRCi
+ 5gLfxiea5gcp2gmbs/rXHmGfcHzjtik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-TA1GREflMvujz85JFqPEmg-1; Tue, 03 Dec 2019 05:53:05 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-381-UaKXs29MNLGRNhdZcXppbg-1; Tue, 03 Dec 2019 05:53:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3B2100550E;
- Tue,  3 Dec 2019 10:53:03 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9513E19C69;
- Tue,  3 Dec 2019 10:53:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3995111AB5; Tue,  3 Dec 2019 11:53:02 +0100 (CET)
-Date: Tue, 3 Dec 2019 11:53:02 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH 2/2] usb-redir: remove 'remote wakeup' flag from
- configuration descriptor
-Message-ID: <20191203105302.wm7tcy3f4ysuesrf@sirius.home.kraxel.org>
-References: <20191202123430.7125-1-yuri.benditovich@daynix.com>
- <20191202123430.7125-3-yuri.benditovich@daynix.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51363801E7B;
+ Tue,  3 Dec 2019 10:53:53 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2036060BFB;
+ Tue,  3 Dec 2019 10:53:43 +0000 (UTC)
+Date: Tue, 3 Dec 2019 10:53:41 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: virtiofsd: Where should it live?
+Message-ID: <20191203105341.GB3078@work-vm>
+References: <20191125185021.GB3767@work-vm>
+ <20191126102600.GG556568@redhat.com>
+ <20191126121416.GE2928@work-vm>
+ <CAFEAcA9Ln2uwg4f4s8oS6VeQk83W3BErmH9cHeyDJy7v-4gNxw@mail.gmail.com>
+ <87k17ekhs9.fsf@dusky.pond.sub.org>
+ <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191202123430.7125-3-yuri.benditovich@daynix.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: TA1GREflMvujz85JFqPEmg-1
+In-Reply-To: <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: UaKXs29MNLGRNhdZcXppbg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
@@ -76,38 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ mszeredi@redhat.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+We seem to be coming to the conclusion something that:
 
-> +        /*
-> +         * If this is GET_DESCRIPTOR request for configuration descripto=
-r,
-> +         * remove 'remote wakeup' flag from it to prevent idle power dow=
-n
-> +         * in Windows guest
-> +         */
-> +        if (dev->suppress_remote_wake &&
-> +            control_packet->requesttype =3D=3D USB_DIR_IN &&
-> +            control_packet->request =3D=3D USB_REQ_GET_DESCRIPTOR &&
-> +            control_packet->value =3D=3D (USB_DT_CONFIG << 8) &&
-> +            control_packet->index =3D=3D 0 &&
-> +            /* bmAttributes field of config descriptor */
-> +            len > 7 && (dev->dev.data_buf[7] & USB_CFG_ATT_WAKEUP)) {
-> +                DPRINTF("Removed remote wake %04X:%04X\n",
-> +                    dev->device_info.vendor_id,
-> +                    dev->device_info.product_id);
-> +                dev->dev.data_buf[7] &=3D ~USB_CFG_ATT_WAKEUP;
-> +            }
+  a) It should live in the qemu tree
+  b) It shouldn't live under contrib
+  c) We'll create a new top level, i.e. 'daemons'
+  d) virtiofsd will be daemons/virtiofsd
 
-Hmm, not much opportunity to factor out stuff to share with usb-host.
-Ok then.
+Now, somethings I'm less clear on:
+  e) What else would move into daemons?  It was suggested
+    that if we've got virtiofsd in there, then we should move
+    libvhost-user - which I understand, but then it's not a
+    'daemons'.
+    Are there any otehr daemons that should move?
 
-I think checkpatch has complains for this too, otherwise it looks fine.
+  f) Should virtiofsd always be built (if the deps are installed)?
 
-cheers,
-  Gerd
+Dave
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
