@@ -2,82 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B17E10FF44
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:51:25 +0100 (CET)
-Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F327710FF4C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:54:44 +0100 (CET)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic8aJ-0008Mz-46
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:51:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43487)
+	id 1ic8dX-0001As-08
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:54:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1ic8EI-000623-Ri
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:28:41 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic8IT-0000PI-Ey
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:32:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1ic8EF-0001EV-Hj
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:28:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50468)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic8IP-0002g9-Il
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:32:57 -0500
+Received: from mail-eopbgr50121.outbound.protection.outlook.com
+ ([40.107.5.121]:26222 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1ic8EE-0001BF-KQ
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:28:35 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB3DMxkR025130
- for <qemu-devel@nongnu.org>; Tue, 3 Dec 2019 08:28:32 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wm6spbwv4-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 08:28:32 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Tue, 3 Dec 2019 13:28:30 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 3 Dec 2019 13:28:27 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xB3DSPxT45023634
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 3 Dec 2019 13:28:25 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C7ED3A4057;
- Tue,  3 Dec 2019 13:28:25 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8EA71A4051;
- Tue,  3 Dec 2019 13:28:24 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.18.156])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  3 Dec 2019 13:28:24 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] pc-bios/s390x: Fix reset psw mask
-Date: Tue,  3 Dec 2019 08:28:13 -0500
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191203132813.2734-1-frankja@linux.ibm.com>
-References: <20191203132813.2734-1-frankja@linux.ibm.com>
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ic8IN-0002Tm-HF; Tue, 03 Dec 2019 08:32:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aB4zRe8mNwsMnNRxE9xLydU4MXZo/ERfNwfzt6IVSj6fMDmZdXB5s/oqLvIoBR4QKHUo7n0LoPs/f+1HUOW7wE6PD6HCwjShgu1rluq2kOkj9ZMTQ37eQu/SbGawluO/MpqX0UXfD6yVOHj9EMIWz6yoCf0sJIc4nVt6KQXk1H5lzgTtA3T1Ty6GzM06sCb70J9NXSne1J5VjPdEq5zG6N2Z0BQGTIx72NAj6j4xAJFQ9Xhj1kCecfhg+Tb8y6z3L77O+GgJWOv5b7k8KE6UaUmHJjyWtK9OL3E1//HELNpuFRDjs27Er97RmL48u0mkEwVW3GxP0EK4lVvsB9aRSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XCN3CBQfYkkiDkYXMUhmdWZ7wocaOP4dqkqH0E7KKw4=;
+ b=Cq9QfBYdubWxkzRfXwGwybi9Uf5Xbj4ZHywpbvkHymokJUrJoYCWNRZloCFOdkYDcuzUD+/x2YKMVNV8J4Ksw3l1dVFPrWoy8mOTGxC660pjNvLvioBuNFMOKVCRSM4dTszf7eQ1qGCw3RmL+8Se5QiKisTxDkhc5BA7nVYNvdq0sg/jaOaQzXmK1SqQcGw5G5Tfn+vnj8+vg5dDGHYds4A25agmyOLkdD4SIJvj9m27gnUH08PspbdzsVWNPktaSOFivrVyzFaePhgGXwjUKLnZIo3qMVePMbMovbIh7YWsowwuf5Bo3BmKFqTI1YMTetO6lwghmKR63XyYuKvdbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XCN3CBQfYkkiDkYXMUhmdWZ7wocaOP4dqkqH0E7KKw4=;
+ b=Zpx2Jyx7ieDzbov2RBXg4mI+FqnIy6xjt1SqlTwkvK06ArALZF/C4iCPfrqSaPhYPGhfTcwfLeLxAxX16QZgT/o/F1fIKKL52U3v77C1Gfwy5GdJGx2qTyyx8RBpS8UTB7NZWxI5d66sPJdFxD+IoCWz9aGD1ApeDjo5V6kAfqI=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3656.eurprd08.prod.outlook.com (20.177.116.74) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.21; Tue, 3 Dec 2019 13:32:49 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
+ 13:32:49 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
+Thread-Topic: [PATCH for-5.0 v2 19/23] iotests: Resolve TODOs in 041
+Thread-Index: AQHVmKmNmeJL6G4US0WS+6Oh5cK+GqeoivmA
+Date: Tue, 3 Dec 2019 13:32:48 +0000
+Message-ID: <2416e1d8-c1c3-4c88-6e7b-52670eb23c0e@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-20-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-20-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0090.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::34) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191203163247306
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d53bb2cb-2457-4388-e7e2-08d777f549f0
+x-ms-traffictypediagnostic: AM6PR08MB3656:
+x-microsoft-antispam-prvs: <AM6PR08MB3656BF62281FC7752A7D096FC1420@AM6PR08MB3656.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:400;
+x-forefront-prvs: 02408926C4
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(39840400004)(376002)(136003)(346002)(396003)(189003)(199004)(7736002)(25786009)(186003)(305945005)(102836004)(6506007)(386003)(558084003)(26005)(76176011)(52116002)(478600001)(5660300002)(6512007)(6486002)(2616005)(71200400001)(2906002)(6116002)(71190400001)(4326008)(446003)(2501003)(6246003)(11346002)(3846002)(66946007)(66556008)(86362001)(229853002)(31686004)(31696002)(14454004)(8936002)(36756003)(66476007)(81156014)(54906003)(110136005)(256004)(8676002)(81166006)(316002)(6436002)(66446008)(64756008)(99286004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3656;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UPgcER2VRGSmAxPQ5bGAU7Ec8KImcGcEsntEeKUKYjOBB/C5PdAcETeQmg0bFpvqafDYvZuAMdYzE/7kbcRCPAj+AxCfQVLSn7lWA3OSldc9AxvGrH+61VuU1utmB+dMVfU3Vp1gyHULdGqgGUjRffkGqWVhPKxRy7MuDuffFH4VZrIJ2NWD7opDYbdWx/iewy6OrIjcjPtAafGOZq8ouXizvxw2RA83pwNGNeKCZs6vJt4SLoBIrvzOot252nwW83oPXIOWZhqu7kuKTtIivjgf1lhnSCQrBJ+z6uGd/63rp+wfhanal4mLS5Fxavui7D3DSL4CnT2vI7gJCX1cZYzVphj/eVEHvC8Z2Ge9Xdr51ecwI0UK1fkpx4o2/QhW5X3EPGbya0bhuIA4bPOwDb+n95T02Y5RzEvY1LAstaTmyEZcuP8YqUuyb4dv4ain
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <15097CE222F8284998E9AE35B4A0F58C@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19120313-0020-0000-0000-00000393164E
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120313-0021-0000-0000-000021EA3794
-Message-Id: <20191203132813.2734-5-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-03_03:2019-12-02,2019-12-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- suspectscore=1 clxscore=1015 malwarescore=0 adultscore=0 impostorscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912030105
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d53bb2cb-2457-4388-e7e2-08d777f549f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 13:32:49.0060 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KCqyp3grHl6vfluwLQmIbISlobTcU48qVwx2StaVgjIw+OzFLjayfLD/fMXFrYOH5tF0vXMUuMxCcUxd+EljiqQGw8b3M3VpRxxUc6y11AU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3656
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.121
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,60 +109,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
- cohuck@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to set the short psw indication bit in the reset psw, as it is
-a short psw.
+11.11.2019 19:02, Max Reitz wrote:
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-fixes: 9629823290 ("pc-bios/s390-ccw: do a subsystem reset before running the guest")
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- pc-bios/s390-ccw/jump2ipl.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
-index 266f1502b9..da13c43cc0 100644
---- a/pc-bios/s390-ccw/jump2ipl.c
-+++ b/pc-bios/s390-ccw/jump2ipl.c
-@@ -12,11 +12,11 @@
- #define KERN_IMAGE_START 0x010000UL
- #define PSW_MASK_64 0x0000000100000000ULL
- #define PSW_MASK_32 0x0000000080000000ULL
--#define IPL_PSW_MASK (PSW_MASK_32 | PSW_MASK_64)
-+#define PSW_MASK_SHORTPSW 0x0008000000000000ULL
-+#define RESET_PSW_MASK (PSW_MASK_SHORTPSW | PSW_MASK_32 | PSW_MASK_64)
- 
- typedef struct ResetInfo {
--    uint32_t ipl_mask;
--    uint32_t ipl_addr;
-+    uint64_t ipl_psw;
-     uint32_t ipl_continue;
- } ResetInfo;
- 
-@@ -50,7 +50,9 @@ void jump_to_IPL_code(uint64_t address)
-     ResetInfo *current = 0;
- 
-     save = *current;
--    current->ipl_addr = (uint32_t) (uint64_t) &jump_to_IPL_2;
-+
-+    current->ipl_psw = (uint64_t) &jump_to_IPL_2;
-+    current->ipl_psw |= RESET_PSW_MASK;
-     current->ipl_continue = address & 0x7fffffff;
- 
-     debug_print_int("set IPL addr to", current->ipl_continue);
-@@ -82,7 +84,7 @@ void jump_to_low_kernel(void)
-     }
- 
-     /* Trying to get PSW at zero address */
--    if (*((uint64_t *)0) & IPL_PSW_MASK) {
-+    if (*((uint64_t *)0) & RESET_PSW_MASK) {
-         jump_to_IPL_code((*((uint64_t *)0)) & 0x7fffffff);
-     }
- 
--- 
-2.20.1
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+--=20
+Best regards,
+Vladimir
 
