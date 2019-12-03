@@ -2,104 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABEB1101F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:18:41 +0100 (CET)
-Received: from localhost ([::1]:55684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2E511024B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:29:35 +0100 (CET)
+Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icAsq-0004Zi-0O
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:18:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56540)
+	id 1icB3O-0004BG-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:29:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icAZY-0003uI-TI
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:58:46 -0500
+ (envelope-from <bilalwasim676@gmail.com>) id 1icAfb-0007aP-4f
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:05:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icAZT-0004ep-D8
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 10:58:40 -0500
-Received: from mail-eopbgr130138.outbound.protection.outlook.com
- ([40.107.13.138]:7936 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icAZS-0004Io-Fy; Tue, 03 Dec 2019 10:58:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nR9YxkBnwZbSAHKyrq3LnyNccBRqDHQILuKgVaalp4ygvOa1lsngDrjJv3gHwO/xQBJu71Oui0p3n8C/pzXtEBNq+MacK7qqxkaSEBQM44WXuvpIznxiib2xikpOdMR9yyZ3M48O7/peRUna2hrLCTmAyeLk73RSzPogzmw/OY3BhOwpfGN8KNdQE/z8PuL3TWZKNbyfMyCGCt2ucJTkOq2BieQmxvxI3UOt0bs46u0ytF04fYQ2ftvLLWy33UdcyFphTJuV5A1Oucg3lFYKMUxBRp313OHxMEaWvRMsN9yYQPHdBJmfqX0n1HTlw3CSAKm8CbdWxUYiOD4VmiNe5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UyL9Fop+lpr9Qip6AIhH00AlrfgNqhNR9yGNmDBTRTE=;
- b=YReC4zCNFMNapP9/pTP9pwSIXm7P/3mcqb4xjr9eQDtNkx54vy62WLBEh8ZcbJqG98LAA3B08i7xEnmDZDYCdYI0sHv7SPM7I6SkhWYlk3iycQyio2y5ay+veo9VlB3YrndMlzzo31d0NJEdlNgGeq6dWm2jb9qapYUBjYU1z5AaPcOS30CcnPzzaXOj89l0jkageikrN8M35w8IzfHt8iZIYECRgtfLjGzMoEjV4QTExFs4sC7ReZU+2I5dFpsh4hCxOP+BBWl5c6XfO8x0P/9oRPKWke3sypWRTXbjtY/hE1CrnowHFm54IcE61lxLc4dI77dcqB1ukdpSNgY00g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UyL9Fop+lpr9Qip6AIhH00AlrfgNqhNR9yGNmDBTRTE=;
- b=COmc9SUxE1xEwDh/lXkJVdnCdU+KCd0JGNoldy0HXrWW0CZj/5sGB5q283ocJHIXtwUnJ5T648ni8bATpFKOdB/V7JMLmmIV/KfYZ5jSeWB3LS9hTcrPLD5LI2VYN15wcNSEKVjNEecEX8bDBjhSiMXqjjnd38+YABHvxYmlzYM=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3350.eurprd08.prod.outlook.com (52.135.163.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.17; Tue, 3 Dec 2019 15:58:32 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
- 15:58:32 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH for-5.0 v2 22/23] iotests: Check that @replaces can
- replace filters
-Thread-Topic: [PATCH for-5.0 v2 22/23] iotests: Check that @replaces can
- replace filters
-Thread-Index: AQHVmKmTLKw1sAFL3E+HvoNaLKFLj6eos7AA
-Date: Tue, 3 Dec 2019 15:58:32 +0000
-Message-ID: <c75475a4-f2ab-bd99-1c26-463c48c4d94c@virtuozzo.com>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-23-mreitz@redhat.com>
-In-Reply-To: <20191111160216.197086-23-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0200.eurprd05.prod.outlook.com
- (2603:10a6:3:f9::24) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191203185830081
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4e92d9da-4f78-4c0a-ec76-08d77809a545
-x-ms-traffictypediagnostic: AM6PR08MB3350:
-x-microsoft-antispam-prvs: <AM6PR08MB33504868435593889611EE1FC1420@AM6PR08MB3350.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 02408926C4
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(396003)(346002)(366004)(136003)(39840400004)(189003)(199004)(4326008)(66446008)(6246003)(478600001)(31686004)(6436002)(25786009)(386003)(6512007)(102836004)(52116002)(26005)(6506007)(2501003)(2906002)(3846002)(186003)(54906003)(71190400001)(110136005)(316002)(6486002)(76176011)(14454004)(229853002)(64756008)(66946007)(256004)(36756003)(2616005)(446003)(6116002)(11346002)(66556008)(8676002)(66476007)(31696002)(5660300002)(71200400001)(81166006)(81156014)(86362001)(8936002)(305945005)(7736002)(99286004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3350;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QdrG/RUjEZIkWSXyrdrgcL2ZWE5MuN3I6z0eWa1b5QSq325tzdVFYhT8DWeKwqB+BT+YQHqNBw2dgXlZwUcDFM3SgVLj4lefVRweXWn4vFtxdWAsm2xau2J2fxbcsLPTe6OxX8ZktgtA0xv6o5VMBjSgD3FS458q+dSGsrdeyi9jHXAHHjo8nB9+UzzOaRp1NItmnqnLV+OZZ6Rw/23pYFflmeLyIJGqRpFu+0Ilqn0M7idlRXp/BD7DMn0CjtZ5izqA0oGTI/CPaZPLNQQsJ2JoZ9BvvnbX+v2weIc1KK7tvx6olxQ/vpAYnRP6oKgl6tgQTij5F0kcJw5c1WvpP4Av1LVw/mhJbuvRaImbgtspQF/54A5YiPPVklRJQ7nG+yJ60h/9G12+Uz0/p7R8w60CoFLiX0CFA2sZ61+9ibjrnO2krTdJ8gwnOqcEJDY7
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <E16CAD2BCC919C4FA2263CCB75097979@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <bilalwasim676@gmail.com>) id 1icAfY-0003bA-JS
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:04:57 -0500
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:33282)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bilalwasim676@gmail.com>)
+ id 1icAfX-0003Vs-Gk; Tue, 03 Dec 2019 11:04:55 -0500
+Received: by mail-qv1-xf42.google.com with SMTP id z3so1746657qvn.0;
+ Tue, 03 Dec 2019 08:04:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kK01j+jtcyJhmrX4/7BKHM8cxyWwgPUG6WT1zXZuUmY=;
+ b=kxU82a8ScrfqhiA70X7n4MfyE6AWrHQ/9lcfQ/19RC4Y0aNTqQCJNVFbqePLERicNN
+ jhSFFHCBxNHDoLuvXdrSN640pKNY4sr3fXbKF/NBtIPQHcVUPWJrs/Ti+eiHBtx2zgwR
+ QkWyu+qkUeaKD3NuDglJXBPXSBmEUxSQs44s8kETv7Mg3XROl7bk4OT2odDJfDoSiGLE
+ PIzg4qkaiMS2fsBez4kWMLTB9AwRjx+tr+GVWNAAQwjNkSMeZFIXdTXwZJfXeHl3mFzk
+ rjE0JKMWIb+iaFYOZZqW0LSlbsFPK4qMiE1+V1608Qs9jkL2XvUTZ9vcQe1n00EXQv9V
+ m5tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kK01j+jtcyJhmrX4/7BKHM8cxyWwgPUG6WT1zXZuUmY=;
+ b=ZdRRaT2BZZg+sVxvt4sxb2tUyTxhizh1p4/4J4fduPpTAsMed3Wtr8Hq2FxVKJC09y
+ Wk/an09wftZvQ3QlSfcPzi1rXyAHNpV3HqPAc0BfipchcIfGtV7YLpvHeIysE9JHp+Zx
+ zIv1cqJvUyUN0faI8LPCKg0I6l9L/311Oe0RcsSGj2K7gCqoB9jGbrvt4in5NP//ED+3
+ KeLafX7p80XTVTVGxCnzliqI5tWT1BSfQg/3BQtJuwDdp8y6Oeq8qweRTmH+cNRoXpNo
+ kq4FQOgNEhZWGBY9///gYsZjT4uCliZSzeoK7GAo71041OVi8kzqaoQi6nM0SiwnRV+E
+ e0Sg==
+X-Gm-Message-State: APjAAAU6jNf5I7XGvS3s6zSaDuS0XzukctmWUhYlK8Oyykl3z+5y4MHb
+ dneXteYPS4XW4yI3qgw7O4f2rUWo6EcFpyXcuBk=
+X-Google-Smtp-Source: APXvYqxJpqM7Yry1X7/U3Zu9GwMWbQh4QA6QslrwpbGLhSb80Gm1vOet2Y4FU/Lx8slJOoligX6wTV6uzhzDpFzELVA=
+X-Received: by 2002:a05:6214:4f0:: with SMTP id
+ cl16mr5858994qvb.213.1575389089889; 
+ Tue, 03 Dec 2019 08:04:49 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e92d9da-4f78-4c0a-ec76-08d77809a545
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 15:58:32.2544 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0j/ULbzlN+gscOSlUSfEhHDY29IbSJChwwHirofAmWPdbCsbQcch0NzMvOgmkBNVe6zI70nZeHhYP35TjwYXd36fzHQ4rlsbHqnXXrhTJOs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3350
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.138
+References: <20191129150508.24404-1-bilalwasim676@gmail.com>
+ <afe9efde-7ac1-8607-446a-8fbf10accece@redhat.com>
+ <8c956ae31e8f44a2b831a5030b2448b4@SVR-IES-MBX-03.mgc.mentorg.com>
+ <CAP+75-X_POJfTO=gOUu1zCPtcfnQ5yemQo0hqB_s3jy_C17o9g@mail.gmail.com>
+In-Reply-To: <CAP+75-X_POJfTO=gOUu1zCPtcfnQ5yemQo0hqB_s3jy_C17o9g@mail.gmail.com>
+From: Bilal Wasim <bilalwasim676@gmail.com>
+Date: Tue, 3 Dec 2019 21:04:38 +0500
+Message-ID: <CAHKB+OBU94Gh1qjnUZrEE0ARXezKbP37hcB02Gewjbb_bQM7oA@mail.gmail.com>
+Subject: Re: [PATCH] net/imx_fec: Updating the IMX_FEC IP to support loopback
+ mode.
+To: jasowang@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000001602820598cedb09"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,102 +75,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "aa1ronham@gmail.com" <aa1ronham@gmail.com>,
+ "jcd@tribudubois.net" <jcd@tribudubois.net>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wasim,
+ Bilal" <Bilal_Wasim@mentor.com>, philmd@redhat.com,
+ "linux@roeck-us.net" <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-11.11.2019 19:02, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   tests/qemu-iotests/041     | 46 ++++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/041.out |  4 ++--
->   2 files changed, 48 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-> index ab0cb5b42f..9a00cf6f7b 100755
-> --- a/tests/qemu-iotests/041
-> +++ b/tests/qemu-iotests/041
-> @@ -1200,6 +1200,52 @@ class TestOrphanedSource(iotests.QMPTestCase):
->           self.assertFalse('mirror-filter' in nodes,
->                            'Mirror filter node did not disappear')
->  =20
-> +# Test cases for @replaces that do not necessarily involve Quorum
-> +class TestReplaces(iotests.QMPTestCase):
-> +    # Each of these test cases needs their own block graph, so do not
-> +    # create any nodes here
-> +    def setUp(self):
-> +        self.vm =3D iotests.VM()
-> +        self.vm.launch()
-> +
-> +    def tearDown(self):
-> +        self.vm.shutdown()
-> +        for img in (test_img, target_img):
-> +            try:
-> +                os.remove(img)
-> +            except OSError:
-> +                pass
-> +
-> +    """
-> +    Check that we can replace filter nodes.
-> +    """
+--0000000000001602820598cedb09
+Content-Type: text/plain; charset="UTF-8"
 
-PEP8 says, that doc string should appear after "def" line.
-(this applies to previous patch too)
+ping...
 
-> +    @iotests.skip_if_unsupported(['copy-on-read'])
-> +    def test_replace_filter(self):
-> +        result =3D self.vm.qmp('blockdev-add', **{
-> +                                 'driver': 'copy-on-read',
-> +                                 'node-name': 'filter0',
-> +                                 'file': {
-> +                                     'driver': 'copy-on-read',
-> +                                     'node-name': 'filter1',
-> +                                     'file': {
-> +                                         'driver': 'null-co'
-> +                                     }
-> +                                 }
-> +                             })
-> +        self.assert_qmp(result, 'return', {})
-> +
-> +        result =3D self.vm.qmp('blockdev-add',
-> +                             node_name=3D'target', driver=3D'null-co')
-> +        self.assert_qmp(result, 'return', {})
-> +
-> +        result =3D self.vm.qmp('blockdev-mirror', job_id=3D'mirror', dev=
-ice=3D'filter0',
-> +                             target=3D'target', sync=3D'full', replaces=
-=3D'filter1')
-> +        self.assert_qmp(result, 'return', {})
-> +
-> +        self.complete_and_wait('mirror')
-> +
-> +        self.vm.assert_block_path('filter0', '/file', 'target')
-> +
->   if __name__ =3D=3D '__main__':
->       iotests.main(supported_fmts=3D['qcow2', 'qed'],
->                    supported_protocols=3D['file'])
-> diff --git a/tests/qemu-iotests/041.out b/tests/qemu-iotests/041.out
-> index ffc779b4d1..877b76fd31 100644
-> --- a/tests/qemu-iotests/041.out
-> +++ b/tests/qemu-iotests/041.out
-> @@ -1,5 +1,5 @@
-> -........................................................................=
-.....................
-> +........................................................................=
-......................
->   ----------------------------------------------------------------------
-> -Ran 93 tests
-> +Ran 94 tests
->  =20
->   OK
->=20
+--0000000000001602820598cedb09
+Content-Type: text/html; charset="UTF-8"
 
+<div dir="ltr">ping...<br><img width="0" height="0" class="mailtrack-img" alt="" style="display:flex" src="https://mailtrack.io/trace/mail/ab61d4b3de3f44dd6a6ab1395b6369b442d6a47f.png?u=596396"></div>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-
---=20
-Best regards,
-Vladimir
+--0000000000001602820598cedb09--
 
