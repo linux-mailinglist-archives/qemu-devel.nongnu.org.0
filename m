@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5756E10F54D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 03:59:49 +0100 (CET)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39AA10F539
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 03:54:42 +0100 (CET)
+Received: from localhost ([::1]:47538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibyPk-0005hD-5i
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 21:59:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33540)
+	id 1ibyKn-0006h9-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 21:54:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33627)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ibxxO-0003TB-Ep
+ (envelope-from <richard.henderson@linaro.org>) id 1ibxxO-0003UC-Og
  for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ibxxM-0000Jx-6w
+ (envelope-from <richard.henderson@linaro.org>) id 1ibxxN-0000N1-Eq
  for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:30 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:33918)
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:34584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ibxxL-0000Hc-Sy
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:28 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id t21so831245pjq.1
- for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 18:30:27 -0800 (PST)
+ id 1ibxxN-0000KX-2K
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:29 -0500
+Received: by mail-pl1-x643.google.com with SMTP id h13so1014551plr.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 18:30:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sU0Rb1lweTCsZgkiKPPPp7WxJ75dP/BQ8w48fi8QJ6s=;
- b=VjMegFqGhdkDDr/jf5XYiM6AO3uJlzF/RNLX2MBF9ayrUBfokmOe8PsPvjtXrbNZek
- KMiXIn5PqeXUUIIfrXu26FY7OdREj9YixejxPkqfeySig29JgOzZFRY2AkCDERstF8Ff
- vBerH6agj75tGYsNRCmUikGU5iwA4YOh/CUbNvHM18G1NpZ70iizWRaVkWKV18GwkCvN
- xDo/stGWabLvqCTNVXTLP664PJyX1iw4Efu7sm+XFKo2Yvho1TGRlPEkkMEiqhwgfbae
- TpdXXu4ozl7w6/5XcAUaaJG0qSq48aeGlgF2SqfserpgiKzPKoIEQf/qEINJq1J451N9
- funw==
+ bh=k0XWWezVOhFzaYm0qz5tHBxEXRK+lD5naHKLwWqhpHI=;
+ b=aiqfWNARXyYW1/8OallmGR59GeT1kMy70QH+mVXvlf6z3mxGUsjV/0NFlv8LehWnGM
+ 60PbnV+bpa23kpyBRPu1apbnhzVsCXluJZXGNE0mdLrI15gP8sJHW+AnECa1ZqfUnU4c
+ kJYjotMwAruV4yacXRCnrnTDLQPj/TQunGi5yaeMwuf/EXleaIXN+SD7e4JgHZEPaTlF
+ 6RK24uwym9UVLGXS2WIAnyb/Kc6vWCsk0ApMGA+a+vkYLBxm5ERzIfbD1jdhp6/POVat
+ kcIwbGrfHV2ZUbI/Jao5JX0/bbvdqobwFvgRBkIJAvsDcwAFK4Yx2K85lW/iYll/wBg0
+ SjQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=sU0Rb1lweTCsZgkiKPPPp7WxJ75dP/BQ8w48fi8QJ6s=;
- b=gkxx+SUV18fZc4Yq0EboMwyfnUPsx/k0vc0FjRCHROkuxGu5Uq8cwpfdy7X61buu76
- GJt3BhzXyBTbntGm9UuUs4iUjrfQ5eZGbdqJyPvbyLddOXwzyDI85RayJP91bZTrFhRH
- b1tcjvOagbTaRfEweMlda/dKW0EAeNECS/jvoIHmsGSa16hFkmrI/w1UGHAnkUDrjujW
- Tpyy93dQAmWB6C8d0kHbxp7SK4P9cNT/Oz+MUVF8sl5N1Otvqhmu1SdMT2M9yaZl1Irt
- 0q1wb6CC08XDNnWCT0TnFLIWhTorGsnlpyYhn1uXkRT5pJaUxSy1glw8Ff7Rr4x8MtU4
- NUCg==
-X-Gm-Message-State: APjAAAWDHZ8CEFGAFV6Q4KIX6jKgL2fB8VWw9lZPZFC0XnzqQ7sCNSrb
- LiR3b/D0NtXJWKGM4EefzyNK7ws9sJI=
-X-Google-Smtp-Source: APXvYqxonvO1uGtm9VZPR2N2CPU4tZR/Om6po8cRD+iMM+CVYbnA1eLMDXWkjrgwi68CAVWYguPdxQ==
-X-Received: by 2002:a17:902:758a:: with SMTP id
- j10mr2751609pll.29.1575340226370; 
- Mon, 02 Dec 2019 18:30:26 -0800 (PST)
+ bh=k0XWWezVOhFzaYm0qz5tHBxEXRK+lD5naHKLwWqhpHI=;
+ b=YM3M6hhjkl3XfzJRvCr/UUnD28LTdNDIuOvWWUidDBTtPiy//jsjZAazOjpblugQJL
+ L7Nw/JQ3MU5BZuOG7HeLo08WsI2DtJ+Ey1nkOQGZ4ZTF5UjnbCeZA/dGNZnmRnbMmclo
+ EJGF4PqAzPvJmo+AQ06YlTDc5nFzDdgIC82idQInovypbkhfSML91qU9scHYgBePXCo0
+ pcp4M4rC5yBGxAqiUmq1CbZQMhRzWJ4CKk6XRoXyCWJJvkEivZ0yM2N6en2+HAQKWyPD
+ BIBHwJXfJ1iKhsYRpxELSl75k0FE8Kvt/Mbo3pW1bMzbvupSHBDSXAAV4e3jbY/eNTcW
+ R9CA==
+X-Gm-Message-State: APjAAAWQyNY+XobMjnTsUoLbxey+MyqeNgmrN/un/iIEups/8ffXORMe
+ fPx5gZOSoJE1RaPtV4lZVDNBDsmI+nQ=
+X-Google-Smtp-Source: APXvYqxe7OPYGL9jUAmy+H8UzhHfvbqMiUL2MZtjGC1DbPgBF/JOmSHDVWSZ9/F8AJSd3mVGaRBCCA==
+X-Received: by 2002:a17:902:43:: with SMTP id 61mr2772112pla.88.1575340227615; 
+ Mon, 02 Dec 2019 18:30:27 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q22sm873695pfg.170.2019.12.02.18.30.25
+ by smtp.gmail.com with ESMTPSA id q22sm873695pfg.170.2019.12.02.18.30.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2019 18:30:25 -0800 (PST)
+ Mon, 02 Dec 2019 18:30:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 37/40] target/arm: Move arm_excp_unmasked to cpu.c
-Date: Mon,  2 Dec 2019 18:29:34 -0800
-Message-Id: <20191203022937.1474-38-richard.henderson@linaro.org>
+Subject: [PATCH v4 38/40] target/arm: Pass more cpu state to arm_excp_unmasked
+Date: Mon,  2 Dec 2019 18:29:35 -0800
+Message-Id: <20191203022937.1474-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191203022937.1474-1-richard.henderson@linaro.org>
 References: <20191203022937.1474-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,267 +79,93 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This inline function has one user in cpu.c, and need not be exposed
-otherwise.  Code movement only, with fixups for checkpatch.
+Avoid redundant computation of cpu state by passing it in
+from the caller, which has already computed it for itself.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 111 -------------------------------------------
- target/arm/cpu.c | 119 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 119 insertions(+), 111 deletions(-)
+ target/arm/cpu.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8e5aaaf415..22935e4433 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2673,117 +2673,6 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
- #define ARM_CPUID_TI915T      0x54029152
- #define ARM_CPUID_TI925T      0x54029252
- 
--static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
--                                     unsigned int target_el)
--{
--    CPUARMState *env = cs->env_ptr;
--    unsigned int cur_el = arm_current_el(env);
--    bool secure = arm_is_secure(env);
--    bool pstate_unmasked;
--    int8_t unmasked = 0;
--    uint64_t hcr_el2;
--
--    /* Don't take exceptions if they target a lower EL.
--     * This check should catch any exceptions that would not be taken but left
--     * pending.
--     */
--    if (cur_el > target_el) {
--        return false;
--    }
--
--    hcr_el2 = arm_hcr_el2_eff(env);
--
--    switch (excp_idx) {
--    case EXCP_FIQ:
--        pstate_unmasked = !(env->daif & PSTATE_F);
--        break;
--
--    case EXCP_IRQ:
--        pstate_unmasked = !(env->daif & PSTATE_I);
--        break;
--
--    case EXCP_VFIQ:
--        if (secure || !(hcr_el2 & HCR_FMO) || (hcr_el2 & HCR_TGE)) {
--            /* VFIQs are only taken when hypervized and non-secure.  */
--            return false;
--        }
--        return !(env->daif & PSTATE_F);
--    case EXCP_VIRQ:
--        if (secure || !(hcr_el2 & HCR_IMO) || (hcr_el2 & HCR_TGE)) {
--            /* VIRQs are only taken when hypervized and non-secure.  */
--            return false;
--        }
--        return !(env->daif & PSTATE_I);
--    default:
--        g_assert_not_reached();
--    }
--
--    /* Use the target EL, current execution state and SCR/HCR settings to
--     * determine whether the corresponding CPSR bit is used to mask the
--     * interrupt.
--     */
--    if ((target_el > cur_el) && (target_el != 1)) {
--        /* Exceptions targeting a higher EL may not be maskable */
--        if (arm_feature(env, ARM_FEATURE_AARCH64)) {
--            /* 64-bit masking rules are simple: exceptions to EL3
--             * can't be masked, and exceptions to EL2 can only be
--             * masked from Secure state. The HCR and SCR settings
--             * don't affect the masking logic, only the interrupt routing.
--             */
--            if (target_el == 3 || !secure) {
--                unmasked = 1;
--            }
--        } else {
--            /* The old 32-bit-only environment has a more complicated
--             * masking setup. HCR and SCR bits not only affect interrupt
--             * routing but also change the behaviour of masking.
--             */
--            bool hcr, scr;
--
--            switch (excp_idx) {
--            case EXCP_FIQ:
--                /* If FIQs are routed to EL3 or EL2 then there are cases where
--                 * we override the CPSR.F in determining if the exception is
--                 * masked or not. If neither of these are set then we fall back
--                 * to the CPSR.F setting otherwise we further assess the state
--                 * below.
--                 */
--                hcr = hcr_el2 & HCR_FMO;
--                scr = (env->cp15.scr_el3 & SCR_FIQ);
--
--                /* When EL3 is 32-bit, the SCR.FW bit controls whether the
--                 * CPSR.F bit masks FIQ interrupts when taken in non-secure
--                 * state. If SCR.FW is set then FIQs can be masked by CPSR.F
--                 * when non-secure but only when FIQs are only routed to EL3.
--                 */
--                scr = scr && !((env->cp15.scr_el3 & SCR_FW) && !hcr);
--                break;
--            case EXCP_IRQ:
--                /* When EL3 execution state is 32-bit, if HCR.IMO is set then
--                 * we may override the CPSR.I masking when in non-secure state.
--                 * The SCR.IRQ setting has already been taken into consideration
--                 * when setting the target EL, so it does not have a further
--                 * affect here.
--                 */
--                hcr = hcr_el2 & HCR_IMO;
--                scr = false;
--                break;
--            default:
--                g_assert_not_reached();
--            }
--
--            if ((scr || hcr) && !secure) {
--                unmasked = 1;
--            }
--        }
--    }
--
--    /* The PSTATE bits only mask the interrupt if we have not overriden the
--     * ability above.
--     */
--    return unmasked || pstate_unmasked;
--}
--
- #define ARM_CPU_TYPE_SUFFIX "-" TYPE_ARM_CPU
- #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_ARM_CPU
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 81c33221f7..a36344d4c7 100644
+index a36344d4c7..7a1177b883 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -410,6 +410,125 @@ static void arm_cpu_reset(CPUState *s)
-     arm_rebuild_hflags(env);
+@@ -411,14 +411,13 @@ static void arm_cpu_reset(CPUState *s)
  }
  
-+static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-+                                     unsigned int target_el)
-+{
-+    CPUARMState *env = cs->env_ptr;
-+    unsigned int cur_el = arm_current_el(env);
-+    bool secure = arm_is_secure(env);
-+    bool pstate_unmasked;
-+    int8_t unmasked = 0;
-+    uint64_t hcr_el2;
-+
-+    /*
-+     * Don't take exceptions if they target a lower EL.
-+     * This check should catch any exceptions that would not be taken
-+     * but left pending.
-+     */
-+    if (cur_el > target_el) {
-+        return false;
-+    }
-+
-+    hcr_el2 = arm_hcr_el2_eff(env);
-+
-+    switch (excp_idx) {
-+    case EXCP_FIQ:
-+        pstate_unmasked = !(env->daif & PSTATE_F);
-+        break;
-+
-+    case EXCP_IRQ:
-+        pstate_unmasked = !(env->daif & PSTATE_I);
-+        break;
-+
-+    case EXCP_VFIQ:
-+        if (secure || !(hcr_el2 & HCR_FMO) || (hcr_el2 & HCR_TGE)) {
-+            /* VFIQs are only taken when hypervized and non-secure.  */
-+            return false;
-+        }
-+        return !(env->daif & PSTATE_F);
-+    case EXCP_VIRQ:
-+        if (secure || !(hcr_el2 & HCR_IMO) || (hcr_el2 & HCR_TGE)) {
-+            /* VIRQs are only taken when hypervized and non-secure.  */
-+            return false;
-+        }
-+        return !(env->daif & PSTATE_I);
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    /*
-+     * Use the target EL, current execution state and SCR/HCR settings to
-+     * determine whether the corresponding CPSR bit is used to mask the
-+     * interrupt.
-+     */
-+    if ((target_el > cur_el) && (target_el != 1)) {
-+        /* Exceptions targeting a higher EL may not be maskable */
-+        if (arm_feature(env, ARM_FEATURE_AARCH64)) {
-+            /*
-+             * 64-bit masking rules are simple: exceptions to EL3
-+             * can't be masked, and exceptions to EL2 can only be
-+             * masked from Secure state. The HCR and SCR settings
-+             * don't affect the masking logic, only the interrupt routing.
-+             */
-+            if (target_el == 3 || !secure) {
-+                unmasked = 1;
-+            }
-+        } else {
-+            /*
-+             * The old 32-bit-only environment has a more complicated
-+             * masking setup. HCR and SCR bits not only affect interrupt
-+             * routing but also change the behaviour of masking.
-+             */
-+            bool hcr, scr;
-+
-+            switch (excp_idx) {
-+            case EXCP_FIQ:
-+                /*
-+                 * If FIQs are routed to EL3 or EL2 then there are cases where
-+                 * we override the CPSR.F in determining if the exception is
-+                 * masked or not. If neither of these are set then we fall back
-+                 * to the CPSR.F setting otherwise we further assess the state
-+                 * below.
-+                 */
-+                hcr = hcr_el2 & HCR_FMO;
-+                scr = (env->cp15.scr_el3 & SCR_FIQ);
-+
-+                /*
-+                 * When EL3 is 32-bit, the SCR.FW bit controls whether the
-+                 * CPSR.F bit masks FIQ interrupts when taken in non-secure
-+                 * state. If SCR.FW is set then FIQs can be masked by CPSR.F
-+                 * when non-secure but only when FIQs are only routed to EL3.
-+                 */
-+                scr = scr && !((env->cp15.scr_el3 & SCR_FW) && !hcr);
-+                break;
-+            case EXCP_IRQ:
-+                /*
-+                 * When EL3 execution state is 32-bit, if HCR.IMO is set then
-+                 * we may override the CPSR.I masking when in non-secure state.
-+                 * The SCR.IRQ setting has already been taken into consideration
-+                 * when setting the target EL, so it does not have a further
-+                 * affect here.
-+                 */
-+                hcr = hcr_el2 & HCR_IMO;
-+                scr = false;
-+                break;
-+            default:
-+                g_assert_not_reached();
-+            }
-+
-+            if ((scr || hcr) && !secure) {
-+                unmasked = 1;
-+            }
-+        }
-+    }
-+
-+    /*
-+     * The PSTATE bits only mask the interrupt if we have not overriden the
-+     * ability above.
-+     */
-+    return unmasked || pstate_unmasked;
-+}
-+
- bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+-                                     unsigned int target_el)
++                                     unsigned int target_el,
++                                     unsigned int cur_el, bool secure,
++                                     uint64_t hcr_el2)
  {
-     CPUClass *cc = CPU_GET_CLASS(cs);
+     CPUARMState *env = cs->env_ptr;
+-    unsigned int cur_el = arm_current_el(env);
+-    bool secure = arm_is_secure(env);
+     bool pstate_unmasked;
+     int8_t unmasked = 0;
+-    uint64_t hcr_el2;
+ 
+     /*
+      * Don't take exceptions if they target a lower EL.
+@@ -429,8 +428,6 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+         return false;
+     }
+ 
+-    hcr_el2 = arm_hcr_el2_eff(env);
+-
+     switch (excp_idx) {
+     case EXCP_FIQ:
+         pstate_unmasked = !(env->daif & PSTATE_F);
+@@ -535,6 +532,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     CPUARMState *env = cs->env_ptr;
+     uint32_t cur_el = arm_current_el(env);
+     bool secure = arm_is_secure(env);
++    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
+     uint32_t target_el;
+     uint32_t excp_idx;
+     bool ret = false;
+@@ -542,7 +540,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     if (interrupt_request & CPU_INTERRUPT_FIQ) {
+         excp_idx = EXCP_FIQ;
+         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
+-        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
++        if (arm_excp_unmasked(cs, excp_idx, target_el,
++                              cur_el, secure, hcr_el2)) {
+             cs->exception_index = excp_idx;
+             env->exception.target_el = target_el;
+             cc->do_interrupt(cs);
+@@ -552,7 +551,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         excp_idx = EXCP_IRQ;
+         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
+-        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
++        if (arm_excp_unmasked(cs, excp_idx, target_el,
++                              cur_el, secure, hcr_el2)) {
+             cs->exception_index = excp_idx;
+             env->exception.target_el = target_el;
+             cc->do_interrupt(cs);
+@@ -562,7 +562,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     if (interrupt_request & CPU_INTERRUPT_VIRQ) {
+         excp_idx = EXCP_VIRQ;
+         target_el = 1;
+-        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
++        if (arm_excp_unmasked(cs, excp_idx, target_el,
++                              cur_el, secure, hcr_el2)) {
+             cs->exception_index = excp_idx;
+             env->exception.target_el = target_el;
+             cc->do_interrupt(cs);
+@@ -572,7 +573,8 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     if (interrupt_request & CPU_INTERRUPT_VFIQ) {
+         excp_idx = EXCP_VFIQ;
+         target_el = 1;
+-        if (arm_excp_unmasked(cs, excp_idx, target_el)) {
++        if (arm_excp_unmasked(cs, excp_idx, target_el,
++                              cur_el, secure, hcr_el2)) {
+             cs->exception_index = excp_idx;
+             env->exception.target_el = target_el;
+             cc->do_interrupt(cs);
 -- 
 2.17.1
 
