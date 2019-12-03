@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FFB10FE73
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:12:57 +0100 (CET)
-Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFDC10FE6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:11:11 +0100 (CET)
+Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic7z6-0003mh-BY
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:12:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55977)
- by lists.gnu.org with esmtp (Exim 4.90_1) (envelope-from
- <3jFzmXQYKCtMHzB3725DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--sameid.bounces.google.com>)
- id 1ic7nt-0006Db-PB
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:23 -0500
+	id 1ic7xO-0002Ti-J6
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:11:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57077)
+ by lists.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <thuth@redhat.com>) id 1ic7oG-0006HD-OE
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from
- <3jFzmXQYKCtMHzB3725DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--sameid.bounces.google.com>)
- id 1ic7ng-0002rM-Qv
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:19 -0500
-Received: from mail-wm1-x34a.google.com ([2a00:1450:4864:20::34a]:58090)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from
- <3jFzmXQYKCtMHzB3725DD5A3.1DBF3BJ-23K3ACDC5CJ.DG5@flex--sameid.bounces.google.com>)
- id 1ic7ng-0002jS-AT
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:08 -0500
-Received: by mail-wm1-x34a.google.com with SMTP id n4so939624wmd.7
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 05:01:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=d4Sz8Dkeh+ils5IVw6IUBPXrNMkixXLWMtS/aw+/KdY=;
- b=vAB/++fcE2jRv2e0iNp/TkPO04LkoB/6g3oXHakty6ObMGw2nY+7Xhf6tTCAl0Yagv
- pXJKW0aQ207HfU0oGV2bh9fMfrIJ31FuBLEJntZb28Xj13vf4AVsE/fxVv8wf4f2Fbb3
- uO8SHAsA9N7S/1SeWgOcWUQht5p64wgZq2v0IvwslN+ppSBv8tDWktYB4aBVcnb2JVKh
- +30B1nJowJs8e40wQGYnNLtmZq2OeaME8SZmXB+0exbfLWkQchZCv5jqviRAWE5l03X5
- X0z0HnQgjA5LyAc85+919ScNTw3E7YbOJcfIhpddw3AZhj6/l9qRtxdmrWWfK3ZDvbHn
- Ei7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=d4Sz8Dkeh+ils5IVw6IUBPXrNMkixXLWMtS/aw+/KdY=;
- b=DYaJNRxOyLIWlnr6tMDrxv1B5oZSaZdX1cHe62cfnO6lztYTXMXRUMQIkIelLmQw+l
- KNQ/9THJmXaVxznooo8ipM9nabPD6pSFMiUwXnECWROWho1EBoQBDAtbeioBIi0flPvn
- n00CTRZ7dvHgOw3bVy89prOMEczqpJgGz9GsnnJ/5hEIIlQ3RdWrnfuuDyRGB0M3Aske
- J/ENR+9lObFJjjOP0rW8UBJR85TMk+qi/AXT3/jVbeKS4U2Awt5L84pPctjn9y/sEOE2
- EuQawmgv5JCY+ihLiWgHULGJW16cCPxiE9YcReADoG3lTH1+8uHTK9nIq0WBPgHjnkAA
- FhYQ==
-X-Gm-Message-State: APjAAAU0cIF0Wum3nOFAnSyM5nTDg90XB60e1rgyCwvc9j+2ypRASBtG
- embKijPNz3OVNeHriESOqaSKmGUvMWM=
-X-Google-Smtp-Source: APXvYqyKAB1BTDVJR77KzgsqfN2ZquOOp0n4Sg+gQ9DNfVvAhOT2OcWYAF6tnRjg/fY8pdngUNr8NWNwLT8=
-X-Received: by 2002:adf:eb89:: with SMTP id t9mr5126600wrn.5.1575378060940;
- Tue, 03 Dec 2019 05:01:00 -0800 (PST)
-Date: Tue,  3 Dec 2019 15:00:43 +0200
-In-Reply-To: <20191118142407.6040-3-kraxel@redhat.com>
-Message-Id: <20191203130043.87913-1-sameid@google.com>
-Mime-Version: 1.0
-References: <20191118142407.6040-3-kraxel@redhat.com>
-X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
-Subject: [PULL 2/2] seabios: update to pre-1.13 snapshot again
-From: Sam Eiderman <sameid@google.com>
-To: kraxel@redhat.com
-Cc: qemu-devel@nongnu.org, Sam Eiderman <sameid@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::34a
+ (envelope-from <thuth@redhat.com>) id 1ic7o5-00043u-7s
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:35 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52705
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ic7o5-0003uv-35
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575378086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=2fFnz/Aj1Pp+kEJTzCgNJw48MFTE8Uwes9027KPoL0E=;
+ b=Gge1iNbo8exZzMlKDCpWL8Ffe/8h9RZes+gLGBk2+qLj19liXd5l96ApU98A7BmrK6Dnlh
+ fA5LwOca5hiXTnrWCamyBAn/sVR0Gi90aZ85acbm8RuhSiaDh1iRtlCK7OgIyoPFXNmdRS
+ 20tixW5RENOwr1qVhSQVi5kIqhhUs7s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-nbF3ed9yMV-7zY4bN5cvjg-1; Tue, 03 Dec 2019 08:01:23 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAAF08024CC;
+ Tue,  3 Dec 2019 13:01:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-176.ams2.redhat.com [10.36.116.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3267667E5D;
+ Tue,  3 Dec 2019 13:01:20 +0000 (UTC)
+Subject: Re: [PATCH 0/5] tests: Enable fw_cfg tests on AArch64
+To: Xiang Zheng <zhengxiang9@huawei.com>, peter.maydell@linaro.org,
+ lvivier@redhat.com
+References: <20191203122753.19792-1-zhengxiang9@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <b5ef73c8-fa23-8efe-ef03-1d223a49bb93@redhat.com>
+Date: Tue, 3 Dec 2019 14:01:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191203122753.19792-1-zhengxiang9@huawei.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: nbF3ed9yMV-7zY4bN5cvjg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,14 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lersek@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ kraxel@redhat.com, wanghaibin.wang@huawei.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 03/12/2019 13.27, Xiang Zheng wrote:
+> There are quite a few tests disabled on AArch64 such as fw_cfg-tests.
+> This patch series fix some problems in test code and adapt it to
+> virt machine.
+> 
+> Xiang Zheng (5):
+>   tests: fw_cfg: Rename pc_fw_cfg_* to fw_cfg_*
+>   tests: fw_cfg: Support read/write of fw_cfg registers on aarch64
+>   tests: fw_cfg: Use virt as default machine in fw_cfg-test.c
+>   hw/arm/virt: Add FW_CFG_RAM_SIZE and FW_CFG_MAX_CPUS into fw_cfg
+>   tests: Enable fw_cfg test on aarch64
 
-Maybe we should add:
+ Hi,
 
-CONFIG_HOST_BIOS_GEOMETRY=n
+this breaks "make check-qtest-ppc64":
 
-to rom/config.seabios-128k and recreate the 128k image?
+  TEST    check-qtest-ppc64: tests/boot-order-test
+**
+ERROR:tests/boot-order-test.c:40:test_a_boot_order: assertion failed
+(actual == expected_boot): (0x00000000 == 0x00000063)
+
+Please make sure that "make check" continuous to work with all other
+targets, too.
+
+ Thanks,
+  Thomas
+
 
