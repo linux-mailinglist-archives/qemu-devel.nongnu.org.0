@@ -2,103 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29213110479
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 19:48:32 +0100 (CET)
-Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE6F1104B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 20:07:58 +0100 (CET)
+Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icDDn-0005FR-2i
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 13:48:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38450)
+	id 1icDWJ-0006xV-Hk
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 14:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59613)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icC8R-0001ZM-RQ
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:38:54 -0500
+ (envelope-from <cohuck@redhat.com>) id 1icCOh-0000yA-NQ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:55:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icC8K-0007B2-7n
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:38:47 -0500
-Received: from mail-eopbgr130101.outbound.protection.outlook.com
- ([40.107.13.101]:35395 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icC8I-0006oG-1z; Tue, 03 Dec 2019 12:38:42 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F379F+D2Zh1PN6zmCRpqbKUs/NeE36dsLj9qKCK1RZ5gdCKq1Oke2j0eOcG67iELqQ7vBMQc4M9Fyp6wPqW2FC9mEQieKWK/PF+63bgy6PwdUn5RzC4kuZNUk1zQsKc/S9kgseSGe06a+JoFkKEMIMg+3np4U0nKGU7qlGHsrrR4YjRZpBuc21AzruFLgu2OLOAXN1m/1qnXRL5BIxDHDWKUbjHD6aEkhw7lqy93962AyBmY2dRpaatJRqiWZsf+r7Xt8Hs7snYyNt1up6f6aUxKKXHZl2+kMuEnXUiKBDdvlRydC3uNZBn/BUz4Hl4aV4l5R5DEwBIVvKNQwyYqGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13gMhaj/PrU5e/XbQwVsQRwQxkmW7+KtlDYSlsY57FY=;
- b=MtyrLzIEvWIFYMFot+euCXwtLsXarfw8oD63BEZe8C3roB8S9JAMtux9X1GJtfQLjRUM6K8oiszx43bQy9CsYywwNeV8CpBVR68AVAhU+/aFsFgEzGPEGU140V6Ck4Y7iXyEU08CkRNm1jiOaZFbHyjT0FTi1e/763XUF7iNZmhc340b3jnwCORvLv+zK5338UeKAqi6QTXuw0W6uEqB7DdvjhWf+f7FoTKeckGeMVAibNa49s0dAaCNr6q0Hhkv69zdnFG3cZWO7UnZvH8nXSOJ+Gkdb8xTSz0Pacuf6kP87+JSVnILSp+k5oq/9EnLUt9TA6O48RPcxq7sCY/T7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13gMhaj/PrU5e/XbQwVsQRwQxkmW7+KtlDYSlsY57FY=;
- b=NCYQGxyTTuC69SVh7Yz/e7jB3nsSiVhEBCa00NW1KAFIsDY8uMVrAEYywMtgMHmJpytIA1/t5ed48Q2J2YvO2Ua4FJTYtV7tsP3aMMlRBDNDlN/cZg27Rpywjs73mCV0I0LaFWxx6Uy2iDYknpUL21B99VSUAEhnymzwWnowr/4=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4359.eurprd08.prod.outlook.com (20.179.6.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.20; Tue, 3 Dec 2019 17:38:33 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
- 17:38:33 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "pannengyuan@huawei.com" <pannengyuan@huawei.com>, "eblake@redhat.com"
- <eblake@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>, "sgarzare@redhat.com"
- <sgarzare@redhat.com>
-Subject: Re: [PATCH V3 1/2] block/nbd: extract the common cleanup code
-Thread-Topic: [PATCH V3 1/2] block/nbd: extract the common cleanup code
-Thread-Index: AQHVpofDlqkXDK02dkqUyLcdRPJzHaeos+WA
-Date: Tue, 3 Dec 2019 17:38:33 +0000
-Message-ID: <77f53371-aa58-849a-b0e4-2d6b4e4557d4@virtuozzo.com>
-References: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
-In-Reply-To: <1575012326-51324-1-git-send-email-pannengyuan@huawei.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR07CA0044.eurprd07.prod.outlook.com
- (2603:10a6:7:66::30) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191203203831495
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 89ac9b1f-40bb-47b3-0d6e-08d778179e7b
-x-ms-traffictypediagnostic: AM6PR08MB4359:
-x-microsoft-antispam-prvs: <AM6PR08MB4359A0E927D6062F5C676AD9C1420@AM6PR08MB4359.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:390;
-x-forefront-prvs: 02408926C4
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(39840400004)(376002)(366004)(396003)(346002)(199004)(189003)(256004)(5660300002)(14444005)(14454004)(102836004)(6506007)(7416002)(386003)(305945005)(31686004)(66946007)(66476007)(66446008)(31696002)(64756008)(66556008)(7736002)(26005)(478600001)(6246003)(110136005)(186003)(4326008)(446003)(11346002)(54906003)(6436002)(99286004)(8676002)(25786009)(52116002)(316002)(2906002)(76176011)(6116002)(6512007)(2201001)(2501003)(3846002)(86362001)(8936002)(81156014)(71200400001)(6486002)(81166006)(71190400001)(229853002)(36756003)(2616005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4359;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3FqfucWtHiSwMc4eUM27K/rmaXc0I8BwAAcK1jMCTjkDggwvSWB8eEQBKw+tAB+ri0b8WdUObhw+qIhaayzsxg8Z8S1lWWGssFX2KNPheUvI+/hIB8/SlHX0Ddqjlhz0EUYdzRfHNevkGpvxXEZSXm3NsHP3pKXuBsDE0wShUyBXLzZAr2grfseWkZTCu/wi2AlZT9MqGCIrO7mdPDO7SMybWdYzKikpG7r7lu/C/aJnyb2e80rfTLWwdP6LV8YraBDuoL+xuBy7CGBDufCdQxoOfqRu92Ahw4zEPjLAZ3z6hHRYrEg1FDP1o+gy7s1PUBNfKExBLx1NgiiKxjCUf6ltUM9zJVtovJrkPCCW9mVJWjw0NRM1LAcLxbeLnXNz7MdyXHzSimtrSYGWWEyeYTWCguES5cKWwMDSSijXf+N/+4tjWg/cfsqLS+lQupLI
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A0C2B97C53C6B945A8FFF39D22D96FC5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <cohuck@redhat.com>) id 1icCEZ-0002QI-5R
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:45:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55921
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1icCEY-0002AL-W2
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 12:45:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575395107;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HnoWjKqEdlm1fTXuC1+D9+nfJHlNu/mUTRQNbMKIx7s=;
+ b=Mn+YedWTQBnvSToY3JTSbKbfkpCYthNT7rXOIWH7hAyfg99Gsno+BufEHHi28tG3IgZYWZ
+ g51Gtfdi7MKAc/hqj7hOrlD9BLAxhZ7pdjb9RKtuVJD8lEv4w7zeROPMNHpqT+LDpqqQhC
+ KhjchJVfaw1VzktVPv+AkqEuHOVxChI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-2pIGc_3NOwezloyFa39nMQ-1; Tue, 03 Dec 2019 12:45:04 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC3EF18C35A3;
+ Tue,  3 Dec 2019 17:45:02 +0000 (UTC)
+Received: from gondolin (ovpn-116-214.ams2.redhat.com [10.36.116.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 945E15D6A7;
+ Tue,  3 Dec 2019 17:45:01 +0000 (UTC)
+Date: Tue, 3 Dec 2019 18:44:59 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 2/4] s390x: Add missing vcpu reset functions
+Message-ID: <20191203184459.0417a40a.cohuck@redhat.com>
+In-Reply-To: <20191203132813.2734-3-frankja@linux.ibm.com>
+References: <20191203132813.2734-1-frankja@linux.ibm.com>
+ <20191203132813.2734-3-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89ac9b1f-40bb-47b3-0d6e-08d778179e7b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 17:38:33.5869 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5WhcX3Ri4DCVueYkq1Re43e9PCrSVNLjWBe2L6AipXd5nult9HreJ8rxFt5XWoB2VisZdtEiziFzxGFrTpaswWTPawXJRHAdA2v7TumboPk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4359
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.101
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 2pIGc_3NOwezloyFa39nMQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,57 +72,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "liyiting@huawei.com" <liyiting@huawei.com>,
- "kuhn.chenqun@huawei.com" <kuhn.chenqun@huawei.com>,
- "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkhDQoNCkZpcnN0LCBwbGVhc2UsIHdoZW4gc2VuZGluZyBtb3JlIHRoYW4gb25lIHBhdGNoLCBj
-cmVhdGUgYSBjb3Zlci1sZXR0ZXIuIEFsc28sDQpzdW1tYXJpemUgKGluIGNvdmVyIGxldHRlcikg
-d2hhdCB3YXMgY2hhbmdlZCBzaW5jZSBwcmV2aW91cyB2ZXJzaW9uLg0KDQoyOS4xMS4yMDE5IDEw
-OjI1LCBwYW5uZW5neXVhbkBodWF3ZWkuY29tIHdyb3RlOg0KPiBGcm9tOiBQYW5OZW5neXVhbiA8
-cGFubmVuZ3l1YW5AaHVhd2VpLmNvbT4NCg0KU3RyYW5nZSBsaW5lLiBDaGVjayB5b3UgZ2l0IHBy
-ZWZlcmVuY2VzLiBTdWNoIGxpbmUgYXBwZWFycyAoYW5kIG1ha2Ugc2Vuc2UpDQp3aGVuIHlvdSBh
-cmUgc2VuZGluZyBwYXRjaGVzIGF1dGhvcmVkIGJ5IHNvbWVvbmUgZWxzZS4uIEJ1dCBoZXJlIGlz
-IHlvdXIgbmFtZSwNCnRoZSBzYW1lIGFzIGluIGVtYWlsJ3MgRnJvbTouDQoNCj4gDQo+IFRoZSBC
-RFJWTkJEU3RhdGUgY2xlYW51cCBjb2RlIGlzIGNvbW1vbiBpbiB0d28gcGxhY2VzLCBhZGQNCj4g
-bmJkX2ZyZWVfYmRydnN0YXRlX3Byb3AoKSBmdW5jdGlvbiB0byBkbyB0aGVzZSBjbGVhbnVwcyAo
-c3VnZ2VzdGVkIGJ5DQo+IFN0ZWZhbm8gR2FyemFyZWxsYSkuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
-OiBQYW5OZW5neXVhbiA8cGFubmVuZ3l1YW5AaHVhd2VpLmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFZs
-YWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0K
-PiAtLS0NCj4gICBibG9jay9uYmQuYyB8IDIzICsrKysrKysrKysrKystLS0tLS0tLS0tDQo+ICAg
-MSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQ0KPiANCj4g
-ZGlmZiAtLWdpdCBhL2Jsb2NrL25iZC5jIGIvYmxvY2svbmJkLmMNCj4gaW5kZXggMTIzOTc2MS4u
-NTgwNTk3OSAxMDA2NDQNCj4gLS0tIGEvYmxvY2svbmJkLmMNCj4gKysrIGIvYmxvY2svbmJkLmMN
-Cj4gQEAgLTk0LDYgKzk0LDggQEAgdHlwZWRlZiBzdHJ1Y3QgQkRSVk5CRFN0YXRlIHsNCj4gICAN
-Cj4gICBzdGF0aWMgaW50IG5iZF9jbGllbnRfY29ubmVjdChCbG9ja0RyaXZlclN0YXRlICpicywg
-RXJyb3IgKiplcnJwKTsNCj4gICANCj4gK3N0YXRpYyB2b2lkIG5iZF9mcmVlX2JkcnZzdGF0ZV9w
-cm9wKEJEUlZOQkRTdGF0ZSAqcyk7DQo+ICsNCj4gICBzdGF0aWMgdm9pZCBuYmRfY2hhbm5lbF9l
-cnJvcihCRFJWTkJEU3RhdGUgKnMsIGludCByZXQpDQo+ICAgew0KPiAgICAgICBpZiAocmV0ID09
-IC1FSU8pIHsNCj4gQEAgLTE0ODYsNiArMTQ4OCwxNSBAQCBzdGF0aWMgaW50IG5iZF9jbGllbnRf
-Y29ubmVjdChCbG9ja0RyaXZlclN0YXRlICpicywgRXJyb3IgKiplcnJwKQ0KPiAgICAgICB9DQo+
-ICAgfQ0KPiAgIA0KPiArc3RhdGljIHZvaWQgbmJkX2ZyZWVfYmRydnN0YXRlX3Byb3AoQkRSVk5C
-RFN0YXRlICpzKQ0KPiArew0KPiArICAgIG9iamVjdF91bnJlZihPQkpFQ1Qocy0+dGxzY3JlZHMp
-KTsNCj4gKyAgICBxYXBpX2ZyZWVfU29ja2V0QWRkcmVzcyhzLT5zYWRkcik7DQo+ICsgICAgZ19m
-cmVlKHMtPmV4cG9ydCk7DQo+ICsgICAgZ19mcmVlKHMtPnRsc2NyZWRzaWQpOw0KPiArICAgIGdf
-ZnJlZShzLT54X2RpcnR5X2JpdG1hcCk7DQo+ICt9DQo+ICsNCj4gICAvKg0KPiAgICAqIFBhcnNl
-IG5iZF9vcGVuIG9wdGlvbnMNCj4gICAgKi8NCj4gQEAgLTE4NTUsMTAgKzE4NjYsNyBAQCBzdGF0
-aWMgaW50IG5iZF9wcm9jZXNzX29wdGlvbnMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFEaWN0ICpv
-cHRpb25zLA0KPiAgIA0KPiAgICBlcnJvcjoNCj4gICAgICAgaWYgKHJldCA8IDApIHsNCj4gLSAg
-ICAgICAgb2JqZWN0X3VucmVmKE9CSkVDVChzLT50bHNjcmVkcykpOw0KPiAtICAgICAgICBxYXBp
-X2ZyZWVfU29ja2V0QWRkcmVzcyhzLT5zYWRkcik7DQo+IC0gICAgICAgIGdfZnJlZShzLT5leHBv
-cnQpOw0KPiAtICAgICAgICBnX2ZyZWUocy0+dGxzY3JlZHNpZCk7DQo+ICsgICAgICAgIG5iZF9m
-cmVlX2JkcnZzdGF0ZV9wcm9wKHMpOw0KPiAgICAgICB9DQo+ICAgICAgIHFlbXVfb3B0c19kZWwo
-b3B0cyk7DQo+ICAgICAgIHJldHVybiByZXQ7DQo+IEBAIC0xOTM3LDEyICsxOTQ1LDcgQEAgc3Rh
-dGljIHZvaWQgbmJkX2Nsb3NlKEJsb2NrRHJpdmVyU3RhdGUgKmJzKQ0KPiAgICAgICBCRFJWTkJE
-U3RhdGUgKnMgPSBicy0+b3BhcXVlOw0KPiAgIA0KPiAgICAgICBuYmRfY2xpZW50X2Nsb3NlKGJz
-KTsNCj4gLQ0KPiAtICAgIG9iamVjdF91bnJlZihPQkpFQ1Qocy0+dGxzY3JlZHMpKTsNCj4gLSAg
-ICBxYXBpX2ZyZWVfU29ja2V0QWRkcmVzcyhzLT5zYWRkcik7DQo+IC0gICAgZ19mcmVlKHMtPmV4
-cG9ydCk7DQo+IC0gICAgZ19mcmVlKHMtPnRsc2NyZWRzaWQpOw0KPiAtICAgIGdfZnJlZShzLT54
-X2RpcnR5X2JpdG1hcCk7DQo+ICsgICAgbmJkX2ZyZWVfYmRydnN0YXRlX3Byb3Aocyk7DQo+ICAg
-fQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQ2NF90IG5iZF9nZXRsZW5ndGgoQmxvY2tEcml2ZXJTdGF0
-ZSAqYnMpDQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+On Tue,  3 Dec 2019 08:28:11 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
+
+> Up to now we only had an ioctl to reset vcpu data QEMU couldn't reach
+> for the initial reset, and that was also called for the clear
+> reset. To be architecture compliant, we also need to clear local
+> interrupts on a normal reset.
+> 
+> Because of this and the upcoming protvirt support we need to add
+> ioctls for the missing clear and normal resets.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/cpu.c       | 16 +++++++++++++--
+>  target/s390x/kvm-stub.c  | 10 +++++++++-
+>  target/s390x/kvm.c       | 42 ++++++++++++++++++++++++++++++++--------
+>  target/s390x/kvm_s390x.h |  4 +++-
+>  4 files changed, 60 insertions(+), 12 deletions(-)
+> 
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index 829ce6ad54..4973365d6c 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -139,8 +139,20 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
+>      }
+>  
+>      /* Reset state inside the kernel that we cannot access yet from QEMU. */
+
+For the last iteration, I asked about the 'yet' here...
+
+> -    if (kvm_enabled() && type != S390_CPU_RESET_NORMAL) {
+> -        kvm_s390_reset_vcpu(cpu);
+> +    if (kvm_enabled()) {
+> +        switch (type) {
+> +        case S390_CPU_RESET_CLEAR:
+> +            kvm_s390_reset_vcpu_clear(cpu);
+> +            break;
+> +        case S390_CPU_RESET_INITIAL:
+> +            kvm_s390_reset_vcpu_initial(cpu);
+> +            break;
+> +        case S390_CPU_RESET_NORMAL:
+> +            kvm_s390_reset_vcpu_normal(cpu);
+> +            break;
+> +        default:
+> +            g_assert_not_reached();
+> +        }
+>      }
+>  }
+>  
+
+(...)
+
+> @@ -403,17 +405,41 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>      return 0;
+>  }
+>  
+> -void kvm_s390_reset_vcpu(S390CPU *cpu)
+> +static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
+>  {
+>      CPUState *cs = CPU(cpu);
+>  
+> -    /* The initial reset call is needed here to reset in-kernel
+> -     * vcpu data that we can't access directly from QEMU
+> -     * (i.e. with older kernels which don't support sync_regs/ONE_REG).
+> -     * Before this ioctl cpu_synchronize_state() is called in common kvm
+> -     * code (kvm-all) */
+> -    if (kvm_vcpu_ioctl(cs, KVM_S390_INITIAL_RESET, NULL)) {
+> -        error_report("Initial CPU reset failed on CPU %i", cs->cpu_index);
+> +    /*
+> +     * The reset call is needed here to reset in-kernel vcpu data that
+> +     * we can't access directly from QEMU (i.e. with older kernels
+> +     * which don't support sync_regs/ONE_REG).  Before this ioctl
+
+...and this reference to 'older kernels' here.
+
+Are the comments still correct/relevant?
+
+> +     * cpu_synchronize_state() is called in common kvm code
+> +     * (kvm-all).
+> +     */
+> +    if (kvm_vcpu_ioctl(cs, type)) {
+> +        error_report("CPU reset failed on CPU %i type %lx",
+> +                     cs->cpu_index, type);
+> +    }
+> +}
+
 
