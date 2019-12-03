@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFDC10FE6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:11:11 +0100 (CET)
-Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A222110FE83
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:17:59 +0100 (CET)
+Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic7xO-0002Ti-J6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:11:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57077)
+	id 1ic83y-0006n3-FU
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:17:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ic7oG-0006HD-OE
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:46 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ic7pw-0006os-5N
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:03:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ic7o5-00043u-7s
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:35 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52705
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ic7pi-0008Rs-6S
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:03:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24541
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ic7o5-0003uv-35
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:01:33 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ic7ph-0008Ju-TI
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 08:03:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575378086;
+ s=mimecast20190719; t=1575378191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=2fFnz/Aj1Pp+kEJTzCgNJw48MFTE8Uwes9027KPoL0E=;
- b=Gge1iNbo8exZzMlKDCpWL8Ffe/8h9RZes+gLGBk2+qLj19liXd5l96ApU98A7BmrK6Dnlh
- fA5LwOca5hiXTnrWCamyBAn/sVR0Gi90aZ85acbm8RuhSiaDh1iRtlCK7OgIyoPFXNmdRS
- 20tixW5RENOwr1qVhSQVi5kIqhhUs7s=
+ in-reply-to:in-reply-to:references:references;
+ bh=DsczsJ0GwPBiXFehnkR0bCjNxg1MxtTkH7JL3pt4hMk=;
+ b=IH+ePVYWILyw7gNjWYhs3sr2VZ2EEBSrMttwQFDy3Ew3cNPbdbEA6XRO5VoccRWu+TCF1M
+ bcwa5URlLuqL5CFDbxcAQYQCfA/bOS2+B3IKICf+GyAGqyHsYgVEFh6EDt/UVftBdqeKvQ
+ eqs8DKguYIyhKSTLo7UeRuOSBrvqiFk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-nbF3ed9yMV-7zY4bN5cvjg-1; Tue, 03 Dec 2019 08:01:23 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-168-L76qWnsjNy6T3lOo-9iLWw-1; Tue, 03 Dec 2019 08:03:09 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAAF08024CC;
- Tue,  3 Dec 2019 13:01:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-176.ams2.redhat.com [10.36.116.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3267667E5D;
- Tue,  3 Dec 2019 13:01:20 +0000 (UTC)
-Subject: Re: [PATCH 0/5] tests: Enable fw_cfg tests on AArch64
-To: Xiang Zheng <zhengxiang9@huawei.com>, peter.maydell@linaro.org,
- lvivier@redhat.com
-References: <20191203122753.19792-1-zhengxiang9@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <b5ef73c8-fa23-8efe-ef03-1d223a49bb93@redhat.com>
-Date: Tue, 3 Dec 2019 14:01:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860961883540
+ for <qemu-devel@nongnu.org>; Tue,  3 Dec 2019 13:03:08 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 072295D6A7;
+ Tue,  3 Dec 2019 13:02:53 +0000 (UTC)
+Date: Tue, 3 Dec 2019 13:02:50 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: virtiofsd: Where should it live?
+Message-ID: <20191203130250.GD3078@work-vm>
+References: <20191125185021.GB3767@work-vm>
+ <20191126102600.GG556568@redhat.com>
+ <20191126121416.GE2928@work-vm>
+ <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191203122753.19792-1-zhengxiang9@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: nbF3ed9yMV-7zY4bN5cvjg-1
+In-Reply-To: <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: L76qWnsjNy6T3lOo-9iLWw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- kraxel@redhat.com, wanghaibin.wang@huawei.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: mszeredi@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/12/2019 13.27, Xiang Zheng wrote:
-> There are quite a few tests disabled on AArch64 such as fw_cfg-tests.
-> This patch series fix some problems in test code and adapt it to
-> virt machine.
-> 
-> Xiang Zheng (5):
->   tests: fw_cfg: Rename pc_fw_cfg_* to fw_cfg_*
->   tests: fw_cfg: Support read/write of fw_cfg registers on aarch64
->   tests: fw_cfg: Use virt as default machine in fw_cfg-test.c
->   hw/arm/virt: Add FW_CFG_RAM_SIZE and FW_CFG_MAX_CPUS into fw_cfg
->   tests: Enable fw_cfg test on aarch64
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 26/11/19 13:14, Dr. David Alan Gilbert wrote:
+> >> IOW, if we did decide we want it in QEMU, then instead of
+> >> '$GIT/contrib/virtiofsd', I'd prefer to see '$GIT/virtiofsd'.
+> >
+> > I'm not sure it deserves a new top level for such a specific tool.
+> >=20
+>=20
+> It could be in fsdev/virtiofsd,
 
- Hi,
+fsdev is currently all 9p stuff, so that would seem very confusing.
 
-this breaks "make check-qtest-ppc64":
+> but I agree with Daniel that at this
+> point the QEMU build system introduces baggage that you may not want for
+> virtiofsd.
 
-  TEST    check-qtest-ppc64: tests/boot-order-test
-**
-ERROR:tests/boot-order-test.c:40:test_a_boot_order: assertion failed
-(actual == expected_boot): (0x00000000 == 0x00000063)
+I've already got it wired up in contrib with qemu's build system
+so that doesn't seem to be an issue.   The question is purely a 'where'.
 
-Please make sure that "make check" continuous to work with all other
-targets, too.
+Dave
 
- Thanks,
-  Thomas
+> Paolo
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
