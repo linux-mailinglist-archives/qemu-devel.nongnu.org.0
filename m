@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D102C10FFF0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 15:16:08 +0100 (CET)
-Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D4811000D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 15:21:28 +0100 (CET)
+Received: from localhost ([::1]:54466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic8yF-0004U2-Ii
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 09:16:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53574)
+	id 1ic93O-0007xN-3w
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 09:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1ic0tu-0003fh-5d
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:39:07 -0500
+ (envelope-from <Harish_Kandiga@mentor.com>) id 1ic0xb-0004om-2x
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:42:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Harish_Kandiga@mentor.com>) id 1ic0ts-0002uB-Lg
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:39:05 -0500
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:53554)
+ (envelope-from <Harish_Kandiga@mentor.com>) id 1ic0xY-0007qY-D7
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:42:53 -0500
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:50578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Harish_Kandiga@mentor.com>)
- id 1ic0ts-0002pj-D4
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:39:04 -0500
-IronPort-SDR: fq7fUAlf+x9crPx/TDcLtyBZpRCe5qvKP8GdD0pYLjZb5/uMJ3ykbx7g/bA78kWDvTJyBeCreI
- xH3OSMBV50shw9pt9d2SfKStvyINN6bZs56C4H4BQHEs5kLgZz8QstNuT3ztBAgFATV1g5mpeX
- B114ypQXdRt/6WL68+8LGXX6r2pqBgVcFY8yc1qna/28ahrjohmmqVagnUzdmKtUVMRMzYY6IF
- 86pKA+bGaFptWQ+c7hyss5R+5EXvXn9OnJdD+9MNHZnfiS1za6qwsEwVveVMc53Pax/7LPCFeN
- /aM=
-X-IronPort-AV: E=Sophos;i="5.69,272,1571731200"; d="scan'208";a="43750555"
+ id 1ic0xX-0007nL-RW
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 00:42:52 -0500
+IronPort-SDR: syicz+cHMc/HQAWLMcXWkQLvr+9IMiX9BfPX5nyNaotlMNKlzaf2NwYzUqUWYeQlSEM11Z3BpU
+ DxsQjEzAMpQ+rwjiJGDirFRMfyxqh0KtmS3yGM+L/j5xeTlaPA40MAqJ65gX6scnEsx4GG7XMi
+ QTWF2KFpJD9WvXFNFESfp4ngWbQylu9z061hfcmBHsJX6SW65W1zkTa823IRE3xWsb/yeE/JVk
+ JSIXCj+9uzAeE89YGPcftbar93/IiN9R465Y9ml5GaGE083YrqxXYz5hUNqXjVhbJB0Y+cGttx
+ cHM=
+X-IronPort-AV: E=Sophos;i="5.69,272,1571731200"; d="scan'208";a="43647687"
 Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa4.mentor.iphmx.com with ESMTP; 02 Dec 2019 21:39:00 -0800
-IronPort-SDR: CS+/PFfMeBEEboWNM9uO8MfkB5+1Jw2If93U9GqifcEak1hYwSyMqw80qtlCDQyGVTVWHHxfc0
- dY4fx5qx2hZcVWxqPasbVxOpZ5KBOx9wobtkmaFZHTfSfZIaS44+kQa5mxpJK+f6B0Y9I7hoVb
- aDUNpiduLHuKhhgObPo0fTv8wecaxveAm95henyvT9wLZMHJEBeHvhTt8XZg022fv0uUPzg31S
- WCX584OWrpCdgRRgexlrBpxMsnWLw19LLxA9T7wb421CTBowqE1cySEw4pDt5Gfq78kmgRknUE
- XnQ=
-Subject: Re: [PATCH v3 7/7] MAINTAINERS: Add GPIO Aggregator/Repeater section
+ by esa2.mentor.iphmx.com with ESMTP; 02 Dec 2019 21:42:50 -0800
+IronPort-SDR: 6qW7kvfV2RJQ+o/o5f2nDujbmBSwumb85KO+OiaQHueozhtxi3wK5lBcFsz8N2dtJn1QT92VPT
+ Qgv43tx44fcY6bo6t1sgDkAQ2/TB6bY50B/bcNaNCkLbDDm0xne8hal71H0BF7iCi91KHq8gYV
+ l4H+1KNiIKYYMMtq23CtXeCb0XUbkF3MqlcarsOUStxXqUmileh72a7vzHfPC790pHde63/MTs
+ gsV2+TivzEA3wls2h/41pYkDHtbxnyvWVV/rC52Hep9lVTvn/oImikOQ6lqgMEgARN2n4oTAx6
+ phw=
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
 To: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij
  <linus.walleij@linaro.org>, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>, Mark
  Rutland <mark.rutland@arm.com>, Eugeniu Rosca <erosca@de.adit-jv.com>
 References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-8-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
 From: Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <58717a28-8599-5f2b-a4fa-de1cce93e975@mentor.com>
-Date: Tue, 3 Dec 2019 11:08:34 +0530
+Message-ID: <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+Date: Tue, 3 Dec 2019 11:12:38 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191127084253.16356-8-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1) To
+X-ClientProxiedBy: SVR-IES-MBX-08.mgc.mentorg.com (139.181.222.8) To
  svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.137.252
+X-Received-From: 68.232.141.98
 X-Mailman-Approved-At: Tue, 03 Dec 2019 09:05:26 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,41 +79,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 27/11/19 2:12 PM, Geert Uytterhoeven wrote:
-> Add a maintainership section for the GPIO Aggregator/Repeater, covering
-> documentation, Device Tree bindings, and driver source code.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Harish: Do you want to be listed as maintainer, too?
-
-
-Yes. please.
-
->
-> v3:
->   - New.
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e5949b6827b72f2b..0f12ebdaa8faa76b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7043,6 +7043,14 @@ S:	Maintained
->  F:	Documentation/firmware-guide/acpi/gpio-properties.rst
->  F:	drivers/gpio/gpiolib-acpi.c
->  
-> +GPIO AGGREGATOR/REPEATER
-> +M:	Geert Uytterhoeven <geert+renesas@glider.be>
-> +L:	linux-gpio@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-> +F:	Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
-> +F:	drivers/gpio/gpio-aggregator.c
+> +static int gpio_aggregator_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct gpio_desc **descs;
+> +	struct gpiochip_fwd *fwd;
+> +	int i, n;
 > +
->  GPIO IR Transmitter
->  M:	Sean Young <sean@mess.org>
->  L:	linux-media@vger.kernel.org
+> +	n = gpiod_count(dev, NULL);
+> +	if (n < 0)
+> +		return n;
+> +
+> +	descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
+> +	if (!descs)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < n; i++) {
+> +		descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
+
+can you please add this check as well as we need to return EPROBE_DEFER.
+
+if (desc[i] == ERR_PTR(-ENOENT))
+<                 return -EPROBE_DEFER;
+
+
+> +		if (IS_ERR(descs[i]))
+> +			return PTR_ERR(descs[i]);
+> +	}
+> +
+> +	fwd = gpiochip_fwd_create(dev, n, descs);
+> +	if (IS_ERR(fwd))
+> +		return PTR_ERR(fwd);
+> +
+> +	platform_set_drvdata(pdev, fwd);
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id gpio_aggregator_dt_ids[] = {
+> +	{ .compatible = "gpio-repeater" },
+> +	/*
+> +	 * Add GPIO-operated devices controlled from userspace below,
+> +	 * or use "driver_override" in sysfs
+> +	 */
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, gpio_aggregator_dt_ids);
+> +#endif
+> +
+> +static struct platform_driver gpio_aggregator_driver = {
+> +	.probe = gpio_aggregator_probe,
+> +	.driver = {
+> +		.name = DRV_NAME,
+> +		.groups = gpio_aggregator_groups,
+> +		.of_match_table = of_match_ptr(gpio_aggregator_dt_ids),
+> +	},
+> +};
+> +
+> +static int __init gpio_aggregator_init(void)
+> +{
+> +	return platform_driver_register(&gpio_aggregator_driver);
+> +}
+> +module_init(gpio_aggregator_init);
+> +
+> +static void __exit gpio_aggregator_exit(void)
+> +{
+> +	gpio_aggregator_remove_all();
+> +	platform_driver_unregister(&gpio_aggregator_driver);
+> +}
+> +module_exit(gpio_aggregator_exit);
+> +
+> +MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
+> +MODULE_DESCRIPTION("GPIO Aggregator/Repeater");
+> +MODULE_LICENSE("GPL v2");
+
+
+
 
