@@ -2,85 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5F810FE6F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:11:45 +0100 (CET)
-Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B2510FE62
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 14:07:13 +0100 (CET)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ic7xw-0003Bn-7y
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:11:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47471)
+	id 1ic7tX-0007lJ-PY
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 08:07:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ic7m3-0005iq-Hz
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:29 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic7mU-0005nX-TF
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ic7lv-0006LT-Ky
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40339
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ic7lu-0006EQ-BF
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575377953;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CVcXkrQE0MBjZ9L2CSdb9vSOINsPrRYIG+sD6FoKQEs=;
- b=gPf9+i6kf8jUJSmlz2j4w9SLQVQozn9Psm79E5H3lUC0AGWPu4f28s2Qp4qet6gLVh9pcz
- mjVfaOasRIVLmZXzqeBMyMyCJSt9esVxB6GlUD58Cy3VR6ja1G3qRgOimovakpGTwEmptI
- QrFsHStU/N9eg6VV+Jwl9uiW+rzLG1E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-_PnFX1TfMAeYmlAvSyD7lw-1; Tue, 03 Dec 2019 07:59:02 -0500
-Received: by mail-wm1-f72.google.com with SMTP id 7so934590wmf.9
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 04:59:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CVcXkrQE0MBjZ9L2CSdb9vSOINsPrRYIG+sD6FoKQEs=;
- b=MzecbbuKFdVWDV73JWduitaEggRU+USLTDu3R6WaUBCXF8Xe76RL8BiHJM55hfrc3T
- 3KRYYNRloTJa4+W5oPUn82F4vYsOhlOGK63twbAhc5EEGrmwJEtOS/YVtTkASkOhK0i/
- XQn84VD/iRWu+PHyxvPQwtrGlD6CNRJQGPg22efEojBu8GJBSeXlz8d82Hi8MMv/VYzP
- MjTxUyYXPJ//fsZlK08GgHyw2j9TMR7R9PWg5TTmzDcZTH9a/4YdBLWLtxrGWl02FO7Y
- k/66CpnJqietLaOjH2bfqY2poZsDkzCeV8r5bQxKUL7ui+UHWxfWdSnb8rXAZ4V6YZMq
- dcTw==
-X-Gm-Message-State: APjAAAVZp93Kzz0IPm53U59Wx4QxhiK08+MJqOfaGNsF3Xpo4yIehhJy
- gQw4TaTdAG+znMhBItWCbJJJfisPhMs3QbJqH/Cvtk3UUEGD3pb54CNdjQMnHD7rMzs7WYCsEOH
- gEAutYsCWICtXpCo=
-X-Received: by 2002:a5d:4a84:: with SMTP id o4mr4981407wrq.396.1575377941561; 
- Tue, 03 Dec 2019 04:59:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwI0TUixu7roXMLrCnFcGn4FFGFBXWbnCVE0ei+SoFiyEC9g9yLMso/ro/YcduV+l+9L4SPqg==
-X-Received: by 2002:a5d:4a84:: with SMTP id o4mr4981385wrq.396.1575377941274; 
- Tue, 03 Dec 2019 04:59:01 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
- ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
- by smtp.gmail.com with ESMTPSA id y139sm3027735wmd.24.2019.12.03.04.59.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Dec 2019 04:59:00 -0800 (PST)
-Subject: Re: virtiofsd: Where should it live?
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20191125185021.GB3767@work-vm>
- <20191126102600.GG556568@redhat.com> <20191126121416.GE2928@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
-Date: Tue, 3 Dec 2019 13:59:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191126121416.GE2928@work-vm>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ic7mO-0007tr-0h
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 07:59:50 -0500
+Received: from mail-eopbgr10118.outbound.protection.outlook.com
+ ([40.107.1.118]:20646 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ic7mN-0007S3-2F; Tue, 03 Dec 2019 07:59:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fr5/3A9s/Ihw27/YLPDyXZcCpOYGaM4EMU8Hhq5/b7/QGl/ybXsa6I00veeEHzq48B4X4CpVqWpSjbc/C/GU05s4sEbZ9ACphv+zSeS1JZodwrm2t9IpkLL1rz0ODYUsuePo9hr/8EntWqkXJHUZ7LbYlF71dND9bPLqQkiN/smS2unHOg/qoiFv827077ng6vr1HSQwGGxWVgZFHC5P3VbNLQHizOx/CZTbF/fn8H0S0sDBOMyAnLqUKTHsWhHQOQJKVEa2WQ8zE0bBD/iAX02Yl+0FkS4kkFFxsnr8sozKpusiImKo7jnms3hECwA3wvCBrDm3HV8l+iULydkHXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2IBNoT6VNHElFtXrj4OJE4wVeyn6DIEmL/kVgBkNaPI=;
+ b=FIZs8Ffd2qvQBG7Ma54HAN4+y344ZMTrgR1K1hrB4XHW6I7mE2lqgAsP3KdxlAZFD5yi+L7wCBVYTEQn0i0lJVUvJbwzUTgO/Y4JbVyjr36YDwV3ZJs9geClyqOGypldSz1Guv+JGsy9kw6/e+lpx/zQmOcXZU9xQoGXemU7gWChuF3h4QMmtoRqEuLXgHhqTW48wQB0AxLFMAPviCUpZGfLsQyl5KwSYHLDeubPWUikJ8MpFp3RapL8vePDvG3duUVoUReo17LL/UxJELDfA2QEGH15/cikASgrhiHyiZ8V93HzmsT0AfOxieGLZyjqbWB1Egiwkj3MtNEJPKhw6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2IBNoT6VNHElFtXrj4OJE4wVeyn6DIEmL/kVgBkNaPI=;
+ b=R9FgKxGn96rhR4lfgV+oNPaTfHp5PxgLsuan3bY7Ru4t3L4bUvSZv0AHrm06fRMtRZOXCFZ2bprbXUsDa9DF2qnAuJWycEDY+J0XZ9kFP/3vWT1D/KN0OKRaFoKdIiXqRMb4FhTOKOMoOZT+nckgg5q60+JVQuuGy7P39bQH4+U=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3351.eurprd08.prod.outlook.com (52.135.165.20) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.12; Tue, 3 Dec 2019 12:59:38 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
+ 12:59:38 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH for-5.0 v2 18/23] iotests: Add VM.assert_block_path()
+Thread-Topic: [PATCH for-5.0 v2 18/23] iotests: Add VM.assert_block_path()
+Thread-Index: AQHVmKmLxO8pIw50PUGbvTIVfXIH5qeogbOA
+Date: Tue, 3 Dec 2019 12:59:38 +0000
+Message-ID: <12688028-7bce-228a-4046-f886ac32cf4d@virtuozzo.com>
+References: <20191111160216.197086-1-mreitz@redhat.com>
+ <20191111160216.197086-19-mreitz@redhat.com>
+In-Reply-To: <20191111160216.197086-19-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-MC-Unique: _PnFX1TfMAeYmlAvSyD7lw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0224.eurprd05.prod.outlook.com
+ (2603:10a6:3:fa::24) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191203155935885
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 761c3a52-44d5-4c12-281b-08d777f0a74a
+x-ms-traffictypediagnostic: AM6PR08MB3351:
+x-microsoft-antispam-prvs: <AM6PR08MB335171ED1C8265B3B403F47AC1420@AM6PR08MB3351.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 02408926C4
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(136003)(39840400004)(376002)(396003)(346002)(199004)(189003)(4326008)(446003)(6512007)(26005)(186003)(11346002)(102836004)(478600001)(2616005)(99286004)(110136005)(14454004)(6246003)(54906003)(31686004)(256004)(66946007)(66556008)(25786009)(64756008)(6486002)(6436002)(66476007)(6506007)(52116002)(6116002)(386003)(76176011)(316002)(229853002)(66446008)(3846002)(14444005)(2906002)(5660300002)(81156014)(305945005)(71190400001)(71200400001)(7736002)(86362001)(8676002)(31696002)(8936002)(81166006)(36756003)(2501003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3351;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BgP8MvY+rvfkQdAxUpJB74Vd4KojfSXgoI6ELyNQD3eY5bYbewfcJxc0t07NKG0Df9LPjtSDQKufu4y4uBFSQQi1lHowJ2rUrQc2r8+Ia/bnIwSB+fbes7DGzyXhXINUd3S3SQQ+G9UkkDw3+zJTuut/I+alGudS/icWcVEAU3gTEqd21QJ99wUSEFZd63Y2+PGmYrgKt9MGOGWm7JHpGaAnrAD2vzUGqMNTQFf7Oaunn8Mn8fNlF+JIh18u+MoZcPAZOaO65KNoXqsL5ORlALXUGE2js8c/VWpdQyHtCPMBWT/pQyLlfdYKKPuVDHJyXj+RZwvp2ghXANmaHwvhuyRxPZUp3h1h4YpyxhYjZVzUyg5uIOmqv/ULEUuAjmZdQ3J0+zgKQRY5xIE343g2f1do0+rrvlB50bdMjaaQ36kQ6HKn5zAOeFvSpAyA005p
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <790FBABD9280004D83F13A0056E96BC0@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 761c3a52-44d5-4c12-281b-08d777f0a74a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 12:59:38.0235 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QwC/fhQ4tOL7NYORC2XcRs4XxIbLV+7GPuSYLpCTmBtLYdOQxgbRRfu+POFrpRnOfDuxAYpyckEehbcITGTSzMCl5d8IaugJiKOj/WZVhQM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3351
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.118
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,22 +109,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, vgoyal@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/11/19 13:14, Dr. David Alan Gilbert wrote:
->> IOW, if we did decide we want it in QEMU, then instead of
->> '$GIT/contrib/virtiofsd', I'd prefer to see '$GIT/virtiofsd'.
->
-> I'm not sure it deserves a new top level for such a specific tool.
-> 
+11.11.2019 19:02, Max Reitz wrote:
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 59 +++++++++++++++++++++++++++++++++++
+>   1 file changed, 59 insertions(+)
+>=20
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+> index d34305ce69..3e03320ce3 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -681,6 +681,65 @@ class VM(qtest.QEMUQtestMachine):
+>  =20
+>           return fields.items() <=3D ret.items()
+>  =20
+> +    """
+> +    Check whether the node under the given path in the block graph is
+> +    @expected_node.
+> +
+> +    @root is the node name of the node where the @path is rooted.
+> +
+> +    @path is a string that consists of child names separated by
+> +    slashes.  It must begin with a slash.
 
-It could be in fsdev/virtiofsd, but I agree with Daniel that at this
-point the QEMU build system introduces baggage that you may not want for
-virtiofsd.
+Why do you need this slash? To stress that we are starting from root?
+But root is not global, it's selected by previous argument, so for me the
+path is more like relative than absolute..
 
-Paolo
+> +
+> +    Examples for @root + @path:
+> +      - root=3D"qcow2-node", path=3D"/backing/file"
+> +      - root=3D"quorum-node", path=3D"/children.2/file"
+> +
+> +    Hypothetically, @path could be empty, in which case it would point
+> +    to @root.  However, in practice this case is not useful and hence
+> +    not allowed.
 
+1. path can't be empty, as accordingly to previous point, it must start wit=
+h '/'
+2. path can be '/', which does exactly what you don't allow, and I don't se=
+e,
+where it is restricted in code
+
+> +
+> +    @expected_node may be None.
+
+Which means that, we assert existence of the path except its last element,
+yes? Worth mention this behavior here.
+
+> +
+> +    @graph may be None or the result of an x-debug-query-block-graph
+> +    call that has already been performed.
+> +    """
+> +    def assert_block_path(self, root, path, expected_node, graph=3DNone)=
+:
+> +        if graph is None:
+> +            graph =3D self.qmp('x-debug-query-block-graph')['return']
+> +
+> +        iter_path =3D iter(path.split('/'))
+> +
+> +        # Must start with a /
+> +        assert next(iter_path) =3D=3D ''
+> +
+> +        node =3D next((node for node in graph['nodes'] if node['name'] =
+=3D=3D root),
+> +                    None)
+> +
+> +        for path_node in iter_path:
+> +            assert node is not None, 'Cannot follow path %s' % path
+> +
+> +            try:
+> +                node_id =3D next(edge['child'] for edge in graph['edges'=
+] \
+> +                                             if edge['parent'] =3D=3D no=
+de['id'] and
+> +                                                edge['name'] =3D=3D path=
+_node)
+> +
+> +                node =3D next(node for node in graph['nodes'] \
+> +                                 if node['id'] =3D=3D node_id)
+
+this line cant fail. If it fail, it means a bug in x-debug-query-block-grap=
+h, so,
+I'd prefer to move it out of try:except block.
+
+> +            except StopIteration:
+> +                node =3D None
+> +
+> +        assert node is not None or expected_node is None, \
+> +               'No node found under %s (but expected %s)' % \
+> +               (path, expected_node)
+> +
+> +        assert expected_node is not None or node is None, \
+> +               'Found node %s under %s (but expected none)' % \
+> +               (node['name'], path)
+> +
+> +        if node is not None and expected_node is not None:
+
+[1]
+second part of condition already asserted by previous assertion
+
+> +            assert node['name'] =3D=3D expected_node, \
+> +                   'Found node %s under %s (but expected %s)' % \
+> +                   (node['name'], path, expected_node)
+
+IMHO, it would be easier to read like:
+
+           if node is None:
+               assert  expected_node is None, \
+                  'No node found under %s (but expected %s)' % \
+                  (path, expected_node)
+           else:
+               assert expected_node is not None, \
+                  'Found node %s under %s (but expected none)' % \
+                  (node['name'], path)
+
+               assert node['name'] =3D=3D expected_node, \
+                      'Found node %s under %s (but expected %s)' % \
+                      (node['name'], path, expected_node)
+
+Or even just
+
+           if node is None:
+               assert expected_node is None, \
+                  'No node found under %s (but expected %s)' % \
+                  (path, expected_node)
+           else:
+               assert node['name'] =3D=3D expected_node, \
+                      'Found node %s under %s (but expected %s)' % \
+                      (node['name'], path, expected_node)
+
+(I've checked:
+ >>> 'erger %s erg' % None
+'erger None erg'
+
+Also, %-style formatting is old, as I understand it's better always use .fo=
+rmat()
+)
+
+>  =20
+>   index_re =3D re.compile(r'([^\[]+)\[([^\]]+)\]')
+>  =20
+>=20
+--=20
+Best regards,
+Vladimir
 
