@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5671810F3C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 01:03:34 +0100 (CET)
-Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6762510F3E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 01:24:26 +0100 (CET)
+Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibvfA-0003gO-BW
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 19:03:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46275)
+	id 1ibvzM-0004IM-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 19:24:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1ibvXf-0006fY-2V
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:48 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ibvxK-0002uE-8O
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 19:22:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1ibvXc-0008QY-N0
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:45 -0500
-Received: from nwk-aaemail-lapp01.apple.com ([17.151.62.66]:37072)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1ibvXc-0008Nz-CL
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 18:55:44 -0500
-Received: from pps.filterd (nwk-aaemail-lapp01.apple.com [127.0.0.1])
- by nwk-aaemail-lapp01.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- xB2Nq6Lu044435; Mon, 2 Dec 2019 15:55:43 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
- h=sender : from : to :
- cc : subject : date : message-id : in-reply-to : references : mime-version
- : content-transfer-encoding; s=20180706;
- bh=FG09fH2kz8jEX/xXK1yo35vtn8o4/Q0MVF2XlhtILaU=;
- b=vmpSSLiLVJG5BbyiSs8CDSBR1EoHzMXPS/UrGZlDLDVApuzxh3ZSg3XJ9mpP7NfkBxd+
- 6sk0ErlEQeKO0rFL5FJGf27aqwp6isq7SQUswIhsUzTYAuq3SiDxFZY1xB96aRdpoXuM
- j9P2N8tQ6V7LUSQHLzEIAraGRPXk13qo+csNBF/IsGtGUE4TwxraE5IgbWspOtCcZK+v
- DGgO28fkvZGUPs22O+drDXgibtlXf8wlADxyHXRSzoykALYnf1NCpQsLffeB5AM+3rH9
- 5paK/iOqY3alRG1mNwsPLxH7Bs2zmvd73ZLIjM0HND8QqmQWi4M7ZGNzHLg4Mzg3YpkN UQ== 
-Received: from ma1-mtap-s03.corp.apple.com (ma1-mtap-s03.corp.apple.com
- [17.40.76.7])
- by nwk-aaemail-lapp01.apple.com with ESMTP id 2wkr83ys1h-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 02 Dec 2019 15:55:43 -0800
-Received: from nwk-mmpp-sz12.apple.com
- (nwk-mmpp-sz12.apple.com [17.128.115.204]) by ma1-mtap-s03.corp.apple.com
- (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) with ESMTPS id <0Q1W00D69T4U1O50@ma1-mtap-s03.corp.apple.com>; Mon,
- 02 Dec 2019 15:55:42 -0800 (PST)
-Received: from process_milters-daemon.nwk-mmpp-sz12.apple.com by
- nwk-mmpp-sz12.apple.com
- (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) id <0Q1W00A00SGIRL00@nwk-mmpp-sz12.apple.com>; Mon,
- 02 Dec 2019 15:55:42 -0800 (PST)
-X-Va-A: 
-X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: 3a0700f7bd232aa2e14bd4948494cd90
-X-Va-R-CD: 8d09ec05a2462c69b598a16229b39d18
-X-Va-CD: 0
-X-Va-ID: d8a8f06a-7dec-469b-ba33-1a74b6198b12
-X-V-A: 
-X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: 3a0700f7bd232aa2e14bd4948494cd90
-X-V-R-CD: 8d09ec05a2462c69b598a16229b39d18
-X-V-CD: 0
-X-V-ID: ed368b89-e80d-429d-b32c-9cc63f798036
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
- definitions=2019-12-02_06:,, signatures=0
-Received: from pontoon.com (unknown [17.193.42.217]) by nwk-mmpp-sz12.apple.com
- (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) with ESMTPSA id <0Q1W00JNAT4TQI20@nwk-mmpp-sz12.apple.com>; Mon,
- 02 Dec 2019 15:55:42 -0800 (PST)
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-Subject: [PATCH v3 2/5] hvf: remove TSC synchronization code because it isn't
- fully complete
-Date: Mon, 02 Dec 2019 15:55:38 -0800
-Message-id: <211818e56f8f4900800274e769470e46987e337c.1575330463.git.dirty@apple.com>
-X-Mailer: git-send-email 2.24.0
-In-reply-to: <cover.1575330463.git.dirty@apple.com>
-References: <cover.1575330463.git.dirty@apple.com>
-MIME-version: 1.0
-Content-transfer-encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-12-02_06:, , signatures=0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 17.151.62.66
+ (envelope-from <dgibson@ozlabs.org>) id 1ibvxH-0001p1-J9
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 19:22:17 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:38763)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ibvx4-0001b3-JL; Mon, 02 Dec 2019 19:22:05 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47RjN22lNWz9sPL; Tue,  3 Dec 2019 11:21:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1575332514;
+ bh=UtK4MZTFX5Ll0DXboYjXPnFFAe2D7Fp1y5zVX5+Q3ZY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YVqPCs+L2aR5OdrZPNE1791xeM+P8UTLF2nm6pneJP2rtg06ktc2HWlx6Sw+NS5Jh
+ QxcZnlr9OcZj7PqR6TarySOK4U8byKmNkvs7ZfXtd6X23AbY5p8f9w8XsdAj/NztrK
+ OcjB1Nxe+TmTvSxBM/XL3atLc+Tb9DQEJLMXsjTE=
+Date: Tue, 3 Dec 2019 11:21:43 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCHv3] exynos4210_gic: Suppress gcc9 format-truncation warnings
+Message-ID: <20191203002143.GD37909@umbus.fritz.box>
+References: <20191202060806.77968-1-david@gibson.dropbear.id.au>
+ <8b490fbe-2b09-2a2c-16a8-6739ce6a847d@linaro.org>
+ <CAFEAcA-W74ZGVEat3A1cmgCGrGY9gF_7T-w9DK0TSPEXc4Cm_g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YToU2i3Vx8H2dn7O"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-W74ZGVEat3A1cmgCGrGY9gF_7T-w9DK0TSPEXc4Cm_g@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,75 +57,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Cameron Esfahani <dirty@apple.com>
-From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-The existing code in QEMU's HVF support to attempt to synchronize TSC
-across multiple cores is not sufficient.  TSC value on other cores
-can go backwards.  Until implementation is fixed, remove calls to
-hv_vm_sync_tsc().  Pass through TSC to guest OS.
 
-Signed-off-by: Cameron Esfahani <dirty@apple.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/hvf/hvf.c     | 3 +--
- target/i386/hvf/x86_emu.c | 3 ---
- target/i386/hvf/x86hvf.c  | 4 ----
- 3 files changed, 1 insertion(+), 9 deletions(-)
+--YToU2i3Vx8H2dn7O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index 0b50cfcbc6..90fd50acfc 100644
---- a/target/i386/hvf/hvf.c
-+++ b/target/i386/hvf/hvf.c
-@@ -518,7 +518,6 @@ void hvf_reset_vcpu(CPUState *cpu) {
-         wreg(cpu->hvf_fd, HV_X86_R8 + i, 0x0);
-     }
- 
--    hv_vm_sync_tsc(0);
-     hv_vcpu_invalidate_tlb(cpu->hvf_fd);
-     hv_vcpu_flush(cpu->hvf_fd);
- }
-@@ -612,7 +611,7 @@ int hvf_init_vcpu(CPUState *cpu)
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_GSBASE, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_KERNELGSBASE, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_TSC_AUX, 1);
--    /*hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);*/
-+    hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_TSC, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_CS, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_EIP, 1);
-     hv_vcpu_enable_native_msr(cpu->hvf_fd, MSR_IA32_SYSENTER_ESP, 1);
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 1b04bd7e94..3df767209d 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -772,9 +772,6 @@ void simulate_wrmsr(struct CPUState *cpu)
- 
-     switch (msr) {
-     case MSR_IA32_TSC:
--        /* if (!osx_is_sierra())
--             wvmcs(cpu->hvf_fd, VMCS_TSC_OFFSET, data - rdtscp());
--        hv_vm_sync_tsc(data);*/
-         break;
-     case MSR_IA32_APICBASE:
-         cpu_set_apic_base(X86_CPU(cpu)->apic_state, data);
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index e0ea02d631..1485b95776 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -152,10 +152,6 @@ void hvf_put_msrs(CPUState *cpu_state)
- 
-     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_GSBASE, env->segs[R_GS].base);
-     hv_vcpu_write_msr(cpu_state->hvf_fd, MSR_FSBASE, env->segs[R_FS].base);
--
--    /* if (!osx_is_sierra())
--         wvmcs(cpu_state->hvf_fd, VMCS_TSC_OFFSET, env->tsc - rdtscp());*/
--    hv_vm_sync_tsc(env->tsc);
- }
- 
- 
--- 
-2.24.0
+On Mon, Dec 02, 2019 at 05:44:11PM +0000, Peter Maydell wrote:
+> On Mon, 2 Dec 2019 at 16:08, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > On 12/1/19 6:08 AM, David Gibson wrote:
+> > >
+> > > -    for (i =3D 0; i < s->num_cpu; i++) {
+> > > +    /*
+> > > +     * This clues in gcc that our on-stack buffers do, in fact have
+> > > +     * enough room for the cpu numbers.  gcc 9.2.1 on 32-bit x86
+> > > +     * doesn't figure this out, otherwise and gives spurious warning=
+s.
+> > > +     */
+> > > +    assert(n <=3D EXYNOS4210_NCPUS);
+> > > +    for (i =3D 0; i < n; i++) {
+> > > +
+> > >          /* Map CPU interface per SMP Core */
+> >
+> > Watch out for the extra line added at the start of the block.  Otherwis=
+e,
+> >
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> I thought about putting this in rc4 but eventually decided
+> against it. Queued for 5.0 (with the stray extra blank line
+> removed).
 
+Great!
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--YToU2i3Vx8H2dn7O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3lqpUACgkQbDjKyiDZ
+s5KuEg//UFgKQhzaHfjvcBROlr7x4twHsRWOLWgBcDPDwdlpNTIjs1PBdgOtMs7/
+VsBl2BmLDsOFqrZ5ZRdXCnEkqqTnwDiDJOSDBd/RDm+TE+HSFXOZ8sgi1N8BPeee
+Pwnu/bCDt4OkfkZc6iIE4QWE0zbz7GwLZG7B+9S43Ymoc0lnEukXHRab35sasw4W
+vUU9CFosmI8X8jS2eH39HLr8eBgjktmq8wnmK9kY8FobcUWuX/vWtk19ivpMjuER
+KcsOUywiDTCk64XcForkJwRym0s3R+8DivVYk2r17YDq1bA5Bk9mluRsJz/BEJ60
+aPu7CfO7vBfKNgNyhfX0y8dps83ghK3sdKJKwDlPvg61l3/b5uxGHWBV5n3tXpLP
+oEmgSpMJUCO395ONvCD6l9gjZARUHiRodk4uoQD9R5y1ripqFqA3zp0F9fixfHgX
+3dp8u80HnZz992SZOjBVTy5O4lL5Ne2enDNMBowAkEFS2hJs/qYO22wOag4C0lrI
+HR82DNuy38oRvbTsQ8O4VDPO3G1v24QB7Gcz1EqsJNSeJ4MrkoxfaPxwi+uvYsrW
+72ULRh2h2yDfyt1Lea8V4Gd1oGVPrXUQ8KqgYl0NSMePgmKztqvuTgyCk5Kvnopy
+GpvzBpHrOGxas/+G8bnpjhnYvaBEVYMgeT2SUaAe63zBnOhkpHM=
+=jc2+
+-----END PGP SIGNATURE-----
+
+--YToU2i3Vx8H2dn7O--
 
