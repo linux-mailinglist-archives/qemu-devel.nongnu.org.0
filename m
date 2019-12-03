@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79BC10F54B
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 03:58:21 +0100 (CET)
-Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A5510F546
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 03:57:16 +0100 (CET)
+Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ibyOK-0003UO-EI
-	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 21:58:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32922)
+	id 1ibyNG-00023d-Cn
+	for lists+qemu-devel@lfdr.de; Mon, 02 Dec 2019 21:57:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ibxxK-0003NQ-I9
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:27 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ibxxL-0003Pi-VM
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ibxxI-0000BF-S1
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:25 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41092)
+ (envelope-from <richard.henderson@linaro.org>) id 1ibxxJ-0000Ch-Tr
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:27 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:46177)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ibxxF-00006g-VH
- for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:23 -0500
-Received: by mail-pl1-x643.google.com with SMTP id bd4so1001765plb.8
- for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 18:30:20 -0800 (PST)
+ id 1ibxxH-00008j-MV
+ for qemu-devel@nongnu.org; Mon, 02 Dec 2019 21:30:24 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id z21so799042pjq.13
+ for <qemu-devel@nongnu.org>; Mon, 02 Dec 2019 18:30:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=IK7rSI06S6h9YUMM4pqvJuR/qhJRw6SERUwBa547XN0=;
- b=QSu/J7steepWES5yflZElUbSs4dYALg07BxZKiUyqwzF8ZRJhwcsSiLhpMBpGtFFjE
- SFzjvMIyX6dUH6dGG6nLRadIwHxUH4nwjSgSJ4kO7NPV/APNgbFRZLYqkuzfRgV70N8H
- n50KZeRXtjCQtnPb+i5FfdHt78/jqKbaeX3DSyy1Nc2QEl3H6p6K/fJYVIhzB+2yd6FM
- CEXaFjodHuDCt+MKs78o8TzSGMQzHo/fAAf4yL18KoQ1w1fsbR4Ukbktwh9zH5sWePie
- e0J8AZ+uhgBjZK3LKD0EBks/gBCy45Z/PaTBLV6H2X9F6yvPe/ZKbJC/YY+PIq/zzGQI
- MkTQ==
+ bh=wrciTI1v/mNpw+XObN5cyZ1jMW9FF/u8Ocv1yHt3lTU=;
+ b=ROljyHfZLuEU7PDLX5pc8bRpKTjz3BSqEn6fOyHa83GBVEttSWWx9z5tvzkEkjvI8h
+ UKRTQkhq6zi+qaE44qNM1eDK1a+gnALoa6zbi5Jel34Kngqm+ulgFwYfSKUXHLLDnd1A
+ Cc6MEdcHCLo7QDD/acEBz4+3mEARCOtkeN/jCp3ozTn2tJPSmDMQjrRWEJgNFm9/8B4T
+ KENKnHcrmg9ScOh1nokDBPdJBsALUgKUTEfIqKzhHp9UIZOwKSV9iv/qThMZvGj3CzdE
+ e9B9eofKxugshmVPgsfzmUP6GrewLR0liAm1cy6A9RM5MFUtNn5FtBd/45prCeE6CbM/
+ 1aAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=IK7rSI06S6h9YUMM4pqvJuR/qhJRw6SERUwBa547XN0=;
- b=DSMBWJjVQwW5lIehdDhmhLYZjCRLPOPf8Mu7P6P0cq96Cj4f6KcvRHs36OsWttjp9L
- PCM31ihEFKEfz1qSqGC9gPkXzklseGzvLP+RJAYovXJhBiDUpEwq97/de/iN06ox9Wgo
- bZTmp/q9D1mwiE6sxLiqhU9Q5UWs9KO6KebvFnlRgPj1t3gc/tQ10V1eJea2Da2xzNm2
- 7tw6UH8xZaSR6Pt1Z7rOiDYIwxxmJpf7d5tfaBQ6xVszYy+CpJGR0Cy8Qar0N8Lwz/PU
- N71HFjFYnsPQ9sa1dTikLrAgxe/5BpeW2VBPZm+ODOZEgtegNBDfIo0RWqY6ncOgL9Ba
- HbsA==
-X-Gm-Message-State: APjAAAWGsu+kMj9WXOEk4crg2NtJmxkPNblsAWRX7MngTl58AI0KTn8k
- M6SRRdRqbAjoWCvnuCpj8ufZmk81NVQ=
-X-Google-Smtp-Source: APXvYqxOz+Ih3oil3MtBE6RBbtUrjSr+FGT07F93ko1pnjgEq9cvsgF1EbmWxKQkiTt8xN6nNzlpsw==
-X-Received: by 2002:a17:902:9a96:: with SMTP id
- w22mr2679175plp.124.1575340218750; 
- Mon, 02 Dec 2019 18:30:18 -0800 (PST)
+ bh=wrciTI1v/mNpw+XObN5cyZ1jMW9FF/u8Ocv1yHt3lTU=;
+ b=oy39EynBvYCjKufsDMHGQNnIdAEudnh2ObrxBDfmMqq2fXBdlbysUnJAp1j+6hnLXC
+ iquhm7etA5UXWgJnyfRxqmypR0zySj3rS+qHWgEMTxPSlT2KHZhyusYHBLKe7ra9J1v5
+ bj92J7386mKTlKBA8ONXyp+CB+/FfHsD0+u99tYTNwuas/vsqFELCgETZDXWR9VMd2uH
+ cE8MTf0W/9zwWcxrzxiHGtguP9gMWvXyJzVF7I7JH/UgjBvzTVg1er8h2X6JBQ9fxXpL
+ lR0Trwg+Qk04OyKOAnuBkG+4W++m6r0/z94WRR6Ywe5L9aD5Poj0TC27S8BHVtHeJ6yM
+ y0VQ==
+X-Gm-Message-State: APjAAAUZgzRelLPcwZyisRstEWYxqavQOYFyjgOxtuoAGURIqwL1tTeJ
+ VuFcY7kbvD2VajcknfqwUcKwFWThIMQ=
+X-Google-Smtp-Source: APXvYqzzJ3EurqVqGxJuXn7PuuK8fu1euMl5j1oDXin3Jy2Pd2UxBg14lSlxn2vxEPnr68XfEMIHRA==
+X-Received: by 2002:a17:902:322:: with SMTP id
+ 31mr2709960pld.244.1575340220163; 
+ Mon, 02 Dec 2019 18:30:20 -0800 (PST)
 Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
  [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q22sm873695pfg.170.2019.12.02.18.30.17
+ by smtp.gmail.com with ESMTPSA id q22sm873695pfg.170.2019.12.02.18.30.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Dec 2019 18:30:17 -0800 (PST)
+ Mon, 02 Dec 2019 18:30:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 31/40] target/arm: Update arm_phys_excp_target_el for TGE
-Date: Mon,  2 Dec 2019 18:29:28 -0800
-Message-Id: <20191203022937.1474-32-richard.henderson@linaro.org>
+Subject: [PATCH v4 32/40] target/arm: Update {fp,sve}_exception_el for VHE
+Date: Mon,  2 Dec 2019 18:29:29 -0800
+Message-Id: <20191203022937.1474-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191203022937.1474-1-richard.henderson@linaro.org>
 References: <20191203022937.1474-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,30 +80,102 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TGE bit routes all asynchronous exceptions to EL2.
+When TGE+E2H are both set, CPACR_EL1 is ignored.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/arm/helper.c | 53 ++++++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b059d9f81a..e0b8c81c5f 100644
+index e0b8c81c5f..3e025eb22e 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8316,6 +8316,12 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
-         break;
-     };
- 
-+    /*
-+     * For these purposes, TGE and AMO/IMO/FMO both force the
-+     * interrupt to EL2.  Fold TGE into the bit extracted above.
-+     */
-+    hcr |= (hcr_el2 & HCR_TGE) != 0;
+@@ -5743,7 +5743,9 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
+ int sve_exception_el(CPUARMState *env, int el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    if (el <= 1) {
++    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
 +
-     /* Perform a table-lookup for the target EL given the current state */
-     target_el = target_el_table[is64][scr][rw][hcr][secure][cur_el];
++    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         bool disabled = false;
  
+         /* The CPACR.ZEN controls traps to EL1:
+@@ -5758,8 +5760,7 @@ int sve_exception_el(CPUARMState *env, int el)
+         }
+         if (disabled) {
+             /* route_to_el2 */
+-            return (arm_feature(env, ARM_FEATURE_EL2)
+-                    && (arm_hcr_el2_eff(env) & HCR_TGE) ? 2 : 1);
++            return hcr_el2 & HCR_TGE ? 2 : 1;
+         }
+ 
+         /* Check CPACR.FPEN.  */
+@@ -11565,8 +11566,6 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
+ int fp_exception_el(CPUARMState *env, int cur_el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    int fpen;
+-
+     /* CPACR and the CPTR registers don't exist before v6, so FP is
+      * always accessible
+      */
+@@ -11594,30 +11593,34 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+      * 0, 2 : trap EL0 and EL1/PL1 accesses
+      * 1    : trap only EL0 accesses
+      * 3    : trap no accesses
++     * This register is ignored if E2H+TGE are both set.
+      */
+-    fpen = extract32(env->cp15.cpacr_el1, 20, 2);
+-    switch (fpen) {
+-    case 0:
+-    case 2:
+-        if (cur_el == 0 || cur_el == 1) {
+-            /* Trap to PL1, which might be EL1 or EL3 */
+-            if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++    if ((arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++        int fpen = extract32(env->cp15.cpacr_el1, 20, 2);
++
++        switch (fpen) {
++        case 0:
++        case 2:
++            if (cur_el == 0 || cur_el == 1) {
++                /* Trap to PL1, which might be EL1 or EL3 */
++                if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++                    return 3;
++                }
++                return 1;
++            }
++            if (cur_el == 3 && !is_a64(env)) {
++                /* Secure PL1 running at EL3 */
+                 return 3;
+             }
+-            return 1;
++            break;
++        case 1:
++            if (cur_el == 0) {
++                return 1;
++            }
++            break;
++        case 3:
++            break;
+         }
+-        if (cur_el == 3 && !is_a64(env)) {
+-            /* Secure PL1 running at EL3 */
+-            return 3;
+-        }
+-        break;
+-    case 1:
+-        if (cur_el == 0) {
+-            return 1;
+-        }
+-        break;
+-    case 3:
+-        break;
+     }
+ 
+     /*
 -- 
 2.17.1
 
