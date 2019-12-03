@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B23110266
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:34:29 +0100 (CET)
-Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42241102B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Dec 2019 17:41:45 +0100 (CET)
+Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icB88-000879-1l
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50694)
+	id 1icBF9-0002uR-US
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 11:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icAh2-0008W6-7r
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:06:31 -0500
+ (envelope-from <groug@kaod.org>) id 1icAjd-0001Pp-JQ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:09:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icAgw-0008Dp-0j
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:06:23 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46051)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icAgu-0007wv-N5
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:06:21 -0500
-Received: by mail-pf1-x443.google.com with SMTP id 2so2052450pfg.12
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 08:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qPlxmpsww/pu/bjvZI3jSfIkTgDjwuMlI8DdBaeblcE=;
- b=zrUDicuC5vJp8eOS+zae9b4mnkSMy6Eba9YkZ39rXCjz6TgntJbdTRj56xT35AKPZ6
- b66D7T59e6zVwF/1PJD4oZHQnSf+89CRACCZ8Kjft/0pKzE7Le7obKXKUEryll5919di
- lPdYYkbNiCIhX1U43SH6SAK3zkx67o2qVSPTxJiX/nSTYOa6G31wYDsUbtYtGBHV6wlP
- Fegv5dbO/bRdwdAdp6tzU+dAu8cPjnr353betzNe8UoxtzGmxxtTziqCvAIxwXfQOwp4
- 6ofVOMVf1pGlKO3/hRPSZ4r71kqMmaroc9husZjrwJFsw9QK9uIFwD5HveY0nNci0tXi
- QboQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qPlxmpsww/pu/bjvZI3jSfIkTgDjwuMlI8DdBaeblcE=;
- b=EyC2N26SJ31shMHl/+34nnrAPJfqLJR3ReQ5IGzb4AVMI+aCHKpUzUCrZJsZPirA1i
- DXPSWLVGMgxXM7SAkDIbn0G9Tw8jiHyCdVeUzJhnFqZviKVJ040FBLgpqA29c2QtUpYr
- POtzf7DCmzrJeI+CFm6szCQLFVRaiWRA/TjJ13AgVj1HiLke2xr/Em7XPmq2aQSsIc/c
- //l35GhqKXQ5KDq4CNbWt02rp+lgxmN6K1JjHdra4NEvs6081CGVrNZYEilXCesZzv1l
- k5WTRJPjf3lq3n3QJoLvW9hMQWBBbzBdHluBPFtnEli3NPezP6JgoPdBwU4fL/p863k8
- FJbA==
-X-Gm-Message-State: APjAAAX0Fy34Ztk3flZzP/nFwHoAFaOu9XDwyad2HeEgr4enJYwk+zat
- 5iwc/4na9YNEXM1od36oGlPufg==
-X-Google-Smtp-Source: APXvYqzSdzBwyum6Yk0RuvnTROce3CUdvtALlK+A/5V5UOLp0Vya8gSGvtMlsnzHzfTX5ELuka+sVw==
-X-Received: by 2002:a62:5e04:: with SMTP id s4mr5700726pfb.63.1575389177445;
- Tue, 03 Dec 2019 08:06:17 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id i5sm220648pgj.58.2019.12.03.08.06.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Dec 2019 08:06:16 -0800 (PST)
-Subject: Re: [PATCH v5 04/22] target/arm: Add helper_mte_check{1,2,3}
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-5-richard.henderson@linaro.org>
- <CAFEAcA_WOMbFzFQghakLxxuCTc2b3p6eb18nS5KSrSj+oW-Ckg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5fb06e8a-3cc6-072e-a906-0c83fd2d107c@linaro.org>
-Date: Tue, 3 Dec 2019 08:06:14 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ (envelope-from <groug@kaod.org>) id 1icAjU-0007v7-Va
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:09:05 -0500
+Received: from 5.mo4.mail-out.ovh.net ([188.165.44.50]:38793)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1icAjU-0007Xp-Nm
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 11:09:00 -0500
+Received: from player728.ha.ovh.net (unknown [10.109.143.183])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id A9060212EDF
+ for <qemu-devel@nongnu.org>; Tue,  3 Dec 2019 17:08:54 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player728.ha.ovh.net (Postfix) with ESMTPSA id 2BA01CC6EE67;
+ Tue,  3 Dec 2019 16:08:46 +0000 (UTC)
+Date: Tue, 3 Dec 2019 17:08:44 +0100
+From: Greg Kurz <groug@kaod.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: virtiofsd: Where should it live?
+Message-ID: <20191203170844.1defe3f0@bahia.w3ibm.bluemix.net>
+In-Reply-To: <20191203131046.GF3078@work-vm>
+References: <20191125185021.GB3767@work-vm>
+ <20191126102600.GG556568@redhat.com>
+ <20191126121416.GE2928@work-vm>
+ <db27af39-62a8-46e5-fccd-f09ed497b7bd@redhat.com>
+ <20191203130250.GD3078@work-vm>
+ <dce5bc69-b7df-1ff8-39fc-81bb8486c1c5@redhat.com>
+ <20191203131046.GF3078@work-vm>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_WOMbFzFQghakLxxuCTc2b3p6eb18nS5KSrSj+oW-Ckg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Ovh-Tracer-Id: 9842054036895275314
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudejjedgkeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedvkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 188.165.44.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,52 +62,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: mszeredi@redhat.com, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=
+ " <berrange@redhat.com>, qemu-devel@nongnu.org, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/19 1:42 PM, Peter Maydell wrote:
->> +static int allocation_tag_from_addr(uint64_t ptr)
->> +{
->> +    ptr += 1ULL << 55;  /* carry ptr[55] into ptr[59:56].  */
->> +    return extract64(ptr, 56, 4);
+On Tue, 3 Dec 2019 13:10:46 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+
+> * Paolo Bonzini (pbonzini@redhat.com) wrote:
+> > On 03/12/19 14:02, Dr. David Alan Gilbert wrote:
+> > >> It could be in fsdev/virtiofsd,
+> > > fsdev is currently all 9p stuff, so that would seem very confusing.
+> > 
+> > Move it to fsdev/9p?
 > 
-> What's the carry-bit-55 logic for? The pseudocode
-> AArch64.AllocationTagFromAddress just returns bits [59:56].
-
-This was the old physical tag extraction.
-
->> +static uint64_t do_mte_check(CPUARMState *env, uint64_t dirty_ptr,
->> +                             uint64_t clean_ptr, uint32_t select,
->> +                             uintptr_t ra)
->> +{
->> +    ARMMMUIdx stage1 = arm_stage1_mmu_idx(env);
->> +    int ptr_tag, mem_tag;
->> +
->> +    /*
->> +     * If TCMA is enabled, then physical tag 0 is unchecked.
->> +     * Note the rules in D6.8.1 are written with logical tags, where
->> +     * the corresponding physical tag rule is simpler: equal to 0.
->> +     * We will need the physical tag below anyway.
->> +     */
+> Greg: Are you OK with us doing that, and then having fsdev/virtiofsd for
+> our side of things?
 > 
-> This reads a bit oddly, because (in the final version of the spec)
-> physical and logical tags are identical (AArch64.PhysicalTag()
-> just returns bits [59:56] of the vaddr).
 
-I missed that change between draft and final.
+That's okay with me.
 
-Wow, that's really annoying.  If they were going to drop physical vs logical
-tags, why did they keep the language?
+> > >> but I agree with Daniel that at this
+> > >> point the QEMU build system introduces baggage that you may not want for
+> > >> virtiofsd.
+> > >
+> > > I've already got it wired up in contrib with qemu's build system
+> > > so that doesn't seem to be an issue.   The question is purely a 'where'.
+> > 
+> > Oh I agree it's not an insurmountable problem.  For a new project I may
+> > not want to deal with the complicated rules.mak stuff; however, if
+> > virtiofsd doesn't have to do anything complicated then it's your choice.
+> 
+> Fortunately we don't seem to have touched that.
+> 
+> Dave
+> 
+> > Paolo
+> > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
-Frankly, it made a *lot* of sense as a way to handle addresses in TTBR1, which
-now have asymmetric special cases.  In particular, ADDG will, as I read it now,
-with allocation tag access disabled, munge a TTBR1 address to <59:56> = 0.
-Which is fine so long as access is disabled, but when re-enabled (e.g. via
-PSTATE.TCO) the address will no longer pass the TCMA test.
-
-Is this really intentional?
-
-
-r~
 
