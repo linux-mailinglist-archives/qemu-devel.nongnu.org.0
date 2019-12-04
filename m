@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F4C11301B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:34:45 +0100 (CET)
-Received: from localhost ([::1]:41136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71026113049
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:54:37 +0100 (CET)
+Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXbw-0003Dx-KH
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35209)
+	id 1icXvA-0003NX-7g
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36565)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1icXUo-0007V8-D3
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:27:24 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1icXaq-0003Mh-Qm
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:33:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1icXUm-0004bo-CI
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:27:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29079
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1icXan-0003dM-Ix
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:33:35 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20627
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icXUm-0004bE-8j
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:27:20 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1icXaj-0003cB-6v
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:33:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575476837;
+ s=mimecast20190719; t=1575477206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=XgSBMX7QaG545SIWQOnLBcvBjoAWoabk9DvDE6Y8fyE=;
- b=VRaVXlnvRWwncxwHt8zJk4xNJ+nkiAg9gFcFx2Mxnb3hS6Q6/jcRclwX5zi8P2bzw6ALCr
- v3JGtGIitfyyERzLz3Y6G21ccKYQDkIkrIhqn6GrnjfYK/+IfS133pidULxQklIuLCdWmc
- iyRJnvyQtX6c9eLn88OshhhfQymBZFo=
+ in-reply-to:in-reply-to:references:references;
+ bh=0GU6Z4tcSBMX2HfLnEnuSWXf5DWOtABi6xgeIQ1O3Sc=;
+ b=DTpYNy/YAhwls9EuB0d2Zf45AOhaud4UQ3UgAq+YgoiePJBZzxnP4prIKI/4J0iOhtXf+L
+ WBPUOfNT1a21G9pv1CcZ338+yqal7+XpKBz/Qv/VQ10ip6M7A2wxyXK96uBIuUwJYZgQln
+ 9m9o3weZSPo2XoeNBnUS4pLMRYhSgz0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-4VpLxPSJO86Br9Ph_5Yfrg-1; Wed, 04 Dec 2019 11:27:14 -0500
+ us-mta-386-yoY_tcOFPMK8kgUlIs7rVg-1; Wed, 04 Dec 2019 11:33:24 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F93B107ACFB;
- Wed,  4 Dec 2019 16:27:13 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-39.ams2.redhat.com [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09B5F5D6BE;
- Wed,  4 Dec 2019 16:27:11 +0000 (UTC)
-Subject: Re: [PATCH] target/sparc: Remove old TODO file
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
-References: <20190930171044.25312-1-thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <1b2ecf64-ee98-6a05-2455-436f822a7163@redhat.com>
-Date: Wed, 4 Dec 2019 17:27:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3E08100550E;
+ Wed,  4 Dec 2019 16:33:23 +0000 (UTC)
+Received: from work-vm (ovpn-117-217.ams2.redhat.com [10.36.117.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C0CF5D6AE;
+ Wed,  4 Dec 2019 16:33:12 +0000 (UTC)
+Date: Wed, 4 Dec 2019 16:33:10 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: virtiofsd: Where should it live?
+Message-ID: <20191204163310.GJ3325@work-vm>
+References: <CAFEAcA9Ln2uwg4f4s8oS6VeQk83W3BErmH9cHeyDJy7v-4gNxw@mail.gmail.com>
+ <87k17ekhs9.fsf@dusky.pond.sub.org>
+ <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
+ <20191203105341.GB3078@work-vm>
+ <CAFEAcA8bjGAs7JSTNYYYwCH1yF06i0v0r9wjKXqZGZg_Sqy0VA@mail.gmail.com>
+ <20191203111949.GB267814@redhat.com>
+ <87o8wofsda.fsf@dusky.pond.sub.org>
+ <20191204081726.md3qakjtszftnuag@sirius.home.kraxel.org>
+ <20191204132810.GB20250@dhcp-200-226.str.redhat.com>
+ <02eec949-f768-dd42-fb46-284489c1a964@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190930171044.25312-1-thuth@redhat.com>
-Content-Language: en-US
+In-Reply-To: <02eec949-f768-dd42-fb46-284489c1a964@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 4VpLxPSJO86Br9Ph_5Yfrg-1
+X-MC-Unique: yoY_tcOFPMK8kgUlIs7rVg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,119 +81,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, mszeredi@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2019 19.10, Thomas Huth wrote:
-> This file hasn't seen a real (non-trivial) update since 2008 anymore,
-> so we can assume that it is pretty much out of date and nobody cares
-> for it anymore. Let's simply remove it.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  target/sparc/TODO | 88 -----------------------------------------------
->  1 file changed, 88 deletions(-)
->  delete mode 100644 target/sparc/TODO
-> 
-> diff --git a/target/sparc/TODO b/target/sparc/TODO
-> deleted file mode 100644
-> index b8c727e858..0000000000
-> --- a/target/sparc/TODO
-> +++ /dev/null
-> @@ -1,88 +0,0 @@
-> -TODO-list:
-> -
-> -CPU common:
-> -- Unimplemented features/bugs:
-> - - Delay slot handling may fail sometimes (branch end of page, delay
-> - slot next page)
-> - - Atomical instructions
-> - - CPU features should match real CPUs (also ASI selection)
-> -- Optimizations/improvements:
-> - - Condition code/branch handling like x86, also for FPU?
-> - - Remove remaining explicit alignment checks
-> - - Global register for regwptr, so that windowed registers can be
-> - accessed directly
-> - - Improve Sparc32plus addressing
-> - - NPC/PC static optimisations (use JUMP_TB when possible)? (Is this
-> - obsolete?)
-> - - Synthetic instructions
-> - - MMU model dependent on CPU model
-> - - Select ASI helper at translation time (on V9 only if known)
-> - - KQemu/KVM support for VM only
-> - - Hardware breakpoint/watchpoint support
-> - - Cache emulation mode
-> - - Reverse-endian pages
-> - - Faster FPU emulation
-> - - Busy loop detection
-> -
-> -Sparc32 CPUs:
-> -- Unimplemented features/bugs:
-> - - Sun4/Sun4c MMUs
-> - - Some V8 ASIs
-> -
-> -Sparc64 CPUs:
-> -- Unimplemented features/bugs:
-> - - Interrupt handling
-> - - Secondary address space, other MMU functions
-> - - Many V9/UA2005/UA2007 ASIs
-> - - Rest of V9 instructions, missing VIS instructions
-> - - IG/MG/AG vs. UA2007 globals
-> - - Full hypervisor support
-> - - SMP/CMT
-> - - Sun4v CPUs
-> -
-> -Sun4:
-> -- To be added
-> -
-> -Sun4c:
-> -- A lot of unimplemented features
-> -- Maybe split from Sun4m
-> -
-> -Sun4m:
-> -- Unimplemented features/bugs:
-> - - Hardware devices do not match real boards
-> - - Floppy does not work
-> - - CS4231: merge with cs4231a, add DMA
-> - - Add cg6, bwtwo
-> - - Arbitrary resolution support
-> - - PCI for MicroSparc-IIe
-> - - JavaStation machines
-> - - SBus slot probing, FCode ROM support
-> - - SMP probing support
-> - - Interrupt routing does not match real HW
-> - - SuSE 7.3 keyboard sometimes unresponsive
-> - - Gentoo 2004.1 SMP does not work
-> - - SS600MP ledma -> lebuffer
-> - - Type 5 keyboard
-> - - Less fixed hardware choices
-> - - DBRI audio (Am7930)
-> - - BPP parallel
-> - - Diagnostic switch
-> - - ESP PIO mode
-> -
-> -Sun4d:
-> -- A lot of unimplemented features:
-> - - SBI
-> - - IO-unit
-> -- Maybe split from Sun4m
-> -
-> -Sun4u:
-> -- Unimplemented features/bugs:
-> - - Interrupt controller
-> - - PCI/IOMMU support (Simba, JIO, Tomatillo, Psycho, Schizo, Safari...)
-> - - SMP
-> - - Happy Meal Ethernet, flash, I2C, GPIO
-> - - A lot of real machine types
-> -
-> -Sun4v:
-> -- A lot of unimplemented features
-> - - A lot of real machine types
-> 
+We seem to be settling out to either fsdev/virtiofsd or tools/virtiofsd
+with tools picking up some speed as people seem to want to put a bunch
+of other stuff in there.
 
-Ping?
+Unless anyone shouts really loud, I'll work on making it
+tools/virtiofsd.
 
- Thomas
+Dave
+
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
