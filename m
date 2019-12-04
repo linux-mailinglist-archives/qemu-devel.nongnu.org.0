@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA28D112B99
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:37:48 +0100 (CET)
-Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B014D112B8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:33:26 +0100 (CET)
+Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTud-0000pN-Ca
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:37:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
+	id 1icTqP-0002Yu-Ia
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46706)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <buraksrc@gmail.com>) id 1icTAo-0002nw-AJ
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:50:27 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icTGh-0005iG-NQ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <buraksrc@gmail.com>) id 1icTAe-0002eS-Cv
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:50:21 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46167)
+ (envelope-from <alex.bennee@linaro.org>) id 1icTGX-0006kp-C6
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:23 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50223)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <buraksrc@gmail.com>) id 1icTAd-0002EQ-VS
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:50:16 -0500
-Received: by mail-lf1-f68.google.com with SMTP id a17so5830957lfi.13
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:50:12 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icTGW-0006HA-20
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:21 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p9so6723249wmg.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:56:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RVPzbJlUj4l2gfWqnQM/tLIoXopJvbtoUDZRcW12RB8=;
+ b=w52TPOv2wXksms0+VZnYrOEkzmu0RZkf6X67O70cAmh+DPmMVd34eqmuDKPkBAEfdm
+ 4rOr1vUqIKqQnW+DuAek3pqHuYbi0fc8yAwRP0sDeB6RU3NQzkzW+B9VHpOnSPrNnG/N
+ oW7V/UUsFUMLSYP4uf6youpBJMDRlLW52Ypppnszmqe8a4y8b8fyYjMCDm4TBiqciUVd
+ 3lJa1RbW7X3btMBeuvvhNi8NnMIVWgl0A8w770G4xtpCE3X4ERQk+2r53JrLo0TpIDOv
+ P8dIbmf1H/MAMU93GhCjjMW65i9C3OGx6PRwyIqq7hlyzBik5pdN2iESxJU7VA1oeGiz
+ qkUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to
- :content-transfer-encoding;
- bh=HGvzauIwnStUS9xIYONJWNptIJN6kkdMiHiRIV5o1Kc=;
- b=OXa8qyZK2KjFW/dzPa0q7VLyxPRfiCLtfx574brLBZAiBrpyTWRQORPk/mqxxwg0bF
- tXaPJa+5vv7MKBkw6Krkxp678BwexJmj9U6bqPRLmImbr8NkNIK6iaXCeSE2UT5eMzP/
- h9eGW2zNOhwMz4BWXKgV10xAP7m/9j5/KrJWRluzkvWrD2rwcWcvvrJoOdrniHpRUgRR
- mHGuI1mx1IeOjTZdO7KDvrWXJ8ZEjzPG1d65Vqy06SUrc0z7X1RbUBXVwCNvEBTxx2+x
- Ey6rrIXEt6wif9zqaYj3BPpYfHf954bH95VhE9+laPV1WVSlFH7/QhxRkZECCR3ty4ss
- tIjg==
-X-Gm-Message-State: APjAAAWynDNCpk61ZryM/vqY8bGlI0lV6OVvm9q6k7iVXE81mWRF0RJ0
- NQO/WqL7ypSYTjcfftP88VMKu5FVt8rpddSPStVMj7aZmZ8=
-X-Google-Smtp-Source: APXvYqzUQUzgqEol6m51SZblSh4sux/8eGPBuxIfpL2JOLxJq2B8JfU4NRxpZv5WldOUyVCIjDAIP56lOLeq04x4d+4=
-X-Received: by 2002:ac2:498e:: with SMTP id f14mr1817701lfl.172.1575460210833; 
- Wed, 04 Dec 2019 03:50:10 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RVPzbJlUj4l2gfWqnQM/tLIoXopJvbtoUDZRcW12RB8=;
+ b=s0QmHYDyaBEDhUMzc1eUvyKoH6TNPdw+fqmmW38rDVh6h3Q5tpeEycBNQkZm7JY2dY
+ eS4zCpDVUtQHfSYn+97PVKOFjtOX6TDP9yGpw53QgmzwaLONCNyXR/RpANzaWj/NEXGN
+ 50WZSxE04TFAvbKY257YO514gmsGtx33fXIG4ZgXhoBuLp4+wIgwteT3UouLxfLbqlUQ
+ xgfBL8YhFVhCzu3i1UnOZvuw2001k9fub4VZlR4Svnlc5gRXP510OW74ePSSSNheSd8Z
+ lqHU0axRZywC5fpUdi0HBYvlzLXvS4w4kW3R++U7yycUIRhKXsnO180MS21XC/4wF96s
+ STIQ==
+X-Gm-Message-State: APjAAAXjUDNEyIT27GoPJmjSnLOZd+I2rtiMK3vDQSP92al95d06H++M
+ AoWaxFbR1vEd/vr85z6uj4xXnw==
+X-Google-Smtp-Source: APXvYqy5aUiYn7x4ANhNDPza0I/plC8pIWGW7FwlcPrP7VTUbOGHSUqLd3Rsw7Eb+vS3EebC5/p0Wg==
+X-Received: by 2002:a1c:4b03:: with SMTP id y3mr28692084wma.91.1575460574218; 
+ Wed, 04 Dec 2019 03:56:14 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d9sm7405894wrj.10.2019.12.04.03.56.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2019 03:56:13 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 728831FF87;
+ Wed,  4 Dec 2019 11:56:12 +0000 (GMT)
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-17-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 16/40] target/arm: Rearrange ARMMMUIdxBit
+In-reply-to: <20191203022937.1474-17-richard.henderson@linaro.org>
+Date: Wed, 04 Dec 2019 11:56:12 +0000
+Message-ID: <87sgm08ftv.fsf@linaro.org>
 MIME-Version: 1.0
-From: burak sarac <burak@linux.com>
-Date: Wed, 4 Dec 2019 12:49:44 +0100
-Message-ID: <CALS5s1_NR4sfeWVWi2C7Dg=oCEOLEK8zovzVSzqjcY5eXNzgng@mail.gmail.com>
-Subject: Re: Custom logic gates on user space emulation
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.68
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,51 +82,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Alex,
- Thank you for your response, if I am on the right path I want to add
-hadamard or one of pauli gate to gnu assembler then I want to run this
-extended GAS via qemu using user space emulation. i.e.
-https://en.wikipedia.org/wiki/Quantum_logic_gate#Hadamard_(H)_gate.
-The idea is there are many quantum computer emulators i.e. here
-https://www.quantiki.org/wiki/list-qc-simulators , yet I couldnt find
-any one of them uses qemu. For beginning I wanted to try to port
-libquantum hadamard impl.  There is https://github.com/Qiskit/openqasm
-but source is not present.
 
-Burak
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-burak sarac <address@hidden> writes:
-
-> Hello All,
->  Currently I am studying qemu and I want to figure out how I can use
-> custom logic gates on user space emulation.  I am searching very basic
-> 'hello world' kind of tutorial or some resources to i.e. adding left
-> or LOR : 1 | 0 =3D 1 but 0 | 1 =3D 0 to existing x86 arch
-> ((https://en.wikibooks.org/wiki/X86_Assembly/Logic) ?).
-
-It's not clear what you want to do. Are you looking to extend an
-existing instruction set with additional custom instructions? Can you
-explain why you want to do this?
-
-> What I want to
-> try is run this extended x86 version with qemu user space emulation.
-> Do I need a custom toolchain also for this? I found this book:
-> https://subscription.packtpub.com/book/hardware_and_creative/978178328945=
-5/1/ch01lvl1sec15/generating-a-custom-toolchain-become-an-expert
-
-For testing you don't need a custom toolchain - you can use inline
-assembly with data statements to insert your custom instructions into a
-program. Again it depends on what your eventual aim is here.
-
+> Define via macro expansion, so that renumbering of the base ARMMMUIdx
+> symbols is automatically reflexed in the bit definitions.
 >
-> Sorry for my ignorance in case it is totally irrelevant and I would
-> appreciate any guidance! Or pseudo kind of road map for me!
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  target/arm/cpu.h | 39 +++++++++++++++++++++++----------------
+>  1 file changed, 23 insertions(+), 16 deletions(-)
 >
-> Thank you & have a nice day
-> Burak
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 5f295c7e60..6ba5126852 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -2886,27 +2886,34 @@ typedef enum ARMMMUIdx {
+>      ARMMMUIdx_Stage1_E1 =3D 1 | ARM_MMU_IDX_NOTLB,
+>  } ARMMMUIdx;
+>=20=20
+> -/* Bit macros for the core-mmu-index values for each index,
+> +/*
+> + * Bit macros for the core-mmu-index values for each index,
+>   * for use when calling tlb_flush_by_mmuidx() and friends.
+>   */
+> +#define TO_CORE_BIT(NAME) \
+> +    ARMMMUIdxBit_##NAME =3D 1 << (ARMMMUIdx_##NAME & ARM_MMU_IDX_COREIDX=
+_MASK)
+> +
+>  typedef enum ARMMMUIdxBit {
+> -    ARMMMUIdxBit_EL10_0 =3D 1 << 0,
+> -    ARMMMUIdxBit_EL10_1 =3D 1 << 1,
+> -    ARMMMUIdxBit_E2 =3D 1 << 2,
+> -    ARMMMUIdxBit_SE3 =3D 1 << 3,
+> -    ARMMMUIdxBit_SE0 =3D 1 << 4,
+> -    ARMMMUIdxBit_SE1 =3D 1 << 5,
+> -    ARMMMUIdxBit_Stage2 =3D 1 << 6,
+> -    ARMMMUIdxBit_MUser =3D 1 << 0,
+> -    ARMMMUIdxBit_MPriv =3D 1 << 1,
+> -    ARMMMUIdxBit_MUserNegPri =3D 1 << 2,
+> -    ARMMMUIdxBit_MPrivNegPri =3D 1 << 3,
+> -    ARMMMUIdxBit_MSUser =3D 1 << 4,
+> -    ARMMMUIdxBit_MSPriv =3D 1 << 5,
+> -    ARMMMUIdxBit_MSUserNegPri =3D 1 << 6,
+> -    ARMMMUIdxBit_MSPrivNegPri =3D 1 << 7,
+> +    TO_CORE_BIT(EL10_0),
+> +    TO_CORE_BIT(EL10_1),
+> +    TO_CORE_BIT(E2),
+> +    TO_CORE_BIT(SE0),
+> +    TO_CORE_BIT(SE1),
+> +    TO_CORE_BIT(SE3),
+> +    TO_CORE_BIT(Stage2),
+> +
+> +    TO_CORE_BIT(MUser),
+> +    TO_CORE_BIT(MPriv),
+> +    TO_CORE_BIT(MUserNegPri),
+> +    TO_CORE_BIT(MPrivNegPri),
+> +    TO_CORE_BIT(MSUser),
+> +    TO_CORE_BIT(MSPriv),
+> +    TO_CORE_BIT(MSUserNegPri),
+> +    TO_CORE_BIT(MSPrivNegPri),
+>  } ARMMMUIdxBit;
+>=20=20
+> +#undef TO_CORE_BIT
+> +
+>  #define MMU_USER_IDX 0
+>=20=20
+>  static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
 
 
 --=20
