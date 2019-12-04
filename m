@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A961112FFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:26:45 +0100 (CET)
-Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BAA0113014
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:32:48 +0100 (CET)
+Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXUC-0005WB-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34369)
+	id 1icXa1-0001oi-2M
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:32:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1icXRX-00043w-Kq
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:24:00 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1icXNg-0001Iu-Ez
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:20:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1icXRW-0002mO-DY
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:23:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20066
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1icXRW-0002kz-8z
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:23:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575476637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zi3siVzuD0gF9Jfvrp7PZuuqYsCl8OlTBWpf/P1Jdb4=;
- b=UYw8bjgIZPTh6+2SoujA0wIqaBH818i0oKQ+6I2wi6ypenmluUI3cEia529fBolEbwDjXP
- zNg9t+QXjDKYUBSpEAvaUAfGMz4gtdS0/5hBDLdG2xzg7GA0dGUVHfcj0OF/I+qiXOx5A0
- jbYy0q0yfqYYvX3k/K0oYGst4v7NQmU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-KqvZcqPyPJ2XeGZk3uSfVQ-1; Wed, 04 Dec 2019 11:23:54 -0500
-Received: by mail-wr1-f69.google.com with SMTP id h30so91263wrh.5
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 08:23:54 -0800 (PST)
+ (envelope-from <richard.henderson@linaro.org>) id 1icXNf-000839-D3
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:20:00 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42662)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1icXNe-00082W-Uh
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:19:59 -0500
+Received: by mail-pl1-x642.google.com with SMTP id x13so3351192plr.9
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 08:19:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JB0TVAz+9UHryDP3Z7x+pIufhUFoHIE7WhkCCe/6Tug=;
+ b=E6R1CMjii8hqfgI5doJ9ZwfZd45dwf5PgKOKlN8i2BpxwidveFhulRXF9/tksItrm5
+ JDeb7yyZart5bpiWWZxtezxK6OP+rfY7DwMJGfzq85RUdV1P+OAazPVeqwx4h/ZPYxWy
+ ghBtkEPgZgFvansX/gdotms7Ked135xjpkEHY/UstD75T9N8Mw9LXb2/xSi4J9W9c94s
+ xZg9WlG6RSAzoYiaC9Fo/2AJ7SjhJObz3RtDVl1fiCHdrUN6vYY80nEFMjurOQrst29j
+ 4GYIJlR8FLndKfMnV14ZM+o/uDWUizXZuGYiQs6z45esbXHe3eX4Nj5IPcJyi4oRP/3W
+ BIsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zi3siVzuD0gF9Jfvrp7PZuuqYsCl8OlTBWpf/P1Jdb4=;
- b=cfCzxz72cBWEfpgU74m86NPUYUzU+rlDtHDImrGP5hpyT3Oq7p0SA/ZdBKCJZTgPzS
- vNq9Li6URbenwfEx9zyUqkg//JCL4sY31brUMXiwa1diKathh1N3Dx1TTwUlmRep/xXu
- 4CAeHT/uVurQQ7MJdeVMtQUMBtbR6//lbyFUvoeMTli+vqPpXmdcWlvtInvBce9qDBpC
- S88gJBN7rybLv7q50p4n+MXKVv6+Dm9XQwa5stNJioVK0As3TwSfA/oT/6+R5Rt/pBap
- MC4DXu+J3teW7/P3cf8kxnFcrpXUkRV0jDT6OeUFODpYujReDeMn5azZoXl4fU1evjhj
- 1PPw==
-X-Gm-Message-State: APjAAAUI0KBB3XbamO+j7DLncPR7aONFcEYiJc4YLBlJH32dYcBQoECM
- H9UhUUsbKJhww/UpIPdiETS9ED7Th6+nXGUjJEeYw5tCq54HN35kvkjCBW13L/J+NYirg4y8m42
- kAJ7vRE5lFSpYZUs=
-X-Received: by 2002:a05:600c:230d:: with SMTP id
- 13mr327286wmo.13.1575476633260; 
- Wed, 04 Dec 2019 08:23:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzoFwrdUicKLCGUQqrBsC2FVxrG+lTaEvzg61cWLPm1vNon91CH0Ovxt4OsLfpSLXlAn2oIJA==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
- 13mr327269wmo.13.1575476633007; 
- Wed, 04 Dec 2019 08:23:53 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
- ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
- by smtp.gmail.com with ESMTPSA id h124sm7729871wme.30.2019.12.04.08.23.50
+ bh=JB0TVAz+9UHryDP3Z7x+pIufhUFoHIE7WhkCCe/6Tug=;
+ b=Rwy3+qc42qVVzoGeLMx6KCBT6KqXL5w7XKBkPb+IoqFOV8dQXkTb3TdtUh4MKZvMIg
+ zEmLB3qnbe+EkwtO1nGwXr0T198IZgYHsVB4VPevn4ZDEsH1XCOBbweGA+nKH+dgUclR
+ f7piot67OdCWZdh+1mX1dOa89CtGhy+ahKBDiDnoL+tEVsisFmHg/tDEVYMhRHJMOmAu
+ nU99itzBapi4TfmVpdCURYm1PiXQJIY/NUVbFbcP20NaoRS2XInFVmaYcoAe0vMmiLvg
+ N8MXxbd4o2E6+bB6aAo/B4CBNWWYcWSmiLsoMuw0E0ORBeUmgw4JZXF+YHzeO9reIuuW
+ hxoQ==
+X-Gm-Message-State: APjAAAVN0nHa7pEoHuidUYLXuldvBLAmMhCq3YtN69+479AH07TQlCTL
+ cYmamjXpSpdaoAxMAAKF57Ksug==
+X-Google-Smtp-Source: APXvYqw+///S9LhOr1uW6DcEiUQqXoWT864JvfvJRvWznjvN/0keFQkMosrm0rAWDVoVuKhrtjv/Xg==
+X-Received: by 2002:a17:90a:7f89:: with SMTP id
+ m9mr4137316pjl.143.1575476397715; 
+ Wed, 04 Dec 2019 08:19:57 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id 136sm7940957pgg.74.2019.12.04.08.19.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2019 08:23:52 -0800 (PST)
-Subject: Re: [PATCH] target/i386: relax assert when old host kernels don't
- include msrs
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <1575449430-23366-1-git-send-email-catherine.hecx@gmail.com>
- <2ac1a83c-6958-1b49-295f-92149749fa7c@redhat.com>
- <CAEn6zmFex9WJ9jr5-0br7YzQZ=jA5bQn314OM+U=Q6ZGPiCRAg@mail.gmail.com>
- <714a0a86-4301-e756-654f-7765d4eb73db@redhat.com>
- <CAEn6zmHnTLZxa6Qv=8oDUPYpRD=rvGxJOLjd8Qb15k9-3U+CKw@mail.gmail.com>
- <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
- <20191204154730.GB498046@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4bec2f12-63d7-928e-2e3e-137c68b2a435@redhat.com>
-Date: Wed, 4 Dec 2019 17:23:50 +0100
+ Wed, 04 Dec 2019 08:19:56 -0800 (PST)
+Subject: Re: [PATCH v4 14/40] target/arm: Recover 4 bits from TBFLAGs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-15-richard.henderson@linaro.org>
+ <87y2vs8gf1.fsf@linaro.org> <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
+ <8736e084ux.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a86c86f5-3352-46d5-94ec-716156c27968@linaro.org>
+Date: Wed, 4 Dec 2019 08:19:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191204154730.GB498046@habkost.net>
-Content-Language: en-US
-X-MC-Unique: KqvZcqPyPJ2XeGZk3uSfVQ-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <8736e084ux.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,37 +85,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Catherine Ho <catherine.hecx@gmail.com>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/12/19 16:47, Eduardo Habkost wrote:
-> On Wed, Dec 04, 2019 at 04:34:45PM +0100, Paolo Bonzini wrote:
->> On 04/12/19 16:07, Catherine Ho wrote:
->>>> Ok, so the problem is that some MSR didn't exist in that version.  Which
->>> I thought in my platform, the only MSR didn't exist is MSR_IA32_VMX_BASIC
->>> (0x480). If I remove this kvm_msr_entry_add(), everything is ok, the guest can
->>> be boot up successfully.
->>>
->>
->> MSR_IA32_VMX_BASIC was added in kvm-4.10.  Maybe the issue is the
->> _value_ that is being written to the VM is not valid?  Can you check
->> what's happening in vmx_restore_vmx_basic?
+On 12/4/19 7:53 AM, Alex Bennée wrote:
 > 
-> I believe env->features[FEAT_VMX_BASIC] will be initialized to 0
-> if the host kernel doesn't have KVM_CAP_GET_MSR_FEATURES.
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> On 12/4/19 3:43 AM, Alex Bennée wrote:
+> <snip>
+>>>>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns)
+>>>>  {
+>>>> -    DisasContext dc;
+>>>> +    DisasContext dc = { };
+>>>
+>>> We seemed to have dropped an initialise here which seems unrelated.
+>>
+>> Added, not dropped.
+> 
+> But is it related to this patch or fixing another bug?
 
-But the host must have MSR features if the MSRs are added:
+It is related to the patch.
 
-        if (kvm_feature_msrs && cpu_has_vmx(env)) {
-            kvm_msr_entry_add_vmx(cpu, env->features);
-        }
+We used to initialize all of the a32 and m32 fields in DisasContext by
+assignment.  Now we only initialize either the a32 or m32 by assignment,
+because the bits overlap in tbflags.  So zero out the other bits here.
 
-Looks like feature MSRs were backported to 4.14, but
-1389309c811b0c954bf3b591b761d79b1700283d and the previous commit weren't.
+I'll add this to the commit message.
 
-Paolo
 
+r~
 
