@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F30112ECD
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 16:43:52 +0100 (CET)
-Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51D7112F13
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 16:57:10 +0100 (CET)
+Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icWoh-0005Kh-JQ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 10:43:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54837)
+	id 1icX1Z-0004G1-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 10:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1icWm3-0004Mh-70
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:41:08 -0500
+ (envelope-from <thuth@redhat.com>) id 1icWrN-0007MJ-Ap
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:46:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1icWm0-0001WF-Op
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:41:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51892
+ (envelope-from <thuth@redhat.com>) id 1icWrL-0008Rb-I8
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:46:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60806
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icWlu-0000ru-Gt
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:41:00 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icWrL-0008QZ-DZ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:46:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575474053;
+ s=mimecast20190719; t=1575474393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gsagw1tvNaMmWiyIeAFh8VJmbkqzIfypE6P8HwGxgiI=;
- b=Yx7LLFKnD70Cs9BJORGkA9zdw3Asi2DtzrllTChuwy+yi6iVvvCBEw2aIfmLbaluUlv+zL
- SSHDQ30gDjzGTYqeDAtN2dzcrVeAZlAeY4pDTiaoe0o1nLgzljeH1PZPdtszhP2AgcMAnG
- BUrUY3rF4wcAeg6jrvUNUDmuGz0XdAc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uAY0ML2pCQEDKcoFdAWTT5Pb0tF+6Wiqv/yJWxgHCKA=;
+ b=eb76EICzBJ40bUWAM8IcTjuAD+ETnautzD/oK3AO3puDBldyfyGDR/nkqf5uT+RUuU1TeN
+ LIryyPc2llGBCWItP+adEBV0v/yFj1OD3iIaMt8CbWzIQBOdBAL/E21FcrSMNnmEsEevdr
+ PNokpHxn+eCGCVqgyCiQLGM//g2UsNM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-NHEI3qjlMgakTOqoAHsXfg-1; Wed, 04 Dec 2019 10:40:50 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-332-ggpQZeIVM0KWT9PmLJdROg-1; Wed, 04 Dec 2019 10:46:32 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 151FD108BD15;
- Wed,  4 Dec 2019 15:40:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A751C691A3;
- Wed,  4 Dec 2019 15:40:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 386B61138606; Wed,  4 Dec 2019 16:40:47 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6] error: rename errp to errp_in where it is IN-argument
-References: <20191127183704.14825-1-vsementsov@virtuozzo.com>
- <878so05bca.fsf@dusky.pond.sub.org>
- <f901e0db-61df-898f-ce18-096bfeadf525@virtuozzo.com>
- <87mucf218w.fsf@dusky.pond.sub.org>
- <80e563ee-31fb-da43-ddde-c8666e4b92c6@virtuozzo.com>
- <87eexqda3c.fsf@dusky.pond.sub.org>
- <41f32448-f2b8-1822-25df-f02c61df9bc4@virtuozzo.com>
- <878snybrf7.fsf@dusky.pond.sub.org>
- <87blsob5uq.fsf@dusky.pond.sub.org>
- <d1a58207-604b-e6bc-c2c3-a30e692c880a@virtuozzo.com>
-Date: Wed, 04 Dec 2019 16:40:47 +0100
-In-Reply-To: <d1a58207-604b-e6bc-c2c3-a30e692c880a@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Wed, 4 Dec 2019 14:59:36 +0000")
-Message-ID: <8736e0nlog.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E32051005509;
+ Wed,  4 Dec 2019 15:46:30 +0000 (UTC)
+Received: from thuth.com (ovpn-117-39.ams2.redhat.com [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D8F3600C8;
+ Wed,  4 Dec 2019 15:46:20 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2 0/7] Enable Travis builds on arm64, ppc64le and s390x
+Date: Wed,  4 Dec 2019 16:46:11 +0100
+Message-Id: <20191204154618.23560-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: NHEI3qjlMgakTOqoAHsXfg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: ggpQZeIVM0KWT9PmLJdROg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,54 +68,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mdroth@linux.vnet.ibm.com" <mdroth@linux.vnet.ibm.com>
+Cc: qemu-block@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+Travis recently added build hosts for arm64, ppc64le and s390x, so
+this is a welcome addition to our Travis testing matrix.
 
-> 04.12.2019 16:03, Markus Armbruster wrote:
->> Markus Armbruster <armbru@redhat.com> writes:
->>=20
->>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->>>
->>>> 29.11.2019 17:35, Markus Armbruster wrote:
->> [...]
->>>>> I pushed my fixups to git://repo.or.cz/qemu/armbru.git branch error-p=
-rep
->>>>> for your convenience.  The commit messages of the fixed up commits ne=
-ed
->>>>> rephrasing, of course.
->>>>>
->>>>
->>>> Looked through fixups, looks OK for me, thanks! What next?
->>>
->>> Let me finish my fixing incorrect dereferences of errp, and then we
->>> figure out what to include in v7.
->>=20
->> Your v6 with my fixups does not conflict with my "[PATCH v2 00/18] Error
->> handling fixes", except for "hw/core/loader-fit: fix freeing errp in
->> fit_load_fdt", which my "[PATCH v2 07/18] hw/core: Fix fit_load_fdt()
->> error handling violations" supersedes.
->>=20
->> Suggest you work in the fixups and post as v7.  I'll merge that in my
->> tree, to give you a base for the remainder of your "auto propagated
->> local_err" work.  While you work on that, I'll work on getting the base
->> merged into master.  Sounds like a plan?
->>=20
->
-> Yes, that's good. I'll send v7 tomorrow.
->
-> What you suggest to do after it?
-> Send in one series a patch with macro + coccinelle +
-> subset of autogenerated patches, which were reviewed (but not sending hal=
-f
-> a subsystem of course)?
+Unfortunately, the builds are running in quite restricted LXD containers
+there, for example it is not possible to create huge files there (even
+if they are just sparse), and certain system calls are blocked. So we
+have to change some tests first to stop them failing in such environments.
 
-Sounds good to me.
+v2:
+ - Added "make check-tcg" and Alex' patch to disable cross-containers
+ - Explicitely set "dist: xenial" for arm64 and ppc64le since some
+   iotests are crashing on bionic on these hosts.
+ - Dropped "libcap-dev" from the package list since it will be replaced
+   by libcapng-dev soon.
 
-Visibility into the complete work is useful, though.  Having the cover
-letter point to a branch in your public git repo should do.
+Alex Benn=C3=A9e (1):
+  configure: allow disable of cross compilation containers
+
+Thomas Huth (6):
+  iotests: Provide a function for checking the creation of huge files
+  iotests: Skip test 060 if it is not possible to create large files
+  iotests: Skip test 079 if it is not possible to create large files
+  tests/hd-geo-test: Skip test when images can not be created
+  tests/test-util-filemonitor: Skip test on non-x86 Travis containers
+  travis.yml: Enable builds on arm64, ppc64le and s390x
+
+ .travis.yml                   | 86 +++++++++++++++++++++++++++++++++++
+ configure                     |  8 +++-
+ tests/hd-geo-test.c           | 12 ++++-
+ tests/qemu-iotests/005        |  5 +-
+ tests/qemu-iotests/060        |  3 ++
+ tests/qemu-iotests/079        |  3 ++
+ tests/qemu-iotests/220        |  6 +--
+ tests/qemu-iotests/common.rc  | 10 ++++
+ tests/tcg/configure.sh        |  6 ++-
+ tests/test-util-filemonitor.c | 11 +++++
+ 10 files changed, 138 insertions(+), 12 deletions(-)
+
+--=20
+2.18.1
 
 
