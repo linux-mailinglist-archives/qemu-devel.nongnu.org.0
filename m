@@ -2,68 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9650A112070
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 00:51:34 +0100 (CET)
-Received: from localhost ([::1]:60640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF361120FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 02:17:55 +0100 (CET)
+Received: from localhost ([::1]:32834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icHx7-0000F9-Lo
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 18:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39025)
+	id 1icJIf-00054C-Nc
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 20:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51179)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icHom-0004Bc-H0
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:58 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1icIuE-0005Y0-JC
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icHol-0006hE-BF
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:56 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38737)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icHol-0006XW-2r
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 18:42:55 -0500
-Received: by mail-pf1-x442.google.com with SMTP id x185so2633650pfc.5
- for <qemu-devel@nongnu.org>; Tue, 03 Dec 2019 15:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LDEaaXMkISHBRBQq2wWOEn0yi/1F+Nwrnq77hCMsb2U=;
- b=bT2K3/kCLVPgrnXrJUuITCBoXoouDNXGn+ITjOme4r9eyi0eeGLWofgQYgUwyx4hLs
- 8a/4J5RPHckXgp2rdhfxmXy81j/QJjyMR6RxeC/9Di1Wuogp+SbmCCSsAtmayhqS14V1
- VZDS3nftwm+7N4f2wUuC8+4F2vtJJX8r3LPeSZM+XsAsOsZPmzdyBJtD0LuHIlCAQ/Hf
- i7j6UAVrrt8J8IMkHChDqc29pd2QlQHwksR8Riowb5jLAHEyttpki+v5SyYlCCp9tUib
- gxzb4YsGhq/gI2SXkOYe4FLtI4Lluxvzg/8sVf+itPrHUzzCuiAIiPQa9zXkdyoxG+Og
- Scjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=LDEaaXMkISHBRBQq2wWOEn0yi/1F+Nwrnq77hCMsb2U=;
- b=PSq5aqkVJsebGrAb0P50IRcORr6zW+dbd7Zxbp8iW7IRva7xq40+hhFaH9PegTIcVr
- LMw51Xeuwm9MiZfUoqKalQPurbZH3TFSUXR0FBYyn4N8FQNeW8PtHX8kb6sxZ+Wm9nOh
- HDiFdOIUBYY4lXkacWGcLAgWqQ2vSZ1yZuD1sjeUIku5P/oh8nnsGywdPZlE6RKMJFH9
- t+Mii95NgbYCqeKq7d3i93aP6gmSwSPp/So5m5SZQvc0m9Quz45NTPn9jOQWm5f57/qb
- ZyvwOEqhnSzhANdvdrkBxG5PS98N0A6p+5TA4rDH2LJikhqsA1UuU4j7vco6xjholsVl
- olLQ==
-X-Gm-Message-State: APjAAAVpNzH7dazM8IVUQwC+G4aeAK3pWVIkuSLdAGfVXnIWIANdAXkd
- K9xOaaQiQOqiDSAJ7qI3pyG9ejk1Jfc=
-X-Google-Smtp-Source: APXvYqwVJHifGdBZ2XKr61kQnrDwZUvQAdC5IsUGSe4q2WNvsK4vZ5I7zag1G3hmG+/PJwBawNimHw==
-X-Received: by 2002:a62:ed02:: with SMTP id u2mr510848pfh.240.1575416571689;
- Tue, 03 Dec 2019 15:42:51 -0800 (PST)
-Received: from localhost.localdomain (97-113-7-119.tukw.qwest.net.
- [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id k5sm4128256pju.14.2019.12.03.15.42.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 15:42:51 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/arm: Enable ARMv8.2-UAO in -cpu max
-Date: Tue,  3 Dec 2019 15:42:44 -0800
-Message-Id: <20191203234244.9124-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191203234244.9124-1-richard.henderson@linaro.org>
-References: <20191203234244.9124-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::442
+ (envelope-from <Babu.Moger@amd.com>) id 1icIfx-0002kr-AZ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:55 -0500
+Received: from mail-mw2nam10on2073.outbound.protection.outlook.com
+ ([40.107.94.73]:6181 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIfw-0002eK-Ct
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Swj29ePkLaZiyxpVbew4P5jmFXg0MOVWAPyiU3ek03b9PlU0NJt/p3kbRs7haMYaTpxBE64yNyH//Ov1zZTX34LNA8q6G2eNnhk6AtN8W0wYbEeHzGrry6Dh5xSHqfp0ei1VmnxCWD6m41hMZ97vQUpEYiYl5AtwNSQH+nstbb/SPXSJuDAWPHQc+wHfeyLLtTgcsaq75wqNgXy36nvHhtXNRFFIlIyI1PH08eUX/Hd0Rhb0+/3fqCMjG0bC1vXlFkvdKiAJ5i13vQ4mgcPt6oaMlY4an+g30HlzLNpHmplfHqibpJuMHS5dFeVrSZWOu4AYCDA3VZozZK9QicYABg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ix8c/PtEEOOwOANOssRCT/pBUdLDBw3u2WhLzpYRHIM=;
+ b=ZUxiKHe0q6zyk82zaPac2WvB3aVn79FLQqIPa8mZv5RAuoj3RKza5UHJMUiECsQy/M9+uvO7SQrdEQHyh2dOBAzLHvV3TLntHmNlFeVp7j0VPwEdC/kDnlwTkTuGenbEE3l+2uIBuuMuNnqp/oS5F1FUxdtloLCxCkHI7gDn/5D0z8PTSPUKuZodyCVbXvWhK+5xurq1YmgA6kdGfTJfaZXRoryN3X816zDn6Byuw6l+fVRAgDKI0rjPIcTLhv3gqQb8Sp5DDEysVV+QIlWxF94Sw/4MEwTISuJWrhinSpcI4ywtrdud6nkIe+eOhw9dO+dTyeggXpfFw7PyUfTUtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ix8c/PtEEOOwOANOssRCT/pBUdLDBw3u2WhLzpYRHIM=;
+ b=E+FE1dcPShSMJl26lLUsj630PZicTIifeIhbOYKy5Iydpvq5veQ2gsf5rKfJFb1YO6TOqKvgbUuXqkpmXKcPRZivknujP5y9aHTf1bTW8C84jG3viju2ipMo4KuegImItLs+irLvuvcb0iuAeQFWuhVA57dXjQ7WuOt+RO+3wXg=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
+ DM5PR12MB1369.namprd12.prod.outlook.com (10.168.234.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.19; Wed, 4 Dec 2019 00:37:45 +0000
+Received: from DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::d0f5:b875:7b5c:46c3]) by DM5PR12MB2471.namprd12.prod.outlook.com
+ ([fe80::d0f5:b875:7b5c:46c3%6]) with mapi id 15.20.2495.014; Wed, 4 Dec 2019
+ 00:37:45 +0000
+Subject: [PATCH v3 07/18] machine: Add a new function init_apicid_fn in
+ MachineClass
+From: Babu Moger <babu.moger@amd.com>
+To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ pbonzini@redhat.com, rth@twiddle.net, eblake@redhat.com, armbru@redhat.com,
+ imammedo@redhat.com
+Date: Tue, 03 Dec 2019 18:37:42 -0600
+Message-ID: <157541986210.46157.5082551407581177819.stgit@naples-babu.amd.com>
+In-Reply-To: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
+References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
+User-Agent: StGit/unknown-version
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0152.namprd05.prod.outlook.com
+ (2603:10b6:803:2c::30) To DM5PR12MB2471.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::10)
+MIME-Version: 1.0
+X-Originating-IP: [165.204.78.2]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c3adbe13-a5ad-436d-e758-08d778522e60
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1369:|DM5PR12MB1369:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1369E52F40248DE6BDD38424955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 0241D5F98C
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(189003)(199004)(2906002)(25786009)(103116003)(50466002)(6116002)(5660300002)(498600001)(7736002)(3846002)(66476007)(230700001)(66556008)(6666004)(44832011)(4326008)(11346002)(99286004)(14454004)(446003)(6512007)(23676004)(58126008)(81166006)(76176011)(66946007)(386003)(6506007)(305945005)(6436002)(6486002)(81156014)(2486003)(86362001)(8936002)(52116002)(8676002)(26005)(186003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1369;
+ H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ozAqyL4LtRboze/RED0946F157fFWMxmaNroemCvuu3YGr/T5bBtml97lYAtpvK8WiTJUIgucRmxj9TngW0uxDkNEZmI9CVo+H6T5W2AeAo/yz9hg5acD4rlCfmzSwg5I6RbcHHiIzD00wpFHs+4OJHSPYLKsRE1y7Sa9tIqNot94Qjq7q7TDLqkRF9EkMi2alhV/fyxTEXEEXxitXt9HYudqMybZjVU+DWxbuZUtmtb3z8m4b8vaC7oN2iwprapbVmhUQohRjDngx7pFBD2tub6sJYJt7NuG3Yw3tg1z8pcxxdQF6ynrJPTc52V3Apse+UXyC/aoJvKvPiYkSTkCm/9Wqkx9ouc0QypfCD9jHu34DFOtOFeVDEAvMc5STEeor0XELxo9zenX/QCgw+6hooDl6ojGT08qjwgojwKMWBoh5dfEq8XN9+v2X60y7qp
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3adbe13-a5ad-436d-e758-08d778522e60
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:37:45.8717 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cp3TE9NAKVmZWL2BebUVM62d/uqZFvV5Uzs+K1rdfT8DbHlxM432J3qxBhKLb5k5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1369
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.94.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,31 +103,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: babu.moger@amd.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Add a new function init_apicid_fn in MachineClass to initialize the mode
+specific handlers to decode the apic ids.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 9399253b4c..03377084e3 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -674,6 +674,10 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_aa64mmfr1 = t;
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+---
+ include/hw/boards.h |    1 +
+ vl.c                |    3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index d4fab218e6..ce5aa365cb 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -238,6 +238,7 @@ struct MachineClass {
+                                                          unsigned cpu_index);
+     const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+     int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
++    void (*init_apicid_fn)(MachineState *ms);
+ };
  
-+        t = cpu->isar.id_aa64mmfr2;
-+        t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
-+        cpu->isar.id_aa64mmfr2 = t;
-+
-         /* Replicate the same data to the 32-bit id registers.  */
-         u = cpu->isar.id_isar5;
-         u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
--- 
-2.17.1
+ /**
+diff --git a/vl.c b/vl.c
+index a42c24a77f..b6af604e11 100644
+--- a/vl.c
++++ b/vl.c
+@@ -4318,6 +4318,9 @@ int main(int argc, char **argv, char **envp)
+     current_machine->cpu_type = machine_class->default_cpu_type;
+     if (cpu_option) {
+         current_machine->cpu_type = parse_cpu_option(cpu_option);
++        if (machine_class->init_apicid_fn) {
++            machine_class->init_apicid_fn(current_machine);
++        }
+     }
+     parse_numa_opts(current_machine);
+ 
 
 
