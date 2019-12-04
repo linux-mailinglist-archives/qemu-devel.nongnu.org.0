@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50E4112FDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:20:54 +0100 (CET)
-Received: from localhost ([::1]:40916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D24112FEA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:24:19 +0100 (CET)
+Received: from localhost ([::1]:41016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXOX-0000N5-H5
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57113)
+	id 1icXRq-0003oJ-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:24:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1icWyQ-0003To-S8
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:56 -0500
+ (envelope-from <philmd@redhat.com>) id 1icX6B-00083G-5U
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:01:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1icWyP-0003Qf-TB
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:54 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56914
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1icX5z-0006PI-0b
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:01:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33435
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icWyP-0003QS-PO
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:53 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icX5u-0006MC-Gh
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:01:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575474833;
+ s=mimecast20190719; t=1575475290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQTcOZ4HrHsLxErFtodsI45x37pMfjEH1fuBkBccOKQ=;
- b=iSNPhBZowFFEtUGnqAIHqINEXIipx0DET0QuyvCBwjUwE67pq1iykBLR9M40bsWr5RNn1h
- TFwxXvs3ExjtqbEPnX3eRQtt8E3xsKc1VefsppQt/iJ+ClXmffhfFaZeldzQUdGpwyCa+w
- ZXCEGeNO3EwVuQMWQa0/BTwUXuvYluI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-cPgsrf6XPvePoRuGbIbgJQ-1; Wed, 04 Dec 2019 10:53:52 -0500
-Received: by mail-wr1-f72.google.com with SMTP id v17so37284wrm.17
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 07:53:52 -0800 (PST)
+ bh=TNBoqztCstwZYxMByi6xuwbZGax13FXW2xIT8+Xcq8M=;
+ b=RN5s3qkiW7y0Uj5B9U3VMMBEDjxFKlk6I/orSVZ9LHegyNMAFTpXuqtuXAuCo5zTzlF1xF
+ UQqaa4QebPhuBRy611FkTJt1BjltuKZ1j+5SGxdWT5vKYQUK7zRbCVSVB5XqW5rAvTdoRb
+ EGYMEG5yz9CQRo7JZUebW5Vmj8lLZdE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-yy6BvyZ5PN-iLdMTDUUEAQ-1; Wed, 04 Dec 2019 11:01:26 -0500
+Received: by mail-wm1-f71.google.com with SMTP id s25so2257689wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 08:01:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=M/F4oZpC7Pru9u+65cGoAEXtPkLHRwd50zVh2PM0fQ4=;
- b=U235um1y9miv051pLCXnx1Wan04pOFJahxigWVceig+1L1JaxOA467bBOwlzvTjBtk
- I5lSQHNciL6cXXjhAtGTPnsISWpJC31ZmyO5wmNBhDL1/+PxUJz1Arhh1G43FrxeLfGN
- eJ44JR/Lmf901W8iTiCWbQhvHeR7Hrsmqe9BH7daRfwgxtODrkbTFqmaAMwpxkuQuotw
- HhCTFUOcxqxMw/ALwS5oY5zmK6xTEK0RoTL+fW6DJtjgz/QL+kgiLfPiN4kgDIzsDam8
- PPxp953omxpL4tqsOG5OXuOZEp/npHWqZS9ntHyHByAAKaB7WGQUH5TlmEWP1hCfPFby
- KmzQ==
-X-Gm-Message-State: APjAAAU0rs1BwqdNGxpaVi/Y/BEoMV/L0AbQkGnYsADHaW9WRt7dv079
- ipO5eC352jcAqbw2/4b0WpTPKOyGbnOAnNF1pwhb4wUDAniHhL8Qqy5NmABUcu5+7TquWbPYLBL
- 5E3TkaDGWl3BavVk=
-X-Received: by 2002:adf:fbc1:: with SMTP id d1mr4936030wrs.267.1575474830240; 
- Wed, 04 Dec 2019 07:53:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzAC/Phis0uOI1Y9RSOI7OjjCTYyAuLd4CSistpYCl+wt9sEV8DlyC7WIvxEbpCIGkVnzsgeA==
-X-Received: by 2002:adf:fbc1:: with SMTP id d1mr4936016wrs.267.1575474830087; 
- Wed, 04 Dec 2019 07:53:50 -0800 (PST)
+ bh=pjhVVHKV653vzyxTWN9M8SByUKfzybjKDmv3ivyWFl4=;
+ b=s6h5AETk5mHHt99GT4zHyulzccTOfHCHm13Q1D/Gvn62V0Ev4faUcPt4lR9mRvZWw1
+ nULlRNDpKOXsTsKOEspL1hZw6kOftiJujDBZ5j3BUUSv7DBFwKmc4ieqQxqYbr4UVG2E
+ +Ft2IP3mq5nykz4RUK8pft9l7HVcnChd2KxB04e49SdY9YAlKAPGA4VD929T8iAQPZWB
+ VuFC6Il1hdkWfGqcVWIHKcneqzxscthYcDLakrzYYy4k2pkE3VMJZHIuHHwaE1TqeP8E
+ z9+myb13fhCpvMdMT8OusNnmBbul0G4M6ah73gdZrf5q5sArZP4WIRfYPS6vWSVcAMXd
+ Aq5w==
+X-Gm-Message-State: APjAAAW/iBB2MYsmw+FdDmrFVxd+lN6FPtnd34hziTbYcYoEmfdDnsfM
+ Dkzk9C2qL01zEK+CeSFE6+EFNcarW4syuKDd1Pio9/CIj/C4GaHTjQGjiW6AyjaZiub1/3ze3ku
+ cvx1o7+HEdP0r3cQ=
+X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr247898wml.56.1575475284978;
+ Wed, 04 Dec 2019 08:01:24 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzb4UyTbQfuOvfhTggz2jJ981Lkx9EQtn4zy/9Pcsf2mjz7PGjoEQURkcMaPkLcrPwWN1uV8A==
+X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr247860wml.56.1575475284685;
+ Wed, 04 Dec 2019 08:01:24 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id x7sm8527396wrq.41.2019.12.04.07.53.49
+ by smtp.gmail.com with ESMTPSA id j184sm7539314wmb.44.2019.12.04.08.01.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2019 07:53:49 -0800 (PST)
-Subject: Re: [PATCH v2 3/7] iotests: Skip test 079 if it is not possible to
- create large files
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20191204154618.23560-1-thuth@redhat.com>
- <20191204154618.23560-4-thuth@redhat.com>
+ Wed, 04 Dec 2019 08:01:24 -0800 (PST)
+Subject: Re: [PATCH v4 16/40] target/arm: Rearrange ARMMMUIdxBit
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-17-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5be5c047-5777-4f88-407c-20fd2226cb5d@redhat.com>
-Date: Wed, 4 Dec 2019 16:53:48 +0100
+Message-ID: <7f43b552-e450-00f9-6e65-bcd59a6c870b@redhat.com>
+Date: Wed, 4 Dec 2019 17:01:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191204154618.23560-4-thuth@redhat.com>
+In-Reply-To: <20191203022937.1474-17-richard.henderson@linaro.org>
 Content-Language: en-US
-X-MC-Unique: cPgsrf6XPvePoRuGbIbgJQ-1
+X-MC-Unique: yy6BvyZ5PN-iLdMTDUUEAQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,43 +91,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/19 4:46 PM, Thomas Huth wrote:
-> Test 079 fails in the arm64, s390x and ppc64le LXD containers on Travis
-> (which we will hopefully enable in our CI soon). These containers
-> apparently do not allow large files to be created. Test 079 tries to
-> create a 4G sparse file, which is apparently already too big for these
-> containers, so check first whether we can really create such files before
-> executing the test.
+On 12/3/19 3:29 AM, Richard Henderson wrote:
+> Define via macro expansion, so that renumbering of the base ARMMMUIdx
+> symbols is automatically reflexed in the bit definitions.
 >=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tests/qemu-iotests/079 | 3 +++
->   1 file changed, 3 insertions(+)
+>   target/arm/cpu.h | 39 +++++++++++++++++++++++----------------
+>   1 file changed, 23 insertions(+), 16 deletions(-)
 >=20
-> diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
-> index 81f0c21f53..78536d3bbf 100755
-> --- a/tests/qemu-iotests/079
-> +++ b/tests/qemu-iotests/079
-> @@ -39,6 +39,9 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->   _supported_fmt qcow2
->   _supported_proto file nfs
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 5f295c7e60..6ba5126852 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -2886,27 +2886,34 @@ typedef enum ARMMMUIdx {
+>       ARMMMUIdx_Stage1_E1 =3D 1 | ARM_MMU_IDX_NOTLB,
+>   } ARMMMUIdx;
 >  =20
-> +# Some containers (e.g. non-x86 on Travis) do not allow large files
-> +_require_large_file 4G
+> -/* Bit macros for the core-mmu-index values for each index,
+> +/*
+> + * Bit macros for the core-mmu-index values for each index,
+>    * for use when calling tlb_flush_by_mmuidx() and friends.
+>    */
+> +#define TO_CORE_BIT(NAME) \
+> +    ARMMMUIdxBit_##NAME =3D 1 << (ARMMMUIdx_##NAME & ARM_MMU_IDX_COREIDX=
+_MASK)
 > +
->   echo "=3D=3D=3D Check option preallocation and cluster_size =3D=3D=3D"
->   echo
->   cluster_sizes=3D"16384 32768 65536 131072 262144 524288 1048576 2097152=
- 4194304"
+>   typedef enum ARMMMUIdxBit {
+> -    ARMMMUIdxBit_EL10_0 =3D 1 << 0,
+> -    ARMMMUIdxBit_EL10_1 =3D 1 << 1,
+> -    ARMMMUIdxBit_E2 =3D 1 << 2,
+> -    ARMMMUIdxBit_SE3 =3D 1 << 3,
+> -    ARMMMUIdxBit_SE0 =3D 1 << 4,
+> -    ARMMMUIdxBit_SE1 =3D 1 << 5,
+> -    ARMMMUIdxBit_Stage2 =3D 1 << 6,
+> -    ARMMMUIdxBit_MUser =3D 1 << 0,
+> -    ARMMMUIdxBit_MPriv =3D 1 << 1,
+> -    ARMMMUIdxBit_MUserNegPri =3D 1 << 2,
+> -    ARMMMUIdxBit_MPrivNegPri =3D 1 << 3,
+> -    ARMMMUIdxBit_MSUser =3D 1 << 4,
+> -    ARMMMUIdxBit_MSPriv =3D 1 << 5,
+> -    ARMMMUIdxBit_MSUserNegPri =3D 1 << 6,
+> -    ARMMMUIdxBit_MSPrivNegPri =3D 1 << 7,
+> +    TO_CORE_BIT(EL10_0),
+> +    TO_CORE_BIT(EL10_1),
+> +    TO_CORE_BIT(E2),
+> +    TO_CORE_BIT(SE0),
+> +    TO_CORE_BIT(SE1),
+> +    TO_CORE_BIT(SE3),
+> +    TO_CORE_BIT(Stage2),
+> +
+> +    TO_CORE_BIT(MUser),
+> +    TO_CORE_BIT(MPriv),
+> +    TO_CORE_BIT(MUserNegPri),
+> +    TO_CORE_BIT(MPrivNegPri),
+> +    TO_CORE_BIT(MSUser),
+> +    TO_CORE_BIT(MSPriv),
+> +    TO_CORE_BIT(MSUserNegPri),
+> +    TO_CORE_BIT(MSPrivNegPri),
+>   } ARMMMUIdxBit;
+>  =20
+> +#undef TO_CORE_BIT
+> +
+>   #define MMU_USER_IDX 0
+>  =20
+>   static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
 >=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 
