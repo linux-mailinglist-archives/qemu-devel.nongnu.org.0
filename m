@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E061128EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 11:09:59 +0100 (CET)
-Received: from localhost ([::1]:36410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA293112930
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 11:21:35 +0100 (CET)
+Received: from localhost ([::1]:36492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icRbZ-0001BA-VB
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 05:09:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38577)
+	id 1icRmm-0005yI-QE
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 05:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1icR5P-0007Cj-82
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:50 -0500
+ (envelope-from <armbru@redhat.com>) id 1icR5K-0007Bs-Gx
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1icR5E-00004w-4S
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32101
+ (envelope-from <armbru@redhat.com>) id 1icR5E-000051-4j
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43854
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icR5D-0008Mf-Va
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icR5E-0008O5-02
  for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1575452189;
@@ -27,35 +27,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E4N9e38HWdd95QkHzCa+MZyOQk8kGL3rr8n3UF0VKIQ=;
- b=KZJQM1V+IZL0jLNsnv1C24dahWOCOgjHzrN1toaEGomkoJ3sbsyph4nrH7Lda3T6nrbRO0
- Ynw2y/Dvpfyl/oGFVH5DRoraJwdfJA5vw41If/ykSc/W2Z5TAvkIcfYuIRZVglrExNh7an
- eacufnXH7v+vJh29oWGIzcQhq5qdrz4=
+ bh=z5LJs4qmj5nbhlefhQkW8UndCpDHWlAMIMigpcb7EAg=;
+ b=Zc+RSxkLrKIl4vZWD8LabiseQC8WrYTZIttZRqahDaDHFJiw6ZMuw8XrJe9/FvNSC+EV4A
+ vbCusAtIl0EPQwrGfkjwQrLtTITsf1ygyPUDNDhT00nauVfdAl8KD1HzwnlV+g62aXH55y
+ DgEtVtxlysTwGoaHfAVwJvpjMr86B5w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-u0GUppxHO-KEEOmANgB0Gg-1; Wed, 04 Dec 2019 04:36:28 -0500
+ us-mta-100-bC-dmC6TOVy0UdIxbQmB1A-1; Wed, 04 Dec 2019 04:36:28 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 362F78017DF
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36B69800D54
  for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 09:36:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03A49600CC;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 052C1600CD;
  Wed,  4 Dec 2019 09:36:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 85E0D11385C7; Wed,  4 Dec 2019 10:36:25 +0100 (CET)
+ id 888B511366CC; Wed,  4 Dec 2019 10:36:25 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/18] crypto: Fix certificate file error handling crash bug
-Date: Wed,  4 Dec 2019 10:36:08 +0100
-Message-Id: <20191204093625.14836-2-armbru@redhat.com>
+Subject: [PATCH v2 02/18] crypto: Fix typo in QCryptoTLSSession's <example>
+ comment
+Date: Wed,  4 Dec 2019 10:36:09 +0100
+Message-Id: <20191204093625.14836-3-armbru@redhat.com>
 In-Reply-To: <20191204093625.14836-1-armbru@redhat.com>
 References: <20191204093625.14836-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: u0GUppxHO-KEEOmANgB0Gg-1
+X-MC-Unique: bC-dmC6TOVy0UdIxbQmB1A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -77,35 +78,25 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcrypto_tls_creds_load_cert() passes uninitialized GError *gerr by
-reference to g_file_get_contents().  When g_file_get_contents() fails,
-it'll try to set a GError.  Unless @gerr is null by dumb luck, this
-logs a ERROR_OVERWRITTEN_WARNING warning message and leaves @gerr
-unchanged.  qcrypto_tls_creds_load_cert() then dereferences the
-uninitialized @gerr.
-
-Fix by initializing @gerr properly.
-
-Fixes: 9a2fd4347c40321f5cbb4ab4220e759fcbf87d03
 Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- crypto/tlscredsx509.c | 2 +-
+ include/crypto/tlssession.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index 01fc304e5d..53a4368f49 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -380,7 +380,7 @@ qcrypto_tls_creds_load_cert(QCryptoTLSCredsX509 *creds,
-     gnutls_x509_crt_t cert =3D NULL;
-     g_autofree char *buf =3D NULL;
-     gsize buflen;
--    GError *gerr;
-+    GError *gerr =3D NULL;
-     int ret =3D -1;
-     int err;
-=20
+diff --git a/include/crypto/tlssession.h b/include/crypto/tlssession.h
+index e01e1a9dc2..15b9cef086 100644
+--- a/include/crypto/tlssession.h
++++ b/include/crypto/tlssession.h
+@@ -56,7 +56,7 @@
+  *
+  * static int mysock_run_tls(int sockfd,
+  *                           QCryptoTLSCreds *creds,
+- *                           Error *errp)
++ *                           Error **errp)
+  * {
+  *    QCryptoTLSSession *sess;
+  *
 --=20
 2.21.0
 
