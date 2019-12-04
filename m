@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C30112107
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 02:32:29 +0100 (CET)
-Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0591411211F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 02:47:49 +0100 (CET)
+Received: from localhost ([::1]:33000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icJWm-00023A-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 20:32:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51461)
+	id 1icJla-0000NN-J5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 20:47:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1icIuI-0005YD-Ef
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:44 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1icIuJ-0005bI-Ot
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1icIfX-0001DH-LJ
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:29 -0500
-Received: from mail-dm6nam11on2061.outbound.protection.outlook.com
- ([40.107.223.61]:6222 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (envelope-from <Babu.Moger@amd.com>) id 1icIfi-0001sp-Ou
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:40 -0500
+Received: from mail-dm6nam11on2075.outbound.protection.outlook.com
+ ([40.107.223.75]:13319 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIfW-0001AY-7F
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:27 -0500
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIfi-0001pO-Eo
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:38 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wl/xAjS/wniMjRPAFmsK6O5YQf7c0z4vMipkcaXROkrgGuwGpus+pWo+nwczVH5KXWPRWjIOTm7EgzIPHYpZmDnzjNPjZW3VXVWJ3SfLDAcCRKWLTX/axYFqSXaAQrw0bsQdD7hN3U5IajOF1XSt/ZoncV/Key9bcrWk6rl2fCnfw4qT69MnzHwwiDzJ7b4xoEZUxlA9Vj91sUy/XOEOnBVn/4gSz9vM7HC7+UPbra0hULuQVzw1oWjj8dLj5IOMWgo5rRC3/15xGxRDaY6j01m+8j49fH5/dMsnm2bdFL4DzLgECKxgXN9WEyLHekVbx5DkMz7A2TQXgJ1Yqgj4TQ==
+ b=P9e7Rg651eOdVIxkz5UHedATUWvqHGezQTZoqSaMQmmckqFvI5riXmbQdzmtnInmzu+/UZ5uor6aDVMWBpRXWF6loPVQEOwkDFpzZ5nLDzbnGQxBdg6vDcYK0Qq4r14R32iREHZs8lAGtJsDFxFdoBuAQbg2Q/HkPBEnrILaYTm2mGdQXRLfl03eebFEG6VVptdeGqfLjHYeoIw3vRAOgQIQ7UAyk9z57sPFwpyPU/Zamt5cGAtrQl3vVAa1irQ38K5qySgJGDgr3ibmCCFLb8zZ5Y8E708PAW8PB0AcmB49vwAHxGZ9b6nHFzhHpWfRQ00TbM3iApMs4PB+XLKb6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ua9A1tRz+0vUqQy2lFi7dWTDkEQ2fItwHy7U291g3LE=;
- b=RTZK6oTzoUEJr3RDakm2aE/7MqF7GRLgmJypTkx3HM1HHHUrSRxHf3IgbchrMNW0AwoWmfSrfFQfNoTWacPnPkvZJ0WT2UAzOT0XFjDDlwlIHnjSvymlT7IqL6jaXPJ/jvPERniQVObYm4CN76woKzqs7//2JZ39iHDqBt8rAa7e2C+ZTT3Dnbxr8/u0MjiRFnPaBiX8ZhU/wbu5HmfbRD5ZJbB7KUKSVaM+wLNcv5GAzW5vp0uTlIFbjoAwvUoBxGcdnvfq4N9DLQUCA4fltzZbRJiLpf8+UVFECCYqglHfoIQJHGKmEaxG/Y6MlsRChan/D4Sl4xa3Blk1Xcsa0Q==
+ bh=i9jftLSw0ZOJ33nKRFRwXhtiLUno4ZEmOhZyfyRSmgc=;
+ b=EMIUZI++0sFSEkn/ml6giuFKYSXPqM6a6JsmKTG86KNlCf0uB/nbPtKCv6aB8i6tArdV5fm9tBzckMfBrCfg4UReAkaItJaBTqUz41xkwyolnVqmjm+UzjjyD35TZ7Qdli498JLCkjd5QvTh2Vto0NnFKeyt6j66RvVpvlOlkUaWbUbN459LT+CdLNQHEMFFIzVVwIzcenBSlMCHkN5OI16m6skSiKmeREjjG+yCjuLMIbM44qQZ+17YDbmvNMy4ys4EGFcys0C4okB/PlUP7XN+AFEyQ4qLAc3u1oWfXE19Pia8UUBuTVe7/quIrsHpxW/oOZ5kKMI+bleqKif8aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ua9A1tRz+0vUqQy2lFi7dWTDkEQ2fItwHy7U291g3LE=;
- b=dbwsC8yzgAGRVy8QcBH1BLUMerIA1RGdiWHaxv6Fdq9A5LIc5W3VGPd6nS7Aiak8f+Ahaorci0xCCafLJSjXdMuFAV34GAT3fCE4dPyGHQG99y2u9vALAQyzHoZzatuuL9FwcONZ6eWnteeKDCtNe8fHO/QxtDclrdeyonFjanY=
+ bh=i9jftLSw0ZOJ33nKRFRwXhtiLUno4ZEmOhZyfyRSmgc=;
+ b=ReW4PP41KGvZgSZou0GnGhiMGuYlSmfu1H0njRKFOQ/dyytRZbnhx0naHk+GD4SCHqhtgP1Yq/fzUoa0nJ1R9ninJFg3+dmi1F1MJZZecfyJo5KBW7nAjS5Ks8wNDt+aY45plHPA6fvZLW/ayebaxHfiim94mN/8XgjK1Gp9Dlc=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Babu.Moger@amd.com; 
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
  DM5PR12MB1369.namprd12.prod.outlook.com (10.168.234.147) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.19; Wed, 4 Dec 2019 00:37:23 +0000
+ 15.20.2495.19; Wed, 4 Dec 2019 00:37:37 +0000
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::d0f5:b875:7b5c:46c3]) by DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::d0f5:b875:7b5c:46c3%6]) with mapi id 15.20.2495.014; Wed, 4 Dec 2019
- 00:37:23 +0000
-Subject: [PATCH v3 04/18] hw/i386: Introduce initialize_topo_info to
- initialize X86CPUTopoInfo
+ 00:37:36 +0000
+Subject: [PATCH v3 06/18] hw/core: Add core complex id in X86CPU topology
 From: Babu Moger <babu.moger@amd.com>
 To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  pbonzini@redhat.com, rth@twiddle.net, eblake@redhat.com, armbru@redhat.com,
  imammedo@redhat.com
-Date: Tue, 03 Dec 2019 18:37:21 -0600
-Message-ID: <157541984181.46157.12341489595513709747.stgit@naples-babu.amd.com>
+Date: Tue, 03 Dec 2019 18:37:35 -0600
+Message-ID: <157541985531.46157.16935250205964640126.stgit@naples-babu.amd.com>
 In-Reply-To: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
 References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN1PR12CA0084.namprd12.prod.outlook.com
- (2603:10b6:802:21::19) To DM5PR12MB2471.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN6PR05CA0012.namprd05.prod.outlook.com
+ (2603:10b6:805:de::25) To DM5PR12MB2471.namprd12.prod.outlook.com
  (2603:10b6:4:b5::10)
 MIME-Version: 1.0
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5900a764-c3e1-4e59-cdd1-08d7785220f0
+X-MS-Office365-Filtering-Correlation-Id: 3618d264-d407-46e1-9fcf-08d7785228fc
 X-MS-TrafficTypeDiagnostic: DM5PR12MB1369:|DM5PR12MB1369:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1369B89B42907566045C6321955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1369A5BCEA3EC36F6F0F20F6955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
 X-Forefront-PRVS: 0241D5F98C
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10009020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(189003)(199004)(2906002)(25786009)(103116003)(50466002)(6116002)(5660300002)(478600001)(7736002)(3846002)(66476007)(230700001)(66556008)(44832011)(4326008)(11346002)(99286004)(14454004)(446003)(6512007)(23676004)(316002)(58126008)(81166006)(76176011)(66946007)(386003)(6506007)(305945005)(6436002)(6486002)(81156014)(2486003)(86362001)(8936002)(52116002)(8676002)(26005)(186003);
@@ -81,17 +80,17 @@ Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MYsQ8mvGNP5VEfXVnnwb6tPEhNui1RU/DUEshq/VCmWINkai7PDguSFwL4Yca9WvyA0rwEf1jNt3vRToXUGSSj0qVZhLG53GpwG5PxT+sO+kSWQEsPcXVN2J/WuV1eKotsfWMDkAp9zh96x4asrMSLIcabGIGbxZh0/vhRi3TYoePYDGSs1iW3gII8rSrBWmeZStTJuTbx6gNckC/bI2X8pLFmpXv/7+7d4xOA+o+GSzp6F1CBwxSQf2u1LB2Jw+qSilbgfrEW4jx+ef4JGmGDakrUSiNzfnyDH7OREuJDM4+sfubmZzavT5ncH/BZkcjlNfZnfGh8IzpS3+yxYzmSC3YiRmQQ9EkaALEAup23XxHrAZa8wYVtvjxlwbPwvCxPnmk5GBISfPY8nbxAnhJlDTFgUCRgM58hrCMFW/AEzmEFw1ljDGFtBqi+HWRPJc
+X-Microsoft-Antispam-Message-Info: wmd2Pt44fuxGbEnM7WSiHeMJ8Lr/rf7Ftsztdx47JYhPKCDulffNKbR7EuTqxlyuzeURsouhLkGdSWwyJFZvHY95PMP082LE7Tyt9sYIKPcTsZBxVHq66RBtvHhQSurAx6iY0thzGF5/qHPieimTGIziZh4Ntq6clQk/9M41Aua/s1vaK5EF6GMcW17cPJfQMD+qc13X7NpYZgBofFZp9uYbfeHpqwt34/oGFV4iLi47sAnFP3i1kVgpIOWwKClFwJizfe4ydkMxHVZZeDymGwICNBYWDKFDwYOTumWh+IvzMG1fJajEqyOL9LFfFgPFOmYeL2gUQ7cmMz+0MjQ6ND8DFqPA0tpjFKzN/A5fM9HH4l40JKkriqySygoSbDxu+UiMkB79snabfIGEo/nWwYVtjEgLG3l1xI8OtxMhGUGCqmgg7B3X/GKf+TIPFMnE
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5900a764-c3e1-4e59-cdd1-08d7785220f0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:37:23.3277 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3618d264-d407-46e1-9fcf-08d7785228fc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:37:36.8319 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uJoop35C7leur2UtDgO758PnHmQFFBr38amw5KwsNP2kUlAu1t/eSgMqLM0bBEAp
+X-MS-Exchange-CrossTenant-UserPrincipalName: lpl/ydD3NF9mrxlAIHx1eUxkzS16NDiMrDD7IopCHE9VdJFrwyr51e/OPHD+3j4g
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1369
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.223.61
+X-Received-From: 40.107.223.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,87 +106,175 @@ Cc: babu.moger@amd.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize all the parameters in one function initialize_topo_info.
+Introduce last level cache id(llc_id) in x86CPU topology.  This information is
+required to build the topology in EPIC mode.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c |   28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ hw/core/machine-hmp-cmds.c |    3 +++
+ hw/core/machine.c          |   13 +++++++++++++
+ hw/i386/pc.c               |   10 ++++++++++
+ include/hw/i386/topology.h |    1 +
+ qapi/machine.json          |    7 +++++--
+ target/i386/cpu.c          |    2 ++
+ target/i386/cpu.h          |    1 +
+ 7 files changed, 35 insertions(+), 2 deletions(-)
 
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index cd970cc4c5..59c91d1ce1 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -90,6 +90,9 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict)
+         if (c->has_die_id) {
+             monitor_printf(mon, "    die-id: \"%" PRIu64 "\"\n", c->die_id);
+         }
++        if (c->has_llc_id) {
++            monitor_printf(mon, "    llc-id: \"%" PRIu64 "\"\n", c->llc_id);
++        }
+         if (c->has_core_id) {
+             monitor_printf(mon, "    core-id: \"%" PRIu64 "\"\n", c->core_id);
+         }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index e59b181ead..ff991e6ab5 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -683,6 +683,11 @@ void machine_set_cpu_numa_node(MachineState *machine,
+             return;
+         }
+ 
++        if (props->has_llc_id && !slot->props.has_llc_id) {
++            error_setg(errp, "llc-id is not supported");
++            return;
++        }
++
+         /* skip slots with explicit mismatch */
+         if (props->has_thread_id && props->thread_id != slot->props.thread_id) {
+                 continue;
+@@ -696,6 +701,10 @@ void machine_set_cpu_numa_node(MachineState *machine,
+                 continue;
+         }
+ 
++        if (props->has_llc_id && props->llc_id != slot->props.llc_id) {
++                continue;
++        }
++
+         if (props->has_socket_id && props->socket_id != slot->props.socket_id) {
+                 continue;
+         }
+@@ -1034,6 +1043,10 @@ static char *cpu_slot_to_string(const CPUArchId *cpu)
+     if (cpu->props.has_die_id) {
+         g_string_append_printf(s, "die-id: %"PRId64, cpu->props.die_id);
+     }
++
++    if (cpu->props.has_llc_id) {
++        g_string_append_printf(s, "llc-id: %"PRId64, cpu->props.llc_id);
++    }
+     if (cpu->props.has_core_id) {
+         if (s->len) {
+             g_string_append_printf(s, ", ");
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8c23b1e8c9..cafbdafa76 100644
+index 17de152a77..df5339c102 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -866,6 +866,15 @@ static void handle_a20_line_change(void *opaque, int irq, int level)
-     x86_cpu_set_a20(cpu, level);
- }
+@@ -2294,6 +2294,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
  
-+static inline void initialize_topo_info(X86CPUTopoInfo *topo_info,
-+                                        PCMachineState *pcms,
-+                                        const MachineState *ms)
-+{
-+    topo_info->dies_per_pkg = pcms->smp_dies;
-+    topo_info->cores_per_die = ms->smp.cores;
-+    topo_info->threads_per_core = ms->smp.threads;
-+}
-+
- /* Calculates initial APIC ID for a specific CPU index
-  *
-  * Currently we need to be able to calculate the APIC ID from the CPU index
-@@ -882,9 +891,7 @@ static uint32_t x86_cpu_apic_id_from_index(PCMachineState *pcms,
-     uint32_t correct_id;
-     static bool warned;
- 
--    topo_info.dies_per_pkg = pcms->smp_dies;
--    topo_info.cores_per_die = ms->smp.cores;
--    topo_info.threads_per_core = ms->smp.threads;
-+    initialize_topo_info(&topo_info, pcms, ms);
- 
-     correct_id = x86_apicid_from_cpu_idx(&topo_info, cpu_index);
-     if (pcmc->compat_apic_id_mode) {
-@@ -2231,9 +2238,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
-         return;
+         topo_ids.pkg_id = cpu->socket_id;
+         topo_ids.die_id = cpu->die_id;
++        topo_ids.llc_id = cpu->llc_id;
+         topo_ids.core_id = cpu->core_id;
+         topo_ids.smt_id = cpu->thread_id;
+         cpu->apic_id = apicid_from_topo_ids(&topo_info, &topo_ids);
+@@ -2339,6 +2340,13 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
      }
+     cpu->die_id = topo_ids.die_id;
  
--    topo_info.dies_per_pkg = pcms->smp_dies;
--    topo_info.cores_per_die = smp_cores;
--    topo_info.threads_per_core = smp_threads;
-+    initialize_topo_info(&topo_info, pcms, ms);
- 
-     env->nr_dies = pcms->smp_dies;
- 
-@@ -2702,9 +2707,7 @@ static int64_t pc_get_default_cpu_node_id(const MachineState *ms, int idx)
-    PCMachineState *pcms = PC_MACHINE(ms);
-    X86CPUTopoInfo topo_info;
- 
--   topo_info.dies_per_pkg = pcms->smp_dies;
--   topo_info.cores_per_die = ms->smp.cores;
--   topo_info.threads_per_core = ms->smp.threads;
-+   initialize_topo_info(&topo_info, pcms, ms);
- 
-    assert(idx < ms->possible_cpus->len);
-    x86_topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
-@@ -2719,10 +2722,6 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
-     X86CPUTopoInfo topo_info;
-     int i;
- 
--    topo_info.dies_per_pkg = pcms->smp_dies;
--    topo_info.cores_per_die = ms->smp.cores;
--    topo_info.threads_per_core = ms->smp.threads;
--
-     if (ms->possible_cpus) {
-         /*
-          * make sure that max_cpus hasn't changed since the first use, i.e.
-@@ -2734,6 +2733,9 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
- 
-     ms->possible_cpus = g_malloc0(sizeof(CPUArchIdList) +
-                                   sizeof(CPUArchId) * max_cpus);
++    if (cpu->llc_id != -1 && cpu->llc_id != topo_ids.llc_id) {
++        error_setg(errp, "property llc-id: %u doesn't match set apic-id:"
++            " 0x%x (llc-id: %u)", cpu->llc_id, cpu->apic_id, topo_ids.llc_id);
++        return;
++    }
++    cpu->llc_id = topo_ids.llc_id;
 +
-+    initialize_topo_info(&topo_info, pcms, ms);
-+
-     ms->possible_cpus->len = max_cpus;
-     for (i = 0; i < ms->possible_cpus->len; i++) {
-         X86CPUTopoIDs topo_ids;
+     if (cpu->core_id != -1 && cpu->core_id != topo_ids.core_id) {
+         error_setg(errp, "property core-id: %u doesn't match set apic-id:"
+             " 0x%x (core-id: %u)", cpu->core_id, cpu->apic_id, topo_ids.core_id);
+@@ -2752,6 +2760,8 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
+             ms->possible_cpus->cpus[i].props.has_die_id = true;
+             ms->possible_cpus->cpus[i].props.die_id = topo_ids.die_id;
+         }
++        ms->possible_cpus->cpus[i].props.has_llc_id = true;
++        ms->possible_cpus->cpus[i].props.llc_id = topo_ids.llc_id;
+         ms->possible_cpus->cpus[i].props.has_core_id = true;
+         ms->possible_cpus->cpus[i].props.core_id = topo_ids.core_id;
+         ms->possible_cpus->cpus[i].props.has_thread_id = true;
+diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+index ba52d49079..1238006208 100644
+--- a/include/hw/i386/topology.h
++++ b/include/hw/i386/topology.h
+@@ -48,6 +48,7 @@ typedef uint32_t apic_id_t;
+ typedef struct X86CPUTopoIDs {
+     unsigned pkg_id;
+     unsigned die_id;
++    unsigned llc_id;
+     unsigned core_id;
+     unsigned smt_id;
+ } X86CPUTopoIDs;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index ca26779f1a..1ca5b73418 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -646,9 +646,11 @@
+ # @node-id: NUMA node ID the CPU belongs to
+ # @socket-id: socket number within node/board the CPU belongs to
+ # @die-id: die number within node/board the CPU belongs to (Since 4.1)
+-# @core-id: core number within die the CPU belongs to# @thread-id: thread number within core the CPU belongs to
++# @llc-id: last level cache number within node/board the CPU belongs to (Since 4.2)
++# @core-id: core number within die the CPU belongs to
++# @thread-id: thread number within core the CPU belongs to
+ #
+-# Note: currently there are 5 properties that could be present
++# Note: currently there are 6 properties that could be present
+ # but management should be prepared to pass through other
+ # properties with device_add command to allow for future
+ # interface extension. This also requires the filed names to be kept in
+@@ -660,6 +662,7 @@
+   'data': { '*node-id': 'int',
+             '*socket-id': 'int',
+             '*die-id': 'int',
++            '*llc-id': 'int',
+             '*core-id': 'int',
+             '*thread-id': 'int'
+   }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index bc9b491557..3c81aa3ecd 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6222,12 +6222,14 @@ static Property x86_cpu_properties[] = {
+     DEFINE_PROP_INT32("thread-id", X86CPU, thread_id, 0),
+     DEFINE_PROP_INT32("core-id", X86CPU, core_id, 0),
+     DEFINE_PROP_INT32("die-id", X86CPU, die_id, 0),
++    DEFINE_PROP_INT32("llc-id", X86CPU, llc_id, 0),
+     DEFINE_PROP_INT32("socket-id", X86CPU, socket_id, 0),
+ #else
+     DEFINE_PROP_UINT32("apic-id", X86CPU, apic_id, UNASSIGNED_APIC_ID),
+     DEFINE_PROP_INT32("thread-id", X86CPU, thread_id, -1),
+     DEFINE_PROP_INT32("core-id", X86CPU, core_id, -1),
+     DEFINE_PROP_INT32("die-id", X86CPU, die_id, -1),
++    DEFINE_PROP_INT32("llc-id", X86CPU, llc_id, -1),
+     DEFINE_PROP_INT32("socket-id", X86CPU, socket_id, -1),
+ #endif
+     DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index af57fda8e5..a56d44e405 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1711,6 +1711,7 @@ struct X86CPU {
+     int32_t node_id; /* NUMA node this CPU belongs to */
+     int32_t socket_id;
+     int32_t die_id;
++    int32_t llc_id;
+     int32_t core_id;
+     int32_t thread_id;
+ 
 
 
