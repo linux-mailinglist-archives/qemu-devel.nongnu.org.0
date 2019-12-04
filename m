@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16201123A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 08:47:35 +0100 (CET)
-Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55EE1123EF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 08:57:14 +0100 (CET)
+Received: from localhost ([::1]:34988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icPNl-0006A3-GN
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 02:47:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42087)
+	id 1icPX5-0007uz-CB
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 02:57:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1icPAB-0001hF-6i
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:32 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1icPAE-0001jW-8R
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1icPA9-00018x-55
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:30 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:55858 helo=huawei.com)
+ (envelope-from <pannengyuan@huawei.com>) id 1icPAD-0001By-4G
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:34 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:60714 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1icPA7-000152-3l
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:28 -0500
+ id 1icPAB-00016g-2Y
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 02:33:31 -0500
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id C38097AC94EA251886D2;
- Wed,  4 Dec 2019 15:33:20 +0800 (CST)
+ by Forcepoint Email with ESMTP id C67153C20B4AC2A03616;
+ Wed,  4 Dec 2019 15:33:25 +0800 (CST)
 Received: from HGHY2P002143101.china.huawei.com (10.184.39.213) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 4 Dec 2019 15:33:14 +0800
+ 14.3.439.0; Wed, 4 Dec 2019 15:33:15 +0800
 From: <pannengyuan@huawei.com>
 To: <mst@redhat.com>
-Subject: [PATCH v2 1/3] virtio: add ability to delete vq through a pointer
-Date: Wed, 4 Dec 2019 15:31:54 +0800
-Message-ID: <1575444716-17632-1-git-send-email-pannengyuan@huawei.com>
+Subject: [PATCH v2 2/3] virtio-balloon: fix memory leak while attach
+ virtio-balloon device
+Date: Wed, 4 Dec 2019 15:31:55 +0800
+Message-ID: <1575444716-17632-2-git-send-email-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.7.2.windows.1
+In-Reply-To: <1575444716-17632-1-git-send-email-pannengyuan@huawei.com>
+References: <1575444716-17632-1-git-send-email-pannengyuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.184.39.213]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,64 +62,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Devices tend to maintain vq pointers, allow deleting them trough a vq pointer.
+ivq/dvq/svq/free_page_vq is forgot to cleanup in
+virtio_balloon_device_unrealize, the memory leak stack is as follow:
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+    #0 0x7f99fd9d8560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
+    #1 0x7f99fcb20015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
+    #2 0x557d90638437 in virtio_add_queue hw/virtio/virtio.c:2327
+    #3 0x557d9064401d in virtio_balloon_device_realize hw/virtio/virtio-balloon.c:793
+    #4 0x557d906356f7 in virtio_device_realize hw/virtio/virtio.c:3504
+    #5 0x557d9073f081 in device_set_realized hw/core/qdev.c:876
+    #6 0x557d908b1f4d in property_set_bool qom/object.c:2080
+    #7 0x557d908b655e in object_property_set_qobject qom/qom-qobject.c:26
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 ---
-Changes v2 to v1:
-- add a new function virtio_delete_queue to cleanup vq through a vq pointer
+Change v2 to v1:
+- use virtio_delete_queue to cleanup vq through a vq pointer (suggested by
+  Michael S. Tsirkin)
 ---
- hw/virtio/virtio.c         | 16 +++++++++++-----
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ hw/virtio/virtio-balloon.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 04716b5..6de3cfd 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2330,17 +2330,23 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
-     return &vdev->vq[i];
- }
- 
-+void virtio_delete_queue(VirtQueue *vq)
-+{
-+    vq->vring.num = 0;
-+    vq->vring.num_default = 0;
-+    vq->handle_output = NULL;
-+    vq->handle_aio_output = NULL;
-+    g_free(vq->used_elems);
-+    vq->used_elems = NULL;
-+}
-+
- void virtio_del_queue(VirtIODevice *vdev, int n)
- {
-     if (n < 0 || n >= VIRTIO_QUEUE_MAX) {
-         abort();
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 40b04f5..57f3b9f 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -831,6 +831,13 @@ static void virtio_balloon_device_unrealize(DeviceState *dev, Error **errp)
      }
- 
--    vdev->vq[n].vring.num = 0;
--    vdev->vq[n].vring.num_default = 0;
--    vdev->vq[n].handle_output = NULL;
--    vdev->vq[n].handle_aio_output = NULL;
--    g_free(vdev->vq[n].used_elems);
-+    virtio_delete_queue(&vdev->vq[n]);
+     balloon_stats_destroy_timer(s);
+     qemu_remove_balloon_handler(s);
++
++    virtio_delete_queue(s->ivq);
++    virtio_delete_queue(s->dvq);
++    virtio_delete_queue(s->svq);
++    if (s->free_page_vq) {
++        virtio_delete_queue(s->free_page_vq);
++    }
+     virtio_cleanup(vdev);
  }
  
- static void virtio_set_isr(VirtIODevice *vdev, int value)
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index c32a815..e18756d 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -183,6 +183,8 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
- 
- void virtio_del_queue(VirtIODevice *vdev, int n);
- 
-+void virtio_delete_queue(VirtQueue *vq);
-+
- void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
-                     unsigned int len);
- void virtqueue_flush(VirtQueue *vq, unsigned int count);
 -- 
 2.7.2.windows.1
 
