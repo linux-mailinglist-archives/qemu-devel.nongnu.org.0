@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D4F112A16
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:26:19 +0100 (CET)
-Received: from localhost ([::1]:37016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3370C112A5C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:39:42 +0100 (CET)
+Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icSnP-0008KU-Dk
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:26:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53300)
+	id 1icT0O-0005qy-6n
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:39:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1icS3T-0007Id-7x
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:38:48 -0500
+ (envelope-from <philmd@redhat.com>) id 1icRO9-0005Ec-CW
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:56:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1icS3Q-0006FQ-BT
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:38:45 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42894)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1icS3P-0006Bp-Pi
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:38:44 -0500
-Received: by mail-wr1-x441.google.com with SMTP id a15so7907483wrf.9
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 02:38:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=xIoqR+lEwHYliMr6zAOom4U0hXtVp/tMWha4w4SUc+Q=;
- b=LAaQlRQVou0ODtdFVX3A6NtyQQn3Lvbsjf/0LX23o3a1BMWu9hik+CKhrpTGzCUXuk
- 27x+4i02GVYlkwSeBzV81sZGN56xSWCmT+AbGZyIWHPZwqPH3LWRreVgEQ4CsQz1golY
- NIV9/SsNLY9bntt7RImdKwmEs3EzT5ydLkxMiwppn7uC3NdtPrlSY4J9Uxmph3npKmUM
- elFH9KcDyx6NKgH2b7zHDwID758ohxF99JDCqjjAOYb9YdLJXnXB6TQ5XVqda5LbL5QJ
- jCbKy3JnMNxhDCaqoEKfs1KTcQ84YSngxpU22NLsGhmNt7Cnr86jwEh1pHcdEU8YLSS1
- DpYw==
+ (envelope-from <philmd@redhat.com>) id 1icRLv-0003eE-OI
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:53:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20489
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icRLv-0003Yn-JI
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:53:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575453226;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0dwGLHg0baVBbBxWdrAAkf8RroB3yMWuAT5RxiT1E98=;
+ b=dDkqwAiEZoEOmSghJwrZnW4Bk/GBYHG2FVLl8UMs2Dyco1lo5LwJRSWqLePObTEmrKxdGd
+ 1j0kOYUKMrlNpYkySPbO5gQiI8zZ39GnmSip2ySepwsW5HzBElLbNVTqQfj+pR/P655qRv
+ cH/SChfUXH0yc0pwCx6vYdm0qvFggoc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-DptTU0ncPY6G_F8fURfOjg-1; Wed, 04 Dec 2019 04:53:45 -0500
+Received: by mail-wr1-f70.google.com with SMTP id j13so3056876wrr.20
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 01:53:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=xIoqR+lEwHYliMr6zAOom4U0hXtVp/tMWha4w4SUc+Q=;
- b=KfbLVaQ3ZLfx6aRjn4KXbs089MLMB/Roby9vBbzmoOPxMpYKaqsSIu5PtBpq8hpMao
- 9urgUbIcBP9CVLWmq8jF/0xL027pd4bvO3kqJrGt0tEKLhfCA/sCQc/kgn9A0XuDVowb
- GAtZTA2ZL+wxIYIkuqIJVFniHO0GGt6ZpI3WRITIpnryv5CdNodX0M3qUbbXb3p4rWOP
- voZubm1482Fmcl/fsDNqJfVm/4kj0CQX70kJBNM9tDsfgidrbBl+5J8l1oy7BPQTgu5b
- WLOCGMGHpecaNpKmxYIXMlBwhR2MW+zRGpRRm7P4619R1rRjGBTBG6HApOhdUgym7ID4
- VW5g==
-X-Gm-Message-State: APjAAAX87NwuiNcIKUvyFCTbAM1as0gAAJjYmjupMJk6JhmTvIViaVhs
- WXSXtGXFytbaOxVlk47stVKkBg==
-X-Google-Smtp-Source: APXvYqykiVjJNlDujv5g1x9L+qPBLz5b9EzLRvoffvaqPx3hkr199A+R4mpFZ9p/HHj+2s0Ox5IP2A==
-X-Received: by 2002:adf:de84:: with SMTP id w4mr3030165wrl.97.1575455918619;
- Wed, 04 Dec 2019 02:38:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q144sm519200wme.46.2019.12.04.02.38.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 02:38:37 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A6EA71FF87;
- Wed,  4 Dec 2019 10:38:36 +0000 (GMT)
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-9-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 08/40] target/arm: Rename ARMMMUIdx*_S12NSE* to
- ARMMMUIdx*_E10_*
-In-reply-to: <20191203022937.1474-9-richard.henderson@linaro.org>
-Date: Wed, 04 Dec 2019 10:38:36 +0000
-Message-ID: <87fti09xzn.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0dwGLHg0baVBbBxWdrAAkf8RroB3yMWuAT5RxiT1E98=;
+ b=uJMHwClECChmKnQGA6reGksG+Dtnu86y0m/D0i4ncoWzBxVJOOilYjT33HpxPjeR+I
+ WAm8on+sex/4jI3URW2FbhpMut57nFEqX18jxgjKGGUUnjsHF8tX0+OnwjQofyGdcVRu
+ 7Gu7aSx/6oAbHaPFET9kaP5ShLFOZ40iNR2tO2qRarU9Vc0ACSOmqfiKZ0bi6jdq1622
+ ly3Ln3Za9LRJhjxEldUqseXfk01J6TDR6X8R98o2YyjU+X9N6ilrFskw+yCVOWeCH5Qk
+ TPwuNteXSoZ0/GK5yjWMiG7AwzLeWptfx6feyBHBv2NDI3IgXRxgknOezcbJypBntulP
+ ZY7w==
+X-Gm-Message-State: APjAAAWczCAYlmdEfrAjfFUGsHfh0iCrQBF1dE8NMp6tblKv1n0wotEL
+ olYBedccTNESut+jRjGwPOQmP93jliNxtrkTTecW/p/oT3M0WRREm8f6ch3G/sAyEGUZ5LMKaZK
+ OJi1lkWyOjQ1wzhw=
+X-Received: by 2002:adf:ea8a:: with SMTP id s10mr2942142wrm.278.1575453223873; 
+ Wed, 04 Dec 2019 01:53:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzKjVeX6p5sK6geDepDnzyjqoq2fWYNHA/bDrKnnUO07emB2SMpMqnixhvjcNd6UuT4xECv4w==
+X-Received: by 2002:adf:ea8a:: with SMTP id s10mr2942113wrm.278.1575453223568; 
+ Wed, 04 Dec 2019 01:53:43 -0800 (PST)
+Received: from [10.201.33.36] ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id k19sm6024344wmi.42.2019.12.04.01.53.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Dec 2019 01:53:43 -0800 (PST)
+Subject: Re: [PATCH v6 3/9] qdev: add clock input&output support to devices.
+To: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190904125531.27545-1-damien.hedde@greensocs.com>
+ <20190904125531.27545-4-damien.hedde@greensocs.com>
+ <CAFEAcA9M4qR89wykURrUxqxeWoNqYHxuJSwC5Mum6GfmWSG=nA@mail.gmail.com>
+ <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
+Date: Wed, 4 Dec 2019 10:53:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+In-Reply-To: <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
+Content-Language: en-US
+X-MC-Unique: DptTU0ncPY6G_F8fURfOjg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,259 +93,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/4/19 10:05 AM, Damien Hedde wrote:
+> On 12/2/19 3:34 PM, Peter Maydell wrote:
+>> On Wed, 4 Sep 2019 at 13:56, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>>
+[...]
+>>> +/**
+>>> + * qdev_pass_clock:
+>>> + * @dev: the device to forward the clock to
+>>> + * @name: the name of the clock to be added (can't be NULL)
+>>> + * @container: the device which already has the clock
+>>> + * @cont_name: the name of the clock in the container device
+>>> + *
+>>> + * Add a clock @name to @dev which forward to the clock @cont_name in @container
+>>> + */
+>>
+>> 'container' seems odd terminology here, because I would expect
+>> the usual use of this function to be when a 'container' object
+>> like an SoC wants to forward a clock to one of its components;
+>> in that case the 'container' SoC would be @dev, wouldn't it?
+> 
+> Yes. I agree it is confusing.
+> This function just allow a a device 'A' to exhibit a clock from another
+> device 'B' (typically a composing sub-device, inside a soc like you
+> said). The device A is not supposed to interact with the clock itself.
+> The original sub-device is the true
+> owner/controller of the clock and is the only one which should use the
+> clock API: setting a callback on it (input clock); or updating the clock
+> frequency (output clock).
+> Basically, it just add the clock into the device clock namespace without
+> interfering with it.
+> 
+>> We should get this to be the same way round as qdev_pass_gpios(),
+>> which takes "DeviceState *dev, DeviceState *container", and
+>> passes the gpios that exist on 'dev' over to 'container' so that
+>> 'container' now has gpios which it did not before.
+> 
+> Ok, I'll invert the arguments.
+> 
+>>
+>> Also, your use of 'forward to' is inconsistent: in the 'dev'
+>> documentation you say we're forwarding the clock to 'dev',
+>> but in the body of the documentation you say we're forwarding
+>> the clock to the clock in 'container'.
+> 
+> I'll try to clarify this and make the documentation more consistent with
+> the comments here.
+> 
+>>
+>> I think the way to resolve this is to stick to the terminology
+>> in the function name itself:
+>>   @dev: the device which has the clock
+>>   @name: the name of the clock on @dev
+>>   @container: the name of the device which the clock should
+>>    be passed to
+>>   @cont_name: the name to use for the clock on @container
+> 
+> I think container is confusing because depending on how we reason (clock
+> in a device; device in another device), we end up thinking the opposite.
+> 
+> Maybe we can use "exhibit" instead of "container" in the 2nd pair of
+> parameters, or prefix use "origin" or "owner" as a prefix for the first
+> pair of parameters.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+@sink vs @source?
 
-> This is part of a reorganization to the set of mmu_idx.
-> This emphasizes that they apply to the EL1&0 regime.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Q: if you pass a clock to another device with this function,
+>> does it still exist to be used directly on the original
+>> device? For qdev_pass_gpios it does not (I think), but
+>> this is more accident of implementation than anything else.
+> 
+> It depends what we mean by "used by".
+> Original device can:
+> + set the callback in case it is an input
+> + update the frequency in case it is an output
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Hmm here you use @input vs @output...
 
-> ---
->  target/arm/cpu.h           |  8 ++++----
->  target/arm/internals.h     |  4 ++--
->  target/arm/helper.c        | 40 +++++++++++++++++++-------------------
->  target/arm/translate-a64.c |  4 ++--
->  target/arm/translate.c     |  6 +++---
->  5 files changed, 31 insertions(+), 31 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 9729e62d2c..802cddd2df 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -2864,8 +2864,8 @@ static inline bool arm_excp_unmasked(CPUState *cs, =
-unsigned int excp_idx,
->  #define ARM_MMU_IDX_COREIDX_MASK 0x7
->=20=20
->  typedef enum ARMMMUIdx {
-> -    ARMMMUIdx_S12NSE0 =3D 0 | ARM_MMU_IDX_A,
-> -    ARMMMUIdx_S12NSE1 =3D 1 | ARM_MMU_IDX_A,
-> +    ARMMMUIdx_EL10_0 =3D 0 | ARM_MMU_IDX_A,
-> +    ARMMMUIdx_EL10_1 =3D 1 | ARM_MMU_IDX_A,
->      ARMMMUIdx_S1E2 =3D 2 | ARM_MMU_IDX_A,
->      ARMMMUIdx_S1E3 =3D 3 | ARM_MMU_IDX_A,
->      ARMMMUIdx_S1SE0 =3D 4 | ARM_MMU_IDX_A,
-> @@ -2890,8 +2890,8 @@ typedef enum ARMMMUIdx {
->   * for use when calling tlb_flush_by_mmuidx() and friends.
->   */
->  typedef enum ARMMMUIdxBit {
-> -    ARMMMUIdxBit_S12NSE0 =3D 1 << 0,
-> -    ARMMMUIdxBit_S12NSE1 =3D 1 << 1,
-> +    ARMMMUIdxBit_EL10_0 =3D 1 << 0,
-> +    ARMMMUIdxBit_EL10_1 =3D 1 << 1,
->      ARMMMUIdxBit_S1E2 =3D 1 << 2,
->      ARMMMUIdxBit_S1E3 =3D 1 << 3,
->      ARMMMUIdxBit_S1SE0 =3D 1 << 4,
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index f5313dd3d4..54142dd789 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -808,8 +808,8 @@ static inline void arm_call_el_change_hook(ARMCPU *cp=
-u)
->  static inline bool regime_is_secure(CPUARMState *env, ARMMMUIdx mmu_idx)
->  {
->      switch (mmu_idx) {
-> -    case ARMMMUIdx_S12NSE0:
-> -    case ARMMMUIdx_S12NSE1:
-> +    case ARMMMUIdx_EL10_0:
-> +    case ARMMMUIdx_EL10_1:
->      case ARMMMUIdx_S1NSE0:
->      case ARMMMUIdx_S1NSE1:
->      case ARMMMUIdx_S1E2:
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 6c09cda4ea..d2b90763ca 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -670,8 +670,8 @@ static void tlbiall_nsnh_write(CPUARMState *env, cons=
-t ARMCPRegInfo *ri,
->      CPUState *cs =3D env_cpu(env);
->=20=20
->      tlb_flush_by_mmuidx(cs,
-> -                        ARMMMUIdxBit_S12NSE1 |
-> -                        ARMMMUIdxBit_S12NSE0 |
-> +                        ARMMMUIdxBit_EL10_1 |
-> +                        ARMMMUIdxBit_EL10_0 |
->                          ARMMMUIdxBit_S2NS);
->  }
->=20=20
-> @@ -681,8 +681,8 @@ static void tlbiall_nsnh_is_write(CPUARMState *env, c=
-onst ARMCPRegInfo *ri,
->      CPUState *cs =3D env_cpu(env);
->=20=20
->      tlb_flush_by_mmuidx_all_cpus_synced(cs,
-> -                                        ARMMMUIdxBit_S12NSE1 |
-> -                                        ARMMMUIdxBit_S12NSE0 |
-> +                                        ARMMMUIdxBit_EL10_1 |
-> +                                        ARMMMUIdxBit_EL10_0 |
->                                          ARMMMUIdxBit_S2NS);
->  }
->=20=20
-> @@ -3068,7 +3068,7 @@ static uint64_t do_ats_write(CPUARMState *env, uint=
-64_t value,
->          format64 =3D arm_s1_regime_using_lpae_format(env, mmu_idx);
->=20=20
->          if (arm_feature(env, ARM_FEATURE_EL2)) {
-> -            if (mmu_idx =3D=3D ARMMMUIdx_S12NSE0 || mmu_idx =3D=3D ARMMM=
-UIdx_S12NSE1) {
-> +            if (mmu_idx =3D=3D ARMMMUIdx_EL10_0 || mmu_idx =3D=3D ARMMMU=
-Idx_EL10_1) {
->                  format64 |=3D env->cp15.hcr_el2 & (HCR_VM | HCR_DC);
->              } else {
->                  format64 |=3D arm_current_el(env) =3D=3D 2;
-> @@ -3167,11 +3167,11 @@ static void ats_write(CPUARMState *env, const ARM=
-CPRegInfo *ri, uint64_t value)
->          break;
->      case 4:
->          /* stage 1+2 NonSecure PL1: ATS12NSOPR, ATS12NSOPW */
-> -        mmu_idx =3D ARMMMUIdx_S12NSE1;
-> +        mmu_idx =3D ARMMMUIdx_EL10_1;
->          break;
->      case 6:
->          /* stage 1+2 NonSecure PL0: ATS12NSOUR, ATS12NSOUW */
-> -        mmu_idx =3D ARMMMUIdx_S12NSE0;
-> +        mmu_idx =3D ARMMMUIdx_EL10_0;
->          break;
->      default:
->          g_assert_not_reached();
-> @@ -3229,10 +3229,10 @@ static void ats_write64(CPUARMState *env, const A=
-RMCPRegInfo *ri,
->          mmu_idx =3D secure ? ARMMMUIdx_S1SE0 : ARMMMUIdx_S1NSE0;
->          break;
->      case 4: /* AT S12E1R, AT S12E1W */
-> -        mmu_idx =3D secure ? ARMMMUIdx_S1SE1 : ARMMMUIdx_S12NSE1;
-> +        mmu_idx =3D secure ? ARMMMUIdx_S1SE1 : ARMMMUIdx_EL10_1;
->          break;
->      case 6: /* AT S12E0R, AT S12E0W */
-> -        mmu_idx =3D secure ? ARMMMUIdx_S1SE0 : ARMMMUIdx_S12NSE0;
-> +        mmu_idx =3D secure ? ARMMMUIdx_S1SE0 : ARMMMUIdx_EL10_0;
->          break;
->      default:
->          g_assert_not_reached();
-> @@ -3531,8 +3531,8 @@ static void vttbr_write(CPUARMState *env, const ARM=
-CPRegInfo *ri,
->      /* Accesses to VTTBR may change the VMID so we must flush the TLB.  =
-*/
->      if (raw_read(env, ri) !=3D value) {
->          tlb_flush_by_mmuidx(cs,
-> -                            ARMMMUIdxBit_S12NSE1 |
-> -                            ARMMMUIdxBit_S12NSE0 |
-> +                            ARMMMUIdxBit_EL10_1 |
-> +                            ARMMMUIdxBit_EL10_0 |
->                              ARMMMUIdxBit_S2NS);
->          raw_write(env, ri, value);
->      }
-> @@ -3893,7 +3893,7 @@ static int vae1_tlbmask(CPUARMState *env)
->      if (arm_is_secure_below_el3(env)) {
->          return ARMMMUIdxBit_S1SE1 | ARMMMUIdxBit_S1SE0;
->      } else {
-> -        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0;
-> +        return ARMMMUIdxBit_EL10_1 | ARMMMUIdxBit_EL10_0;
->      }
->  }
->=20=20
-> @@ -3929,9 +3929,9 @@ static int vmalle1_tlbmask(CPUARMState *env)
->      if (arm_is_secure_below_el3(env)) {
->          return ARMMMUIdxBit_S1SE1 | ARMMMUIdxBit_S1SE0;
->      } else if (arm_feature(env, ARM_FEATURE_EL2)) {
-> -        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0 | ARMMMUIdxBi=
-t_S2NS;
-> +        return ARMMMUIdxBit_EL10_1 | ARMMMUIdxBit_EL10_0 | ARMMMUIdxBit_=
-S2NS;
->      } else {
-> -        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0;
-> +        return ARMMMUIdxBit_EL10_1 | ARMMMUIdxBit_EL10_0;
->      }
->  }
->=20=20
-> @@ -8671,8 +8671,8 @@ static inline TCR *regime_tcr(CPUARMState *env, ARM=
-MMUIdx mmu_idx)
->   */
->  static inline ARMMMUIdx stage_1_mmu_idx(ARMMMUIdx mmu_idx)
->  {
-> -    if (mmu_idx =3D=3D ARMMMUIdx_S12NSE0 || mmu_idx =3D=3D ARMMMUIdx_S12=
-NSE1) {
-> -        mmu_idx +=3D (ARMMMUIdx_S1NSE0 - ARMMMUIdx_S12NSE0);
-> +    if (mmu_idx =3D=3D ARMMMUIdx_EL10_0 || mmu_idx =3D=3D ARMMMUIdx_EL10=
-_1) {
-> +        mmu_idx +=3D (ARMMMUIdx_S1NSE0 - ARMMMUIdx_EL10_0);
->      }
->      return mmu_idx;
->  }
-> @@ -8715,8 +8715,8 @@ static inline bool regime_is_user(CPUARMState *env,=
- ARMMMUIdx mmu_idx)
->          return true;
->      default:
->          return false;
-> -    case ARMMMUIdx_S12NSE0:
-> -    case ARMMMUIdx_S12NSE1:
-> +    case ARMMMUIdx_EL10_0:
-> +    case ARMMMUIdx_EL10_1:
->          g_assert_not_reached();
->      }
->  }
-> @@ -10620,7 +10620,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong=
- address,
->                     target_ulong *page_size,
->                     ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
->  {
-> -    if (mmu_idx =3D=3D ARMMMUIdx_S12NSE0 || mmu_idx =3D=3D ARMMMUIdx_S12=
-NSE1) {
-> +    if (mmu_idx =3D=3D ARMMMUIdx_EL10_0 || mmu_idx =3D=3D ARMMMUIdx_EL10=
-_1) {
->          /* Call ourselves recursively to do the stage 1 and then stage 2
->           * translations.
->           */
-> @@ -11148,7 +11148,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
->      if (el < 2 && arm_is_secure_below_el3(env)) {
->          return ARMMMUIdx_S1SE0 + el;
->      } else {
-> -        return ARMMMUIdx_S12NSE0 + el;
-> +        return ARMMMUIdx_EL10_0 + el;
->      }
->  }
->=20=20
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index d4bebbe629..2703ebf32a 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -113,8 +113,8 @@ static inline int get_a64_user_mem_index(DisasContext=
- *s)
->      ARMMMUIdx useridx;
->=20=20
->      switch (s->mmu_idx) {
-> -    case ARMMMUIdx_S12NSE1:
-> -        useridx =3D ARMMMUIdx_S12NSE0;
-> +    case ARMMMUIdx_EL10_1:
-> +        useridx =3D ARMMMUIdx_EL10_0;
->          break;
->      case ARMMMUIdx_S1SE1:
->          useridx =3D ARMMMUIdx_S1SE0;
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index 4d5d4bd888..e3deea50e0 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -153,9 +153,9 @@ static inline int get_a32_user_mem_index(DisasContext=
- *s)
->       */
->      switch (s->mmu_idx) {
->      case ARMMMUIdx_S1E2:        /* this one is UNPREDICTABLE */
-> -    case ARMMMUIdx_S12NSE0:
-> -    case ARMMMUIdx_S12NSE1:
-> -        return arm_to_core_mmu_idx(ARMMMUIdx_S12NSE0);
-> +    case ARMMMUIdx_EL10_0:
-> +    case ARMMMUIdx_EL10_1:
-> +        return arm_to_core_mmu_idx(ARMMMUIdx_EL10_0);
->      case ARMMMUIdx_S1E3:
->      case ARMMMUIdx_S1SE0:
->      case ARMMMUIdx_S1SE1:
+> But since an input clock can only be connected once,
+> I think the logic here is that any connection should now go through the
+> new device. But this is not checked and using one or the other is
+> exactly the same.
+> 
+> Maybe I misunderstood the meaning of qdev_pass_gpios().
+[...]
 
-
---=20
-Alex Benn=C3=A9e
 
