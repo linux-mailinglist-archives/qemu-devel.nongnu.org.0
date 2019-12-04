@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7024F112B9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:38:19 +0100 (CET)
-Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E24112B8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:35:05 +0100 (CET)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTv8-0000iG-A5
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:38:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47471)
+	id 1icTs0-0005Tm-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:35:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1icTJB-0006uL-Ma
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:59:06 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1icTOo-000162-Lp
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 07:04:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1icTJ2-00040w-T1
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:58 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:45762)
+ (envelope-from <dgilbert@redhat.com>) id 1icTOe-00030T-Qr
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 07:04:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42429
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1icTIr-0002iI-Cu; Wed, 04 Dec 2019 06:58:45 -0500
-Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A95F296EF0;
- Wed,  4 Dec 2019 11:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1575460722;
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1icTOe-0002OU-5b
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 07:04:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575461075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8ljSCwCD3O4e7pPsXT+MroUcr3135nqWethx1Gpbjuk=;
- b=ME8n+R4fLmX9fusvWwUBqlaHbU3t6uMxB4GWpYle5KmMmGxA3gWLNDe80yNw25b5GePgrm
- SCWxuwA6suJbg5CMUpzBDG3TxTtVuj/V2iRpMKlXHdY24V0TTlItUW/90NOJ993Zw5Pdfg
- hAYBtQuwtisRqbayMzldysn7j8WXl18=
-Subject: Re: [PATCH v6 3/9] qdev: add clock input&output support to devices.
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20190904125531.27545-1-damien.hedde@greensocs.com>
- <20190904125531.27545-4-damien.hedde@greensocs.com>
- <CAFEAcA9M4qR89wykURrUxqxeWoNqYHxuJSwC5Mum6GfmWSG=nA@mail.gmail.com>
- <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
- <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <e9c078e5-be16-ca95-7cfa-44cbcc63a3be@greensocs.com>
-Date: Wed, 4 Dec 2019 12:58:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=Carz3m175ZOdBHmKj5YBxD780t/+PeS3b4VZXwUpT3E=;
+ b=DzLvnQu8Easv/QhNuXBaTZOPQd9IHArtPXwieNEp4FLclN8YTYu9QVAM+Fr8nAhro0DSKv
+ P9G5teSuWAgFb6n+t6xhAa224JhU56dkXwO2YPlRWTbIYYEE9zksORCuino3Nwsgm6+j+7
+ YFDGw77NsrX86fLq8PdHPEvG3K6mdWU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-HStP-gXDPH2oLCwRqb17dQ-1; Wed, 04 Dec 2019 07:04:32 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468D41005509;
+ Wed,  4 Dec 2019 12:04:31 +0000 (UTC)
+Received: from work-vm (ovpn-117-217.ams2.redhat.com [10.36.117.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA2B060850;
+ Wed,  4 Dec 2019 12:04:20 +0000 (UTC)
+Date: Wed, 4 Dec 2019 12:04:18 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: virtiofsd: Where should it live?
+Message-ID: <20191204120418.GH3325@work-vm>
+References: <20191125185021.GB3767@work-vm>
+ <20191126102600.GG556568@redhat.com>
+ <20191126121416.GE2928@work-vm>
+ <CAFEAcA9Ln2uwg4f4s8oS6VeQk83W3BErmH9cHeyDJy7v-4gNxw@mail.gmail.com>
+ <87k17ekhs9.fsf@dusky.pond.sub.org>
+ <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
+ <20191203105341.GB3078@work-vm>
+ <CAFEAcA8bjGAs7JSTNYYYwCH1yF06i0v0r9wjKXqZGZg_Sqy0VA@mail.gmail.com>
+ <20191203111949.GB267814@redhat.com>
+ <87o8wofsda.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1575460722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8ljSCwCD3O4e7pPsXT+MroUcr3135nqWethx1Gpbjuk=;
- b=kMohnrxOSGi/bc2DJWVZPeVkXKu0dPgbRlmc2HIz42+9hLjxiPb2sKVuLevJQVVyDeTbSq
- XMrUZxavi+77oRokysQqiSD/egPitKW2O9/Uw2+/S7y56jV88TacJQ+EIuWZ4tK+BnCv/I
- xyDANj8WMWukbFxLN16t7LSjXI7LeTY=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575460722; a=rsa-sha256; cv=none;
- b=4jjL4V+OVqzIQM1lGRM833Vyrn2OZM1Expn5PvC3c1PT+VafVskD/PbWfHgNspsHeBi/+j
- 2iOHgwS4U60Mp/2o1SSot5u+I182q5r76STPd2V202inWZx4Rn3ZQC7BtWCnmD4m2oq/oF
- yvU4RLtGEwvBv3F4PQW+ZPhDozP78wE=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+In-Reply-To: <87o8wofsda.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: HStP-gXDPH2oLCwRqb17dQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,124 +81,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, mszeredi@redhat.com, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/4/19 10:53 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 12/4/19 10:05 AM, Damien Hedde wrote:
->> On 12/2/19 3:34 PM, Peter Maydell wrote:
->>> On Wed, 4 Sep 2019 at 13:56, Damien Hedde
->>> <damien.hedde@greensocs.com> wrote:
->>>>
-> [...]
->>>> +/**
->>>> + * qdev_pass_clock:
->>>> + * @dev: the device to forward the clock to
->>>> + * @name: the name of the clock to be added (can't be NULL)
->>>> + * @container: the device which already has the clock
->>>> + * @cont_name: the name of the clock in the container device
->>>> + *
->>>> + * Add a clock @name to @dev which forward to the clock @cont_name
->>>> in @container
->>>> + */
->>>
->>> 'container' seems odd terminology here, because I would expect
->>> the usual use of this function to be when a 'container' object
->>> like an SoC wants to forward a clock to one of its components;
->>> in that case the 'container' SoC would be @dev, wouldn't it?
->>
->> Yes. I agree it is confusing.
->> This function just allow a a device 'A' to exhibit a clock from anothe=
-r
->> device 'B' (typically a composing sub-device, inside a soc like you
->> said). The device A is not supposed to interact with the clock itself.
->> The original sub-device is the true
->> owner/controller of the clock and is the only one which should use the
->> clock API: setting a callback on it (input clock); or updating the clo=
-ck
->> frequency (output clock).
->> Basically, it just add the clock into the device clock namespace witho=
-ut
->> interfering with it.
->>
->>> We should get this to be the same way round as qdev_pass_gpios(),
->>> which takes "DeviceState *dev, DeviceState *container", and
->>> passes the gpios that exist on 'dev' over to 'container' so that
->>> 'container' now has gpios which it did not before.
->>
->> Ok, I'll invert the arguments.
->>
->>>
->>> Also, your use of 'forward to' is inconsistent: in the 'dev'
->>> documentation you say we're forwarding the clock to 'dev',
->>> but in the body of the documentation you say we're forwarding
->>> the clock to the clock in 'container'.
->>
->> I'll try to clarify this and make the documentation more consistent wi=
-th
->> the comments here.
->>
->>>
->>> I think the way to resolve this is to stick to the terminology
->>> in the function name itself:
->>> =C2=A0 @dev: the device which has the clock
->>> =C2=A0 @name: the name of the clock on @dev
->>> =C2=A0 @container: the name of the device which the clock should
->>> =C2=A0=C2=A0 be passed to
->>> =C2=A0 @cont_name: the name to use for the clock on @container
->>
->> I think container is confusing because depending on how we reason (clo=
-ck
->> in a device; device in another device), we end up thinking the opposit=
-e.
->>
->> Maybe we can use "exhibit" instead of "container" in the 2nd pair of
->> parameters, or prefix use "origin" or "owner" as a prefix for the firs=
-t
->> pair of parameters.
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Daniel P. Berrang=E9 <berrange@redhat.com> writes:
 >=20
-> @sink vs @source?
+> > On Tue, Dec 03, 2019 at 11:06:44AM +0000, Peter Maydell wrote:
+> >> On Tue, 3 Dec 2019 at 10:53, Dr. David Alan Gilbert <dgilbert@redhat.c=
+om> wrote:
+> >> >
+> >> > We seem to be coming to the conclusion something that:
+> >> >
+> >> >   a) It should live in the qemu tree
+> >> >   b) It shouldn't live under contrib
+> >> >   c) We'll create a new top level, i.e. 'daemons'
+> >> >   d) virtiofsd will be daemons/virtiofsd
+> >> >
+> >> > Now, somethings I'm less clear on:
+> >> >   e) What else would move into daemons?  It was suggested
+> >> >     that if we've got virtiofsd in there, then we should move
+> >> >     libvhost-user - which I understand, but then it's not a
+> >> >     'daemons'.
+> >> >     Are there any otehr daemons that should move?
+> >>=20
+> >> I like the idea of a new top level directory, but I think
+> >> 'daemons' is a bit too specific -- for instance it seems to
+> >> me that qemu-img would be sensible to move out of the root,
+> >> and that's not a daemon.
+> >
+> > Do we really need an extra directory level ?
 >=20
->>> Q: if you pass a clock to another device with this function,
->>> does it still exist to be used directly on the original
->>> device? For qdev_pass_gpios it does not (I think), but
->>> this is more accident of implementation than anything else.
->>
->> It depends what we mean by "used by".
->> Original device can:
->> + set the callback in case it is an input
->> + update the frequency in case it is an output
+> +1
 >=20
-> Hmm here you use @input vs @output...
+> > IIUC, the main point against having $GIT_ROOT/virtiofsd is that
+> > the root of our repo is quite cluttered already.
+> >
+> > Rather than trying to create a multi-level hierarchy which adds
+> > a debate around naming, why not address the clutter by moving
+> > *ALL* the .c/.h files out of the root so that we have a flatter
+> > tree:
+> >
+> >   $GITROOT
+> >     +- qemu-system
+> >     |   +- vl.c
+> >     |   +- ...most other files...
+>=20
+> Sounds good to me.
+>=20
+> >     +- qemu-img
+> >     |   +- qemu-img.c
+>=20
+> Perhaps this one can all go into existing block/, similar to how
+> pr-manager-helper.c is in scsi/, and virtfs-proxy-helper.c is in fsdev/.
+> Up to the block maintainers, of course.
+>=20
+> >     +- qemu-nbd
+> >     |   +- qemu-nbd.c
+>=20
+> block/ or nbd/?
+>=20
+> >     +- qemu-io
+> >     |   +- qemu-io.c
+> >     |   +- qemu-io-cmds.c
+>=20
+> block/?
+>=20
+> >     +- qemu-bridge-helper
+>=20
+> net/?
+>=20
+> >     |   ...
+> >     +- qemu-edid
+>=20
+> Has its own MAINTAINERS section, together with hw/display/edit* and
+> include/hw/display/edid.h.  I'm not sure moving it hw/display/ is a good
+> idea.  Gerd?
+>=20
+> >     +- qemu-keymap
+>=20
+> Not covered by MAINTAINERS.  scripts/get_maintainer.pl --git-blame
+> points to Gerd.
+>=20
+> >     +- qga  (already exists)
+>=20
+> Yes.
+>=20
+> > Then we can add virtiofsd and other programs at the root with no big
+> > issue.
+>=20
+> We don't *have* to put each program into its own directory.  Simple ones
+> could also share one.  We just need a directory name.
 
-Not really. What I meant here is that the device which originally
-creates the clock is the only device which can interact with the clock.
-And it will never gives this right to another device even if
-qdev_pass_clock() is used.
+So what do you think of Paolo's suggestion of putting virtiofsd in=20
+fsdev (mkdir fsdev/9p && mv fsdev/* fsdev/9p && mkdir fsdev/virtiofsd )
 
-There are 2 interactions, depending on the clock direction (input or
-output). If it is an input clock, it can register a callback on
-frequency changes; and if it is an output clock, it can updates the
-frequency of the clock.
+Dave
 
->=20
->> But since an input clock can only be connected once,
->> I think the logic here is that any connection should now go through th=
-e
->> new device. But this is not checked and using one or the other is
->> exactly the same.
->>
->> Maybe I misunderstood the meaning of qdev_pass_gpios().
-> [...]
->=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
