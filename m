@@ -2,52 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C65112A66
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:44:50 +0100 (CET)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA7D112A26
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:30:39 +0100 (CET)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icT5K-0007mD-Op
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:44:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
+	id 1icSrd-0001X8-08
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:30:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46629)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1icRja-0005rV-J3
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:18:16 -0500
+ (envelope-from <lvivier@redhat.com>) id 1icRxy-0003V1-C4
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:33:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1icRjT-0004IP-Ov
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:18:08 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25558
+ (envelope-from <lvivier@redhat.com>) id 1icRxq-0000mB-Uy
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:33:02 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22369
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1icRjT-00048C-IW
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:18:07 -0500
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1icRxq-0000ae-BG
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:32:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575454685;
+ s=mimecast20190719; t=1575455574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0MWa8xSjNzyXRpDa3FfLKCogtGjbtQaw0PRPeQp4a4w=;
- b=cL4Holv7SJTNF8ON8LqfOAIRhGIbYcHuvybWBgXQvkqtpZjDbzJ/P/+JfJDKzPnMooQp0u
- a0XBhQAxf7tNuiqpLkMVewm3X2SguCfVIJ1p82bNVc/3ZLW04EfrG2rsqNGY1sgspPo37I
- 5J+MVoqTlj/Rksp7nCXludjqYpEhno4=
+ bh=RqLTVILDpAHi3vpruk4MX8wjjqBxZmIYu9gf0nD+4cc=;
+ b=dnS52uN8Y23x6+/lnRDJ0ATSpqbRSF3Is8cFognCvNCyT7UXfznePuqh/cbwBJTqeXGeb/
+ Hn4btLdKE/NCiqoGXWwtUB8lpOXdh3l//57j4R8o5zy3N1tWXtxOWrQCt/5kCxxIIcfdvG
+ qJuHW3g7TqxwS4tEiS2qIs5XR2xOyuQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-0PWUgzqXOhul2PPo2Kzvog-1; Wed, 04 Dec 2019 05:18:04 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-197-b1FAvhJuPHCGfxfVd7MbvA-1; Wed, 04 Dec 2019 05:32:51 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E94DE1005502;
- Wed,  4 Dec 2019 10:18:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CEC5800C7E;
+ Wed,  4 Dec 2019 10:32:49 +0000 (UTC)
 Received: from [10.36.117.138] (ovpn-117-138.ams2.redhat.com [10.36.117.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FE611001B0B;
- Wed,  4 Dec 2019 10:17:55 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] virtio-serial-bus: fix memory leak while attach
- virtio-serial-bus
-To: pannengyuan@huawei.com, mst@redhat.com
-References: <1575444716-17632-1-git-send-email-pannengyuan@huawei.com>
- <1575444716-17632-3-git-send-email-pannengyuan@huawei.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F07260BE0;
+ Wed,  4 Dec 2019 10:32:46 +0000 (UTC)
+Subject: Re: [PULL v2 4/6] spapr: Add /chosen to FDT only at reset time to
+ preserve kernel and initramdisk
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
+References: <20191118105319.7658-1-lvivier@redhat.com>
+ <20191118105319.7658-5-lvivier@redhat.com>
+ <a65399f9-fb59-a54b-3185-1f48ee979d3d@redhat.com>
+ <13846307-0e59-53b3-38cf-54270b43ed87@redhat.com>
+ <96e02c6c-d381-1055-faca-406c475c94f4@ozlabs.ru>
+ <d52bab1e-a7bd-acf5-3243-da8543b5bc2c@ozlabs.ru>
 From: Laurent Vivier <lvivier@redhat.com>
 Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -103,21 +107,21 @@ Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
  pt0DCMMTbiYIUcrhX8eveCJtY7NGWNyxFCRkhxRuGcpwPmRVDwOl39MB3iTsRighiMnijkbL
  XiKoJ5CDVvX5yicNqYJPKh5MFXN1bvsBkmYiStMRbrD0HoY1kx5/VozBtc70OU0EB8Wrv9hZ
  D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <ad25a083-e4d7-0e02-9e0e-48d1afc715bb@redhat.com>
-Date: Wed, 4 Dec 2019 11:17:54 +0100
+Message-ID: <4afed42d-8d7d-9133-a9e6-ea212860fed4@redhat.com>
+Date: Wed, 4 Dec 2019 11:32:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1575444716-17632-3-git-send-email-pannengyuan@huawei.com>
+In-Reply-To: <d52bab1e-a7bd-acf5-3243-da8543b5bc2c@ozlabs.ru>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0PWUgzqXOhul2PPo2Kzvog-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: b1FAvhJuPHCGfxfVd7MbvA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -129,72 +133,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liyiting@huawei.com, zhang.zhanghailiang@huawei.com,
- kuhn.chenqun@huawei.com, Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/12/2019 08:31, pannengyuan@huawei.com wrote:
-> From: Pan Nengyuan <pannengyuan@huawei.com>
->=20
-> ivqs/ovqs/c_ivq/c_ovq is forgot to cleanup in
-> virtio_serial_device_unrealize, the memory leak stack is as bellow:
->=20
-> Direct leak of 1290240 byte(s) in 180 object(s) allocated from:
->     #0 0x7fc9bfc27560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
->     #1 0x7fc9bed6f015 in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x50015)
->     #2 0x5650e02b83e7 in virtio_add_queue hw/virtio/virtio.c:2327
->     #3 0x5650e02847b5 in virtio_serial_device_realize hw/char/virtio-seri=
-al-bus.c:1089
->     #4 0x5650e02b56a7 in virtio_device_realize hw/virtio/virtio.c:3504
->     #5 0x5650e03bf031 in device_set_realized hw/core/qdev.c:876
->     #6 0x5650e0531efd in property_set_bool qom/object.c:2080
->     #7 0x5650e053650e in object_property_set_qobject qom/qom-qobject.c:26
->     #8 0x5650e0533e14 in object_property_set_bool qom/object.c:1338
->     #9 0x5650e04c0e37 in virtio_pci_realize hw/virtio/virtio-pci.c:1801
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Amit Shah <amit@kernel.org>
-> Cc: "Marc-Andr=C3=A9 Lureau" <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> ---
-> Changes v2 to v1:
-> - use virtio_delete_queue to cleanup vq through a vq pointer (suggested b=
-y
->   Michael S. Tsirkin)
-> ---
->  hw/char/virtio-serial-bus.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-> index 3325904..e1cbce3 100644
-> --- a/hw/char/virtio-serial-bus.c
-> +++ b/hw/char/virtio-serial-bus.c
-> @@ -1126,9 +1126,17 @@ static void virtio_serial_device_unrealize(DeviceS=
-tate *dev, Error **errp)
->  {
->      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
->      VirtIOSerial *vser =3D VIRTIO_SERIAL(dev);
-> +    int i;
-> =20
->      QLIST_REMOVE(vser, next);
-> =20
-> +    virtio_delete_queue(vser->c_ivq);
-> +    virtio_delete_queue(vser->c_ovq);
-> +    for (i =3D 0; i < vser->bus.max_nr_ports; i++) {
-> +        virtio_delete_queue(vser->ivqs[i]);
-> +        virtio_delete_queue(vser->ovqs[i]);
-> +    }
-> +
->      g_free(vser->ivqs);
->      g_free(vser->ovqs);
->      g_free(vser->ports_map);
->=20
+On 04/12/2019 05:40, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 04/12/2019 15:23, Alexey Kardashevskiy wrote:
+>>
+>>
+>> On 04/12/2019 03:09, Laurent Vivier wrote:
+>>>
+>>> Bad reply, the problem is with
+>>>
+>>> "spapr: Render full FDT on ibm,client-architecture-support"
+>>
+>>
+>> https://git.qemu.org/?p=SLOF.git;a=blob;f=board-qemu/slof/fdt.fs;h=3e4c1b34b8af2dcebde57e548c94417e5e20e1cc;hb=HEAD#l265
+>>
+>> A "bit ugly" became really ugly as before we were only patching
+>> interrupt-map for PHB (7 cells per line) only but now we have to patch
+>> (or, rather, skip) the PCI bridge interrupt-map (9 cells per line).
+>>
+>> Fixing now...
+> 
+> 
+> Basically, this:
+> 
+> 
+> diff --git a/board-qemu/slof/fdt.fs b/board-qemu/slof/fdt.fs
+> index 3e4c1b34b8af..463a2a8c0c2d 100644
+> --- a/board-qemu/slof/fdt.fs
+> +++ b/board-qemu/slof/fdt.fs
+> @@ -300,8 +300,13 @@ fdt-claim-reserve
+>     \ ." Replacing in " dup node>path type cr
+>     >r
+>     s" interrupt-map" r@ get-property 0= IF
+> -      ( old new prop-addr prop-len  R: node )
+> -      fdt-replace-interrupt-map
+> +      dup e00 = IF
+> +          ( old new prop-addr prop-len  R: node )
+> +          fdt-replace-interrupt-map
+> +      ELSE
+> +         2drop
+> +          ."  no idea what this is" cr
+> +      THEN
+>     THEN
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+This does not fix the problem for me.
+
+Thanks,
+Laurent
 
 
