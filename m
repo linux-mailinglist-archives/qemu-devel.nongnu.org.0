@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C0F112D15
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 14:58:57 +0100 (CET)
-Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9A3112D20
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 14:59:44 +0100 (CET)
+Received: from localhost ([::1]:39288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icVBA-0006wj-76
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 08:58:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38394)
+	id 1icVBv-0007jO-3c
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 08:59:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
- id 1icV8j-000576-4W
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:26 -0500
+ id 1icV8m-0005Bc-Ap
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
- id 1icV8i-0005D1-2j
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:25 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:42197)
+ id 1icV8l-0005ML-4A
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:28 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:9490)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
- id 1icV8f-00058h-N0; Wed, 04 Dec 2019 08:56:21 -0500
+ id 1icV8i-0005BH-HB; Wed, 04 Dec 2019 08:56:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1575467782; x=1607003782;
+ t=1575467784; x=1607003784;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=qj63OZvgUd2blMa1aPgiv5NYnxSXE+CuB5YhjLWxvAQ=;
- b=TJAKTEAf9mBVF6OR39gakACdYNs24NTz0lAPMf6D0rVo0oIG+hd++2qf
- KuITrx/F/AVCuQH8WFv35c1ISiTFr7Hgo8ywZliCWOEvbSYcSmK9oUiwi
- BTWOPXwG2gn3wXiaAIBayUjjmdyfPc437IIgLihMQtgkyA8R1u20y0NGd w=;
-IronPort-SDR: 9XWlbc6AWrPk3Sj3AkLAH72XL5hyTn7zSX2aKM1OSxlEtUk5upywo/vxwyze+8OM3TAF/7Xmah
- 3NCeQZ6lGfYQ==
+ bh=mGz2Hs159Z/4+8pT881Ub7PtsnSyXxiUtbVakc2yFWM=;
+ b=F01Fw8CDIdq4GZyQntiadzGH2NBKnZufGKnyhlu0SaepjkVzIj2ywRhF
+ LKkillroCAZhyWJ936gRjDDt6Z0uclr8LHaB8a8EJB1qJ9JQhPQz5aW9W
+ oNpYkA8djhq8YcDRt0rAZOjqmMFoRQ008YA+nwZs0p8slBUziq1UPUA3z g=;
+IronPort-SDR: 6smuSj9Iia7aCLpemJErFU3iL5nFjvhmsp19zr4FoSQ1qTYGbMstT+LPjGnZTaJLRGtz6d5vZL
+ L9Kv8Oo6K72Q==
 X-IronPort-AV: E=Sophos;i="5.69,277,1571702400"; 
-   d="scan'208";a="7621879"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO
- email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com) ([10.124.125.6])
- by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
- 04 Dec 2019 13:56:19 +0000
+   d="scan'208";a="3177677"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP;
+ 04 Dec 2019 13:56:22 +0000
 Received: from sveith-desktop.aka.corp.amazon.com
- (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
- by email-inbound-relay-2a-1c1b5cdd.us-west-2.amazon.com (Postfix) with ESMTPS
- id 09EB5A1DCA; Wed,  4 Dec 2019 13:56:17 +0000 (UTC)
+ (pdx2-ws-svc-lb17-vlan2.amazon.com [10.247.140.66])
+ by email-inbound-relay-2b-8cc5d68b.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 19EF7A2330; Wed,  4 Dec 2019 13:56:20 +0000 (UTC)
 Received: from sveith-desktop.aka.corp.amazon.com (localhost [127.0.0.1])
  by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id
- xB4DuG4i029360; Wed, 4 Dec 2019 14:56:16 +0100
+ xB4DuJbQ029389; Wed, 4 Dec 2019 14:56:19 +0100
 Received: (from sveith@localhost)
- by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Submit) id xB4DuG1e029358;
- Wed, 4 Dec 2019 14:56:16 +0100
+ by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Submit) id xB4DuJ65029388;
+ Wed, 4 Dec 2019 14:56:19 +0100
 From: Simon Veith <sveith@amazon.de>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: Simon Veith <sveith@amazon.de>, Eric Auger <eric.auger@redhat.com>
-Subject: [PATCH 1/5] hw/arm/smmuv3: Apply address mask to linear strtab base
- address
-Date: Wed,  4 Dec 2019 14:55:44 +0100
-Message-Id: <1575467748-28898-2-git-send-email-sveith@amazon.de>
+Subject: [PATCH 2/5] hw/arm/smmuv3: Check stream IDs against actual table
+ LOG2SIZE
+Date: Wed,  4 Dec 2019 14:55:45 +0100
+Message-Id: <1575467748-28898-3-git-send-email-sveith@amazon.de>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1575467748-28898-1-git-send-email-sveith@amazon.de>
 References: <1575467748-28898-1-git-send-email-sveith@amazon.de>
 Precedence: Bulk
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 52.95.48.154
+X-Received-From: 207.171.184.25
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -74,43 +74,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the SMMU_STRTAB_BASE register, the stream table base address only
-occupies bits [51:6]. Other bits, such as RA (bit [62]), must be masked
-out to obtain the base address.
+When checking whether a stream ID is in range of the stream table, we
+have so far been only checking it against our implementation limit
+(SMMU_IDR1_SIDSIZE). However, the guest can program the
+STRTAB_BASE_CFG.LOG2SIZE field to a size that is smaller than this
+limit.
 
-The branch for 2-level stream tables correctly applies this mask by way
-of SMMU_BASE_ADDR_MASK, but the one for linear stream tables does not.
+Check the stream ID against this limit as well to match the hardware
+behavior of raising C_BAD_STREAMID events in case the limit is exceeded.
 
-Apply the missing mask in that case as well so that the correct stream
-base address is used by guests which configure a linear stream table.
-
-Linux guests are unaffected by this change because they choose a 2-level
-stream table layout for the QEMU SMMUv3, based on the size of its stream
-ID space.
-
-ref. ARM IHI 0070C, section 6.3.23.
+ref. ARM IHI 0070C, section 6.3.24.
 
 Signed-off-by: Simon Veith <sveith@amazon.de>
 Cc: Eric Auger <eric.auger@redhat.com>
 Cc: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
 ---
- hw/arm/smmuv3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/smmuv3.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index e2fbb83..eef9a18 100644
+index eef9a18..aad4639 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -429,7 +429,7 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid, STE *ste,
-         }
-         addr = l2ptr + l2_ste_offset * sizeof(*ste);
-     } else {
--        addr = s->strtab_base + sid * sizeof(*ste);
-+        addr = (s->strtab_base & SMMU_BASE_ADDR_MASK) + sid * sizeof(*ste);
-     }
+@@ -377,11 +377,15 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid, STE *ste,
+                          SMMUEventInfo *event)
+ {
+     dma_addr_t addr;
++    uint32_t log2size;
+     int ret;
  
-     if (smmu_get_ste(s, addr, ste, event)) {
+     trace_smmuv3_find_ste(sid, s->features, s->sid_split);
+-    /* Check SID range */
+-    if (sid > (1 << SMMU_IDR1_SIDSIZE)) {
++    log2size = FIELD_EX32(s->strtab_base_cfg, STRTAB_BASE_CFG, LOG2SIZE);
++    /*
++     * Check SID range against both guest-configured and implementation limits
++     */
++    if (sid > (1 << MIN(log2size, SMMU_IDR1_SIDSIZE))) {
+         event->type = SMMU_EVT_C_BAD_STREAMID;
+         return -EINVAL;
+     }
 -- 
 2.7.4
 
