@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6A7112B7C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:29:57 +0100 (CET)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93682112B84
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:32:36 +0100 (CET)
+Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTn2-0008KL-Dp
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45743)
+	id 1icTpW-0001Ia-0u
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:32:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1icTDu-0004Dt-LB
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:53:39 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1icSka-0000MA-AI
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:23:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1icTDp-0006jk-PU
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:53:35 -0500
-Resent-Date: Wed, 04 Dec 2019 06:53:35 -0500
-Resent-Message-Id: <E1icTDp-0006jk-PU@eggs.gnu.org>
-Received: from sender4-of-o50.zoho.com ([136.143.188.50]:21073)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1icTDn-0006Jf-Rh; Wed, 04 Dec 2019 06:53:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1575460400; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=F8jypdx9V1X8Re6q6iTZdKFL6EJcmHmmIaDVovi1rq2vtQvPZsV8VghNTv6OlNB0gRWF5Qz2rvofWBJuGxus73Oc1WexYOhYexh+Zo5mI0OS0XRsWoBzaRedPG2X0W0aSGF5waEWQIFDf+6h7JDPSrsOtQ4/vRVoIFcMfU+P8P4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1575460400;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=hFMsxS+ExnFRVxRW7VzE+YkEb9qWfXcVwGFKkSZdJJ4=; 
- b=YiF/aPV4TV6srsEpKFih62vBEhXAc48iOx4gXuqjmbwCrI7f2tAuncvKfyfdgranXc/P/CSxsyopG535rf9nd5b/B6vWZoAyqZLgLAgybZ58xR8XUPjxFJngdwpxG7FZYCtPuedob7cKSF0e+pd28jvZcL4pFqj4CWBThcKZ51s=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1575460398468289.67097072103354;
- Wed, 4 Dec 2019 03:53:18 -0800 (PST)
-In-Reply-To: <20191204085628.2892-1-hhan@redhat.com>
-Subject: Re: [PATCH] Revert "qemu-options.hx: Update for reboot-timeout
- parameter"
-Message-ID: <157546039706.18804.4103010064190588655@37313f22b938>
+ (envelope-from <pbonzini@redhat.com>) id 1icSkQ-0007vw-Eu
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:23:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34961
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1icSkP-0007Ju-9N
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:23:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575458582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QZnLrosPfN9d8D/YgQSkPEoCOg9aABTUH81VkBYisN8=;
+ b=IlkFLlMTetkCb9hCC+7bE8BdQqYHb1nKcpnn+crZN28nmPrnaLHwKehYXCcVmQwnybfjAO
+ zZZAwnLA8efrz3BaLOY38UHaKgZtWlW3RMMjPndZZNrH3516uu0/UUOPb8tAr6wssertMo
+ k6kCJ/4cwxSRcDE02Fpsy9p6cvT4C6I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-FohcCbGwNcS2onboXHOBAg-1; Wed, 04 Dec 2019 06:22:58 -0500
+Received: by mail-wm1-f69.google.com with SMTP id i17so50758wmd.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:22:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QZnLrosPfN9d8D/YgQSkPEoCOg9aABTUH81VkBYisN8=;
+ b=g72jFZ2o0OIUN6b977nXj5HiCI4EeUUabEAg0QbZnC6ccJNn300KM5MnJX0D629YgD
+ ZWeecDVawekoFUwCXMnR3056cnXJP8CFzEAbA5LowosZqMdHvmNDfd7Ml7C0u1hsGpf0
+ AR9lIbUWhXV3t1d9PZFV9sPrboE85yPMynIsQAyIC7XtJsP/++7dFvy7KSFZ6y5rxjAp
+ Ki4cp0FA6wQ7sX4fYYjmgWAsi9zD+YsXkCz0NsIet41aZ9bJnqywxapoY4k9rDxwPPdw
+ v6W4gMCMqP9HAJnANzoNB7Vc12SlxpZmMdOaJVMG0QQ069GC3T5cbNbhvRMtd9TNxCeO
+ rY1g==
+X-Gm-Message-State: APjAAAUWgTwZyhHvBEKul/+dbHZ6FgF+Cxtel5uinL8F9fOAW+237VuK
+ AvcbKe7BI+htaFxBd2qS4EthIuk9NqT0lmh/RmrvQ1W+BQt//Fv6ffi/GAZEbByjNCc933FjuZF
+ cWkjoZl3UqFy+x3U=
+X-Received: by 2002:a7b:c95a:: with SMTP id i26mr9940540wml.67.1575458577687; 
+ Wed, 04 Dec 2019 03:22:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx7Jo9io1wZIZy+j2roCX4NAjKvWVYd89R4kHLpvIwvZkqe8KChoscrIhJVbZvjSZ/EQ8wO+w==
+X-Received: by 2002:a7b:c95a:: with SMTP id i26mr9940521wml.67.1575458577443; 
+ Wed, 04 Dec 2019 03:22:57 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a?
+ ([2001:b07:6468:f312:8dc6:5dd5:2c0a:6a9a])
+ by smtp.gmail.com with ESMTPSA id e6sm6978993wru.44.2019.12.04.03.22.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Dec 2019 03:22:56 -0800 (PST)
+Subject: Re: [PATCH] target/i386: relax assert when old host kernels don't
+ include msrs
+To: Catherine Ho <catherine.hecx@gmail.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+References: <1575449430-23366-1-git-send-email-catherine.hecx@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2ac1a83c-6958-1b49-295f-92149749fa7c@redhat.com>
+Date: Wed, 4 Dec 2019 12:22:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: hhan@redhat.com
-Date: Wed, 4 Dec 2019 03:53:18 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <1575449430-23366-1-git-send-email-catherine.hecx@gmail.com>
+Content-Language: en-US
+X-MC-Unique: FohcCbGwNcS2onboXHOBAg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.50
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,36 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, laurent@vivier.eu, qemu-devel@nongnu.org,
- dgilbert@redhat.com, hhan@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MTIwNDA4NTYyOC4yODky
-LTEtaGhhbkByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpTdWJqZWN0OiBbUEFUQ0hdIFJldmVydCAicWVtdS1vcHRpb25zLmh4OiBVcGRhdGUg
-Zm9yIHJlYm9vdC10aW1lb3V0IHBhcmFtZXRlciIKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIw
-MTkxMjA0MDg1NjI4LjI4OTItMS1oaGFuQHJlZGhhdC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJ
-TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
-bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
-dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
-IFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJk
-ODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNjgwMzMzOCBSZXZlcnQg
-InFlbXUtb3B0aW9ucy5oeDogVXBkYXRlIGZvciByZWJvb3QtdGltZW91dCBwYXJhbWV0ZXIiCgo9
-PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMp
-Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDEwIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA2
-ODAzMzM4MjIwMjYgKFJldmVydCAicWVtdS1vcHRpb25zLmh4OiBVcGRhdGUgZm9yIHJlYm9vdC10
-aW1lb3V0IHBhcmFtZXRlciIpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQg
-RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
-aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkxMjA0MDg1NjI4LjI4
-OTItMS1oaGFuQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0t
-LQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNo
-ZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRo
-YXQuY29t
+On 04/12/19 09:50, Catherine Ho wrote:
+> Commit 20a78b02d315 ("target/i386: add VMX features") unconditionally
+> add vmx msr entry although older host kernels don't include them.
+> 
+> But old host kernel + newest qemu will cause a qemu crash as follows:
+> qemu-system-x86_64: error: failed to set MSR 0x480 to 0x0
+> target/i386/kvm.c:2932: kvm_put_msrs: Assertion `ret ==
+> cpu->kvm_msr_buf->nmsrs' failed.
+> 
+> This fixes it by relaxing the condition.
+
+This is intentional.  The VMX MSR entries should not have been added.
+What combination of host kernel/QEMU are you using, and what QEMU
+command line?
+
+Paolo
 
 
