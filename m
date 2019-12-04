@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1B0112FD2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:18:13 +0100 (CET)
-Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9FE112FC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:14:35 +0100 (CET)
+Received: from localhost ([::1]:40854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXLw-0007Fl-3c
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:18:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
+	id 1icXIQ-0005QT-9A
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1icWxq-00036c-Sl
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:19 -0500
+ (envelope-from <philmd@redhat.com>) id 1icWy4-0003Jj-Vl
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1icWxp-0003Fu-Hu
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:18 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43405)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1icWxm-0003ES-MT
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:17 -0500
-Received: by mail-wr1-x441.google.com with SMTP id d16so4578503wre.10
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 07:53:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=zJ5VltuwF9J0WFbKN94Y1Ob9y4zVLqrewOvo2Uo7DFE=;
- b=QLIYeiYU6r/iXOiX2fkrEUQteqElWKBaumULHaB3iKUkey25qnA1GhjLfjR1wDEQP1
- hx8fZq/EibeStySdPBj7YshpknIS8X9YIPeAsKXdtdHGHgprzL7pVTq5dVIgz1jB1LMh
- IlmgQBG/GNUIn4EMSxbw9bZspQqcR9frXKLSsraYZUPZiPEbopab2P7ufaRjjuKgU0FI
- poGRW5o1Eq9mtgO+JrFqxsOePGtMqSyg/0m+Q4Uy7dnGN7UdjEGoeNOn8NL4F2oZMPWK
- jByK4Cw9VOFbEW8ZA9zctiDqwYLZUooa6KcMMDvG6kY02p7Cdq0tNcGIifr7MqIRqhXU
- tCcQ==
+ (envelope-from <philmd@redhat.com>) id 1icWy2-0003JY-4s
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48131
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icWy2-0003JB-0s
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575474808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0Iu9USGZXWfNhDGS1xwUM/FRnoU0klkaFpH2157oUs0=;
+ b=Rab7MusmJxoczKX0S0rFxrPc49julwofSHNFqXW72Eb2YWbTqHQMji7lYwRTrfXp7Z9v/V
+ GkMZZHTlgDv02ugg7cY4Zwhfagibs/NUt4tjkaBIZxhjqy3bw7OQDx59+8h0NvrXd0k7f5
+ Al1KCFhSEeU1newMqWTbcltijJtQrg0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-AkSQN9xIMcuui0dyEOuv3Q-1; Wed, 04 Dec 2019 10:53:27 -0500
+Received: by mail-wr1-f72.google.com with SMTP id r2so49429wrp.7
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 07:53:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=zJ5VltuwF9J0WFbKN94Y1Ob9y4zVLqrewOvo2Uo7DFE=;
- b=a7hKomPSw5zGB3T4lu9XS9IBRbQztFGXpmzM68uhTzkjYT2ft5OUM1TQmZivlc/mjW
- Ki+jMoudOltNjxjyuEnsVL8ym9gcvUHhFcUITVa1vmXNIQFEVg+xFUxgxRNBeUuK7LJ9
- 0gRWPtaXEsJhdwdaH3MdrGuSXMD65urMUmt12uBP43ZClOhEqMbtKgDUWGz4kXt1yoMy
- KHn80CSv3ZC1ZR0jLHUTmujzz2QATimpOP+bo10m2sp48x/Z0PwA7fCbmwul+taFAmQz
- ezW7E00zRy6WLCMWprS2X4aMeo5dw9jiUOCgSsaADo3bRh9Nc6Gf/v7kW4/hXdXlLKy8
- /qhw==
-X-Gm-Message-State: APjAAAWawzJfNAqYd55YIAy67xzP+6bE5KgMdPfTpz+ahbNEAfY5Ku+i
- MWYSwqnMQpwq5csmHfbI8hk2Yw==
-X-Google-Smtp-Source: APXvYqw2O9JOWyddUFdC7e1AquKCVkkhnhIcYQ46QwQwJ+Z7KHzQnrJiAwoIAklgJVb9us82+qtH0A==
-X-Received: by 2002:adf:d0c1:: with SMTP id z1mr4937147wrh.371.1575474792938; 
- Wed, 04 Dec 2019 07:53:12 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u1sm7052656wmc.3.2019.12.04.07.53.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 07:53:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 750701FF87;
- Wed,  4 Dec 2019 15:53:10 +0000 (GMT)
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-15-richard.henderson@linaro.org>
- <87y2vs8gf1.fsf@linaro.org>
- <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 14/40] target/arm: Recover 4 bits from TBFLAGs
-In-reply-to: <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
-Date: Wed, 04 Dec 2019 15:53:10 +0000
-Message-ID: <8736e084ux.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RuO5cIW2DVEB8QTEFJsEpj+lgMQU1BAjMR47Wp5T0+8=;
+ b=g3EaMYSm0+ZrjilyuhCkvwA0FtTnI5jTFtV9jB3VUANLTY9YuVyZ/YM6zPkOXP09Ny
+ BgjVQ/7GoOQM6HK8nYq+joik74YiUDTpe5Cx5KwWEJ9v43Wydf/x18/2RwagewYkDUtc
+ OWYKmxSdeXjYZTTrhImh/d6nm2zihSPQ+fIVgef0gGQdNic8gSxERaIqHyIMxEj39f/Q
+ fN87akMEws/jlYP456IhpJI26HTBbgIgUUHbu/NwK2yHqUVs/hEwFDa16k8Oq993U6Qy
+ Wy1FxH9uk0+B7kaBYAoEtxh8n6TelbEFNoCpH497zNRsl8zgOrUBFY4sJSOf1VCZ9ipa
+ zjXw==
+X-Gm-Message-State: APjAAAVJxZAMn+cfwNw7GshIQxNcjwsKf4Y6Zd72798ZxkjPEZiZScxQ
+ ez3nBnVRbXC5f7oZGKMYaQ+AJasXpU2sIFE8BXtrmItNUmRIIJAa3K7XwSJ+rISMEM05GK7Z+vq
+ hzjP3LhYuQp5wyO8=
+X-Received: by 2002:a1c:7911:: with SMTP id l17mr210642wme.44.1575474805279;
+ Wed, 04 Dec 2019 07:53:25 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx+fRp79NjUx9Xh9XHYkwHZd8Sh3dJMaLaMaKuR+V8uvHlPHGExao0ftVUnfA4huhjuYshplw==
+X-Received: by 2002:a1c:7911:: with SMTP id l17mr210624wme.44.1575474805109;
+ Wed, 04 Dec 2019 07:53:25 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id r15sm7263484wmh.21.2019.12.04.07.53.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Dec 2019 07:53:24 -0800 (PST)
+Subject: Re: [PATCH v2 2/7] iotests: Skip test 060 if it is not possible to
+ create large files
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20191204154618.23560-1-thuth@redhat.com>
+ <20191204154618.23560-3-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bd49251b-6bc1-b321-cf6c-3e6b08cae95e@redhat.com>
+Date: Wed, 4 Dec 2019 16:53:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191204154618.23560-3-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: AkSQN9xIMcuui0dyEOuv3Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,28 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/4/19 4:46 PM, Thomas Huth wrote:
+> Test 060 fails in the arm64, s390x and ppc64le LXD containers on Travis
+> (which we will hopefully enable in our CI soon). These containers
+> apparently do not allow large files to be created. The repair process
+> in test 060 creates a file of 64 GiB, so test first whether such large
+> files are possible and skip the test if that's not the case.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/qemu-iotests/060 | 3 +++
+>   1 file changed, 3 insertions(+)
+>=20
+> diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+> index b91d8321bb..d96f17a484 100755
+> --- a/tests/qemu-iotests/060
+> +++ b/tests/qemu-iotests/060
+> @@ -49,6 +49,9 @@ _supported_fmt qcow2
+>   _supported_proto file
+>   _supported_os Linux
+>  =20
+> +# The repair process will create a large file - so check for availabilit=
+y first
+> +_require_large_file 64G
+> +
+>   rt_offset=3D65536  # 0x10000 (XXX: just an assumption)
+>   rb_offset=3D131072 # 0x20000 (XXX: just an assumption)
+>   l1_offset=3D196608 # 0x30000 (XXX: just an assumption)
+>=20
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> On 12/4/19 3:43 AM, Alex Benn=C3=A9e wrote:
-<snip>
->>>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int ma=
-x_insns)
->>>  {
->>> -    DisasContext dc;
->>> +    DisasContext dc =3D { };
->>=20
->> We seemed to have dropped an initialise here which seems unrelated.
->
-> Added, not dropped.
-
-But is it related to this patch or fixing another bug?
-
-
---=20
-Alex Benn=C3=A9e
 
