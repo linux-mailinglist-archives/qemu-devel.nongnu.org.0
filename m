@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3370C112A5C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:39:42 +0100 (CET)
-Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BEC112ABD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:52:15 +0100 (CET)
+Received: from localhost ([::1]:37208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icT0O-0005qy-6n
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:39:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
+	id 1icTCY-0001wy-F5
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36562)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1icRO9-0005Ec-CW
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:56:07 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1icRUM-0008BJ-Nm
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:02:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1icRLv-0003eE-OI
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:53:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20489
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icRLv-0003Yn-JI
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:53:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575453226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0dwGLHg0baVBbBxWdrAAkf8RroB3yMWuAT5RxiT1E98=;
- b=dDkqwAiEZoEOmSghJwrZnW4Bk/GBYHG2FVLl8UMs2Dyco1lo5LwJRSWqLePObTEmrKxdGd
- 1j0kOYUKMrlNpYkySPbO5gQiI8zZ39GnmSip2ySepwsW5HzBElLbNVTqQfj+pR/P655qRv
- cH/SChfUXH0yc0pwCx6vYdm0qvFggoc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-DptTU0ncPY6G_F8fURfOjg-1; Wed, 04 Dec 2019 04:53:45 -0500
-Received: by mail-wr1-f70.google.com with SMTP id j13so3056876wrr.20
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 01:53:44 -0800 (PST)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1icRUA-0004fJ-Sz
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:02:22 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33155)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1icRU8-0004Lz-RB
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 05:02:18 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id y23so4446656wma.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 02:02:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=sJcDA8Mb9A5K8UCPt4+UsrvBo+pWiwJcG2V9zjVJwH8=;
+ b=OQCAsSDAcKjwHCc/+FdEAXgJSOJm0JWrsbolJVW0KQQab8+aSYtmzGvffSoit5TYad
+ E3uhHSC2n1ybey8BxPDUJsJOQRQAGHaK701IYjIpRM540VLqBjTFhvXSOSu/G9GMvYha
+ Ztv/6rKPVMzrW2vYg1W1L6RaAUhSzROBZl/Kg+EquygcveSB4UPABSWJLYXVtHfctitZ
+ KxZUmp2M2/chhd/zYwe0namAtf2Zq4uXaJTKX3A0lzhOSyhORRyT5b1ov/McyN4glgGr
+ XM2G4EwyEwlL6xDqbEtL6ghRMZt3P5yhuc9rIt8PVC92w1gpQVxJf0N3T9Cwu9MsLFIy
+ q/mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
  :content-transfer-encoding;
- bh=0dwGLHg0baVBbBxWdrAAkf8RroB3yMWuAT5RxiT1E98=;
- b=uJMHwClECChmKnQGA6reGksG+Dtnu86y0m/D0i4ncoWzBxVJOOilYjT33HpxPjeR+I
- WAm8on+sex/4jI3URW2FbhpMut57nFEqX18jxgjKGGUUnjsHF8tX0+OnwjQofyGdcVRu
- 7Gu7aSx/6oAbHaPFET9kaP5ShLFOZ40iNR2tO2qRarU9Vc0ACSOmqfiKZ0bi6jdq1622
- ly3Ln3Za9LRJhjxEldUqseXfk01J6TDR6X8R98o2YyjU+X9N6ilrFskw+yCVOWeCH5Qk
- TPwuNteXSoZ0/GK5yjWMiG7AwzLeWptfx6feyBHBv2NDI3IgXRxgknOezcbJypBntulP
- ZY7w==
-X-Gm-Message-State: APjAAAWczCAYlmdEfrAjfFUGsHfh0iCrQBF1dE8NMp6tblKv1n0wotEL
- olYBedccTNESut+jRjGwPOQmP93jliNxtrkTTecW/p/oT3M0WRREm8f6ch3G/sAyEGUZ5LMKaZK
- OJi1lkWyOjQ1wzhw=
-X-Received: by 2002:adf:ea8a:: with SMTP id s10mr2942142wrm.278.1575453223873; 
- Wed, 04 Dec 2019 01:53:43 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzKjVeX6p5sK6geDepDnzyjqoq2fWYNHA/bDrKnnUO07emB2SMpMqnixhvjcNd6UuT4xECv4w==
-X-Received: by 2002:adf:ea8a:: with SMTP id s10mr2942113wrm.278.1575453223568; 
- Wed, 04 Dec 2019 01:53:43 -0800 (PST)
-Received: from [10.201.33.36] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id k19sm6024344wmi.42.2019.12.04.01.53.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2019 01:53:43 -0800 (PST)
-Subject: Re: [PATCH v6 3/9] qdev: add clock input&output support to devices.
-To: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20190904125531.27545-1-damien.hedde@greensocs.com>
- <20190904125531.27545-4-damien.hedde@greensocs.com>
- <CAFEAcA9M4qR89wykURrUxqxeWoNqYHxuJSwC5Mum6GfmWSG=nA@mail.gmail.com>
- <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
-Date: Wed, 4 Dec 2019 10:53:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=sJcDA8Mb9A5K8UCPt4+UsrvBo+pWiwJcG2V9zjVJwH8=;
+ b=mpu9ZKf00hTRW5kCtI9UaoE6tC6byHzSQgImwxdqQxK+2yrhHKuSVSQV19BpJyU3xl
+ qj5O4Pqa8/BqlLd5GjLXuSLPcBLNo2PDtWYAj3KxqRMfH1DC4arGMGrIIkof+8zv0O/X
+ 6wQKdTwEA/RI5LlrxeYEbNdLRdCPHKDNaR6IMox0IAehbVFxTWBshwk53pP7fTLmAseY
+ F6i//TYOE0AvKbkVUB4htFIU1EVVvAl6iBkc6HRzN3yZZBIv17dMgu5eXxNTnDlmhHea
+ hFFGrzlfCIbgTLVpYNJnMv26JXrJzxxrEv1oTPrDapDMxRoGY1YJFZ+653x1H7Q/nKwT
+ Mplg==
+X-Gm-Message-State: APjAAAWgzubf5MvqemWPnaSi+WBzLiLKMA7p9n2z9irCZznYzH7tywi7
+ CpI6MSFI07EinEzodxQuQnkj2CXaE2SJC0GcDtU=
+X-Google-Smtp-Source: APXvYqxA4pHVovhLWg6gyZBJadAASAJylU00UBt2M5jyiiMFgk6oqYy/pz+N3KoUYR9vWqh/a7zhnl5ulbbb467NSx4=
+X-Received: by 2002:a1c:9d8d:: with SMTP id
+ g135mr36179374wme.114.1575453731990; 
+ Wed, 04 Dec 2019 02:02:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
-Content-Language: en-US
-X-MC-Unique: DptTU0ncPY6G_F8fURfOjg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 4 Dec 2019 14:02:00 +0400
+Message-ID: <CAJ+F1CL8VZx-cJkuPj8=YfEWnnDj0F6JVVwfbThy4gtjZ7MAdA@mail.gmail.com>
+Subject: [ANNOUNCE] libslirp 4.1.0 is now available
+To: slirp@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,100 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/19 10:05 AM, Damien Hedde wrote:
-> On 12/2/19 3:34 PM, Peter Maydell wrote:
->> On Wed, 4 Sep 2019 at 13:56, Damien Hedde <damien.hedde@greensocs.com> wrote:
->>>
-[...]
->>> +/**
->>> + * qdev_pass_clock:
->>> + * @dev: the device to forward the clock to
->>> + * @name: the name of the clock to be added (can't be NULL)
->>> + * @container: the device which already has the clock
->>> + * @cont_name: the name of the clock in the container device
->>> + *
->>> + * Add a clock @name to @dev which forward to the clock @cont_name in @container
->>> + */
->>
->> 'container' seems odd terminology here, because I would expect
->> the usual use of this function to be when a 'container' object
->> like an SoC wants to forward a clock to one of its components;
->> in that case the 'container' SoC would be @dev, wouldn't it?
-> 
-> Yes. I agree it is confusing.
-> This function just allow a a device 'A' to exhibit a clock from another
-> device 'B' (typically a composing sub-device, inside a soc like you
-> said). The device A is not supposed to interact with the clock itself.
-> The original sub-device is the true
-> owner/controller of the clock and is the only one which should use the
-> clock API: setting a callback on it (input clock); or updating the clock
-> frequency (output clock).
-> Basically, it just add the clock into the device clock namespace without
-> interfering with it.
-> 
->> We should get this to be the same way round as qdev_pass_gpios(),
->> which takes "DeviceState *dev, DeviceState *container", and
->> passes the gpios that exist on 'dev' over to 'container' so that
->> 'container' now has gpios which it did not before.
-> 
-> Ok, I'll invert the arguments.
-> 
->>
->> Also, your use of 'forward to' is inconsistent: in the 'dev'
->> documentation you say we're forwarding the clock to 'dev',
->> but in the body of the documentation you say we're forwarding
->> the clock to the clock in 'container'.
-> 
-> I'll try to clarify this and make the documentation more consistent with
-> the comments here.
-> 
->>
->> I think the way to resolve this is to stick to the terminology
->> in the function name itself:
->>   @dev: the device which has the clock
->>   @name: the name of the clock on @dev
->>   @container: the name of the device which the clock should
->>    be passed to
->>   @cont_name: the name to use for the clock on @container
-> 
-> I think container is confusing because depending on how we reason (clock
-> in a device; device in another device), we end up thinking the opposite.
-> 
-> Maybe we can use "exhibit" instead of "container" in the 2nd pair of
-> parameters, or prefix use "origin" or "owner" as a prefix for the first
-> pair of parameters.
+Hi,
 
-@sink vs @source?
+We are pleased to announce the availability of libslirp 4.1.0
+release.
 
->> Q: if you pass a clock to another device with this function,
->> does it still exist to be used directly on the original
->> device? For qdev_pass_gpios it does not (I think), but
->> this is more accident of implementation than anything else.
-> 
-> It depends what we mean by "used by".
-> Original device can:
-> + set the callback in case it is an input
-> + update the frequency in case it is an output
+You can grab the tarball & read the changelog from the gitlab release page =
+here:
 
-Hmm here you use @input vs @output...
+    https://gitlab.freedesktop.org/slirp/libslirp/releases
 
-> But since an input clock can only be connected once,
-> I think the logic here is that any connection should now go through the
-> new device. But this is not checked and using one or the other is
-> exactly the same.
-> 
-> Maybe I misunderstood the meaning of qdev_pass_gpios().
-[...]
+Highlights include:
 
+ * new slirp_new() API, more flexible than slirp_init()
+ * various new options needed for slirp4netns
+ * tcp_emu() is now disabled by default. tcp_emu() is known to have
+caused several CVEs, and not useful today in most cases. The feature
+can be still enabled by setting SlirpConfig.enable_emu to true.
+ * bug fixes & cleanups
+
+Once the library installed, you may compile QEMU >=3D 4.0 with
+--enable-slirp=3Dsystem to link against it.
+
+podman/slirp4netns should link with the system library soon
+(https://github.com/rootless-containers/slirp4netns/pull/162)
+
+Thank you to everyone involved!
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
