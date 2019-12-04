@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85116112FBD
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:13:24 +0100 (CET)
-Received: from localhost ([::1]:40820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1B0112FD2
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:18:13 +0100 (CET)
+Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXGx-0004Ia-KU
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:13:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57025)
+	id 1icXLw-0007Fl-3c
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:18:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1icWxj-00030T-4p
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:12 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icWxq-00036c-Sl
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1icWxg-0003Ch-2n
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57280
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icWxe-0003Aa-27
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575474784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vrSBXIgFplizIJGW733sIWhfJJbgVQWhR8Tyi4VB5EE=;
- b=FimgIuciNXSqTD0WjCNjBuUM68tEZM0Rsy1L6kHKeTTDrrl+588/TEv9aGrANXuTC+hW0B
- 2xwcpgzwoOkwbHga5jOus8qkYIAmygpt6dU8GM4sc0l/YX2/16sBSU+hppXgXFo7jRXUah
- wQOgNKlp8789JOA2CY6UxMK0yXwKQS8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-J_9yop0UPSWOPm-wZWA_vQ-1; Wed, 04 Dec 2019 10:53:03 -0500
-Received: by mail-wm1-f70.google.com with SMTP id f191so2252823wme.1
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 07:53:03 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1icWxp-0003Fu-Hu
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:18 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43405)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icWxm-0003ES-MT
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:53:17 -0500
+Received: by mail-wr1-x441.google.com with SMTP id d16so4578503wre.10
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 07:53:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zJ5VltuwF9J0WFbKN94Y1Ob9y4zVLqrewOvo2Uo7DFE=;
+ b=QLIYeiYU6r/iXOiX2fkrEUQteqElWKBaumULHaB3iKUkey25qnA1GhjLfjR1wDEQP1
+ hx8fZq/EibeStySdPBj7YshpknIS8X9YIPeAsKXdtdHGHgprzL7pVTq5dVIgz1jB1LMh
+ IlmgQBG/GNUIn4EMSxbw9bZspQqcR9frXKLSsraYZUPZiPEbopab2P7ufaRjjuKgU0FI
+ poGRW5o1Eq9mtgO+JrFqxsOePGtMqSyg/0m+Q4Uy7dnGN7UdjEGoeNOn8NL4F2oZMPWK
+ jByK4Cw9VOFbEW8ZA9zctiDqwYLZUooa6KcMMDvG6kY02p7Cdq0tNcGIifr7MqIRqhXU
+ tCcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8rTEEii87gDdjvwMl+D6c9Fv9roDXWob1LlFNOprxVE=;
- b=lVQmN503+LNfX9FvxkTYdgckKIWrwb/DlLuQdtAEbb84QZLVNZwwHu3vZc7YjNbE7u
- ejXVwgC2923aS97x4Ecgs/wD3O/r3meV+0NiPRt+fN5/GlUjEiXCN4gOWdVB7YQ+W1hz
- B0R0aNQD286fwad+MIl1VHOkFcL5oM7sqEUMtT7bhsvZeeZd3BioWZICm9CB9TxQg0n4
- oU2EO9Qlnrvx44UHrpLNLee1kMl4RDEN1UcJZjG1sN4jpBUrHMqerikO3wXnaAnou48L
- Z7cwCxZagffQdobc7Y2lGqX1vVe5AO6OQwXLse9vsoezNuiebOFjIXgFNwERUxGhTe1S
- UNqA==
-X-Gm-Message-State: APjAAAUDxn6kY0msMRqso34dtBY2u9JghODRH8y2Vco2mIfe9frHouvV
- o5HYCN6mYL1hTcHIN3PBEfjTLZjI9m2bIo4VQ/fyg+IWWT1gRcOfbORkZQHIQ/KyXjCv6HeSyfw
- XR6K0dOAcIeeAwEY=
-X-Received: by 2002:a1c:2745:: with SMTP id n66mr226232wmn.171.1575474782202; 
- Wed, 04 Dec 2019 07:53:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz8FfzAsseU2NvTq1M3SZ3fFqTpVOg/51OodPJ4VQ1mAWX53iZouTbauMZwwkj3QIqx68jfgQ==
-X-Received: by 2002:a1c:2745:: with SMTP id n66mr226217wmn.171.1575474781986; 
- Wed, 04 Dec 2019 07:53:01 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id z18sm7082188wmf.21.2019.12.04.07.53.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2019 07:53:01 -0800 (PST)
-Subject: Re: [PATCH v2 1/7] iotests: Provide a function for checking the
- creation of huge files
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20191204154618.23560-1-thuth@redhat.com>
- <20191204154618.23560-2-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c517b736-4a30-a69d-34c2-a94212676ad9@redhat.com>
-Date: Wed, 4 Dec 2019 16:53:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zJ5VltuwF9J0WFbKN94Y1Ob9y4zVLqrewOvo2Uo7DFE=;
+ b=a7hKomPSw5zGB3T4lu9XS9IBRbQztFGXpmzM68uhTzkjYT2ft5OUM1TQmZivlc/mjW
+ Ki+jMoudOltNjxjyuEnsVL8ym9gcvUHhFcUITVa1vmXNIQFEVg+xFUxgxRNBeUuK7LJ9
+ 0gRWPtaXEsJhdwdaH3MdrGuSXMD65urMUmt12uBP43ZClOhEqMbtKgDUWGz4kXt1yoMy
+ KHn80CSv3ZC1ZR0jLHUTmujzz2QATimpOP+bo10m2sp48x/Z0PwA7fCbmwul+taFAmQz
+ ezW7E00zRy6WLCMWprS2X4aMeo5dw9jiUOCgSsaADo3bRh9Nc6Gf/v7kW4/hXdXlLKy8
+ /qhw==
+X-Gm-Message-State: APjAAAWawzJfNAqYd55YIAy67xzP+6bE5KgMdPfTpz+ahbNEAfY5Ku+i
+ MWYSwqnMQpwq5csmHfbI8hk2Yw==
+X-Google-Smtp-Source: APXvYqw2O9JOWyddUFdC7e1AquKCVkkhnhIcYQ46QwQwJ+Z7KHzQnrJiAwoIAklgJVb9us82+qtH0A==
+X-Received: by 2002:adf:d0c1:: with SMTP id z1mr4937147wrh.371.1575474792938; 
+ Wed, 04 Dec 2019 07:53:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u1sm7052656wmc.3.2019.12.04.07.53.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2019 07:53:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 750701FF87;
+ Wed,  4 Dec 2019 15:53:10 +0000 (GMT)
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-15-richard.henderson@linaro.org>
+ <87y2vs8gf1.fsf@linaro.org>
+ <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 14/40] target/arm: Recover 4 bits from TBFLAGs
+In-reply-to: <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
+Date: Wed, 04 Dec 2019 15:53:10 +0000
+Message-ID: <8736e084ux.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191204154618.23560-2-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: J_9yop0UPSWOPm-wZWA_vQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,93 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Cleber Rosa <crosa@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/19 4:46 PM, Thomas Huth wrote:
-> Some tests create huge (but sparse) files, and to be able to run those
-> tests in certain limited environments (like CI containers), we have to
-> check for the possibility to create such files first. Thus let's introduc=
-e
-> a common function to check for large files, and replace the already
-> existing checks in the iotests 005 and 220 with this function.
->=20
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/qemu-iotests/005       |  5 +----
->   tests/qemu-iotests/220       |  6 ++----
->   tests/qemu-iotests/common.rc | 10 ++++++++++
->   3 files changed, 13 insertions(+), 8 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-> index 58442762fe..b6d03ac37d 100755
-> --- a/tests/qemu-iotests/005
-> +++ b/tests/qemu-iotests/005
-> @@ -59,10 +59,7 @@ fi
->   # Sanity check: For raw, we require a file system that permits the crea=
-tion
->   # of a HUGE (but very sparse) file. Check we can create it before conti=
-nuing.
->   if [ "$IMGFMT" =3D "raw" ]; then
-> -    if ! truncate --size=3D5T "$TEST_IMG"; then
-> -        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-> -    fi
-> -    rm "$TEST_IMG"
-> +    _require_large_file 5T
->   fi
->  =20
->   echo
-> diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
-> index 2d62c5dcac..15159270d3 100755
-> --- a/tests/qemu-iotests/220
-> +++ b/tests/qemu-iotests/220
-> @@ -42,10 +42,8 @@ echo "=3D=3D Creating huge file =3D=3D"
->  =20
->   # Sanity check: We require a file system that permits the creation
->   # of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
-> -if ! truncate --size=3D513T "$TEST_IMG"; then
-> -    _notrun "file system on $TEST_DIR does not support large enough file=
-s"
-> -fi
-> -rm "$TEST_IMG"
-> +_require_large_file 513T
-> +
->   IMGOPTS=3D'cluster_size=3D2M,refcount_bits=3D1' _make_test_img 513T
->  =20
->   echo "=3D=3D Populating refcounts =3D=3D"
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index 0cc8acc9ed..6f0582c79a 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -643,5 +643,15 @@ _require_drivers()
->       done
->   }
->  =20
-> +# Check that we have a file system that allows huge (but very sparse) fi=
-les
-> +#
-> +_require_large_file()
-> +{
-> +    if ! truncate --size=3D"$1" "$TEST_IMG"; then
-> +        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-> +    fi
-> +    rm "$TEST_IMG"
-> +}
 
-:)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> On 12/4/19 3:43 AM, Alex Benn=C3=A9e wrote:
+<snip>
+>>>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int ma=
+x_insns)
+>>>  {
+>>> -    DisasContext dc;
+>>> +    DisasContext dc =3D { };
+>>=20
+>> We seemed to have dropped an initialise here which seems unrelated.
+>
+> Added, not dropped.
 
-> +
->   # make sure this script returns success
->   true
->=20
+But is it related to this patch or fixing another bug?
 
+
+--=20
+Alex Benn=C3=A9e
 
