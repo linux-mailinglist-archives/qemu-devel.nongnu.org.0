@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24495112862
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 10:49:55 +0100 (CET)
-Received: from localhost ([::1]:36264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D45DB112891
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 10:54:07 +0100 (CET)
+Received: from localhost ([::1]:36294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icRI8-0002G5-4n
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 04:49:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59607)
+	id 1icRMC-0003rW-LY
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 04:54:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59377)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jfreimann@redhat.com>) id 1icQo9-00027a-5d
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:18:54 -0500
+ (envelope-from <philmd@redhat.com>) id 1icR2f-00062W-1p
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:33:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jfreimann@redhat.com>) id 1icQnz-00025y-0i
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:18:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24284
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1icR23-0005DN-45
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:33:17 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46338
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
- id 1icQny-0001w1-R4
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:18:42 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icR22-0004q6-Cu
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:33:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575451120;
+ s=mimecast20190719; t=1575451988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jaKmWDZu0+x94u7kw5a1owzbKppo4+4ChtXCeRDmQz4=;
- b=C/k0BJ8BB0zMqrgl2EF6GqnGPUwd4ThouiM90WllgfDDc/nKi0xcP6BMhhZfsf+NcPkD3q
- ELpqBrFehsZINQ2kPFC1H1U/mUY82nUoIHL2EZqq0dzPPsEwGLgrggwvw0Evf9tbMIS1gq
- gzFXKJJx3Asg/kAeVjYm8+cvM5Il6xE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-TNHtj4zLMK-DRcPttd3xHg-1; Wed, 04 Dec 2019 04:18:33 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF45E183B701;
- Wed,  4 Dec 2019 09:18:32 +0000 (UTC)
-Received: from localhost (dhcp-192-223.str.redhat.com [10.33.192.223])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E2225C1B0;
- Wed,  4 Dec 2019 09:18:25 +0000 (UTC)
-Date: Wed, 4 Dec 2019 10:18:24 +0100
-From: Jens Freimann <jfreimann@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
-Message-ID: <20191204091824.cwufcnlfj5vm4vqu@jenstp.localdomain>
-References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
- <20191128182705.0635d1d4@redhat.com>
- <CAFEAcA-qA6n49KdHsGLqt422L_b_9xPfSaJB3tATQvRdfKt-xw@mail.gmail.com>
- <20191129132641.4c7da6c5@redhat.com>
- <CAFEAcA_gcxqu+N5iV0L5WLyWmm5yxTFNMtmqQryBgVd4CCCT8A@mail.gmail.com>
- <20191129200545.GG14595@habkost.net>
- <CAFEAcA-BkETOSpOwBegDcbO3bqxDO_a9xoTB7Fc8Ajw_+CDcFA@mail.gmail.com>
- <20191203214004.GS14595@habkost.net>
+ bh=EWwlL811nqHOzwEEbPjS7cfietB8hdLHTpFyLp/+y9E=;
+ b=fE5/0J5DOyHE+s0dBY/IbsGhB6r07eQyCiCctTbprg9RZdMleQFgwCd6x7XultwnKmp6Og
+ aE5Cye7O147hN6NzNtEL0eBcVs+nvxxlBAtSbWhTSzruPDLsAftV8Unpdm/fUwa6/h0M8w
+ 0DMtu5k3IARya5AzYPdLlwRa4dt0Wic=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-kKb2wEcPNyKF9X23Q-b8CQ-1; Wed, 04 Dec 2019 04:33:05 -0500
+Received: by mail-wr1-f72.google.com with SMTP id h30so3365086wrh.5
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 01:33:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DcM2aJ98/Fg9usqbQJE5tGT+B3fxRz/ty919EFqv248=;
+ b=r+KrsPAaXn1Zqe/YcAysdn3rpCRIg4pRvyJbJsbMeMsVlzz911ng/jR9CUjGR35ZSO
+ W7qj3jvtAGn2USytI684AfgCq4xzhx0s2a0rPRmHHJISmcr0T4dO0ALY4OMfle005Hzy
+ 3g3gzXpqiegRQY2i+5bi1mTOujqMjfzg05ql1Zv2XDmAXguDgx5BovPV4qm5bc2yd9mI
+ uEfeIAHO4MB8IUrdrGBhUsVZXXhPTZX0g0H5UdM/3ZnEvVQNGL7vzDB6qkguOW4RVDuh
+ wUEFc5XqhGUc55cOaIdFt68GHb5j6YOM9ihj1lcZUSAX3R6CWG4/a8lG/uVTzExDI4K8
+ 2nBw==
+X-Gm-Message-State: APjAAAUzGbEusrpcoRCTYaK9vKWjKpu3EYr3UEeXXL+FEuFJ7sRyJKxu
+ SOhS2IOE2qDJsS5/AtrO29p3Khv/zmh1SglPxyngr7v/nc5pHvEx7PakLer4JK766/Xwb0N4Fbi
+ dxeeXYY6K6QwRyqQ=
+X-Received: by 2002:a7b:c93a:: with SMTP id h26mr11355696wml.83.1575451983662; 
+ Wed, 04 Dec 2019 01:33:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwmZETtAcwMo4R/l8hQqvDK4FgYJHlFNh+J+rsTQGqDiydoAq2T46DtqRlG47HLfBg6Yf6H1A==
+X-Received: by 2002:a7b:c93a:: with SMTP id h26mr11355676wml.83.1575451983457; 
+ Wed, 04 Dec 2019 01:33:03 -0800 (PST)
+Received: from [192.168.43.238] (63.red-95-127-156.staticip.rima-tde.net.
+ [95.127.156.63])
+ by smtp.gmail.com with ESMTPSA id e16sm7370932wrj.80.2019.12.04.01.33.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Dec 2019 01:33:02 -0800 (PST)
+Subject: Re: [PATCH] travis.yml: Drop libcap-dev
+To: Greg Kurz <groug@kaod.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <157544579267.3537077.17459176619888583836.stgit@bahia.lan>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5baaa10a-bc9d-f7ec-0f16-7495aca48fed@redhat.com>
+Date: Wed, 4 Dec 2019 10:33:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191203214004.GS14595@habkost.net>
-User-Agent: NeoMutt/20180716-1376-5d6ed1
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: TNHtj4zLMK-DRcPttd3xHg-1
+In-Reply-To: <157544579267.3537077.17459176619888583836.stgit@bahia.lan>
+Content-Language: en-US
+X-MC-Unique: kKb2wEcPNyKF9X23Q-b8CQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,83 +91,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 03, 2019 at 06:40:04PM -0300, Eduardo Habkost wrote:
->+jfreimann, +mst
->
->On Sat, Nov 30, 2019 at 11:10:19AM +0000, Peter Maydell wrote:
->> On Fri, 29 Nov 2019 at 20:05, Eduardo Habkost <ehabkost@redhat.com> wrot=
-e:
->> > So, to summarize the current issues:
->> >
->> > 1) realize triggers a plug operation implicitly.
->> > 2) unplug triggers unrealize implicitly.
->> >
->> > Do you expect to see use cases that will require us to implement
->> > realize-without-plug?
->>
->> I don't think so, but only because of the oddity that
->> we put lots of devices on the 'sysbus' and claim that
->> that's plugging them into the bus. The common case of
->> 'realize' is where one device (say an SoC) has a bunch of child
->> devices (like UARTs); the SoC's realize method realizes its child
->> devices. Those devices all end up plugged into the 'sysbus'
->> but there's no actual bus there, it's fictional and about
->> the only thing it matters for is reset propagation (which
->> we don't model right either). A few devices don't live on
->> buses at all.
->
->That's my impression as well.
->
->>
->> > Similarly, do you expect use cases that will require us to
->> > implement unplug-without-unrealize?
->>
->> I don't know enough about hotplug to answer this one:
->> it's essentially what I'm hoping you'd be able to answer.
->> I vaguely had in mind that eg the user might be able to
->> create a 'disk' object, plug it into a SCSI bus, then
->> unplug it from the bus without the disk and all its data
->> evaporating, and maybe plug it back into the SCSI
->> bus (or some other SCSI bus) later ? But I don't know
->> anything about how we expose that kind of thing to the
->> user via QMP/HMP.
->
->This ability isn't exposed to the user at all.  Our existing
->interfaces are -device, device_add and device_del.
->
->We do have something new that sounds suspiciously similar to
->"unplugged but not unrealized", though: the new hidden device
->API, added by commit f3a850565693 ("qdev/qbus: add hidden device
->support").
->
->Jens, Michael, what exactly is the difference between a "hidden"
->device and a "unplugged" device?
+On 12/4/19 9:01 AM, Greg Kurz wrote:
+> Commit b1553ab12fe0 converted virtfs-proxy-helper to using libcap-ng. The=
+re
+> aren't any users of libcap anymore. No need to install libcap-dev.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>=20
+> Yet another follow-up to Paolo's patch to use libcap-ng instead of libcap=
+.
+> Like with the docker and the gitlab CI patches, if I get an ack from Alex
+> I'll gladly merge this in the 9p tree and send a PR as soon as 5.0 dev
+> begins. I'll make sure the SHA1 for Paolo's patch remains the same.
+>=20
+>   .travis.yml |    1 -
+>   1 file changed, 1 deletion(-)
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index 445b0646c18a..6cb8af6fa599 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -26,7 +26,6 @@ addons:
+>         - libaio-dev
+>         - libattr1-dev
+>         - libbrlapi-dev
+> -      - libcap-dev
+>         - libcap-ng-dev
+>         - libgcc-4.8-dev
+>         - libgnutls28-dev
+>=20
+>=20
 
-"hidden" the way we use it for virtio-net failover is actually unplugged. B=
-ut it
-doesn't have to be that way. You can register a function that decides
-if the device should be hidden, i.e. plugged now, or do something else
-with it (in the virtio-net failover case we just save everything we
-need to plug the device later). =20
-
-We did introduce a "unplugged but not unrealized" function too as part
-of the failover feature. See "a99c4da9fc pci: mark devices partially
-unplugged"
-
-This was needed so we would be able to re-plug the device in case a
-migration failed and we need to hotplug the primary device back to the
-guest. To avoid the risk of not getting the resources the device needs
-we don't unrealize but just trigger the unplug from the guest OS.
-
-regards
-Jens
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
