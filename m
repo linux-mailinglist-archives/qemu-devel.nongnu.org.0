@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B014D112B8B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:33:26 +0100 (CET)
-Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9CA112B8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:34:26 +0100 (CET)
+Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTqP-0002Yu-Ia
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:33:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46706)
+	id 1icTrN-0004HC-EU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:34:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47393)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1icTGh-0005iG-NQ
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:33 -0500
+ (envelope-from <thuth@redhat.com>) id 1icTIv-0006lJ-CJ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1icTGX-0006kp-C6
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:23 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50223)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1icTGW-0006HA-20
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:56:21 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p9so6723249wmg.0
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=RVPzbJlUj4l2gfWqnQM/tLIoXopJvbtoUDZRcW12RB8=;
- b=w52TPOv2wXksms0+VZnYrOEkzmu0RZkf6X67O70cAmh+DPmMVd34eqmuDKPkBAEfdm
- 4rOr1vUqIKqQnW+DuAek3pqHuYbi0fc8yAwRP0sDeB6RU3NQzkzW+B9VHpOnSPrNnG/N
- oW7V/UUsFUMLSYP4uf6youpBJMDRlLW52Ypppnszmqe8a4y8b8fyYjMCDm4TBiqciUVd
- 3lJa1RbW7X3btMBeuvvhNi8NnMIVWgl0A8w770G4xtpCE3X4ERQk+2r53JrLo0TpIDOv
- P8dIbmf1H/MAMU93GhCjjMW65i9C3OGx6PRwyIqq7hlyzBik5pdN2iESxJU7VA1oeGiz
- qkUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=RVPzbJlUj4l2gfWqnQM/tLIoXopJvbtoUDZRcW12RB8=;
- b=s0QmHYDyaBEDhUMzc1eUvyKoH6TNPdw+fqmmW38rDVh6h3Q5tpeEycBNQkZm7JY2dY
- eS4zCpDVUtQHfSYn+97PVKOFjtOX6TDP9yGpw53QgmzwaLONCNyXR/RpANzaWj/NEXGN
- 50WZSxE04TFAvbKY257YO514gmsGtx33fXIG4ZgXhoBuLp4+wIgwteT3UouLxfLbqlUQ
- xgfBL8YhFVhCzu3i1UnOZvuw2001k9fub4VZlR4Svnlc5gRXP510OW74ePSSSNheSd8Z
- lqHU0axRZywC5fpUdi0HBYvlzLXvS4w4kW3R++U7yycUIRhKXsnO180MS21XC/4wF96s
- STIQ==
-X-Gm-Message-State: APjAAAXjUDNEyIT27GoPJmjSnLOZd+I2rtiMK3vDQSP92al95d06H++M
- AoWaxFbR1vEd/vr85z6uj4xXnw==
-X-Google-Smtp-Source: APXvYqy5aUiYn7x4ANhNDPza0I/plC8pIWGW7FwlcPrP7VTUbOGHSUqLd3Rsw7Eb+vS3EebC5/p0Wg==
-X-Received: by 2002:a1c:4b03:: with SMTP id y3mr28692084wma.91.1575460574218; 
- Wed, 04 Dec 2019 03:56:14 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d9sm7405894wrj.10.2019.12.04.03.56.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 03:56:13 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 728831FF87;
- Wed,  4 Dec 2019 11:56:12 +0000 (GMT)
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-17-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 16/40] target/arm: Rearrange ARMMMUIdxBit
-In-reply-to: <20191203022937.1474-17-richard.henderson@linaro.org>
-Date: Wed, 04 Dec 2019 11:56:12 +0000
-Message-ID: <87sgm08ftv.fsf@linaro.org>
+ (envelope-from <thuth@redhat.com>) id 1icTIq-0002tj-Fx
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43213
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icTIp-0002T7-Ni
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575460720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=CYqdhrrb0OdwKJApQJ0Y0ftnHadkCXjJeQ98p024fK0=;
+ b=DKithmq4gFaQAvvhPTdjqBENOwEnqTATV2boeb75Pz4AkNIONzviPo/agkO1I+kzxSq9an
+ 8aRdqpgHAU02lzn56undMkviPkSvdSnscIvNqa2HLe8RuTAcPVjgTzBgk0fAv6d8UJVK33
+ NK/kPeMB+A527DcAjuSOdM/hpuya0ok=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-SbzfMQDwPyGGeXsGuU0ETQ-1; Wed, 04 Dec 2019 06:58:39 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47EB801E53;
+ Wed,  4 Dec 2019 11:58:37 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-39.ams2.redhat.com [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 497CD19C69;
+ Wed,  4 Dec 2019 11:58:33 +0000 (UTC)
+Subject: Re: [PATCH v2 08/13] s390x: protvirt: Add new VCPU reset functions
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-9-frankja@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <942e3aaa-e79a-ac02-4152-eb160e487865@redhat.com>
+Date: Wed, 4 Dec 2019 12:58:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20191129094809.26684-9-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: SbzfMQDwPyGGeXsGuU0ETQ-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,82 +75,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Define via macro expansion, so that renumbering of the base ARMMMUIdx
-> symbols is automatically reflexed in the bit definitions.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On 29/11/2019 10.48, Janosch Frank wrote:
+> CPU resets for protected guests need to be done via Ultravisor
+> calls. Hence we need a way to issue these calls for each reset.
+> 
+> As we formerly had only one reset function and it was called for
+> initial, as well as for the clear reset, we now need a new interface.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->  target/arm/cpu.h | 39 +++++++++++++++++++++++----------------
->  1 file changed, 23 insertions(+), 16 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 5f295c7e60..6ba5126852 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -2886,27 +2886,34 @@ typedef enum ARMMMUIdx {
->      ARMMMUIdx_Stage1_E1 =3D 1 | ARM_MMU_IDX_NOTLB,
->  } ARMMMUIdx;
->=20=20
-> -/* Bit macros for the core-mmu-index values for each index,
-> +/*
-> + * Bit macros for the core-mmu-index values for each index,
->   * for use when calling tlb_flush_by_mmuidx() and friends.
->   */
-> +#define TO_CORE_BIT(NAME) \
-> +    ARMMMUIdxBit_##NAME =3D 1 << (ARMMMUIdx_##NAME & ARM_MMU_IDX_COREIDX=
-_MASK)
-> +
->  typedef enum ARMMMUIdxBit {
-> -    ARMMMUIdxBit_EL10_0 =3D 1 << 0,
-> -    ARMMMUIdxBit_EL10_1 =3D 1 << 1,
-> -    ARMMMUIdxBit_E2 =3D 1 << 2,
-> -    ARMMMUIdxBit_SE3 =3D 1 << 3,
-> -    ARMMMUIdxBit_SE0 =3D 1 << 4,
-> -    ARMMMUIdxBit_SE1 =3D 1 << 5,
-> -    ARMMMUIdxBit_Stage2 =3D 1 << 6,
-> -    ARMMMUIdxBit_MUser =3D 1 << 0,
-> -    ARMMMUIdxBit_MPriv =3D 1 << 1,
-> -    ARMMMUIdxBit_MUserNegPri =3D 1 << 2,
-> -    ARMMMUIdxBit_MPrivNegPri =3D 1 << 3,
-> -    ARMMMUIdxBit_MSUser =3D 1 << 4,
-> -    ARMMMUIdxBit_MSPriv =3D 1 << 5,
-> -    ARMMMUIdxBit_MSUserNegPri =3D 1 << 6,
-> -    ARMMMUIdxBit_MSPrivNegPri =3D 1 << 7,
-> +    TO_CORE_BIT(EL10_0),
-> +    TO_CORE_BIT(EL10_1),
-> +    TO_CORE_BIT(E2),
-> +    TO_CORE_BIT(SE0),
-> +    TO_CORE_BIT(SE1),
-> +    TO_CORE_BIT(SE3),
-> +    TO_CORE_BIT(Stage2),
-> +
-> +    TO_CORE_BIT(MUser),
-> +    TO_CORE_BIT(MPriv),
-> +    TO_CORE_BIT(MUserNegPri),
-> +    TO_CORE_BIT(MPrivNegPri),
-> +    TO_CORE_BIT(MSUser),
-> +    TO_CORE_BIT(MSPriv),
-> +    TO_CORE_BIT(MSUserNegPri),
-> +    TO_CORE_BIT(MSPrivNegPri),
->  } ARMMMUIdxBit;
->=20=20
-> +#undef TO_CORE_BIT
-> +
->  #define MMU_USER_IDX 0
->=20=20
->  static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
+[...]
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index b802d02ff5..5b1ed3acb4 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -154,6 +154,7 @@ static int cap_ri;
+>  static int cap_gs;
+>  static int cap_hpage_1m;
+>  static int cap_protvirt;
+> +static int cap_vcpu_resets;
+>  
+>  static int active_cmma;
+>  
+> @@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>      cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
+>      cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
+>      cap_protvirt = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
+> +    cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
+>  
+>      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
+>          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
+> @@ -407,20 +409,44 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>      return 0;
+>  }
+>  
+> -void kvm_s390_reset_vcpu(S390CPU *cpu)
+> +static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
+>  {
+>      CPUState *cs = CPU(cpu);
+>  
+> -    /* The initial reset call is needed here to reset in-kernel
+> -     * vcpu data that we can't access directly from QEMU
+> -     * (i.e. with older kernels which don't support sync_regs/ONE_REG).
+> -     * Before this ioctl cpu_synchronize_state() is called in common kvm
+> -     * code (kvm-all) */
+> +    /*
+> +     * The reset call is needed here to reset in-kernel vcpu data that
+> +     * we can't access directly from QEMU (i.e. with older kernels
+> +     * which don't support sync_regs/ONE_REG).  Before this ioctl
+> +     * cpu_synchronize_state() is called in common kvm code
+> +     * (kvm-all).
+> +     */
+> +    if (cap_vcpu_resets) {
+> +        if (kvm_vcpu_ioctl(cs, KVM_S390_VCPU_RESET, type)) {
+> +            error_report("CPU reset type %ld failed on CPU %i",
+> +                         type, cs->cpu_index);
+> +        }
+> +        return;
+> +    }
+>      if (kvm_vcpu_ioctl(cs, KVM_S390_INITIAL_RESET, NULL)) {
+>          error_report("Initial CPU reset failed on CPU %i", cs->cpu_index);
+>      }
 
+Don't you want to check for type != KVM_S390_VCPU_RESET_NORMAL before
+doing the INITIAL_RESET here?
 
---=20
-Alex Benn=C3=A9e
+>  }
+>  
+> +void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
+> +{
+> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_INITIAL);
+> +}
+> +
+> +void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
+> +{
+> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_CLEAR);
+> +}
+> +
+> +void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
+> +{
+> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_NORMAL);
+> +}
+
+... otherwise this might reset more things than expected?
+
+Or do I miss something here?
+
+ Thomas
+
 
