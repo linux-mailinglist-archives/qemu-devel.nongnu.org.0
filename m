@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B0B11358E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 20:16:30 +0100 (CET)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B8411357C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 20:11:42 +0100 (CET)
+Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ica8T-0006x4-GM
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 14:16:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
+	id 1ica3n-0003zR-Oe
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 14:11:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1ica1A-0002Zt-RV
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:09:00 -0500
+ (envelope-from <vgoyal@redhat.com>) id 1ica18-0002ZH-LK
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1ica18-0005Tb-SR
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33248
+ (envelope-from <vgoyal@redhat.com>) id 1ica15-0005Pq-8H
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32247
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1ica16-0005PE-V9
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:53 -0500
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1ica14-0005Oj-WB
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1575486529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mAhYHUCtIsGWrIxvI8A8iRtDjmmVa3sO5ynZ4qkQ8zs=;
- b=MzbuwHRL58viIq1pCteogtkDmBdKnCHZXTnwpKsD7VCClKTLdAu1YuCSi3k9HXMXXXYipo
- 9fJEWwHf7EazatjUGL9So5ETuJ7wPJMwdU4qPpRtZfQ34mVvow9qnOk34PNnBdMYmBHg0K
- UWqkUWYGsZhIgdUkCP2PSE26nv+mBJA=
+ bh=HNKuisohKuzW0O/AF+rSjIu6/T1DLhroU5kUOiE3QF0=;
+ b=TvNRhrjPEnOoMvI5VoTf2B6MABFlrU1RzIsfgOwIUSdgOT8IJED2LbKk8TmVSSQKolvBre
+ 2ShjSq5cqGvTb8PLT5Wlyra3VSLFyFeYtFD9B1QOZVYwzNuox6nXgz0/ThexnVkmiHusSP
+ RqMvDE1JlyFsy0L8edtrP/bRzW6V7Zo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-8Gv5jSC7NbiMAaXj4HbROw-1; Wed, 04 Dec 2019 14:08:48 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-352-XXtWF4u6MjCRQXVPHE99WA-1; Wed, 04 Dec 2019 14:08:48 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BABD18A6EF1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D51618A6EF2
  for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 19:08:47 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A6D5600C8;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B85810013A1;
  Wed,  4 Dec 2019 19:08:42 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2B8B922471C; Wed,  4 Dec 2019 14:08:42 -0500 (EST)
+ id 2F3A722474F; Wed,  4 Dec 2019 14:08:42 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: virtio-fs@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] virtiofd: Create a notification queue
-Date: Wed,  4 Dec 2019 14:08:34 -0500
-Message-Id: <20191204190836.31324-4-vgoyal@redhat.com>
+Subject: [PATCH v2 4/5] virtiofsd: Specify size of notification buffer using
+ config space
+Date: Wed,  4 Dec 2019 14:08:35 -0500
+Message-Id: <20191204190836.31324-5-vgoyal@redhat.com>
 In-Reply-To: <20191204190836.31324-1-vgoyal@redhat.com>
 References: <20191204190836.31324-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 8Gv5jSC7NbiMAaXj4HbROw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: XXtWF4u6MjCRQXVPHE99WA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,314 +78,165 @@ Cc: mszeredi@redhat.com, dgilbert@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a notification queue which will be used to send async notifications
-for file lock availability.
+Daemon specifies size of notification buffer needed and that should be done
+using config space.
+
+Only ->notify_buf_size value of config space comes from daemon. Rest of
+it is filled by qemu device emulation code.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- contrib/virtiofsd/fuse_i.h                 |  1 +
- contrib/virtiofsd/fuse_virtio.c            | 74 +++++++++++++++-------
- hw/virtio/vhost-user-fs-pci.c              |  2 +-
- hw/virtio/vhost-user-fs.c                  | 37 +++++++++--
- include/hw/virtio/vhost-user-fs.h          |  1 +
- include/standard-headers/linux/virtio_fs.h |  3 +
- 6 files changed, 87 insertions(+), 31 deletions(-)
+ contrib/virtiofsd/fuse_virtio.c            | 31 ++++++++++++++++++++++
+ hw/virtio/vhost-user-fs.c                  | 26 ++++++++++++++++++
+ include/hw/virtio/vhost-user-fs.h          |  2 ++
+ include/standard-headers/linux/virtio_fs.h |  2 ++
+ 4 files changed, 61 insertions(+)
 
-diff --git a/contrib/virtiofsd/fuse_i.h b/contrib/virtiofsd/fuse_i.h
-index 966b1a3baa..4eeae0bfeb 100644
---- a/contrib/virtiofsd/fuse_i.h
-+++ b/contrib/virtiofsd/fuse_i.h
-@@ -74,6 +74,7 @@ struct fuse_session {
- =09char *vu_socket_lock;
- =09struct fv_VuDev *virtio_dev;
- =09int thread_pool_size;
-+=09bool notify_enabled;
- };
-=20
- struct fuse_chan {
 diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
 o.c
-index 2a9cd60a01..b1eebcf054 100644
+index b1eebcf054..94cf9b3791 100644
 --- a/contrib/virtiofsd/fuse_virtio.c
 +++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
- #include "qapi/error.h"
-+#include "standard-headers/linux/virtio_fs.h"
- #include "fuse_i.h"
- #include "fuse_kernel.h"
- #include "fuse_misc.h"
-@@ -92,23 +93,31 @@ struct fv_VuDev {
-      */
-     size_t nqueues;
-     struct fv_QueueInfo **qi;
--};
--
--/* From spec */
--struct virtio_fs_config {
--    char tag[36];
--    uint32_t num_queues;
-+    /* True if notification queue is being used */
-+    bool notify_enabled;
- };
-=20
- /* Callback from libvhost-user */
- static uint64_t fv_get_features(VuDev *dev)
- {
--    return 1ULL << VIRTIO_F_VERSION_1;
-+    uint64_t features;
-+
-+    features =3D 1ull << VIRTIO_F_VERSION_1 |
-+               1ull << VIRTIO_FS_F_NOTIFICATION;
-+
-+    return features;
+@@ -869,6 +869,35 @@ static bool fv_queue_order(VuDev *dev, int qidx)
+     return false;
  }
 =20
- /* Callback from libvhost-user */
- static void fv_set_features(VuDev *dev, uint64_t features)
- {
-+    struct fv_VuDev *vud =3D container_of(dev, struct fv_VuDev, dev);
-+    struct fuse_session *se =3D vud->se;
-+
-+    if ((1ull << VIRTIO_FS_F_NOTIFICATION) & features) {
-+        vud->notify_enabled =3D true;
-+        se->notify_enabled =3D true;
-+    }
- }
-=20
- /*
-@@ -765,6 +774,9 @@ static void fv_queue_set_started(VuDev *dev, int qidx, =
-bool started)
- {
-     struct fv_VuDev *vud =3D container_of(dev, struct fv_VuDev, dev);
-     struct fv_QueueInfo *ourqi;
-+    void * (*thread_func) (void *) =3D fv_queue_thread;
-+    int valid_queues =3D 2; /* One hiprio queue and one request queue */
-+    bool notification_q =3D false;
-=20
-     fuse_log(FUSE_LOG_INFO, "%s: qidx=3D%d started=3D%d\n", __func__, qidx=
-,
-              started);
-@@ -776,10 +788,18 @@ static void fv_queue_set_started(VuDev *dev, int qidx=
-, bool started)
-      * well-behaved client in mind and may not protect against all types o=
-f
-      * races yet.
-      */
--    if (qidx > 1) {
--        fuse_log(FUSE_LOG_ERR,
--                 "%s: multiple request queues not yet implemented, please =
-only "
--                 "configure 1 request queue\n",
-+    if (vud->notify_enabled) {
-+        valid_queues++;
-+        /*
-+         * If notification queue is enabled, then qidx 1 is notificaiton q=
-ueue.
-+         */
-+        if (qidx =3D=3D 1)
-+            notification_q =3D true;
-+    }
-+
-+    if (qidx >=3D valid_queues) {
-+        fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
-+                 "implemented, please only configure 1 request queue\n",
-                  __func__);
-         exit(EXIT_FAILURE);
-     }
-@@ -803,13 +823,19 @@ static void fv_queue_set_started(VuDev *dev, int qidx=
-, bool started)
-             assert(vud->qi[qidx]->kick_fd =3D=3D -1);
-         }
-         ourqi =3D vud->qi[qidx];
-+        pthread_mutex_init(&ourqi->vq_lock, NULL);
-+        /*
-+         * For notification queue, we don't have to start a thread yet.
-+         */
-+        if (notification_q)
-+            return;
-+
-         ourqi->kick_fd =3D dev->vq[qidx].kick_fd;
-=20
-         ourqi->kill_fd =3D eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
-         assert(ourqi->kill_fd !=3D -1);
--        pthread_mutex_init(&ourqi->vq_lock, NULL);
-=20
--        if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) =
-{
-+        if (pthread_create(&ourqi->thread, NULL, thread_func, ourqi)) {
-             fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue =
-%d\n",
-                      __func__, qidx);
-             assert(0);
-@@ -819,17 +845,19 @@ static void fv_queue_set_started(VuDev *dev, int qidx=
-, bool started)
-         assert(qidx < vud->nqueues);
-         ourqi =3D vud->qi[qidx];
-=20
--        /* Kill the thread */
--        if (eventfd_write(ourqi->kill_fd, 1)) {
--            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
--        }
--        ret =3D pthread_join(ourqi->thread, NULL);
--        if (ret) {
--            fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %=
-d\n",
--                     __func__, qidx, ret);
-+        if (!notification_q) {
-+            /* Kill the thread */
-+            if (eventfd_write(ourqi->kill_fd, 1)) {
-+                fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
-+            }
-+            ret =3D pthread_join(ourqi->thread, NULL);
-+            if (ret) {
-+                fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d e=
-rr"
-+                         " %d\n", __func__, qidx, ret);
-+            }
-+            close(ourqi->kill_fd);
-         }
-         pthread_mutex_destroy(&ourqi->vq_lock);
--        close(ourqi->kill_fd);
-         ourqi->kick_fd =3D -1;
-         free(vud->qi[qidx]);
-         vud->qi[qidx] =3D NULL;
-@@ -1034,7 +1062,7 @@ int virtio_session_mount(struct fuse_session *se)
-     se->virtio_dev =3D calloc(sizeof(struct fv_VuDev), 1);
-     se->virtio_dev->se =3D se;
-     pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
--    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, fv_set_wat=
-ch,
-+    vu_init(&se->virtio_dev->dev, 3, se->vu_socketfd, fv_panic, fv_set_wat=
-ch,
-             fv_remove_watch, &fv_iface);
-=20
-     return 0;
-diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-index 0f3c3c8711..95f9fe5c5c 100644
---- a/hw/virtio/vhost-user-fs-pci.c
-+++ b/hw/virtio/vhost-user-fs-pci.c
-@@ -44,7 +44,7 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpc=
-i_dev, Error **errp)
-     uint64_t totalsize;
-=20
-     if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
--        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 1;
-+        vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 2;
-     }
-=20
-     qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 455e97beea..5555fe9dbe 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -24,6 +24,10 @@
- #include "exec/address-spaces.h"
- #include "trace.h"
-=20
-+static const int user_feature_bits[] =3D {
-+    VIRTIO_FS_F_NOTIFICATION,
-+};
-+
- uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, VhostUserFSSlaveMs=
-g *sm,
-                                  int fd)
- {
-@@ -378,12 +382,23 @@ static void vuf_set_status(VirtIODevice *vdev, uint8_=
-t status)
-     }
- }
-=20
--static uint64_t vuf_get_features(VirtIODevice *vdev,
--                                      uint64_t requested_features,
--                                      Error **errp)
-+static uint64_t vuf_get_features(VirtIODevice *vdev, uint64_t features,
-+                                 Error **errp)
- {
--    /* No feature bits used yet */
--    return requested_features;
-+    VHostUserFS *fs =3D VHOST_USER_FS(vdev);
-+
-+    virtio_add_feature(&features, VIRTIO_FS_F_NOTIFICATION);
-+
-+    return vhost_get_features(&fs->vhost_dev, user_feature_bits, features)=
-;
++static uint64_t fv_get_protocol_features(VuDev *dev)
++{
++=09return 1ull << VHOST_USER_PROTOCOL_F_CONFIG;
 +}
 +
-+static void vuf_set_features(VirtIODevice *vdev, uint64_t features)
++static int fv_get_config(VuDev *dev, uint8_t *config, uint32_t len)
 +{
-+    VHostUserFS *fs =3D VHOST_USER_FS(vdev);
++=09struct virtio_fs_config fscfg =3D {};
++=09unsigned notify_size, roundto =3D 64;
++=09union fuse_notify_union {
++=09=09struct fuse_notify_poll_wakeup_out=09wakeup_out;
++=09=09struct fuse_notify_inval_inode_out=09inode_out;
++=09=09struct fuse_notify_inval_entry_out=09entry_out;
++=09=09struct fuse_notify_delete_out=09=09delete_out;
++=09=09struct fuse_notify_store_out=09=09store_out;
++=09=09struct fuse_notify_retrieve_out=09=09retrieve_out;
++=09};
 +
-+    if (virtio_has_feature(features, VIRTIO_FS_F_NOTIFICATION)) {
-+        fs->notify_enabled =3D true;
-+    }
++=09notify_size =3D sizeof(struct fuse_out_header) +
++=09=09      sizeof(union fuse_notify_union);
++=09notify_size =3D ((notify_size + roundto)/roundto) * roundto;
++
++=09fscfg.notify_buf_size =3D notify_size;
++=09memcpy(config, &fscfg, len);
++=09fuse_log(FUSE_LOG_DEBUG, "%s:Setting notify_buf_size=3D%d\n", __func__,
++                 fscfg.notify_buf_size);
++=09return 0;
++}
++
+ static const VuDevIface fv_iface =3D {
+     .get_features =3D fv_get_features,
+     .set_features =3D fv_set_features,
+@@ -877,6 +906,8 @@ static const VuDevIface fv_iface =3D {
+     .queue_set_started =3D fv_queue_set_started,
+=20
+     .queue_is_processed_in_order =3D fv_queue_order,
++    .get_protocol_features =3D fv_get_protocol_features,
++    .get_config =3D fv_get_config,
+ };
+=20
+ /*
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 5555fe9dbe..5a6d244b98 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -277,16 +277,40 @@ uint64_t vhost_user_fs_slave_io(struct vhost_dev *dev=
+, VhostUserFSSlaveMsg *sm,
+     return (uint64_t)done;
  }
 =20
- static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-@@ -515,13 +530,20 @@ static void vuf_device_realize(DeviceState *dev, Erro=
-r **errp)
-     /* Hiprio queue */
-     virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
++static int vhost_user_fs_handle_config_change(struct vhost_dev *dev)
++{
++    return 0;
++}
++
++const VhostDevConfigOps fs_ops =3D {
++    .vhost_dev_config_notifier =3D vhost_user_fs_handle_config_change,
++};
 =20
-+    /* Notification queue. Feature negotiation happens later. So at this
-+     * point of time we don't know if driver will use notification queue
-+     * or not.
+ static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
+ {
+     VHostUserFS *fs =3D VHOST_USER_FS(vdev);
+     struct virtio_fs_config fscfg =3D {};
++    int ret;
++
++    /*
++     * As of now we only get notification buffer size from device. And tha=
+t's
++     * needed only if notification queue is enabled.
 +     */
-+    virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-+
-     /* Request queues */
-     for (i =3D 0; i < fs->conf.num_request_queues; i++) {
-         virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-     }
++    if (fs->notify_enabled) {
++        ret =3D vhost_dev_get_config(&fs->vhost_dev, (uint8_t *)&fs->fscfg=
+,
++                                   sizeof(struct virtio_fs_config));
++        if (ret < 0) {
++            error_report("vhost-user-fs: get device config space failed."
++                         " ret=3D%d\n", ret);
++            return;
++        }
++    }
 =20
--    /* 1 high prio queue, plus the number configured */
--    fs->vhost_dev.nvqs =3D 1 + fs->conf.num_request_queues;
-+    /* 1 high prio queue, 1 notification queue plus the number configured =
-*/
-+    fs->vhost_dev.nvqs =3D 2 + fs->conf.num_request_queues;
-+
+     memcpy((char *)fscfg.tag, fs->conf.tag,
+            MIN(strlen(fs->conf.tag) + 1, sizeof(fscfg.tag)));
+=20
+     virtio_stl_p(vdev, &fscfg.num_request_queues, fs->conf.num_request_que=
+ues);
++    virtio_stl_p(vdev, &fscfg.notify_buf_size, fs->fscfg.notify_buf_size);
+=20
+     memcpy(config, &fscfg, sizeof(fscfg));
+ }
+@@ -545,6 +569,8 @@ static void vuf_device_realize(DeviceState *dev, Error =
+**errp)
+     fs->vhost_dev.nvqs =3D 2 + fs->conf.num_request_queues;
+=20
      fs->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, fs->vhost_dev.nvq=
 s);
++
++    vhost_dev_set_config_notifier(&fs->vhost_dev, &fs_ops);
      ret =3D vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
                           VHOST_BACKEND_TYPE_USER, 0);
-@@ -584,6 +606,7 @@ static void vuf_class_init(ObjectClass *klass, void *da=
-ta)
-     vdc->realize =3D vuf_device_realize;
-     vdc->unrealize =3D vuf_device_unrealize;
-     vdc->get_features =3D vuf_get_features;
-+    vdc->set_features =3D vuf_set_features;
-     vdc->get_config =3D vuf_get_config;
-     vdc->set_status =3D vuf_set_status;
-     vdc->guest_notifier_mask =3D vuf_guest_notifier_mask;
+     if (ret < 0) {
 diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-us=
 er-fs.h
-index 4e7be1f312..bd47e0da98 100644
+index bd47e0da98..f667cc4b5a 100644
 --- a/include/hw/virtio/vhost-user-fs.h
 +++ b/include/hw/virtio/vhost-user-fs.h
-@@ -64,6 +64,7 @@ typedef struct {
-     /* Metadata version table */
-     size_t mdvt_size;
-     MemoryRegion mdvt;
-+    bool notify_enabled;
- } VHostUserFS;
+@@ -14,6 +14,7 @@
+ #ifndef _QEMU_VHOST_USER_FS_H
+ #define _QEMU_VHOST_USER_FS_H
 =20
- /* Callbacks from the vhost-user code for slave commands */
++#include "standard-headers/linux/virtio_fs.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-user.h"
+@@ -58,6 +59,7 @@ typedef struct {
+     struct vhost_virtqueue *vhost_vqs;
+     struct vhost_dev vhost_dev;
+     VhostUserState vhost_user;
++    struct virtio_fs_config fscfg;
+=20
+     /*< public >*/
+     MemoryRegion cache;
 diff --git a/include/standard-headers/linux/virtio_fs.h b/include/standard-=
 headers/linux/virtio_fs.h
-index 310210b7b6..9ee95f584f 100644
+index 9ee95f584f..719216a262 100644
 --- a/include/standard-headers/linux/virtio_fs.h
 +++ b/include/standard-headers/linux/virtio_fs.h
-@@ -8,6 +8,9 @@
- #include "standard-headers/linux/virtio_config.h"
- #include "standard-headers/linux/virtio_types.h"
+@@ -17,6 +17,8 @@ struct virtio_fs_config {
 =20
-+/* Feature bits */
-+#define VIRTIO_FS_F_NOTIFICATION=090=09/* Notification queue supported */
-+
- struct virtio_fs_config {
- =09/* Filesystem name (UTF-8, not NUL-terminated, padded with NULs) */
- =09uint8_t tag[36];
+ =09/* Number of request queues */
+ =09uint32_t num_request_queues;
++=09/* Size of notification buffer */
++=09uint32_t notify_buf_size;
+ } QEMU_PACKED;
+=20
+ #define VIRTIO_FS_PCI_CACHE_BAR 2
 --=20
 2.20.1
 
