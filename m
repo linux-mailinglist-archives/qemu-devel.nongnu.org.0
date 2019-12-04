@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF4D1112D01
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 14:56:02 +0100 (CET)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9DB3112D1A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 14:59:18 +0100 (CET)
+Received: from localhost ([::1]:39284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icV8M-0004d6-1a
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 08:56:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38191)
+	id 1icVBV-0007GC-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 08:59:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1icV7H-00046x-GH
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:54:56 -0500
+ (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
+ id 1icV8l-0005A3-EB
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1icV7G-0004Yh-DL
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:54:55 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53162)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1icV7G-0004YX-6k
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:54:54 -0500
-Received: by mail-wm1-x341.google.com with SMTP id p9so7073881wmc.2
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 05:54:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=dSSbcgmdVMXVBu0McqC6DQ+FnuwnC2+7IbOSf3VeioM=;
- b=FhG4mknXXJ9WpfLwJBRGENKOa4of2rzsuBaHfBrh+HRqKzuO5dm+Di6iu/P0zMn0Nh
- 8FYv0/m3jpzojvtrdYVmZTrbiAxs0MyGlxQ56E+e/WmmdND9/JuWxYiHaaffLtreZ4KU
- 0CegzfqGzHO87IihwmX55vyV6EZ8RgCJEr6tWKoWRn5DnFjhNU/2ZecxPPHMAdrb1By1
- MBUQlIm6s+HDYyC0WDsysvehz3rjDDhA7damRwsY87Lu1lYqjF/a8TFQ1/FoKfGpbrc0
- 9Ha172Vwmr0z7ngh1iojcHWcICI3IU9JM1XPZB/WNncy/Ia16E/ptzKuh5Cg0XSMP7nM
- LJ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=dSSbcgmdVMXVBu0McqC6DQ+FnuwnC2+7IbOSf3VeioM=;
- b=KsRUguxAVwV3oBwYmRLHLguyjtm145XW1S+Oo+Z8Q/aKHX9Ukje4kx5UYG0eXS8VZT
- qvgEJFhsB6ivzsd7MBEPhxDhEq6/36VmCmh1xxzepl8lNj4oSZeHScJrxE+bulXJKt7I
- eskK6jWLUyaMAzxmud/xWXNl01b9zrDerCN+/kNzCy0ZawUDp3GDmPALML3r1uiXVcBF
- nwnhqPDj1M9aeamYQPWQ9OVmLpsmPfPRONWQlr51vaijAPleZ9PLtOmDp9lobgv8uppq
- mlVWbAOg8G3z+ZxFa+YPieTu2FfE/zN48N9YRcs7gD86XnrbG2T5kGoEvwcahNMDConA
- My8g==
-X-Gm-Message-State: APjAAAXRzMKOWaBH2caFwF2JPsnPuGgdggsFPQUpTSbNcppejmcGtGiZ
- 4XyXjtWOTIOKim/7VI1SLlMsMw==
-X-Google-Smtp-Source: APXvYqybtcCj0Ed/06kjDCvVxWYdZt6o21SzCSWnzQjnfL1o6aF0OUtvC75sreQqVPXpZNohhD+HqA==
-X-Received: by 2002:a1c:7c11:: with SMTP id x17mr5346609wmc.168.1575467692800; 
- Wed, 04 Dec 2019 05:54:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y20sm6604145wmi.25.2019.12.04.05.54.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2019 05:54:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3D591FF87;
- Wed,  4 Dec 2019 13:54:50 +0000 (GMT)
-References: <87lfrtbtj6.fsf@linaro.org>
- <20191204083133.6198-1-thuth@redhat.com>
- <c727fe15-2448-22c5-2b0a-0ceb7bee2586@linaro.org>
-User-agent: mu4e 1.3.5; emacs 27.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3] travis.yml: Run tcg tests with tci
-In-reply-to: <c727fe15-2448-22c5-2b0a-0ceb7bee2586@linaro.org>
-Date: Wed, 04 Dec 2019 13:54:50 +0000
-Message-ID: <87h82g8ac5.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+ (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
+ id 1icV8k-0005JP-D7
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 08:56:27 -0500
+Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:9490)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <prvs=2346a8ea7=sveith@amazon.com>)
+ id 1icV8i-0005BH-2F; Wed, 04 Dec 2019 08:56:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+ t=1575467784; x=1607003784;
+ h=from:to:cc:subject:date:message-id;
+ bh=amRmOZ81ssXzZqOVsDMBobbUW7BTTADIGSXfhNanSq8=;
+ b=AgcBFSXrH15UHCFncEIWqeTYwSd8VKm73tGjm4FFarhcFIXaAojjEaKP
+ QCH97zxXsXvrnrnPEyePD7a0W7Qx+qDsXPWGlpEhDJEOVsFH/ARVpmN76
+ e/A18NNhTTQ3k46nQ7PcolqFz/ZgjpQOJYSnMf3SPKA/3p2fQCN1xBAhy Q=;
+IronPort-SDR: yUaUEAX32SYqXk8ZjOlm+6F+BYcvUIP+QNVXs80cyWQWILsbhPkduqaBOJQeL+KN/s7WL/0Wpb
+ +CHvJ2bEC2Ag==
+X-IronPort-AV: E=Sophos;i="5.69,277,1571702400"; 
+   d="scan'208";a="3177649"
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2a-e7be2041.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP;
+ 04 Dec 2019 13:56:12 +0000
+Received: from sveith-desktop.aka.corp.amazon.com
+ (pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
+ by email-inbound-relay-2a-e7be2041.us-west-2.amazon.com (Postfix) with ESMTPS
+ id E7A91A21B0; Wed,  4 Dec 2019 13:56:11 +0000 (UTC)
+Received: from sveith-desktop.aka.corp.amazon.com (localhost [127.0.0.1])
+ by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTP id
+ xB4DuAqV029090; Wed, 4 Dec 2019 14:56:10 +0100
+Received: (from sveith@localhost)
+ by sveith-desktop.aka.corp.amazon.com (8.15.2/8.15.2/Submit) id xB4DuAC3029089;
+ Wed, 4 Dec 2019 14:56:10 +0100
+From: Simon Veith <sveith@amazon.de>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: Simon Veith <sveith@amazon.de>
+Subject: [PATCH 0/5] hw/arm/smmuv3: Correct stream ID and event address
+ handling
+Date: Wed,  4 Dec 2019 14:55:43 +0100
+Message-Id: <1575467748-28898-1-git-send-email-sveith@amazon.de>
+X-Mailer: git-send-email 2.7.4
+Precedence: Bulk
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 207.171.184.25
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,35 +69,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+While working on the Linux SMMUv3 driver, I noticed a few cases where the QEMU
+SMMUv3 behavior relating to stream tables was inconsistent with our hardware.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Also, when debugging those differences, I found that the errors reported through
+the QEMU SMMUv3 event queue contained the address fields in an incorrect
+position.
 
-> On 12/4/19 12:31 AM, Thomas Huth wrote:
->> -    # We manually include builds which we disable "make check" for
->> +    # Check the TCG interpreter (TCI)
->>      - env:
->> -        - CONFIG=3D"--enable-debug --enable-tcg-interpreter"
->> -        - TEST_CMD=3D""
->> +        - CONFIG=3D"--enable-debug --enable-tcg-interpreter --disable-k=
-vm
->
-> While we're changing things, the interpreter will go much faster with
-> optimization enabled.  We can change this to --enable-debug-tcg, which le=
-aves
-> the asserts enabled, but compiles with -O2.
+These patches correct the QEMU SMMUv3 behavior to match the specification (and
+the behavior that I observed in our hardware). Linux guests normally will not
+notice these issues, but other SMMUv3 driver implementations might.
 
-I've amended the commit in my tree - no need to resend.
->
->
-> r~
+Simon Veith (5):
+  hw/arm/smmuv3: Apply address mask to linear strtab base address
+  hw/arm/smmuv3: Check stream IDs against actual table LOG2SIZE
+  hw/arm/smmuv3: Align stream table base address to table size
+  hw/arm/smmuv3: Use correct bit positions in EVT_SET_ADDR2 macro
+  hw/arm/smmuv3: Report F_STE_FETCH fault address in correct word
+    position
 
+ hw/arm/smmuv3-internal.h |  4 ++--
+ hw/arm/smmuv3.c          | 39 ++++++++++++++++++++++++++++++++-------
+ 2 files changed, 34 insertions(+), 9 deletions(-)
 
---=20
-Alex Benn=C3=A9e
+-- 
+2.7.4
+
 
