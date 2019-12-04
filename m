@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEEF1120D1
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 02:04:02 +0100 (CET)
-Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E341120FD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 02:20:11 +0100 (CET)
+Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icJ5F-0000Dg-Kc
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 20:04:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51179)
+	id 1icJKq-0005rD-8h
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 20:20:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1icIu5-0005Y0-U9
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:33 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1icIu7-0005Y1-RZ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1icIh2-0004f2-MC
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:39:02 -0500
-Received: from mail-mw2nam10on2077.outbound.protection.outlook.com
- ([40.107.94.77]:6183 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (envelope-from <Babu.Moger@amd.com>) id 1icIhF-0004lV-Et
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:39:14 -0500
+Received: from mail-dm6nam11on2051.outbound.protection.outlook.com
+ ([40.107.223.51]:42208 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIh0-0004QT-PH
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:38:58 -0500
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIhA-0004hx-Hs
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:39:10 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CtV1pINLaETbrOD/A1dzjXWrCR2gy1FqWXFfkjOlKoYf5POjP7v3iMks95sjdI4/7nn6Drcw+G9OHGBLqXVpml+uPTSLE2QWS/qoykVIWszvu1DOIvvZ43H4St6Jm3hgz5EV/JIT5svbqcXhhII1h1yE5Q0R+ulBE69aYi640yOMohWkMtBA5QQvgOtXjjmF5fVoy03B9CY/4+6CiwDyIHMJpKUdiaLlcxJ9zj9wlwM/A1Ee6AxmFpZSFKak4YAx82Dnl2U/E627FC6nzOBKIcXHbQqkP06BsAkTMSOLQgLWCb+3u34RSF/XW9rNmqoJGXpVEIBhjrVdKqUke0ysAQ==
+ b=cK1CGXg8Njp3eelxGFmXSUxBz5MBCP8t7vFodBKeaqGPr9dvPugWTVmj9W8oPE2609iieL3PTTunpON/CcXX+1Bn4A+0M2mRtqKLyOX1EUNt8pYFk96X1wU2pyx0v7z2pwmnP5A27Dq74MTDyCBUOgQHr93t+886YEkP2MVk8o2wvvAnbnZy6Dm4qmdheFCcQmZ+EKQ5Bxb+gCtrvwj3ZDUK4rhfLSCDPWtpU7M2JVC8/e1rdM7cXibEvFyw6B8cBb2aI9ws4x7Ny7WxZ+WIqkaaDkNAu608HLUBnF2EFgS0o6W8Pe20BlUpEGAIs+8iG/uNh70AJrhG4ThiLHzjVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BG+VwNz1n/1MmF5MdFaMBtLZTRXlZCy8kc2AVymnt4U=;
- b=b4o4pvBEMb+njWUb4GK1OSxtsFrqpTbfbdbeZvwNktonoyOUs2P0av61BRxb25JjdguVe9pTcw4mQamrMHvc5Hzzzv1dZvEEZAozB5hyOuHxsEz/0HeQUmg7hM+l9Y+j+h2abTwARnQV3surFTdLE9I4GysxYjMthIHOKGIgtJf3uNw8Dx7xWMzcWOH7XJ1kBvuFtyZR4bi/kvyEoqfePIo0SOekE/SKcMKBWxvUxFtP+/9PIQL5wevKrnic1v/UNtUi33Gxthm+OTdM0GnedYDV4icJMaKS3QOijwXM+OOkrJ99874+vNoBLMP99PgLZU5ES6Z9hcHSERWd9kerSQ==
+ bh=hAQb04Z8pY4pWGNtekpdV2h7RNoU2rwJnd2aRbQmSO0=;
+ b=RgU+0mkjkYXAvIcJWvpPXa3LRBEjaDBhIRhF4Fy2y4YFhQJhNYqWoHSN+SgDb4nU+PgcmoLl5NbKJdHC0I+iQByBS7Gs5mUeT6WSXcW572ncJuzZz0giZNd9FCSROkkohggS3CxFcZzjQMQktmXyBPLXSk+/p9Tzg9tg+Fan3CzgmW7Khzd8O43rgnPN382o84JvdP/0D7OJB3EkBC60sz7bSUpe9wxnAkB8E/GXeJSrtgHhR5i1D5QfUVoUGIBY3Mx70gwAkgn/iutEADxUeGhePtSkr0eA8TWbP/smgTk6SBEybWTLsmDPeT2c2m8YPX1srm0eKNt70Jukfj9qOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BG+VwNz1n/1MmF5MdFaMBtLZTRXlZCy8kc2AVymnt4U=;
- b=cOJiM2SwFeNiCIxKdUWxbvCkzUwLpVnJzppheeInhwv89qAggwvXetqOJfyevpQmhpdGxQETSR4Pp9t+wK1jSTsEonLqEx7K8VChwWNxYMrSqtxVChE/4OTEdahz9jm9DbflaK/G8j2u9/tFzvmGQbctX1kypgcPncXsy0kYHrA=
+ bh=hAQb04Z8pY4pWGNtekpdV2h7RNoU2rwJnd2aRbQmSO0=;
+ b=ES0zCT4YAVgI8fwQheApy/Zkh4mc82PqoWdcawAsjj9DHHMJ9xqHeUlBkt4zmgs7YyjYAJ4AdwMK32SofTc+Ss2/0JbgEHHYOUlJnbEylmupKGAxgZEr32wdIuw6btSuOO/lbCZVwSWVDiqbCM29cyA4SSKGUGQetC+4439/aZI=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Babu.Moger@amd.com; 
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
  DM5PR12MB1369.namprd12.prod.outlook.com (10.168.234.147) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.19; Wed, 4 Dec 2019 00:38:55 +0000
+ 15.20.2495.19; Wed, 4 Dec 2019 00:39:01 +0000
 Received: from DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::d0f5:b875:7b5c:46c3]) by DM5PR12MB2471.namprd12.prod.outlook.com
  ([fe80::d0f5:b875:7b5c:46c3%6]) with mapi id 15.20.2495.014; Wed, 4 Dec 2019
- 00:38:55 +0000
-Subject: [PATCH v3 17/18] i386: Fix pkg_id offset for epyc mode
+ 00:39:01 +0000
+Subject: [PATCH v3 18/18] tests: Update the Unit tests
 From: Babu Moger <babu.moger@amd.com>
 To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  pbonzini@redhat.com, rth@twiddle.net, eblake@redhat.com, armbru@redhat.com,
  imammedo@redhat.com
-Date: Tue, 03 Dec 2019 18:38:53 -0600
-Message-ID: <157541993357.46157.16412514558085238325.stgit@naples-babu.amd.com>
+Date: Tue, 03 Dec 2019 18:39:00 -0600
+Message-ID: <157541994039.46157.2036450511065834532.stgit@naples-babu.amd.com>
 In-Reply-To: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
 References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR05CA0010.namprd05.prod.outlook.com
- (2603:10b6:805:de::23) To DM5PR12MB2471.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN6PR05CA0024.namprd05.prod.outlook.com
+ (2603:10b6:805:de::37) To DM5PR12MB2471.namprd12.prod.outlook.com
  (2603:10b6:4:b5::10)
 MIME-Version: 1.0
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ec901109-70c5-4bfb-c3cf-08d7785257a2
+X-MS-Office365-Filtering-Correlation-Id: e1c8fbe2-bb6f-4253-efc0-08d778525bad
 X-MS-TrafficTypeDiagnostic: DM5PR12MB1369:|DM5PR12MB1369:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB13695545AAA8F0651CE77FC1955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:534;
+X-Microsoft-Antispam-PRVS: <DM5PR12MB136989D9C66969D17BFE3048955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
 X-Forefront-PRVS: 0241D5F98C
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(189003)(199004)(2906002)(25786009)(103116003)(50466002)(6116002)(5660300002)(478600001)(7736002)(3846002)(66476007)(230700001)(66556008)(44832011)(4326008)(11346002)(14444005)(99286004)(14454004)(446003)(6512007)(23676004)(316002)(58126008)(81166006)(76176011)(66946007)(386003)(6506007)(305945005)(6436002)(6486002)(81156014)(2486003)(86362001)(8936002)(52116002)(8676002)(26005)(186003);
+ SFS:(10009020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(189003)(199004)(2906002)(25786009)(103116003)(50466002)(6116002)(5660300002)(478600001)(7736002)(3846002)(66476007)(230700001)(66556008)(44832011)(4326008)(11346002)(15650500001)(14444005)(99286004)(14454004)(446003)(6512007)(23676004)(316002)(58126008)(81166006)(76176011)(66946007)(386003)(6506007)(305945005)(6436002)(6486002)(81156014)(2486003)(86362001)(8936002)(52116002)(8676002)(26005)(186003);
  DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1369;
  H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
@@ -80,17 +80,17 @@ Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l4+PW5IORMknN/HIh/40XN2FW83GfMHbAQ5tYdOzfIGV8AZt5YxomhaM6xL1O0W0IBhYFdpJvA8mw57F9zDyVFtPoQ2dOqQYrU6Mbyd7bpXDzc/uLtqBgaIgdMZ8BmscnEbW7wwIYQrq4hRHv10j4jNkSKXZVSkrmFBnKp/x3iO/3vw6qSt48/EY5l1uZ8GOwNIOZCuk7ASCtq/lg3qeVvOcBmsTAEyM1JwsKDpXOG77PUUSlMCAXl1uCOKEaeEu4pumfvF9xQFflaHdMkwMfvta3Z9dLq5nrRiZQmFfzV6E0+SyoNdU6OD3kyPLXtFfH6xsM8XOJ8GDOPJXI28jdDACoRwzewdIGNyM/nIuL4p8ellM0FYuF2F/x22FHVO5NH2DVn3TZp5Ekp50gtUYIu389eh8FMTU2Db+CDOZbZ8o3uvlcINhcxV79R1CkiXp
+X-Microsoft-Antispam-Message-Info: 1lhY6V9Ki4R6XKxXIikthhHsEBWv8FpDzJtxDBEs4byiILOItcD4sfOkzkHy3e46DF6NhF5g8ZiS2v2j1KKWmZ6Zyye3h7fZjF3QvhW3hY4Mrz8H/h/fVlCXyXlg3Nzw7nDPSddrv8V74K0omINjtFpiTpVejYswhA9Eg3YpSwsOhDRPwtLZgcAYIOcwFilL586xH8NtCAk8To2ue6xIjZO8UUru44+QlN7Si4XVbCmkkpa9v7akn31iXUM76zLdA/H5bbEqcIklpr4BfuujlMjPTz8mVUf6SiPDU8dGj+fMjLkym0g3/XFFNUWhwe9vAnbrkWB3EFajD3ShkeVPhIbd7WB1i7uoxRTK6UmBb34K90PzHuVUmIEEgNJcIhAxnLbfde7Z1EoaLyZmUO3i8L0wm6e7GaNi1HfplWSc16ez2e0Rs+TnEaFnwHwyLqDf
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec901109-70c5-4bfb-c3cf-08d7785257a2
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:38:55.1099 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1c8fbe2-bb6f-4253-efc0-08d778525bad
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:39:01.8900 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PZDUeEwJUxDKv5dRBRVy/PzUdV2FK69D2bbb7MH3zE1+1fAEwEy4XGtY5W+UB41m
+X-MS-Exchange-CrossTenant-UserPrincipalName: mJEHfGo2JQRj/SvOmyJMFNaezioJTK3MFrJtlt74Fp95Q/F7d2q0hvS3BFJ/zZMZ
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1369
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.94.77
+X-Received-From: 40.107.223.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,53 +106,165 @@ Cc: babu.moger@amd.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since the topology routines have changed, update
+the unit tests to use the new APIs.
+
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
- target/i386/cpu.c |   11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ tests/test-x86-cpuid.c |  115 ++++++++++++++++++++++++++++--------------------
+ 1 file changed, 68 insertions(+), 47 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e87487bae3..0eaedeb848 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4456,7 +4456,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
- {
-     X86CPU *cpu = env_archcpu(env);
-     CPUState *cs = env_cpu(env);
--    uint32_t die_offset;
-+    uint32_t die_offset, pkg_offset;
-     uint32_t limit;
-     uint32_t signature[3];
-     X86CPUTopoInfo topo_info;
-@@ -4466,6 +4466,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     topo_info.cores_per_die = cs->nr_cores;
-     topo_info.threads_per_core = cs->nr_threads;
+diff --git a/tests/test-x86-cpuid.c b/tests/test-x86-cpuid.c
+index 1942287f33..00553c1d77 100644
+--- a/tests/test-x86-cpuid.c
++++ b/tests/test-x86-cpuid.c
+@@ -28,79 +28,100 @@
  
-+    if (env->family_type == CPUX86FAMILY_EPYC)
-+            pkg_offset = apicid_pkg_offset_epyc(&topo_info);
-+    else
-+            pkg_offset = apicid_pkg_offset(&topo_info);
+ static void test_topo_bits(void)
+ {
++    X86CPUTopoInfo topo_info = {0};
 +
-     /* Calculate & apply limits for different index ranges */
-     if (index >= 0xC0000000) {
-         limit = env->cpuid_xlevel2;
-@@ -4647,7 +4652,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
-             break;
-         case 1:
--            *eax = apicid_pkg_offset(&topo_info);
-+            *eax = pkg_offset;
-             *ebx = cs->nr_cores * cs->nr_threads;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
-             break;
-@@ -4681,7 +4686,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
-             break;
-         case 2:
--            *eax = apicid_pkg_offset(&topo_info);
-+            *eax = pkg_offset;
-             *ebx = env->nr_dies * cs->nr_cores * cs->nr_threads;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
-             break;
+     /* simple tests for 1 thread per core, 1 core per die, 1 die per package */
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 1), ==, 0);
+-    g_assert_cmpuint(apicid_core_width(1, 1, 1), ==, 0);
+-    g_assert_cmpuint(apicid_die_width(1, 1, 1), ==, 0);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 1};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 0);
++    g_assert_cmpuint(apicid_core_width(&topo_info), ==, 0);
++    g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 0), ==, 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 1), ==, 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 2), ==, 2);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 3), ==, 3);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 3), ==, 3);
+ 
+ 
+     /* Test field width calculation for multiple values
+      */
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 2), ==, 1);
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 3), ==, 2);
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 4), ==, 2);
+-
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 14), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 15), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 16), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 1, 17), ==, 5);
+-
+-
+-    g_assert_cmpuint(apicid_core_width(1, 30, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(1, 31, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(1, 32, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(1, 33, 2), ==, 6);
+-
+-    g_assert_cmpuint(apicid_die_width(1, 30, 2), ==, 0);
+-    g_assert_cmpuint(apicid_die_width(2, 30, 2), ==, 1);
+-    g_assert_cmpuint(apicid_die_width(3, 30, 2), ==, 2);
+-    g_assert_cmpuint(apicid_die_width(4, 30, 2), ==, 2);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 2};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 1);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 3};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 4};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
++
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 14};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 15};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 16};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 4);
++    topo_info = (X86CPUTopoInfo) {0, 1, 1, 17};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 5);
++
++
++    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
++    g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
++    topo_info = (X86CPUTopoInfo) {0, 1, 31, 2};
++    g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
++    topo_info = (X86CPUTopoInfo) {0, 1, 32, 2};
++    g_assert_cmpuint(apicid_core_width(&topo_info), ==, 5);
++    topo_info = (X86CPUTopoInfo) {0, 1, 33, 2};
++    g_assert_cmpuint(apicid_core_width(&topo_info), ==, 6);
++
++    topo_info = (X86CPUTopoInfo) {0, 1, 30, 2};
++    g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
++    topo_info = (X86CPUTopoInfo) {0, 2, 30, 2};
++    g_assert_cmpuint(apicid_die_width(&topo_info), ==, 1);
++    topo_info = (X86CPUTopoInfo) {0, 3, 30, 2};
++    g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
++    topo_info = (X86CPUTopoInfo) {0, 4, 30, 2};
++    g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
+ 
+     /* build a weird topology and see if IDs are calculated correctly
+      */
+ 
+     /* This will use 2 bits for thread ID and 3 bits for core ID
+      */
+-    g_assert_cmpuint(apicid_smt_width(1, 6, 3), ==, 2);
+-    g_assert_cmpuint(apicid_core_offset(1, 6, 3), ==, 2);
+-    g_assert_cmpuint(apicid_die_offset(1, 6, 3), ==, 5);
+-    g_assert_cmpuint(apicid_pkg_offset(1, 6, 3), ==, 5);
+-
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 0), ==, 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1), ==, 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2), ==, 2);
+-
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 0), ==,
++    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
++    g_assert_cmpuint(apicid_core_offset(&topo_info), ==, 2);
++    g_assert_cmpuint(apicid_die_offset(&topo_info), ==, 5);
++    g_assert_cmpuint(apicid_pkg_offset(&topo_info), ==, 5);
++
++    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 0), ==, 0);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1), ==, 1);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2), ==, 2);
++
++    topo_info = (X86CPUTopoInfo) {0, 1, 6, 3};
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 0), ==,
+                      (1 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 1), ==,
+                      (1 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 1 * 3 + 2), ==,
+                      (1 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 0), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 0), ==,
+                      (2 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 1), ==,
+                      (2 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 2 * 3 + 2), ==,
+                      (2 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 0), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 0), ==,
+                      (5 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 1), ==,
+                      (5 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info, 5 * 3 + 2), ==,
+                      (5 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+                      1 * 6 * 3 + 0 * 3 + 0), ==, (1 << 5));
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+                      1 * 6 * 3 + 1 * 3 + 1), ==, (1 << 5) | (1 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(&topo_info,
+                      3 * 6 * 3 + 5 * 3 + 2), ==, (3 << 5) | (5 << 2) | 2);
+ }
+ 
 
 
