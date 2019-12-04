@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D18511242B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 09:12:06 +0100 (CET)
-Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B331124BA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 09:25:31 +0100 (CET)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icPlU-0002xo-8u
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 03:12:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51240)
+	id 1icPyS-0006W3-9g
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 03:25:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1icPbn-0001FI-Ge
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:02:21 -0500
+ (envelope-from <thuth@redhat.com>) id 1icPho-0002vX-VB
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:08:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1icPbO-0005Qm-Sx
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:01:58 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26746
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1icPbO-00056W-Ko
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:01:38 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB47vXI7075244
- for <qemu-devel@nongnu.org>; Wed, 4 Dec 2019 03:01:32 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wnsquqnjd-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:01:31 -0500
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 4 Dec 2019 08:01:30 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 4 Dec 2019 08:01:27 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id xB481Qg144302614
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 4 Dec 2019 08:01:26 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3BA6DA4060;
- Wed,  4 Dec 2019 08:01:26 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 033B2A405C;
- Wed,  4 Dec 2019 08:01:26 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.42.200])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  4 Dec 2019 08:01:25 +0000 (GMT)
-Subject: [PATCH] travis.yml: Drop libcap-dev
-From: Greg Kurz <groug@kaod.org>
-To: Alex =?utf-8?q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Date: Wed, 04 Dec 2019 09:01:25 +0100
-User-Agent: StGit/unknown-version
+ (envelope-from <thuth@redhat.com>) id 1icPhP-0000Xe-Il
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:08:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50528
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icPhO-0000RU-PY
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 03:07:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575446870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=u9J4+7Wccqfo2D1DTzLOQuDMlMbDBxJs8eFbNrS4stU=;
+ b=WP26cokCxCX/Mp3bIeoU6ZYMjahQG6SrXpFRoisP5qA7strKa7twM1+X/8yjcRT5/LMHyz
+ Cr4ZAr+X69hF52SqHuETwkpnnsCN7IWqp+daVmXUqT+gUAS149joKUGZKDX9hkIJhoH57+
+ EBg8T27EB6YxZcKHStyLmoq6NYFiMNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-Uz0b4FwXNimZHJ-BWcVJGQ-1; Wed, 04 Dec 2019 03:07:46 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88D48183B70A;
+ Wed,  4 Dec 2019 08:07:45 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-39.ams2.redhat.com [10.36.117.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 640B05C1B2;
+ Wed,  4 Dec 2019 08:07:44 +0000 (UTC)
+Subject: Re: [PATCH] travis.yml: Drop libcap-dev
+To: Greg Kurz <groug@kaod.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <157544579267.3537077.17459176619888583836.stgit@bahia.lan>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <69a9224c-4686-cd09-1a89-81954af6f902@redhat.com>
+Date: Wed, 4 Dec 2019 09:07:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <157544579267.3537077.17459176619888583836.stgit@bahia.lan>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Uz0b4FwXNimZHJ-BWcVJGQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19120408-0016-0000-0000-000002D0D68C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120408-0017-0000-0000-00003332D443
-Message-Id: <157544579267.3537077.17459176619888583836.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-04_01:2019-12-04,2019-12-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 phishscore=0 spamscore=0 clxscore=1034
- lowpriorityscore=0 mlxscore=0 mlxlogscore=707 suspectscore=0 bulkscore=0
- adultscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1912040058
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,37 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit b1553ab12fe0 converted virtfs-proxy-helper to using libcap-ng. There
-aren't any users of libcap anymore. No need to install libcap-dev.
+On 04/12/2019 09.01, Greg Kurz wrote:
+> Commit b1553ab12fe0 converted virtfs-proxy-helper to using libcap-ng. There
+> aren't any users of libcap anymore. No need to install libcap-dev.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+> 
+> Yet another follow-up to Paolo's patch to use libcap-ng instead of libcap.
+> Like with the docker and the gitlab CI patches, if I get an ack from Alex
+> I'll gladly merge this in the 9p tree and send a PR as soon as 5.0 dev
+> begins. I'll make sure the SHA1 for Paolo's patch remains the same.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
+I hope you don't have to rebase! Otherwise simply say "One of the
+previous changes ..." or so in the commit message instead.
 
-Yet another follow-up to Paolo's patch to use libcap-ng instead of libcap.
-Like with the docker and the gitlab CI patches, if I get an ack from Alex
-I'll gladly merge this in the 9p tree and send a PR as soon as 5.0 dev
-begins. I'll make sure the SHA1 for Paolo's patch remains the same.
+>  .travis.yml |    1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/.travis.yml b/.travis.yml
+> index 445b0646c18a..6cb8af6fa599 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -26,7 +26,6 @@ addons:
+>        - libaio-dev
+>        - libattr1-dev
+>        - libbrlapi-dev
+> -      - libcap-dev
+>        - libcap-ng-dev
+>        - libgcc-4.8-dev
+>        - libgnutls28-dev
 
- .travis.yml |    1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/.travis.yml b/.travis.yml
-index 445b0646c18a..6cb8af6fa599 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -26,7 +26,6 @@ addons:
-       - libaio-dev
-       - libattr1-dev
-       - libbrlapi-dev
--      - libcap-dev
-       - libcap-ng-dev
-       - libgcc-4.8-dev
-       - libgnutls28-dev
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
