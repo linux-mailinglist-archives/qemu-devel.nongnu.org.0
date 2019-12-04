@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA08113059
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:59:27 +0100 (CET)
-Received: from localhost ([::1]:41418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D4211306E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 18:04:41 +0100 (CET)
+Received: from localhost ([::1]:41442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXzq-0008Mo-B6
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:59:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39408)
+	id 1icY4u-0001Ks-3h
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 12:04:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1icXqN-00028I-LB
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:49:43 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1icXhy-0007UQ-8a
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:40:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1icXqC-0005Bf-UW
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:49:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56002
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <damien.hedde@greensocs.com>) id 1icXhr-0000Mr-1x
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:40:53 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:54638)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1icXqB-0004ei-Pe
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:49:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575478164;
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1icXhe-0006zr-A7; Wed, 04 Dec 2019 11:40:39 -0500
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 8907096EF0;
+ Wed,  4 Dec 2019 16:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1575477632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wL0/fjrpn43OlemQDy5P81zH6xrq2ZyjSkKpuZ9daQo=;
- b=SWEg9sEiT0a+4HOv8+a5j1WJ0Tkze8Xay0zaslpK2QZS97DjXH83FTnOgJRHmkJNKbcdE5
- Q+pvxrp0Sr9DfFJrDXmJDO9v2VYRYkt8PaUf3XvWJacNXI/PXM+p8DvTDa4imNmPmiRpBn
- lVgGjKxv3HKeJQnxBc3R2oP1k3p3Op8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-F8qb5jgHOL-9Cuujsig4MA-1; Wed, 04 Dec 2019 11:49:20 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B0C1107ACC4;
- Wed,  4 Dec 2019 16:49:19 +0000 (UTC)
-Received: from work-vm (ovpn-117-217.ams2.redhat.com [10.36.117.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78CF4691A5;
- Wed,  4 Dec 2019 16:49:17 +0000 (UTC)
-Date: Wed, 4 Dec 2019 16:49:15 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Scott Cheloha <cheloha@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 2/2] migration: savevm_state_handler_insert:
- constant-time element insertion
-Message-ID: <20191204164915.GM3325@work-vm>
-References: <20191017205953.13122-1-cheloha@linux.vnet.ibm.com>
- <20191017205953.13122-3-cheloha@linux.vnet.ibm.com>
- <20191018081625.GA2990@work-vm>
- <351dca8e-e77c-c450-845b-d78ba621156a@redhat.com>
- <20191018094352.GC2990@work-vm>
- <20191019101223.GD1960@umbus.fritz.box>
- <20191021081444.GA2934@work-vm>
- <20191120214827.iui5rtwyls3r62ns@rascal.austin.ibm.com>
+ bh=DjGKPB5c4P8bd8a+QNrfUgzYWNg71wjN6eLs9KmHosA=;
+ b=tnh7BobCcUBp+eIoC+Yfy9v91Q7AWWdA7AjwLJ6+QFRosm74E1i+ny0zlQro1llKDSDPEG
+ E4opTNCd77Et0TWfXjt+L5z1r5/w2ZKJ4Jcy1kWUEZj0BwXZ9eT/VR8YFglupA8cATtPnB
+ IL2V3unVulskwovAVJQyo3TLI3SjiDI=
+Subject: Re: [PATCH v6 0/9] Clock framework API
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190904125531.27545-1-damien.hedde@greensocs.com>
+ <CAFEAcA98rt6nRDSrwk8XRbaBT67LZXvF=XEV13dtJBp4fPUscw@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <be199ad6-1b79-f77d-afad-faeb042151ed@greensocs.com>
+Date: Wed, 4 Dec 2019 17:40:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20191120214827.iui5rtwyls3r62ns@rascal.austin.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: F8qb5jgHOL-9Cuujsig4MA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <CAFEAcA98rt6nRDSrwk8XRbaBT67LZXvF=XEV13dtJBp4fPUscw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1575477632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DjGKPB5c4P8bd8a+QNrfUgzYWNg71wjN6eLs9KmHosA=;
+ b=31u+hFb35XIKDa1zPuVQ0clcg3xiPu4NiiRlCFmzEoaTMeZIlUAjP3BPdvy+D+SRLbcGNP
+ E4KVIJnlSGQFOK69lfi8gKbAGuuLI50zbCmkY+T+Gg7c1udlnaLQNcMwj6PhGnWGOITGvM
+ V7nkn9+3+Zvl+DzoLkYU2q7bGMfU65A=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575477632; a=rsa-sha256; cv=none;
+ b=TRASPnEhWHWxFEkSUF/96I1NtUBXdQQaIT/hRwFBCIAVi8JltKJ72k9cDo+RVLqy0TwkdS
+ +Lgp8RyONz60AWHMPlNzUyoa3Ldt1uBI3bszI0LavHW1b0fFbO/VR9UqDOxBmuX29KB02m
+ kn5VpMDZ376B8+uebQQbfzPJZd0OP3M=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,96 +77,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Scott Cheloha (cheloha@linux.vnet.ibm.com) wrote:
-> On Mon, Oct 21, 2019 at 09:14:44AM +0100, Dr. David Alan Gilbert wrote:
-> > * David Gibson (david@gibson.dropbear.id.au) wrote:
-> > > On Fri, Oct 18, 2019 at 10:43:52AM +0100, Dr. David Alan Gilbert wrot=
-e:
-> > > > * Laurent Vivier (lvivier@redhat.com) wrote:
-> > > > > On 18/10/2019 10:16, Dr. David Alan Gilbert wrote:
-> > > > > > * Scott Cheloha (cheloha@linux.vnet.ibm.com) wrote:
-> > > > > >> savevm_state's SaveStateEntry TAILQ is a priority queue.  Prio=
-rity
-> > > > > >> sorting is maintained by searching from head to tail for a sui=
-table
-> > > > > >> insertion spot.  Insertion is thus an O(n) operation.
-> > > > > >>
-> > > > > >> If we instead keep track of the head of each priority's subque=
-ue
-> > > > > >> within that larger queue we can reduce this operation to O(1) =
-time.
-> > > > > >>
-> > > > > >> savevm_state_handler_remove() becomes slightly more complex to
-> > > > > >> accomodate these gains: we need to replace the head of a prior=
-ity's
-> > > > > >> subqueue when removing it.
-> > > > > >>
-> > > > > >> With O(1) insertion, booting VMs with many SaveStateEntry obje=
-cts is
-> > > > > >> more plausible.  For example, a ppc64 VM with maxmem=3D8T has =
-40000 such
-> > > > > >> objects to insert.
-> > > > > >=20
-> > > > > > Separate from reviewing this patch, I'd like to understand why =
-you've
-> > > > > > got 40000 objects.  This feels very very wrong and is likely to=
- cause
-> > > > > > problems to random other bits of qemu as well.
-> > > > >=20
-> > > > > I think the 40000 objects are the "dr-connectors" that are used t=
-o plug
-> > > > > peripherals (memory, pci card, cpus, ...).
-> > > >=20
-> > > > Yes, Scott confirmed that in the reply to the previous version.
-> > > > IMHO nothing in qemu is designed to deal with that many devices/obj=
-ects
-> > > > - I'm sure that something other than the migration code is going to
-> > > > get upset.
-> > >=20
-> > > It kind of did.  Particularly when there was n^2 and n^3 cubed
-> > > behaviour in the property stuff we had some ludicrously long startup
-> > > times (hours) with large maxmem values.
-> > >=20
-> > > Fwiw, the DRCs for PCI slots, DRCs and PHBs aren't really a problem.
-> > > The problem is the memory DRCs, there's one for each LMB - each 256Mi=
-B
-> > > chunk of memory (or possible memory).
-> > >=20
-> > > > Is perhaps the structure wrong somewhere - should there be a single=
- DRC
-> > > > device that knows about all DRCs?
-> > >=20
-> > > Maybe.  The tricky bit is how to get there from here without breaking
-> > > migration or something else along the way.
-> >=20
-> > Switch on the next machine type version - it doesn't matter if migratio=
-n
-> > is incompatible then.
->=20
-> 1mo bump.
->=20
-> Is there anything I need to do with this patch in particular to make it s=
-uitable
-> for merging?
 
-Apologies for the delay;  hopefully this will go in one of the pulls
-just after the tree opens again.
 
-Please please try and work on reducing the number of objects somehow -
-while this migration fix is a useful short term fix, and not too
-invasive; having that many objects around qemu is a really really bad
-idea so needs fixing properly.
+On 12/2/19 5:15 PM, Peter Maydell wrote:
+> 
+> The one topic I think we could do with discussing is whether
+> a simple uint64_t giving the frequency of the clock in Hz is
+> the right representation. In particular in your patch 9 the
+> board has a clock frequency that's not a nice integer number
+> of Hz. I think Philippe also mentioned on irc some board where
+> the UART clock ends up at a weird frequency. Since the
+> representation of the frequency is baked into the migration
+> format it's going to be easier to get it right first rather
+> than trying to change it later.
+> 
+> So what should the representation be? Some random thoughts:
+> 
+> 1) ptimer internally uses a 'period plus fraction' representation:
+>  int64_t period is the integer part of the period in nanoseconds,
+>  uint32_t period_frac is the fractional part of the period
+> (if you like you can think of this as "96-bit integer
+> period measured in units of one-2^32nd of a nanosecond").
+> However its only public interfaces for setting the frequency
+> are (a) set the frequency in Hz (uint32_t) or (b) set
+> the period in nanoseconds (int64_t); the period_frac part
+> is used to handle frequencies which don't work out to
+> a nice whole number of nanoseconds per cycle.
+> 
+> 2) I hear that SystemC uses "value plus a time unit", with
+> the smallest unit being a picosecond. (I think SystemC
+> also lets you specify the duty cycle, but we definitely
+> don't want to get into that!)
 
-Dave
+The "value" is internally stored in a 64bits unsigned integer.
 
->=20
+> 
+> 3) QEMUTimers are basically just nanosecond timers
+> 
+> 4) The MAME emulator seems to work with periods of
+> 96-bit attoseconds (represented internally by a
+> 32-bit count of seconds plus a 64-bit count of
+> attoseconds). One attosecond is 1e-18 seconds.
+> 
+> Does anybody else have experience with other modelling
+> or emulator technology and how it represents clocks ?
+
+5) In linux, a clock rate is an "unsigned long" representing Hz.
+
+> 
+> I feel we should at least be able to represent clocks
+> with the same accuracy that ptimer has.
+
+Then is a maybe a good idea to store the period and not the frequency in
+clocks so that we don't loose anything when we switch from a clock to a
+ptimer ?
+
+Regarding the clock, I don't see any strong obstacle to switch
+internally to a period based value.
+The only things we have to choose is how to represent a disabled clock.
+Since putting a "0" period to a ptimer will disable the timer in
+ptimer_reload(). We can choose that (and it's a good value because we
+can multiply or divide it, it stays the same).
+
+We could use the same representation as a ptimer. But if we don't keep a
+C number representation, then computation of frequencies/periods will be
+complicated at best and error prone.
+
+From that point of view, if we could stick to a 64bits integer (or
+floating point number) it would be great. Can we use a sub nanosecond
+unit that fit our needs ?
+
+I did some test with a unit of 2^-32 of nanoseconds on 64bits (is that
+the unit of the ptimer fractional part ?) and if I'm not mistaken
++ we have a frequency range from ~0.2Hz up to 10^18Hz
++ the resolution is decreasing with the frequency (but at 100Mhz we have
+a ~2.3mHz resolution, at 1GHz it's ~0.23Hz and at 10GHz ~23Hz
+resolution). We hit 1Hz resolution around 2GHz.
+
+So it sounds to me we have largely enough resolution to model clocks in
+the range of frequencies we will have to handle. What do you think ?
+
 --
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Damien
 
