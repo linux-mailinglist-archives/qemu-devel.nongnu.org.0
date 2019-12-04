@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC79A1129C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:00:41 +0100 (CET)
-Received: from localhost ([::1]:36752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83A11129E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 12:14:01 +0100 (CET)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icSOb-0007dA-DF
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:00:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57805)
+	id 1icSbV-0003sl-H6
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 06:13:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1icREc-0002gp-GX
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:46:17 -0500
+ (envelope-from <armbru@redhat.com>) id 1icR5Z-0007G6-H2
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1icREW-0004Ci-Tw
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:46:11 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37478)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1icREW-00047i-MI
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:46:08 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1icRER-0007bG-Ty
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 09:46:03 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D35F32E80BA
- for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 09:46:03 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Dec 2019 09:30:53 -0000
-From: Julien Freche <1855072@bugs.launchpad.net>
+ (envelope-from <armbru@redhat.com>) id 1icR5H-0000Hv-Gm
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21013
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icR5G-0008SZ-BB
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575452190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ck8YC4RtctXQY4XvFDhEnQzwtpi+SeKk9po2VZb4n6E=;
+ b=JMh31jnB4yrx8eUAhiDIdRLS3caH9BCaPxoYW1rRYu+RqA1Ye3aczEVJXUr+c2ath3IxAI
+ lEEeNlers+xV95OvKD4VZPHvTZM7ADnnDm/x2ut7XiDsHOChKJND9zblLyWju1juCdCbcF
+ dTq1zfg83eAkwgxWMjfCbIsMM/nkKEw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-eLUV5_UrMtuHeT-s4l1ing-1; Wed, 04 Dec 2019 04:36:29 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7BD418543A2
+ for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 09:36:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7294A19C68;
+ Wed,  4 Dec 2019 09:36:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9243111366D5; Wed,  4 Dec 2019 10:36:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Julien Freche (jfreche)
-Message-Id: <157545185401.7205.1743602467950204624.malonedeb@gac.canonical.com>
-Subject: [Bug 1855072] [NEW] ARM: HCR.TVM traps are not implemented
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c597c3229eb023b1e626162d5947141bf7befb13";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fbfa3fe33f77c6baefe3ad20d06b38af83c1af42
+Subject: [PATCH v2 05/18] exec: Fix file_ram_alloc() error API violations
+Date: Wed,  4 Dec 2019 10:36:12 +0100
+Message-Id: <20191204093625.14836-6-armbru@redhat.com>
+In-Reply-To: <20191204093625.14836-1-armbru@redhat.com>
+References: <20191204093625.14836-1-armbru@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: eLUV5_UrMtuHeT-s4l1ing-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,43 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1855072 <1855072@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+When os_mem_prealloc() fails, file_ram_alloc() calls qemu_ram_munmap()
+and returns null.  Except it doesn't when its @errp argument is null,
+because it checks for failure with (errp && *errp).  Introduced in
+commit 056b68af77 "fix qemu exit on memory hotplug when allocation
+fails at prealloc time".
 
-On AARCH64, setting HCR.TVM to 1 is supposed to trap all writes to
-CTLR_EL1, TTBR0_EL1, TTBR1_EL1, TCR_EL1, ESR_EL1, FAR_EL1, AFSR0_EL1,
-AFSR1_EL1, MAIR_EL1, AMAIR_EL1, and CONTEXTIDR_EL1. However, it
-currently has no effect (QEMU emulator version 4.1.1).
+No caller actually passes null.
 
-It is also likely that TRVM will not trap, but, I didn't verify this.
+Fix anyway: splice in a local Error *err, and error_propagate().
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Cc: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+---
+ exec.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
--- =
+diff --git a/exec.c b/exec.c
+index ffdb518535..45695a5f2d 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1841,6 +1841,7 @@ static void *file_ram_alloc(RAMBlock *block,
+                             bool truncate,
+                             Error **errp)
+ {
++    Error *err =3D NULL;
+     MachineState *ms =3D MACHINE(qdev_get_machine());
+     void *area;
+=20
+@@ -1898,8 +1899,9 @@ static void *file_ram_alloc(RAMBlock *block,
+     }
+=20
+     if (mem_prealloc) {
+-        os_mem_prealloc(fd, area, memory, ms->smp.cpus, errp);
+-        if (errp && *errp) {
++        os_mem_prealloc(fd, area, memory, ms->smp.cpus, &err);
++        if (err) {
++            error_propagate(errp, err);
+             qemu_ram_munmap(fd, area, memory);
+             return NULL;
+         }
+--=20
+2.21.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1855072
-
-Title:
-  ARM: HCR.TVM traps are not implemented
-
-Status in QEMU:
-  New
-
-Bug description:
-  On AARCH64, setting HCR.TVM to 1 is supposed to trap all writes to
-  CTLR_EL1, TTBR0_EL1, TTBR1_EL1, TCR_EL1, ESR_EL1, FAR_EL1, AFSR0_EL1,
-  AFSR1_EL1, MAIR_EL1, AMAIR_EL1, and CONTEXTIDR_EL1. However, it
-  currently has no effect (QEMU emulator version 4.1.1).
-
-  It is also likely that TRVM will not trap, but, I didn't verify this.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1855072/+subscriptions
 
