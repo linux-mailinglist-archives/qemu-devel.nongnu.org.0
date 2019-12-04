@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8248511213D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 03:03:39 +0100 (CET)
-Received: from localhost ([::1]:33096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A53112153
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 03:19:08 +0100 (CET)
+Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icK0w-0005qi-If
-	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 21:03:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51214)
+	id 1icKFu-00061Q-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 03 Dec 2019 21:19:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34706)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1icIuK-0005Y1-NG
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:52:47 -0500
+ (envelope-from <jasowang@redhat.com>) id 1icKC8-0004f8-NJ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 21:15:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1icIfc-0001T8-QE
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:34 -0500
-Received: from mail-dm6nam11on2075.outbound.protection.outlook.com
- ([40.107.223.75]:50853 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1icIfc-0001Nw-Iq
- for qemu-devel@nongnu.org; Tue, 03 Dec 2019 19:37:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AK8pUszzXqqW99uyGYpQHjWdmFt4s0wwrqmj3XOYKY5+1O33DcveMSPIPNyC4ZGO/Px8LdIlplwcVR/ocEJW+1n31n8U1j81zz6DJKtNegulPwdnY8NO9+9RPdabffeokhkemSNaPr9QWUVNq0KtKCjrX0IvChtAgm0A83cijd6/fZmxfytdQrGNRKTgP+mf8YGiBjoDYJ/lJ5yLWdsGlHXrPo7HnsdevmBj1reHpI3/h9vvGpdY5vmdsdm0Bg+FMmy+ji9NhFvqDVsAOySy0Jb/bmweHruhKDv0yKFWwgYk57fkaD3hZUGR3MRpDemDdFaMrU1riHrM7mcFAM4pHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G9KwkYXBhn9P11MzKRcQct5TvpoANTDz8Vwaw+0ORI4=;
- b=HRNiJo/zhRF1IiVmFT1jTdUXK++yRSYYZ4zA6dBl1C273AYNNyTDSxjyWoNiLGIOPQWJtMTvQOaVnJS95JhbxLcotZ1s/caaDzSnZ+D5P+tJ3jagOa0JT/kWIkvX/HS+ObaS19Zy44IbqS4aFg+DVHXpftlhv9/mg46v4evYY0D4I5XDEvBvkSvHBD5Gbk5IAhnMI2Mb7A85tVHWAX5eqcFMCatNW86IzbhjkkI01oZ8QsJU8/DlnwZRyAX3mdUc+5cv+x6kuapJ00k9HDEmUKvUkrpX/SSLdjb0qCQzx1+GyGOPIOf22Frjx6sk1phyhXiysXu86wn84Rf6l+NMTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G9KwkYXBhn9P11MzKRcQct5TvpoANTDz8Vwaw+0ORI4=;
- b=ZeSG0g149U0PxQDH/s7XVDlTkWUG734Jlf/9xrINzBDFm4hejUytPAkpCi0iVJHC6JojY2b4PgIsa3s9YD5PzUGJ95PxLr7WzFV8nlVafOw3KGXpVdReGxnMRH+geq2YDXLcKcRy6VOFcZcMyUwh6ta8vPLklidYM/vfI1ALoXs=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com (52.132.141.138) by
- DM5PR12MB1369.namprd12.prod.outlook.com (10.168.234.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.19; Wed, 4 Dec 2019 00:37:30 +0000
-Received: from DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::d0f5:b875:7b5c:46c3]) by DM5PR12MB2471.namprd12.prod.outlook.com
- ([fe80::d0f5:b875:7b5c:46c3%6]) with mapi id 15.20.2495.014; Wed, 4 Dec 2019
- 00:37:30 +0000
-Subject: [PATCH v3 05/18] machine: Add SMP Sockets in CpuTopology
-From: Babu Moger <babu.moger@amd.com>
-To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net, eblake@redhat.com, armbru@redhat.com,
- imammedo@redhat.com
-Date: Tue, 03 Dec 2019 18:37:28 -0600
-Message-ID: <157541984859.46157.16271709119317180051.stgit@naples-babu.amd.com>
-In-Reply-To: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
-User-Agent: StGit/unknown-version
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0501CA0145.namprd05.prod.outlook.com
- (2603:10b6:803:2c::23) To DM5PR12MB2471.namprd12.prod.outlook.com
- (2603:10b6:4:b5::10)
+ (envelope-from <jasowang@redhat.com>) id 1icKC2-0004Ce-31
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 21:15:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30583
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1icKC1-00047n-LZ
+ for qemu-devel@nongnu.org; Tue, 03 Dec 2019 21:15:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575425702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wXEE1wJyPj6gtPCkc/kKuPTioY0kF5NKRS4t1wJ7Jmc=;
+ b=C4xRQfObzwW5631IpFrJGDcK85FOkNpIirXrsx/oYcuul3+J7NqKm10i0Ah5AMD5eOPwuk
+ erneeYbyEzC4HwDfT9Dao9iG8o920PT+IIYiLzHOYxAG13bGcu79dYoilvTCp16kDIF1WJ
+ kAijK0m0dHKz7dR8QoLiO2/yeTIrnC4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-CeDC4bRnON-60DPUodyBfg-1; Tue, 03 Dec 2019 21:15:00 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75363107ACC4;
+ Wed,  4 Dec 2019 02:14:58 +0000 (UTC)
+Received: from [10.72.12.78] (ovpn-12-78.pek2.redhat.com [10.72.12.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EE2060C80;
+ Wed,  4 Dec 2019 02:14:51 +0000 (UTC)
+Subject: Re: [PATCH] net/imx_fec: Updating the IMX_FEC IP to support loopback
+ mode.
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Wasim, Bilal" <Bilal_Wasim@mentor.com>
+References: <20191129150508.24404-1-bilalwasim676@gmail.com>
+ <afe9efde-7ac1-8607-446a-8fbf10accece@redhat.com>
+ <8c956ae31e8f44a2b831a5030b2448b4@SVR-IES-MBX-03.mgc.mentorg.com>
+ <CAP+75-X_POJfTO=gOUu1zCPtcfnQ5yemQo0hqB_s3jy_C17o9g@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <db2c5074-307c-d20e-73f2-9c2b44612d6f@redhat.com>
+Date: Wed, 4 Dec 2019 10:14:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Originating-IP: [165.204.78.2]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 440e3702-d3ac-488b-73ed-08d7785224f1
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1369:|DM5PR12MB1369:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB13693479774D800A44DDBAFD955D0@DM5PR12MB1369.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0241D5F98C
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(189003)(199004)(2906002)(25786009)(103116003)(50466002)(6116002)(5660300002)(478600001)(7736002)(3846002)(66476007)(230700001)(66556008)(44832011)(4326008)(11346002)(99286004)(14454004)(446003)(6512007)(23676004)(316002)(58126008)(81166006)(76176011)(66946007)(386003)(6506007)(305945005)(6436002)(6486002)(81156014)(2486003)(86362001)(8936002)(52116002)(8676002)(26005)(186003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1369;
- H:DM5PR12MB2471.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K1KOEs22YJSkTzbi7DnZnv8AsNAAeoXpVWZe/1On9b7cxCReOvNDxVtdzXf4Jzdem1pB0jxINh9VUTllAxXr5BPbCH/4nIyjMELLlfG+kXQAT4peLAFlyFkwrkS0wHOF3ndJNNahfjwAvtYZaHYUhUe0+gC7ExCdWQrgdH1zlsova+I9vQHRMjBH7BMR9etldYyARZ0KPZsX2ErdW+60JUUOgHWGz2NCOQC4N6oaasRmBZRCRNUErzcH3AN3qbQubABBLDy4g5LUe9iTf7jPWZJKvFpwNmcIGGN+l60EycrbAVFOZ74KvJN75bKt9U447C2A+YwR3Gcxy/e2YD0/c1BHxPUyMOCdsjfYAqHtmqao+BoWfkAYiBwFiqGVbh3mAQ9D7PfDFb+Kooxq4xA/ymcbqNkle0cKTmOqDibeN8I+mR/kDAYdZVok29queD1J
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 440e3702-d3ac-488b-73ed-08d7785224f1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2019 00:37:30.0458 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: naH73cGkc6ar9BnZ5IJKt2u587qyQu5R+HaShC089RSSiWMjt+iNXIqHINmxfLJl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1369
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.223.75
+In-Reply-To: <CAP+75-X_POJfTO=gOUu1zCPtcfnQ5yemQo0hqB_s3jy_C17o9g@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: CeDC4bRnON-60DPUodyBfg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,77 +78,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babu.moger@amd.com, qemu-devel@nongnu.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "aa1ronham@gmail.com" <aa1ronham@gmail.com>,
+ "jcd@tribudubois.net" <jcd@tribudubois.net>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "bilalwasim676@gmail.com" <bilalwasim676@gmail.com>,
+ "linux@roeck-us.net" <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Store the  smp sockets in CpuTopology. The socket information required to
-build the apic id in EPYC mode. Right now socket information is not passed
-to down when decoding the apic id. Add the socket information here.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/core/machine.c   |    1 +
- hw/i386/pc.c        |    1 +
- include/hw/boards.h |    2 ++
- vl.c                |    1 +
- 4 files changed, 5 insertions(+)
+On 2019/11/30 =E4=B8=8A=E5=8D=8812:04, Philippe Mathieu-Daud=C3=A9 wrote:
+> On Fri, Nov 29, 2019 at 4:59 PM Wasim, Bilal <Bilal_Wasim@mentor.com> wro=
+te:
+>> Thanks for the pointers philippe.. Is the patch okay to be merged withou=
+t it or do I need to do a re-submission with the updated username ?
+> If there are no review comments on your patch, I think the maintainer
+> taking your patch can fix this details directly, no need to resend.
+>
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 [mailto:philmd@redhat.com]
+>> Sent: Friday, November 29, 2019 8:38 PM
+>> To: bilalwasim676@gmail.com; qemu-devel@nongnu.org
+>> Cc: peter.maydell@linaro.org; aa1ronham@gmail.com; jcd@tribudubois.net; =
+qemu-arm@nongnu.org; Wasim, Bilal <Bilal_Wasim@mentor.com>; linux@roeck-us.=
+net; Jason Wang <jasowang@redhat.com>
+>> Subject: Re: [PATCH] net/imx_fec: Updating the IMX_FEC IP to support loo=
+pback mode.
+>>
+>> Hi Bilal,
+>>
+>> Cc'ing Jason, the maintainer of network devices.
+>>
+>> On 11/29/19 4:05 PM, bilalwasim676@gmail.com wrote:
+>>> From: bwasim <bilal_wasim@mentor.com>
+>> Your git setup misses your 'user.name', you could fix it running:
+>>
+>>     git config user.name "Bilal Wasim"
+>>
+>> (eventually with the --global option).
+>>
+>> The patch looks good otherwise.
+>>
+>> Thanks!
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1689ad3bf8..e59b181ead 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -784,6 +784,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-+        ms->smp.sockets = sockets;
-     }
- 
-     if (ms->smp.cpus > 1) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index cafbdafa76..17de152a77 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1473,6 +1473,7 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-+        ms->smp.sockets = sockets;
-         pcms->smp_dies = dies;
-     }
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index de45087f34..d4fab218e6 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -256,12 +256,14 @@ typedef struct DeviceMemoryState {
-  * @cpus: the number of present logical processors on the machine
-  * @cores: the number of cores in one package
-  * @threads: the number of threads in one core
-+ * @sockets: the number of sockets on the machine
-  * @max_cpus: the maximum number of logical processors on the machine
-  */
- typedef struct CpuTopology {
-     unsigned int cpus;
-     unsigned int cores;
-     unsigned int threads;
-+    unsigned int sockets;
-     unsigned int max_cpus;
- } CpuTopology;
- 
-diff --git a/vl.c b/vl.c
-index 4489cfb2bb..a42c24a77f 100644
---- a/vl.c
-+++ b/vl.c
-@@ -3962,6 +3962,7 @@ int main(int argc, char **argv, char **envp)
-     current_machine->smp.max_cpus = machine_class->default_cpus;
-     current_machine->smp.cores = 1;
-     current_machine->smp.threads = 1;
-+    current_machine->smp.sockets = 1;
- 
-     machine_class->smp_parse(current_machine,
-         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
+
+Applied with the fix for user.name.
+
+Thanks
+
+
+>>
+>>> Loopback mode only works when specific conditions (as dictated by the
+>>> IP guide) are met, i.e. the MII_MODE is set and the RMII_MODE is
+>>> cleared. If not, we simply send the packet on the output queue (for TX
+>>> to the host network). Tested by running a custom RTOS and TXing a ton
+>>> of packets. The same packets were received on the RX side..
+>>>
+>>> Signed-off-by: Bilal Wasim <bilal_wasim@mentor.com>
+>>> ---
+>>>    hw/net/imx_fec.c | 27 +++++++++++++++++++++++++--
+>>>    1 file changed, 25 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c index
+>>> bd99236864..c51e7f7363 100644
+>>> --- a/hw/net/imx_fec.c
+>>> +++ b/hw/net/imx_fec.c
+>>> @@ -256,6 +256,29 @@ static const VMStateDescription vmstate_imx_eth =
+=3D
+>>> {
+>>>
+>>>    static void imx_eth_update(IMXFECState *s);
+>>>
+>>> +/*
+>>> + * Function to check if the MAC is configured to run in loopback mode.
+>>> + * If so, invoke the "receive" routine.
+>>> + * Else write to the output.
+>>> + * */
+>>> +static void send_pkt(IMXFECState *s, uint8_t *frame, int frame_size)
+>>> +{
+>>> +    NetClientState *nc =3D qemu_get_queue(s->nic);
+>>> +
+>>> +    /*
+>>> +     * Loopback or Normal mode ?
+>>> +     * Per the FEC Manual: If loopback is enabled, the MII_MODE
+>>> +     * should be SET and the RMII_MODE should be cleared. Loopback
+>>> +     * will only work if this criterion is met. If not met,
+>>> +     * we will send the frame on the output queue. */
+>>> +    if ((s->regs[ENET_RCR] & ENET_RCR_LOOP) && (s->regs[ENET_RCR] & EN=
+ET_RCR_MII_MODE)
+>>> +            && !(s->regs[ENET_RCR] & ENET_RCR_RMII_MODE)) {
+>>> +        nc->info->receive(nc, frame, frame_size);
+>>> +    } else {
+>>> +        qemu_send_packet(nc, frame, frame_size);
+>>> +    }
+>>> +}
+>>> +
+>>>    /*
+>>>     * The MII phy could raise a GPIO to the processor which in turn
+>>>     * could be handled as an interrpt by the OS.
+>>> @@ -488,7 +511,7 @@ static void imx_fec_do_tx(IMXFECState *s)
+>>>            frame_size +=3D len;
+>>>            if (bd.flags & ENET_BD_L) {
+>>>                /* Last buffer in frame.  */
+>>> -            qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_s=
+ize);
+>>> +            send_pkt(s, (uint8_t *)&s->frame, frame_size);
+>>>                ptr =3D s->frame;
+>>>                frame_size =3D 0;
+>>>                s->regs[ENET_EIR] |=3D ENET_INT_TXF; @@ -586,7 +609,7 @@
+>>> static void imx_enet_do_tx(IMXFECState *s, uint32_t index)
+>>>                }
+>>>                /* Last buffer in frame.  */
+>>>
+>>> -            qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_s=
+ize);
+>>> +            send_pkt(s, (uint8_t *)&s->frame, frame_size);
+>>>                ptr =3D s->frame;
+>>>
+>>>                frame_size =3D 0;
+>>>
 
 
