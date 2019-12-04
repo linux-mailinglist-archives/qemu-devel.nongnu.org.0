@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721CD112AE2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:02:58 +0100 (CET)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2BC112B67
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:24:00 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTMu-000737-SX
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:02:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39789)
+	id 1icThG-0002UQ-UO
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1icSwQ-0005hn-Bn
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:35:38 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icT4S-0000bA-Ga
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:43:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1icSwH-0005wo-Eh
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:35:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36009
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icSwF-0005gK-BC
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:35:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575459318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=W394iKNjpXdEgwRChIc0d0VVfOTGU/iFjjrC+xpUYjA=;
- b=WeTDHqQ9NLyr7jMHixUJ6WX+VsPd3h6XFWMhG1rML5AdC958GKJUIG/gc/qOFK1GfyNjrA
- j2aCm7Bao2lfbQbl+2PrfoD90nImau3LG1dMnJ6xl1WSoXZHa00J7yA+MCJKPCTLerFY9M
- CfYzGkGNaCzvHzalJ+IL+JqexOx4ReE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-v9jZYNNxP_K2TgA6uQg8Og-1; Wed, 04 Dec 2019 06:35:17 -0500
-X-MC-Unique: v9jZYNNxP_K2TgA6uQg8Og-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 631698BE7DF;
- Wed,  4 Dec 2019 11:35:15 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-39.ams2.redhat.com [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A50471036C61;
- Wed,  4 Dec 2019 11:34:47 +0000 (UTC)
-Subject: Re: [PATCH v2 03/13] s390x: protvirt: Support unpack facility
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-4-frankja@linux.ibm.com>
- <3f891828-f7d1-91a4-08de-71ac2ed00ad1@redhat.com>
- <a58e50cf-ebbe-fc83-6405-592617e05d1e@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d0c17ceb-3c45-7754-0750-a3c75682f346@redhat.com>
-Date: Wed, 4 Dec 2019 12:34:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <alex.bennee@linaro.org>) id 1icT4J-0003pE-BG
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:43:46 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35385)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icT4H-000316-NZ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:43:43 -0500
+Received: by mail-wr1-x444.google.com with SMTP id g17so8234405wro.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 03:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=shV5c1pJwDqi6fi6IyhoCOCFTsTfCukpcPfonQrdOAw=;
+ b=rw9ZMuJEuTGSXrs+JwQPLJHWuxZc+dtXPg0HvClZFASbcdzssz3s5ZnKq5q2E0TfPf
+ DfyP9RUSj5Ze0umujTeM2+Fc0+2JSF01dq+2dhTD1igCeWQ4OAyGMqzffPxPqG/T1lr2
+ wPcxKrXAOy27OD13jQKlnrcdlvjDMMhMYeqvLDn6wh3f+hDkzmkH2Y1lqvUpq4rYwePo
+ GguotyfE0iPE+aONcQeBcXS82zOZpiLdf1FJnPj7aMZvDXwGIdmQ7BUbm+8QTubPA/aA
+ MIMjkq2dNUDdjhHEfISR/wTZGM9YahjVj6SiaAyvUgpCOr6ihSFUZxVyAHobZA+LZSkZ
+ P7lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=shV5c1pJwDqi6fi6IyhoCOCFTsTfCukpcPfonQrdOAw=;
+ b=Q7t8Thd0Mu+uFoMaOgY7B9TrvIt9frXiVgyu7Q2EgXU4kTnSiVs8qILRcYMTYya7Sr
+ cXITh6EeLAnk8HA+pKW/70PIYLmFnRftSX6yLnMKToRqQ6ZisgiLwa0WVB/JBla3538Y
+ xgq7/6ifJNxjs+SjESHP5veFn+Bpc5ouBkrQBbTgMaEjCoqPMNPElIHQeW18A76LHBQn
+ 04pjZjjg4m1nThiMl6dH2ycXJxIcBR65oqnxYhqEMweIcFRt6EXiwsDiJ4FUU8dr+CF9
+ 5o/UisYQSBQu9ZQ/Tb6/vNVmq4n3/woJcchtUtlU//g4aH7FgzA33o3Kdx0m0CP6lp5H
+ V8tw==
+X-Gm-Message-State: APjAAAVaQz9+QilOzZ6XyM6J8k91/AXnTIiDn6+343myj4Wq4Lnneelz
+ WNH3QSg0gXMNF3phjPT4IpjezA==
+X-Google-Smtp-Source: APXvYqxpMuwSzAU1nx1H9Tx03WuG42ZUd+YrV+h9IR4pEdTr6B52NEqK18zldh9D5RQ0sJO4wKmaGg==
+X-Received: by 2002:adf:ff84:: with SMTP id j4mr3861143wrr.27.1575459812552;
+ Wed, 04 Dec 2019 03:43:32 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f11sm6502232wmc.25.2019.12.04.03.43.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2019 03:43:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 494B91FF87;
+ Wed,  4 Dec 2019 11:43:30 +0000 (GMT)
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 14/40] target/arm: Recover 4 bits from TBFLAGs
+In-reply-to: <20191203022937.1474-15-richard.henderson@linaro.org>
+Date: Wed, 04 Dec 2019 11:43:30 +0000
+Message-ID: <87y2vs8gf1.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <a58e50cf-ebbe-fc83-6405-592617e05d1e@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ls6QG0VpCOToF61IYR6gyjiuVHNFRyyMI"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,247 +82,307 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ls6QG0VpCOToF61IYR6gyjiuVHNFRyyMI
-Content-Type: multipart/mixed; boundary="0nsHP4Cyt6LHUssonKr3V4CSy6QDtGgbT";
- protected-headers="v1"
-From: Thomas Huth <thuth@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
-Message-ID: <d0c17ceb-3c45-7754-0750-a3c75682f346@redhat.com>
-Subject: Re: [PATCH v2 03/13] s390x: protvirt: Support unpack facility
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-4-frankja@linux.ibm.com>
- <3f891828-f7d1-91a4-08de-71ac2ed00ad1@redhat.com>
- <a58e50cf-ebbe-fc83-6405-592617e05d1e@linux.ibm.com>
-In-Reply-To: <a58e50cf-ebbe-fc83-6405-592617e05d1e@linux.ibm.com>
 
---0nsHP4Cyt6LHUssonKr3V4CSy6QDtGgbT
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On 04/12/2019 12.32, Janosch Frank wrote:
-> On 12/4/19 11:48 AM, Thomas Huth wrote:
->> On 29/11/2019 10.47, Janosch Frank wrote:
->>> When a guest has saved a ipib of type 5 and call diagnose308 with
->>> subcode 10, we have to setup the protected processing environment via
->>> Ultravisor calls. The calls are done by KVM and are exposed via an API.
->>>
->>> The following steps are necessary:
->>> 1. Create a VM (register it with the Ultravisor)
->>> 2. Create secure CPUs for all of our current cpus
->>> 3. Forward the secure header to the Ultravisor (has all information on
->>> how to decrypt the image and VM information)
->>> 4. Protect image pages from the host and decrypt them
->>> 5. Verify the image integrity
->>>
->>> Only after step 5 a protected VM is allowed to run.
->>>
->>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>> ---
->> [...]
->>> +++ b/hw/s390x/pv.c
->>> @@ -0,0 +1,118 @@
->>> +/*
->>> + * Secure execution functions
->>> + *
->>> + * Copyright IBM Corp. 2019
->>> + * Author(s):
->>> + *  Janosch Frank <frankja@linux.ibm.com>
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2 or =
-(at
->>> + * your option) any later version. See the COPYING file in the top-lev=
-el
->>> + * directory.
->>> + */
->>> +#include "qemu/osdep.h"
->>> +#include <sys/ioctl.h>
->>> +
->>> +#include <linux/kvm.h>
->>> +
->>> +#include "qemu/error-report.h"
->>> +#include "sysemu/kvm.h"
->>> +#include "pv.h"
->>> +
->>> +static int s390_pv_cmd(uint32_t cmd, void *data)
->>> +{
->>> +    int rc;
->>> +    struct kvm_pv_cmd pv_cmd =3D {
->>> +        .cmd =3D cmd,
->>> +        .data =3D (uint64_t)data,
->>> +    };
->>> +
->>> +    rc =3D kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
->>> +    if (rc) {
->>> +        error_report("KVM PV command failed cmd: %d rc: %d", cmd, rc);
->>> +        exit(1);
->>> +    }
->>> +    return rc;
->>> +}
->>> +
->>> +static int s390_pv_cmd_vcpu(CPUState *cs, uint32_t cmd, void *data)
->>> +{
->>> +    int rc;
->>> +    struct kvm_pv_cmd pv_cmd =3D {
->>> +        .cmd =3D cmd,
->>> +        .data =3D (uint64_t)data,
->>> +    };
->>> +
->>> +    rc =3D kvm_vcpu_ioctl(cs, KVM_S390_PV_COMMAND_VCPU, &pv_cmd);
->>> +    if (rc) {
->>> +        error_report("KVM PV VCPU command failed cmd: %d rc: %d", cmd,=
- rc);
->>> +        exit(1);
->>> +    }
->>> +    return rc;
->>> +}
->>> +
->>> +int s390_pv_vm_create(void)
->>> +{
->>> +    return s390_pv_cmd(KVM_PV_VM_CREATE, NULL);
->>> +}
->>> +
->>> +int s390_pv_vm_destroy(void)
->>> +{
->>> +    return s390_pv_cmd(KVM_PV_VM_DESTROY, NULL);
->>> +}
->>> +
->>> +int s390_pv_vcpu_create(CPUState *cs)
->>> +{
->>> +    return s390_pv_cmd_vcpu(cs, KVM_PV_VCPU_CREATE, NULL);
->>> +}
->>> +
->>> +int s390_pv_vcpu_destroy(CPUState *cs)
->>> +{
->>> +    S390CPU *cpu =3D S390_CPU(cs);
->>> +    CPUS390XState *env =3D &cpu->env;
->>> +    int rc;
->>> +
->>> +    rc =3D s390_pv_cmd_vcpu(cs, KVM_PV_VCPU_DESTROY, NULL);
->>> +    if (!rc) {
->>> +        env->pv =3D false;
->>> +    }
->>> +    return rc;
->>> +}
->>> +
->>> +int s390_pv_set_sec_parms(uint64_t origin, uint64_t length)
->>> +{
->>> +    struct kvm_s390_pv_sec_parm args =3D {
->>> +        .origin =3D origin,
->>> +        .length =3D length,
->>> +    };
->>> +
->>> +    return s390_pv_cmd(KVM_PV_VM_SET_SEC_PARMS, &args);
->>> +}
->>> +
->>> +/*
->>> + * Called for each component in the SE type IPL parameter block 0.
->>> + */
->>> +int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak)
->>> +{
->>> +    struct kvm_s390_pv_unp args =3D {
->>> +        .addr =3D addr,
->>> +        .size =3D size,
->>> +        .tweak =3D tweak,
->>> +    };
->>> +
->>> +    return s390_pv_cmd(KVM_PV_VM_UNPACK, &args);
->>> +}
->>> +
->>> +int s390_pv_perf_clear_reset(void)
->>> +{
->>> +    return s390_pv_cmd(KVM_PV_VM_PERF_CLEAR_RESET, NULL);
->>> +}
->>> +
->>> +int s390_pv_verify(void)
->>> +{
->>> +    return s390_pv_cmd(KVM_PV_VM_VERIFY, NULL);
->>> +}
->>> +
->>> +int s390_pv_unshare(void)
->>> +{
->>> +    return s390_pv_cmd(KVM_PV_VM_UNSHARE, NULL);
->>> +}
->>> diff --git a/hw/s390x/pv.h b/hw/s390x/pv.h
->>> new file mode 100644
->>> index 0000000000..eb074e4bc9
->>> --- /dev/null
->>> +++ b/hw/s390x/pv.h
->>> @@ -0,0 +1,26 @@
->>> +/*
->>> + * Protected Virtualization header
->>> + *
->>> + * Copyright IBM Corp. 2019
->>> + * Author(s):
->>> + *  Janosch Frank <frankja@linux.ibm.com>
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2 or =
-(at
->>> + * your option) any later version. See the COPYING file in the top-lev=
-el
->>> + * directory.
->>> + */
->>> +
->>> +#ifndef HW_S390_PV_H
->>> +#define HW_S390_PV_H
->>> +
->>> +int s390_pv_vm_create(void);
->>> +int s390_pv_vm_destroy(void);
->>> +int s390_pv_vcpu_destroy(CPUState *cs);
->>> +int s390_pv_vcpu_create(CPUState *cs);
->>> +int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
->>> +int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
->>> +int s390_pv_perf_clear_reset(void);
->>> +int s390_pv_verify(void);
->>> +int s390_pv_unshare(void);
->>
->> I still think you should make all those functions returning "void"
->> instead of "int" - since errors results in an exit() in s390_pv_cmd()
->> and s390_pv_cmd_vcpu() anyway...
->=20
-> Hey Thomas,
->=20
-> I have requested an error code for diag 308 subcode 10 that tells the
-> VM, that we didn't succeed starting a secure guest. Once that is in
-> place, I'll need to check the return codes.
+> We had completely run out of TBFLAG bits.
+> Split A- and M-profile bits into two overlapping buckets.
+> This results in 4 free bits.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h       | 52 ++++++++++++++++++++++++---------------
+>  target/arm/helper.c    | 17 ++++++-------
+>  target/arm/translate.c | 56 +++++++++++++++++++++++-------------------
+>  3 files changed, 70 insertions(+), 55 deletions(-)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 28259be733..ae9fc1ded3 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -3188,38 +3188,50 @@ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
+>   */
+>  FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
 
-Ok, but then the exit()s need to go away, I assume?
+I'm not sure if this visual aid helps but here you go:
 
- Thomas
+ *  31                  20 19    16 15         10 9            0
+ * +----------------------+--------+-------------+--------------+
+ * |                      |        |       TBFLAG_A64           |
+ * |                      |     +--+-------------+--------------+
+ * |     TBFLAG_ANY       |     |   TBFLAG_A32   |              |
+ * |                      |     +-----+----------+  TBFLAG_AM32 |
+ * |                      |           |TBFLAG_M32|              |
+ * +----------------------+-----------+----------+--------------+
+
+>=20=20
+> -/* Bit usage when in AArch32 state: */
+> -FIELD(TBFLAG_A32, THUMB, 0, 1)          /* Not cached. */
+> -FIELD(TBFLAG_A32, VECLEN, 1, 3)         /* Not cached. */
+> -FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)      /* Not cached. */
+> +/*
+> + * Bit usage when in AArch32 state, both A- and M-profile.
+> + */
+> +FIELD(TBFLAG_AM32, CONDEXEC, 0, 8)      /* Not cached. */
+> +FIELD(TBFLAG_AM32, THUMB, 8, 1)         /* Not cached. */
+> +
+> +/*
+> + * Bit usage when in AArch32 state, for A-profile only.
+> + */
+> +FIELD(TBFLAG_A32, VECLEN, 9, 3)         /* Not cached. */
+> +FIELD(TBFLAG_A32, VECSTRIDE, 12, 2)     /* Not cached. */
+>  /*
+>   * We store the bottom two bits of the CPAR as TB flags and handle
+>   * checks on the other bits at runtime. This shares the same bits as
+>   * VECSTRIDE, which is OK as no XScale CPU has VFP.
+>   * Not cached, because VECLEN+VECSTRIDE are not cached.
+>   */
+> -FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
+> +FIELD(TBFLAG_A32, XSCALE_CPAR, 12, 2)
+> +FIELD(TBFLAG_A32, VFPEN, 14, 1)         /* Partially cached, minus FPEXC=
+. */
+> +FIELD(TBFLAG_A32, SCTLR_B, 15, 1)
+>  /*
+>   * Indicates whether cp register reads and writes by guest code should a=
+ccess
+>   * the secure or nonsecure bank of banked registers; note that this is n=
+ot
+>   * the same thing as the current security state of the processor!
+>   */
+> -FIELD(TBFLAG_A32, NS, 6, 1)
+> -FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Partially cached, minus FPEXC=
+. */
+> -FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
+> -FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
+> -/* For M profile only, set if FPCCR.LSPACT is set */
+> -FIELD(TBFLAG_A32, LSPACT, 18, 1)        /* Not cached. */
+> -/* For M profile only, set if we must create a new FP context */
+> -FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1) /* Not cached. */
+> -/* For M profile only, set if FPCCR.S does not match current security st=
+ate */
+> -FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1) /* Not cached. */
+> -/* For M profile only, Handler (ie not Thread) mode */
+> -FIELD(TBFLAG_A32, HANDLER, 21, 1)
+> -/* For M profile only, whether we should generate stack-limit checks */
+> -FIELD(TBFLAG_A32, STACKCHECK, 22, 1)
+> +FIELD(TBFLAG_A32, NS, 16, 1)
+>=20=20
+> -/* Bit usage when in AArch64 state */
+> +/*
+> + * Bit usage when in AArch32 state, for M-profile only.
+> + */
+> +/* Handler (ie not Thread) mode */
+> +FIELD(TBFLAG_M32, HANDLER, 9, 1)
+> +/* Whether we should generate stack-limit checks */
+> +FIELD(TBFLAG_M32, STACKCHECK, 10, 1)
+> +/* Set if FPCCR.LSPACT is set */
+> +FIELD(TBFLAG_M32, LSPACT, 11, 1)                 /* Not cached. */
+> +/* Set if we must create a new FP context */
+> +FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 12, 1)     /* Not cached. */
+> +/* Set if FPCCR.S does not match current security state */
+> +FIELD(TBFLAG_M32, FPCCR_S_WRONG, 13, 1)          /* Not cached. */
+> +
+> +/*
+> + * Bit usage when in AArch64 state
+> + */
+>  FIELD(TBFLAG_A64, TBII, 0, 2)
+>  FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
+>  FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 5172843667..ec5c7fa325 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -11207,11 +11207,8 @@ static uint32_t rebuild_hflags_m32(CPUARMState *=
+env, int fp_el,
+>  {
+>      uint32_t flags =3D 0;
+>=20=20
+> -    /* v8M always enables the fpu.  */
+> -    flags =3D FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
+> -
+>      if (arm_v7m_is_handler_mode(env)) {
+> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
+> +        flags =3D FIELD_DP32(flags, TBFLAG_M32, HANDLER, 1);
+>      }
+>=20=20
+>      /*
+> @@ -11222,7 +11219,7 @@ static uint32_t rebuild_hflags_m32(CPUARMState *e=
+nv, int fp_el,
+>      if (arm_feature(env, ARM_FEATURE_V8) &&
+>          !((mmu_idx & ARM_MMU_IDX_M_NEGPRI) &&
+>            (env->v7m.ccr[env->v7m.secure] & R_V7M_CCR_STKOFHFNMIGN_MASK))=
+) {
+> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, STACKCHECK, 1);
+> +        flags =3D FIELD_DP32(flags, TBFLAG_M32, STACKCHECK, 1);
+>      }
+>=20=20
+>      return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+> @@ -11385,7 +11382,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, targe=
+t_ulong *pc,
+>              if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+>                  FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S)
+>                  !=3D env->v7m.secure) {
+> -                flags =3D FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1=
+);
+> +                flags =3D FIELD_DP32(flags, TBFLAG_M32, FPCCR_S_WRONG, 1=
+);
+>              }
+>=20=20
+>              if ((env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MAS=
+K) &&
+> @@ -11397,12 +11394,12 @@ void cpu_get_tb_cpu_state(CPUARMState *env, tar=
+get_ulong *pc,
+>                   * active FP context; we must create a new FP context be=
+fore
+>                   * executing any FP insn.
+>                   */
+> -                flags =3D FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEED=
+ED, 1);
+> +                flags =3D FIELD_DP32(flags, TBFLAG_M32, NEW_FP_CTXT_NEED=
+ED, 1);
+>              }
+>=20=20
+>              bool is_secure =3D env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_M=
+ASK;
+>              if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
+> -                flags =3D FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
+> +                flags =3D FIELD_DP32(flags, TBFLAG_M32, LSPACT, 1);
+>              }
+>          } else {
+>              /*
+> @@ -11423,8 +11420,8 @@ void cpu_get_tb_cpu_state(CPUARMState *env, targe=
+t_ulong *pc,
+>              }
+>          }
+>=20=20
+> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
+> -        flags =3D FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_=
+bits);
+> +        flags =3D FIELD_DP32(flags, TBFLAG_AM32, THUMB, env->thumb);
+> +        flags =3D FIELD_DP32(flags, TBFLAG_AM32, CONDEXEC, env->condexec=
+_bits);
+>          pstate_for_ss =3D env->uncached_cpsr;
+>      }
+>=20=20
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index 51ea99e6f9..cd757165e1 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -10841,37 +10841,46 @@ static void arm_tr_init_disas_context(DisasCont=
+extBase *dcbase, CPUState *cs)
+>       */
+>      dc->secure_routed_to_el3 =3D arm_feature(env, ARM_FEATURE_EL3) &&
+>                                 !arm_el_is_aa64(env, 3);
+> -    dc->thumb =3D FIELD_EX32(tb_flags, TBFLAG_A32, THUMB);
+> -    dc->sctlr_b =3D FIELD_EX32(tb_flags, TBFLAG_A32, SCTLR_B);
+> -    dc->be_data =3D FIELD_EX32(tb_flags, TBFLAG_ANY, BE_DATA) ? MO_BE : =
+MO_LE;
+> -    condexec =3D FIELD_EX32(tb_flags, TBFLAG_A32, CONDEXEC);
+> +    dc->thumb =3D FIELD_EX32(tb_flags, TBFLAG_AM32, THUMB);
+> +    condexec =3D FIELD_EX32(tb_flags, TBFLAG_AM32, CONDEXEC);
+>      dc->condexec_mask =3D (condexec & 0xf) << 1;
+>      dc->condexec_cond =3D condexec >> 4;
+> +
+>      core_mmu_idx =3D FIELD_EX32(tb_flags, TBFLAG_ANY, MMUIDX);
+>      dc->mmu_idx =3D core_to_arm_mmu_idx(env, core_mmu_idx);
+>      dc->current_el =3D arm_mmu_idx_to_el(dc->mmu_idx);
+>  #if !defined(CONFIG_USER_ONLY)
+>      dc->user =3D (dc->current_el =3D=3D 0);
+>  #endif
+> -    dc->ns =3D FIELD_EX32(tb_flags, TBFLAG_A32, NS);
+>      dc->fp_excp_el =3D FIELD_EX32(tb_flags, TBFLAG_ANY, FPEXC_EL);
+> -    dc->vfp_enabled =3D FIELD_EX32(tb_flags, TBFLAG_A32, VFPEN);
+> -    dc->vec_len =3D FIELD_EX32(tb_flags, TBFLAG_A32, VECLEN);
+> -    if (arm_feature(env, ARM_FEATURE_XSCALE)) {
+> -        dc->c15_cpar =3D FIELD_EX32(tb_flags, TBFLAG_A32, XSCALE_CPAR);
+> -        dc->vec_stride =3D 0;
+> +
+> +    if (arm_feature(env, ARM_FEATURE_M)) {
+> +        dc->vfp_enabled =3D 1;
+> +        dc->be_data =3D MO_TE;
+> +        dc->v7m_handler_mode =3D FIELD_EX32(tb_flags, TBFLAG_M32, HANDLE=
+R);
+> +        dc->v8m_secure =3D arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+> +            regime_is_secure(env, dc->mmu_idx);
+> +        dc->v8m_stackcheck =3D FIELD_EX32(tb_flags, TBFLAG_M32, STACKCHE=
+CK);
+> +        dc->v8m_fpccr_s_wrong =3D
+> +            FIELD_EX32(tb_flags, TBFLAG_M32, FPCCR_S_WRONG);
+> +        dc->v7m_new_fp_ctxt_needed =3D
+> +            FIELD_EX32(tb_flags, TBFLAG_M32, NEW_FP_CTXT_NEEDED);
+> +        dc->v7m_lspact =3D FIELD_EX32(tb_flags, TBFLAG_M32, LSPACT);
+>      } else {
+> -        dc->vec_stride =3D FIELD_EX32(tb_flags, TBFLAG_A32, VECSTRIDE);
+> -        dc->c15_cpar =3D 0;
+> +        dc->be_data =3D
+> +            FIELD_EX32(tb_flags, TBFLAG_ANY, BE_DATA) ? MO_BE : MO_LE;
+> +        dc->debug_target_el =3D
+> +            FIELD_EX32(tb_flags, TBFLAG_ANY, DEBUG_TARGET_EL);
+> +        dc->sctlr_b =3D FIELD_EX32(tb_flags, TBFLAG_A32, SCTLR_B);
+> +        dc->ns =3D FIELD_EX32(tb_flags, TBFLAG_A32, NS);
+> +        dc->vfp_enabled =3D FIELD_EX32(tb_flags, TBFLAG_A32, VFPEN);
+> +        if (arm_feature(env, ARM_FEATURE_XSCALE)) {
+> +            dc->c15_cpar =3D FIELD_EX32(tb_flags, TBFLAG_A32, XSCALE_CPA=
+R);
+> +        } else {
+> +            dc->vec_len =3D FIELD_EX32(tb_flags, TBFLAG_A32, VECLEN);
+> +            dc->vec_stride =3D FIELD_EX32(tb_flags, TBFLAG_A32, VECSTRID=
+E);
+> +        }
+>      }
+> -    dc->v7m_handler_mode =3D FIELD_EX32(tb_flags, TBFLAG_A32, HANDLER);
+> -    dc->v8m_secure =3D arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+> -        regime_is_secure(env, dc->mmu_idx);
+> -    dc->v8m_stackcheck =3D FIELD_EX32(tb_flags, TBFLAG_A32, STACKCHECK);
+> -    dc->v8m_fpccr_s_wrong =3D FIELD_EX32(tb_flags, TBFLAG_A32, FPCCR_S_W=
+RONG);
+> -    dc->v7m_new_fp_ctxt_needed =3D
+> -        FIELD_EX32(tb_flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED);
+> -    dc->v7m_lspact =3D FIELD_EX32(tb_flags, TBFLAG_A32, LSPACT);
+>      dc->cp_regs =3D cpu->cp_regs;
+>      dc->features =3D env->features;
+>=20=20
+> @@ -10893,9 +10902,6 @@ static void arm_tr_init_disas_context(DisasContex=
+tBase *dcbase, CPUState *cs)
+>      dc->ss_active =3D FIELD_EX32(tb_flags, TBFLAG_ANY, SS_ACTIVE);
+>      dc->pstate_ss =3D FIELD_EX32(tb_flags, TBFLAG_ANY, PSTATE_SS);
+>      dc->is_ldex =3D false;
+> -    if (!arm_feature(env, ARM_FEATURE_M)) {
+> -        dc->debug_target_el =3D FIELD_EX32(tb_flags, TBFLAG_ANY, DEBUG_T=
+ARGET_EL);
+> -    }
+>=20=20
+>      dc->page_start =3D dc->base.pc_first & TARGET_PAGE_MASK;
+>=20=20
+> @@ -11332,10 +11338,10 @@ static const TranslatorOps thumb_translator_ops=
+ =3D {
+>  /* generate intermediate code for basic block 'tb'.  */
+>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_=
+insns)
+>  {
+> -    DisasContext dc;
+> +    DisasContext dc =3D { };
+
+We seemed to have dropped an initialise here which seems unrelated.
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 
---0nsHP4Cyt6LHUssonKr3V4CSy6QDtGgbT--
+>      const TranslatorOps *ops =3D &arm_translator_ops;
+>=20=20
+> -    if (FIELD_EX32(tb->flags, TBFLAG_A32, THUMB)) {
+> +    if (FIELD_EX32(tb->flags, TBFLAG_AM32, THUMB)) {
+>          ops =3D &thumb_translator_ops;
+>      }
+>  #ifdef TARGET_AARCH64
 
---ls6QG0VpCOToF61IYR6gyjiuVHNFRyyMI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJ7iIR+7gJQEY8+q5LtnXdP5wLbUFAl3nmdUACgkQLtnXdP5w
-LbXZSA//R4HTgNAqJrIug9rNedE0SzCBOCW8ISdTdtCeTFcKOL4dHz3hmJO5bIxW
-+tl5XkReLVFoddNYF29Ca6o/Z5A12uDR9pSbIlV7KLoROX9eLwhfGG/7o7u0ue5O
-4pSOp/h8CTiPNwZTKbbU0KUO51rgJXHjqDS46u+3PiO2NhMotu5SaakQR9isEDRa
-tKB97sY2gUVlwGBVghwTgTAQsZXRGlFPgrGlpRZKO9fTSMmXD+gByqF5cl21ktUD
-mkFce9NX7aXyAhLaeUZKJLnL0O2WY1lV72Cjyou0qw4tyVN5lqvjqYVT4PLz8ytd
-2JGvC0s95xwd0lClugjjdsl17Sb+RAi7D6o29tWsLlXoCAx/4WnRf/2NleZJvmGI
-AxwXV3ZRqEBLRC1COtKlolhbABDHM5VWmxXt78mudtLcEyUl2I7T2+5YBSQ2NCV1
-Fs/0uQkE4w1Xp3o0ObZY/I6ycdKFDZOuLNQHtnuss/JrVHU98Wi8ddFdGC8/jRnx
-demU8zS5RobFo8+KF5EmYEQMkGckaZZ+CHdGMwC/DXmslRBp2B/5WCfp4nXT34Zj
-hBxfcE73UuL6xRhSGO/vnnbVHvZ+ahs3aHW5Avm9VIU2nzkga+JYpSSvRwphs3az
-RrKoRnklWB2ZdSH1zl1FyL/c1AMjNb2TL9E3Q/sOUql1dV/hIJk=
-=i9tP
------END PGP SIGNATURE-----
-
---ls6QG0VpCOToF61IYR6gyjiuVHNFRyyMI--
-
+--=20
+Alex Benn=C3=A9e
 
