@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA382112D91
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 15:38:28 +0100 (CET)
-Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98281112D93
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 15:39:00 +0100 (CET)
+Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icVnP-0004NZ-Vg
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 09:38:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
+	id 1icVnv-0005FL-LM
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 09:38:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44769)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icVlS-00031U-SW
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:36:27 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icVm6-0003lz-9y
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:37:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icVlR-0004NE-OF
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:36:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53579
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icVlR-0004Mx-J5
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:36:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575470185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wXo36HgzlbTfTaQKoAHPr3/cD5/dZ7/sHcvhO/TIFo4=;
- b=Pk08aSpVVnt322+iGAUnZCSmD9G8/kgmp119xLXF1a7gtSg3Aun5vj4GlGD4j4LaeVOJ5X
- fgqZHdTwvMDRQohVnCX9IRYsO7/1OaRD5bkJEBgOgoUOFsJZnjfmtjNdi1T1TTJWuKUTge
- a/+uVMmkMCVcs4WuuIvIhKN1EZJa26c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-wHK5jtmaOnu0l_1a7dMO_A-1; Wed, 04 Dec 2019 09:36:22 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834F4911FA;
- Wed,  4 Dec 2019 14:36:21 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 98B8C5D6B7;
- Wed,  4 Dec 2019 14:36:12 +0000 (UTC)
-Subject: Re: virtiofsd: Where should it live?
-To: Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20191126102600.GG556568@redhat.com>
- <20191126121416.GE2928@work-vm>
- <CAFEAcA9Ln2uwg4f4s8oS6VeQk83W3BErmH9cHeyDJy7v-4gNxw@mail.gmail.com>
- <87k17ekhs9.fsf@dusky.pond.sub.org>
- <fef0eaaf-149a-f8a8-02c5-821d2d42becd@redhat.com>
- <20191203105341.GB3078@work-vm>
- <CAFEAcA8bjGAs7JSTNYYYwCH1yF06i0v0r9wjKXqZGZg_Sqy0VA@mail.gmail.com>
- <20191203111949.GB267814@redhat.com> <87o8wofsda.fsf@dusky.pond.sub.org>
- <20191204081726.md3qakjtszftnuag@sirius.home.kraxel.org>
- <20191204132810.GB20250@dhcp-200-226.str.redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <02eec949-f768-dd42-fb46-284489c1a964@redhat.com>
-Date: Wed, 4 Dec 2019 08:36:12 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <alex.bennee@linaro.org>) id 1icVm5-0004gD-22
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:37:06 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33928)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icVm4-0004eK-PP
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 09:37:05 -0500
+Received: by mail-wr1-x443.google.com with SMTP id t2so8920675wrr.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 06:37:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qGFBFQBNkpPulheKDaQwWbMxhS7VSvK6frDw7Pu6SWU=;
+ b=OMrW34h6PrR/AoXg7IcYD/9+RZllLqna2fCNqXgk7MOpBKFhTok1zJgsFFxmlYrENB
+ W2RhkfytML/XDds+i7j1oZ3PdyVQ+4p3P4ijji2qPVOUGlolvn9nDMHT2IRAVuD0QIJ9
+ MKU2GDLnirJgzODalsFHd0VhJmSWK9Alc3apACtZyv5fh8O9s9UXatkuDPzmz7pom/1z
+ HXg707ktR/piEsroBteXfaWwwQy+khm0xCLaVISzg18B0fqBBUEXiBP9XfcQNd8BTfTz
+ 2hcScy8aJ4LIlK2MsUD0z3SL2cAPiGZLWe9GC9/gySFq7AByqoXH0b0zUaNjx/YjJLMv
+ JwRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=qGFBFQBNkpPulheKDaQwWbMxhS7VSvK6frDw7Pu6SWU=;
+ b=fOFmAK1gDxI4qcorcGU5hwylZrEQNEemtXF57AFp/j0RujZF2ZKA4mFbH1GQnW3x6T
+ 3cj6PK0hDCf6ueDtwFRlJmYMKYsB/iwo0R9lJuYr8uRPYJMalJu5KuDwntHf2I0cKT7f
+ iBWZ3tm0I1kHhskzFmoM3snUyOC65mZHUPJepQH6g3OKLmsLhXhZco5T3KBV28/0qoiR
+ XJowYvxmeukC3rk8Es/7gU8y4Idcf9T/veZ43KiPP1TaI7mjVypg3+WfREjkk5gIprZw
+ N4BVh8tDPly8WxDQvM6g1iRnGBlYbaSoq65A0NXerGSKXn4v+5PZ/dMGID2rgUFGw/26
+ K7OQ==
+X-Gm-Message-State: APjAAAVPheYM3ZvMubH1dFBM9LcGX/pusbzIYvAkOmGTc+5KIpSev3Qd
+ HtMEY9hjS55q9w7RosIMPp196A==
+X-Google-Smtp-Source: APXvYqy1+rTgXk1MVYHrLwR+dIfjjyORM3zDobK7muRZL9fQvlahrnz5BfhgIq9N0rwq3YqdFvJcNQ==
+X-Received: by 2002:adf:e3d0:: with SMTP id k16mr4490612wrm.241.1575470223273; 
+ Wed, 04 Dec 2019 06:37:03 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l204sm7218176wmf.2.2019.12.04.06.37.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2019 06:37:02 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8A6EB1FF87;
+ Wed,  4 Dec 2019 14:37:01 +0000 (GMT)
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-21-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 20/40] target/arm: Update arm_mmu_idx for VHE
+In-reply-to: <20191203022937.1474-21-richard.henderson@linaro.org>
+Date: Wed, 04 Dec 2019 14:37:01 +0000
+Message-ID: <878sns88du.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191204132810.GB20250@dhcp-200-226.str.redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: wHK5jtmaOnu0l_1a7dMO_A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,47 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, mszeredi@redhat.com, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- vgoyal@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/19 7:28 AM, Kevin Wolf wrote:
-> Am 04.12.2019 um 09:17 hat Gerd Hoffmann geschrieben:
->>    Hi,
->>
->>>>      |   ...
->>>>      +- qemu-edid
->>>
->>> Has its own MAINTAINERS section, together with hw/display/edit* and
->>> include/hw/display/edid.h.  I'm not sure moving it hw/display/ is a good
->>> idea.  Gerd?
->>
->> Sort-of makes sense.  My personal preference would be a tools/ directory
->> for all those small utilities though.
-> 
-> I think I would like that better than throwing tools into block/ where
-> currently mostly just block drivers live.
 
-Ooh, I should have read this sub-thread before writing my reply at the 
-top level.  Yes, I like the idea of tools/ for qemu-img, qemu-io, and 
-qemu-nbd better than block/.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> 
-> Or, if we want to move the tools there, we'd need another directory
-> level inside block/ to keep things reasonably organised.
+> Return the indexes for the EL2&0 regime when the appropriate bits
+> are set within HCR_EL2.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Separating drivers from executables sounds worthwhile either way, 
-whether that division is by a new tools/ or by a subdirectory in block/.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> ---
+>  target/arm/helper.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 27adf24fa6..c6b4c0a25f 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -11172,12 +11172,16 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int =
+el)
+>          return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
+>      }
+>=20=20
+> +    /* See ARM pseudo-function ELIsInHost.  */
+>      switch (el) {
+>      case 0:
+> -        /* TODO: ARMv8.1-VHE */
+>          if (arm_is_secure_below_el3(env)) {
+>              return ARMMMUIdx_SE0;
+>          }
+> +        if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE)) =3D=3D (HCR_E2H | =
+HCR_TGE)
+> +            && arm_el_is_aa64(env, 2)) {
+> +            return ARMMMUIdx_EL20_0;
+> +        }
+>          return ARMMMUIdx_EL10_0;
+>      case 1:
+>          if (arm_is_secure_below_el3(env)) {
+> @@ -11185,8 +11189,11 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int e=
+l)
+>          }
+>          return ARMMMUIdx_EL10_1;
+>      case 2:
+> -        /* TODO: ARMv8.1-VHE */
+>          /* TODO: ARMv8.4-SecEL2 */
+> +        /* Note that TGE does not apply at EL2.  */
+> +        if ((env->cp15.hcr_el2 & HCR_E2H) && arm_el_is_aa64(env, 2)) {
+> +            return ARMMMUIdx_EL20_2;
+> +        }
+>          return ARMMMUIdx_E2;
+>      case 3:
+>          return ARMMMUIdx_SE3;
 
+
+--=20
+Alex Benn=C3=A9e
 
