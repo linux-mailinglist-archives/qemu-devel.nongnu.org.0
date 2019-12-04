@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73844112F9D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:08:02 +0100 (CET)
-Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95DF112FC3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:14:29 +0100 (CET)
+Received: from localhost ([::1]:40846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXC3-0001No-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:07:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56161)
+	id 1icXIK-0005E8-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:14:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1icWrt-0007Ud-8w
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:11 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1icWsP-0007zl-Ha
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1icWrs-0000RM-17
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:09 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51177
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <ehabkost@redhat.com>) id 1icWsM-00016L-Pa
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22826
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icWrq-0000FB-1f
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:06 -0500
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1icWsM-00014d-Lh
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:47:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575474417;
+ s=mimecast20190719; t=1575474457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SsOzM8MNH4R58D2tLbl4GOaOBXqI7tFgk7eGtkoiEOQ=;
- b=aKZdEKRGxipU8H+kpoXT8HP5A8lsi1RzeTUb8Q24VXSdK9ZQ2LdIdi8Fkv+gi+aVpYAYHp
- m+6/r0mg4mETS5FRD5QsPBkzzl+zU1sJqNJXRwcntLlBxeKVPTKV1RG95fg1qDeF7J9+QR
- 4iE3A0F9zBiyAHy3b8YjkBb6JY2IP54=
+ bh=ZeT4eCJP83I9XOzpzs9v7jQ3UQn1BfRckosLr2Q8ki4=;
+ b=DvmVH+sgaNjLMyqsZ5FsaE+TqegTDiIj/jIeEzUYj0j1GxCuqmzJXP3kDh0YBuGsl9KEpD
+ kvx3yJWqP3HG4v7psaJ6QgxzSd+tV8e3ypcPrU4KzE6nv8DigcQ8BHjd0Plruj2CSP1cZx
+ 0MVangFrRPyOx6GJLox2NlLrO9ERxpM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-sNYFBhfxNIeWPziF3ZagWg-1; Wed, 04 Dec 2019 10:46:55 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-400-JB1bfsHhNOOrCVhyzWEiiw-1; Wed, 04 Dec 2019 10:47:33 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B9361005502;
- Wed,  4 Dec 2019 15:46:54 +0000 (UTC)
-Received: from thuth.com (ovpn-117-39.ams2.redhat.com [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C306600C8;
- Wed,  4 Dec 2019 15:46:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 6/7] configure: allow disable of cross compilation
- containers
-Date: Wed,  4 Dec 2019 16:46:17 +0100
-Message-Id: <20191204154618.23560-7-thuth@redhat.com>
-In-Reply-To: <20191204154618.23560-1-thuth@redhat.com>
-References: <20191204154618.23560-1-thuth@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0C0F12A7E49;
+ Wed,  4 Dec 2019 15:47:32 +0000 (UTC)
+Received: from localhost (ovpn-116-90.gru2.redhat.com [10.97.116.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32561A4B60;
+ Wed,  4 Dec 2019 15:47:31 +0000 (UTC)
+Date: Wed, 4 Dec 2019 12:47:30 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] target/i386: relax assert when old host kernels don't
+ include msrs
+Message-ID: <20191204154730.GB498046@habkost.net>
+References: <1575449430-23366-1-git-send-email-catherine.hecx@gmail.com>
+ <2ac1a83c-6958-1b49-295f-92149749fa7c@redhat.com>
+ <CAEn6zmFex9WJ9jr5-0br7YzQZ=jA5bQn314OM+U=Q6ZGPiCRAg@mail.gmail.com>
+ <714a0a86-4301-e756-654f-7765d4eb73db@redhat.com>
+ <CAEn6zmHnTLZxa6Qv=8oDUPYpRD=rvGxJOLjd8Qb15k9-3U+CKw@mail.gmail.com>
+ <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: sNYFBhfxNIeWPziF3ZagWg-1
+In-Reply-To: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: JB1bfsHhNOOrCVhyzWEiiw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,89 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Eric Auger <eric.auger@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Catherine Ho <catherine.hecx@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On Wed, Dec 04, 2019 at 04:34:45PM +0100, Paolo Bonzini wrote:
+> On 04/12/19 16:07, Catherine Ho wrote:
+> >> Ok, so the problem is that some MSR didn't exist in that version.  Whi=
+ch
+> > I thought in my platform, the only MSR didn't exist is MSR_IA32_VMX_BAS=
+IC
+> > (0x480). If I remove this kvm_msr_entry_add(), everything is ok, the gu=
+est can
+> > be boot up successfully.
+> >=20
+>=20
+> MSR_IA32_VMX_BASIC was added in kvm-4.10.  Maybe the issue is the
+> _value_ that is being written to the VM is not valid?  Can you check
+> what's happening in vmx_restore_vmx_basic?
 
-Our docker infrastructure isn't quite as multiarch as we would wish so
-let's allow the user to disable it if they want. This will allow us to
-use still run check-tcg on non-x86 CI setups.
+I believe env->features[FEAT_VMX_BASIC] will be initialized to 0
+if the host kernel doesn't have KVM_CAP_GET_MSR_FEATURES.
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure              | 8 +++++++-
- tests/tcg/configure.sh | 6 ++++--
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/configure b/configure
-index 6099be1d84..fe6d0971f1 100755
---- a/configure
-+++ b/configure
-@@ -302,6 +302,7 @@ audio_win_int=3D""
- libs_qga=3D""
- debug_info=3D"yes"
- stack_protector=3D""
-+use_containers=3D"yes"
-=20
- if test -e "$source_path/.git"
- then
-@@ -1539,6 +1540,10 @@ for opt do
-   ;;
-   --disable-plugins) plugins=3D"no"
-   ;;
-+  --enable-containers) use_containers=3D"yes"
-+  ;;
-+  --disable-containers) use_containers=3D"no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1722,6 +1727,7 @@ Advanced options (experts only):
-                            track the maximum stack usage of stacks created=
- by qemu_alloc_stack
-   --enable-plugins
-                            enable plugins via shared library loading
-+  --disable-containers     don't use containers for cross-building
-=20
- Optional features, enabled with --enable-FEATURE and
- disabled with --disable-FEATURE, default is enabled if available:
-@@ -8039,7 +8045,7 @@ done
- (for i in $cross_cc_vars; do
-   export $i
- done
--export target_list source_path
-+export target_list source_path use_containers
- $source_path/tests/tcg/configure.sh)
-=20
- # temporary config to build submodules
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 6c4a471aea..210e68396f 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -36,8 +36,10 @@ TMPC=3D"${TMPDIR1}/qemu-conf.c"
- TMPE=3D"${TMPDIR1}/qemu-conf.exe"
-=20
- container=3D"no"
--if has "docker" || has "podman"; then
--  container=3D$($python $source_path/tests/docker/docker.py probe)
-+if test $use_containers =3D "yes"; then
-+    if has "docker" || has "podman"; then
-+        container=3D$($python $source_path/tests/docker/docker.py probe)
-+    fi
- fi
-=20
- # cross compilers defaults, can be overridden with --cross-cc-ARCH
 --=20
-2.18.1
+Eduardo
 
 
