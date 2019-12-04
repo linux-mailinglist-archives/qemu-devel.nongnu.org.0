@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFD6112948
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 11:29:04 +0100 (CET)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EA011292B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 11:21:18 +0100 (CET)
+Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icRu1-0000NY-Rl
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 05:29:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
+	id 1icRmW-0005ks-BN
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 05:21:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1icR5W-0007Ep-E7
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:53 -0500
+ (envelope-from <armbru@redhat.com>) id 1icR5e-0007DF-VO
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:37:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1icR5M-0000bs-AY
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:43 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23553
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1icR5H-0000K0-TZ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38437
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icR5M-0000Bn-5W
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:40 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icR5H-00005y-N8
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 04:36:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575452193;
+ s=mimecast20190719; t=1575452192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P4RnQPlmqBzcfDiHCZteURy6me1QA9GlGCFi3SGCF9k=;
- b=RP07omrE8eTjFJ8BiPEro39TwdE0xy6fil4g2mcDYetnvXgVJDYe6WwNfbxQgiCmJlxaNb
- jbPAW5Qn69PCRB7XksyvfvnrxzFxS+hfV9s7bg+NWaMpWXhBTTnYcka0u/g0B84Os/2o0E
- tynRLlTyIOZi7H2XiLVVdJcm5xFjArg=
+ bh=14FWoiUPuC2dvHRmr4gxNehnlsWm5XKtEJ5hCDY2NmI=;
+ b=TB3ydu66pS236gvip0dQBL36Iqe3T3eKNT9Eab7ZT4amZJYwRvJQ7s4aAE+tJLvaWW3tG7
+ YeJlnfuqbe8Ndo3NnK1eUoO708WsZvyLGi7u2yzWWtVvTUdWU4bOeVLK02dWVQnBGo7FaE
+ qnsu71u5VZDDFi15O/oCnQz3qep3OAE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350--IX65pduNGO0Rz91j0-3TA-1; Wed, 04 Dec 2019 04:36:32 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-224-LWMN6jSYNcCu74znihV8hw-1; Wed, 04 Dec 2019 04:36:31 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FE6F800D5B
- for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 09:36:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 282B118543A0;
+ Wed,  4 Dec 2019 09:36:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
  [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDF1219C68;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5B715D6BB;
  Wed,  4 Dec 2019 09:36:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AC0F211366F7; Wed,  4 Dec 2019 10:36:25 +0100 (CET)
+ id B8FA41135A5A; Wed,  4 Dec 2019 10:36:25 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/18] s390x/cpumodel: Fix realize() error API violations
-Date: Wed,  4 Dec 2019 10:36:20 +0100
-Message-Id: <20191204093625.14836-14-armbru@redhat.com>
+Subject: [PATCH v2 17/18] hw/intc/s390: Simplify error handling in
+ kvm_s390_flic_realize()
+Date: Wed,  4 Dec 2019 10:36:24 +0100
+Message-Id: <20191204093625.14836-18-armbru@redhat.com>
 In-Reply-To: <20191204093625.14836-1-armbru@redhat.com>
 References: <20191204093625.14836-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: -IX65pduNGO0Rz91j0-3TA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: LWMN6jSYNcCu74znihV8hw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,128 +74,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-get_max_cpu_model() dereferences @errp when
-kvm_s390_get_host_cpu_model() fails, apply_cpu_model() dereferences it
-when kvm_s390_apply_cpu_model() fails, and s390_realize_cpu_model()
-dereferences it when get_max_cpu_model() or check_compatibility()
-fail.  That's wrong; see the big comment in error.h.  All three
-introduced in commit 80560137cf "s390x/cpumodel: check and apply the
-CPU model".
-
-No caller actually passes null.
-
-Fix anyway: splice in a local Error *err, and error_propagate().
-
-Cc: David Hildenbrand <david@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>
 Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
 ---
- target/s390x/cpu_models.c | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ hw/intc/s390_flic_kvm.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 6a29fd3ab1..c702e34a26 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -870,6 +870,7 @@ static void check_compatibility(const S390CPUModel *max=
-_model,
+diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
+index 30d50c2369..dddd33ea61 100644
+--- a/hw/intc/s390_flic_kvm.c
++++ b/hw/intc/s390_flic_kvm.c
+@@ -586,16 +586,17 @@ static void kvm_s390_flic_realize(DeviceState *dev, E=
+rror **errp)
 =20
- static S390CPUModel *get_max_cpu_model(Error **errp)
- {
-+    Error *err =3D NULL;
-     static S390CPUModel max_model;
-     static bool cached;
-=20
-@@ -878,22 +879,24 @@ static S390CPUModel *get_max_cpu_model(Error **errp)
-     }
-=20
-     if (kvm_enabled()) {
--        kvm_s390_get_host_cpu_model(&max_model, errp);
-+        kvm_s390_get_host_cpu_model(&max_model, &err);
-     } else {
-         max_model.def =3D s390_find_cpu_def(QEMU_MAX_CPU_TYPE, QEMU_MAX_CP=
-U_GEN,
-                                           QEMU_MAX_CPU_EC_GA, NULL);
-         bitmap_copy(max_model.features, qemu_max_cpu_feat, S390_FEAT_MAX);
--   }
--    if (!*errp) {
--        cached =3D true;
--        return &max_model;
-     }
--    return NULL;
-+    if (err) {
+     KVM_S390_FLIC_GET_CLASS(dev)->parent_realize(dev, &err);
+     if (err) {
+-        goto fail;
 +        error_propagate(errp, err);
-+        return NULL;
-+    }
-+    cached =3D true;
-+    return &max_model;
++        return;
+     }
+     flic_state->fd =3D -1;
+=20
+     cd.type =3D KVM_DEV_TYPE_FLIC;
+     ret =3D kvm_vm_ioctl(kvm_state, KVM_CREATE_DEVICE, &cd);
+     if (ret < 0) {
+-        error_setg_errno(&err, errno, "Creating the KVM device failed");
++        error_setg_errno(errp, errno, "Creating the KVM device failed");
+         trace_flic_create_device(errno);
+-        goto fail;
++        return;
+     }
+     flic_state->fd =3D cd.fd;
+=20
+@@ -603,9 +604,6 @@ static void kvm_s390_flic_realize(DeviceState *dev, Err=
+or **errp)
+     test_attr.group =3D KVM_DEV_FLIC_CLEAR_IO_IRQ;
+     flic_state->clear_io_supported =3D !ioctl(flic_state->fd,
+                                             KVM_HAS_DEVICE_ATTR, test_attr=
+);
+-    return;
+-fail:
+-    error_propagate(errp, err);
  }
 =20
- static inline void apply_cpu_model(const S390CPUModel *model, Error **errp=
-)
- {
- #ifndef CONFIG_USER_ONLY
-+    Error *err =3D NULL;
-     static S390CPUModel applied_model;
-     static bool applied;
-=20
-@@ -909,20 +912,23 @@ static inline void apply_cpu_model(const S390CPUModel=
- *model, Error **errp)
-     }
-=20
-     if (kvm_enabled()) {
--        kvm_s390_apply_cpu_model(model, errp);
-+        kvm_s390_apply_cpu_model(model, &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-     }
-=20
--    if (!*errp) {
--        applied =3D true;
--        if (model) {
--            applied_model =3D *model;
--        }
-+    applied =3D true;
-+    if (model) {
-+        applied_model =3D *model;
-     }
- #endif
- }
-=20
- void s390_realize_cpu_model(CPUState *cs, Error **errp)
- {
-+    Error *err =3D NULL;
-     S390CPUClass *xcc =3D S390_CPU_GET_CLASS(cs);
-     S390CPU *cpu =3D S390_CPU(cs);
-     const S390CPUModel *max_model;
-@@ -939,7 +945,7 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
-     }
-=20
-     max_model =3D get_max_cpu_model(errp);
--    if (*errp) {
-+    if (!max_model) {
-         error_prepend(errp, "CPU models are not available: ");
-         return;
-     }
-@@ -951,8 +957,9 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
-     cpu->model->cpu_ver =3D max_model->cpu_ver;
-=20
-     check_consistency(cpu->model);
--    check_compatibility(max_model, cpu->model, errp);
--    if (*errp) {
-+    check_compatibility(max_model, cpu->model, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-         return;
-     }
-=20
+ static void kvm_s390_flic_reset(DeviceState *dev)
 --=20
 2.21.0
 
