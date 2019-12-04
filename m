@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A75112E39
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 16:23:49 +0100 (CET)
-Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9003112E99
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 16:37:00 +0100 (CET)
+Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icWVH-0004Ia-RN
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 10:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1icWi3-0001c3-MP
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 10:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frederic.konrad@adacore.com>) id 1icWUP-0003lA-4o
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:22:55 -0500
+ (envelope-from <cohuck@redhat.com>) id 1icWfm-0000KQ-1D
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:34:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frederic.konrad@adacore.com>) id 1icWUM-0008GF-PB
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:22:53 -0500
-Received: from mel.act-europe.fr ([194.98.77.210]:47418
- helo=smtp.eu.adacore.com)
+ (envelope-from <cohuck@redhat.com>) id 1icWfi-0000FJ-TW
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:34:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30943
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frederic.konrad@adacore.com>)
- id 1icWUH-0008CA-SE; Wed, 04 Dec 2019 10:22:46 -0500
-Received: from localhost (localhost [127.0.0.1])
- by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 09BD181387;
- Wed,  4 Dec 2019 16:22:43 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
-Received: from smtp.eu.adacore.com ([127.0.0.1])
- by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cYHIzmlfooSm; Wed,  4 Dec 2019 16:22:42 +0100 (CET)
-Received: from localhost.localdomain (lfbn-tou-1-352-33.w86-206.abo.wanadoo.fr
- [86.206.184.33])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1icWfg-0000E8-Of
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 10:34:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575473671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kgQ+OOvPNio8TBho7hiutaT9T4s3hG/9mmOTlUbtP0I=;
+ b=bUO+nENqEHiPrJyAuoikk/WpRUpFbRjt3xuxgm3Y0f6N4viFqcveQYYsNeISykQkHEWZM2
+ ag6EV4SBRc4ocQL9+aiImgznSIFdrdOAEEbXUSokZkFdjd7piB0HaBp067PKKBJurBaEF8
+ zE46p373yl8Unsxze2Q+VEaYedY48mw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-418-G7FQaBSTPsqeXd5MgZSppw-1; Wed, 04 Dec 2019 10:34:29 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp.eu.adacore.com (Postfix) with ESMTPSA id 93DA281382;
- Wed,  4 Dec 2019 16:22:40 +0100 (CET)
-Subject: Re: [PATCH 10/10] arm: allwinner-h3: add EMAC ethernet device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-devel@nongnu.org
-References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
- <20191202210947.3603-11-nieklinnenbank@gmail.com>
- <a234bebd-d794-7400-c9f8-77561ba46aa3@adacore.com>
- <0b549e25-cf45-e491-9342-58592514870f@redhat.com>
-From: KONRAD Frederic <frederic.konrad@adacore.com>
-Message-ID: <cbe88e1c-c473-e19d-c8e8-4e124252a402@adacore.com>
-Date: Wed, 4 Dec 2019 16:22:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B165D64A7D;
+ Wed,  4 Dec 2019 15:34:27 +0000 (UTC)
+Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 735905D9C5;
+ Wed,  4 Dec 2019 15:34:23 +0000 (UTC)
+Date: Wed, 4 Dec 2019 16:33:09 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 2/4] s390x: Add missing vcpu reset functions
+Message-ID: <20191204163309.7af0582f.cohuck@redhat.com>
+In-Reply-To: <026a1b83-6a1f-3e09-e516-13fe0f13dee0@redhat.com>
+References: <20191203132813.2734-1-frankja@linux.ibm.com>
+ <20191203132813.2734-3-frankja@linux.ibm.com>
+ <20191204155937.76f6c0cd.cohuck@redhat.com>
+ <dd35552d-3e51-9f4d-caca-c52c0136d4ed@redhat.com>
+ <026a1b83-6a1f-3e09-e516-13fe0f13dee0@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <0b549e25-cf45-e491-9342-58592514870f@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 194.98.77.210
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: G7FQaBSTPsqeXd5MgZSppw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,463 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Jason Wang <jasowang@redhat.com>,
- Sai Pavan Boddu <saipava@xilinx.com>, Grant Likely <grant.likely@secretlab.ca>,
- b.galvani@gmail.com, qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sven Schnelle <svens@stackframe.org>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
+ Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 4 Dec 2019 16:08:48 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
+> On 04.12.19 16:07, David Hildenbrand wrote:
+> > On 04.12.19 15:59, Cornelia Huck wrote:  
+> >> On Tue,  3 Dec 2019 08:28:11 -0500
+> >> Janosch Frank <frankja@linux.ibm.com> wrote:
+> >>  
+> >>> Up to now we only had an ioctl to reset vcpu data QEMU couldn't reach
+> >>> for the initial reset, and that was also called for the clear
+> >>> reset. To be architecture compliant, we also need to clear local
+> >>> interrupts on a normal reset.  
+> >>
+> >> Do we also need to do something like that for tcg? David?
+> >>  
+> > 
+> > So, we have
+> > 
+> > /* Fields up to this point are not cleared by initial CPU reset */
+> > struct {} start_initial_reset_fields;
+> > [...]
+> > int pending_int
+> > uint16_t external_call_addr;
+> > DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+> > [...]
+> > /* Fields up to this point are cleared by a CPU reset */
+> > struct {} end_reset_fields;
+> > 
+> > This means, local interrupts will be cleared by everything that zeroes
+> > "start_initial_reset_fields->end_reset_fields"
+> > 
+> > So, they will get cleared by S390_CPU_RESET_INITIAL only if I am not
+> > wrong. In order to clear them on S390_CPU_RESET_NORMAL, we have to
+> > manually set them to zero.  
+> 
+> Sorry, by S390_CPU_RESET_INITIAL and S390_CPU_RESET_CLEAR.
 
-Le 12/4/19 =C3=A0 4:14 PM, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=A0=
-:
-> On 12/3/19 10:33 AM, KONRAD Frederic wrote:
->> Le 12/2/19 =C3=A0 10:09 PM, Niek Linnenbank a =C3=A9crit=C2=A0:
->>> The Allwinner H3 System on Chip includes an Ethernet MAC (EMAC)
->>> which provides 10M/100M/1000M Ethernet connectivity. This commit
->>> adds support for the Allwinner H3 EMAC, including emulation for
->>> the following functionality:
->>>
->>> =C2=A0 * DMA transfers
->>> =C2=A0 * MII interface
->>> =C2=A0 * Transmit CRC calculation
->>>
->>> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
->>> ---
->>> =C2=A0 hw/arm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0=C2=A0 1 +
->>> =C2=A0 hw/arm/allwinner-h3.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 17 +
->>> =C2=A0 hw/arm/orangepi.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7=
- +
->>> =C2=A0 hw/net/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0=C2=A0 3 +
->>> =C2=A0 hw/net/Makefile.objs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->>> =C2=A0 hw/net/allwinner-h3-emac.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 786 +++++++++++++++++++++++++++++
->>> =C2=A0 hw/net/trace-events=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +
->>> =C2=A0 include/hw/arm/allwinner-h3.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 2 +
->>> =C2=A0 include/hw/net/allwinner-h3-emac.h |=C2=A0 69 +++
->>> =C2=A0 9 files changed, 896 insertions(+)
->>> =C2=A0 create mode 100644 hw/net/allwinner-h3-emac.c
->>> =C2=A0 create mode 100644 include/hw/net/allwinner-h3-emac.h
->>>
->>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
->>> index ebf8d2325f..551cff3442 100644
->>> --- a/hw/arm/Kconfig
->>> +++ b/hw/arm/Kconfig
->>> @@ -294,6 +294,7 @@ config ALLWINNER_A10
->>> =C2=A0 config ALLWINNER_H3
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select ALLWINNER_A10_PIT
->>> +=C2=A0=C2=A0=C2=A0 select ALLWINNER_H3_EMAC
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select SERIAL
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select ARM_TIMER
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select ARM_GIC
->>> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
->>> index c2972caf88..274b8548c0 100644
->>> --- a/hw/arm/allwinner-h3.c
->>> +++ b/hw/arm/allwinner-h3.c
->>> @@ -53,6 +53,9 @@ static void aw_h3_init(Object *obj)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sysbus_init_child_obj(obj, "mmc0", &s-=
->mmc0, sizeof(s->mmc0),
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 TYPE_AW_H3_SDHOST);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 sysbus_init_child_obj(obj, "emac", &s->emac, size=
-of(s->emac),
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 TYPE_AW_H3_EMAC);
->>> =C2=A0 }
->>> =C2=A0 static void aw_h3_realize(DeviceState *dev, Error **errp)
->>> @@ -237,6 +240,20 @@ static void aw_h3_realize(DeviceState *dev, Erro=
-r **errp)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 /* EMAC */
->>> +=C2=A0=C2=A0=C2=A0 if (nd_table[0].used) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_check_nic_model(&nd_=
-table[0], TYPE_AW_H3_EMAC);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_set_nic_properties(D=
-EVICE(&s->emac), &nd_table[0]);
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 object_property_set_bool(OBJECT(&s->emac), true, =
-"realized", &err);
->>> +=C2=A0=C2=A0=C2=A0 if (err !=3D NULL) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_propagate(errp, err=
-);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 sysbusdev =3D SYS_BUS_DEVICE(&s->emac);
->>> +=C2=A0=C2=A0=C2=A0 sysbus_mmio_map(sysbusdev, 0, AW_H3_EMAC_BASE);
->>> +=C2=A0=C2=A0=C2=A0 sysbus_connect_irq(sysbusdev, 0, s->irq[AW_H3_GIC=
-_SPI_EMAC]);
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Universal Serial Bus */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sysbus_create_simple(TYPE_AW_H3_EHCI, =
-AW_H3_EHCI0_BASE,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 s->irq[AW_H3_GIC_SPI_EHCI0]);
->>> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
->>> index dee3efaf08..8a61eb0e69 100644
->>> --- a/hw/arm/orangepi.c
->>> +++ b/hw/arm/orangepi.c
->>> @@ -61,6 +61,13 @@ static void orangepi_init(MachineState *machine)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 /* Setup EMAC properties */
->>> +=C2=A0=C2=A0=C2=A0 object_property_set_int(OBJECT(&s->h3->emac), 1, =
-"phy-addr", &err);
->>> +=C2=A0=C2=A0=C2=A0 if (err !=3D NULL) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_reportf_err(err, "C=
-ouldn't set phy address: ");
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Mark H3 object realized */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_property_set_bool(OBJECT(s->h3)=
-, true, "realized", &err);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (err !=3D NULL) {
->>> diff --git a/hw/net/Kconfig b/hw/net/Kconfig
->>> index 3856417d42..36d3923992 100644
->>> --- a/hw/net/Kconfig
->>> +++ b/hw/net/Kconfig
->>> @@ -74,6 +74,9 @@ config MIPSNET
->>> =C2=A0 config ALLWINNER_EMAC
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->>> +config ALLWINNER_H3_EMAC
->>> +=C2=A0=C2=A0=C2=A0 bool
->>> +
->>> =C2=A0 config IMX_FEC
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->>> diff --git a/hw/net/Makefile.objs b/hw/net/Makefile.objs
->>> index 7907d2c199..5548deb07a 100644
->>> --- a/hw/net/Makefile.objs
->>> +++ b/hw/net/Makefile.objs
->>> @@ -23,6 +23,7 @@ common-obj-$(CONFIG_XGMAC) +=3D xgmac.o
->>> =C2=A0 common-obj-$(CONFIG_MIPSNET) +=3D mipsnet.o
->>> =C2=A0 common-obj-$(CONFIG_XILINX_AXI) +=3D xilinx_axienet.o
->>> =C2=A0 common-obj-$(CONFIG_ALLWINNER_EMAC) +=3D allwinner_emac.o
->>> +common-obj-$(CONFIG_ALLWINNER_H3_EMAC) +=3D allwinner-h3-emac.o
->>> =C2=A0 common-obj-$(CONFIG_IMX_FEC) +=3D imx_fec.o
->>> =C2=A0 common-obj-$(CONFIG_CADENCE) +=3D cadence_gem.o
->>> diff --git a/hw/net/allwinner-h3-emac.c b/hw/net/allwinner-h3-emac.c
->>> new file mode 100644
->>> index 0000000000..37f6f44406
->>> --- /dev/null
->>> +++ b/hw/net/allwinner-h3-emac.c
->>> @@ -0,0 +1,786 @@
->>> +/*
->>> + * Allwinner H3 EMAC emulation
->>> + *
->>> + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
->>> + *
->>> + * This program is free software: you can redistribute it and/or mod=
-ify
->>> + * it under the terms of the GNU General Public License as published=
- by
->>> + * the Free Software Foundation, either version 2 of the License, or
->>> + * (at your option) any later version.
->>> + *
->>> + * This program is distributed in the hope that it will be useful,
->>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See th=
-e
->>> + * GNU General Public License for more details.
->>> + *
->>> + * You should have received a copy of the GNU General Public License
->>> + * along with this program.=C2=A0 If not, see <http://www.gnu.org/li=
-censes/>.
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "hw/sysbus.h"
->>> +#include "migration/vmstate.h"
->>> +#include "net/net.h"
->>> +#include "hw/irq.h"
->>> +#include "hw/qdev-properties.h"
->>> +#include "qemu/log.h"
->>> +#include "trace.h"
->>> +#include "net/checksum.h"
->>> +#include "qemu/module.h"
->>> +#include "exec/cpu-common.h"
->>> +#include "hw/net/allwinner-h3-emac.h"
->>> +
->>> +/* EMAC register offsets */
->>> +#define REG_BASIC_CTL_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-x0000) /* Basic Control 0 */
->>> +#define REG_BASIC_CTL_1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-x0004) /* Basic Control 1 */
->>> +#define REG_INT_STA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 (0x0008) /* Interrupt Status */
->>> +#define REG_INT_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (0x000C) /* Interrupt Enable */
->>> +#define REG_TX_CTL_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x0010) /* Transmit Control 0 */
->>> +#define REG_TX_CTL_1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x0014) /* Transmit Control 1 */
->>> +#define REG_TX_FLOW_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-x001C) /* Transmit Flow Control */
->>> +#define REG_TX_DMA_DESC_LIST=C2=A0=C2=A0 (0x0020) /* Transmit Descri=
-ptor List Address */
->>> +#define REG_RX_CTL_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x0024) /* Receive Control 0 */
->>> +#define REG_RX_CTL_1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x0028) /* Receive Control 1 */
->>> +#define REG_RX_DMA_DESC_LIST=C2=A0=C2=A0 (0x0034) /* Receive Descrip=
-tor List Address */
->>> +#define REG_FRM_FLT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 (0x0038) /* Receive Frame Filter */
->>> +#define REG_RX_HASH_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (0x0040) /* Receive Hash Table 0 */
->>> +#define REG_RX_HASH_1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (0x0044) /* Receive Hash Table 1 */
->>> +#define REG_MII_CMD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 (0x0048) /* Management Interface Command */
->>> +#define REG_MII_DATA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x004C) /* Management Interface Data */
->>> +#define REG_ADDR_HIGH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (0x0050) /* MAC Address High */
->>> +#define REG_ADDR_LOW=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 (0x0054) /* MAC Address Low */
->>> +#define REG_TX_DMA_STA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x00B0) /* Transmit DMA Status */
->>> +#define REG_TX_CUR_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-x00B4) /* Transmit Current Descriptor */
->>> +#define REG_TX_CUR_BUF=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x00B8) /* Transmit Current Buffer */
->>> +#define REG_RX_DMA_STA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x00C0) /* Receive DMA Status */
->>> +#define REG_RX_CUR_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-x00C4) /* Receive Current Descriptor */
->>> +#define REG_RX_CUR_BUF=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x00C8) /* Receive Current Buffer */
->>> +#define REG_RGMII_STA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (0x00D0) /* RGMII Status */
->>> +
->>> +/* EMAC register flags */
->>> +#define BASIC_CTL0_100Mbps=C2=A0=C2=A0=C2=A0=C2=A0 (0b11 << 2)
->>> +#define BASIC_CTL0_FD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 0)
->>> +#define BASIC_CTL1_SOFTRST=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 0)
->>> +
->>> +#define INT_STA_RGMII_LINK=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 16)
->>> +#define INT_STA_RX_EARLY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 1=
-3)
->>> +#define INT_STA_RX_OVERFLOW=C2=A0=C2=A0=C2=A0 (1 << 12)
->>> +#define INT_STA_RX_TIMEOUT=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11)
->>> +#define INT_STA_RX_DMA_STOP=C2=A0=C2=A0=C2=A0 (1 << 10)
->>> +#define INT_STA_RX_BUF_UA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 9)
->>> +#define INT_STA_RX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (1 << 8)
->>> +#define INT_STA_TX_EARLY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 5=
-)
->>> +#define INT_STA_TX_UNDERFLOW=C2=A0=C2=A0 (1 << 4)
->>> +#define INT_STA_TX_TIMEOUT=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 3)
->>> +#define INT_STA_TX_BUF_UA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 2)
->>> +#define INT_STA_TX_DMA_STOP=C2=A0=C2=A0=C2=A0 (1 << 1)
->>> +#define INT_STA_TX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (1 << 0)
->>> +
->>> +#define INT_EN_RX_EARLY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1=
- << 13)
->>> +#define INT_EN_RX_OVERFLOW=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 12)
->>> +#define INT_EN_RX_TIMEOUT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11)
->>> +#define INT_EN_RX_DMA_STOP=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 10)
->>> +#define INT_EN_RX_BUF_UA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 9=
-)
->>> +#define INT_EN_RX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 8)
->>> +#define INT_EN_TX_EARLY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1=
- << 5)
->>> +#define INT_EN_TX_UNDERFLOW=C2=A0=C2=A0=C2=A0 (1 << 4)
->>> +#define INT_EN_TX_TIMEOUT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 3)
->>> +#define INT_EN_TX_BUF_UA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 2=
-)
->>> +#define INT_EN_TX_DMA_STOP=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 1)
->>> +#define INT_EN_TX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 0)
->>> +
->>> +#define TX_CTL0_TX_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 31)
->>> +#define TX_CTL1_TX_DMA_START=C2=A0=C2=A0 (1 << 31)
->>> +#define TX_CTL1_TX_DMA_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 30)
->>> +#define TX_CTL1_TX_FLUSH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 0=
-)
->>> +
->>> +#define RX_CTL0_RX_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 31)
->>> +#define RX_CTL0_STRIP_FCS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 28)
->>> +#define RX_CTL0_CRC_IPV4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 2=
-7)
->>> +
->>> +#define RX_CTL1_RX_DMA_START=C2=A0=C2=A0 (1 << 31)
->>> +#define RX_CTL1_RX_DMA_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 30)
->>> +#define RX_CTL1_RX_MD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 1)
->>> +
->>> +#define RX_FRM_FLT_DIS_ADDR=C2=A0=C2=A0=C2=A0 (1 << 31)
->>> +
->>> +#define MII_CMD_PHY_ADDR_SHIFT (12)
->>> +#define MII_CMD_PHY_ADDR_MASK=C2=A0 (0xf000)
->>> +#define MII_CMD_PHY_REG_SHIFT=C2=A0 (4)
->>> +#define MII_CMD_PHY_REG_MASK=C2=A0=C2=A0 (0xf0)
->>> +#define MII_CMD_PHY_RW=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 1)
->>> +#define MII_CMD_PHY_BUSY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 0=
-)
->>> +
->>> +#define TX_DMA_STA_STOP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-b000)
->>> +#define TX_DMA_STA_RUN_FETCH=C2=A0=C2=A0 (0b001)
->>> +#define TX_DMA_STA_WAIT_STA=C2=A0=C2=A0=C2=A0 (0b010)
->>> +
->>> +#define RX_DMA_STA_STOP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0=
-b000)
->>> +#define RX_DMA_STA_RUN_FETCH=C2=A0=C2=A0 (0b001)
->>> +#define RX_DMA_STA_WAIT_FRM=C2=A0=C2=A0=C2=A0 (0b011)
->>> +
->>> +#define RGMII_LINK_UP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 3)
->>> +#define RGMII_FD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 0)
->>> +
->>> +/* EMAC register reset values */
->>> +#define REG_BASIC_CTL_1_RST=C2=A0=C2=A0=C2=A0 (0x08000000)
->>> +
->>> +/* EMAC constants */
->>> +#define AW_H3_EMAC_MIN_PKT_SZ=C2=A0 (64)
->>> +
->>> +/* Transmit/receive frame descriptor */
->>> +typedef struct FrameDescriptor {
->>> +=C2=A0=C2=A0=C2=A0 uint32_t status;
->>> +=C2=A0=C2=A0=C2=A0 uint32_t status2;
->>> +=C2=A0=C2=A0=C2=A0 uint32_t addr;
->>> +=C2=A0=C2=A0=C2=A0 uint32_t next;
->>> +} FrameDescriptor;
->>> +
->>> +/* Frame descriptor flags */
->>> +#define DESC_STATUS_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 31)
->>> +#define DESC_STATUS2_BUF_SIZE_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0x=
-7ff)
->>> +
->>> +/* Transmit frame descriptor flags */
->>> +#define TX_DESC_STATUS_LENGTH_ERR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 14)
->>> +#define TX_DESC_STATUS2_FIRST_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 =
-<< 29)
->>> +#define TX_DESC_STATUS2_LAST_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 30)
->>> +#define TX_DESC_STATUS2_CHECKSUM_MASK=C2=A0=C2=A0 (0x3 << 27)
->>> +
->>> +/* Receive frame descriptor flags */
->>> +#define RX_DESC_STATUS_FIRST_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 9)
->>> +#define RX_DESC_STATUS_LAST_DESC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 8)
->>> +#define RX_DESC_STATUS_FRM_LEN_MASK=C2=A0=C2=A0=C2=A0=C2=A0 (0x3fff0=
-000)
->>> +#define RX_DESC_STATUS_FRM_LEN_SHIFT=C2=A0=C2=A0=C2=A0 (16)
->>> +#define RX_DESC_STATUS_NO_BUF=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (1 << 14)
->>> +#define RX_DESC_STATUS_HEADER_ERR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 7)
->>> +#define RX_DESC_STATUS_LENGTH_ERR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (1 << 4)
->>> +#define RX_DESC_STATUS_CRC_ERR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 (1 << 1)
->>> +#define RX_DESC_STATUS_PAYLOAD_ERR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 =
-<< 0)
->>> +#define RX_DESC_STATUS2_RX_INT_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 =
-<< 31)
->>> +
->>> +/* MII register offsets */
->>> +#define MII_REG_CR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x0)
->>> +#define MII_REG_ST=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- (0x1)
->>> +#define MII_REG_ID_HIGH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0x2)
->>> +#define MII_REG_ID_LOW=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0x3)
->>> +
->>> +/* MII register flags */
->>> +#define MII_REG_CR_RESET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 15)
->>> +#define MII_REG_CR_POWERDOWN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11)
->>> +#define MII_REG_CR_10Mbit=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0)
->>> +#define MII_REG_CR_100Mbit=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 13)
->>> +#define MII_REG_CR_1000Mbit=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 6)
->>> +#define MII_REG_CR_AUTO_NEG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 12)
->>> +#define MII_REG_CR_AUTO_NEG_RESTART=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 9)
->>> +#define MII_REG_CR_FULLDUPLEX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (1 << 8)
->>> +
->>> +#define MII_REG_ST_100BASE_T4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (1 << 15)
->>> +#define MII_REG_ST_100BASE_X_FD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 (1 << 14)
->>> +#define MII_REG_ST_100BASE_X_HD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 (1 << 13)
->>> +#define MII_REG_ST_10_FD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 12)
->>> +#define MII_REG_ST_10_HD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11)
->>> +#define MII_REG_ST_100BASE_T2_FD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 10)
->>> +#define MII_REG_ST_100BASE_T2_HD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 9)
->>> +#define MII_REG_ST_AUTONEG_COMPLETE=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 5)
->>> +#define MII_REG_ST_AUTONEG_AVAIL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 (1 << 3)
->>> +#define MII_REG_ST_LINK_UP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 2)
->>> +
->>> +/* MII constants */
->>> +#define MII_PHY_ID_HIGH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0x0044)
->>> +#define MII_PHY_ID_LOW=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (0x1400)
->>
->> I wonder if we can't share all those mii stuff accross the network ada=
-pters
->> instead of redoing the work everytime. I've some patches about it I ma=
-y post
->> them sometimes.
->=20
-> I started that too, salvaging patches from Grant Likely and Sai Pavan B=
-oddu, but=20
-> I'm doing this in my hobbyist time so progress is slow. I estimate I'v =
-80% of=20
-> the work done.
-> Basically it adds a MDIO QBUS (as SD/I2C) and we can plug multiple QDEV=
- slaves.=20
-> Benefits are easily tracing of the MDIO activity, and ability to interc=
-hange the=20
-> master/slaves for testing (think libqos qgraph).
->=20
+Ok. Will you cook up a patch, or should I do it?
 
-Interesting! I didn't go that far though. The ability to change the devic=
-e
-ID and not rewriting those registers for every network adapters is suffic=
-ient
-for me :).
+> 
+> > 
+> > (we really should wrap TCG-only fields by ifdefs)
+
+They probably do not get into the way, but making it obvious that they
+a tcg-only is something we really should do.
+
+> >   
+> 
+> 
+
 
