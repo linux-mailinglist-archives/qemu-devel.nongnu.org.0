@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B695113774
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 23:14:15 +0100 (CET)
-Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F1D1137B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 23:41:39 +0100 (CET)
+Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iccuT-0002Pn-V7
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 17:14:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1icdKz-0001CK-Tc
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 17:41:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1icct8-0001sg-ET
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:12:51 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1icdI9-0008JV-A0
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:38:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1icct3-000282-Uu
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:12:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47053
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1icdI2-0006Uh-SE
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:38:36 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52575 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iccsz-0001yZ-P5
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:12:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575497559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oisQGT+zu/XqbpDrQdC6TgXtb67Tncg2LO7THUXe4cw=;
- b=feLFmfNCS/WUtGMQZdwg72h4kic8O0K54kHbm6KOy5Q6Aqxh847fzTKdbWwYt7Uf27sKJ7
- DRlhpomY/hpNfThPJ7aMJ4cJVlN7tO6gG0qErjvew4E2hLv+0J/I+AKileXQ9nNu7ACGDr
- JVp8Lr++tWc4WozCM/mkN5m5zqtM7SE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-D4cGCC1xPViPnRjRH8TJ1g-1; Wed, 04 Dec 2019 17:12:38 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F144801E76
- for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 22:12:35 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-76.brq.redhat.com [10.40.205.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E31A95D9C5;
- Wed,  4 Dec 2019 22:12:31 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0] roms/edk2-funcs.sh: Use available GCC for ARM/Aarch64
- targets
-Date: Wed,  4 Dec 2019 23:12:29 +0100
-Message-Id: <20191204221229.30612-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1icdHv-00065v-94
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 17:38:28 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47Stzc2CPsz9sPT; Thu,  5 Dec 2019 09:38:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1575499100;
+ bh=7hTBqZOx08H0yrMnM9m+YHvro5CWamEeLlC14X99i/s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WVWyScfbCqmo2/pjj3DMj9tn3Qlg2uGVYHO1oJpJPnbFeQfO8gD2LKC9UFT2MhpRW
+ +0kXC5rBeDSeEHiIu9mHqkZqz96psbANf1W14vTzcQcqL6fblgDZhCLU3pN5WYlXLn
+ Y7pC+EJveICZa6QpLe9RJISH3np5/zIC8fRHmWDA=
+Date: Thu, 5 Dec 2019 09:28:27 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 2/2] migration: savevm_state_handler_insert:
+ constant-time element insertion
+Message-ID: <20191204222827.GE5031@umbus.fritz.box>
+References: <20191017205953.13122-1-cheloha@linux.vnet.ibm.com>
+ <20191017205953.13122-3-cheloha@linux.vnet.ibm.com>
+ <20191018081625.GA2990@work-vm>
+ <351dca8e-e77c-c450-845b-d78ba621156a@redhat.com>
+ <20191018094352.GC2990@work-vm>
+ <20191019101223.GD1960@umbus.fritz.box>
+ <20191021081444.GA2934@work-vm>
+ <20191120214827.iui5rtwyls3r62ns@rascal.austin.ibm.com>
+ <20191204164915.GM3325@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: D4cGCC1xPViPnRjRH8TJ1g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kA1LkgxZ0NN7Mz3A"
+Content-Disposition: inline
+In-Reply-To: <20191204164915.GM3325@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,94 +64,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Scott Cheloha <cheloha@linux.vnet.ibm.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Centos 7.7 only provides cross GCC 4.8.5, but the script forces
-us to use GCC5. Since the same machinery is valid to check the
-GCC version, remove the $emulation_target check.
 
-  $ cat /etc/redhat-release
-  CentOS Linux release 7.7.1908 (Core)
+--kA1LkgxZ0NN7Mz3A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  $ aarch64-linux-gnu-gcc -v 2>&1 | tail -1
-  gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC)
+On Wed, Dec 04, 2019 at 04:49:15PM +0000, Dr. David Alan Gilbert wrote:
+> * Scott Cheloha (cheloha@linux.vnet.ibm.com) wrote:
+> > On Mon, Oct 21, 2019 at 09:14:44AM +0100, Dr. David Alan Gilbert wrote:
+> > > * David Gibson (david@gibson.dropbear.id.au) wrote:
+> > > > On Fri, Oct 18, 2019 at 10:43:52AM +0100, Dr. David Alan Gilbert wr=
+ote:
+> > > > > * Laurent Vivier (lvivier@redhat.com) wrote:
+> > > > > > On 18/10/2019 10:16, Dr. David Alan Gilbert wrote:
+> > > > > > > * Scott Cheloha (cheloha@linux.vnet.ibm.com) wrote:
+> > > > > > >> savevm_state's SaveStateEntry TAILQ is a priority queue.  Pr=
+iority
+> > > > > > >> sorting is maintained by searching from head to tail for a s=
+uitable
+> > > > > > >> insertion spot.  Insertion is thus an O(n) operation.
+> > > > > > >>
+> > > > > > >> If we instead keep track of the head of each priority's subq=
+ueue
+> > > > > > >> within that larger queue we can reduce this operation to O(1=
+) time.
+> > > > > > >>
+> > > > > > >> savevm_state_handler_remove() becomes slightly more complex =
+to
+> > > > > > >> accomodate these gains: we need to replace the head of a pri=
+ority's
+> > > > > > >> subqueue when removing it.
+> > > > > > >>
+> > > > > > >> With O(1) insertion, booting VMs with many SaveStateEntry ob=
+jects is
+> > > > > > >> more plausible.  For example, a ppc64 VM with maxmem=3D8T ha=
+s 40000 such
+> > > > > > >> objects to insert.
+> > > > > > >=20
+> > > > > > > Separate from reviewing this patch, I'd like to understand wh=
+y you've
+> > > > > > > got 40000 objects.  This feels very very wrong and is likely =
+to cause
+> > > > > > > problems to random other bits of qemu as well.
+> > > > > >=20
+> > > > > > I think the 40000 objects are the "dr-connectors" that are used=
+ to plug
+> > > > > > peripherals (memory, pci card, cpus, ...).
+> > > > >=20
+> > > > > Yes, Scott confirmed that in the reply to the previous version.
+> > > > > IMHO nothing in qemu is designed to deal with that many devices/o=
+bjects
+> > > > > - I'm sure that something other than the migration code is going =
+to
+> > > > > get upset.
+> > > >=20
+> > > > It kind of did.  Particularly when there was n^2 and n^3 cubed
+> > > > behaviour in the property stuff we had some ludicrously long startup
+> > > > times (hours) with large maxmem values.
+> > > >=20
+> > > > Fwiw, the DRCs for PCI slots, DRCs and PHBs aren't really a problem.
+> > > > The problem is the memory DRCs, there's one for each LMB - each 256=
+MiB
+> > > > chunk of memory (or possible memory).
+> > > >=20
+> > > > > Is perhaps the structure wrong somewhere - should there be a sing=
+le DRC
+> > > > > device that knows about all DRCs?
+> > > >=20
+> > > > Maybe.  The tricky bit is how to get there from here without breaki=
+ng
+> > > > migration or something else along the way.
+> > >=20
+> > > Switch on the next machine type version - it doesn't matter if migrat=
+ion
+> > > is incompatible then.
+> >=20
+> > 1mo bump.
+> >=20
+> > Is there anything I need to do with this patch in particular to make it=
+ suitable
+> > for merging?
+>=20
+> Apologies for the delay;  hopefully this will go in one of the pulls
+> just after the tree opens again.
+>=20
+> Please please try and work on reducing the number of objects somehow -
+> while this migration fix is a useful short term fix, and not too
+> invasive; having that many objects around qemu is a really really bad
+> idea so needs fixing properly.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Patch to review with --ignore-all-space
----
- roms/edk2-funcs.sh | 48 +++++++++++++++++++---------------------------
- 1 file changed, 20 insertions(+), 28 deletions(-)
+I'm hoping to have a crack at this tomorrow.
 
-diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-index 3f4485b201..a455611c0d 100644
---- a/roms/edk2-funcs.sh
-+++ b/roms/edk2-funcs.sh
-@@ -135,35 +135,27 @@ qemu_edk2_get_toolchain()
-     return 1
-   fi
-=20
--  case "$emulation_target" in
--    (arm|aarch64)
--      printf 'GCC5\n'
-+  if ! cross_prefix=3D$(qemu_edk2_get_cross_prefix "$emulation_target"); t=
-hen
-+    return 1
-+  fi
-+
-+  gcc_version=3D$("${cross_prefix}gcc" -v 2>&1 | tail -1 | awk '{print $3}=
-')
-+  # Run "git-blame" on "OvmfPkg/build.sh" in edk2 for more information on
-+  # the mapping below.
-+  case "$gcc_version" in
-+    ([1-3].*|4.[0-7].*)
-+      printf '%s: unsupported gcc version "%s"\n' \
-+        "$program_name" "$gcc_version" >&2
-+      return 1
-       ;;
--
--    (i386|x86_64)
--      if ! cross_prefix=3D$(qemu_edk2_get_cross_prefix "$emulation_target"=
-); then
--        return 1
--      fi
--
--      gcc_version=3D$("${cross_prefix}gcc" -v 2>&1 | tail -1 | awk '{print=
- $3}')
--      # Run "git-blame" on "OvmfPkg/build.sh" in edk2 for more information=
- on
--      # the mapping below.
--      case "$gcc_version" in
--        ([1-3].*|4.[0-7].*)
--          printf '%s: unsupported gcc version "%s"\n' \
--            "$program_name" "$gcc_version" >&2
--          return 1
--          ;;
--        (4.8.*)
--          printf 'GCC48\n'
--          ;;
--        (4.9.*|6.[0-2].*)
--          printf 'GCC49\n'
--          ;;
--        (*)
--          printf 'GCC5\n'
--          ;;
--      esac
-+    (4.8.*)
-+      printf 'GCC48\n'
-+      ;;
-+    (4.9.*|6.[0-2].*)
-+      printf 'GCC49\n'
-+      ;;
-+    (*)
-+      printf 'GCC5\n'
-       ;;
-   esac
- }
 --=20
-2.21.0
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--kA1LkgxZ0NN7Mz3A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3oMwsACgkQbDjKyiDZ
+s5Lk6hAAlZqM55cUTLc2elRP7Y9aq2Jfpr808RDHqa2gvks+fBwQVCSVWmYFL2Rk
+GBcFKnbG6JHV19oIcmhB64GI+jmiGPVNkrIhO3WOFBo00cyDF3Q88oEjygWNW2Xq
+O2+KTdSjk3wps6VqRFFObgbSyryYc8WVec6IrVMT7wI2vk3ueWGPZUyaWKKVkRLk
+kT2uAtIe4oR01zi8c2M9zu+VPJMFpQ1jXnMhXEJdCflW13qRmmCiiD9IPXyRR+Mc
+cdQT0cMWXBXKJc0TxvPGgMndSGg0cP2/PXxdr5WvbDhFz5luyl0NjeoLdTyZbwrN
+gr7xnDAOO1DThi7CvWjOATd0/XVceglopkCHBa73t9Vx8b/GtKYt3ZZR2TkTn5Qo
+NwHtJ+KaKdXYqRTrZZ5zLXfcoBSA+Cuo79KHNC4GsHs3KM++53tm7RFKa2z2Lery
+JxUKptrmy09Cy+aGHCsbA596NNpNcmHQaodbl4ea7yBnEn9hKRW4NtAM+C/c3Xjv
+K5GhFyRaYULXxnIyfoB0X5Qi4f63lxlCJK+KFA6086AP4bPE7H9NEd5D0m5Mdh5J
+i0OexpxeeQ7GzCHMxC9eQCbvChuNzf99ZONPt+63AE3Svwv9mwfbe6Jt4vW24vPE
+28+DA1v1+D3p9KJvG5EAiBWUGq2zjbVFxVgKQX9C30jXQweB2xE=
+=0ssA
+-----END PGP SIGNATURE-----
+
+--kA1LkgxZ0NN7Mz3A--
 
