@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C8D113050
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:58:21 +0100 (CET)
-Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E021D113048
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:54:33 +0100 (CET)
+Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXym-0007It-0m
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:58:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38267)
+	id 1icXv6-00037Y-2b
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:54:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1icXkK-00008N-7s
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:43:25 -0500
+ (envelope-from <atar4qemu@gmail.com>) id 1icXln-0000XL-U3
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:44:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1icXkB-0007r4-1l
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:43:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43130
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1icXkA-0007dL-Sv
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:43:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575477793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1vKYcdSjvDkqMTKBCYWUeOKSdvcXhWbLbrwAnMiBPLo=;
- b=Hd2C8FwX6NOoZ+MQeuokOGNGdLNwGSAhcJhNeMXmV6gnIuKeW6kz4ZnzCFuImGtiKf8JuE
- B72ZBJYtdc6UNDBcWz0mpeKIZcuy3bDpQprjRucRZnj0j7B3dfDKf1+IpW7cht03EwCRcy
- hZ31Jp74GImJJXIpVdR44o/3rAqcoMI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-kZl82JyAP6C7xYR_qab1tg-1; Wed, 04 Dec 2019 11:43:10 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24A10800EB8;
- Wed,  4 Dec 2019 16:43:09 +0000 (UTC)
-Received: from work-vm (ovpn-117-217.ams2.redhat.com [10.36.117.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E2D85C1B2;
- Wed,  4 Dec 2019 16:43:08 +0000 (UTC)
-Date: Wed, 4 Dec 2019 16:43:05 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Scott Cheloha <cheloha@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 1/2] migration: add savevm_state_handler_remove()
-Message-ID: <20191204164305.GK3325@work-vm>
-References: <20191017205953.13122-1-cheloha@linux.vnet.ibm.com>
- <20191017205953.13122-2-cheloha@linux.vnet.ibm.com>
+ (envelope-from <atar4qemu@gmail.com>) id 1icXla-0000BJ-AZ
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:44:47 -0500
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:37012)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>)
+ id 1icXla-0007ET-4M; Wed, 04 Dec 2019 11:44:42 -0500
+Received: by mail-il1-x144.google.com with SMTP id t9so156828iln.4;
+ Wed, 04 Dec 2019 08:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pDN1+c8AalYiVNXGBNDFbxymBo5liH2GkMsr9iK10LY=;
+ b=NqWwN2hv8/IKsrff0SnoufIJy80NmHo86vQlc8rKzPiT7QLM8ks2rgNbIntQC4oox8
+ rOSVBRQF+G2CyGZlIP7/F4cVbWC2ZfOA9gqzqqjzmzD2iL+85lJEFW75ib2UB8yufL7Q
+ fz5zoeJGKDTRTrOtWUgmCxMiaD6+vyDth6UQzy6io3alLnLFnmzTBChgoYsr6r1f1ZCF
+ ytIFDHWtlsVzmRazCohAPIfw93QCAGX9XVIl1wKnq4UJBVTzgY77etB6P2hFWogdb2xo
+ G2Gk8p1EgFwGs7AEFmbQAOOtNvKk7KxijNSaQy7hBhiQ7NvcSF0AINajsDY3v18OO7lz
+ g0oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pDN1+c8AalYiVNXGBNDFbxymBo5liH2GkMsr9iK10LY=;
+ b=E8ikmkT5uNwbgwyreEaa2GIMe+jjlFzjGTI3Nl8dYLau+SJn7wjgwxiBlEsK/YV54o
+ E7t+xIid8ObwtjZLsUXYubIIYwa4Pp08HFyKbB1mnAgDGxPd0KAPX0tpJAmofmV5do12
+ JqSZZ41AbBLuSNW6heejisM/MQapvp7HJ2A0H10sGCVzVaYWFbvBdYR6dBIHmNHtCqpv
+ mAcxXmDMhFZZopjrF1hRCHpVpZsvLuAwp4H60I9qlBviGBIrcX/WpmqGlSArO1HjOuVO
+ vtHtLJOHJRhcCV+mrq1f69kOmLDKB4qYW36Uwo1sFwv75tpUgrVcYFGv86Xlff7W1Cuh
+ BkYA==
+X-Gm-Message-State: APjAAAX3BxbdcmksA2DwLGux0gTtkW9gJ5kqFo/uvRhlRZ3CuC1ktdii
+ hPFvd9Gyov+/zkEQwL3cizUT6yvO+GgXnfAZmC8=
+X-Google-Smtp-Source: APXvYqyNZI48YOrAj70jdDJntFGvwb/aanq88XY9o7y7nYGOGY9HVCKAj3tBHzasoNoNAI3yCjTvBDkFGno6nVWb8d0=
+X-Received: by 2002:a92:1655:: with SMTP id r82mr4402389ill.72.1575477868602; 
+ Wed, 04 Dec 2019 08:44:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191017205953.13122-2-cheloha@linux.vnet.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: kZl82JyAP6C7xYR_qab1tg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20190930171044.25312-1-thuth@redhat.com>
+ <1b2ecf64-ee98-6a05-2455-436f822a7163@redhat.com>
+In-Reply-To: <1b2ecf64-ee98-6a05-2455-436f822a7163@redhat.com>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
+Date: Wed, 4 Dec 2019 17:44:17 +0100
+Message-ID: <CACXAS8CVBUmVdR8a6bLS8x-DP8QKKyMhMpd1vrBUB30_dm7tXA@mail.gmail.com>
+Subject: Re: [PATCH] target/sparc: Remove old TODO file
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,68 +71,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Scott Cheloha (cheloha@linux.vnet.ibm.com) wrote:
-> Create a function to abstract common logic needed when removing a
-> SaveStateEntry element from the savevm_state.handlers queue.
->=20
-> For now we just remove the element.  Soon it will involve additional
-> cleanup.
->=20
-> Signed-off-by: Scott Cheloha <cheloha@linux.vnet.ibm.com>
+On Wed, Dec 4, 2019 at 5:27 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 30/09/2019 19.10, Thomas Huth wrote:
+> > This file hasn't seen a real (non-trivial) update since 2008 anymore,
+> > so we can assume that it is pretty much out of date and nobody cares
+> > for it anymore. Let's simply remove it.
+> >
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  target/sparc/TODO | 88 -----------------------------------------------
+> >  1 file changed, 88 deletions(-)
+> >  delete mode 100644 target/sparc/TODO
+> >
+> > diff --git a/target/sparc/TODO b/target/sparc/TODO
+> > deleted file mode 100644
+> > index b8c727e858..0000000000
+> > --- a/target/sparc/TODO
+> > +++ /dev/null
+> > @@ -1,88 +0,0 @@
+> > -TODO-list:
+> > -
+> > -CPU common:
+> > -- Unimplemented features/bugs:
+> > - - Delay slot handling may fail sometimes (branch end of page, delay
+> > - slot next page)
+> > - - Atomical instructions
+> > - - CPU features should match real CPUs (also ASI selection)
+> > -- Optimizations/improvements:
+> > - - Condition code/branch handling like x86, also for FPU?
+> > - - Remove remaining explicit alignment checks
+> > - - Global register for regwptr, so that windowed registers can be
+> > - accessed directly
+> > - - Improve Sparc32plus addressing
+> > - - NPC/PC static optimisations (use JUMP_TB when possible)? (Is this
+> > - obsolete?)
+> > - - Synthetic instructions
+> > - - MMU model dependent on CPU model
+> > - - Select ASI helper at translation time (on V9 only if known)
+> > - - KQemu/KVM support for VM only
+> > - - Hardware breakpoint/watchpoint support
+> > - - Cache emulation mode
+> > - - Reverse-endian pages
+> > - - Faster FPU emulation
+> > - - Busy loop detection
+> > -
+> > -Sparc32 CPUs:
+> > -- Unimplemented features/bugs:
+> > - - Sun4/Sun4c MMUs
+> > - - Some V8 ASIs
+> > -
+> > -Sparc64 CPUs:
+> > -- Unimplemented features/bugs:
+> > - - Interrupt handling
+> > - - Secondary address space, other MMU functions
+> > - - Many V9/UA2005/UA2007 ASIs
+> > - - Rest of V9 instructions, missing VIS instructions
+> > - - IG/MG/AG vs. UA2007 globals
+> > - - Full hypervisor support
+> > - - SMP/CMT
+> > - - Sun4v CPUs
+> > -
+> > -Sun4:
+> > -- To be added
+> > -
+> > -Sun4c:
+> > -- A lot of unimplemented features
+> > -- Maybe split from Sun4m
+> > -
+> > -Sun4m:
+> > -- Unimplemented features/bugs:
+> > - - Hardware devices do not match real boards
+> > - - Floppy does not work
+> > - - CS4231: merge with cs4231a, add DMA
+> > - - Add cg6, bwtwo
+> > - - Arbitrary resolution support
+> > - - PCI for MicroSparc-IIe
+> > - - JavaStation machines
+> > - - SBus slot probing, FCode ROM support
+> > - - SMP probing support
+> > - - Interrupt routing does not match real HW
+> > - - SuSE 7.3 keyboard sometimes unresponsive
+> > - - Gentoo 2004.1 SMP does not work
+> > - - SS600MP ledma -> lebuffer
+> > - - Type 5 keyboard
+> > - - Less fixed hardware choices
+> > - - DBRI audio (Am7930)
+> > - - BPP parallel
+> > - - Diagnostic switch
+> > - - ESP PIO mode
+> > -
+> > -Sun4d:
+> > -- A lot of unimplemented features:
+> > - - SBI
+> > - - IO-unit
+> > -- Maybe split from Sun4m
+> > -
+> > -Sun4u:
+> > -- Unimplemented features/bugs:
+> > - - Interrupt controller
+> > - - PCI/IOMMU support (Simba, JIO, Tomatillo, Psycho, Schizo, Safari...)
+> > - - SMP
+> > - - Happy Meal Ethernet, flash, I2C, GPIO
+> > - - A lot of real machine types
+> > -
+> > -Sun4v:
+> > -- A lot of unimplemented features
+> > - - A lot of real machine types
+> >
+>
+> Ping?
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Sorry for the delay, you are right the file doesn't reflect the
+current state, so
 
-> ---
->  migration/savevm.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 8d95e261f6..b2e3b7222a 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -725,6 +725,11 @@ static void savevm_state_handler_insert(SaveStateEnt=
-ry *nse)
->      }
->  }
-> =20
-> +static void savevm_state_handler_remove(SaveStateEntry *se)
-> +{
-> +    QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-> +}
-> +
->  /* TODO: Individual devices generally have very little idea about the re=
-st
->     of the system, so instance_id should be removed/replaced.
->     Meanwhile pass -1 as instance_id if you do not already have a clearly
-> @@ -777,7 +782,7 @@ void unregister_savevm(DeviceState *dev, const char *=
-idstr, void *opaque)
-> =20
->      QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
->          if (strcmp(se->idstr, id) =3D=3D 0 && se->opaque =3D=3D opaque) =
-{
-> -            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-> +            savevm_state_handler_remove(se);
->              g_free(se->compat);
->              g_free(se);
->          }
-> @@ -841,7 +846,7 @@ void vmstate_unregister(DeviceState *dev, const VMSta=
-teDescription *vmsd,
-> =20
->      QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
->          if (se->vmsd =3D=3D vmsd && se->opaque =3D=3D opaque) {
-> -            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-> +            savevm_state_handler_remove(se);
->              g_free(se->compat);
->              g_free(se);
->          }
-> --=20
-> 2.23.0
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 
+
+-- 
+Regards,
+Artyom Tarasenko
+
+SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/qemu
 
