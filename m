@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9CA112B8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:34:26 +0100 (CET)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7024F112B9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 13:38:19 +0100 (CET)
+Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icTrN-0004HC-EU
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:34:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47393)
+	id 1icTv8-0000iG-A5
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 07:38:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47471)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1icTIv-0006lJ-CJ
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:51 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1icTJB-0006uL-Ma
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:59:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1icTIq-0002tj-Fx
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43213
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <damien.hedde@greensocs.com>) id 1icTJ2-00040w-T1
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:58 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:45762)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1icTIp-0002T7-Ni
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 06:58:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575460720;
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1icTIr-0002iI-Cu; Wed, 04 Dec 2019 06:58:45 -0500
+Received: from [172.16.11.102] (crumble.bar.greensocs.com [172.16.11.102])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A95F296EF0;
+ Wed,  4 Dec 2019 11:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1575460722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=CYqdhrrb0OdwKJApQJ0Y0ftnHadkCXjJeQ98p024fK0=;
- b=DKithmq4gFaQAvvhPTdjqBENOwEnqTATV2boeb75Pz4AkNIONzviPo/agkO1I+kzxSq9an
- 8aRdqpgHAU02lzn56undMkviPkSvdSnscIvNqa2HLe8RuTAcPVjgTzBgk0fAv6d8UJVK33
- NK/kPeMB+A527DcAjuSOdM/hpuya0ok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-SbzfMQDwPyGGeXsGuU0ETQ-1; Wed, 04 Dec 2019 06:58:39 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47EB801E53;
- Wed,  4 Dec 2019 11:58:37 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-39.ams2.redhat.com [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 497CD19C69;
- Wed,  4 Dec 2019 11:58:33 +0000 (UTC)
-Subject: Re: [PATCH v2 08/13] s390x: protvirt: Add new VCPU reset functions
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-9-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <942e3aaa-e79a-ac02-4152-eb160e487865@redhat.com>
-Date: Wed, 4 Dec 2019 12:58:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=8ljSCwCD3O4e7pPsXT+MroUcr3135nqWethx1Gpbjuk=;
+ b=ME8n+R4fLmX9fusvWwUBqlaHbU3t6uMxB4GWpYle5KmMmGxA3gWLNDe80yNw25b5GePgrm
+ SCWxuwA6suJbg5CMUpzBDG3TxTtVuj/V2iRpMKlXHdY24V0TTlItUW/90NOJ993Zw5Pdfg
+ hAYBtQuwtisRqbayMzldysn7j8WXl18=
+Subject: Re: [PATCH v6 3/9] qdev: add clock input&output support to devices.
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20190904125531.27545-1-damien.hedde@greensocs.com>
+ <20190904125531.27545-4-damien.hedde@greensocs.com>
+ <CAFEAcA9M4qR89wykURrUxqxeWoNqYHxuJSwC5Mum6GfmWSG=nA@mail.gmail.com>
+ <8ac54ca8-4acf-5145-9ead-6791a5181617@greensocs.com>
+ <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <e9c078e5-be16-ca95-7cfa-44cbcc63a3be@greensocs.com>
+Date: Wed, 4 Dec 2019 12:58:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20191129094809.26684-9-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SbzfMQDwPyGGeXsGuU0ETQ-1
-X-Mimecast-Spam-Score: 0
+In-Reply-To: <d6937a23-d6d5-fe22-bc42-0bec543decf6@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US-large
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1575460722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8ljSCwCD3O4e7pPsXT+MroUcr3135nqWethx1Gpbjuk=;
+ b=kMohnrxOSGi/bc2DJWVZPeVkXKu0dPgbRlmc2HIz42+9hLjxiPb2sKVuLevJQVVyDeTbSq
+ XMrUZxavi+77oRokysQqiSD/egPitKW2O9/Uw2+/S7y56jV88TacJQ+EIuWZ4tK+BnCv/I
+ xyDANj8WMWukbFxLN16t7LSjXI7LeTY=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1575460722; a=rsa-sha256; cv=none;
+ b=4jjL4V+OVqzIQM1lGRM833Vyrn2OZM1Expn5PvC3c1PT+VafVskD/PbWfHgNspsHeBi/+j
+ 2iOHgwS4U60Mp/2o1SSot5u+I182q5r76STPd2V202inWZx4Rn3ZQC7BtWCnmD4m2oq/oF
+ yvU4RLtGEwvBv3F4PQW+ZPhDozP78wE=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,97 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/11/2019 10.48, Janosch Frank wrote:
-> CPU resets for protected guests need to be done via Ultravisor
-> calls. Hence we need a way to issue these calls for each reset.
-> 
-> As we formerly had only one reset function and it was called for
-> initial, as well as for the clear reset, we now need a new interface.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
-[...]
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index b802d02ff5..5b1ed3acb4 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -154,6 +154,7 @@ static int cap_ri;
->  static int cap_gs;
->  static int cap_hpage_1m;
->  static int cap_protvirt;
-> +static int cap_vcpu_resets;
->  
->  static int active_cmma;
->  
-> @@ -346,6 +347,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->      cap_mem_op = kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
->      cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
->      cap_protvirt = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
-> +    cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
->  
->      if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
->          || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
-> @@ -407,20 +409,44 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
->      return 0;
->  }
->  
-> -void kvm_s390_reset_vcpu(S390CPU *cpu)
-> +static void kvm_s390_reset_vcpu(S390CPU *cpu, unsigned long type)
->  {
->      CPUState *cs = CPU(cpu);
->  
-> -    /* The initial reset call is needed here to reset in-kernel
-> -     * vcpu data that we can't access directly from QEMU
-> -     * (i.e. with older kernels which don't support sync_regs/ONE_REG).
-> -     * Before this ioctl cpu_synchronize_state() is called in common kvm
-> -     * code (kvm-all) */
-> +    /*
-> +     * The reset call is needed here to reset in-kernel vcpu data that
-> +     * we can't access directly from QEMU (i.e. with older kernels
-> +     * which don't support sync_regs/ONE_REG).  Before this ioctl
-> +     * cpu_synchronize_state() is called in common kvm code
-> +     * (kvm-all).
-> +     */
-> +    if (cap_vcpu_resets) {
-> +        if (kvm_vcpu_ioctl(cs, KVM_S390_VCPU_RESET, type)) {
-> +            error_report("CPU reset type %ld failed on CPU %i",
-> +                         type, cs->cpu_index);
-> +        }
-> +        return;
-> +    }
->      if (kvm_vcpu_ioctl(cs, KVM_S390_INITIAL_RESET, NULL)) {
->          error_report("Initial CPU reset failed on CPU %i", cs->cpu_index);
->      }
 
-Don't you want to check for type != KVM_S390_VCPU_RESET_NORMAL before
-doing the INITIAL_RESET here?
 
->  }
->  
-> +void kvm_s390_reset_vcpu_initial(S390CPU *cpu)
-> +{
-> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_INITIAL);
-> +}
-> +
-> +void kvm_s390_reset_vcpu_clear(S390CPU *cpu)
-> +{
-> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_CLEAR);
-> +}
-> +
-> +void kvm_s390_reset_vcpu_normal(S390CPU *cpu)
-> +{
-> +    kvm_s390_reset_vcpu(cpu, KVM_S390_VCPU_RESET_NORMAL);
-> +}
+On 12/4/19 10:53 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 12/4/19 10:05 AM, Damien Hedde wrote:
+>> On 12/2/19 3:34 PM, Peter Maydell wrote:
+>>> On Wed, 4 Sep 2019 at 13:56, Damien Hedde
+>>> <damien.hedde@greensocs.com> wrote:
+>>>>
+> [...]
+>>>> +/**
+>>>> + * qdev_pass_clock:
+>>>> + * @dev: the device to forward the clock to
+>>>> + * @name: the name of the clock to be added (can't be NULL)
+>>>> + * @container: the device which already has the clock
+>>>> + * @cont_name: the name of the clock in the container device
+>>>> + *
+>>>> + * Add a clock @name to @dev which forward to the clock @cont_name
+>>>> in @container
+>>>> + */
+>>>
+>>> 'container' seems odd terminology here, because I would expect
+>>> the usual use of this function to be when a 'container' object
+>>> like an SoC wants to forward a clock to one of its components;
+>>> in that case the 'container' SoC would be @dev, wouldn't it?
+>>
+>> Yes. I agree it is confusing.
+>> This function just allow a a device 'A' to exhibit a clock from anothe=
+r
+>> device 'B' (typically a composing sub-device, inside a soc like you
+>> said). The device A is not supposed to interact with the clock itself.
+>> The original sub-device is the true
+>> owner/controller of the clock and is the only one which should use the
+>> clock API: setting a callback on it (input clock); or updating the clo=
+ck
+>> frequency (output clock).
+>> Basically, it just add the clock into the device clock namespace witho=
+ut
+>> interfering with it.
+>>
+>>> We should get this to be the same way round as qdev_pass_gpios(),
+>>> which takes "DeviceState *dev, DeviceState *container", and
+>>> passes the gpios that exist on 'dev' over to 'container' so that
+>>> 'container' now has gpios which it did not before.
+>>
+>> Ok, I'll invert the arguments.
+>>
+>>>
+>>> Also, your use of 'forward to' is inconsistent: in the 'dev'
+>>> documentation you say we're forwarding the clock to 'dev',
+>>> but in the body of the documentation you say we're forwarding
+>>> the clock to the clock in 'container'.
+>>
+>> I'll try to clarify this and make the documentation more consistent wi=
+th
+>> the comments here.
+>>
+>>>
+>>> I think the way to resolve this is to stick to the terminology
+>>> in the function name itself:
+>>> =C2=A0 @dev: the device which has the clock
+>>> =C2=A0 @name: the name of the clock on @dev
+>>> =C2=A0 @container: the name of the device which the clock should
+>>> =C2=A0=C2=A0 be passed to
+>>> =C2=A0 @cont_name: the name to use for the clock on @container
+>>
+>> I think container is confusing because depending on how we reason (clo=
+ck
+>> in a device; device in another device), we end up thinking the opposit=
+e.
+>>
+>> Maybe we can use "exhibit" instead of "container" in the 2nd pair of
+>> parameters, or prefix use "origin" or "owner" as a prefix for the firs=
+t
+>> pair of parameters.
+>=20
+> @sink vs @source?
+>=20
+>>> Q: if you pass a clock to another device with this function,
+>>> does it still exist to be used directly on the original
+>>> device? For qdev_pass_gpios it does not (I think), but
+>>> this is more accident of implementation than anything else.
+>>
+>> It depends what we mean by "used by".
+>> Original device can:
+>> + set the callback in case it is an input
+>> + update the frequency in case it is an output
+>=20
+> Hmm here you use @input vs @output...
 
-... otherwise this might reset more things than expected?
+Not really. What I meant here is that the device which originally
+creates the clock is the only device which can interact with the clock.
+And it will never gives this right to another device even if
+qdev_pass_clock() is used.
 
-Or do I miss something here?
+There are 2 interactions, depending on the clock direction (input or
+output). If it is an input clock, it can register a callback on
+frequency changes; and if it is an output clock, it can updates the
+frequency of the clock.
 
- Thomas
-
+>=20
+>> But since an input clock can only be connected once,
+>> I think the logic here is that any connection should now go through th=
+e
+>> new device. But this is not checked and using one or the other is
+>> exactly the same.
+>>
+>> Maybe I misunderstood the meaning of qdev_pass_gpios().
+> [...]
+>=20
 
