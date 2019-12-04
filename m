@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAA0113014
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:32:48 +0100 (CET)
-Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86064113024
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 17:38:54 +0100 (CET)
+Received: from localhost ([::1]:41188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icXa1-0001oi-2M
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:32:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33504)
+	id 1icXfu-0005OP-Bt
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 11:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1icXNg-0001Iu-Ez
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:20:02 -0500
+ (envelope-from <jfreimann@redhat.com>) id 1icXPH-0002ba-SS
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:21:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1icXNf-000839-D3
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:20:00 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42662)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1icXNe-00082W-Uh
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:19:59 -0500
-Received: by mail-pl1-x642.google.com with SMTP id x13so3351192plr.9
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 08:19:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JB0TVAz+9UHryDP3Z7x+pIufhUFoHIE7WhkCCe/6Tug=;
- b=E6R1CMjii8hqfgI5doJ9ZwfZd45dwf5PgKOKlN8i2BpxwidveFhulRXF9/tksItrm5
- JDeb7yyZart5bpiWWZxtezxK6OP+rfY7DwMJGfzq85RUdV1P+OAazPVeqwx4h/ZPYxWy
- ghBtkEPgZgFvansX/gdotms7Ked135xjpkEHY/UstD75T9N8Mw9LXb2/xSi4J9W9c94s
- xZg9WlG6RSAzoYiaC9Fo/2AJ7SjhJObz3RtDVl1fiCHdrUN6vYY80nEFMjurOQrst29j
- 4GYIJlR8FLndKfMnV14ZM+o/uDWUizXZuGYiQs6z45esbXHe3eX4Nj5IPcJyi4oRP/3W
- BIsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JB0TVAz+9UHryDP3Z7x+pIufhUFoHIE7WhkCCe/6Tug=;
- b=Rwy3+qc42qVVzoGeLMx6KCBT6KqXL5w7XKBkPb+IoqFOV8dQXkTb3TdtUh4MKZvMIg
- zEmLB3qnbe+EkwtO1nGwXr0T198IZgYHsVB4VPevn4ZDEsH1XCOBbweGA+nKH+dgUclR
- f7piot67OdCWZdh+1mX1dOa89CtGhy+ahKBDiDnoL+tEVsisFmHg/tDEVYMhRHJMOmAu
- nU99itzBapi4TfmVpdCURYm1PiXQJIY/NUVbFbcP20NaoRS2XInFVmaYcoAe0vMmiLvg
- N8MXxbd4o2E6+bB6aAo/B4CBNWWYcWSmiLsoMuw0E0ORBeUmgw4JZXF+YHzeO9reIuuW
- hxoQ==
-X-Gm-Message-State: APjAAAVN0nHa7pEoHuidUYLXuldvBLAmMhCq3YtN69+479AH07TQlCTL
- cYmamjXpSpdaoAxMAAKF57Ksug==
-X-Google-Smtp-Source: APXvYqw+///S9LhOr1uW6DcEiUQqXoWT864JvfvJRvWznjvN/0keFQkMosrm0rAWDVoVuKhrtjv/Xg==
-X-Received: by 2002:a17:90a:7f89:: with SMTP id
- m9mr4137316pjl.143.1575476397715; 
- Wed, 04 Dec 2019 08:19:57 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id 136sm7940957pgg.74.2019.12.04.08.19.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2019 08:19:56 -0800 (PST)
-Subject: Re: [PATCH v4 14/40] target/arm: Recover 4 bits from TBFLAGs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-15-richard.henderson@linaro.org>
- <87y2vs8gf1.fsf@linaro.org> <dd46a349-cbe2-d114-90f4-5d9b8c7d6d84@linaro.org>
- <8736e084ux.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a86c86f5-3352-46d5-94ec-716156c27968@linaro.org>
-Date: Wed, 4 Dec 2019 08:19:54 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ (envelope-from <jfreimann@redhat.com>) id 1icXPE-0000sh-4h
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:21:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36723
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+ id 1icXPD-0000sY-To
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 11:21:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575476494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mgUOs8PfpMssX/sytq+u7L4cvqr4iAF+Xzr8isJfaKc=;
+ b=iB5Rpk317B34GROCZ2v02ADf6MLk0pgDmoLG8XPexFfX4aNV9hpGecivV9BzB7DScJy8Vz
+ WWUf5qEcgYx1rECcTG5InrqiSWop4Y8U/FHLNkjmRHsu1o3i1mLVa4aNLtfJfobS9Gf8Vm
+ hKCbR8OrfjhUDYQRwd0387wJBUwt0hg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-YqKhRVTfOvuZeKLr4V0_rw-1; Wed, 04 Dec 2019 11:21:33 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C67618B9FD7;
+ Wed,  4 Dec 2019 16:21:32 +0000 (UTC)
+Received: from localhost (dhcp-192-223.str.redhat.com [10.33.192.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC36A600CD;
+ Wed,  4 Dec 2019 16:21:26 +0000 (UTC)
+Date: Wed, 4 Dec 2019 17:21:25 +0100
+From: Jens Freimann <jfreimann@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: qom device lifecycle interaction with hotplug/hotunplug ?
+Message-ID: <20191204162125.udpzdse3zchpfinw@jenstp.localdomain>
+References: <CAFEAcA9E-Z-RPwFsAiz9Pi3_MtBUFEU7enJFVrpOQ7UKW8e1DQ@mail.gmail.com>
+ <20191128182705.0635d1d4@redhat.com>
+ <CAFEAcA-qA6n49KdHsGLqt422L_b_9xPfSaJB3tATQvRdfKt-xw@mail.gmail.com>
+ <20191129132641.4c7da6c5@redhat.com>
+ <CAFEAcA_gcxqu+N5iV0L5WLyWmm5yxTFNMtmqQryBgVd4CCCT8A@mail.gmail.com>
+ <20191129200545.GG14595@habkost.net>
+ <CAFEAcA-BkETOSpOwBegDcbO3bqxDO_a9xoTB7Fc8Ajw_+CDcFA@mail.gmail.com>
+ <20191203214004.GS14595@habkost.net>
+ <20191204091824.cwufcnlfj5vm4vqu@jenstp.localdomain>
+ <20191204143537.GA498046@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <8736e084ux.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+In-Reply-To: <20191204143537.GA498046@habkost.net>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: YqKhRVTfOvuZeKLr4V0_rw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,35 +82,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/19 7:53 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> On 12/4/19 3:43 AM, Alex Bennée wrote:
-> <snip>
->>>>  void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns)
->>>>  {
->>>> -    DisasContext dc;
->>>> +    DisasContext dc = { };
->>>
->>> We seemed to have dropped an initialise here which seems unrelated.
+On Wed, Dec 04, 2019 at 11:35:37AM -0300, Eduardo Habkost wrote:
+>On Wed, Dec 04, 2019 at 10:18:24AM +0100, Jens Freimann wrote:
+>> On Tue, Dec 03, 2019 at 06:40:04PM -0300, Eduardo Habkost wrote:
+>> > +jfreimann, +mst
+>> >
+>> > On Sat, Nov 30, 2019 at 11:10:19AM +0000, Peter Maydell wrote:
+>> > > On Fri, 29 Nov 2019 at 20:05, Eduardo Habkost <ehabkost@redhat.com> =
+wrote:
+>> > > > So, to summarize the current issues:
+>> > > >
+>> > > > 1) realize triggers a plug operation implicitly.
+>> > > > 2) unplug triggers unrealize implicitly.
+>> > > >
+>> > > > Do you expect to see use cases that will require us to implement
+>> > > > realize-without-plug?
+>> > >
+>> > > I don't think so, but only because of the oddity that
+>> > > we put lots of devices on the 'sysbus' and claim that
+>> > > that's plugging them into the bus. The common case of
+>> > > 'realize' is where one device (say an SoC) has a bunch of child
+>> > > devices (like UARTs); the SoC's realize method realizes its child
+>> > > devices. Those devices all end up plugged into the 'sysbus'
+>> > > but there's no actual bus there, it's fictional and about
+>> > > the only thing it matters for is reset propagation (which
+>> > > we don't model right either). A few devices don't live on
+>> > > buses at all.
+>> >
+>> > That's my impression as well.
+>> >
+>> > >
+>> > > > Similarly, do you expect use cases that will require us to
+>> > > > implement unplug-without-unrealize?
+>> > >
+>> > > I don't know enough about hotplug to answer this one:
+>> > > it's essentially what I'm hoping you'd be able to answer.
+>> > > I vaguely had in mind that eg the user might be able to
+>> > > create a 'disk' object, plug it into a SCSI bus, then
+>> > > unplug it from the bus without the disk and all its data
+>> > > evaporating, and maybe plug it back into the SCSI
+>> > > bus (or some other SCSI bus) later ? But I don't know
+>> > > anything about how we expose that kind of thing to the
+>> > > user via QMP/HMP.
+>> >
+>> > This ability isn't exposed to the user at all.  Our existing
+>> > interfaces are -device, device_add and device_del.
+>> >
+>> > We do have something new that sounds suspiciously similar to
+>> > "unplugged but not unrealized", though: the new hidden device
+>> > API, added by commit f3a850565693 ("qdev/qbus: add hidden device
+>> > support").
+>> >
+>> > Jens, Michael, what exactly is the difference between a "hidden"
+>> > device and a "unplugged" device?
 >>
->> Added, not dropped.
-> 
-> But is it related to this patch or fixing another bug?
+>> "hidden" the way we use it for virtio-net failover is actually unplugged=
+. But it
+>> doesn't have to be that way. You can register a function that decides
+>> if the device should be hidden, i.e. plugged now, or do something else
+>> with it (in the virtio-net failover case we just save everything we
+>> need to plug the device later).
+>>
+>> We did introduce a "unplugged but not unrealized" function too as part
+>> of the failover feature. See "a99c4da9fc pci: mark devices partially
+>> unplugged"
+>>
+>> This was needed so we would be able to re-plug the device in case a
+>> migration failed and we need to hotplug the primary device back to the
+>> guest. To avoid the risk of not getting the resources the device needs
+>> we don't unrealize but just trigger the unplug from the guest OS.
+>
+>Thanks for the explanation.  Let me confirm if I understand the
+>purpose of the new mechanisms: should_be_hidden is a mechanism
+>for implementing realize-without-plug.  partially_hotplugged is a
+>mechanism for implementing unplug-without-unrealize.  Is that
+>correct?
 
-It is related to the patch.
+should_be_hidden is a mechanism for implementing
+realize-without-plug: kind of. It's a mechanism that ensures
+qdev_device_add() returns early as long as the condition to hide the
+device is true. You could to the realize-without-plug in the handler
+function that decides if the device should be "hidden". =20
 
-We used to initialize all of the a32 and m32 fields in DisasContext by
-assignment.  Now we only initialize either the a32 or m32 by assignment,
-because the bits overlap in tbflags.  So zero out the other bits here.
+partially_hotplugged is a mechanism for implementing
+unplug-without-unrealize: yes.=20
 
-I'll add this to the commit message.
+regards
+Jens
 
-
-r~
 
