@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B003811358D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 20:15:59 +0100 (CET)
-Received: from localhost ([::1]:46102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDCA11357B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Dec 2019 20:11:34 +0100 (CET)
+Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ica7y-0006jY-Je
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 14:15:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51172)
+	id 1ica3g-000425-S8
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 14:11:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51137)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1ica1E-0002cw-Bx
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:09:02 -0500
+ (envelope-from <vgoyal@redhat.com>) id 1ica18-0002ZG-Ky
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1ica18-0005TU-Ru
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:56 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35930
+ (envelope-from <vgoyal@redhat.com>) id 1ica15-0005Pw-A1
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:52 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40269
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1ica16-0005PF-UA
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:53 -0500
+ (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1ica15-0005PK-0Y
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 14:08:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575486529;
+ s=mimecast20190719; t=1575486530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FeQb7b0beOVO0Lr1WGzTfmVOOghutFPqqMJQKCCjm/o=;
- b=Xxe93rq18hT76H/Pf3iLJ1l+WOG8rD8C5OgxCyLIZT7SeJv1dKbqrMCYbdYGQbKag4nWeN
- pDWNmibR4UEe7JqAQNwhBa/wyihXYdAgqftxRTlNojVYyzcdUNclsJhe579pfM7vZhazWj
- z2Jn0dV3yJrwIcTVBJNe1HpxnA09KiM=
+ bh=wtQy2nb+w6js/FC7hyDX4RQMgk6gm8WimLPO9TMsXP4=;
+ b=MlTKrvOCTxhg3KNF5QmKUT+bC5Yf0UEgt3N/I+kMYqhI1KxqkCYvhjHPwI9f0z/9cLC1yI
+ YKHxn25YeLxvxRYl5N2Mv52LtUS4xKbwcoylf27I6/I+nXNnXBkSsv52q6MvBuU8E9CMie
+ 7y06YQoB3IPEt57I/CSGADNLv6HWbfU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-Ws-x8GdTOuOUWsXmhGfT7g-1; Wed, 04 Dec 2019 14:08:48 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-29-bhuuTWqpMYyvsqgpjmQ9qQ-1; Wed, 04 Dec 2019 14:08:48 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9A8D1005516
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBE481023139
  for <qemu-devel@nongnu.org>; Wed,  4 Dec 2019 19:08:47 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B935A4B60;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99ED419C68;
  Wed,  4 Dec 2019 19:08:42 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 15A8F2246AE; Wed,  4 Dec 2019 14:08:42 -0500 (EST)
+ id 1C8572246B1; Wed,  4 Dec 2019 14:08:42 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: virtio-fs@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] virtiofsd: Get rid of unused fields in fv_QueueInfo
-Date: Wed,  4 Dec 2019 14:08:32 -0500
-Message-Id: <20191204190836.31324-2-vgoyal@redhat.com>
+Subject: [PATCH v2 2/5] virtiofsd: Release file locks using F_UNLCK
+Date: Wed,  4 Dec 2019 14:08:33 -0500
+Message-Id: <20191204190836.31324-3-vgoyal@redhat.com>
 In-Reply-To: <20191204190836.31324-1-vgoyal@redhat.com>
 References: <20191204190836.31324-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: Ws-x8GdTOuOUWsXmhGfT7g-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: bhuuTWqpMYyvsqgpjmQ9qQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,32 +77,113 @@ Cc: mszeredi@redhat.com, dgilbert@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some unused fields in "struct fv_QueueInfo". Get rid of these fie=
-lds.
+We are emulating posix locks for guest using open file description locks
+in virtiofsd. When any of the fd is closed in guest, we find associated
+OFD lock fd (if there is one) and close it to release all the locks.
+
+Assumption here is that there is no other thread using lo_inode_plock
+structure or plock->fd, hence it is safe to do so.
+
+But now we are about to introduce blocking variant of locks (SETLKW),
+and that means we might be waiting to a lock to be available and
+using plock->fd. And that means there are still users of plock structure.
+
+So release locks using fcntl(SETLK, F_UNLCK) instead and plock will
+be freed later.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- contrib/virtiofsd/fuse_virtio.c | 6 ------
- 1 file changed, 6 deletions(-)
+ contrib/virtiofsd/passthrough_ll.c | 31 ++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/contrib/virtiofsd/fuse_virtio.c b/contrib/virtiofsd/fuse_virti=
-o.c
-index 31c8542b6c..2a9cd60a01 100644
---- a/contrib/virtiofsd/fuse_virtio.c
-+++ b/contrib/virtiofsd/fuse_virtio.c
-@@ -50,12 +50,6 @@ struct fv_QueueInfo {
-     int qidx;
-     int kick_fd;
-     int kill_fd; /* For killing the thread */
--
--    /* The element for the command currently being processed */
--    VuVirtqElement *qe;
--    /* If any of the qe vec elements (towards vmm) are unmappable */
--    unsigned int elem_bad_in;
--    bool reply_sent;
- };
+diff --git a/contrib/virtiofsd/passthrough_ll.c b/contrib/virtiofsd/passthr=
+ough_ll.c
+index bc214df0c7..6aa56882e8 100644
+--- a/contrib/virtiofsd/passthrough_ll.c
++++ b/contrib/virtiofsd/passthrough_ll.c
+@@ -936,6 +936,14 @@ static void put_shared(struct lo_data *lo, struct lo_i=
+node *inode)
+ =09}
+ }
 =20
- /* A FUSE request */
++static void posix_locks_value_destroy(gpointer data)
++{
++=09struct lo_inode_plock *plock =3D data;
++
++=09close(plock->fd);
++=09free(plock);
++}
++
+ /* Increments nlookup and caller must release refcount using
+  * lo_inode_put(&parent).
+  */
+@@ -994,7 +1002,9 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+ =09=09inode->key.ino =3D e->attr.st_ino;
+ =09=09inode->key.dev =3D e->attr.st_dev;
+ =09=09pthread_mutex_init(&inode->plock_mutex, NULL);
+-=09=09inode->posix_locks =3D g_hash_table_new(g_direct_hash, g_direct_equa=
+l);
++=09=09inode->posix_locks =3D g_hash_table_new_full(g_direct_hash,
++=09=09=09=09=09g_direct_equal, NULL,
++=09=09=09=09=09posix_locks_value_destroy);
+=20
+ =09=09get_shared(lo, inode);
+=20
+@@ -1436,9 +1446,6 @@ static void unref_inode(struct lo_data *lo, struct lo=
+_inode *inode, uint64_t n)
+ =09if (!inode->nlookup) {
+ =09=09lo_map_remove(&lo->ino_map, inode->fuse_ino);
+                 g_hash_table_remove(lo->inodes, &inode->key);
+-=09=09if (g_hash_table_size(inode->posix_locks)) {
+-=09=09=09fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
+-=09=09}
+ =09=09g_hash_table_destroy(inode->posix_locks);
+ =09=09pthread_mutex_destroy(&inode->plock_mutex);
+=20
+@@ -1868,6 +1875,7 @@ static struct lo_inode_plock *lookup_create_plock_ctx=
+(struct lo_data *lo,
+ =09plock->fd =3D fd;
+ =09g_hash_table_insert(inode->posix_locks,
+ =09=09=09    GUINT_TO_POINTER(plock->lock_owner), plock);
++=09fuse_log(FUSE_LOG_DEBUG, "lookup_create_plock_ctx(): Inserted element i=
+n posix_locks hash table with value pointer %p\n", plock);
+ =09return plock;
+ }
+=20
+@@ -2046,6 +2054,7 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, =
+struct fuse_file_info *fi)
+ =09(void) ino;
+ =09struct lo_inode *inode;
+ =09struct lo_inode_plock *plock;
++=09struct flock flock;
+=20
+ =09inode =3D lo_inode(req, ino);
+ =09if (!inode) {
+@@ -2058,14 +2067,16 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino=
+, struct fuse_file_info *fi)
+ =09plock =3D g_hash_table_lookup(inode->posix_locks,
+ =09=09=09=09    GUINT_TO_POINTER(fi->lock_owner));
+ =09if (plock) {
+-=09=09g_hash_table_remove(inode->posix_locks,
+-=09=09=09=09    GUINT_TO_POINTER(fi->lock_owner));
+ =09=09/*
+-=09=09 * We had used open() for locks and had only one fd. So
+-=09=09 * closing this fd should release all OFD locks.
++=09=09 * An fd is being closed. For posix locks, this means
++=09=09 * drop all the associated locks.
+ =09=09 */
+-=09=09close(plock->fd);
+-=09=09free(plock);
++=09=09memset(&flock, 0, sizeof(struct flock));
++=09=09flock.l_type =3D F_UNLCK;
++=09=09flock.l_whence =3D SEEK_SET;
++=09=09/* Unlock whole file */
++=09=09flock.l_start =3D flock.l_len =3D 0;
++=09=09fcntl(plock->fd, F_OFD_SETLK, &flock);
+ =09}
+ =09pthread_mutex_unlock(&inode->plock_mutex);
+=20
 --=20
 2.20.1
 
