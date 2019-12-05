@@ -2,51 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CDE114577
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:13:55 +0100 (CET)
-Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B547A114568
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:10:11 +0100 (CET)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icuhN-0003UW-Vo
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:13:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43474)
+	id 1icudm-0007wL-4z
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:10:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1icuXl-0003N3-Kw
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:04:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1icuYv-0003pc-Jh
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:05:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1icuXf-0007Ao-V0
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:03:55 -0500
-Received: from 7.mo7.mail-out.ovh.net ([46.105.43.131]:45508)
+ (envelope-from <philmd@redhat.com>) id 1icuYp-0000Mm-Vt
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:05:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29012
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1icuXc-00070Y-BL
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:03:49 -0500
-Received: from player791.ha.ovh.net (unknown [10.108.42.142])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 15C29142779
- for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 18:03:44 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player791.ha.ovh.net (Postfix) with ESMTPSA id 3D3F9CD54F46;
- Thu,  5 Dec 2019 17:03:40 +0000 (UTC)
-Date: Thu, 5 Dec 2019 18:03:38 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 03/21] error: rename errp to errp_in where it is
- IN-argument
-Message-ID: <20191205180338.5fb28c0e@bahia.w3ibm.bluemix.net>
-In-Reply-To: <20191205152019.8454-4-vsementsov@virtuozzo.com>
-References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
- <20191205152019.8454-4-vsementsov@virtuozzo.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1icuYn-0000Eg-Kw
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:05:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575565499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nDS/cdq022vMoC6K5EUhpk7pDrZi5HIxSyoKSYWlXxY=;
+ b=UcYAfUODwsKpQU3MUv2cJN4tIOMdEB1s0Oe7I7JESFz1eWfJbMC/UGHGpD6XNwtrrLLQ+E
+ 9x/mAS2MrlPiNJpbeWDh69IVKSCAiQWvftnv0bA261tqdzC9wYXW5Qjgj4oB3eS9HJKwmx
+ KwCNIo3aCFQn+v5oUxxUwaJHhdQa8s0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-AwqZs-j_OcWcW8IgGWi-LQ-1; Thu, 05 Dec 2019 12:04:55 -0500
+Received: by mail-wr1-f69.google.com with SMTP id h30so1816822wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:04:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HmeiVovzN20Mo/lqF0NKn9XWTcz3qzefoH/+i+XhumE=;
+ b=qUZixm5uuc8mKvdHIVPspOKgA+LFA5pXa/ZqybM69misHVHH+0A6bISgUWiahr3vIA
+ t2XXa/gaS4rt0W2/PwZ76Q1SjBuQ2eCyc0nrjv09wlm1t8ERKYJNlTxBRTgVA+Yeq8Ba
+ tk3H4o1aLyvTzQJi0d1eahxmvOyVZOZXR2cG6KRWBDdxKk3Jx+UiN3wTbFkyp6YZXJA+
+ r2+H8RxWyD+5Wy/kBOkpE/x7Ieyh7wpULcU9JT+v+E0HMu0xYxiLWTIp2iHqk7Kgh8hI
+ lzFBxktbeyJMgfhtC1ernToiMiW2peFbplrze6HAkKR4DdIxt7QOWh9f/PHMm2mPn7m+
+ a0eQ==
+X-Gm-Message-State: APjAAAUgK7kPm8gI/pLwLNeMpTUcXh3c62VJquWrRZ4SrBqeULdwZ5Pz
+ TJtKFtIaQa7jCGFN6BM/dAOBiMLsb6tF/u0hmR/p18ouBkaspmKjqVb7U1RjxvsZTUOasysWjI3
+ Tdoo1ZDsOOLGQ9W8=
+X-Received: by 2002:a7b:c761:: with SMTP id x1mr6142123wmk.37.1575565494561;
+ Thu, 05 Dec 2019 09:04:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwWLNi6h5wklywiC9hc+xVV4FmMxAA1I35yaAaAmDVkWi4tyCMm1Z/XQfdL5M4UIwdejv4l7w==
+X-Received: by 2002:a7b:c761:: with SMTP id x1mr6142098wmk.37.1575565494377;
+ Thu, 05 Dec 2019 09:04:54 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id o21sm425825wmc.17.2019.12.05.09.04.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Dec 2019 09:04:53 -0800 (PST)
+Subject: Re: [PATCH-for-5.0] roms/edk2-funcs.sh: Use available GCC for
+ ARM/Aarch64 targets
+To: Andrea Bolognani <abologna@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+References: <20191204221229.30612-1-philmd@redhat.com>
+ <ecbb6c69-1fc1-a730-db9f-656b0a82c3fd@redhat.com>
+ <90b6b303-2cb7-aeea-8f10-8520de2511c6@redhat.com>
+ <ea6fdfcaef35ed6571c4234b9400a75b429c72ac.camel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f5bafdb9-137d-a77e-edc3-dd61d669cdee@redhat.com>
+Date: Thu, 5 Dec 2019 18:04:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 4066750465223399763
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekuddgleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeluddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+In-Reply-To: <ea6fdfcaef35ed6571c4234b9400a75b429c72ac.camel@redhat.com>
+Content-Language: en-US
+X-MC-Unique: AwqZs-j_OcWcW8IgGWi-LQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.43.131
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,96 +94,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: qemu-devel@nongnu.org, Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Dec 2019 18:20:01 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+On 12/5/19 5:47 PM, Andrea Bolognani wrote:
+> On Thu, 2019-12-05 at 17:27 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 12/5/19 5:13 PM, Laszlo Ersek wrote:
+>>> If that rules out CentOS 7 as a QEMU project build / CI platform for th=
+e
+>>> bundled ArmVirtQemu binaries, then we need a more recent platform
+>>> (perhaps CentOS 8, not sure).
+>>
+>> Unfortunately CentOS 8 is not available as a Docker image, which is a
+>> convenient way to build EDK2 in a CI.
+>=20
+> Uh?
+>=20
+>    https://hub.docker.com/_/centos
+>=20
+> seems to disagree with you. Is the 'centos:8' image not suitable
+> for some non-obvious reason?
 
-> Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-> pointer to NULL-initialized pointer, or pointer to error_abort or
-> error_fatal, for callee to report error.
-> 
-> But very few functions instead get Error **errp as IN-argument:
-> it's assumed to be set (or, maybe, NULL), and callee should clean it,
-> or add some information.
-> 
-> In such cases, rename errp to errp_in.
-> 
+Eh, last time I checked=09I had an issue with docker, it was working with=
+=20
+podman but CI don't provide podman.
 
-This is no longer what the patch does. The subject needs to be amended too.
+I tested again, and now it seems to work, I'll give it another try.
+gcc-aarch64-linux-gnu is still older than GCC5 although.
 
-> This patch updates only error API functions. There still a few
-> functions with errp-in semantics, they will be updated in further
-> commits.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/qapi/error.h | 6 +++---
->  util/error.c         | 6 +++---
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/qapi/error.h b/include/qapi/error.h
-> index 3f95141a01..ad5b6e896d 100644
-> --- a/include/qapi/error.h
-> +++ b/include/qapi/error.h
-> @@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error *local_err,
->   * Prepend some text to @errp's human-readable error message.
->   * The text is made by formatting @fmt, @ap like vprintf().
->   */
-> -void error_vprepend(Error **errp, const char *fmt, va_list ap);
-> +void error_vprepend(Error *const *errp, const char *fmt, va_list ap);
->  
->  /*
->   * Prepend some text to @errp's human-readable error message.
->   * The text is made by formatting @fmt, ... like printf().
->   */
-> -void error_prepend(Error **errp, const char *fmt, ...)
-> +void error_prepend(Error *const *errp, const char *fmt, ...)
->      GCC_FMT_ATTR(2, 3);
->  
->  /*
-> @@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
->   * May be called multiple times.  The resulting hint should end with a
->   * newline.
->   */
-> -void error_append_hint(Error **errp, const char *fmt, ...)
-> +void error_append_hint(Error *const *errp, const char *fmt, ...)
->      GCC_FMT_ATTR(2, 3);
->  
->  /*
-> diff --git a/util/error.c b/util/error.c
-> index d4532ce318..b6c89d1412 100644
-> --- a/util/error.c
-> +++ b/util/error.c
-> @@ -121,7 +121,7 @@ void error_setg_file_open_internal(Error **errp,
->                                "Could not open '%s'", filename);
->  }
->  
-> -void error_vprepend(Error **errp, const char *fmt, va_list ap)
-> +void error_vprepend(Error *const *errp, const char *fmt, va_list ap)
->  {
->      GString *newmsg;
->  
-> @@ -136,7 +136,7 @@ void error_vprepend(Error **errp, const char *fmt, va_list ap)
->      (*errp)->msg = g_string_free(newmsg, 0);
->  }
->  
-> -void error_prepend(Error **errp, const char *fmt, ...)
-> +void error_prepend(Error *const *errp, const char *fmt, ...)
->  {
->      va_list ap;
->  
-> @@ -145,7 +145,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
->      va_end(ap);
->  }
->  
-> -void error_append_hint(Error **errp, const char *fmt, ...)
-> +void error_append_hint(Error *const *errp, const char *fmt, ...)
->  {
->      va_list ap;
->      int saved_errno = errno;
+Thanks for the update :)
+
+Phil.
 
 
