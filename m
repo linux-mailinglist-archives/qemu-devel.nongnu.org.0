@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52291146D0
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:22:39 +0100 (CET)
-Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9583C1146DA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:26:54 +0100 (CET)
+Received: from localhost ([::1]:59434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvlu-00017z-TP
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:22:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54965)
+	id 1icvq1-0006Ko-CH
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:26:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42531)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icvhd-00068U-4G
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1icvmV-0002pf-0E
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:23:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icvhb-0002HJ-0c
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24896
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icvhY-0002Dt-FS
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575569886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZiPYqCromAEfyVyDGcyCWBqr3Sgc2+S2D72yE6cgQD8=;
- b=T2TFleL7p04loyQmuyNOeTLKy65c4EE7rMxN4ZaIgAfURY1sBo5Dk5XfW7TWzWodm/uTmZ
- 1JrRMNrMONNnJeVfRgE+E35XBi5lEK607CyoGkwPnvT9M3yWrpfWeKd8Z9rcw7tlAHvsmc
- 1N9P5KEjPtFfudk998yRdOE00U0Y3yo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-HxkeLqBYPUC9mkn9VYdSDA-1; Thu, 05 Dec 2019 13:18:05 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F918024C8;
- Thu,  5 Dec 2019 18:18:04 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D5D210013D9;
- Thu,  5 Dec 2019 18:18:03 +0000 (UTC)
-Subject: Re: [PATCH v8 06/21] qdev-monitor: well form error hint helpers
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-7-vsementsov@virtuozzo.com>
- <0991f52e-853a-5f34-99d5-6c047593f8af@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <48dc3783-b012-17e3-03db-5d1680ea1c2e@redhat.com>
-Date: Thu, 5 Dec 2019 12:18:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <peter.maydell@linaro.org>) id 1icvmT-0003KC-Ke
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:23:14 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36796)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1icvmT-0003EL-BN
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:23:13 -0500
+Received: by mail-oi1-x242.google.com with SMTP id c16so3658861oic.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 10:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ywEp5s2xOWuK7D7RAlraYeWBuhfECY/Yhnh+tMIgVBs=;
+ b=AxD8RNjGmJa+dEMPmKEOO/bjIN97EHefoZbrvr7v+i5ltyu9sYvLYCpXljaSdU/tck
+ /GDPHBB3OH+Gyq32SoZGQaudU29cb3pokh9Z/L0czQIcRFpQ1YfQmTotbfV0iHWJ9/yj
+ ydVWfCZ2tbT91VEPxsrSEpJ13Wq/PGGiDgaTRa0gS2dftTJePqx1q675giQ37ZFemvfj
+ W8C+TPZZgv7T1gs8oiikMTZPiLFenM3QmKd25Dho+ygVNlzdj0nBmOMSzdsHERBshHGR
+ dvCO2Irssit8DtR+4mxugpj45lWt9ulpz9ILM38O6diXuDLa6uCje+f30UV86w/+C71P
+ VReg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ywEp5s2xOWuK7D7RAlraYeWBuhfECY/Yhnh+tMIgVBs=;
+ b=pK5Oxyn7LXgpiMvem+uZK0V3JBR1MrhbBSWD6t0ShF9aWbOuUhp66c808XovBS9nDH
+ oCmNsowzaxT4tT8KjRUIJQmrowfCyXXNDiUEEELW1QT4Fa43CcD/spuziFBJUdWwlu3N
+ AS+F0lrugOhhXjZH49633eSPdrSSjJ9TpLjDvnkmMybiZJAImDI+klBhRKTbVDk4IqWO
+ L+NvjXZQiSDeASuP86G7ZkyIOeUT9yEHBVRkbRiZzElBqpRB2QM446zl4anwlDT42ENG
+ FDZ1Mx+ONoHan3AtzyoEzqjYWZy1L00+/Gs6FOW6ycRTwZM/FyFi49DcTD/OGNznr2cB
+ 7KbQ==
+X-Gm-Message-State: APjAAAU2wBs4Ki+J/DX1KkV4HkaDC9ABFa6UeajubCXAEUm1mJHqePBm
+ MYqAnXtS/f9tQF1eQms/VIoTMxWz2MnLsVDXX6sy5IT/y5E=
+X-Google-Smtp-Source: APXvYqynT2e8OWp2aD6Gz2f39kybeFFAOBdo/R8aF7Gru9sOIkSyLgsI5RAIT/v21tPyBMD/44lWoDngEd1qezP9AsI=
+X-Received: by 2002:aca:f5cc:: with SMTP id t195mr8633767oih.163.1575570192219; 
+ Thu, 05 Dec 2019 10:23:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0991f52e-853a-5f34-99d5-6c047593f8af@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: HxkeLqBYPUC9mkn9VYdSDA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-19-richard.henderson@linaro.org>
+In-Reply-To: <20191011134744.2477-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Dec 2019 18:23:01 +0000
+Message-ID: <CAFEAcA-N++JGRDfOLE7AUsMWVqchSNMvshRu9NJAkCSR1-N=Eg@mail.gmail.com>
+Subject: Re: [PATCH v5 18/22] target/arm: Enable MTE
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,46 +72,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, armbru@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 12:17 PM, Eric Blake wrote:
-> On 12/5/19 11:46 AM, Vladimir Sementsov-Ogievskiy wrote:
->> Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
->> switch errp paramter to Error *const * type, as it has uncommon
->> behavior: not change the pointer to return error, but operate on
->> already existent error object.
->> Rename functions to be error_append_*_hint.
->=20
-> qbus_error_append_*_hint
->=20
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->> =A0 qdev-monitor.c | 12 +++++++-----
->> =A0 1 file changed, 7 insertions(+), 5 deletions(-)
->>
->=20
->> -static void qbus_list_dev(BusState *bus, Error **errp)
->> +static void qbus_error_append_dev_list_hint(BusState *bus,
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Error *const *=
-errp)
->=20
-> Or, since you copy-and-paste this commit message in v9, you could use=20
+On Fri, 11 Oct 2019 at 14:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We now implement all of the components of MTE, without actually
+> supporting any tagged memory.  All MTE instructions will work,
+> trivially, so we can enable support.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.c   | 10 ++++++++++
+>  target/arm/cpu64.c |  1 +
+>  2 files changed, 11 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 2399c14471..12fffa3ee4 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -209,6 +209,16 @@ static void arm_cpu_reset(CPUState *s)
+>           * make no difference to the user-level emulation.
+>           */
+>          env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
+> +        /* Enable MTE allocation tags.  */
+> +        env->cp15.hcr_el2 |= HCR_ATA;
+> +        env->cp15.scr_el3 |= SCR_ATA;
+> +        env->cp15.sctlr_el[1] |= SCTLR_ATA0;
+> +        /* Enable synchronous tag check failures.  */
+> +        env->cp15.sctlr_el[1] |= 1ull << 38;
 
-Sorry, I meant it was copied in v8 7/21.
+Isn't this making assumptions about the Linux ABI for
+memtag (ie that it actually will expose it to userspace
+and that it will make tag check failures synchronous)?
 
-> *_error_append_*_hint between the commits for less one-off fixing per=20
-> message.
->=20
+> +#ifdef TARGET_AARCH64
+> +        /* Set MTE seed to non-zero value, otherwise RandomTag fails.  */
+> +        env->cp15.rgsr_el1 = 0x123400;
+> +#endif
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Does anything go wrong if we don't bother with the #ifdef?
 
+>  #else
+>          /* Reset into the highest available EL */
+>          if (arm_feature(env, ARM_FEATURE_EL3)) {
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index d7f5bf610a..ac1e2dc2c4 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -350,6 +350,7 @@ static void aarch64_max_initfn(Object *obj)
+>
+>          t = cpu->isar.id_aa64pfr1;
+>          t = FIELD_DP64(t, ID_AA64PFR1, BT, 1);
+> +        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
+>          cpu->isar.id_aa64pfr1 = t;
+>
+>          t = cpu->isar.id_aa64mmfr1;
+> --
+
+thanks
+-- PMM
 
