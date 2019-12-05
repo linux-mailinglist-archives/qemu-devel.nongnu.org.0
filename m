@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28EF1145D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:24:54 +0100 (CET)
-Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978611145FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:33:09 +0100 (CET)
+Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icus1-00061A-PM
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58276)
+	id 1icv00-0000XD-Ep
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1icujZ-0006gH-7F
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:16:10 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icuyr-0008RS-JU
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:31:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1icujX-0002D4-PB
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:16:08 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39852)
+ (envelope-from <alex.bennee@linaro.org>) id 1icuyq-0000eq-7L
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:31:57 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39200)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1icujX-00028e-DS
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:16:07 -0500
-Received: by mail-oi1-x244.google.com with SMTP id a67so3434387oib.6
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:16:07 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icuyp-0000a0-QW
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:31:56 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y11so4625491wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:31:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oR1ydjx5BXUU7AR1HyJMQzYmJztax2heM3c2x5vgaww=;
- b=UkYx/TLRcr9fFREWaRf1PE35hgBubIZ/mtpRBoQxNXQ27b1ry3OaekuUg+GDUgQphg
- j/coNEFyyg8cgbTwDSBh+eeMWEG/dAyZg6tywR0204EAAloUAaQ2U66V2RKzzrlmgDee
- clAWTPZRq/SvYGfvWoWfMPpA24FtCPuPPCBHgL8XeFIzgWJx8Ap8KgtXRMm23x4aV72u
- A2dpS0SWFbRIIwEbGcue0359J8maiYZGG46dH5bm/2ERfhX391UHO+C50b2en7PBq2O+
- 1bxqrFfhmP39Rd7ZePjdk9QNrw0zojdauVbc7rFTb4JvPcptjCbz2rJAHBVPMWsJwmqT
- SlBQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mPR+RnI5ndaYekc/cM5S/YEFXT8srJA+hLrqRZ+HoYE=;
+ b=UiAC6+UU0tvF06T6R+TJWNwzBwI1dT+NTdJvlNtacAeXOMXf1X+Ke3oEfnw/E+BBtl
+ fRgYzEhNcZ4IIF7RKAhMWHIavbnWfi9uaj+MgRAjItHl9Sk2pWb7KGnfthtXBj4pzvgQ
+ p+4ZDcmxI24/g723GlucsIKsU1l/h/dcScKsVJGxNgD7uN5dBMpmr1NguvHHvmPN8u+s
+ q4gYho4fTR6pQyflHOZXcQ2bRKQava6AMNDZBpVTESnu9EshFtNDeGiz6m9A+U2DfSsg
+ hOuKy+sdPSOle03MsMrUVvCQe72RpyCunXP2G6FDbOnw+9fhNBzg5MR+LrSI1/4DS/Hz
+ 1Q6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oR1ydjx5BXUU7AR1HyJMQzYmJztax2heM3c2x5vgaww=;
- b=piwjGRh8810Uv+OGlAMlSNhiXPqOKw0ZpBVXRXWdJ21XZ7xCVjr9AWf+StT6zZG+6S
- 7Rro0tDvFbH6ISHm62Jl2BLNO0MFHfc0kU8gknt3X5d1pypKSikvEEtUqbA7lC32vum6
- TCQBBX5ApXUxOA03THsqRxEYv4UB0cvgqJgUzONQnYgwAYWpxyj0DbAfooxaP0T1xQei
- tKAIHawe0yqz/0pXKM2Wm8Iv8ewF7n39vv3qpFPD2FLn0GTZ0q9HfXUntEuQXjia1GQI
- qeoYFvYW9ZisPSAYy1vEbZisxfYQ8rapU54ImOf4I9pMtsgdYb9twlwhYbL11JvvuDad
- kkCg==
-X-Gm-Message-State: APjAAAWu5+WB0tPCbKrlFnYcPsefV1v/w3gGvZQ+N00lFQnJ1QVC/Ss5
- HNLsCLLUv0ZkKqBiA2FvGb14bqIBNEL7icTlDaYJe3WUEC0=
-X-Google-Smtp-Source: APXvYqyc4h+2ImfEMHKTc8Lekx6ViVfBTjA7Q6R6oZODKAsAv3qG9RlH7vTwzNwvONONMCc1g9IdZQfsfWPqg+Y/q44=
-X-Received: by 2002:aca:3182:: with SMTP id x124mr8320862oix.170.1575566166437; 
- Thu, 05 Dec 2019 09:16:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-13-richard.henderson@linaro.org>
-In-Reply-To: <20191011134744.2477-13-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Dec 2019 17:15:55 +0000
-Message-ID: <CAFEAcA88=mVYgG_Pu7HJOToCpNz9GYDRW2iG3tx0QYO7C-gFeQ@mail.gmail.com>
-Subject: Re: [PATCH v5 12/22] target/arm: Implement the STGP instruction
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=mPR+RnI5ndaYekc/cM5S/YEFXT8srJA+hLrqRZ+HoYE=;
+ b=AUBDoLa/CESStfP78N7NxpaAK5FZNAzrzxYhyD4k/KDuNyybDJHWzoG6fYNWwvDin5
+ ONALgq4FaYPjdS57JfLcUvqeDIEPmvh+encOqAv3UnsE94L+vJZ5hk9lcStJ3G2B7yKR
+ Wtl3vee1S8xFdTwVcV1Rq+O7xCHpb0roHtjBeodXNXR16O8jZGhUsofNa8rTCgV1AJiI
+ GhJ80Aon7DbgfrksKeJ0tAgKxvfCxqYWe8sjhj6EjxsdpS21YH8S09VjCB06vumV0WPd
+ RQU5WS8Pn2FjnTzvbkGv81jXM/Nf2UScx/EGh9kFg+cvjjRwGRJR9VGeGWl9z5psv0SD
+ M5cw==
+X-Gm-Message-State: APjAAAV86woNLrUacQeaa44EECwjqA3MWJdX6/xqWBAYyQEY0sv69cvD
+ pR1xemsLHckfODJpWEdOTGdsHw==
+X-Google-Smtp-Source: APXvYqz3IVXeR/QTDnfjchFAFmxWU7P0m4RwRTQ9x0iiI2pZCIQMZN1kXq8Jmrel9N1V7Mmm+VpGyw==
+X-Received: by 2002:a05:6000:1044:: with SMTP id
+ c4mr11767622wrx.204.1575567114457; 
+ Thu, 05 Dec 2019 09:31:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y10sm515562wmm.3.2019.12.05.09.31.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2019 09:31:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5EE511FF87;
+ Thu,  5 Dec 2019 17:31:52 +0000 (GMT)
+References: <20191130084602.10818-1-alex.bennee@linaro.org>
+ <20191130084602.10818-12-alex.bennee@linaro.org>
+ <9362663d-6452-39aa-2a8d-1cfd853d7faa@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 11/14] target/arm: default SVE length to 64 bytes for
+ linux-user
+In-reply-to: <9362663d-6452-39aa-2a8d-1cfd853d7faa@linaro.org>
+Date: Thu, 05 Dec 2019 17:31:52 +0000
+Message-ID: <87o8wm7k6v.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,82 +85,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org, qemu-devel@nongnu.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Oct 2019 at 14:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v3: Handle atomicity, require pre-cleaned address.
-> ---
->  target/arm/translate-a64.c | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index c17b36ebb2..4ecb0a2fb7 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -2657,7 +2657,7 @@ static void disas_ld_lit(DisasContext *s, uint32_t insn)
->   * +-----+-------+---+---+-------+---+-------+-------+------+------+
->   *
->   * opc: LDP/STP/LDNP/STNP        00 -> 32 bit, 10 -> 64 bit
-> - *      LDPSW                    01
-> + *      LDPSW/STGP               01
->   *      LDP/STP/LDNP/STNP (SIMD) 00 -> 32 bit, 01 -> 64 bit, 10 -> 128 bit
->   *   V: 0 -> GPR, 1 -> Vector
->   * idx: 00 -> signed offset with non-temporal hint, 01 -> post-index,
-> @@ -2682,6 +2682,7 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
->      bool is_signed = false;
->      bool postindex = false;
->      bool wback = false;
-> +    bool set_tag = false;
->
->      TCGv_i64 clean_addr, dirty_addr;
->
-> @@ -2694,6 +2695,14 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
->
->      if (is_vector) {
->          size = 2 + opc;
-> +    } else if (opc == 1 && !is_load) {
-> +        /* STGP */
-> +        if (!dc_isar_feature(aa64_mte_insn_reg, s) || index == 0) {
-> +            unallocated_encoding(s);
-> +            return;
-> +        }
-> +        size = 3;
-> +        set_tag = true;
->      } else {
->          size = 2 + extract32(opc, 1, 1);
->          is_signed = extract32(opc, 0, 1);
-> @@ -2746,6 +2755,15 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
->      }
->      clean_addr = clean_data_tbi(s, dirty_addr, wback || rn != 31);
 
-Don't we need to adjust the 'check' argument to clean_data_tbi()
-here? The pseudocode says STGP doesn't do tag-checking.
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 11/30/19 8:45 AM, Alex Benn=C3=A9e wrote:
+>> The Linux kernel chooses the default of 64 bytes for SVE registers on
+>> the basis that it is the largest size that won't grow the signal
+>> frame. When debugging larger sizes are also unwieldy in gdb as each
+>> zreg will take over a page of terminal to display.
+>>=20
+>> The user can of course always specify a larger size with the
+>> sve-max-vq property on the command line:
+>>=20
+>>   -cpu max,sve-max-vq=3D16
+>>=20
+>> This should not make any difference to SVE enabled software as the SVE
+>> is of course vector length agnostic.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  target/arm/cpu64.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>
+> 6 is the largest size that doesn't grow the signal frame.
+> I imagine 4 was chosen because that's the only real hw atm.
+>
+>> +        /* Default sve-max-vq to a reasonable numer */
+>> +        cpu->sve_max_vq =3D 4;
+>
+> I also agree that we should match the kernel, but this is not the right w=
+ay.
+> Changing max vq is not the same as changing the default vq.
+>
+> You should change the value of env->vfp.zcr_el[1] in arm_cpu_reset(), and=
+ the
+> user can increase the length with prctl(2) as they would be able to on re=
+al
+> hardware that would have support for longer vector lengths.
+
+No the intention is to default to a lower max VQ because...
+
+> Also, I don't think you should mix this up with gdb stuff.
+
+it is what we use for sizing the registers for the gdbstub. The other
+option would be to use the effective zcr_el1 value at the time of the
+gdbstub connecting but then things will go horribly wrong if the user
+execute a prctl and widens their size.
 
 >
-> +    if (set_tag) {
-> +        TCGv_i64 tcg_rn = cpu_reg_sp(s, rn);
-> +        if (tb_cflags(s->base.tb) & CF_PARALLEL) {
-> +            gen_helper_stg_parallel(cpu_env, clean_addr, tcg_rn);
-> +        } else {
-> +            gen_helper_stg(cpu_env, clean_addr, tcg_rn);
-> +        }
-> +    }
-> +
->      if (is_vector) {
->          if (is_load) {
->              do_fp_ld(s, rt, clean_addr, size);
-> --
-> 2.17.1
+>
+> r~
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
