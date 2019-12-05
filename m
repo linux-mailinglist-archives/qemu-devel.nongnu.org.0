@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739731143E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:44:01 +0100 (CET)
-Received: from localhost ([::1]:56474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6F2114422
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:54:28 +0100 (CET)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ictIO-00081Y-Ea
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:44:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38373)
+	id 1ictSV-0007xi-LE
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:54:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ict8e-0005a4-4X
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:33:57 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ictQ8-0006gy-U1
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:52:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ict8b-0003Kx-PR
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:33:55 -0500
-Received: from mail-eopbgr80120.outbound.protection.outlook.com
- ([40.107.8.120]:7909 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ict8a-0003HC-99
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:33:53 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UutLvHh8xVknHsUPQoyZ7D+qk5pyo2D8eNnFFBQRjz9hZudO4UtFGR2ZH1loEgYc86GG5mYtjjKNNV8m0O08qzO3UQfxH8boEiNi8Tt9gGUVt3bEOp+fGvO7bPPbIG2LSHq5rd95+qXerO+04RrDKa/YWILUURUi12qZqd+FkNBMPa5CoUGn/THVPw2D6ylzhklB2Lbj9nXeSdwyN11EjNEukJfZL4jOXRHQqWXMRSIKzVQOgW4vDFDd2YKI2l+w4gfA3moJHiLS1AbLt5jgMX3xri57Ttn4f2ReFiAg43NNH/qBKGBHcjuwfjzqbVIUfrCWB26BxJPFQx3HO2aTRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fNaHGC5B4vt/YKevaqsmg08RhLf6QF4S9yXxBJviV94=;
- b=KyfLnCq0FjU+nHcjyCq/WLIq8fac4+L4L8WIDjPtIOoiNvPI+jA8H1W7WHWPv7NxFFf0v2UIe1UpmhL1Nv7Q0bgmdYZW0UzAi5359kFXqEZuNFikBksJlA1AgGhfenA9QXoameEkbtATL25soovq8a81h6cy87Xr/AIogMhdyulzqYcYb7rKLYUJ44E/9T847or8MQO7vtrVgcYOWnXVhBsYjS+MRf0OfbyI0s0h6YQFyENyrDfy8114YqmatBn8BW/aiHODJ8ik+Vg09PuqYKmk8Gmh4tM/+x34Y7AzeLmqYZ5N3XY1dw8fl3bSqOToPh8+bLW4H+hRJy2b17dllg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fNaHGC5B4vt/YKevaqsmg08RhLf6QF4S9yXxBJviV94=;
- b=Yrl2PgxYeZlvH3ltT6X+3gvOpPp98SnE9oXgxaZ2N4yJu9HYdldzBZf6/Y/udLNOH7XYxmcglFkq5e/1AytEpdQTghFNBJEn65mOkFCvJpvxHuG5z8M4gDHHxopeXsMmhF27xMDIuJgMZEPrPfRLAVwinNF/C5V03ZVerweuQfw=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3797.eurprd08.prod.outlook.com (20.178.89.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Thu, 5 Dec 2019 15:33:49 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Thu, 5 Dec 2019
- 15:33:48 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 07/21] tests: Clean up initialization of Error *err
- variables
-Thread-Topic: [PATCH 07/21] tests: Clean up initialization of Error *err
- variables
-Thread-Index: AQHVp7ZbqWTtZkQfwUyNSUfy/B/p36ers1cA
-Date: Thu, 5 Dec 2019 15:33:48 +0000
-Message-ID: <8b82d0a6-f72d-32a0-1b98-02508eae3c0e@virtuozzo.com>
-References: <20191130194240.10517-1-armbru@redhat.com>
- <20191130194240.10517-8-armbru@redhat.com>
-In-Reply-To: <20191130194240.10517-8-armbru@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0235.eurprd05.prod.outlook.com
- (2603:10a6:3:fb::11) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191205183346817
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8b3005f2-6433-4fe8-59d0-08d779988615
-x-ms-traffictypediagnostic: AM6PR08MB3797:
-x-microsoft-antispam-prvs: <AM6PR08MB3797BCEDBEA8FB115D428CA4C15C0@AM6PR08MB3797.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1247;
-x-forefront-prvs: 02426D11FE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(136003)(376002)(396003)(346002)(366004)(199004)(189003)(6486002)(36756003)(6512007)(14444005)(478600001)(31686004)(25786009)(110136005)(52116002)(71190400001)(316002)(76176011)(99286004)(2616005)(11346002)(6506007)(31696002)(71200400001)(86362001)(102836004)(186003)(229853002)(26005)(8936002)(66556008)(64756008)(66446008)(66476007)(66946007)(14454004)(81156014)(81166006)(8676002)(2906002)(558084003)(305945005)(5660300002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3797;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 02R+UcJtMNEMlIjaVihoxpYBkX8eA58xkCsJGKM6aVBkgx8LH83QdkYREQv371iHUiCERxVbywS7YP3FmEMTj4D/MR+UtwGd7Rmb3zABETs+R/hKqgdSTrWcJkkCJtQqIWsFStU2WgbeywFfdjt1XGL1dWntJxEvQnyAHs0FLaUOf31Zk3WfK4jWUi0SfBATq1SqNvEWUfe2zrQ+nKISSIk212wjKsomiw/swYRU4Ny1kY8x51G4yUk7zVj25Fjgd+V50HMXbuRLJatFdB1hA77OlnZluQ3Vzw2aGZu/vN0HdoJYxwYhzxVNOVES/WAB4qamK/MShIFfZQ6A8e0uOwuSF+DPdxPCr72nX6uKO4ZrfB2SeXWgS6dc+f1k2TEkujI+MqlTnAy/bycTeKg8IZKud4VAvHvo8kk451xZ3ccFytLpnoOqFt5rGc90rQFn
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8D648051E8563E4699AE9F53B58251A3@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <richard.henderson@linaro.org>) id 1ictQ7-0002kb-H7
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:52:00 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:42070)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ictQ6-0002i1-SG
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:51:59 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id o11so1447329pjp.9
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 07:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0nAmMXcMif7HiwcjaWfHAaBfG6xW3mZL8xo/lH1GaYw=;
+ b=On7I+Ji/eT04Nt7pMveCaEVl4CGf2dBNb73CDDbpuey5HuYWbnGqqv7wg8gqilqb9g
+ riPXWHhn7FNIKvxqTUmJL6/8i+N5dzPeARPpEHQuBc7Qe8gbn73e3pQDmejcIx2x/YSz
+ NfR5W+qgX6gwRlw4MFc9fQxXmwj0+ik3POP8koJJ6ZlO1RYlazW5Uyxd0X3puejxsiTf
+ 4D+Kh+XaHUvD1RSKVelP2W4TNKv0FsnS8BITBb6+MiqLtByDmzPbGHYMu3KrlQIdSq8d
+ mlxZTqbwk1x/0tjzvRWRkrqxROgjBkeiCvw05wYUbGmcE+3oKEp5c+7iKiudg93AwXRJ
+ r/4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0nAmMXcMif7HiwcjaWfHAaBfG6xW3mZL8xo/lH1GaYw=;
+ b=MPZ8TxybfsjTzoqyAOJ37b2IaCOPeWOt4R0FgPvcqELhHEIUPgPf8JO2lcvFOECIxH
+ tR7aWkbg5T/Dsbz0zTarFDLAFXreisiKk8zZBUt8vy9x0ocuqfAEc23/rJQUSJ4EX869
+ WJOA4fg4uTSQK76lqfpQB5FWzp/If1Y4uTqHSiI3uZcHdrlTpY6AHSslYiv7F++MeRyV
+ dPtvvH+vD0weHxiv96HNbo/c/hHXqVmlfb/iZTBT0XLTVAmEsAhr/En20LU64MRs9mOy
+ NPh0+g0SCnpokZbyzBnNMmMM4cM17cy1CSYRtYFYqCeJx+UfKjLTp6sWt6yJohk6wALO
+ yxSg==
+X-Gm-Message-State: APjAAAWhFLBRE0UL2pAsch/iRHJPJknDrX/hNGN3r3gIsOLn2y8mLuqL
+ NIUymIh06Bir6L6kUEC9OqPsfg==
+X-Google-Smtp-Source: APXvYqwDrxrHvnLhKOBFRPV6tmZSZE89gic4jcOBqKXWo3gLSgBYKDEkWKxv8xBp0RjVmiRqFzWsvg==
+X-Received: by 2002:a17:902:9a8d:: with SMTP id
+ w13mr9584634plp.330.1575561117062; 
+ Thu, 05 Dec 2019 07:51:57 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id h68sm13685194pfe.162.2019.12.05.07.51.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Dec 2019 07:51:56 -0800 (PST)
+Subject: Re: [PATCH v2 1/6] linux-user: convert target_mprotect debug to
+ tracepoint
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191205122518.10010-1-alex.bennee@linaro.org>
+ <20191205122518.10010-2-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1ef8ce99-cc16-fb87-44e9-4755137132f9@linaro.org>
+Date: Thu, 5 Dec 2019 07:43:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b3005f2-6433-4fe8-59d0-08d779988615
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 15:33:48.8600 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bjHdaQ5X+Hk3EmqLQOUjzwr3HVLkRjsuKDPcM1Zt6ClqpYUPLcmKpaA1AIEQR/cEa3IxDI0aP4hJDBPaG2EvkQTLNcXKMRoMoF1eHolUYDo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3797
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.8.120
+In-Reply-To: <20191205122518.10010-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,14 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MzAuMTEuMjAxOSAyMjo0MiwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IERlY2xhcmluZyBh
-IGxvY2FsIEVycm9yICplcnIgd2l0aG91dCBpbml0aWFsaXplciBsb29rcyBzdXNwaWNpb3VzLg0K
-PiBGdXNlIHRoZSBkZWNsYXJhdGlvbiB3aXRoIHRoZSBpbml0aWFsaXphdGlvbiB0byBhdm9pZCB0
-aGF0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWFya3VzIEFybWJydXN0ZXIgPGFybWJydUByZWRo
-YXQuY29tPg0KDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2
-c2VtZW50c292QHZpcnR1b3p6by5jb20+DQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1p
-cg0K
+On 12/5/19 4:25 AM, Alex Bennée wrote:
+> It is a pain to re-compile when you need to debug and tracepoints are
+> a fairly low impact way to instrument QEMU.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v2
+>   - don't both with ascii conversion
+> ---
+>  linux-user/mmap.c       | 10 ++--------
+>  linux-user/trace-events |  3 +++
+>  2 files changed, 5 insertions(+), 8 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
