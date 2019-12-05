@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9701146DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:27:21 +0100 (CET)
-Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52291146D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:22:39 +0100 (CET)
+Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvqS-00073H-JA
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:27:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53975)
+	id 1icvlu-00017z-TP
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:22:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ard.biesheuvel@linaro.org>) id 1icvh5-0005mO-Ca
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:40 -0500
+ (envelope-from <eblake@redhat.com>) id 1icvhd-00068U-4G
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ard.biesheuvel@linaro.org>) id 1icvh3-00010m-Fy
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:38 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35433)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ard.biesheuvel@linaro.org>)
- id 1icvh1-0000yO-Df
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:36 -0500
-Received: by mail-wm1-x344.google.com with SMTP id c20so3269728wmb.0
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 10:17:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=C0Aqo9JI+SHft2+750uwyw+c5t9jPXYtEpsKMl00T4I=;
- b=cUe4zR5FMz88YG4bWpjOGQ1NZ1dzg8CliWktQYcijfz3x6TzF7wR+D1phpYRUQ+h9l
- 3hX7Z3iTsSbnl+F2f4X2SRtasWQlqA0tNGvgKub9b5liKvDpvbiFePY8KhTnu6TJ9/U8
- PW9+TXjP0AcAiDt9tyMVbgHDsOCOJP0v1xh2w9VqJkHE9inHc2PAqR7dwFNTtRqze4Sb
- BDp5DhdlVtZQjX0ZpR/0xcAGI7qfZwqCzzhpWXsLmY/Z02bkRy76KFtVpVpnaFONmoKd
- 4WAUXI/y4+zgl0SjNRYzLUEEtNpomy2K9R4TqbX0uqSl66ltjhnnZeR4TeA0HTALP0M7
- zlKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C0Aqo9JI+SHft2+750uwyw+c5t9jPXYtEpsKMl00T4I=;
- b=RPsSpgILcZAlIVDk71YxaiqNdJo5W89C9nDDed15z+z8PnWP91WEyvGQwWM2V2OgXo
- WylhRDGld+vhkDJO1mlzDSWqMAyfZPaWaxadhA44l1f5xpkwysrafwFQglHi0CsWLikX
- B/mUVfTHR+X9ojH1Kpxe9BnrqopJVvYO7B71csEPJB6zB/Ka0qc4It7szxa5bFIgQ4MD
- GcYlmBze40RgSYWGr0xCRLR2mknsrLEc8AgotdUKK1VdERLJli9k1zM6k5EEd4m0CGlJ
- LzhkuvE0tcI7AX+wA7N30+6BP5HdeRufWhWRPzsNdaJLp0IHdMBCQw9n/F6b81Dilrrt
- G0SA==
-X-Gm-Message-State: APjAAAWh3AIf7iKmDU8F1csyiqyLqPsGFK0f5CmFEPCjWTx7QbcqLpWL
- zqK7gNKcLZgYrjB6KQoggUsCi7gE4bFtEdkafrxGtA==
-X-Google-Smtp-Source: APXvYqzhwrio2In0rtJYzISatatU06kv9uJ2ZAAA9NiKb6w8ALK0TSW8ZpTPB1WCXXkFXdrSdjrITYywwxMjsBEQiN8=
-X-Received: by 2002:a7b:cb87:: with SMTP id m7mr6650708wmi.148.1575569851970; 
- Thu, 05 Dec 2019 10:17:31 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1icvhb-0002HJ-0c
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24896
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icvhY-0002Dt-FS
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:18:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575569886;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZiPYqCromAEfyVyDGcyCWBqr3Sgc2+S2D72yE6cgQD8=;
+ b=T2TFleL7p04loyQmuyNOeTLKy65c4EE7rMxN4ZaIgAfURY1sBo5Dk5XfW7TWzWodm/uTmZ
+ 1JrRMNrMONNnJeVfRgE+E35XBi5lEK607CyoGkwPnvT9M3yWrpfWeKd8Z9rcw7tlAHvsmc
+ 1N9P5KEjPtFfudk998yRdOE00U0Y3yo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-369-HxkeLqBYPUC9mkn9VYdSDA-1; Thu, 05 Dec 2019 13:18:05 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F918024C8;
+ Thu,  5 Dec 2019 18:18:04 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D5D210013D9;
+ Thu,  5 Dec 2019 18:18:03 +0000 (UTC)
+Subject: Re: [PATCH v8 06/21] qdev-monitor: well form error hint helpers
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
+ <20191205174635.18758-7-vsementsov@virtuozzo.com>
+ <0991f52e-853a-5f34-99d5-6c047593f8af@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <48dc3783-b012-17e3-03db-5d1680ea1c2e@redhat.com>
+Date: Thu, 5 Dec 2019 12:18:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191205180913.15263-1-philmd@redhat.com>
-In-Reply-To: <20191205180913.15263-1-philmd@redhat.com>
-From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date: Thu, 5 Dec 2019 18:17:28 +0000
-Message-ID: <CAKv+Gu_DqSD9K3Ajsj0q2yQ_AT=pjfhSitn2t-irYXoW662jOg@mail.gmail.com>
-Subject: Re: [PATCH-for-5.0] roms/edk2-funcs: Force armhf toolchain prefix on
- Debian
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <0991f52e-853a-5f34-99d5-6c047593f8af@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: HxkeLqBYPUC9mkn9VYdSDA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,60 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, armbru@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Dec 2019 at 18:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> The Debian (based) distributions historically provides 2 ARM
-> toolchains, documented as [1]:
->
-> * The ARM EABI (armel) port targets a range of older 32-bit ARM
->   devices, particularly those used in NAS hardware and a variety
->   of *plug computers.
-> * The newer ARM hard-float (armhf) port supports newer, more
->   powerful 32-bit devices using version 7 of the ARM architecture
->   specification.
->
-> The EDK2 documentation suggests to use the hard-float toolchain.
->
+On 12/5/19 12:17 PM, Eric Blake wrote:
+> On 12/5/19 11:46 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
+>> switch errp paramter to Error *const * type, as it has uncommon
+>> behavior: not change the pointer to return error, but operate on
+>> already existent error object.
+>> Rename functions to be error_append_*_hint.
+>=20
+> qbus_error_append_*_hint
+>=20
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>> =A0 qdev-monitor.c | 12 +++++++-----
+>> =A0 1 file changed, 7 insertions(+), 5 deletions(-)
+>>
+>=20
+>> -static void qbus_list_dev(BusState *bus, Error **errp)
+>> +static void qbus_error_append_dev_list_hint(BusState *bus,
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Error *const *=
+errp)
+>=20
+> Or, since you copy-and-paste this commit message in v9, you could use=20
 
-We should probably fix that. tools_def.template mentions
-arm-linux-gnueabi, and while it does not really matter in most cases,
-if you are using Clang, you actually need the armel binutils (see
-41203b9ab5d48e029f24e17e9a865e54b7e1643d for details)
+Sorry, I meant it was copied in v8 7/21.
 
+> *_error_append_*_hint between the commits for less one-off fixing per=20
+> message.
+>=20
 
-> Force the armhf cross toolchain prefix on Debian distributions.
->
-> [1] https://www.debian.org/ports/arm/#status
-> [2] https://github.com/tianocore/edk2-platforms/blob/master/Readme.md#if-=
-cross-compiling
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  roms/edk2-funcs.sh | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
-> index 3f4485b201..a546aa1d11 100644
-> --- a/roms/edk2-funcs.sh
-> +++ b/roms/edk2-funcs.sh
-> @@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
->       ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] ); =
-then
->      # no cross-compiler needed
->      :
-> +  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); the=
-n
-> +    # force hard-float cross-compiler on Debian
-> +    printf 'arm-linux-gnueabihf-'
->    else
->      printf '%s-linux-gnu-\n' "$gcc_arch"
->    fi
-> --
-> 2.21.0
->
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
