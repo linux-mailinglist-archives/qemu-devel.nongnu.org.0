@@ -2,64 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12AD114421
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:54:24 +0100 (CET)
-Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D93E11439D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:33:17 +0100 (CET)
+Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ictSR-0007tt-3d
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:54:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
+	id 1ict7z-0003Rv-Ho
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:33:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ict2M-00072m-GH
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:27:27 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ict1c-0006BE-UM
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ict2L-0006bk-D8
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:27:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32336
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ict2L-0006Xw-85
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:27:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575559644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G0m2DcmTJj+AZEcXIbof3g+K8Ut+W7CTGGQi9oiGT5A=;
- b=HAFI2//wmO9AVbf7oZ4fuEHRMxNFIKzcEF9MBCucrW0R/pewHGtevtbR8Emc80CpjW045p
- FcCNQDh4hnS/MTwmGZDp+yi2RmZKesAlh1Vj2g1EImQDZDwJ8Cp0UQjrxtPzbvdmOIT3rb
- JLVvOFZueU6YVaX3UG9bp2LgHJHc01g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-bD8uAX9fNnuPR6hBqwhpsg-1; Thu, 05 Dec 2019 10:27:21 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A01F90C1AB;
- Thu,  5 Dec 2019 15:27:18 +0000 (UTC)
-Received: from gondolin (unknown [10.36.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 413986CE40;
- Thu,  5 Dec 2019 15:26:30 +0000 (UTC)
-Date: Thu, 5 Dec 2019 16:26:27 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 00/21] error: prepare for auto propagated local_err
-Message-ID: <20191205162627.70ffe45c.cohuck@redhat.com>
-In-Reply-To: <20191205152019.8454-1-vsementsov@virtuozzo.com>
-References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
-Organization: Red Hat GmbH
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ict1a-0004LA-CP
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:40 -0500
+Received: from mail-eopbgr130130.outbound.protection.outlook.com
+ ([40.107.13.130]:7957 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ict1V-0004Ih-K9
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xk/yyZaaybDsC8+AZXlC0Iatv+o3dSRz1ydRZFfqzpwebDdLdNRbLnhV7I/4urntZsjThrIKnCvp8GCgLYu6Ua6G9V/5mAzoC7cTaFjQFzuf16FgrnjH56X4XWVlN4TRxxrDsZz0PeajiIYh+MGJYtUMwGHhHhuMUPkAMvcwrwv82VTshugg7HIkmBinRFcWUEYYY+o5v7XFrO+tp5EmACBqe9/Ds6bRPoDFl01XlNZHF3KElMlwHOZKHXf/X4zu2sWtKeSir+FIXBhcsnsthdhM76qiNqSrmo0fNLDUhRhy5FLnXhJw315AUKuosO6XQ8VgFg/R26EN/g2ZhDlq2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4XJoTQ+ECVGfCh9ZCHITBGNkk8eLfSySc+bjUiJ8qzA=;
+ b=F1hkiqT6iuOIFrycNc2ebC2wrVNUal8GHtt0BoRE9g7KzjpO8j/2LNnBLi4u3y5AF55NOMjjq3tG1n9BSZCW/D1yKAXOW0FbpayE2zGkjZZYFjNpg6WJ4cjyGh5E1cCvDMaRt0RsxnkhmS537vbtEjMp/dcYpwNVR3g4+d9y+DvRowHE7jviw5i3+1kyoCoDlo+0bhYuI6/MCbR7mNnb9EgR0eQNyqNAlwdt8y2vmpPjqsnlYYehsXZNwkfvrHZDiWH3576acXjHRpdtKbf+PSD68iXH4F2/IWGTr8vNzFheA9z+JizoAyJg/fooXxLGGk6Ysi6n575if5yskYiG8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4XJoTQ+ECVGfCh9ZCHITBGNkk8eLfSySc+bjUiJ8qzA=;
+ b=mrNQvcKX3u0UfjhhC6kJu4GeGTikGHlZCZ8gX/BJVbf6Ia7GJzQ6mLjly7XiV7+i/652duLksqgwyORkBmvQSLx2zYAJuAOfr0yGm5Js2F5hnGV8GCNN1ilEDQZKW8MujNXTu0Ro4MY4OKPijKJqHy6Xwec49KUEfSAmk+LkSFM=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4310.eurprd08.prod.outlook.com (20.179.5.205) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.14; Thu, 5 Dec 2019 15:26:29 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Thu, 5 Dec 2019
+ 15:26:29 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 05/21] crypto: Fix typo in QCryptoTLSSession's <example>
+ comment
+Thread-Topic: [PATCH 05/21] crypto: Fix typo in QCryptoTLSSession's <example>
+ comment
+Thread-Index: AQHVp7ZchP6/b3+2u0y4hgKrf1t9SaersU0A
+Date: Thu, 5 Dec 2019 15:26:29 +0000
+Message-ID: <6dc25d03-8433-1bcd-0c2c-2e7931635c29@virtuozzo.com>
+References: <20191130194240.10517-1-armbru@redhat.com>
+ <20191130194240.10517-6-armbru@redhat.com>
+In-Reply-To: <20191130194240.10517-6-armbru@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P190CA0002.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::12)
+ To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20191205182627998
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ebacc27d-c948-4920-362e-08d779978040
+x-ms-traffictypediagnostic: AM6PR08MB4310:
+x-microsoft-antispam-prvs: <AM6PR08MB431055F468C97BC0F30A955BC15C0@AM6PR08MB4310.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:296;
+x-forefront-prvs: 02426D11FE
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(136003)(39850400004)(396003)(366004)(189003)(199004)(14444005)(64756008)(66446008)(8936002)(66556008)(66476007)(11346002)(4326008)(305945005)(5660300002)(2616005)(14454004)(81166006)(81156014)(8676002)(6486002)(76176011)(25786009)(316002)(2906002)(99286004)(478600001)(52116002)(110136005)(66946007)(26005)(31686004)(86362001)(186003)(6506007)(31696002)(36756003)(229853002)(102836004)(71200400001)(71190400001)(6512007)(4744005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4310;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oPWGvzj8xCC6fhaW5ed11cLCGWV8zfJCbgpcln809jTSMXm5nAvAsB6J92sYa/Ftmx2oGtqtEdQ+SP5uVJotudNVtOON4Sdve+gAyeNO6IIOzB2T3ZTCR7vb2T+ySo500/Jhe6wNtMloSQsglxAnC3PJolyaDdcNK62RdLmyz30UkLZzNa7xlyzYWWErkuBLJKZW6hT1AsQkvqTpwmcpgZusGLkxHNJ+5P5yn1vGna7JrY8LvvqRaBs1ZvNzCSPEKyiIFWNiVsoDiaDPmxDIV22kIuqGcXMtcJEh1Vrkue1C4oxDoUhM0W0bb7MSzZ3r+MNX4tYzvBakvfd1ztw71f5DrINi8CZsBCmtPFydyOy1oLxHRUSPbNrfTazV+Ts/F3q7LkaZD/LXhB2zu2YIVIcYaxxvxE/jv1WoIkUyiPvGrZf5UXmWTuYoh9zyUuVN
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5A80550B11766549B0892910D132E5CF@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: bD8uAX9fNnuPR6hBqwhpsg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebacc27d-c948-4920-362e-08d779978040
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 15:26:29.5968 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BjrvhG0lcp2QxdHyDNL5fj5AAOGnRkEzWxZGm33Jt6MY1MxMGIOprrzYneEwoG4LC0ZNRVaff/N4Iicw7kYaigN7WN3jI/eF/9tnErdnNMM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4310
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +112,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S.
- Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, armbru@redhat.com,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <philmd@redhat.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Dec 2019 18:19:58 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-
-> Hi all!
-> 
-> This is the first part of the bit series, which contains mostly simple
-> cleanups.
-
-What's the plan? Should subsystem maintainers pick up individual
-patches, or will they be merged in one go?
-
+MzAuMTEuMjAxOSAyMjo0MiwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IENjOiAiRGFuaWVs
+IFAuIEJlcnJhbmfDqSIgPGJlcnJhbmdlQHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE1h
+cmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgaW5jbHVkZS9j
+cnlwdG8vdGxzc2Vzc2lvbi5oIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvY3J5cHRvL3Rs
+c3Nlc3Npb24uaCBiL2luY2x1ZGUvY3J5cHRvL3Rsc3Nlc3Npb24uaA0KPiBpbmRleCBlMDFlMWE5
+ZGMyLi4xNWI5Y2VmMDg2IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2NyeXB0by90bHNzZXNzaW9u
+LmgNCj4gKysrIGIvaW5jbHVkZS9jcnlwdG8vdGxzc2Vzc2lvbi5oDQo+IEBAIC01Niw3ICs1Niw3
+IEBADQo+ICAgICoNCj4gICAgKiBzdGF0aWMgaW50IG15c29ja19ydW5fdGxzKGludCBzb2NrZmQs
+DQo+ICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICBRQ3J5cHRvVExTQ3JlZHMgKmNyZWRz
+LA0KPiAtICogICAgICAgICAgICAgICAgICAgICAgICAgICBFcnJvciAqZXJycCkNCj4gKyAqICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKQ0KPiAgICAqIHsNCj4gICAgKiAg
+ICBRQ3J5cHRvVExTU2Vzc2lvbiAqc2VzczsNCj4gICAgKg0KPiANCg0KDQpSZXZpZXdlZC1ieTog
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0K
+DQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
