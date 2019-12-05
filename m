@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82B6114681
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:05:11 +0100 (CET)
-Received: from localhost ([::1]:58990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED591146A8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:12:35 +0100 (CET)
+Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvUz-0001IZ-UG
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:05:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46647)
+	id 1icvcA-0000y9-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:12:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46086)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDZ-00081K-OO
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:12 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDS-0007rt-2c
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDY-0004m0-IK
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:09 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48338)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDQ-0004EB-JZ
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:01 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48374)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvDX-0003VM-VB; Thu, 05 Dec 2019 12:47:08 -0500
+ id 1icvDQ-0003XY-8X
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:00 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvD6-00013M-VF; Thu, 05 Dec 2019 20:46:40 +0300
+ id 1icvD7-00013M-KV; Thu, 05 Dec 2019 20:46:41 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 07/21] ppc: well form kvmppc_hint_smt_possible error hint
- helper
-Date: Thu,  5 Dec 2019 20:46:21 +0300
-Message-Id: <20191205174635.18758-8-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 11/21] hw/i386/amd_iommu: rename Error ** parameter to more
+ common errp
+Date: Thu,  5 Dec 2019 20:46:25 +0300
+Message-Id: <20191205174635.18758-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205174635.18758-1-vsementsov@virtuozzo.com>
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
@@ -48,73 +49,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, qemu-ppc@nongnu.org, armbru@redhat.com,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Cc: vsementsov@virtuozzo.com, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make kvmppc_hint_smt_possible hint append helper well formed:
-switch errp paramter to Error *const * type, as it has uncommon
-behavior: not change the pointer to return error, but operate on
-already existent error object.
-Rename function to be kvmppc_error_append_*_hint.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- target/ppc/kvm_ppc.h | 4 ++--
- hw/ppc/spapr.c       | 2 +-
- target/ppc/kvm.c     | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/i386/amd_iommu.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 98bd7d5da6..f22daabf51 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -28,7 +28,7 @@ void kvmppc_set_papr(PowerPCCPU *cpu);
- int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
- void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
- int kvmppc_smt_threads(void);
--void kvmppc_hint_smt_possible(Error **errp);
-+void kvmppc_error_append_smt_possible_hint(Error *const *errp);
- int kvmppc_set_smt_threads(int smt);
- int kvmppc_clear_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
- int kvmppc_or_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
-@@ -164,7 +164,7 @@ static inline int kvmppc_smt_threads(void)
-     return 1;
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index d55dbf07fc..b1175e52c7 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -1533,7 +1533,7 @@ static void amdvi_reset(DeviceState *dev)
+     amdvi_init(s);
  }
  
--static inline void kvmppc_hint_smt_possible(Error **errp)
-+static inline void kvmppc_error_append_smt_possible_hint(Error *const *errp)
+-static void amdvi_realize(DeviceState *dev, Error **err)
++static void amdvi_realize(DeviceState *dev, Error **errp)
  {
-     return;
- }
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f6023c..1b87eb0ffd 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2564,7 +2564,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState *spapr, Error **errp)
-                                       " requires the use of VSMT mode %d.\n",
-                                       smp_threads, kvm_smt, spapr->vsmt);
-                 }
--                kvmppc_hint_smt_possible(&local_err);
-+                kvmppc_error_append_smt_possible_hint(&local_err);
-                 goto out;
-             }
-         }
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index c77f9848ec..27ea3ce535 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2076,7 +2076,7 @@ int kvmppc_set_smt_threads(int smt)
-     return ret;
+     int ret = 0;
+     AMDVIState *s = AMD_IOMMU_DEVICE(dev);
+@@ -1549,21 +1549,21 @@ static void amdvi_realize(DeviceState *dev, Error **err)
+     /* This device should take care of IOMMU PCI properties */
+     x86_iommu->type = TYPE_AMD;
+     qdev_set_parent_bus(DEVICE(&s->pci), &bus->qbus);
+-    object_property_set_bool(OBJECT(&s->pci), true, "realized", err);
++    object_property_set_bool(OBJECT(&s->pci), true, "realized", errp);
+     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
+-                                         AMDVI_CAPAB_SIZE, err);
++                                         AMDVI_CAPAB_SIZE, errp);
+     if (ret < 0) {
+         return;
+     }
+     s->capab_offset = ret;
+ 
+     ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_MSI, 0,
+-                             AMDVI_CAPAB_REG_SIZE, err);
++                             AMDVI_CAPAB_REG_SIZE, errp);
+     if (ret < 0) {
+         return;
+     }
+     ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_HT, 0,
+-                             AMDVI_CAPAB_REG_SIZE, err);
++                             AMDVI_CAPAB_REG_SIZE, errp);
+     if (ret < 0) {
+         return;
+     }
+@@ -1578,8 +1578,8 @@ static void amdvi_realize(DeviceState *dev, Error **err)
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
+     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
+     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
+-    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", err);
+-    msi_init(&s->pci.dev, 0, 1, true, false, err);
++    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", errp);
++    msi_init(&s->pci.dev, 0, 1, true, false, errp);
+     amdvi_init(s);
  }
  
--void kvmppc_hint_smt_possible(Error **errp)
-+void kvmppc_error_append_smt_possible_hint(Error *const *errp)
- {
-     int i;
-     GString *g;
 -- 
 2.21.0
 
