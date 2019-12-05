@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DDA11470B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:43:42 +0100 (CET)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BC511474D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:50:04 +0100 (CET)
+Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icw6H-00056Z-IF
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:43:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33730)
+	id 1icwCR-0007n2-7U
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:50:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42520)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1icw4L-000444-IZ
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:41:42 -0500
+ (envelope-from <clg@kaod.org>) id 1icw81-0005tg-DB
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:45:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1icw4C-0007dI-Va
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:41:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37030
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1icw7z-0000lu-9c
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:45:29 -0500
+Received: from 5.mo2.mail-out.ovh.net ([87.98.181.248]:46185)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1icw4C-0007a2-H0
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:41:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575571291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MnMz7dRHtgI5UQt9DBgHPyQOuLxeMns84kuvxpBbf/Q=;
- b=TrSeyJ+k9senfqyO0Q1KBRgXJFyOLhuFG26oAw2mzh9HQh7sZ3iQ0QMBoX4lncJ2/r2A8C
- DFYBNCicJejMXigUr+2JRMFEXs5Smy5ZHyEhUBm5+pIQELsD+ISrucjibm5goALtisB77y
- 4iqvzKstZiZ8hCQHn0T/QXfEntfHYzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-k4t1wV0nMsmTAQkiD1q2yA-1; Thu, 05 Dec 2019 13:41:30 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1AA11093B6E;
- Thu,  5 Dec 2019 18:41:28 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-125-37.rdu2.redhat.com
- [10.10.125.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 714345D6A3;
- Thu,  5 Dec 2019 18:41:20 +0000 (UTC)
-Date: Thu, 5 Dec 2019 13:41:18 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/7] iotests: Skip test 060 if it is not possible to
- create large files
-Message-ID: <20191205184118.GB29262@localhost.localdomain>
-References: <20191204154618.23560-1-thuth@redhat.com>
- <20191204154618.23560-3-thuth@redhat.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1icw7z-0000Zw-1A
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:45:27 -0500
+Received: from player158.ha.ovh.net (unknown [10.109.143.109])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 567FE1B617F
+ for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 19:45:15 +0100 (CET)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player158.ha.ovh.net (Postfix) with ESMTPSA id 6D74FCDB14C0;
+ Thu,  5 Dec 2019 18:45:08 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 0/5] ppc/pnv: add a POWER10 PnvChip and a powernv10 machine
+Date: Thu,  5 Dec 2019 19:44:49 +0100
+Message-Id: <20191205184454.10722-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20191204154618.23560-3-thuth@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: k4t1wV0nMsmTAQkiD1q2yA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 5781214549797407718
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekuddguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdeltddrjeeirdehtddrvddvfeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 87.98.181.248
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,61 +54,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Eric Auger <eric.auger@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 04, 2019 at 04:46:13PM +0100, Thomas Huth wrote:
-> Test 060 fails in the arm64, s390x and ppc64le LXD containers on Travis
-> (which we will hopefully enable in our CI soon). These containers
-> apparently do not allow large files to be created. The repair process
-> in test 060 creates a file of 64 GiB, so test first whether such large
-> files are possible and skip the test if that's not the case.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qemu-iotests/060 | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
-> index b91d8321bb..d96f17a484 100755
-> --- a/tests/qemu-iotests/060
-> +++ b/tests/qemu-iotests/060
-> @@ -49,6 +49,9 @@ _supported_fmt qcow2
->  _supported_proto file
->  _supported_os Linux
-> =20
-> +# The repair process will create a large file - so check for availabilit=
-y first
-> +_require_large_file 64G
-> +
->  rt_offset=3D65536  # 0x10000 (XXX: just an assumption)
->  rb_offset=3D131072 # 0x20000 (XXX: just an assumption)
->  l1_offset=3D196608 # 0x30000 (XXX: just an assumption)
-> --=20
-> 2.18.1
->=20
+Hello,
 
-The behavior and failure is indeed pretty consistent accross those
-architectures:
+The POWER10 and POWER9 processors are very similar and this series
+adds the basic framework for a POWER10 chip and a machine using this
+chip. The PSI and LPC models are provided first because there are no
+changes. XIVE needs some adaptation and will come later.
 
- - arm64: https://travis-ci.org/clebergnu/qemu/jobs/621238740#L4217
- - ppc64le: https://travis-ci.org/clebergnu/qemu/jobs/621238741#L4252
- - s390x: https://travis-ci.org/clebergnu/qemu/jobs/621238742#L4265
+Thanks,
 
-And with this, 060 gets skipped properly:
+C.
 
- - arm64: https://travis-ci.org/clebergnu/qemu/jobs/621248591#L4202
- - ppc64le: https://travis-ci.org/clebergnu/qemu/jobs/621248592#L4236
- - s390x: https://travis-ci.org/clebergnu/qemu/jobs/621248593#L4250
+C=C3=A9dric Le Goater (5):
+  target/ppc: Add POWER10 DD1.0 model information
+  ppc/pnv: Introduce a POWER10 PnvChip and a powernv10 machine
+  ppc/psi: cleanup definitions
+  ppc/pnv: add a PSI bridge model for POWER10
+  ppc/pnv: add a LPC Controller model for POWER10
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+ include/hw/ppc/pnv.h            |  46 +++++++
+ include/hw/ppc/pnv_lpc.h        |   6 +-
+ include/hw/ppc/pnv_psi.h        |   2 +
+ include/hw/ppc/pnv_xscom.h      |  22 ++++
+ target/ppc/cpu-models.h         |   3 +
+ target/ppc/cpu.h                |   1 +
+ hw/ppc/pnv.c                    | 192 ++++++++++++++++++++++++++--
+ hw/ppc/pnv_core.c               |  10 ++
+ hw/ppc/pnv_lpc.c                |  30 +++--
+ hw/ppc/pnv_psi.c                |  32 ++++-
+ hw/ppc/pnv_xscom.c              |  23 +++-
+ target/ppc/compat.c             |  21 +++-
+ target/ppc/cpu-models.c         |   3 +
+ target/ppc/translate_init.inc.c | 215 ++++++++++++++++++++++++++++++++
+ 14 files changed, 576 insertions(+), 30 deletions(-)
+
+--=20
+2.21.0
 
 
