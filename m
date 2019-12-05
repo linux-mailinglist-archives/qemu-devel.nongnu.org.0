@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40761141F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 14:56:15 +0100 (CET)
-Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593B5114189
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 14:34:34 +0100 (CET)
+Received: from localhost ([::1]:54108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icrc6-00074w-Rt
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 08:56:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
+	id 1icrH7-0003ta-5l
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 08:34:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1icrRK-0005rX-Kw
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:45:08 -0500
+ (envelope-from <lersek@redhat.com>) id 1icrFx-0002zt-E6
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1icrRI-00053P-TR
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:45:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33151
+ (envelope-from <lersek@redhat.com>) id 1icrFv-0001jd-NW
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29804
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1icrRI-00051U-NA
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:45:04 -0500
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1icrFv-0001h2-Gf
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575553504;
+ s=mimecast20190719; t=1575552799;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B+4K7Lv6+32d1413V8rOjW+m2OjWEX9HjJjQ/snf2xc=;
- b=c730gtjLuV8OCJuBDfqrxNp1V0oWCxMiQOO9OxHhbzBcASkSBH9LhR08r0kRGhvOjkzVPm
- +QoPGT25jHU0zgaFiuoKCv2vdZUu0r6+7vlj22pXa+U2L0jZQI1yIxgGCR+p0wysQCQPLG
- 1iPH9mdbVzbcQRonFCE+X8awbIsz2UA=
+ bh=D3My4n5FCVT71EMVHzreUlmPV5Dd/HMMgUVw6CtMiok=;
+ b=jNUCHv1CDM6Es90CnDP4rm0/Rs0dL/a+Vh4XumN4uIQAyQFfUBa3fsG8dKBIiY15wgWgvK
+ eRhFL2svQN23PLAb9EQ8BBKSfNkC5s4pvTQH6laEHckdpOhPhCMUur1kywJ+oQ/RxoE5hM
+ gYpdjCMpBiXrvCCH6VelJtJEoIhrMTA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-0Yc9P9gCPbGgJuFNoGpzOA-1; Thu, 05 Dec 2019 07:44:04 -0500
+ us-mta-407-GswEV7yDPzajnI836AvRqw-1; Thu, 05 Dec 2019 08:03:05 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE141856A66;
- Thu,  5 Dec 2019 12:44:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B5F5560135;
- Thu,  5 Dec 2019 12:43:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 492371138606; Thu,  5 Dec 2019 13:43:55 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Micky Yun Chan\(michiboo\)" <chanmickyyun@gmail.com>
-Subject: Re: [PATCH v7] Implement backend program convention command for
- vhost-user-blk
-References: <20191125051722.15523-1-chanmickyyun@gmail.com>
-Date: Thu, 05 Dec 2019 13:43:55 +0100
-In-Reply-To: <20191125051722.15523-1-chanmickyyun@gmail.com> (Micky Yun Chan's
- message of "Mon, 25 Nov 2019 13:17:22 +0800")
-Message-ID: <87wobbt01g.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C22A19007EF
+ for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 13:03:04 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-62.ams2.redhat.com
+ [10.36.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 851C7600F0;
+ Thu,  5 Dec 2019 13:03:02 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 7/8] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
+ <1575479147-6641-8-git-send-email-imammedo@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <34d3e078-f4e5-149e-a8ef-798d524f53a5@redhat.com>
+Date: Thu, 5 Dec 2019 14:03:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
+In-Reply-To: <1575479147-6641-8-git-send-email-imammedo@redhat.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 0Yc9P9gCPbGgJuFNoGpzOA-1
+X-MC-Unique: GswEV7yDPzajnI836AvRqw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,244 +75,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: pbonzini@redhat.com, philmd@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Marc-Andr=C3=A9 for docs/vhost-user.json expertise.
+On 12/04/19 18:05, Igor Mammedov wrote:
+> Extend CPU hotplug interface to return architecture specific
+> identifier for current CPU in 2 registers:
+>  - lower 32 bits existing ACPI_CPU_CMD_DATA_OFFSET_RW
+>  - upper 32 bits in new ACPI_CPU_CMD_DATA2_OFFSET_R at
+>    offset 0.
 
-"Micky Yun Chan(michiboo)" <chanmickyyun@gmail.com> writes:
+OK.
 
-> From: Micky Yun Chan <chanmickyyun@gmail.com>
+> Target user is UEFI firmware, which needs a way to enumerate
+> all CPUs (including possible CPUs) to allocate and initialize
+> CPU structures on boot.
+
+(1) This is correct in general, but if we want to keep this description,
+then it should be moved to the commit message of the previous patch.
+CPHP_GET_CPU_ID_CMD is not needed for the purpose described above -- it
+will be necessary for handling the hotplug SMI.
+
+For the boot time allocation / initialization, the "enumerating present
+and possible CPUs" workflow is necessary, and that is documented in the
+previous patch in this series.
+
+So if we want to keep this paragraph, we should move it to the previous
+patch's commit message.
+
+> (for x86: it needs APIC ID and later command will be used to
+> retrieve ARM's MPIDR which serves the similar to APIC ID purpose)
+
+(2) I would suggest some punctuation, to make this clearer. How about:
+
+> On x86, guest UEFI firmware will use CPHP_GET_CPU_ID_CMD for fetching
+> the APIC ID when handling the hotplug SMI.
 >
-> This patch is to add standard commands defined in docs/interop/vhost-user=
-.rst
-> For vhost-user-* program
+> Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
+> which serves a purpose similar to the x86 APIC ID.
+
+Back to the patch:
+
+On 12/04/19 18:05, Igor Mammedov wrote:
 >
-> Signed-off-by: Micky Yun Chan (michiboo) <chanmickyyun@gmail.com>
+> The new ACPI_CPU_CMD_DATA2_OFFSET_R register will also be used
+> to detect presence of modern CPU hotplug, which will be described
+> in follow up patch.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  contrib/vhost-user-blk/vhost-user-blk.c | 108 ++++++++++++++----------
->  docs/interop/vhost-user.json            |  31 +++++++
->  docs/interop/vhost-user.rst             |  15 ++++
->  3 files changed, 110 insertions(+), 44 deletions(-)
+> v1:
+>  - s/ACPI_CPU_CMD_DATA2_OFFSET_RW/ACPI_CPU_CMD_DATA2_OFFSET_R/.
+> ---
+>  docs/specs/acpi_cpu_hotplug.txt | 10 ++++++++--
+>  hw/acpi/cpu.c                   | 15 +++++++++++++++
+>  hw/acpi/trace-events            |  1 +
+>  3 files changed, 24 insertions(+), 2 deletions(-)
 >
-> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user=
--blk/vhost-user-blk.c
-> index ae61034656..6fd91c7e99 100644
-> --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> @@ -576,70 +576,90 @@ vub_new(char *blk_file)
->      return vdev_blk;
->  }
-> =20
-> +static int opt_fdnum =3D -1;
-> +static char *opt_socket_path;
-> +static char *opt_blk_file;
-> +static gboolean opt_print_caps;
-> +static gboolean opt_read_only;
-> +
-> +static GOptionEntry entries[] =3D {
-> +    { "print-capabilities", 'c', 0, G_OPTION_ARG_NONE, &opt_print_caps,
-> +      "Print capabilities", NULL },
-> +    { "fd", 'f', 0, G_OPTION_ARG_INT, &opt_fdnum,
-> +      "Use inherited fd socket", "FDNUM" },
-> +    { "socket-path", 's', 0, G_OPTION_ARG_FILENAME, &opt_socket_path,
-> +      "Use UNIX socket path", "PATH" },
-> +    {"blk-file", 'b', 0, G_OPTION_ARG_FILENAME, &opt_blk_file,
-> +     "block device or file path", "PATH"},
-> +    { "read-only", 'r', 0, G_OPTION_ARG_NONE, &opt_read_only,
-> +      "Enable read-only", NULL }
-> +};
-> +
->  int main(int argc, char **argv)
->  {
-> -    int opt;
-> -    char *unix_socket =3D NULL;
-> -    char *blk_file =3D NULL;
-> -    bool enable_ro =3D false;
->      int lsock =3D -1, csock =3D -1;
->      VubDev *vdev_blk =3D NULL;
-> +    GError *error =3D NULL;
-> +    GOptionContext *context;
-> =20
-> -    while ((opt =3D getopt(argc, argv, "b:rs:h")) !=3D -1) {
-> -        switch (opt) {
-> -        case 'b':
-> -            blk_file =3D g_strdup(optarg);
-> -            break;
-> -        case 's':
-> -            unix_socket =3D g_strdup(optarg);
-> -            break;
-> -        case 'r':
-> -            enable_ro =3D true;
-> -            break;
-> -        case 'h':
-> -        default:
-> -            printf("Usage: %s [ -b block device or file, -s UNIX domain =
-socket"
-> -                   " | -r Enable read-only ] | [ -h ]\n", argv[0]);
-> -            return 0;
-> +    context =3D g_option_context_new(NULL);
-> +    g_option_context_add_main_entries(context, entries, NULL);
-> +    if (!g_option_context_parse(context, &argc, &argv, &error)) {
-> +        g_printerr("Option parsing failed: %s\n", error->message);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +    if (opt_print_caps) {
-> +        g_print("{\n");
-> +        g_print("  \"type\": \"block\",\n");
-> +        g_print("  \"features\": [\n");
-> +        g_print("    \"read-only\",\n");
-> +        g_print("    \"blk-file\"\n");
-> +        g_print("  ]\n");
-> +        g_print("}\n");
-> +        exit(EXIT_SUCCESS);
-> +    }
-> +
-> +    if (!opt_blk_file) {
-> +        g_print("%s\n", g_option_context_get_help(context, true, NULL));
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    if (opt_socket_path) {
-> +        lsock =3D unix_sock_new(opt_socket_path);
-> +        if (lsock < 0) {
-> +            exit(EXIT_FAILURE);
+> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+> index 58c16c6..bb33144 100644
+> --- a/docs/specs/acpi_cpu_hotplug.txt
+> +++ b/docs/specs/acpi_cpu_hotplug.txt
+> @@ -44,7 +44,11 @@ keeps the current value.
+>
+>  read access:
+>      offset:
+> -    [0x0-0x3] reserved
+> +    [0x0-0x3] Command data 2: (DWORD access)
+> +              if last stored 'Command field' value:
+> +                  3: upper 32 bits of architecture specific identifying CPU value
+> +                     (n x86 case: 0x0)
+> +                  other values: reserved
+>      [0x4] CPU device status fields: (1 byte access)
+>          bits:
+>             0: Device is enabled and may be used by guest
+
+OK.
+
+> @@ -96,7 +100,9 @@ write access:
+>                2: stores value into OST status register, triggers
+>                   ACPI_DEVICE_OST QMP event from QEMU to external applications
+>                   with current values of OST event and status registers.
+> -            other values: reserved
+> +              3: lower 32 bit of architecture specific identifier
+> +                 (in x86 case: APIC ID)
+> +              other values: reserved
+>
+>      Typical usecases:
+>          - Get a cpu with pending event
+
+(3) This fragment has been pasted in the wrong spot. We should add this
+under:
+
+> read access:
+> ...
+>     [0x8] Command data: (DWORD access)
+>           contains 0 unless last stored in 'Command field' value is one of:
+>               0: contains 'CPU selector' value of a CPU with pending event[s]
+
+But right now, the addition is in the context of:
+
+> write access:
+> ...
+>     [0x8] Command data: (DWORD access)
+>           if last stored 'Command field' value:
+>               1: stores value into OST event register
+>               2: stores value into OST status register, triggers
+>                  ACPI_DEVICE_OST QMP event from QEMU to external applications
+>                  with current values of OST event and status registers.
+>               3: lower 32 bit of architecture specific identifier
+>                  (in x86 case: APIC ID)
+>               other values: reserved
+
+and it does not make sense there.
+
+(4) Furthermore, for consistency, please write "32 bits" (plural).
+
+Back to the patch:
+
+On 12/04/19 18:05, Igor Mammedov wrote:
+> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> index 87f30a3..87813ce 100644
+> --- a/hw/acpi/cpu.c
+> +++ b/hw/acpi/cpu.c
+> @@ -12,11 +12,13 @@
+>  #define ACPI_CPU_FLAGS_OFFSET_RW 4
+>  #define ACPI_CPU_CMD_OFFSET_WR 5
+>  #define ACPI_CPU_CMD_DATA_OFFSET_RW 8
+> +#define ACPI_CPU_CMD_DATA2_OFFSET_R 0
+>
+>  enum {
+>      CPHP_GET_NEXT_CPU_WITH_EVENT_CMD = 0,
+>      CPHP_OST_EVENT_CMD = 1,
+>      CPHP_OST_STATUS_CMD = 2,
+> +    CPHP_GET_CPU_ID_CMD = 3,
+>      CPHP_CMD_MAX
+>  };
+>
+> @@ -74,11 +76,24 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
+>          case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
+>             val = cpu_st->selector;
+>             break;
+> +        case CPHP_GET_CPU_ID_CMD:
+> +           val = cdev->arch_id & 0xFFFFFFFF;
+> +           break;
+>          default:
+>             break;
 >          }
-> +    } else if (opt_fdnum < 0) {
-> +        g_print("%s\n", g_option_context_get_help(context, true, NULL));
-> +        exit(EXIT_FAILURE);
-> +    } else {
-> +        lsock =3D opt_fdnum;
+>          trace_cpuhp_acpi_read_cmd_data(cpu_st->selector, val);
+>          break;
+> +    case ACPI_CPU_CMD_DATA2_OFFSET_R:
+> +        switch (cpu_st->command) {
+> +        case CPHP_GET_CPU_ID_CMD:
+> +           val = cdev->arch_id >> 32;
+> +           break;
+> +        default:
+> +           break;
+> +        }
+> +        trace_cpuhp_acpi_read_cmd_data2(cpu_st->selector, val);
+> +        break;
+>      default:
+>          break;
 >      }
-> =20
-> -    if (!unix_socket || !blk_file) {
-> -        printf("Usage: %s [ -b block device or file, -s UNIX domain sock=
-et"
-> -               " | -r Enable read-only ] | [ -h ]\n", argv[0]);
-> -        return -1;
-> -    }
-> -
-> -    lsock =3D unix_sock_new(unix_socket);
-> -    if (lsock < 0) {
-> -        goto err;
-> -    }
-> -
-> -    csock =3D accept(lsock, (void *)0, (void *)0);
-> +    csock =3D accept(lsock, NULL, NULL);
->      if (csock < 0) {
-> -        fprintf(stderr, "Accept error %s\n", strerror(errno));
-> -        goto err;
-> +        g_printerr("Accept error %s\n", strerror(errno));
-> +        exit(EXIT_FAILURE);
->      }
-> =20
-> -    vdev_blk =3D vub_new(blk_file);
-> +    vdev_blk =3D vub_new(opt_blk_file);
->      if (!vdev_blk) {
-> -        goto err;
-> +        exit(EXIT_FAILURE);
->      }
-> -    if (enable_ro) {
-> +    if (opt_read_only) {
->          vdev_blk->enable_ro =3D true;
->      }
-> =20
->      if (!vug_init(&vdev_blk->parent, VHOST_USER_BLK_MAX_QUEUES, csock,
->                    vub_panic_cb, &vub_iface)) {
-> -        fprintf(stderr, "Failed to initialized libvhost-user-glib\n");
-> -        goto err;
-> +        g_printerr("Failed to initialize libvhost-user-glib\n");
-> +        exit(EXIT_FAILURE);
->      }
-> =20
->      g_main_loop_run(vdev_blk->loop);
-> -
-> +    g_main_loop_unref(vdev_blk->loop);
-> +    g_option_context_free(context);
->      vug_deinit(&vdev_blk->parent);
-> -
-> -err:
->      vub_free(vdev_blk);
->      if (csock >=3D 0) {
->          close(csock);
-> @@ -647,8 +667,8 @@ err:
->      if (lsock >=3D 0) {
->          close(lsock);
->      }
-> -    g_free(unix_socket);
-> -    g_free(blk_file);
-> +    g_free(opt_socket_path);
-> +    g_free(opt_blk_file);
-> =20
->      return 0;
->  }
-> diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
-> index da6aaf51c8..ce0ef74db5 100644
-> --- a/docs/interop/vhost-user.json
-> +++ b/docs/interop/vhost-user.json
-> @@ -54,6 +54,37 @@
->    ]
->  }
-> =20
-> +##
-> +# @VHostUserBackendBlockFeature:
-> +#
-> +# List of vhost user "block" features.
-> +#
-> +# @read-only: The --read-only command line option is supported.
-> +# @blk-file: The --blk-file command line option is supported.
-> +#
-> +# Since: 5.0
-> +##
-> +{
-> +  'enum': 'VHostUserBackendBlockFeature',
-> +  'data': [ 'read-only', 'blk-file' ]
-> +}
-> +
-> +##
-> +# @VHostUserBackendCapabilitiesBlock:
-> +#
-> +# Capabilities reported by vhost user "block" backends
-> +#
-> +# @features: list of supported features.
-> +#
-> +# Since: 5.0
-> +##
-> +{
-> +  'struct': 'VHostUserBackendCapabilitiesBlock',
-> +  'data': {
-> +    'features': [ 'VHostUserBackendBlockFeature' ]
-> +  }
-> +}
-> +
->  ##
->  # @VHostUserBackendInputFeature:
->  #
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index 7827b710aa..2f0910d515 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -1376,3 +1376,18 @@ Command line options:
->    Enable virgl rendering support.
-> =20
->    (optional)
-> +
-> +vhost-user-blk
-> +--------------
-> +
-> +Command line options:
-> +
-> +--blk-file=3DPATH
-> +
-> +  Specify block device or file path.
-> +
-> +--read-only
-> +
-> +  Enable read-only.
-> +
-> +  (optional)
+> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+> index 96b8273..afbc77d 100644
+> --- a/hw/acpi/trace-events
+> +++ b/hw/acpi/trace-events
+> @@ -23,6 +23,7 @@ cpuhp_acpi_read_flags(uint32_t idx, uint8_t flags) "idx[0x%"PRIx32"] flags: 0x%"
+>  cpuhp_acpi_write_idx(uint32_t idx) "set active cpu idx: 0x%"PRIx32
+>  cpuhp_acpi_write_cmd(uint32_t idx, uint8_t cmd) "idx[0x%"PRIx32"] cmd: 0x%"PRIx8
+>  cpuhp_acpi_read_cmd_data(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
+> +cpuhp_acpi_read_cmd_data2(uint32_t idx, uint32_t data) "idx[0x%"PRIx32"] data: 0x%"PRIx32
+>  cpuhp_acpi_cpu_has_events(uint32_t idx, bool ins, bool rm) "idx[0x%"PRIx32"] inserting: %d, removing: %d"
+>  cpuhp_acpi_clear_inserting_evt(uint32_t idx) "idx[0x%"PRIx32"]"
+>  cpuhp_acpi_clear_remove_evt(uint32_t idx) "idx[0x%"PRIx32"]"
+>
+
+The code looks good to me.
+
+Thanks!
+Laszlo
 
 
