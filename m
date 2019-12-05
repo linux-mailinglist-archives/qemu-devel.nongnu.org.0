@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5289D1145BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:20:43 +0100 (CET)
-Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0EB1145AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:18:32 +0100 (CET)
+Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icunx-0000nU-NP
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:20:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50127)
+	id 1iculq-0007Ki-OA
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:18:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1icuhA-0004Oh-VD
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:13:41 -0500
+ (envelope-from <eblake@redhat.com>) id 1icuiB-0005Lh-4E
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:14:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1icuh9-0004ox-EK
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:13:40 -0500
-Received: from 13.mo4.mail-out.ovh.net ([178.33.251.8]:51983)
+ (envelope-from <eblake@redhat.com>) id 1icui7-00076Y-83
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:14:41 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38042
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1icuh9-0004ea-5Q
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:13:39 -0500
-Received: from player786.ha.ovh.net (unknown [10.108.16.209])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id BB96C216AAC
- for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 18:13:36 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 18365D088B88;
- Thu,  5 Dec 2019 17:13:34 +0000 (UTC)
-Date: Thu, 5 Dec 2019 18:13:32 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 08/21] 9pfs: well form error hint helpers
-Message-ID: <20191205181332.53d1b8f3@bahia.w3ibm.bluemix.net>
-In-Reply-To: <20191205180856.43bf2431@bahia.w3ibm.bluemix.net>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icui6-00074P-3b
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:14:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575566076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RBVp7/jhoMAIgl2+lZ2FetkRt3te+6sfkhKnbz8L9vU=;
+ b=XmpKwj8cMMMsYDj2/U1YHOl0kKXSclNa4bypwWYoXUKjGKrHS1WbttvooQDCjKn19KhiAI
+ IZ7E1cLbUznB84nh4Q7hIgIILo1bQAElZrsqBCQBygs/O6tqcN+dvNeKLZImX65xNUXOXH
+ 2pt6I0WCsQinRo3p6uKhOeOdOya6rCY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-gV6yNmG-MlqENeeSqYfR0Q-1; Thu, 05 Dec 2019 12:14:33 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B35E1883538;
+ Thu,  5 Dec 2019 17:14:32 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14DBC5D6A5;
+ Thu,  5 Dec 2019 17:14:32 +0000 (UTC)
+Subject: Re: [PATCH v7 21/21] nbd: assert that Error** is not NULL in
+ nbd_iter_channel_error
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
 References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
- <20191205152019.8454-9-vsementsov@virtuozzo.com>
- <20191205180856.43bf2431@bahia.w3ibm.bluemix.net>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20191205152019.8454-22-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c4ff448d-e756-9d95-b07e-4ae5f2d5b9b0@redhat.com>
+Date: Thu, 5 Dec 2019 11:14:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191205152019.8454-22-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: gV6yNmG-MlqENeeSqYfR0Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 4233383652297578835
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudekuddgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekiedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.33.251.8
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,59 +77,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, armbru@redhat.com, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Dec 2019 18:08:56 +0100
-Greg Kurz <groug@kaod.org> wrote:
+On 12/5/19 9:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+> The local_err parameter is not here to return information about
+> nbd_iter_channel_error failure. Instead it's assumed to be filled when
+> passed to the function. This is already stressed by its name
+> (local_err, instead of classic errp). Stress it additionally by
+> assertion.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/nbd.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 5f18f78a94..d085554f21 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -866,6 +866,7 @@ typedef struct NBDReplyChunkIter {
+>   static void nbd_iter_channel_error(NBDReplyChunkIter *iter,
+>                                      int ret, Error **local_err)
+>   {
+> +    assert(local_err && *local_err);
 
-> On Thu,  5 Dec 2019 18:20:06 +0300
-> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
-> 
-> > Make error_append_security_model_hint and
-> > error_append_socket_sockfd_hint hint append helpers well formed:
-> > rename errp to errp_in, as it is IN-parameter here (which is unusual
-> > for errp).
-> > 
-> > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > ---
-> 
-> Acked-by: Greg Kurz <groug@kaod.org>
+Why are we forbidding grandparent callers from passing NULL when they 
+want to ignore an error?  We are called by several parent functions that 
+get an errp from the grandparent, and use this function to do some 
+common grunt work.  Let's look at the possibilities:
+
+1. grandparent passes address of a local error: we want to append to the 
+error message, parent will then deal with the error how it wants (report 
+it, ignore it, propagate it, whatever)
+
+2. grandparent passes &error_fatal: we want to append a hint, but before 
+ERRP_AUTO_PROPAGATE, the parent has already exited.  After 
+ERRP_AUTO_PROPAGATE, this looks like case 1.
+
+3. grandparent passes &error_abort: we should never be reached (failure 
+earlier in the parent should have already aborted) - true whether or not 
+ERRP_AUTO_PROPAGATE is applied
+
+4. grandparent passes NULL to ignore the error. Does not currently 
+happen in any of the grandparent callers, because if it did, your 
+assertion in this patch would now fire.  After ERRP_AUTO_PROPAGATE, this 
+would look like case 1.
+
+Would it be better to assert(!local_err || *local_err)?  The assertion 
+as written is too strict without ERRP_AUTO_PROPAGATE, but you get away 
+with it because none of the grandparents pass NULL; but is appropriate 
+as written for after after the macro conversion so then we wonder if 
+churn on the macro is worth it.
+
+>       assert(ret < 0);
+>   
+>       if (!iter->ret) {
 > 
 
-With an updated changelog that no longer mentions errp_in :)
-
-> >  hw/9pfs/9p-local.c | 2 +-
-> >  hw/9pfs/9p-proxy.c | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> > index 4708c0bd89..ca641390fb 100644
-> > --- a/hw/9pfs/9p-local.c
-> > +++ b/hw/9pfs/9p-local.c
-> > @@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
-> >      g_free(data);
-> >  }
-> >  
-> > -static void error_append_security_model_hint(Error **errp)
-> > +static void error_append_security_model_hint(Error *const *errp)
-> >  {
-> >      error_append_hint(errp, "Valid options are: security_model="
-> >                        "[passthrough|mapped-xattr|mapped-file|none]\n");
-> > diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-> > index 97ab9c58a5..8136e1342d 100644
-> > --- a/hw/9pfs/9p-proxy.c
-> > +++ b/hw/9pfs/9p-proxy.c
-> > @@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Error **errp)
-> >      return sockfd;
-> >  }
-> >  
-> > -static void error_append_socket_sockfd_hint(Error **errp)
-> > +static void error_append_socket_sockfd_hint(Error *const *errp)
-> >  {
-> >      error_append_hint(errp, "Either specify socket=/some/path where /some/path"
-> >                        " points to a listening AF_UNIX socket or sock_fd=fd"
-> 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
