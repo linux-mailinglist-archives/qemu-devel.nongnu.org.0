@@ -2,74 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020B9113A19
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 03:52:39 +0100 (CET)
-Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FBD113A79
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 04:35:58 +0100 (CET)
+Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ichFu-0001nH-1u
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 21:52:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
+	id 1ichvp-0001gi-Jh
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 22:35:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hhan@redhat.com>) id 1ichCt-00085g-2T
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 21:49:32 -0500
+ (envelope-from <yan.y.zhao@intel.com>) id 1ichst-0008Ic-Co
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 22:32:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hhan@redhat.com>) id 1ichCr-0008PC-Hv
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 21:49:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51412
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1ichsq-00070E-KO
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 22:32:54 -0500
+Received: from mga02.intel.com ([134.134.136.20]:48880)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <hhan@redhat.com>) id 1ichCr-0008OK-B8
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 21:49:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575514169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=INrzNWQ2sEFB49pmeNP5OwZF3YgSouxq+qJpAnZvbAI=;
- b=TO0QWYb3WoZe1sltX17NdF/7kjwG93gnaB4kyG5yPP18Jrm4df+ONLkOuLrhbTjAlnh/nq
- 9nGksHlBjWv/V/YaB78wqjwGhBitKgOp0boMlBoSyylqZZ5SfBHzIquNeg5evzzjcZDEfg
- upxFnQ2QHpfsDGQ8Edse2CBSiAazxPk=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-YC6CkzaCPHiv0j7R0oAjHQ-1; Wed, 04 Dec 2019 21:49:25 -0500
-Received: by mail-oi1-f200.google.com with SMTP id 23so965942oii.4
- for <qemu-devel@nongnu.org>; Wed, 04 Dec 2019 18:49:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/FHyWsJWlmYQyUU2NNNx+HtFBNJMHMBbTGB3Wb/GcF8=;
- b=esltr+HfgiQSOl0S0oHzC0ZeMg6JNjLzGcEuKHZJ0+ijdvsqHDLbZJwNWQcO5Od/hY
- f5zi5fOFjEN68jxUfAFu70Wt3RpKpoK/m97Pg3U1wKAs50TEwsfsUcAzptPSVw8ggUEc
- UjZJgBIU0FMsetKj5v3uENoJ4TZ2r5/b7c8KkRM8AECM3Ayl79+MExU6hfKjVw3oTK7H
- 7ZpOIP+FJbK8kWb1nKY4zGHnrEz3Whg1J0J77zjHpk5xHDXbDQ5kdiR4TJyGaAQ4BxkZ
- WY+N3xIKll9qqxYnNvfrOfX5OX5qIwRFDrr8c4ZbSgmmz83eJhu+kDNKuO77/NTjed4Z
- 7JJg==
-X-Gm-Message-State: APjAAAW45zVexr/70Big0DHH5qZv0YJoEORF2x2arEldmCkdq1sI/caI
- WAptrzYxln/fEZFSsTb4trGf+/CDyFcQSoNA4WI74Idkrm08YeYPgYOeeifpR54g5TLsWvzcpgY
- H8xPHl7e+N/1+c0a1SyJGLoY0ExBKuz8=
-X-Received: by 2002:aca:ab85:: with SMTP id u127mr5278975oie.96.1575514164773; 
- Wed, 04 Dec 2019 18:49:24 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwlyAXtUyyxI3QGjsh/EoRk9Z3MpOWYCeWbYx9irJzOxpktrb7T4jsC/UkzgbDqmZXwrH4hX82YzbeQnqp96e4=
-X-Received: by 2002:aca:ab85:: with SMTP id u127mr5278972oie.96.1575514164558; 
- Wed, 04 Dec 2019 18:49:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20191204085628.2892-1-hhan@redhat.com>
- <20191204122140.GI3325@work-vm>
-In-Reply-To: <20191204122140.GI3325@work-vm>
-From: Han Han <hhan@redhat.com>
-Date: Thu, 5 Dec 2019 10:49:13 +0800
-Message-ID: <CAHjf+S_qH0MSxQX+A98uVi5iFYPvLd-dzAoArkPFovYGFvLs6A@mail.gmail.com>
-Subject: Re: [PATCH] Revert "qemu-options.hx: Update for reboot-timeout
- parameter"
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-X-MC-Unique: YC6CkzaCPHiv0j7R0oAjHQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/alternative; boundary="0000000000001e17d70598ebfa3d"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1ichsq-0006ik-64
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 22:32:52 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2019 19:32:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,279,1571727600"; d="scan'208";a="205628942"
+Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.9])
+ by orsmga008.jf.intel.com with ESMTP; 04 Dec 2019 19:32:45 -0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: alex.williamson@redhat.com
+Subject: [RFC PATCH 0/9] Introduce mediate ops in vfio-pci
+Date: Wed,  4 Dec 2019 22:24:19 -0500
+Message-Id: <20191205032419.29606-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,127 +50,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>, kvm@vger.kernel.org,
+ libvir-list@redhat.com, cohuck@redhat.com, linux-kernel@vger.kernel.org,
+ zhenyuw@linux.intel.com, qemu-devel@nongnu.org, shaopeng.he@intel.com,
+ zhi.a.wang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001e17d70598ebfa3d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+For SRIOV devices, VFs are passthroughed into guest directly without host
+driver mediation. However, when VMs migrating with passthroughed VFs,
+dynamic host mediation is required to  (1) get device states, (2) get
+dirty pages. Since device states as well as other critical information
+required for dirty page tracking for VFs are usually retrieved from PFs,
+it is handy to provide an extension in PF driver to centralizingly control
+VFs' migration.
 
-OK. Updated in version 2.
+Therefore, in order to realize (1) passthrough VFs at normal time, (2)
+dynamically trap VFs' bars for dirty page tracking and (3) centralizing
+VF critical states retrieving and VF controls into one driver, we propose
+to introduce mediate ops on top of current vfio-pci device driver.
 
-On Wed, Dec 4, 2019 at 8:21 PM Dr. David Alan Gilbert <dgilbert@redhat.com>
-wrote:
 
-> * Han Han (hhan@redhat.com) wrote:
-> > This reverts commit bbd9e6985ff342cbe15b9cb7eb30e842796fbbe8.
->
-> Patchew spotted you're missing the signed-off-by; please send one.
->
-> Dave
->
-> > In 20a1922032 we allowed reboot-timeout=3D-1 again, so update the doc
-> > accordingly.
-> > ---
-> >  qemu-options.hx | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 65c9473b73..e14d88e9b2 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -327,8 +327,8 @@ format(true color). The resolution should be
-> supported by the SVGA mode, so
-> >  the recommended is 320x240, 640x480, 800x640.
-> >
-> >  A timeout could be passed to bios, guest will pause for
-> @var{rb_timeout} ms
-> > -when boot failed, then reboot. If @option{reboot-timeout} is not set,
-> > -guest will not reboot by default. Currently Seabios for X86
-> > +when boot failed, then reboot. If @var{rb_timeout} is '-1', guest will
-> not
-> > +reboot, qemu passes '-1' to bios by default. Currently Seabios for X86
-> >  system support it.
-> >
-> >  Do strict boot via @option{strict=3Don} as far as firmware/BIOS
-> > --
-> > 2.24.0.rc1
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
->
+                                   _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+                                  
+ __________   register mediate ops|  ___________     ___________    |
+|          |<-----------------------|     VF    |   |           |   
+| vfio-pci |                      | |  mediate  |   | PF driver |   |
+|__________|----------------------->|   driver  |   |___________|   
+     |            open(pdev)      |  -----------          |         |
+     |                                                    |         
+     |                            |_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _|
+    \|/                                                  \|/
+-----------                                         ------------
+|    VF   |                                         |    PF    |
+-----------                                         ------------
 
---=20
-Best regards,
------------------------------------
-Han Han
-Quality Engineer
-Redhat.
 
-Email: hhan@redhat.com
-Phone: +861065339333
+VF mediate driver could be a standalone driver that does not bind to
+any devices (as in demo code in patches 5-6) or it could be a built-in
+extension of PF driver (as in patches 7-9) .
 
---0000000000001e17d70598ebfa3d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Rather than directly bind to VF, VF mediate driver register a mediate
+ops into vfio-pci in driver init. vfio-pci maintains a list of such
+mediate ops.
+(Note that: VF mediate driver can register mediate ops into vfio-pci
+before vfio-pci binding to any devices. And VF mediate driver can
+support mediating multiple devices.)
 
-<div dir=3D"ltr">OK. Updated in version 2.<br></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 4, 2019 at 8:21 P=
-M Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilber=
-t@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">* Han Han (<a href=3D"mailto:hhan@redhat.com" target=3D"_blank"=
->hhan@redhat.com</a>) wrote:<br>
-&gt; This reverts commit bbd9e6985ff342cbe15b9cb7eb30e842796fbbe8.<br>
-<br>
-Patchew spotted you&#39;re missing the signed-off-by; please send one.<br>
-<br>
-Dave<br>
-<br>
-&gt; In 20a1922032 we allowed reboot-timeout=3D-1 again, so update the doc<=
-br>
-&gt; accordingly.<br>
-&gt; ---<br>
-&gt;=C2=A0 qemu-options.hx | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/qemu-options.hx b/qemu-options.hx<br>
-&gt; index 65c9473b73..e14d88e9b2 100644<br>
-&gt; --- a/qemu-options.hx<br>
-&gt; +++ b/qemu-options.hx<br>
-&gt; @@ -327,8 +327,8 @@ format(true color). The resolution should be suppo=
-rted by the SVGA mode, so<br>
-&gt;=C2=A0 the recommended is 320x240, 640x480, 800x640.<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 A timeout could be passed to bios, guest will pause for @var{rb_=
-timeout} ms<br>
-&gt; -when boot failed, then reboot. If @option{reboot-timeout} is not set,=
-<br>
-&gt; -guest will not reboot by default. Currently Seabios for X86<br>
-&gt; +when boot failed, then reboot. If @var{rb_timeout} is &#39;-1&#39;, g=
-uest will not<br>
-&gt; +reboot, qemu passes &#39;-1&#39; to bios by default. Currently Seabio=
-s for X86<br>
-&gt;=C2=A0 system support it.<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 Do strict boot via @option{strict=3Don} as far as firmware/BIOS<=
-br>
-&gt; -- <br>
-&gt; 2.24.0.rc1<br>
-&gt; <br>
---<br>
-Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
-blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr=
-">Best regards,</div><div dir=3D"ltr">-----------------------------------<b=
-r></div><div dir=3D"ltr">Han Han<br>Quality Engineer<br>Redhat.<br><br>Emai=
-l: <a href=3D"mailto:hhan@redhat.com" target=3D"_blank">hhan@redhat.com</a>=
-<br>Phone: +861065339333<br></div></div></div></div></div></div>
+When opening a device (e.g. a VF), vfio-pci goes through the mediate ops
+list and calls each vfio_pci_mediate_ops->open() with pdev of the opening
+device as a parameter.
+VF mediate driver should return success or failure depending on it
+supports the pdev or not.
+E.g. VF mediate driver would compare its supported VF devfn with the
+devfn of the passed-in pdev.
+Once vfio-pci finds a successful vfio_pci_mediate_ops->open(), it will
+stop querying other mediate ops and bind the opening device with this
+mediate ops using the returned mediate handle.
 
---0000000000001e17d70598ebfa3d--
+Further vfio-pci ops (VFIO_DEVICE_GET_REGION_INFO ioctl, rw, mmap) on the
+VF will be intercepted into VF mediate driver as
+vfio_pci_mediate_ops->get_region_info(),
+vfio_pci_mediate_ops->rw,
+vfio_pci_mediate_ops->mmap, and get customized.
+For vfio_pci_mediate_ops->rw and vfio_pci_mediate_ops->mmap, they will
+further return 'pt' to indicate whether vfio-pci should further
+passthrough data to hw.
+
+when vfio-pci closes the VF, it calls its vfio_pci_mediate_ops->release()
+with a mediate handle as parameter.
+
+The mediate handle returned from vfio_pci_mediate_ops->open() lets VF
+mediate driver be able to differentiate two opening VFs of the same device
+id and vendor id.
+
+When VF mediate driver exits, it unregisters its mediate ops from
+vfio-pci.
+
+
+In this patchset, we enable vfio-pci to provide 3 things:
+(1) calling mediate ops to allow vendor driver customizing default
+region info/rw/mmap of a region.
+(2) provide a migration region to support migration
+(3) provide a dynamic trap bar info region to allow vendor driver
+control trap/untrap of device pci bars
+
+This vfio-pci + mediate ops way differs from mdev way in that
+(1) medv way needs to create a 1:1 mdev device on top of one VF, device
+specific mdev parent driver is bound to VF directly.
+(2) vfio-pci + mediate ops way does not create mdev devices and VF
+mediate driver does not bind to VFs. Instead, vfio-pci binds to VFs.
+
+The reason why we don't choose the way of writing mdev parent driver is
+that
+(1) VFs are almost all the time directly passthroughed. Directly binding
+to vfio-pci can make most of the code shared/reused. If we write a
+vendor specific mdev parent driver, most of the code (like passthrough
+style of rw/mmap) still needs to be copied from vfio-pci driver, which is
+actually a duplicated and tedious work.
+(2) For features like dynamically trap/untrap pci bars, if they are in
+vfio-pci, they can be available to most people without repeated code
+copying and re-testing.
+(3) with a 1:1 mdev driver which passthrough VFs most of the time, people
+have to decide whether to bind VFs to vfio-pci or mdev parent driver before
+it runs into a real migration need. However, if vfio-pci is bound
+initially, they have no chance to do live migration when there's a need
+later. 
+
+In this patchset,
+- patches 1-4 enable vfio-pci to call mediate ops registered by vendor
+  driver to mediate/customize region info/rw/mmap.
+
+- patches 5-6 provide a standalone sample driver to register a mediate ops
+  for Intel Graphics Devices. It does not bind to IGDs directly but decides
+  what devices it supports via its pciidlist. It also demonstrates how to
+  dynamic trap a device's PCI bars. (by adding more pciids in its
+  pciidlist, this sample driver actually is not necessarily limited to
+  support IGDs)
+
+- patch 7-9 provide a sample on i40e driver that supports Intel(R)
+  Ethernet Controller XL710 Family of devices. It supports VF precopy live
+  migration on Intel's 710 SRIOV. (but we commented out the real
+  implementation of dirty page tracking and device state retrieving part
+  to focus on demonstrating framework part. Will send out them in future
+  versions)
+ 
+  patch 7 registers/unregisters VF mediate ops when PF driver
+  probes/removes. It specifies its supporting VFs via
+  vfio_pci_mediate_ops->open(pdev)
+
+  patch 8 reports device cap of VFIO_PCI_DEVICE_CAP_MIGRATION and
+  provides a sample implementation of migration region.
+  The QEMU part of vfio migration is based on v8
+  https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05542.html.
+  We do not based on recent v9 because we think there are still opens in
+  dirty page track part in that series.
+
+  patch 9 reports device cap of VFIO_PCI_DEVICE_CAP_DYNAMIC_TRAP_BAR and
+  provides an example on how to trap part of bar0 when migration starts
+  and passthrough this part of bar0 again when migration fails.
+
+Yan Zhao (9):
+  vfio/pci: introduce mediate ops to intercept vfio-pci ops
+  vfio/pci: test existence before calling region->ops
+  vfio/pci: register a default migration region
+  vfio-pci: register default dynamic-trap-bar-info region
+  samples/vfio-pci/igd_dt: sample driver to mediate a passthrough IGD
+  sample/vfio-pci/igd_dt: dynamically trap/untrap subregion of IGD bar0
+  i40e/vf_migration: register mediate_ops to vfio-pci
+  i40e/vf_migration: mediate migration region
+  i40e/vf_migration: support dynamic trap of bar0
+
+ drivers/net/ethernet/intel/Kconfig            |   2 +-
+ drivers/net/ethernet/intel/i40e/Makefile      |   3 +-
+ drivers/net/ethernet/intel/i40e/i40e.h        |   2 +
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |   3 +
+ .../ethernet/intel/i40e/i40e_vf_migration.c   | 626 ++++++++++++++++++
+ .../ethernet/intel/i40e/i40e_vf_migration.h   |  78 +++
+ drivers/vfio/pci/vfio_pci.c                   | 189 +++++-
+ drivers/vfio/pci/vfio_pci_private.h           |   2 +
+ include/linux/vfio.h                          |  18 +
+ include/uapi/linux/vfio.h                     | 160 +++++
+ samples/Kconfig                               |   6 +
+ samples/Makefile                              |   1 +
+ samples/vfio-pci/Makefile                     |   2 +
+ samples/vfio-pci/igd_dt.c                     | 367 ++++++++++
+ 14 files changed, 1455 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/net/ethernet/intel/i40e/i40e_vf_migration.c
+ create mode 100644 drivers/net/ethernet/intel/i40e/i40e_vf_migration.h
+ create mode 100644 samples/vfio-pci/Makefile
+ create mode 100644 samples/vfio-pci/igd_dt.c
+
+-- 
+2.17.1
 
 
