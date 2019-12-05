@@ -2,106 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1240A1143C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:38:32 +0100 (CET)
-Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6711B1143C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:39:12 +0100 (CET)
+Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ictD4-0001e7-Pw
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:38:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
+	id 1ictDj-00035Q-E7
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:39:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icszG-0003V8-Bd
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:15 -0500
+ (envelope-from <lersek@redhat.com>) id 1icszt-0004My-EH
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icszF-000687-5F
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:14 -0500
-Received: from mail-vi1eur04on0712.outbound.protection.outlook.com
- ([2a01:111:f400:fe0e::712]:39331
- helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icszE-0005t4-Gl
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z/buNp3oGPYtmqIDITGkygpx6KZY3zQtVit/pUcjcQhHdqp13eTQMs4eaicoJd8b5zlvfYMtwCBWbQILfIpSgMlfO16+3GYOMyot/7q3gF3s/jGPW7jPGqGjVtjNeS3kuzvrdjQ0xe84JZxv4qH6EsobADEd9W3547yQMuIP70lWGGXeuVlOhHgsiclHHY4VGUok0cbYRdDzUYlc88tSkfzsiBmjPeW0GxElhKJyq8q0pRsOK6oJRrWWweYw+UX47FnCWlTXmmkh48Lbw4k61Tm7IWg4ymfEpqc7p4+4tfMKPVVfdbX37WACrOqt8jwoD/j9PKaXMdcoEZ9o9kaBLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7al+nIHampC4P5Udr4xjAwqO3ClzNcqILw6UzmVhvy4=;
- b=asu1iyqhvwxGHJs0CaKexVNpYNZV5IkfXIAZTTF1GXyiU0JZtgNTgggzN+UJTFWlthjZtUrYdDvoEzUG4Vpo1TkRcjqAJ+YaKbscD7GBAQIiIRQ8YPTxzoeUy+MiOv2Pt0JCLq6iBrZTGjCZ5OLOsKyYrICqZItkParXxZF2weB0VvUrYvv82omzSkUpzRUS3u/TSuh3iEF0z9x0vGl1Wd4NuIzJ210vpOqQiLUI42HNScF9+xIHeL3AfqPHnSwO1e7o9HnD0SQCHcQfiXJjzYeXLtEAWCd9UZJY82r2/P0gXaSfVs3apBqZMh4qwlKnOXJBVd4KEU7rm5pB/exvmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7al+nIHampC4P5Udr4xjAwqO3ClzNcqILw6UzmVhvy4=;
- b=N2NNS8jb4E7grbNLf/JU5RvW6tYkXPMjLUYIwvz9GmghYLDIk8w+o+USsartw3DEGuiLkkLhqENt8q2ZskZZhqgVeQOIB+v4+GOenz+gM+WkiBsWXisHjonfP6HX8e9iNmt60k7GzVFbX+M6ZxwdZHwOd9b8fgk7NeUWN+ns4Dk=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3797.eurprd08.prod.outlook.com (20.178.89.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Thu, 5 Dec 2019 15:24:08 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Thu, 5 Dec 2019
- 15:24:08 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 04/21] crypto: Fix certificate file error handling crash
- bug
-Thread-Topic: [PATCH 04/21] crypto: Fix certificate file error handling crash
- bug
-Thread-Index: AQHVp7ZbnY2XG/N6U0yo5cERHlzSxqersKKA
-Date: Thu, 5 Dec 2019 15:24:08 +0000
-Message-ID: <adfad9d1-0e71-4666-c153-676f3931089f@virtuozzo.com>
-References: <20191130194240.10517-1-armbru@redhat.com>
- <20191130194240.10517-5-armbru@redhat.com>
-In-Reply-To: <20191130194240.10517-5-armbru@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0277.eurprd05.prod.outlook.com
- (2603:10a6:3:fc::29) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191205182405322
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 460de087-387a-4c39-7148-08d779972b79
-x-ms-traffictypediagnostic: AM6PR08MB3797:
-x-microsoft-antispam-prvs: <AM6PR08MB379703B4674093551D15D112C15C0@AM6PR08MB3797.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:255;
-x-forefront-prvs: 02426D11FE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(346002)(396003)(136003)(376002)(39850400004)(189003)(199004)(8936002)(66446008)(64756008)(66556008)(66476007)(66946007)(186003)(229853002)(102836004)(86362001)(26005)(4326008)(5660300002)(305945005)(14454004)(81156014)(2906002)(81166006)(8676002)(478600001)(25786009)(31686004)(6486002)(14444005)(6512007)(36756003)(11346002)(2616005)(71200400001)(31696002)(6506007)(52116002)(110136005)(316002)(71190400001)(99286004)(76176011);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3797;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: s8AkBL4YnCR26pQj+Mph0qBmatDy6Co219nBbeZqAxyVQLYaNv6U4U3MacEqVlXBoPIiqcRv/tBgtS7rSpWbRlswo7GW+RSLbl7xfy8ve524bZD37Vji5RU2XPymTEBSsOac6M76zwwQr8kivhIxnLx7PG8tDLNlyOa/pyG+KIJk3976qHJlPOcKy2ddiMFXaDuczU/MmxibcZ+ZfOLDwJatlvJ3Fm8SEpSgOURDpwj6WmzLFYetObmOdqZ/IgKxm0GcPq/4RM7KoGVEQ1WAKTKs/OjgCw0dhsQ57oHVd08VhtvfY7x8sbvKEYdI9mnvYeuEWlLyJNBCAW83aGmC56F6Fn1JCzfumtXs8ilZTkgz0sWvXMlA6CMbEGIoNJ6NQenA6awWcc92/9P3ynxdGGOfOQSBUCc+f2rp1MOQFMQzyPTr4LVrGlln8+NTwjOi
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CD720695787EC147B8E798774A7D85D8@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <lersek@redhat.com>) id 1icszr-0008Td-7t
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:52 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22076
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1icszr-0008Hy-1r
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:24:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575559488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=28vuIR0QCWs/l5fQ6tEiLiU+bpxf4rV9hu+K2FhhRz0=;
+ b=LsAb1Zrnf0OmVO8mN96i5DCwkRdg1O7cFOljQ4xsrZ9xej5ZYj7MHACeDIG+sDUWm5jYl1
+ tKzZWjh0rL7jrc+KXfkUM07y8cnh32S+7MwJgNSc6QD2ndwR+w1ZdS6vBl3ypxAFoMwP3X
+ /z9zfsrt3xQb1LQQ/PkztAaW5cccqdU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-ddsrxuWFMfOgy1dXEaes6w-1; Thu, 05 Dec 2019 10:24:47 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5797A107ACCA;
+ Thu,  5 Dec 2019 15:24:46 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-62.ams2.redhat.com
+ [10.36.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 272C75D6A5;
+ Thu,  5 Dec 2019 15:24:41 +0000 (UTC)
+Subject: Re: [PATCH v3] qga: fence guest-set-time if hwclock not available
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>
+References: <20191205115350.18713-1-cohuck@redhat.com>
+ <5aaa7f3a-e3d1-0057-5fe2-07dea4864bc7@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <a0636a36-60e6-9d18-4643-cea6a1e5e294@redhat.com>
+Date: Thu, 5 Dec 2019 16:24:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 460de087-387a-4c39-7148-08d779972b79
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 15:24:08.4099 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vtdGUchOH2EuwWgBzOMU/CR5xhpDvLubaaE4/vgs1TRJvbKJ886qB/6JC2sSWkY6jgL7BRnxFKKUE415XsrmMo4+p8d+ir7g3CoiWces2FE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3797
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe0e::712
+In-Reply-To: <5aaa7f3a-e3d1-0057-5fe2-07dea4864bc7@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: ddsrxuWFMfOgy1dXEaes6w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,33 +76,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
+Cc: "=?UTF-8?Q?Daniel_P_._Berrang=c3=a9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MzAuMTEuMjAxOSAyMjo0MiwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IHFjcnlwdG9fdGxz
-X2NyZWRzX2xvYWRfY2VydCgpIHBhc3NlcyB1bmluaXRpYWxpemVkIEdFcnJvciAqZ2VyciBieQ0K
-PiByZWZlcmVuY2UgdG8gZ19maWxlX2dldF9jb250ZW50cygpLiAgV2hlbiBnX2ZpbGVfZ2V0X2Nv
-bnRlbnRzKCkgZmFpbHMsDQo+IGl0J2xsIHRyeSB0byBzZXQgYSBHRXJyb3IuICBVbmxlc3MgQGdl
-cnIgaXMgbnVsbCBieSBkdW1iIGx1Y2ssIHRoaXMNCj4gbG9ncyBhIEVSUk9SX09WRVJXUklUVEVO
-X1dBUk5JTkcgd2FybmluZyBtZXNzYWdlIGFuZCBsZWF2ZXMgQGdlcnINCj4gdW5jaGFuZ2VkLiAg
-cWNyeXB0b190bHNfY3JlZHNfbG9hZF9jZXJ0KCkgdGhlbiBkZXJlZmVyZW5jZXMgdGhlDQo+IHVu
-aW5pdGlhbGl6ZWQgQGdlcnIuDQo+IA0KPiBGaXggYnkgaW5pdGlhbGl6aW5nIEBnZXJyIHByb3Bl
-cmx5Lg0KPiANCj4gRml4ZXM6IDlhMmZkNDM0N2M0MDMyMWY1Y2JiNGFiNDIyMGU3NTlmY2JmODdk
-MDMNCj4gQ2M6ICJEYW5pZWwgUC4gQmVycmFuZ8OpIiA8YmVycmFuZ2VAcmVkaGF0LmNvbT4NCj4g
-U2lnbmVkLW9mZi1ieTogTWFya3VzIEFybWJydXN0ZXIgPGFybWJydUByZWRoYXQuY29tPg0KPiAt
-LS0NCj4gICBjcnlwdG8vdGxzY3JlZHN4NTA5LmMgfCAyICstDQo+ICAgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvY3J5cHRv
-L3Rsc2NyZWRzeDUwOS5jIGIvY3J5cHRvL3Rsc2NyZWRzeDUwOS5jDQo+IGluZGV4IDAxZmMzMDRl
-NWQuLjUzYTQzNjhmNDkgMTAwNjQ0DQo+IC0tLSBhL2NyeXB0by90bHNjcmVkc3g1MDkuYw0KPiAr
-KysgYi9jcnlwdG8vdGxzY3JlZHN4NTA5LmMNCj4gQEAgLTM4MCw3ICszODAsNyBAQCBxY3J5cHRv
-X3Rsc19jcmVkc19sb2FkX2NlcnQoUUNyeXB0b1RMU0NyZWRzWDUwOSAqY3JlZHMsDQo+ICAgICAg
-IGdudXRsc194NTA5X2NydF90IGNlcnQgPSBOVUxMOw0KPiAgICAgICBnX2F1dG9mcmVlIGNoYXIg
-KmJ1ZiA9IE5VTEw7DQo+ICAgICAgIGdzaXplIGJ1ZmxlbjsNCj4gLSAgICBHRXJyb3IgKmdlcnI7
-DQo+ICsgICAgR0Vycm9yICpnZXJyID0gTlVMTDsNCj4gICAgICAgaW50IHJldCA9IC0xOw0KPiAg
-ICAgICBpbnQgZXJyOw0KPiAgIA0KPiANCg0KSSBkaWRuJ3QgY2hlY2sgdGhlIGxvZ2ljIGluIGNv
-bW1pdCBtZXNzYWdlIChhbmQgSSBkb24ndCBrbm93IGhvdyBHRXJyb3Igd29ya3MpLA0KYnV0IGlu
-aXRpYWxpemluZyBsb2NhbCBwb2ludGVyIHRvIE5VTEwgbmV2ZXIgaHVydHM6DQoNClJldmlld2Vk
-LWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5j
-b20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+On 12/05/19 14:05, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Cornelia,
+>
+> On 12/5/19 12:53 PM, Cornelia Huck wrote:
+>> The Posix implementation of guest-set-time invokes hwclock to
+>> set/retrieve the time to/from the hardware clock. If hwclock
+>> is not available, the user is currently informed that "hwclock
+>> failed to set hardware clock to system time", which is quite
+>> misleading. This may happen e.g. on s390x, which has a different
+>> timekeeping concept anyway.
+>>
+>> Let's check for the availability of the hwclock command and
+>> return QERR_UNSUPPORTED for guest-set-time if it is not available.
+>>
+>> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>>
+>> v2->v3:
+>>    - added 'static' keyword to hwclock_path
+>>
+>> Not sure what tree this is going through; if there's no better place,
+>> I can also take this through the s390 tree.
+>
+> s390 or trivial trees seems appropriate.
+>
+>>
+>> ---
+>>   qga/commands-posix.c | 13 ++++++++++++-
+>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>> index 1c1a165daed8..0be301a4ea77 100644
+>> --- a/qga/commands-posix.c
+>> +++ b/qga/commands-posix.c
+>> @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t
+>> time_ns, Error **errp)
+>>       pid_t pid;
+>>       Error *local_err =3D NULL;
+>>       struct timeval tv;
+>> +    static const char hwclock_path[] =3D "/sbin/hwclock";
+>> +    static int hwclock_available =3D -1;
+>> +
+>> +    if (hwclock_available < 0) {
+>> +        hwclock_available =3D (access(hwclock_path, X_OK) =3D=3D 0);
+>> +    }
+>> +
+>> +    if (!hwclock_available) {
+>> +        error_setg(errp, QERR_UNSUPPORTED);
+>
+> In include/qapi/qmp/qerror.h we have:
+>
+> /*
+>  * These macros will go away, please don't use in new code, and do not
+>  * add new ones!
+>  */
+
+Obviously, the last word on this belongs to Markus (CC'd) -- he added
+that comment. I'd just like to point out *when* that comment was added:
+approx. four and half years ago. (See commit 4629ed1e9896.)
+
+I've always associated QERR_UNSUPPORTED with QMP interfaces rejecting
+invocation due to lack of support. I don't think one more instance of
+QERR_UNSUPPORTED will matter much, when we'll "finally" :) convert or
+eliminate the other 35! (Yes, I've counted.)
+
+In case it's unacceptable to add one more QERR_UNSUPPORTED: what is the
+official solution that replaces it?
+
+I assume it was explained in the series that included commit
+4629ed1e9896, but I can't easily tell. (And, there is no "QERR_" match
+in docs/.)
+
+Hmmm, more history digging... In the 4629ed1e9896..v4.2.0-rc4 set of
+commits, the following commits introduced new instances of
+QERR_UNSUPPORTED:
+
+- e09484efbc9d ("qmp: add QMP interface "query-cpu-model-expansion"", 2016-=
+09-06)
+- 0031e0d68339 ("qmp: add QMP interface "query-cpu-model-comparison"", 2016=
+-09-06)
+- b18b6043341d ("qmp: add QMP interface "query-cpu-model-baseline"", 2016-0=
+9-06)
+- 1007a37e2082 ("smbios: filter based on CONFIG_SMBIOS rather than TARGET",=
+ 2017-01-16)
+- 9f57061c3555 ("acpi: filter based on CONFIG_ACPI_X86 rather than TARGET",=
+ 2017-01-16)
+- 39164c136cba ("qmp/hmp: add query-vm-generation-id and 'info vm-generatio=
+n-id' commands", 2017-03-02)
+- 161a56a9065f ("qga: Add 'guest-get-users' command", 2017-04-26)
+- 53c58e64d0a2 ("qga: Add `guest-get-timezone` command", 2017-04-27)
+- e674605f9821 ("qemu-ga: check if utmpx.h is available on the system", 201=
+7-07-17)
+
+I don't claim that all of those additions have stuck with us, to
+v4.2.0-rc4. Yet, in general, practice doesn't seem to have followed the
+intended deprecation.
+
+>
+> Maybe we can replace it by "this feature is not supported on this
+> architecture"? (or without 'on this architecture').
+
+I think if we replace QERR_UNSUPPORTED with anything, it should be
+"similarly standardized". (Lack of support for a given QMP interface is
+pretty common, I think.)
+
+Thanks,
+Laszlo
+
+>
+>> +        return;
+>> +    }
+>>         /* If user has passed a time, validate and set it. */
+>>       if (has_time) {
+>> @@ -195,7 +206,7 @@ void qmp_guest_set_time(bool has_time, int64_t
+>> time_ns, Error **errp)
+>>             /* Use '/sbin/hwclock -w' to set RTC from the system time,
+>>            * or '/sbin/hwclock -s' to set the system time from RTC. */
+>> -        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
+>> +        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
+>>                  NULL, environ);
+>>           _exit(EXIT_FAILURE);
+>>       } else if (pid < 0) {
+>>
+>
+
 
