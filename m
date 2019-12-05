@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05011147E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 20:59:08 +0100 (CET)
-Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54345114802
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 21:20:49 +0100 (CET)
+Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icxHH-0000K6-Au
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 14:59:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45239)
+	id 1icxcG-0000my-9u
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 15:20:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icxFH-0007xb-BS
+ (envelope-from <lersek@redhat.com>) id 1icxFH-0007xd-CM
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icxFE-000237-Tn
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:01 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22212
+ (envelope-from <lersek@redhat.com>) id 1icxFE-00022t-TL
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36361
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icxFE-000209-Mb
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1icxFE-0001zi-MW
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575575819;
+ s=mimecast20190719; t=1575575818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I8BXoMqcRNex4nEwMOTCCl3JTK5xpjUXo1GO01YnmLM=;
- b=NB9NwHR8TEXD9SyBN9E9Zhy9r17PaP/7v90kDY2vNCtTe7Z/FB+gxaSDMv8CN6DrF0GFGi
- 91uQ7lfHtWTknUxx1G+BZNRVKD1xD/AWB6uxsrKYTPI1ecOhiyKrH3Yo+2LuUo7Ds8AueP
- /RArGxOoDEwDpYg67uwSzQReVr+Jd7o=
+ bh=rakeQeoYRJ/SUbgWpGcOrkqCokXjCMxMzBjlySJ1scI=;
+ b=BmS6m3PozNvXmplm87+KgyOAelWsMyvxwXjg5iEUOjvwDzLjQruL7DeBfG7QtQN8TFqq84
+ 1o4oKH/WtUhvg0rjB82TRMejGEV5MjJEp3svyAdHRoos1lZ/iGP3+HpaZYFRzaaNbyZ/OL
+ q31kwyGHpaP7e5u/SeUISQ+UN+IUehY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-4BlzGgFGPbqO1vU84Mrksw-1; Thu, 05 Dec 2019 14:56:56 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-81-0Ym2bVskNWqnIww1kfUhXg-1; Thu, 05 Dec 2019 14:56:57 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DA0E183B701;
- Thu,  5 Dec 2019 19:56:55 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 071936CE40;
- Thu,  5 Dec 2019 19:56:54 +0000 (UTC)
-Subject: Re: [PATCH v7 21/21] nbd: assert that Error** is not NULL in
- nbd_iter_channel_error
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
- <20191205152019.8454-22-vsementsov@virtuozzo.com>
- <c4ff448d-e756-9d95-b07e-4ae5f2d5b9b0@redhat.com>
- <93046486-1580-14a1-520d-08abdf74da0e@virtuozzo.com>
- <443bfd26-08df-a421-fe88-71b2c068d8e4@redhat.com>
- <93aec76f-fe86-d8b9-6b7a-228149a6e0d4@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <a7313cf0-dbfc-7a69-0ce2-a0c49c0940a1@redhat.com>
-Date: Thu, 5 Dec 2019 13:56:54 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69755183B700;
+ Thu,  5 Dec 2019 19:56:56 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-62.ams2.redhat.com
+ [10.36.116.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1AEF5D6A3;
+ Thu,  5 Dec 2019 19:56:52 +0000 (UTC)
+Subject: Re: [PATCH-for-5.0] roms/edk2-funcs: Force armhf toolchain prefix on
+ Debian
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20191205180913.15263-1-philmd@redhat.com>
+ <CAKv+Gu_DqSD9K3Ajsj0q2yQ_AT=pjfhSitn2t-irYXoW662jOg@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <80925eef-1081-4c5d-49e9-b4d25970efac@redhat.com>
+Date: Thu, 5 Dec 2019 20:56:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <93aec76f-fe86-d8b9-6b7a-228149a6e0d4@virtuozzo.com>
+In-Reply-To: <CAKv+Gu_DqSD9K3Ajsj0q2yQ_AT=pjfhSitn2t-irYXoW662jOg@mail.gmail.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 4BlzGgFGPbqO1vU84Mrksw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 0Ym2bVskNWqnIww1kfUhXg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -81,30 +77,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 12:09 PM, Vladimir Sementsov-Ogievskiy wrote:
-
+On 12/05/19 19:17, Ard Biesheuvel wrote:
+> On Thu, 5 Dec 2019 at 18:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >>
->> All callers of nbd_iter_channel_error() pass the address of a local_err variable, and only call this function if an error has already occurred, using this function
-> 
->> to append details to that error.
-> 
-> Hmm, not to append details but to report the error to the magical receiving loop, which doesn't yet know about the error
-> 
->> This is already implied by its name (local_err instead of the classic errp), but it is worth additionally stressing this by adding an assertion to make it part of the function contract.
-> 
-> 
-> So, how about simply s/to append details to that error/to report that error/ ?
+>> The Debian (based) distributions historically provides 2 ARM
+>> toolchains, documented as [1]:
+>>
+>> * The ARM EABI (armel) port targets a range of older 32-bit ARM
+>>   devices, particularly those used in NAS hardware and a variety
+>>   of *plug computers.
+>> * The newer ARM hard-float (armhf) port supports newer, more
+>>   powerful 32-bit devices using version 7 of the ARM architecture
+>>   specification.
+>>
+>> The EDK2 documentation suggests to use the hard-float toolchain.
+>>
+>=20
+> We should probably fix that.
 
-That should be fine.
+OK, I'm confused. What case are we talking about?
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+(1) Without this patch, "roms/edk2-funcs.sh" fails to select *any* cross
+compiler on Debian, and the build just croaks.
+
+--> insist on armhf in this script?
+--> insist on armel in this script?
+--> pick whichever is available, because either works?
+
+(2) Without this patch, "roms/edk2-funcs.sh" selects the "armel" flavor,
+and it fails to build edk2.
+
+--> insist on armhf in this script?
+
+(3) Without this patch, "roms/edk2-funcs.sh" selects the "armel" flavor,
+and it builds edk2 just fine -- but that's not the flavor that the edk2
+documentation suggests.
+
+--> drop this patch, and fix the edk2 docs?
+
+Thanks,
+Laszlo
+
+> tools_def.template mentions
+> arm-linux-gnueabi, and while it does not really matter in most cases,
+> if you are using Clang, you actually need the armel binutils (see
+> 41203b9ab5d48e029f24e17e9a865e54b7e1643d for details)
+>=20
+>=20
+>> Force the armhf cross toolchain prefix on Debian distributions.
+>>
+>> [1] https://www.debian.org/ports/arm/#status
+>> [2] https://github.com/tianocore/edk2-platforms/blob/master/Readme.md#if=
+-cross-compiling
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  roms/edk2-funcs.sh | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
+>> index 3f4485b201..a546aa1d11 100644
+>> --- a/roms/edk2-funcs.sh
+>> +++ b/roms/edk2-funcs.sh
+>> @@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
+>>       ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] );=
+ then
+>>      # no cross-compiler needed
+>>      :
+>> +  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); th=
+en
+>> +    # force hard-float cross-compiler on Debian
+>> +    printf 'arm-linux-gnueabihf-'
+>>    else
+>>      printf '%s-linux-gnu-\n' "$gcc_arch"
+>>    fi
+>> --
+>> 2.21.0
+>>
+>=20
 
 
