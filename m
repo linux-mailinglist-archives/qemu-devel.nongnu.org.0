@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3780114654
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:54:34 +0100 (CET)
-Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7119611464E
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 18:53:35 +0100 (CET)
+Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvKj-0006Jt-EN
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
+	id 1icvJl-00053B-VX
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 12:53:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDI-0007cH-Ji
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDI-0007bW-7G
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDG-0003bF-9B
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:52 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48302)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDE-0003ZA-9O
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:50 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48266)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvDE-0003Sx-4l
+ id 1icvDD-0003S3-TR
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:48 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvD7-00013M-2F; Thu, 05 Dec 2019 20:46:41 +0300
+ id 1icvD7-00013M-5u; Thu, 05 Dec 2019 20:46:41 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 08/21] 9pfs: well form error hint helpers
-Date: Thu,  5 Dec 2019 20:46:22 +0300
-Message-Id: <20191205174635.18758-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 09/21] hw/core/qdev: cleanup Error ** variables
+Date: Thu,  5 Dec 2019 20:46:23 +0300
+Message-Id: <20191205174635.18758-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205174635.18758-1-vsementsov@virtuozzo.com>
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
@@ -48,49 +49,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
+Cc: vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, armbru@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make error_append_security_model_hint and
-error_append_socket_sockfd_hint hint append helpers well formed:
-switch errp paramter to Error *const * type, as it has uncommon
-behavior: not change the pointer to return error, but operate on
-already existent error object.
+Rename Error ** parameter in check_only_migratable to common errp.
+
+In device_set_realized:
+
+ - Move "if (local_err != NULL)" closer to error setters.
+
+ - Drop 'Error **local_errp': it doesn't save any LoCs, but it's very
+   unusual.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/9pfs/9p-local.c | 2 +-
- hw/9pfs/9p-proxy.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/core/qdev.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 4708c0bd89..ca641390fb 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
-     g_free(data);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cf1ba28fe3..82d3ee590a 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -820,12 +820,12 @@ static bool device_get_realized(Object *obj, Error **errp)
+     return dev->realized;
  }
  
--static void error_append_security_model_hint(Error **errp)
-+static void error_append_security_model_hint(Error *const *errp)
+-static bool check_only_migratable(Object *obj, Error **err)
++static bool check_only_migratable(Object *obj, Error **errp)
  {
-     error_append_hint(errp, "Valid options are: security_model="
-                       "[passthrough|mapped-xattr|mapped-file|none]\n");
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index 97ab9c58a5..8136e1342d 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Error **errp)
-     return sockfd;
+     DeviceClass *dc = DEVICE_GET_CLASS(obj);
+ 
+     if (!vmstate_check_only_migratable(dc->vmsd)) {
+-        error_setg(err, "Device %s is not migratable, but "
++        error_setg(errp, "Device %s is not migratable, but "
+                    "--only-migratable was specified",
+                    object_get_typename(obj));
+         return false;
+@@ -874,10 +874,9 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+ 
+         if (dc->realize) {
+             dc->realize(dev, &local_err);
+-        }
+-
+-        if (local_err != NULL) {
+-            goto fail;
++            if (local_err != NULL) {
++                goto fail;
++            }
+         }
+ 
+         DEVICE_LISTENER_CALL(realize, Forward, dev);
+@@ -918,27 +917,26 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
+        }
+ 
+     } else if (!value && dev->realized) {
+-        Error **local_errp = NULL;
++        /* We want local_err to track only the first error */
+         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+-            local_errp = local_err ? NULL : &local_err;
+             object_property_set_bool(OBJECT(bus), false, "realized",
+-                                     local_errp);
++                                     local_err ? NULL : &local_err);
+         }
+         if (qdev_get_vmsd(dev)) {
+             vmstate_unregister(dev, qdev_get_vmsd(dev), dev);
+         }
+         if (dc->unrealize) {
+-            local_errp = local_err ? NULL : &local_err;
+-            dc->unrealize(dev, local_errp);
++            dc->unrealize(dev, local_err ? NULL : &local_err);
+         }
+         dev->pending_deleted_event = true;
+         DEVICE_LISTENER_CALL(unrealize, Reverse, dev);
+-    }
+ 
+-    if (local_err != NULL) {
+-        goto fail;
++        if (local_err != NULL) {
++            goto fail;
++        }
+     }
+ 
++    assert(local_err == NULL);
+     dev->realized = value;
+     return;
+ 
+@@ -976,7 +974,7 @@ static bool device_get_hotpluggable(Object *obj, Error **errp)
+                                 qbus_is_hotpluggable(dev->parent_bus));
  }
  
--static void error_append_socket_sockfd_hint(Error **errp)
-+static void error_append_socket_sockfd_hint(Error *const *errp)
+-static bool device_get_hotplugged(Object *obj, Error **err)
++static bool device_get_hotplugged(Object *obj, Error **errp)
  {
-     error_append_hint(errp, "Either specify socket=/some/path where /some/path"
-                       " points to a listening AF_UNIX socket or sock_fd=fd"
+     DeviceState *dev = DEVICE(obj);
+ 
 -- 
 2.21.0
 
