@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E09114698
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:08:16 +0100 (CET)
-Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE80114680
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:04:32 +0100 (CET)
+Received: from localhost ([::1]:58984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvXz-00054h-GY
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:08:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46736)
+	id 1icvUL-0000UI-Eh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:04:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDe-00083P-9o
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:16 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDQ-0007oo-7V
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDc-0004t2-5e
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:14 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48372)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDO-00047z-Ln
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:59 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48356)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvDa-0003Vc-7l; Thu, 05 Dec 2019 12:47:12 -0500
+ id 1icvDO-0003Va-Ci
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:46:58 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvD8-00013M-4R; Thu, 05 Dec 2019 20:46:42 +0300
+ id 1icvD8-00013M-Dr; Thu, 05 Dec 2019 20:46:42 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 14/21] hw/s390x: rename Error ** parameter to more common
- errp
-Date: Thu,  5 Dec 2019 20:46:28 +0300
-Message-Id: <20191205174635.18758-15-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 16/21] hw/tpm: rename Error ** parameter to more common errp
+Date: Thu,  5 Dec 2019 20:46:30 +0300
+Message-Id: <20191205174635.18758-17-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205174635.18758-1-vsementsov@virtuozzo.com>
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
@@ -48,48 +48,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, armbru@redhat.com,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
- hw/s390x/event-facility.c | 2 +-
- hw/s390x/s390-stattrib.c  | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/tpm/tpm_emulator.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index 66205697ae..dc733ee2af 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -439,7 +439,7 @@ static void sclp_event_set_allow_all_mask_sizes(Object *obj, bool value,
-     ef->allow_all_mask_sizes = value;
- }
- 
--static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **e)
-+static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **errp)
+diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+index 22f9113432..10d587ed40 100644
+--- a/hw/tpm/tpm_emulator.c
++++ b/hw/tpm/tpm_emulator.c
+@@ -155,7 +155,7 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
+                                      const uint8_t *in, uint32_t in_len,
+                                      uint8_t *out, uint32_t out_len,
+                                      bool *selftest_done,
+-                                     Error **err)
++                                     Error **errp)
  {
-     SCLPEventFacility *ef = (SCLPEventFacility *)obj;
+     ssize_t ret;
+     bool is_selftest = false;
+@@ -165,20 +165,20 @@ static int tpm_emulator_unix_tx_bufs(TPMEmulator *tpm_emu,
+         is_selftest = tpm_util_is_selftest(in, in_len);
+     }
  
-diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-index bf5ac014c4..58121b9f68 100644
---- a/hw/s390x/s390-stattrib.c
-+++ b/hw/s390x/s390-stattrib.c
-@@ -352,7 +352,8 @@ static void s390_stattrib_class_init(ObjectClass *oc, void *data)
-     dc->realize = s390_stattrib_realize;
- }
+-    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, err);
++    ret = qio_channel_write_all(tpm_emu->data_ioc, (char *)in, in_len, errp);
+     if (ret != 0) {
+         return -1;
+     }
  
--static inline bool s390_stattrib_get_migration_enabled(Object *obj, Error **e)
-+static inline bool s390_stattrib_get_migration_enabled(Object *obj,
-+                                                       Error **errp)
- {
-     S390StAttribState *s = S390_STATTRIB(obj);
+     ret = qio_channel_read_all(tpm_emu->data_ioc, (char *)out,
+-              sizeof(struct tpm_resp_hdr), err);
++              sizeof(struct tpm_resp_hdr), errp);
+     if (ret != 0) {
+         return -1;
+     }
  
+     ret = qio_channel_read_all(tpm_emu->data_ioc,
+               (char *)out + sizeof(struct tpm_resp_hdr),
+-              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), err);
++              tpm_cmd_get_size(out) - sizeof(struct tpm_resp_hdr), errp);
+     if (ret != 0) {
+         return -1;
+     }
 -- 
 2.21.0
 
