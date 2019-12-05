@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1975611422F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:03:53 +0100 (CET)
-Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86157114247
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:05:53 +0100 (CET)
+Received: from localhost ([::1]:54776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icrjT-00058r-8n
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:03:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57917)
+	id 1icrlP-0006M0-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:05:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1icrTJ-0007sO-Qb
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:47:12 -0500
+ (envelope-from <bounces@canonical.com>) id 1icrhK-0004cA-7z
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:01:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1icrTH-0000CO-Oa
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:47:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23566
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1icrT9-00009T-L1
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:47:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575553616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+mOrzvkMk1qAV+bE1DXEUk0r1PZRBdh1LcELKK9WGWc=;
- b=ZkZsQCGpcp9kW6H9zQ2GqEJhhaBKe8+bX8N0Jk9vyZY0/F7b4Xw691jiPqVHb59G56tvF1
- LfyazF+o23xiKVYlK2hCZjOJpdYZ+rri1iGQDfOoFdaGCvRDS7Jt0JIrtad8QoZMSkq94S
- WhuYsOrPCG6NJJhWXihcrleMmPwUyuw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-0RryjxhcO5aOcDE1sYImgg-1; Thu, 05 Dec 2019 08:46:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CA64107ACCD;
- Thu,  5 Dec 2019 13:46:54 +0000 (UTC)
-Received: from localhost (ovpn-116-116.ams2.redhat.com [10.36.116.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7694F5D9C9;
- Thu,  5 Dec 2019 13:46:51 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: fix info --backing-chain --image-opts
-Date: Thu,  5 Dec 2019 13:46:46 +0000
-Message-Id: <20191205134646.445427-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1icrhE-0006pw-HP
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:01:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39162)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1icrhC-0006oH-Op
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:01:32 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1icrhA-0003oJ-BO
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 14:01:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 238C12E80CC
+ for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 14:01:28 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 0RryjxhcO5aOcDE1sYImgg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Dec 2019 13:54:39 -0000
+From: "Misa.Z" <1809291@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=philmd@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kcwang misaz philmd pmaydell
+X-Launchpad-Bug-Reporter: k.c. Wang (kcwang)
+X-Launchpad-Bug-Modifier: Misa.Z (misaz)
+References: <154532874183.18487.10011391612831676105.malonedeb@gac.canonical.com>
+Message-Id: <157555407960.6406.1338258523296144389.malone@gac.canonical.com>
+Subject: [Bug 1809291] Re: SD Card not working in Ubuntu 18.10 (CMD 2,
+ 3 timeout). The device worked fine in Ubuntu 18.04 and earlier
+ versions but not in Ubuntu 18.10
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 765b0d1c7239898f7ae0a4f13ba946ac26a77cd1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,163 +68,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1809291 <1809291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only apply --image-opts to the topmost image when listing an entire
-backing chain.  It is incorrect to treat backing filenames as image
-options.  Assuming we have the backing chain t.IMGFMT.base <-
-t.IMGFMT.mid <- t.IMGFMT, qemu-img info fails as follows:
+Dear Dr. KC.Wang,
 
-  $ qemu-img info --backing-chain --image-opts \
-      driver=3Dqcow2,file.driver=3Dfile,file.filename=3Dt.IMGFMT
-  qemu-img: Could not open 'TEST_DIR/t.IMGFMT.mid': Cannot find device=3DTE=
-ST_DIR/t.IMGFMT.mid nor node_name=3DTEST_DIR/t.IMGFMT.mid
+Download qemu-4.2.0-rc4 source code, change hw/sd/sd.c at line 1560 like
+follows and remake
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- qemu-img.c                 |  3 ++
- tests/qemu-iotests/279     | 56 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/279.out | 35 ++++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 95 insertions(+)
- create mode 100755 tests/qemu-iotests/279
- create mode 100644 tests/qemu-iotests/279.out
+(line: 1560)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 95a24b9762..6233b8ca56 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2680,7 +2680,10 @@ static ImageInfoList *collect_image_info_list(bool i=
-mage_opts,
-=20
-         blk_unref(blk);
-=20
-+        /* Clear parameters that only apply to the topmost image */
-         filename =3D fmt =3D NULL;
-+        image_opts =3D false;
-+
-         if (chain) {
-             if (info->has_full_backing_filename) {
-                 filename =3D info->full_backing_filename;
-diff --git a/tests/qemu-iotests/279 b/tests/qemu-iotests/279
-new file mode 100755
-index 0000000000..b555a92859
---- /dev/null
-+++ b/tests/qemu-iotests/279
-@@ -0,0 +1,56 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img --backing-chain --image-opts
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=3D$(basename "$0")
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+# Backing files are required...
-+_supported_fmt qcow qcow2 vmdk qed
-+_supported_proto file
-+_supported_os Linux
-+
-+TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
-+TEST_IMG=3D"$TEST_IMG.mid" _make_test_img -b "$TEST_IMG.base"
-+_make_test_img -b "$TEST_IMG.mid"
-+
-+echo
-+echo '=3D=3D qemu-img info --backing-chain =3D=3D'
-+_img_info --backing-chain | _filter_img_info
-+
-+echo
-+echo '=3D=3D qemu-img info --backing-chain --image-opts =3D=3D'
-+TEST_IMG=3D"driver=3Dqcow2,file.driver=3Dfile,file.filename=3D$TEST_IMG" _=
-img_info --backing-chain --image-opts | _filter_img_info
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/279.out b/tests/qemu-iotests/279.out
-new file mode 100644
-index 0000000000..f4dc6c69cb
---- /dev/null
-+++ b/tests/qemu-iotests/279.out
-@@ -0,0 +1,35 @@
-+QA output created by 279
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+Formatting 'TEST_DIR/t.IMGFMT.mid', fmt=3DIMGFMT size=3D67108864 backing_f=
-ile=3DTEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 backing_file=
-=3DTEST_DIR/t.IMGFMT.mid
-+
-+=3D=3D qemu-img info --backing-chain =3D=3D
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+backing file: TEST_DIR/t.IMGFMT.mid
-+
-+image: TEST_DIR/t.IMGFMT.mid
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+backing file: TEST_DIR/t.IMGFMT.base
-+
-+image: TEST_DIR/t.IMGFMT.base
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+
-+=3D=3D qemu-img info --backing-chain --image-opts =3D=3D
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+backing file: TEST_DIR/t.IMGFMT.mid
-+
-+image: TEST_DIR/t.IMGFMT.mid
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+backing file: TEST_DIR/t.IMGFMT.base
-+
-+image: TEST_DIR/t.IMGFMT.base
-+file format: IMGFMT
-+virtual size: 64 MiB (67108864 bytes)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 6b10a6a762..eb57ddc72c 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -286,3 +286,4 @@
- 272 rw
- 273 backing quick
- 277 rw quick
-+279 rw backing quick
---=20
-2.23.0
+if (req.arg & ACMD41_ENQUIRY_MASK) {
+/*if (FIELD_EX32(sd->ocr & req.arg, OCR, VDD_VOLTAGE_WINDOW)) {*/
 
+BTW,  here is my micro-kernel-os for arm platform based the contents
+from your books, thanks !
+
+https://github.com/MisaZhu/micro_kernel_os
+
+Misa.Z
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1809291
+
+Title:
+  SD Card not working in Ubuntu 18.10 (CMD 2,3 timeout).  The device
+  worked fine in Ubuntu 18.04 and earlier versions but not in Ubuntu
+  18.10
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  ARM PL181 MMC card no longer working in qemu-system-arm in Ubuntu 18.10
+  The MMC driver code worked fine in Ubuntu 15.10 to 18.04.
+  The command to run qemu-system-arm is
+
+      qemu-system-arm -M versatilepb -m 256M -sd sdimage -kernel t.bin
+  -serial mon:stdio
+
+  During SDC initialization, SDC commands 2, 3, 9, 13, 7, 16 all timeout, =
+
+  which cause subsequent read/write commands 17/24 to fail also.
+
+  Tried both ARM versatilepb and realview-pb-a8, realview-pbx-a9 boards:
+  all the same.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1809291/+subscriptions
 
