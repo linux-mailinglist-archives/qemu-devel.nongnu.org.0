@@ -2,105 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D93E11439D
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:33:17 +0100 (CET)
-Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F4B114439
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:58:14 +0100 (CET)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ict7z-0003Rv-Ho
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:33:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38640)
+	id 1ictW9-0002rj-EK
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:58:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ict1c-0006BE-UM
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:43 -0500
+ (envelope-from <armbru@redhat.com>) id 1ict43-0000ct-SB
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:29:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ict1a-0004LA-CP
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:40 -0500
-Received: from mail-eopbgr130130.outbound.protection.outlook.com
- ([40.107.13.130]:7957 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ict1V-0004Ih-K9
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:26:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xk/yyZaaybDsC8+AZXlC0Iatv+o3dSRz1ydRZFfqzpwebDdLdNRbLnhV7I/4urntZsjThrIKnCvp8GCgLYu6Ua6G9V/5mAzoC7cTaFjQFzuf16FgrnjH56X4XWVlN4TRxxrDsZz0PeajiIYh+MGJYtUMwGHhHhuMUPkAMvcwrwv82VTshugg7HIkmBinRFcWUEYYY+o5v7XFrO+tp5EmACBqe9/Ds6bRPoDFl01XlNZHF3KElMlwHOZKHXf/X4zu2sWtKeSir+FIXBhcsnsthdhM76qiNqSrmo0fNLDUhRhy5FLnXhJw315AUKuosO6XQ8VgFg/R26EN/g2ZhDlq2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4XJoTQ+ECVGfCh9ZCHITBGNkk8eLfSySc+bjUiJ8qzA=;
- b=F1hkiqT6iuOIFrycNc2ebC2wrVNUal8GHtt0BoRE9g7KzjpO8j/2LNnBLi4u3y5AF55NOMjjq3tG1n9BSZCW/D1yKAXOW0FbpayE2zGkjZZYFjNpg6WJ4cjyGh5E1cCvDMaRt0RsxnkhmS537vbtEjMp/dcYpwNVR3g4+d9y+DvRowHE7jviw5i3+1kyoCoDlo+0bhYuI6/MCbR7mNnb9EgR0eQNyqNAlwdt8y2vmpPjqsnlYYehsXZNwkfvrHZDiWH3576acXjHRpdtKbf+PSD68iXH4F2/IWGTr8vNzFheA9z+JizoAyJg/fooXxLGGk6Ysi6n575if5yskYiG8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4XJoTQ+ECVGfCh9ZCHITBGNkk8eLfSySc+bjUiJ8qzA=;
- b=mrNQvcKX3u0UfjhhC6kJu4GeGTikGHlZCZ8gX/BJVbf6Ia7GJzQ6mLjly7XiV7+i/652duLksqgwyORkBmvQSLx2zYAJuAOfr0yGm5Js2F5hnGV8GCNN1ilEDQZKW8MujNXTu0Ro4MY4OKPijKJqHy6Xwec49KUEfSAmk+LkSFM=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4310.eurprd08.prod.outlook.com (20.179.5.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Thu, 5 Dec 2019 15:26:29 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Thu, 5 Dec 2019
- 15:26:29 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 05/21] crypto: Fix typo in QCryptoTLSSession's <example>
- comment
-Thread-Topic: [PATCH 05/21] crypto: Fix typo in QCryptoTLSSession's <example>
- comment
-Thread-Index: AQHVp7ZchP6/b3+2u0y4hgKrf1t9SaersU0A
-Date: Thu, 5 Dec 2019 15:26:29 +0000
-Message-ID: <6dc25d03-8433-1bcd-0c2c-2e7931635c29@virtuozzo.com>
-References: <20191130194240.10517-1-armbru@redhat.com>
- <20191130194240.10517-6-armbru@redhat.com>
-In-Reply-To: <20191130194240.10517-6-armbru@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P190CA0002.EURP190.PROD.OUTLOOK.COM (2603:10a6:3:bc::12)
- To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191205182627998
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ebacc27d-c948-4920-362e-08d779978040
-x-ms-traffictypediagnostic: AM6PR08MB4310:
-x-microsoft-antispam-prvs: <AM6PR08MB431055F468C97BC0F30A955BC15C0@AM6PR08MB4310.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:296;
-x-forefront-prvs: 02426D11FE
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(346002)(136003)(39850400004)(396003)(366004)(189003)(199004)(14444005)(64756008)(66446008)(8936002)(66556008)(66476007)(11346002)(4326008)(305945005)(5660300002)(2616005)(14454004)(81166006)(81156014)(8676002)(6486002)(76176011)(25786009)(316002)(2906002)(99286004)(478600001)(52116002)(110136005)(66946007)(26005)(31686004)(86362001)(186003)(6506007)(31696002)(36756003)(229853002)(102836004)(71200400001)(71190400001)(6512007)(4744005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4310;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: oPWGvzj8xCC6fhaW5ed11cLCGWV8zfJCbgpcln809jTSMXm5nAvAsB6J92sYa/Ftmx2oGtqtEdQ+SP5uVJotudNVtOON4Sdve+gAyeNO6IIOzB2T3ZTCR7vb2T+ySo500/Jhe6wNtMloSQsglxAnC3PJolyaDdcNK62RdLmyz30UkLZzNa7xlyzYWWErkuBLJKZW6hT1AsQkvqTpwmcpgZusGLkxHNJ+5P5yn1vGna7JrY8LvvqRaBs1ZvNzCSPEKyiIFWNiVsoDiaDPmxDIV22kIuqGcXMtcJEh1Vrkue1C4oxDoUhM0W0bb7MSzZ3r+MNX4tYzvBakvfd1ztw71f5DrINi8CZsBCmtPFydyOy1oLxHRUSPbNrfTazV+Ts/F3q7LkaZD/LXhB2zu2YIVIcYaxxvxE/jv1WoIkUyiPvGrZf5UXmWTuYoh9zyUuVN
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5A80550B11766549B0892910D132E5CF@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <armbru@redhat.com>) id 1ict41-0003qq-U5
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:29:11 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44620
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ict41-0003mu-OA
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:29:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575559748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I6lcRgrMG9IZH+Jw6X0m5TMTB1LKRh7Al0OENKxLJSs=;
+ b=YaiGn9/agWibcpt6zu6C0l/4BaKlGXMMyX7taX5UyqVcyBhivjNFY1tT5stfY/Sr/0VJ8E
+ 2F047OiBptAKVFkP3AtitJCR+0mhvZs5ezCBickecR8bOw+ONG0CcyRcQQnY09wxbxI2CK
+ VupJ1P9O3o08vesuoi44LgoOK6DjsmU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-TQgvyYjEMeW_8qeFW_SfKQ-1; Thu, 05 Dec 2019 10:29:05 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A949A18A6EE9;
+ Thu,  5 Dec 2019 15:29:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5A5C5DA60;
+ Thu,  5 Dec 2019 15:29:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7116A1138606; Thu,  5 Dec 2019 16:29:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH] util/cutils: Expand do_strtosz parsing precision to 64
+ bits
+References: <20191205021459.29920-1-tao3.xu@intel.com>
+Date: Thu, 05 Dec 2019 16:29:02 +0100
+In-Reply-To: <20191205021459.29920-1-tao3.xu@intel.com> (Tao Xu's message of
+ "Thu, 5 Dec 2019 10:14:59 +0800")
+Message-ID: <87a786sse9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebacc27d-c948-4920-362e-08d779978040
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2019 15:26:29.5968 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BjrvhG0lcp2QxdHyDNL5fj5AAOGnRkEzWxZGm33Jt6MY1MxMGIOprrzYneEwoG4LC0ZNRVaff/N4Iicw7kYaigN7WN3jI/eF/9tnErdnNMM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4310
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.130
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: TQgvyYjEMeW_8qeFW_SfKQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,23 +76,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MzAuMTEuMjAxOSAyMjo0MiwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IENjOiAiRGFuaWVs
-IFAuIEJlcnJhbmfDqSIgPGJlcnJhbmdlQHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IE1h
-cmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgaW5jbHVkZS9j
-cnlwdG8vdGxzc2Vzc2lvbi5oIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvY3J5cHRvL3Rs
-c3Nlc3Npb24uaCBiL2luY2x1ZGUvY3J5cHRvL3Rsc3Nlc3Npb24uaA0KPiBpbmRleCBlMDFlMWE5
-ZGMyLi4xNWI5Y2VmMDg2IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2NyeXB0by90bHNzZXNzaW9u
-LmgNCj4gKysrIGIvaW5jbHVkZS9jcnlwdG8vdGxzc2Vzc2lvbi5oDQo+IEBAIC01Niw3ICs1Niw3
-IEBADQo+ICAgICoNCj4gICAgKiBzdGF0aWMgaW50IG15c29ja19ydW5fdGxzKGludCBzb2NrZmQs
-DQo+ICAgICogICAgICAgICAgICAgICAgICAgICAgICAgICBRQ3J5cHRvVExTQ3JlZHMgKmNyZWRz
-LA0KPiAtICogICAgICAgICAgICAgICAgICAgICAgICAgICBFcnJvciAqZXJycCkNCj4gKyAqICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgRXJyb3IgKiplcnJwKQ0KPiAgICAqIHsNCj4gICAgKiAg
-ICBRQ3J5cHRvVExTU2Vzc2lvbiAqc2VzczsNCj4gICAgKg0KPiANCg0KDQpSZXZpZXdlZC1ieTog
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0K
-DQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+Tao Xu <tao3.xu@intel.com> writes:
+
+> Parse input string both as a double and as a uint64_t, then use the
+> method which consumes more characters. Update the related test cases.
+>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+[...]
+> diff --git a/util/cutils.c b/util/cutils.c
+> index 77acadc70a..b08058c57c 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
+> @@ -212,24 +212,43 @@ static int do_strtosz(const char *nptr, const char =
+**end,
+>                        const char default_suffix, int64_t unit,
+>                        uint64_t *result)
+>  {
+> -    int retval;
+> -    const char *endptr;
+> +    int retval, retd, retu;
+> +    const char *suffix, *suffixd, *suffixu;
+>      unsigned char c;
+>      int mul_required =3D 0;
+> -    double val, mul, integral, fraction;
+> +    bool use_strtod;
+> +    uint64_t valu;
+> +    double vald, mul, integral, fraction;
+
+Note for later: @mul is double.
+
+> +
+> +    retd =3D qemu_strtod_finite(nptr, &suffixd, &vald);
+> +    retu =3D qemu_strtou64(nptr, &suffixu, 0, &valu);
+> +    use_strtod =3D strlen(suffixd) < strlen(suffixu);
+> +
+> +    /*
+> +     * Parse @nptr both as a double and as a uint64_t, then use the meth=
+od
+> +     * which consumes more characters.
+> +     */
+
+The comment is in a funny place.  I'd put it right before the
+qemu_strtod_finite() line.
+
+> +    if (use_strtod) {
+> +        suffix =3D suffixd;
+> +        retval =3D retd;
+> +    } else {
+> +        suffix =3D suffixu;
+> +        retval =3D retu;
+> +    }
+> =20
+> -    retval =3D qemu_strtod_finite(nptr, &endptr, &val);
+>      if (retval) {
+>          goto out;
+>      }
+
+This is even more subtle than it looks.
+
+A close reading of the function contracts leads to three cases for each
+conversion:
+
+* parse error (including infinity and NaN)
+
+  @retu / @retd is -EINVAL
+  @valu / @vald is uninitialized
+  @suffixu / @suffixd is @nptr
+
+* range error
+
+  @retu / @retd is -ERANGE
+  @valu / @vald is our best approximation of the conversion result
+  @suffixu / @suffixd points to the first character not consumed by the
+  conversion.
+
+  Sub-cases:
+
+  - uint64_t overflow
+
+    We know the conversion result exceeds UINT64_MAX.
+
+  - double overflow
+
+    we know the conversion result's magnitude exceeds the largest
+    representable finite double DBL_MAX.
+
+  - double underflow
+
+    we know the conversion result is close to zero (closer than DBL_MIN,
+    the smallest normalized positive double).
+
+* success
+
+  @retu / @retd is 0
+  @valu / @vald is the conversion result
+  @suffixu / @suffixd points to the first character not consumed by the
+  conversion.
+
+This leads to a matrix (parse error, uint64_t overflow, success) x
+(parse error, double overflow, double underflow, success).  We need to
+check the code does what we want for each element of this matrix, and
+document any behavior that's not perfectly obvious.
+
+(success, success): we pick uint64_t if qemu_strtou64() consumed more
+characters than qemu_strtod_finite(), else double.  "More" is important
+here; when they consume the same characters, we *need* to use the
+uint64_t result.  Example: for "18446744073709551615", we need to use
+uint64_t 18446744073709551615, not double 18446744073709551616.0.  But
+for "18446744073709551616.", we need to use the double.  Good.
+
+(success, parse error) and (parse error, success): we pick the one that
+succeeds, because success consumes characters, and failure to parse does
+not.  Good.
+
+(parse error, parse error): neither consumes characters, so we pick
+uint64_t.  Good.
+
+(parse error, double overflow), (parse error, double underflow) and
+(uint64_t overflow, parse error): we pick the range error, because it
+consumes characters.  Good.
+
+These are the simple combinations.  The remainder are hairier: (success,
+double overflow), (success, double underflow), (uint64_t overflow,
+success).  I lack the time to analyze them today.  Must be done before
+we take this patch.  Any takers?
+
+> -    fraction =3D modf(val, &integral);
+> -    if (fraction !=3D 0) {
+> -        mul_required =3D 1;
+> +    if (use_strtod) {
+> +        fraction =3D modf(vald, &integral);
+> +        if (fraction !=3D 0) {
+> +            mul_required =3D 1;
+> +        }
+>      }
+
+Here, @suffix points to the suffix character, if any.
+
+> -    c =3D *endptr;
+> +    c =3D *suffix;
+>      mul =3D suffix_mul(c, unit);
+>      if (mul >=3D 0) {
+> -        endptr++;
+> +        suffix++;
+
+Now @suffix points to the first character not consumed, *not* the
+suffix.
+
+Your patch effectively renames @endptr to @suffix.  I think @endptr is
+the better name.  Keeping the name also makes the diff smaller and
+slightly easier to review.
+
+>      } else {
+>          mul =3D suffix_mul(default_suffix, unit);
+
+suffix_mul() returns int64_t.  The assignment converts it to double.
+Fine before the patch, because @mul is the multiplier for a double
+value.  No longer true after the patch, see below.
+
+>          assert(mul >=3D 0);
+> @@ -238,23 +257,36 @@ static int do_strtosz(const char *nptr, const char =
+**end,
+>          retval =3D -EINVAL;
+>          goto out;
+>      }
+> -    /*
+> -     * Values near UINT64_MAX overflow to 2**64 when converting to doubl=
+e
+> -     * precision.  Compare against the maximum representable double prec=
+ision
+> -     * value below 2**64, computed as "the next value after 2**64 (0x1p6=
+4) in
+> -     * the direction of 0".
+> -     */
+> -    if ((val * mul > nextafter(0x1p64, 0)) || val < 0) {
+> -        retval =3D -ERANGE;
+> -        goto out;
+> +
+> +    if (use_strtod) {
+> +        /*
+> +         * Values near UINT64_MAX overflow to 2**64 when converting to d=
+ouble
+> +         * precision. Compare against the maximum representable double p=
+recision
+> +         * value below 2**64, computed as "the next value after 2**64 (0=
+x1p64)
+> +         * in the direction of 0".
+> +         */
+> +        if ((vald * mul > nextafter(0x1p64, 0)) || vald < 0) {
+> +            retval =3D -ERANGE;
+> +            goto out;
+> +        }
+> +        *result =3D vald * mul;
+
+Here, @mul is a multiplier for double vald.
+
+> +    } else {
+> +        /* Reject negative input and overflow output */
+> +        while (qemu_isspace(*nptr)) {
+> +            nptr++;
+> +        }
+> +        if (*nptr =3D=3D '-' || UINT64_MAX / (uint64_t) mul < valu) {
+> +            retval =3D -ERANGE;
+> +            goto out;
+> +        }
+> +        *result =3D valu * (uint64_t) mul;
+
+Here, @mul is a multiplier for uint64_t valu.
+
+Please change @mul to int64_t to reduce conversions.
+
+>      }
+> -    *result =3D val * mul;
+>      retval =3D 0;
+> =20
+>  out:
+>      if (end) {
+> -        *end =3D endptr;
+> -    } else if (*endptr) {
+> +        *end =3D suffix;
+> +    } else if (*suffix) {
+>          retval =3D -EINVAL;
+>      }
+
 
