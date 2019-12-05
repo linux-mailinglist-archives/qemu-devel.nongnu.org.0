@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CB9114376
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:24:17 +0100 (CET)
-Received: from localhost ([::1]:56194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B033114374
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:24:12 +0100 (CET)
+Received: from localhost ([::1]:56186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icszI-0002N3-OJ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:24:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
+	id 1icszB-0002C0-VZ
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:24:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icsvy-0000Bg-Fr
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:51 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icsvx-0000BG-IK
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icsvu-0005n5-Q9
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:49 -0500
-Received: from relay.sw.ru ([185.231.240.75]:43644)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icsvt-0005ke-3l
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:46 -0500
+Received: from relay.sw.ru ([185.231.240.75]:43530)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsvt-0005f1-4N
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:45 -0500
+ id 1icsvq-0005a7-RW
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:43 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsvZ-00007O-AL; Thu, 05 Dec 2019 18:20:25 +0300
+ id 1icsvZ-00007O-JS; Thu, 05 Dec 2019 18:20:25 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/21] hw/core/loader-fit: fix freeing errp in fit_load_fdt
-Date: Thu,  5 Dec 2019 18:19:59 +0300
-Message-Id: <20191205152019.8454-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 02/21] net/net: Clean up variable shadowing in
+ net_client_init()
+Date: Thu,  5 Dec 2019 18:20:00 +0300
+Message-Id: <20191205152019.8454-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205152019.8454-1-vsementsov@virtuozzo.com>
 References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
@@ -48,37 +50,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, vsementsov@virtuozzo.com,
- armbru@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, vsementsov@virtuozzo.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fit_load_fdt forget to check that errp is not NULL and to zero it after
-freeing. Fix it.
+Variable int err in inner scope shadows Error *err in outer scope.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/core/loader-fit.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ net/net.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
-index 953b16bc82..3ee9fb2f2e 100644
---- a/hw/core/loader-fit.c
-+++ b/hw/core/loader-fit.c
-@@ -200,7 +200,10 @@ static int fit_load_fdt(const struct fit_loader *ldr, const void *itb,
-     err = fit_image_addr(itb, img_off, "load", &load_addr, errp);
-     if (err == -ENOENT) {
-         load_addr = ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
--        error_free(*errp);
-+        if (errp) {
-+            error_free(*errp);
-+            *errp = NULL;
-+        }
-     } else if (err) {
-         error_prepend(errp, "unable to read FDT load address from FIT: ");
-         ret = err;
+diff --git a/net/net.c b/net/net.c
+index 84aa6d8d00..9e93c3f8a1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -1126,16 +1126,13 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+ 
+             prefix_addr = substrings[0];
+ 
+-            if (substrings[1]) {
+-                /* User-specified prefix length.  */
+-                int err;
+-
+-                err = qemu_strtoul(substrings[1], NULL, 10, &prefix_len);
+-                if (err) {
+-                    error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+-                               "ipv6-prefixlen", "a number");
+-                    goto out;
+-                }
++            /* Handle user-specified prefix length. */
++            if (substrings[1] &&
++                qemu_strtoul(substrings[1], NULL, 10, &prefix_len))
++            {
++                error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
++                           "ipv6-prefixlen", "a number");
++                goto out;
+             }
+ 
+             qemu_opt_set(opts, "ipv6-prefix", prefix_addr, &error_abort);
 -- 
 2.21.0
 
