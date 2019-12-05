@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56681142AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:27:53 +0100 (CET)
-Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862B2114272
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:19:29 +0100 (CET)
+Received: from localhost ([::1]:55066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ics6i-00047L-PH
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:27:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45479)
+	id 1icryZ-0002mQ-JD
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:19:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1ics2C-0008M6-6i
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:23:13 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icrra-0006a1-Fj
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:12:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1ics2B-0003Wc-0M
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:23:12 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59255
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1ics2A-0003Up-Qy
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:23:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575555790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p9k3MibFLh40LprRlfXDBRlhCAPdk1SwVWkRGlPDdYA=;
- b=bxJJTA4BVYHMU9ROAq03TsI9wNH3TSYh+VOvTP6akOerpCMt7SKsaLQnY/rQMDwPgGVchk
- rCsM/j9jJt+MU47nmy3E1r9zocET6W+pTfGCQunELStXGJSAQaN9hSt2NDsUaQ1730VGzw
- CefDV7z69nehrPYE8V9mWfql9SP+hFs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-0Cchx1Z6PIyiUHnUhFKYiw-1; Thu, 05 Dec 2019 07:22:01 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E7F08017DF
- for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 12:22:00 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-62.ams2.redhat.com
- [10.36.116.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BEC685D9C9;
- Thu,  5 Dec 2019 12:21:54 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 5/8] acpi: cpuhp: spec: clarify store into
- 'Command data' when 'Command field' == 0
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
- <1575479147-6641-6-git-send-email-imammedo@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <aef3bad3-37cb-86c7-50dc-f6162c3030d6@redhat.com>
-Date: Thu, 5 Dec 2019 13:21:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <alex.bennee@linaro.org>) id 1icrrZ-0001R9-3J
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:12:14 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36656)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icrrY-0001L8-ST
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:12:13 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z3so3811621wru.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 06:12:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iyQpQNck376ErR3JEzAl3CN8hF7hax8QdJJQ+SZHsyE=;
+ b=b0uyW4ZC50er59HogBqhaq3Y0pPguOD811r9iPDe/mIIXBpcjnmvuTacxoHsyTQwmJ
+ /08WClB7zD/1DO1cMrJlH1y9izzzILy+RF95d7o+v5bmJ1iejcCj7MV/RBALvnnimmEh
+ frFHW6vpD/inguGyAhZLTwn/udV1KBk4yHv70alsdsG6Wgw9nyusLtmnQH3jGrzZIxXV
+ dWGit84FvSxajzi8+LzIS3k6YDL4o/WimVzvRop5PCr9EgWe/vE7ABkkdnGzzWKO6EhO
+ IDqLJBqLrtXJehGgaTqhW0e1XGg/0rXLtZuNigfu95GGyT0FvsifObliHeINcbzxOU+c
+ DnVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iyQpQNck376ErR3JEzAl3CN8hF7hax8QdJJQ+SZHsyE=;
+ b=KT5l/gvJQjlffuTEv5U5wlXNS06f//JGQrjNjoZKCnqtYeci0Wzgm/CDODY2OBgylp
+ OtcekemDke5iYzgC8/+oVTKfprFBvPo4BQjJBW0fSXW3CbcHJPsNddIaXlAVXsBPeA+y
+ PZZVf/M6wmCh5As8ApmF4J0E+Rfjxb3WvWFLNEL3WAC9F3R7qbV1EC3RpbEhvmViI4s6
+ E97LqSR7VS6C4jXaCRkCvtx6MV5cMI9U4NP6UKLOt6ZAn+IAxiPUJ3k2LCZ+qGu7294b
+ ub46YY83Us/JUevLZ0PQu+7jLjL2j5JV+k3dpXXxHfH5HXr5gNbbc0YcQqPW3gzXktht
+ U/sg==
+X-Gm-Message-State: APjAAAWdxfqLvE3RIN9lhhkt05keEl1eaHjiOQtDrJHOZOEu+Lvy9vTi
+ Mgb/45Q5cbMEXewAjHlx0kYcKGD1AtQ=
+X-Google-Smtp-Source: APXvYqyMQACgOqQK+F3n5MWfhIM+vyJE0AxgizC4zv2HfiIj6uhMbzUnpevJv4MbsLOGWRMfNE/S8w==
+X-Received: by 2002:adf:e550:: with SMTP id z16mr9795840wrm.315.1575548720065; 
+ Thu, 05 Dec 2019 04:25:20 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u69sm11129614wmu.39.2019.12.05.04.25.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2019 04:25:18 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0F1DA1FF87;
+ Thu,  5 Dec 2019 12:25:18 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 0/6] linux-user mmap debug cleanup
+Date: Thu,  5 Dec 2019 12:25:11 +0000
+Message-Id: <20191205122518.10010-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1575479147-6641-6-git-send-email-imammedo@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 0Cchx1Z6PIyiUHnUhFKYiw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,49 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, mst@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/04/19 18:05, Igor Mammedov wrote:
-> Write section of 'Command data' register should describe what happens
-> when it's written into. Correct description in case the last stored
-> 'Command field' value equals to 0, to reflect that currently it's not
+Hi,
 
-s/equals to/equals/
+This is a quick re-spin of the mmap tracing. I don't bother with
+pretty formatting the protection/type flags as they were incomplete
+and not hard to extract from just dumping the hex values. This makes
+most of the patches much simpler. I've also dropped the home-made
+pattern_glob routine.
 
-or
+The following patches need review:
+   01 - linux user convert target_mprotect debug to trace
+   02 - linux user convert target_mmap debug to tracepoin
+   04 - linux user log page table changes under d page
+   06 - trace replace hand crafted pattern_glob with g_pa
 
-s/equals to/is equal to/
+Alex Bennée (6):
+  linux-user: convert target_mprotect debug to tracepoint
+  linux-user: convert target_mmap debug to tracepoint
+  linux-user: add target_mmap_complete tracepoint
+  linux-user: log page table changes under -d page
+  linux-user: convert target_munmap debug to a tracepoint
+  trace: replace hand-crafted pattern_glob with g_pattern_match_simple
 
-With that:
+ include/exec/log.h      |  5 +++-
+ bsd-user/main.c         |  2 +-
+ linux-user/main.c       |  2 +-
+ linux-user/mmap.c       | 56 ++++++++---------------------------------
+ trace/control.c         | 35 +-------------------------
+ linux-user/trace-events |  6 +++++
+ 6 files changed, 23 insertions(+), 83 deletions(-)
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-
-Thanks
-Laszlo
-
-> supported.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  docs/specs/acpi_cpu_hotplug.txt | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-> index 19c508f..f3c552d 100644
-> --- a/docs/specs/acpi_cpu_hotplug.txt
-> +++ b/docs/specs/acpi_cpu_hotplug.txt
-> @@ -90,8 +90,7 @@ write access:
->              other values: reserved
->      [0x6-0x7] reserved
->      [0x8] Command data: (DWORD access)
-> -          current 'Command field' value:
-> -              0: OSPM reads value of CPU selector
-> +          if last stored 'Command field' value:
->                1: stores value into OST event register
->                2: stores value into OST status register, triggers
->                   ACPI_DEVICE_OST QMP event from QEMU to external applications
-> 
+-- 
+2.20.1
 
 
