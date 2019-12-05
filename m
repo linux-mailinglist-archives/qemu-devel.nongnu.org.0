@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4053411427F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:23:43 +0100 (CET)
-Received: from localhost ([::1]:55168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949FC1142B3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:29:28 +0100 (CET)
+Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ics2g-000882-4x
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:23:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47153)
+	id 1ics8F-0005xY-JU
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:29:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1icrpR-0004PX-4V
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:10:06 -0500
+ (envelope-from <mprivozn@redhat.com>) id 1ics17-0006ku-M8
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:22:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1icrpO-0004bY-VZ
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:10:00 -0500
-Resent-Date: Thu, 05 Dec 2019 09:10:00 -0500
-Resent-Message-Id: <E1icrpO-0004bY-VZ@eggs.gnu.org>
-Received: from sender4-of-o50.zoho.com ([136.143.188.50]:21034)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1icrpO-0004So-MM
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:09:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1575554984; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=OeBAE/y0b6MaKioCUa1oScbfUJAqwhHAqZPLbNwpfuDKCtmVQYQD2ucrDIHv6y68juAbG5bV2sWHm+xA4O1uFrezSqIMRyDnIhCCezQyptA9oxO5DyYMmTGBYjmBAgvLbTS6xma6fXYM9XEakQua9wZn4ehEOgtsfYPybZT6VkA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1575554984;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=lucN9eUclCoEw69/wrH8xZ7E0A1YJcrJQh6j3W8wz6M=; 
- b=A4sfBXkpuSrw4Z0oMvMAzvL1D8Hc4qSxEvKPKgic/JnJa7rMde9/u/gD0sHimp2NrG5UGdDYrMI6d54hvlfQkt0OHcpl1R+G8pyYJD7aMCpJ4Np3GDpARzdwx2XF4/qaN8oA2vRBXkEYl+IX8YJFG5bg3fF8z+y7Iu9i31D/UDQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1575554981686609.6460774169741;
- Thu, 5 Dec 2019 06:09:41 -0800 (PST)
-In-Reply-To: <03fbd542d6bae4cf07be56c51d57fc2962720445.1575546855.git.tgolembi@redhat.com>
-Subject: Re: [PATCH v6] qga: add command guest-get-devices for reporting
- VirtIO devices
-Message-ID: <157555498034.27890.12517932225629858010@37313f22b938>
+ (envelope-from <mprivozn@redhat.com>) id 1ics15-0007az-6r
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:22:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48089)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1ics12-0007Z8-V8
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:22:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575555719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Vr0Gig3Nbjr/9Im+n7OJHPEbRRkSiW7mNmtuEC70fo=;
+ b=Y/mb4+bJxkPNpT7BJ69rmOQ6EdlegafD9rsiz6gtifRPAL8bjmyVEAzh2DupbWBBzvFiTe
+ 4VOgjiVgytB+3JJs2njDl9dtTosCsDFEOyZERXdOQfHzwV/8itrkh5cT2Uz7vfNARSQ3oX
+ O4HVTQWTzhQ1ZNrAdz1cqJshmF+otbE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-6s-N3LCCPSOmN3yqtK1ETQ-1; Thu, 05 Dec 2019 09:21:58 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C54F1005514;
+ Thu,  5 Dec 2019 14:21:57 +0000 (UTC)
+Received: from [10.43.2.30] (unknown [10.43.2.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14D135C1B5;
+ Thu,  5 Dec 2019 14:21:53 +0000 (UTC)
+Subject: Re: [PATCH v3] qga: fence guest-set-time if hwclock not available
+To: Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20191205115350.18713-1-cohuck@redhat.com>
+ <5aaa7f3a-e3d1-0057-5fe2-07dea4864bc7@redhat.com>
+ <20191205141212.6cb05ac7.cohuck@redhat.com>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <189346a8-62f1-02d1-00e4-23d2485646cd@redhat.com>
+Date: Thu, 5 Dec 2019 15:21:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: tgolembi@redhat.com
-Date: Thu, 5 Dec 2019 06:09:41 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <20191205141212.6cb05ac7.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 6s-N3LCCPSOmN3yqtK1ETQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.50
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,58 +75,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, tgolembi@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: Laszlo Ersek <lersek@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8wM2ZiZDU0MmQ2YmFlNGNmMDdi
-ZTU2YzUxZDU3ZmMyOTYyNzIwNDQ1LjE1NzU1NDY4NTUuZ2l0LnRnb2xlbWJpQHJlZGhhdC5jb20v
-CgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxk
-IHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQg
-YmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVw
-cm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhIC9iaW4vYmFz
-aApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBORVRXT1JL
-PTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LW1pbmd3QGZlZG9yYSBKPTE0IE5FVFdPUks9MQo9PT0g
-VEVTVCBTQ1JJUFQgRU5EID09PQoKICBCVUlMRCAgIHBjLWJpb3Mvb3B0aW9ucm9tL2t2bXZhcGlj
-LmltZwogIEJVSUxEICAgcGMtYmlvcy9vcHRpb25yb20vbXVsdGlib290LnJhdwovdG1wL3FlbXUt
-dGVzdC9zcmMvcWdhL2NvbW1hbmRzLXdpbjMyLmM6IEluIGZ1bmN0aW9uICdxbXBfZ3Vlc3RfZ2V0
-X2RldmljZXMnOgovdG1wL3FlbXUtdGVzdC9zcmMvcWdhL2NvbW1hbmRzLXdpbjMyLmM6MjM4OTox
-OTogZXJyb3I6ICdHdWVzdERldmljZUluZm8nIHtha2EgJ3N0cnVjdCBHdWVzdERldmljZUluZm8n
-fSBoYXMgbm8gbWVtYmVyIG5hbWVkICd2ZW5kb3JfaWQnCiAgICAgICAgICAgICBkZXZpY2UtPnZl
-bmRvcl9pZCA9IGdfYXNjaWlfc3RydG91bGwodmVuZG9yX2lkLCBOVUxMLCAxNik7CiAgICAgICAg
-ICAgICAgICAgICBefgovdG1wL3FlbXUtdGVzdC9zcmMvcWdhL2NvbW1hbmRzLXdpbjMyLmM6MjM5
-MDoxOTogZXJyb3I6ICdHdWVzdERldmljZUluZm8nIHtha2EgJ3N0cnVjdCBHdWVzdERldmljZUlu
-Zm8nfSBoYXMgbm8gbWVtYmVyIG5hbWVkICdkZXZpY2VfaWQnCiAgICAgICAgICAgICBkZXZpY2Ut
-PmRldmljZV9pZCA9IGdfYXNjaWlfc3RydG91bGwoZGV2aWNlX2lkLCBOVUxMLCAxNik7CiAgICAg
-ICAgICAgICAgICAgICBefgogIEJVSUxEICAgcGMtYmlvcy9vcHRpb25yb20vbGludXhib290LnJh
-dwogIEJVSUxEICAgcGMtYmlvcy9vcHRpb25yb20vbGludXhib290X2RtYS5yYXcKICBCVUlMRCAg
-IHBjLWJpb3Mvb3B0aW9ucm9tL2t2bXZhcGljLnJhdwogIFNJR04gICAgcGMtYmlvcy9vcHRpb25y
-b20vbXVsdGlib290LmJpbgptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6
-Njk6IHFnYS9jb21tYW5kcy13aW4zMi5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0aW5nIGZvciB1
-bmZpbmlzaGVkIGpvYnMuLi4uCiAgQ0MgICAgICBxZW11LWltZy5vCiAgU0lHTiAgICBwYy1iaW9z
-L29wdGlvbnJvbS9saW51eGJvb3QuYmluCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9y
-KHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1sn
-c3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFu
-Y2UudXVpZD01ZjIxYTlmNzE0M2U0YTU2YTk4OTEzZDhjNTJjZGE5ZCcsICctdScsICcxMDAxJywg
-Jy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RB
-UkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAn
-LWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0ND
-QUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3Fl
-bXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRj
-aGV3LXRlc3Rlci10bXAtNjQwcXA5cWMvc3JjL2RvY2tlci1zcmMuMjAxOS0xMi0wNS0wOS4wMy41
-NC4yNzM1OTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90bXAvcWVt
-dS9ydW4nLCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpm
-aWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD01ZjIxYTlmNzE0M2U0
-YTU2YTk4OTEzZDhjNTJjZGE5ZAptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFr
-ZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC02NDBx
-cDlxYy9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LW1pbmd3QGZlZG9yYV0gRXJyb3Ig
-MgoKcmVhbCAgICA1bTQ3LjMyOXMKdXNlciAgICAwbTkuMDMxcwoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMDNmYmQ1NDJkNmJhZTRjZjA3YmU1
-NmM1MWQ1N2ZjMjk2MjcyMDQ0NS4xNTc1NTQ2ODU1LmdpdC50Z29sZW1iaUByZWRoYXQuY29tL3Rl
-c3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
-dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
-c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 12/5/19 2:12 PM, Cornelia Huck wrote:
+> On Thu, 5 Dec 2019 14:05:19 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>=20
+>> Hi Cornelia,
+>>
+>> On 12/5/19 12:53 PM, Cornelia Huck wrote:
+>>> The Posix implementation of guest-set-time invokes hwclock to
+>>> set/retrieve the time to/from the hardware clock. If hwclock
+>>> is not available, the user is currently informed that "hwclock
+>>> failed to set hardware clock to system time", which is quite
+>>> misleading. This may happen e.g. on s390x, which has a different
+>>> timekeeping concept anyway.
+>>>
+>>> Let's check for the availability of the hwclock command and
+>>> return QERR_UNSUPPORTED for guest-set-time if it is not available.
+>>>
+>>> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+>>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>>> Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>> ---
+>>>
+>>> v2->v3:
+>>>     - added 'static' keyword to hwclock_path
+>>>
+>>> Not sure what tree this is going through; if there's no better place,
+>>> I can also take this through the s390 tree.
+>>
+>> s390 or trivial trees seems appropriate.
+>>
+>>>
+>>> ---
+>>>    qga/commands-posix.c | 13 ++++++++++++-
+>>>    1 file changed, 12 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>>> index 1c1a165daed8..0be301a4ea77 100644
+>>> --- a/qga/commands-posix.c
+>>> +++ b/qga/commands-posix.c
+>>> @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t tim=
+e_ns, Error **errp)
+>>>        pid_t pid;
+>>>        Error *local_err =3D NULL;
+>>>        struct timeval tv;
+>>> +    static const char hwclock_path[] =3D "/sbin/hwclock";
+>>> +    static int hwclock_available =3D -1;
+>>> +
+>>> +    if (hwclock_available < 0) {
+>>> +        hwclock_available =3D (access(hwclock_path, X_OK) =3D=3D 0);
+>>> +    }
+>>> +
+>>> +    if (!hwclock_available) {
+>>> +        error_setg(errp, QERR_UNSUPPORTED);
+>>
+>> In include/qapi/qmp/qerror.h we have:
+>>
+>> /*
+>>    * These macros will go away, please don't use in new code, and do not
+>>    * add new ones!
+>>    */
+>=20
+> Sigh, it is really hard to keep track here :( I just copied from other
+> callers in this file...
+>=20
+>>
+>> Maybe we can replace it by "this feature is not supported on this
+>> architecture"? (or without 'on this architecture').
+>=20
+> This is not really architecture specific, you'd get this on any setup
+> that does not have /sbin/hwclock.
+>=20
+> Q: Is libvirt doing anything with such an error message from QEMU? Do
+> we have the freedom to say e.g "guest-set-time is not supported" or so?
+> Or is it beneficial to print the same error message for any unsupported
+> feature?
+
+No. Libvirt threats error messages as an opaque data. In a few cases we=20
+check for the class of the error and for instance issue a different=20
+command if class was CommandNotFound. You are free to change error=20
+messages as you wish.
+
+Note that this is not true for HMP - there libvirt does some parsing to=20
+figure out the source of error. For instance:
+
+https://libvirt.org/git/?p=3Dlibvirt.git;a=3Dblob;f=3Dsrc/qemu/qemu_monitor=
+_text.c;h=3D9054682d608b13347880f36cacd0e023151322e6;hb=3DHEAD#l36
+
+Michal
 
 
