@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFD911391B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 02:08:26 +0100 (CET)
-Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2150113965
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 02:40:06 +0100 (CET)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icfd3-0006Kw-6W
-	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 20:08:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47272)
+	id 1icg7h-0006mL-MG
+	for lists+qemu-devel@lfdr.de; Wed, 04 Dec 2019 20:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1icfbh-0005Vq-Bb
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:07:03 -0500
+ (envelope-from <yan.y.zhao@intel.com>) id 1icg4p-0004U7-P1
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:37:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1icfbe-00058C-QW
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:07:00 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37844
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1icg4h-0007Mv-Gj
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:37:03 -0500
+Received: from mga09.intel.com ([134.134.136.24]:28819)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1icfbe-000530-6j
- for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:06:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575508017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUjQ2mKJAhKs192k1MpvPZr39Y82vEShtk3lZH2kAA8=;
- b=Z4q2ixC4M6yT13X6NQC6wzx3FKlUsZ4gqPJCE/b6QWPyoox+2wgjeWId+OTE/Vk3GOArvp
- tAkPPXNTm8FeoIVF+rWcvHCVMBRbbRpGNPzD1grwf5rKSTnn7jqxFKoNvhBQWy4+CCD2WG
- vPw1JiXDdt1bSuDKYE8Lhcs0WTnvy/g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-CzDPwS52Obi3w3gqDe5IRQ-1; Wed, 04 Dec 2019 20:06:56 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECB7018543A0;
- Thu,  5 Dec 2019 01:06:54 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-125-37.rdu2.redhat.com
- [10.10.125.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1818C19C6A;
- Thu,  5 Dec 2019 01:06:46 +0000 (UTC)
-Date: Wed, 4 Dec 2019 20:06:44 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 1/7] iotests: Provide a function for checking the
- creation of huge files
-Message-ID: <20191205010644.GA9976@localhost.localdomain>
-References: <20191204154618.23560-1-thuth@redhat.com>
- <20191204154618.23560-2-thuth@redhat.com>
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1icg4e-00076x-LW
+ for qemu-devel@nongnu.org; Wed, 04 Dec 2019 20:36:57 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2019 17:36:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,279,1571727600"; d="scan'208";a="294386012"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga001.jf.intel.com with ESMTP; 04 Dec 2019 17:36:44 -0800
+Date: Wed, 4 Dec 2019 20:28:35 -0500
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v9 Kernel 2/5] vfio iommu: Add ioctl defination to get
+ dirty pages bitmap.
+Message-ID: <20191205012835.GB31791@joy-OptiPlex-7040>
+References: <1573578220-7530-3-git-send-email-kwankhede@nvidia.com>
+ <20191112153020.71406c44@x1.home>
+ <324ce4f8-d655-ee37-036c-fc9ef9045bef@nvidia.com>
+ <20191113130705.32c6b663@x1.home>
+ <7f74a2a1-ba1c-9d4c-dc5e-343ecdd7d6d6@nvidia.com>
+ <20191114140625.213e8a99@x1.home>
+ <20191126005739.GA31144@joy-OptiPlex-7040>
+ <20191203110412.055c38df@x1.home>
+ <cce08ca5-79df-2839-16cd-15723b995c07@nvidia.com>
+ <20191204113457.16c1316d@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <20191204154618.23560-2-thuth@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: CzDPwS52Obi3w3gqDe5IRQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20191204113457.16c1316d@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,99 +67,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- Eric Auger <eric.auger@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 04, 2019 at 04:46:12PM +0100, Thomas Huth wrote:
-> Some tests create huge (but sparse) files, and to be able to run those
-> tests in certain limited environments (like CI containers), we have to
-> check for the possibility to create such files first. Thus let's introduc=
-e
-> a common function to check for large files, and replace the already
-> existing checks in the iotests 005 and 220 with this function.
->=20
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qemu-iotests/005       |  5 +----
->  tests/qemu-iotests/220       |  6 ++----
->  tests/qemu-iotests/common.rc | 10 ++++++++++
->  3 files changed, 13 insertions(+), 8 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-> index 58442762fe..b6d03ac37d 100755
-> --- a/tests/qemu-iotests/005
-> +++ b/tests/qemu-iotests/005
-> @@ -59,10 +59,7 @@ fi
->  # Sanity check: For raw, we require a file system that permits the creat=
-ion
->  # of a HUGE (but very sparse) file. Check we can create it before contin=
-uing.
->  if [ "$IMGFMT" =3D "raw" ]; then
-> -    if ! truncate --size=3D5T "$TEST_IMG"; then
-> -        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-> -    fi
-> -    rm "$TEST_IMG"
-> +    _require_large_file 5T
->  fi
-> =20
->  echo
-> diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
-> index 2d62c5dcac..15159270d3 100755
-> --- a/tests/qemu-iotests/220
-> +++ b/tests/qemu-iotests/220
-> @@ -42,10 +42,8 @@ echo "=3D=3D Creating huge file =3D=3D"
-> =20
->  # Sanity check: We require a file system that permits the creation
->  # of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
-> -if ! truncate --size=3D513T "$TEST_IMG"; then
-> -    _notrun "file system on $TEST_DIR does not support large enough file=
-s"
-> -fi
-> -rm "$TEST_IMG"
-> +_require_large_file 513T
-> +
->  IMGOPTS=3D'cluster_size=3D2M,refcount_bits=3D1' _make_test_img 513T
-> =20
->  echo "=3D=3D Populating refcounts =3D=3D"
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index 0cc8acc9ed..6f0582c79a 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -643,5 +643,15 @@ _require_drivers()
->      done
->  }
-> =20
-> +# Check that we have a file system that allows huge (but very sparse) fi=
-les
-> +#
-> +_require_large_file()
-> +{
-> +    if ! truncate --size=3D"$1" "$TEST_IMG"; then
-> +        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-> +    fi
-> +    rm "$TEST_IMG"
-> +}
-> +
->  # make sure this script returns success
->  true
-> --=20
-> 2.18.1
->=20
+On Thu, Dec 05, 2019 at 02:34:57AM +0800, Alex Williamson wrote:
+> On Wed, 4 Dec 2019 23:40:25 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+> > On 12/3/2019 11:34 PM, Alex Williamson wrote:
+> > > On Mon, 25 Nov 2019 19:57:39 -0500
+> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > >   
+> > >> On Fri, Nov 15, 2019 at 05:06:25AM +0800, Alex Williamson wrote:  
+> > >>> On Fri, 15 Nov 2019 00:26:07 +0530
+> > >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >>>      
+> > >>>> On 11/14/2019 1:37 AM, Alex Williamson wrote:  
+> > >>>>> On Thu, 14 Nov 2019 01:07:21 +0530
+> > >>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >>>>>        
+> > >>>>>> On 11/13/2019 4:00 AM, Alex Williamson wrote:  
+> > >>>>>>> On Tue, 12 Nov 2019 22:33:37 +0530
+> > >>>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >>>>>>>           
+> > >>>>>>>> All pages pinned by vendor driver through vfio_pin_pages API should be
+> > >>>>>>>> considered as dirty during migration. IOMMU container maintains a list of
+> > >>>>>>>> all such pinned pages. Added an ioctl defination to get bitmap of such  
+> > >>>>>>>
+> > >>>>>>> definition
+> > >>>>>>>           
+> > >>>>>>>> pinned pages for requested IO virtual address range.  
+> > >>>>>>>
+> > >>>>>>> Additionally, all mapped pages are considered dirty when physically
+> > >>>>>>> mapped through to an IOMMU, modulo we discussed devices opting in to
+> > >>>>>>> per page pinning to indicate finer granularity with a TBD mechanism to
+> > >>>>>>> figure out if any non-opt-in devices remain.
+> > >>>>>>>           
+> > >>>>>>
+> > >>>>>> You mean, in case of device direct assignment (device pass through)?  
+> > >>>>>
+> > >>>>> Yes, or IOMMU backed mdevs.  If vfio_dmas in the container are fully
+> > >>>>> pinned and mapped, then the correct dirty page set is all mapped pages.
+> > >>>>> We discussed using the vpfn list as a mechanism for vendor drivers to
+> > >>>>> reduce their migration footprint, but we also discussed that we would
+> > >>>>> need a way to determine that all participants in the container have
+> > >>>>> explicitly pinned their working pages or else we must consider the
+> > >>>>> entire potential working set as dirty.
+> > >>>>>        
+> > >>>>
+> > >>>> How can vendor driver tell this capability to iommu module? Any suggestions?  
+> > >>>
+> > >>> I think it does so by pinning pages.  Is it acceptable that if the
+> > >>> vendor driver pins any pages, then from that point forward we consider
+> > >>> the IOMMU group dirty page scope to be limited to pinned pages?  There  
+> > >> we should also be aware of that dirty page scope is pinned pages + unpinned pages,
+> > >> which means ever since a page is pinned, it should be regarded as dirty
+> > >> no matter whether it's unpinned later. only after log_sync is called and
+> > >> dirty info retrieved, its dirty state should be cleared.  
+> > > 
+> > > Yes, good point.  We can't just remove a vpfn when a page is unpinned
+> > > or else we'd lose information that the page potentially had been
+> > > dirtied while it was pinned.  Maybe that vpfn needs to move to a dirty
+> > > list and both the currently pinned vpfns and the dirty vpfns are walked
+> > > on a log_sync.  The dirty vpfns list would be cleared after a log_sync.
+> > > The container would need to know that dirty tracking is enabled and
+> > > only manage the dirty vpfns list when necessary.  Thanks,
+> > >   
+> > 
+> > If page is unpinned, then that page is available in free page pool for 
+> > others to use, then how can we say that unpinned page has valid data?
+> > 
+> > If suppose, one driver A unpins a page and when driver B of some other 
+> > device gets that page and he pins it, uses it, and then unpins it, then 
+> > how can we say that page has valid data for driver A?
+> > 
+> > Can you give one example where unpinned page data is considered reliable 
+> > and valid?
+> 
+> We can only pin pages that the user has already allocated* and mapped
+> through the vfio DMA API.  The pinning of the page simply locks the
+> page for the vendor driver to access it and unpinning that page only
+> indicates that access is complete.  Pages are not freed when a vendor
+> driver unpins them, they still exist and at this point we're now
+> assuming the device dirtied the page while it was pinned.  Thanks,
+> 
+> Alex
+> 
+> * An exception here is that the page might be demand allocated and the
+>   act of pinning the page could actually allocate the backing page for
+>   the user if they have not faulted the page to trigger that allocation
+>   previously.  That page remains mapped for the user's virtual address
+>   space even after the unpinning though.
+>
 
-This is a good refactor even without considering the CI environment
-issues it will help to address.
+Yes, I can give an example in GVT.
+when a gem_object is allocated in guest, before submitting it to guest
+vGPU, gfx cmds in its ring buffer need to be pinned into GGTT to get a
+global graphics address for hardware access. At that time, we shadow
+those cmds and pin pages through vfio pin_pages(), and submit the shadow
+gem_object to physial hardware.
+After guest driver thinks the submitted gem_object has completed hardware
+DMA, it unnpinnd those pinned GGTT graphics memory addresses. Then in
+host, we unpin the shadow pages through vfio unpin_pages.
+But, at this point, guest driver is still free to access the gem_object
+through vCPUs, and guest user space is probably still mapping an object
+into the gem_object in guest driver.
+So, missing the dirty page tracking for unpinned pages would cause
+data inconsitency.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-
+Thanks
+Yan
 
