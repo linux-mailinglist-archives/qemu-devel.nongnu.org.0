@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54345114802
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 21:20:49 +0100 (CET)
-Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF051147FC
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 21:11:41 +0100 (CET)
+Received: from localhost ([::1]:60510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icxcG-0000my-9u
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 15:20:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45247)
+	id 1icxTP-0004x5-QE
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 15:11:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1icxFH-0007xd-CM
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:04 -0500
+ (envelope-from <eblake@redhat.com>) id 1icxRa-00047u-3y
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 15:09:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1icxFE-00022t-TL
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:02 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36361
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1icxRW-0006JT-N2
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 15:09:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56835
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1icxFE-0001zi-MW
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 14:57:00 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icxRW-0006ET-Fd
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 15:09:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575575818;
+ s=mimecast20190719; t=1575576581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rakeQeoYRJ/SUbgWpGcOrkqCokXjCMxMzBjlySJ1scI=;
- b=BmS6m3PozNvXmplm87+KgyOAelWsMyvxwXjg5iEUOjvwDzLjQruL7DeBfG7QtQN8TFqq84
- 1o4oKH/WtUhvg0rjB82TRMejGEV5MjJEp3svyAdHRoos1lZ/iGP3+HpaZYFRzaaNbyZ/OL
- q31kwyGHpaP7e5u/SeUISQ+UN+IUehY=
+ bh=D6VczvkEy9bYoSdDeIZ9npbUnXHQmobH+C9YSDb91bM=;
+ b=gLSzXHiogZEwG0baOWw+TiBwC2Pgm8wcozUZLoEs9us7mSE3kS2LwsnyN4MZbSHryGfx5Q
+ hFgVbZThEop5V5WuTwSeiPuWfSFKyMnLfYD1GIh8WGb4erCD6MUyPTniKEB5RMF5o+YxOJ
+ Bjf7PbbsNs4mBkKm7ED+2Uey9aO1PBE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-0Ym2bVskNWqnIww1kfUhXg-1; Thu, 05 Dec 2019 14:56:57 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-295-YokNhkKhNtyO7b0ypWEt7g-1; Thu, 05 Dec 2019 15:09:40 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69755183B700;
- Thu,  5 Dec 2019 19:56:56 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-62.ams2.redhat.com
- [10.36.116.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1AEF5D6A3;
- Thu,  5 Dec 2019 19:56:52 +0000 (UTC)
-Subject: Re: [PATCH-for-5.0] roms/edk2-funcs: Force armhf toolchain prefix on
- Debian
-To: Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20191205180913.15263-1-philmd@redhat.com>
- <CAKv+Gu_DqSD9K3Ajsj0q2yQ_AT=pjfhSitn2t-irYXoW662jOg@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <80925eef-1081-4c5d-49e9-b4d25970efac@redhat.com>
-Date: Thu, 5 Dec 2019 20:56:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17E30107ACC7;
+ Thu,  5 Dec 2019 20:09:39 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2DFA10013D9;
+ Thu,  5 Dec 2019 20:09:33 +0000 (UTC)
+Subject: Re: [PATCH for-4.2?] block/qcow2-bitmap: fix crash bug in
+ qcow2_co_remove_persistent_dirty_bitmap
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191205193049.30666-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <22af83d1-91e2-ab71-2dc4-349b5b24d1d8@redhat.com>
+Date: Thu, 5 Dec 2019 14:09:32 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CAKv+Gu_DqSD9K3Ajsj0q2yQ_AT=pjfhSitn2t-irYXoW662jOg@mail.gmail.com>
+In-Reply-To: <20191205193049.30666-1-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 0Ym2bVskNWqnIww1kfUhXg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: YokNhkKhNtyO7b0ypWEt7g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,88 +76,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, Peter Krempa <pkrempa@redhat.com>,
+ libvirt-list@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/19 19:17, Ard Biesheuvel wrote:
-> On Thu, 5 Dec 2019 at 18:09, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->>
->> The Debian (based) distributions historically provides 2 ARM
->> toolchains, documented as [1]:
->>
->> * The ARM EABI (armel) port targets a range of older 32-bit ARM
->>   devices, particularly those used in NAS hardware and a variety
->>   of *plug computers.
->> * The newer ARM hard-float (armhf) port supports newer, more
->>   powerful 32-bit devices using version 7 of the ARM architecture
->>   specification.
->>
->> The EDK2 documentation suggests to use the hard-float toolchain.
->>
->=20
-> We should probably fix that.
+On 12/5/19 1:30 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Here is double bug:
+> 
+> First, return error but not set errp. This may lead to:
+> qmp block-dirty-bitmap-remove may report success when actually failed
+> 
+> block-dirty-bitmap-remove used in a transaction will crash, as
+> qmp_transaction will think that it returned success and will cal
 
-OK, I'm confused. What case are we talking about?
+call
 
-(1) Without this patch, "roms/edk2-funcs.sh" fails to select *any* cross
-compiler on Debian, and the build just croaks.
+> block_dirty_bitmap_remove_commit which will crash, as state->bitmap is
+> NULL
+> 
+> Second (like in anecdote), this case is not an error at all. As it is
+> documented in the comment above bdrv_co_remove_persistent_dirty_bitmap
+> definition, absence of bitmap is not an error, and similar case handled
+> at start of qcow2_co_remove_persistent_dirty_bitmap, it returns 0 when
+> there is no bitmaps at all..
 
---> insist on armhf in this script?
---> insist on armel in this script?
---> pick whichever is available, because either works?
+double .
 
-(2) Without this patch, "roms/edk2-funcs.sh" selects the "armel" flavor,
-and it fails to build edk2.
+> 
+> But when there are some bitmaps, but not the requested one, it return
+> error with errp unset.
+> 
+> Fix that.
+> 
+> Fixes: b56a1e31759b750
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
+> Hi all!
+> 
+> Ohm, suddenly we faced this bug. It's a regression in 4.2. I'm very
+> sorry for introducing it, and it sad that it's found so late..
+> 
+> Personally, I think that this one worth rc5, as it makes new bitmap
+> interfaces unusable. But the decision is yours.
+> 
+> Last minute edit: hmm, actually, transaction action introduced in
+> 4.2, so crash is not a regression, only broken block-dirty-bitmap-remove
+> command is a regression... Maybe it's OK for stable.
 
---> insist on armhf in this script?
+Libvirt REALLY wants to use transaction bitmap management (and require 
+qemu 4.2) for its incremental backup patches that Peter is almost ready 
+to merge in.  I'm trying to ascertain:
 
-(3) Without this patch, "roms/edk2-funcs.sh" selects the "armel" flavor,
-and it builds edk2 just fine -- but that's not the flavor that the edk2
-documentation suggests.
+When exactly can this bug hit?  Can you give a sequence of QMP commands 
+that will trigger it for easy reproduction?  Are there workarounds (such 
+as checking that a bitmap exists prior to attempting to remove it)?  If 
+it does NOT get fixed in rc5, how will libvirt be able to probe whether 
+the fix is in place?
 
---> drop this patch, and fix the edk2 docs?
+> 
+>   block/qcow2-bitmap.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+> index 8abaf632fc..c6c8ebbe89 100644
+> --- a/block/qcow2-bitmap.c
+> +++ b/block/qcow2-bitmap.c
+> @@ -1469,8 +1469,10 @@ int coroutine_fn qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
+>       Qcow2BitmapList *bm_list;
+>   
+>       if (s->nb_bitmaps == 0) {
+> -        /* Absence of the bitmap is not an error: see explanation above
+> -         * bdrv_remove_persistent_dirty_bitmap() definition. */
+> +        /*
+> +         * Absence of the bitmap is not an error: see explanation above
+> +         * bdrv_co_remove_persistent_dirty_bitmap() definition.
+> +         */
+>           return 0;
+>       }
+>   
+> @@ -1485,7 +1487,8 @@ int coroutine_fn qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
+>   
+>       bm = find_bitmap_by_name(bm_list, name);
+>       if (bm == NULL) {
+> -        ret = -EINVAL;
+> +        /* Absence of the bitmap is not an error, see above. */
+> +        ret = 0;
+>           goto out;
+>       }
+>   
+> 
 
-Thanks,
-Laszlo
-
-> tools_def.template mentions
-> arm-linux-gnueabi, and while it does not really matter in most cases,
-> if you are using Clang, you actually need the armel binutils (see
-> 41203b9ab5d48e029f24e17e9a865e54b7e1643d for details)
->=20
->=20
->> Force the armhf cross toolchain prefix on Debian distributions.
->>
->> [1] https://www.debian.org/ports/arm/#status
->> [2] https://github.com/tianocore/edk2-platforms/blob/master/Readme.md#if=
--cross-compiling
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>  roms/edk2-funcs.sh | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
->> index 3f4485b201..a546aa1d11 100644
->> --- a/roms/edk2-funcs.sh
->> +++ b/roms/edk2-funcs.sh
->> @@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
->>       ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] );=
- then
->>      # no cross-compiler needed
->>      :
->> +  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); th=
-en
->> +    # force hard-float cross-compiler on Debian
->> +    printf 'arm-linux-gnueabihf-'
->>    else
->>      printf '%s-linux-gnu-\n' "$gcc_arch"
->>    fi
->> --
->> 2.21.0
->>
->=20
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
