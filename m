@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630B1113E8A
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 10:51:12 +0100 (CET)
-Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416ED113F0A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 11:07:36 +0100 (CET)
+Received: from localhost ([::1]:52432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icnmx-00025B-9J
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 04:51:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
+	id 1ico2p-0007xA-3E
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 05:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1icnhV-0008Pj-Sg
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 04:45:35 -0500
+ (envelope-from <bounces@canonical.com>) id 1ico1z-0007Up-FI
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 05:06:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1icnhN-0000kj-5w
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 04:45:33 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49208
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1icnhM-0000hS-U3
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 04:45:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575539124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rEczgcfUVfkG7I1J44dp85BlXZYGU7pRPmeX+HBJFtk=;
- b=RgzlLYR+5fLyPpI4JKvzmJd+8tbR2LMw/g+/68tGqOaAC5+Et19fyDh3A9LG01oqoT06uw
- P4q71viAuSbBcnnaYfGAfB8DZPhGJ4o2bN20vPizTthrUfXlDoRiuS7kK+wtbUewOEe+Ou
- V7AV0dtnptRlwXLJ5c7Lk4hFGaXEWEk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-GgR82Qi2NKG_gyQqKofYDw-1; Thu, 05 Dec 2019 04:45:22 -0500
-Received: by mail-wr1-f71.google.com with SMTP id c6so1267007wrm.18
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 01:45:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tgf+Ym6RCq7OiPcspOTR40XcffhQ/grqwAuYUQ2p9YQ=;
- b=ToN5ziH44PJSdlt9fxfCiYi9epbgm+tFwPX1l0TyQAT3eJ0a4zxT5WadFSJfo8J680
- P/GdiJ9upG+ZKXmmDOOw5PHfsI3YwCx1I/4m2rqjj5+nVtAAqwRMi0rBotiQ0aCF/PVJ
- vYOqnnyyEshg302GL2+yqhKkFtlx2ImnCmSYWCSLBC60xUa8uYxdKz3UQGgaCu1V9g3Z
- rvzxR7B6vDhvZIN3zjB3F7KNHwJTA/KzlgtFX8X5QtflCVMrzWnAalfmsm7VBNctUYBU
- aPM2eklGmNNO0Byc9hIRgdVKRKGqbOKTM02sUAIALhoCApyrNHFJqTuaIkPpnLUpdAeq
- XJ/g==
-X-Gm-Message-State: APjAAAVlpv7oyLFnzg+Qyvve4jNbKJAlhI4aBcLpMw27UguONQluCrb6
- 5AsicBeG80w4Rdhy2IgYaDXE5sAcPxYLjpeTzvCZQVRtTVS6y94hsrfd/pvWGBNONWJH+5rrlJa
- Wl4O0Wnm/K2fC8Ok=
-X-Received: by 2002:adf:dfc2:: with SMTP id q2mr8704092wrn.251.1575539121539; 
- Thu, 05 Dec 2019 01:45:21 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyg4zn3rPyKP8pVCCSQRfD0MrpMmU9DAiC7UZsfWuCCflove/EOROFUh++hr01qtlEYte7OIw==
-X-Received: by 2002:adf:dfc2:: with SMTP id q2mr8704064wrn.251.1575539121289; 
- Thu, 05 Dec 2019 01:45:21 -0800 (PST)
-Received: from steredhat (host28-88-dynamic.16-87-r.retail.telecomitalia.it.
- [87.16.88.28])
- by smtp.gmail.com with ESMTPSA id w20sm4275295wmk.34.2019.12.05.01.45.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Dec 2019 01:45:20 -0800 (PST)
-Date: Thu, 5 Dec 2019 10:45:18 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: pannengyuan@huawei.com
-Subject: Re: [PATCH v5 2/2] block/nbd: fix memory leak in nbd_open()
-Message-ID: <20191205094518.4jl357lrbiuzrdcg@steredhat>
-References: <1575517528-44312-1-git-send-email-pannengyuan@huawei.com>
- <1575517528-44312-3-git-send-email-pannengyuan@huawei.com>
+ (envelope-from <bounces@canonical.com>) id 1ico1x-0004aN-Mb
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 05:06:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49720)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ico1x-0004Ro-Bv
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 05:06:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ico1v-0001ek-A0
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 10:06:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 483DF2E804F
+ for <qemu-devel@nongnu.org>; Thu,  5 Dec 2019 10:06:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1575517528-44312-3-git-send-email-pannengyuan@huawei.com>
-X-MC-Unique: GgR82Qi2NKG_gyQqKofYDw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 05 Dec 2019 09:51:15 -0000
+From: Matti Hameister <1846427@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h kwolf-redhat lersek mattihami
+ michael-weiser psyhomb sej7278
+X-Launchpad-Bug-Reporter: Michael Weiser (michael-weiser)
+X-Launchpad-Bug-Modifier: Matti Hameister (mattihami)
+References: <157005622285.15919.12087374175062502233.malonedeb@gac.canonical.com>
+Message-Id: <157553947541.22851.1703856010105919111.malone@chaenomeles.canonical.com>
+Subject: [Bug 1846427] Re: 4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c597c3229eb023b1e626162d5947141bf7befb13";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f4c3800fbfe15512f9356a22ef8b1c6ea8382393
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,112 +67,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, liyiting@huawei.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- qemu-stable <qemu-stable@nongnu.org>, qemu-devel@nongnu.org, mreitz@redhat.com,
- kuhn.chenqun@huawei.com
+Reply-To: Bug 1846427 <1846427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 05, 2019 at 11:45:28AM +0800, pannengyuan@huawei.com wrote:
-> From: Pan Nengyuan <pannengyuan@huawei.com>
->=20
-> In currently implementation there will be a memory leak when
-> nbd_client_connect() returns error status. Here is an easy way to
-> reproduce:
->=20
-> 1. run qemu-iotests as follow and check the result with asan:
->     ./check -raw 143
->=20
-> Following is the asan output backtrack:
-> Direct leak of 40 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a560 in calloc (/usr/lib64/libasan.so.3+0xc7560)
->     #1 0x7f6295e7e015 in g_malloc0  (/usr/lib64/libglib-2.0.so.0+0x50015)
->     #2 0x56281dab4642 in qobject_input_start_struct  /mnt/sdb/qemu-4.2.0-=
-rc0/qapi/qobject-input-visitor.c:295
->     #3 0x56281dab1a04 in visit_start_struct  /mnt/sdb/qemu-4.2.0-rc0/qapi=
-/qapi-visit-core.c:49
->     #4 0x56281dad1827 in visit_type_SocketAddress  qapi/qapi-visit-socket=
-s.c:386
->     #5 0x56281da8062f in nbd_config   /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c=
-:1716
->     #6 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1829
->     #7 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:187=
-3
->=20
-> Direct leak of 15 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281da804ac in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1834
->     #4 0x56281da804ac in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:187=
-3
->=20
-> Indirect leak of 24 byte(s) in 1 object(s) allocated from:
->     #0 0x7f629688a3a0 in malloc (/usr/lib64/libasan.so.3+0xc73a0)
->     #1 0x7f6295e7dfbd in g_malloc (/usr/lib64/libglib-2.0.so.0+0x4ffbd)
->     #2 0x7f6295e96ace in g_strdup (/usr/lib64/libglib-2.0.so.0+0x68ace)
->     #3 0x56281dab41a3 in qobject_input_type_str_keyval /mnt/sdb/qemu-4.2.=
-0-rc0/qapi/qobject-input-visitor.c:536
->     #4 0x56281dab2ee9 in visit_type_str /mnt/sdb/qemu-4.2.0-rc0/qapi/qapi=
--visit-core.c:297
->     #5 0x56281dad0fa1 in visit_type_UnixSocketAddress_members qapi/qapi-v=
-isit-sockets.c:141
->     #6 0x56281dad17b6 in visit_type_SocketAddress_members qapi/qapi-visit=
--sockets.c:366
->     #7 0x56281dad186a in visit_type_SocketAddress qapi/qapi-visit-sockets=
-.c:393
->     #8 0x56281da8062f in nbd_config /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:1=
-716
->     #9 0x56281da8062f in nbd_process_options /mnt/sdb/qemu-4.2.0-rc0/bloc=
-k/nbd.c:1829
->     #10 0x56281da8062f in nbd_open /mnt/sdb/qemu-4.2.0-rc0/block/nbd.c:18=
-73
->=20
-> Fixes: 8f071c9db506e03ab
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Cc: qemu-stable <qemu-stable@nongnu.org>
-> Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
-> Changes v2 to v1:
-> - add a new function to do the common cleanups (suggested by Stefano
->   Garzarella).
-> ---
-> Changes v3 to v2:
-> - split in two patches(suggested by Stefano Garzarella)
-> ---
-> Changes v4 to v3:
-> - replace function name from nbd_free_bdrvstate_prop to
->   nbd_clear_bdrvstate and add Fixes tag.
-> ---
-> Changes v5 to v4:
-> - correct the wrong email address
-> ---
->  block/nbd.c | 1 +
->  1 file changed, 1 insertion(+)
+The qemu 4.1.0 upgrade killed pretty much all my VMs. I had data
+corruption (i.e. tar was unable to extract some larger data archives for
+testing purposes) in all my Linux VMs and other strange errors. The
+Windows VM was killed after I ran "qemu-img check -r all" on the image.
+Afterwards Windows was damaged beyond repair and unbootable.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+So I reinstalled everything with qemu 4.0, new images and stayed on that
+version except for testing purposes. Last test was qemu 4.1.1.
 
->=20
-> diff --git a/block/nbd.c b/block/nbd.c
-> index 8b4a65a..9062409 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -1891,6 +1891,7 @@ static int nbd_open(BlockDriverState *bs, QDict *op=
-tions, int flags,
-> =20
->      ret =3D nbd_client_connect(bs, errp);
->      if (ret < 0) {
-> +        nbd_clear_bdrvstate(s);
->          return ret;
->      }
->      /* successfully connected */
-> --=20
-> 2.7.2.windows.1
+Sadly I currently have no time to investigate this error until March
+next year.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846427
+
+Title:
+  4.1.0: qcow2 corruption on savevm/quit/loadvm cycle
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  I'm seeing massive corruption of qcow2 images with qemu 4.1.0 and git
+  master as of 7f21573c822805a8e6be379d9bcf3ad9effef3dc after a few
+  savevm/quit/loadvm cycles. I've narrowed it down to the following
+  reproducer (further notes below):
+
+  # qemu-img check debian.qcow2
+  No errors were found on the image.
+  251601/327680 =3D 76.78% allocated, 1.63% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+  # bin/qemu/bin/qemu-system-x86_64 -machine pc-q35-4.0.1,accel=3Dkvm -m 40=
+96 -chardev stdio,id=3Dcharmonitor -mon chardev=3Dcharmonitor -drive file=
+=3Ddebian.qcow2,id=3Dd -S
+  qemu-system-x86_64: warning: dbind: Couldn't register with accessibility =
+bus: Did not receive a reply. Possible causes include: the remote applicati=
+on did not send a reply, the message bus security policy blocked the reply,=
+ the reply timeout expired, or the network connection was broken.
+  QEMU 4.1.50 monitor - type 'help' for more information
+  (qemu) loadvm foo
+  (qemu) c
+  (qemu) qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  qcow2_free_clusters failed: Invalid argument
+  quit
+  [m@nargothrond:~] qemu-img check debian.qcow2
+  Leaked cluster 85179 refcount=3D2 reference=3D1
+  Leaked cluster 85180 refcount=3D2 reference=3D1
+  ERROR cluster 266150 refcount=3D0 reference=3D2
+  [...]
+  ERROR OFLAG_COPIED data cluster: l2_entry=3D422840000 refcount=3D1
+
+  9493 errors were found on the image.
+  Data may be corrupted, or further writes to the image may corrupt it.
+
+  2 leaked clusters were found on the image.
+  This means waste of disk space, but no harm to data.
+  259266/327680 =3D 79.12% allocated, 1.67% fragmented, 0.00% compressed cl=
+usters
+  Image end offset: 18340446208
+
+  This is on a x86_64 Linux 5.3.1 Gentoo host with qemu-system-x86_64
+  and accel=3Dkvm. The compiler is gcc-9.2.0 with the rest of the system
+  similarly current.
+
+  Reproduced with qemu-4.1.0 from distribution package as well as
+  vanilla git checkout of tag v4.1.0 and commit
+  7f21573c822805a8e6be379d9bcf3ad9effef3dc (today's master). Does not
+  happen with qemu compiled from vanilla checkout of tag v4.0.0. Build
+  sequence:
+
+  ./configure --prefix=3D$HOME/bin/qemu-bisect --target-list=3Dx86_64-softm=
+mu --disable-werror --disable-docs
+  [...]
+  CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+  [...] (can provide full configure output if helpful)
+  make -j8 install
+
+  The kind of guest OS does not matter: seen with Debian testing 64bit,
+  Windows 7 x86/x64 BIOS and Windows 7 x64 EFI.
+
+  The virtual storage controller does not seem to matter: seen with
+  VirtIO SCSI, emulated SCSI and emulated SATA AHCI.
+
+  Caching modes (none, directsync, writeback), aio mode (threads,
+  native) or discard (ignore, unmap) or detect-zeroes (off, unmap) does
+  not influence occurence either.
+
+  Having more RAM in the guest seems to increase odds of corruption:
+  With 512MB to the Debian guest problem hardly occurs at all, with 4GB
+  RAM it happens almost instantly.
+
+  An automated reproducer works as follows:
+
+  - the guest *does* mount its root fs and swap with option discard and
+  my testing leaves me with the impression that file deletion rather
+  than reading is causing the issue
+
+  - foo is a snapshot of the running Debian VM which is already running
+  command
+
+  # while true ; do dd if=3D/dev/zero of=3Dfoo bs=3D10240k count=3D400 ; do=
+ne
+
+  to produce some I/O to the disk (4GB file with 4GB of RAM).
+
+  - on the host a loop continuously resumes and saves the guest state
+  and quits qemu inbetween:
+
+  # while true ; do (echo loadvm foo ; echo c ; sleep 10 ; echo stop ;
+  echo savevm foo ; echo quit ) | bin/qemu-bisect/bin/qemu-system-x86_64
+  -machine pc-q35-3.1,accel=3Dkvm -m 4096 -chardev stdio,id=3Dcharmonitor
+  -mon chardev=3Dcharmonitor -drive file=3Ddebian.qcow2,id=3Dd -S -display
+  none ; done
+
+  - quitting qemu inbetween saves and loads seems to be necessary for
+  the problem to occur. Just continusouly in one session saving and
+  loading guest state does not trigger it.
+
+  - For me, after about 2 to 6 iterations of above loop the image is
+  corrupted.
+
+  - corruption manifests with other messages from qemu as well, e.g.:
+
+  (qemu) loadvm foo
+  Error: Device 'd' does not have the requested snapshot 'foo'
+
+  Using above reproducer I have to the be best of my ability bisected
+  the introduction of the problem to commit
+  69f47505ee66afaa513305de0c1895a224e52c45 (block: avoid recursive
+  block_status call if possible). qemu compiled from the commit before
+  does not exhibit the issue, from that commit on it does and reverting
+  the commit off of current master makes it disappear.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846427/+subscriptions
 
