@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EF211425B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:12:09 +0100 (CET)
-Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F366A114254
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 15:08:42 +0100 (CET)
+Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icrrU-0005Gd-8Z
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:12:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
+	id 1icro9-0001UT-ON
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 09:08:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48833)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1icrbw-0007qb-Q4
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:56:05 -0500
+ (envelope-from <eblake@redhat.com>) id 1icrkp-000733-5Q
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:05:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1icrbv-0000cN-I3
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:56:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60169
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1icrki-00052C-0u
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:05:13 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50730
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1icrbt-0000ad-0k
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:56:02 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icrkh-000504-Dp
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 09:05:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575554160;
+ s=mimecast20190719; t=1575554705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a5LEmeBgNeFxpwu+F2QwvSZ7e/bau9swAX/PFV/EtRg=;
- b=FGYKyEM4DYCIyaM/wQruU4IiPLZyEnCB+TXQ4MatfcAXyt8Uw+SmN6S/7aeDJcXprWn+Gv
- cUBnb3zjDO6GXlvIhRudgbTWLewuz7jFuwhQvyNZV6vtmu9EY+kW+kUDeEBQQymxj8qzez
- 68WN3hCZ3E3yJul5+iGJ/27IsL/FU8g=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-jFR7t8gPNpa6N5wF7e8Knw-1; Thu, 05 Dec 2019 08:55:59 -0500
-Received: by mail-qt1-f198.google.com with SMTP id h14so2510643qtq.11
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 05:55:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=bBMUbllceoxZYLj0y2soALV70A6VyMICRdvanuq60ik=;
- b=KeABt1MMIbpO/Zmk0BtymhhAqFuQ/b9C4c6dFXfg+zvt5jsgYXUHyPBuhkRWcN4Ooa
- mww7tcMZPU/eSOliyEzV6mIOoAfS6iXX3P1Xhbn4JzXXU80HnDafVjI00K5Lwr7oeEPO
- 8GUjNTcT68TW89Yc7S3iqz+U0a2YxiEDuIRoRpo/0XZBiOlCS2njJq1qvNr72GxjBHMd
- iB1fV+cootgQsqHw1miucrBOgqwHapjh0GS8d631lJPtvyru4SmPwMvviZtAa8jmGpOC
- 24ryaFPa8EysjvMVCTedyyBTgwsmLj6ukn0/ONRQdI7/2c//QPlE94VuyOkCvtbQaqQh
- 7JCQ==
-X-Gm-Message-State: APjAAAWfS9xK/Xi5WVUa5J+Az5VlnmXxzkM3YLva+OkSCDgVppFIlgvr
- zWnWirBP4ltFeD4HFXCNUbPGDBkGaEXAHfViIdVWU8Wk+zY1cs9ArywKkeewGGY7RTcKkbgb+ZD
- vJiNcACmZxIlWbDA=
-X-Received: by 2002:a0c:e84d:: with SMTP id l13mr7446445qvo.53.1575554158535; 
- Thu, 05 Dec 2019 05:55:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyJQ3yy8a3z4QFTeZTYcibHvWYJowytRSl9SnFpezFArhnlxk5PSL978zxA5MA3Uwu7d0B/hQ==
-X-Received: by 2002:a0c:e84d:: with SMTP id l13mr7446423qvo.53.1575554158114; 
- Thu, 05 Dec 2019 05:55:58 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c0:3f::3])
- by smtp.gmail.com with ESMTPSA id c79sm4963175qkg.76.2019.12.05.05.55.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Dec 2019 05:55:57 -0800 (PST)
-Date: Thu, 5 Dec 2019 08:55:55 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] migration: Rate limit inside host pages
-Message-ID: <20191205135555.GC9673@xz-x1>
-References: <20191205102918.63294-1-dgilbert@redhat.com>
+ bh=xrLOjqRJEOMRhQ9wY5J+pof9or9Bev2i1+87m8yPU78=;
+ b=bv0ikgxjHovZUCk/dF7VbrSMW6YgRhA9I0QbEKidL03tonCtIQ64kHvRm417oKPsY38/D2
+ zNXIT2l2DYdw1/+RiYqoVk4SPfHb8xhIeixkaMlHzu1mST8+B33QsF+KrnbDzZggs8wq9m
+ KFhUgwOT/Be7QdV8jG5aMPCDvES0rd4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-JTm5SuTNNMGAYpEHe_m6fg-1; Thu, 05 Dec 2019 09:05:03 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3F7B801E7E;
+ Thu,  5 Dec 2019 14:05:01 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1792A1D1;
+ Thu,  5 Dec 2019 14:04:59 +0000 (UTC)
+Subject: Re: [PATCH v5 1/2] block/nbd: extract the common cleanup code
+To: Stefano Garzarella <sgarzare@redhat.com>, pannengyuan@huawei.com
+References: <1575517528-44312-1-git-send-email-pannengyuan@huawei.com>
+ <1575517528-44312-2-git-send-email-pannengyuan@huawei.com>
+ <20191205094259.r4qb4jxcrom76x7f@steredhat>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d5ff2791-0171-404b-3c19-69159921586b@redhat.com>
+Date: Thu, 5 Dec 2019 08:04:58 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191205102918.63294-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-MC-Unique: jFR7t8gPNpa6N5wF7e8Knw-1
+In-Reply-To: <20191205094259.r4qb4jxcrom76x7f@steredhat>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: JTm5SuTNNMGAYpEHe_m6fg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,76 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org, LMa@suse.com
+Cc: kwolf@redhat.com, liyiting@huawei.com, zhang.zhanghailiang@huawei.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 05, 2019 at 10:29:18AM +0000, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> When using hugepages, rate limiting is necessary within each huge
-> page, since a 1G huge page can take a significant time to send, so
-> you end up with bursty behaviour.
->=20
-> Fixes: 4c011c37ecb3 ("postcopy: Send whole huge pages")
-> Reported-by: Lin Ma <LMa@suse.com>
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  migration/migration.c  | 57 ++++++++++++++++++++++++------------------
->  migration/migration.h  |  1 +
->  migration/ram.c        |  2 ++
->  migration/trace-events |  4 +--
->  4 files changed, 37 insertions(+), 27 deletions(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 354ad072fa..27500d09a9 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3224,6 +3224,37 @@ void migration_consume_urgent_request(void)
->      qemu_sem_wait(&migrate_get_current()->rate_limit_sem);
->  }
-> =20
-> +/* Returns true if the rate limiting was broken by an urgent request */
-> +bool migration_rate_limit(void)
-> +{
-> +    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    MigrationState *s =3D migrate_get_current();
-> +
-> +    bool urgent =3D false;
-> +    migration_update_counters(s, now);
-> +    if (qemu_file_rate_limit(s->to_dst_file)) {
-> +        /*
-> +         * Wait for a delay to do rate limiting OR
-> +         * something urgent to post the semaphore.
-> +         */
-> +        int ms =3D s->iteration_start_time + BUFFER_DELAY - now;
-> +        trace_migration_rate_limit_pre(ms);
-> +        if (qemu_sem_timedwait(&s->rate_limit_sem, ms) =3D=3D 0) {
-> +            /*
-> +             * We were woken by one or more urgent things but
-> +             * the timedwait will have consumed one of them.
-> +             * The service routine for the urgent wake will dec
-> +             * the semaphore itself for each item it consumes,
-> +             * so add this one we just eat back.
-> +             */
-> +            qemu_sem_post(&s->rate_limit_sem);
+On 12/5/19 3:42 AM, Stefano Garzarella wrote:
+> Hi Pan,
+> 
+> On Thu, Dec 05, 2019 at 11:45:27AM +0800, pannengyuan@huawei.com wrote:
+>> From: Pan Nengyuan <pannengyuan@huawei.com>
+>>
+>> The BDRVNBDState cleanup code is common in two places, add
+>> nbd_clear_bdrvstate() function to do these cleanups.
+>>
+>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> 
+> I only suggested this change, so I think is better to change it in:
+> Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
 
-I remembered I've commented around this when it was first introduced
-on whether we can avoid this post().  IMHO we can if with something
-like an eventfd, so when we queue the page we write the eventfd to 1,
-here we poll() on the eventfd with the same timeout, then clear it
-after the poll no matter what.  When unqueue, we can probably simply
-do nothing.  I'm not sure about Windows or other OS, though..
+Concur. I'll make that change while queuing this series through my NBD 
+tree for 5.0.
 
-Anyway this patch is not changing that part but to fix huge page
-issue, so that's another story for sure.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
-Thanks,
-
---=20
-Peter Xu
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
