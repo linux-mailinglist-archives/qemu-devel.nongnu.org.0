@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195C411467C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:03:26 +0100 (CET)
-Received: from localhost ([::1]:58962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7741146A1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:11:48 +0100 (CET)
+Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvTI-0007f3-Pt
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:03:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53141)
+	id 1icvbO-0008Es-S1
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:11:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1icvG0-0001XG-L8
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:49:41 -0500
+ (envelope-from <eblake@redhat.com>) id 1icvGL-00022t-Ai
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:50:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1icvFz-0001xB-3D
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:49:40 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:36457)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1icvFy-0001rZ-PI
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:49:38 -0500
-Received: by mail-oi1-x242.google.com with SMTP id c16so3557559oic.3
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:49:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7TZrodYeXioGpPRAE8ETahiLdBZLUfn2Bk6fVVqCSEE=;
- b=HUNJNG/dr1YTRjWt3dX54M87sHzpPiOvZQre8eN8yoJpamPABH+Kh6Isj8UR3GJh0f
- mBL30w3DXmU2D7ge6BEDL0rCIl6R6EeVAx0MfF16CjbcCqjVfxGA/RJT9JY8JYqtl5+i
- LUO7SuZMqr5QA2DrFxo6G5zEV+ASvZdQecLM69Wrs/LmTeHdEw+PLa3KgIN0v5kLTrKW
- 4XSw+n7YPYB/2OYM91K/WI3ULiMp4Np35xvQXUFBY/hK9VEKyNEqhhJxbsG+WJIQl5Se
- ZlYflHgu3NyCyGD8az9dwFBOKBXpG/Cj/7IKqPXdfmm6xj18SWN2YORi4PmpuNSmhQQS
- iyOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7TZrodYeXioGpPRAE8ETahiLdBZLUfn2Bk6fVVqCSEE=;
- b=MJlUdHHHmI1e7pdlSP8LgJoS6z+ENBqlAJ1M16fhYZ4y7vqgTDA6/j3GspzlFv5eU9
- 5UYj8oT+QmTB5Xd1nYp14z4afKOu2QbeNb02U65Nxi1vwIdyrufWYkCJYJQQvwbwcm+1
- X9uNQxoG6o1dpdFKnoSKJ5BJBRTDmBOzZdravwVz99VcP8fYFwKsIqoZ9JYuc7Y/5qTz
- v3fIvpN4uyRva6H4oLIEKuCG63hqiiHjQmLHUOPx2j2bAFkeFpizes7QQDhENTDk7SqM
- 5ft7Ja5qRr52jWOgnplbsbuaZlK+TPAy/SMQ2fXhK/9EG4/aZhXnCYXk0Bp+EatZ8fjY
- deag==
-X-Gm-Message-State: APjAAAWHv7UxQXRvV/8yDRdMzVdEONvAWSm2Wq0P7qeo0GKGKhpWhyQZ
- N+4zslXBmzFoASfQMmmDW3YD5uUVZgTV67hjLx6VhA==
-X-Google-Smtp-Source: APXvYqxz4uaWdLhYj/w4g6/vR65niMndWEAx9/kARVQUdtjT6Y7737Yk4n5sFptfNJhhLagz90O2RyazktSQVyCUEQM=
-X-Received: by 2002:aca:3182:: with SMTP id x124mr8488329oix.170.1575568177597; 
- Thu, 05 Dec 2019 09:49:37 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1icvGJ-0003VX-Uu
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:50:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49437
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icvGJ-0003RX-Nu
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:49:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575568198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jWVoYb8x9VTh57thCyW8u9A7acacs8cnWBy2auzTy0k=;
+ b=KL+VybSEktW35JmpUlCOchRO0m9fljtlhfvNqMcL5tUhs9ewbXlbdYk5bJbq+97L6ts1Y7
+ UWi0jKfpxxo6iC+5ak/RYVaYDHec1G8Axw9SxhVN41gJsiHSbE7Ro+Auyo4FIsi3j/XLmJ
+ g9FAkGNuu6SQUUAchfqc1zL9MmcEyqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-FZMVmSnsPeSWKfAq0JPJkg-1; Thu, 05 Dec 2019 12:49:57 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5408D800D5E;
+ Thu,  5 Dec 2019 17:49:56 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95DD960136;
+ Thu,  5 Dec 2019 17:49:55 +0000 (UTC)
+Subject: Re: [PATCH v7 21/21] nbd: assert that Error** is not NULL in
+ nbd_iter_channel_error
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
+ <20191205152019.8454-22-vsementsov@virtuozzo.com>
+ <c4ff448d-e756-9d95-b07e-4ae5f2d5b9b0@redhat.com>
+ <93046486-1580-14a1-520d-08abdf74da0e@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <443bfd26-08df-a421-fe88-71b2c068d8e4@redhat.com>
+Date: Thu, 5 Dec 2019 11:49:54 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-15-richard.henderson@linaro.org>
-In-Reply-To: <20191011134744.2477-15-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Dec 2019 17:49:26 +0000
-Message-ID: <CAFEAcA9tHvwN-FbVWoMRfidGC8uJD6k8w=ucs537Gh-=CtmxeA@mail.gmail.com>
-Subject: Re: [PATCH v5 14/22] target/arm: Implement the access tag cache
- flushes
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+In-Reply-To: <93046486-1580-14a1-520d-08abdf74da0e@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: FZMVmSnsPeSWKfAq0JPJkg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,87 +79,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Oct 2019 at 14:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Like the regular data cache flushes, these are nops within qemu.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 12/5/19 11:39 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 05.12.2019 20:14, Eric Blake wrote:
+>> On 12/5/19 9:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> The local_err parameter is not here to return information about
+>>> nbd_iter_channel_error failure. Instead it's assumed to be filled when
+>>> passed to the function. This is already stressed by its name
+>>> (local_err, instead of classic errp). Stress it additionally by
+>>> assertion.
+>>>
+
+>>
+>> Would it be better to assert(!local_err || *local_err)?=A0 The assertion=
+ as written is too strict without ERRP_AUTO_PROPAGATE, but you get away wit=
+h it because none of the grandparents pass NULL; but is appropriate as writ=
+ten for after after the macro conversion so then we wonder if churn on the =
+macro is worth it.
+>=20
+> We don't have any grandparents, this function is always called on local_e=
+rr. And it's argument named local_err to stress it.
+
+Then the commit message should state that. How about:
+
+All callers of nbd_iter_channel_error() pass the address of a local_err=20
+variable, and only call this function if an error has already occurred,=20
+using this function to append details to that error.  This is already=20
+implied by its name (local_err instead of the classic errp), but it is=20
+worth additionally stressing this by adding an assertion to make it part=20
+of the function contract.
+
+> The function is an API to report error, and it wants filled local_err obj=
+ect.
+>=20
+> It will crash anyway if local_err is NULL, as it dereferences it.
+>=20
+> I just want to place an assertion at start of functions like this,
+> which will be easily recognizable by coccinelle.
+
+With an improved commit message, the assertion makes sense, so
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+>=20
 > ---
->  target/arm/helper.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index f435a8d8bd..33bc176e1c 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -5978,6 +5978,54 @@ static const ARMCPRegInfo mte_reginfo[] = {
->      { .name = "GMID_EL1", .state = ARM_CP_STATE_AA64,
->        .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 4,
->        .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = GMID_EL1_BS },
-> +    { .name = "IGVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 3,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "IGSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 4,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "IGDVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 5,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "IGDSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 6, .opc2 = 6,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 4,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGDSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 6,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CIGSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 4,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CIGDSW", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 14, .opc2 = 6,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 3,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGDVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 5,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGVAP", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 3,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGDVAP", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 5,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGVADP", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 3,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CGDVADP", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 13, .opc2 = 5,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CIGVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 3,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
-> +    { .name = "CIGDVAC", .state = ARM_CP_STATE_AA64,
-> +      .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 14, .opc2 = 5,
-> +      .type = ARM_CP_NOP, .access = PL1_W },
->      REGINFO_SENTINEL
->  };
+>=20
+> We can improve the API, to support local_err=3D=3DNULL, for the case when=
+ original request was called with
+> errp=3D=3DNULL, but for this we'll need more changes, like, pass errp to =
+NBD_FOREACH_REPLY_CHUNK and save
+> it into iter object...
+>=20
+> But how to detect it in code? Something like
+>=20
+>=20
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -1059,8 +1059,10 @@ static int nbd_co_receive_blockstatus_reply(BDRVNB=
+DState *s,
+>            case NBD_REPLY_TYPE_BLOCK_STATUS:
+>                if (received) {
+>                    nbd_channel_error(s, -EINVAL);
+> -                error_setg(&local_err, "Several BLOCK_STATUS chunks in r=
+eply");
+> -                nbd_iter_channel_error(&iter, -EINVAL, &local_err);
+> +                if (errp) {
+> +                    error_setg(&local_err, "Several BLOCK_STATUS chunks =
+in reply");
+> +                }
+> +                nbd_iter_channel_error(&iter, -EINVAL, errp ? &local_err=
+ : NULL);
 
-Some of these, but not all, are conditionally available at EL0,
-which means that for those that are:
- * .access should be PL0_W
- * .accessfn should be aa64_cacheop_access() (which checks
-    SCTLR_EL1.UCI)
- * they need to be in a reginfo that makes them available
-   for the insns-and-regs-only flavour of MTE
+No, that's not worth it.
 
-thanks
--- PMM
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
