@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC511146AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:13:22 +0100 (CET)
-Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7A01146A2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:11:58 +0100 (CET)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvcw-0002KA-0O
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:13:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
+	id 1icvbY-0008VZ-Vj
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:11:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54314)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1icvL5-0008L7-V8
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:54:56 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1icvOm-0003jA-Bq
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:58:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1icvL4-0003gf-Sh
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:54:55 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36102)
+ (envelope-from <alex.bennee@linaro.org>) id 1icvOl-0005WM-1D
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:58:44 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35900)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1icvL4-0003gP-N8
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:54:54 -0500
-Received: by mail-ot1-x341.google.com with SMTP id i4so3395084otr.3
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:54:54 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1icvOk-0005Qz-Pi
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:58:42 -0500
+Received: by mail-wm1-x344.google.com with SMTP id p17so4675399wma.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 09:58:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pYOvYVtwhI2S/mDqdqrvk92S8L5OgxKP7rFHJhTjPR0=;
- b=t6pWO/TVK+5BkLfuWbEirKmZHs5GZ3vCHTiHCrxcSLP6tMsm/En+EqeIPXycN6wQfx
- j2QNH6wC++IIohwIid+BgS/i2O7wY3q19DrroInE5+fcQAU2x+CNv2Wag5qfv0ucwL7H
- n8rcQ5KM4yGrYnzbJdUU1jhwVy3i6W4VXCxYwP1AYQwtb7Fv/kKv5PJMSdM919CdgQ5/
- aAhCAm5F9/0VjGo//NjJAMj0BsrkVYC4dUfctkmhPiy4xodOE0znuHVYMilVc81AXfk+
- 3HEYlvm6A59MrQLd7Zzv87BSgQy0I4FnYtWtebglYenojTluzNrwAHCaA6lhGQm0t0D/
- hhbQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zMecNqqSJ4VYfE/rNTGUDOH12wNz/+QCGWYMWDkatnw=;
+ b=IoWIJMAifHTwtkmnO6vgnTrUBLDmvpqfdgd3vANXlY6EOX2nIMI7et2D9rrSR7Z3uF
+ MGE7TZCLiyhBhevScAUidT+i0b6bftMNaCMmm49DFyGzUdUMv7Yu835B6CN/N05LnT+a
+ jXKKjKAOLi7716w7VNPdYIAWyjtfdfFstFFjaOeAsB3Z7k3GzxETo+c8Qr9+c07A88Ni
+ e+ZIy2OdK1zKG8RD1dsMDHIE2k0SH24Qhi2qaHSY4WSxDAXTddB6PXjw7zX6O/J8/RI8
+ DNoIOSBjIsJ2NTDlxMu645yMtyP9e54O0MK6EppBSZruRRc17T2rZbv853M0Q8+A4AUe
+ dmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pYOvYVtwhI2S/mDqdqrvk92S8L5OgxKP7rFHJhTjPR0=;
- b=dzHMlGzhO0HXkpr4JUrrYE1ZbUvd6aZAsi5GwY6DoIqMtsQQqeTq6gIkcAOjQYRHcz
- Kn24AuwM3H/LO7HcRE0FOiN3jA+c1//j/mVNd30+EbjSqTnK3CeQD0Ng3vyUVYLSnKWY
- LiITC50rfKl0Kih+izSERo2VwpKH+mAix6rdcKzOX9esJDnlEJMP9afn7pE8sHuSx5eF
- FANOTEyYIhHp9OIFYZrZCDI8GxKpJqquykY5cfY8w4xuUujXpI8PcWqIAo/AIX9JuFjI
- HPsp8eZAhh97FXom2sWBQU82lNhpm25gerJMsJuXL03sj2/j5bo/9hK04jFYJ3Q24ozE
- CLzQ==
-X-Gm-Message-State: APjAAAUHgCqTbtzXrWCZuSi8WzENfRG+Hlaq3bZAjLlnMPjTYbINjCIs
- ZOhOPUgbhko7kgPjCMCvr+ESx0obg7fYtYjVZVQGVw==
-X-Google-Smtp-Source: APXvYqwa0isRd5Y0BJOzA/tjq4CY7RRZbTy378LMDL4lhHjCfifwWS+qGfTWFsvY9rbYkEDYdVSU4l3b6qI4GPbPwpQ=
-X-Received: by 2002:a9d:6745:: with SMTP id w5mr7319934otm.221.1575568493991; 
- Thu, 05 Dec 2019 09:54:53 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=zMecNqqSJ4VYfE/rNTGUDOH12wNz/+QCGWYMWDkatnw=;
+ b=YlNMHQfHdN3fznYJyqUukchsVyaQioaFgNEn/8pugHBTd6WCQj5bqOtJ5aQmJwrP6J
+ nlD8nImJQMqa2aWaIKcGnIzNK415WuWsixo8TirLWj6O4oyjG1nZXv7wBkop5bGXhMYq
+ QFHgptbc6Ly4u5W+dTuw0nLruiyWZfo4aOUK8OVEqpOkrZWYA8cnwrV0QVxvsUCiE0XF
+ /AJ9KD7mLqBVpv0xfxuWytQQdXeAjV7/DEQQu0raNZqeyM/q8l67pVww9c5TYdUo/L7i
+ UrkoEgNAOQ4i2uWH99Lmof7mpV2CY8ieWh2z6KzNzz637FBBXwrhhW2IuX5HkYpzA1lI
+ WZMg==
+X-Gm-Message-State: APjAAAVOIqycit8S8NQXfFj7MOtKyyixy4Wpeke4X6FMB9S9sELCVJMp
+ HSxK8YP5caK3BRghN0CT95hZ/w==
+X-Google-Smtp-Source: APXvYqxV8LbcaCOV6vBjSzDSswM/k2nv1dJvpI8Xxj3yxlJsl6ZqXbbW2HF1okJelzOr+87AlL1gyw==
+X-Received: by 2002:a05:600c:249:: with SMTP id 9mr6329166wmj.2.1575568721311; 
+ Thu, 05 Dec 2019 09:58:41 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t5sm13215195wrr.35.2019.12.05.09.58.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2019 09:58:39 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3E09E1FF87;
+ Thu,  5 Dec 2019 17:58:39 +0000 (GMT)
+References: <20191130084602.10818-1-alex.bennee@linaro.org>
+ <20191130084602.10818-7-alex.bennee@linaro.org>
+ <987465d3-3b13-e675-9622-c13e2d5205c2@redhat.com>
+ <42017B4E-E961-494C-A505-FCDA74EFB265@arm.com>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alan Hayward <Alan.Hayward@arm.com>
+Subject: Re: [PATCH v2 06/14] target/arm: use gdb_get_reg helpers
+In-reply-to: <42017B4E-E961-494C-A505-FCDA74EFB265@arm.com>
+Date: Thu, 05 Dec 2019 17:58:39 +0000
+Message-ID: <87lfrq7iy8.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-16-richard.henderson@linaro.org>
-In-Reply-To: <20191011134744.2477-16-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Dec 2019 17:54:43 +0000
-Message-ID: <CAFEAcA9TF5bQWpOccJynDSBVRekZaUbgMWtjxkiyKzmM7=g2eQ@mail.gmail.com>
-Subject: Re: [PATCH v5 15/22] target/arm: Clean address for DC ZVA
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,24 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "damien.hedde@greensocs.com" <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Luis Machado <luis.machado@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "open list:ARM
+ TCG CPUs" <qemu-arm@nongnu.org>, nd <nd@arm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Oct 2019 at 14:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+Alan Hayward <Alan.Hayward@arm.com> writes:
+
+>> On 1 Dec 2019, at 20:05, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>=
+ wrote:
+>>=20
+>> On 11/30/19 9:45 AM, Alex Benn=C3=A9e wrote:
+>>> This is cleaner than poking memory directly and will make later
+>>> clean-ups easier.
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>> v2
+>>>   - make sure we pass hi/lo correctly as quads are stored in LE order
+>>> ---
+>>>  target/arm/helper.c | 18 +++++++-----------
+>>>  1 file changed, 7 insertions(+), 11 deletions(-)
+>>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>>> index 0bf8f53d4b8..0ac950d6c71 100644
+>>> --- a/target/arm/helper.c
+>>> +++ b/target/arm/helper.c
+>>> @@ -105,21 +105,17 @@ static int aarch64_fpu_gdb_get_reg(CPUARMState *e=
+nv, uint8_t *buf, int reg)
+>>>  {
+>>>      switch (reg) {
+>>>      case 0 ... 31:
+>>> -        /* 128 bit FP register */
+>>> -        {
+>>> -            uint64_t *q =3D aa64_vfp_qreg(env, reg);
+>>> -            stq_le_p(buf, q[0]);
+>>> -            stq_le_p(buf + 8, q[1]);
+>>> -            return 16;
+>>> -        }
+>>> +    {
+>>> +        /* 128 bit FP register - quads are in LE order */
+>>=20
+>> Oh, this was always wrong on BE :(
 >
-> This data access was forgotten in the previous patch.
+> Am I right in thinking this patch correctly matches the SVE BE changes fr=
+om June?
+>
+> Specifically, this patch:
+> http://lists.infradead.org/pipermail/linux-arm-kernel/2019-June/657826.ht=
+ml
 
-Do you mean "in the patch where we added support for cleaning
-addresses of TBI information"? As written it sounds like you're
-referring to the previous patch in this patchseries.
+Not quite. This is just taking into account the way we store the data
+internally in cpu.h. The gdb_get_reg128 helper will then ensure stuff is
+in target endian format which is what gdbstub defines.
 
-> Fixes: 3a471103ac1823ba
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+There aren't any actual kernel to userspace transfers going on here.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+>
+> Alan.
+>
+>>=20
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>=20
+>>> +        uint64_t *q =3D aa64_vfp_qreg(env, reg);
+>>> +        return gdb_get_reg128(buf, q[1], q[0]);
+>>> +    }
+>>>      case 32:
+>>>          /* FPSR */
+>>> -        stl_p(buf, vfp_get_fpsr(env));
+>>> -        return 4;
+>>> +        return gdb_get_reg32(buf, vfp_get_fpsr(env));
+>>>      case 33:
+>>>          /* FPCR */
+>>> -        stl_p(buf, vfp_get_fpcr(env));
+>>> -        return 4;
+>>> +        return gdb_get_reg32(buf,vfp_get_fpcr(env));
+>>>      default:
+>>>          return 0;
+>>>      }
 
-thanks
--- PMM
+
+--=20
+Alex Benn=C3=A9e
 
