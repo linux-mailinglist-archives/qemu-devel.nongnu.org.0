@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FDF114379
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:25:46 +0100 (CET)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4210A114388
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:29:13 +0100 (CET)
+Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ict0i-0003yj-P3
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:25:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48790)
+	id 1ict43-0007qy-RU
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icsw7-0000Ev-2M
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:02 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icswB-0000Fq-G6
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icsw3-0005uL-JG
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:57 -0500
-Received: from relay.sw.ru ([185.231.240.75]:43510)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icsw7-0005wx-0J
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:01 -0500
+Received: from relay.sw.ru ([185.231.240.75]:43548)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsw0-0005a2-0J
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:52 -0500
+ id 1icsw1-0005d5-5X
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:55 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsvZ-00007O-SG; Thu, 05 Dec 2019 18:20:26 +0300
+ id 1icsvb-00007O-FX; Thu, 05 Dec 2019 18:20:27 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/21] error: rename errp to errp_in where it is IN-argument
-Date: Thu,  5 Dec 2019 18:20:01 +0300
-Message-Id: <20191205152019.8454-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 08/21] 9pfs: well form error hint helpers
+Date: Thu,  5 Dec 2019 18:20:06 +0300
+Message-Id: <20191205152019.8454-9-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205152019.8454-1-vsementsov@virtuozzo.com>
 References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
@@ -48,91 +48,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: vsementsov@virtuozzo.com, armbru@redhat.com, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Error **errp is almost always OUT-argument: it's assumed to be NULL, or
-pointer to NULL-initialized pointer, or pointer to error_abort or
-error_fatal, for callee to report error.
-
-But very few functions instead get Error **errp as IN-argument:
-it's assumed to be set (or, maybe, NULL), and callee should clean it,
-or add some information.
-
-In such cases, rename errp to errp_in.
-
-This patch updates only error API functions. There still a few
-functions with errp-in semantics, they will be updated in further
-commits.
+Make error_append_security_model_hint and
+error_append_socket_sockfd_hint hint append helpers well formed:
+rename errp to errp_in, as it is IN-parameter here (which is unusual
+for errp).
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/qapi/error.h | 6 +++---
- util/error.c         | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ hw/9pfs/9p-local.c | 2 +-
+ hw/9pfs/9p-proxy.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index 3f95141a01..ad5b6e896d 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Error *local_err,
-  * Prepend some text to @errp's human-readable error message.
-  * The text is made by formatting @fmt, @ap like vprintf().
-  */
--void error_vprepend(Error **errp, const char *fmt, va_list ap);
-+void error_vprepend(Error *const *errp, const char *fmt, va_list ap);
- 
- /*
-  * Prepend some text to @errp's human-readable error message.
-  * The text is made by formatting @fmt, ... like printf().
-  */
--void error_prepend(Error **errp, const char *fmt, ...)
-+void error_prepend(Error *const *errp, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- 
- /*
-@@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
-  * May be called multiple times.  The resulting hint should end with a
-  * newline.
-  */
--void error_append_hint(Error **errp, const char *fmt, ...)
-+void error_append_hint(Error *const *errp, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- 
- /*
-diff --git a/util/error.c b/util/error.c
-index d4532ce318..b6c89d1412 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -121,7 +121,7 @@ void error_setg_file_open_internal(Error **errp,
-                               "Could not open '%s'", filename);
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 4708c0bd89..ca641390fb 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -1473,7 +1473,7 @@ static void local_cleanup(FsContext *ctx)
+     g_free(data);
  }
  
--void error_vprepend(Error **errp, const char *fmt, va_list ap)
-+void error_vprepend(Error *const *errp, const char *fmt, va_list ap)
+-static void error_append_security_model_hint(Error **errp)
++static void error_append_security_model_hint(Error *const *errp)
  {
-     GString *newmsg;
- 
-@@ -136,7 +136,7 @@ void error_vprepend(Error **errp, const char *fmt, va_list ap)
-     (*errp)->msg = g_string_free(newmsg, 0);
+     error_append_hint(errp, "Valid options are: security_model="
+                       "[passthrough|mapped-xattr|mapped-file|none]\n");
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 97ab9c58a5..8136e1342d 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -1114,7 +1114,7 @@ static int connect_namedsocket(const char *path, Error **errp)
+     return sockfd;
  }
  
--void error_prepend(Error **errp, const char *fmt, ...)
-+void error_prepend(Error *const *errp, const char *fmt, ...)
+-static void error_append_socket_sockfd_hint(Error **errp)
++static void error_append_socket_sockfd_hint(Error *const *errp)
  {
-     va_list ap;
- 
-@@ -145,7 +145,7 @@ void error_prepend(Error **errp, const char *fmt, ...)
-     va_end(ap);
- }
- 
--void error_append_hint(Error **errp, const char *fmt, ...)
-+void error_append_hint(Error *const *errp, const char *fmt, ...)
- {
-     va_list ap;
-     int saved_errno = errno;
+     error_append_hint(errp, "Either specify socket=/some/path where /some/path"
+                       " points to a listening AF_UNIX socket or sock_fd=fd"
 -- 
 2.21.0
 
