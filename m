@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED591146A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:12:35 +0100 (CET)
-Received: from localhost ([::1]:59134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2DC11469B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:10:05 +0100 (CET)
+Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvcA-0000y9-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:12:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46086)
+	id 1icvZk-0006je-RE
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:10:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDS-0007rt-2c
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDS-0007rr-3o
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icvDQ-0004EB-JZ
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icvDQ-0004Ec-L6
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:01 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48374)
+Received: from relay.sw.ru ([185.231.240.75]:48354)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvDQ-0003XY-8X
+ id 1icvDQ-0003Vd-8B
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 12:47:00 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icvD7-00013M-KV; Thu, 05 Dec 2019 20:46:41 +0300
+ id 1icvD7-00013M-OG; Thu, 05 Dec 2019 20:46:41 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 11/21] hw/i386/amd_iommu: rename Error ** parameter to more
- common errp
-Date: Thu,  5 Dec 2019 20:46:25 +0300
-Message-Id: <20191205174635.18758-12-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 12/21] qga: rename Error ** parameter to more common errp
+Date: Thu,  5 Dec 2019 20:46:26 +0300
+Message-Id: <20191205174635.18758-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205174635.18758-1-vsementsov@virtuozzo.com>
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
@@ -49,67 +48,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/i386/amd_iommu.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ qga/commands-posix.c |  2 +-
+ qga/commands-win32.c |  2 +-
+ qga/commands.c       | 12 ++++++------
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index d55dbf07fc..b1175e52c7 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -1533,7 +1533,7 @@ static void amdvi_reset(DeviceState *dev)
-     amdvi_init(s);
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 1c1a165dae..3bd7b54c08 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2781,7 +2781,7 @@ static double ga_get_login_time(struct utmpx *user_info)
+     return seconds + useconds;
  }
  
--static void amdvi_realize(DeviceState *dev, Error **err)
-+static void amdvi_realize(DeviceState *dev, Error **errp)
+-GuestUserList *qmp_guest_get_users(Error **err)
++GuestUserList *qmp_guest_get_users(Error **errp)
  {
-     int ret = 0;
-     AMDVIState *s = AMD_IOMMU_DEVICE(dev);
-@@ -1549,21 +1549,21 @@ static void amdvi_realize(DeviceState *dev, Error **err)
-     /* This device should take care of IOMMU PCI properties */
-     x86_iommu->type = TYPE_AMD;
-     qdev_set_parent_bus(DEVICE(&s->pci), &bus->qbus);
--    object_property_set_bool(OBJECT(&s->pci), true, "realized", err);
-+    object_property_set_bool(OBJECT(&s->pci), true, "realized", errp);
-     ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
--                                         AMDVI_CAPAB_SIZE, err);
-+                                         AMDVI_CAPAB_SIZE, errp);
-     if (ret < 0) {
-         return;
-     }
-     s->capab_offset = ret;
+     GHashTable *cache = NULL;
+     GuestUserList *head = NULL, *cur_item = NULL;
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 55ba5b263a..2461fd19bf 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -1946,7 +1946,7 @@ typedef struct _GA_WTSINFOA {
  
-     ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_MSI, 0,
--                             AMDVI_CAPAB_REG_SIZE, err);
-+                             AMDVI_CAPAB_REG_SIZE, errp);
-     if (ret < 0) {
-         return;
-     }
-     ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_HT, 0,
--                             AMDVI_CAPAB_REG_SIZE, err);
-+                             AMDVI_CAPAB_REG_SIZE, errp);
-     if (ret < 0) {
-         return;
-     }
-@@ -1578,8 +1578,8 @@ static void amdvi_realize(DeviceState *dev, Error **err)
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mmio);
-     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, AMDVI_BASE_ADDR);
-     pci_setup_iommu(bus, amdvi_host_dma_iommu, s);
--    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", err);
--    msi_init(&s->pci.dev, 0, 1, true, false, err);
-+    s->devid = object_property_get_int(OBJECT(&s->pci), "addr", errp);
-+    msi_init(&s->pci.dev, 0, 1, true, false, errp);
-     amdvi_init(s);
+ } GA_WTSINFOA;
+ 
+-GuestUserList *qmp_guest_get_users(Error **err)
++GuestUserList *qmp_guest_get_users(Error **errp)
+ {
+ #define QGA_NANOSECONDS 10000000
+ 
+diff --git a/qga/commands.c b/qga/commands.c
+index 0c7d1385c2..43c323cead 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -143,7 +143,7 @@ static GuestExecInfo *guest_exec_info_find(int64_t pid_numeric)
+     return NULL;
  }
  
+-GuestExecStatus *qmp_guest_exec_status(int64_t pid, Error **err)
++GuestExecStatus *qmp_guest_exec_status(int64_t pid, Error **errp)
+ {
+     GuestExecInfo *gei;
+     GuestExecStatus *ges;
+@@ -152,7 +152,7 @@ GuestExecStatus *qmp_guest_exec_status(int64_t pid, Error **err)
+ 
+     gei = guest_exec_info_find(pid);
+     if (gei == NULL) {
+-        error_setg(err, QERR_INVALID_PARAMETER, "pid");
++        error_setg(errp, QERR_INVALID_PARAMETER, "pid");
+         return NULL;
+     }
+ 
+@@ -385,7 +385,7 @@ GuestExec *qmp_guest_exec(const char *path,
+                        bool has_env, strList *env,
+                        bool has_input_data, const char *input_data,
+                        bool has_capture_output, bool capture_output,
+-                       Error **err)
++                       Error **errp)
+ {
+     GPid pid;
+     GuestExec *ge = NULL;
+@@ -405,7 +405,7 @@ GuestExec *qmp_guest_exec(const char *path,
+     arglist.next = has_arg ? arg : NULL;
+ 
+     if (has_input_data) {
+-        input = qbase64_decode(input_data, -1, &ninput, err);
++        input = qbase64_decode(input_data, -1, &ninput, errp);
+         if (!input) {
+             return NULL;
+         }
+@@ -424,7 +424,7 @@ GuestExec *qmp_guest_exec(const char *path,
+             guest_exec_task_setup, NULL, &pid, has_input_data ? &in_fd : NULL,
+             has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
+     if (!ret) {
+-        error_setg(err, QERR_QGA_COMMAND_FAILED, gerr->message);
++        error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
+         g_error_free(gerr);
+         goto done;
+     }
+@@ -499,7 +499,7 @@ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
+     return -1;
+ }
+ 
+-GuestHostName *qmp_guest_get_host_name(Error **err)
++GuestHostName *qmp_guest_get_host_name(Error **errp)
+ {
+     GuestHostName *result = NULL;
+     gchar const *hostname = g_get_host_name();
 -- 
 2.21.0
 
