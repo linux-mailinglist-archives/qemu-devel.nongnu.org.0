@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FEC1143BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:36:08 +0100 (CET)
-Received: from localhost ([::1]:56356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F71143D6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 16:43:26 +0100 (CET)
+Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ictAk-0006hr-U5
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:36:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1ictHp-0007ce-Fq
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 10:43:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icswF-0000H9-78
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icswF-0000H4-5b
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1icswB-00060O-EW
+ (envelope-from <vsementsov@virtuozzo.com>) id 1icswB-000613-HJ
  for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:05 -0500
-Received: from relay.sw.ru ([185.231.240.75]:43552)
+Received: from relay.sw.ru ([185.231.240.75]:43558)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsw7-0005d9-2n
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:21:00 -0500
+ id 1icsw7-0005dJ-0E
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 10:20:59 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1icsve-00007O-Ll; Thu, 05 Dec 2019 18:20:30 +0300
+ id 1icsvf-00007O-17; Thu, 05 Dec 2019 18:20:31 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/21] hw/usb: rename Error ** parameter to more common errp
-Date: Thu,  5 Dec 2019 18:20:15 +0300
-Message-Id: <20191205152019.8454-18-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 18/21] include/qom/object.h: rename Error ** parameter to
+ more common errp
+Date: Thu,  5 Dec 2019 18:20:16 +0300
+Message-Id: <20191205152019.8454-19-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191205152019.8454-1-vsementsov@virtuozzo.com>
 References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
@@ -48,29 +50,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: vsementsov@virtuozzo.com,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, armbru@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/usb/dev-network.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qom/object.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
-index 5de6213cc4..b81a8abe83 100644
---- a/hw/usb/dev-network.c
-+++ b/hw/usb/dev-network.c
-@@ -1342,7 +1342,7 @@ static NetClientInfo net_usbnet_info = {
-     .cleanup = usbnet_cleanup,
- };
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 128d00c77f..716f6f655d 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1635,9 +1635,9 @@ void object_class_property_add_uint32_ptr(ObjectClass *klass, const char *name,
+  * property of type 'uint64'.
+  */
+ void object_property_add_uint64_ptr(Object *obj, const char *name,
+-                                    const uint64_t *v, Error **Errp);
++                                    const uint64_t *v, Error **errp);
+ void object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
+-                                          const uint64_t *v, Error **Errp);
++                                          const uint64_t *v, Error **errp);
  
--static void usb_net_realize(USBDevice *dev, Error **errrp)
-+static void usb_net_realize(USBDevice *dev, Error **errp)
- {
-     USBNetState *s = USB_NET(dev);
- 
+ /**
+  * object_property_add_alias:
 -- 
 2.21.0
 
