@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DD81146D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:23:53 +0100 (CET)
-Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2832B1146C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 19:20:00 +0100 (CET)
+Received: from localhost ([::1]:59276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icvn6-0002YG-TQ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:23:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53867)
+	id 1icvjL-0006zN-7M
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 13:19:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1icvh4-0005lm-AJ
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:39 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1icvh7-0005om-Iq
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1icvh1-0000z1-F7
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34936
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1icvgr-0000vv-D1
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575569844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=orfiozfnZ5AZQzOrLmhMrDKMMXCkH0l6KBzRGzGc0rM=;
- b=GfoyaKI7gstP1QiJvJLQWSM8ehxcNe/3WJqtxYdQGDPyjjGe/17S3CPEQ4h+Jq/hElwkU1
- 1V92jYQYjfJZmrNmfSFpDR8IMZhve2hR5WA6eCXfiqksKohLZtoX0SieIr+wJEU2BZ30JG
- Ej7KN8PgQ4ZGb494J0umMQWpOFcY488=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-U3y7p4R0P_amZVQYAeRWpg-1; Thu, 05 Dec 2019 13:17:21 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6704F800C74;
- Thu,  5 Dec 2019 18:17:20 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAA216013A;
- Thu,  5 Dec 2019 18:17:19 +0000 (UTC)
-Subject: Re: [PATCH v8 06/21] qdev-monitor: well form error hint helpers
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-7-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0991f52e-853a-5f34-99d5-6c047593f8af@redhat.com>
-Date: Thu, 5 Dec 2019 12:17:19 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <peter.maydell@linaro.org>) id 1icvh5-0001DR-QY
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:41 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41368)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1icvh5-00019g-Jx
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 13:17:39 -0500
+Received: by mail-ot1-x341.google.com with SMTP id r27so3423709otc.8
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 10:17:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YZ4Mv11SbDP5AhWiY1/9jeSZG9dC8AF0VxMGlBUfvlo=;
+ b=Ipl2EU0Nj4ZgDIEFzKSAjPGLxvdDU6FB7z0H+28C46+NaH88JCG/94tMI2O2DIT1eG
+ f4JN8+xm2HKsjFudmLkE/0rzk2E3ZaW5p8JcIey0JDKhbluASgJNJxTpDe3xe79DKTwO
+ FWrMHErCqvaBecO+jZe1ROvWw0N0Tv4KfNbxS2JJGJpZN6+rU1fi1UQGy7rOggyTcNJ/
+ UDcU4fv/KCZd09zWix0UmGIzDxCBOtOf3CnpGvU+QbOXg1sZwPr0QpWPynqAFpjiEmbV
+ UO8ybBBRzgrYWsDk3h5z/DyQGDHAwH94mn57pVT/pijUw5nccb1hcgwb6moJe9ugRb+5
+ cScQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YZ4Mv11SbDP5AhWiY1/9jeSZG9dC8AF0VxMGlBUfvlo=;
+ b=i4c18hEntP1JuIAwDk+kygMAwpDOSwZjGe/wwFUpbGecXtsqt7I3ahyS4hEN+8+NyZ
+ OYzlrvF3IrVJTz9cBEm6K7TZE4u8qq9io7/dXiDB9SuDQXCtj8j3fv/t46mTSTCOnLrf
+ isBkIYwdxbKPAlYgeAxKRUTYX3nRxqpOw59QDPLpbnoAtXgAq+TXp00tsuJ1wykCa99a
+ KVCyeJbslzG4tlwZN9HfRUFJ6/kxli4jPZtjub66QQGgC1VOG++q8qHDZKRupzhvwEEO
+ lWeclmPHiBJsjO2gQUxKIpKjG8Md8coc2o31BLQ1lwvBMvxTxHFsrcthOOP4Uxqkbv4p
+ Fzww==
+X-Gm-Message-State: APjAAAVIqSA3ar4y3OhX2KG2pWYVuECyc9ussDAX4EM0lAt9UlXYMUxr
+ 6EYElvtMngFlBka90ytsRw6GMkNBeFtU6aiibZSK+w==
+X-Google-Smtp-Source: APXvYqzkxcU2015HGUspQwgwNwRnTrMjHDlzJSVP5pjq2g6nclp0TxuEvWiZjawykVA39s0nDPTqlf4yzM0juF86HkY=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr1878403otd.91.1575569858679; 
+ Thu, 05 Dec 2019 10:17:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191205174635.18758-7-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: U3y7p4R0P_amZVQYAeRWpg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-17-richard.henderson@linaro.org>
+In-Reply-To: <20191011134744.2477-17-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Dec 2019 18:17:27 +0000
+Message-ID: <CAFEAcA_K4wreQRXxEdDB4M-NCBC3NmGTyT0aEZxfAwBbSp23Rg@mail.gmail.com>
+Subject: Re: [PATCH v5 16/22] target/arm: Implement data cache set allocation
+ tags
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,39 +74,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, armbru@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 11:46 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
-> switch errp paramter to Error *const * type, as it has uncommon
-> behavior: not change the pointer to return error, but operate on
-> already existent error object.
-> Rename functions to be error_append_*_hint.
-
-qbus_error_append_*_hint
-
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Fri, 11 Oct 2019 at 14:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is DC GVA and DC GZVA.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   qdev-monitor.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
-> 
+> v2: Use allocation_tag_mem + memset.
+> v3: Require pre-cleaned addresses.
+> ---
 
-> -static void qbus_list_dev(BusState *bus, Error **errp)
-> +static void qbus_error_append_dev_list_hint(BusState *bus,
-> +                                            Error *const *errp)
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index f1315bae37..e8d8a6bedb 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -510,3 +510,31 @@ void HELPER(stzgm)(CPUARMState *env, uint64_t ptr, uint64_t val)
+>          }
+>      }
+>  }
+> +
+> +void HELPER(dc_gva)(CPUARMState *env, uint64_t ptr)
+> +{
+> +    ARMCPU *cpu = env_archcpu(env);
+> +    size_t blocklen = 4 << cpu->dcz_blocksize;
+> +    int el;
+> +    uint64_t sctlr;
+> +    uint8_t *mem;
+> +    int rtag;
+> +
+> +    ptr = QEMU_ALIGN_DOWN(ptr, blocklen);
+> +
+> +    /* Trap if accessing an invalid page.  */
+> +    mem = allocation_tag_mem(env, ptr, true, GETPC());
+> +
+> +    /* No action if page does not support tags, or if access is disabled.  */
+> +    el = arm_current_el(env);
+> +    sctlr = arm_sctlr(env, el);
+> +    if (!mem || !allocation_tag_access_enabled(env, el, sctlr)) {
+> +        return;
+> +    }
+> +
+> +    rtag = allocation_tag_from_addr(ptr);
+> +    rtag |= rtag << 4;
+> +
+> +    assert(QEMU_IS_ALIGNED(blocklen, 2 * TAG_GRANULE));
 
-Or, since you copy-and-paste this commit message in v9, you could use 
-*_error_append_*_hint between the commits for less one-off fixing per 
-message.
+Could we assert this on CPU init rather than in this helper?
+That way if anybody tries to create a CPU whose dcz_blocksize
+doesn't work with the TAG_GRANULE they'll realize immediately
+rather than only if they happen to run a guest workload that
+use DC GVA or DC GZVA.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I also had to think a bit to work out which way round this
+assert is checking: it's testing that the ZVA block length
+(usually 64 bytes) is a multiple of (twice the TAG_GRANULE),
+which is to say a multiple of 32. Given that the blocksize
+is stored as a log2 value, this can only fail for blocksizes
+16, 8, 4, 2 or 1, which are all fairly unlikely.
 
+> +    memset(mem, rtag, blocklen / (2 * TAG_GRANULE));
+> +}
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index 49817b96ae..31260f97f9 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -1769,6 +1769,15 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+>          tcg_rt = clean_data_tbi(s, cpu_reg(s, rt), false);
+>          gen_helper_dc_zva(cpu_env, tcg_rt);
+>          return;
+> +    case ARM_CP_DC_GVA:
+> +        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt), false);
+> +        gen_helper_dc_gva(cpu_env, tcg_rt);
+> +        return;
+> +    case ARM_CP_DC_GZVA:
+> +        tcg_rt = clean_data_tbi(s, cpu_reg(s, rt), false);
+> +        gen_helper_dc_zva(cpu_env, tcg_rt);
+> +        gen_helper_dc_gva(cpu_env, tcg_rt);
+
+I think this means that if there's a watchpoint set on the memory
+partway through the block we're zeroing then we'll take the
+watchpoint with some of the memory zeroed but without the
+corresponding tags having been updated. But that's probably OK
+(at any rate I wouldn't worry about it for now...)
+
+> +        return;
+>      default:
+>          break;
+>      }
+> --
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
