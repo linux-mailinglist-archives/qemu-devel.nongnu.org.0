@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95492114187
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 14:34:14 +0100 (CET)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195A011419D
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Dec 2019 14:38:50 +0100 (CET)
+Received: from localhost ([::1]:54160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1icrGn-0003Ws-39
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 08:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56613)
+	id 1icrLE-0006AZ-9R
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 08:38:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59217)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1icrFh-0002pU-5x
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:06 -0500
+ (envelope-from <peterx@redhat.com>) id 1icrG6-0003CK-Ua
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1icrFb-0000ud-9I
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39081
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1icrG5-0002P6-Rk
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:30 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57323
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1icrFa-0000rA-9q
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:32:58 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1icrG5-0002Lj-Md
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 08:33:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575552773;
+ s=mimecast20190719; t=1575552808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PwUj1w6e3dOU54HNGh94afT799qhTfQK84VzsE6eX1A=;
- b=UttF8Agw2F06HyPG6r2DSz3x5oc2zoikT9F2FkY1hIKi04YG5THGk/Pwx+wEbYUCPcc4fr
- DVswrFtPqactCjj+0DkJ8y+hanUp5h8PSnulVRyAxydRYUNK2kh4ScHkwOCLurozpD8XLv
- kQQ4PG6xGMIqyAh9Myy2aelcsr5LnAA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-Vqi4A7YHP26_ngtoI2Tzlw-1; Thu, 05 Dec 2019 08:32:50 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1390718A8C82;
- Thu,  5 Dec 2019 13:32:49 +0000 (UTC)
-Received: from gondolin (unknown [10.36.118.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBFF85D6A5;
- Thu,  5 Dec 2019 13:32:47 +0000 (UTC)
-Date: Thu, 5 Dec 2019 14:32:45 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 3/4] s390x: Fix cpu normal reset ri clearing
-Message-ID: <20191205143245.1758f574.cohuck@redhat.com>
-In-Reply-To: <20191203132813.2734-4-frankja@linux.ibm.com>
-References: <20191203132813.2734-1-frankja@linux.ibm.com>
- <20191203132813.2734-4-frankja@linux.ibm.com>
-Organization: Red Hat GmbH
+ bh=xTbxbi09I5fekj43Jiszpo4riQGbRYc44vGiv572pHs=;
+ b=hjIzeBbBMD0sdOUTxt/Pm9Qo020nUYH5Rxx4kLUdDcPQY6S9AwUY9xx34wYwISqoErhxKU
+ O6/n7H7kgjh95cHDfRUzjT8EFsq8Xg1uIYk+T9mOScP8j8SbAEfYaPv1CX4feZWCetm9Gc
+ Ja7Bb9wIqDPWpt62BCh1Ql/c/aAun8k=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-3PbrsmZ0Poi2bufCkm8Q-g-1; Thu, 05 Dec 2019 08:33:27 -0500
+Received: by mail-qt1-f197.google.com with SMTP id d9so2457642qtq.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 05:33:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=vqdCMx1izWT0f8k6huFLL52OUMuO6R8bT94Oz4RIfkI=;
+ b=R307teO1xZeADc5xkEPJ97asuLlAqkdZe48PECoqh5XW3RRwWWAiaZGHZaKwaZacWR
+ ISk9JlvgL0MzCWza44OAHv5duQG2eErYputWzlM8N6Bl2959yL8Fw5nu6by3R8w6UwL6
+ pkQ7TuIgL4/gJ0wcV9LP/2tJz895ds7ncNCp0p8HdaYI8YZuLIVjkYbclrMsIV6fgt0X
+ lfTUi6QI2ff+Sn/4SLoaNNSfuWlLpALH765j0HFrFOTiGllG42rMLzwTUNkZ6UjhwjvH
+ yg2Ve1/t6rDfn3jFqpjSgJSfnamlxZ0+xm3w/xdbRAg01ZoqJgVo9tsSUJkANTE588Aw
+ xBHg==
+X-Gm-Message-State: APjAAAUWn1WTeZkIc4rJBj9w391KFFjyiHqY/ukSVrkmJAe/GizdzJCk
+ pIjsDPsm370UvH+fhmP2rSNqXvY1Rvm0BoH7p7uWjPuzPHaS/3HuMm/DywgXBV0HjCI95MLN2t3
+ 8tCXtPH+3mtTS3N8=
+X-Received: by 2002:a05:620a:1eb:: with SMTP id
+ x11mr8569309qkn.254.1575552807229; 
+ Thu, 05 Dec 2019 05:33:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxPy4apWYHQi/c0t3hpW6tkxRPCxU++ZmSW+Mz60OHReJT+15lZ2FNbxrHOnE1B7FEcgmRxUg==
+X-Received: by 2002:a05:620a:1eb:: with SMTP id
+ x11mr8569280qkn.254.1575552806978; 
+ Thu, 05 Dec 2019 05:33:26 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c0:3f::3])
+ by smtp.gmail.com with ESMTPSA id r200sm3319396qke.68.2019.12.05.05.33.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2019 05:33:25 -0800 (PST)
+Date: Thu, 5 Dec 2019 08:33:24 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Yi Sun <yi.y.sun@linux.intel.com>
+Subject: Re: [PATCH v1] intel_iommu: fix bug to read DMAR_RTADDR_REG
+Message-ID: <20191205133324.GB9673@xz-x1>
+References: <20191205095439.29114-1-yi.y.sun@linux.intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: Vqi4A7YHP26_ngtoI2Tzlw-1
+In-Reply-To: <20191205095439.29114-1-yi.y.sun@linux.intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-MC-Unique: 3PbrsmZ0Poi2bufCkm8Q-g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,24 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com,
- qemu-devel@nongnu.org
+Cc: jasowang@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  3 Dec 2019 08:28:12 -0500
-Janosch Frank <frankja@linux.ibm.com> wrote:
+On Thu, Dec 05, 2019 at 05:54:39PM +0800, Yi Sun wrote:
+> Should directly read DMAR_RTADDR_REG but not using 's->root'.
+> Because 's->root' is modified in 'vtd_root_table_setup()' so
+> that the first 12 bits are omitted. This causes the guest
+> iommu debugfs cannot show pasid tables.
+>=20
+> Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 
-> As it turns out we need to clear the ri controls and PSW enablement
-> bit to be architecture compliant.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  target/s390x/cpu.c | 7 ++++++-
->  target/s390x/cpu.h | 7 ++++++-
->  2 files changed, 12 insertions(+), 2 deletions(-)
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Thanks, applied.
+--=20
+Peter Xu
 
 
