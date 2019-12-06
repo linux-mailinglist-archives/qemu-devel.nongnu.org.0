@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD95115471
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:40:34 +0100 (CET)
-Received: from localhost ([::1]:39908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34411154AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:57:29 +0100 (CET)
+Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFia-0001gi-SH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:40:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
+	id 1idFyy-0005PW-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:57:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1idEmW-0001tv-Kh
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1idEjf-0007I7-BR
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1idEmS-0003Gd-9e
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43844
+ (envelope-from <philmd@redhat.com>) id 1idEjY-0007dV-BS
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46182
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1idEmS-0003CA-4e
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:28 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEjR-0007Xh-PC
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643222;
+ s=mimecast20190719; t=1575643036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=A8XuLceambYefBTSCkdnVkXxIIwIoRAKWan0w0FFCBM=;
- b=Xx8vKtxv0q1eJcKM1GNrT3iHaTV37Y6SyPN856xpl26RAPvTfA3lrcVs9IfAzkmAwdwAQM
- 0wRPxlBWcrDRPmTV0R4gig868CfDbUQoNbHD8sHQaOZ4uK5pPbHmfH2Xh9bdWyh0QOfXZ3
- 2H7QJ98mtaaS41SGOJGYGV3bSFTNXzA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-Y4MFc_RlNHim89MriW5y7w-1; Fri, 06 Dec 2019 01:36:49 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0603D800D5A
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 06:36:48 +0000 (UTC)
-Received: from localhost.localdomain.com (vpn2-54-97.bne.redhat.com
- [10.64.54.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA38E5D9C9;
- Fri,  6 Dec 2019 06:36:46 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/core: Fix data type in do_nmi()
-Date: Fri,  6 Dec 2019 17:36:42 +1100
-Message-Id: <20191206063642.40942-1-gshan@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=edIubUtxN8p98bHFFpzdA868v3MEHjCgp23RKrnXBGg=;
+ b=NoEV7MIE3KlJ29HMgrWWZoZrHbpW6URChD8wXcXkLhCVB0fW/d6t9lQd5oqxciSMurs7Br
+ 1fAWsqnWBuyRPcL6JzivZ5KraD1A7A1LTKC5SLFGx9idO4fRFs/bxactcVX5YNmD+Hlfsm
+ VYlWiSsPIYBpv8ezmLU5o/JQTsIEE4g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-YaxERqgRPBmyu922apLhvw-1; Fri, 06 Dec 2019 02:30:32 -0500
+Received: by mail-wm1-f70.google.com with SMTP id i17so1795248wmd.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:30:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vNjyLWrM+FG8hGz0yX7fG1I5NSM7ahQ0F2usQSKaFX4=;
+ b=dofcFkS4YMapGibWOCQSycRzkeewLx0TO7hbQ/YgJsJgRSqHyKYLp6Wst67GruTdAG
+ CO16lD43NFPLImmFoRHkzHMPRiFYvDeoxzZikVvh+LtMRpvPhcrShJvlYNZz8B1d1+ZL
+ QZHAD6ZkTvYY82Ouxb/VnPPnemSlJUkAW8wYMMrWtkC4WUyuJAbt1BZKW7vgQVlKtRL3
+ cSuv+g15j/6cZIBhvXZibx2Pi81mkExPdtSM5BgH9r5kK1X2LY9C8L6CVlyiwCILo4tZ
+ DM/5vY5nl2A7hiO1aCqIOSX6Orwj4i0l+maw4w/lvrwxlisMKUvKDdETSlJdtAlmFNNg
+ 1rkQ==
+X-Gm-Message-State: APjAAAWWFdW54eURSkYqaGs/3OjKMzvGgvAHt34GAkAjOJvL/vuByfj0
+ HN++jPH53uks66l2HvOSByCdGxb260JZXNt04Bc5idIeRLCBVl23dx5v22KAcDA3pK7UcX/QMFv
+ eRVRDHlb3VOLfn/s=
+X-Received: by 2002:a1c:8055:: with SMTP id b82mr9016841wmd.127.1575617430632; 
+ Thu, 05 Dec 2019 23:30:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzQ3eXy3DcLf0/GcpZ5RoqMXz1MbJ6oyjh1xGy/yWTNarLezsUTgdedxuwvvydvScptrB3DUg==
+X-Received: by 2002:a1c:8055:: with SMTP id b82mr9016820wmd.127.1575617430428; 
+ Thu, 05 Dec 2019 23:30:30 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id c4sm2505569wml.7.2019.12.05.23.30.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Dec 2019 23:30:29 -0800 (PST)
+Subject: Re: [PATCH v8 05/21] vnc: drop Error pointer indirection in
+ vnc_client_io_error
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
+ <20191205174635.18758-6-vsementsov@virtuozzo.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <36f97ef3-e2cc-3370-de51-f33285395544@redhat.com>
+Date: Fri, 6 Dec 2019 08:30:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Y4MFc_RlNHim89MriW5y7w-1
+In-Reply-To: <20191205174635.18758-6-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-MC-Unique: YaxERqgRPBmyu922apLhvw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -68,126 +93,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gshan@redhat.com
+Cc: armbru@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-object_dynamic_cast() should return machine (or GPIO) state instad of NMI
-state in do_nmi(). So it's wrong to convert it to NMI state unconditionally=
-.
+On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
+> We don't need Error **, as all callers pass local Error object, which
+> isn't used after the call, or NULL. Use Error * instead.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-This changes the prototype of NMIClass::nmi_monitor_handler() to accept
-the parent object of NMI state instead of itself. With this, he parent obje=
-ct
-is passed to the function, to avoid potential data corruption.
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/core/nmi.c              | 8 ++++----
- hw/i386/x86.c              | 2 +-
- hw/misc/macio/gpio.c       | 6 +++---
- hw/ppc/spapr.c             | 2 +-
- hw/s390x/s390-virtio-ccw.c | 2 +-
- include/hw/nmi.h           | 2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/hw/core/nmi.c b/hw/core/nmi.c
-index 481c4b3c7e..554708d0db 100644
---- a/hw/core/nmi.c
-+++ b/hw/core/nmi.c
-@@ -37,13 +37,13 @@ static void nmi_children(Object *o, struct do_nmi_s *ns=
+> ---
+>   ui/vnc.h |  2 +-
+>   ui/vnc.c | 20 +++++++-------------
+>   2 files changed, 8 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/ui/vnc.h b/ui/vnc.h
+> index fea79c2fc9..4e2637ce6c 100644
+> --- a/ui/vnc.h
+> +++ b/ui/vnc.h
+> @@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
+>  =20
+>   /* Protocol stage functions */
+>   void vnc_client_error(VncState *vs);
+> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
+> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err);
+>  =20
+>   void start_client_init(VncState *vs);
+>   void start_auth_vnc(VncState *vs);
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index 87b8045afe..4100d6e404 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
+>       g_free(vs);
+>   }
+>  =20
+> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
+> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err)
+>   {
+>       if (ret <=3D 0) {
+>           if (ret =3D=3D 0) {
+> @@ -1320,15 +1320,11 @@ size_t vnc_client_io_error(VncState *vs, ssize_t =
+ret, Error **errp)
+>               vnc_disconnect_start(vs);
+>           } else if (ret !=3D QIO_CHANNEL_ERR_BLOCK) {
+>               trace_vnc_client_io_error(vs, vs->ioc,
+> -                                      errp ? error_get_pretty(*errp) :
+> -                                      "Unknown");
+> +                                      err ? error_get_pretty(err) : "Unk=
+nown");
+>               vnc_disconnect_start(vs);
+>           }
+>  =20
+> -        if (errp) {
+> -            error_free(*errp);
+> -            *errp =3D NULL;
+> -        }
+> +        error_free(err);
+>           return 0;
+>       }
+>       return ret;
+> @@ -1361,10 +1357,9 @@ size_t vnc_client_write_buf(VncState *vs, const ui=
+nt8_t *data, size_t datalen)
+>   {
+>       Error *err =3D NULL;
+>       ssize_t ret;
+> -    ret =3D qio_channel_write(
+> -        vs->ioc, (const char *)data, datalen, &err);
+> +    ret =3D qio_channel_write(vs->ioc, (const char *)data, datalen, &err=
 );
- static int do_nmi(Object *o, void *opaque)
- {
-     struct do_nmi_s *ns =3D opaque;
--    NMIState *n =3D (NMIState *) object_dynamic_cast(o, TYPE_NMI);
-+    Object *parent =3D object_dynamic_cast(o, TYPE_NMI);
-=20
--    if (n) {
--        NMIClass *nc =3D NMI_GET_CLASS(n);
-+    if (parent) {
-+        NMIClass *nc =3D NMI_GET_CLASS(parent);
-=20
-         ns->handled =3D true;
--        nc->nmi_monitor_handler(n, ns->cpu_index, &ns->err);
-+        nc->nmi_monitor_handler(parent, ns->cpu_index, &ns->err);
-         if (ns->err) {
-             return -1;
-         }
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 394edc2f72..b98204f104 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -190,7 +190,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineS=
-tate *ms)
-     return ms->possible_cpus;
- }
-=20
--static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
-+static void x86_nmi(Object *parent, int cpu_index, Error **errp)
- {
-     /* cpu index isn't used */
-     CPUState *cs;
-diff --git a/hw/misc/macio/gpio.c b/hw/misc/macio/gpio.c
-index 6cca6b27d6..6b4dfcc188 100644
---- a/hw/misc/macio/gpio.c
-+++ b/hw/misc/macio/gpio.c
-@@ -196,10 +196,10 @@ static void macio_gpio_reset(DeviceState *dev)
-     macio_set_gpio(s, 1, true);
- }
-=20
--static void macio_gpio_nmi(NMIState *n, int cpu_index, Error **errp)
-+static void macio_gpio_nmi(Object *parent, int cpu_index, Error **errp)
- {
--    macio_set_gpio(MACIO_GPIO(n), 9, true);
--    macio_set_gpio(MACIO_GPIO(n), 9, false);
-+    macio_set_gpio(MACIO_GPIO(parent), 9, true);
-+    macio_set_gpio(MACIO_GPIO(parent), 9, false);
- }
-=20
- static void macio_gpio_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e076f6023c..3b92e4013d 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3377,7 +3377,7 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, run_o=
-n_cpu_data arg)
-     ppc_cpu_do_system_reset(cs);
- }
-=20
--static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-+static void spapr_nmi(Object *parent, int cpu_index, Error **errp)
- {
-     CPUState *cs;
-=20
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index d3edeef0ad..a49952a8b9 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -431,7 +431,7 @@ static void s390_hot_add_cpu(MachineState *machine,
-     s390x_new_cpu(object_class_get_name(oc), id, errp);
- }
-=20
--static void s390_nmi(NMIState *n, int cpu_index, Error **errp)
-+static void s390_nmi(Object *parent, int cpu_index, Error **errp)
- {
-     CPUState *cs =3D qemu_get_cpu(cpu_index);
-=20
-diff --git a/include/hw/nmi.h b/include/hw/nmi.h
-index a1e128724e..75afa67790 100644
---- a/include/hw/nmi.h
-+++ b/include/hw/nmi.h
-@@ -38,7 +38,7 @@ typedef struct NMIState NMIState;
- typedef struct NMIClass {
-     InterfaceClass parent_class;
-=20
--    void (*nmi_monitor_handler)(NMIState *n, int cpu_index, Error **errp);
-+    void (*nmi_monitor_handler)(Object *parent, int cpu_index, Error **err=
-p);
- } NMIClass;
-=20
- void nmi_monitor_handle(int cpu_index, Error **errp);
---=20
-2.23.0
+>       VNC_DEBUG("Wrote wire %p %zd -> %ld\n", data, datalen, ret);
+> -    return vnc_client_io_error(vs, ret, &err);
+> +    return vnc_client_io_error(vs, ret, err);
+>   }
+>  =20
+>  =20
+> @@ -1488,10 +1483,9 @@ size_t vnc_client_read_buf(VncState *vs, uint8_t *=
+data, size_t datalen)
+>   {
+>       ssize_t ret;
+>       Error *err =3D NULL;
+> -    ret =3D qio_channel_read(
+> -        vs->ioc, (char *)data, datalen, &err);
+> +    ret =3D qio_channel_read(vs->ioc, (char *)data, datalen, &err);
+>       VNC_DEBUG("Read wire %p %zd -> %ld\n", data, datalen, ret);
+> -    return vnc_client_io_error(vs, ret, &err);
+> +    return vnc_client_io_error(vs, ret, err);
+>   }
+>  =20
+>  =20
+>=20
 
 
