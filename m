@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4541C1156C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:52:54 +0100 (CET)
-Received: from localhost ([::1]:42591 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3414F1156E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:00:33 +0100 (CET)
+Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHmf-0004Kl-64
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:52:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44453)
+	id 1idHu3-0005Fn-9j
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:00:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1idHOU-0001j6-RR
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:55 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idGDL-0005u7-NB
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:12:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1idHOT-0003JT-M7
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39011
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1idHOT-0003H3-Dc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575653272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yqTunPkxwrcyQFOxDUNzfOp1hv1TJYsH7F1IJZPhTJo=;
- b=GUPCMfIKF/NWK5pNJR+nw4t8tI35nE0kVEHbQBwq3GIctmI2xGM1ydTOAYXVFGOXu7Lkan
- 4F6NA3RqJTvSWP41bQqzaW5Jw2O2Ym/jyBsUmDCFPNaeJ4T4jiY9YQeFz5DzzjmgQLNsGY
- WHzQc/CIyfBYdiU/9dXuX33hG0tAtMw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-RwGInhliOwmo9mMSBC3FqA-1; Fri, 06 Dec 2019 12:27:48 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35E9A1005502;
- Fri,  6 Dec 2019 17:27:47 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 540D86CE40;
- Fri,  6 Dec 2019 17:27:42 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: [kvm-unit-tests RFC 03/10] pmu: Add a pmu struct
-Date: Fri,  6 Dec 2019 18:27:17 +0100
-Message-Id: <20191206172724.947-4-eric.auger@redhat.com>
-In-Reply-To: <20191206172724.947-1-eric.auger@redhat.com>
-References: <20191206172724.947-1-eric.auger@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1idGDG-00021g-S3
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:12:16 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:38550)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idGDF-0001wg-7E
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:12:14 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id b8so231606oiy.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 08:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jgcPCyitlQ6IjnvaSm8sYLpQnIA1AsZmeJ98HjcnU3Y=;
+ b=ByG/EeXw8ozqQiG/dvvlWRAGllbKoyceX3b5Del7qZ0nBO3bbzhr1AVNZQSFQ6SaEI
+ 5BTTY6tGUcABkF/l/S40TP2FAzus64Db7h0ZS4RUX4U/I6U842DkoQNyh9n9cgOFwU+I
+ gU1IvDe8kxGJSMzQgVItGQZx/E9NJc1bW5DWmFOls+oOJTOLLvnJVv/hxkMbJOi/MlTR
+ 4rlOmPtQUK61Yq5GiDSqeXsruZLvPDxIykjwktlvCBsP2m1ubax2zVMN5maOtIuMZpaZ
+ QH8XdF6Ugq6Mx92ie0qKzb/rO5KatbH+ncImp0skSYIubmb6tHyp14nyVjceUIeKfMEf
+ 6hHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jgcPCyitlQ6IjnvaSm8sYLpQnIA1AsZmeJ98HjcnU3Y=;
+ b=r/hyzZ2pkXQA8HeWoUoI0aPunN3mquoupCjoHUfm2PsFsXyfZhDlN0KxOXTcSYkGR3
+ 7juAGNA44oreUd6ofbI8HX4u5/gDhsWv8HkZ0kV80Ns3RN9iDTvhT92ARhjD0OqvqEcM
+ 3z6IyA4iApexfmeSjFVNWcO+14LLijimSzprsb4YqylK60KkWc+JUTbwEtOrM6J+zzrO
+ WGcxnvcN2hMyDf3R2KKZ1B1x1ea8JL6tC1DAX8erLvlT2wtTf6B4ZDa3OYH/mn0rnFS2
+ pQtF90aVTOZkpdUbaXPNbQCI0vYLoWGM9pbIh66I0vznJxVn868CO4R5VWMiqydywsJP
+ 5xkA==
+X-Gm-Message-State: APjAAAWnUPlkK+ikehJ5KQs22/vQIBo08c6vabJ6r68aMAijZBNmPz2Y
+ npGeaB7+Wjk1s/sQx+z3g3aFWM61uqRfM9xLNx9sHy3M
+X-Google-Smtp-Source: APXvYqyIJ17cdISawzEmhT7Tvh5pfXVlEJFogBA+n23AYEHXIyWWT02UnibHcyfYsh2YKHMCSsMIb+gjKXFt9D3uOTw=
+X-Received: by 2002:aca:3182:: with SMTP id
+ x124mr13136865oix.170.1575648729745; 
+ Fri, 06 Dec 2019 08:12:09 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: RwGInhliOwmo9mMSBC3FqA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191206113635.6570-1-pbonzini@redhat.com>
+In-Reply-To: <20191206113635.6570-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 16:11:58 +0000
+Message-ID: <CAFEAcA81bcaNMpg8vs8tMM5bLA2phxZMP1az3j_ErqaWc33h6w@mail.gmail.com>
+Subject: Re: [PULL 0/1] KVM fix for QEMU 4.2-rc
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,77 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
- andre.przywara@arm.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This struct aims at storing information potentially used by
-all tests such as the pmu version, the read-only part of the
-PMCR, the number of implemented event counters, ...
+On Fri, 6 Dec 2019 at 15:04, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
+>
+>   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 2605188240f939fa9ae9353f53a0985620b34769:
+>
+>   target/i386: disable VMX features if nested=0 (2019-12-06 12:35:40 +0100)
+>
+> ----------------------------------------------------------------
+> * fix for x86 KVM on older kernels (Yang Zhong)
+>
+> ----------------------------------------------------------------
+> Yang Zhong (1):
+>       target/i386: disable VMX features if nested=0
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- arm/pmu.c | 29 ++++++++++++++++++++++++-----
- 1 file changed, 24 insertions(+), 5 deletions(-)
 
-diff --git a/arm/pmu.c b/arm/pmu.c
-index 2ad6469..8e95251 100644
---- a/arm/pmu.c
-+++ b/arm/pmu.c
-@@ -33,7 +33,15 @@
-=20
- #define NR_SAMPLES 10
-=20
--static unsigned int pmu_version;
-+struct pmu {
-+=09unsigned int version;
-+=09unsigned int nb_implemented_counters;
-+=09uint32_t pmcr_ro;
-+};
-+
-+static struct pmu pmu;
-+
-+
- #if defined(__arm__)
- #define ID_DFR0_PERFMON_SHIFT 24
- #define ID_DFR0_PERFMON_MASK  0xf
-@@ -265,7 +273,7 @@ static bool check_cpi(int cpi)
- static void pmccntr64_test(void)
- {
- #ifdef __arm__
--=09if (pmu_version =3D=3D 0x3) {
-+=09if (pmu.version =3D=3D 0x3) {
- =09=09if (ERRATA(9e3f7a296940)) {
- =09=09=09write_sysreg(0xdead, PMCCNTR64);
- =09=09=09report("pmccntr64", read_sysreg(PMCCNTR64) =3D=3D 0xdead);
-@@ -278,9 +286,20 @@ static void pmccntr64_test(void)
- /* Return FALSE if no PMU found, otherwise return TRUE */
- static bool pmu_probe(void)
- {
--=09pmu_version =3D get_pmu_version();
--=09report_info("PMU version: %d", pmu_version);
--=09return pmu_version !=3D 0 && pmu_version !=3D 0xf;
-+=09uint32_t pmcr;
-+
-+=09pmu.version =3D get_pmu_version();
-+=09report_info("PMU version: %d", pmu.version);
-+
-+=09if (pmu.version =3D=3D 0 || pmu.version  =3D=3D 0xF)
-+=09=09return false;
-+
-+=09pmcr =3D get_pmcr();
-+=09pmu.pmcr_ro =3D pmcr & 0xFFFFFF80;
-+=09pmu.nb_implemented_counters =3D (pmcr >> PMU_PMCR_N_SHIFT) & PMU_PMCR_N=
-_MASK;
-+=09report_info("Implements %d event counters", pmu.nb_implemented_counters=
-);
-+
-+=09return true;
- }
-=20
- int main(int argc, char *argv[])
---=20
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.2
+for any user-visible changes.
+
+-- PMM
 
