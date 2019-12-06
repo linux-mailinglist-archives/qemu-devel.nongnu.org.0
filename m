@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE68115415
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:19:48 +0100 (CET)
-Received: from localhost ([::1]:39564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADFB1153D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:05:29 +0100 (CET)
+Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFOV-0002js-91
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:19:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58079)
+	id 1idFAd-0003sX-SP
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:05:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44331)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1idEUE-0007Hs-RQ
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1idEXz-0003Ka-3H
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1idEUD-0001zw-JQ
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:38 -0500
-Received: from ozlabs.org ([203.11.71.1]:37159)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1idEUC-0001s1-KM; Fri, 06 Dec 2019 09:21:37 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47Tq1F2GFHz9sPn; Fri,  6 Dec 2019 21:42:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1575628977;
- bh=EmVo7Pwx+DtxHbZPtSYRuOir/wR8PGjAnxrrv0MYhSk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hON6p5x+PnDu4M30zAlfbAn0k7s8QF9lfGpFL02WEEXE3mz8NULk2K7cjzkQQVZDy
- i9d+hcb/syvymZ42OehxoreA6KBcCgLLuANytWm/J0b/MypHpdH1YSe1ImjaRlES2q
- cGbd9EqpR47D1S+llf1JZGwN6k/1PIUOA9zpL8Kg=
-Date: Fri, 6 Dec 2019 21:29:03 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/1] ppc-for-4.2 queue 20191206
-Message-ID: <20191206102903.GM5031@umbus.fritz.box>
-References: <20191206044134.259488-1-david@gibson.dropbear.id.au>
- <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1idEXx-0007tk-ID
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:30 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41008)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1idEXv-0007kd-DJ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:29 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id c9so7962982wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:25:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Eea0WX9KA4AlsRKFxgjV5UrPcoF5uGNUHKNO/XsBxco=;
+ b=qDdl5MLTb3bICzUm74XaO66YfYK/tNd55fR8VkobXyD2hqjhbeZiUbvemhLbr146zT
+ AswpzEX8X3KWIbWdDU+BTzT66lF1WXHAUBikreEjt/r8N0hKaCKwgMB8BzZXAUqtwBHo
+ dgiNy4WBGSPf0DtytUryAP487wgk30wEXYX4HfLp/V4a3uyYSGPIjXifmZfEEqbAmN56
+ jcmlPudEDth4GtXISw4gXjpjJy2Ri0hglCUcMsKItQP5lpKcFSSEsmjWDZIL8rmvi8kD
+ NikZpcPoJe6289ikhSgvF6OEqWE27/scFLv45rANoKoUgaZlywlgd2Hsc1fj7LYo185h
+ nEUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Eea0WX9KA4AlsRKFxgjV5UrPcoF5uGNUHKNO/XsBxco=;
+ b=EaSyV3gGj0NcH/WVMTi0z57OXi1nOs3SJae4xz2IhoUtJ+2kgkXegqJXs1yr9N4i5+
+ hK/mQYW9N2QL8fQbYGrsS0277v2ib07+8H3V9e68rOoy3BSff0jC62f+UcQkdQ+LJxz+
+ VeOtVpArYImilAeJ4AbMKXUpWAwnUYrWWMYizVlBNIPVMTgv3en887sJe9+1B7ysJHzT
+ C6VdMFLrjpc7antHmQAY2/O2Z4Ipu4kgiqOV4jrKNua114TzI9yAiE9LeWfJbQsDWPW5
+ pd08u8Grszc+10uV9i4ZAcK01UHyczJKVFUQVP0kU3wkOfETAZwZZMrcZCK2dgq1Vpfd
+ RWqA==
+X-Gm-Message-State: APjAAAWCVm81Glfc5YD76Sit9DoNqE4Hs61h/azMXU50debKIQkaVCa+
+ n1ocuGG8ONTR5H1IwTkr5RcLRf0t
+X-Google-Smtp-Source: APXvYqzSFhAH00/dzvPmZlTlzNstSu3+1SFO4u2sbKBVCpPe29Uj1uK5ydI5XrU4uo8zbLOx7U2z8A==
+X-Received: by 2002:adf:f847:: with SMTP id d7mr15917933wrq.35.1575632197223; 
+ Fri, 06 Dec 2019 03:36:37 -0800 (PST)
+Received: from donizetti.redhat.com (nat-pool-mxp-u.redhat.com.
+ [149.6.153.187])
+ by smtp.gmail.com with ESMTPSA id s65sm3181026wmf.48.2019.12.06.03.36.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2019 03:36:36 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] KVM fix for QEMU 4.2-rc
+Date: Fri,  6 Dec 2019 12:36:34 +0100
+Message-Id: <20191206113635.6570-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qo7zVO9a9OQ5oQtr"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,74 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
 
---qo7zVO9a9OQ5oQtr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
 
-On Fri, Dec 06, 2019 at 09:52:54AM +0000, Peter Maydell wrote:
-> On Fri, 6 Dec 2019 at 04:41, David Gibson <david@gibson.dropbear.id.au> w=
-rote:
-> >
-> > The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9=
-278e:
-> >
-> >   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191206
-> >
-> > for you to fetch changes up to d887a8cfc083bcf3856f9f42352989f3624e0cae:
-> >
-> >   pseries: Update SLOF firmware image (2019-12-06 15:33:23 +1100)
-> >
-> > ----------------------------------------------------------------
-> > ppc patch queue 2019-12-06
-> >
-> > This is a last minute pull request for ppc-for-4.2.  I know it's very
-> > late in freeze, but this does fix a regression: a bad interaction
-> > between the new qemu and SLOF device tree construction code means that
-> > SLOF will crash if PCI to PCI bridges are included in the system.
->=20
-> I really really really don't want to do an rc5. This would
-> have to be "everybody using ppc gets crashes" for me to
-> really want to put it in at this point...
+are available in the Git repository at:
 
-Yeah, alright.  I'll send it to Mike for a 4.2.1.
+  git://github.com/bonzini/qemu.git tags/for-upstream
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+for you to fetch changes up to 2605188240f939fa9ae9353f53a0985620b34769:
 
---qo7zVO9a9OQ5oQtr
-Content-Type: application/pgp-signature; name="signature.asc"
+  target/i386: disable VMX features if nested=0 (2019-12-06 12:35:40 +0100)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+* fix for x86 KVM on older kernels (Yang Zhong)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3qLWsACgkQbDjKyiDZ
-s5I9fhAA1tV2qJgRkEMqzowHp2us3la0LpjAb0uMXAFAOKxWqdePeD00lRVpg72J
-qJt/tUskyoES3pTWbYpVrf9DDLJFi1CobH+uu0D62ieR4lmw+8Zv57jpq41b0y+Z
-/B0MLMa6nbP+daVsbxPcT9RN1poVlOpAtDckQDEaEz5W9aiD7eiTlveclBaYAqqb
-LMxrJO2BDi9AFy1b5qRIIpTmAsbDYZQx4dsC1He4LC/PqUZGsLFSzpEqlH+37tWb
-LrQcn5Jpq+He9o6deEHyXrOZXtN6dYhlXmxlIjyPc2pf8kGQQRgKnFKID44qaKo7
-ZBGY1qL8VZowwCFnMWXpEaLbItlgog727/+xrVrJpX01UovWZD9e8coBF3fU8OCC
-tH93X6PMRHScdTEOn/iB9iB65uo/Zf+alNAlvSPBrNLqhBpRgMq8XgJzLiJsauuu
-/cnyidCjdC2VHqbSjUvCQNWj99DHxXuWLLgVYCGT7t/S5MON6W/v+woYuroNLDKa
-SS1uDDC+BLnm/69fdxAwmYEX69EYy4JnhBBvCIG7+09QNArDtWNUeFP4FVHYY6pU
-wHz/Jj47/fnkT9nQ377nexsud0hn7KEP0SzyFheZqM1vswWfg8e2jEF51HgZAdTK
-XLAgE8PlwYHgFb2vLIN74K7zVTMk3f4tzu/Lqmb78aOLz9J1ZSU=
-=kgXo
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Yang Zhong (1):
+      target/i386: disable VMX features if nested=0
 
---qo7zVO9a9OQ5oQtr--
+ target/i386/kvm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+-- 
+2.21.0
+
 
