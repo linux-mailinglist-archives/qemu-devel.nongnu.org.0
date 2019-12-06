@@ -2,35 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8018B114A95
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 02:46:02 +0100 (CET)
-Received: from localhost ([::1]:34512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BD4114ADB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 03:19:08 +0100 (CET)
+Received: from localhost ([::1]:34816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1id2V2-0001Gd-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 20:33:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1id3D1-0005N5-Bg
+	for lists+qemu-devel@lfdr.de; Thu, 05 Dec 2019 21:19:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1id2NG-0000V2-2q
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 20:25:38 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1id3BN-0004Fy-K0
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 21:17:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1id2NE-0002XN-PB
- for qemu-devel@nongnu.org; Thu, 05 Dec 2019 20:25:37 -0500
-Received: from [107.174.27.60] (port=57910 helo=ozlabs.ru)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>)
- id 1id2NE-0002Rz-Gk; Thu, 05 Dec 2019 20:25:36 -0500
-Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id CCC64AE801F8;
- Thu,  5 Dec 2019 20:24:30 -0500 (EST)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [GIT PULL for qemu-pseries] pseries: Update SLOF firmware image
-Date: Fri,  6 Dec 2019 12:25:29 +1100
-Message-Id: <20191206012529.81012-1-aik@ozlabs.ru>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 107.174.27.60
+ (envelope-from <pannengyuan@huawei.com>) id 1id3BL-0002ik-W9
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 21:17:25 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:55732 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1id3BL-0002Yf-Gk
+ for qemu-devel@nongnu.org; Thu, 05 Dec 2019 21:17:23 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 0CF62AC8E08CE5E3A7BA;
+ Fri,  6 Dec 2019 10:17:17 +0800 (CST)
+Received: from [127.0.0.1] (10.120.177.99) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Fri, 6 Dec 2019
+ 10:17:06 +0800
+Subject: Re: [PATCH v2 1/3] virtio: add ability to delete vq through a pointer
+To: Amit Shah <amit@kernel.org>, <mst@redhat.com>
+References: <1575444716-17632-1-git-send-email-pannengyuan@huawei.com>
+ <1eaf11e84a6c1cbfbacebe2ae4361925142c1ab6.camel@kernel.org>
+From: Pan Nengyuan <pannengyuan@huawei.com>
+Message-ID: <32796046-ef9b-6157-3bd0-23eef4d4950b@huawei.com>
+Date: Fri, 6 Dec 2019 10:17:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <1eaf11e84a6c1cbfbacebe2ae4361925142c1ab6.camel@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+X-Originating-IP: [10.120.177.99]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,32 +56,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: liyiting@huawei.com, kuhn.chenqun@huawei.com, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
 
-  Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
+On 2019/12/6 0:45, Amit Shah wrote:
+> On Wed, 2019-12-04 at 15:31 +0800, pannengyuan@huawei.com wrote:
+>> From: Pan Nengyuan <pannengyuan@huawei.com>
+>=20
+> Shouldn't this be From: mst?
+>=20
+> I didn't find a ref to the original patch to confirm if you had to
+> adapt it in any way, though.
+>=20
 
-are available in the Git repository at:
+Here is the original
+patch:=E3=80=80https://lists.nongnu.org/archive/html/qemu-devel/2019-12/m=
+sg00402.html
 
-  git@github.com:aik/qemu.git tags/qemu-slof-20191206
+I just change one line(set used_elems to NULL). In next version, I will
+change function name from virtio_delete_queue to virtio_queue_cleanup
+(It's too similar between "virtio_del_queue" and "virtio_delete_queue"):
+https://lists.nongnu.org/archive/html/qemu-devel/2019-12/msg00877.html.
 
-for you to fetch changes up to e53a5569a27066a4f2f36ae368c728ab6c514352:
+According to these, should I change it in next version?
 
-  pseries: Update SLOF firmware image (2019-12-06 12:20:42 +1100)
+Thanks.
 
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
+>> Devices tend to maintain vq pointers, allow deleting them trough a vq
+>> pointer.
+>>
+>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+>> ---
+>> Changes v2 to v1:
+>> - add a new function virtio_delete_queue to cleanup vq through a vq
+>> pointer
+>> ---
+>>  hw/virtio/virtio.c         | 16 +++++++++++-----
+>>  include/hw/virtio/virtio.h |  2 ++
+>>  2 files changed, 13 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> index 04716b5..6de3cfd 100644
+>> --- a/hw/virtio/virtio.c
+>> +++ b/hw/virtio/virtio.c
+>> @@ -2330,17 +2330,23 @@ VirtQueue *virtio_add_queue(VirtIODevice
+>> *vdev, int queue_size,
+>>      return &vdev->vq[i];
+>>  }
+>> =20
+>> +void virtio_delete_queue(VirtQueue *vq)
+>> +{
+>> +    vq->vring.num =3D 0;
+>> +    vq->vring.num_default =3D 0;
+>> +    vq->handle_output =3D NULL;
+>> +    vq->handle_aio_output =3D NULL;
+>> +    g_free(vq->used_elems);
+>> +    vq->used_elems =3D NULL;
+>> +}
+>> +
+>>  void virtio_del_queue(VirtIODevice *vdev, int n)
+>>  {
+>>      if (n < 0 || n >=3D VIRTIO_QUEUE_MAX) {
+>>          abort();
+>>      }
+>> =20
+>> -    vdev->vq[n].vring.num =3D 0;
+>> -    vdev->vq[n].vring.num_default =3D 0;
+>> -    vdev->vq[n].handle_output =3D NULL;
+>> -    vdev->vq[n].handle_aio_output =3D NULL;
+>> -    g_free(vdev->vq[n].used_elems);
+>> +    virtio_delete_queue(&vdev->vq[n]);
+>>  }
+>> =20
+>>  static void virtio_set_isr(VirtIODevice *vdev, int value)
+>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+>> index c32a815..e18756d 100644
+>> --- a/include/hw/virtio/virtio.h
+>> +++ b/include/hw/virtio/virtio.h
+>> @@ -183,6 +183,8 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev,
+>> int queue_size,
+>> =20
+>>  void virtio_del_queue(VirtIODevice *vdev, int n);
+>> =20
+>> +void virtio_delete_queue(VirtQueue *vq);
+>> +
+>>  void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+>>                      unsigned int len);
+>>  void virtqueue_flush(VirtQueue *vq, unsigned int count);
+>=20
+>=20
+> .
+>=20
 
- pc-bios/README   |   2 +-
- pc-bios/slof.bin | Bin 928552 -> 931032 bytes
- roms/SLOF        |   2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
-
-
-*** Note: this is not for master, this is for pseries
 
