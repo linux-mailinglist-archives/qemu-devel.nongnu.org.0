@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74B71154A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:52:15 +0100 (CET)
-Received: from localhost ([::1]:40126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25AE115488
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:47:02 +0100 (CET)
+Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFtu-00074t-Dx
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:52:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53563)
+	id 1idFor-0000ZP-74
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33512)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idEmG-0001pm-3s
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:22 -0500
+ (envelope-from <armbru@redhat.com>) id 1idEum-00021Z-Ju
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:49:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idEmE-00035e-OG
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60759
+ (envelope-from <armbru@redhat.com>) id 1idEul-0005zd-4z
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:49:04 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49161
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEmE-000344-Fu
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:14 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1idEuk-0005yg-Vb
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:49:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643214;
+ s=mimecast20190719; t=1575643742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Boahr/sfSBA3a5P4fmAwvok+mVLxcoMrYfoTb05BH8=;
- b=O8TyOIjOUecFzgVx9w7fGD5nYnUg/jzDjzJ6u0+Rhc9HPiVuRR1LB7IC2ZFDJtFkFxXjC2
- SvVxDVXplHmkslfIBLW17EKEeABa0EJVo+u/O/4ABJhGkuo/lsbF3jlx/kpGtd1vVR+9Jt
- 3wyy8n04yfteu8/2+UEKNDaABDZQjr8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-wPhphu9EP2qjl2-aWBOhLQ-1; Fri, 06 Dec 2019 02:38:39 -0500
-Received: by mail-wm1-f72.google.com with SMTP id p2so1799214wma.3
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:38:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hwQ0ggcKlNb+kIUwNY97aTK3QosuOK9Y4cZvJtIEH/A=;
- b=GLAr+Q1Z/IxRG6pnzTKW84Bvadm18KTE6jfTfGmteyF0vHncUbFdcpcm566U7/ZLxj
- JuR0ewva2PCWcCMAUwyT10tn0uicyQMVPZLJ0sT2Y+zOl+FIiaE7+r5/rLkVA2ID14dE
- VSZD2Dvo9TTEBrHiD933+28LfXlMbhdO1x2PcjnbVy8i02Ub3J3T20PA8kOn4hjXKEMq
- wpJm1rP+dMk+Mcj+WtC69MFohOBiXcbcrf1tZHiVU0HZXOn29FIDlF/aa6dfRhAWu/os
- nD7DF5X6p4KZsuDd9ITz5ibrcpbK0j3o+rBIitToTlgUOIxNomNH4INjxXzNK1ecNh1K
- hYaA==
-X-Gm-Message-State: APjAAAW5y2D47mEAngYEFSgIwBBq1MScwAxGI55sGezROxn3RWuO9m2B
- 7L7tiUC9Rvo0ReLeiW1OW9f329fRMAcrw9H1FaxWN/8hZxTgOl4tri5oI3/fqGZQ17p3tCtcD2+
- usUf4G/wb41/i2kw=
-X-Received: by 2002:a1c:9ec6:: with SMTP id h189mr2488324wme.28.1575617918172; 
- Thu, 05 Dec 2019 23:38:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwFHO2fc0yYL1moFY1Mb4p2QSnfwyzuipPOI4X2k19Gj14utrvBzMdc52dmhW4iZSv6b+qehA==
-X-Received: by 2002:a1c:9ec6:: with SMTP id h189mr2488308wme.28.1575617917998; 
- Thu, 05 Dec 2019 23:38:37 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id x132sm4266224wmg.0.2019.12.05.23.38.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 23:38:37 -0800 (PST)
-Subject: Re: [PATCH v8 17/21] hw/usb: rename Error ** parameter to more common
- errp
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-18-vsementsov@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1407847e-1e1d-9ecb-a522-103a09179f02@redhat.com>
-Date: Fri, 6 Dec 2019 08:38:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=fMomInCBfwvP6AujEflBTyrGGKLFFe2gc1qzHaavmu0=;
+ b=IoTqg2mfHfTkpUGZ4Y6kMLOdSUHGRbavyVq9gfTLPMPYjCb0apeBw3jqIHEnIEXgaI0uCR
+ mBHB+ET54F0wSubOo9PwSYzhmMi8b9jXv5rEK+i6RYmWZZRRjpvVFjZ32reFRRBnALB3Z8
+ cZH/3PaZqQUTxw4ULcJz7CyYFdDg1P4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-ipD46liHOjS3bd5xI6_rug-1; Fri, 06 Dec 2019 02:46:41 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5FE0DB60;
+ Fri,  6 Dec 2019 07:46:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2051E608E5;
+ Fri,  6 Dec 2019 07:46:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8B69A1138606; Fri,  6 Dec 2019 08:46:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 10/21] hw/core: Fix latent fit_load_fdt() error handling
+ bug
+References: <20191130194240.10517-1-armbru@redhat.com>
+ <20191130194240.10517-11-armbru@redhat.com>
+ <b42438de-3f05-a949-9304-29c051bc4444@virtuozzo.com>
+Date: Fri, 06 Dec 2019 08:46:38 +0100
+In-Reply-To: <b42438de-3f05-a949-9304-29c051bc4444@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 5 Dec 2019 16:23:48 +0000")
+Message-ID: <87tv6dnbfl.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191205174635.18758-18-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-MC-Unique: wPhphu9EP2qjl2-aWBOhLQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ipD46liHOjS3bd5xI6_rug-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -93,34 +78,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   hw/usb/dev-network.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
-> index 5de6213cc4..b81a8abe83 100644
-> --- a/hw/usb/dev-network.c
-> +++ b/hw/usb/dev-network.c
-> @@ -1342,7 +1342,7 @@ static NetClientInfo net_usbnet_info =3D {
->       .cleanup =3D usbnet_cleanup,
->   };
->  =20
-> -static void usb_net_realize(USBDevice *dev, Error **errrp)
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Funny one.
+> 30.11.2019 22:42, Markus Armbruster wrote:
+>> fit_load_fdt() recovers from fit_image_addr() failing with ENOENT.
+>> Except it doesn't when its @errp argument is &error_fatal or
+>> &error_abort, because it blindly passes @errp to fit_image_addr().
+>> Messed up in commit 3eb99edb48 "loader-fit: Wean off error_printf()".
+>>=20
+>> The bug can't bite as no caller actually passes &error_fatal or
+>> &error_abort.  Fix it anyway.
+>>=20
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+> Hmm, actually it makes my
+> "[PATCH v7 01/21] hw/core/loader-fit: fix freeing errp in fit_load_fdt"
+> unnecessary. If you want you may drop my 01 (as it covers less problems),
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Yes.
 
-> +static void usb_net_realize(USBDevice *dev, Error **errp)
+> and in this case you may note in your cover letter, that
+> errp =3D NULL is broken here too (may be nobady pass it?),
+
+You're right, null @errp is wrong, too.
+
+> and normal errp is handled wrong, as *errp doesn't set to NULL after
+> error_free(*errp)
+
+Yes, that's wrong, too.  fit_load_fdt() itself doesn't use *errp after
+freeing it, but it sets a trap for its callers. =20
+
+>                   (still, the only caller rely on return value more than =
+on
+> err, so the problem can't be triggered with current code)
+
+True.
+
+New commit message (based on v2's):
+
+    hw/core: Fix fit_load_fdt() error API violations
+
+    fit_load_fdt() passes @errp to fit_image_addr(), then recovers from
+    ENOENT failures.  Passing @errp is wrong, because it works only as
+    long as @errp is neither @error_fatal nor @error_abort.  Error
+    recovery dereferences @errp.  That's also wrong; see the big comment
+    in error.h.  Error recovery can leave *errp pointing to a freed
+    Error object.  Wrong, it must be null on success.  Messed up in
+    commit 3eb99edb48 "loader-fit: Wean off error_printf()".
+
+    No caller actually passes such values, or uses *errp on success.
+
+    Fix anyway: splice in a local Error *err, and error_propagate().
+
+    Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+Okay?
+
+>
+>> ---
+>>   hw/core/loader-fit.c | 15 ++++++++-------
+>>   1 file changed, 8 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
+>> index 953b16bc82..c465921b8f 100644
+>> --- a/hw/core/loader-fit.c
+>> +++ b/hw/core/loader-fit.c
+>> @@ -178,11 +178,12 @@ static int fit_load_fdt(const struct fit_loader *l=
+dr, const void *itb,
+>>                           int cfg, void *opaque, const void *match_data,
+>>                           hwaddr kernel_end, Error **errp)
+>>   {
+>> +    Error *err =3D NULL;
+>>       const char *name;
+>>       const void *data;
+>>       const void *load_data;
+>>       hwaddr load_addr;
+>> -    int img_off, err;
+>> +    int img_off;
+>>       size_t sz;
+>>       int ret;
+>>  =20
+>> @@ -197,13 +198,13 @@ static int fit_load_fdt(const struct fit_loader *l=
+dr, const void *itb,
+>>           return -EINVAL;
+>>       }
+>>  =20
+>> -    err =3D fit_image_addr(itb, img_off, "load", &load_addr, errp);
+>> -    if (err =3D=3D -ENOENT) {
+>> +    ret =3D fit_image_addr(itb, img_off, "load", &load_addr, &err);
+>> +    if (ret =3D=3D -ENOENT) {
+>>           load_addr =3D ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
+>> -        error_free(*errp);
+>> -    } else if (err) {
+>> -        error_prepend(errp, "unable to read FDT load address from FIT: =
+");
+>> -        ret =3D err;
+>> +        error_free(err);
+>> +    } else if (ret) {
+>> +        error_propagate_prepend(errp, err,
+>> +                                "unable to read FDT load address from F=
+IT: ");
+>>           goto out;
+>>       }
+>>  =20
+>>=20
+>
+> So much attention to that function :)
+>
+> I'd also propose the following:
+>
+> diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
+> index c465921b8f..2c9efeef7a 100644
+> --- a/hw/core/loader-fit.c
+> +++ b/hw/core/loader-fit.c
+> @@ -180,8 +180,8 @@ static int fit_load_fdt(const struct fit_loader *ldr,=
+ const void *itb,
 >   {
->       USBNetState *s =3D USB_NET(dev);
->  =20
->=20
+>       Error *err =3D NULL;
+>       const char *name;
+> -    const void *data;
+> -    const void *load_data;
+> +    void *data;
+> +    void *load_data;
+>       hwaddr load_addr;
+>       int img_off;
+>       size_t sz;
+> @@ -218,9 +218,9 @@ static int fit_load_fdt(const struct fit_loader *ldr,=
+ const void *itb,
+>
+>       ret =3D 0;
+>   out:
+> -    g_free((void *) data);
+> +    g_free(data);
+>       if (data !=3D load_data) {
+> -        g_free((void *) load_data);
+> +        g_free(load_data);
+>       }
+>       return ret;
+>   }
+>
+>
+> Or, even better:
+>
+> --- a/hw/core/loader-fit.c
+> +++ b/hw/core/loader-fit.c
+> @@ -180,7 +180,8 @@ static int fit_load_fdt(const struct fit_loader *ldr,=
+ const void *itb,
+>   {
+>       Error *err =3D NULL;
+>       const char *name;
+> -    const void *data;
+> +    g_autofree void *data =3D NULL;
+> +    g_autofree void *fdt_filter_data =3D NULL;
+>       const void *load_data;
+>       hwaddr load_addr;
+>       int img_off;
+> @@ -202,27 +203,23 @@ static int fit_load_fdt(const struct fit_loader *ld=
+r, const void *itb,
+>       if (ret =3D=3D -ENOENT) {
+>           load_addr =3D ROUND_UP(kernel_end, 64 * KiB) + (10 * MiB);
+>           error_free(err);
+> +        return 0;
+>       } else if (ret) {
+>           error_propagate_prepend(errp, err,
+>                                   "unable to read FDT load address from F=
+IT: ");
+> -        goto out;
+> +        return ret;
+>       }
+>
+>       if (ldr->fdt_filter) {
+> -        load_data =3D ldr->fdt_filter(opaque, data, match_data, &load_ad=
+dr);
+> +        load_data =3D fdt_filter_data =3D
+> +                ldr->fdt_filter(opaque, data, match_data, &load_addr);
+>       }
+>
+>       load_addr =3D ldr->addr_to_phys(opaque, load_addr);
+>       sz =3D fdt_totalsize(load_data);
+>       rom_add_blob_fixed(name, load_data, sz, load_addr);
+>
+> -    ret =3D 0;
+> -out:
+> -    g_free((void *) data);
+> -    if (data !=3D load_data) {
+> -        g_free((void *) load_data);
+> -    }
+> -    return ret;
+> +    return 0;
+>   }
+
+Looks like a sensible separate cleanup patch to me.  Care to post it?
+
+Thanks!
 
 
