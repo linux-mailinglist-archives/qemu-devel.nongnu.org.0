@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BA81154A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:51:10 +0100 (CET)
-Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92645115458
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:35:57 +0100 (CET)
+Received: from localhost ([::1]:39848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFsr-0005bC-Al
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:51:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38390)
+	id 1idFe8-0004dD-3q
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:35:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1idEin-0006gz-8v
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:36:42 -0500
+ (envelope-from <stefanha@redhat.com>) id 1idEpb-0005Hz-Au
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:43:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1idEik-0006ji-W0
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:36:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55606
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1idEpZ-0007hD-11
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:43:43 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55557
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1idEik-0006iK-Ql
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:36:38 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1idEpY-0007da-RR
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:43:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575642998;
+ s=mimecast20190719; t=1575643417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OlKgljMsmEapL+eFMQYTxahgK2MUl8C8CXSYTjo/bp0=;
- b=QHP3D0aa0GduXvAXNeLwK2xN4Mau7uQo8JhUPz1MN1OjfFBRDVMxgJ/epn/a/Ohmur83j4
- 0G4lQN2le1Trbk1UCcM8Ex/7YZ7nDnyTIDFD+26zy1yh3EW0enDZfdQHoGTuHfPC+qgukh
- z7WeEKg+MCKVw7LrL6NiXa9sd4JMTAc=
+ bh=V7Xt7M4/SoLWGM3tlwWOa4IUlDFv79PpfmyxobKXePE=;
+ b=Ll5a6TyX1Jh5371sUEstePz8WKSKsbrUwqbPBHbGauzEP4LVl7RbWhzkoyLQZR5P7dWixr
+ WOyMHBfPq8CFkjg4ZBnQYt7MTZBjq5JnPFAdWd71UZCsnP1BpKbbGYjEdq2xjDEYR9X1pB
+ YCyZeHsQP0QOJJV6nBih5vdIPeW32DY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-l6rSiumjOlCIwKbcLCdphA-1; Fri, 06 Dec 2019 09:36:37 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-386-3gRUHhLJOqSF9ND4lqe29Q-1; Fri, 06 Dec 2019 09:43:35 -0500
+X-MC-Unique: 3gRUHhLJOqSF9ND4lqe29Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC5731856A9A;
- Fri,  6 Dec 2019 14:36:35 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCA1260BF4;
- Fri,  6 Dec 2019 14:36:29 +0000 (UTC)
-Subject: Re: [PATCH for-4.2?] block/qcow2-bitmap: fix crash bug in
- qcow2_co_remove_persistent_dirty_bitmap
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191205193049.30666-1-vsementsov@virtuozzo.com>
- <22af83d1-91e2-ab71-2dc4-349b5b24d1d8@redhat.com>
- <990da2e0-8223-b257-254d-a27659ef1d24@redhat.com>
- <6a74ae0a-e377-0f70-c347-0307580d7981@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <36655f7a-7ea5-e80a-ebfd-5b19c90622c0@redhat.com>
-Date: Fri, 6 Dec 2019 08:36:29 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF711005502;
+ Fri,  6 Dec 2019 14:43:34 +0000 (UTC)
+Received: from localhost (ovpn-117-102.ams2.redhat.com [10.36.117.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB8F419C70;
+ Fri,  6 Dec 2019 14:43:33 +0000 (UTC)
+Date: Fri, 6 Dec 2019 14:43:29 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] qapi: better document NVMe blockdev @device parameter
+Message-ID: <20191206144329.GA778789@stefanha-x1.localdomain>
+References: <20191206143811.3777524-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6a74ae0a-e377-0f70-c347-0307580d7981@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: l6rSiumjOlCIwKbcLCdphA-1
+In-Reply-To: <20191206143811.3777524-1-berrange@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,140 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
- "libvirt-list@redhat.com" <libvirt-list@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[adding in Peter Maydell, as there is now potential talk of other=20
-4.2-worthy patches]
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/6/19 4:18 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 05.12.2019 23:16, John Snow wrote:
->>
->>
->> On 12/5/19 3:09 PM, Eric Blake wrote:
->>> On 12/5/19 1:30 PM, Vladimir Sementsov-Ogievskiy wrote:
->>>> Here is double bug:
->>>>
->>>> First, return error but not set errp. This may lead to:
->>>> qmp block-dirty-bitmap-remove may report success when actually failed
->>>>
->>>> block-dirty-bitmap-remove used in a transaction will crash, as
->>>> qmp_transaction will think that it returned success and will cal
->>>
->>> call
->>>
->>>> block_dirty_bitmap_remove_commit which will crash, as state->bitmap is
->>>> NULL
->>>>
->>>> Second (like in anecdote), this case is not an error at all. As it is
->>>> documented in the comment above bdrv_co_remove_persistent_dirty_bitmap
->>>> definition, absence of bitmap is not an error, and similar case handle=
-d
->>>> at start of qcow2_co_remove_persistent_dirty_bitmap, it returns 0 when
->>>> there is no bitmaps at all..
->>>
->>> double .
->>>
->>>>
->>>> But when there are some bitmaps, but not the requested one, it return
->>>> error with errp unset.
->>>>
->>>> Fix that.
->>>>
->>>> Fixes: b56a1e31759b750
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>> ---
->>>>
->>>> Hi all!
->>>>
->>>> Ohm, suddenly we faced this bug. It's a regression in 4.2. I'm very
->>>> sorry for introducing it, and it sad that it's found so late..
->>>>
->>>> Personally, I think that this one worth rc5, as it makes new bitmap
->>>> interfaces unusable. But the decision is yours.
->>>>
->>>> Last minute edit: hmm, actually, transaction action introduced in
->>>> 4.2, so crash is not a regression, only broken block-dirty-bitmap-remo=
-ve
->>>> command is a regression... Maybe it's OK for stable.
->>>
->>> Libvirt REALLY wants to use transaction bitmap management (and require
->>> qemu 4.2) for its incremental backup patches that Peter is almost ready
->>> to merge in.=A0 I'm trying to ascertain:
->>>
->>> When exactly can this bug hit?=A0 Can you give a sequence of QMP comman=
-ds
->>> that will trigger it for easy reproduction?=A0 Are there workarounds (s=
-uch
->>> as checking that a bitmap exists prior to attempting to remove it)?=A0 =
-If
->>> it does NOT get fixed in rc5, how will libvirt be able to probe whether
->>> the fix is in place?
->>>
->>
->> It looks like:
->>
->> - You need to have at least one bitmap
->> - You need to use transactional remove
->> - you need to misspell the bitmap name
->> - The remove will fail (return -EINVAL) but doesn't set errp
->> - The caller chokes on incomplete information, state->bitmap is NULL
+On Fri, Dec 06, 2019 at 02:38:11PM +0000, Daniel P. Berrang=E9 wrote:
+> Mention that this is a PCI device address & give the format it is
+> expected it. Also mention that it must be first unbound from any
+> host kernel driver.
 >=20
->=20
-> No, that would be too simple, the thing is worse. Absolutele correct remo=
-ving is broken, without any misspelling
->=20
-> Bug triggers when we are removing persistent bitmap that is not stored ye=
-t in the image AND at least one (another) bitmap already stored in the imag=
-e. So, something like:
->=20
-> 1. create persistent bitmap A
-> 2. shutdown vm  (bitmap A is synced)
-> 3. start vm
-> 4. create persistent bitmap B
-> 5. remove bitmap B - it fails (and crashes if in transaction)
->=20
-> =3D=3D=3D=3D
->=20
-> Hmm, workaround..
->=20
-> I'm afraid that the only thing is not remove persistent bitmaps, which we=
-re never synced to the image. So, instead the sequence above, we need
->=20
->=20
-> 1. create persistent bitmap A
-> 2. shutdown vm
-> 3. start vm
-> 4. create persistent bitmap B
-> 5. remember, that we want to remove bitmap B after vm shutdown
-> ...
->    some other operations
-> ...
-> 6. vm shutdown
-> 7. start vm in stopped mode, and remove all bitmaps marked for removing
-> 8. stop vm
->=20
-> But, I think that in real circumstances, vm shutdown is rare thing...
+> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> ---
+>  qapi/block-core.json | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-This is sounding a bit more serious. As I said earlier, it shouldn't=20
-delay 4.2 on its own, but if the fix is obvious (and other than=20
-comments, it is a single change from 'ret =3D -EINVAL' to 'ret =3D 0' which=
-=20
-fixes a definite reproducible crash), I think it rises to the level of=20
-acceptable.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I've been so worried about the question of which release, that I don't=20
-know if I've previously offered:
-Reviewed-by: Eric Blake <eblake@redhat.com>
+--x+6KMIRAuhnl3hBn
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3qaREACgkQnKSrs4Gr
+c8hURAf/XTaXSde95QoMURRonl8VRTFXr87XP+CR1bxrRpwjTklhj5K0Lzn4EUFG
+e2PnPc9kxfcxI+IFvjtO7SRW5g6MygeDD2bzlX0LEsmyrkpcUkBcu1UXGzdNld4P
+pZsNALrqCppdEIuhH4IDReVZon48YCtKg5aDtC5TRu65WyQD4gg+C0cssw+e4MzL
+BTa1DjdH7DwEDkNzzX1MX0uxk0TmWANacWIRB/hWTWYdIsWvOe3Jv1JI6guYrDcb
+eO0fSggxNr7EcJqhpRcVtYq4NZAhROdCX9/RBhMGkYQZrfbtFaVgEBYY0P+99hKM
+Xlo12NYibQr11aTtRrk9cpEY2LxzJQ==
+=NpSN
+-----END PGP SIGNATURE-----
+
+--x+6KMIRAuhnl3hBn--
 
 
