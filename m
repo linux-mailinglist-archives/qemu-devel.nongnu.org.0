@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468AD115725
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:28:02 +0100 (CET)
-Received: from localhost ([::1]:43436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E127B11572E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:30:04 +0100 (CET)
+Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idIKf-0002Ce-8d
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:28:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42640)
+	id 1idIMb-0004d3-Cw
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:30:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1idH5H-0006gE-Hc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:08:04 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idHBo-0005bI-7M
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:14:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1idH5E-0003yv-5d
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:08:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47616
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1idH5B-0003vF-O6
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:07:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575652076;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p5Dv4GFUOmdHnLB1hh/4DNoFT8nFVXHrpvrwfU+xUc0=;
- b=NPrSmIT2m1fMm0MLw5HjPeM0b5s1YffPHc+uqMU+35AlLbab4ncBTOeGv3//smIMaeSB9A
- tD07DWjeiQH0/0ZDpbrivPMc34dWocGYI9tKwbzX8g8ZC5SXEYzC/h0+wWF7LOEB7kuPgX
- YIuA8PI/fqjoMUkw7AVn6W0XvP6QZYk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-mwtoZjKzNSuQQKtLEtaGBg-1; Fri, 06 Dec 2019 12:07:53 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E234A801E76;
- Fri,  6 Dec 2019 17:07:51 +0000 (UTC)
-Received: from redhat.com (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0210119C4F;
- Fri,  6 Dec 2019 17:07:50 +0000 (UTC)
-Date: Fri, 6 Dec 2019 17:07:47 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Aijaz.Baig@protonmail.com
-Subject: Re: Error compiling Qemu-4.1 on Linux
-Message-ID: <20191206170747.GD3291374@redhat.com>
-References: <003101d5ab71$8424dc40$8c6e94c0$@protonmail.com>
- <20191205143622.GB3080934@redhat.com>
- <000101d5ac55$f8422620$e8c67260$@protonmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1idHBk-0000kz-Np
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:14:45 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33370)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idHBi-0000gN-6Q
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:14:42 -0500
+Received: by mail-ot1-x344.google.com with SMTP id d17so6461975otc.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 09:14:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=h4+BATZ1wD7mJYLuwMBs4jDzp6xj/7Ujv/BDZUQa+5A=;
+ b=DzNQKKCs62/pThGkw/7r+d+lmc02n5KBqhDIGCk1+BvLvJErJQ8kL/5IVVQpBgEAkU
+ evDsOp1JCONYM1sdhAbSx26pZC1Ox2BrXF7IQB5W0OCr5BxciPSsmvw51hSnUlvXk2dQ
+ 7n/Le9HFlKnvmdDWrLj3flKwukZ/2VmCLgogn1yvHpIdh/AFdSfQSWnc+wLf7DznltsR
+ kl0Qx4u5OkXeiOrpDHn4dd+8omjaloQGnvUmzf/hiTcREhxfOMK9jE+4v08pWFM07tTx
+ arUNoC/6OMJdbXdD5epUYys2lprQR2efQTyqbBDrqYfRw5ifwAdsOovE1cnHcWgKeQVO
+ TRzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=h4+BATZ1wD7mJYLuwMBs4jDzp6xj/7Ujv/BDZUQa+5A=;
+ b=Hn+9U4IjZD4hFYwiA3/XXUcnclQlhpfrANu9qSpqPqq/NYZIR2+RuzimP5VWZ8qcZF
+ t/1UHACLLVIf4lJd6+8ZbaYCNC/jMvzPWXc4DwwrQJDFb4ZNkLdgdmGeEmh/SvxVqHpY
+ WaiuKRKLxoep/CnbRNT9j6tZaXoy+/46x6K/KW09zzbX9Coe7rgshYyQrP05Hxhs2sN1
+ kqLLIWzdCEU4y7aeKBYVSl/fEf6zoFUHKXhHo6aSJpppxR9mdoOUwN4JTrCL9lAYPwtZ
+ rYLRgJ//PEuLFgs+SlziHnB83KuPV6BHUHPunsLDaCABNJmoDIM642KHL0RpbAGAo3v7
+ nE8Q==
+X-Gm-Message-State: APjAAAWCirXXS1x3fxnUjeNEHrCtqfxExYAFTEOCBoWg2yc5BdYOh5Pg
+ yGNlM9Ef1y97Kwi4WF9roJZAw5uECSVuladr8pMUxA==
+X-Google-Smtp-Source: APXvYqwp2217ZVGscBcuK4VNv/vu0KA7XXpAEOmeRaCfW2Zg22Gg/RG/MtTgD32r1zx1XjDGKol8chsBXNAHiEQDNZc=
+X-Received: by 2002:a9d:12d2:: with SMTP id g76mr12291698otg.232.1575652480345; 
+ Fri, 06 Dec 2019 09:14:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <000101d5ac55$f8422620$e8c67260$@protonmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: mwtoZjKzNSuQQKtLEtaGBg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-31-richard.henderson@linaro.org>
+In-Reply-To: <20191203022937.1474-31-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 17:14:29 +0000
+Message-ID: <CAFEAcA-=s0rd78PUQSLV3j0xM4RdynxGv6jUYaYUqMVExsZb8A@mail.gmail.com>
+Subject: Re: [PATCH v4 30/40] target/arm: Flush tlbs for E2&0 translation
+ regime
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,42 +73,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 06, 2019 at 04:55:37PM +0000, Aijaz.Baig@protonmail.com wrote:
-> Here is the content of config.log: https://pastebin.com/6zrSXWAG
->=20
-> I am configuring it for 'arm-softmmu'  as can be seen from the above past=
-e
+On Tue, 3 Dec 2019 at 02:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.c | 33 ++++++++++++++++++++++++++-------
+>  1 file changed, 26 insertions(+), 7 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 2a4d4c2c0d..b059d9f81a 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -4123,8 +4123,12 @@ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+>
+>  static int vae1_tlbmask(CPUARMState *env)
+>  {
+> +    /* Since we exclude secure first, we may read HCR_EL2 directly. */
+>      if (arm_is_secure_below_el3(env)) {
+>          return ARMMMUIdxBit_SE1 | ARMMMUIdxBit_SE0;
+> +    } else if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE))
+> +               == (HCR_E2H | HCR_TGE)) {
+> +        return ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_EL20_0;
+>      } else {
+>          return ARMMMUIdxBit_EL10_1 | ARMMMUIdxBit_EL10_0;
+>      }
+> @@ -4158,9 +4162,14 @@ static int vmalle1_tlbmask(CPUARMState *env)
+>       * Note that the 'ALL' scope must invalidate both stage 1 and
+>       * stage 2 translations, whereas most other scopes only invalidate
+>       * stage 1 translations.
+> +     *
+> +     * Since we exclude secure first, we may read HCR_EL2 directly.
+>       */
+>      if (arm_is_secure_below_el3(env)) {
+>          return ARMMMUIdxBit_SE1 | ARMMMUIdxBit_SE0;
+> +    } else if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE))
+> +               == (HCR_E2H | HCR_TGE)) {
+> +        return ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_EL20_0;
+>      } else if (arm_feature(env, ARM_FEATURE_EL2)) {
+>          return ARMMMUIdxBit_EL10_1 | ARMMMUIdxBit_EL10_0 | ARMMMUIdxBit_Stage2;
+>      } else {
+> @@ -4177,13 +4186,22 @@ static void tlbi_aa64_alle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>      tlb_flush_by_mmuidx(cs, mask);
+>  }
+>
+> +static int vae2_tlbmask(CPUARMState *env)
+> +{
+> +    if (arm_hcr_el2_eff(env) & HCR_E2H) {
+> +        return ARMMMUIdxBit_EL20_0 | ARMMMUIdxBit_EL20_2;
+> +    } else {
+> +        return ARMMMUIdxBit_E2;
+> +    }
+> +}
+> +
+>  static void tlbi_aa64_alle2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                                    uint64_t value)
+>  {
+> -    ARMCPU *cpu = env_archcpu(env);
+> -    CPUState *cs = CPU(cpu);
+> +    CPUState *cs = env_cpu(env);
+> +    int mask = vae2_tlbmask(env);
 
-Looks like it is failing on
+Why do we use the 'v' mask function for a non 'v' TLB op?
 
-  $ pkg-config  --atleast-version=3D2.40 gthread-2.0
+>
+> -    tlb_flush_by_mmuidx(cs, ARMMMUIdxBit_E2);
+> +    tlb_flush_by_mmuidx(cs, mask);
 
-returning non-zero exit status.
+The spec fror TLBI ALLE2 doesn't say it depends on
+what the E2H setting is. It says it flushes all entries
+for either NS EL2 or NS EL2&0 translation regimes.
+Wouldn't that be
+ARMMMUIdxBit_EL20_0 | ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_E2
+?
+
+Contrast TLBI VAE2, which does say that the entries it
+flushes depend on the current setting of HCR_EL2.E2H.
+
+>  }
 
 
-This suggests the file:
-
-  /usr/lib/x86_64-linux-gnu/pkgconfig/gthread-2.0.pc
-
-is missing on your install.
-
-Or do you have some PKG_CONFIG_LIBDIR env variable set that
-is mistakenly pointing to a different directory.
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+thanks
+-- PMM
 
