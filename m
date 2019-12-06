@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AAD11560A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:04:22 +0100 (CET)
-Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA6511560E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:06:56 +0100 (CET)
+Received: from localhost ([::1]:41474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idH1h-0001Wx-Ou
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:04:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56923)
+	id 1idH4A-0004di-RE
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:06:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idFpx-0003Tf-Mp
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:10 -0500
+ (envelope-from <drjones@redhat.com>) id 1idFvF-0001Oq-0g
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:53:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idFpw-0000di-J0
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:09 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39940)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idFpw-0000cZ-Bm
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:08 -0500
-Received: by mail-ot1-x341.google.com with SMTP id i15so6156975oto.7
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:48:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lGxGqg7GQyaVMrHzLqAC9Yhmj/jnKys9PXUiHGz3F34=;
- b=iYT9vZ22yk1jeHBZ5scHCYoheRdjTO5CSHh4YvJ1oFzfXfkBHCZkqFoxNhwzJHyNfo
- QAD7cj7TwroE6CeyIP5LmYiqzSEyjgMbKKMvTk21zNLQ/khhQqRrKXe9OhaU7ghIPdWE
- kYtbKVGAgQa9qVyHjlvNfdLGLcIVhVIhUQNeelU6SzelP3tZ1+1uwo2wUaiK6JHUL/TH
- x8YBaUoj6nXUk4grnafrVmzIDJkIScLz+LI71moqWNXBhmmbEkao5sKWyt9OEPbrltZR
- cSF1ojvY1L7Q9rDMu8Qz5fY/4kVy7doCCmMwgOQgaL9YgnVv3x83Wl9K5dwctVE02M/q
- aD4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lGxGqg7GQyaVMrHzLqAC9Yhmj/jnKys9PXUiHGz3F34=;
- b=DPE8H8gm2oApYI0xGqpPXTpqYxLFf7EVVbI6NjpMKKEm5q062lrl9u906SIwJP32Ip
- fLNGGNFfUNsVM+h3GAl5lEBzG2XUhaZUEtE+g46IIRhuieja1l8lkIOHmQym6QEy6Q9I
- 009cxOpUb17r34/HekBWgncRAjTaSACC4BHR3KTn5mbJzihIiiRGQ0l7QiYSBvkmpnRT
- /sYnpgBEv9juXWAWZPpJuLn6aHrWcKVa4Fxr7KXZXScIj4TpHuKXv3Ci05K8wuGZgouZ
- 1oG70cQuFbdrJzH5F/OshGhuuvxTjALduj/iWf5WfKPetx1ziHdtR+aA5wtUtQxigJu+
- xa8A==
-X-Gm-Message-State: APjAAAVm/OWwyU4OHLHRXvDZW2umqEuB/gpSWDaXggeUI1euQA69Hqc4
- TlISxwH5DbhOKgtDT1UtcE6iCNzpywfhATMrgKwhKA==
-X-Google-Smtp-Source: APXvYqwyL/GJORA2Onuu4DMyrYwLhyPhAUHc/RORSoZE89GnrFbyLJJpVInNxCm/73wkOGfHwVg3RM/6GvhMNsIhRqY=
-X-Received: by 2002:a05:6830:2001:: with SMTP id
- e1mr10623162otp.97.1575647287600; 
- Fri, 06 Dec 2019 07:48:07 -0800 (PST)
+ (envelope-from <drjones@redhat.com>) id 1idFvD-0001TF-NK
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:53:36 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35100
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1idFvD-0001Rf-Ju
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:53:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575647614;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xx+gBQINEfsdCHgzHWk9u1vbTF0umg2qaZIaBUYeVFs=;
+ b=I3fr0R0v4FYy9x4JfAx8fDj3syXyx9AVruAC8wMYYhG5svmRSuArVbHajeJ09WOrTslS9S
+ Oc0s3uyVf2AIVlvd0IIl+OmekIxP3DQuC06tOwqaWIHt6w/sz9g7h/m0GNQoMyp5J8rK1K
+ p+y2Wa+/tFIHHp4DrXhGATT6Edsop+U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-ZKWUJp0YOXu4ZFKdzCgesQ-1; Fri, 06 Dec 2019 10:53:31 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28DD0DB22;
+ Fri,  6 Dec 2019 15:53:30 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFB325D9E1;
+ Fri,  6 Dec 2019 15:53:28 +0000 (UTC)
+Date: Fri, 6 Dec 2019 16:53:27 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 0/5] target/arm/kvm: Provide an option to adjust
+ virtual time
+Message-ID: <20191206155327.7adiyjjkjh56mg2t@kamzik.brq.redhat.com>
+References: <20191016143410.5023-1-drjones@redhat.com>
+ <CAFEAcA8j8M_J8Ocdpms8a2XufigVQ6oB4JBy2BcYAkXfJX5y5A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-12-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-12-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 15:47:56 +0000
-Message-ID: <CAFEAcA9V8m2Qmfq-eig0TCLkmckXxa3-POo2LBQOij5KnyaPZg@mail.gmail.com>
-Subject: Re: [PATCH v4 11/40] target/arm: Rename ARMMMUIdx_S1SE* to
- ARMMMUIdx_SE*
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+In-Reply-To: <CAFEAcA8j8M_J8Ocdpms8a2XufigVQ6oB4JBy2BcYAkXfJX5y5A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: ZKWUJp0YOXu4ZFKdzCgesQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,20 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Marc Zyngier <maz@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, bijan.mottahedeh@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 02:29, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This is part of a reorganization to the set of mmu_idx.
-> The Secure regimes all have a single stage translation;
-> there is no point in pointing out that the idx is for stage1.
+On Fri, Dec 06, 2019 at 03:22:58PM +0000, Peter Maydell wrote:
+> On Wed, 16 Oct 2019 at 15:34, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > v2:
+> >  - move from RFC status to v1
+> >  - put kvm_arm_vm_state_change() in kvm.c to share among kvm32.c and kv=
+m64.c
+> >  - add r-b's from Richard
+> >
+> >
+> > This series is inspired by a series[1] posted by Bijan Mottahedeh about
+> > a year ago.  The problem described in the cover letter of [1] is easily
+> > reproducible and some users would like to have the option to avoid it.
+> > However the solution, which is to adjust the virtual counter offset eac=
+h
+> > time the VM transitions to the running state, introduces a different
+> > problem, which is that the virtual and physical counters diverge.  As
+> > described in the cover letter of [1] this divergence is easily observed
+> > when comparing the output of `date` and `hwclock` after suspending the
+> > guest, waiting a while, and then resuming it.  Because this different
+> > problem may actually be worse for some users, unlike [1], the series
+> > posted here makes the virtual counter offset adjustment optional and no=
+t
+> > even enabled by default.  Besides the adjustment being optional, this
+> > series approaches the needed changes differently to apply them in more
+> > appropriate locations.  Finally, unlike [1], this series doesn't attemp=
+t
+> > to measure "pause time" itself.  Simply using QEMU_CLOCK_VIRTUAL, which
+> > only ticks when the VM is not stopped, is sufficient.
+>=20
+> So I guess my overall question is "what is the x86 solution to
+> this problem, and why is this all arm-specific?" It would also
 
-...until we do support secure EL2, and then there might
-be a stage 2 again.
+x86 adjusts the counter offset by default, and I don't think there's any
+way to turn that behavior off. I think it's too late to follow that
+default for arm, but this series provides a way to opt into the same
+behavior.
 
--- PMM
+> be helpful to know how it fits into all the other proposals regarding
+> time in VMs.
+
+I've been lightly following the other stuff, but haven't yet seen any
+overlap.
+
+BTW, this series needs to be rebased and reposted. I've been waiting for
+4.2 though.
+
+Thanks,
+drew
+
 
