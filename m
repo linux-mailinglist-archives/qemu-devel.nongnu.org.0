@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317C51158BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 22:42:29 +0100 (CET)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD381158BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 22:40:25 +0100 (CET)
+Received: from localhost ([::1]:45602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idLMq-0001CY-8r
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 16:42:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
+	id 1idLKq-0006zZ-AJ
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 16:40:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1idLFX-0003ZM-Jq
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 16:34:57 -0500
+ (envelope-from <wainersm@redhat.com>) id 1idLFV-0003Z5-Tf
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 16:34:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1idLFS-0001lS-PW
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 16:34:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33780
+ (envelope-from <wainersm@redhat.com>) id 1idLFS-0001k8-GE
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 16:34:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52015
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idLFS-0001g4-Er
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idLFS-0001f3-4E
  for qemu-devel@nongnu.org; Fri, 06 Dec 2019 16:34:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575668085;
+ s=mimecast20190719; t=1575668084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cG3VXDoE2RHDM36TR3e+aFQsCK+j0Jj2ZCUS7nwQld8=;
- b=BZpll1otqX/dx9NNcrfckcZeFpzBEfC9c04qo1coYxYslC0TQU8ZnHPWHBrtoA/gILLmc+
- xlk0SwJQ+GH9yVhNx1gHsEnMKmwa4HdL5MIOBW4Gb84eWW+TRQPKo7toDvnEbDk4jcheyO
- KT4UppwzXCfz4CNYBk+0F6V/6Fx0UwI=
+ bh=0nU0GLDB1CzqLxIYN0MwWYmBawoC86YndCuM7qoWXvs=;
+ b=TEr8faMB8qFhd9OQwWzLG1vJPcisGgf9OxNwGPZvO55puMnJSM7VZKSrEeXwYbyS+x7StS
+ WCpBTCCtxmk5YFi5QODlX61vEJkZh97FZGzzQR3bi9UNdv6BstPa5xpVKP4hj8Qxhp3ev4
+ 3F+0tsO3FG+CmlRIYOltVpDTqQNmK2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-xnxisL5qNPe6nHjHvAIGMg-1; Fri, 06 Dec 2019 16:34:41 -0500
+ us-mta-143-ZjuVcHCmNRObtM8mlpjVAA-1; Fri, 06 Dec 2019 16:34:43 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EC9C8017DF;
- Fri,  6 Dec 2019 21:34:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 899981005502;
+ Fri,  6 Dec 2019 21:34:41 +0000 (UTC)
 Received: from virtlab501.virt.lab.eng.bos.redhat.com
  (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4E0A5C1D6;
- Fri,  6 Dec 2019 21:34:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C195D5C1D4;
+ Fri,  6 Dec 2019 21:34:40 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] python/qemu: Move kvm_available() to its own module
-Date: Fri,  6 Dec 2019 16:34:30 -0500
-Message-Id: <20191206213433.11305-2-wainersm@redhat.com>
+Subject: [PATCH v2 2/4] python/qemu: accel: Add list_accel() method
+Date: Fri,  6 Dec 2019 16:34:31 -0500
+Message-Id: <20191206213433.11305-3-wainersm@redhat.com>
 In-Reply-To: <20191206213433.11305-1-wainersm@redhat.com>
 References: <20191206213433.11305-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: xnxisL5qNPe6nHjHvAIGMg-1
+X-MC-Unique: ZjuVcHCmNRObtM8mlpjVAA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -76,101 +76,61 @@ Cc: fam@euphon.net, ehabkost@redhat.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This creates the 'accel' Python module to be the home for
-utilities that deal with accelerators. Also moved kvm_available()
-from __init__.py to this new module.
+Since commit cbe6d6365a48 the command `qemu -accel help` returns
+the list of accelerators enabled in the QEMU binary. This adds
+the list_accel() method which return that same list.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- python/qemu/__init__.py | 20 +-------------------
- python/qemu/accel.py    | 31 +++++++++++++++++++++++++++++++
- tests/vm/basevm.py      |  2 +-
- 3 files changed, 33 insertions(+), 20 deletions(-)
- create mode 100644 python/qemu/accel.py
+ python/qemu/accel.py | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
-index 6c919a3d56..eff17a306e 100644
---- a/python/qemu/__init__.py
-+++ b/python/qemu/__init__.py
-@@ -12,24 +12,6 @@
- # Based on qmp.py.
+diff --git a/python/qemu/accel.py b/python/qemu/accel.py
+index cbeac10dd1..746b7e68f5 100644
+--- a/python/qemu/accel.py
++++ b/python/qemu/accel.py
+@@ -14,7 +14,11 @@ accelerators.
+ # the COPYING file in the top-level directory.
  #
 =20
--import logging
--import os
--
- from . import qmp
- from . import machine
--
--LOG =3D logging.getLogger(__name__)
--
--# Mapping host architecture to any additional architectures it can
--# support which often includes its 32 bit cousin.
--ADDITIONAL_ARCHES =3D {
--    "x86_64" : "i386",
--    "aarch64" : "armhf"
--}
--
--def kvm_available(target_arch=3DNone):
--    host_arch =3D os.uname()[4]
--    if target_arch and target_arch !=3D host_arch:
--        if target_arch !=3D ADDITIONAL_ARCHES.get(host_arch):
--            return False
--    return os.access("/dev/kvm", os.R_OK | os.W_OK)
-+from . import accel
-diff --git a/python/qemu/accel.py b/python/qemu/accel.py
-new file mode 100644
-index 0000000000..cbeac10dd1
---- /dev/null
-+++ b/python/qemu/accel.py
-@@ -0,0 +1,31 @@
-+"""
-+QEMU accel module:
++import logging
+ import os
++import subprocess
 +
-+This module provides utilities for discover and check the availability of
-+accelerators.
-+"""
-+# Copyright (C) 2015-2016 Red Hat Inc.
-+# Copyright (C) 2012 IBM Corp.
-+#
-+# Authors:
-+#  Fam Zheng <famz@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.  See
-+# the COPYING file in the top-level directory.
-+#
++LOG =3D logging.getLogger(__name__)
+=20
+ # Mapping host architecture to any additional architectures it can
+ # support which often includes its 32 bit cousin.
+@@ -23,6 +27,25 @@ ADDITIONAL_ARCHES =3D {
+     "aarch64" : "armhf"
+ }
+=20
++def list_accel(qemu_bin):
++    """
++    List accelerators enabled in the QEMU binary.
 +
-+import os
++    @param qemu_bin (str): path to the QEMU binary.
++    @raise Exception: if failed to run `qemu -accel help`
++    @return a list of accelerator names.
++    """
++    if not qemu_bin:
++        return []
++    try:
++        out =3D subprocess.check_output("%s -accel help" % qemu_bin, shell=
+=3DTrue)
++    except:
++        LOG.debug("Failed to get the list of accelerators in %s" % qemu_bi=
+n)
++        raise
++    lines =3D out.decode().splitlines()
++    # Skip the first line which is the header.
++    return [l.strip() for l in lines[1:] if l]
 +
-+# Mapping host architecture to any additional architectures it can
-+# support which often includes its 32 bit cousin.
-+ADDITIONAL_ARCHES =3D {
-+    "x86_64" : "i386",
-+    "aarch64" : "armhf"
-+}
-+
-+def kvm_available(target_arch=3DNone):
-+    host_arch =3D os.uname()[4]
-+    if target_arch and target_arch !=3D host_arch:
-+        if target_arch !=3D ADDITIONAL_ARCHES.get(host_arch):
-+            return False
-+    return os.access("/dev/kvm", os.R_OK | os.W_OK)
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 91a9226026..3e2b69c96c 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -21,7 +21,7 @@ import logging
- import time
- import datetime
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
-n'))
--from qemu import kvm_available
-+from qemu.accel import kvm_available
- from qemu.machine import QEMUMachine
- import subprocess
- import hashlib
+ def kvm_available(target_arch=3DNone):
+     host_arch =3D os.uname()[4]
+     if target_arch and target_arch !=3D host_arch:
 --=20
 2.21.0
 
