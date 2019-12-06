@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B42911563D
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:13:54 +0100 (CET)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B5C115658
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:23:14 +0100 (CET)
+Received: from localhost ([::1]:41802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHAv-0003Jq-D8
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:13:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35948)
+	id 1idHJx-0004xc-DD
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:23:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1idG0b-0000Oj-Qj
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:12 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idGCx-0005ed-Ev
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:11:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1idG0W-0005H5-2y
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28084
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1idG0S-00057h-7z
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575647936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IOpI2RlIFhR2XUOa01CmZcH5f4Zty2y2A1iWYE+DNZc=;
- b=fku1qLtKmBgih6L25SpJcrLlXpqyfex9ujub0iPfZ/TF0O304SdhcWnQXqPTglg5lqDCOX
- CHElYkZM076bw4T/3HjJGnbOJS+s8EQtpyjSVXgfPUZHpcNajeX8tx61+VHPfSq/PtlWFQ
- qW8B4T/5v3CAYWbN8QDUMAJ6SjumsKE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-sssd528sMdOpuq_N8QFH0g-1; Fri, 06 Dec 2019 10:58:53 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BD18C8ACD;
- Fri,  6 Dec 2019 15:58:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2EDD785C1;
- Fri,  6 Dec 2019 15:58:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B1B2E1138606; Fri,  6 Dec 2019 16:58:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v8 21/21] nbd: assert that Error** is not NULL in
- nbd_iter_channel_error
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-22-vsementsov@virtuozzo.com>
- <54278946-ad45-1a0d-e2b2-f96b86285c05@redhat.com>
-Date: Fri, 06 Dec 2019 16:58:50 +0100
-In-Reply-To: <54278946-ad45-1a0d-e2b2-f96b86285c05@redhat.com> (Eric Blake's
- message of "Thu, 5 Dec 2019 11:51:41 -0600")
-Message-ID: <8736dxcuo5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1idGCv-0001e8-Mt
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:11:54 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46934)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idGCv-0001cN-BN
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:11:53 -0500
+Received: by mail-oi1-x243.google.com with SMTP id a124so181086oii.13
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 08:11:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G70GXJRH9IYcgly8XkY/1mlfa+Td4zqKElgcMaaqYnE=;
+ b=m59a6Dr7UXfGdZ0aIIaideRrOlCgaTN5rcleLCv6CQZayRt4vNqoHpwKE+9YevW/1L
+ hemLJmZGE5gshqLh0jmU5TvI2k4Sa6Zek0n3z706c0bE2EI7mV5LWBAuOOhYtHSFlRkE
+ lRg5q0c02LjvYwfUs45GWLPJAhpTD1jGTfmxJqCe2zV0Jn4QiJTqmeKJrLNAKZwz469U
+ KzP606ulQmKamoLNZb5cNCc57yw2nvbfQPDDIaz7G++4kzD4c38RPLx4qizrr3ikuArs
+ cfQ7lWZv3R2lTC81+e1ajYZb0lTsqbGLzn+NyeYmZRK7WuvHwcrIlP91ytZNRxtnyQcW
+ QB8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G70GXJRH9IYcgly8XkY/1mlfa+Td4zqKElgcMaaqYnE=;
+ b=ojzTLGah7Wl1axI6ZDdMXWhsIDeJFYaHl//qOlB+yLAYGQrAVN+3MN8ZuM2o7KhIj1
+ liRNJDtfnB5GIljGVavtHJS40L0ZCHeAGh/AI9MBpmZss5BGCsPjCQrLJ2Ilkf4pmuLD
+ 2YVKGIlyr/yg9p19nB/49UgBLztVTHVL+g2wPcxsIeSKF910QQUgtcYxbYDLBRrDstOQ
+ NyKFUeaTxvryv8bzJRggrWLzZDqZVispuIlV2UYPIb0h6xpII3CtpDsr7aF9chjuSNoh
+ dTOJyudARASA+Ui+iUQ0cFI6Yxy6bmU0MdADyhwttW6qCScGMMgmLSRKQ1gDw4DCEWuz
+ X80g==
+X-Gm-Message-State: APjAAAVccHUiy8Fg7drapJxJhYr0AtvJf6msBjCP68lJhokMRxCso35O
+ qBV7Y+55gXgKMP1P3pNl7JSiQHYkByX0Y35+piAvZQ==
+X-Google-Smtp-Source: APXvYqxEL1RPcjcTNJnsQrvKmRHCvTDO8CYvHHEj5IDVWBgCYHQ0AmxEa9lDHfEoyb6q5f4YR0x6hg9u8V1cezdMmuE=
+X-Received: by 2002:aca:f5cc:: with SMTP id
+ t195mr13077104oih.163.1575648712558; 
+ Fri, 06 Dec 2019 08:11:52 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: sssd528sMdOpuq_N8QFH0g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+References: <20191206150844.20124-1-crosa@redhat.com>
+ <CAFEAcA8ekevaZnwOg5bwJmkFkDFaC_qkrLLESLbSJs=L80viHA@mail.gmail.com>
+ <20191206152543.GA20588@dhcp-17-72.bos.redhat.com>
+ <CAFEAcA_SmR_QnrSzDGpsckh_hatNthVbx_0Z9=qM3BQSwVyhKg@mail.gmail.com>
+ <20191206154558.GA23522@dhcp-17-72.bos.redhat.com>
+In-Reply-To: <20191206154558.GA23522@dhcp-17-72.bos.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 16:11:41 +0000
+Message-ID: <CAFEAcA8HHSL=VyUQqLpKGjzHOCsOj0ua5YwOszSMStOgjMGfcg@mail.gmail.com>
+Subject: Re: [PULL 0/1] Fix for m68k/q800 acceptance test for QEMU 4.2-rc
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,32 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Beraldo Leal <bleal@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
-
-> On 12/5/19 11:46 AM, Vladimir Sementsov-Ogievskiy wrote:
->> The local_err parameter is not here to return information about
->> nbd_iter_channel_error failure. Instead it's assumed to be filled when
->> passed to the function. This is already stressed by its name
->> (local_err, instead of classic errp). Stress it additionally by
->> assertion.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/nbd.c | 1 +
->>   1 file changed, 1 insertion(+)
+On Fri, 6 Dec 2019 at 15:46, Cleber Rosa <crosa@redhat.com> wrote:
 >
-> Our timing resulted in crossed mails - I was replying to v7 when this
-> landed, and my reply there is still relevant (namely, a better commit
-> message is needed, but the code gets my R-b with that change).
+> On Fri, Dec 06, 2019 at 03:37:19PM +0000, Peter Maydell wrote:
+> > On Fri, 6 Dec 2019 at 15:25, Cleber Rosa <crosa@redhat.com> wrote:
+> > >
+> > > On Fri, Dec 06, 2019 at 03:12:31PM +0000, Peter Maydell wrote:
+> > > > On Fri, 6 Dec 2019 at 15:09, Cleber Rosa <crosa@redhat.com> wrote:
+> > > > >
+> > > > > ----------------------------------------------------------------
+> > > > > Fix for m68k/q800 acceptance test (Philippe Mathieu-Daud=C3=A9)
+> > > >
+> > > > Any pullreq after about rc2 needs to clearly say
+> > > > what it's fixing and why it's justifiable for it to
+> > > > go in rather than waiting for the next release.
+> > > > Otherwise you get the default response:
+> > > >   nope, not at this point in the release cycle.
+> >
+> > > This is fixing the URL from which a kernel package is fetched from,
+> > > updating it to an archival (thus stable) location.  The current
+> > > location is transient, and Debian removes packages from those
+> > > locations after a given amount of time.  Without this patch, the test
+> > > is never going to be executed.  The package itself is unchanged, as
+> > > can be seen from the verification hash that was not changed.
+> > >
+> > > While this is far from critical, the main benefit of having this in
+> > > 4.2, as opposed to in the next cycle, is to not "ship" a broken test
+> > > in a release.  It would also help downstream packages running such
+> > > tests.
+> >
+> > Thanks for the explanation. If at the moment the test is simply
+> > being skipped (ie it is not actually failing) then I would
+> > prefer to delay this to 5.0. Otherwise we'll start running
+> > the test and may find that it is actually failing in some
+> > of our CI or test environments. That wouldn't be a problem
+> > a bit earlier in the release cycle, but given we've already
+> > had rc4 and rc5 is going to have the minimum number of
+> > absolutely critical fixes in it I think I'd prefer not to
+> > take that risk.
 
-If v8 turns out to be fine except for commit message tweaks, I'll gladly
-to these in my tree.  Just tell me what to do in a reply to this
-message.
+> Yes, this is a very fair point.
 
+OK, I'm going to drop this pullreq; please resubmit it once
+the tree reopens for 5.0.
+
+thanks
+-- PMM
 
