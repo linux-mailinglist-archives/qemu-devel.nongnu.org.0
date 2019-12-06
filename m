@@ -2,60 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343CA11543B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:28:36 +0100 (CET)
-Received: from localhost ([::1]:39726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C0E11543F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:29:09 +0100 (CET)
+Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFX0-00059o-LI
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:28:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46524)
+	id 1idFXX-00062Y-Ga
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:29:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idEYc-000400-JI
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:12 -0500
+ (envelope-from <philmd@redhat.com>) id 1idEcs-0008WA-9I
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idEYa-0000sQ-W5
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57096
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1idEce-0004dr-EB
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:25 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35758
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEYZ-0000it-VS
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:08 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEcb-0004YZ-Nt
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575642364;
+ s=mimecast20190719; t=1575642616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RVrvv9IFtOxf7TVu5YfYeIqWyis1fMQehJN3vG2vBTg=;
- b=hZsdfzpougtu8kcBQiAxuTeOuqmDtlQSbTRL4Ct4qqKBeSBprFK1F5yT0ru7vC/yG3D9K6
- 1iUPmoEjPEVJlPW6iQNth2R3PwJS/CDYG7qLfPrL7FOt9LPnaIjLXlUZ38V4RCffbgql3h
- Bx26SkqIqa2z2WEzNEGZWwf6qyQj7QM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-u2CuVsTvOYaalhZ8yW_cuA-1; Fri, 06 Dec 2019 02:23:06 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B900DB20;
- Fri,  6 Dec 2019 07:23:05 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-212.brq.redhat.com [10.40.204.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F49B19C4F;
- Fri,  6 Dec 2019 07:23:00 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0] hw/arm/sbsa-ref: Call qdev_get_gpio_in in place
-Date: Fri,  6 Dec 2019 08:22:57 +0100
-Message-Id: <20191206072257.7221-1-philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbP67jnRbmBjMQgSmpeq866mKuV61nIVTxsBbscMtG8=;
+ b=bT6Q0RvBeRgEEmZeQiyvvdLrtE58pSZvrj3v5mfyBZ3cQ1QhEqXK13Wu3gwrRv6O+Giw1X
+ ownxDy6kFrDl3LAan/0zqEYqLYNc1Z0vmq6CW2qVJk8Ek2rGy+ft/+yb0MiyrFAMO3QH0N
+ IxUrMazUQz5RKGxTq9c0FsvX6Th/VqI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-OMXQpLg2NdKOR4HDk7e5hw-1; Fri, 06 Dec 2019 02:28:42 -0500
+Received: by mail-wm1-f71.google.com with SMTP id v8so1790019wml.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:28:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=75m/0pESRoURDWGsUz0Rj5lwUM3NNX+Bwb4B7Hi/g58=;
+ b=Yi3MFHUFAjcUncYJVZo7Ldpbc8qKx3+98vh6EE1RUSGX3TQM5Uh1YCFIQ1DwAwJwjH
+ 67SBEaDSfpc/GHukZtXgsNrERDQ9a5bbEmPQNKg7ub2cMv5gdeq3aXcXLnaDHw7MoyH4
+ W7ywoS39LIk0V4xyWnnYHFj2qQMszui2sgl5trmAj+EN8fO1QC/dNBW4PzgwpIawGhBl
+ vs3s9f7cXWWUauseVJ0AeTP58Z/yqOzF2VZhK7et3uTUifRcYGyuhPrd3azDLtjrutoO
+ 3KuqFC6FC3yZAyIQblzxcuPGzx2rEn9wlFATu+NGMj2HFtV6SbjfRdSQFGyhblhrz4qr
+ AHNg==
+X-Gm-Message-State: APjAAAW3mb0HOK/9CK3yDJppsGcNWFB3RW2j3m6HagRrfaTq3+xBnIV6
+ 6aacAzjO5R035vbcJSWOMUqJpkgTslBqcUJrjiKA3CXu+qAfrd1XD7ptylyW7qRNOBUx/J2FLzW
+ o7+M+pLbiWe99c/0=
+X-Received: by 2002:adf:eb48:: with SMTP id u8mr13562889wrn.283.1575617321083; 
+ Thu, 05 Dec 2019 23:28:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzooi50kKOPuKRWkWiklaaM0x6b4dhJjDavgk3x+dx9ulgGsmhEiurKEKvVHciOIrfpvJ+4ow==
+X-Received: by 2002:adf:eb48:: with SMTP id u8mr13562863wrn.283.1575617320816; 
+ Thu, 05 Dec 2019 23:28:40 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id j12sm16089460wrw.54.2019.12.05.23.28.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Dec 2019 23:28:40 -0800 (PST)
+Subject: Re: [PATCH v8 03/21] error: make Error **errp const where it is
+ appropriate
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
+ <20191205174635.18758-4-vsementsov@virtuozzo.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c791caf0-86d9-93f0-1319-afb1e72002c5@redhat.com>
+Date: Fri, 6 Dec 2019 08:28:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: u2CuVsTvOYaalhZ8yW_cuA-1
+In-Reply-To: <20191205174635.18758-4-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-MC-Unique: OMXQpLg2NdKOR4HDk7e5hw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,215 +93,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>, qemu-arm@nongnu.org,
- Leif Lindholm <leif.lindholm@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: armbru@redhat.com, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of filling an array of qemu_irq and passing it around,
-directly call qdev_get_gpio_in() on the GIC.
+On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Mostly, Error ** is for returning error from the function, so the
+> callee sets it. However these three functions get already filled errp
+> parameter. They dont change the pointer itself, only change the
+> internal state of referenced Error object. So we can make it
+> Error *const * errp, to stress the behavior. It will also help
+> coccinelle script (in future) to distinguish such cases from common
+> errp usage.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-I accept better patch subject suggestions :)
----
- hw/arm/sbsa-ref.c | 58 +++++++++++++++++++++++------------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 27046cc284..30cb647551 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -328,7 +328,7 @@ static void create_secure_ram(SBSAMachineState *sms,
-     memory_region_add_subregion(secure_sysmem, base, secram);
- }
-=20
--static void create_gic(SBSAMachineState *sms, qemu_irq *pic)
-+static DeviceState *create_gic(SBSAMachineState *sms)
- {
-     unsigned int smp_cpus =3D MACHINE(sms)->smp.cpus;
-     DeviceState *gicdev;
-@@ -403,12 +403,10 @@ static void create_gic(SBSAMachineState *sms, qemu_ir=
-q *pic)
-                            qdev_get_gpio_in(cpudev, ARM_CPU_VFIQ));
-     }
-=20
--    for (i =3D 0; i < NUM_IRQS; i++) {
--        pic[i] =3D qdev_get_gpio_in(gicdev, i);
--    }
-+    return gicdev;
- }
-=20
--static void create_uart(const SBSAMachineState *sms, qemu_irq *pic, int ua=
-rt,
-+static void create_uart(const SBSAMachineState *sms, DeviceState *gic, int=
- uart,
-                         MemoryRegion *mem, Chardev *chr)
- {
-     hwaddr base =3D sbsa_ref_memmap[uart].base;
-@@ -420,15 +418,15 @@ static void create_uart(const SBSAMachineState *sms, =
-qemu_irq *pic, int uart,
-     qdev_init_nofail(dev);
-     memory_region_add_subregion(mem, base,
-                                 sysbus_mmio_get_region(s, 0));
--    sysbus_connect_irq(s, 0, pic[irq]);
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(gic, irq));
- }
-=20
--static void create_rtc(const SBSAMachineState *sms, qemu_irq *pic)
-+static void create_rtc(const SBSAMachineState *sms, DeviceState *gic)
- {
-     hwaddr base =3D sbsa_ref_memmap[SBSA_RTC].base;
-     int irq =3D sbsa_ref_irqmap[SBSA_RTC];
-=20
--    sysbus_create_simple("pl031", base, pic[irq]);
-+    sysbus_create_simple("pl031", base, qdev_get_gpio_in(gic, irq));
- }
-=20
- static DeviceState *gpio_key_dev;
-@@ -442,13 +440,13 @@ static Notifier sbsa_ref_powerdown_notifier =3D {
-     .notify =3D sbsa_ref_powerdown_req
- };
-=20
--static void create_gpio(const SBSAMachineState *sms, qemu_irq *pic)
-+static void create_gpio(const SBSAMachineState *sms, DeviceState *gic)
- {
-     DeviceState *pl061_dev;
-     hwaddr base =3D sbsa_ref_memmap[SBSA_GPIO].base;
-     int irq =3D sbsa_ref_irqmap[SBSA_GPIO];
-=20
--    pl061_dev =3D sysbus_create_simple("pl061", base, pic[irq]);
-+    pl061_dev =3D sysbus_create_simple("pl061", base, qdev_get_gpio_in(gic=
-, irq));
-=20
-     gpio_key_dev =3D sysbus_create_simple("gpio-key", -1,
-                                         qdev_get_gpio_in(pl061_dev, 3));
-@@ -457,7 +455,7 @@ static void create_gpio(const SBSAMachineState *sms, qe=
-mu_irq *pic)
-     qemu_register_powerdown_notifier(&sbsa_ref_powerdown_notifier);
- }
-=20
--static void create_ahci(const SBSAMachineState *sms, qemu_irq *pic)
-+static void create_ahci(const SBSAMachineState *sms, DeviceState *gic)
- {
-     hwaddr base =3D sbsa_ref_memmap[SBSA_AHCI].base;
-     int irq =3D sbsa_ref_irqmap[SBSA_AHCI];
-@@ -471,7 +469,7 @@ static void create_ahci(const SBSAMachineState *sms, qe=
-mu_irq *pic)
-     qdev_prop_set_uint32(dev, "num-ports", NUM_SATA_PORTS);
-     qdev_init_nofail(dev);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irq]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, qdev_get_gpio_in(gic, irq))=
-;
-=20
-     sysahci =3D SYSBUS_AHCI(dev);
-     ahci =3D &sysahci->ahci;
-@@ -484,15 +482,15 @@ static void create_ahci(const SBSAMachineState *sms, =
-qemu_irq *pic)
-     }
- }
-=20
--static void create_ehci(const SBSAMachineState *sms, qemu_irq *pic)
-+static void create_ehci(const SBSAMachineState *sms, DeviceState *gic)
- {
-     hwaddr base =3D sbsa_ref_memmap[SBSA_EHCI].base;
-     int irq =3D sbsa_ref_irqmap[SBSA_EHCI];
-=20
--    sysbus_create_simple("platform-ehci-usb", base, pic[irq]);
-+    sysbus_create_simple("platform-ehci-usb", base, qdev_get_gpio_in(gic, =
-irq));
- }
-=20
--static void create_smmu(const SBSAMachineState *sms, qemu_irq *pic,
-+static void create_smmu(const SBSAMachineState *sms, DeviceState *gic,
-                         PCIBus *bus)
- {
-     hwaddr base =3D sbsa_ref_memmap[SBSA_SMMU].base;
-@@ -507,11 +505,12 @@ static void create_smmu(const SBSAMachineState *sms, =
-qemu_irq *pic,
-     qdev_init_nofail(dev);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-     for (i =3D 0; i < NUM_SMMU_IRQS; i++) {
--        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, pic[irq + i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-+                           qdev_get_gpio_in(gic, irq + 1));
-     }
- }
-=20
--static void create_pcie(SBSAMachineState *sms, qemu_irq *pic)
-+static void create_pcie(SBSAMachineState *sms, DeviceState *gic)
- {
-     hwaddr base_ecam =3D sbsa_ref_memmap[SBSA_PCIE_ECAM].base;
-     hwaddr size_ecam =3D sbsa_ref_memmap[SBSA_PCIE_ECAM].size;
-@@ -555,7 +554,8 @@ static void create_pcie(SBSAMachineState *sms, qemu_irq=
- *pic)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, base_pio);
-=20
-     for (i =3D 0; i < GPEX_NUM_IRQS; i++) {
--        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, pic[irq + i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-+                           qdev_get_gpio_in(gic, irq + 1));
-         gpex_set_irq_num(GPEX_HOST(dev), i, irq + i);
-     }
-=20
-@@ -574,7 +574,7 @@ static void create_pcie(SBSAMachineState *sms, qemu_irq=
- *pic)
-=20
-     pci_create_simple(pci->bus, -1, "VGA");
-=20
--    create_smmu(sms, pic, pci->bus);
-+    create_smmu(sms, gic, pci->bus);
- }
-=20
- static void *sbsa_ref_dtb(const struct arm_boot_info *binfo, int *fdt_size=
+> ---
+>   include/qapi/error.h | 6 +++---
+>   util/error.c         | 6 +++---
+>   2 files changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/include/qapi/error.h b/include/qapi/error.h
+> index 3f95141a01..ad5b6e896d 100644
+> --- a/include/qapi/error.h
+> +++ b/include/qapi/error.h
+> @@ -233,13 +233,13 @@ void error_propagate_prepend(Error **dst_errp, Erro=
+r *local_err,
+>    * Prepend some text to @errp's human-readable error message.
+>    * The text is made by formatting @fmt, @ap like vprintf().
+>    */
+> -void error_vprepend(Error **errp, const char *fmt, va_list ap);
+> +void error_vprepend(Error *const *errp, const char *fmt, va_list ap);
+>  =20
+>   /*
+>    * Prepend some text to @errp's human-readable error message.
+>    * The text is made by formatting @fmt, ... like printf().
+>    */
+> -void error_prepend(Error **errp, const char *fmt, ...)
+> +void error_prepend(Error *const *errp, const char *fmt, ...)
+>       GCC_FMT_ATTR(2, 3);
+>  =20
+>   /*
+> @@ -256,7 +256,7 @@ void error_prepend(Error **errp, const char *fmt, ...=
 )
-@@ -598,7 +598,7 @@ static void sbsa_ref_init(MachineState *machine)
-     bool firmware_loaded;
-     const CPUArchIdList *possible_cpus;
-     int n, sbsa_max_cpus;
--    qemu_irq pic[NUM_IRQS];
-+    DeviceState *gic;
-=20
-     if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
-         error_report("sbsa-ref: CPU type other than the built-in "
-@@ -695,22 +695,22 @@ static void sbsa_ref_init(MachineState *machine)
-=20
-     create_secure_ram(sms, secure_sysmem);
-=20
--    create_gic(sms, pic);
-+    gic =3D create_gic(sms);
-=20
--    create_uart(sms, pic, SBSA_UART, sysmem, serial_hd(0));
--    create_uart(sms, pic, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
-+    create_uart(sms, gic, SBSA_UART, sysmem, serial_hd(0));
-+    create_uart(sms, gic, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
-     /* Second secure UART for RAS and MM from EL0 */
--    create_uart(sms, pic, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2)=
-);
-+    create_uart(sms, gic, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2)=
-);
-=20
--    create_rtc(sms, pic);
-+    create_rtc(sms, gic);
-=20
--    create_gpio(sms, pic);
-+    create_gpio(sms, gic);
-=20
--    create_ahci(sms, pic);
-+    create_ahci(sms, gic);
-=20
--    create_ehci(sms, pic);
-+    create_ehci(sms, gic);
-=20
--    create_pcie(sms, pic);
-+    create_pcie(sms, gic);
-=20
-     sms->bootinfo.ram_size =3D machine->ram_size;
-     sms->bootinfo.nb_cpus =3D smp_cpus;
---=20
-2.21.0
+>    * May be called multiple times.  The resulting hint should end with a
+>    * newline.
+>    */
+> -void error_append_hint(Error **errp, const char *fmt, ...)
+> +void error_append_hint(Error *const *errp, const char *fmt, ...)
+>       GCC_FMT_ATTR(2, 3);
+>  =20
+>   /*
+> diff --git a/util/error.c b/util/error.c
+> index d4532ce318..b6c89d1412 100644
+> --- a/util/error.c
+> +++ b/util/error.c
+> @@ -121,7 +121,7 @@ void error_setg_file_open_internal(Error **errp,
+>                                 "Could not open '%s'", filename);
+>   }
+>  =20
+> -void error_vprepend(Error **errp, const char *fmt, va_list ap)
+> +void error_vprepend(Error *const *errp, const char *fmt, va_list ap)
+>   {
+>       GString *newmsg;
+>  =20
+> @@ -136,7 +136,7 @@ void error_vprepend(Error **errp, const char *fmt, va=
+_list ap)
+>       (*errp)->msg =3D g_string_free(newmsg, 0);
+>   }
+>  =20
+> -void error_prepend(Error **errp, const char *fmt, ...)
+> +void error_prepend(Error *const *errp, const char *fmt, ...)
+>   {
+>       va_list ap;
+>  =20
+> @@ -145,7 +145,7 @@ void error_prepend(Error **errp, const char *fmt, ...=
+)
+>       va_end(ap);
+>   }
+>  =20
+> -void error_append_hint(Error **errp, const char *fmt, ...)
+> +void error_append_hint(Error *const *errp, const char *fmt, ...)
+>   {
+>       va_list ap;
+>       int saved_errno =3D errno;
+>=20
 
 
