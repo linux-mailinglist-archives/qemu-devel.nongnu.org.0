@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0343B11555B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:30:32 +0100 (CET)
-Received: from localhost ([::1]:40893 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C661A115586
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:36:09 +0100 (CET)
+Received: from localhost ([::1]:40952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGUw-0000IR-IW
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46301)
+	id 1idGaO-0004w7-CH
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:36:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50493)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1idFJf-00083q-4H
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:14:49 -0500
+ (envelope-from <imammedo@redhat.com>) id 1idFKq-0000aJ-Eq
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:16:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1idFJc-0001Nq-86
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:14:45 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25242
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1idFKo-000323-8e
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:15:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53315
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1idFJa-0001J8-FI
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:14:43 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1idFKm-0002xp-69
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:15:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575645279;
+ s=mimecast20190719; t=1575645353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YWDV7be2Kv50jYQ8XUT69/pNTpVWUw7Kc0buKkax9ns=;
- b=YocE1FrXY0WUovDX21Jp//kUjrT4Y39zalSX5g/V0s9L+l5k5UUpQNqf1UIAhb6tm3nXAu
- wsHIqmkiTxNS3qVSHUwcsHfo7LrwlhW7VuUJ/F3OkSUOMLmugpxQIINo+RaXGJB0bGH5b8
- KFVEN+AcSke+t09uQTGvTcyG+l1kuHQ=
+ bh=vB2XuMyXHgayaNhAykaVXV3mvyry3p+Gq7ct1f4QJaQ=;
+ b=FMLd2QaXFqdz6n2qxFI+ffor1iddeBJ2d8XeCvhf+quzYMO01mFEmp6+/xgnm1c+wHDYxm
+ Sw1vwaKbYKog9TUkpFroeLrMy5apxemX1I90QO6g0/egTiTfVf97cuBzzEAOiHEwi48ssF
+ Fl5Ay9lhzFWr14/0Q+JL/zHC5BQZFr0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-aszIaQYKM5mcRdU3WlFUag-1; Fri, 06 Dec 2019 10:14:38 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-83-a_ZFk2OoOYKeNo8FC4Q9Gg-1; Fri, 06 Dec 2019 10:15:51 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64EB6800EB9
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:14:37 +0000 (UTC)
-Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F208A60BF4;
- Fri,  6 Dec 2019 15:14:34 +0000 (UTC)
-Subject: Re: [PATCH 2/2] net: Drop the NetLegacy structure, always use Netdev
- instead
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20191206053640.29368-1-thuth@redhat.com>
- <20191206053640.29368-3-thuth@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <bac8635c-b38c-51e0-2478-ec14d96aedbb@redhat.com>
-Date: Fri, 6 Dec 2019 09:14:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2340E107ACC4
+ for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:15:50 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71F9819C70;
+ Fri,  6 Dec 2019 15:15:42 +0000 (UTC)
+Date: Fri, 6 Dec 2019 16:15:40 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH for-5.0 7/8] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+Message-ID: <20191206161540.1664aace@redhat.com>
+In-Reply-To: <34d3e078-f4e5-149e-a8ef-798d524f53a5@redhat.com>
+References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
+ <1575479147-6641-8-git-send-email-imammedo@redhat.com>
+ <34d3e078-f4e5-149e-a8ef-798d524f53a5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20191206053640.29368-3-thuth@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: aszIaQYKM5mcRdU3WlFUag-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: a_ZFk2OoOYKeNo8FC4Q9Gg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,108 +72,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com
+Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 11:36 PM, Thomas Huth wrote:
-> Now that the "name" parameter is gone, there is hardly any difference
-> between NetLegacy and Netdev anymore. Drop NetLegacy and always use
-> Netdev to simplify the code quite a bit.
+On Thu, 5 Dec 2019 14:03:01 +0100
+Laszlo Ersek <lersek@redhat.com> wrote:
+
+> On 12/04/19 18:05, Igor Mammedov wrote:
+> > Extend CPU hotplug interface to return architecture specific
+> > identifier for current CPU in 2 registers:
+> >  - lower 32 bits existing ACPI_CPU_CMD_DATA_OFFSET_RW
+> >  - upper 32 bits in new ACPI_CPU_CMD_DATA2_OFFSET_R at
+> >    offset 0.  
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
+> OK.
+> 
+> > Target user is UEFI firmware, which needs a way to enumerate
+> > all CPUs (including possible CPUs) to allocate and initialize
+> > CPU structures on boot.  
+> 
+> (1) This is correct in general, but if we want to keep this description,
+> then it should be moved to the commit message of the previous patch.
+> CPHP_GET_CPU_ID_CMD is not needed for the purpose described above -- it
+> will be necessary for handling the hotplug SMI.
+> 
+> For the boot time allocation / initialization, the "enumerating present
+> and possible CPUs" workflow is necessary, and that is documented in the
+> previous patch in this series.
+> 
+> So if we want to keep this paragraph, we should move it to the previous
+> patch's commit message.
+> 
+> > (for x86: it needs APIC ID and later command will be used to
+> > retrieve ARM's MPIDR which serves the similar to APIC ID purpose)  
+> 
+> (2) I would suggest some punctuation, to make this clearer. How about:
+> 
+> > On x86, guest UEFI firmware will use CPHP_GET_CPU_ID_CMD for fetching
+> > the APIC ID when handling the hotplug SMI.
+> >
+> > Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
+> > which serves a purpose similar to the x86 APIC ID.
 
-Initial focus on the QAPI change:
+How about following commit message:
 
-> +++ b/qapi/net.json
-> @@ -467,7 +467,7 @@
->   # 'l2tpv3' - since 2.1
->   ##
->   { 'union': 'Netdev',
-> -  'base': { 'id': 'str', 'type': 'NetClientDriver' },
-> +  'base': { '*id': 'str', 'type': 'NetClientDriver' },
+    Firmware can enumerate present at boot APs by broadcasting wakeup IPI,
+    so that woken up secondary CPUs could register them-selves.
+    However in CPU hotplug case, it would need to know architecture
+    specific CPU IDs for possible and hotplugged CPUs so it could
+    prepare enviroment for and wake hotplugged AP.
+    
+    Reuse and extend existing CPU hotplug interface to return architecture
+    specific ID for currently selected CPU in 2 registers:
+     - lower 32 bits in ACPI_CPU_CMD_DATA_OFFSET_RW
+     - upper 32 bits in ACPI_CPU_CMD_DATA2_OFFSET_R
+    
+    On x86, firmware will use CPHP_GET_CPU_ID_CMD for fetching the APIC ID
+    when handling hotplug SMI.
+    
+    Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
+    which serves the similar to APIC ID purpose.
 
-Making id optional here...
-
->     'discriminator': 'type',
->     'data': {
->       'nic':      'NetLegacyNicOptions',
-> @@ -481,55 +481,6 @@
->       'netmap':   'NetdevNetmapOptions',
->       'vhost-user': 'NetdevVhostUserOptions' } }
->   
-> -##
-> -# @NetLegacy:
-> -#
-> -# Captures the configuration of a network device; legacy.
-> -#
-> -# @id: identifier for monitor commands
-> -#
-> -# @opts: device type specific properties (legacy)
-> -#
-> -# Since: 1.2
-> -#
-> -# 'vlan': dropped in 3.0
-> -# 'name': dropped in 5.0
-> -##
-> -{ 'struct': 'NetLegacy',
-> -  'data': {
-> -    '*id':   'str',
-> -    'opts':  'NetLegacyOptions' } }
-
-to match how it was here.  Should 'id' have been made mandatory in 1/2, 
-when deleting 'name' (after all, id was optional only when name was in use)?
-
-> -
-> -##
-> -# @NetLegacyOptionsType:
-> -#
-> -# Since: 1.2
-> -##
-> -{ 'enum': 'NetLegacyOptionsType',
-> -  'data': ['none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -           'bridge', 'netmap', 'vhost-user'] }
-
-Comparing this to the branches of Netdev:
-
-We are losing 'none', while gaining 'hubport'.  The gain is not 
-problematic, and I guess you are declaring that the use of 'none' has 
-been deprecated long enough to not be a problem.
-
-> -
-> -##
-> -# @NetLegacyOptions:
-> -#
-> -# Like Netdev, but for use only by the legacy command line options
-> -#
-> -# Since: 1.2
-> -##
-> -{ 'union': 'NetLegacyOptions',
-> -  'base': { 'type': 'NetLegacyOptionsType' },
-> -  'discriminator': 'type',
-> -  'data': {
-> -    'nic':      'NetLegacyNicOptions',
-
-Should we rename this to NetdevNicOptions, now that we are getting rid 
-of other NetLegacy names?
-
-> -    'user':     'NetdevUserOptions',
-> -    'tap':      'NetdevTapOptions',
-> -    'l2tpv3':   'NetdevL2TPv3Options',
-> -    'socket':   'NetdevSocketOptions',
-> -    'vde':      'NetdevVdeOptions',
-> -    'bridge':   'NetdevBridgeOptions',
-> -    'netmap':   'NetdevNetmapOptions',
-> -    'vhost-user': 'NetdevVhostUserOptions' } }
-
-But I concur that all branches of the Netdev union have the same types 
-as what you are removing here from NetLegacyOptions, so the 
-consolidation looks sane.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+[...]
 
 
