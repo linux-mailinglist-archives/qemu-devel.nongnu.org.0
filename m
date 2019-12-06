@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAC5115460
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:36:41 +0100 (CET)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8457311544C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:32:48 +0100 (CET)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFep-0005Ql-Ty
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:36:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
+	id 1idFb5-0000sp-3D
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idElI-0000mY-8d
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:18 -0500
+ (envelope-from <armbru@redhat.com>) id 1idEak-0005xc-Qh
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idElG-0001h5-A8
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:16 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38821)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1idElG-0001gE-3n
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:14 -0500
-Received: by mail-oi1-x243.google.com with SMTP id b8so6352276oiy.5
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=tvojVvlszRJsOZIKiDHXWwmX7KNBTuSyKRFi9PCSntc=;
- b=BwEyPHfPpNzON+e9C4cbmCLTeY9ZMkpMK2CvDQRK9UtOOZqlDig8BzH2TQelc/Vo1u
- CPssKwoPvz2NRgI93NqxyVAeW9kjt/I7PBA4vDNjOzizVRkJqSG11Mry/CXGMhCF/Yd+
- AvTk4DhZn5OGFAVlOVnbqNq9/bI3fWs+izlyjhWhImbFIM1jjpdd1qiEhH8RtHndCco+
- ky1ISl/SwvEyg0xcJomc+E9WfCjC3PWwMcNsDwJYakp57AwxlDi7IZH/1+YGGAsozzdg
- 5ondS8rqmN0m97S/rMSUL8evxnSjs3VJvgQ+w86IWi7uDjd1nKjPP8bw+8FEviLwpRHS
- FLsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=tvojVvlszRJsOZIKiDHXWwmX7KNBTuSyKRFi9PCSntc=;
- b=Uj/niqVTVe7olrK+hopIhNzs8zgUOtCuCm/tJcNHwrFk8mC/fWN76l0frtwP8shlOz
- +r6qgk2uhKZRdaoRkKFaV2TICXjYUTBlyJ04bqvSZSSxUZ4Vn1bX9A8dy+d+iZDJi/d3
- NHQljmfQPT3HKZrjnKQxM9fKNPd9rGr1JA5fcYsOZLTdOfmV7V0RPgF3SxVcGIE8CVlY
- voZTII15DhMJrV4zXGhGxNGtQvwGmQybLW5WmhWEpdfn5UgbWmmYQiHy3rHSj24hOWs8
- BXnsUEfB/dGM1H/CUnLlVXLbmo9631H4dzUj3hWJ2LkWrUpIs2FPGjpIs2zziXEuzk1y
- rrhQ==
-X-Gm-Message-State: APjAAAXaWeGstv4GqPzzGfLj3sGfSmkIIyPTtMLuLkUexnuecjZjn9Hn
- y/O0QqmayvCy85sROavZaHzvZOTLLk1sgZwn58X5+w==
-X-Google-Smtp-Source: APXvYqyU2gCSwQhTgLN7Pe3/29Pde4mqvAMK2UKCX0Bzxk7vZJjILp0MwVnWoUt06b081nE7Kju2UGB1FDtolm+4Nys=
-X-Received: by 2002:aca:1b08:: with SMTP id b8mr507653oib.106.1575620665044;
- Fri, 06 Dec 2019 00:24:25 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1idEai-00077m-FD
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26326
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1idEai-0006za-8h
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575642496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JdFKK2D/fl5jWJGqYyo+KYqGwUGNXkUYr1F7LSEI+FE=;
+ b=dqf+Hsa3sq/ZyvyyJKFHcfVAk8LBQQgp7T+6Cj72kr1yg/sYCWqCUDB7stDGfZ64Xxc9v0
+ EmXVgoPyAdjbHt6F1feGkFA574CXIULmlb0FtLUv/6DA5+cSt8ThJh8zbEoqqayK6/phEO
+ 5+yQjO6lLJ4N/+Vh7bjKVnauY/b0lxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-FJyFQC_9OKqGmLIkrIt-eA-1; Fri, 06 Dec 2019 03:26:28 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA03F800D5A;
+ Fri,  6 Dec 2019 08:26:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60C1E6014C;
+ Fri,  6 Dec 2019 08:26:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C89421138606; Fri,  6 Dec 2019 09:26:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v6] hw/core/qdev: cleanup Error ** variables
+References: <20191127192025.21594-1-vsementsov@virtuozzo.com>
+ <87a78fz045.fsf@dusky.pond.sub.org>
+ <6d311ad1-528c-5787-64d0-779d6dcbadef@virtuozzo.com>
+ <61df02c1-2be4-a2fc-e320-c88666b673fc@redhat.com>
+Date: Fri, 06 Dec 2019 09:26:22 +0100
+In-Reply-To: <61df02c1-2be4-a2fc-e320-c88666b673fc@redhat.com> (Eric Blake's
+ message of "Thu, 5 Dec 2019 10:45:26 -0600")
+Message-ID: <8736dxn9ld.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Fri, 6 Dec 2019 00:24:24 -0800 (PST)
-In-Reply-To: <20191205212729.GA1797@localhost.localdomain>
-References: <1574687098-26689-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1574687098-26689-3-git-send-email-Filip.Bozuta@rt-rk.com>
- <CAL1e-=jeECJRjOR+Mo79D5VA8q0gSZsf__MOtRhiU0fgDF1DRA@mail.gmail.com>
- <20191202204958.GP14595@habkost.net>
- <20191205212729.GA1797@localhost.localdomain>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 6 Dec 2019 09:24:24 +0100
-Message-ID: <CAL1e-=iTVsTpMy81vVj2H7JQk4AJax+_PoVZZ80vXvzFpoatqg@mail.gmail.com>
-Subject: Re: [PATCH 2/5] mips: malta: Renovate coding style
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000000a749c059904c6d0"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: FJyFQC_9OKqGmLIkrIt-eA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,246 +78,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pburton@wavecomp.com" <pburton@wavecomp.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Filip Bozuta <Filip.Bozuta@rt-rk.com>,
- "hpoussin@reactos.org" <hpoussin@reactos.org>,
- "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
- "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000a749c059904c6d0
-Content-Type: text/plain; charset="UTF-8"
+Eric Blake <eblake@redhat.com> writes:
 
-On Thursday, December 5, 2019, Cleber Rosa <crosa@redhat.com> wrote:
-
-> On Mon, Dec 02, 2019 at 05:49:58PM -0300, Eduardo Habkost wrote:
-> > On Sun, Dec 01, 2019 at 12:46:12AM +0100, Aleksandar Markovic wrote:
-> > > On Monday, November 25, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com>
-> wrote:
-> > >
-> > > > The script checkpatch.pl located in scripts folder was
-> > > > used to detect all errors and warrnings in files:
-> > > >     hw/mips/mips_malta.c
-> > > >     hw/mips/gt64xxx_pci.c
-> > > >     tests/acceptance/linux_ssh_mips_malta.py
-> > > >
-> > > > All these mips malta machine files were edited and
-> > > > all the errors and warrings generated by the checkpatch.pl
-> > > > script were corrected and then the script was
-> > > > ran again to make sure there are no more errors and warnings.
-> > > >
-> > > > Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-> > > > ---
-> > > >  hw/mips/mips_malta.c                     | 139
-> > > > ++++++++++++++++---------------
-> > > >  tests/acceptance/linux_ssh_mips_malta.py |   6 +-
-> > > >  2 files changed, 75 insertions(+), 70 deletions(-)
-> > > >
-> > > >
-> > > Very good cleanup!
-> > >
-> > > Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > >
-> > > I think this snippet is good, but I am just in case cc-ing Cleber and
-> > > Eduardo to check if it is in accordance with any applicable guidelines
-> of
-> > > our test framework:
-> >
-> > Thanks for CCing us.
-> >
-> > >
-> > >
-> > > > diff --git a/tests/acceptance/linux_ssh_mips_malta.py
-> > > > b/tests/acceptance/linux_ssh_mips_malta.py
-> > > > index fc13f9e..44e1118 100644
-> > > > --- a/tests/acceptance/linux_ssh_mips_malta.py
-> > > > +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> > > > @@ -99,10 +99,12 @@ class LinuxSSH(Test):
-> > > >      def ssh_command(self, command, is_root=True):
-> > > >          self.ssh_logger.info(command)
-> > > >          result = self.ssh_session.cmd(command)
-> > > > -        stdout_lines = [line.rstrip() for line in
-> > > > result.stdout_text.splitlines()]
-> > > > +        stdout_lines = [line.rstrip() for line
-> > > > +        in result.stdout_text.splitlines()]
-> > > >          for line in stdout_lines:
-> > > >              self.ssh_logger.info(line)
-> > > > -        stderr_lines = [line.rstrip() for line in
-> > > > result.stderr_text.splitlines()]
-> > > > +        stderr_lines = [line.rstrip() for line
-> > > > +        in result.stderr_text.splitlines()]
-> >
-> > If you really want to split those lines, please indent them
-> > properly.  e.g.:
-> >
-> >         stdout_lines = [line.rstrip() for line
-> >                         in result.stdout_text.splitlines()]
-> >
-> > See PEP 8 [1] for additional examples.
-> >
-> > Personally, I would just keep the existing
-> > linux_ssh_mips_malta.py code as is.  I don't think splitting
-> > those lines improves readability.
-> >
-> > [1] https://www.python.org/dev/peps/pep-0008/#indentation
-> >
-> > --
-> > Eduardo
+> On 12/5/19 8:48 AM, Vladimir Sementsov-Ogievskiy wrote:
 >
-> Right.  It only helps when running terminal or editor settings are
-> limited to ~80 cols.  And even in those cases, sometimes such code
-> split across lines needs a lot of gymnastics to not degrade in
-> readability when compared to a longer line.
+>>>> @@ -918,27 +917,26 @@ static void device_set_realized(Object *obj, boo=
+l value, Error **errp)
+>>>>           }
+>>>>           } else if (!value && dev->realized) {
+>>>> -        Error **local_errp =3D NULL;
+>>>> +        /* We want local_err to track only the first error */
+>>>>            QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+>>>> -            local_errp =3D local_err ? NULL : &local_err;
+>>>>                object_property_set_bool(OBJECT(bus), false, "realized"=
+,
+>>>> -                                     local_errp);
+>>>> +                                     local_err ? NULL : &local_err);
+>>>>            }
+>>>
+>>> This is a rather unusual way to keep the first error of several.
 >
-> We're not (yet?) enforcing PEP 8, so either as Eduardo suggested, or
-> with no changes LGTM.
+> It may be unusual, but has the benefit of avoiding error_propagate...
+
+Non-issue if the error_propagate() gets replaced by
+ERRP_AUTO_PROPAGATE(), isn't it?
+
+>>> qapi/error.h advises:
+>>>
+>>>    * Receive and accumulate multiple errors (first one wins):
+>>>    *     Error *err =3D NULL, *local_err =3D NULL;
+>>>    *     foo(arg, &err);
+>>>    *     bar(arg, &local_err);
+>>>    *     error_propagate(&err, local_err);
+>>>    *     if (err) {
+>>>    *         handle the error...
+>>>    *     }
+>>
+>> Hmm, honestly, I like more what I've written:
+>>
+>> 1. less code
+>> 2. logic is more clean: we store first error to local_err, and after fir=
+st error
+>>      pass NULL as a parameter. No propagation or extra error variables.
+>> 3. more efficient (no propagation, no extra allocation for errors which =
+we'll drop
+>>      anyway) (I understand that efficiency of error path is not thing to=
+ care about,
+>>      so it's at third place)
+>>
+>> Also, propagation which you propose is also unusual thing (it proposed i=
+n comment,
+>> but who reads it :). I've never seen it before, and I've to go and check=
+ that
+>> error_propagate works correctly when first argument is already set.
+
+When you think you can improve on the common, documented pattern, you're
+invited to update the documentation and the existing uses of the
+pattern.
+
+If everybody "improved" on common, documented patterns locally, the code
+would become needlessly hard to read for developers with experience in
+the pattern's area.
+
+>> So, I'd prefer to keep now this patch as is, and to convert later if we =
+really need it.
+
+I want this to match the common, documented pattern.  Whether we make it
+match before or after your ERRP_AUTO_PROPAGATE() work doesn't matter to
+me.
+
+>>> If replacing this by the usual way is too troublesome now, we can do it
+>>> after the ERRP_AUTO_PROPAGATE() conversion.  Your choice.
 >
->
-Eduardo, Cleber,
+> ...and after conversion to use ERRP_AUTO_PROPATATE(), the use of
+> error_propagate() should NOT occur in any code _except_ for the macro
+> definition (any other use of the function points out a place where we
+> failed to use the macro to get rid of boilerplate).
 
-I truly appreciate your responses and clarifications.
+I figure we still need it in the (rare) cases where we want to ignore
+some of a function's errors, as we do in fit_load_fdt().  If that
+bothers us, we can try to find a solution that avoids the boilerplate.
 
-Best regards,
-Aleksandar
-
-
-
-
-> Cheers,
-> - Cleber.
->
->
-
---0000000000000a749c059904c6d0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Thursday, December 5, 2019, Cleber Rosa &lt;<a href=3D"mailto:cr=
-osa@redhat.com">crosa@redhat.com</a>&gt; wrote:<br><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex">On Mon, Dec 02, 2019 at 05:49:58PM -0300, Eduardo Habkost wrote:<br>
-&gt; On Sun, Dec 01, 2019 at 12:46:12AM +0100, Aleksandar Markovic wrote:<b=
-r>
-&gt; &gt; On Monday, November 25, 2019, Filip Bozuta &lt;<a href=3D"mailto:=
-Filip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; The script <a href=3D"http://checkpatch.pl" target=3D"_blank=
-">checkpatch.pl</a> located in scripts folder was<br>
-&gt; &gt; &gt; used to detect all errors and warrnings in files:<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0hw/mips/mips_malta.c<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0hw/mips/gt64xxx_pci.c<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0tests/acceptance/linux_ssh_<wbr>mips_malt=
-a.py<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; All these mips malta machine files were edited and<br>
-&gt; &gt; &gt; all the errors and warrings generated by the <a href=3D"http=
-://checkpatch.pl" target=3D"_blank">checkpatch.pl</a><br>
-&gt; &gt; &gt; script were corrected and then the script was<br>
-&gt; &gt; &gt; ran again to make sure there are no more errors and warnings=
-.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Filip Bozuta &lt;<a href=3D"mailto:Filip.Bozu=
-ta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 hw/mips/mips_malta.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 139<br>
-&gt; &gt; &gt; ++++++++++++++++--------------<wbr>-<br>
-&gt; &gt; &gt;=C2=A0 tests/acceptance/linux_ssh_<wbr>mips_malta.py |=C2=A0 =
-=C2=A06 +-<br>
-&gt; &gt; &gt;=C2=A0 2 files changed, 75 insertions(+), 70 deletions(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; Very good cleanup!<br>
-&gt; &gt; <br>
-&gt; &gt; Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@=
-wavecomp.com">amarkovic@wavecomp.com</a>&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; I think this snippet is good, but I am just in case cc-ing Cleber=
- and<br>
-&gt; &gt; Eduardo to check if it is in accordance with any applicable guide=
-lines of<br>
-&gt; &gt; our test framework:<br>
-&gt; <br>
-&gt; Thanks for CCing us.<br>
-&gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; &gt; diff --git a/tests/acceptance/linux_ssh_<wbr>mips_malta.py<b=
-r>
-&gt; &gt; &gt; b/tests/acceptance/linux_ssh_<wbr>mips_malta.py<br>
-&gt; &gt; &gt; index fc13f9e..44e1118 100644<br>
-&gt; &gt; &gt; --- a/tests/acceptance/linux_ssh_<wbr>mips_malta.py<br>
-&gt; &gt; &gt; +++ b/tests/acceptance/linux_ssh_<wbr>mips_malta.py<br>
-&gt; &gt; &gt; @@ -99,10 +99,12 @@ class LinuxSSH(Test):<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def ssh_command(self, command, is_root=
-=3DTrue):<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.ssh=
-_logger.info" target=3D"_blank">self.ssh_logger.info</a>(command)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D self.ssh_sessio=
-n.cmd(command)<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout_lines =3D [line.rstrip()=
- for line in<br>
-&gt; &gt; &gt; result.stdout_text.splitlines(<wbr>)]<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 stdout_lines =3D [line.rstrip()=
- for line<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 in result.stdout_text.splitline=
-s(<wbr>)]<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in stdout_lines:<=
-br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"h=
-ttp://self.ssh_logger.info" target=3D"_blank">self.ssh_logger.info</a>(line=
-)<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr_lines =3D [line.rstrip()=
- for line in<br>
-&gt; &gt; &gt; result.stderr_text.splitlines(<wbr>)]<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr_lines =3D [line.rstrip()=
- for line<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 in result.stderr_text.splitline=
-s(<wbr>)]<br>
-&gt; <br>
-&gt; If you really want to split those lines, please indent them<br>
-&gt; properly.=C2=A0 e.g.:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stdout_lines =3D [line.rstrip() for l=
-ine<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0in result.stdout_text.splitlines(<wbr>)]<br>
-&gt; <br>
-&gt; See PEP 8 [1] for additional examples.<br>
-&gt; <br>
-&gt; Personally, I would just keep the existing<br>
-&gt; linux_ssh_mips_malta.py code as is.=C2=A0 I don&#39;t think splitting<=
-br>
-&gt; those lines improves readability.<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://www.python.org/dev/peps/pep-0008/#indentation" =
-target=3D"_blank">https://www.python.org/dev/<wbr>peps/pep-0008/#indentatio=
-n</a><br>
-&gt; <br>
-&gt; -- <br>
-&gt; Eduardo<br>
-<br>
-Right.=C2=A0 It only helps when running terminal or editor settings are<br>
-limited to ~80 cols.=C2=A0 And even in those cases, sometimes such code<br>
-split across lines needs a lot of gymnastics to not degrade in<br>
-readability when compared to a longer line.<br>
-<br>
-We&#39;re not (yet?) enforcing PEP 8, so either as Eduardo suggested, or<br=
->
-with no changes LGTM.<br>
-<br></blockquote><div><br></div><div>Eduardo, Cleber,</div><div><br></div><=
-div>I truly appreciate your responses and clarifications.</div><div><br></d=
-iv><div>Best regards,</div><div>Aleksandar</div><div><br></div><div><br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Cheers,<br>
-- Cleber.<br>
-<br>
-</blockquote>
-
---0000000000000a749c059904c6d0--
 
