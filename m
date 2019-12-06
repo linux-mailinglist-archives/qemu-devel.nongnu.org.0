@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1493115505
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:19:47 +0100 (CET)
-Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA8911550F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:23:26 +0100 (CET)
+Received: from localhost ([::1]:40768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGKY-0004Kd-FC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37524)
+	id 1idGO4-0000jE-TC
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:23:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idFBQ-0006Lf-Er
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:17 -0500
+ (envelope-from <crosa@redhat.com>) id 1idFE9-0000xb-GO
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idFBP-00053K-1T
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:15 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42871)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idFBO-00050n-E0
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:14 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 66so6031701otd.9
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g4GC338kwUwOWFtRrAdw7Nq9znzrvcY4KhIV3i/Ypmw=;
- b=amfmWUn8bSx/CALD4rdp5FFbb27y9ASefWZLng3X0oiKmAssJhgHCjhV19maA03zWn
- qJPg+FySbKmQxUwrykKxZmEerCZAJ1RZY8EthUz/Yry4Z0JZT7w72wUDvMprSjf8VDpI
- s5QNV6N5yWU9LkDyWDaKcFa0epwDmZDl2uyIKbe9h+jFOwKeHUSPpq2V+cYZjCsrYCc2
- NzvQo5Th/96/MyA/cYpk7ZjiyQ3YTu98feKtNav4vFGYJ04xMhHIfKS+LuZeERPU30cO
- mzSFMgHvK2r8YLlOF3nEJ/fzk30bEgCuYFmLyzLz/GS/SkjUTCFZnKzL0jEQGGTTBYJf
- RzTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g4GC338kwUwOWFtRrAdw7Nq9znzrvcY4KhIV3i/Ypmw=;
- b=FLQtpEAdS40UrKE12zrd5ktrenJTpw0jmJQDBIQK84UyeJ62sDlxMejC2xs7ngzXt9
- jFxXbpjKhSt7Tg6caZTiY/PPNyRVOEppuB8QrQMffASXHjMXbzVaKHtAQV7fmLLmfnn9
- Oi7tQyEsFprbhP9W53GESZavvHpPUVXZubPbXO+dlYbtk1p3jtUa8wnl37qv4ByaKCb3
- KdeegfkKLoXRY5wG0dyVAPcnZUQ9qxd5dVTKblF/LpohEcJFSRqUrmWs6+2KZw/RRspT
- RA/osLj/UtUpo4m2FZVlrRsTHatNasxjUoomd4HLvlh4EbtvfGnKycJgk417gVlJm0wj
- WAsA==
-X-Gm-Message-State: APjAAAX9THkC7a2NZHLfRQx1zwiNIadjX2SFnW0khPxFC0k9PL6Pkndf
- LLmipzhtLjVAue4l4GbT6YqY+FZYYngZ7c072bSkjEt9
-X-Google-Smtp-Source: APXvYqwH9jmXmBKoBw/YHL4jYc4KhEPHGvd5GCt2ArJYfDr9icaPNCVZGjTd0S3c2yx59aRUOCApz/JUsON4BHNrYbQ=
-X-Received: by 2002:a9d:6745:: with SMTP id w5mr10792464otm.221.1575644773705; 
- Fri, 06 Dec 2019 07:06:13 -0800 (PST)
+ (envelope-from <crosa@redhat.com>) id 1idFE7-0000Vt-F8
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52178
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1idFE7-0000UZ-Ap
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575644942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MNiUvkiM0DD9iKxU0fe0AFvwNGHmzCfP+aLuS5lAodg=;
+ b=XXKj6bHwihQnI/6y/8xDSklfBukpwFwOmSKq+aIVsMqUyGUE4F3OrvIWpQtuosxPWZ2rDD
+ 5NECe5tGxrmh2fE/t/DnNhOfTxYB9mPLCzOATgs2AfyIR6uUfwG7Zdd/A7ak2blzgAjSDV
+ 7Gn3pSMhP2wUthhMoyk+fxbvSB7RUro=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-K0Y2f4suOHKEJsLQNdLJ6A-1; Fri, 06 Dec 2019 10:09:01 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D825DC29;
+ Fri,  6 Dec 2019 15:09:00 +0000 (UTC)
+Received: from dhcp-17-72.bos.redhat.com (dhcp-17-72.bos.redhat.com
+ [10.18.17.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 061425D6C8;
+ Fri,  6 Dec 2019 15:08:45 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/1] Fix for m68k/q800 acceptance test for QEMU 4.2-rc
+Date: Fri,  6 Dec 2019 10:08:43 -0500
+Message-Id: <20191206150844.20124-1-crosa@redhat.com>
 MIME-Version: 1.0
-References: <20191206113635.6570-1-pbonzini@redhat.com>
-In-Reply-To: <20191206113635.6570-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 15:06:02 +0000
-Message-ID: <CAFEAcA-yb2ux5dZs1tYy_T8m9yqpVmtsv9g8i8T9V4fOAwuo5w@mail.gmail.com>
-Subject: Re: [PULL 0/1] KVM fix for QEMU 4.2-rc
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: K0Y2f4suOHKEJsLQNdLJ6A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +69,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Dec 2019 at 15:04, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
->
->   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 2605188240f939fa9ae9353f53a0985620b34769:
->
->   target/i386: disable VMX features if nested=0 (2019-12-06 12:35:40 +0100)
->
-> ----------------------------------------------------------------
-> * fix for x86 KVM on older kernels (Yang Zhong)
+The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e=
+:
 
-I know you talked to me on irc about this, but pull request
-cover letters at this stage in the release process really
-need detailed discussion of what is being fixed, the
-severity of the bug and why it needs to go into this
-release rather than waiting for 5.0...
+  Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
 
->
-> ----------------------------------------------------------------
-> Yang Zhong (1):
->       target/i386: disable VMX features if nested=0
->
->  target/i386/kvm.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> --
-> 2.21.0
+are available in the Git repository at:
 
-thanks
--- PMM
+  git://github.com/clebergnu/qemu.git tags/python-next-pull-request
+
+for you to fetch changes up to 820649aa00ee343a0d473ad1002c59c70ba8c158:
+
+  tests/boot_linux_console: Fetch assets from Debian snapshot archives (201=
+9-12-06 09:48:35 -0500)
+
+----------------------------------------------------------------
+Fix for m68k/q800 acceptance test (Philippe Mathieu-Daud=C3=A9)
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  tests/boot_linux_console: Fetch assets from Debian snapshot archives
+
+ tests/acceptance/boot_linux_console.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--=20
+2.21.0
+
 
