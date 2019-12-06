@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1F3115566
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:33:18 +0100 (CET)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB57D1155CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:53:51 +0100 (CET)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGXd-0002F4-Sz
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:33:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38357)
+	id 1idGrW-0006tz-7n
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:53:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1idEzq-0001oH-Sc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:54:19 -0500
+ (envelope-from <stefanha@redhat.com>) id 1idFAa-0005EG-HL
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:05:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1idEzp-0007Ow-Su
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:54:18 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:56259)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1idEzp-0007NA-J5; Fri, 06 Dec 2019 09:54:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=Cxo/MHtH+nFMkb9v7RPW8Cgb4/W84HHMGrjuXZaT/+s=; 
- b=r19YYB6DbMsyfNioVIrTGiabn6B16pcLX/oIVMG5NLBoIKo1eq/dHjUXTV6KgipZAkyBR8JYCiblEOPanv6LCarK20K+a5z9Dz81wYT65mPxXlWX4e17bR0rofW94fF3Cg49k7UCNW5rYUQGnHBa2qCB0wnVM+eKGXNRmQ2Pd5z1HNIBo3xK/yn36AmCZ797ANMRFDM0dQs5qbXLzzMc8t4m9NmvSdLLqLiJd5SPOw6XwJ86B68WaMshAJKT4p4of0lx5+yy+vsPRLPAQ4zVsUWxALgvkyAPbuCuhBjtl3xAu1sSuvxShBuQ5haz1SopImC+qmQAa4bphS01jic4pQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1idB4F-0006WL-NG; Fri, 06 Dec 2019 11:42:35 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1idB4F-0005qy-Kc; Fri, 06 Dec 2019 11:42:35 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] qemu-img: fix info --backing-chain --image-opts
-In-Reply-To: <20191205134646.445427-1-stefanha@redhat.com>
-References: <20191205134646.445427-1-stefanha@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 06 Dec 2019 11:42:35 +0100
-Message-ID: <w51muc5vip0.fsf@maestria.local.igalia.com>
+ (envelope-from <stefanha@redhat.com>) id 1idFAZ-0003PC-6V
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:05:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43705
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1idFAZ-0003NN-0F
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:05:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575644722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nWrqnXoXs6MGj2JyXlLNfXNWdIwaB31OYyhVEPLjPc4=;
+ b=hvAJLmL6xwm79Y7g7PkwCTRcVd9V86gH4AXshVvzbIEyC3ynBkz1S7NDNiz348dNrEdofc
+ 3jox6pJOCV83Tr0SUoq8htwpEdgZGHwVp31N0YpnMluwjrvZJtmO+Pxm5DXjgA/MboxnF7
+ h7+vOfHLa9d2LKoFC8GmBGnfkzldgPQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-9e8UrNvUNSilsbD_nt04Hg-1; Fri, 06 Dec 2019 06:04:00 -0500
+X-MC-Unique: 9e8UrNvUNSilsbD_nt04Hg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C84183B703;
+ Fri,  6 Dec 2019 11:03:59 +0000 (UTC)
+Received: from localhost (ovpn-117-102.ams2.redhat.com [10.36.117.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B6595D6A3;
+ Fri,  6 Dec 2019 11:03:59 +0000 (UTC)
+Date: Fri, 6 Dec 2019 11:03:54 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH  v2 6/6] trace: replace hand-crafted pattern_glob with
+ g_pattern_match_simple
+Message-ID: <20191206110354.GA775461@stefanha-x1.localdomain>
+References: <20191205122518.10010-1-alex.bennee@linaro.org>
+ <20191205122518.10010-7-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+In-Reply-To: <20191205122518.10010-7-alex.bennee@linaro.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ikeVEW9yuYc//A+q"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,24 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 05 Dec 2019 02:46:46 PM CET, Stefan Hajnoczi wrote:
-> Only apply --image-opts to the topmost image when listing an entire
-> backing chain.  It is incorrect to treat backing filenames as image
-> options.  Assuming we have the backing chain t.IMGFMT.base <-
-> t.IMGFMT.mid <- t.IMGFMT, qemu-img info fails as follows:
->
->   $ qemu-img info --backing-chain --image-opts \
->       driver=qcow2,file.driver=file,file.filename=t.IMGFMT
->   qemu-img: Could not open 'TEST_DIR/t.IMGFMT.mid': Cannot find device=TEST_DIR/t.IMGFMT.mid nor node_name=TEST_DIR/t.IMGFMT.mid
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+--ikeVEW9yuYc//A+q
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+On Thu, Dec 05, 2019 at 12:25:17PM +0000, Alex Benn=E9e wrote:
+> We already use g_pattern_match elsewhere so remove the duplication.
+>=20
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> ---
+>  trace/control.c | 35 +----------------------------------
+>  1 file changed, 1 insertion(+), 34 deletions(-)
 
-Berto
+Is g_pattern_match() a superset of pattern_glob()?  Existing patterns
+should continue to work.
+
+Stefan
+
+--ikeVEW9yuYc//A+q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl3qNZoACgkQnKSrs4Gr
+c8jUZgf+MiAkREkLubaqfNACn4BUxLHVfI+L2FWBD3i2QJ6npRc/mNdDvSZF9RQM
+yyzSLg2jt25enDILh8KCMrfNlbKXHr1nD8s/so/+MfDoy2V/abzsfbfnIhdUAF5l
+Aeen63hw78vfTHkuGCS9042RPQAPYdQdd/NnYrxEyfzVUnpmHxiUY8WvUSi7Zk+x
+N5ejYKeHtsp3j7PjxhpOtitmf4yT6z76w6JBYICUSbt7I/TuuZcOjMPFWyCyc4t7
+7Qkd47TDYiGgHPrl3AcvuPZcnEguIxaiZw71/eBP2MC/HYPiKx9BR3ALhwGZI3kl
+Zr+M2j8NO327wHaww3WVryIREnoiAQ==
+=7iuc
+-----END PGP SIGNATURE-----
+
+--ikeVEW9yuYc//A+q--
+
 
