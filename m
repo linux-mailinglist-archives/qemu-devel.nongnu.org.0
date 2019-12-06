@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF94D1154CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:04:17 +0100 (CET)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E483115506
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:20:23 +0100 (CET)
+Received: from localhost ([::1]:40634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idG5Y-0003NA-2a
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:04:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45608)
+	id 1idGL8-0005Fu-6c
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:20:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1idF1Y-0003hm-Ea
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:56:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idEyg-0008Lt-Sk
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1idF1V-00011m-Hf
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:56:03 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36258)
+ (envelope-from <peter.maydell@linaro.org>) id 1idEyf-0005G5-KM
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:06 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:43425)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1idF1T-0000zK-Jp
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:55:59 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z3so8114424wru.3
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:55:59 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idEyf-0005EP-8R
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:05 -0500
+Received: by mail-oi1-x242.google.com with SMTP id x14so2821326oic.10
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FD/Gkl8WcCvCcRAxkg2Vj/Km0ssoYdQNd69civUvsNY=;
- b=rWobYaBzJqmLkIkFrA5eMyiDv5QGLzEibM6XsJ01npKypFTPnNbcMitaPvGtmiQogt
- ogK6OwYXXuqsY8NJpqjGpNxGXIPPBiz+iFNNzxYC9EMYuVlLYpBgiLBRU/mLQN+frdBd
- H8Lkkqm8jyNTVbiLcnqLrKaaxx7T0xwr60IcchvJjngjxJ5MjlRGmEvyJBUC8BytOJ3w
- 6Hl2sIe3WID49sW4CIKiLeagLJ8K5oo2lap3BMMIv57PqR7CcgJGq0NrcFyauy4Jm8tu
- huQbHIx7VQN8GM73AY9pVjWEHJ6g8tCnTNm8wQPieX1CZUcjId1i7SwEghYFJ7tJ4/7F
- wDHA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6SeJWuW7smgEfzxeMhKUR3tViJ1MMS3OliKE3zzGKtU=;
+ b=s7UKlPpBZD1y3gEUPUtZSvKlf+9xf3fyBPXTbvolyaLSa3/gXKLvv18JDrNBynJ29X
+ M9VnbeztwyV6mhNSQpvM/AWI35JqfDTE0H2q/kRP6xmZnO78giE7niRuGBrH0uIBoT56
+ yeYghhciwt9trXxFMxfhCO3dkzyZTqTbpoOXDcL3uak5Jwps5TzlgFiVEwLkxBH95Vh2
+ rKq/0soWsRqx3UIntqXNG88V+vHoxG1iYRcoQjh1hAN+To0TxOKTxdjfwtsim2WcMb+r
+ 5i0+LS3K+ZQN2UaYLrAhTPNcuxBt6fpWsP2fmreNyqiWIbSmN6yM05wmF8RXtSLqFTrf
+ 1Cvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FD/Gkl8WcCvCcRAxkg2Vj/Km0ssoYdQNd69civUvsNY=;
- b=RlpUhdhtGQFqv5bb71y2j7fraSxlYGnwdviP12nGP2VFK+bCEnnbHvB85TK8Xsai1T
- lwAct3SOrWJ5enQtWu3S5H9XPz6GQBLa6yioi4DhoIg6r5fEwQeHuCf5oWm2nvKCA/cf
- 6SIXDZjOC9STREI7nCfjRZrdcK7hQyf3ajLmCdnaLoZxztWnG8ZVZmoPqmxiJi+kOvQa
- YlnqpB0bDCv9Mxx6nnya/D1XBdnJs4r2xejhtLTxpdY9sKx4lqv/306zw7ObHW4cPald
- jt/yVhWPfsYkjXa/AMxDrUM9eAWea5OcmWpvr62RS4ttEletrILxWYzB6YS9kyJAzHIS
- KhfA==
-X-Gm-Message-State: APjAAAVLEUVx01Mv6SN+vwUp5Ndu5oksm1KtKnBS9pH4xrnFlhwpqVJq
- jnFK34zx+d+MDOuifELNTiKhs0eppRk=
-X-Google-Smtp-Source: APXvYqxkx0SwWhQUZQbI5bGBGLowxnE0tSC2lFGY8s6O7J/AuvXKgVTBunS8dXesZwKJCtCxqMcLgQ==
-X-Received: by 2002:a5d:6ca1:: with SMTP id a1mr15105563wra.36.1575634975459; 
- Fri, 06 Dec 2019 04:22:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q3sm16242114wrn.33.2019.12.06.04.22.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2019 04:22:54 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 991831FF87;
- Fri,  6 Dec 2019 12:22:53 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: don't bother with id_aa64pfr0_read for USER_ONLY
-Date: Fri,  6 Dec 2019 12:22:47 +0000
-Message-Id: <20191206122247.7507-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6SeJWuW7smgEfzxeMhKUR3tViJ1MMS3OliKE3zzGKtU=;
+ b=iuRIPhW2I9WbOcGZmioU8BHq8cnlQspNA5S2uZUJVjTv1zyW8RPCsVOQmAG70+Vt4y
+ 56dkgNEb+mg7ixjUyKrrmEhOuz+0zyh0ZFMWLvDGvgf0wnkS533LAgwecODGy8shf9kb
+ QIk91sTJxmftJR7HdeGDzii+JuxDmXl3kB5LSWRy7GQwrbaNceMT9fq9C2rs6ScHBgFv
+ oUHfKypFrVUG0x6CY7WmAaUIWBG4yBrrhmjCvcvy48XbQmJ1JQpVpsmoPt9rBbAgH14E
+ ny7fBjbWpMLmwtsZ3HlPSISZWO6LG5LNu6vmyp3UpxJ8Vu1fSWV63hcwpF107hBA4tly
+ QekQ==
+X-Gm-Message-State: APjAAAVQJpRJX8xqJjCntx8PE2wcP3pSQ6d3ONHJ8T1fn3Q6iefKsroD
+ WTwICCqdI4JxMU+ZPjJ3El3IVXE+6dMcuRGc528d9sJ9
+X-Google-Smtp-Source: APXvYqy1yYb6XgF1yeK+H7REH5tkoChDUJ1cNFgFWZI+AySwvrFoOEBeLnw54auwS7gj63wLVpOlCfYehquYJy4l0S0=
+X-Received: by 2002:aca:edd5:: with SMTP id l204mr12369452oih.98.1575637362903; 
+ Fri, 06 Dec 2019 05:02:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-23-richard.henderson@linaro.org>
+In-Reply-To: <20191011134744.2477-23-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 13:02:32 +0000
+Message-ID: <CAFEAcA8AaCOBKSgVrpMxAiEGN0+JmJjJtMY-=M4ed06SAoe69g@mail.gmail.com>
+Subject: Re: [PATCH v5 22/22] target/arm: Add allocation tag storage for
+ system mode
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,72 +73,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For system emulation we need to check the state of the GIC before we
-report the value. However this isn't relevant to exporting of the
-value to linux-user and indeed breaks the exported value as set by
-modify_arm_cp_regs.
+On Fri, 11 Oct 2019 at 14:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/mte_helper.c | 61 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index e8d8a6bedb..657383ba0e 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -28,8 +28,69 @@
+>  static uint8_t *allocation_tag_mem(CPUARMState *env, uint64_t ptr,
+>                                     bool write, uintptr_t ra)
+>  {
+> +#ifdef CONFIG_USER_ONLY
+>      /* Tag storage not implemented.  */
+>      return NULL;
+> +#else
+> +    CPUState *cs = env_cpu(env);
+> +    uintptr_t index;
+> +    int mmu_idx;
+> +    CPUTLBEntry *entry;
+> +    CPUIOTLBEntry *iotlbentry;
+> +    MemoryRegionSection *section;
+> +    hwaddr physaddr, tag_physaddr;
+> +
+> +    /*
+> +     * Find the TLB entry for this access.
+> +     * As a side effect, this also raises an exception for invalid access.
+> +     *
+> +     * TODO: Perhaps there should be a cputlb helper that returns a
+> +     * matching tlb entry + iotlb entry.  That would also be able to
+> +     * make use of the victim tlb cache, which is currently private.
+> +     */
+> +    mmu_idx = cpu_mmu_index(env, false);
+> +    index = tlb_index(env, mmu_idx, ptr);
+> +    entry = tlb_entry(env, mmu_idx, ptr);
+> +    if (!tlb_hit(write ? tlb_addr_write(entry) : entry->addr_read, ptr)) {
+> +        bool ok = arm_cpu_tlb_fill(cs, ptr, 16,
+> +                                   write ? MMU_DATA_STORE : MMU_DATA_LOAD,
+> +                                   mmu_idx, false, ra);
+> +        assert(ok);
+> +        index = tlb_index(env, mmu_idx, ptr);
+> +        entry = tlb_entry(env, mmu_idx, ptr);
+> +    }
+> +
+> +    /* If the virtual page MemAttr != Tagged, nothing to do.  */
+> +    iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
+> +    if (!iotlbentry->attrs.target_tlb_bit1) {
+> +        return NULL;
+> +    }
+> +
+> +    /*
+> +     * Find the physical address for the virtual access.
+> +     *
+> +     * TODO: It should be possible to have the tag mmu_idx map
+> +     * from main memory ram_addr to tag memory host address.
+> +     * that would allow this lookup step to be cached as well.
+> +     */
+> +    section = iotlb_to_section(cs, iotlbentry->addr, iotlbentry->attrs);
+> +    physaddr = ((iotlbentry->addr & TARGET_PAGE_MASK) + ptr
+> +                + section->offset_within_address_space
+> +                - section->offset_within_region);
 
-[AJB: the other option would be just to set reset value anyway and not
-ifdef out the readfn as the register will become const anyway]
+I'm surprised that going from vaddr to (physaddr, attrs) requires
+this much effort, it seems like the kind of thing we would
+already have a function to do.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- target/arm/helper.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+> +
+> +    /* Convert to the physical address in tag space.  */
+> +    tag_physaddr = physaddr >> (LOG2_TAG_GRANULE + 1);
+> +
+> +    /* Choose the tlb index to use for the tag physical access.  */
+> +    mmu_idx = iotlbentry->attrs.secure ? ARMMMUIdx_TagS : ARMMMUIdx_TagNS;
+> +    mmu_idx = arm_to_core_mmu_idx(mmu_idx);
+> +
+> +    /*
+> +     * FIXME: Get access length and type so that we can use
+> +     * probe_access, so that pages are marked dirty for migration.
+> +     */
+> +    return tlb_vaddr_to_host(env, tag_physaddr, MMU_DATA_LOAD, mmu_idx);
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f78dd3b5fe3..489c31504a6 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5867,6 +5867,7 @@ static uint64_t id_pfr1_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     return pfr1;
- }
- 
-+#ifndef CONFIG_USER_ONLY
- static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -5877,6 +5878,7 @@ static uint64_t id_aa64pfr0_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     }
-     return pfr0;
- }
-+#endif
- 
- /* Shared logic between LORID and the rest of the LOR* registers.
-  * Secure state has already been delt with.
-@@ -6297,16 +6299,22 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-          * define new registers here.
-          */
-         ARMCPRegInfo v8_idregs[] = {
--            /* ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST because we don't
--             * know the right value for the GIC field until after we
--             * define these regs.
-+            /*
-+             * ID_AA64PFR0_EL1 is not a plain ARM_CP_CONST in system
-+             * emulation because we don't know the right value for the
-+             * GIC field until after we define these regs.
-              */
-             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
-               .access = PL1_R, .type = ARM_CP_NO_RAW,
-               .accessfn = access_aa64_tid3,
-+#ifdef CONFIG_USER_ONLY
-+              .resetvalue = cpu->isar.id_aa64pfr0
-+#else
-               .readfn = id_aa64pfr0_read,
--              .writefn = arm_cp_write_ignore },
-+              .writefn = arm_cp_write_ignore
-+#endif
-+            },
-             { .name = "ID_AA64PFR1_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
-               .access = PL1_R, .type = ARM_CP_CONST,
--- 
-2.20.1
+Hmm, does that mean that a setup with MemTag is not migratable?
+If so, we should at least install a migration-blocker for CPUs
+in that configuration.
 
+> +#endif
+>  }
+>
+>  static int get_allocation_tag(CPUARMState *env, uint64_t ptr, uintptr_t ra)
+> --
+> 2.17.1
+>
+
+
+thanks
+-- PMM
 
