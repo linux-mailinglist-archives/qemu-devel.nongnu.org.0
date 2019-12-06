@@ -2,131 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EBA115316
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:27:00 +0100 (CET)
-Received: from localhost ([::1]:38430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C822115206
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:09:16 +0100 (CET)
+Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEZO-0003dF-Ny
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:26:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39037)
+	id 1idEIE-0001zl-H5
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1idEKE-00056m-B3
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:19 -0500
+ (envelope-from <aastier@freebox.fr>) id 1idEGR-00014j-0z
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1idEK9-0003sT-9i
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:15 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1idEK8-0003qs-Tw
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:13 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB67bCFK126156
- for <qemu-devel@nongnu.org>; Fri, 6 Dec 2019 02:44:59 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wq9mgqntq-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 02:44:59 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 6 Dec 2019 07:44:56 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 6 Dec 2019 07:44:54 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xB67irah54132856
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 Dec 2019 07:44:53 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 603A3A404D;
- Fri,  6 Dec 2019 07:44:53 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC9ADA4057;
- Fri,  6 Dec 2019 07:44:52 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.185.65])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  6 Dec 2019 07:44:52 +0000 (GMT)
-Subject: Re: [PATCH v2 06/13] s390x: protvirt: KVM intercept changes
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-7-frankja@linux.ibm.com>
- <20191205181532.46bee55c.cohuck@redhat.com>
- <3cdbba69-c465-f2ce-d3e4-15e0b8d1218e@linux.ibm.com>
- <20191205184637.4e6f4d23.cohuck@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Date: Fri, 6 Dec 2019 08:44:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <aastier@freebox.fr>) id 1idEGP-00077t-Ms
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:22 -0500
+Received: from smtpfb2-g21.free.fr ([212.27.42.10]:44602)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <aastier@freebox.fr>) id 1idEGP-0006ym-2J
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:21 -0500
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+ by smtpfb2-g21.free.fr (Postfix) with ESMTP id 032BA42D5E4
+ for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 09:51:16 +0100 (CET)
+Received: from anisse-station.iliad.local (unknown
+ [IPv6:2a01:e34:ec0d:40e0:6c55:3f21:f604:859c])
+ by smtp3-g21.free.fr (Postfix) with ESMTPS id E81C713F85F;
+ Fri,  6 Dec 2019 09:51:08 +0100 (CET)
+From: Anisse Astier <aastier@freebox.fr>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] socket: websocket refresh of max_size outside of poll
+Date: Fri,  6 Dec 2019 09:50:57 +0100
+Message-Id: <20191206085057.15612-1-aastier@freebox.fr>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <157556562680.28471.17998029208459109470@37313f22b938>
+References: <157556562680.28471.17998029208459109470@37313f22b938>
 MIME-Version: 1.0
-In-Reply-To: <20191205184637.4e6f4d23.cohuck@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="c0NYPognakdT0nz1N75LNgytLORUCsQ1V"
-X-TM-AS-GCONF: 00
-x-cbid: 19120607-0020-0000-0000-00000394B751
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120607-0021-0000-0000-000021EBE8CA
-Message-Id: <bc5eb50d-1647-f40a-73b6-53be5445fd85@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-06_01:2019-12-04,2019-12-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 mlxscore=0 bulkscore=0 clxscore=1015 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1912060066
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.27.42.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -138,117 +51,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: Anisse Astier <aastier@freebox.fr>, Julia Suvorova <jusual@mail.ru>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---c0NYPognakdT0nz1N75LNgytLORUCsQ1V
-Content-Type: multipart/mixed; boundary="Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905"
+Because serial backend readiness isn't checked, the socket frontend (in
+websocket mode) would send new characters before previous characters
+were consumed. This lead to skipped characters, or worse, SysRq keys
+being triggered.
 
---Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This patch ensures the readable size is refreshed before consuming any
+data. Normally, this size is refreshed in the event loop by the glib
+prepare io_watch_poll_prepare calling tcp_chr_read_poll; but since the
+websocket reader is a greedy because it needs a buffer to decode the
+websocket protocol, (whereas tcp one ready bytes as necessary), there's
+nothing to read or poll, so the max_size wouldn't be refreshed.
 
-On 12/5/19 6:46 PM, Cornelia Huck wrote:
-> On Thu, 5 Dec 2019 18:34:32 +0100
-> Janosch Frank <frankja@linux.ibm.com> wrote:
->=20
->> On 12/5/19 6:15 PM, Cornelia Huck wrote:
->>> On Fri, 29 Nov 2019 04:48:02 -0500
->>> Janosch Frank <frankja@linux.ibm.com> wrote:
->>>  =20
->>>> Secure guests no longer intercept with code 4 for an instruction
->>>> interception. Instead they have codes 104 and 108 for secure
->>>> instruction interception and secure instruction notification
->>>> respectively.
->>>>
->>>> The 104 mirrors the 4 interception.
->>>>
->>>> The 108 is a notification interception to let KVM and QEMU know that=
+Buglink: https://bugs.launchpad.net/qemu/+bug/1828608
+Signed-off-by: Anisse Astier <aastier@freebox.fr>
+---
+Changes since v1:
+ - style changes
 
->>>> something changed and we need to update tracking information or
->>>> perform specific tasks. It's currently taken for the following
->>>> instructions:
->>>>
->>>> * stpx (To inform about the changed prefix location)
->>>> * sclp (On incorrect SCCB values, so we can inject a IRQ)
->>>> * sigp (All but "stop and store status")
->>>> * diag308 (Subcodes 0/1)
->>>>
->>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>>> ---
->>>>  target/s390x/kvm.c | 6 ++++++
->>>>  1 file changed, 6 insertions(+)
->>>>
->=20
->>>> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
->>>>              (long)cs->kvm_run->psw_addr);
->>>>      switch (icpt_code) {
->>>>          case ICPT_INSTRUCTION:
->>>> +        case ICPT_PV_INSTR:
->>>> +        case ICPT_PV_INSTR_NOTIFICATION:
->>>>              r =3D handle_instruction(cpu, run); =20
->>>
->>> I'm still a bit uneasy about going through the same path for both 104=
+---
+ chardev/char-socket.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
->>> and 108. How does the handler figure out whether it should emulate an=
-
->>> instruction, or just process a notification? Is it guaranteed that a
->>> given instruction is always showing up as either a 104 or a 108, so
->>> that the handler can check the pv state? =20
->>
->> diag 308 subcode 0/1 are 108, but all other subcodes are defined as a
->> 104 (if they are an exit at all)...
->=20
-> I think that's a reason to really split 108 from 4/104, or at least add=
-
-> an parameter...
-
-And still call the diag 308 handler or have separate handlers?
-
->=20
->>
->>>
->>> [Even if that works, it still feels a bit unclean to me.]
->>>  =20
->>>>              break;
->>>>          case ICPT_PROGRAM: =20
->>>
->>>  =20
->>
->>
->=20
-
-
-
---Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905--
-
---c0NYPognakdT0nz1N75LNgytLORUCsQ1V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3qBvQACgkQ41TmuOI4
-ufgMNg//d+bd7vdGBpWsOfUnPg+NLTA/rfwR09aklwsUPY8oFxAcFUIyKWo3U0df
-F/u3cXVNU6Sz4j2YnJtJtLUImGpg00BcxYjP2S8nC0n54TiepdQaIUE4t6hMWV+s
-BZjuaOCruRed5W8Z5U5/cKzBgHfVWUpFCFG1oVCJjddvI9jjE1qQYtL40TXH/MPF
-puHw/TqybC1g8FQdd2208ZiT7KPM1Q2z4/Cxr/kxpSl+qoxNEcxrr4Bhqbbgmq9t
-JTyDpDc7mj3DkO3uf2tzUl9MFF/t5WRNS0QgUyWkxERMnGr0fiYKicq9BXlcqKco
-Jcyvm9HcwI9UKe9v0F9E69ZT+hj7G7DhgQyKTIwHMvW64dP/OWW62teGCYkLPqHW
-7Bn9mW7BkF36UTlmj97tSDEBtna+CiyLpcSrGkn2/6FGNm+6NaklI43pPSrud+Zx
-QRRAwP/WTIUtOH6+MoZwb2HtrqEUbETR16KwlokbyKBThRBTJVzgzdv3GifMtxAr
-m+KQh9PohPdq3/eGr8REFXkZ0vTfSiONup+y52bb3p8t5Atfv3nLf3HW+KnMydbf
-HHilfg7xW5xybG82JEeRuxXde7ismwpWOwSsBg0yaOBGdG7fWhVy2tLDeLd+kE1S
-gVXhwG4kdFzmv1pZdVMGkVnvC8fgsygdfLjDNZSgngt7aQ5kyNs=
-=iwoP
------END PGP SIGNATURE-----
-
---c0NYPognakdT0nz1N75LNgytLORUCsQ1V--
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index 185fe38dda..9267ecd813 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -505,6 +505,9 @@ static gboolean tcp_chr_read(QIOChannel *chan, GIOCon=
+dition cond, void *opaque)
+     uint8_t buf[CHR_READ_BUF_LEN];
+     int len, size;
+=20
++    if (s->is_websock)
++        /* Buffered greedy reader needs max_size refresh */
++        s->max_size =3D qemu_chr_be_can_write(chr);
+     if ((s->state !=3D TCP_CHARDEV_STATE_CONNECTED) ||
+         s->max_size <=3D 0) {
+         return TRUE;
+--=20
+2.20.1
 
 
