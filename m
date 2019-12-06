@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D37211544E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:33:09 +0100 (CET)
-Received: from localhost ([::1]:39790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EFF115493
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:48:54 +0100 (CET)
+Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFbP-0001MN-Ob
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:33:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
+	id 1idFqe-0002x8-Pv
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:48:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idElG-0000jr-OD
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:15 -0500
+ (envelope-from <philmd@redhat.com>) id 1idElH-0000kW-24
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idElF-0001g6-Ni
+ (envelope-from <philmd@redhat.com>) id 1idElF-0001gP-Tq
  for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56717
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29964
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idElF-0001f3-I1
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idElF-0001f7-Pl
  for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1575643153;
@@ -27,61 +27,61 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BD3MBsApZdbLjVhY88oByKqTwig01lY+pShh5BN2nQY=;
- b=AK+EfdtpeJd7cCRH9Q9g1LLQcVOcYPbhjE1dDJQE3OfGWTtSDcxY/jHQj3jNbAZKd/7DxD
- WijnkFjFdsU9DX4aVg1d9QVX4WEQChsv34fydlvwGUyQiJLwWuyvLg2kR/velvzndiFt++
- sescuEPt6awxIEl21VYWVdRKVrOWIoE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-_XY1jxagNourDmICCMG4og-1; Fri, 06 Dec 2019 02:37:25 -0500
-Received: by mail-wr1-f72.google.com with SMTP id z10so2740304wrt.21
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:37:25 -0800 (PST)
+ bh=24TZiEsa9WFToT2V3ewXUqAU8uyhbYVoZ91o2XZUhdc=;
+ b=MurRmRCfydG1p/lO24PY4vdJev3nHi2Kna1gmRwayyyABcSl5qmQdddrdWrGE88wYHIqa2
+ U/rLdPFH7zXWSKtargYtYdJrOx9yIHhofsL35k+qmdloastdkwNGGMTRzORbglV2cj3EPr
+ LOTKG1BptvvnWfRgP9vJhDc2yOYzdwQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-tchFe7fzOU6nnCdU1yojJg-1; Fri, 06 Dec 2019 02:37:51 -0500
+Received: by mail-wr1-f69.google.com with SMTP id f1so763321wre.14
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:37:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=m6W4GPhOHU0j0xY74XYrn/FdUC7TulYK/8eXNRujc3k=;
- b=mQx4SDBVT7nXWDcgVdVuH0oTR00OrhEcD9xX9tnBDe2VaFpwkIhtPcJCEYOfuNXamP
- 8bG6nHAizLqXDXwcH/5wH9fw1G9ILJ9IDkb4tN5rbXz7L9lxUhTpzzXf7kTjtUlBrY2Q
- 5XUqV7QRkPLmFnkPp3WHw210tD5HE2IBEIAY6oXYjl21xLtuf0J7lHsuAtGrzihpRwAv
- 3HEF95Ym4lvDhdH6uTCsu0EKJC7tYPTUi+p5Ktc+nbuIqX9UMCnT2/hY7YB2uNw/3cFc
- CNfjtnjE4F2VAda9BpCmDzREcpx/Ldw7cQwkQPFaKfcfvpNtgMj4Q/1L1vRqG3qczT7G
- vuow==
-X-Gm-Message-State: APjAAAUUT9aR/BfE7QVlbjkUUCG6cFq5YOLP/1Q7YyYmLfeH1l32iDZC
- Hc+RbKL/3jEobDYF1Z/STHZSYCftPFTqJNo/gv7r8ouwECmAGPELVbmi/VJ8GUOvWV7lHAMHY0m
- Dn0HaigwO51lZC74=
-X-Received: by 2002:a5d:6a02:: with SMTP id m2mr13629770wru.52.1575617844708; 
- Thu, 05 Dec 2019 23:37:24 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyXKaeV1LQaDroAt9qu+kC1qm/NbiBGMCBwHKNFYfuKkqNMqzMBFXzu53iLMOcbCnU4dLLMWg==
-X-Received: by 2002:a5d:6a02:: with SMTP id m2mr13629753wru.52.1575617844554; 
- Thu, 05 Dec 2019 23:37:24 -0800 (PST)
+ bh=nx12kXObBCGl7RyZwIueYAz7xt4q+2T+2o6nn0LvO8o=;
+ b=G4DiAbPtlW8KodhSFTWSID5FJM+eENK1iOQW5XAADuZcLy0l7YLCHwKYtmzs8Dvwra
+ ZYRZBGQ54AjLPq9BdnlcAbt07UayqlCQNz4+STcYd5fV/i+BrgsvQ+PqOGkruO/XCNT4
+ bZeDwX0Jh8IHcaI14l09/mi4hXSt6650HP0haRiMkgKK+VDd78RT9rkfv6Xu+wxVfCAa
+ GX8V3Ze1VBjXm5hBjqvmcZLdM8dEyNVesITr+DLMKozBdZomCCLj0JG9Rh+9uIzHKEQi
+ p4MBj+hHZNycmW0DK6LFW+mJuDu2OhUYDAvUjx5e4skS3TLelUPzhX3n2cv95LtMjwra
+ WnaQ==
+X-Gm-Message-State: APjAAAVp7x4IcS4JKqRF6v/m8j9mnlwAaAR6b7fjqSqf7EZFXs84erGE
+ qy2Vnq7YruO4M9MXkkaWhuNTQ6xtt1baKYrS2RKQV2PSXO/8KeHZv/cB1MFGSGnFtXXeDvE3hGf
+ 8T6am3vdBpnh3YCc=
+X-Received: by 2002:a1c:6086:: with SMTP id u128mr8950843wmb.131.1575617869021; 
+ Thu, 05 Dec 2019 23:37:49 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwOKN1MrAniCQ0BxbraqhRuAwNxb9CwjVKPYIKA0+2+7t1HGR/++KV4s6kleb4bYc1ZpFUYFQ==
+X-Received: by 2002:a1c:6086:: with SMTP id u128mr8950823wmb.131.1575617868831; 
+ Thu, 05 Dec 2019 23:37:48 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id d12sm15144043wrp.62.2019.12.05.23.37.23
+ by smtp.gmail.com with ESMTPSA id o1sm15452959wrn.84.2019.12.05.23.37.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 23:37:24 -0800 (PST)
-Subject: Re: [PATCH v8 13/21] monitor/qmp-cmds: rename Error ** parameter to
- more common errp
+ Thu, 05 Dec 2019 23:37:48 -0800 (PST)
+Subject: Re: [PATCH v8 14/21] hw/s390x: rename Error ** parameter to more
+ common errp
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-14-vsementsov@virtuozzo.com>
+ <20191205174635.18758-15-vsementsov@virtuozzo.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <755fb698-0da9-664d-93d2-25240a6db62d@redhat.com>
-Date: Fri, 6 Dec 2019 08:37:23 +0100
+Message-ID: <f9c61820-9ae7-e197-fa24-d28e29140866@redhat.com>
+Date: Fri, 6 Dec 2019 08:37:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191205174635.18758-14-vsementsov@virtuozzo.com>
+In-Reply-To: <20191205174635.18758-15-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-MC-Unique: _XY1jxagNourDmICCMG4og-1
+X-MC-Unique: tchFe7fzOU6nnCdU1yojJg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,32 +93,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ armbru@redhat.com, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 > ---
->   monitor/qmp-cmds.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/s390x/event-facility.c | 2 +-
+>   hw/s390x/s390-stattrib.c  | 3 ++-
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 0880341a2d..c6faa3eaf0 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -109,7 +109,7 @@ void qmp_system_reset(Error **errp)
->       qemu_system_reset_request(SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET);
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index 66205697ae..dc733ee2af 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -439,7 +439,7 @@ static void sclp_event_set_allow_all_mask_sizes(Objec=
+t *obj, bool value,
+>       ef->allow_all_mask_sizes =3D value;
 >   }
 >  =20
-> -void qmp_system_powerdown(Error **erp)
-> +void qmp_system_powerdown(Error **errp)
+> -static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **e)
+> +static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **err=
+p)
 >   {
->       qemu_system_powerdown_request();
+>       SCLPEventFacility *ef =3D (SCLPEventFacility *)obj;
+>  =20
+> diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
+> index bf5ac014c4..58121b9f68 100644
+> --- a/hw/s390x/s390-stattrib.c
+> +++ b/hw/s390x/s390-stattrib.c
+> @@ -352,7 +352,8 @@ static void s390_stattrib_class_init(ObjectClass *oc,=
+ void *data)
+>       dc->realize =3D s390_stattrib_realize;
 >   }
+>  =20
+> -static inline bool s390_stattrib_get_migration_enabled(Object *obj, Erro=
+r **e)
+> +static inline bool s390_stattrib_get_migration_enabled(Object *obj,
+> +                                                       Error **errp)
+>   {
+>       S390StAttribState *s =3D S390_STATTRIB(obj);
+>  =20
 >=20
 
 
