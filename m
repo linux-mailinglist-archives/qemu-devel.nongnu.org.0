@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628C31153C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:00:29 +0100 (CET)
-Received: from localhost ([::1]:39206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A561153CF
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:04:10 +0100 (CET)
+Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idF5o-0006ww-65
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:00:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
+	id 1idF9N-0002ps-45
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:04:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1idEUz-0008Ge-5B
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:26 -0500
+ (envelope-from <catherine.hecx@gmail.com>) id 1idEVI-0000DW-Dv
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1idEUx-0003UP-NT
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:24 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51345
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1idEUx-0003RY-IH
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575642142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q0gkfWYjg7Crj9Rrs7Gv6tjjYi4fzalonsqr68l03TI=;
- b=Pqmj7FzTwuFSEAFEuqrqItKT/nQlSLFpqfdE1+kFfuoXw19eNz2JLMx3me3pcQQ/5wxVd5
- Q7FABhQOhSNuxbXDe7O/DXG4zUPw/9JfaGPWkVsafZf6DLKspkZu3jvfG/uYn2oPsmVT0O
- AXsj2c8W/h3g+35uOpSwPqjtKKhmsc8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-sidkLSpWMQ6ATc67e8_CcA-1; Fri, 06 Dec 2019 05:21:43 -0500
-Received: by mail-wm1-f70.google.com with SMTP id f4so1696224wml.0
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 02:21:42 -0800 (PST)
+ (envelope-from <catherine.hecx@gmail.com>) id 1idEVF-0003yt-VA
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:43 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40040)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <catherine.hecx@gmail.com>)
+ id 1idEVF-0003w1-Cb
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:41 -0500
+Received: by mail-ot1-x342.google.com with SMTP id i15so5907959oto.7
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+8cUyT1Lf+4L8XZshnnb3bBeNvCQNOiW1dT/SRoEk8g=;
+ b=t/kAR8owd+iRH0RQaZpGRqIj9UiatUZlb1TwI917jUpOOYVUQXPJitnior+gS9MBKF
+ 3aMWCk/7qZKq0YBF6blMcWZITPu5hkfDS8miw3f0ZPBjQRlhSLTqbriWWlxpPRsZwM8T
+ z+efisOMoWCbHDXniczObHqUBRxVf6fgK0ewka/V21z+53gOuHRpXj+qj6KYBJOtBYMc
+ 5mFMW8cPjLJ2F2h5fhNE9FeP7FLEFlGyvcG4NBzAnGMnkcXwmvkhwLeCzslCMnvbfr61
+ nLniwh0WTM8zsoK/eJeHcO3JSjc/d2tf2w2nwhwIXIlLOcVG74u+8sLwkF2zn54p7xhP
+ M0mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q0gkfWYjg7Crj9Rrs7Gv6tjjYi4fzalonsqr68l03TI=;
- b=Nz3PrKPPmbFSNZ1t7MIfIDIARyHMUNxIk2B8/hSQgDmjHhSor4XLtIAUByCmvN5SVW
- z382ZudMZNjnr8jHkYZ0FFductopyGqFnbef+aPKIT0SA1P8/605KVDWTqTnCuAe9udJ
- HJYEFQt14K5hYHoh3puzqAj2pjm0hS4MDcCssQBZ5PX2sW24ebDpiI8MpNreNVk2p+Ad
- wBB8HES/+L0D2Vf3pou2UmgfjL/tkx3Sy7leqEX3tYrl1USQzK7M7oetbtM8mKT1swbg
- Lw34rou4h8ex7UXyQxslfDDbbUZ6dADuBMpO+kNfhaQEZoAkmlYe6PQfU0OM5Hcob4Rj
- U3kQ==
-X-Gm-Message-State: APjAAAXdO6vmX77HKZaQzNoMhy4btP2RifvM9WF4MRim5GcsUKCFxid4
- mOs+6UuKJC0Z3XdzQBwQjG8W31x0hAMnN+xV/82FQlDuiDdFGdn7KI6DMSVs01xnAt23xS22rBh
- 4lEns/qEnYQkl/FI=
-X-Received: by 2002:a1c:1987:: with SMTP id 129mr9600477wmz.112.1575627701943; 
- Fri, 06 Dec 2019 02:21:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz5ot1DS3sYMRZ3ysh0ualBcHa7bQBUul++3lSzxuejGkOBd3KaowNNIika3BMqGYQbkxOzJQ==
-X-Received: by 2002:a1c:1987:: with SMTP id 129mr9600455wmz.112.1575627701767; 
- Fri, 06 Dec 2019 02:21:41 -0800 (PST)
-Received: from [10.201.49.168] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
- by smtp.gmail.com with ESMTPSA id v20sm2933072wmj.32.2019.12.06.02.21.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 02:21:41 -0800 (PST)
-Subject: Re: [PATCH 3/3] hw/pci: Remove the "command_serr_enable" property
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20191205160652.23493-1-thuth@redhat.com>
- <20191205160652.23493-4-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8d71b68b-ac66-46ed-b9d6-e54d40b7cb88@redhat.com>
-Date: Fri, 6 Dec 2019 11:21:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+8cUyT1Lf+4L8XZshnnb3bBeNvCQNOiW1dT/SRoEk8g=;
+ b=NusiJLVEeHu+Zmd3xtJzeLeTVpDsqeH/qQFoyQXjR3maQemdEzmRXvvaOxbck62RDf
+ 1uxV4t/4ruYv5Y1e9eB1OqjvFTr2wfsd9I4wLyygYAEgYmNZQQK2+/a+w+AcpuLe7j1h
+ 9/bH1UFa4Hl5Dxhh+5yVeyjVJEnrOUpalUveQa8XqQSTRMNuEOTRQ9k7tVBBhg6xkJcG
+ J5+uMM4ZK7kJgnvarpbj5K7yrOB5m2CDUyhrqaAtqUgHqnMxpQ1MVCBhmEc0QjPEn4Fw
+ Hkx5E6LgN6vH+3yiKW4zl/JaoR8v8qLy+afWm34B17YcjPzUYl2rJfODqz+La0GhFQ4N
+ k5Nw==
+X-Gm-Message-State: APjAAAWpbKqKWusD1mrZFBKZDp5MVnXjz4Muv4Qbb6hdXY5JgHN2tYAQ
+ HY/03nhSQ1Tsa7FWuk8LVXGuAQgaZiN5UCQCAFCCdeZU
+X-Google-Smtp-Source: APXvYqzvfujyFtYr5PZKgG2pftw8UMeLLVW5w8N1lQaid36Y//Wlghf0dxDXMCl2MuIcHlIM61+AXw4qGIDY2vXAwUU=
+X-Received: by 2002:a9d:674f:: with SMTP id w15mr440865otm.243.1575628123545; 
+ Fri, 06 Dec 2019 02:28:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191205160652.23493-4-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: sidkLSpWMQ6ATc67e8_CcA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
+ <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
+In-Reply-To: <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
+From: Catherine Ho <catherine.hecx@gmail.com>
+Date: Fri, 6 Dec 2019 18:28:32 +0800
+Message-ID: <CAEn6zmGDOsOx7yG42MJxLMUAVUtKH2f8vjLLO5txZ=kUb-QpyQ@mail.gmail.com>
+Subject: Re: [PATCH] target/i386: skip kvm_msr_entry_add when kvm_vmx_basic is
+ 0
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,28 +74,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/12/19 17:06, Thomas Huth wrote:
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index db75c6dfd0..5b6ebd15c6 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -174,9 +174,6 @@ enum {
->  #define QEMU_PCI_CAP_MULTIFUNCTION_BITNR        3
->      QEMU_PCI_CAP_MULTIFUNCTION = (1 << QEMU_PCI_CAP_MULTIFUNCTION_BITNR),
->  
-> -    /* command register SERR bit enabled */
-> -#define QEMU_PCI_CAP_SERR_BITNR 4
-> -    QEMU_PCI_CAP_SERR = (1 << QEMU_PCI_CAP_SERR_BITNR),
->      /* Standard hot plug controller. */
->  #define QEMU_PCI_SHPC_BITNR 5
->      QEMU_PCI_CAP_SHPC = (1 << QEMU_PCI_SHPC_BITNR),
+Hi Paolo and Eduardo
+I digged into the put msr assertion bug a little more, and seems I
+found the root cause.
+Please have a review.
 
-I think it's okay to keep this enum.
+Best regards.
+Catherine
 
-Paolo
-
+On Fri, 6 Dec 2019 at 18:25, Catherine Ho <catherine.hecx@gmail.com> wrote:
+>
+> Commit 1389309c811b ("KVM: nVMX: expose VMX capabilities for nested
+> hypervisors to userspace") expands the msr_based_features with
+> MSR_IA32_VMX_BASIC and others. Then together with an old kernel before
+> 1389309c811b, the qemu call KVM_GET_MSR_FEATURE_INDEX_LIST and got the
+> smaller kvm_feature_msrs. Then in kvm_arch_get_supported_msr_feature(),
+> searching VMX_BASIC will be failed and return 0. At last kvm_vmx_basic
+> will be assigned to 0.
+>
+> Without this patch, it will cause a qemu crash (host kernel 4.15
+> ubuntu 18.04+qemu 4.1):
+> qemu-system-x86_64: error: failed to set MSR 0x480 to 0x0
+> target/i386/kvm.c:2932: kvm_put_msrs: Assertion `ret ==
+> cpu->kvm_msr_buf->nmsrs' failed.
+>
+> This fixes it by skipping kvm_msr_entry_add when kvm_vmx_basic is 0
+>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Catherine Ho <catherine.hecx@gmail.com>
+> ---
+>  target/i386/kvm.c |    7 ++++++-
+>  1 files changed, 6 insertions(+), 1 deletions(-)
+>
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index a8c44bf..8cf84a2 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -2632,8 +2632,13 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+>                                           f[FEAT_VMX_SECONDARY_CTLS]));
+>      kvm_msr_entry_add(cpu, MSR_IA32_VMX_EPT_VPID_CAP,
+>                        f[FEAT_VMX_EPT_VPID_CAPS] | fixed_vmx_ept_vpid);
+> -    kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
+> +
+> +    if (kvm_vmx_basic) {
+> +       /* Only add the entry when host supports it */
+> +        kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
+>                        f[FEAT_VMX_BASIC] | fixed_vmx_basic);
+> +    }
+> +
+>      kvm_msr_entry_add(cpu, MSR_IA32_VMX_MISC,
+>                        f[FEAT_VMX_MISC] | fixed_vmx_misc);
+>      if (has_msr_vmx_vmfunc) {
+> --
+> 1.7.1
+>
 
