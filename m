@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25825115492
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:48:52 +0100 (CET)
-Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0D811549A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:50:48 +0100 (CET)
+Received: from localhost ([::1]:40100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFqc-0002qe-HW
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:48:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1idFsU-0004yC-Ly
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:50:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47935)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1idEt9-0000O0-FL
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:24 -0500
+ (envelope-from <eblake@redhat.com>) id 1idEx3-0005QI-I4
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:51:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1idEt6-0003kr-TJ
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:21 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:41811)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1idEt6-0003dl-9X
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:20 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id ca19so2832436pjb.8
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:47:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ou2NIgpCqpSNreFVd54xN+SCEb16nwgso+pX/SawtfY=;
- b=Fd8OvthmQkw/GsY6S905ylcQrpZ884BcwuhMOHSNo3zAU6sVr6aJsKGQ6sTxDKHTvM
- pTMYt8b9JFDOSQq26xLJGTitsjohWxFB2O27kHIUvIvxtR/WXWcCTR4dasGUkm6BdFa7
- zfwh2dx0/R4YnOQNj59d3zlRuMs6G04Wz1jDAMSaja33x4jxctSgQrykxGQcz2+nACgp
- sgnPomnHoj0w0624Q67w8RnJdMejqRWI8ymO+s+BLS9Y78pV7ru8KIImDlY6l+AGD9nn
- XF4+wSFsllcXoge+1N7BtZ0gFeSF05PdEcCLO/pFKg1N5slAFOaFvUOpIsa5PWeGDHgR
- lRZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ou2NIgpCqpSNreFVd54xN+SCEb16nwgso+pX/SawtfY=;
- b=tyCXtm3d/KnV3uad1Amo75t2j3GL+E8mf897BFz9UVWlZcupSUZQ4Qxg3TYljbn0wv
- XSVPYwcpECQ2ISo0VXRoLIRj+oOjGVbuPQD+PN9Hp33Gp+/S3JGD3IC75OdG6kmU2X2M
- WkmY5suSsYQAPRDfAHfIoAT4/GtIqUm+FFD3FbjtiPi2i9Q+XHDH6+cIsBsZh9OTKtea
- XfiUnR5k2FhUipP4svn5pa7u27ytb0zmEBKSXCsTlOiQQDzaHN96qG6ud6vlZkPUXBbc
- LTGtaKR35eh894TY01xqP2Srg4bu3IAwv/RIp+aECtY0CagFti2aN93Ftlint1dum72S
- pbBw==
-X-Gm-Message-State: APjAAAVdbXhRS7C1wBCrwPAYTPU2ta03kBKN2hy7B0uYsjHwmGRVVfdF
- vHURUkos3rLKzoT86/rsYMchRg==
-X-Google-Smtp-Source: APXvYqxLD0LwUBKhDzrDEj45ePVTacM/K10xf/6cqmiMz3a6bF5fvPqlELND7WgSc9RRnQLi/CLk6Q==
-X-Received: by 2002:a17:90b:f06:: with SMTP id
- br6mr2226536pjb.125.1575643628749; 
- Fri, 06 Dec 2019 06:47:08 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id a22sm17794578pfk.108.2019.12.06.06.47.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 06:47:07 -0800 (PST)
-Subject: Re: [PATCH v5 03/22] target/arm: Add MTE system registers
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-4-richard.henderson@linaro.org>
- <CAFEAcA8_SQ6ugs360PJD58547mmZY1yu5xb=Fq0P006HJ1yGRA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <597e1b27-24df-164e-d289-f8d8bb69f0c3@linaro.org>
-Date: Fri, 6 Dec 2019 06:47:05 -0800
+ (envelope-from <eblake@redhat.com>) id 1idEx2-0001qn-Ay
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:51:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53676
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1idEx2-0001py-75
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:51:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575643883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MEwE8pL9dFFmbHzly4cgPXrxw1npkuiParZRs2foA1k=;
+ b=fvOOa8V0r49tPOa7nfvxqHfv5SlCQ9VeAcrFuRCKAADqJwCg59uendPcUPTMEC/j6DTlQl
+ JvspQU3ndgxcJBLYlbLGXdn/oohudZ5147Qur+qVSvmKgfNyKRAs7B904r5vo7RfQFBzPm
+ Zpya7GS6r8KxFleMlnADkJLu7LaJZo8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430--KjZt7VqNOuUylpXa9WIlw-1; Fri, 06 Dec 2019 09:51:20 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 785A918AAFAB;
+ Fri,  6 Dec 2019 14:51:18 +0000 (UTC)
+Received: from [10.3.116.171] (ovpn-116-171.phx2.redhat.com [10.3.116.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B412B19C7F;
+ Fri,  6 Dec 2019 14:51:15 +0000 (UTC)
+Subject: Re: [PATCH] qapi: better document NVMe blockdev @device parameter
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191206143811.3777524-1-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <fa41baea-5b86-192d-97ed-6f13caf2fdfa@redhat.com>
+Date: Fri, 6 Dec 2019 08:51:15 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8_SQ6ugs360PJD58547mmZY1yu5xb=Fq0P006HJ1yGRA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20191206143811.3777524-1-berrange@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: -KjZt7VqNOuUylpXa9WIlw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,40 +75,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/19 3:48 AM, Peter Maydell wrote:
->> +    { .name = "GMID_EL1", .state = ARM_CP_STATE_AA64,
->> +      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 4,
->> +      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = GMID_EL1_BS },
-> 
-> This should trap if HCR_EL2.TID5 is 1 (since we're adding
-> support for the TID* ID reg trap bits now).
+On 12/6/19 8:38 AM, Daniel P. Berrang=C3=A9 wrote:
+> Mention that this is a PCI device address & give the format it is
+> expected it. Also mention that it must be first unbound from any
 
-Done.
+maybe s/expected it/expecting/
 
-> So, aa64_mte_insn_reg here is checking for ID_AA64PFR1_EL1 != 0
-> ("instructions accessible at EL0 are implemented")
-> and aa64_mte is checking for >= 2 ("full implementation").
-> I think a couple of brief comments would clarify:
+> host kernel driver.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>   qapi/block-core.json | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 0cf68fea14..fcb52ec24f 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2963,9 +2963,13 @@
+>   #
+>   # Driver specific block device options for the NVMe backend.
+>   #
+> -# @device:    controller address of the NVMe device.
+> +# @device:    PCI controller address of the NVMe device in
+> +#             format hhhh:bb:ss.f (host:bus:slot.function)
+>   # @namespace: namespace number of the device, starting from 1.
+>   #
+> +# Note that the PCI @device must have been unbound from any host
+> +# kernel driver before instructing QEMU to add the blockdev.
+> +#
 
-Done.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> (The other way to arrange this would be to have the 'real'
-> TCO regdef in mte_reginfo, and separately have "reginfo
-> if we only have the dummy visible-from-EL0-parts-only
-> which defines a constant 0 TCO" (and also make the MSR_i
-> code implement a RAZ/WI for this case, for consistency).
+Doesn't affect code, but similarly no reason to hurry this into 4.2.=20
+5.0 and qemu-stable (cc'd) is good enough.
 
-Done.  I agree this is a better way to treat the EL0-only case...
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-> An implementation that allows the guest to toggle the PSTATE.TCO
-> bit to no visible effect is architecturally valid, though.
-
-... because this could turn out to be slightly confusing.
-
-
-r~
 
