@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77C41156C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:50:13 +0100 (CET)
-Received: from localhost ([::1]:42530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A5E1156C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:53:08 +0100 (CET)
+Received: from localhost ([::1]:42592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHk4-0000YX-BH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
+	id 1idHms-0004g5-5V
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:53:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idFyl-0006P4-Go
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:57:17 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idG54-0004Uh-MW
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:03:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idFyk-0000ir-Gu
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:57:15 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38073)
+ (envelope-from <peter.maydell@linaro.org>) id 1idG4u-0007em-9m
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:03:46 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42490)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idFyk-0000ga-82
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:57:14 -0500
-Received: by mail-oi1-x242.google.com with SMTP id b8so183414oiy.5
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:57:14 -0800 (PST)
+ id 1idG4u-0007bv-22
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:03:36 -0500
+Received: by mail-oi1-x241.google.com with SMTP id j22so180484oij.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 08:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g42y1xdNTGbwMgFf8iqh+p4XHfktr+cR3cfNR6JRJdo=;
- b=y+FvN7RT6lUSWta2MvoN/MLXzz8YZrZPW0ChJFsVYtq53oZT2f6I4xxMoSYXlU0smk
- pAyBDzivAOoCACZ6bDCcbGp+Nn4Lf96bGtgZ2wAyej8+6W4xbzrjPUcUeUhqLOR9Auc0
- ZDthYUM9/e8/WgrIzPXLr7u6BbT6+6g5ULGDPkykYC6VAAUTE9x3QfwmUrooAVpyfwaJ
- 1qjY0gLDBTdHwaGwh2i9JskdHS1yLay8vtgqn2/000fSgmsL4Qbs3wFnwCNLx8wY7aYC
- b30UqmvX/uUHq8UpF15Py7KRvhATwOxZW+U3K/mHbLVdCfknM2b5XN9Ve3UlyNu+ZaAq
- K2uw==
+ :cc; bh=/3qphMSD38MJXn8egu9CnmdRqqpFh29hxyNYcY2z0yQ=;
+ b=LtDbZL0XsDxjqicTeVSzjfOBjpzJgA14CI5n+SFQUEBEHeCwPlRptmzB6HJsGZ/osD
+ 3uIso6Z7ioseIBUif3ZQMkAKIneWSeriUHIb61zWuoRSD+uTiaBIjBc8aFKT+mqPF/e/
+ 9HMs71c2Rmi/sTwta7XRiRuE7lxpQcjInN5NlFpFzuoE+2MnbOuuTqeVJqyil3LX/n7V
+ M6oTlIKeqV1dJIa8LtxtbcJeHDCjVnGvugB0tMCaAdAGD3MKLp4V1Us53fyeddlw5FeI
+ DqATJFGefU2nqW452V4rRGcRnQAXJ6FAEY/IjpeLKgjfizyFcz5LsxPNT4IUUgqiGjh8
+ N8xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=g42y1xdNTGbwMgFf8iqh+p4XHfktr+cR3cfNR6JRJdo=;
- b=HjHh53oRRdBZoSfQbYx/mL0HmnL2+kyL+xQY+iaVtCV8xYVkGMuBO//T6M3AFEh9Wk
- e1CXd5+LaVCvp0clycb5VrqSJWKE6vaFqDF9B41FnUKQ1QQAY3/dqU3L1/qhBcPumDbZ
- lFMWoHp4CGhLx7jwshWVFy9X7jLYjVtr7oyk2/JcgTd3T50RO3e2iB15ePFDw1AAz7Dz
- TozpDLSn0uRDOaE2p8harPYvbI7DTNl6mK/k/UghmvwAm1FLkQJCNtuyAJTn7TWY2MA+
- A9T2V+E+5yMljo/ATEVO0CVXg/+2emoYn+DOdTYHA3W+jHL9wNZohZIn4LDiapD45maC
- 4+3Q==
-X-Gm-Message-State: APjAAAVYy8jSYOyjKaK3uKYOjQbLhPXHzDBKprjuak2scpUS/w17iV1T
- 12sDvnaLaEVtERYRhOFM45SmRZpQyGvpNGUj3xZXgw==
-X-Google-Smtp-Source: APXvYqx4IW/HPd+6r7c52DGFJJlvNXCKOKkeHklkVBJcXffxgHvKqFY1FAc/c/lYOqwos3pka18yH8C5/LBdBIzuDGQ=
-X-Received: by 2002:aca:edd5:: with SMTP id l204mr13174595oih.98.1575647833534; 
- Fri, 06 Dec 2019 07:57:13 -0800 (PST)
+ bh=/3qphMSD38MJXn8egu9CnmdRqqpFh29hxyNYcY2z0yQ=;
+ b=ub0zlPQE/87fGJYbpnuNKhN43Up4BqYxgOHW1Z8f8DZdqF8yMvCUbIm8yCoxAHL+4U
+ ux8M4tAH0KFdInDxut/BSZhEZetQJgP4V2grqSvRzMWDet0HcTJFVor71FIKvvDgIFJq
+ gVLGIe+fLNT5MqX2r/UwpkxPMFvni861ao4EAWfkTn6szE1nXLM11FNxmDJ9bqChrodr
+ ajjNfHvmTtyJsNu74Lhvmd7KTRuHVyHfGndewu1H5Wph6q3K0H7LMYMmRzjceDdf1tJf
+ Uar3uyae3lYPsvr6m2qr27UThoppyZWllXT6H0bjb0QDI4CtylWI/yKwb5hELD3ywvLk
+ 3XwQ==
+X-Gm-Message-State: APjAAAVWWZh/djc9P37KQbAfaDfvkiS3LAAodlHVFiAr5uReyNGV5B73
+ kANCgxCwC47sCnMG6ry2dYYOyzgO9BBuvv2+U3kHZg==
+X-Google-Smtp-Source: APXvYqyYHJ3BqpWOqLYg7KeJMqh0830TrWV+70OZWemg1PZ8FHy6fzj0qo+h+arEtl62vszCFEcH4snAJv1EZCDroBA=
+X-Received: by 2002:a05:6808:996:: with SMTP id
+ a22mr12294467oic.146.1575648215104; 
+ Fri, 06 Dec 2019 08:03:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-41-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-41-richard.henderson@linaro.org>
+ <20191203022937.1474-36-richard.henderson@linaro.org>
+In-Reply-To: <20191203022937.1474-36-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 15:57:02 +0000
-Message-ID: <CAFEAcA8iMOrUdNc5onHHR8_mvqcOC1M17QYXBr5bn_g_DF8e+A@mail.gmail.com>
-Subject: Re: [PATCH v4 40/40] target/arm: Raise only one interrupt in
- arm_cpu_exec_interrupt
+Date: Fri, 6 Dec 2019 16:03:24 +0000
+Message-ID: <CAFEAcA_DmXG2QJsLCu_gYSCYVCQ4xr1hPkEbfpVXMTZe_wnb6Q@mail.gmail.com>
+Subject: Re: [PATCH v4 35/40] target/arm: Update arm_cpu_do_interrupt_aarch64
+ for VHE
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,16 +82,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 3 Dec 2019 at 02:30, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> The fall through organization of this function meant that we
-> would raise an interrupt, then might overwrite that with another.
-> Since interrupt prioritization is IMPLEMENTATION DEFINED, we
-> can recognize these in any order we choose.
->
-> Unify the code to raise the interrupt in a block at the end.
+> When VHE is enabled, we need to take the aa32-ness of EL0
+> from PSTATE not HCR_EL2, which is controlling EL1.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index f2d18bd51a..f3785d5ad6 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -8887,14 +8887,19 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+>           * immediately lower than the target level is using AArch32 or AArch64
+>           */
+>          bool is_aa64;
+> +        uint64_t hcr;
+>
+>          switch (new_el) {
+>          case 3:
+>              is_aa64 = (env->cp15.scr_el3 & SCR_RW) != 0;
+>              break;
+>          case 2:
+> -            is_aa64 = (env->cp15.hcr_el2 & HCR_RW) != 0;
+> -            break;
+> +            hcr = arm_hcr_el2_eff(env);
+> +            if ((hcr & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+> +                is_aa64 = (hcr & HCR_RW) != 0;
+> +                break;
+> +            }
+> +            /* fall through */
+>          case 1:
+>              is_aa64 = is_a64(env);
+>              break;
+> --
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The commit message is confusing me. Per the comment
+in the code, what we're asking is "is the EL immediately
+lower than the target level using AArch64?". We never
+took the aa32ness of EL0 from HCR_EL2: that code is
+looking at "what's the aa32ness of EL1", because in a non-VHE
+setup EL1 is always the EL immediately lower than EL2.
+
+So I *think* what the code is doing is:
+
+ When VHE is enabled, the exception level below EL2 is
+ not EL1, but EL0, and so to identify the entry vector
+ offset for exceptions targeting EL2 we need to look
+ at the width of EL0, not of EL1.
+
+Is that right?
 
 thanks
 -- PMM
