@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF591155B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:46:23 +0100 (CET)
-Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FAA11559B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:40:04 +0100 (CET)
+Received: from localhost ([::1]:41026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGkG-0006jI-RC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:46:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1idGeB-0000m4-0P
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:40:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idF8B-0002je-QN
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:03:02 -0500
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1idFPS-0005F7-Sf
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idF88-0008Kx-Aw
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:02:55 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:32907)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1idFPR-0002O1-3v
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:46 -0500
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:46622)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1idF86-0008Ka-Tu
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:02:52 -0500
-Received: by mail-oi1-x241.google.com with SMTP id v140so45991oie.0
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=s9S4E9xGqUanoBYjJlE4Xec1+SPzSH5WNrcrxFOyDE4=;
- b=VJ1Y5WD0acb+HAa7CSt693gn+xAMgxq9vPcaA+LuG+bbgddEqHGLo1AI82rKJmuHUU
- /nIVMHWx1QvIhQDRqwGsJ2Vbzn6NIENLREEJYRV6w6qajT8SzY4Kkj7/nnJ6zkrhV9rs
- MB8xP8gRrXZiS5upvQnM5DifayQetdvLsM7zjbV8NW9iGibEyPb+aLMm9+APz3/7BHVg
- 1NBXjnFzDv/ZEIufRBVokWHJC6uTSy01dUwteGTu/T5tYzlFZmg8RYp4U2ICbES2lscV
- ejYwhu24upDaEDZxlRZBf6n32xdJ3NSLqj+lAWQ5MugyBEaSpts4HnF4WxhYbcqzT4ki
- XEKw==
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1idFPQ-0002Lz-V0
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:45 -0500
+Received: by mail-yb1-f193.google.com with SMTP id v15so3049057ybp.13
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:20:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=s9S4E9xGqUanoBYjJlE4Xec1+SPzSH5WNrcrxFOyDE4=;
- b=BgJowUEExe8VR1Gr74Bh22rnCxjvPYMo5Nc7RVWLwOrvcBOW5lL+/IMH3NZyB6EV5E
- fuTGZlNHHklRRvPMqV7xKVwHVcMJEpQh2xX+oT40DVMyPINdwjAjhEpaCeFSBu2U+1e6
- k6/h0/EMnRmjhqQZ+HQPvlohb2GjY0SJAYRLRtXQs0Uv4zxFBJeX03Oyn/D2l4mZEP9B
- jS9HZ7KZgCIcwZtGxEqSj3KIfpYyD7RXR0x8U4pTQT7CL8mycrIcSG5ep1sO8XnS6qvt
- lr++0Yd1lOf+M9g/tNUXfYn93+3y1JNS7Tpg06yQxNZ5qZQFHvjadkEdOmIr+CXFQUvV
- ccPQ==
-X-Gm-Message-State: APjAAAWsCEm5dXrR89IfWFIzqvTWMN8SIKVcy2eGwuhbs58Cn6AezHdb
- ezhRMYEOC0MMOZ6CLFXsIEzMU3CdLNiagn/AAAsWog==
-X-Google-Smtp-Source: APXvYqxRWD43taNlbmHvOp6TAVrloeYsQo3ea+Dzds59RSTtCzaLC9MFk2YwZ3KDEcCrqknVoOaArQctp+gHHgndPs0=
-X-Received: by 2002:aca:1b08:: with SMTP id b8mr467155oib.106.1575619676786;
- Fri, 06 Dec 2019 00:07:56 -0800 (PST)
+ bh=LnYDT3hI/k51rxu2RaEtNc8OwzQHfHd+q89Ne01SQkk=;
+ b=CZ8U7awdq9s4afc0rSq8Q5+Yk8Zvyy61dS+6ce72MCC9ykyFg47e2Hf++3Guh74JbD
+ PqMr9IsFFPdp6nZugL8zLcD/w6xX2TBrGbCA8cae/wkIAV6peEm63JDxID8vz4gPiUjA
+ pLXyYqb7iIXtQfmr3pwYdQAZ0BTZ3jugEhNwhp3qJiI95owG/jeiCjnJaaIrTGkHjbaJ
+ 1fMR+kRt9Igi8Q8HsJupuIOyuL/tofUdxWY+lJ2N9qBh+OYaaEJfqFpACiSoQEAsot+X
+ 0d3PgJV5nMqIRwuAdb4JoTuxNacQipLM8GKxPvXNMHA71ZjQOvr6Yjo3BxpmeiKMU7Ze
+ wrqw==
+X-Gm-Message-State: APjAAAVi8xWckQliTkAHimvYosvkYh8iqA1ze+3ODpp1w/DY2LmtZvwk
+ DOvcp94SfwlUmJCVDzqfdWWl6INv0Gt69es9DE/6vDm3
+X-Google-Smtp-Source: APXvYqywT7RKZxy4+aQ3yqIAX1ukNQgZt1Pm6duFwv33bTsc5FszW5c30r7KI+ch+vUt5vv52/IvfRSxlMnY6lawJl4=
+X-Received: by 2002:a9d:7984:: with SMTP id h4mr5241089otm.297.1575623875215; 
+ Fri, 06 Dec 2019 01:17:55 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Fri, 6 Dec 2019 00:07:56 -0800 (PST)
-In-Reply-To: <1574687098-26689-2-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1574687098-26689-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1574687098-26689-2-git-send-email-Filip.Bozuta@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 6 Dec 2019 09:07:56 +0100
-Message-ID: <CAL1e-=j9oxHvxJen6hJna9=muLQG3pF-pYjJfcXVXHM4CagY4Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] mips: jazz: Renovate coding style
-To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Content-Type: multipart/alternative; boundary="00000000000022d61f0599048b97"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-5-geert+renesas@glider.be>
+ <20191205210653.GA29969@bogus>
+In-Reply-To: <20191205210653.GA29969@bogus>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 6 Dec 2019 10:17:43 +0100
+Message-ID: <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.219.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,777 +64,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pburton@wavecomp.com" <pburton@wavecomp.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "hpoussin@reactos.org" <hpoussin@reactos.org>,
- "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
- "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000022d61f0599048b97
-Content-Type: text/plain; charset="UTF-8"
+Hi Rob,
 
-On Monday, November 25, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
+On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
+> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
+> > Add Device Tree bindings for a GPIO repeater, with optional translation
+> > of physical signal properties.  This is useful for describing explicitly
+> > the presence of e.g. an inverter on a GPIO line, and was inspired by the
+> > non-YAML gpio-inverter bindings by Harish Jenny K N
+> > <harish_kandiga@mentor.com>[1].
+> >
+> > Note that this is different from a GPIO Nexus Node[2], which cannot do
+> > physical signal property translation.
+>
+> It can't? Why not? The point of the passthru mask is to not do
+> translation of flags, but without it you are always doing translation of
+> cells.
 
-> The script checkpatch.pl located in scripts folder was
-> used to detect all errors and warrnings in files:
->     hw/mips/mips_jazz.c
->     hw/display/jazz_led.c
->     hw/dma/rc4030.c
+Thanks for pushing me deeper into nexuses!
+You're right, you can map from one type to another.
+However, you cannot handle the "double inversion" of an ACTIVE_LOW
+signal with a physical inverter added:
+
+        nexus: led-nexus {
+                #gpio-cells = <2>;
+                gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
+                           <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
+                           <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
+                gpio-map-mask = <3 0>;
+                // default gpio-map-pass-thru = <0 0>;
+        };
+
+        leds {
+                compatible = "gpio-leds";
+                led6-inverted {
+                        gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
+                };
+                led7-noninverted {
+                        gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
+                };
+                led8-double-inverted {  // FAILS: still inverted
+                        gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
+                };
+        };
+
+It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
+Still, the consumer would see the final translated polarity, and not the
+actual one it needs to program the consumer for.
+
+> > While an inverter can be described implicitly by exchanging the
+> > GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
+> > Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
+> > th provider and consumer sides:
+> >   1. The GPIO provider (controller) looks at the flags to know the
+> >      polarity, so it can translate between logical (active/not active)
+> >      and physical (high/low) signal levels.
+> >   2. While the signal polarity is usually fixed on the GPIO consumer
+> >      side (e.g. an LED is tied to either the supply voltage or GND),
+> >      it may be configurable on some devices, and both sides need to
+> >      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
+> >      match the actual polarity.
+> >      There exists a similar issue with interrupt flags, where both the
+> >      interrupt controller and the device generating the interrupt need
+> >      to agree, which breaks in the presence of a physical inverter not
+> >      described in DT (see e.g. [3]).
 >
-> All these mips jazz machine files were edited and
-> all the errors and warrings generated by the checkpatch.pl
-> script were corrected and then the script was
-> ran again to make sure there are no more errors and warnings.
->
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-> ---
->  hw/display/jazz_led.c | 123 +++++++++++++++++++++++++-----
-> --------------------
->  hw/dma/rc4030.c       |  12 +++--
->  hw/mips/mips_jazz.c   |  32 +++++++------
->  3 files changed, 88 insertions(+), 79 deletions(-)
->
-> diff --git a/hw/display/jazz_led.c b/hw/display/jazz_led.c
-> index 3e0112b..1d84559 100644
-> --- a/hw/display/jazz_led.c
-> +++ b/hw/display/jazz_led.c
-> @@ -90,25 +90,25 @@ static void draw_horizontal_line(DisplaySurface *ds,
->
->
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Adding an inverted flag as I've suggested would also solve this issue.
+
+As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
+the inverter bindings"?
+https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
+
+Oh, now I understand. I was misguided by Harish' interpretation
+https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
+which assumed an "inverted" property, e.g.
+
+    inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
+
+But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
+cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
+
+    /* Bit 6 expresses the presence of a physical inverter */
+    #define GPIO_INVERTED 64
+
+We need to be very careful in defining to which side the GPIO_ACTIVE_*
+applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
+Still, this doesn't help if e.g. a FET is used instead of a push-pull
+inverter, as the former needs translation of other flags (which the
+nexus can do, the caveats above still applies, though).
+
+Same for adding IRQ_TYPE_INVERTED.
+
+Related issue: how to handle physical inverters on SPI chip select lines,
+if the SPI slave can be configured for both polarities?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
->      bpp = (surface_bits_per_pixel(ds) + 7) >> 3;
->      d = surface_data(ds) + surface_stride(ds) * posy + bpp * posx1;
-> -    switch(bpp) {
-> -        case 1:
-> -            for (x = posx1; x <= posx2; x++) {
-> -                *((uint8_t *)d) = color;
-> -                d++;
-> -            }
-> -            break;
-> -        case 2:
-> -            for (x = posx1; x <= posx2; x++) {
-> -                *((uint16_t *)d) = color;
-> -                d += 2;
-> -            }
-> -            break;
-> -        case 4:
-> -            for (x = posx1; x <= posx2; x++) {
-> -                *((uint32_t *)d) = color;
-> -                d += 4;
-> -            }
-> -            break;
-> +    switch (bpp) {
-> +    case 1:
-> +        for (x = posx1; x <= posx2; x++) {
-> +            *((uint8_t *)d) = color;
-> +            d++;
-> +        }
-> +        break;
-> +    case 2:
-> +        for (x = posx1; x <= posx2; x++) {
-> +            *((uint16_t *)d) = color;
-> +            d += 2;
-> +        }
-> +        break;
-> +    case 4:
-> +        for (x = posx1; x <= posx2; x++) {
-> +            *((uint32_t *)d) = color;
-> +            d += 4;
-> +        }
-> +        break;
->      }
->  }
->
-> @@ -121,25 +121,25 @@ static void draw_vertical_line(DisplaySurface *ds,
->
->      bpp = (surface_bits_per_pixel(ds) + 7) >> 3;
->      d = surface_data(ds) + surface_stride(ds) * posy1 + bpp * posx;
-> -    switch(bpp) {
-> -        case 1:
-> -            for (y = posy1; y <= posy2; y++) {
-> -                *((uint8_t *)d) = color;
-> -                d += surface_stride(ds);
-> -            }
-> -            break;
-> -        case 2:
-> -            for (y = posy1; y <= posy2; y++) {
-> -                *((uint16_t *)d) = color;
-> -                d += surface_stride(ds);
-> -            }
-> -            break;
-> -        case 4:
-> -            for (y = posy1; y <= posy2; y++) {
-> -                *((uint32_t *)d) = color;
-> -                d += surface_stride(ds);
-> -            }
-> -            break;
-> +    switch (bpp) {
-> +    case 1:
-> +        for (y = posy1; y <= posy2; y++) {
-> +            *((uint8_t *)d) = color;
-> +            d += surface_stride(ds);
-> +        }
-> +        break;
-> +    case 2:
-> +        for (y = posy1; y <= posy2; y++) {
-> +            *((uint16_t *)d) = color;
-> +            d += surface_stride(ds);
-> +        }
-> +        break;
-> +    case 4:
-> +        for (y = posy1; y <= posy2; y++) {
-> +            *((uint32_t *)d) = color;
-> +            d += surface_stride(ds);
-> +        }
-> +        break;
->      }
->  }
->
-> @@ -164,28 +164,28 @@ static void jazz_led_update_display(void *opaque)
->      if (s->state & REDRAW_SEGMENTS) {
->          /* set colors according to bpp */
->          switch (surface_bits_per_pixel(surface)) {
-> -            case 8:
-> -                color_segment = rgb_to_pixel8(0xaa, 0xaa, 0xaa);
-> -                color_led = rgb_to_pixel8(0x00, 0xff, 0x00);
-> -                break;
-> -            case 15:
-> -                color_segment = rgb_to_pixel15(0xaa, 0xaa, 0xaa);
-> -                color_led = rgb_to_pixel15(0x00, 0xff, 0x00);
-> -                break;
-> -            case 16:
-> -                color_segment = rgb_to_pixel16(0xaa, 0xaa, 0xaa);
-> -                color_led = rgb_to_pixel16(0x00, 0xff, 0x00);
-> -                break;
-> -            case 24:
-> -                color_segment = rgb_to_pixel24(0xaa, 0xaa, 0xaa);
-> -                color_led = rgb_to_pixel24(0x00, 0xff, 0x00);
-> -                break;
-> -            case 32:
-> -                color_segment = rgb_to_pixel32(0xaa, 0xaa, 0xaa);
-> -                color_led = rgb_to_pixel32(0x00, 0xff, 0x00);
-> -                break;
-> -            default:
-> -                return;
-> +        case 8:
-> +            color_segment = rgb_to_pixel8(0xaa, 0xaa, 0xaa);
-> +            color_led = rgb_to_pixel8(0x00, 0xff, 0x00);
-> +            break;
-> +        case 15:
-> +            color_segment = rgb_to_pixel15(0xaa, 0xaa, 0xaa);
-> +            color_led = rgb_to_pixel15(0x00, 0xff, 0x00);
-> +            break;
-> +        case 16:
-> +            color_segment = rgb_to_pixel16(0xaa, 0xaa, 0xaa);
-> +            color_led = rgb_to_pixel16(0x00, 0xff, 0x00);
-> +            break;
-> +        case 24:
-> +            color_segment = rgb_to_pixel24(0xaa, 0xaa, 0xaa);
-> +            color_led = rgb_to_pixel24(0x00, 0xff, 0x00);
-> +            break;
-> +        case 32:
-> +            color_segment = rgb_to_pixel32(0xaa, 0xaa, 0xaa);
-> +            color_led = rgb_to_pixel32(0x00, 0xff, 0x00);
-> +            break;
-> +        default:
-> +            return;
->          }
->
->          /* display segments */
-> @@ -205,8 +205,9 @@ static void jazz_led_update_display(void *opaque)
->                               (s->segments & 0x80) ? color_segment : 0);
->
->          /* display led */
-> -        if (!(s->segments & 0x01))
-> +        if (!(s->segments & 0x01)) {
->              color_led = 0; /* black */
-> +        }
->          draw_horizontal_line(surface, 68, 50, 50, color_led);
->          draw_horizontal_line(surface, 69, 49, 51, color_led);
->          draw_horizontal_line(surface, 70, 48, 52, color_led);
-> diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
-> index d54e296..f7542f3 100644
-> --- a/hw/dma/rc4030.c
-> +++ b/hw/dma/rc4030.c
-> @@ -397,10 +397,11 @@ static void update_jazz_irq(rc4030State *s)
->
->      pending = s->isr_jazz & s->imr_jazz;
->
-> -    if (pending != 0)
-> +    if (pending != 0) {
->          qemu_irq_raise(s->jazz_bus_irq);
-> -    else
-> +    } else {
->          qemu_irq_lower(s->jazz_bus_irq);
-> +    }
->  }
->
->  static void rc4030_irq_jazz_request(void *opaque, int irq, int level)
-> @@ -588,7 +589,8 @@ static const VMStateDescription vmstate_rc4030 = {
->      }
->  };
->
-> -static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int
-> is_write)
-> +static void rc4030_do_dma(void *opaque, int n, uint8_t *buf,
-> +                          int len, int is_write)
->  {
->      rc4030State *s = opaque;
->      hwaddr dma_addr;
-> @@ -643,8 +645,8 @@ static rc4030_dma *rc4030_allocate_dmas(void *opaque,
-> int n)
->      struct rc4030DMAState *p;
->      int i;
->
-> -    s = (rc4030_dma *)g_malloc0(sizeof(rc4030_dma) * n);
-> -    p = (struct rc4030DMAState *)g_malloc0(sizeof(struct rc4030DMAState)
-> * n);
-> +    s = (rc4030_dma *)g_new0(sizeof(rc4030_dma) * n);
-> +    p = (struct rc4030DMAState *)g_new0(sizeof(struct rc4030DMAState) *
-> n);
->      for (i = 0; i < n; i++) {
->          p->opaque = opaque;
->          p->n = i;
-> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
-> index d978bb6..ac4d7ac 100644
-> --- a/hw/mips/mips_jazz.c
-> +++ b/hw/mips/mips_jazz.c
-> @@ -52,8 +52,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/help_option.h"
->
-> -enum jazz_model_e
-> -{
-> +enum jazz_model_e {
->      JAZZ_MAGNUM,
->      JAZZ_PICA61,
->  };
-> @@ -90,16 +89,20 @@ static const MemoryRegionOps rtc_ops = {
->  static uint64_t dma_dummy_read(void *opaque, hwaddr addr,
->                                 unsigned size)
->  {
-> -    /* Nothing to do. That is only to ensure that
-> -     * the current DMA acknowledge cycle is completed. */
-> +    /*
-> +     * Nothing to do. That is only to ensure that
-> +     * the current DMA acknowledge cycle is completed.
-> +     */
->      return 0xff;
->  }
->
->  static void dma_dummy_write(void *opaque, hwaddr addr,
->                              uint64_t val, unsigned size)
->  {
-> -    /* Nothing to do. That is only to ensure that
-> -     * the current DMA acknowledge cycle is completed. */
-> +    /*
-> +     * Nothing to do. That is only to ensure that
-> +     * the current DMA acknowledge cycle is completed.
-> +     */
->  }
->
->  static const MemoryRegionOps dma_dummy_ops = {
-> @@ -109,8 +112,8 @@ static const MemoryRegionOps dma_dummy_ops = {
->  };
->
->  #define MAGNUM_BIOS_SIZE_MAX 0x7e000
-> -#define MAGNUM_BIOS_SIZE (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE :
-> MAGNUM_BIOS_SIZE_MAX)
-> -
-> +#define MAGNUM_BIOS_SIZE
->      \
-> +        (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE :
-> MAGNUM_BIOS_SIZE_MAX)
->  static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
->                                            vaddr addr, unsigned size,
->                                            MMUAccessType access_type,
-> @@ -201,8 +204,9 @@ static void mips_jazz_init(MachineState *machine,
->      memory_region_add_subregion(address_space, 0xfff00000LL, bios2);
->
->      /* load the BIOS image. */
-> -    if (bios_name == NULL)
-> +    if (bios_name == NULL) {
->          bios_name = BIOS_FILENAME;
-> +    }
->      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->      if (filename) {
->          bios_size = load_image_targphys(filename, 0xfff00000LL,
-> @@ -229,7 +233,8 @@ static void mips_jazz_init(MachineState *machine,
->                                  sysbus_mmio_get_region(sysbus, 0));
->      memory_region_add_subregion(address_space, 0xf0000000,
->                                  sysbus_mmio_get_region(sysbus, 1));
-> -    memory_region_init_io(dma_dummy, NULL, &dma_dummy_ops, NULL,
-> "dummy_dma", 0x1000);
-> +    memory_region_init_io(dma_dummy, NULL, &dma_dummy_ops,
-> +                          NULL, "dummy_dma", 0x1000);
->      memory_region_add_subregion(address_space, 0x8000d000, dma_dummy);
->
->      /* ISA bus: IO space at 0x90000000, mem space at 0x91000000 */
-> @@ -276,8 +281,9 @@ static void mips_jazz_init(MachineState *machine,
->      /* Network controller */
->      for (n = 0; n < nb_nics; n++) {
->          nd = &nd_table[n];
-> -        if (!nd->model)
-> +        if (!nd->model) {
->              nd->model = g_strdup("dp83932");
-> +        }
->          if (strcmp(nd->model, "dp83932") == 0) {
->              qemu_check_nic_model(nd, "dp83932");
->
-> @@ -338,12 +344,12 @@ static void mips_jazz_init(MachineState *machine,
->      /* Serial ports */
->      if (serial_hd(0)) {
->          serial_mm_init(address_space, 0x80006000, 0,
-> -                       qdev_get_gpio_in(rc4030, 8), 8000000/16,
-> +                       qdev_get_gpio_in(rc4030, 8), 8000000 / 16,
->                         serial_hd(0), DEVICE_NATIVE_ENDIAN);
->      }
->      if (serial_hd(1)) {
->          serial_mm_init(address_space, 0x80007000, 0,
-> -                       qdev_get_gpio_in(rc4030, 9), 8000000/16,
-> +                       qdev_get_gpio_in(rc4030, 9), 8000000 / 16,
->                         serial_hd(1), DEVICE_NATIVE_ENDIAN);
->      }
->
-> --
-> 2.7.4
->
->
->
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---00000000000022d61f0599048b97
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Monday, November 25, 2019, Filip Bozuta &lt;<a href=3D"mailto:Fi=
-lip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">The script <a href=3D"http://checkpatch.pl" target=3D"_b=
-lank">checkpatch.pl</a> located in scripts folder was<br>
-used to detect all errors and warrnings in files:<br>
-=C2=A0 =C2=A0 hw/mips/mips_jazz.c<br>
-=C2=A0 =C2=A0 hw/display/jazz_led.c<br>
-=C2=A0 =C2=A0 hw/dma/rc4030.c<br>
-<br>
-All these mips jazz machine files were edited and<br>
-all the errors and warrings generated by the <a href=3D"http://checkpatch.p=
-l" target=3D"_blank">checkpatch.pl</a><br>
-script were corrected and then the script was<br>
-ran again to make sure there are no more errors and warnings.<br>
-<br>
-Signed-off-by: Filip Bozuta &lt;<a href=3D"mailto:Filip.Bozuta@rt-rk.com">F=
-ilip.Bozuta@rt-rk.com</a>&gt;<br>
----<br>
-=C2=A0hw/display/jazz_led.c | 123 +++++++++++++++++++++++++-----<wbr>------=
---------------<br>
-=C2=A0hw/dma/rc4030.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 12 +++--<br>
-=C2=A0hw/mips/mips_jazz.c=C2=A0 =C2=A0|=C2=A0 32 +++++++------<br>
-=C2=A03 files changed, 88 insertions(+), 79 deletions(-)<br>
-<br>
-diff --git a/hw/display/jazz_led.c b/hw/display/jazz_led.c<br>
-index 3e0112b..1d84559 100644<br>
---- a/hw/display/jazz_led.c<br>
-+++ b/hw/display/jazz_led.c<br>
-@@ -90,25 +90,25 @@ static void draw_horizontal_line(<wbr>DisplaySurface *d=
-s,<br>
-<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
-t-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovi=
-c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
-yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
-m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
-08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-=C2=A0 =C2=A0 =C2=A0bpp =3D (surface_bits_per_pixel(ds) + 7) &gt;&gt; 3;<br=
->
-=C2=A0 =C2=A0 =C2=A0d =3D surface_data(ds) + surface_stride(ds) * posy + bp=
-p * posx1;<br>
--=C2=A0 =C2=A0 switch(bpp) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 1:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
-2; x++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 2:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
-2; x++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 2;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 4:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
-2; x++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 4;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 switch (bpp) {<br>
-+=C2=A0 =C2=A0 case 1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 2:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 2;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 4:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-@@ -121,25 +121,25 @@ static void draw_vertical_line(<wbr>DisplaySurface *d=
-s,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bpp =3D (surface_bits_per_pixel(ds) + 7) &gt;&gt; 3;<br=
->
-=C2=A0 =C2=A0 =C2=A0d =3D surface_data(ds) + surface_stride(ds) * posy1 + b=
-pp * posx;<br>
--=C2=A0 =C2=A0 switch(bpp) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 1:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
-2; y++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
-ide(ds);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 2:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
-2; y++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
-ide(ds);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 4:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
-2; y++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =
-=3D color;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
-ide(ds);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 switch (bpp) {<br>
-+=C2=A0 =C2=A0 case 1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 2:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case 4:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =3D color;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-@@ -164,28 +164,28 @@ static void jazz_led_update_display(void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0if (s-&gt;state &amp; REDRAW_SEGMENTS) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* set colors according to bpp */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (surface_bits_per_pixel(<wbr>surfa=
-ce)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 8:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
-rgb_to_pixel8(0xaa, 0xaa, 0xaa);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
-to_pixel8(0x00, 0xff, 0x00);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 15:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
-rgb_to_pixel15(0xaa, 0xaa, 0xaa);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
-to_pixel15(0x00, 0xff, 0x00);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 16:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
-rgb_to_pixel16(0xaa, 0xaa, 0xaa);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
-to_pixel16(0x00, 0xff, 0x00);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 24:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
-rgb_to_pixel24(0xaa, 0xaa, 0xaa);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
-to_pixel24(0x00, 0xff, 0x00);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 32:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
-rgb_to_pixel32(0xaa, 0xaa, 0xaa);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
-to_pixel32(0x00, 0xff, 0x00);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 8:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel8(=
-0xaa, 0xaa, 0xaa);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel8(0x00=
-, 0xff, 0x00);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 15:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel15=
-(0xaa, 0xaa, 0xaa);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel15(0x0=
-0, 0xff, 0x00);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 16:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel16=
-(0xaa, 0xaa, 0xaa);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel16(0x0=
-0, 0xff, 0x00);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 24:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel24=
-(0xaa, 0xaa, 0xaa);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel24(0x0=
-0, 0xff, 0x00);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 32:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel32=
-(0xaa, 0xaa, 0xaa);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel32(0x0=
-0, 0xff, 0x00);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* display segments */<br>
-@@ -205,8 +205,9 @@ static void jazz_led_update_display(void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (s-&gt;segments &amp; 0x80) ? color_segment=
- : 0);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* display led */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(s-&gt;segments &amp; 0x01))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(s-&gt;segments &amp; 0x01)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0color_led =3D 0; /* black *=
-/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 68, 50, 50,=
- color_led);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 69, 49, 51,=
- color_led);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 70, 48, 52,=
- color_led);<br>
-diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c<br>
-index d54e296..f7542f3 100644<br>
---- a/hw/dma/rc4030.c<br>
-+++ b/hw/dma/rc4030.c<br>
-@@ -397,10 +397,11 @@ static void update_jazz_irq(rc4030State *s)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0pending =3D s-&gt;isr_jazz &amp; s-&gt;imr_jazz;<br>
-<br>
--=C2=A0 =C2=A0 if (pending !=3D 0)<br>
-+=C2=A0 =C2=A0 if (pending !=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_irq_raise(s-&gt;jazz_bus_<wbr>irq);<=
-br>
--=C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 } else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_irq_lower(s-&gt;jazz_bus_<wbr>irq);<=
-br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rc4030_irq_jazz_request(void *opaque, int irq, int level)=
-<br>
-@@ -588,7 +589,8 @@ static const VMStateDescription vmstate_rc4030 =3D {<br=
->
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0};<br>
-<br>
--static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int =
-is_write)<br>
-+static void rc4030_do_dma(void *opaque, int n, uint8_t *buf,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 int len, int is_write)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0rc4030State *s =3D opaque;<br>
-=C2=A0 =C2=A0 =C2=A0hwaddr dma_addr;<br>
-@@ -643,8 +645,8 @@ static rc4030_dma *rc4030_allocate_dmas(void *opaque, i=
-nt n)<br>
-=C2=A0 =C2=A0 =C2=A0struct rc4030DMAState *p;<br>
-=C2=A0 =C2=A0 =C2=A0int i;<br>
-<br>
--=C2=A0 =C2=A0 s =3D (rc4030_dma *)g_malloc0(sizeof(rc4030_dma) * n);<br>
--=C2=A0 =C2=A0 p =3D (struct rc4030DMAState *)g_malloc0(sizeof(struct rc403=
-0DMAState) * n);<br>
-+=C2=A0 =C2=A0 s =3D (rc4030_dma *)g_new0(sizeof(rc4030_dma) * n);<br>
-+=C2=A0 =C2=A0 p =3D (struct rc4030DMAState *)g_new0(sizeof(struct rc4030DM=
-AState) * n);<br>
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; n; i++) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;opaque =3D opaque;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;n =3D i;<br>
-diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c<br>
-index d978bb6..ac4d7ac 100644<br>
---- a/hw/mips/mips_jazz.c<br>
-+++ b/hw/mips/mips_jazz.c<br>
-@@ -52,8 +52,7 @@<br>
-=C2=A0#include &quot;qemu/error-report.h&quot;<br>
-=C2=A0#include &quot;qemu/help_option.h&quot;<br>
-<br>
--enum jazz_model_e<br>
--{<br>
-+enum jazz_model_e {<br>
-=C2=A0 =C2=A0 =C2=A0JAZZ_MAGNUM,<br>
-=C2=A0 =C2=A0 =C2=A0JAZZ_PICA61,<br>
-=C2=A0};<br>
-@@ -90,16 +89,20 @@ static const MemoryRegionOps rtc_ops =3D {<br>
-=C2=A0static uint64_t dma_dummy_read(void *opaque, hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned size)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 /* Nothing to do. That is only to ensure that<br>
--=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed. */<b=
-r>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Nothing to do. That is only to ensure that<br>
-+=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0return 0xff;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void dma_dummy_write(void *opaque, hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t val, unsigned size)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 /* Nothing to do. That is only to ensure that<br>
--=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed. */<b=
-r>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Nothing to do. That is only to ensure that<br>
-+=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0}<br>
-<br>
-=C2=A0static const MemoryRegionOps dma_dummy_ops =3D {<br>
-@@ -109,8 +112,8 @@ static const MemoryRegionOps dma_dummy_ops =3D {<br>
-=C2=A0};<br>
-<br>
-=C2=A0#define MAGNUM_BIOS_SIZE_MAX 0x7e000<br>
--#define MAGNUM_BIOS_SIZE (BIOS_SIZE &lt; MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE =
-: MAGNUM_BIOS_SIZE_MAX)<br>
--<br>
-+#define MAGNUM_BIOS_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (BIOS_SIZE &lt; MAGNUM_BIOS_SIZE_MAX ? BIOS_SI=
-ZE : MAGNUM_BIOS_SIZE_MAX)<br>
-=C2=A0static void (*real_do_transaction_failed)(<wbr>CPUState *cpu, hwaddr =
-physaddr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0vaddr addr, unsigned size,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0MMUAccessType access_type,<br>
-@@ -201,8 +204,9 @@ static void mips_jazz_init(MachineState *machine,<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0xfff00=
-000LL, bios2);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* load the BIOS image. */<br>
--=C2=A0 =C2=A0 if (bios_name =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 if (bios_name =3D=3D NULL) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_name =3D BIOS_FILENAME;<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0filename =3D qemu_find_file(QEMU_FILE_TYPE_<wbr>BIOS, b=
-ios_name);<br>
-=C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_size =3D load_image_targphys(filenam=
-e, 0xfff00000LL,<br>
-@@ -229,7 +233,8 @@ static void mips_jazz_init(MachineState *machine,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_mmio_get_region(sysbus,=
- 0));<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0xf0000=
-000,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_mmio_get_region(sysbus,=
- 1));<br>
--=C2=A0 =C2=A0 memory_region_init_io(dma_<wbr>dummy, NULL, &amp;dma_dummy_o=
-ps, NULL, &quot;dummy_dma&quot;, 0x1000);<br>
-+=C2=A0 =C2=A0 memory_region_init_io(dma_<wbr>dummy, NULL, &amp;dma_dummy_o=
-ps,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 NULL, &quot;dummy_dma&quot;, 0x1000);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0x8000d=
-000, dma_dummy);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* ISA bus: IO space at 0x90000000, mem space at 0x9100=
-0000 */<br>
-@@ -276,8 +281,9 @@ static void mips_jazz_init(MachineState *machine,<br>
-=C2=A0 =C2=A0 =C2=A0/* Network controller */<br>
-=C2=A0 =C2=A0 =C2=A0for (n =3D 0; n &lt; nb_nics; n++) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nd =3D &amp;nd_table[n];<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nd-&gt;model)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nd-&gt;model) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nd-&gt;model =3D g_strdup(&=
-quot;dp83932&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcmp(nd-&gt;model, &quot;dp83932&qu=
-ot;) =3D=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_check_nic_model(nd, &q=
-uot;dp83932&quot;);<br>
-<br>
-@@ -338,12 +344,12 @@ static void mips_jazz_init(MachineState *machine,<br>
-=C2=A0 =C2=A0 =C2=A0/* Serial ports */<br>
-=C2=A0 =C2=A0 =C2=A0if (serial_hd(0)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serial_mm_init(address_space, 0x80006000,=
- 0,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0qdev_get_gpio_in(rc4030, 8), 8000000/16,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0qdev_get_gpio_in(rc4030, 8), 8000000 / 16,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 serial_hd(0), DEVICE_NATIVE_ENDIAN);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0if (serial_hd(1)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serial_mm_init(address_space, 0x80007000,=
- 0,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0qdev_get_gpio_in(rc4030, 9), 8000000/16,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0qdev_get_gpio_in(rc4030, 9), 8000000 / 16,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 serial_hd(1), DEVICE_NATIVE_ENDIAN);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-</blockquote>
-
---00000000000022d61f0599048b97--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
