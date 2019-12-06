@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2186E1154D3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:05:13 +0100 (CET)
-Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CCD1154EA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:15:41 +0100 (CET)
+Received: from localhost ([::1]:40550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idG6R-0004yZ-JC
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:05:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38095)
+	id 1idGGZ-00008Y-QP
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:15:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1idEzo-0001iz-Mv
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:54:17 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1idEyN-0007o1-Qq
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1idEzn-0007Kh-Gc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:54:16 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:55579)
+ (envelope-from <alex.bennee@linaro.org>) id 1idEyM-0004bz-DZ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:47 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51443)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1idEzk-0006hA-78; Fri, 06 Dec 2019 09:54:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=k6q+2o4+lM6yctv77wzTQ0J5WUB8aHRa+UMT/ybXOiw=; 
- b=ds428P5iAf5JuR5BwQ5xjqrbfgKWxUS+yUsLZGC3CxOFUWqxphXyEUVhSjEcF4Zv2/97ukKeonaPevtlEQewa4WBZXNxHGBjUdyy4vmPFtsEXqB3RDIYDVT2rRwRY1NEjmYnZktCDRiK62b1c54Vl6rxtBycxmYjX+bT8La4d+N6IyVxweEVR7dUC719n6IRRdEWC9HQYUFiPIVG6h2DyukekVTJ28a9h1GIx+dpaFC9U9LVxfdgLUdIeQoPV0ShLHz6n64nAfXNXPGcZwnbFttHG5bJwJ37CzhziQitqih3Sxa+JIEhYvhYfDn9P5ZbL/JzOqV0mW3UMYET1EfELA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1idEDY-0006X9-KH; Fri, 06 Dec 2019 15:04:24 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1idEDY-0006z0-HR; Fri, 06 Dec 2019 15:04:24 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH for-5.0 v2 02/23] blockdev: Allow resizing everywhere
-In-Reply-To: <20191111160216.197086-3-mreitz@redhat.com>
-References: <20191111160216.197086-1-mreitz@redhat.com>
- <20191111160216.197086-3-mreitz@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 06 Dec 2019 15:04:24 +0100
-Message-ID: <w51pnh1czyv.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1idEyM-0004a1-4v
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:46 -0500
+Received: by mail-wm1-x342.google.com with SMTP id g206so8123303wme.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=v6DcG/q6LskpbU7+BFpd5NgSOoqBfxqnbb2+YKX0aUU=;
+ b=RixRN66mTzjNLzw9/wdPdDaNncVowkyByDe/xaqpM/KmZNGasB7wRnpNmfW/4srtur
+ fiqyX5Y7ydd9imOTRThsz9GEvgGWBMOHcV9mBhEe70hAysgwD92CmOXtPqJtUael66LR
+ Rq3YHSgAokb+H//hg+22sXSsDCpOfLLlIvKEFeI3GufhOWcIps03v+pmNxaIQ1wY04m6
+ Cb5duFEAuDk60tFczQ+NZtiImGKLYa1DdjyxOHQ7MuxV8S98T9q3wN4F0DCUbADLbgiE
+ QJ9E4i0O281UfgsFLtS+97xeMq9wS0nkpkoTXgBUwoZxF5N8UF5GP4xZ5U9h0UkO5x9p
+ KCMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=v6DcG/q6LskpbU7+BFpd5NgSOoqBfxqnbb2+YKX0aUU=;
+ b=gE3ENg8Ol8cGtu/B30teSAovOoJDe2wiJpmrljvTWtPaByTkGPtG/2rcwu5o7ifx4U
+ 3Lud4kRDltEx38PEmUtvfjPrcZwDtD5z0aKAyox9vPF4LTgxBq00TqE/cR6B8Bti0bat
+ ZD/ZMIDJi4VqUWBIWd7zxmlKxO+Vq+0UtgctmQZBzZJIFsP5XOPAtuDKYfVzYA4CVOec
+ j6U8v0nfd1i8J65VZtv19Zs0lJ8i2Vg3Da3BMa7cqASbd1kfUlZujbmgAyRuap31C1jJ
+ Bod2aI9afIVcaSauF8+UWMW9iH4OOCLuhmLb7XyNrDkmxwe8Ed0omN4EOrDc1PBoUEw+
+ 7YyA==
+X-Gm-Message-State: APjAAAXyIgla7wg6omx1GYT9ywgvOgLUJ0vZfhY+VSX9OBZ9rxTZ9w0b
+ GUalxwlO6Rj4D48Gj3B5W1iP4Q==
+X-Google-Smtp-Source: APXvYqxg7JhQmObIGzYli6D55JfJngNCGYSXmxKga1NucZL6ha6xidbWhOpKpPcEQG3uFzTnfVZUWw==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr10546332wmc.129.1575643964831; 
+ Fri, 06 Dec 2019 06:52:44 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n16sm16506771wro.88.2019.12.06.06.52.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2019 06:52:43 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DF7701FF87;
+ Fri,  6 Dec 2019 14:52:42 +0000 (GMT)
+References: <20191130084602.10818-1-alex.bennee@linaro.org>
+ <20191130084602.10818-12-alex.bennee@linaro.org>
+ <9362663d-6452-39aa-2a8d-1cfd853d7faa@linaro.org>
+ <87o8wm7k6v.fsf@linaro.org>
+ <cc54dbf6-01ed-f92d-5088-efe7e917b870@linaro.org>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 11/14] target/arm: default SVE length to 64 bytes for
+ linux-user
+In-reply-to: <cc54dbf6-01ed-f92d-5088-efe7e917b870@linaro.org>
+Date: Fri, 06 Dec 2019 14:52:42 +0000
+Message-ID: <87fthx7bgl.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,26 +86,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org, qemu-devel@nongnu.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 11 Nov 2019 05:01:55 PM CET, Max Reitz wrote:
-> @@ -3177,11 +3177,6 @@ void qmp_block_resize(bool has_device, const char *device,
->      aio_context = bdrv_get_aio_context(bs);
->      aio_context_acquire(aio_context);
->  
-> -    if (!bdrv_is_first_non_filter(bs)) {
-> -        error_setg(errp, QERR_FEATURE_DISABLED, "resize");
-> -        goto out;
-> -    }
-> -
 
-What happens with this case now?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-https://lists.gnu.org/archive/html/qemu-block/2019-11/msg00793.html
+> On 12/5/19 9:31 AM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> On 11/30/19 8:45 AM, Alex Benn=C3=A9e wrote:
+>>>> The Linux kernel chooses the default of 64 bytes for SVE registers on
+>>>> the basis that it is the largest size that won't grow the signal
+>>>> frame. When debugging larger sizes are also unwieldy in gdb as each
+>>>> zreg will take over a page of terminal to display.
+>>>>
+>>>> The user can of course always specify a larger size with the
+>>>> sve-max-vq property on the command line:
+>>>>
+>>>>   -cpu max,sve-max-vq=3D16
+>>>>
+>>>> This should not make any difference to SVE enabled software as the SVE
+>>>> is of course vector length agnostic.
+>>>>
+>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>>> ---
+>>>>  target/arm/cpu64.c | 3 +++
+>>>>  1 file changed, 3 insertions(+)
+>>>
+>>> 6 is the largest size that doesn't grow the signal frame.
+>>> I imagine 4 was chosen because that's the only real hw atm.
+>>>
+>>>> +        /* Default sve-max-vq to a reasonable numer */
+>>>> +        cpu->sve_max_vq =3D 4;
+>>>
+>>> I also agree that we should match the kernel, but this is not the right=
+ way.
+>>> Changing max vq is not the same as changing the default vq.
+>>>
+>>> You should change the value of env->vfp.zcr_el[1] in arm_cpu_reset(), a=
+nd the
+>>> user can increase the length with prctl(2) as they would be able to on =
+real
+>>> hardware that would have support for longer vector lengths.
+>>=20
+>> No the intention is to default to a lower max VQ because...
+>>=20
+>>> Also, I don't think you should mix this up with gdb stuff.
+>>=20
+>> it is what we use for sizing the registers for the gdbstub. The other
+>> option would be to use the effective zcr_el1 value at the time of the
+>> gdbstub connecting but then things will go horribly wrong if the user
+>> execute a prctl and widens their size.
+>
+> Why would you care about the size of the registers as passed by default? =
+ You
+> shouldn't need or want to change that default to make gdbstub work.
+>
+> The gdbstub should be passing along the vq value (via the "vg" pseudo-reg=
+ister,
+> iirc), and gdb should be working out what to display based on that.
+>
+> If that isn't happening, and you are only changing the default so that gdb
+> quits displaying massive registers when they aren't in use, then you're d=
+oing
+> something wrong with gdb and gdbstub.
 
-Berto
+Currently the upstream gdbserver sends the XML based on the VL at start-up.=
+ It
+doesn't handle changes in the vector size.
+
+--=20
+Alex Benn=C3=A9e
 
