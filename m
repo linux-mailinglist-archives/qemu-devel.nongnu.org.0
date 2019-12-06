@@ -2,87 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6DD1154AA
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:55:33 +0100 (CET)
-Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA40115470
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:40:14 +0100 (CET)
+Received: from localhost ([::1]:39906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFx5-0002NS-1d
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:55:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60945)
+	id 1idFiH-0001SX-0u
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:40:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idEyy-0000NT-BR
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:25 -0500
+ (envelope-from <yan.y.zhao@intel.com>) id 1idEh0-0004Mp-UW
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:34:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idEyw-0005oO-Np
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:24 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20064
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <yan.y.zhao@intel.com>) id 1idEgy-0003P0-SN
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:34:50 -0500
+Received: from mga09.intel.com ([134.134.136.24]:17868)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEyw-0005nM-Io
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575644002;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KXP/u4tNIpHtnz0fS1xsh/7VHfe+8dzY46wCiYLnkws=;
- b=RXmrpf+4IuEgmZL981Np9f6DQbNMdmXGrwNQZGajurgQ9MptHKFhZAk99XFyxApAQ6nkWS
- jYegXnHbfSeusP5631ioi7a/Ouudq3/Q2CfB8x82HeOzZMBUKc7U/rzFjPi+vdTpxbn35e
- jCOR4hQthzJpBUiob4N2CMGSEeVJuTE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-FFfIRV0lPOadLtOX4fZW4w-1; Fri, 06 Dec 2019 00:51:54 -0500
-Received: by mail-wr1-f72.google.com with SMTP id b13so2646405wrx.22
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 21:51:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/565qbkyu6852uU+G93zof4l+bkCu7TfS5fCla+IKVY=;
- b=kxmbmH9qLl+myp4Fml701AEHlR7kT32CwHt6SWHpAdU1hyVRgYb9WpDND/A4ROtMXV
- vv9hrUo97Tenp9s+RGG0LK/TAhxy/mGY9Jb7cTTIgbeNCoc7Gl2EoVK7S8583xaPHT3B
- EdMRxxaHnxf8VnQbW7c2FuY41MLyI0wFdMpXlsAOdg8hpptRP7ORW/w3lq7AaSV47rbg
- Eis31mcW4egwvoOIKMOLiDH1dLnUib8qg96WOXp6Ggf5RkrV+T7ZYv3hf/rFK4gXXvpm
- 9HKZnNc8S9Ko0v6Lg882LptCCDoqNwjjAp4VO1ZF5PmIhuhCcmvuGBYj3mhfgH7Q0CAz
- lFtA==
-X-Gm-Message-State: APjAAAWbaLPUtLHTNxCrewO93Y3kySArLfxmxm1K0xvKaU6oJledfMul
- jNzWO3L6bYQ7VyV7DosF/8cpj3iU+CDzkGpAABSOmEWfIuw1icmpoo3a/k5NPKGq4D5UIDVkho+
- LwKd7wZoYwFvnLio=
-X-Received: by 2002:adf:ffc7:: with SMTP id x7mr13467601wrs.159.1575611513589; 
- Thu, 05 Dec 2019 21:51:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyeLD6mh88uQv7UH/mo3//YCqVD7C21mPLsBcTNy2iRyEH6VbxFNhztcGLYbUB1VGwAfH8q/A==
-X-Received: by 2002:adf:ffc7:: with SMTP id x7mr13467568wrs.159.1575611513217; 
- Thu, 05 Dec 2019 21:51:53 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id s19sm2100880wmj.33.2019.12.05.21.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 21:51:52 -0800 (PST)
-Subject: Re: [PATCH 1/3] hw/i386: Remove the deprecated machines 0.12 up to
- 0.15
-To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20191205160652.23493-1-thuth@redhat.com>
- <20191205160652.23493-2-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7d1a93eb-4881-e298-828f-c8edc3323bb6@redhat.com>
-Date: Fri, 6 Dec 2019 06:51:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1idEgy-0003FH-C5
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:34:48 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2019 22:12:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,283,1571727600"; d="scan'208";a="209359347"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga008.fm.intel.com with ESMTP; 05 Dec 2019 22:12:17 -0800
+Date: Fri, 6 Dec 2019 01:04:07 -0500
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [RFC PATCH 4/9] vfio-pci: register default dynamic-trap-bar-info
+ region
+Message-ID: <20191206060407.GF31791@joy-OptiPlex-7040>
+References: <20191205032419.29606-1-yan.y.zhao@intel.com>
+ <20191205032650.29794-1-yan.y.zhao@intel.com>
+ <20191205165530.1f29fe85@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <20191205160652.23493-2-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: FFfIRV0lPOadLtOX4fZW4w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191205165530.1f29fe85@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,170 +60,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "He,
+ Shaopeng" <shaopeng.he@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 5:06 PM, Thomas Huth wrote:
-> They can't be used reliable for live-migration anymore (see
-> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg04516.html
+On Fri, Dec 06, 2019 at 07:55:30AM +0800, Alex Williamson wrote:
+> On Wed,  4 Dec 2019 22:26:50 -0500
+> Yan Zhao <yan.y.zhao@intel.com> wrote:
+> 
+> > Dynamic trap bar info region is a channel for QEMU and vendor driver to
+> > communicate dynamic trap info. It is of type
+> > VFIO_REGION_TYPE_DYNAMIC_TRAP_BAR_INFO and subtype
+> > VFIO_REGION_SUBTYPE_DYNAMIC_TRAP_BAR_INFO.
+> > 
+> > This region has two fields: dt_fd and trap.
+> > When QEMU detects a device regions of this type, it will create an
+> > eventfd and write its eventfd id to dt_fd field.
+> > When vendor drivre signals this eventfd, QEMU reads trap field of this
+> > info region.
+> > - If trap is true, QEMU would search the device's PCI BAR
+> > regions and disable all the sparse mmaped subregions (if the sparse
+> > mmaped subregion is disablable).
+> > - If trap is false, QEMU would re-enable those subregions.
+> > 
+> > A typical usage is
+> > 1. vendor driver first cuts its bar 0 into several sections, all in a
+> > sparse mmap array. So initally, all its bar 0 are passthroughed.
+> > 2. vendor driver specifys part of bar 0 sections to be disablable.
+> > 3. on migration starts, vendor driver signals dt_fd and set trap to true
+> > to notify QEMU disabling the bar 0 sections of disablable flags on.
+> > 4. QEMU disables those bar 0 section and hence let vendor driver be able
+> > to trap access of bar 0 registers and make dirty page tracking possible.
+> > 5. on migration failure, vendor driver signals dt_fd to QEMU again.
+> > QEMU reads trap field of this info region which is false and QEMU
+> > re-passthrough the whole bar 0 region.
+> > 
+> > Vendor driver specifies whether it supports dynamic-trap-bar-info region
+> > through cap VFIO_PCI_DEVICE_CAP_DYNAMIC_TRAP_BAR in
+> > vfio_pci_mediate_ops->open().
+> > 
+> > If vfio-pci detects this cap, it will create a default
+> > dynamic_trap_bar_info region on behalf of vendor driver with region len=0
+> > and region->ops=null.
+> > Vvendor driver should override this region's len, flags, rw, mmap in its
+> > vfio_pci_mediate_ops.
+> 
+> TBH, I don't like this interface at all.  Userspace doesn't pass data
+> to the kernel via INFO ioctls.  We have a SET_IRQS ioctl for
+> configuring user signaling with eventfds.  I think we only need to
+> define an IRQ type that tells the user to re-evaluate the sparse mmap
+> information for a region.  The user would enumerate the device IRQs via
+> GET_IRQ_INFO, find one of this type where the IRQ info would also
+> indicate which region(s) should be re-evaluated on signaling.  The user
+> would enable that signaling via SET_IRQS and simply re-evaluate the
+ok. I'll try to switch to this way. Thanks for this suggestion.
 
-"reliably"?
+> sparse mmap capability for the associated regions when signaled.
 
-I'd keep the reference, but also paste Paolo's 7 lines here.
+Do you like the "disablable" flag of sparse mmap ?
+I think it's a lightweight way for user to switch mmap state of a whole region,
+otherwise going through a complete flow of GET_REGION_INFO and re-setup
+region might be too heavy.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Thanks
+Yan
 
-> for details) and have been marked as deprecated since QEMU v4.0,
-> so time to remove them now.
->=20
-> And while we're at it, mark the remaining pc-1.x machine types
-> as deprecated now, too, so that we finally only have "pc-i440fx"
-> and "pc-q35" machine types left (apart from the non-versioned
-> "isapc" and "microvm") once we removed them in a couple of releases.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/i386/pc_piix.c     | 82 -------------------------------------------
->   qemu-deprecated.texi  |  2 +-
->   tests/cpu-plug-test.c |  6 +---
->   3 files changed, 2 insertions(+), 88 deletions(-)
->=20
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 1bd70d1abb..59ac9d82c9 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -364,12 +364,6 @@ static void pc_compat_1_2(MachineState *machine)
->       x86_cpu_change_kvm_default("kvm-pv-eoi", NULL);
->   }
->  =20
-> -/* PC compat function for pc-0.12 and pc-0.13 */
-> -static void pc_compat_0_13(MachineState *machine)
-> -{
-> -    pc_compat_1_2(machine);
-> -}
-> -
->   static void pc_init_isa(MachineState *machine)
->   {
->       pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVI=
-CE);
-> @@ -800,82 +794,6 @@ DEFINE_I440FX_MACHINE(v1_0, "pc-1.0", pc_compat_1_2,
->                         pc_i440fx_1_0_machine_options);
->  =20
->  =20
-> -static void pc_i440fx_0_15_machine_options(MachineClass *m)
-> -{
-> -    static GlobalProperty compat[] =3D {
-> -        PC_CPU_MODEL_IDS("0.15")
-> -    };
-> -
-> -    pc_i440fx_1_0_machine_options(m);
-> -    m->hw_version =3D "0.15";
-> -    m->deprecation_reason =3D "use a newer machine type instead";
-> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
-> -}
-> -
-> -DEFINE_I440FX_MACHINE(v0_15, "pc-0.15", pc_compat_1_2,
-> -                      pc_i440fx_0_15_machine_options);
-> -
-> -
-> -static void pc_i440fx_0_14_machine_options(MachineClass *m)
-> -{
-> -    static GlobalProperty compat[] =3D {
-> -        PC_CPU_MODEL_IDS("0.14")
-> -        { "virtio-blk-pci", "event_idx", "off" },
-> -        { "virtio-serial-pci", "event_idx", "off" },
-> -        { "virtio-net-pci", "event_idx", "off" },
-> -        { "virtio-balloon-pci", "event_idx", "off" },
-> -        { "qxl", "revision", "2" },
-> -        { "qxl-vga", "revision", "2" },
-> -    };
-> -
-> -    pc_i440fx_0_15_machine_options(m);
-> -    m->hw_version =3D "0.14";
-> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
-> -}
-> -
-> -DEFINE_I440FX_MACHINE(v0_14, "pc-0.14", pc_compat_1_2,
-> -                      pc_i440fx_0_14_machine_options);
-> -
-> -static void pc_i440fx_0_13_machine_options(MachineClass *m)
-> -{
-> -    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
-> -    static GlobalProperty compat[] =3D {
-> -        PC_CPU_MODEL_IDS("0.13")
-> -        { TYPE_PCI_DEVICE, "command_serr_enable", "off" },
-> -        { "AC97", "use_broken_id", "1" },
-> -        { "virtio-9p-pci", "vectors", "0" },
-> -        { "VGA", "rombar", "0" },
-> -        { "vmware-svga", "rombar", "0" },
-> -    };
-> -
-> -    pc_i440fx_0_14_machine_options(m);
-> -    m->hw_version =3D "0.13";
-> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
-> -    pcmc->kvmclock_enabled =3D false;
-> -}
-> -
-> -DEFINE_I440FX_MACHINE(v0_13, "pc-0.13", pc_compat_0_13,
-> -                      pc_i440fx_0_13_machine_options);
-> -
-> -static void pc_i440fx_0_12_machine_options(MachineClass *m)
-> -{
-> -    static GlobalProperty compat[] =3D {
-> -        PC_CPU_MODEL_IDS("0.12")
-> -        { "virtio-serial-pci", "max_ports", "1" },
-> -        { "virtio-serial-pci", "vectors", "0" },
-> -        { "usb-mouse", "serial", "1" },
-> -        { "usb-tablet", "serial", "1" },
-> -        { "usb-kbd", "serial", "1" },
-> -    };
-> -
-> -    pc_i440fx_0_13_machine_options(m);
-> -    m->hw_version =3D "0.12";
-> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
-> -}
-> -
-> -DEFINE_I440FX_MACHINE(v0_12, "pc-0.12", pc_compat_0_13,
-> -                      pc_i440fx_0_12_machine_options);
-> -
->   typedef struct {
->       uint16_t gpu_device_id;
->       uint16_t pch_device_id;
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index e407cc085e..2850f9a520 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -261,7 +261,7 @@ The 'scsi-disk' device is deprecated. Users should us=
-e 'scsi-hd' or
->  =20
->   @section System emulator machines
->  =20
-> -@subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
-> +@subsection pc-1.0, pc-1.1, pc-1.2 and pc-1.3 (since 5.0)
->  =20
->   These machine types are very old and likely can not be used for live mi=
-gration
->   from old QEMU versions anymore. A newer machine type should be used ins=
-tead.
-> diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
-> index 30e514bbfb..e8ffbbce4b 100644
-> --- a/tests/cpu-plug-test.c
-> +++ b/tests/cpu-plug-test.c
-> @@ -148,11 +148,7 @@ static void add_pc_test_case(const char *mname)
->           (strcmp(mname, "pc-1.3") =3D=3D 0) ||
->           (strcmp(mname, "pc-1.2") =3D=3D 0) ||
->           (strcmp(mname, "pc-1.1") =3D=3D 0) ||
-> -        (strcmp(mname, "pc-1.0") =3D=3D 0) ||
-> -        (strcmp(mname, "pc-0.15") =3D=3D 0) ||
-> -        (strcmp(mname, "pc-0.14") =3D=3D 0) ||
-> -        (strcmp(mname, "pc-0.13") =3D=3D 0) ||
-> -        (strcmp(mname, "pc-0.12") =3D=3D 0)) {
-> +        (strcmp(mname, "pc-1.0") =3D=3D 0)) {
->           path =3D g_strdup_printf("cpu-plug/%s/init/%ux%ux%u&maxcpus=3D%=
-u",
->                                  mname, data->sockets, data->cores,
->                                  data->threads, data->maxcpus);
->=20
+> Thanks,
+> 
+> Alex
+>
 
+
+
+
+> > 
+> > Cc: Kevin Tian <kevin.tian@intel.com>
+> > 
+> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci.c | 16 ++++++++++++++++
+> >  include/linux/vfio.h        |  3 ++-
+> >  include/uapi/linux/vfio.h   | 11 +++++++++++
+> >  3 files changed, 29 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> > index 059660328be2..62b811ca43e4 100644
+> > --- a/drivers/vfio/pci/vfio_pci.c
+> > +++ b/drivers/vfio/pci/vfio_pci.c
+> > @@ -127,6 +127,19 @@ void init_migration_region(struct vfio_pci_device *vdev)
+> >  		NULL);
+> >  }
+> >  
+> > +/**
+> > + * register a region to hold info for dynamically trap bar regions
+> > + */
+> > +void init_dynamic_trap_bar_info_region(struct vfio_pci_device *vdev)
+> > +{
+> > +	vfio_pci_register_dev_region(vdev,
+> > +		VFIO_REGION_TYPE_DYNAMIC_TRAP_BAR_INFO,
+> > +		VFIO_REGION_SUBTYPE_DYNAMIC_TRAP_BAR_INFO,
+> > +		NULL, 0,
+> > +		VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE,
+> > +		NULL);
+> > +}
+> > +
+> >  static void vfio_pci_probe_mmaps(struct vfio_pci_device *vdev)
+> >  {
+> >  	struct resource *res;
+> > @@ -538,6 +551,9 @@ static int vfio_pci_open(void *device_data)
+> >  				if (caps & VFIO_PCI_DEVICE_CAP_MIGRATION)
+> >  					init_migration_region(vdev);
+> >  
+> > +				if (caps & VFIO_PCI_DEVICE_CAP_DYNAMIC_TRAP_BAR)
+> > +					init_dynamic_trap_bar_info_region(vdev);
+> > +
+> >  				pr_info("vfio pci found mediate_ops %s, caps=%llx, handle=%x for %x:%x\n",
+> >  						vdev->mediate_ops->name, caps,
+> >  						handle, vdev->pdev->vendor,
+> > diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+> > index cddea8e9dcb2..cf8ecf687bee 100644
+> > --- a/include/linux/vfio.h
+> > +++ b/include/linux/vfio.h
+> > @@ -197,7 +197,8 @@ extern void vfio_virqfd_disable(struct virqfd **pvirqfd);
+> >  
+> >  struct vfio_pci_mediate_ops {
+> >  	char	*name;
+> > -#define VFIO_PCI_DEVICE_CAP_MIGRATION (0x01)
+> > +#define VFIO_PCI_DEVICE_CAP_MIGRATION		(0x01)
+> > +#define VFIO_PCI_DEVICE_CAP_DYNAMIC_TRAP_BAR	(0x02)
+> >  	int	(*open)(struct pci_dev *pdev, u64 *caps, u32 *handle);
+> >  	void	(*release)(int handle);
+> >  	void	(*get_region_info)(int handle,
+> > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> > index caf8845a67a6..74a2d0b57741 100644
+> > --- a/include/uapi/linux/vfio.h
+> > +++ b/include/uapi/linux/vfio.h
+> > @@ -258,6 +258,9 @@ struct vfio_region_info {
+> >  struct vfio_region_sparse_mmap_area {
+> >  	__u64	offset;	/* Offset of mmap'able area within region */
+> >  	__u64	size;	/* Size of mmap'able area */
+> > +	__u32	disablable;	/* whether this mmap'able are able to
+> > +				 *  be dynamically disabled
+> > +				 */
+> >  };
+> >  
+> >  struct vfio_region_info_cap_sparse_mmap {
+> > @@ -454,6 +457,14 @@ struct vfio_device_migration_info {
+> >  #define VFIO_DEVICE_DIRTY_PFNS_ALL	(~0ULL)
+> >  } __attribute__((packed));
+> >  
+> > +/* Region type and sub-type to hold info to dynamically trap bars */
+> > +#define VFIO_REGION_TYPE_DYNAMIC_TRAP_BAR_INFO		(4)
+> > +#define VFIO_REGION_SUBTYPE_DYNAMIC_TRAP_BAR_INFO	(1)
+> > +
+> > +struct vfio_device_dt_bar_info_region {
+> > +	__u32 dt_fd; /* fd of eventfd to notify qemu trap/untrap bars*/
+> > +	__u32 trap;   /* trap/untrap bar regions */
+> > +};
+> >  
+> >  /* sub-types for VFIO_REGION_TYPE_PCI_* */
+> >  
+> 
 
