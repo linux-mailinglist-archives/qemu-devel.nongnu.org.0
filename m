@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5491157BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:25:09 +0100 (CET)
-Received: from localhost ([::1]:44524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A371157C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:26:29 +0100 (CET)
+Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idJDw-0002bp-OW
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:25:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
+	id 1idJFE-0003cJ-44
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:26:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idIvn-0003Gq-OV
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:06:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idIxN-0004nf-Mt
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:08:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idIvm-000840-Ea
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:06:23 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:37414)
+ (envelope-from <peter.maydell@linaro.org>) id 1idIxJ-00048i-Ex
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:07:59 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:33422)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idIvk-00080s-M4
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:06:22 -0500
-Received: by mail-oi1-x244.google.com with SMTP id x195so745930oix.4
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 11:06:19 -0800 (PST)
+ id 1idIxI-00042h-0T
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:07:56 -0500
+Received: by mail-oi1-x244.google.com with SMTP id v140so771188oie.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 11:07:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sJlAk5ocPoSio1nKOKPWC5tcYKR+YZRrEJtzX/ztNYI=;
- b=T1KuvM3B8I5csV4EXbsOzevR7QWXI9G3K8t+gl+MmSzCfM5gNFqynjuBEwsklXKtQk
- Jq4+7snMEQ9BitvSeDKDnjuadmlNpipp9uWQewzo3sOHBgM2+5uOSafcrWZnqhHoS7VS
- Rzd93wAQga38BWKUSYxvEnDdrv0YRv9mXnunlOBTqcCDGBOFuhA8PdahjE8s9WUu023U
- jxXANlsF/1xpnRWomY3XiPzKh9VJmKDgeop7/MsdxekrF2BEqvmjHm8f9IxS5wnlNxij
- Mpax72qGbK4Mn2bMjeQKB/0DLccb/0wUGzGOLFHrVf0y5M/hemPcAi0QRYNi/UNLilcn
- TThg==
+ :cc; bh=oqe8pI/PWg/1Tvf6B/YngEW4CJMUyRS0ReGi/U+z2S8=;
+ b=s7P4/BgoLoiMcq2MZXeCr2Ns/b5m3hND2Li/aDOeD+/31e704AGQ8oaY7Rlb6Dzyy8
+ x7LbjjF4wFOzBlx91fRxu2rqQwjXEwU8os3pbFCXbMlJdjMT4l1ZCfPYvqlom0ETXPK3
+ elwycRQMMoaQsImLOtCKy+e2AMvyrkiQLywyetm+xiEBt0nwO+dUzSvWtxt+JGDwyXdD
+ pA+jj/ZSOfxIPttSuXdglodAUumvmATxOcVjy7EpqPEKJPjnuBmZI5Ef+TpFL2RwAGfD
+ /xutGz2hgilqa6pX0dEz6G4ueHCdavc3V6gsUTyAengXm/obB2CM2HspwTB5mOOHBhF2
+ uXWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sJlAk5ocPoSio1nKOKPWC5tcYKR+YZRrEJtzX/ztNYI=;
- b=gKyQbBf1FrtR2mHK55wvjvIab67eaNH5kMPVRvrGhi9vBAcOTQLbV6kNG0V59zAS4e
- 1iaTibpONZ3y9/QLfQVBlMT+kFD0s221CWa+1z12/2a5BpytULAGYQaf4A7QLpopLhZF
- IZNBK7Mp8oVPcXOhV9OkoVWGQgLfIV3V/IzhweebU8P0Dg3sXGrHEPXCB/nZf/WHzncc
- 75xarzB+gJdiSRuM+LHn6QPWouu5Fy7prUWTnVoQYOSdoF1VIm3U8H5zqqWqUzEjC8d/
- qJPDqe1z/LltRipbeG1ns5XjUDUlz4Errx+g99cOJjpPMqebmc3m92//k3XlGTx+Xjju
- b0WA==
-X-Gm-Message-State: APjAAAXqjLXkS8nrpDWdKf6hXNxoi4UGhpxpxEjGbSdHszO9nugLAvt4
- yw3giguhImJR0/5WfoIff/8ZuSZEyavzOzH7cgxyhw==
-X-Google-Smtp-Source: APXvYqzJKXHC1SZf91Iiw1W8EqGqhNuSLLXRFiWHHZLnrNgfjk75/+3XAtuFtbtw7w1RxpeUj1jNJdEpOpSMR6NB4EI=
-X-Received: by 2002:aca:3182:: with SMTP id
- x124mr14038668oix.170.1575659178540; 
- Fri, 06 Dec 2019 11:06:18 -0800 (PST)
+ bh=oqe8pI/PWg/1Tvf6B/YngEW4CJMUyRS0ReGi/U+z2S8=;
+ b=ZpOs1QrO0EJOsKCRqrifmVnN2nODSrXtd121Tzzzx8CYIqZ3palEI43KiezygqD0qK
+ 6mzjlDJzyu5q6LE1bb5XQHZkI+zieg7CQh1PQxhwS7X2GiHSz7BrVhuVbbCATuRTQSZ1
+ EWXXoprZ+YijDcy0XloAW+EM9qiPKEBHCdZ7HovICMQWWABUaR+wuxC69gllegiXwyop
+ qnA9C0vkvzz7QjJ4Ss7K5hpHkZQSRMa0YyOWHLRD/uldTgXKTHEyu7TDAH8swU498qGb
+ jZn8Rjyxydci7DWNIfi7rM46fN/zUayeQ7xAthv+7NIwyr8GMTex+UdzV2aytP4I2rdG
+ gGgg==
+X-Gm-Message-State: APjAAAUNagMcehxxDX6KjFrLmbZa7FCL7be8eXEo2g7MkwcHLywaDV5P
+ 6d8tEcLVjVajXJIwEv5GLM3NwP04NxQLT3j69fluE0N8
+X-Google-Smtp-Source: APXvYqwegleWn2eiodHhLvxhSa7ZsExnAD7K8RiyeXRXiO3gJLO2mIdWT7aJuRSzYLYXoqp51t4Pyp1VeqsaVELmd8E=
+X-Received: by 2002:aca:f5cc:: with SMTP id
+ t195mr13967794oih.163.1575659270565; 
+ Fri, 06 Dec 2019 11:07:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20191203225333.17055-1-richard.henderson@linaro.org>
- <20191203225333.17055-5-richard.henderson@linaro.org>
-In-Reply-To: <20191203225333.17055-5-richard.henderson@linaro.org>
+ <20191203225333.17055-6-richard.henderson@linaro.org>
+In-Reply-To: <20191203225333.17055-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 19:06:07 +0000
-Message-ID: <CAFEAcA83mPOxhg7k1mqRkWrE9Jzy5OnYVEv5DjU=N9GTquGsyQ@mail.gmail.com>
-Subject: Re: [PATCH 04/11] target/arm: Reduce CPSR_RESERVED
+Date: Fri, 6 Dec 2019 19:07:39 +0000
+Message-ID: <CAFEAcA8-mqSToG+fNOwnDMaOL0Ykd-1C1ni0AMwQ-+rfMSn98A@mail.gmail.com>
+Subject: Re: [PATCH 05/11] target/arm: Add isar_feature tests for PAN + ATS1E1
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -80,44 +80,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 3 Dec 2019 at 22:53, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Since v8.0, the CPSR_RESERVED bits have been allocated.
-> We are not yet implementing ARMv8.4-DIT; retain CPSR_RESERVED,
-> since that overlaps with our current hack for AA32 single step.
+> Include definitions for all of the bits in ID_MMFR3.
+> We already have a definition for ID_AA64MMFR1.PAN.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 22c5706835..49dc436e5e 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1149,12 +1149,16 @@ void pmu_init(ARMCPU *cpu);
->  #define CPSR_IT_2_7 (0xfc00U)
->  #define CPSR_GE (0xfU << 16)
->  #define CPSR_IL (1U << 20)
-> -/* Note that the RESERVED bits include bit 21, which is PSTATE_SS in
-> +/*
-> + * Note that the RESERVED bits include bit 21, which is PSTATE_SS in
->   * an AArch64 SPSR but RES0 in AArch32 SPSR and CPSR. In QEMU we use
->   * env->uncached_cpsr bit 21 to store PSTATE.SS when executing in AArch32,
->   * where it is live state but not accessible to the AArch32 code.
-> + *
-> + * TODO: With ARMv8.4-DIT, bit 21 is DIT in AArch32 (bit 24 for AArch64).
-> + * We will need to move AArch32 SS somewhere else at that point.
->   */
-> -#define CPSR_RESERVED (0x7U << 21)
-> +#define CPSR_RESERVED (1U << 21)
->  #define CPSR_J (1U << 24)
->  #define CPSR_IT_0_1 (3U << 25)
->  #define CPSR_Q (1U << 27)
 
-Should we retain the current behaviour of forbidding
-guest writes to the CPSR (directly, or via exception
-return and SPSR->CPSR writes) from messing with the
-PAN and SSBS bits on CPUs which don't implement those
-features ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
