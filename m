@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D94D1154AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:55:53 +0100 (CET)
-Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D22B11545C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:36:11 +0100 (CET)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFxP-0002wy-Tq
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:55:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53741)
+	id 1idFeL-0004xO-U9
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:36:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <catherine.hecx@gmail.com>) id 1idEmR-0001sA-Ua
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:30 -0500
+ (envelope-from <cohuck@redhat.com>) id 1idEbV-00072u-BO
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:29:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <catherine.hecx@gmail.com>) id 1idEmF-00037b-Qh
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:19 -0500
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:43300)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <catherine.hecx@gmail.com>)
- id 1idEmF-00035N-4m
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:40:15 -0500
-Received: by mail-qk1-x743.google.com with SMTP id t129so1633944qke.10
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:40:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=poU4coC1wpEnGRHnApg5z8cKyUslXoAMtkEQeEix3YE=;
- b=OfA4h5x466F13+EJ6RAM3rEK2XQXeqRQWVoYD9x7iKGEqTUVkJVKX2xdBb0uK7Wiy8
- +K3lV6Ttr9mWyHEWzqLfsOXpVaoyIgO0Z7sucDUc5ml8tWFEQx/VSTgDfzKC/7ts+9tw
- Uo0K8cEOVQCNU+30QTyVLUHJ2glanPx6QqbpFY+xVb6A3XF0oMul+CpcqSe8Z35w2dZo
- ewoSVe3v+Tq8NBBaubsauIIlFA/zUxnBp8Pw/r37SJwO+aI5dxmsVQ7EzGHFv/9Bo/ks
- M4iMFTRX1g39U7AWBmfcXeI9aiBakRBcEVi2x8Bs2FWOfBsJCaLVK7xPUmK3LcBKuPUg
- 94Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=poU4coC1wpEnGRHnApg5z8cKyUslXoAMtkEQeEix3YE=;
- b=ovqfMxZJ6yHbzgMjk1LdMNSr2HnY/r0QehRs2x3DlSGMzjgzDSpZ74gzMxTg40RRWF
- otqySnhmKCq4wUHjUufhCWEtMoA1UF40Zb24+ryCDlXiIFvXu8jykV7rQh1rDcyAOb+B
- 7NW2xrtzpOzoeZKgQ+XDu4rAzioZO2+9RkS1kQxzeAYAac92FOoBSvXoZCb4WT0f40i/
- Htiw1AQU2vBVXpx42Xlhtr0shq67a9bWEE9208cUjO+xTXFE5wkkPHH8K873gfgde3xp
- JTRGyRSPOJSLryxIfnZuSoE8A5Q4Ki0OThVRQXZ/iDNLudvleLGSgwWskb/J0a4lhAX1
- tH9Q==
-X-Gm-Message-State: APjAAAVol5+FdWIdSjCfeK6lr/0qveSkOZYw0ifdQUB2gAXrgobLb8HO
- 8AldXbUtrGjfNz/ifZpUHAe/H7uNaLw=
-X-Google-Smtp-Source: APXvYqyHAGUvqCWHS5evYFAogikSLDtFd1xrmclCYnoYpwWw+dIWtypuzUWGf2XoUfxoQEICD0mGNQ==
-X-Received: by 2002:a37:a257:: with SMTP id l84mr13084095qke.22.1575627933529; 
- Fri, 06 Dec 2019 02:25:33 -0800 (PST)
-Received: from host.localdomain (104.129.187.94.16clouds.com. [104.129.187.94])
- by smtp.gmail.com with ESMTPSA id o7sm2117654qkd.119.2019.12.06.02.25.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 06 Dec 2019 02:25:32 -0800 (PST)
-From: Catherine Ho <catherine.hecx@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH] target/i386: skip kvm_msr_entry_add when kvm_vmx_basic is 0
-Date: Fri,  6 Dec 2019 05:23:37 -0500
-Message-Id: <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
-References: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::743
+ (envelope-from <cohuck@redhat.com>) id 1idEbU-00018g-08
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:29:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39822
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1idEbT-00016S-Rl
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:29:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575642547;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BPlqeEsVBOgtaq5nNdjurvIsHEwch9TNbmiJeABjkyQ=;
+ b=P5fIG22MZbYqPjYxmriv8sSeOllxbP8Bw92vfsQWEkFi5TpFbTQ2mQ7WXYKU6Kem0nUd3b
+ qFw9590x2GplNL+ojLriWEVUsAJdKMf/DXVsbJcklApYIfrA8Yu5CfmxrZz/j0+KKlYSeu
+ Sqv4NoRptlMTaMw9XPqfc4dVQ/iS+kY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-bDhnPZLiO4Gs8o_UcPFQ8A-1; Fri, 06 Dec 2019 05:27:37 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 877F08017DF;
+ Fri,  6 Dec 2019 10:27:36 +0000 (UTC)
+Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 858926013B;
+ Fri,  6 Dec 2019 10:27:32 +0000 (UTC)
+Date: Fri, 6 Dec 2019 11:27:30 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] s390x/tcg: clear local interrupts on reset normal
+Message-ID: <20191206112730.3959e58c.cohuck@redhat.com>
+In-Reply-To: <4939898a-99c6-2257-9f44-3d706190f331@redhat.com>
+References: <20191205103844.10404-1-cohuck@redhat.com>
+ <4939898a-99c6-2257-9f44-3d706190f331@redhat.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: bDhnPZLiO4Gs8o_UcPFQ8A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +72,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Catherine Ho <catherine.hecx@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Richard Henderson <rth@twiddle.net>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 1389309c811b ("KVM: nVMX: expose VMX capabilities for nested
-hypervisors to userspace") expands the msr_based_features with
-MSR_IA32_VMX_BASIC and others. Then together with an old kernel before
-1389309c811b, the qemu call KVM_GET_MSR_FEATURE_INDEX_LIST and got the
-smaller kvm_feature_msrs. Then in kvm_arch_get_supported_msr_feature(),
-searching VMX_BASIC will be failed and return 0. At last kvm_vmx_basic
-will be assigned to 0.
+On Fri, 6 Dec 2019 10:36:40 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-Without this patch, it will cause a qemu crash (host kernel 4.15
-ubuntu 18.04+qemu 4.1):
-qemu-system-x86_64: error: failed to set MSR 0x480 to 0x0
-target/i386/kvm.c:2932: kvm_put_msrs: Assertion `ret ==
-cpu->kvm_msr_buf->nmsrs' failed.
+> On 05.12.19 11:38, Cornelia Huck wrote:
+> > We neglected to clean up pending interrupts and emergency signals;
+> > fix that.
+> > 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> > 
+> > Noted while looking at the fixes for the kvm reset handling.
+> > 
+> > We now clear some fields twice in the paths for clear or initial reset;
+> > but (a) we already do that for other fields and (b) it does not really
+> > hurt. Maybe we should give the cpu structure some love in the future,
+> > as it's not always clear whether some fields are tcg only.
+> > 
+> > ---
+> >  target/s390x/cpu.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> > index 829ce6ad5491..f2572961dc3a 100644
+> > --- a/target/s390x/cpu.c
+> > +++ b/target/s390x/cpu.c
+> > @@ -133,6 +133,9 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
+> >      case S390_CPU_RESET_NORMAL:
+> >          env->pfault_token = -1UL;
+> >          env->bpbc = false;
+> > +        env->pending_int = 0;
+> > +        env->external_call_addr = 0;
+> > +        bitmap_zero(env->emergency_signals, S390_MAX_CPUS);
+> >          break;
+> >      default:
+> >          g_assert_not_reached();
+> >   
+> 
+> I'd suggest we rework the memsetting instead, now that we always
+> "fall through" in this call chain, e.g, something like
 
-This fixes it by skipping kvm_msr_entry_add when kvm_vmx_basic is 0
+Yeah, I did this patch before I applied Janosch's patch that reworks
+this function... now it probably makes more sense to do it your way.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Catherine Ho <catherine.hecx@gmail.com>
----
- target/i386/kvm.c |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index a8c44bf..8cf84a2 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2632,8 +2632,13 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
-                                          f[FEAT_VMX_SECONDARY_CTLS]));
-     kvm_msr_entry_add(cpu, MSR_IA32_VMX_EPT_VPID_CAP,
-                       f[FEAT_VMX_EPT_VPID_CAPS] | fixed_vmx_ept_vpid);
--    kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
-+
-+    if (kvm_vmx_basic) {
-+	/* Only add the entry when host supports it */
-+        kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
-                       f[FEAT_VMX_BASIC] | fixed_vmx_basic);
-+    }
-+
-     kvm_msr_entry_add(cpu, MSR_IA32_VMX_MISC,
-                       f[FEAT_VMX_MISC] | fixed_vmx_misc);
-     if (has_msr_vmx_vmfunc) {
--- 
-1.7.1
+> 
+> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+> index bd39cb54b7..492f0c766d 100644
+> --- a/target/s390x/cpu.c
+> +++ b/target/s390x/cpu.c
+> @@ -95,12 +95,14 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
+>  
+>      switch (type) {
+>      case S390_CPU_RESET_CLEAR:
+> -        memset(env, 0, offsetof(CPUS390XState, start_initial_reset_fields));
+> +        memset(&env->start_clear_reset_fields, 0,
+> +               offsetof(CPUS390XState, end_clear_reset_fields) -
+> +               offsetof(CPUS390XState, start_clear_reset_fields));
+>          /* fall through */
+>      case S390_CPU_RESET_INITIAL:
+>          /* initial reset does not clear everything! */
+>          memset(&env->start_initial_reset_fields, 0,
+> -               offsetof(CPUS390XState, end_reset_fields) -
+> +               offsetof(CPUS390XState, end_initial_reset_fields) -
+>                 offsetof(CPUS390XState, start_initial_reset_fields));
+>  
+>          /* architectured initial value for Breaking-Event-Address register */
+> @@ -123,8 +125,10 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
+>                                    &env->fpu_status);
+>         /* fall through */
+>      case S390_CPU_RESET_NORMAL:
+> +        memset(&env->start_normal_reset_fields, 0,
+> +               offsetof(CPUS390XState, end_normal_reset_fields) -
+> +               offsetof(CPUS390XState, start_normal_reset_fields));
+>          env->pfault_token = -1UL;
+> -        env->bpbc = false;
+>          break;
+>      default:
+>          g_assert_not_reached();
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index d2af13b345..fe2ab6b89e 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -51,6 +51,9 @@ typedef struct PSW {
+>  } PSW;
+>  
+>  struct CPUS390XState {
+> +
+> +    struct {} start_clear_reset_fields;
+> +
+>      uint64_t regs[16];     /* GP registers */
+>      /*
+>       * The floating point registers are part of the vector registers.
+> @@ -63,12 +66,11 @@ struct CPUS390XState {
+>      uint64_t etoken;       /* etoken */
+>      uint64_t etoken_extension; /* etoken extension */
+>  
+> -    /* Fields up to this point are not cleared by initial CPU reset */
+> +    struct {} end_clear_reset_fields;
+>      struct {} start_initial_reset_fields;
+>  
+>      uint32_t fpc;          /* floating-point control register */
+>      uint32_t cc_op;
+> -    bool bpbc;             /* branch prediction blocking */
+>  
+>      float_status fpu_status; /* passed to softfloat lib */
+>  
+> @@ -99,10 +101,6 @@ struct CPUS390XState {
+>  
+>      uint64_t cregs[16]; /* control registers */
+>  
+> -    int pending_int;
+> -    uint16_t external_call_addr;
+> -    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+> -
+>      uint64_t ckc;
+>      uint64_t cputm;
+>      uint32_t todpr;
+> @@ -114,8 +112,17 @@ struct CPUS390XState {
+>      uint64_t gbea;
+>      uint64_t pp;
+>  
+> -    /* Fields up to this point are cleared by a CPU reset */
+> -    struct {} end_reset_fields;
+> +    struct {} end_initial_reset_fields;
+> +    struct {} start_normal_reset_fields;
+> +
+> +    /* local interrupt state */
+> +    int pending_int;
+> +    uint16_t external_call_addr;
+> +    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+> +
+> +    bool bpbc;             /* branch prediction blocking */
+> +
+> +    struct {} end_normal_reset_fields;
+>  
+>  #if !defined(CONFIG_USER_ONLY)
+>      uint32_t core_id; /* PoP "CPU address", same as cpu_index */
 
 
