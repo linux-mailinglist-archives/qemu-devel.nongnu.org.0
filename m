@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C5C115794
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:13:50 +0100 (CET)
-Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699DE1157A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:17:39 +0100 (CET)
+Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idJ2z-0001HI-D8
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:13:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
+	id 1idJ6g-0004WW-3U
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:17:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idIVY-0006BA-MP
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:20 -0500
+ (envelope-from <groug@kaod.org>) id 1idIa9-0001iN-AD
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:44:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idIVV-00005A-7h
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:14 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33203)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idIVT-0008T0-6g
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:11 -0500
-Received: by mail-ot1-x344.google.com with SMTP id d17so6690892otc.0
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:39:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eh9xvqGv160fKMlLUwlPlM7qfEP0isz5KYXYGxgyu8c=;
- b=wACfxTUlczOZsG7CCDJ5ZRZYorQx6HmmA6N/te+cyrzutNJJ4HsJmfbIIB4BL1vyNd
- iLK5kQ80Gm7RqGznez8vHvqZgraxshgcUHXJug7YhOAGeKXFw8SNnZdchqrPs0MhCqnD
- ihIiy2Up0ULk9ZRK5L6nnec60KSVt5Hi2nmzCl2yNIhA2uVg7nM8LJc7HH9HMc4SyXx3
- LPDARTMnGfjmSrVIriqZV/RwYk0XPcKxPLm15jAAQ7734HLgbIeroaqpv/XS0odRLhUD
- mf7u4RWQuWsGBn4WH7I4hJLhHHtGn0AalxhM3Lq1YQAoi9lJHxWvbqyHpt4EEHlNMTCl
- irFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eh9xvqGv160fKMlLUwlPlM7qfEP0isz5KYXYGxgyu8c=;
- b=lh4ElFr+BHLzVTuDPrKbobV4S6Oz+PPuABecOvqNpoxENDnwUyFt1q4QDwVVmztYMj
- vhZWBeGAScYQTZHoz3SrQVLmyD7tXhgxQQzbal/f0FLP8hDTTyoMXrUdPMaWOWhtyFLU
- /eG0cHKp5Ud1AflM+ejf9kiCv20cKM9FTaRzWTZRDOZF2GnYavJ1vID+ZpywjXl6z5dB
- RAlrWEVMbUd3JQlqn5Ax1cC9UY5oh3Uc9SELRK6HlOcUlnp+cMC+/6eF1uD89Ts64mm6
- XFKt4gA3IKSnwHaFxNY5bJ63gP/jcP384rfD/B0jJYnDbu7mZRivs3vj+xAuB5x4mwt3
- WWsA==
-X-Gm-Message-State: APjAAAWiyIQ7VZrTSVxLbVtS2gjaIeW3h4tPeflLrAjgNwH4+cY9JSqX
- M4vzobUYeoNyCYzadD2QuWMWNfU3MWgWLqoMAYjF3g==
-X-Google-Smtp-Source: APXvYqyLyH4WzoktiVZ8ekTSUBK5nOb267oJQ6YQGWI6LORU5SMake6vRYUt6QE5llPM+YQQzs+xKVAufpDOlOiVvrQ=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr12398993otq.135.1575657544333; 
- Fri, 06 Dec 2019 10:39:04 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1idIa7-0002SR-Qs
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:44:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56940)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1idIa5-0002Nr-Ul
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:43:59 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xB6IgpnI134897
+ for <qemu-devel@nongnu.org>; Fri, 6 Dec 2019 13:43:56 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wq9g6gwjr-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 13:43:55 -0500
+Received: from localhost
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 6 Dec 2019 18:43:53 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 6 Dec 2019 18:43:50 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xB6IhnPs29556978
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 Dec 2019 18:43:49 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 744D44203F;
+ Fri,  6 Dec 2019 18:43:49 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F00B42047;
+ Fri,  6 Dec 2019 18:43:49 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.42.200])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  6 Dec 2019 18:43:48 +0000 (GMT)
+Subject: [for-5.0 PATCH 0/3] cpu: Clarify overloading of reset QOM methods
+From: Greg Kurz <groug@kaod.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Date: Fri, 06 Dec 2019 19:43:48 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-References: <20191206162303.30338-1-philmd@redhat.com>
-In-Reply-To: <20191206162303.30338-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 18:38:53 +0000
-Message-ID: <CAFEAcA8npEnhYJoiTTJ=o4xFuPmEtW_Ga1e3Ka4KOpbuph5Cpg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/arm/sbsa-ref: Simplify by moving the gic in the
- machine state
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+x-cbid: 19120618-0008-0000-0000-0000033E5956
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19120618-0009-0000-0000-00004A5D8173
+Message-Id: <157565782864.3897844.627720481210693346.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-06_06:2019-12-05,2019-12-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 clxscore=1034 mlxscore=0 impostorscore=0 bulkscore=0
+ mlxlogscore=707 suspectscore=0 adultscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912060152
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id xB6IgpnI134897
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,24 +88,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Leif Lindholm <leif.lindholm@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Dec 2019 at 16:23, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> Make the gic a field in the machine state, and instead of filling
-> an array of qemu_irq and passing it around, directly call
-> qdev_get_gpio_in() on the gic field.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Each cpu subclass overloads the reset method of its parent class with
+its own. But since it needs to call the parent method as well, it keeps
+a parent_reset pointer to do so. This causes the same not very explicit
+boiler plate to be duplicated all around the place:
+
+    pcc->parent_reset =3D cc->reset;
+    cc->reset =3D ppc_cpu_reset;
+
+A similar concern was addressed some time back by Philippe Mathieu-Daud=C3=
+=A9
+in qdev, with the addition of device_class_set_parent_reset() and friends=
+:
+
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D46795cf2e2f6
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dbf853881690d
+
+Follow the same approach with cpus.
+
+--
+Greg
+
+---
+
+Greg Kurz (3):
+      cpu: Introduce CPUReset callback typedef
+      cpu: Introduce cpu_class_set_parent_reset()
+      cpu: Use cpu_class_set_parent_reset()
 
 
-Applied to target-arm.next, thanks.
+ hw/core/cpu.c                   |    8 ++++++++
+ include/hw/core/cpu.h           |    8 +++++++-
+ target/alpha/cpu-qom.h          |    2 +-
+ target/arm/cpu-qom.h            |    2 +-
+ target/arm/cpu.c                |    3 +--
+ target/cris/cpu-qom.h           |    2 +-
+ target/cris/cpu.c               |    3 +--
+ target/hppa/cpu-qom.h           |    2 +-
+ target/i386/cpu-qom.h           |    2 +-
+ target/i386/cpu.c               |    3 +--
+ target/lm32/cpu-qom.h           |    2 +-
+ target/lm32/cpu.c               |    3 +--
+ target/m68k/cpu-qom.h           |    2 +-
+ target/m68k/cpu.c               |    3 +--
+ target/microblaze/cpu-qom.h     |    2 +-
+ target/microblaze/cpu.c         |    3 +--
+ target/mips/cpu-qom.h           |    2 +-
+ target/mips/cpu.c               |    3 +--
+ target/moxie/cpu.c              |    3 +--
+ target/moxie/cpu.h              |    2 +-
+ target/nios2/cpu.c              |    3 +--
+ target/nios2/cpu.h              |    2 +-
+ target/openrisc/cpu.c           |    3 +--
+ target/openrisc/cpu.h           |    2 +-
+ target/ppc/cpu-qom.h            |    2 +-
+ target/ppc/translate_init.inc.c |    3 +--
+ target/riscv/cpu.c              |    3 +--
+ target/riscv/cpu.h              |    2 +-
+ target/s390x/cpu-qom.h          |    2 +-
+ target/s390x/cpu.c              |    3 +--
+ target/sh4/cpu-qom.h            |    2 +-
+ target/sh4/cpu.c                |    3 +--
+ target/sparc/cpu-qom.h          |    2 +-
+ target/sparc/cpu.c              |    3 +--
+ target/tilegx/cpu.c             |    3 +--
+ target/tilegx/cpu.h             |    2 +-
+ target/tricore/cpu-qom.h        |    2 +-
+ target/tricore/cpu.c            |    3 +--
+ target/xtensa/cpu-qom.h         |    2 +-
+ target/xtensa/cpu.c             |    3 +--
+ 40 files changed, 53 insertions(+), 57 deletions(-)
 
--- PMM
 
