@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048511562E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:10:46 +0100 (CET)
-Received: from localhost ([::1]:41510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B42911563D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:13:54 +0100 (CET)
+Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idH7t-0007gI-00
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:10:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58876)
+	id 1idHAv-0003Jq-D8
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:13:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idFzf-0007XH-Q5
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:58:16 -0500
+ (envelope-from <armbru@redhat.com>) id 1idG0b-0000Oj-Qj
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idFze-0002wR-Ky
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:58:11 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37528)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idFzd-0002u9-CG
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:58:09 -0500
-Received: by mail-ot1-x343.google.com with SMTP id k14so6207819otn.4
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fb/zFbIBB0HUkSJRs7t+iOyi2FOwR7dQTvmrrrZeQFs=;
- b=ahiAWQuRz+jhCIt/nE2Mw0mVVbQ9U2+Bo4mKLcTvcpm57QmOBdNaERM9Uw93unfres
- 7UWY6oAnotubNbLbcCTu1tW8yM8ZUejl4epKliPBucSm5/pF8OeJQ/67e+fYoGQH26VZ
- 5e/BJ06ioOe3dBbjc3oFyuzkdP5nuSovv6ZvEGa2KoGzGLj25xT0u6jyzzdK7lx7keUH
- +OlrHCObW479F/OVs8tPSBQo00OhpaO83L8Ye8UH5ZIb3CUv4gCeJQnlJ+Zieo2TvcD4
- NLLOO231HhG1K8G8Rm14w3OfjGJxTbNR+h3NJkqsA3wkbuXPvxGFWpdSVKyG+ZrmW3JI
- 6zEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fb/zFbIBB0HUkSJRs7t+iOyi2FOwR7dQTvmrrrZeQFs=;
- b=roNHsEujybCJ71Vd35evjPN/DLCteQvArGA4n7YK1AfYyjauG3X8GYcrWQkEIBWbv8
- TDAiBAsYx8usFxhuk5hQhD8k3BH7PTrL0rJ58tlinvcJu6rE09NLsb4yUlJlNyNEz/tq
- /W9V5saRIuphf+rDCBsahaBbDqXVhSnU48rtQenjsXb1yJ5Jg9Q8DHQbrc0CSx8zxCm5
- h44+lPLFZeaSypQ8qGsL00HC9+0g1ohdotOf3D5mewsG235wrrTFzPZlb9XGImZp+35u
- ENjM8aGWDdq0eMbCLNqvxMarwJ5XTNOVN/XtFfH6uu3z5w4lyl6TtNx4Z67MfAeO9Hms
- wc0Q==
-X-Gm-Message-State: APjAAAUw+HB/6B+5B9+HS2u4v4lTpsynaxB/MqcbVkpuh96oQkYTkcU/
- OH9b29dkr47C5lkcCkRl8zzMGWSL0uP6KirhhkO6RV3x
-X-Google-Smtp-Source: APXvYqwvQkBnSF+JHxTyvNmCo9i42NhYflWStwMmkYGBLxx84Pcgonrmar5ElHK4Gt7wAUM5Yr4XIaSm2DSqof3C160=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr11665381otq.135.1575647888441; 
- Fri, 06 Dec 2019 07:58:08 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1idG0W-0005H5-2y
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:06 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28084
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1idG0S-00057h-7z
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:59:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575647936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IOpI2RlIFhR2XUOa01CmZcH5f4Zty2y2A1iWYE+DNZc=;
+ b=fku1qLtKmBgih6L25SpJcrLlXpqyfex9ujub0iPfZ/TF0O304SdhcWnQXqPTglg5lqDCOX
+ CHElYkZM076bw4T/3HjJGnbOJS+s8EQtpyjSVXgfPUZHpcNajeX8tx61+VHPfSq/PtlWFQ
+ qW8B4T/5v3CAYWbN8QDUMAJ6SjumsKE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-sssd528sMdOpuq_N8QFH0g-1; Fri, 06 Dec 2019 10:58:53 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22BD18C8ACD;
+ Fri,  6 Dec 2019 15:58:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
+ [10.36.116.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2EDD785C1;
+ Fri,  6 Dec 2019 15:58:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B1B2E1138606; Fri,  6 Dec 2019 16:58:50 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v8 21/21] nbd: assert that Error** is not NULL in
+ nbd_iter_channel_error
+References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
+ <20191205174635.18758-22-vsementsov@virtuozzo.com>
+ <54278946-ad45-1a0d-e2b2-f96b86285c05@redhat.com>
+Date: Fri, 06 Dec 2019 16:58:50 +0100
+In-Reply-To: <54278946-ad45-1a0d-e2b2-f96b86285c05@redhat.com> (Eric Blake's
+ message of "Thu, 5 Dec 2019 11:51:41 -0600")
+Message-ID: <8736dxcuo5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-37-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-37-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 15:57:57 +0000
-Message-ID: <CAFEAcA8rt4GPumj-W3LOMrOGfVQWD9XnSKZWNcWVVxHnD8BAwA@mail.gmail.com>
-Subject: Re: [PATCH v4 36/40] target/arm: Enable ARMv8.1-VHE in -cpu max
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: sssd528sMdOpuq_N8QFH0g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,37 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 02:30, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu64.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index a39d6fcea3..009411813f 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -670,6 +670,7 @@ static void aarch64_max_initfn(Object *obj)
->          t = cpu->isar.id_aa64mmfr1;
->          t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
->          t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
-> +        t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
->          cpu->isar.id_aa64mmfr1 = t;
->
->          /* Replicate the same data to the 32-bit id registers.  */
-> --
-> 2.17.1
+Eric Blake <eblake@redhat.com> writes:
 
+> On 12/5/19 11:46 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> The local_err parameter is not here to return information about
+>> nbd_iter_channel_error failure. Instead it's assumed to be filled when
+>> passed to the function. This is already stressed by its name
+>> (local_err, instead of classic errp). Stress it additionally by
+>> assertion.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/nbd.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>
+> Our timing resulted in crossed mails - I was replying to v7 when this
+> landed, and my reply there is still relevant (namely, a better commit
+> message is needed, but the code gets my R-b with that change).
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+If v8 turns out to be fine except for commit message tweaks, I'll gladly
+to these in my tree.  Just tell me what to do in a reply to this
+message.
 
-thanks
--- PMM
 
