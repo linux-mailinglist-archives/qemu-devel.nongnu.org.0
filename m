@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C431B11568E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:32:41 +0100 (CET)
-Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794A41156AB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:42:56 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHT6-0005hO-HD
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
+	id 1idHd1-0000Vl-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Aijaz.Baig@protonmail.com>) id 1idGtX-00020r-ID
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:56 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idGwx-0006Cc-J2
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Aijaz.Baig@protonmail.com>) id 1idGtV-0001wj-Vt
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:55 -0500
-Received: from mail-40134.protonmail.ch ([185.70.40.134]:37135)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Aijaz.Baig@protonmail.com>)
- id 1idGtV-0001pi-NP
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:53 -0500
-Date: Fri, 06 Dec 2019 16:55:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=default; t=1575651344;
- bh=iby5YWj6OLLkV5vQh5dReGxCJWT0cWX8vR1No6fOyXE=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
- Feedback-ID:From;
- b=VV3V/F+dDWIBpQT8A/VyV4Y4ZC3t1XZzebY8goCMpWFV4q7WAHwTPJ6x7IgAw3yQt
- fRxn1ZuyUCB9lPS6XH4bG9kNEdh0dPnPXcLQ7bGzglGAE580JiVS5pXj+j8ANYN3QU
- AXAywCOZzUtJhWkMKAlBvC01hYs+mr4vR6LIBx50=
-To: =?UTF-8?Q?=27Daniel_P=2E_Berrang=C3=A9=27?= <berrange@redhat.com>
-From: Aijaz.Baig@protonmail.com
-Cc: qemu-devel@nongnu.org
-Subject: RE: Error compiling Qemu-4.1 on Linux
-Message-ID: <000101d5ac55$f8422620$e8c67260$@protonmail.com>
-In-Reply-To: <20191205143622.GB3080934@redhat.com>
-References: <003101d5ab71$8424dc40$8c6e94c0$@protonmail.com>
- <20191205143622.GB3080934@redhat.com>
-Feedback-ID: uV088Vx4DnI5bE9OhCrN2z9v4XaPDWRvhVd_wxvMCaCwdybi5HTK8G-X2_UlIAM_J1SHtE1ybSTtLXuQ3x_qHQ==:Ext:ProtonMail
+ (envelope-from <peter.maydell@linaro.org>) id 1idGww-0001CS-7j
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:27 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40761)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idGwv-00019f-R7
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:26 -0500
+Received: by mail-ot1-x343.google.com with SMTP id i15so6364860oto.7
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 08:59:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ozxco/v0ATIuYp6SAGpa0LpaJs8MiQDfwlnY4cKEoYg=;
+ b=SHLCQO0FmlhFtt5vysY0yR/duk8SdbonpoIqW0pf89HTXBzuAZEeDp5nsBLUfiKlx8
+ nQKThrB42gZ/oPaw4XvE1Eh3TbgDkC9ekoH3tJsKvkk7VewpVF3v4VuFFbGAJxCY3V6c
+ FqlZR5Tm9Jo1u066l0bPqI6cZ1ut0zoamoyHFFKKrw8nUi0hTM85+bAU0PeNUAUFx6Mb
+ ap5+WkjwHli/aKF5wApbRQDVc9wL/stVuJC79RIj3VIyB1zOlDhxySEMzbrjsluBOuWs
+ Z5MOMaO7PsLfzmR8l/bHtWAaQZRbi1WrCQ2L5XP1I3SPkefmeCyzmVZI6LwUO60TxUIC
+ oU+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ozxco/v0ATIuYp6SAGpa0LpaJs8MiQDfwlnY4cKEoYg=;
+ b=tETWVr7BKBdx3XGTCCx32Ys+HDcat+qlYlrUen6xBetbUvCFJYR2g/IDFXVHnl6Cgo
+ ACL0Qj5zkTwRh0dG59CQdD50MdNZnh8pwXMWsNGVVBzGwBo0uaU8yv/ar+qgg2p8lwpk
+ /9srsvv2KyX9beinmk8hm2Vz7U1vuI1N3k/dG9rVoyLT1oWqXlEwtdM6qxclocIZS+6+
+ nfo8VlhDrPU3skvkoii2GwlPNXvcSThchm2L3vCUnHm4QECPJEdE6xDkhkZNI6378K4n
+ PXR1BzTiHK5wwcMSyEKBigLBwTKLNEDjQ4+LnAT/7FH1R+rCjD0n2WIJl475WfsKyryn
+ NL2w==
+X-Gm-Message-State: APjAAAVwCRuIkeXIRiCV7q7FmQefL3CSn3P1bXfIUP0MY5IG/W+F4nHb
+ KQjic0H1qJCObE1A1Ieke9bSyu5WvChNtP2ap+vFCfP5
+X-Google-Smtp-Source: APXvYqwws4N+eknf6K3KmhOUqqqRohqsJzOl2DvMR2n+sPQauEDq1gpCe0wALo+OePOSEcRHupYZP2VToThNrr4f9sw=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr11941678otq.135.1575651564776; 
+ Fri, 06 Dec 2019 08:59:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 185.70.40.134
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-32-richard.henderson@linaro.org>
+In-Reply-To: <20191203022937.1474-32-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 16:59:13 +0000
+Message-ID: <CAFEAcA8DgMK8GR1MHLMKLrxg+H2dEE7yZuYqRfHx-tqa_NwPHg@mail.gmail.com>
+Subject: Re: [PATCH v4 31/40] target/arm: Update arm_phys_excp_target_el for
+ TGE
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,61 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Aijaz.Baig@protonmail.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is the content of config.log: https://pastebin.com/6zrSXWAG
-
-I am configuring it for 'arm-softmmu'  as can be seen from the above paste
-
-Keen to know,
-Aijaz Baig
-
------Original Message-----
-From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>=20
-Sent: Thursday, December 5, 2019 8:06 PM
-To: Aijaz.Baig@protonmail.com
-Cc: qemu-devel@nongnu.org
-Subject: Re: Error compiling Qemu-4.1 on Linux
-
-
-On Thu, Dec 05, 2019 at 01:40:11PM +0000, Aijaz.Baig@protonmail.com wrote:
-> Hello
+On Tue, 3 Dec 2019 at 02:30, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> I=E2=80=99m trying to compile Qemu from sources and as such face the well=
-=20
-> known errors of requiring Glib-2.4 and gthread-2.0
+> The TGE bit routes all asynchronous exceptions to EL2.
 >
-> ERROR: glib-2.40 gthread-2.0 is required to compile QEMU
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/helper.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> I=E2=80=99m on Linux Mint and I=E2=80=99ve installed libglib-2.0 from the=
- repo
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index b059d9f81a..e0b8c81c5f 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -8316,6 +8316,12 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+>          break;
+>      };
 >
-> AB1@piper11:~$ dpkg -l | grep -i libglib
->
-> ii  libglib2.0-dev                        2.50.3-2+deb9u1                =
-   amd64        Development files for the GLib library
+> +    /*
+> +     * For these purposes, TGE and AMO/IMO/FMO both force the
+> +     * interrupt to EL2.  Fold TGE into the bit extracted above.
+> +     */
+> +    hcr |= (hcr_el2 & HCR_TGE) != 0;
+> +
 
-This is the important one & looks fine.
+This only has an effect if HCR_EL2.E2H is 1, because if
+E2H is 0 then arm_hcr_el2_eff() has already forced
+the AMO/IMO/FMO bits to 1. But it seems to match the
+way the Arm ARM phrases things in section D1.13.1 and
+its accompanying tables.
 
-> I am wondering what is it that I am missing. Kindly guide
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Please paste the 'config.log' file after a failed configure, it often has m=
-ore debug info.
-
-Also, what env/args (if any) are you passing to configure
-
-Regards,
-Daniel
---
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
-
-
+thanks
+-- PMM
 
