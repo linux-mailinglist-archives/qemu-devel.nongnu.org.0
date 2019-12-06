@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A84711533C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:36:03 +0100 (CET)
-Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B84011535D
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:40:13 +0100 (CET)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEi9-0004ZW-R5
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:36:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54407)
+	id 1idEmA-0000S5-AE
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:40:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1idENY-0000JC-SE
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:46 -0500
+ (envelope-from <maz@kernel.org>) id 1idENl-0000dh-Nc
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1idENX-0008WS-M7
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:44 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:37103)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1idENX-0008VD-Dk
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:43 -0500
-Received: by mail-pf1-x443.google.com with SMTP id s18so3416213pfm.4
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:14:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nJ3Ty/hziDCgTO/SCbkDbEcjoRLOPPW5sJ3nnbViC+Q=;
- b=J0JW6vvSXD/EiBndUYVjjeDnd6O/kiE19EKi/U4mByJ+0DjF3TXyLxl7ggZr0Y2Pli
- HIHUe8W8BrWNJGHta8aqatQsQStJV2xYUC50ZA3Lcdm0CJaSSzWoJvg06OsuxcADvuNV
- L2NAR1krBb3CUvdAGHTz6pflbjvS2CZbwci6eazXIIxQAHrcJj084iO1IRM5dPuPfJs2
- Xm6RfAKnQZNxUJ4IKwwh4vYUP/0+prjnHAoAogIZJ745ryxrckzm0i2eleJfNjESCRpL
- Td66N/F2o5BdBADf3cHkkgI/2OAjQWjTfT1O3hAv6+VNkYEp+RkAdm9Kl/7hlia7ESEX
- 7iFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nJ3Ty/hziDCgTO/SCbkDbEcjoRLOPPW5sJ3nnbViC+Q=;
- b=oFpQZ5TZlr+Ip4kFPugNe3MAJ0cJSMbCc1rGL0Kx9Ns/GY3IpQApofkdnVW66o3p+5
- +fe9ebP/p29FaHxsNLr8FE307CwAgq3EGUJif4G3bEnsmJ3sodOpCRum8KpZJv6Ll6Ar
- xvWG4/xcdRUzbSWv6xlVtr9iRGXITbW0+6UyXoaaqYJkzB/lsVJzhcm2rpOnsVtD8Q5i
- jVFtIEzeT3dne9aTBk6Ogpoz0Ij1htjd0I1Qh4I1dSImYIUplpCTMlCp0rFXkVe1rM58
- a3HvDQwJBBmlPpqpUN7AD5UeAp0nJ5uoRhMWENm9afI8Zt+zmsgMe6s/MDyllP0tzC0i
- +RfA==
-X-Gm-Message-State: APjAAAVmpglyMSLtnJQaj0hcNhF0uXQsu1Z/35Ez5Jyq1Q5iydc0bYgE
- 4Y4gwblnqP28//yf6wWBS45Akg==
-X-Google-Smtp-Source: APXvYqw2VUCUqiDrh0YcV3Nfd4Ek4u6fuowiGYaF6ikD90eoixb9AIIrgUW4b6V2htGh5FutXd0VCQ==
-X-Received: by 2002:a62:bd08:: with SMTP id a8mr14542107pff.84.1575641682271; 
- Fri, 06 Dec 2019 06:14:42 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q12sm10864147pfh.158.2019.12.06.06.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 06:14:41 -0800 (PST)
-Subject: Re: [PATCH v5 22/22] target/arm: Add allocation tag storage for
- system mode
+ (envelope-from <maz@kernel.org>) id 1idENk-0000Sg-G4
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:57 -0500
+Received: from inca-roads.misterjones.org ([213.251.177.50]:43437)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <maz@kernel.org>) id 1idENk-0000NI-8b
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:56 -0500
+Received: from www-data by cheepnis.misterjones.org with local (Exim 4.80)
+ (envelope-from <maz@kernel.org>)
+ id 1idENg-0004EG-0L; Fri, 06 Dec 2019 15:14:52 +0100
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-23-richard.henderson@linaro.org>
- <CAFEAcA8AaCOBKSgVrpMxAiEGN0+JmJjJtMY-=M4ed06SAoe69g@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <da1cbc50-e2a1-c51a-82c3-3fcdba75e13f@linaro.org>
-Date: Fri, 6 Dec 2019 06:14:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+Subject: Re: [PATCH v2 3/5] target/arm: Handle trapping to EL2 of AArch32 VMRS
+ instructions
+X-PHP-Originating-Script: 0:main.inc
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8AaCOBKSgVrpMxAiEGN0+JmJjJtMY-=M4ed06SAoe69g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+Date: Fri, 06 Dec 2019 14:14:51 +0000
+From: Marc Zyngier <maz@kernel.org>
+In-Reply-To: <CAFEAcA_YGBXY4X5KYE_xny1bYtP1fKefT+VubmNYbe8TxdwBOw@mail.gmail.com>
+References: <20191201122018.25808-1-maz@kernel.org>
+ <20191201122018.25808-4-maz@kernel.org>
+ <CAFEAcA_YGBXY4X5KYE_xny1bYtP1fKefT+VubmNYbe8TxdwBOw@mail.gmail.com>
+Message-ID: <eecc1855c043f690bc48cfaaeae442a4@www.loen.fr>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/0.7.2
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, richard.henderson@linaro.org,
+ edgar.iglesias@xilinx.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
+ SAEximRunCond expanded to false
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 213.251.177.50
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,45 +60,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/19 5:02 AM, Peter Maydell wrote:
->> +    /*
->> +     * Find the physical address for the virtual access.
->> +     *
->> +     * TODO: It should be possible to have the tag mmu_idx map
->> +     * from main memory ram_addr to tag memory host address.
->> +     * that would allow this lookup step to be cached as well.
->> +     */
->> +    section = iotlb_to_section(cs, iotlbentry->addr, iotlbentry->attrs);
->> +    physaddr = ((iotlbentry->addr & TARGET_PAGE_MASK) + ptr
->> +                + section->offset_within_address_space
->> +                - section->offset_within_region);
-> 
-> I'm surprised that going from vaddr to (physaddr, attrs) requires
-> this much effort, it seems like the kind of thing we would
-> already have a function to do.
+On 2019-12-06 14:08, Peter Maydell wrote:
+> On Sun, 1 Dec 2019 at 12:20, Marc Zyngier <maz@kernel.org> wrote:
+>>
+>> HCR_EL2.TID3 requires that AArch32 reads of MVFR[012] are trapped to
+>> EL2, and HCR_EL2.TID0 does the same for reads of FPSID.
+>> In order to handle this, introduce a new TCG helper function that
+>> checks for these control bits before executing the VMRC instruction.
+>>
+>> Tested with a hacked-up version of KVM/arm64 that sets the control
+>> bits for 32bit guests.
+>>
+>> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+>> Signed-off-by: Marc Zyngier <maz@kernel.org>
+>> ---
+>>  target/arm/helper-a64.h        |  2 ++
+>>  target/arm/translate-vfp.inc.c | 18 +++++++++++++++---
+>>  target/arm/vfp_helper.c        | 29 +++++++++++++++++++++++++++++
+>>  3 files changed, 46 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+>> index a915c1247f..0af44dc814 100644
+>> --- a/target/arm/helper-a64.h
+>> +++ b/target/arm/helper-a64.h
+>> @@ -102,3 +102,5 @@ DEF_HELPER_FLAGS_3(autda, TCG_CALL_NO_WG, i64, 
+>> env, i64, i64)
+>>  DEF_HELPER_FLAGS_3(autdb, TCG_CALL_NO_WG, i64, env, i64, i64)
+>>  DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
+>>  DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
+>> +
+>> +DEF_HELPER_3(check_hcr_el2_trap, void, env, i32, i32)
+>
+> This has to be in helper.h, not helper-a64.h, otherwise
+> the arm-softmmu target won't build. helper-a64.h is for
+> helper functions which only exist in the aarch64 binary.
 
-There are very few places that need to talk about the actual physical address.
- Mostly because that doesn't mean much within qemu -- physical address within
-which address space?  Usually we want the ramaddr_t (which is a sort of
-combination of pa + as), or the host address, or the device the exists at the
-pa + as.
+Ah, fair enough. I guess I should build all targets rather than
+limit myself to aarch64...
 
->> +    /*
->> +     * FIXME: Get access length and type so that we can use
->> +     * probe_access, so that pages are marked dirty for migration.
->> +     */
->> +    return tlb_vaddr_to_host(env, tag_physaddr, MMU_DATA_LOAD, mmu_idx);
-> 
-> Hmm, does that mean that a setup with MemTag is not migratable?
-> If so, we should at least install a migration-blocker for CPUs
-> in that configuration.
+I'll fix that and repost the series, having hopefully addressed
+Richard's comments.
 
-It probably does as written.  I intend to fix this properly before final.
+Thanks,
 
-
-r~
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
