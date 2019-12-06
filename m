@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EDC1153E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:08:28 +0100 (CET)
-Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0947F115428
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:25:26 +0100 (CET)
+Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFDX-0007I3-42
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50678)
+	id 1idFTv-0001HR-3c
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:25:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1idEZf-00057y-9z
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:27:17 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1idEk2-0007Ut-I9
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:38:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1idEZa-0003rY-VL
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:27:13 -0500
-Received: from mga01.intel.com ([192.55.52.88]:25710)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1idEZa-0003Sd-IW
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:27:10 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Dec 2019 00:05:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,283,1571727600"; d="scan'208";a="243553358"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.9])
- by fmsmga002.fm.intel.com with ESMTP; 06 Dec 2019 00:05:25 -0800
-Date: Fri, 6 Dec 2019 02:56:55 -0500
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC PATCH 1/9] vfio/pci: introduce mediate ops to intercept
- vfio-pci ops
-Message-ID: <20191206075655.GG31791@joy-OptiPlex-7040>
-References: <20191205032419.29606-1-yan.y.zhao@intel.com>
- <20191205032536.29653-1-yan.y.zhao@intel.com>
- <20191205165519.106bd210@x1.home>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1idEk0-00081X-Gv
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:58 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36761)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1idEk0-0007xg-6n
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:56 -0500
+Received: by mail-oi1-x243.google.com with SMTP id c16so6353378oic.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:37:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=qqHQFGsq3lWFxbbLvuL3KHO6aL2HjEUdApWcm/vQ/u0=;
+ b=jt55MpmfVJ9IfJe14p9S3zLQ+AeGc8yiD8xw/85UoiBVGihkV1ZaiL8lJFC13EJIJo
+ iTC9LStfvclwgYGIuwvDoLQ/R/flF8p8mueiS9uRYLCM7LbQgjuJHtdLDsIK5Vz1OcRi
+ MTeVTc/ClDP7CQq2te3+2MGdIdR2a8ElkxjAfympQXiTQLFKRCmtvV3vwLP9asJPMMQ2
+ XuX5vot/srMvCp/0IaQfhGCkBgtEEWuFNJ5dH4i9tOEkCZPK1ZaLWcpWnjBWe/a4SaLs
+ 5gq5ml5CwbzhOuQ4jmzgvY/N+gNaPPu/Jl8ek5x3cNg6jveVoujYvQQJ24wnDoctMDdw
+ 6FMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=qqHQFGsq3lWFxbbLvuL3KHO6aL2HjEUdApWcm/vQ/u0=;
+ b=Q5jyG5F2pnOEKAPoW8jTlVOx+0+4GfSB23jrHb0cB3AyPFkyrPH4yXbdMa3aN05T97
+ ifQM5y7lgquW3BQ7bjPyD419TQcCNDeCVTmcQDRfK0o5+T5jLXYaAjHbaivp7RY5ivXh
+ LqUKAG6SnwlnJ6r5YyTtJBwyhZ7KfsvtNWMehaUo1OnowTd/AcfyFdXMOgEpep3wmz6F
+ 1ky6psk7yuA0H4jgzaKi/y+ADBQYd9XRoUZJ4U6bdkQEpIC7dCJMAe6eiWf+v3IaDt7P
+ Rc78P5KquhUwVcf1Qri4RpJDLwF3/VqAVrkhczBRy+0ppS6H6Wsv29KAI7VD2XeRwtyz
+ /PWQ==
+X-Gm-Message-State: APjAAAUVYhYxbw28HUawMb66ViWHGgMTB3LUyAnJ89xLM08v2POXvlJE
+ JP36FozbUJ6UI3Hj+0KRMHLqxL5103oUO1gcHvMMZQ==
+X-Google-Smtp-Source: APXvYqzFY+F/4hqWEB9M07y7aQBPhigA//AA//nGff+xApx6N9Bq2ruXlO9jZQ9atGCl5BCfg96zA3lhvmZQ4rBHzII=
+X-Received: by 2002:aca:bd85:: with SMTP id n127mr5519664oif.136.1575619429442; 
+ Fri, 06 Dec 2019 00:03:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191205165519.106bd210@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Fri, 6 Dec 2019 00:03:48 -0800 (PST)
+In-Reply-To: <1574687098-26689-4-git-send-email-Filip.Bozuta@rt-rk.com>
+References: <1574687098-26689-1-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1574687098-26689-4-git-send-email-Filip.Bozuta@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 6 Dec 2019 09:03:48 +0100
+Message-ID: <CAL1e-=hm-0L0YBSuu0uzwUn+A+MnYB5x-cUUuJWN6NkjqiMqNw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] mips: mipssim: Renovate coding style
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Content-Type: multipart/alternative; boundary="00000000000064adb60599047c65"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,466 +74,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "He,
- Shaopeng" <shaopeng.he@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: "pburton@wavecomp.com" <pburton@wavecomp.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "hpoussin@reactos.org" <hpoussin@reactos.org>,
+ "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
+ "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 06, 2019 at 07:55:19AM +0800, Alex Williamson wrote:
-> On Wed,  4 Dec 2019 22:25:36 -0500
-> Yan Zhao <yan.y.zhao@intel.com> wrote:
-> 
-> > when vfio-pci is bound to a physical device, almost all the hardware
-> > resources are passthroughed.
-> > Sometimes, vendor driver of this physcial device may want to mediate some
-> > hardware resource access for a short period of time, e.g. dirty page
-> > tracking during live migration.
-> > 
-> > Here we introduce mediate ops in vfio-pci for this purpose.
-> > 
-> > Vendor driver can register a mediate ops to vfio-pci.
-> > But rather than directly bind to the passthroughed device, the
-> > vendor driver is now either a module that does not bind to any device or
-> > a module binds to other device.
-> > E.g. when passing through a VF device that is bound to vfio-pci modules,
-> > PF driver that binds to PF device can register to vfio-pci to mediate
-> > VF's regions, hence supporting VF live migration.
-> > 
-> > The sequence goes like this:
-> > 1. Vendor driver register its vfio_pci_mediate_ops to vfio-pci driver
-> > 
-> > 2. vfio-pci maintains a list of those registered vfio_pci_mediate_ops
-> > 
-> > 3. Whenever vfio-pci opens a device, it searches the list and call
-> > vfio_pci_mediate_ops->open() to check whether a vendor driver supports
-> > mediating this device.
-> > Upon a success return value of from vfio_pci_mediate_ops->open(),
-> > vfio-pci will stop list searching and store a mediate handle to
-> > represent this open into vendor driver.
-> > (so if multiple vendor drivers support mediating a device through
-> > vfio_pci_mediate_ops, only one will win, depending on their registering
-> > sequence)
-> > 
-> > 4. Whenever a VFIO_DEVICE_GET_REGION_INFO ioctl is received in vfio-pci
-> > ops, it will chain into vfio_pci_mediate_ops->get_region_info(), so that
-> > vendor driver is able to override a region's default flags and caps,
-> > e.g. adding a sparse mmap cap to passthrough only sub-regions of a whole
-> > region.
-> > 
-> > 5. vfio_pci_rw()/vfio_pci_mmap() first calls into
-> > vfio_pci_mediate_ops->rw()/vfio_pci_mediate_ops->mmaps().
-> > if pt=true is rteturned, vfio_pci_rw()/vfio_pci_mmap() will further
-> > passthrough this read/write/mmap to physical device, otherwise it just
-> > returns without touch physical device.
-> > 
-> > 6. When vfio-pci closes a device, vfio_pci_release() chains into
-> > vfio_pci_mediate_ops->release() to close the reference in vendor driver.
-> > 
-> > 7. Vendor driver unregister its vfio_pci_mediate_ops when driver exits
-> > 
-> > Cc: Kevin Tian <kevin.tian@intel.com>
-> > 
-> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> > ---
-> >  drivers/vfio/pci/vfio_pci.c         | 146 ++++++++++++++++++++++++++++
-> >  drivers/vfio/pci/vfio_pci_private.h |   2 +
-> >  include/linux/vfio.h                |  16 +++
-> >  3 files changed, 164 insertions(+)
-> > 
-> > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> > index 02206162eaa9..55080ff29495 100644
-> > --- a/drivers/vfio/pci/vfio_pci.c
-> > +++ b/drivers/vfio/pci/vfio_pci.c
-> > @@ -54,6 +54,14 @@ module_param(disable_idle_d3, bool, S_IRUGO | S_IWUSR);
-> >  MODULE_PARM_DESC(disable_idle_d3,
-> >  		 "Disable using the PCI D3 low power state for idle, unused devices");
-> >  
-> > +static LIST_HEAD(mediate_ops_list);
-> > +static DEFINE_MUTEX(mediate_ops_list_lock);
-> > +struct vfio_pci_mediate_ops_list_entry {
-> > +	struct vfio_pci_mediate_ops	*ops;
-> > +	int				refcnt;
-> > +	struct list_head		next;
-> > +};
-> > +
-> >  static inline bool vfio_vga_disabled(void)
-> >  {
-> >  #ifdef CONFIG_VFIO_PCI_VGA
-> > @@ -472,6 +480,10 @@ static void vfio_pci_release(void *device_data)
-> >  	if (!(--vdev->refcnt)) {
-> >  		vfio_spapr_pci_eeh_release(vdev->pdev);
-> >  		vfio_pci_disable(vdev);
-> > +		if (vdev->mediate_ops && vdev->mediate_ops->release) {
-> > +			vdev->mediate_ops->release(vdev->mediate_handle);
-> > +			vdev->mediate_ops = NULL;
-> > +		}
-> >  	}
-> >  
-> >  	mutex_unlock(&vdev->reflck->lock);
-> > @@ -483,6 +495,7 @@ static int vfio_pci_open(void *device_data)
-> >  {
-> >  	struct vfio_pci_device *vdev = device_data;
-> >  	int ret = 0;
-> > +	struct vfio_pci_mediate_ops_list_entry *mentry;
-> >  
-> >  	if (!try_module_get(THIS_MODULE))
-> >  		return -ENODEV;
-> > @@ -495,6 +508,30 @@ static int vfio_pci_open(void *device_data)
-> >  			goto error;
-> >  
-> >  		vfio_spapr_pci_eeh_open(vdev->pdev);
-> > +		mutex_lock(&mediate_ops_list_lock);
-> > +		list_for_each_entry(mentry, &mediate_ops_list, next) {
-> > +			u64 caps;
-> > +			u32 handle;
-> 
-> Wouldn't it seem likely that the ops provider might use this handle as
-> a pointer, so we'd want it to be an opaque void*?
+--00000000000064adb60599047c65
+Content-Type: text/plain; charset="UTF-8"
+
+On Monday, November 25, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
+
+> The script checkpatch.pl located in scripts folder was
+> used to detect all errors and warrnings in files:
+>     hw/mips/mips_mipssim.c
+>     hw/net/mipsnet.c
 >
-yes, you are right, handle as a pointer is much better. will change it.
-Thanks :)
-
-> > +
-> > +			memset(&caps, 0, sizeof(caps));
-> 
-> @caps has no purpose here, add it if/when we do something with it.
-> It's also a standard type, why are we memset'ing it rather than just
-> =0??
-> 
-> > +			ret = mentry->ops->open(vdev->pdev, &caps, &handle);
-> > +			if (!ret)  {
-> > +				vdev->mediate_ops = mentry->ops;
-> > +				vdev->mediate_handle = handle;
-> > +
-> > +				pr_info("vfio pci found mediate_ops %s, caps=%llx, handle=%x for %x:%x\n",
-> > +						vdev->mediate_ops->name, caps,
-> > +						handle, vdev->pdev->vendor,
-> > +						vdev->pdev->device);
-> 
-> Generally not advisable to make user accessible printks.
+> All these mips mipssim machine files were edited and
+> all the errors and warrings generated by the checkpatch.pl
+> script were corrected and then the script was
+> ran again to make sure there are no more errors and warnings.
 >
-ok.
-
-> > +				/*
-> > +				 * only find the first matching mediate_ops,
-> > +				 * and add its refcnt
-> > +				 */
-> > +				mentry->refcnt++;
-> > +				break;
-> > +			}
-> > +		}
-> > +		mutex_unlock(&mediate_ops_list_lock);
-> >  	}
-> >  	vdev->refcnt++;
-> >  error:
-> > @@ -736,6 +773,14 @@ static long vfio_pci_ioctl(void *device_data,
-> >  			info.size = pdev->cfg_size;
-> >  			info.flags = VFIO_REGION_INFO_FLAG_READ |
-> >  				     VFIO_REGION_INFO_FLAG_WRITE;
-> > +
-> > +			if (vdev->mediate_ops &&
-> > +					vdev->mediate_ops->get_region_info) {
-> > +				vdev->mediate_ops->get_region_info(
-> > +						vdev->mediate_handle,
-> > +						&info, &caps, NULL);
-> > +			}
-> 
-> These would be a lot cleaner if we could just call a helper function:
-> 
-> void vfio_pci_region_info_mediation_hook(vdev, info, caps, etc...)
-> {
->    if (vdev->mediate_ops 
->        vdev->mediate_ops->get_region_info)
-> 	vdev->mediate_ops->get_region_info(vdev->mediate_handle,
-> 					   &info, &caps, NULL);
-> }
-> 
-> I'm not thrilled with all these hooks, but not open coding every one of
-> them might help.
-
-ok. got it.
-> 
-> > +
-> >  			break;
-> >  		case VFIO_PCI_BAR0_REGION_INDEX ... VFIO_PCI_BAR5_REGION_INDEX:
-> >  			info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
-> > @@ -756,6 +801,13 @@ static long vfio_pci_ioctl(void *device_data,
-> >  				}
-> >  			}
-> >  
-> > +			if (vdev->mediate_ops &&
-> > +					vdev->mediate_ops->get_region_info) {
-> > +				vdev->mediate_ops->get_region_info(
-> > +						vdev->mediate_handle,
-> > +						&info, &caps, NULL);
-> > +			}
-> > +
-> >  			break;
-> >  		case VFIO_PCI_ROM_REGION_INDEX:
-> >  		{
-> > @@ -794,6 +846,14 @@ static long vfio_pci_ioctl(void *device_data,
-> >  			}
-> >  
-> >  			pci_write_config_word(pdev, PCI_COMMAND, orig_cmd);
-> > +
-> > +			if (vdev->mediate_ops &&
-> > +					vdev->mediate_ops->get_region_info) {
-> > +				vdev->mediate_ops->get_region_info(
-> > +						vdev->mediate_handle,
-> > +						&info, &caps, NULL);
-> > +			}
-> > +
-> >  			break;
-> >  		}
-> >  		case VFIO_PCI_VGA_REGION_INDEX:
-> > @@ -805,6 +865,13 @@ static long vfio_pci_ioctl(void *device_data,
-> >  			info.flags = VFIO_REGION_INFO_FLAG_READ |
-> >  				     VFIO_REGION_INFO_FLAG_WRITE;
-> >  
-> > +			if (vdev->mediate_ops &&
-> > +					vdev->mediate_ops->get_region_info) {
-> > +				vdev->mediate_ops->get_region_info(
-> > +						vdev->mediate_handle,
-> > +						&info, &caps, NULL);
-> > +			}
-> > +
-> >  			break;
-> >  		default:
-> >  		{
-> > @@ -839,6 +906,13 @@ static long vfio_pci_ioctl(void *device_data,
-> >  				if (ret)
-> >  					return ret;
-> >  			}
-> > +
-> > +			if (vdev->mediate_ops &&
-> > +					vdev->mediate_ops->get_region_info) {
-> > +				vdev->mediate_ops->get_region_info(
-> > +						vdev->mediate_handle,
-> > +						&info, &caps, &cap_type);
-> > +			}
-> >  		}
-> >  		}
-> >  
-> > @@ -1151,6 +1225,16 @@ static ssize_t vfio_pci_rw(void *device_data, char __user *buf,
-> >  	if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
-> >  		return -EINVAL;
-> >  
-> > +	if (vdev->mediate_ops && vdev->mediate_ops->rw) {
-> > +		int ret;
-> > +		bool pt = true;
-> > +
-> > +		ret = vdev->mediate_ops->rw(vdev->mediate_handle,
-> > +				buf, count, ppos, iswrite, &pt);
-> > +		if (!pt)
-> > +			return ret;
-> > +	}
-> > +
-> >  	switch (index) {
-> >  	case VFIO_PCI_CONFIG_REGION_INDEX:
-> >  		return vfio_pci_config_rw(vdev, buf, count, ppos, iswrite);
-> > @@ -1200,6 +1284,15 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
-> >  	u64 phys_len, req_len, pgoff, req_start;
-> >  	int ret;
-> >  
-> > +	if (vdev->mediate_ops && vdev->mediate_ops->mmap) {
-> > +		int ret;
-> > +		bool pt = true;
-> > +
-> > +		ret = vdev->mediate_ops->mmap(vdev->mediate_handle, vma, &pt);
-> > +		if (!pt)
-> > +			return ret;
-> > +	}
-> 
-> There must be a better way to do all these.  Do we really want to call
-> into ops for every rw or mmap, have the vendor code decode a region,
-> and maybe or maybe not have it handle it?  It's pretty ugly.  Do we
-
-do you think below flow is good ?
-1. in mediate_ops->open(), return
-(1) region[] indexed by region index, if a mediate driver supports mediating
-region[i], region[i].ops->get_region_info, regions[i].ops->rw, or
-regions[i].ops->mmap is not null.
-(2) irq_info[] indexed by irq index, if a mediate driver supports mediating
-irq_info[i], irq_info[i].ops->get_irq_info or irq_info[i].ops->set_irq_info
-is not null.
-
-Then, vfio_pci_rw/vfio_pci_mmap/vfio_pci_ioctl only call into those
-non-null hooks.
-
-> need the mediation provider to be able to dynamically setup the ops per
-May I confirm that you are not saying dynamic registering mediate ops
-after vfio-pci already opened a device, right?
-
-> region and export the default handlers out for them to call?
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+> ---
+>  hw/net/mipsnet.c | 44 ++++++++++++++++++++++++--------------------
+>  1 file changed, 24 insertions(+), 20 deletions(-)
 >
-could we still keep checking return value of the hooks rather than
-export default handlers? Otherwise at least vfio_pci_default_ioctl(),
-vfio_pci_default_rw(), and vfio_pci_default_mmap() need to be exported.
-
-> > +
-> >  	index = vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
-> >  
-> >  	if (vma->vm_end < vma->vm_start)
-> > @@ -1629,8 +1722,17 @@ static void vfio_pci_try_bus_reset(struct vfio_pci_device *vdev)
-> >  
-> >  static void __exit vfio_pci_cleanup(void)
-> >  {
-> > +	struct vfio_pci_mediate_ops_list_entry *mentry, *n;
-> > +
-> >  	pci_unregister_driver(&vfio_pci_driver);
-> >  	vfio_pci_uninit_perm_bits();
-> > +
-> > +	mutex_lock(&mediate_ops_list_lock);
-> > +	list_for_each_entry_safe(mentry, n,  &mediate_ops_list, next) {
-> > +		list_del(&mentry->next);
-> > +		kfree(mentry);
-> > +	}
-> > +	mutex_unlock(&mediate_ops_list_lock);
-> 
-> Is it even possible to unload vfio-pci while there are mediation
-> drivers registered?  I don't think the module interactions are well
-> thought out here, ex. do you really want i40e to have build and runtime
-> dependencies on vfio-pci?  I don't think so.
-> 
-Currently, yes, i40e has build dependency on vfio-pci.
-It's like this, if i40e decides to support SRIOV and compiles in vf
-related code who depends on vfio-pci, it will also have build dependency
-on vfio-pci. isn't it natural?
-
-> >  }
-> >  
-> >  static void __init vfio_pci_fill_ids(void)
-> > @@ -1697,6 +1799,50 @@ static int __init vfio_pci_init(void)
-> >  	return ret;
-> >  }
-> >  
-> > +int vfio_pci_register_mediate_ops(struct vfio_pci_mediate_ops *ops)
-> > +{
-> > +	struct vfio_pci_mediate_ops_list_entry *mentry;
-> > +
-> > +	mutex_lock(&mediate_ops_list_lock);
-> > +	mentry = kzalloc(sizeof(*mentry), GFP_KERNEL);
-> > +	if (!mentry) {
-> > +		mutex_unlock(&mediate_ops_list_lock);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	mentry->ops = ops;
-> > +	mentry->refcnt = 0;
-> 
-> It's kZalloc'd, this is unnecessary.
 >
-right :) 
-> > +	list_add(&mentry->next, &mediate_ops_list);
-> 
-> Check for duplicates?
-> 
-ok. will do it.
-> > +
-> > +	pr_info("registered dm ops %s\n", ops->name);
-> > +	mutex_unlock(&mediate_ops_list_lock);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL(vfio_pci_register_mediate_ops);
-> > +
-> > +void vfio_pci_unregister_mediate_ops(struct vfio_pci_mediate_ops *ops)
-> > +{
-> > +	struct vfio_pci_mediate_ops_list_entry *mentry, *n;
-> > +
-> > +	mutex_lock(&mediate_ops_list_lock);
-> > +	list_for_each_entry_safe(mentry, n,  &mediate_ops_list, next) {
-> > +		if (mentry->ops != ops)
-> > +			continue;
-> > +
-> > +		mentry->refcnt--;
-> 
-> Whose reference is this removing?
-> 
-I intended to prevent mediate driver from calling unregister mediate ops
-while there're still opened devices in it.
-after a successful mediate_ops->open(), mentry->refcnt++.
-after calling mediate_ops->release(). mentry->refcnt--.
-
-(seems in this RFC, I missed a mentry->refcnt-- after calling
-mediate_ops->release())
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 
-> > +		if (!mentry->refcnt) {
-> > +			list_del(&mentry->next);
-> > +			kfree(mentry);
-> > +		} else
-> > +			pr_err("vfio_pci unregister mediate ops %s error\n",
-> > +					mentry->ops->name);
-> 
-> This is bad, we should hold a reference to the module providing these
-> ops for each use of it such that the module cannot be removed while
-> it's in use.  Otherwise we enter a very bad state here and it's
-> trivially accessible by an admin remove the module while in use.
-mediate driver is supposed to ref its own module on a success
-mediate_ops->open(), and deref its own module on mediate_ops->release().
-so, it can't be accidentally removed.
+> diff --git a/hw/net/mipsnet.c b/hw/net/mipsnet.c
+> index f7ae1ce..cb3331f 100644
+> --- a/hw/net/mipsnet.c
+> +++ b/hw/net/mipsnet.c
+> @@ -9,19 +9,19 @@
+>
+>  /* MIPSnet register offsets */
+>
+> -#define MIPSNET_DEV_ID         0x00
+> -#define MIPSNET_BUSY           0x08
+> -#define MIPSNET_RX_DATA_COUNT  0x0c
+> -#define MIPSNET_TX_DATA_COUNT  0x10
+> -#define MIPSNET_INT_CTL                0x14
+> -# define MIPSNET_INTCTL_TXDONE         0x00000001
+> -# define MIPSNET_INTCTL_RXDONE         0x00000002
+> -# define MIPSNET_INTCTL_TESTBIT                0x80000000
+> -#define MIPSNET_INTERRUPT_INFO 0x18
+> -#define MIPSNET_RX_DATA_BUFFER 0x1c
+> -#define MIPSNET_TX_DATA_BUFFER 0x20
+> -
+> -#define MAX_ETH_FRAME_SIZE     1514
+> +#define MIPSNET_DEV_ID          0x00
+> +#define MIPSNET_BUSY            0x08
+> +#define MIPSNET_RX_DATA_COUNT   0x0c
+> +#define MIPSNET_TX_DATA_COUNT   0x10
+> +#define MIPSNET_INT_CTL         0x14
+> +# define MIPSNET_INTCTL_TXDONE          0x00000001
+> +# define MIPSNET_INTCTL_RXDONE          0x00000002
+> +# define MIPSNET_INTCTL_TESTBIT         0x80000000
+> +#define MIPSNET_INTERRUPT_INFO  0x18
+> +#define MIPSNET_RX_DATA_BUFFER  0x1c
+> +#define MIPSNET_TX_DATA_BUFFER  0x20
+> +
+> +#define MAX_ETH_FRAME_SIZE      1514
+>
+>  #define TYPE_MIPS_NET "mipsnet"
+>  #define MIPS_NET(obj) OBJECT_CHECK(MIPSnetState, (obj), TYPE_MIPS_NET)
+> @@ -64,8 +64,9 @@ static void mipsnet_update_irq(MIPSnetState *s)
+>
+>  static int mipsnet_buffer_full(MIPSnetState *s)
+>  {
+> -    if (s->rx_count >= MAX_ETH_FRAME_SIZE)
+> +    if (s->rx_count >= MAX_ETH_FRAME_SIZE) {
+>          return 1;
+> +    }
+>      return 0;
+>  }
+>
+> @@ -73,18 +74,21 @@ static int mipsnet_can_receive(NetClientState *nc)
+>  {
+>      MIPSnetState *s = qemu_get_nic_opaque(nc);
+>
+> -    if (s->busy)
+> +    if (s->busy) {
+>          return 0;
+> +    }
+>      return !mipsnet_buffer_full(s);
+>  }
+>
+> -static ssize_t mipsnet_receive(NetClientState *nc, const uint8_t *buf,
+> size_t size)
+> +static ssize_t mipsnet_receive(NetClientState *nc,
+> +                               const uint8_t *buf, size_t size)
+>  {
+>      MIPSnetState *s = qemu_get_nic_opaque(nc);
+>
+> -    trace_mipsnet_receive(size);
+> -    if (!mipsnet_can_receive(nc))
+> +    race_mipsnet_receive(size);
+> +    if (!mipsnet_can_receive(nc)) {
+>          return 0;
+> +    }
+>
+>      if (size >= sizeof(s->rx_buffer)) {
+>          return 0;
+> @@ -115,10 +119,10 @@ static uint64_t mipsnet_ioport_read(void *opaque,
+> hwaddr addr,
+>      addr &= 0x3f;
+>      switch (addr) {
+>      case MIPSNET_DEV_ID:
+> -        ret = be32_to_cpu(0x4d495053);         /* MIPS */
+> +        ret = be32_to_cpu(0x4d495053);          /* MIPS */
+>          break;
+>      case MIPSNET_DEV_ID + 4:
+> -        ret = be32_to_cpu(0x4e455430);         /* NET0 */
+> +        ret = be32_to_cpu(0x4e455430);          /* NET0 */
+>          break;
+>      case MIPSNET_BUSY:
+>          ret = s->busy;
+> --
+> 2.7.4
+>
+>
+>
 
-Thanks
+--00000000000064adb60599047c65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yan
-> Thanks,
-> 
-> Alex
-> 
-> > +	}
-> > +	mutex_unlock(&mediate_ops_list_lock);
-> > +
-> > +}
-> > +EXPORT_SYMBOL(vfio_pci_unregister_mediate_ops);
-> > +
-> >  module_init(vfio_pci_init);
-> >  module_exit(vfio_pci_cleanup);
-> >  
-> > diff --git a/drivers/vfio/pci/vfio_pci_private.h b/drivers/vfio/pci/vfio_pci_private.h
-> > index ee6ee91718a4..bad4a254360e 100644
-> > --- a/drivers/vfio/pci/vfio_pci_private.h
-> > +++ b/drivers/vfio/pci/vfio_pci_private.h
-> > @@ -122,6 +122,8 @@ struct vfio_pci_device {
-> >  	struct list_head	dummy_resources_list;
-> >  	struct mutex		ioeventfds_lock;
-> >  	struct list_head	ioeventfds_list;
-> > +	struct vfio_pci_mediate_ops *mediate_ops;
-> > +	u32			 mediate_handle;
-> >  };
-> >  
-> >  #define is_intx(vdev) (vdev->irq_type == VFIO_PCI_INTX_IRQ_INDEX)
-> > diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> > index e42a711a2800..0265e779acd1 100644
-> > --- a/include/linux/vfio.h
-> > +++ b/include/linux/vfio.h
-> > @@ -195,4 +195,20 @@ extern int vfio_virqfd_enable(void *opaque,
-> >  			      void *data, struct virqfd **pvirqfd, int fd);
-> >  extern void vfio_virqfd_disable(struct virqfd **pvirqfd);
-> >  
-> > +struct vfio_pci_mediate_ops {
-> > +	char	*name;
-> > +	int	(*open)(struct pci_dev *pdev, u64 *caps, u32 *handle);
-> > +	void	(*release)(int handle);
-> > +	void	(*get_region_info)(int handle,
-> > +			struct vfio_region_info *info,
-> > +			struct vfio_info_cap *caps,
-> > +			struct vfio_region_info_cap_type *cap_type);
-> > +	ssize_t	(*rw)(int handle, char __user *buf,
-> > +			   size_t count, loff_t *ppos, bool iswrite, bool *pt);
-> > +	int	(*mmap)(int handle, struct vm_area_struct *vma, bool *pt);
-> > +
-> > +};
-> > +extern int vfio_pci_register_mediate_ops(struct vfio_pci_mediate_ops *ops);
-> > +extern void vfio_pci_unregister_mediate_ops(struct vfio_pci_mediate_ops *ops);
-> > +
-> >  #endif /* VFIO_H */
-> 
+<br><br>On Monday, November 25, 2019, Filip Bozuta &lt;<a href=3D"mailto:Fi=
+lip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">The script <a href=3D"http://checkpatch.pl" target=3D"_b=
+lank">checkpatch.pl</a> located in scripts folder was<br>
+used to detect all errors and warrnings in files:<br>
+=C2=A0 =C2=A0 hw/mips/mips_mipssim.c<br>
+=C2=A0 =C2=A0 hw/net/mipsnet.c<br>
+<br>
+All these mips mipssim machine files were edited and<br>
+all the errors and warrings generated by the <a href=3D"http://checkpatch.p=
+l" target=3D"_blank">checkpatch.pl</a><br>
+script were corrected and then the script was<br>
+ran again to make sure there are no more errors and warnings.<br>
+<br>
+Signed-off-by: Filip Bozuta &lt;<a href=3D"mailto:Filip.Bozuta@rt-rk.com">F=
+ilip.Bozuta@rt-rk.com</a>&gt;<br>
+---<br>
+=C2=A0hw/net/mipsnet.c | 44 ++++++++++++++++++++++++------<wbr>------------=
+--<br>
+=C2=A01 file changed, 24 insertions(+), 20 deletions(-)<br>
+<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
+t-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovi=
+c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
+yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
+m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
+08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+diff --git a/hw/net/mipsnet.c b/hw/net/mipsnet.c<br>
+index f7ae1ce..cb3331f 100644<br>
+--- a/hw/net/mipsnet.c<br>
++++ b/hw/net/mipsnet.c<br>
+@@ -9,19 +9,19 @@<br>
+<br>
+=C2=A0/* MIPSnet register offsets */<br>
+<br>
+-#define MIPSNET_DEV_ID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00<br>
+-#define MIPSNET_BUSY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x08<br>
+-#define MIPSNET_RX_DATA_COUNT=C2=A0 0x0c<br>
+-#define MIPSNET_TX_DATA_COUNT=C2=A0 0x10<br>
+-#define MIPSNET_INT_CTL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 0x14<br>
+-# define MIPSNET_INTCTL_TXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00000001=
+<br>
+-# define MIPSNET_INTCTL_RXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00000002=
+<br>
+-# define MIPSNET_INTCTL_TESTBIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 0x80000000<br>
+-#define MIPSNET_INTERRUPT_INFO 0x18<br>
+-#define MIPSNET_RX_DATA_BUFFER 0x1c<br>
+-#define MIPSNET_TX_DATA_BUFFER 0x20<br>
+-<br>
+-#define MAX_ETH_FRAME_SIZE=C2=A0 =C2=A0 =C2=A01514<br>
++#define MIPSNET_DEV_ID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00<br>
++#define MIPSNET_BUSY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08<br>
++#define MIPSNET_RX_DATA_COUNT=C2=A0 =C2=A00x0c<br>
++#define MIPSNET_TX_DATA_COUNT=C2=A0 =C2=A00x10<br>
++#define MIPSNET_INT_CTL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x14<br>
++# define MIPSNET_INTCTL_TXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0000000=
+1<br>
++# define MIPSNET_INTCTL_RXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0000000=
+2<br>
++# define MIPSNET_INTCTL_TESTBIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x8000000=
+0<br>
++#define MIPSNET_INTERRUPT_INFO=C2=A0 0x18<br>
++#define MIPSNET_RX_DATA_BUFFER=C2=A0 0x1c<br>
++#define MIPSNET_TX_DATA_BUFFER=C2=A0 0x20<br>
++<br>
++#define MAX_ETH_FRAME_SIZE=C2=A0 =C2=A0 =C2=A0 1514<br>
+<br>
+=C2=A0#define TYPE_MIPS_NET &quot;mipsnet&quot;<br>
+=C2=A0#define MIPS_NET(obj) OBJECT_CHECK(MIPSnetState, (obj), TYPE_MIPS_NET=
+)<br>
+@@ -64,8 +64,9 @@ static void mipsnet_update_irq(<wbr>MIPSnetState *s)<br>
+<br>
+=C2=A0static int mipsnet_buffer_full(<wbr>MIPSnetState *s)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 if (s-&gt;rx_count &gt;=3D MAX_ETH_FRAME_SIZE)<br>
++=C2=A0 =C2=A0 if (s-&gt;rx_count &gt;=3D MAX_ETH_FRAME_SIZE) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0}<br>
+<br>
+@@ -73,18 +74,21 @@ static int mipsnet_can_receive(<wbr>NetClientState *nc)=
+<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0MIPSnetState *s =3D qemu_get_nic_opaque(nc);<br>
+<br>
+-=C2=A0 =C2=A0 if (s-&gt;busy)<br>
++=C2=A0 =C2=A0 if (s-&gt;busy) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0return !mipsnet_buffer_full(s);<br>
+=C2=A0}<br>
+<br>
+-static ssize_t mipsnet_receive(NetClientState *nc, const uint8_t *buf, siz=
+e_t size)<br>
++static ssize_t mipsnet_receive(NetClientState *nc,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf, size_t size)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0MIPSnetState *s =3D qemu_get_nic_opaque(nc);<br>
+<br>
+-=C2=A0 =C2=A0 trace_mipsnet_receive(size);<br>
+-=C2=A0 =C2=A0 if (!mipsnet_can_receive(nc))<br>
++=C2=A0 =C2=A0 race_mipsnet_receive(size);<br>
++=C2=A0 =C2=A0 if (!mipsnet_can_receive(nc)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (size &gt;=3D sizeof(s-&gt;rx_buffer)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+@@ -115,10 +119,10 @@ static uint64_t mipsnet_ioport_read(void *opaque, hwa=
+ddr addr,<br>
+=C2=A0 =C2=A0 =C2=A0addr &amp;=3D 0x3f;<br>
+=C2=A0 =C2=A0 =C2=A0switch (addr) {<br>
+=C2=A0 =C2=A0 =C2=A0case MIPSNET_DEV_ID:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4d495053);=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* MIPS */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4d495053);=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 /* MIPS */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case MIPSNET_DEV_ID + 4:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4e455430);=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0/* NET0 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4e455430);=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 /* NET0 */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case MIPSNET_BUSY:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D s-&gt;busy;<br>
+-- <br>
+2.7.4<br>
+<br>
+<br>
+</blockquote>
+
+--00000000000064adb60599047c65--
 
