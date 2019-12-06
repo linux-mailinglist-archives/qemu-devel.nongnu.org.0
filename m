@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F31E11547C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:43:45 +0100 (CET)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AAB11546F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:39:44 +0100 (CET)
+Received: from localhost ([::1]:39900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFlf-0005Ks-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:43:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38363)
+	id 1idFhm-0000fa-Lk
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:39:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1idEdd-00013E-J3
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:31:22 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idErz-0007tT-2d
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1idEdc-0006Ee-Bq
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:31:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50559
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1idEdc-0006Dg-6H
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:31:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575642679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0GVLdwTKojga49goErV7EvUaG8cPg8NjTUzdsUGd3MQ=;
- b=GeWrUrFO5ErKJxqMtPJej9K1rSnlCRPuwFUrrGM4XzBI5HHDrkqBC0AD/B5sGA4LtGJf0K
- PkntgADO3iJ6k3QCArODoPCg2uLUtPHX/48NY0zD0yFxW+FyGRK4V8VvtkJYNkH46MLib/
- AXTRilB2YIK8nP8YrtNR0TlV1/PBCqE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-jmcVBZMXM4S74h31T6UxTw-1; Fri, 06 Dec 2019 06:30:52 -0500
-Received: by mail-wr1-f69.google.com with SMTP id t3so2980437wrm.23
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 03:30:52 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1idErx-0002Yv-Bp
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:10 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35841)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idErx-0002XO-4U
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:09 -0500
+Received: by mail-oi1-x244.google.com with SMTP id c16so6378174oic.3
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uhSPlg+i9CiAubF7ClC0ww2vNy2qAmWgFnaNVgQgOxE=;
+ b=zzsj35yd960LbiaSBcl/usD7GRpWOsvW98l1RP+jhOWQfLebIUn2wV2+T9mfupbxch
+ e93nHD4TZJlfhk5O0kSjTqVQ9kAmqFigsdzw6vbxNcKNbYHGBBJR4WtLJnOtCYmfeiWN
+ Oc+Mal+rpJUHvmiVerGR7FkUHafsoCh0ZCI/9hWqOsB9KukvjFnW74gfHF3KczHaYLWp
+ 90mLdshDyOYx7g1tE/o7HSHRWfK5XlNlhEZz7D2BrQGNv608xXmdvKJr0jGdZnhSOT91
+ Ecuk55bLRIX9g6M3EnNxsdA5sxTN0qkNTXzWj7muhFqvRD2MpCWlWU466cSZdN2ZMZ9+
+ 5LRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0GVLdwTKojga49goErV7EvUaG8cPg8NjTUzdsUGd3MQ=;
- b=JZ5bLNIoviT1JQTqy04tytRocB2gBFULDx0bfYrRVGLzAIKxanj6XESfd8FO/LVEeV
- ADRLs8pAQXMsW8Jd8Y2Tm8VphFEa/5PixSzquxk8GrXLyz7M8dy8OnSbaM3awvMG3BAh
- E6POtHE+zT1Um0MVbGcPQJrPzaTvSnIVl2NlUTAmRx2xpBf7r1Gu2AhkOJL9YTNM33Hn
- 5IllO3DYWfOALnnZSfNmIFHrOBRhZbjbutKT7q+XJc+tzdi/PlmwA6shfZzHRYgcfg//
- AnpD6VQc8JCSim+u672pR4/iQg5xNIscdtA2Oid3uDcvA04aQGBoAc1VOIMeFy5ik6zT
- PODw==
-X-Gm-Message-State: APjAAAXkrSWUan1D56anLRPikUJvNSuBjDM3gxuaoezX8PzwU3vrO83F
- R4T6I8RR0SU974N8UIvNLJH5WdDInmTVZsnjiqSa/CFv+Qd+Q0OV4ABuCMsX5FPgzd173NQfIAK
- 9t5IvQxf1A220Z+Y=
-X-Received: by 2002:a7b:ce81:: with SMTP id q1mr10525962wmj.47.1575631851394; 
- Fri, 06 Dec 2019 03:30:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqynRGIHlMgA8YY5/klhSTkuhxKg/Eci9pUTuMB5YYon8XwwZJQKRj44uOXurmEUTMQwmChIZw==
-X-Received: by 2002:a7b:ce81:: with SMTP id q1mr10525941wmj.47.1575631851095; 
- Fri, 06 Dec 2019 03:30:51 -0800 (PST)
-Received: from [10.201.49.168] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
- by smtp.gmail.com with ESMTPSA id z8sm15809068wrq.22.2019.12.06.03.30.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 03:30:50 -0800 (PST)
-Subject: Re: [PATCH] target/i386: skip kvm_msr_entry_add when kvm_vmx_basic is
- 0
-To: Catherine Ho <catherine.hecx@gmail.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
-References: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
- <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9c86f277-f13c-b33d-41e5-0ed32aaf75d7@redhat.com>
-Date: Fri, 6 Dec 2019 12:30:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uhSPlg+i9CiAubF7ClC0ww2vNy2qAmWgFnaNVgQgOxE=;
+ b=pD+49TxdV3h0pGA4m0BIjQ8lnVoAs3S5N2Rs75BYIt7oYNjdDy+LCx0NnPFzSM3IfA
+ bfQuz0RT1D1pDfdzTA6T/IgcRCWBgmzNwb22mitHmfnwySl6HcdjN5aDobBun9RUBkzG
+ e1EECUxtJR7Xgj07ba/9O/4kyWoiA6LkHxSVfCvFmhIedatUu94UJIBfxEXvha4K19cY
+ O//V3fwDkW4/7mgrJLvXKvrXimaeTzHMZJX23RUhRt+/htwAhHn4jrhuUoHvb3+Eya0q
+ 2uj9RYIeyHfpyVZQP2Nx2dorjuP6MBP0GijoO57UqxhSIE8l+nUSZhVUeRad85dYWV7H
+ yXgg==
+X-Gm-Message-State: APjAAAXzR/fVNT09vOkrMIfwZkD9FNe+Nb49e00rHn580fM6yaPJwil8
+ opGPLcAd3UJsX5GPIrhG19UmtoX3Itvc0Pf64w7gnvfl
+X-Google-Smtp-Source: APXvYqw2gpZf9eGRHwCYCA4+iyO+tNdoHE1d4WU9umvAw5Ya5N+sNHgm4KB59ivtXp+w1i5oD9gVxA0jXOWo5q4I3vU=
+X-Received: by 2002:aca:edd5:: with SMTP id l204mr12121697oih.98.1575632772773; 
+ Fri, 06 Dec 2019 03:46:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
-Content-Language: en-US
-X-MC-Unique: jmcVBZMXM4S74h31T6UxTw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-22-richard.henderson@linaro.org>
+In-Reply-To: <20191011134744.2477-22-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 11:46:02 +0000
+Message-ID: <CAFEAcA8aJZRMFEpKaUN_W4U5LXoWvvzYUe0FQYwTd=RiFHeFEQ@mail.gmail.com>
+Subject: Re: [PATCH v5 21/22] target/arm: Add mmu indexes for tag memory
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,58 +72,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhong, Yang" <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Richard Henderson <rth@twiddle.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/12/19 11:23, Catherine Ho wrote:
-> Commit 1389309c811b ("KVM: nVMX: expose VMX capabilities for nested
-> hypervisors to userspace") expands the msr_based_features with
-> MSR_IA32_VMX_BASIC and others. Then together with an old kernel before
-> 1389309c811b, the qemu call KVM_GET_MSR_FEATURE_INDEX_LIST and got the
-> smaller kvm_feature_msrs. Then in kvm_arch_get_supported_msr_feature(),
-> searching VMX_BASIC will be failed and return 0. At last kvm_vmx_basic
-> will be assigned to 0.
-> 
-> Without this patch, it will cause a qemu crash (host kernel 4.15
-> ubuntu 18.04+qemu 4.1):
-> qemu-system-x86_64: error: failed to set MSR 0x480 to 0x0
-> target/i386/kvm.c:2932: kvm_put_msrs: Assertion `ret ==
-> cpu->kvm_msr_buf->nmsrs' failed.
-> 
-> This fixes it by skipping kvm_msr_entry_add when kvm_vmx_basic is 0
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Catherine Ho <catherine.hecx@gmail.com>
+On Fri, 11 Oct 2019 at 14:50, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The process by which one goes from an address space plus physical
+> address to a host pointer is complex.  It is easiest to reuse the
+> mechanism already present within cputlb, and letting that cache
+> the results.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/i386/kvm.c |    7 ++++++-
->  1 files changed, 6 insertions(+), 1 deletions(-)
-> 
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index a8c44bf..8cf84a2 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -2632,8 +2632,13 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
->                                           f[FEAT_VMX_SECONDARY_CTLS]));
->      kvm_msr_entry_add(cpu, MSR_IA32_VMX_EPT_VPID_CAP,
->                        f[FEAT_VMX_EPT_VPID_CAPS] | fixed_vmx_ept_vpid);
-> -    kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
+>  target/arm/cpu-param.h |  2 +-
+>  target/arm/cpu.h       | 12 +++++++++---
+>  target/arm/internals.h |  2 ++
+>  target/arm/helper.c    | 25 +++++++++++++++++++++++--
+>  4 files changed, 35 insertions(+), 6 deletions(-)
+>
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index 6e6948e960..18ac562346 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -29,6 +29,6 @@
+>  # define TARGET_PAGE_BITS_MIN  10
+>  #endif
+>
+> -#define NB_MMU_MODES 8
+> +#define NB_MMU_MODES 9
+>
+>  #endif
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index faca43ea78..c3609ef9d5 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -2854,8 +2854,8 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+>  #define ARM_MMU_IDX_M_NEGPRI 0x2
+>  #define ARM_MMU_IDX_M_S 0x4
+>
+> -#define ARM_MMU_IDX_TYPE_MASK (~0x7)
+> -#define ARM_MMU_IDX_COREIDX_MASK 0x7
+> +#define ARM_MMU_IDX_TYPE_MASK (~0xf)
+> +#define ARM_MMU_IDX_COREIDX_MASK 0xf
+>
+>  typedef enum ARMMMUIdx {
+>      ARMMMUIdx_S12NSE0 = 0 | ARM_MMU_IDX_A,
+> @@ -2865,6 +2865,9 @@ typedef enum ARMMMUIdx {
+>      ARMMMUIdx_S1SE0 = 4 | ARM_MMU_IDX_A,
+>      ARMMMUIdx_S1SE1 = 5 | ARM_MMU_IDX_A,
+>      ARMMMUIdx_S2NS = 6 | ARM_MMU_IDX_A,
+> +    ARMMMUIdx_TagNS = 7 | ARM_MMU_IDX_A,
+> +    ARMMMUIdx_TagS = 8 | ARM_MMU_IDX_A,
 > +
-> +    if (kvm_vmx_basic) {
-> +	/* Only add the entry when host supports it */
-> +        kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
->                        f[FEAT_VMX_BASIC] | fixed_vmx_basic);
-> +    }
+>      ARMMMUIdx_MUser = 0 | ARM_MMU_IDX_M,
+>      ARMMMUIdx_MPriv = 1 | ARM_MMU_IDX_M,
+>      ARMMMUIdx_MUserNegPri = 2 | ARM_MMU_IDX_M,
+> @@ -2891,6 +2894,8 @@ typedef enum ARMMMUIdxBit {
+>      ARMMMUIdxBit_S1SE0 = 1 << 4,
+>      ARMMMUIdxBit_S1SE1 = 1 << 5,
+>      ARMMMUIdxBit_S2NS = 1 << 6,
+> +    ARMMMUIdxBit_TagNS = 1 << 7,
+> +    ARMMMUIdxBit_TagS = 1 << 8,
+>      ARMMMUIdxBit_MUser = 1 << 0,
+>      ARMMMUIdxBit_MPriv = 1 << 1,
+>      ARMMMUIdxBit_MUserNegPri = 1 << 2,
+> @@ -3254,7 +3259,8 @@ enum {
+>  /* Return the address space index to use for a memory access */
+>  static inline int arm_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
+>  {
+> -    return attrs.secure ? ARMASIdx_S : ARMASIdx_NS;
+> +    return ((attrs.target_tlb_bit2 ? ARMASIdx_TagNS : ARMASIdx_NS)
+> +            + attrs.secure);
+
+If you want to do the "just add attrs.secure" can we have
+a build-time assert that ARMASIdx_S is ARMASIdx_NS + 1, and
+ditto for TagNS/TagS, please? It seems like the kind of thing
+that will catch us out later on.
+
+>  }
+
+>      if (env->cp15.hcr_el2 & HCR_TGE) {
+> @@ -10662,7 +10671,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+>                     target_ulong *page_size,
+>                     ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+>  {
+> -    if (mmu_idx == ARMMMUIdx_S12NSE0 || mmu_idx == ARMMMUIdx_S12NSE1) {
+> +    switch (mmu_idx) {
+> +    case ARMMMUIdx_S12NSE0:
+> +    case ARMMMUIdx_S12NSE1:
+>          /* Call ourselves recursively to do the stage 1 and then stage 2
+>           * translations.
+>           */
+> @@ -10713,6 +10724,16 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+>               */
+>              mmu_idx = stage_1_mmu_idx(mmu_idx);
+>          }
+> +        break;
 > +
->      kvm_msr_entry_add(cpu, MSR_IA32_VMX_MISC,
->                        f[FEAT_VMX_MISC] | fixed_vmx_misc);
->      if (has_msr_vmx_vmfunc) {
-> 
+> +    case ARMMMUIdx_TagS:
+> +    case ARMMMUIdx_TagNS:
+> +        /* Indicate tag memory to arm_asidx_from_attrs.  */
+> +        attrs->target_tlb_bit2 = true;
+> +        break;
 
-Yang Zhong from Intel also sent a similar patch.  Thanks very much to
-both of you.
+So here we fall through to the "handle a stage 1 lookup" code, which:
+ * sets attrs->secure
+ * sets attrs->user (always false, so we could have left it alone)
+ * skips the FCSE handling (as we're v8)
+ * skips the PMSA handling
+ * hits the regime_translation_disabled() check, which fills in
+   *phys_ptr, *prot and *page_size and returns
 
-Paolo
+Maybe it would be clearer if this case here just did all of that:
 
+    case ARMMMUIdx_TagS:
+        attrs->secure = true;
+        /* fall through */
+    case ARMMMUIdx_TagNS:
+        /* Indicate tag memory to arm_asidx_from_attrs.  */
+        attrs->target_tlb_bit2 = true;
+        *phys_ptr = address;
+        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+        *page_size = TARGET_PAGE_SIZE;
+        return 0;
+
+Did I miss anything out?
+Or are we going to want more things which are common between
+the stage 1 codepath and the "just a tag ram access" case
+in future?
+
+thanks
+-- PMM
 
