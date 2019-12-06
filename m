@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798EA115214
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:11:50 +0100 (CET)
-Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8180115217
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:13:35 +0100 (CET)
+Received: from localhost ([::1]:38026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEKj-00042L-0f
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:11:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55968)
+	id 1idEMQ-0006DL-PK
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:13:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35443)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idEHP-0002Fu-9V
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:26 -0500
+ (envelope-from <npes87184@gmail.com>) id 1idEIw-000432-0j
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idEHJ-0000Q9-T3
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:23 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34003)
+ (envelope-from <npes87184@gmail.com>) id 1idEIt-0002cs-TX
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:57 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:34539)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idEHJ-0000Ne-Mb
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:17 -0500
-Received: by mail-ot1-x344.google.com with SMTP id a15so5903013otf.1
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:08:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z4sjm9mq9FY1JBwtvKmdYT9ZZ3hKV67Tyf1BR1lTeOw=;
- b=AJJM92Stp3S2lj/sjdyQGY67jSbm4ayYNuhm+4rMSqhS+SxxZ0jVZBd+msHmLexoOt
- aCb+ZxRMrv7QDsxMWKNRjwQUvO38T7acJV9hrbLlqVCPnQJ1OWej+5QVtfYFWGfJRWEJ
- 6LVkRgNX76UARx7ldyaLVcKW8Fndqx6MI46tBRF1v1IC7AW9v4TBVgJp/ppWUB9H/Soc
- eqFugjPqzJuyI0uPwlRbWIQZDbuJDYf0mPoAKH/ij+wthkjaYHWL/PvyLPoHvc9wln0A
- 7Rg76dLYORAX2AeWENSIp+Qntw7/U4voMoQhPyean5OjozqURNsvUwmU2ic3F8eW+uvF
- qB5Q==
+ (Exim 4.71) (envelope-from <npes87184@gmail.com>) id 1idEIt-0002aj-NK
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:55 -0500
+Received: by mail-pl1-x630.google.com with SMTP id h13so2792185plr.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=RvnU/SQxUNMf5RtxCNw8BUby2qEi7s0g4GKkxCbZrLk=;
+ b=LSjZm+k9lN9LAzjbaRvbRgGk9unSiMz2r4FKNumZpULVv1NJkukyt5wrOy9knFZ1FD
+ 9dsUnhT+hO5Fe8zXKpL4XGGxP64umCl3Jzk5CC3DJ6fo35NrfbJcPkyH0R1AILVT9Ikr
+ 2dxSryHAbYBwVOzzYp49jZU0Oz8df1QvSu5MI1hhCDprwVfTLHv5dp+gkxyeJMuoJlrB
+ bFxJd5UEn2YXBFzZxU2zD0KY7eoI1UUPFcNpUdJXhpcPCxi0IwBEmxhWLSFr2tAKeqYS
+ QLB+4GLxn1MnSgaYMx+ZP9z6eW3FWIvCuKGriXyP8yFsY44tVe8V7M8Igs7uMJEog+Y+
+ 8ojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z4sjm9mq9FY1JBwtvKmdYT9ZZ3hKV67Tyf1BR1lTeOw=;
- b=qFMt2us/ycPaVztyitF5UbA6APY0iiWW92Sjw4Q3dsP65pi7xV2svG2jUV1/az3jZJ
- OWW/up71dnCGqtMmMZ88bPeRlg2p3vF+VyUHEXRLE0flifNgdH/keZ7HMY2IizJTGcsm
- pheDk+VVTy/hoNFNS9OhlGC0WosiTD4FtrXQAfNiux8zDwZRYZbPfvh5G7shUVQcsXsJ
- JiXIWyNRLke0589k1+T0hbBEI21lRZYGEJG+R/S/W3YTlEmPD/magwvteC2bkEqNGebd
- zwHFmLjt4QYnc7OrtXRalTRd53LiM5sUe0ovRFiXh7AITUjngYA4h1EI9S/odnDhaOh/
- 6LCA==
-X-Gm-Message-State: APjAAAXvWD7L5PAJEnwDn3OAduFJA1ltnmS0eWYs0mgjim2HKGAO1iqv
- jfmaIl+b16GHLMz/Xz5rEfV4Jcx0amR3B24TFm8yvQ==
-X-Google-Smtp-Source: APXvYqzrntCeRcECAGynjuKrNAr6W6c2Hv0/aLo/VBA8L6c6DdqsRKy6xQLvd3B8HvJ18ed7kqpkT04yFIhqFwu9zqY=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr11191067otq.135.1575641296875; 
- Fri, 06 Dec 2019 06:08:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20191201122018.25808-1-maz@kernel.org>
- <20191201122018.25808-4-maz@kernel.org>
-In-Reply-To: <20191201122018.25808-4-maz@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 14:08:06 +0000
-Message-ID: <CAFEAcA_YGBXY4X5KYE_xny1bYtP1fKefT+VubmNYbe8TxdwBOw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] target/arm: Handle trapping to EL2 of AArch32 VMRS
- instructions
-To: Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=RvnU/SQxUNMf5RtxCNw8BUby2qEi7s0g4GKkxCbZrLk=;
+ b=fwBJ7zqAYMKMrCeVMIoVlgMuBkSFTfDmpV+QVyNZgaRNLZAp6x9ikn5KWauJAKslpi
+ Gn+Shcwy9DmUKgTddRYL+5bw7iYcrQzqlpgpUhn+gARYb2YK8WIjU/WgLYv7Oj0q+dEY
+ 115gK+e3fX9fQ6QPPG7iGh+aSmHgS7tpkM1sJ36FMTmFaU4VFWYwMNVMS5pzGgFaGpQz
+ szYlxDFpdHhXZSEmfKYTx+Fg+nnoGrmKQ4BaHxjjhr/RgZ9Hec1jfWBJIbWh0d+vAJOo
+ 3QURRMKq0ZuHPUJ3cuUsQlnEZUTFzmIHW3M7cwf6k7cA4+VSQEJ/HPpV2dhvq3ehfFXl
+ AvuQ==
+X-Gm-Message-State: APjAAAXJJcor8/CQtCTEuUkUObP/Tr2BMp7n2MS1irljTDSaHp3u/oYO
+ RSvlgguqzAzQUtN2oCA96yLX1tcBuZ4=
+X-Google-Smtp-Source: APXvYqyC1maSwT6WPzslQr0HdARVS+3r868c4dYfOpLw11gaZjjLLxwVN8kr0s7rg0dAr9oTRfuQ2w==
+X-Received: by 2002:a17:90b:252:: with SMTP id
+ fz18mr15931727pjb.49.1575641393357; 
+ Fri, 06 Dec 2019 06:09:53 -0800 (PST)
+Received: from localhost.localdomain (223-137-37-118.emome-ip.hinet.net.
+ [223.137.37.118])
+ by smtp.googlemail.com with ESMTPSA id f5sm5509072pjp.1.2019.12.06.06.09.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2019 06:09:52 -0800 (PST)
+From: Yu-Chen Lin <npes87184@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] mailmap: Add entry about me
+Date: Fri,  6 Dec 2019 22:09:31 +0800
+Message-Id: <20191206140931.14133-1-npes87184@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::630
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,45 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
+Cc: Yu-Chen Lin <npes87184@gmail.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 Dec 2019 at 12:20, Marc Zyngier <maz@kernel.org> wrote:
->
-> HCR_EL2.TID3 requires that AArch32 reads of MVFR[012] are trapped to
-> EL2, and HCR_EL2.TID0 does the same for reads of FPSID.
-> In order to handle this, introduce a new TCG helper function that
-> checks for these control bits before executing the VMRC instruction.
->
-> Tested with a hacked-up version of KVM/arm64 that sets the control
-> bits for 32bit guests.
->
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  target/arm/helper-a64.h        |  2 ++
->  target/arm/translate-vfp.inc.c | 18 +++++++++++++++---
->  target/arm/vfp_helper.c        | 29 +++++++++++++++++++++++++++++
->  3 files changed, 46 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
-> index a915c1247f..0af44dc814 100644
-> --- a/target/arm/helper-a64.h
-> +++ b/target/arm/helper-a64.h
-> @@ -102,3 +102,5 @@ DEF_HELPER_FLAGS_3(autda, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(autdb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
->  DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
-> +
-> +DEF_HELPER_3(check_hcr_el2_trap, void, env, i32, i32)
+I have two mail address, add entries for
+showing author and email correctly.
 
-This has to be in helper.h, not helper-a64.h, otherwise
-the arm-softmmu target won't build. helper-a64.h is for
-helper functions which only exist in the aarch64 binary.
+Signed-off-by: Yu-Chen Lin <npes87184@gmail.com>
+---
+ .mailmap | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/.mailmap b/.mailmap
+index 3816e4effe..3fbf3902a3 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -151,7 +151,8 @@ Xiaoqiang Zhao <zxq_yx_007@163.com>
+ Xinhua Cao <caoxinhua@huawei.com>
+ Xiong Zhang <xiong.y.zhang@intel.com>
+ Yin Yin <yin.yin@cs2c.com.cn>
+-yuchenlin <npes87184@gmail.com>
++Yu-Chen Lin <npes87184@gmail.com>
++Yu-Chen Lin <npes87184@gmail.com> <yuchenlin@synology.com>
+ YunQiang Su <syq@debian.org>
+ YunQiang Su <ysu@wavecomp.com>
+ Yuri Pudgorodskiy <yur@virtuozzo.com>
+-- 
+2.17.1
+
 
