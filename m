@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E1B1153EB
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:10:53 +0100 (CET)
-Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9311153CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:03:59 +0100 (CET)
+Received: from localhost ([::1]:39280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFFr-0001fY-Uw
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
+	id 1idF9B-0002ZB-CP
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55785)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1idESn-0005n9-AH
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:10 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1idETs-0006pg-7H
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1idESl-0007m2-Gc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:09 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27332
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <frankja@linux.ibm.com>) id 1idETq-0001HB-U7
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:16 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1idESl-0007bk-7l
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:07 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB68hLt6076350
- for <qemu-devel@nongnu.org>; Fri, 6 Dec 2019 03:45:50 -0500
+ id 1idETq-0001Fl-KH
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:14 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xB69l1V1098082
+ for <qemu-devel@nongnu.org>; Fri, 6 Dec 2019 04:50:31 -0500
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2wq2tvny4h-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wq9gmvwr7-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 03:45:50 -0500
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 04:50:31 -0500
 Received: from localhost
  by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 6 Dec 2019 08:45:47 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ Fri, 6 Dec 2019 09:50:28 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
  by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 6 Dec 2019 08:45:44 -0000
+ Fri, 6 Dec 2019 09:50:25 -0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xB68jhKu28049506
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xB69oN6S18743434
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 6 Dec 2019 08:45:43 GMT
+ Fri, 6 Dec 2019 09:50:23 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B0CE11C04A;
- Fri,  6 Dec 2019 08:45:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8A31511C052;
+ Fri,  6 Dec 2019 09:50:23 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8F0B411C04C;
- Fri,  6 Dec 2019 08:45:42 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1FEB511C04A;
+ Fri,  6 Dec 2019 09:50:23 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.185.65])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  6 Dec 2019 08:45:42 +0000 (GMT)
-Subject: Re: [PATCH v2 06/13] s390x: protvirt: KVM intercept changes
-To: Cornelia Huck <cohuck@redhat.com>
+ Fri,  6 Dec 2019 09:50:23 +0000 (GMT)
+Subject: Re: [PATCH v2 05/13] s390x: protvirt: Add pv state to cpu env
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20191129094809.26684-1-frankja@linux.ibm.com>
- <20191129094809.26684-7-frankja@linux.ibm.com>
- <20191205181532.46bee55c.cohuck@redhat.com>
- <3cdbba69-c465-f2ce-d3e4-15e0b8d1218e@linux.ibm.com>
- <20191205184637.4e6f4d23.cohuck@redhat.com>
- <bc5eb50d-1647-f40a-73b6-53be5445fd85@linux.ibm.com>
- <20191206092913.3af251dd.cohuck@redhat.com>
+ <20191129094809.26684-6-frankja@linux.ibm.com>
+ <bcf1db05-2366-85a5-2e90-39e4bc2e89da@redhat.com>
 From: Janosch Frank <frankja@linux.ibm.com>
 Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  mQINBFubpD4BEADX0uhkRhkj2AVn7kI4IuPY3A8xKat0ihuPDXbynUC77mNox7yvK3X5QBO6
@@ -107,29 +102,29 @@ Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
  DchCqFm5adiSP5+OT4NjkKUeGpBe/aRyQSle/RropTgCi85pje/juYEn2P9UAgkfBJrOHvQ9
  Z+2Sva8FRd61NJLkCJ4LFumRn9wQlX2icFbi8UDV3do0hXJRRYTWCxrHscMhkrFWLhYiPF4i
  phX7UNdOWBQ90qpHyAxHmDazdo27gEjfvsgYMdveKknEOTEb5phwxWgg7BcIDoJf9UMC
-Date: Fri, 6 Dec 2019 09:45:41 +0100
+Date: Fri, 6 Dec 2019 10:50:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20191206092913.3af251dd.cohuck@redhat.com>
+In-Reply-To: <bcf1db05-2366-85a5-2e90-39e4bc2e89da@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="bMWpfGKwgp8lqD7R2IABiCOWWKfJkzPF6"
+ boundary="LGzS4ZYSw06jjz3JO2Jf1AJRnlfDMIZJs"
 X-TM-AS-GCONF: 00
-x-cbid: 19120608-0008-0000-0000-0000033E0990
+x-cbid: 19120609-0008-0000-0000-0000033E1541
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19120608-0009-0000-0000-00004A5D2FB1
-Message-Id: <c7490fc2-e706-bf51-9979-559a90c65f6c@linux.ibm.com>
+x-cbparentid: 19120609-0009-0000-0000-00004A5D3B9F
+Message-Id: <8ae9e25d-d9f8-5b19-1919-853a83bed0e8@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-06_02:2019-12-04,2019-12-06 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- malwarescore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 impostorscore=0
- phishscore=0 spamscore=0 suspectscore=0 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1912060074
+ priorityscore=1501
+ malwarescore=0 adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912060084
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -141,124 +136,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- mihajlov@linux.ibm.com
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, cohuck@redhat.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---bMWpfGKwgp8lqD7R2IABiCOWWKfJkzPF6
-Content-Type: multipart/mixed; boundary="UpAqd0QKe9fop8JggoROL2ot6u8mCs15z"
+--LGzS4ZYSw06jjz3JO2Jf1AJRnlfDMIZJs
+Content-Type: multipart/mixed; boundary="OSpLV86aIjKW0Py2f6RbDjA482NbwOgxI"
 
---UpAqd0QKe9fop8JggoROL2ot6u8mCs15z
+--OSpLV86aIjKW0Py2f6RbDjA482NbwOgxI
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 12/6/19 9:29 AM, Cornelia Huck wrote:
-> On Fri, 6 Dec 2019 08:44:52 +0100
-> Janosch Frank <frankja@linux.ibm.com> wrote:
->=20
->> On 12/5/19 6:46 PM, Cornelia Huck wrote:
->>> On Thu, 5 Dec 2019 18:34:32 +0100
->>> Janosch Frank <frankja@linux.ibm.com> wrote:
->>>  =20
->>>> On 12/5/19 6:15 PM, Cornelia Huck wrote: =20
->>>>> On Fri, 29 Nov 2019 04:48:02 -0500
->>>>> Janosch Frank <frankja@linux.ibm.com> wrote:
->>>>>    =20
->>>>>> Secure guests no longer intercept with code 4 for an instruction
->>>>>> interception. Instead they have codes 104 and 108 for secure
->>>>>> instruction interception and secure instruction notification
->>>>>> respectively.
->>>>>>
->>>>>> The 104 mirrors the 4 interception.
->>>>>>
->>>>>> The 108 is a notification interception to let KVM and QEMU know th=
-at
->>>>>> something changed and we need to update tracking information or
->>>>>> perform specific tasks. It's currently taken for the following
->>>>>> instructions:
->>>>>>
->>>>>> * stpx (To inform about the changed prefix location)
->>>>>> * sclp (On incorrect SCCB values, so we can inject a IRQ)
->>>>>> * sigp (All but "stop and store status")
->>>>>> * diag308 (Subcodes 0/1)
->>>>>>
->>>>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->>>>>> ---
->>>>>>  target/s390x/kvm.c | 6 ++++++
->>>>>>  1 file changed, 6 insertions(+)
->>>>>> =20
->>>  =20
->>>>>> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
->>>>>>              (long)cs->kvm_run->psw_addr);
->>>>>>      switch (icpt_code) {
->>>>>>          case ICPT_INSTRUCTION:
->>>>>> +        case ICPT_PV_INSTR:
->>>>>> +        case ICPT_PV_INSTR_NOTIFICATION:
->>>>>>              r =3D handle_instruction(cpu, run);   =20
->>>>>
->>>>> I'm still a bit uneasy about going through the same path for both 1=
-04
->>>>> and 108. How does the handler figure out whether it should emulate =
-an
->>>>> instruction, or just process a notification? Is it guaranteed that =
-a
->>>>> given instruction is always showing up as either a 104 or a 108, so=
-
->>>>> that the handler can check the pv state?   =20
->>>>
->>>> diag 308 subcode 0/1 are 108, but all other subcodes are defined as =
-a
->>>> 104 (if they are an exit at all)... =20
->>>
->>> I think that's a reason to really split 108 from 4/104, or at least a=
-dd
->>> an parameter... =20
+On 11/29/19 11:30 AM, David Hildenbrand wrote:
+> On 29.11.19 10:48, Janosch Frank wrote:
+>> We need to know if we run in pv state or not when emulating
+>> instructions.
 >>
->> And still call the diag 308 handler or have separate handlers?
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>  hw/s390x/s390-virtio-ccw.c | 2 ++
+>>  target/s390x/cpu.h         | 1 +
+>>  2 files changed, 3 insertions(+)
+>>
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index e2a302398d..6fcd695b81 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -357,6 +357,7 @@ static void s390_machine_reset(MachineState *machi=
+ne)
+>>                  s390_pv_vcpu_destroy(t);
+>>              }
+>>              s390_pv_vm_destroy();
+>> +            env->pv =3D false;
+>>          }
+>> =20
+>>          qemu_devices_reset();
+>> @@ -406,6 +407,7 @@ static void s390_machine_reset(MachineState *machi=
+ne)
+>>          s390_ipl_pv_unpack();
+>>          /* Verify integrity */
+>>          s390_pv_verify();
+>> +        env->pv =3D true;
+>>          s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+>>          break;
+>>      default:
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index d2af13b345..43e6c286d2 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -116,6 +116,7 @@ struct CPUS390XState {
+>> =20
+>>      /* Fields up to this point are cleared by a CPU reset */
+>>      struct {} end_reset_fields;
+>> +    bool pv; /* protected virtualization */
 >=20
-> I'd probably split it into a "normal" one and one for pv special
-> handling... does that make sense?
+> so ... the preceding patches fail to compile?
 >=20
-IMHO: not really
-We still need to do ipa/ipb parsing for both paths, which will result in
-code duplication. Looking at diag308 subcode 4, we would have a code 4
-one which just does the device resets and reboots and one which does all
-that, plus the teardown of the protected guest.
+> Please properly squash that ...
+>=20
 
-I tried to inline as much as possible to have as little changes as
-possible. Notable exception is sclp, which has more checks than
-emulation code...
+As it turns out, this patch doesn't really support multiple cpus, since
+we only mark the ipl cpu as protected. We also need to mark all others
+(we can do that in the create cpu call) and have a machine flag, so we
+also mark hotplug cpus.
+
+I need to think about that a bit more.
 
 
+--OSpLV86aIjKW0Py2f6RbDjA482NbwOgxI--
 
---UpAqd0QKe9fop8JggoROL2ot6u8mCs15z--
-
---bMWpfGKwgp8lqD7R2IABiCOWWKfJkzPF6
+--LGzS4ZYSw06jjz3JO2Jf1AJRnlfDMIZJs
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3qFTYACgkQ41TmuOI4
-ufgdrg/+LHc8KCGXplddh7D1AitemX/sC+2XGSnd+TMFASkhXmLvaLHVppA7lamX
-lfUjo4TdLH0gc5XVhYRoTb9SiwV3nZkInDIjsHY1DRo378hA4t85zzNIOEKEiQi0
-wO790CZB30QgRV769V7p01nDm4Wywsa1IM8C9UCzUmVgI+jfnBaGR8cClPhzmSZg
-2r2GjuRW3Z3i3Yhv5U1C4aKQKn6R7FQOujc5Ngqppnoc3qmrsD4eIcVoCV1m52n1
-O1ITZMUtLRdvs7EgKf9NedVkZrmgZj/95W7YAlf8TCN2sTX54VCnhkugi3UuWShi
-XQ5f6JMQ9dhdKy5eQN/sp9u5X+7OZ2NS7RMDTj7HdbdUA/peH4BAlgscq6xIdlLv
-T/OA/XNQXULrEvKVPlwFMxjyaANMWToZ6d6ZisiiFS0qT0i3otauXACiTmS2jnmX
-WgwwOv7ACtXc99vpkjVHm2OZFg2bBmeYScIoN15AzFO7CC0/MsBGAwUvlH16exgn
-aFUNH+nxOMGY9G1il733cuboEGqCdqfj24uzk5lu7yW5vS7lcx+9XgeOObeqOYjq
-G2Re0h64xdpD0DO+wwrDg1WXVgiN9M9AN45AS6R/L2K1y7ZBWow/MAwfE6hz8Mbv
-9HXAAD+9czgLs7dZdFzvTBhuGQLHvpcJtnrkzqpixoV52x9F/uk=
-=zshx
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3qJF4ACgkQ41TmuOI4
+ufjQJg//VwXPh1mmmJwBphbSYOyQ2O1F4ioaL6r2abghoQr/W+cT6b/BOcRILXSC
+yp5R7VRoCgao/AqmRfM7jZLhjGDqNXKDye/n6EuL8dG8xatwe1Z6Ap6wFFEi4SMs
+NmtNfcccqLRi1sUUBCLBIyIKRAT9eKyLCzK4RnZ/E3zPjm9ZPyE+j40h3PHR0Z//
+nkYM6bmNgR0pBUPbQnCvAdju7nne5v2PVztHbD50DxCp4Zkk60isxnxw014CyHCY
+405Y+1wZplHAtitJ27cdLKB2JPILqvTFYlpCtn7Yd9GoUFic2XO2N/eCpdAF5hGM
+K3zOVODg7IHHc/0HxbZe+Hdgu6XkCXARcS1ybIp8vCQRJy5L8dnD3FQ272RgpuKU
+2AyrTL6RDAvMBvuauck9VAecwhWw4kn4eoCYYxwqEWP24qu0ww3vddfSjo82k5oe
+Z1FBQRM6jSDPvbknB2/oJ1rydFkuvKtcrap9Zz2fLAu3puqQXM0YUdB5Y7HROyFo
+DQpwWRDrg2OC0kiVODwDM2U1/p7N3phci/SsuMON981me8nyUBEy4xoKPV1hgOHa
+iGjlHnsHPpsLbogosUOzHAEFTkqHWbFWHwwEQQPUTQw0/ry2bWcARSxma/W7ZVVr
+4r9iUfDZQY11zb2T7sppAw/UrCLMO9aI+htKarnOZe54RfLViKI=
+=DMgW
 -----END PGP SIGNATURE-----
 
---bMWpfGKwgp8lqD7R2IABiCOWWKfJkzPF6--
+--LGzS4ZYSw06jjz3JO2Jf1AJRnlfDMIZJs--
 
 
