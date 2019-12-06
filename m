@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90E211577B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:58:12 +0100 (CET)
-Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFB6115733
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:34:40 +0100 (CET)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idInr-0005b4-VN
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:58:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60141)
+	id 1idIR4-0008WU-Rx
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idICk-0001rO-Cr
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:51 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idIOD-0007MC-GS
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:31:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idICj-0004YD-5Q
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:50 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44320)
+ (envelope-from <peter.maydell@linaro.org>) id 1idIOC-0004yv-I9
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:31:41 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37011)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idICi-0004U7-PS
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:49 -0500
-Received: by mail-ot1-x341.google.com with SMTP id x3so6550554oto.11
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:19:48 -0800 (PST)
+ id 1idIOC-0004wD-BS
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:31:40 -0500
+Received: by mail-oi1-x241.google.com with SMTP id x195so649753oix.4
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:31:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a7iFGDNmOYAA9dOYKmbmOnb4PW7CEEq6Dh2sdZNZyq8=;
- b=zrtWG3afJHMHSaf06bbhFWsks46pJZlyyNvGSYPWO5obAZV2k28x5n33G+2epvzPz3
- JoqDbKmF3dl8EeQabQjPZCgd7IO1hEWqvUuIKoJZZ3rS1JAFHkUB/4Rf0caX0tL10W/y
- CqoZf9yy59QzTsfRsUGWzS0tX1WiRGstGMJo+hRrKABTfcwrLzKFUCUC9L0GzOy5XQsN
- kH8yrb97ay5M+3pKF+ZXvrsgcsJgRnda7Kc2Is/1uV2dt2m8JR4XFfCbWBeIrWkfWfSD
- UXPd7eNXa/QR8guKtxW2DQl9BrGWeXHv4mV07KERC5MFDwWE7DDmeBUTi/ZuxLCrGPcW
- dRWA==
+ :cc; bh=WfhvuPbds/YLdg45NFJDaUPOSfgQsOz0YuW97XoiAE8=;
+ b=wzOh1GZCC6uRlMeeFne0YY7MeoxZhO338dPIewV/M8axDwVFvJ4DvQ/ozHE6fSAgLj
+ U79GVCUkEKTTxgagwQ6OcEorC4yX6CnyisGd1BhhXZdAC2ob/R1t+TW7Av4QALUl1bcr
+ yuv14uBLSsn7BGnXlxtPSlbeqbkdiOaPyQqIDzWqQi85igH671lHJypnQKNZy2/cEkER
+ p4FbuVQhNlwp9EotWlH3sJUU7DdTTNItl9+MBLor+K7RXI84+yzeJyQOpW9RZJhlyF8+
+ AeBfOgE5d1U4veVLfp7J6GATzWV6TYZ497DbHtClXLTM4l4Bm1X2V14N82wgnXUSoYsG
+ siLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=a7iFGDNmOYAA9dOYKmbmOnb4PW7CEEq6Dh2sdZNZyq8=;
- b=VDtSM2asr4ETZkFCf3g/dx5X1rLOJa7e1HP4ZeCM0ZDo0Kfj0rIvtULmsKZjSn01VO
- af5SJn537kiOtAEhGGUgAZBNKnwCjmbHtfqju8cayAM5NpIcGlRM+NK2KzapRl7UwzQ7
- KUvfgcg8wcz5k8agaifsgpCRhpC9pZTNj/dFBZWbQzxDOrrj2KdEEtWfwgyssyytsj+t
- /LVyGzvpjoN2NJJjaTkYyOrdBgicxY8yT72YiAfIas+Q1d1m4Yw5qoNFD5JMrcQeeubR
- sE7N/3AMaecRxnMjp9R5H91ySA1GYmF/ITr/gUNWKy3BxcmM0etVcym69CCCqDSiAbyc
- Czhg==
-X-Gm-Message-State: APjAAAV97s5+4JFi3Q16tx3QSBAgA7RRx4oaameTpsukP7k6VeU3n1g1
- OkI5qKMSDylWqKd9Fk3zRpdxcjh9aAzwnP8mQUocvw==
-X-Google-Smtp-Source: APXvYqzD2UhV+ya4YFfliucZgWOBfspVNE6QI9eWrQOTAkm2YblPZ17yIsEkCb8mNc4aXcNBCRd+Fz2oYyGoVS+Bq4Y=
-X-Received: by 2002:a9d:6745:: with SMTP id w5mr11630115otm.221.1575656387810; 
- Fri, 06 Dec 2019 10:19:47 -0800 (PST)
+ bh=WfhvuPbds/YLdg45NFJDaUPOSfgQsOz0YuW97XoiAE8=;
+ b=YyihF7H8eUV+0IoWdgpwhttvoI7IhQgkMpKhTwiOx1zLZLkkpcrzbJYRjyr9bRBxyW
+ 5b3I8e9FHFZIoaHN+c3NCzd29ClPmP2og4XUh5Ya+m9eIp2hrh+1q+KzPwT4LIUaKmXI
+ YBCibcLQyZaS/L+LyWaVPXUf4NDDRowW/DTw0Tr+tQIzKlHlZm5Gylb9G4ERpAgDK42u
+ XuNdC4oCfQreX8lVv5gX6gY4fI+2BFZ2623MwtoETExAEULpjTlPm3+mQmgmMZzUrviS
+ ai+0C+v+R70ZhltoxFSnHewPygWNH7MWVwDViNUlBbfovCduuYfLBT73IFfJcUlBv093
+ F8mQ==
+X-Gm-Message-State: APjAAAXDn1HvMb/jQUDfPEa70oOX/i+Icd8/vRKjoqiBHIsUdK/q1H6m
+ 3FL2vVpeyIbAErUwtQt5TdKUQfZIoNZQW232ML3TJA==
+X-Google-Smtp-Source: APXvYqybxLl6PeQEuR6peSWmI395y+PGco8HyXac0IuLJGYJNhvUGGAX6OMXztyskr5FF1P6h1pnvnDEnnz5NQ8BMDY=
+X-Received: by 2002:aca:f5cc:: with SMTP id
+ t195mr13779767oih.163.1575657099595; 
+ Fri, 06 Dec 2019 10:31:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20191203234244.9124-1-richard.henderson@linaro.org>
- <20191203234244.9124-2-richard.henderson@linaro.org>
-In-Reply-To: <20191203234244.9124-2-richard.henderson@linaro.org>
+ <20191203234244.9124-4-richard.henderson@linaro.org>
+In-Reply-To: <20191203234244.9124-4-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 18:19:36 +0000
-Message-ID: <CAFEAcA9wOmOdddzr+5RfBsTJ+nHF4bqTVs0C1Uj228f28U_SMA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] target/arm: Add ID_AA64MMFR2_EL1
+Date: Fri, 6 Dec 2019 18:31:28 +0000
+Message-ID: <CAFEAcA9MVG1=x5LMYYeBZYh8-ZmK_JMe3DhXn1NT9G=iUuuo+Q@mail.gmail.com>
+Subject: Re: [PATCH 3/4] target/arm: Implement UAO semantics
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,32 +80,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 3 Dec 2019 at 23:42, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Add definitions for all of the fields, up to ARMv8.5.
-> Convert the existing RESERVED register to a full register.
-> Query KVM for the value of the register for the host.
+> We need only override the current condition under which
+> TBFLAG_A64.UNPRIV is set.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu.h    | 17 +++++++++++++++++
->  target/arm/helper.c |  4 ++--
->  target/arm/kvm64.c  |  2 ++
->  3 files changed, 21 insertions(+), 2 deletions(-)
+>  target/arm/helper.c | 41 +++++++++++++++++++++--------------------
+>  1 file changed, 21 insertions(+), 20 deletions(-)
 
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 876184b8fe..482e7fdfbb 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -549,6 +549,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->                                ARM64_SYS_REG(3, 0, 0, 7, 0));
->          err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr1,
->                                ARM64_SYS_REG(3, 0, 0, 7, 1));
-> +        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
-> +                              ARM64_SYS_REG(3, 0, 0, 7, 2));
-
-Do current KVM kernels definitely handle the request for this
-new register (ie don't return an error)?
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
