@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0E6115603
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:01:06 +0100 (CET)
-Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AAD11560A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:04:22 +0100 (CET)
+Received: from localhost ([::1]:41426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGyW-0006h6-Dy
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:01:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1idH1h-0001Wx-Ou
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:04:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56923)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1idFoj-0002Fh-E5
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:46:54 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idFpx-0003Tf-Mp
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1idFoh-0007PT-KU
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:46:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27624
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1idFoh-0007OW-FU
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:46:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575647210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0TtAW2A6JrclB8z4raIt5oayXjVgEZOFEm4f6kL/3Fo=;
- b=al4vRnyLzDVcD934muml/MrpVbEXOZnyRNbLCRWIe5ikYjEDwxJV937Skban5ICHx5/qTk
- NLOaVGw0nyR/Ptj4S5x/5Jd/k1UpzIu0C/rdMyOEPbM1Zi23Pgovu+Qv0mHFIZqIGZsRDQ
- sP2hfVnrDLR+sgkgUk5srOO7e5Pj5xQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-4rOCeUkbNKO63Hm1v1_Bmg-1; Fri, 06 Dec 2019 10:46:50 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0A81005512
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:46:48 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-235.ams2.redhat.com
- [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1050219C7F;
- Fri,  6 Dec 2019 15:46:42 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 7/8] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
- <1575479147-6641-8-git-send-email-imammedo@redhat.com>
- <34d3e078-f4e5-149e-a8ef-798d524f53a5@redhat.com>
- <20191206161540.1664aace@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <e3752033-f407-aab2-61b3-a304b15a4e6e@redhat.com>
-Date: Fri, 6 Dec 2019 16:46:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <peter.maydell@linaro.org>) id 1idFpw-0000di-J0
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:09 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39940)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idFpw-0000cZ-Bm
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:48:08 -0500
+Received: by mail-ot1-x341.google.com with SMTP id i15so6156975oto.7
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:48:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lGxGqg7GQyaVMrHzLqAC9Yhmj/jnKys9PXUiHGz3F34=;
+ b=iYT9vZ22yk1jeHBZ5scHCYoheRdjTO5CSHh4YvJ1oFzfXfkBHCZkqFoxNhwzJHyNfo
+ QAD7cj7TwroE6CeyIP5LmYiqzSEyjgMbKKMvTk21zNLQ/khhQqRrKXe9OhaU7ghIPdWE
+ kYtbKVGAgQa9qVyHjlvNfdLGLcIVhVIhUQNeelU6SzelP3tZ1+1uwo2wUaiK6JHUL/TH
+ x8YBaUoj6nXUk4grnafrVmzIDJkIScLz+LI71moqWNXBhmmbEkao5sKWyt9OEPbrltZR
+ cSF1ojvY1L7Q9rDMu8Qz5fY/4kVy7doCCmMwgOQgaL9YgnVv3x83Wl9K5dwctVE02M/q
+ aD4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lGxGqg7GQyaVMrHzLqAC9Yhmj/jnKys9PXUiHGz3F34=;
+ b=DPE8H8gm2oApYI0xGqpPXTpqYxLFf7EVVbI6NjpMKKEm5q062lrl9u906SIwJP32Ip
+ fLNGGNFfUNsVM+h3GAl5lEBzG2XUhaZUEtE+g46IIRhuieja1l8lkIOHmQym6QEy6Q9I
+ 009cxOpUb17r34/HekBWgncRAjTaSACC4BHR3KTn5mbJzihIiiRGQ0l7QiYSBvkmpnRT
+ /sYnpgBEv9juXWAWZPpJuLn6aHrWcKVa4Fxr7KXZXScIj4TpHuKXv3Ci05K8wuGZgouZ
+ 1oG70cQuFbdrJzH5F/OshGhuuvxTjALduj/iWf5WfKPetx1ziHdtR+aA5wtUtQxigJu+
+ xa8A==
+X-Gm-Message-State: APjAAAVm/OWwyU4OHLHRXvDZW2umqEuB/gpSWDaXggeUI1euQA69Hqc4
+ TlISxwH5DbhOKgtDT1UtcE6iCNzpywfhATMrgKwhKA==
+X-Google-Smtp-Source: APXvYqwyL/GJORA2Onuu4DMyrYwLhyPhAUHc/RORSoZE89GnrFbyLJJpVInNxCm/73wkOGfHwVg3RM/6GvhMNsIhRqY=
+X-Received: by 2002:a05:6830:2001:: with SMTP id
+ e1mr10623162otp.97.1575647287600; 
+ Fri, 06 Dec 2019 07:48:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191206161540.1664aace@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 4rOCeUkbNKO63Hm1v1_Bmg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-12-richard.henderson@linaro.org>
+In-Reply-To: <20191203022937.1474-12-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 15:47:56 +0000
+Message-ID: <CAFEAcA9V8m2Qmfq-eig0TCLkmckXxa3-POo2LBQOij5KnyaPZg@mail.gmail.com>
+Subject: Re: [PATCH v4 11/40] target/arm: Rename ARMMMUIdx_S1SE* to
+ ARMMMUIdx_SE*
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,74 +74,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/19 16:15, Igor Mammedov wrote:
-> On Thu, 5 Dec 2019 14:03:01 +0100
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
->> On 12/04/19 18:05, Igor Mammedov wrote:
->>> Extend CPU hotplug interface to return architecture specific
->>> identifier for current CPU in 2 registers:
->>>  - lower 32 bits existing ACPI_CPU_CMD_DATA_OFFSET_RW
->>>  - upper 32 bits in new ACPI_CPU_CMD_DATA2_OFFSET_R at
->>>    offset 0.  
->>
->> OK.
->>
->>> Target user is UEFI firmware, which needs a way to enumerate
->>> all CPUs (including possible CPUs) to allocate and initialize
->>> CPU structures on boot.  
->>
->> (1) This is correct in general, but if we want to keep this description,
->> then it should be moved to the commit message of the previous patch.
->> CPHP_GET_CPU_ID_CMD is not needed for the purpose described above -- it
->> will be necessary for handling the hotplug SMI.
->>
->> For the boot time allocation / initialization, the "enumerating present
->> and possible CPUs" workflow is necessary, and that is documented in the
->> previous patch in this series.
->>
->> So if we want to keep this paragraph, we should move it to the previous
->> patch's commit message.
->>
->>> (for x86: it needs APIC ID and later command will be used to
->>> retrieve ARM's MPIDR which serves the similar to APIC ID purpose)  
->>
->> (2) I would suggest some punctuation, to make this clearer. How about:
->>
->>> On x86, guest UEFI firmware will use CPHP_GET_CPU_ID_CMD for fetching
->>> the APIC ID when handling the hotplug SMI.
->>>
->>> Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
->>> which serves a purpose similar to the x86 APIC ID.
-> 
-> How about following commit message:
-> 
->     Firmware can enumerate present at boot APs by broadcasting wakeup IPI,
->     so that woken up secondary CPUs could register them-selves.
->     However in CPU hotplug case, it would need to know architecture
->     specific CPU IDs for possible and hotplugged CPUs so it could
->     prepare enviroment for and wake hotplugged AP.
->     
->     Reuse and extend existing CPU hotplug interface to return architecture
->     specific ID for currently selected CPU in 2 registers:
->      - lower 32 bits in ACPI_CPU_CMD_DATA_OFFSET_RW
->      - upper 32 bits in ACPI_CPU_CMD_DATA2_OFFSET_R
->     
->     On x86, firmware will use CPHP_GET_CPU_ID_CMD for fetching the APIC ID
->     when handling hotplug SMI.
->     
->     Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
->     which serves the similar to APIC ID purpose.
-> 
-> [...]
-> 
+On Tue, 3 Dec 2019 at 02:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is part of a reorganization to the set of mmu_idx.
+> The Secure regimes all have a single stage translation;
+> there is no point in pointing out that the idx is for stage1.
 
-Looks fine to me, thank you!
-Laszlo
+...until we do support secure EL2, and then there might
+be a stage 2 again.
 
+-- PMM
 
