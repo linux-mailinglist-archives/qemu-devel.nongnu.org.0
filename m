@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CA611547A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:43:23 +0100 (CET)
-Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25825115492
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:48:52 +0100 (CET)
+Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFlJ-0004bY-JP
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:43:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
+	id 1idFqc-0002qe-HW
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:48:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1idEs5-0007x5-Rn
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:19 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1idEt9-0000O0-FL
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1idEs3-0002fZ-TW
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53932
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1idEs1-0002bt-QX
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:46:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643571;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XYG0H8Hz6hv1dbVPFMIVNOMdJde2au8aPJzKbEaOC9s=;
- b=XwTJyDFxIs3wGq2F9yTUIpAPLHJt0LzzOnTzwwrF487mgq8VEJJlC99wQnRIVXQXaqgZ7I
- tma+j3CRPvYhXzx7k+2+mPGMQVuob5oZ4wMCbHfNBtWWOTuwZzg85MesO13z/7Gs2IFHig
- bDAflSrGjfzx/eetj9ALfGKJ0xSzqz8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-42qT7cLxOU-frLTbBophmQ-1; Fri, 06 Dec 2019 09:46:10 -0500
-X-MC-Unique: 42qT7cLxOU-frLTbBophmQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E124593A0;
- Fri,  6 Dec 2019 14:46:08 +0000 (UTC)
-Received: from dhcp-17-72.bos.redhat.com (dhcp-17-72.bos.redhat.com
- [10.18.17.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5723B5D6BB;
- Fri,  6 Dec 2019 14:46:07 +0000 (UTC)
-Date: Fri, 6 Dec 2019 09:46:05 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-4.2? v2 1/2] tests/boot_linux_console: Fetch assets
- from Debian snapshot archives
-Message-ID: <20191206144605.GB5020@dhcp-17-72.bos.redhat.com>
-References: <20191126223810.20180-1-philmd@redhat.com>
- <20191126223810.20180-2-philmd@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1idEt6-0003kr-TJ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:21 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:41811)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1idEt6-0003dl-9X
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:47:20 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id ca19so2832436pjb.8
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:47:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ou2NIgpCqpSNreFVd54xN+SCEb16nwgso+pX/SawtfY=;
+ b=Fd8OvthmQkw/GsY6S905ylcQrpZ884BcwuhMOHSNo3zAU6sVr6aJsKGQ6sTxDKHTvM
+ pTMYt8b9JFDOSQq26xLJGTitsjohWxFB2O27kHIUvIvxtR/WXWcCTR4dasGUkm6BdFa7
+ zfwh2dx0/R4YnOQNj59d3zlRuMs6G04Wz1jDAMSaja33x4jxctSgQrykxGQcz2+nACgp
+ sgnPomnHoj0w0624Q67w8RnJdMejqRWI8ymO+s+BLS9Y78pV7ru8KIImDlY6l+AGD9nn
+ XF4+wSFsllcXoge+1N7BtZ0gFeSF05PdEcCLO/pFKg1N5slAFOaFvUOpIsa5PWeGDHgR
+ lRZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ou2NIgpCqpSNreFVd54xN+SCEb16nwgso+pX/SawtfY=;
+ b=tyCXtm3d/KnV3uad1Amo75t2j3GL+E8mf897BFz9UVWlZcupSUZQ4Qxg3TYljbn0wv
+ XSVPYwcpECQ2ISo0VXRoLIRj+oOjGVbuPQD+PN9Hp33Gp+/S3JGD3IC75OdG6kmU2X2M
+ WkmY5suSsYQAPRDfAHfIoAT4/GtIqUm+FFD3FbjtiPi2i9Q+XHDH6+cIsBsZh9OTKtea
+ XfiUnR5k2FhUipP4svn5pa7u27ytb0zmEBKSXCsTlOiQQDzaHN96qG6ud6vlZkPUXBbc
+ LTGtaKR35eh894TY01xqP2Srg4bu3IAwv/RIp+aECtY0CagFti2aN93Ftlint1dum72S
+ pbBw==
+X-Gm-Message-State: APjAAAVdbXhRS7C1wBCrwPAYTPU2ta03kBKN2hy7B0uYsjHwmGRVVfdF
+ vHURUkos3rLKzoT86/rsYMchRg==
+X-Google-Smtp-Source: APXvYqxLD0LwUBKhDzrDEj45ePVTacM/K10xf/6cqmiMz3a6bF5fvPqlELND7WgSc9RRnQLi/CLk6Q==
+X-Received: by 2002:a17:90b:f06:: with SMTP id
+ br6mr2226536pjb.125.1575643628749; 
+ Fri, 06 Dec 2019 06:47:08 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id a22sm17794578pfk.108.2019.12.06.06.47.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Dec 2019 06:47:07 -0800 (PST)
+Subject: Re: [PATCH v5 03/22] target/arm: Add MTE system registers
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-4-richard.henderson@linaro.org>
+ <CAFEAcA8_SQ6ugs360PJD58547mmZY1yu5xb=Fq0P006HJ1yGRA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <597e1b27-24df-164e-d289-f8d8bb69f0c3@linaro.org>
+Date: Fri, 6 Dec 2019 06:47:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191126223810.20180-2-philmd@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZoaI/ZTpAVc4A5k6"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <CAFEAcA8_SQ6ugs360PJD58547mmZY1yu5xb=Fq0P006HJ1yGRA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,80 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ZoaI/ZTpAVc4A5k6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/3/19 3:48 AM, Peter Maydell wrote:
+>> +    { .name = "GMID_EL1", .state = ARM_CP_STATE_AA64,
+>> +      .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 4,
+>> +      .access = PL1_R, .type = ARM_CP_CONST, .resetvalue = GMID_EL1_BS },
+> 
+> This should trap if HCR_EL2.TID5 is 1 (since we're adding
+> support for the TID* ID reg trap bits now).
 
-On Tue, Nov 26, 2019 at 11:38:09PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The kernel packaged was fetched from an unstable repository.
-> Use the stable snapshot archive instead.
->=20
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
-> v2:
-> - Rebased
-> - Dropped Alex's Tested-by tag, since commit 2ecde8b2fb got merged
->   since and it changed the tested kernel version.
-> ---
->  tests/acceptance/boot_linux_console.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index 7e41cebd47..752f776f68 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -479,7 +479,8 @@ class BootLinuxConsole(Test):
->          :avocado: tags=3Darch:m68k
->          :avocado: tags=3Dmachine:q800
->          """
-> -        deb_url =3D ('http://ftp.ports.debian.org/debian-ports/pool-m68k=
-/main'
-> +        deb_url =3D ('https://snapshot.debian.org/archive/debian-ports'
-> +                   '/20191021T083923Z/pool-m68k/main'
->                     '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k.u=
-deb')
->          deb_hash =3D '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
->          try:
-> --=20
-> 2.21.0
->=20
+Done.
 
-Works great, sorry for not picking it up earlier.  Now with rc-4, I'll
-check with Peter if we can still have this on 4.2 and send a PR.
+> So, aa64_mte_insn_reg here is checking for ID_AA64PFR1_EL1 != 0
+> ("instructions accessible at EL0 are implemented")
+> and aa64_mte is checking for >= 2 ("full implementation").
+> I think a couple of brief comments would clarify:
 
-Thanks!
-- Cleber.
+Done.
 
---ZoaI/ZTpAVc4A5k6
-Content-Type: application/pgp-signature; name="signature.asc"
+> (The other way to arrange this would be to have the 'real'
+> TCO regdef in mte_reginfo, and separately have "reginfo
+> if we only have the dummy visible-from-EL0-parts-only
+> which defines a constant 0 TCO" (and also make the MSR_i
+> code implement a RAZ/WI for this case, for consistency).
 
------BEGIN PGP SIGNATURE-----
+Done.  I agree this is a better way to treat the EL0-only case...
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl3qaagACgkQZX6NM6Xy
-CfPVOA//R85ys9EGuH0eMGuZ2IDlPCHUYpadJ7CGMRGF9d1RZLXzrER0kciE5mJ1
-Sp+umhFHHHFxV0Y/OMWwQ2PHIC6We8Da2Jqh+a7+4dZlfXWmZd6dYdAlst0Aj+Tl
-5C+nQZJHly+7zWg1Vm8FQS3dhiRi4XZ4PiiBr3O4OK1OV3sX8mrb3McNygl95Q/V
-bOtmesbGsFg0JNs6iH+PC/i7xhMXVudt7IM2VJbhWjNkEzIMCVK+SeB5GAMDTMIM
-jplHyYYwnN5Q4cHJRyY6tPXZYvqtjQWt/2z6Nc3SQ3ykB3KGB6JjRaacUiXwAl2+
-b/nRu7a1w9uc4H5dTXcqIYO7oicVS8aN1TRfyNJHkxCBmTfB4RJgiRSLyH6VzCkI
-fu0QjtcHCxeuVgCRuhv/WXuEfr8rlEs9w+VC1LkXsiK/V+JxvU3/P0uL8VRbLF8U
-pLXOecZX9czq9TbbWONnoyrkaGFu8ul8r4gFDql2j8W1k8PyxMJbV1gXynh8xQZm
-7gfnu9C+YjILyhtmh86OmQ4mQVQk5WQYE+ux9nZEbX1Ex5UsfZSfoWXdZBy1KtKs
-c3dsXoYhYq7Pat68oM3NefKrp+7QZgPcv3fnp9oY3fZ0vQTtlzm/cooVM7QRcgZA
-I+IZQyQjzVSIK4nGkJY36qdE/4G+mhuZwX+y10KuPLLNKwo0nX4=
-=tdnI
------END PGP SIGNATURE-----
+> An implementation that allows the guest to toggle the PSTATE.TCO
+> bit to no visible effect is architecturally valid, though.
 
---ZoaI/ZTpAVc4A5k6--
+... because this could turn out to be slightly confusing.
 
+
+r~
 
