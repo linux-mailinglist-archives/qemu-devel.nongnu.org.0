@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2454115360
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:40:39 +0100 (CET)
-Received: from localhost ([::1]:38766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425B3115399
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:48:50 +0100 (CET)
+Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEmc-0000eF-8N
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:40:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59331)
+	id 1idEuW-0000Dc-JU
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:48:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59602)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1idEOI-0001Pz-Pt
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:32 -0500
+ (envelope-from <wainersm@redhat.com>) id 1idEOL-0001T3-Lg
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1idEOH-0001U4-61
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42627
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1idEOK-0001Zc-DI
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:33 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46173
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idEOH-0001Sn-1u
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:29 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idEOJ-0001Yh-Jx
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575641728;
+ s=mimecast20190719; t=1575641731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Bf/sq2X8LvwM7XPzmbbgVK4hHmEwYBU4eGspdFx65Yg=;
- b=OdPOp5MF3ev/G/fHW49dCXcGOWFOXJihRKJNUyVFSiglT7ir4BUSZ8n9Itr0fydm3wFiPS
- S2OC2LCQfGWD8/I9m60DcLXRO2LOO/9eyJ0KdKhdmbNkK2a+jr2PfedCV4zLdzbXVXod77
- h+ohOyOBACElN5oTBc9/1/8+VqC2Heg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0ygww+v1oU+33ypIhc68siMy+/iwT5tY9NlCzUkIOiA=;
+ b=A8aApw5nNVPodUplLF5mGvlNUrTv9FBQ+p9DE7UcJuaU2GuqLVLfVZA+07E3Rs8wKSvDjt
+ g6tyRptEfuW2QTfnPWlPfoyb7pq+E8r795XGTKMu5WWqSm2COJB0AoHzCXQBshA2LlFvAj
+ 7yKjsgGE27nHnsfOS/3Fr7KIJ2uE2o8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-utEINZruNCSvTvHzwpFR_g-1; Fri, 06 Dec 2019 09:00:17 -0500
+ us-mta-119-DQjdipU1PaOFvZ-KIQj4Mg-1; Fri, 06 Dec 2019 09:00:18 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 867AF801E7A;
- Fri,  6 Dec 2019 14:00:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DEA2593AB;
+ Fri,  6 Dec 2019 14:00:17 +0000 (UTC)
 Received: from virtlab501.virt.lab.eng.bos.redhat.com
  (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4D4E60E3E;
- Fri,  6 Dec 2019 14:00:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A059E60FC1;
+ Fri,  6 Dec 2019 14:00:16 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tests/acceptance: Add boot vmlinux test
-Date: Fri,  6 Dec 2019 09:00:10 -0500
-Message-Id: <20191206140012.15517-1-wainersm@redhat.com>
+Subject: [PATCH 1/2] tests/acceptance: Add PVH boot test
+Date: Fri,  6 Dec 2019 09:00:11 -0500
+Message-Id: <20191206140012.15517-2-wainersm@redhat.com>
+In-Reply-To: <20191206140012.15517-1-wainersm@redhat.com>
+References: <20191206140012.15517-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: utEINZruNCSvTvHzwpFR_g-1
+X-MC-Unique: DQjdipU1PaOFvZ-KIQj4Mg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,37 +76,74 @@ Cc: fam@euphon.net, alex.bennee@linaro.org, wrampazz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series add a new acceptance test: boot an uncompressed
-Linux kernel built with CONFIG_PVH, so checking the PVH
-capability introduced in QEMU 4.0 works.
+QEMU 4.0 onward is able to boot an uncompressed kernel
+image by using the x86/HVM direct boot ABI. It needs
+Linux >=3D 4.21 built with CONFIG_PVH=3Dy.
 
-The test implementation depends on [1] which is likely released
-on next Avocado. So that will need a version 2 of this
-series to bump Avocado version.
+This introduces an acceptance test which checks an
+uncompressed Linux kernel image boots properly.
 
-Also I want to use this as an example of a scenario that test
-assets could be better managed. As you see on patch 01 the
-kernel is built at test time on localhost. While Avocado provides
-an API to easily fetch and build it, the whole process takes
-reasonable time - besides the fact that localhost must have
-all build dependencies installed. How could it be done better?
-
-Nonetheless I argue in favor of merging this as is, and
-gradually implement corrections to improve the tests assets
-management. Also if eventually the test is proven to unacceptable
-slow down the Travis CI then I can add a guard to skip it.
-
-[1] https://github.com/avocado-framework/avocado/pull/3389
-
-Wainer dos Santos Moschetta (2):
-  tests/acceptance: Add PVH boot test
-  .travis.yml: Add kernel build deps for acceptance tests
-
- .travis.yml             |  2 ++
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
  tests/acceptance/pvh.py | 48 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+ 1 file changed, 48 insertions(+)
  create mode 100644 tests/acceptance/pvh.py
 
+diff --git a/tests/acceptance/pvh.py b/tests/acceptance/pvh.py
+new file mode 100644
+index 0000000000..c68489c273
+--- /dev/null
++++ b/tests/acceptance/pvh.py
+@@ -0,0 +1,48 @@
++# Copyright (c) 2019 Red Hat, Inc.
++#
++# Author:
++#  Wainer dos Santos Moschetta <wainersm@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++"""
++x86/HVM direct boot acceptance tests.
++"""
++
++from avocado.utils.kernel import KernelBuild
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
++
++
++class Pvh(Test):
++    """
++    Test suite for x86/HVM direct boot feature.
++
++    :avocado: tags=3Dslow,arch=3Dx86_64,machine=3Dq35
++    """
++    def test_boot_vmlinux(self):
++        """
++        Boot uncompressed kernel image.
++        """
++        # QEMU can boot a vmlinux image for kernel >=3D 4.21 built
++        # with CONFIG_PVH=3Dy
++        kernel_version =3D '5.4.1'
++        kbuild =3D KernelBuild(kernel_version, work_dir=3Dself.workdir)
++        try:
++            kbuild.download()
++            kbuild.uncompress()
++            kbuild.configure(targets=3D['defconfig', 'kvmconfig'],
++                             extra_configs=3D['CONFIG_PVH=3Dy'])
++            kbuild.build()
++        except:
++            self.cancel("Unable to build vanilla kernel %s" % kernel_versi=
+on)
++
++        self.vm.set_machine('q35')
++        self.vm.set_console()
++        kernel_command_line =3D 'printk.time=3D0 console=3DttyS0'
++        self.vm.add_args('-kernel', kbuild.vmlinux,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Kernel command line: %s' %
++                                 kernel_command_line)
 --=20
 2.21.0
 
