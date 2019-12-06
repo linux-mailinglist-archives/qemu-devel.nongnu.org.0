@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51B411578E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:10:38 +0100 (CET)
-Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C5C115794
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:13:50 +0100 (CET)
+Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idIzt-0006Sj-D7
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:10:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
+	id 1idJ2z-0001HI-D8
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:13:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idINP-0006SI-Hk
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:30:53 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idIVY-0006BA-MP
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idINO-0002S8-3Y
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:30:51 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:32996)
+ (envelope-from <peter.maydell@linaro.org>) id 1idIVV-00005A-7h
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:14 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33203)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idINN-0002Pn-Sc
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:30:50 -0500
-Received: by mail-oi1-x243.google.com with SMTP id v140so669466oie.0
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:30:49 -0800 (PST)
+ id 1idIVT-0008T0-6g
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:39:11 -0500
+Received: by mail-ot1-x344.google.com with SMTP id d17so6690892otc.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:39:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5z/6XKC2ep64MfVJ30LGpD9q+AIs6sDy4td/Qd+8kbk=;
- b=yTIDXKVmIliNX0JM4RsjhYWiVmn1KTEpjw5KD9PbkoSVMxb9oXajNFzyvXsCmWQOYF
- dYyhs8egVMofVbF/5/9iJMwi/A4rwU8X0PzlWORStpaTRMWREn2YxmPUaHD2O4MIy6uT
- f5S+4IlbqkWixKbj3fYEsCvjsOLEj2L4DAVo7llBYtgrotqdWQ4t4zo0ESwG5YmqPqNz
- NbfLYoHfMdzXbxT+IcKTqW5p/kwOLPbLcobMfI+W9TNd2WtE2ZMf6/yvEIPXDvh7Qqk7
- NKyvh7YaVPXlqh4dCcujUrJ/Im4Ydsv0knkLlC9zYe4+I7nhied7VcjICXFSOu1avJgd
- uVUQ==
+ :cc:content-transfer-encoding;
+ bh=eh9xvqGv160fKMlLUwlPlM7qfEP0isz5KYXYGxgyu8c=;
+ b=wACfxTUlczOZsG7CCDJ5ZRZYorQx6HmmA6N/te+cyrzutNJJ4HsJmfbIIB4BL1vyNd
+ iLK5kQ80Gm7RqGznez8vHvqZgraxshgcUHXJug7YhOAGeKXFw8SNnZdchqrPs0MhCqnD
+ ihIiy2Up0ULk9ZRK5L6nnec60KSVt5Hi2nmzCl2yNIhA2uVg7nM8LJc7HH9HMc4SyXx3
+ LPDARTMnGfjmSrVIriqZV/RwYk0XPcKxPLm15jAAQ7734HLgbIeroaqpv/XS0odRLhUD
+ mf7u4RWQuWsGBn4WH7I4hJLhHHtGn0AalxhM3Lq1YQAoi9lJHxWvbqyHpt4EEHlNMTCl
+ irFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5z/6XKC2ep64MfVJ30LGpD9q+AIs6sDy4td/Qd+8kbk=;
- b=TYSJmLt+3vHrmG8daMwQbKZaMI3XUn67ln1WfOKZ4aWybn1k7EyFIuuSw2VbVHnuQm
- p0onOY6xHO3VKL8CDIvVmWyLN2bBoMhC04MCuopzITAyuOnRc8rIrynkgS9UGIcj76+G
- JyF9B9jQ4++PRyn+LwL/n8c6s3LKB6v/ka4BAeIsNc6Yx0PVVeDAmwQJtnVnq40PvSfK
- RcOwJu2/7a64mRP4EdgY4MaXkWA1MDblCVk4T1I1uGmgF461tcSshYPH+axxwNHQuX9A
- 6Np/byDHpWAMWX90XzcvN7gO+uXeyXv0GK8AsjRLuKXdtPriPtHYxRB5K7QBGMzhPSTq
- h9Ng==
-X-Gm-Message-State: APjAAAUDkTxj2wfY93I4qFWNtu4VxVbZFP9JFE/6+cHtFwiTptah9zzf
- OTBa/ktWAQ3A21Yjr/eveRsm6Lep5xSWSghiWvdKIA==
-X-Google-Smtp-Source: APXvYqzmezMfKbw7yMDOjdxzmK0N/3n6k+6/OhECxz7QYxn6hdgwU8w4aqOh8arO+pC8jtzD1TQrm5y1KHvnFb2/MEo=
-X-Received: by 2002:a05:6808:996:: with SMTP id
- a22mr13006347oic.146.1575657048818; 
- Fri, 06 Dec 2019 10:30:48 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eh9xvqGv160fKMlLUwlPlM7qfEP0isz5KYXYGxgyu8c=;
+ b=lh4ElFr+BHLzVTuDPrKbobV4S6Oz+PPuABecOvqNpoxENDnwUyFt1q4QDwVVmztYMj
+ vhZWBeGAScYQTZHoz3SrQVLmyD7tXhgxQQzbal/f0FLP8hDTTyoMXrUdPMaWOWhtyFLU
+ /eG0cHKp5Ud1AflM+ejf9kiCv20cKM9FTaRzWTZRDOZF2GnYavJ1vID+ZpywjXl6z5dB
+ RAlrWEVMbUd3JQlqn5Ax1cC9UY5oh3Uc9SELRK6HlOcUlnp+cMC+/6eF1uD89Ts64mm6
+ XFKt4gA3IKSnwHaFxNY5bJ63gP/jcP384rfD/B0jJYnDbu7mZRivs3vj+xAuB5x4mwt3
+ WWsA==
+X-Gm-Message-State: APjAAAWiyIQ7VZrTSVxLbVtS2gjaIeW3h4tPeflLrAjgNwH4+cY9JSqX
+ M4vzobUYeoNyCYzadD2QuWMWNfU3MWgWLqoMAYjF3g==
+X-Google-Smtp-Source: APXvYqyLyH4WzoktiVZ8ekTSUBK5nOb267oJQ6YQGWI6LORU5SMake6vRYUt6QE5llPM+YQQzs+xKVAufpDOlOiVvrQ=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr12398993otq.135.1575657544333; 
+ Fri, 06 Dec 2019 10:39:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20191203234244.9124-1-richard.henderson@linaro.org>
- <20191203234244.9124-3-richard.henderson@linaro.org>
-In-Reply-To: <20191203234244.9124-3-richard.henderson@linaro.org>
+References: <20191206162303.30338-1-philmd@redhat.com>
+In-Reply-To: <20191206162303.30338-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 18:30:37 +0000
-Message-ID: <CAFEAcA914CO2vfMAkr4aeEA_FV0Vub6S9eF43qN=14e7nU1uHg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] target/arm: Update MSR access to UAO
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Fri, 6 Dec 2019 18:38:53 +0000
+Message-ID: <CAFEAcA8npEnhYJoiTTJ=o4xFuPmEtW_Ga1e3Ka4KOpbuph5Cpg@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/sbsa-ref: Simplify by moving the gic in the
+ machine state
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,129 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 23:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 6 Dec 2019 at 16:23, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h           |  6 ++++++
->  target/arm/helper.c        | 21 +++++++++++++++++++++
->  target/arm/translate-a64.c | 14 ++++++++++++++
->  3 files changed, 41 insertions(+)
+> Make the gic a field in the machine state, and instead of filling
+> an array of qemu_irq and passing it around, directly call
+> qdev_get_gpio_in() on the gic field.
 >
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index cdf6caf869..dd284ba5c7 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1228,6 +1228,7 @@ void pmu_init(ARMCPU *cpu);
->  #define PSTATE_IL (1U << 20)
->  #define PSTATE_SS (1U << 21)
->  #define PSTATE_PAN (1U << 22)
-> +#define PSTATE_UAO (1U << 23)
->  #define PSTATE_V (1U << 28)
->  #define PSTATE_C (1U << 29)
->  #define PSTATE_Z (1U << 30)
-> @@ -3598,6 +3599,11 @@ static inline bool isar_feature_aa64_ats1e1(const ARMISARegisters *id)
->      return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) >= 2;
->  }
->
-> +static inline bool isar_feature_aa64_uao(const ARMISARegisters *id)
-> +{
-> +    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, UAO) != 0;
-> +}
-> +
->  static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
->  {
->      return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 70f2db5447..8941a6c10f 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -4131,6 +4131,17 @@ static void aa64_pan_write(CPUARMState *env, const ARMCPRegInfo *ri,
->      env->pstate = (env->pstate & ~PSTATE_PAN) | (value & PSTATE_PAN);
->  }
->
-> +static uint64_t aa64_uao_read(CPUARMState *env, const ARMCPRegInfo *ri)
-> +{
-> +    return env->pstate & PSTATE_UAO;
-> +}
-> +
-> +static void aa64_uao_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> +                           uint64_t value)
-> +{
-> +    env->pstate = (env->pstate & ~PSTATE_UAO) | (value & PSTATE_UAO);
-> +}
-> +
->  static CPAccessResult aa64_cacheop_access(CPUARMState *env,
->                                            const ARMCPRegInfo *ri,
->                                            bool isread)
-> @@ -7464,6 +7475,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->          define_arm_cp_regs(cpu, ats1cp_reginfo);
->      }
->  #endif
-> +    if (cpu_isar_feature(aa64_uao, cpu)) {
-> +        static const ARMCPRegInfo uao_reginfo[] = {
-> +            { .name = "UAO", .state = ARM_CP_STATE_AA64,
-> +              .opc0 = 3, .opc1 = 0, .crn = 4, .crm = 2, .opc2 = 4,
-> +              .type = ARM_CP_NO_RAW, .access = PL1_RW,
-> +              .readfn = aa64_uao_read, .writefn = aa64_uao_write, },
-> +            REGINFO_SENTINEL
-> +        };
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This could just be a file-scope global, right?
-Also, you can just use define_one_arm_cp_reg() rather
-than having a list with one entry. (cf zcr_el1_reginfo).
 
-> +        define_arm_cp_regs(cpu, uao_reginfo);
-> +    }
->
->      if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
->          static const ARMCPRegInfo vhe_reginfo[] = {
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 7f5a68106b..2b6846ef01 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -1601,6 +1601,20 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
->          s->base.is_jmp = DISAS_NEXT;
->          break;
->
-> +    case 0x03: /* UAO */
-> +        if (!dc_isar_feature(aa64_uao, s) || s->current_el == 0) {
-> +            goto do_unallocated;
-> +        }
-> +        if (crm & 1) {
-> +            set_pstate_bits(PSTATE_UAO);
-> +        } else {
-> +            clear_pstate_bits(PSTATE_UAO);
-> +        }
-> +        t1 = tcg_const_i32(s->current_el);
-> +        gen_helper_rebuild_hflags_a64(cpu_env, t1);
-> +        tcg_temp_free_i32(t1);
-> +        break;
+Applied to target-arm.next, thanks.
 
-Do we also need to end the TB since we've messed with
-the hflags, or is some bit of code not in the patch
-context handling that?
-
-> +
->      case 0x04: /* PAN */
->          if (!dc_isar_feature(aa64_pan, s) || s->current_el == 0) {
->              goto do_unallocated;
-> --
-> 2.17.1
-
-Does the "on exception entry PSTATE.UAO is zeroed" behaviour
-fall out automatically for us? How about "on exception entry
-from aarch32 to aarch64 SPSR_ELx.UAO is set to zero" ?
-
-I think we may also want a minor code change so that an exception
-return from aarch64 to aarch32 doesn't copy a bogus SPSR UAO==1
-into the pstate/cpsr.
-
-thanks
 -- PMM
 
