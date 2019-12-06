@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EFF115493
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:48:54 +0100 (CET)
-Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3547D1154B2
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:58:46 +0100 (CET)
+Received: from localhost ([::1]:40244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFqe-0002x8-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48756)
+	id 1idG0C-0006pi-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:58:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idElH-0000kW-24
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1idEn9-0002Xm-9v
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:41:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idElF-0001gP-Tq
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29964
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1idEn8-0004AY-2u
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:41:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21664
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idElF-0001f7-Pl
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:39:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEn5-00046c-Rm
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:41:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643153;
+ s=mimecast20190719; t=1575643263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=24TZiEsa9WFToT2V3ewXUqAU8uyhbYVoZ91o2XZUhdc=;
- b=MurRmRCfydG1p/lO24PY4vdJev3nHi2Kna1gmRwayyyABcSl5qmQdddrdWrGE88wYHIqa2
- U/rLdPFH7zXWSKtargYtYdJrOx9yIHhofsL35k+qmdloastdkwNGGMTRzORbglV2cj3EPr
- LOTKG1BptvvnWfRgP9vJhDc2yOYzdwQ=
+ bh=SibZHbFF4fRgmeN5OPmw1waFQWRzZtqpvgt28e8/N3Q=;
+ b=ZDABWr2rnnkNPnfnhI9gz2+NKaH2kP7t7QMtxjn597RE4iwFl2DOsU2iI6z0YgV0TPsiaF
+ EgPs+QZaFJ9A43O+sfWSNuK4Nb1vhuRAIv0RX6j0Sp3VYHKXV4Q8qq8HaDwEpCeSEigS3+
+ i4PJDJaLPyXJqCJqQBQDBAQwEkq1sEY=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-tchFe7fzOU6nnCdU1yojJg-1; Fri, 06 Dec 2019 02:37:51 -0500
-Received: by mail-wr1-f69.google.com with SMTP id f1so763321wre.14
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:37:51 -0800 (PST)
+ us-mta-148-52mL24OMMKGsLvqpCyPEbA-1; Fri, 06 Dec 2019 02:38:05 -0500
+Received: by mail-wr1-f69.google.com with SMTP id i9so2776017wru.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:38:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nx12kXObBCGl7RyZwIueYAz7xt4q+2T+2o6nn0LvO8o=;
- b=G4DiAbPtlW8KodhSFTWSID5FJM+eENK1iOQW5XAADuZcLy0l7YLCHwKYtmzs8Dvwra
- ZYRZBGQ54AjLPq9BdnlcAbt07UayqlCQNz4+STcYd5fV/i+BrgsvQ+PqOGkruO/XCNT4
- bZeDwX0Jh8IHcaI14l09/mi4hXSt6650HP0haRiMkgKK+VDd78RT9rkfv6Xu+wxVfCAa
- GX8V3Ze1VBjXm5hBjqvmcZLdM8dEyNVesITr+DLMKozBdZomCCLj0JG9Rh+9uIzHKEQi
- p4MBj+hHZNycmW0DK6LFW+mJuDu2OhUYDAvUjx5e4skS3TLelUPzhX3n2cv95LtMjwra
- WnaQ==
-X-Gm-Message-State: APjAAAVp7x4IcS4JKqRF6v/m8j9mnlwAaAR6b7fjqSqf7EZFXs84erGE
- qy2Vnq7YruO4M9MXkkaWhuNTQ6xtt1baKYrS2RKQV2PSXO/8KeHZv/cB1MFGSGnFtXXeDvE3hGf
- 8T6am3vdBpnh3YCc=
-X-Received: by 2002:a1c:6086:: with SMTP id u128mr8950843wmb.131.1575617869021; 
- Thu, 05 Dec 2019 23:37:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwOKN1MrAniCQ0BxbraqhRuAwNxb9CwjVKPYIKA0+2+7t1HGR/++KV4s6kleb4bYc1ZpFUYFQ==
-X-Received: by 2002:a1c:6086:: with SMTP id u128mr8950823wmb.131.1575617868831; 
- Thu, 05 Dec 2019 23:37:48 -0800 (PST)
+ bh=Jv2/zsfesa2xmWFIePTHxsgoH0QMxvRzKKBdPdDYQs0=;
+ b=FzHPk1Zx19G/DLS5UjP85T+ZdNDpzGjZqCCMyzKDxCl4xTghkhQjMw5JFM8fBP4QVZ
+ WyTw8HHu9IWX/ZBGMrHx4v/LajDRZkv+4pro3YUK8YOPy803mCe6UuLT0LEH5BwkjqbW
+ LR4SzrkeEc4Qz7wsE2TeU0O5NkzehJZTFkUtLM7nPwy5Z7NBYhfoQ3OXqLNCfH1/J43u
+ bpPMo/kb6ZkAC1YY5wjtG8mpQlOIu6u5DtfcdfExRiXD9KrxT2WhiB6dAVtVcGK1GziQ
+ nTFDZLhMhFts8zx6r84Y9DqumC9WGjSpte8ZHrXjdVh2ONKXtIAibwLRGLDl8/agdrFZ
+ xnDA==
+X-Gm-Message-State: APjAAAWFy8htQVFg7MotVdWNZ869aZab4IThYjbcXoaiA/oEigbtooHO
+ Gqto0LFvENnC0diBVBskYbA5u1CIhf9R6fvoQmuIDXN9Z5cQ1Ei6L+k3IFO1XVIEXMYbYMwVEU4
+ xXBETd05sW+xnlnQ=
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr8823177wmh.5.1575617883842;
+ Thu, 05 Dec 2019 23:38:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxEUjtFl6NI+Lu1ZIVaIBswLn11fMpy6pnvMkvOyTBCiOHTPbjxc6+F3/KPtDe9twFVCc3DjQ==
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr8823166wmh.5.1575617883678;
+ Thu, 05 Dec 2019 23:38:03 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id o1sm15452959wrn.84.2019.12.05.23.37.47
+ by smtp.gmail.com with ESMTPSA id e16sm15450790wrj.80.2019.12.05.23.38.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 23:37:48 -0800 (PST)
-Subject: Re: [PATCH v8 14/21] hw/s390x: rename Error ** parameter to more
- common errp
+ Thu, 05 Dec 2019 23:38:03 -0800 (PST)
+Subject: Re: [PATCH v8 15/21] hw/sd: drop extra whitespace in
+ sdhci_sysbus_realize() header
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-15-vsementsov@virtuozzo.com>
+ <20191205174635.18758-16-vsementsov@virtuozzo.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f9c61820-9ae7-e197-fa24-d28e29140866@redhat.com>
-Date: Fri, 6 Dec 2019 08:37:47 +0100
+Message-ID: <d49a86d6-2af5-a956-7511-6de0ff04a072@redhat.com>
+Date: Fri, 6 Dec 2019 08:38:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191205174635.18758-15-vsementsov@virtuozzo.com>
+In-Reply-To: <20191205174635.18758-16-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-MC-Unique: tchFe7fzOU6nnCdU1yojJg-1
+X-MC-Unique: 52mL24OMMKGsLvqpCyPEbA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=ISO-8859-2; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,55 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- armbru@redhat.com, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
 Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 > ---
->   hw/s390x/event-facility.c | 2 +-
->   hw/s390x/s390-stattrib.c  | 3 ++-
->   2 files changed, 3 insertions(+), 2 deletions(-)
+>   hw/sd/sdhci.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-> index 66205697ae..dc733ee2af 100644
-> --- a/hw/s390x/event-facility.c
-> +++ b/hw/s390x/event-facility.c
-> @@ -439,7 +439,7 @@ static void sclp_event_set_allow_all_mask_sizes(Objec=
-t *obj, bool value,
->       ef->allow_all_mask_sizes =3D value;
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index 88404d0e9d..18c0c052ce 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -1459,7 +1459,7 @@ static void sdhci_sysbus_finalize(Object *obj)
+>       sdhci_uninitfn(s);
 >   }
 >  =20
-> -static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **e)
-> +static bool sclp_event_get_allow_all_mask_sizes(Object *obj, Error **err=
-p)
+> -static void sdhci_sysbus_realize(DeviceState *dev, Error ** errp)
+> +static void sdhci_sysbus_realize(DeviceState *dev, Error **errp)
 >   {
->       SCLPEventFacility *ef =3D (SCLPEventFacility *)obj;
->  =20
-> diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-> index bf5ac014c4..58121b9f68 100644
-> --- a/hw/s390x/s390-stattrib.c
-> +++ b/hw/s390x/s390-stattrib.c
-> @@ -352,7 +352,8 @@ static void s390_stattrib_class_init(ObjectClass *oc,=
- void *data)
->       dc->realize =3D s390_stattrib_realize;
->   }
->  =20
-> -static inline bool s390_stattrib_get_migration_enabled(Object *obj, Erro=
-r **e)
-> +static inline bool s390_stattrib_get_migration_enabled(Object *obj,
-> +                                                       Error **errp)
->   {
->       S390StAttribState *s =3D S390_STATTRIB(obj);
->  =20
+>       SDHCIState *s =3D SYSBUS_SDHCI(dev);
+>       SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
 >=20
 
 
