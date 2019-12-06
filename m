@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794A41156AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:42:56 +0100 (CET)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159411156BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:49:16 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHd1-0000Vl-Dm
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45465)
+	id 1idHj8-0007mU-Ex
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:49:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idGwx-0006Cc-J2
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:28 -0500
+ (envelope-from <philmd@redhat.com>) id 1idHMH-0008Ef-Ja
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idGww-0001CS-7j
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:27 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40761)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idGwv-00019f-R7
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:59:26 -0500
-Received: by mail-ot1-x343.google.com with SMTP id i15so6364860oto.7
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 08:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ozxco/v0ATIuYp6SAGpa0LpaJs8MiQDfwlnY4cKEoYg=;
- b=SHLCQO0FmlhFtt5vysY0yR/duk8SdbonpoIqW0pf89HTXBzuAZEeDp5nsBLUfiKlx8
- nQKThrB42gZ/oPaw4XvE1Eh3TbgDkC9ekoH3tJsKvkk7VewpVF3v4VuFFbGAJxCY3V6c
- FqlZR5Tm9Jo1u066l0bPqI6cZ1ut0zoamoyHFFKKrw8nUi0hTM85+bAU0PeNUAUFx6Mb
- ap5+WkjwHli/aKF5wApbRQDVc9wL/stVuJC79RIj3VIyB1zOlDhxySEMzbrjsluBOuWs
- Z5MOMaO7PsLfzmR8l/bHtWAaQZRbi1WrCQ2L5XP1I3SPkefmeCyzmVZI6LwUO60TxUIC
- oU+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ozxco/v0ATIuYp6SAGpa0LpaJs8MiQDfwlnY4cKEoYg=;
- b=tETWVr7BKBdx3XGTCCx32Ys+HDcat+qlYlrUen6xBetbUvCFJYR2g/IDFXVHnl6Cgo
- ACL0Qj5zkTwRh0dG59CQdD50MdNZnh8pwXMWsNGVVBzGwBo0uaU8yv/ar+qgg2p8lwpk
- /9srsvv2KyX9beinmk8hm2Vz7U1vuI1N3k/dG9rVoyLT1oWqXlEwtdM6qxclocIZS+6+
- nfo8VlhDrPU3skvkoii2GwlPNXvcSThchm2L3vCUnHm4QECPJEdE6xDkhkZNI6378K4n
- PXR1BzTiHK5wwcMSyEKBigLBwTKLNEDjQ4+LnAT/7FH1R+rCjD0n2WIJl475WfsKyryn
- NL2w==
-X-Gm-Message-State: APjAAAVwCRuIkeXIRiCV7q7FmQefL3CSn3P1bXfIUP0MY5IG/W+F4nHb
- KQjic0H1qJCObE1A1Ieke9bSyu5WvChNtP2ap+vFCfP5
-X-Google-Smtp-Source: APXvYqwws4N+eknf6K3KmhOUqqqRohqsJzOl2DvMR2n+sPQauEDq1gpCe0wALo+OePOSEcRHupYZP2VToThNrr4f9sw=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr11941678otq.135.1575651564776; 
- Fri, 06 Dec 2019 08:59:24 -0800 (PST)
+ (envelope-from <philmd@redhat.com>) id 1idHM9-0006ly-Ua
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:32 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57904
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idHM9-0006j0-Ic
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575653128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ymEd2uuOE/GZesgvaj23CCxd+WVmt6BCe9PlJBBjEIw=;
+ b=Sc2dQZfaNQwo6sMEp8dHY0x2cIqfzTBP14NEmXMA83u9DivQ6f4z4LjtAKqFBJ88gSqLth
+ neYQXVTJPM8PCzpeL0SGCt/yd5gzq50YUldK9YDxDOpjSOPc/DqoQhDbvJUjqnDq6qtzrG
+ zj8wGMoQNt5DfLHTHTL27y2a0vHmup4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-Z7PEmUhZPFGSp55N2Mg66g-1; Fri, 06 Dec 2019 12:25:26 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA26F1005502;
+ Fri,  6 Dec 2019 17:25:25 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-212.brq.redhat.com [10.40.204.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2018C5C1C3;
+ Fri,  6 Dec 2019 17:25:17 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0 v2 0/6] hw/pci-host: Add Kconfig selector for IGD PCIe
+ pass-through
+Date: Fri,  6 Dec 2019 18:25:08 +0100
+Message-Id: <20191206172514.21268-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-32-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-32-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 16:59:13 +0000
-Message-ID: <CAFEAcA8DgMK8GR1MHLMKLrxg+H2dEE7yZuYqRfHx-tqa_NwPHg@mail.gmail.com>
-Subject: Re: [PATCH v4 31/40] target/arm: Update arm_phys_excp_target_el for
- TGE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Z7PEmUhZPFGSp55N2Mg66g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +68,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 02:30, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The TGE bit routes all asynchronous exceptions to EL2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index b059d9f81a..e0b8c81c5f 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -8316,6 +8316,12 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
->          break;
->      };
->
-> +    /*
-> +     * For these purposes, TGE and AMO/IMO/FMO both force the
-> +     * interrupt to EL2.  Fold TGE into the bit extracted above.
-> +     */
-> +    hcr |= (hcr_el2 & HCR_TGE) != 0;
-> +
+Introduce a kconfig selector to allow builds without Intel
+Integrated Graphics Device GPU PCIe passthrough.
 
-This only has an effect if HCR_EL2.E2H is 1, because if
-E2H is 0 then arm_hcr_el2_eff() has already forced
-the AMO/IMO/FMO bits to 1. But it seems to match the
-way the Arm ARM phrases things in section D1.13.1 and
-its accompanying tables.
+We keep the default as enabled.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+v2:
+- do not mix with vfio code (Alex)
+- extract to different file to avoid #ifdef (Thomas)
 
-thanks
--- PMM
+Philippe Mathieu-Daud=C3=A9 (6):
+  hw/pci-host/i440fx: Correct the header description
+  hw/pci-host/i440fx: Extract PCII440FXState to "hw/pci-host/i440fx.h"
+  hw/pci-host/i440fx: Use size_t to iterate over ARRAY_SIZE()
+  hw/pci-host/i440fx: Use definitions instead of magic values
+  hw/pci-host/i440fx: Extract the IGD Passthrough Host Bridge device
+  hw/pci-host: Add Kconfig entry to select the IGD Passthrough Host Bridge
+
+ include/hw/pci-host/i440fx.h |  19 +++++-
+ hw/pci-host/i440fx.c         | 105 +-----------------------------
+ hw/pci-host/igd_pt.c         | 120 +++++++++++++++++++++++++++++++++++
+ MAINTAINERS                  |   1 +
+ hw/pci-host/Kconfig          |   4 ++
+ hw/pci-host/Makefile.objs    |   1 +
+ 6 files changed, 144 insertions(+), 106 deletions(-)
+ create mode 100644 hw/pci-host/igd_pt.c
+
+--=20
+2.21.0
+
 
