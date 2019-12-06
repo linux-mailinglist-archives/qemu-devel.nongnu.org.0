@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A561153CF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:04:10 +0100 (CET)
-Received: from localhost ([::1]:39282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE68115415
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:19:48 +0100 (CET)
+Received: from localhost ([::1]:39564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idF9N-0002ps-45
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:04:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35543)
+	id 1idFOV-0002js-91
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:19:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <catherine.hecx@gmail.com>) id 1idEVI-0000DW-Dv
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:45 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1idEUE-0007Hs-RQ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <catherine.hecx@gmail.com>) id 1idEVF-0003yt-VA
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:43 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40040)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <catherine.hecx@gmail.com>)
- id 1idEVF-0003w1-Cb
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:22:41 -0500
-Received: by mail-ot1-x342.google.com with SMTP id i15so5907959oto.7
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+8cUyT1Lf+4L8XZshnnb3bBeNvCQNOiW1dT/SRoEk8g=;
- b=t/kAR8owd+iRH0RQaZpGRqIj9UiatUZlb1TwI917jUpOOYVUQXPJitnior+gS9MBKF
- 3aMWCk/7qZKq0YBF6blMcWZITPu5hkfDS8miw3f0ZPBjQRlhSLTqbriWWlxpPRsZwM8T
- z+efisOMoWCbHDXniczObHqUBRxVf6fgK0ewka/V21z+53gOuHRpXj+qj6KYBJOtBYMc
- 5mFMW8cPjLJ2F2h5fhNE9FeP7FLEFlGyvcG4NBzAnGMnkcXwmvkhwLeCzslCMnvbfr61
- nLniwh0WTM8zsoK/eJeHcO3JSjc/d2tf2w2nwhwIXIlLOcVG74u+8sLwkF2zn54p7xhP
- M0mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+8cUyT1Lf+4L8XZshnnb3bBeNvCQNOiW1dT/SRoEk8g=;
- b=NusiJLVEeHu+Zmd3xtJzeLeTVpDsqeH/qQFoyQXjR3maQemdEzmRXvvaOxbck62RDf
- 1uxV4t/4ruYv5Y1e9eB1OqjvFTr2wfsd9I4wLyygYAEgYmNZQQK2+/a+w+AcpuLe7j1h
- 9/bH1UFa4Hl5Dxhh+5yVeyjVJEnrOUpalUveQa8XqQSTRMNuEOTRQ9k7tVBBhg6xkJcG
- J5+uMM4ZK7kJgnvarpbj5K7yrOB5m2CDUyhrqaAtqUgHqnMxpQ1MVCBhmEc0QjPEn4Fw
- Hkx5E6LgN6vH+3yiKW4zl/JaoR8v8qLy+afWm34B17YcjPzUYl2rJfODqz+La0GhFQ4N
- k5Nw==
-X-Gm-Message-State: APjAAAWpbKqKWusD1mrZFBKZDp5MVnXjz4Muv4Qbb6hdXY5JgHN2tYAQ
- HY/03nhSQ1Tsa7FWuk8LVXGuAQgaZiN5UCQCAFCCdeZU
-X-Google-Smtp-Source: APXvYqzvfujyFtYr5PZKgG2pftw8UMeLLVW5w8N1lQaid36Y//Wlghf0dxDXMCl2MuIcHlIM61+AXw4qGIDY2vXAwUU=
-X-Received: by 2002:a9d:674f:: with SMTP id w15mr440865otm.243.1575628123545; 
- Fri, 06 Dec 2019 02:28:43 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1idEUD-0001zw-JQ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:21:38 -0500
+Received: from ozlabs.org ([203.11.71.1]:37159)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1idEUC-0001s1-KM; Fri, 06 Dec 2019 09:21:37 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47Tq1F2GFHz9sPn; Fri,  6 Dec 2019 21:42:57 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1575628977;
+ bh=EmVo7Pwx+DtxHbZPtSYRuOir/wR8PGjAnxrrv0MYhSk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hON6p5x+PnDu4M30zAlfbAn0k7s8QF9lfGpFL02WEEXE3mz8NULk2K7cjzkQQVZDy
+ i9d+hcb/syvymZ42OehxoreA6KBcCgLLuANytWm/J0b/MypHpdH1YSe1ImjaRlES2q
+ cGbd9EqpR47D1S+llf1JZGwN6k/1PIUOA9zpL8Kg=
+Date: Fri, 6 Dec 2019 21:29:03 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/1] ppc-for-4.2 queue 20191206
+Message-ID: <20191206102903.GM5031@umbus.fritz.box>
+References: <20191206044134.259488-1-david@gibson.dropbear.id.au>
+ <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
 MIME-Version: 1.0
-References: <3a1c97b2-789f-dd21-59ba-f780cf3bad92@redhat.com>
- <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
-In-Reply-To: <1575627817-24625-1-git-send-email-catherine.hecx@gmail.com>
-From: Catherine Ho <catherine.hecx@gmail.com>
-Date: Fri, 6 Dec 2019 18:28:32 +0800
-Message-ID: <CAEn6zmGDOsOx7yG42MJxLMUAVUtKH2f8vjLLO5txZ=kUb-QpyQ@mail.gmail.com>
-Subject: Re: [PATCH] target/i386: skip kvm_msr_entry_add when kvm_vmx_basic is
- 0
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qo7zVO9a9OQ5oQtr"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,63 +56,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Richard Henderson <rth@twiddle.net>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo and Eduardo
-I digged into the put msr assertion bug a little more, and seems I
-found the root cause.
-Please have a review.
 
-Best regards.
-Catherine
+--qo7zVO9a9OQ5oQtr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 6 Dec 2019 at 18:25, Catherine Ho <catherine.hecx@gmail.com> wrote:
->
-> Commit 1389309c811b ("KVM: nVMX: expose VMX capabilities for nested
-> hypervisors to userspace") expands the msr_based_features with
-> MSR_IA32_VMX_BASIC and others. Then together with an old kernel before
-> 1389309c811b, the qemu call KVM_GET_MSR_FEATURE_INDEX_LIST and got the
-> smaller kvm_feature_msrs. Then in kvm_arch_get_supported_msr_feature(),
-> searching VMX_BASIC will be failed and return 0. At last kvm_vmx_basic
-> will be assigned to 0.
->
-> Without this patch, it will cause a qemu crash (host kernel 4.15
-> ubuntu 18.04+qemu 4.1):
-> qemu-system-x86_64: error: failed to set MSR 0x480 to 0x0
-> target/i386/kvm.c:2932: kvm_put_msrs: Assertion `ret ==
-> cpu->kvm_msr_buf->nmsrs' failed.
->
-> This fixes it by skipping kvm_msr_entry_add when kvm_vmx_basic is 0
->
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Catherine Ho <catherine.hecx@gmail.com>
-> ---
->  target/i386/kvm.c |    7 ++++++-
->  1 files changed, 6 insertions(+), 1 deletions(-)
->
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index a8c44bf..8cf84a2 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -2632,8 +2632,13 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
->                                           f[FEAT_VMX_SECONDARY_CTLS]));
->      kvm_msr_entry_add(cpu, MSR_IA32_VMX_EPT_VPID_CAP,
->                        f[FEAT_VMX_EPT_VPID_CAPS] | fixed_vmx_ept_vpid);
-> -    kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
-> +
-> +    if (kvm_vmx_basic) {
-> +       /* Only add the entry when host supports it */
-> +        kvm_msr_entry_add(cpu, MSR_IA32_VMX_BASIC,
->                        f[FEAT_VMX_BASIC] | fixed_vmx_basic);
-> +    }
-> +
->      kvm_msr_entry_add(cpu, MSR_IA32_VMX_MISC,
->                        f[FEAT_VMX_MISC] | fixed_vmx_misc);
->      if (has_msr_vmx_vmfunc) {
-> --
-> 1.7.1
->
+On Fri, Dec 06, 2019 at 09:52:54AM +0000, Peter Maydell wrote:
+> On Fri, 6 Dec 2019 at 04:41, David Gibson <david@gibson.dropbear.id.au> w=
+rote:
+> >
+> > The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9=
+278e:
+> >
+> >   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191206
+> >
+> > for you to fetch changes up to d887a8cfc083bcf3856f9f42352989f3624e0cae:
+> >
+> >   pseries: Update SLOF firmware image (2019-12-06 15:33:23 +1100)
+> >
+> > ----------------------------------------------------------------
+> > ppc patch queue 2019-12-06
+> >
+> > This is a last minute pull request for ppc-for-4.2.  I know it's very
+> > late in freeze, but this does fix a regression: a bad interaction
+> > between the new qemu and SLOF device tree construction code means that
+> > SLOF will crash if PCI to PCI bridges are included in the system.
+>=20
+> I really really really don't want to do an rc5. This would
+> have to be "everybody using ppc gets crashes" for me to
+> really want to put it in at this point...
+
+Yeah, alright.  I'll send it to Mike for a 4.2.1.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--qo7zVO9a9OQ5oQtr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl3qLWsACgkQbDjKyiDZ
+s5I9fhAA1tV2qJgRkEMqzowHp2us3la0LpjAb0uMXAFAOKxWqdePeD00lRVpg72J
+qJt/tUskyoES3pTWbYpVrf9DDLJFi1CobH+uu0D62ieR4lmw+8Zv57jpq41b0y+Z
+/B0MLMa6nbP+daVsbxPcT9RN1poVlOpAtDckQDEaEz5W9aiD7eiTlveclBaYAqqb
+LMxrJO2BDi9AFy1b5qRIIpTmAsbDYZQx4dsC1He4LC/PqUZGsLFSzpEqlH+37tWb
+LrQcn5Jpq+He9o6deEHyXrOZXtN6dYhlXmxlIjyPc2pf8kGQQRgKnFKID44qaKo7
+ZBGY1qL8VZowwCFnMWXpEaLbItlgog727/+xrVrJpX01UovWZD9e8coBF3fU8OCC
+tH93X6PMRHScdTEOn/iB9iB65uo/Zf+alNAlvSPBrNLqhBpRgMq8XgJzLiJsauuu
+/cnyidCjdC2VHqbSjUvCQNWj99DHxXuWLLgVYCGT7t/S5MON6W/v+woYuroNLDKa
+SS1uDDC+BLnm/69fdxAwmYEX69EYy4JnhBBvCIG7+09QNArDtWNUeFP4FVHYY6pU
+wHz/Jj47/fnkT9nQ377nexsud0hn7KEP0SzyFheZqM1vswWfg8e2jEF51HgZAdTK
+XLAgE8PlwYHgFb2vLIN74K7zVTMk3f4tzu/Lqmb78aOLz9J1ZSU=
+=kgXo
+-----END PGP SIGNATURE-----
+
+--qo7zVO9a9OQ5oQtr--
 
