@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93441156EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:02:28 +0100 (CET)
-Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468AD115725
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:28:02 +0100 (CET)
+Received: from localhost ([::1]:43436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHvv-0007hG-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:02:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56632)
+	id 1idIKf-0002Ce-8d
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42640)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idH3Q-0004Vm-5P
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:06:09 -0500
+ (envelope-from <berrange@redhat.com>) id 1idH5H-0006gE-Hc
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:08:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idH3O-0007fy-SR
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:06:07 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43956)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idH3K-0007as-V6
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:06:04 -0500
-Received: by mail-oi1-x241.google.com with SMTP id x14so364079oic.10
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 09:06:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ggQ1kQQIs7cX9AnmY3sr6TzDbLNAqmck3sWzxawrlWc=;
- b=mJJg6PnfIBXE/g/DJcQ+lWBEOt9fgbvuN66hCtXFDqVo3MXhNNTZn+Ll4SFt9fNtJ3
- 9he74Hfpgtf5WR/07bWTsXeBowwCGU8fsMBMsz7zm0FCO9hLg3jXWlwAGEiO+xg22I97
- lr8zjHvIQ9XkFa9kLGYcKXd952hPOuR8cGiN7wmKSZMhiY4G0KPRSU6NPlzriHA9n4aZ
- 6xuU/Y4/ccS9mO8yQqO2mOL65hlhgDKrVh+kF+diDICK2qT0HABYjXeT/h9oS9kEqLDO
- qiFYVnrQUDqFQ4RIIjDtk9LQuk2L2be02KqrcG7OqHk7pEYGTN7OdcA0Q8HdrgY4I3GL
- 1msg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ggQ1kQQIs7cX9AnmY3sr6TzDbLNAqmck3sWzxawrlWc=;
- b=p9WvCfKxSjc3YdnybGbkwv+RxL0RbHmyioYkjsHH9deky0daXh/TB40Ld556OmMYe3
- wBDehvz1iQv6GphvQ0ryWtVqJIfxwr7mPhNi/G0VIOGEMCpqUOpHMGkmgMlYccnlJT8f
- 1lccTMDuOUu5Si8umENrZEGyHa6i4uCVh+7t/e3/6PWtyvAvSq1jsdMFksrYYKdEhrgZ
- FkobRM8V+OWPFQ5gBMVakJ4jannHRIFfaxKrg/QSm45iSJaVKKCeuGGLXPPcdb87FP1C
- 4ScS82C/CvBlUvX2kkfVb173X3TrAc+6cdXctmOhXeAg58sOe1J5/394My63ajiHiqn4
- qqpg==
-X-Gm-Message-State: APjAAAXcNXsVx9Lg+gpKNpJv9Wpx5JnGWDtf+xInRd7LzV3pzqnffjBF
- KgXdrdfWRC6GMls8q7sTpSPnWCMXtINDLTPlVyjP/r6Q
-X-Google-Smtp-Source: APXvYqwCSpi8ZDHjpw0FW1pQ7dtjTZNh/Yuju5kvciP/PUFdKghWL07S0+anAatu9TsTdenmXTQ6HVA+02u85oHmWuE=
-X-Received: by 2002:a05:6808:996:: with SMTP id
- a22mr12599527oic.146.1575651960592; 
- Fri, 06 Dec 2019 09:06:00 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1idH5E-0003yv-5d
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:08:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47616
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1idH5B-0003vF-O6
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:07:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575652076;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p5Dv4GFUOmdHnLB1hh/4DNoFT8nFVXHrpvrwfU+xUc0=;
+ b=NPrSmIT2m1fMm0MLw5HjPeM0b5s1YffPHc+uqMU+35AlLbab4ncBTOeGv3//smIMaeSB9A
+ tD07DWjeiQH0/0ZDpbrivPMc34dWocGYI9tKwbzX8g8ZC5SXEYzC/h0+wWF7LOEB7kuPgX
+ YIuA8PI/fqjoMUkw7AVn6W0XvP6QZYk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-mwtoZjKzNSuQQKtLEtaGBg-1; Fri, 06 Dec 2019 12:07:53 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E234A801E76;
+ Fri,  6 Dec 2019 17:07:51 +0000 (UTC)
+Received: from redhat.com (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0210119C4F;
+ Fri,  6 Dec 2019 17:07:50 +0000 (UTC)
+Date: Fri, 6 Dec 2019 17:07:47 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Aijaz.Baig@protonmail.com
+Subject: Re: Error compiling Qemu-4.1 on Linux
+Message-ID: <20191206170747.GD3291374@redhat.com>
+References: <003101d5ab71$8424dc40$8c6e94c0$@protonmail.com>
+ <20191205143622.GB3080934@redhat.com>
+ <000101d5ac55$f8422620$e8c67260$@protonmail.com>
 MIME-Version: 1.0
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-30-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-30-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 17:05:49 +0000
-Message-ID: <CAFEAcA9=4MXFEnVbPpa1CmG8xHx-xuVt8MXwsNGyT+nB2+L1Mw@mail.gmail.com>
-Subject: Re: [PATCH v4 29/40] target/arm: Flush tlb for ASID changes in EL2&0
- translation regime
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <000101d5ac55$f8422620$e8c67260$@protonmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: mwtoZjKzNSuQQKtLEtaGBg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,48 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 02:30, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Since we only support a single ASID, flush the tlb when it changes.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 9df55a8d6b..2a4d4c2c0d 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -3740,6 +3740,15 @@ static void vmsa_ttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
->  static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
->                                      uint64_t value)
->  {
-> +    /*
-> +     * If we are running with E2&0 regime, then the ASID is active.
-> +     * Flush if that changes.
-> +     */
-> +    if ((arm_hcr_el2_eff(env) & HCR_E2H) &&
-> +        extract64(raw_read(env, ri) ^ value, 48, 16)) {
-> +        tlb_flush_by_mmuidx(env_cpu(env),
-> +                            ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_EL20_0);
-> +    }
->      raw_write(env, ri, value);
->  }
+On Fri, Dec 06, 2019 at 04:55:37PM +0000, Aijaz.Baig@protonmail.com wrote:
+> Here is the content of config.log: https://pastebin.com/6zrSXWAG
+>=20
+> I am configuring it for 'arm-softmmu'  as can be seen from the above past=
+e
 
-For the existing EL1 setup we have separate write functions
-for TTBR registers and for TCR_EL1 (vmsa_tcr_el1_write()
-and vmsa_ttbr_write()), rather than a single one, and they
-don't do the same thing. Why do we use a single writefn
-here? It looks particularly odd because we're actually looking
-at the value written here.
+Looks like it is failing on
 
-thanks
--- PMM
+  $ pkg-config  --atleast-version=3D2.40 gthread-2.0
+
+returning non-zero exit status.
+
+
+This suggests the file:
+
+  /usr/lib/x86_64-linux-gnu/pkgconfig/gthread-2.0.pc
+
+is missing on your install.
+
+Or do you have some PKG_CONFIG_LIBDIR env variable set that
+is mistakenly pointing to a different directory.
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
