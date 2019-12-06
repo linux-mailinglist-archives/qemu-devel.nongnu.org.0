@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B191154F0
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:17:32 +0100 (CET)
-Received: from localhost ([::1]:40608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFB6115511
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:23:44 +0100 (CET)
+Received: from localhost ([::1]:40775 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGIN-0002wI-1Y
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54363)
+	id 1idGOM-0001DY-LP
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:23:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1idF3u-00061v-Ko
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:58:31 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1idEyt-0000FW-TV
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1idF3t-0003Xa-GB
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:58:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25551
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1idF3r-0003VY-Ft
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:58:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575644305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T0eE1Ell3ER1XzngozBueUW3DTe4Cka2OH3WB8BQShA=;
- b=OiozvRk/bcfU7ynOcqSNFVR6qotlolnhmENWS8/CiqiHsMm3r7rjcGu0sYWXv+j7d9zg5f
- dlqDuAiVdpW1x4hSHxw6DoYA9rt79wVdd4n6dOl2joS25NfuES7PI4N6yhryrpibABwmNr
- xwso3mzlexqzFjlhW6P2eBk7pvfL5qw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-0nMwB1tYMc6cLRruGrdLnA-1; Fri, 06 Dec 2019 05:57:48 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C49C41005502
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 10:57:47 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com
- [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB17960BF4;
- Fri,  6 Dec 2019 10:57:42 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CC19416E18; Fri,  6 Dec 2019 11:57:41 +0100 (CET)
-Date: Fri, 6 Dec 2019 11:57:41 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 0/3] Remove deprecated pc-0.x machine types and related
- hacks
-Message-ID: <20191206105741.zeckqevl3gglgdhg@sirius.home.kraxel.org>
-References: <20191205160652.23493-1-thuth@redhat.com>
- <874kyeosmg.fsf@dusky.pond.sub.org>
- <a25c0ae9-38cf-8a8f-730e-b618ad05bb7b@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1idEys-0005gZ-Q4
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:19 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40913)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1idEys-0005eO-IG
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:18 -0500
+Received: by mail-wm1-x344.google.com with SMTP id t14so7604685wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:53:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gMIAeVAhQnvfU6oBZoSTFxIjczft5EtT5+HIXiu9QZI=;
+ b=aUrDqqAPVvlCCENFDPUImD8blVexBwRl7lulCMy2I+hhW5sgPqtcWz9Iu2ULtB3U4V
+ /A6OpnuYQiSvfHGa2zyJ0n6ba+HmBKRhiIDLLDiFNvFx63E/xnIGOqjrr9TOfMx1M/Ah
+ nJoUaH9oeiyzi+msEUKC9GnSTof1alx2WqDnyvxIV2KGrq22TsCtDVAuf3d00/Wz/S8W
+ LRdCMjwUuvFQup3t0Q2Ci9i24Ie9DGovKUoe/tlsMpFmv/txGqBI6HabylepLLxnrRDo
+ V2gOs8JtLZZJrvMquaNpA37ZnU3DqO5o8d/VhkBJ9X5ZzwTr2gJXWIz9C+3pwzJ0FCsf
+ qxzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gMIAeVAhQnvfU6oBZoSTFxIjczft5EtT5+HIXiu9QZI=;
+ b=CdqNY+xtGp0ymvoJXxPE09mb+xcFV3eXMcA50TZyKtyxqNR/VCESLhthlgHngDFaGx
+ s7mYoGbPnQN0IOdhNhXDLn/pdv+T38aUKxSzLARIuouYQyIFX1h4lpBF8ZBDmp0fM6uv
+ eMB+DSJebNGkE1LsoSADZNL5+R1hVK+Cw+7JI744r+USR9bVQR+uG0aqtd0DlkeELetp
+ LYTYkLrTDnlvbFlgXSSZ6nTyPtWctVAwE8td5Me4g+vRZ5nwD0BzlPYp7ztp2qy4/pI+
+ SVf2bgX3+zgxVW4cMLxfmiY9wEcS0q7glnrZSbjKgYNnNPYTOjzKwFc70PsL3y74oJkf
+ ge/g==
+X-Gm-Message-State: APjAAAXdTwQMZNf26apYnPsKwVQpqE05XJ0Kx23nfZE2GI+e/KZkVmtY
+ 5EyBBR1kTZfq3FqtBH9ZRt0koQvBGlA=
+X-Google-Smtp-Source: APXvYqzKlcTlbb7TvBXhcAQ7bl9ozgPfC6ZvVjekAFfrli448mCdXbUyWEvktLa8LwE38eLw8xqVmQ==
+X-Received: by 2002:a05:600c:2318:: with SMTP id
+ 24mr8336506wmo.48.1575633543772; 
+ Fri, 06 Dec 2019 03:59:03 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c4sm3200192wml.7.2019.12.06.03.59.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2019 03:59:02 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C21661FF87;
+ Fri,  6 Dec 2019 11:59:01 +0000 (GMT)
+References: <20191205122518.10010-1-alex.bennee@linaro.org>
+ <20191205122518.10010-7-alex.bennee@linaro.org>
+ <20191206110354.GA775461@stefanha-x1.localdomain>
+User-agent: mu4e 1.3.5; emacs 27.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH  v2 6/6] trace: replace hand-crafted pattern_glob with
+ g_pattern_match_simple
+In-reply-to: <20191206110354.GA775461@stefanha-x1.localdomain>
+Date: Fri, 06 Dec 2019 11:59:01 +0000
+Message-ID: <87immt7ji2.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <a25c0ae9-38cf-8a8f-730e-b618ad05bb7b@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 0nMwB1tYMc6cLRruGrdLnA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,41 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > $ git-grep pc-0
-> > hw/display/vga-pci.c:        /* compatibility with pc-0.13 and older */
-> > hw/display/vga.c:    /* With pc-0.12 and below we map both the PCI BAR =
-and the fixed VBE region,
-> > hw/display/vmware_vga.c:        /* compatibility with pc-0.13 and older=
- */
->=20
-> These are the "rombar" hacks that I've mentioned above. The question is
-> whether we want to remove them or whether I should just adjust the commen=
-ts?
 
-Hmm.  All that cruft ...
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-vga maps the framebuffer @ 0xe0000000 with rombar=3Doff. It's an alias of
-the pci memory bar.  rombar=3Doff is basically a flag for "really old
-firmware" here, vgabios used to have that address hardcoded, a decade
-ago.  We fixed that roughly the same timeframe where we switched to
-seabios, which in turn allowed us to place the vgabios in the pci rom
-bar (instead of copying it to 0xa000 in guest ram).  Which is probably
-the reason why we have only one switch for both.
+> On Thu, Dec 05, 2019 at 12:25:17PM +0000, Alex Benn=C3=A9e wrote:
+>> We already use g_pattern_match elsewhere so remove the duplication.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  trace/control.c | 35 +----------------------------------
+>>  1 file changed, 1 insertion(+), 34 deletions(-)
+>
+> Is g_pattern_match() a superset of pattern_glob()?  Existing patterns
+> should continue to work.
 
-I don't expect anyone actually sets the rombar property for vga devices
-(it's more common for NICs, for network boot tweaks), so I guess we can
-get away with simply dropping the hacks in vga-pci.c and vmware_vga.c.
-The comment in vga.c is not fully correct though, isa-vga needs that
-too, so we have to keep vga_init_vbe for the time being ...
+Yes - it supports more than pattern_glob and a bit less than the system
+glob():
 
-cheers,
-  Gerd
+  The g_pattern_match* functions match a string against a pattern
+  containing '*' and '?' wildcards with similar semantics as the standard
+  glob() function: '*' matches an arbitrary, possibly empty, string, '?'
+  matches an arbitrary character.
 
+  Note that in contrast to glob(), the '/' character can be matched by the
+  wildcards, there are no '[...]' character ranges and '*' and '?' can not
+  be escaped to include them literally in a pattern.
+
+If you give me some example existing pattern forms we can add them to
+test-logging. I manually tested both single and double * patterns while
+working on the rest of the series.
+
+>
+> Stefan
+
+
+--
+Alex Benn=C3=A9e
 
