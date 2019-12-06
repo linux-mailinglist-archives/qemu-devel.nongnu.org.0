@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642AC11558B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:36:49 +0100 (CET)
-Received: from localhost ([::1]:40962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF591155B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:46:23 +0100 (CET)
+Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGb2-0005pY-B8
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:36:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46186)
+	id 1idGkG-0006jI-RC
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:46:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielcho@qnap.com>) id 1idFPZ-0005Oh-7E
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:56 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1idF8B-0002je-QN
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:03:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielcho@qnap.com>) id 1idFPW-0002bs-Fe
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:53 -0500
-Received: from mail-yw1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:45047)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1idF88-0008Kx-Aw
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:02:55 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:32907)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielcho@qnap.com>) id 1idFPW-0002YJ-3f
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:20:50 -0500
-Received: by mail-yw1-xc2c.google.com with SMTP id t141so2782185ywc.11
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:20:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MkqGu/9SEpSHPvM0w3KGikWqCzM12K55Lr4YbJrSVEo=;
- b=FHuHR9RyUlOHMyUdskuwMtey4Xhd7U9o+Fd2ADDFeDt/m+XIQwLvqnYnM5B0VA4M1f
- gQD4+Y4IQZ3VmCVU3ZYtN3qxACbCn+3klWm/uNDETZcCiZ6Im4DKwBG14AiouatNjjw0
- 4izN03YDjg89BpHReJdaERon8F71N7JBnRzHI=
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1idF86-0008Ka-Tu
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:02:52 -0500
+Received: by mail-oi1-x241.google.com with SMTP id v140so45991oie.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:02:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=s9S4E9xGqUanoBYjJlE4Xec1+SPzSH5WNrcrxFOyDE4=;
+ b=VJ1Y5WD0acb+HAa7CSt693gn+xAMgxq9vPcaA+LuG+bbgddEqHGLo1AI82rKJmuHUU
+ /nIVMHWx1QvIhQDRqwGsJ2Vbzn6NIENLREEJYRV6w6qajT8SzY4Kkj7/nnJ6zkrhV9rs
+ MB8xP8gRrXZiS5upvQnM5DifayQetdvLsM7zjbV8NW9iGibEyPb+aLMm9+APz3/7BHVg
+ 1NBXjnFzDv/ZEIufRBVokWHJC6uTSy01dUwteGTu/T5tYzlFZmg8RYp4U2ICbES2lscV
+ ejYwhu24upDaEDZxlRZBf6n32xdJ3NSLqj+lAWQ5MugyBEaSpts4HnF4WxhYbcqzT4ki
+ XEKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=MkqGu/9SEpSHPvM0w3KGikWqCzM12K55Lr4YbJrSVEo=;
- b=j6GHC5oaq68bLJVp/nZz8+XKtfutDYxKHPgOgQWqON2EzckL1cW9jaqG3KkZoDVoSf
- cz07BTLftb3PX/Vb2w8JEleLv/hhZitxU8XPfgwFs00ukQBMaksKq+lW9f+n67lGAQCq
- 9JLvnA2xSjHRJ2U9A75IL028fv9t6fWHUcJ3OO46HvU1DxlWIImIFuHl/yEkzwLDZSmP
- 98jKq5hG91hw6JrvTtlTRM0GMVkM8SvqodE+2M6WME3u3XSJE6NCJiJsVfXxhX6TvVjS
- NByqqAaGxuyR3/nCqnZMaPLpPMTpS3FfCMYHyDrW5357NR4lk2jM3f/9A8Y69qRzxABZ
- j2Uw==
-X-Gm-Message-State: APjAAAVdVxBhQIJ+KsGB8DgM7oZEUeoxvk7rU6AjWcdpnF128yaxstsc
- t8erMxl1GBSOabJVUgUkffrcP2yV70LeSCobdf5ohjfGqbUYLQ==
-X-Google-Smtp-Source: APXvYqxZW50ZUPqe4dn5JYQxzKJjWMJ/jx/CgBZWkyY7ZGc1TMja9qtA+7GVJB4xakHLGprG8NFyOwjCfdnEyI8MIgc=
-X-Received: by 2002:a25:d00f:: with SMTP id h15mr9568899ybg.70.1575613893274; 
- Thu, 05 Dec 2019 22:31:33 -0800 (PST)
+ bh=s9S4E9xGqUanoBYjJlE4Xec1+SPzSH5WNrcrxFOyDE4=;
+ b=BgJowUEExe8VR1Gr74Bh22rnCxjvPYMo5Nc7RVWLwOrvcBOW5lL+/IMH3NZyB6EV5E
+ fuTGZlNHHklRRvPMqV7xKVwHVcMJEpQh2xX+oT40DVMyPINdwjAjhEpaCeFSBu2U+1e6
+ k6/h0/EMnRmjhqQZ+HQPvlohb2GjY0SJAYRLRtXQs0Uv4zxFBJeX03Oyn/D2l4mZEP9B
+ jS9HZ7KZgCIcwZtGxEqSj3KIfpYyD7RXR0x8U4pTQT7CL8mycrIcSG5ep1sO8XnS6qvt
+ lr++0Yd1lOf+M9g/tNUXfYn93+3y1JNS7Tpg06yQxNZ5qZQFHvjadkEdOmIr+CXFQUvV
+ ccPQ==
+X-Gm-Message-State: APjAAAWsCEm5dXrR89IfWFIzqvTWMN8SIKVcy2eGwuhbs58Cn6AezHdb
+ ezhRMYEOC0MMOZ6CLFXsIEzMU3CdLNiagn/AAAsWog==
+X-Google-Smtp-Source: APXvYqxRWD43taNlbmHvOp6TAVrloeYsQo3ea+Dzds59RSTtCzaLC9MFk2YwZ3KDEcCrqknVoOaArQctp+gHHgndPs0=
+X-Received: by 2002:aca:1b08:: with SMTP id b8mr467155oib.106.1575619676786;
+ Fri, 06 Dec 2019 00:07:56 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+XQNE4eP8tfHB5eV8813bqaE+L5yooBDFCdbMWJPysvev4UKg@mail.gmail.com>
- <20191127105121.GA3017@work-vm>
- <9CFF81C0F6B98A43A459C9EDAD400D780631A02A@shsmsx102.ccr.corp.intel.com>
- <CA+XQNE4hY4TkeDM3EOhbLBTc5_P-PdF5ED3QR-C2CrfCV56aZA@mail.gmail.com>
- <9CFF81C0F6B98A43A459C9EDAD400D780631C682@shsmsx102.ccr.corp.intel.com>
- <CA+XQNE4N0_K2zQ1NDToJgu+Toy1X3iqOZyYyvtScMMsdVARACg@mail.gmail.com>
- <20191202095806.GA2904@work-vm>
- <CA+XQNE6pmj=-tMxCUamY3U4jNuBNR7=rjeFwhbps7a6YNAsYog@mail.gmail.com>
- <20191203132504.GH3078@work-vm>
- <f6bf1e64-a66e-9df8-04f6-b543753eda79@intel.com>
-In-Reply-To: <f6bf1e64-a66e-9df8-04f6-b543753eda79@intel.com>
-From: Daniel Cho <danielcho@qnap.com>
-Date: Fri, 6 Dec 2019 14:31:13 +0800
-Message-ID: <CA+XQNE6+KALuWf1NqOg_KjET1XcBsudb9tSBFGJiEN_-JxVbtw@mail.gmail.com>
-Subject: Re: Network connection with COLO VM
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Content-Type: multipart/alternative; boundary="00000000000069977305990332ed"
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Fri, 6 Dec 2019 00:07:56 -0800 (PST)
+In-Reply-To: <1574687098-26689-2-git-send-email-Filip.Bozuta@rt-rk.com>
+References: <1574687098-26689-1-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1574687098-26689-2-git-send-email-Filip.Bozuta@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 6 Dec 2019 09:07:56 +0100
+Message-ID: <CAL1e-=j9oxHvxJen6hJna9=muLQG3pF-pYjJfcXVXHM4CagY4Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] mips: jazz: Renovate coding style
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Content-Type: multipart/alternative; boundary="00000000000022d61f0599048b97"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c2c
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,754 +74,777 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "pburton@wavecomp.com" <pburton@wavecomp.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "hpoussin@reactos.org" <hpoussin@reactos.org>,
+ "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
+ "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000069977305990332ed
+--00000000000022d61f0599048b97
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Dave,  Zhang,
+On Monday, November 25, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
 
-Thanks for your help. I will try your recommendations.
+> The script checkpatch.pl located in scripts folder was
+> used to detect all errors and warrnings in files:
+>     hw/mips/mips_jazz.c
+>     hw/display/jazz_led.c
+>     hw/dma/rc4030.c
+>
+> All these mips jazz machine files were edited and
+> all the errors and warrings generated by the checkpatch.pl
+> script were corrected and then the script was
+> ran again to make sure there are no more errors and warnings.
+>
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+> ---
+>  hw/display/jazz_led.c | 123 +++++++++++++++++++++++++-----
+> --------------------
+>  hw/dma/rc4030.c       |  12 +++--
+>  hw/mips/mips_jazz.c   |  32 +++++++------
+>  3 files changed, 88 insertions(+), 79 deletions(-)
+>
+> diff --git a/hw/display/jazz_led.c b/hw/display/jazz_led.c
+> index 3e0112b..1d84559 100644
+> --- a/hw/display/jazz_led.c
+> +++ b/hw/display/jazz_led.c
+> @@ -90,25 +90,25 @@ static void draw_horizontal_line(DisplaySurface *ds,
+>
+>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Best Regard,
-Daniel Cho
 
-Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2019=E5=B9=B412=E6=9C=884=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=884:32=E5=AF=AB=E9=81=93=EF=BC=9A
-
+>      bpp = (surface_bits_per_pixel(ds) + 7) >> 3;
+>      d = surface_data(ds) + surface_stride(ds) * posy + bpp * posx1;
+> -    switch(bpp) {
+> -        case 1:
+> -            for (x = posx1; x <= posx2; x++) {
+> -                *((uint8_t *)d) = color;
+> -                d++;
+> -            }
+> -            break;
+> -        case 2:
+> -            for (x = posx1; x <= posx2; x++) {
+> -                *((uint16_t *)d) = color;
+> -                d += 2;
+> -            }
+> -            break;
+> -        case 4:
+> -            for (x = posx1; x <= posx2; x++) {
+> -                *((uint32_t *)d) = color;
+> -                d += 4;
+> -            }
+> -            break;
+> +    switch (bpp) {
+> +    case 1:
+> +        for (x = posx1; x <= posx2; x++) {
+> +            *((uint8_t *)d) = color;
+> +            d++;
+> +        }
+> +        break;
+> +    case 2:
+> +        for (x = posx1; x <= posx2; x++) {
+> +            *((uint16_t *)d) = color;
+> +            d += 2;
+> +        }
+> +        break;
+> +    case 4:
+> +        for (x = posx1; x <= posx2; x++) {
+> +            *((uint32_t *)d) = color;
+> +            d += 4;
+> +        }
+> +        break;
+>      }
+>  }
 >
-> On 12/3/2019 9:25 PM, Dr. David Alan Gilbert wrote:
-> > * Daniel Cho (danielcho@qnap.com) wrote:
-> >> Hi Dave,
-> >>
-> >> We could use the exist interface to add netfilter and chardev, it migh=
-t
-> not
-> >> have the problem you said.
-> >>
-> >> However, the netfilter and chardev on the primary at the start, that
-> means
-> >> we could not dynamic set COLO
-> >> feature to VM?
-> > I wasn't expecting that to be possible - I'd expect you to be able
-> > to start in a state that looks the same as a primary+failed secondary;
-> > but I'm not sure.
+> @@ -121,25 +121,25 @@ static void draw_vertical_line(DisplaySurface *ds,
 >
-> Current COLO (with Lukas's patch) can support dynamic set COLO system.
+>      bpp = (surface_bits_per_pixel(ds) + 7) >> 3;
+>      d = surface_data(ds) + surface_stride(ds) * posy1 + bpp * posx;
+> -    switch(bpp) {
+> -        case 1:
+> -            for (y = posy1; y <= posy2; y++) {
+> -                *((uint8_t *)d) = color;
+> -                d += surface_stride(ds);
+> -            }
+> -            break;
+> -        case 2:
+> -            for (y = posy1; y <= posy2; y++) {
+> -                *((uint16_t *)d) = color;
+> -                d += surface_stride(ds);
+> -            }
+> -            break;
+> -        case 4:
+> -            for (y = posy1; y <= posy2; y++) {
+> -                *((uint32_t *)d) = color;
+> -                d += surface_stride(ds);
+> -            }
+> -            break;
+> +    switch (bpp) {
+> +    case 1:
+> +        for (y = posy1; y <= posy2; y++) {
+> +            *((uint8_t *)d) = color;
+> +            d += surface_stride(ds);
+> +        }
+> +        break;
+> +    case 2:
+> +        for (y = posy1; y <= posy2; y++) {
+> +            *((uint16_t *)d) = color;
+> +            d += surface_stride(ds);
+> +        }
+> +        break;
+> +    case 4:
+> +        for (y = posy1; y <= posy2; y++) {
+> +            *((uint32_t *)d) = color;
+> +            d += surface_stride(ds);
+> +        }
+> +        break;
+>      }
+>  }
 >
-> This status is same like the secondary has triggered failover, the
-> primary node need to find new secondary
+> @@ -164,28 +164,28 @@ static void jazz_led_update_display(void *opaque)
+>      if (s->state & REDRAW_SEGMENTS) {
+>          /* set colors according to bpp */
+>          switch (surface_bits_per_pixel(surface)) {
+> -            case 8:
+> -                color_segment = rgb_to_pixel8(0xaa, 0xaa, 0xaa);
+> -                color_led = rgb_to_pixel8(0x00, 0xff, 0x00);
+> -                break;
+> -            case 15:
+> -                color_segment = rgb_to_pixel15(0xaa, 0xaa, 0xaa);
+> -                color_led = rgb_to_pixel15(0x00, 0xff, 0x00);
+> -                break;
+> -            case 16:
+> -                color_segment = rgb_to_pixel16(0xaa, 0xaa, 0xaa);
+> -                color_led = rgb_to_pixel16(0x00, 0xff, 0x00);
+> -                break;
+> -            case 24:
+> -                color_segment = rgb_to_pixel24(0xaa, 0xaa, 0xaa);
+> -                color_led = rgb_to_pixel24(0x00, 0xff, 0x00);
+> -                break;
+> -            case 32:
+> -                color_segment = rgb_to_pixel32(0xaa, 0xaa, 0xaa);
+> -                color_led = rgb_to_pixel32(0x00, 0xff, 0x00);
+> -                break;
+> -            default:
+> -                return;
+> +        case 8:
+> +            color_segment = rgb_to_pixel8(0xaa, 0xaa, 0xaa);
+> +            color_led = rgb_to_pixel8(0x00, 0xff, 0x00);
+> +            break;
+> +        case 15:
+> +            color_segment = rgb_to_pixel15(0xaa, 0xaa, 0xaa);
+> +            color_led = rgb_to_pixel15(0x00, 0xff, 0x00);
+> +            break;
+> +        case 16:
+> +            color_segment = rgb_to_pixel16(0xaa, 0xaa, 0xaa);
+> +            color_led = rgb_to_pixel16(0x00, 0xff, 0x00);
+> +            break;
+> +        case 24:
+> +            color_segment = rgb_to_pixel24(0xaa, 0xaa, 0xaa);
+> +            color_led = rgb_to_pixel24(0x00, 0xff, 0x00);
+> +            break;
+> +        case 32:
+> +            color_segment = rgb_to_pixel32(0xaa, 0xaa, 0xaa);
+> +            color_led = rgb_to_pixel32(0x00, 0xff, 0x00);
+> +            break;
+> +        default:
+> +            return;
+>          }
 >
-> node to combine new COLO system.
+>          /* display segments */
+> @@ -205,8 +205,9 @@ static void jazz_led_update_display(void *opaque)
+>                               (s->segments & 0x80) ? color_segment : 0);
+>
+>          /* display led */
+> -        if (!(s->segments & 0x01))
+> +        if (!(s->segments & 0x01)) {
+>              color_led = 0; /* black */
+> +        }
+>          draw_horizontal_line(surface, 68, 50, 50, color_led);
+>          draw_horizontal_line(surface, 69, 49, 51, color_led);
+>          draw_horizontal_line(surface, 70, 48, 52, color_led);
+> diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+> index d54e296..f7542f3 100644
+> --- a/hw/dma/rc4030.c
+> +++ b/hw/dma/rc4030.c
+> @@ -397,10 +397,11 @@ static void update_jazz_irq(rc4030State *s)
+>
+>      pending = s->isr_jazz & s->imr_jazz;
+>
+> -    if (pending != 0)
+> +    if (pending != 0) {
+>          qemu_irq_raise(s->jazz_bus_irq);
+> -    else
+> +    } else {
+>          qemu_irq_lower(s->jazz_bus_irq);
+> +    }
+>  }
+>
+>  static void rc4030_irq_jazz_request(void *opaque, int irq, int level)
+> @@ -588,7 +589,8 @@ static const VMStateDescription vmstate_rc4030 = {
+>      }
+>  };
+>
+> -static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int
+> is_write)
+> +static void rc4030_do_dma(void *opaque, int n, uint8_t *buf,
+> +                          int len, int is_write)
+>  {
+>      rc4030State *s = opaque;
+>      hwaddr dma_addr;
+> @@ -643,8 +645,8 @@ static rc4030_dma *rc4030_allocate_dmas(void *opaque,
+> int n)
+>      struct rc4030DMAState *p;
+>      int i;
+>
+> -    s = (rc4030_dma *)g_malloc0(sizeof(rc4030_dma) * n);
+> -    p = (struct rc4030DMAState *)g_malloc0(sizeof(struct rc4030DMAState)
+> * n);
+> +    s = (rc4030_dma *)g_new0(sizeof(rc4030_dma) * n);
+> +    p = (struct rc4030DMAState *)g_new0(sizeof(struct rc4030DMAState) *
+> n);
+>      for (i = 0; i < n; i++) {
+>          p->opaque = opaque;
+>          p->n = i;
+> diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+> index d978bb6..ac4d7ac 100644
+> --- a/hw/mips/mips_jazz.c
+> +++ b/hw/mips/mips_jazz.c
+> @@ -52,8 +52,7 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/help_option.h"
+>
+> -enum jazz_model_e
+> -{
+> +enum jazz_model_e {
+>      JAZZ_MAGNUM,
+>      JAZZ_PICA61,
+>  };
+> @@ -90,16 +89,20 @@ static const MemoryRegionOps rtc_ops = {
+>  static uint64_t dma_dummy_read(void *opaque, hwaddr addr,
+>                                 unsigned size)
+>  {
+> -    /* Nothing to do. That is only to ensure that
+> -     * the current DMA acknowledge cycle is completed. */
+> +    /*
+> +     * Nothing to do. That is only to ensure that
+> +     * the current DMA acknowledge cycle is completed.
+> +     */
+>      return 0xff;
+>  }
+>
+>  static void dma_dummy_write(void *opaque, hwaddr addr,
+>                              uint64_t val, unsigned size)
+>  {
+> -    /* Nothing to do. That is only to ensure that
+> -     * the current DMA acknowledge cycle is completed. */
+> +    /*
+> +     * Nothing to do. That is only to ensure that
+> +     * the current DMA acknowledge cycle is completed.
+> +     */
+>  }
+>
+>  static const MemoryRegionOps dma_dummy_ops = {
+> @@ -109,8 +112,8 @@ static const MemoryRegionOps dma_dummy_ops = {
+>  };
+>
+>  #define MAGNUM_BIOS_SIZE_MAX 0x7e000
+> -#define MAGNUM_BIOS_SIZE (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE :
+> MAGNUM_BIOS_SIZE_MAX)
+> -
+> +#define MAGNUM_BIOS_SIZE
+>      \
+> +        (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE :
+> MAGNUM_BIOS_SIZE_MAX)
+>  static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
+>                                            vaddr addr, unsigned size,
+>                                            MMUAccessType access_type,
+> @@ -201,8 +204,9 @@ static void mips_jazz_init(MachineState *machine,
+>      memory_region_add_subregion(address_space, 0xfff00000LL, bios2);
+>
+>      /* load the BIOS image. */
+> -    if (bios_name == NULL)
+> +    if (bios_name == NULL) {
+>          bios_name = BIOS_FILENAME;
+> +    }
+>      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+>      if (filename) {
+>          bios_size = load_image_targphys(filename, 0xfff00000LL,
+> @@ -229,7 +233,8 @@ static void mips_jazz_init(MachineState *machine,
+>                                  sysbus_mmio_get_region(sysbus, 0));
+>      memory_region_add_subregion(address_space, 0xf0000000,
+>                                  sysbus_mmio_get_region(sysbus, 1));
+> -    memory_region_init_io(dma_dummy, NULL, &dma_dummy_ops, NULL,
+> "dummy_dma", 0x1000);
+> +    memory_region_init_io(dma_dummy, NULL, &dma_dummy_ops,
+> +                          NULL, "dummy_dma", 0x1000);
+>      memory_region_add_subregion(address_space, 0x8000d000, dma_dummy);
+>
+>      /* ISA bus: IO space at 0x90000000, mem space at 0x91000000 */
+> @@ -276,8 +281,9 @@ static void mips_jazz_init(MachineState *machine,
+>      /* Network controller */
+>      for (n = 0; n < nb_nics; n++) {
+>          nd = &nd_table[n];
+> -        if (!nd->model)
+> +        if (!nd->model) {
+>              nd->model = g_strdup("dp83932");
+> +        }
+>          if (strcmp(nd->model, "dp83932") == 0) {
+>              qemu_check_nic_model(nd, "dp83932");
+>
+> @@ -338,12 +344,12 @@ static void mips_jazz_init(MachineState *machine,
+>      /* Serial ports */
+>      if (serial_hd(0)) {
+>          serial_mm_init(address_space, 0x80006000, 0,
+> -                       qdev_get_gpio_in(rc4030, 8), 8000000/16,
+> +                       qdev_get_gpio_in(rc4030, 8), 8000000 / 16,
+>                         serial_hd(0), DEVICE_NATIVE_ENDIAN);
+>      }
+>      if (serial_hd(1)) {
+>          serial_mm_init(address_space, 0x80007000, 0,
+> -                       qdev_get_gpio_in(rc4030, 9), 8000000/16,
+> +                       qdev_get_gpio_in(rc4030, 9), 8000000 / 16,
+>                         serial_hd(1), DEVICE_NATIVE_ENDIAN);
+>      }
+>
+> --
+> 2.7.4
 >
 >
-> >> We try to change this chardev to prevent primary VM will stuck to wait
-> >> secondary VM.
-> >>
-> >> -chardev socket,id=3Dcompare1,host=3D127.0.0.1,port=3D9004,server,wait=
- \
-> >>
-> >> to
-> >>
-> >> -chardev socket,id=3Dcompare1,host=3D127.0.0.1,port=3D9004,server,nowa=
-it \
-> >>
-> >> But it will make primary VM's network not works. (Can't get ip), until
-> >> starting connect with secondary VM.
->
-> I think you need to check the port 9004 if already connect to the pair
-> node.
->
-> > I'm not sure of the answer to this; I've not tried doing it - I'm not
-> > sure anyone has!
-> > But, the colo components do track the state of tcp connections, so I'm
-> > expecting that they have to already exist to have the state of those
-> > connections available for when you start the secondary.
->
-> Yes, you are right.
->
-> For this status, we don't need to sync the state of tcp connections,
-> because after failover
->
-> (or just solo COLO primary node), we have empty all the tcp connections
-> state in COLO module.
->
-> In the processing of build new COLO pair, we will sync all the VM state
-> to secondary node and re-build
->
-> new track things in COLO module.
->
->
-> >
-> >
-> >> Otherwise, the primary VM with netfileter / chardev and without
-> netfilter /
-> >> chardev , they takes very different
-> >> booting time.
-> >> Without  netfilter / chardev : about 1 mins
-> >> With   netfilter / chardev : about 5 mins
-> >> Is this an issue?
-> > that sounds like it needs investigating.
-> >
-> > Dave
->
-> Yes, In previous COLO use cases, we need make primary node and secondary
-> node boot in the same time.
->
-> I did't expect such a big difference on netfilter/chardev.
->
-> I think you can try without netfilter/chardev, after VM boot, re-build
-> the netfilter/chardev related work with chardev server nowait.
->
->
-> Thanks
->
-> Zhang Chen
->
-> >
-> >> Best regards,
-> >> Daniel Cho
-> >>
-> >>
-> >> Dr. David Alan Gilbert <dgilbert@redhat.com> =E6=96=BC 2019=E5=B9=B412=
-=E6=9C=882=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:58=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> >>
-> >>> * Daniel Cho (danielcho@qnap.com) wrote:
-> >>>> Hi Zhang,
-> >>>>
-> >>>> We use qemu-4.1.0 release on this case.
-> >>>>
-> >>>> I think we need use block mirror to sync the disk to secondary node
-> >>> first,
-> >>>> then stop the primary VM and build COLO system.
-> >>>>
-> >>>> In the stop moment, you need add some netfilter and chardev socket
-> node
-> >>> for
-> >>>> COLO, maybe you need re-check this part.
-> >>>>
-> >>>>
-> >>>> Our test was already follow those step. Maybe I could describe the
-> detail
-> >>>> of the test flow and issues.
-> >>>>
-> >>>>
-> >>>> Step 1:
-> >>>>
-> >>>> Create primary VM without any netfilter and chardev for COLO, and
-> using
-> >>>> other host ping primary VM continually.
-> >>>>
-> >>>>
-> >>>> Step 2:
-> >>>>
-> >>>> Create secondary VM (the same device/drive with primary VM), and do
-> block
-> >>>> mirror sync ( ping to primary VM normally )
-> >>>>
-> >>>>
-> >>>> Step 3:
-> >>>>
-> >>>> After block mirror sync finish, add those netfilter and chardev to
-> >>> primary
-> >>>> VM and secondary VM for COLO ( *Can't* ping to primary VM but those
-> >>> packets
-> >>>> will be received later )
-> >>>>
-> >>>>
-> >>>> Step 4:
-> >>>>
-> >>>> Start migrate primary VM to secondary VM, and primary VM & secondary
-> VM
-> >>> are
-> >>>> running ( ping to primary VM works and receive those packets on step=
- 3
-> >>>> status )
-> >>>>
-> >>>>
-> >>>>
-> >>>>
-> >>>> Between Step 3 to Step 4, it will take 10~20 seconds in our
-> environment.
-> >>>>
-> >>>> I could image this issue (delay reply packets) is because of setting
-> COLO
-> >>>> proxy for temporary status,
-> >>>>
-> >>>> but we thought 10~20 seconds might a little long. (If primary VM is
-> >>> already
-> >>>> doing some jobs, it might lose the data.)
-> >>>>
-> >>>>
-> >>>> Could we reduce those time? or those delay is depends on different V=
-M?
-> >>> I think you need to set up the netfilter and chardev on the primary a=
-t
-> >>> the start;  the filter contains the state of the TCP connections
-> working
-> >>> with the VM, so adding it later can't gain that state for existing
-> >>> connections.
-> >>>
-> >>> Dave
-> >>>
-> >>>> Best Regard,
-> >>>>
-> >>>> Daniel Cho.
-> >>>>
-> >>>>
-> >>>>
-> >>>> Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2019=E5=B9=B411=E6=9C=
-=8830=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:04=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> >>>>
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> *From:* Daniel Cho <danielcho@qnap.com>
-> >>>>> *Sent:* Friday, November 29, 2019 10:43 AM
-> >>>>> *To:* Zhang, Chen <chen.zhang@intel.com>
-> >>>>> *Cc:* Dr. David Alan Gilbert <dgilbert@redhat.com>;
-> >>> lukasstraub2@web.de;
-> >>>>> qemu-devel@nongnu.org
-> >>>>> *Subject:* Re: Network connection with COLO VM
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Hi David,  Zhang,
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Thanks for replying my question.
-> >>>>>
-> >>>>> We know why will occur this issue.
-> >>>>>
-> >>>>> As you said, the COLO VM's network needs
-> >>>>>
-> >>>>> colo-proxy to control packets, so the guest's
-> >>>>>
-> >>>>> interface should set the filter to solve the problem.
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> But we found another question, when we set the
-> >>>>>
-> >>>>> fault-tolerance feature to guest (primary VM is running,
-> >>>>>
-> >>>>> secondary VM is pausing), the guest's network would not
-> >>>>>
-> >>>>> responds any request for a while (in our environment
-> >>>>>
-> >>>>> about 20~30 secs) after secondary VM runs.
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Does it be a normal situation, or a known issue?
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Our test is creating primary VM for a while, then creating
-> >>>>>
-> >>>>> secondary VM to make it with COLO feature.
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Hi Daniel,
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Happy to hear you have solved ssh disconnection issue.
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Do you use Lukas=E2=80=99s patch on this case?
-> >>>>>
-> >>>>> I think we need use block mirror to sync the disk to secondary node
-> >>> first,
-> >>>>> then stop the primary VM and build COLO system.
-> >>>>>
-> >>>>> In the stop moment, you need add some netfilter and chardev socket
-> node
-> >>>>> for COLO, maybe you need re-check this part.
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Best Regard,
-> >>>>>
-> >>>>> Daniel Cho
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Zhang, Chen <chen.zhang@intel.com> =E6=96=BC 2019=E5=B9=B411=E6=9C=
-=8828=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=889:26=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>>> -----Original Message-----
-> >>>>>> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >>>>>> Sent: Wednesday, November 27, 2019 6:51 PM
-> >>>>>> To: Daniel Cho <danielcho@qnap.com>; Zhang, Chen
-> >>>>>> <chen.zhang@intel.com>; lukasstraub2@web.de
-> >>>>>> Cc: qemu-devel@nongnu.org
-> >>>>>> Subject: Re: Network connection with COLO VM
-> >>>>>>
-> >>>>>> * Daniel Cho (danielcho@qnap.com) wrote:
-> >>>>>>> Hello everyone,
-> >>>>>>>
-> >>>>>>> Could we ssh to colo VM (means PVM & SVM are starting)?
-> >>>>>>>
-> >>>>>> Lets cc in Zhang Chen and Lukas Straub.
-> >>>>> Thanks Dave.
-> >>>>>
-> >>>>>>> SSH will connect to colo VM for a while, but it will disconnect
-> >>> with
-> >>>>>>> error
-> >>>>>>> *client_loop: send disconnect: Broken pipe*
-> >>>>>>>
-> >>>>>>> It seems to colo VM could not keep network session.
-> >>>>>>>
-> >>>>>>> Does it be a known issue?
-> >>>>>> That sounds like the COLO proxy is getting upset; it's supposed to
-> >>>>> compare
-> >>>>>> packets sent by the primary and secondary and only send one to the
-> >>>>> outside
-> >>>>>> - you shouldn't be talking directly to the guest, but always via t=
-he
-> >>>>> proxy.  See
-> >>>>>> docs/colo-proxy.txt
-> >>>>>>
-> >>>>> Hi Daniel,
-> >>>>>
-> >>>>> I have try ssh to COLO guest with 8 hours, not occurred this issue.
-> >>>>> Please check your network/qemu configuration.
-> >>>>> But I found another problem maybe related this issue, if no network
-> >>>>> communication for a period of time(maybe 10min), the first message
-> >>> send to
-> >>>>> guest have a chance with delay(maybe 1-5 sec), I will try to fix it
-> >>> when I
-> >>>>> have time.
-> >>>>>
-> >>>>> Thanks
-> >>>>> Zhang Chen
-> >>>>>
-> >>>>>> Dave
-> >>>>>>
-> >>>>>>> Best Regard,
-> >>>>>>> Daniel Cho
-> >>>>>> --
-> >>>>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>>>>
-> >>> --
-> >>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >>>
-> >>>
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
 >
 
---00000000000069977305990332ed
+--00000000000022d61f0599048b97
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Dave,=C2=A0 Zhang,<div><br></div><div>Thanks for your h=
-elp. I will try your recommendations.=C2=A0</div><div><br></div><div>Best R=
-egard,=C2=A0</div><div>Daniel Cho</div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">Zhang, Chen &lt;<a href=3D"mailto:ch=
-en.zhang@intel.com">chen.zhang@intel.com</a>&gt; =E6=96=BC 2019=E5=B9=B412=
-=E6=9C=884=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=884:32=E5=AF=AB=E9=
-=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+<br><br>On Monday, November 25, 2019, Filip Bozuta &lt;<a href=3D"mailto:Fi=
+lip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">The script <a href=3D"http://checkpatch.pl" target=3D"_b=
+lank">checkpatch.pl</a> located in scripts folder was<br>
+used to detect all errors and warrnings in files:<br>
+=C2=A0 =C2=A0 hw/mips/mips_jazz.c<br>
+=C2=A0 =C2=A0 hw/display/jazz_led.c<br>
+=C2=A0 =C2=A0 hw/dma/rc4030.c<br>
 <br>
-On 12/3/2019 9:25 PM, Dr. David Alan Gilbert wrote:<br>
-&gt; * Daniel Cho (<a href=3D"mailto:danielcho@qnap.com" target=3D"_blank">=
-danielcho@qnap.com</a>) wrote:<br>
-&gt;&gt; Hi Dave,<br>
-&gt;&gt;<br>
-&gt;&gt; We could use the exist interface to add netfilter and chardev, it =
-might not<br>
-&gt;&gt; have the problem you said.<br>
-&gt;&gt;<br>
-&gt;&gt; However, the netfilter and chardev on the primary at the start, th=
-at means<br>
-&gt;&gt; we could not dynamic set COLO<br>
-&gt;&gt; feature to VM?<br>
-&gt; I wasn&#39;t expecting that to be possible - I&#39;d expect you to be =
-able<br>
-&gt; to start in a state that looks the same as a primary+failed secondary;=
+All these mips jazz machine files were edited and<br>
+all the errors and warrings generated by the <a href=3D"http://checkpatch.p=
+l" target=3D"_blank">checkpatch.pl</a><br>
+script were corrected and then the script was<br>
+ran again to make sure there are no more errors and warnings.<br>
 <br>
-&gt; but I&#39;m not sure.<br>
+Signed-off-by: Filip Bozuta &lt;<a href=3D"mailto:Filip.Bozuta@rt-rk.com">F=
+ilip.Bozuta@rt-rk.com</a>&gt;<br>
+---<br>
+=C2=A0hw/display/jazz_led.c | 123 +++++++++++++++++++++++++-----<wbr>------=
+--------------<br>
+=C2=A0hw/dma/rc4030.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 12 +++--<br>
+=C2=A0hw/mips/mips_jazz.c=C2=A0 =C2=A0|=C2=A0 32 +++++++------<br>
+=C2=A03 files changed, 88 insertions(+), 79 deletions(-)<br>
 <br>
-Current COLO (with Lukas&#39;s patch) can support dynamic set COLO system.<=
+diff --git a/hw/display/jazz_led.c b/hw/display/jazz_led.c<br>
+index 3e0112b..1d84559 100644<br>
+--- a/hw/display/jazz_led.c<br>
++++ b/hw/display/jazz_led.c<br>
+@@ -90,25 +90,25 @@ static void draw_horizontal_line(<wbr>DisplaySurface *d=
+s,<br>
+<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
+t-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovi=
+c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
+yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
+m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
+08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+=C2=A0 =C2=A0 =C2=A0bpp =3D (surface_bits_per_pixel(ds) + 7) &gt;&gt; 3;<br=
+>
+=C2=A0 =C2=A0 =C2=A0d =3D surface_data(ds) + surface_stride(ds) * posy + bp=
+p * posx1;<br>
+-=C2=A0 =C2=A0 switch(bpp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 1:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
+2; x++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d++;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 2:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
+2; x++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 2;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 4:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx=
+2; x++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 4;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 switch (bpp) {<br>
++=C2=A0 =C2=A0 case 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case 2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 2;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case 4:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (x =3D posx1; x &lt;=3D posx2; x++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D 4;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+@@ -121,25 +121,25 @@ static void draw_vertical_line(<wbr>DisplaySurface *d=
+s,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0bpp =3D (surface_bits_per_pixel(ds) + 7) &gt;&gt; 3;<br=
+>
+=C2=A0 =C2=A0 =C2=A0d =3D surface_data(ds) + surface_stride(ds) * posy1 + b=
+pp * posx;<br>
+-=C2=A0 =C2=A0 switch(bpp) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 1:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
+2; y++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
+ide(ds);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 2:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
+2; y++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
+ide(ds);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 4:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy=
+2; y++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =
+=3D color;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_str=
+ide(ds);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 switch (bpp) {<br>
++=C2=A0 =C2=A0 case 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint8_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case 2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint16_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case 4:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (y =3D posy1; y &lt;=3D posy2; y++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *((uint32_t *)d) =3D color;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d +=3D surface_stride(ds);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+@@ -164,28 +164,28 @@ static void jazz_led_update_display(void *opaque)<br>
+=C2=A0 =C2=A0 =C2=A0if (s-&gt;state &amp; REDRAW_SEGMENTS) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* set colors according to bpp */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (surface_bits_per_pixel(<wbr>surfa=
+ce)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 8:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
+rgb_to_pixel8(0xaa, 0xaa, 0xaa);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
+to_pixel8(0x00, 0xff, 0x00);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 15:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
+rgb_to_pixel15(0xaa, 0xaa, 0xaa);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
+to_pixel15(0x00, 0xff, 0x00);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 16:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
+rgb_to_pixel16(0xaa, 0xaa, 0xaa);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
+to_pixel16(0x00, 0xff, 0x00);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 24:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
+rgb_to_pixel24(0xaa, 0xaa, 0xaa);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
+to_pixel24(0x00, 0xff, 0x00);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 32:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D =
+rgb_to_pixel32(0xaa, 0xaa, 0xaa);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_=
+to_pixel32(0x00, 0xff, 0x00);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 8:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel8(=
+0xaa, 0xaa, 0xaa);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel8(0x00=
+, 0xff, 0x00);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 15:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel15=
+(0xaa, 0xaa, 0xaa);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel15(0x0=
+0, 0xff, 0x00);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 16:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel16=
+(0xaa, 0xaa, 0xaa);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel16(0x0=
+0, 0xff, 0x00);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 24:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel24=
+(0xaa, 0xaa, 0xaa);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel24(0x0=
+0, 0xff, 0x00);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case 32:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_segment =3D rgb_to_pixel32=
+(0xaa, 0xaa, 0xaa);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 color_led =3D rgb_to_pixel32(0x0=
+0, 0xff, 0x00);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* display segments */<br>
+@@ -205,8 +205,9 @@ static void jazz_led_update_display(void *opaque)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (s-&gt;segments &amp; 0x80) ? color_segment=
+ : 0);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* display led */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(s-&gt;segments &amp; 0x01))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(s-&gt;segments &amp; 0x01)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0color_led =3D 0; /* black *=
+/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 68, 50, 50,=
+ color_led);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 69, 49, 51,=
+ color_led);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0draw_horizontal_line(surface, 70, 48, 52,=
+ color_led);<br>
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c<br>
+index d54e296..f7542f3 100644<br>
+--- a/hw/dma/rc4030.c<br>
++++ b/hw/dma/rc4030.c<br>
+@@ -397,10 +397,11 @@ static void update_jazz_irq(rc4030State *s)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0pending =3D s-&gt;isr_jazz &amp; s-&gt;imr_jazz;<br>
+<br>
+-=C2=A0 =C2=A0 if (pending !=3D 0)<br>
++=C2=A0 =C2=A0 if (pending !=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_irq_raise(s-&gt;jazz_bus_<wbr>irq);<=
 br>
-<br>
-This status is same like the secondary has triggered failover, the <br>
-primary node need to find new secondary<br>
-<br>
-node to combine new COLO system.<br>
-<br>
-<br>
-&gt;&gt; We try to change this chardev to prevent primary VM will stuck to =
-wait<br>
-&gt;&gt; secondary VM.<br>
-&gt;&gt;<br>
-&gt;&gt; -chardev socket,id=3Dcompare1,host=3D127.0.0.1,port=3D9004,server,=
-wait \<br>
-&gt;&gt;<br>
-&gt;&gt; to<br>
-&gt;&gt;<br>
-&gt;&gt; -chardev socket,id=3Dcompare1,host=3D127.0.0.1,port=3D9004,server,=
-nowait \<br>
-&gt;&gt;<br>
-&gt;&gt; But it will make primary VM&#39;s network not works. (Can&#39;t ge=
-t ip), until<br>
-&gt;&gt; starting connect with secondary VM.<br>
-<br>
-I think you need to check the port 9004 if already connect to the pair node=
-.<br>
-<br>
-&gt; I&#39;m not sure of the answer to this; I&#39;ve not tried doing it - =
-I&#39;m not<br>
-&gt; sure anyone has!<br>
-&gt; But, the colo components do track the state of tcp connections, so I&#=
-39;m<br>
-&gt; expecting that they have to already exist to have the state of those<b=
-r>
-&gt; connections available for when you start the secondary.<br>
-<br>
-Yes, you are right.<br>
-<br>
-For this status, we don&#39;t need to sync the state of tcp connections, <b=
-r>
-because after failover<br>
-<br>
-(or just solo COLO primary node), we have empty all the tcp connections <br=
->
-state in COLO module.<br>
-<br>
-In the processing of build new COLO pair, we will sync all the VM state <br=
->
-to secondary node and re-build<br>
-<br>
-new track things in COLO module.<br>
-<br>
-<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; Otherwise, the primary VM with netfileter / chardev and without ne=
-tfilter /<br>
-&gt;&gt; chardev , they takes very different<br>
-&gt;&gt; booting time.<br>
-&gt;&gt; Without=C2=A0 netfilter / chardev : about 1 mins<br>
-&gt;&gt; With=C2=A0 =C2=A0netfilter / chardev : about 5 mins<br>
-&gt;&gt; Is this an issue?<br>
-&gt; that sounds like it needs investigating.<br>
-&gt;<br>
-&gt; Dave<br>
-<br>
-Yes, In previous COLO use cases, we need make primary node and secondary <b=
-r>
-node boot in the same time.<br>
-<br>
-I did&#39;t expect such a big difference on netfilter/chardev.<br>
-<br>
-I think you can try without netfilter/chardev, after VM boot, re-build <br>
-the netfilter/chardev related work with chardev server nowait.<br>
-<br>
-<br>
-Thanks<br>
-<br>
-Zhang Chen<br>
-<br>
-&gt;<br>
-&gt;&gt; Best regards,<br>
-&gt;&gt; Daniel Cho<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com" =
-target=3D"_blank">dgilbert@redhat.com</a>&gt; =E6=96=BC 2019=E5=B9=B412=E6=
-=9C=882=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:58=E5=AF=AB=E9=81=
-=93=EF=BC=9A<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; * Daniel Cho (<a href=3D"mailto:danielcho@qnap.com" target=3D"=
-_blank">danielcho@qnap.com</a>) wrote:<br>
-&gt;&gt;&gt;&gt; Hi Zhang,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; We use qemu-4.1.0 release on this case.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; I think we need use block mirror to sync the disk to secon=
-dary node<br>
-&gt;&gt;&gt; first,<br>
-&gt;&gt;&gt;&gt; then stop the primary VM and build COLO system.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; In the stop moment, you need add some netfilter and charde=
-v socket node<br>
-&gt;&gt;&gt; for<br>
-&gt;&gt;&gt;&gt; COLO, maybe you need re-check this part.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Our test was already follow those step. Maybe I could desc=
-ribe the detail<br>
-&gt;&gt;&gt;&gt; of the test flow and issues.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Step 1:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Create primary VM without any netfilter and chardev for CO=
-LO, and using<br>
-&gt;&gt;&gt;&gt; other host ping primary VM continually.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Step 2:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Create secondary VM (the same device/drive with primary VM=
-), and do block<br>
-&gt;&gt;&gt;&gt; mirror sync ( ping to primary VM normally )<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Step 3:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; After block mirror sync finish, add those netfilter and ch=
-ardev to<br>
-&gt;&gt;&gt; primary<br>
-&gt;&gt;&gt;&gt; VM and secondary VM for COLO ( *Can&#39;t* ping to primary=
- VM but those<br>
-&gt;&gt;&gt; packets<br>
-&gt;&gt;&gt;&gt; will be received later )<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Step 4:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Start migrate primary VM to secondary VM, and primary VM &=
-amp; secondary VM<br>
-&gt;&gt;&gt; are<br>
-&gt;&gt;&gt;&gt; running ( ping to primary VM works and receive those packe=
-ts on step 3<br>
-&gt;&gt;&gt;&gt; status )<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Between Step 3 to Step 4, it will take 10~20 seconds in ou=
-r environment.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; I could image this issue (delay reply packets) is because =
-of setting COLO<br>
-&gt;&gt;&gt;&gt; proxy for temporary status,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; but we thought 10~20 seconds might a little long. (If prim=
-ary VM is<br>
-&gt;&gt;&gt; already<br>
-&gt;&gt;&gt;&gt; doing some jobs, it might lose the data.)<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Could we reduce those time? or those delay is depends on d=
-ifferent VM?<br>
-&gt;&gt;&gt; I think you need to set up the netfilter and chardev on the pr=
-imary at<br>
-&gt;&gt;&gt; the start;=C2=A0 the filter contains the state of the TCP conn=
-ections working<br>
-&gt;&gt;&gt; with the VM, so adding it later can&#39;t gain that state for =
-existing<br>
-&gt;&gt;&gt; connections.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Dave<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Best Regard,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Daniel Cho.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@intel.com" ta=
-rget=3D"_blank">chen.zhang@intel.com</a>&gt; =E6=96=BC 2019=E5=B9=B411=E6=
-=9C=8830=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8A=E5=8D=882:04=E5=AF=AB=E9=81=
-=93=EF=BC=9A<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; *From:* Daniel Cho &lt;<a href=3D"mailto:danielcho@qna=
-p.com" target=3D"_blank">danielcho@qnap.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt; *Sent:* Friday, November 29, 2019 10:43 AM<br>
-&gt;&gt;&gt;&gt;&gt; *To:* Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@int=
-el.com" target=3D"_blank">chen.zhang@intel.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt; *Cc:* Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgi=
-lbert@redhat.com" target=3D"_blank">dgilbert@redhat.com</a>&gt;;<br>
-&gt;&gt;&gt; <a href=3D"mailto:lukasstraub2@web.de" target=3D"_blank">lukas=
-straub2@web.de</a>;<br>
-&gt;&gt;&gt;&gt;&gt; <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_bl=
-ank">qemu-devel@nongnu.org</a><br>
-&gt;&gt;&gt;&gt;&gt; *Subject:* Re: Network connection with COLO VM<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Hi David,=C2=A0 Zhang,<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Thanks for replying my question.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; We know why will occur this issue.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; As you said, the COLO VM&#39;s network needs<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; colo-proxy to control packets, so the guest&#39;s<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; interface should set the filter to solve the problem.<=
+-=C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 } else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_irq_lower(s-&gt;jazz_bus_<wbr>irq);<=
 br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; But we found another question, when we set the<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; fault-tolerance feature to guest (primary VM is runnin=
-g,<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; secondary VM is pausing), the guest&#39;s network woul=
-d not<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; responds any request for a while (in our environment<b=
-r>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; about 20~30 secs) after secondary VM runs.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Does it be a normal situation, or a known issue?<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Our test is creating primary VM for a while, then crea=
-ting<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; secondary VM to make it with COLO feature.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Hi Daniel,<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Happy to hear you have solved ssh disconnection issue.=
++=C2=A0 =C2=A0 }<br>
+=C2=A0}<br>
 <br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Do you use Lukas=E2=80=99s patch on this case?<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; I think we need use block mirror to sync the disk to s=
-econdary node<br>
-&gt;&gt;&gt; first,<br>
-&gt;&gt;&gt;&gt;&gt; then stop the primary VM and build COLO system.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; In the stop moment, you need add some netfilter and ch=
-ardev socket node<br>
-&gt;&gt;&gt;&gt;&gt; for COLO, maybe you need re-check this part.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Best Regard,<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Daniel Cho<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Zhang, Chen &lt;<a href=3D"mailto:chen.zhang@intel.com=
-" target=3D"_blank">chen.zhang@intel.com</a>&gt; =E6=96=BC 2019=E5=B9=B411=
-=E6=9C=8828=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=889:26=E5=AF=AB=E9=
-=81=93=EF=BC=9A<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; -----Original Message-----<br>
-&gt;&gt;&gt;&gt;&gt;&gt; From: Dr. David Alan Gilbert &lt;<a href=3D"mailto=
-:dgilbert@redhat.com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Sent: Wednesday, November 27, 2019 6:51 PM<br>
-&gt;&gt;&gt;&gt;&gt;&gt; To: Daniel Cho &lt;<a href=3D"mailto:danielcho@qna=
-p.com" target=3D"_blank">danielcho@qnap.com</a>&gt;; Zhang, Chen<br>
-&gt;&gt;&gt;&gt;&gt;&gt; &lt;<a href=3D"mailto:chen.zhang@intel.com" target=
-=3D"_blank">chen.zhang@intel.com</a>&gt;; <a href=3D"mailto:lukasstraub2@we=
-b.de" target=3D"_blank">lukasstraub2@web.de</a><br>
-&gt;&gt;&gt;&gt;&gt;&gt; Cc: <a href=3D"mailto:qemu-devel@nongnu.org" targe=
-t=3D"_blank">qemu-devel@nongnu.org</a><br>
-&gt;&gt;&gt;&gt;&gt;&gt; Subject: Re: Network connection with COLO VM<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; * Daniel Cho (<a href=3D"mailto:danielcho@qnap.com=
-" target=3D"_blank">danielcho@qnap.com</a>) wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Hello everyone,<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Could we ssh to colo VM (means PVM &amp; SVM a=
-re starting)?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Lets cc in Zhang Chen and Lukas Straub.<br>
-&gt;&gt;&gt;&gt;&gt; Thanks Dave.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; SSH will connect to colo VM for a while, but i=
-t will disconnect<br>
-&gt;&gt;&gt; with<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; error<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; *client_loop: send disconnect: Broken pipe*<br=
+=C2=A0static void rc4030_irq_jazz_request(void *opaque, int irq, int level)=
+<br>
+@@ -588,7 +589,8 @@ static const VMStateDescription vmstate_rc4030 =3D {<br=
 >
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; It seems to colo VM could not keep network ses=
-sion.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Does it be a known issue?<br>
-&gt;&gt;&gt;&gt;&gt;&gt; That sounds like the COLO proxy is getting upset; =
-it&#39;s supposed to<br>
-&gt;&gt;&gt;&gt;&gt; compare<br>
-&gt;&gt;&gt;&gt;&gt;&gt; packets sent by the primary and secondary and only=
- send one to the<br>
-&gt;&gt;&gt;&gt;&gt; outside<br>
-&gt;&gt;&gt;&gt;&gt;&gt; - you shouldn&#39;t be talking directly to the gue=
-st, but always via the<br>
-&gt;&gt;&gt;&gt;&gt; proxy.=C2=A0 See<br>
-&gt;&gt;&gt;&gt;&gt;&gt; docs/colo-proxy.txt<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Hi Daniel,<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; I have try ssh to COLO guest with 8 hours, not occurre=
-d this issue.<br>
-&gt;&gt;&gt;&gt;&gt; Please check your network/qemu configuration.<br>
-&gt;&gt;&gt;&gt;&gt; But I found another problem maybe related this issue, =
-if no network<br>
-&gt;&gt;&gt;&gt;&gt; communication for a period of time(maybe 10min), the f=
-irst message<br>
-&gt;&gt;&gt; send to<br>
-&gt;&gt;&gt;&gt;&gt; guest have a chance with delay(maybe 1-5 sec), I will =
-try to fix it<br>
-&gt;&gt;&gt; when I<br>
-&gt;&gt;&gt;&gt;&gt; have time.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Thanks<br>
-&gt;&gt;&gt;&gt;&gt; Zhang Chen<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Dave<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Best Regard,<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Daniel Cho<br>
-&gt;&gt;&gt;&gt;&gt;&gt; --<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Dr. David Alan Gilbert / <a href=3D"mailto:dgilber=
-t@redhat.com" target=3D"_blank">dgilbert@redhat.com</a> / Manchester, UK<br=
->
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt; --<br>
-&gt;&gt;&gt; Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com=
-" target=3D"_blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt; --<br>
-&gt; Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=
-=3D"_blank">dgilbert@redhat.com</a> / Manchester, UK<br>
-&gt;<br>
-</blockquote></div>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0};<br>
+<br>
+-static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int =
+is_write)<br>
++static void rc4030_do_dma(void *opaque, int n, uint8_t *buf,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 int len, int is_write)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0rc4030State *s =3D opaque;<br>
+=C2=A0 =C2=A0 =C2=A0hwaddr dma_addr;<br>
+@@ -643,8 +645,8 @@ static rc4030_dma *rc4030_allocate_dmas(void *opaque, i=
+nt n)<br>
+=C2=A0 =C2=A0 =C2=A0struct rc4030DMAState *p;<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+<br>
+-=C2=A0 =C2=A0 s =3D (rc4030_dma *)g_malloc0(sizeof(rc4030_dma) * n);<br>
+-=C2=A0 =C2=A0 p =3D (struct rc4030DMAState *)g_malloc0(sizeof(struct rc403=
+0DMAState) * n);<br>
++=C2=A0 =C2=A0 s =3D (rc4030_dma *)g_new0(sizeof(rc4030_dma) * n);<br>
++=C2=A0 =C2=A0 p =3D (struct rc4030DMAState *)g_new0(sizeof(struct rc4030DM=
+AState) * n);<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; n; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;opaque =3D opaque;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p-&gt;n =3D i;<br>
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c<br>
+index d978bb6..ac4d7ac 100644<br>
+--- a/hw/mips/mips_jazz.c<br>
++++ b/hw/mips/mips_jazz.c<br>
+@@ -52,8 +52,7 @@<br>
+=C2=A0#include &quot;qemu/error-report.h&quot;<br>
+=C2=A0#include &quot;qemu/help_option.h&quot;<br>
+<br>
+-enum jazz_model_e<br>
+-{<br>
++enum jazz_model_e {<br>
+=C2=A0 =C2=A0 =C2=A0JAZZ_MAGNUM,<br>
+=C2=A0 =C2=A0 =C2=A0JAZZ_PICA61,<br>
+=C2=A0};<br>
+@@ -90,16 +89,20 @@ static const MemoryRegionOps rtc_ops =3D {<br>
+=C2=A0static uint64_t dma_dummy_read(void *opaque, hwaddr addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned size)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 /* Nothing to do. That is only to ensure that<br>
+-=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed. */<b=
+r>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Nothing to do. That is only to ensure that<br>
++=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0return 0xff;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void dma_dummy_write(void *opaque, hwaddr addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t val, unsigned size)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 /* Nothing to do. That is only to ensure that<br>
+-=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed. */<b=
+r>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Nothing to do. That is only to ensure that<br>
++=C2=A0 =C2=A0 =C2=A0* the current DMA acknowledge cycle is completed.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0}<br>
+<br>
+=C2=A0static const MemoryRegionOps dma_dummy_ops =3D {<br>
+@@ -109,8 +112,8 @@ static const MemoryRegionOps dma_dummy_ops =3D {<br>
+=C2=A0};<br>
+<br>
+=C2=A0#define MAGNUM_BIOS_SIZE_MAX 0x7e000<br>
+-#define MAGNUM_BIOS_SIZE (BIOS_SIZE &lt; MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE =
+: MAGNUM_BIOS_SIZE_MAX)<br>
+-<br>
++#define MAGNUM_BIOS_SIZE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (BIOS_SIZE &lt; MAGNUM_BIOS_SIZE_MAX ? BIOS_SI=
+ZE : MAGNUM_BIOS_SIZE_MAX)<br>
+=C2=A0static void (*real_do_transaction_failed)(<wbr>CPUState *cpu, hwaddr =
+physaddr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0vaddr addr, unsigned size,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0MMUAccessType access_type,<br>
+@@ -201,8 +204,9 @@ static void mips_jazz_init(MachineState *machine,<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0xfff00=
+000LL, bios2);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* load the BIOS image. */<br>
+-=C2=A0 =C2=A0 if (bios_name =3D=3D NULL)<br>
++=C2=A0 =C2=A0 if (bios_name =3D=3D NULL) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_name =3D BIOS_FILENAME;<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0filename =3D qemu_find_file(QEMU_FILE_TYPE_<wbr>BIOS, b=
+ios_name);<br>
+=C2=A0 =C2=A0 =C2=A0if (filename) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_size =3D load_image_targphys(filenam=
+e, 0xfff00000LL,<br>
+@@ -229,7 +233,8 @@ static void mips_jazz_init(MachineState *machine,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_mmio_get_region(sysbus,=
+ 0));<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0xf0000=
+000,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_mmio_get_region(sysbus,=
+ 1));<br>
+-=C2=A0 =C2=A0 memory_region_init_io(dma_<wbr>dummy, NULL, &amp;dma_dummy_o=
+ps, NULL, &quot;dummy_dma&quot;, 0x1000);<br>
++=C2=A0 =C2=A0 memory_region_init_io(dma_<wbr>dummy, NULL, &amp;dma_dummy_o=
+ps,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 NULL, &quot;dummy_dma&quot;, 0x1000);<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(<wbr>address_space, 0x8000d=
+000, dma_dummy);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* ISA bus: IO space at 0x90000000, mem space at 0x9100=
+0000 */<br>
+@@ -276,8 +281,9 @@ static void mips_jazz_init(MachineState *machine,<br>
+=C2=A0 =C2=A0 =C2=A0/* Network controller */<br>
+=C2=A0 =C2=A0 =C2=A0for (n =3D 0; n &lt; nb_nics; n++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nd =3D &amp;nd_table[n];<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nd-&gt;model)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!nd-&gt;model) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nd-&gt;model =3D g_strdup(&=
+quot;dp83932&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcmp(nd-&gt;model, &quot;dp83932&qu=
+ot;) =3D=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_check_nic_model(nd, &q=
+uot;dp83932&quot;);<br>
+<br>
+@@ -338,12 +344,12 @@ static void mips_jazz_init(MachineState *machine,<br>
+=C2=A0 =C2=A0 =C2=A0/* Serial ports */<br>
+=C2=A0 =C2=A0 =C2=A0if (serial_hd(0)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serial_mm_init(address_space, 0x80006000,=
+ 0,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qdev_get_gpio_in(rc4030, 8), 8000000/16,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qdev_get_gpio_in(rc4030, 8), 8000000 / 16,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 serial_hd(0), DEVICE_NATIVE_ENDIAN);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0if (serial_hd(1)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0serial_mm_init(address_space, 0x80007000,=
+ 0,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qdev_get_gpio_in(rc4030, 9), 8000000/16,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qdev_get_gpio_in(rc4030, 9), 8000000 / 16,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 serial_hd(1), DEVICE_NATIVE_ENDIAN);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0<br>
+-- <br>
+2.7.4<br>
+<br>
+<br>
+</blockquote>
 
---00000000000069977305990332ed--
+--00000000000022d61f0599048b97--
 
