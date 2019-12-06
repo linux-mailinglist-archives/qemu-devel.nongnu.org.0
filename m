@@ -2,61 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EAD115438
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:28:16 +0100 (CET)
-Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6DD1154AA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:55:33 +0100 (CET)
+Received: from localhost ([::1]:40170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFWh-0004hk-AH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:28:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44820)
+	id 1idFx5-0002NS-1d
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:55:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1idEkR-0008B0-Vt
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:38:26 -0500
+ (envelope-from <philmd@redhat.com>) id 1idEyy-0000NT-BR
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1idEkQ-0000Qi-U0
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:38:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59027
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1idEyw-0005oO-Np
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:24 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20064
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1idEkQ-0000P4-4z
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:38:22 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEyw-0005nM-Io
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:53:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643101;
+ s=mimecast20190719; t=1575644002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bIJvzQpnEMApOElCaCk2lLQMQ09zgb2vjn7tNHApnQk=;
- b=GJOUBr/b/NWsPqsxQm6sfWiv2uef8xgf0kJf/A/AJdYPHpBjIQJrmrO5kBph0sxwB0rdIy
- GdPW74u/tcf96E2E3NFzo6a1EHXaEV1VE+lwbPd2Bzns+GSkCz0Nt8vdhibfYEemSuEG91
- d5EQQig4UlxMjibqXx5j/VfuCo3tV/o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-w70AkRktMg-X9ARXWebacw-1; Fri, 06 Dec 2019 09:38:18 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6466B8051BE;
- Fri,  6 Dec 2019 14:38:17 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-49.ams2.redhat.com
- [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 240DC6016D;
- Fri,  6 Dec 2019 14:38:12 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi: better document NVMe blockdev @device parameter
-Date: Fri,  6 Dec 2019 14:38:11 +0000
-Message-Id: <20191206143811.3777524-1-berrange@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KXP/u4tNIpHtnz0fS1xsh/7VHfe+8dzY46wCiYLnkws=;
+ b=RXmrpf+4IuEgmZL981Np9f6DQbNMdmXGrwNQZGajurgQ9MptHKFhZAk99XFyxApAQ6nkWS
+ jYegXnHbfSeusP5631ioi7a/Ouudq3/Q2CfB8x82HeOzZMBUKc7U/rzFjPi+vdTpxbn35e
+ jCOR4hQthzJpBUiob4N2CMGSEeVJuTE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-FFfIRV0lPOadLtOX4fZW4w-1; Fri, 06 Dec 2019 00:51:54 -0500
+Received: by mail-wr1-f72.google.com with SMTP id b13so2646405wrx.22
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 21:51:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/565qbkyu6852uU+G93zof4l+bkCu7TfS5fCla+IKVY=;
+ b=kxmbmH9qLl+myp4Fml701AEHlR7kT32CwHt6SWHpAdU1hyVRgYb9WpDND/A4ROtMXV
+ vv9hrUo97Tenp9s+RGG0LK/TAhxy/mGY9Jb7cTTIgbeNCoc7Gl2EoVK7S8583xaPHT3B
+ EdMRxxaHnxf8VnQbW7c2FuY41MLyI0wFdMpXlsAOdg8hpptRP7ORW/w3lq7AaSV47rbg
+ Eis31mcW4egwvoOIKMOLiDH1dLnUib8qg96WOXp6Ggf5RkrV+T7ZYv3hf/rFK4gXXvpm
+ 9HKZnNc8S9Ko0v6Lg882LptCCDoqNwjjAp4VO1ZF5PmIhuhCcmvuGBYj3mhfgH7Q0CAz
+ lFtA==
+X-Gm-Message-State: APjAAAWbaLPUtLHTNxCrewO93Y3kySArLfxmxm1K0xvKaU6oJledfMul
+ jNzWO3L6bYQ7VyV7DosF/8cpj3iU+CDzkGpAABSOmEWfIuw1icmpoo3a/k5NPKGq4D5UIDVkho+
+ LwKd7wZoYwFvnLio=
+X-Received: by 2002:adf:ffc7:: with SMTP id x7mr13467601wrs.159.1575611513589; 
+ Thu, 05 Dec 2019 21:51:53 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyeLD6mh88uQv7UH/mo3//YCqVD7C21mPLsBcTNy2iRyEH6VbxFNhztcGLYbUB1VGwAfH8q/A==
+X-Received: by 2002:adf:ffc7:: with SMTP id x7mr13467568wrs.159.1575611513217; 
+ Thu, 05 Dec 2019 21:51:53 -0800 (PST)
+Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
+ [88.21.103.182])
+ by smtp.gmail.com with ESMTPSA id s19sm2100880wmj.33.2019.12.05.21.51.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Dec 2019 21:51:52 -0800 (PST)
+Subject: Re: [PATCH 1/3] hw/i386: Remove the deprecated machines 0.12 up to
+ 0.15
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20191205160652.23493-1-thuth@redhat.com>
+ <20191205160652.23493-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7d1a93eb-4881-e298-828f-c8edc3323bb6@redhat.com>
+Date: Fri, 6 Dec 2019 06:51:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: w70AkRktMg-X9ARXWebacw-1
+In-Reply-To: <20191205160652.23493-2-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: FFfIRV0lPOadLtOX4fZW4w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,41 +94,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org
+Cc: libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mention that this is a PCI device address & give the format it is
-expected it. Also mention that it must be first unbound from any
-host kernel driver.
+On 12/5/19 5:06 PM, Thomas Huth wrote:
+> They can't be used reliable for live-migration anymore (see
+> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg04516.html
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- qapi/block-core.json | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+"reliably"?
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 0cf68fea14..fcb52ec24f 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2963,9 +2963,13 @@
- #
- # Driver specific block device options for the NVMe backend.
- #
--# @device:    controller address of the NVMe device.
-+# @device:    PCI controller address of the NVMe device in
-+#             format hhhh:bb:ss.f (host:bus:slot.function)
- # @namespace: namespace number of the device, starting from 1.
- #
-+# Note that the PCI @device must have been unbound from any host
-+# kernel driver before instructing QEMU to add the blockdev.
-+#
- # Since: 2.12
- ##
- { 'struct': 'BlockdevOptionsNVMe',
---=20
-2.23.0
+I'd keep the reference, but also paste Paolo's 7 lines here.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> for details) and have been marked as deprecated since QEMU v4.0,
+> so time to remove them now.
+>=20
+> And while we're at it, mark the remaining pc-1.x machine types
+> as deprecated now, too, so that we finally only have "pc-i440fx"
+> and "pc-q35" machine types left (apart from the non-versioned
+> "isapc" and "microvm") once we removed them in a couple of releases.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   hw/i386/pc_piix.c     | 82 -------------------------------------------
+>   qemu-deprecated.texi  |  2 +-
+>   tests/cpu-plug-test.c |  6 +---
+>   3 files changed, 2 insertions(+), 88 deletions(-)
+>=20
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 1bd70d1abb..59ac9d82c9 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -364,12 +364,6 @@ static void pc_compat_1_2(MachineState *machine)
+>       x86_cpu_change_kvm_default("kvm-pv-eoi", NULL);
+>   }
+>  =20
+> -/* PC compat function for pc-0.12 and pc-0.13 */
+> -static void pc_compat_0_13(MachineState *machine)
+> -{
+> -    pc_compat_1_2(machine);
+> -}
+> -
+>   static void pc_init_isa(MachineState *machine)
+>   {
+>       pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVI=
+CE);
+> @@ -800,82 +794,6 @@ DEFINE_I440FX_MACHINE(v1_0, "pc-1.0", pc_compat_1_2,
+>                         pc_i440fx_1_0_machine_options);
+>  =20
+>  =20
+> -static void pc_i440fx_0_15_machine_options(MachineClass *m)
+> -{
+> -    static GlobalProperty compat[] =3D {
+> -        PC_CPU_MODEL_IDS("0.15")
+> -    };
+> -
+> -    pc_i440fx_1_0_machine_options(m);
+> -    m->hw_version =3D "0.15";
+> -    m->deprecation_reason =3D "use a newer machine type instead";
+> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+> -}
+> -
+> -DEFINE_I440FX_MACHINE(v0_15, "pc-0.15", pc_compat_1_2,
+> -                      pc_i440fx_0_15_machine_options);
+> -
+> -
+> -static void pc_i440fx_0_14_machine_options(MachineClass *m)
+> -{
+> -    static GlobalProperty compat[] =3D {
+> -        PC_CPU_MODEL_IDS("0.14")
+> -        { "virtio-blk-pci", "event_idx", "off" },
+> -        { "virtio-serial-pci", "event_idx", "off" },
+> -        { "virtio-net-pci", "event_idx", "off" },
+> -        { "virtio-balloon-pci", "event_idx", "off" },
+> -        { "qxl", "revision", "2" },
+> -        { "qxl-vga", "revision", "2" },
+> -    };
+> -
+> -    pc_i440fx_0_15_machine_options(m);
+> -    m->hw_version =3D "0.14";
+> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+> -}
+> -
+> -DEFINE_I440FX_MACHINE(v0_14, "pc-0.14", pc_compat_1_2,
+> -                      pc_i440fx_0_14_machine_options);
+> -
+> -static void pc_i440fx_0_13_machine_options(MachineClass *m)
+> -{
+> -    PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+> -    static GlobalProperty compat[] =3D {
+> -        PC_CPU_MODEL_IDS("0.13")
+> -        { TYPE_PCI_DEVICE, "command_serr_enable", "off" },
+> -        { "AC97", "use_broken_id", "1" },
+> -        { "virtio-9p-pci", "vectors", "0" },
+> -        { "VGA", "rombar", "0" },
+> -        { "vmware-svga", "rombar", "0" },
+> -    };
+> -
+> -    pc_i440fx_0_14_machine_options(m);
+> -    m->hw_version =3D "0.13";
+> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+> -    pcmc->kvmclock_enabled =3D false;
+> -}
+> -
+> -DEFINE_I440FX_MACHINE(v0_13, "pc-0.13", pc_compat_0_13,
+> -                      pc_i440fx_0_13_machine_options);
+> -
+> -static void pc_i440fx_0_12_machine_options(MachineClass *m)
+> -{
+> -    static GlobalProperty compat[] =3D {
+> -        PC_CPU_MODEL_IDS("0.12")
+> -        { "virtio-serial-pci", "max_ports", "1" },
+> -        { "virtio-serial-pci", "vectors", "0" },
+> -        { "usb-mouse", "serial", "1" },
+> -        { "usb-tablet", "serial", "1" },
+> -        { "usb-kbd", "serial", "1" },
+> -    };
+> -
+> -    pc_i440fx_0_13_machine_options(m);
+> -    m->hw_version =3D "0.12";
+> -    compat_props_add(m->compat_props, compat, G_N_ELEMENTS(compat));
+> -}
+> -
+> -DEFINE_I440FX_MACHINE(v0_12, "pc-0.12", pc_compat_0_13,
+> -                      pc_i440fx_0_12_machine_options);
+> -
+>   typedef struct {
+>       uint16_t gpu_device_id;
+>       uint16_t pch_device_id;
+> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> index e407cc085e..2850f9a520 100644
+> --- a/qemu-deprecated.texi
+> +++ b/qemu-deprecated.texi
+> @@ -261,7 +261,7 @@ The 'scsi-disk' device is deprecated. Users should us=
+e 'scsi-hd' or
+>  =20
+>   @section System emulator machines
+>  =20
+> -@subsection pc-0.12, pc-0.13, pc-0.14 and pc-0.15 (since 4.0)
+> +@subsection pc-1.0, pc-1.1, pc-1.2 and pc-1.3 (since 5.0)
+>  =20
+>   These machine types are very old and likely can not be used for live mi=
+gration
+>   from old QEMU versions anymore. A newer machine type should be used ins=
+tead.
+> diff --git a/tests/cpu-plug-test.c b/tests/cpu-plug-test.c
+> index 30e514bbfb..e8ffbbce4b 100644
+> --- a/tests/cpu-plug-test.c
+> +++ b/tests/cpu-plug-test.c
+> @@ -148,11 +148,7 @@ static void add_pc_test_case(const char *mname)
+>           (strcmp(mname, "pc-1.3") =3D=3D 0) ||
+>           (strcmp(mname, "pc-1.2") =3D=3D 0) ||
+>           (strcmp(mname, "pc-1.1") =3D=3D 0) ||
+> -        (strcmp(mname, "pc-1.0") =3D=3D 0) ||
+> -        (strcmp(mname, "pc-0.15") =3D=3D 0) ||
+> -        (strcmp(mname, "pc-0.14") =3D=3D 0) ||
+> -        (strcmp(mname, "pc-0.13") =3D=3D 0) ||
+> -        (strcmp(mname, "pc-0.12") =3D=3D 0)) {
+> +        (strcmp(mname, "pc-1.0") =3D=3D 0)) {
+>           path =3D g_strdup_printf("cpu-plug/%s/init/%ux%ux%u&maxcpus=3D%=
+u",
+>                                  mname, data->sockets, data->cores,
+>                                  data->threads, data->maxcpus);
+>=20
 
 
