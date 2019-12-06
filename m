@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8457311544C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:32:48 +0100 (CET)
-Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABE611545F
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:36:30 +0100 (CET)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFb5-0000sp-3D
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:32:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
+	id 1idFef-0005Ho-8S
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:36:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1idEak-0005xc-Qh
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:27 -0500
+ (envelope-from <thuth@redhat.com>) id 1idEeZ-00021b-3l
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1idEai-00077m-FD
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26326
+ (envelope-from <thuth@redhat.com>) id 1idEeY-0007yY-0W
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57116
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1idEai-0006za-8h
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:28:20 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1idEeX-0007th-Gp
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575642496;
+ s=mimecast20190719; t=1575642733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JdFKK2D/fl5jWJGqYyo+KYqGwUGNXkUYr1F7LSEI+FE=;
- b=dqf+Hsa3sq/ZyvyyJKFHcfVAk8LBQQgp7T+6Cj72kr1yg/sYCWqCUDB7stDGfZ64Xxc9v0
- EmXVgoPyAdjbHt6F1feGkFA574CXIULmlb0FtLUv/6DA5+cSt8ThJh8zbEoqqayK6/phEO
- 5+yQjO6lLJ4N/+Vh7bjKVnauY/b0lxk=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=dBw5Hht3i5NT1wbo3N9PvhLCY6shtHxMkjWxQHye7yo=;
+ b=G95pDsV+YzWC3XGuUyRRZdJ5vrqUC+atiiK+BcjLX0kFZCFJp9YF9DykpaqhAALk6ciqfR
+ NDJvIyiJIUUxjN0wwJVfJaHgNxfqBdD+YFr6/ZBghotabACmN/2MeQXH/FExaFz9pzaTug
+ KMxDh8Li4UeZrjw3Y4RmAIPRVP7RSPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-FJyFQC_9OKqGmLIkrIt-eA-1; Fri, 06 Dec 2019 03:26:28 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-178-XdwVLilgPDqvbmYjUaw09w-1; Fri, 06 Dec 2019 03:29:40 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA03F800D5A;
- Fri,  6 Dec 2019 08:26:27 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-134.ams2.redhat.com
- [10.36.116.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60C1E6014C;
- Fri,  6 Dec 2019 08:26:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C89421138606; Fri,  6 Dec 2019 09:26:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v6] hw/core/qdev: cleanup Error ** variables
-References: <20191127192025.21594-1-vsementsov@virtuozzo.com>
- <87a78fz045.fsf@dusky.pond.sub.org>
- <6d311ad1-528c-5787-64d0-779d6dcbadef@virtuozzo.com>
- <61df02c1-2be4-a2fc-e320-c88666b673fc@redhat.com>
-Date: Fri, 06 Dec 2019 09:26:22 +0100
-In-Reply-To: <61df02c1-2be4-a2fc-e320-c88666b673fc@redhat.com> (Eric Blake's
- message of "Thu, 5 Dec 2019 10:45:26 -0600")
-Message-ID: <8736dxn9ld.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A458EDB60
+ for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 08:29:39 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-138.ams2.redhat.com [10.36.117.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 673BE5DA60;
+ Fri,  6 Dec 2019 08:29:30 +0000 (UTC)
+Subject: Re: [PATCH 0/3] Remove deprecated pc-0.x machine types and related
+ hacks
+To: Markus Armbruster <armbru@redhat.com>
+References: <20191205160652.23493-1-thuth@redhat.com>
+ <874kyeosmg.fsf@dusky.pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <a25c0ae9-38cf-8a8f-730e-b618ad05bb7b@redhat.com>
+Date: Fri, 6 Dec 2019 09:29:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: FJyFQC_9OKqGmLIkrIt-eA-1
+In-Reply-To: <874kyeosmg.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: XdwVLilgPDqvbmYjUaw09w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -78,94 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
-
-> On 12/5/19 8:48 AM, Vladimir Sementsov-Ogievskiy wrote:
->
->>>> @@ -918,27 +917,26 @@ static void device_set_realized(Object *obj, boo=
-l value, Error **errp)
->>>>           }
->>>>           } else if (!value && dev->realized) {
->>>> -        Error **local_errp =3D NULL;
->>>> +        /* We want local_err to track only the first error */
->>>>            QLIST_FOREACH(bus, &dev->child_bus, sibling) {
->>>> -            local_errp =3D local_err ? NULL : &local_err;
->>>>                object_property_set_bool(OBJECT(bus), false, "realized"=
-,
->>>> -                                     local_errp);
->>>> +                                     local_err ? NULL : &local_err);
->>>>            }
->>>
->>> This is a rather unusual way to keep the first error of several.
->
-> It may be unusual, but has the benefit of avoiding error_propagate...
-
-Non-issue if the error_propagate() gets replaced by
-ERRP_AUTO_PROPAGATE(), isn't it?
-
->>> qapi/error.h advises:
->>>
->>>    * Receive and accumulate multiple errors (first one wins):
->>>    *     Error *err =3D NULL, *local_err =3D NULL;
->>>    *     foo(arg, &err);
->>>    *     bar(arg, &local_err);
->>>    *     error_propagate(&err, local_err);
->>>    *     if (err) {
->>>    *         handle the error...
->>>    *     }
+On 06/12/2019 07.49, Markus Armbruster wrote:
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> These have been on the deprecation list since a year now, so it's
+>> time to finally remove the pc-0.x machine types.
 >>
->> Hmm, honestly, I like more what I've written:
+>> We then can also remove some compatibility hacks in the devices, i.e.
+>> the "use_broken_id" in ac97 and "command_serr_enable" in PCI devices.
 >>
->> 1. less code
->> 2. logic is more clean: we store first error to local_err, and after fir=
-st error
->>      pass NULL as a parameter. No propagation or extra error variables.
->> 3. more efficient (no propagation, no extra allocation for errors which =
-we'll drop
->>      anyway) (I understand that efficiency of error path is not thing to=
- care about,
->>      so it's at third place)
->>
->> Also, propagation which you propose is also unusual thing (it proposed i=
-n comment,
->> but who reads it :). I've never seen it before, and I've to go and check=
- that
->> error_propagate works correctly when first argument is already set.
+>> Note that there is also the "rombar" property of the PCI devices which
+>> is now not required for the x86 machine types anymore. But it seems to
+>> me like this is still used by various people to bypass the ROM loading
+>> for PCI devices in certain cases, so I did not remove that property here
+>> yet.
+> 
+> With this series applied:
+> 
+> $ git-grep pc-0
+> hw/display/vga-pci.c:        /* compatibility with pc-0.13 and older */
+> hw/display/vga.c:    /* With pc-0.12 and below we map both the PCI BAR and the fixed VBE region,
+> hw/display/vmware_vga.c:        /* compatibility with pc-0.13 and older */
 
-When you think you can improve on the common, documented pattern, you're
-invited to update the documentation and the existing uses of the
-pattern.
+These are the "rombar" hacks that I've mentioned above. The question is
+whether we want to remove them or whether I should just adjust the comments?
 
-If everybody "improved" on common, documented patterns locally, the code
-would become needlessly hard to read for developers with experience in
-the pattern's area.
+> hw/i386/pc_piix.c:/* PC compat function
 
->> So, I'd prefer to keep now this patch as is, and to convert later if we =
-really need it.
+Right, the comment still needs to be adjusted.
 
-I want this to match the common, documented pattern.  Whether we make it
-match before or after your ERRP_AUTO_PROPAGATE() work doesn't matter to
-me.
-
->>> If replacing this by the usual way is too troublesome now, we can do it
->>> after the ERRP_AUTO_PROPAGATE() conversion.  Your choice.
->
-> ...and after conversion to use ERRP_AUTO_PROPATATE(), the use of
-> error_propagate() should NOT occur in any code _except_ for the macro
-> definition (any other use of the function points out a place where we
-> failed to use the macro to get rid of boilerplate).
-
-I figure we still need it in the (rare) cases where we want to ignore
-some of a function's errors, as we do in fit_load_fdt().  If that
-bothers us, we can try to find a solution that avoids the boilerplate.
+ Thomas
 
 
