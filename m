@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADC411530C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:23:56 +0100 (CET)
-Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798EA115214
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:11:50 +0100 (CET)
+Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEWR-0008Ti-5a
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1idEKj-00042L-0f
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:11:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55968)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1idEK6-00054T-0z
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:11 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idEHP-0002Fu-9V
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1idEK2-0003nM-TS
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:08 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:45303)
+ (envelope-from <peter.maydell@linaro.org>) id 1idEHJ-0000Q9-T3
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:23 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34003)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1idEK1-0003kU-Sd
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:06 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id r11so2791918pjp.12
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:11:04 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idEHJ-0000Ne-Mb
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:08:17 -0500
+Received: by mail-ot1-x344.google.com with SMTP id a15so5903013otf.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:08:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MDx6Qja8k9iO2iMZ0zkpjgmnKBJUVDGQqQpKdzNgrsA=;
- b=GaZy7Vt6EpQ6XIHqCbkAL9sm3S7kHuDBabX0nFt5pWlu7YWutuz/yLfelbXgDZaibe
- b7XWRPZD42XdhFzY4ivKnpIGfjH5Swsfh/VQo5Xuyq7G63ZxgSvR20Fqei2ceQ+CCO6s
- AHLxsgUO/7PpIJfZYaEGb+9MLhQg1WK/PENZLZhviQzShTaMP8BbQXGrp6VvjYjhhGKB
- lkF8LchqB6cmOtHBRq9xjW9HCpOTiyw5fvpPlCQgePnzMVyNPACUgOl8L55p/P7IiFpd
- EGprwE2I8k5K6yDtVK4pHskOqU62aHa23AqSOxwwvQz3JEMdMYEpkGSDEcXfhPuK/zH+
- SKsA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z4sjm9mq9FY1JBwtvKmdYT9ZZ3hKV67Tyf1BR1lTeOw=;
+ b=AJJM92Stp3S2lj/sjdyQGY67jSbm4ayYNuhm+4rMSqhS+SxxZ0jVZBd+msHmLexoOt
+ aCb+ZxRMrv7QDsxMWKNRjwQUvO38T7acJV9hrbLlqVCPnQJ1OWej+5QVtfYFWGfJRWEJ
+ 6LVkRgNX76UARx7ldyaLVcKW8Fndqx6MI46tBRF1v1IC7AW9v4TBVgJp/ppWUB9H/Soc
+ eqFugjPqzJuyI0uPwlRbWIQZDbuJDYf0mPoAKH/ij+wthkjaYHWL/PvyLPoHvc9wln0A
+ 7Rg76dLYORAX2AeWENSIp+Qntw7/U4voMoQhPyean5OjozqURNsvUwmU2ic3F8eW+uvF
+ qB5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MDx6Qja8k9iO2iMZ0zkpjgmnKBJUVDGQqQpKdzNgrsA=;
- b=j5vL5YxLTOIbSG+rfLsfovCvn5EKDPDc3UDZ1v6PdU8OA2e8O6+lnOPUfqPEumz/rm
- 2Le2DWxptnkva4roIJMPbQkL40U36LufAEGXdNz1vR9l86zsZCznMDmgIJ+nYmMfGar4
- cq1/Htr5Py8FBxEUwf0aD3QKFzeat13FhA7ES9E9HgZvxMSJUZRSopD+/lajymPEGqhv
- IGwc3aIffCVnOUwsWeCt+0TLb2lxzIRvaZWUDfhQK/PazrPv9+QtJsI3tx/LnAe/rxmH
- msdKuaPDnCJn7sAhCRZJCBXibQPWYrbKSUzfQF4EIOA0QzxcoBpTc2fCGMdIq+cxq5x1
- 41OA==
-X-Gm-Message-State: APjAAAXUZHO53/9awrP78aFolQBqWxPTz5rqYDEJgOqH5m465qwEz6II
- o3ALqEoz3UXKeF+Pbs0IZdo1og==
-X-Google-Smtp-Source: APXvYqz5uBL/kYalrP/SD9i7AucArhvaDvenhNXhCCuT6QJAsip91SEuOvpsgrbybp8nvRgpFDLvug==
-X-Received: by 2002:a17:90a:32af:: with SMTP id
- l44mr15782016pjb.48.1575641029588; 
- Fri, 06 Dec 2019 06:03:49 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id q3sm17495356pfc.114.2019.12.06.06.03.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 06:03:48 -0800 (PST)
-Subject: Re: [PATCH v5 21/22] target/arm: Add mmu indexes for tag memory
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191011134744.2477-1-richard.henderson@linaro.org>
- <20191011134744.2477-22-richard.henderson@linaro.org>
- <CAFEAcA8aJZRMFEpKaUN_W4U5LXoWvvzYUe0FQYwTd=RiFHeFEQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <454d686b-e453-256e-7008-a2c00ea64148@linaro.org>
-Date: Fri, 6 Dec 2019 06:03:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z4sjm9mq9FY1JBwtvKmdYT9ZZ3hKV67Tyf1BR1lTeOw=;
+ b=qFMt2us/ycPaVztyitF5UbA6APY0iiWW92Sjw4Q3dsP65pi7xV2svG2jUV1/az3jZJ
+ OWW/up71dnCGqtMmMZ88bPeRlg2p3vF+VyUHEXRLE0flifNgdH/keZ7HMY2IizJTGcsm
+ pheDk+VVTy/hoNFNS9OhlGC0WosiTD4FtrXQAfNiux8zDwZRYZbPfvh5G7shUVQcsXsJ
+ JiXIWyNRLke0589k1+T0hbBEI21lRZYGEJG+R/S/W3YTlEmPD/magwvteC2bkEqNGebd
+ zwHFmLjt4QYnc7OrtXRalTRd53LiM5sUe0ovRFiXh7AITUjngYA4h1EI9S/odnDhaOh/
+ 6LCA==
+X-Gm-Message-State: APjAAAXvWD7L5PAJEnwDn3OAduFJA1ltnmS0eWYs0mgjim2HKGAO1iqv
+ jfmaIl+b16GHLMz/Xz5rEfV4Jcx0amR3B24TFm8yvQ==
+X-Google-Smtp-Source: APXvYqzrntCeRcECAGynjuKrNAr6W6c2Hv0/aLo/VBA8L6c6DdqsRKy6xQLvd3B8HvJ18ed7kqpkT04yFIhqFwu9zqY=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr11191067otq.135.1575641296875; 
+ Fri, 06 Dec 2019 06:08:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8aJZRMFEpKaUN_W4U5LXoWvvzYUe0FQYwTd=RiFHeFEQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191201122018.25808-1-maz@kernel.org>
+ <20191201122018.25808-4-maz@kernel.org>
+In-Reply-To: <20191201122018.25808-4-maz@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 14:08:06 +0000
+Message-ID: <CAFEAcA_YGBXY4X5KYE_xny1bYtP1fKefT+VubmNYbe8TxdwBOw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] target/arm: Handle trapping to EL2 of AArch32 VMRS
+ instructions
+To: Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,49 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/19 3:46 AM, Peter Maydell wrote:
->> +    case ARMMMUIdx_TagS:
->> +    case ARMMMUIdx_TagNS:
->> +        /* Indicate tag memory to arm_asidx_from_attrs.  */
->> +        attrs->target_tlb_bit2 = true;
->> +        break;
-> 
-> So here we fall through to the "handle a stage 1 lookup" code, which:
->  * sets attrs->secure
->  * sets attrs->user (always false, so we could have left it alone)
->  * skips the FCSE handling (as we're v8)
->  * skips the PMSA handling
->  * hits the regime_translation_disabled() check, which fills in
->    *phys_ptr, *prot and *page_size and returns
+On Sun, 1 Dec 2019 at 12:20, Marc Zyngier <maz@kernel.org> wrote:
+>
+> HCR_EL2.TID3 requires that AArch32 reads of MVFR[012] are trapped to
+> EL2, and HCR_EL2.TID0 does the same for reads of FPSID.
+> In order to handle this, introduce a new TCG helper function that
+> checks for these control bits before executing the VMRC instruction.
+>
+> Tested with a hacked-up version of KVM/arm64 that sets the control
+> bits for 32bit guests.
+>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  target/arm/helper-a64.h        |  2 ++
+>  target/arm/translate-vfp.inc.c | 18 +++++++++++++++---
+>  target/arm/vfp_helper.c        | 29 +++++++++++++++++++++++++++++
+>  3 files changed, 46 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+> index a915c1247f..0af44dc814 100644
+> --- a/target/arm/helper-a64.h
+> +++ b/target/arm/helper-a64.h
+> @@ -102,3 +102,5 @@ DEF_HELPER_FLAGS_3(autda, TCG_CALL_NO_WG, i64, env, i64, i64)
+>  DEF_HELPER_FLAGS_3(autdb, TCG_CALL_NO_WG, i64, env, i64, i64)
+>  DEF_HELPER_FLAGS_2(xpaci, TCG_CALL_NO_RWG_SE, i64, env, i64)
+>  DEF_HELPER_FLAGS_2(xpacd, TCG_CALL_NO_RWG_SE, i64, env, i64)
+> +
+> +DEF_HELPER_3(check_hcr_el2_trap, void, env, i32, i32)
 
-Exactly.
+This has to be in helper.h, not helper-a64.h, otherwise
+the arm-softmmu target won't build. helper-a64.h is for
+helper functions which only exist in the aarch64 binary.
 
-> Maybe it would be clearer if this case here just did all of that:
-> 
->     case ARMMMUIdx_TagS:
->         attrs->secure = true;
->         /* fall through */
->     case ARMMMUIdx_TagNS:
->         /* Indicate tag memory to arm_asidx_from_attrs.  */
->         attrs->target_tlb_bit2 = true;
->         *phys_ptr = address;
->         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
->         *page_size = TARGET_PAGE_SIZE;
->         return 0;
-> 
-> Did I miss anything out?
-
-I think that's about it.  I thought about doing exactly this.
-
-Also, this is a better location if I ever do something about the TODO in tne
-next patch, wherein I talk about mapping not from physical address but from the
-normal ram's ramaddr_t, so as to
-cache that mapping step as well.
-
-
-r~
+thanks
+-- PMM
 
