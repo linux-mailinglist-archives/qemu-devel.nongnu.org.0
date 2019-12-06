@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E7E1156CB
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:53:52 +0100 (CET)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C431B11568E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:32:41 +0100 (CET)
+Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHnb-0005kr-8G
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46250)
+	id 1idHT6-0005hO-HD
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:32:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1idGsR-0001Cf-QP
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:54:49 -0500
+ (envelope-from <Aijaz.Baig@protonmail.com>) id 1idGtX-00020r-ID
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1idGsP-0000Kc-5f
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:54:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47912
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <Aijaz.Baig@protonmail.com>) id 1idGtV-0001wj-Vt
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:55 -0500
+Received: from mail-40134.protonmail.ch ([185.70.40.134]:37135)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1idGsN-0000GV-8Y
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:54:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575651278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4pImm1ynZ2qZS8i5s33WHcrlDe0qnvDmB3qze+RdLXY=;
- b=AgnOAs0bmTJ4n+b7i7eAet66nCxDePaNNtXFJtSvmnv/LXJM2NPRvPJF+tYiOLWMZ5fSgj
- 9nmjo7Tdzy/0MOKRkE0sOEp4bH9Ag6Bwm9zsA/LdI6BJlN4VNFfyYR8UpkOMcCz2AhotQu
- 4QmTsJovy/nJQe3uCHZVaehEt1FuhlU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-yorVxQj4OMi3xzt1s48m2A-1; Fri, 06 Dec 2019 11:54:35 -0500
-X-MC-Unique: yorVxQj4OMi3xzt1s48m2A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F87B1010FEF;
- Fri,  6 Dec 2019 16:54:34 +0000 (UTC)
-Received: from dhcp-17-72.bos.redhat.com (dhcp-17-72.bos.redhat.com
- [10.18.17.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ED7E6BF95;
- Fri,  6 Dec 2019 16:54:21 +0000 (UTC)
-Date: Fri, 6 Dec 2019 11:54:19 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 1/2] tests/acceptance: Add PVH boot test
-Message-ID: <20191206165419.GC23522@dhcp-17-72.bos.redhat.com>
-References: <20191206140012.15517-1-wainersm@redhat.com>
- <20191206140012.15517-2-wainersm@redhat.com>
+ (Exim 4.71) (envelope-from <Aijaz.Baig@protonmail.com>)
+ id 1idGtV-0001pi-NP
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 11:55:53 -0500
+Date: Fri, 06 Dec 2019 16:55:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=default; t=1575651344;
+ bh=iby5YWj6OLLkV5vQh5dReGxCJWT0cWX8vR1No6fOyXE=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:
+ Feedback-ID:From;
+ b=VV3V/F+dDWIBpQT8A/VyV4Y4ZC3t1XZzebY8goCMpWFV4q7WAHwTPJ6x7IgAw3yQt
+ fRxn1ZuyUCB9lPS6XH4bG9kNEdh0dPnPXcLQ7bGzglGAE580JiVS5pXj+j8ANYN3QU
+ AXAywCOZzUtJhWkMKAlBvC01hYs+mr4vR6LIBx50=
+To: =?UTF-8?Q?=27Daniel_P=2E_Berrang=C3=A9=27?= <berrange@redhat.com>
+From: Aijaz.Baig@protonmail.com
+Cc: qemu-devel@nongnu.org
+Subject: RE: Error compiling Qemu-4.1 on Linux
+Message-ID: <000101d5ac55$f8422620$e8c67260$@protonmail.com>
+In-Reply-To: <20191205143622.GB3080934@redhat.com>
+References: <003101d5ab71$8424dc40$8c6e94c0$@protonmail.com>
+ <20191205143622.GB3080934@redhat.com>
+Feedback-ID: uV088Vx4DnI5bE9OhCrN2z9v4XaPDWRvhVd_wxvMCaCwdybi5HTK8G-X2_UlIAM_J1SHtE1ybSTtLXuQ3x_qHQ==:Ext:ProtonMail
 MIME-Version: 1.0
-In-Reply-To: <20191206140012.15517-2-wainersm@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="R+My9LyyhiUvIEro"
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 185.70.40.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,152 +56,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- wrampazz@redhat.com, philmd@redhat.com, sgarzare@redhat.com
+Reply-To: Aijaz.Baig@protonmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---R+My9LyyhiUvIEro
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here is the content of config.log: https://pastebin.com/6zrSXWAG
 
-On Fri, Dec 06, 2019 at 09:00:11AM -0500, Wainer dos Santos Moschetta wrote=
-:
-> QEMU 4.0 onward is able to boot an uncompressed kernel
-> image by using the x86/HVM direct boot ABI. It needs
-> Linux >=3D 4.21 built with CONFIG_PVH=3Dy.
->=20
-> This introduces an acceptance test which checks an
-> uncompressed Linux kernel image boots properly.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/acceptance/pvh.py | 48 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
->  create mode 100644 tests/acceptance/pvh.py
->=20
-> diff --git a/tests/acceptance/pvh.py b/tests/acceptance/pvh.py
-> new file mode 100644
-> index 0000000000..c68489c273
-> --- /dev/null
-> +++ b/tests/acceptance/pvh.py
-> @@ -0,0 +1,48 @@
-> +# Copyright (c) 2019 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Wainer dos Santos Moschetta <wainersm@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +"""
-> +x86/HVM direct boot acceptance tests.
-> +"""
-> +
-> +from avocado.utils.kernel import KernelBuild
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +
-> +class Pvh(Test):
-> +    """
-> +    Test suite for x86/HVM direct boot feature.
-> +
-> +    :avocado: tags=3Dslow,arch=3Dx86_64,machine=3Dq35
-> +    """
-> +    def test_boot_vmlinux(self):
-> +        """
-> +        Boot uncompressed kernel image.
-> +        """
-> +        # QEMU can boot a vmlinux image for kernel >=3D 4.21 built
-> +        # with CONFIG_PVH=3Dy
-> +        kernel_version =3D '5.4.1'
-> +        kbuild =3D KernelBuild(kernel_version, work_dir=3Dself.workdir)
-> +        try:
-> +            kbuild.download()
-> +            kbuild.uncompress()
-> +            kbuild.configure(targets=3D['defconfig', 'kvmconfig'],
-> +                             extra_configs=3D['CONFIG_PVH=3Dy'])
+I am configuring it for 'arm-softmmu'  as can be seen from the above paste
 
-I'm aware of the reason why this uses APIs not fulfilled by
-tests/requirements.txt, but, for the general public reviewing/testing
-code with extra requirements, it's a good idea to bump the
-requirements to a version that fulfills the requirement, and comment
-out clearly on the temporary nature of the change (marking the patch).
+Keen to know,
+Aijaz Baig
 
-For instance, for this requirement, we could have:
+-----Original Message-----
+From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>=20
+Sent: Thursday, December 5, 2019 8:06 PM
+To: Aijaz.Baig@protonmail.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: Error compiling Qemu-4.1 on Linux
 
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index a2a587223a..5498d67bc1 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -1,4 +1,5 @@
- # Add Python module requirements, one per line, to be installed
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--avocado-framework=3D=3D72.0
-+# [REMOVE ME] use post 73.0 Avocado containing the new kernel build APIs
-+-e git+https://github.com/avocado-framework/avocado@d6fb24edcf847f09c312b5=
-5df3c674c64c79793e#egg=3Davocado_framework
 
-This will not only help people to test it, but should also make
-it work transparently on CI.
+On Thu, Dec 05, 2019 at 01:40:11PM +0000, Aijaz.Baig@protonmail.com wrote:
+> Hello
+>
+> I=E2=80=99m trying to compile Qemu from sources and as such face the well=
+=20
+> known errors of requiring Glib-2.4 and gthread-2.0
+>
+> ERROR: glib-2.40 gthread-2.0 is required to compile QEMU
+>
+> I=E2=80=99m on Linux Mint and I=E2=80=99ve installed libglib-2.0 from the=
+ repo
+>
+> AB1@piper11:~$ dpkg -l | grep -i libglib
+>
+> ii  libglib2.0-dev                        2.50.3-2+deb9u1                =
+   amd64        Development files for the GLib library
 
-> +            kbuild.build()
+This is the important one & looks fine.
 
-As stated in my response to the cover letter, I think we need to move
-this elsewhere.  The *very* minimum is to have this in a setUp()
-method, but we should strongly consider other solutions.
+> I am wondering what is it that I am missing. Kindly guide
 
-> +        except:
-> +            self.cancel("Unable to build vanilla kernel %s" % kernel_ver=
-sion)
-> +
-> +        self.vm.set_machine('q35')
-> +        self.vm.set_console()
-> +        kernel_command_line =3D 'printk.time=3D0 console=3DttyS0'
-> +        self.vm.add_args('-kernel', kbuild.vmlinux,
-> +                         '-append', kernel_command_line)
+Please paste the 'config.log' file after a failed configure, it often has m=
+ore debug info.
 
-And just for being thorough (and purist? idealistic? Utopian? :), if
-we stop and think about it, the following two lines are really what
-this test is all about.  Everything else should be the test's setup.
+Also, what env/args (if any) are you passing to configure
 
-I'm not arguing in favor of being radical and reject anything that is
-not perfect, but just reminding ourselves (myself very much included)
-of this general direction.
+Regards,
+Daniel
+--
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-Cheers,
-- Cleber.
 
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'Kernel command line: %s' %
-> +                                 kernel_command_line)
-> --=20
-> 2.21.0
->=20
-
---R+My9LyyhiUvIEro
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl3qh7kACgkQZX6NM6Xy
-CfNmWA//RxAM1nsl8ib03VnMUMvw5G0JE7D2gx5raelt/RpYizqOy/L6TmbCVBw1
-tKWURSVgXNlwMK/ooxrI9ssoXlgzk4wZT3aVaaXfLojV0pKYXhql9c6osrBb+Omi
-WRMxmtUBNXbG3GtKyvFj91Tx22CUZ3XarhHDVEkpAvJlxsnxR22vhVSCOxZ4jTjx
-LDF2LxAs+gH18etgyu9nB2+F4zpSjOTb/k84CoAXzgW94qWA9k/T2vRSl5F04s8X
-jGAt7hvFqz2nppSRmW2/m4jhD4O6E5j8xmyHm1PG7P+kB+EOGi6B8ypQlpLJbRKS
-n81TJAblHRAW5CdMLboSLPy10IUJHNn4g9G0BlrfusHf5Y0vbmKrprM9KW6EYKHC
-THRLGzZUCJrqAZWnRKK/QWw5VpyMT5YafkbDe53/9T140l06mABbVrpHSgPsaRQm
-piqs0+F9EZyP5lyYQ7qWsHdB21MtLfxsEi0QtvWxCxoKuGqF2iDX2+fxnlV8TxTd
-wFWOnJDL6w2HQtKWOCW3RWrRGQgWd1ySm7m+OZJxIEocYnw8XlmZ3LG+weEmAOXu
-nwmK3qRoIHr7fPNKU+l6ARGMk+oKdDyVQjq5i6K/UGXJqTRwNflWkZpiEc+Hp6hg
-ODDvz/CwUgTEGKQ3ax3hHBKWXGqvfX3slpzpzs2s4ReyTruyG+A=
-=gb6d
------END PGP SIGNATURE-----
-
---R+My9LyyhiUvIEro--
 
 
