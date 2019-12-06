@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425B3115399
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:48:50 +0100 (CET)
-Received: from localhost ([::1]:38900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627AC11533B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:36:02 +0100 (CET)
+Received: from localhost ([::1]:38668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEuW-0000Dc-JU
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:48:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59602)
+	id 1idEi7-0004Zy-CT
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51379)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1idEOL-0001T3-Lg
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:34 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idEMu-0007xx-9c
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1idEOK-0001Zc-DI
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:33 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46173
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idEOJ-0001Yh-Jx
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:15:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575641731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0ygww+v1oU+33ypIhc68siMy+/iwT5tY9NlCzUkIOiA=;
- b=A8aApw5nNVPodUplLF5mGvlNUrTv9FBQ+p9DE7UcJuaU2GuqLVLfVZA+07E3Rs8wKSvDjt
- g6tyRptEfuW2QTfnPWlPfoyb7pq+E8r795XGTKMu5WWqSm2COJB0AoHzCXQBshA2LlFvAj
- 7yKjsgGE27nHnsfOS/3Fr7KIJ2uE2o8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-DQjdipU1PaOFvZ-KIQj4Mg-1; Fri, 06 Dec 2019 09:00:18 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DEA2593AB;
- Fri,  6 Dec 2019 14:00:17 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A059E60FC1;
- Fri,  6 Dec 2019 14:00:16 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] tests/acceptance: Add PVH boot test
-Date: Fri,  6 Dec 2019 09:00:11 -0500
-Message-Id: <20191206140012.15517-2-wainersm@redhat.com>
-In-Reply-To: <20191206140012.15517-1-wainersm@redhat.com>
-References: <20191206140012.15517-1-wainersm@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1idEMn-0007V0-1U
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:01 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:39287)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idEMm-0007Sf-Nt
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:13:56 -0500
+Received: by mail-ot1-x342.google.com with SMTP id 77so5888615oty.6
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:13:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sAwG1RdahKAAnevB5fnXeo19T4BGa6gPTGH93hfaZww=;
+ b=h9/iFhzntozkFHkukFSX0Kb7aymZtALNeROIGrhqu81gy3LwYfJXHDuf/ymfvDMQGO
+ 4n8A6KNL8K5BPpH7zAfXi+cQFBZ+742OSQgY0XRPJtN4U00cf7rZx+Fbiwu5jlGBkBop
+ G+XSPmj3Qpaxft53Gl1nzArHbZ0SJBcHUzL1H8GTivixhYvkwbF6KAoRGqtqZfHxSeg9
+ CIRYpHWdBIW7oPJORN9r0+4bki2ouNTI/Zth2wlspsACJHF6MncT6SU9gdjppNAQpR/Z
+ 38g4aXS8ur2rshwALmHUug/adW2t9NMeccCYWIJkwShLvIu9A0KeTXMJopt1FyVMUETq
+ NoPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sAwG1RdahKAAnevB5fnXeo19T4BGa6gPTGH93hfaZww=;
+ b=YDkwbr6/dMFXDivitVS4n+LAWpJmJqZrwWOdsvK70obYrNEfVgl4sezpzROPzm5L0t
+ mTsgY/g4ilEtHfGws+M5gbMXk/BKl2mhOckI/dU+QbMkXQ5ytSISCccPVO1iL2soCKAU
+ T0cUX4kSodAISp09goUnIy+Qw8BWrtaQ3t8gIDH6Znzf+AxYKqE+ekpv+1uT3E9fWkIE
+ vIZS6e6BSdGcFohG4cgzyCgMF9r3gPd/G15s6rgEaIbWmoi4IuyXugwCP+3cLjT9Rdm4
+ +IH57lzjuBmfxil8FsH73GAYhtywCLYws6RHH5oO7VZM9wZdIaw2dC3gT8IeTZ5XZJTQ
+ FynQ==
+X-Gm-Message-State: APjAAAX/PMEaEUa1+v8AdbersU6A9sJacVJmW1Lh7mDwDNOIk7VKcBAi
+ 57eL3NxyCcBOZppnxDFl1RKV2a/OIsLcto5NzWMUQA==
+X-Google-Smtp-Source: APXvYqwbA0R++xciQcgbFLyRMhfm9S1jgLftXf41A9mZ+0k3+h0K0Uy1L8rc0QwiBBkE/CrvLtXGQIZimKsFmk631ZU=
+X-Received: by 2002:a9d:6745:: with SMTP id w5mr10591050otm.221.1575641635717; 
+ Fri, 06 Dec 2019 06:13:55 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: DQjdipU1PaOFvZ-KIQj4Mg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <20191201122018.25808-1-maz@kernel.org>
+In-Reply-To: <20191201122018.25808-1-maz@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 14:13:45 +0000
+Message-ID: <CAFEAcA_XWvO4yhJzEaTGatTfqqjZ9u3cTd=eo1xaPszwEYpPkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] target/arm: More EL2 trapping fixes
+To: Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,80 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, alex.bennee@linaro.org, wrampazz@redhat.com,
- crosa@redhat.com, philmd@redhat.com, sgarzare@redhat.com
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU 4.0 onward is able to boot an uncompressed kernel
-image by using the x86/HVM direct boot ABI. It needs
-Linux >=3D 4.21 built with CONFIG_PVH=3Dy.
+On Sun, 1 Dec 2019 at 12:20, Marc Zyngier <maz@kernel.org> wrote:
+>
+> Hi all,
+>
+> This series is a follow-up on [1], which tried to address the
+> remaining missing HCR_EL2.TIDx traps. I've hopefully now adressed the
+> comments that Peter and Edgar raised.
+>
+> I've also tried to tackle missing traps generated by HSTR_EL2, which
+> got completely ignored so far. Note that this results in the use of a
+> new TB bit, which I understand is a rare resource. I'd welcome
+> comments on how to handle it differently if at all possible.
+>
+> Finally, and as a bonus non-feature, I've added support for the
+> missing Jazelle registers, giving me the opportunity to allow trapping
+> of JIDR to EL2 using HCR_EL2.TID0. Yay, Christmas! ;-)
+>
+> I'm now going back to kernel stuff. I swear!
 
-This introduces an acceptance test which checks an
-uncompressed Linux kernel image boots properly.
+To save you from having to roll a v3, I've fixed up the
+handful of nits Richard and I found as I applied this
+series to target-arm.next.
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- tests/acceptance/pvh.py | 48 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 tests/acceptance/pvh.py
-
-diff --git a/tests/acceptance/pvh.py b/tests/acceptance/pvh.py
-new file mode 100644
-index 0000000000..c68489c273
---- /dev/null
-+++ b/tests/acceptance/pvh.py
-@@ -0,0 +1,48 @@
-+# Copyright (c) 2019 Red Hat, Inc.
-+#
-+# Author:
-+#  Wainer dos Santos Moschetta <wainersm@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+"""
-+x86/HVM direct boot acceptance tests.
-+"""
-+
-+from avocado.utils.kernel import KernelBuild
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+
-+
-+class Pvh(Test):
-+    """
-+    Test suite for x86/HVM direct boot feature.
-+
-+    :avocado: tags=3Dslow,arch=3Dx86_64,machine=3Dq35
-+    """
-+    def test_boot_vmlinux(self):
-+        """
-+        Boot uncompressed kernel image.
-+        """
-+        # QEMU can boot a vmlinux image for kernel >=3D 4.21 built
-+        # with CONFIG_PVH=3Dy
-+        kernel_version =3D '5.4.1'
-+        kbuild =3D KernelBuild(kernel_version, work_dir=3Dself.workdir)
-+        try:
-+            kbuild.download()
-+            kbuild.uncompress()
-+            kbuild.configure(targets=3D['defconfig', 'kvmconfig'],
-+                             extra_configs=3D['CONFIG_PVH=3Dy'])
-+            kbuild.build()
-+        except:
-+            self.cancel("Unable to build vanilla kernel %s" % kernel_versi=
-on)
-+
-+        self.vm.set_machine('q35')
-+        self.vm.set_console()
-+        kernel_command_line =3D 'printk.time=3D0 console=3DttyS0'
-+        self.vm.add_args('-kernel', kbuild.vmlinux,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Kernel command line: %s' %
-+                                 kernel_command_line)
---=20
-2.21.0
-
+thanks
+-- PMM
 
