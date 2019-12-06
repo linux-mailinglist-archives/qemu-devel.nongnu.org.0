@@ -2,86 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6E9114C1B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 06:42:39 +0100 (CET)
-Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EBA115316
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:27:00 +0100 (CET)
+Received: from localhost ([::1]:38430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1id6Ny-0005ct-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 00:42:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
+	id 1idEZO-0003dF-Ny
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:26:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1id6MZ-0004sh-Qp
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:41:13 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1idEKE-00056m-B3
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1id6MW-0003q2-J9
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:41:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45560
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1id6MW-0003oP-7R
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:41:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575610867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gpht+lNQ/9sd0vurxREQ/SXN5IoHArmzj8U2DlqYFwQ=;
- b=huCRkJiYktyuwmGTAu8vtekxMY39x2O87rn2CfjYcRtHrIUJ9kFICzm3dXqqIr8R0Vluxa
- DzmfHKKq7LrhkAZ0r1l1p2TgzREGsNwrQd9hQRztacl/OmEVV6+bk3naig1r12em8m6oV6
- QnYmdNEW8phWR3ddN6nBLHLobaljqtI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-yOID9HOgMnuQoTMp8ay8zg-1; Fri, 06 Dec 2019 00:41:05 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z10so2623384wrt.21
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 21:41:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ynFXsQw9qP5ebi87xd/vqFwV/WSAFxR6XBn2PF7Hcro=;
- b=CvasSaLl1HcttDPa3a7OIxmRZh4i/LRT1hKgzuL0lUfCwfgzl3t+Pa2hOxRodu6Ej/
- B07PlNrrQFQBd/F103D+8WMkIHRJFnboFu99jxp7jMM8ZbCmE1Slpi2Iwzi3L0JssTrC
- 3aCjJjCW4pRGGWlU+DTlS6hCcxlhXKLbe3Fc+h48vLnckZ0ZWCvT87SKtH00VeMEFeW6
- 0DSchF1OJJCCRk0yVY0KY6UD6VtrSAwL4vbxhAU/3bCuVx7EVmQKM0+skp94rWttUaJm
- mcCdO1E5rRTX5pZOyVemKTXaZg8FmzX7wQN+rvNqDnxs5Ue+dZ9zXf6W0FAcMFM+jXxS
- 84TQ==
-X-Gm-Message-State: APjAAAVoh7iEGOKeedrOeqkfdo5gB8ywwBmEz8VQ3sQpBFklFNWax+qg
- dZHLu+/5fU0Qs/sru1cefoGOF52N6aXQwIdB00GCaZEYSUf/VmkZzyMGAfbOfsRF+GGibDUL+bJ
- /pVtDv/nV7KxLknQ=
-X-Received: by 2002:a5d:4752:: with SMTP id o18mr13256961wrs.330.1575610864290; 
- Thu, 05 Dec 2019 21:41:04 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwYzVbgjPdmAFUah61rxW4s865p8KqOpNtWw7dRTWtNvb/OhzuQ1LfcZT7M1qWMPQUVnHlWTw==
-X-Received: by 2002:a5d:4752:: with SMTP id o18mr13256945wrs.330.1575610863950; 
- Thu, 05 Dec 2019 21:41:03 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id e16sm2149845wme.35.2019.12.05.21.41.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 21:41:03 -0800 (PST)
-Subject: Re: [PATCH 02/10] hw: arm: add Xunlong Orange Pi PC machine
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20191202210947.3603-1-nieklinnenbank@gmail.com>
- <20191202210947.3603-3-nieklinnenbank@gmail.com>
- <b14e5a75-ebe3-311e-60a8-3f71b0874a10@redhat.com>
- <CAPan3WohBP_47h1ZPP12ZuyiY43B3B6tGFMH-sK=LAAjMbwpaA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ce2125dd-004c-a5a2-81cf-b8aaae76444e@redhat.com>
-Date: Fri, 6 Dec 2019 06:41:02 +0100
+ (envelope-from <frankja@linux.ibm.com>) id 1idEK9-0003sT-9i
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:15 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23046)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
+ id 1idEK8-0003qs-Tw
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:13 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xB67bCFK126156
+ for <qemu-devel@nongnu.org>; Fri, 6 Dec 2019 02:44:59 -0500
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wq9mgqntq-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 02:44:59 -0500
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
+ Fri, 6 Dec 2019 07:44:56 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 6 Dec 2019 07:44:54 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xB67irah54132856
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 Dec 2019 07:44:53 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 603A3A404D;
+ Fri,  6 Dec 2019 07:44:53 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC9ADA4057;
+ Fri,  6 Dec 2019 07:44:52 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.185.65])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  6 Dec 2019 07:44:52 +0000 (GMT)
+Subject: Re: [PATCH v2 06/13] s390x: protvirt: KVM intercept changes
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-7-frankja@linux.ibm.com>
+ <20191205181532.46bee55c.cohuck@redhat.com>
+ <3cdbba69-c465-f2ce-d3e4-15e0b8d1218e@linux.ibm.com>
+ <20191205184637.4e6f4d23.cohuck@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Date: Fri, 6 Dec 2019 08:44:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAPan3WohBP_47h1ZPP12ZuyiY43B3B6tGFMH-sK=LAAjMbwpaA@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: yOID9HOgMnuQoTMp8ay8zg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20191205184637.4e6f4d23.cohuck@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="c0NYPognakdT0nz1N75LNgytLORUCsQ1V"
+X-TM-AS-GCONF: 00
+x-cbid: 19120607-0020-0000-0000-00000394B751
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19120607-0021-0000-0000-000021EBE8CA
+Message-Id: <bc5eb50d-1647-f40a-73b6-53be5445fd85@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-06_01:2019-12-04,2019-12-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 mlxscore=0 bulkscore=0 clxscore=1015 spamscore=0
+ impostorscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1912060066
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,294 +138,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: b.galvani@gmail.com, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/19 11:15 PM, Niek Linnenbank wrote:
-> Hello Philippe,
->=20
-> On Tue, Dec 3, 2019 at 10:18 AM Philippe Mathieu-Daud=C3=A9=20
-> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
->=20
->     On 12/2/19 10:09 PM, Niek Linnenbank wrote:
->      > The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
->      > based embedded computer with mainline support in both U-Boot
->      > and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
->      > 512MB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
->      > various other I/O. This commit add support for the Xunlong
->      > Orange Pi PC machine.
->      >
->      > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com
->     <mailto:nieklinnenbank@gmail.com>>
->      > ---
->      >=C2=A0 =C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-1 +
->      >=C2=A0 =C2=A0hw/arm/Makefile.objs |=C2=A0 2 +-
->      >=C2=A0 =C2=A0hw/arm/orangepi.c=C2=A0 =C2=A0 | 90
->     ++++++++++++++++++++++++++++++++++++++++++++
->      >=C2=A0 =C2=A03 files changed, 92 insertions(+), 1 deletion(-)
->      >=C2=A0 =C2=A0create mode 100644 hw/arm/orangepi.c
->      >
->      > diff --git a/MAINTAINERS b/MAINTAINERS
->      > index 29c9936037..42c913d6cb 100644
->      > --- a/MAINTAINERS
->      > +++ b/MAINTAINERS
->      > @@ -485,6 +485,7 @@ L: qemu-arm@nongnu.org
->     <mailto:qemu-arm@nongnu.org>
->      >=C2=A0 =C2=A0S: Maintained
->      >=C2=A0 =C2=A0F: hw/*/allwinner-h3*
->      >=C2=A0 =C2=A0F: include/hw/*/allwinner-h3*
->      > +F: hw/arm/orangepi.c
->      >
->      >=C2=A0 =C2=A0ARM PrimeCell and CMSDK devices
->      >=C2=A0 =C2=A0M: Peter Maydell <peter.maydell@linaro.org
->     <mailto:peter.maydell@linaro.org>>
->      > diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
->      > index 956e496052..8d5ea453d5 100644
->      > --- a/hw/arm/Makefile.objs
->      > +++ b/hw/arm/Makefile.objs
->      > @@ -34,7 +34,7 @@ obj-$(CONFIG_DIGIC) +=3D digic.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_OMAP) +=3D omap1.o omap2.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_STRONGARM) +=3D strongarm.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_ALLWINNER_A10) +=3D allwinner-a10.o cubie=
-board.o
->      > -obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o
->      > +obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o orangepi.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_RASPI) +=3D bcm2835_peripherals.o bcm2836=
-.o raspi.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_STM32F205_SOC) +=3D stm32f205_soc.o
->      >=C2=A0 =C2=A0obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx-zynqmp.o xlnx-=
-zcu102.o
->      > diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
->      > new file mode 100644
->      > index 0000000000..5ef2735f81
->      > --- /dev/null
->      > +++ b/hw/arm/orangepi.c
->      > @@ -0,0 +1,90 @@
->      > +/*
->      > + * Orange Pi emulation
->      > + *
->      > + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com
->     <mailto:nieklinnenbank@gmail.com>>
->      > + *
->      > + * This program is free software: you can redistribute it and/or
->     modify
->      > + * it under the terms of the GNU General Public License as
->     published by
->      > + * the Free Software Foundation, either version 2 of the License,=
- or
->      > + * (at your option) any later version.
->      > + *
->      > + * This program is distributed in the hope that it will be useful=
-,
->      > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->      > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See=
- the
->      > + * GNU General Public License for more details.
->      > + *
->      > + * You should have received a copy of the GNU General Public Lice=
-nse
->      > + * along with this program.=C2=A0 If not, see
->     <http://www.gnu.org/licenses/>.
->      > + */
->      > +
->      > +#include "qemu/osdep.h"
->      > +#include "exec/address-spaces.h"
->      > +#include "qapi/error.h"
->      > +#include "cpu.h"
->      > +#include "hw/sysbus.h"
->      > +#include "hw/boards.h"
->      > +#include "hw/qdev-properties.h"
->      > +#include "hw/arm/allwinner-h3.h"
->      > +
->      > +static struct arm_boot_info orangepi_binfo =3D {
->      > +=C2=A0 =C2=A0 .loader_start =3D AW_H3_SDRAM_BASE,
->      > +=C2=A0 =C2=A0 .board_id =3D -1,
->      > +};
->      > +
->      > +typedef struct OrangePiState {
->      > +=C2=A0 =C2=A0 AwH3State *h3;
->      > +=C2=A0 =C2=A0 MemoryRegion sdram;
->      > +} OrangePiState;
->      > +
->      > +static void orangepi_init(MachineState *machine)
->      > +{
->      > +=C2=A0 =C2=A0 OrangePiState *s =3D g_new(OrangePiState, 1);
->      > +=C2=A0 =C2=A0 Error *err =3D NULL;
->      > +
->=20
->     Here I'd add:
->=20
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcmp(machine->cpu_type,
->     ARM_CPU_TYPE_NAME("cortex-a7")) !=3D 0) {
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report("This board ca=
-n only be used with cortex-a7
->     CPU");
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(1);
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0}
->=20
-> Done!
->=20
->      > +=C2=A0 =C2=A0 s->h3 =3D AW_H3(object_new(TYPE_AW_H3));
->      > +
->      > +=C2=A0 =C2=A0 /* Setup timer properties */
->      > +=C2=A0 =C2=A0 object_property_set_int(OBJECT(&s->h3->timer), 3276=
-8,
->     "clk0-freq", &err);
->      > +=C2=A0 =C2=A0 if (err !=3D NULL) {
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_reportf_err(err, "Couldn't set =
-clk0 frequency: ");
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);
->      > +=C2=A0 =C2=A0 }
->      > +
->      > +=C2=A0 =C2=A0 object_property_set_int(OBJECT(&s->h3->timer), 2400=
-0000,
->     "clk1-freq",
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &err);
->      > +=C2=A0 =C2=A0 if (err !=3D NULL) {
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_reportf_err(err, "Couldn't set =
-clk1 frequency: ");
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);
->      > +=C2=A0 =C2=A0 }
->      > +
->      > +=C2=A0 =C2=A0 /* Mark H3 object realized */
->      > +=C2=A0 =C2=A0 object_property_set_bool(OBJECT(s->h3), true, "real=
-ized", &err);
->=20
->     I'm not sure if that's correct but I'd simply use &error_abort here.
->=20
-> Done, I applied it to all the functions and removed the err variable.
->=20
->      > +=C2=A0 =C2=A0 if (err !=3D NULL) {
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_reportf_err(err, "Couldn't real=
-ize Allwinner H3: ");
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);
->      > +=C2=A0 =C2=A0 }
->      > +
->      > +=C2=A0 =C2=A0 /* RAM */
->      > +=C2=A0 =C2=A0 memory_region_allocate_system_memory(&s->sdram, NUL=
-L,
->     "orangepi.ram",
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0machine->ram_size);
->=20
->     I'd only allow machine->ram_size =3D=3D 1 * GiB here, since the onboa=
-rd
->     DRAM
->     is not upgradable.
->=20
->=20
-> Agree, we should add something for that. Would it be acceptable if we=20
-> make the 1GB an upper limit?
-> I see that the Raspberry Pi is doing that too in hw/arm/raspi.c, like so:
->=20
->  =C2=A0 =C2=A0 if (machine->ram_size > 1 * GiB) {
->  =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report("Requested ram size is too larg=
-e for this machine: "
->  =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0"maximum is 1GB");
->  =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);
->  =C2=A0 =C2=A0 }
->=20
-> I think it would be helpful to allow the flexibility to the user of=20
-> reducing the RAM to less than 1GB,
-> in case resources of the host OS are limited. What do you think?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--c0NYPognakdT0nz1N75LNgytLORUCsQ1V
+Content-Type: multipart/mixed; boundary="Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905"
 
-Sure, good idea.
+--Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-FIY (in case you add more models) we recently noticed there is a problem=20
-when using 2GiB default on 32-bit hosts, so the workaround is to use <=3D=
-=20
-1GiB default.
+On 12/5/19 6:46 PM, Cornelia Huck wrote:
+> On Thu, 5 Dec 2019 18:34:32 +0100
+> Janosch Frank <frankja@linux.ibm.com> wrote:
+>=20
+>> On 12/5/19 6:15 PM, Cornelia Huck wrote:
+>>> On Fri, 29 Nov 2019 04:48:02 -0500
+>>> Janosch Frank <frankja@linux.ibm.com> wrote:
+>>>  =20
+>>>> Secure guests no longer intercept with code 4 for an instruction
+>>>> interception. Instead they have codes 104 and 108 for secure
+>>>> instruction interception and secure instruction notification
+>>>> respectively.
+>>>>
+>>>> The 104 mirrors the 4 interception.
+>>>>
+>>>> The 108 is a notification interception to let KVM and QEMU know that=
 
->      > +=C2=A0 =C2=A0 memory_region_add_subregion(get_system_memory(),
->     AW_H3_SDRAM_BASE,
->      > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &s->sdram);
->      > +
->      > +=C2=A0 =C2=A0 /* Load target kernel */
->      > +=C2=A0 =C2=A0 orangepi_binfo.ram_size =3D machine->ram_size;
->      > +=C2=A0 =C2=A0 orangepi_binfo.nb_cpus=C2=A0 =3D AW_H3_NUM_CPUS;
->      > +=C2=A0 =C2=A0 arm_load_kernel(ARM_CPU(first_cpu), machine, &orang=
-epi_binfo);
->      > +}
->      > +
->      > +static void orangepi_machine_init(MachineClass *mc)
->      > +{
->      > +=C2=A0 =C2=A0 mc->desc =3D "Orange Pi PC";
->      > +=C2=A0 =C2=A0 mc->init =3D orangepi_init;
->      > +=C2=A0 =C2=A0 mc->units_per_default_bus =3D 1;
->      > +=C2=A0 =C2=A0 mc->min_cpus =3D AW_H3_NUM_CPUS;
->      > +=C2=A0 =C2=A0 mc->max_cpus =3D AW_H3_NUM_CPUS;
->      > +=C2=A0 =C2=A0 mc->default_cpus =3D AW_H3_NUM_CPUS;
+>>>> something changed and we need to update tracking information or
+>>>> perform specific tasks. It's currently taken for the following
+>>>> instructions:
+>>>>
+>>>> * stpx (To inform about the changed prefix location)
+>>>> * sclp (On incorrect SCCB values, so we can inject a IRQ)
+>>>> * sigp (All but "stop and store status")
+>>>> * diag308 (Subcodes 0/1)
+>>>>
+>>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>>> ---
+>>>>  target/s390x/kvm.c | 6 ++++++
+>>>>  1 file changed, 6 insertions(+)
+>>>>
 >=20
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 mc->default_cpu_type =3D ARM_CPU_TYPE_NA=
-ME("cortex-a7");
->=20
->      > +=C2=A0 =C2=A0 mc->ignore_memory_transaction_failures =3D true;
->=20
->     You should not use this flag in new design. See the documentation in
->     include/hw/boards.h:
->=20
->      =C2=A0 * @ignore_memory_transaction_failures:
->      =C2=A0 *=C2=A0 =C2=A0 [...] New board models
->      =C2=A0 *=C2=A0 =C2=A0 should instead use "unimplemented-device" for =
-all memory
->     ranges where
->      =C2=A0 *=C2=A0 =C2=A0 the guest will attempt to probe for a device t=
-hat QEMU doesn't
->      =C2=A0 *=C2=A0 =C2=A0 implement and a stub device is required.
->=20
->     You already use the "unimplemented-device".
->=20
-> Thanks, I'm working on this now. I think that at least I'll need to add
-> all of the devices mentioned in the 4.1 Memory Mapping chapter of the=20
-> datasheet
-> as an unimplemented device. Previously I only added some that I thought=
-=20
-> were relevant.
->=20
-> I added all the missing devices as unimplemented and removed the=20
-> ignore_memory_transaction_failures flag
+>>>> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
+>>>>              (long)cs->kvm_run->psw_addr);
+>>>>      switch (icpt_code) {
+>>>>          case ICPT_INSTRUCTION:
+>>>> +        case ICPT_PV_INSTR:
+>>>> +        case ICPT_PV_INSTR_NOTIFICATION:
+>>>>              r =3D handle_instruction(cpu, run); =20
+>>>
+>>> I'm still a bit uneasy about going through the same path for both 104=
 
-I was going to say, "instead of adding *all* the devices regions you can=20
-add the likely bus decoding regions", probably:
+>>> and 108. How does the handler figure out whether it should emulate an=
 
-0x01c0.0000   128KiB   AMBA AXI
-0x01c2.0000   64KiB    AMBA APB
+>>> instruction, or just process a notification? Is it guaranteed that a
+>>> given instruction is always showing up as either a 104 or a 108, so
+>>> that the handler can check the pv state? =20
+>>
+>> diag 308 subcode 0/1 are 108, but all other subcodes are defined as a
+>> 104 (if they are an exit at all)...
+>=20
+> I think that's a reason to really split 108 from 4/104, or at least add=
 
-But too late.
+> an parameter...
 
-> from the machine. Now it seems Linux gets a data abort while probing the=
-=20
-> uart1 serial device at 0x01c28400,
+And still call the diag 308 handler or have separate handlers?
 
-Did you add the UART1 as UNIMP or 16550?
+>=20
+>>
+>>>
+>>> [Even if that works, it still feels a bit unclean to me.]
+>>>  =20
+>>>>              break;
+>>>>          case ICPT_PROGRAM: =20
+>>>
+>>>  =20
+>>
+>>
+>=20
 
-> so I'll need to debug it further. I'll post back when I have more results=
-.
->=20
-> Regards,
-> Niek
->=20
->      > +}
->      > +
->      > +DEFINE_MACHINE("orangepi", orangepi_machine_init)
->=20
->     Can you name it 'orangepi-pc'? So we can add other orangepi models.
->=20
->     Thanks,
->=20
->     Phil.
->=20
->=20
->=20
-> --=20
-> Niek Linnenbank
->=20
+
+
+--Ykz1KLWz8ci7i5AaPYVg4upmf7AwcE905--
+
+--c0NYPognakdT0nz1N75LNgytLORUCsQ1V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl3qBvQACgkQ41TmuOI4
+ufgMNg//d+bd7vdGBpWsOfUnPg+NLTA/rfwR09aklwsUPY8oFxAcFUIyKWo3U0df
+F/u3cXVNU6Sz4j2YnJtJtLUImGpg00BcxYjP2S8nC0n54TiepdQaIUE4t6hMWV+s
+BZjuaOCruRed5W8Z5U5/cKzBgHfVWUpFCFG1oVCJjddvI9jjE1qQYtL40TXH/MPF
+puHw/TqybC1g8FQdd2208ZiT7KPM1Q2z4/Cxr/kxpSl+qoxNEcxrr4Bhqbbgmq9t
+JTyDpDc7mj3DkO3uf2tzUl9MFF/t5WRNS0QgUyWkxERMnGr0fiYKicq9BXlcqKco
+Jcyvm9HcwI9UKe9v0F9E69ZT+hj7G7DhgQyKTIwHMvW64dP/OWW62teGCYkLPqHW
+7Bn9mW7BkF36UTlmj97tSDEBtna+CiyLpcSrGkn2/6FGNm+6NaklI43pPSrud+Zx
+QRRAwP/WTIUtOH6+MoZwb2HtrqEUbETR16KwlokbyKBThRBTJVzgzdv3GifMtxAr
+m+KQh9PohPdq3/eGr8REFXkZ0vTfSiONup+y52bb3p8t5Atfv3nLf3HW+KnMydbf
+HHilfg7xW5xybG82JEeRuxXde7ismwpWOwSsBg0yaOBGdG7fWhVy2tLDeLd+kE1S
+gVXhwG4kdFzmv1pZdVMGkVnvC8fgsygdfLjDNZSgngt7aQ5kyNs=
+=iwoP
+-----END PGP SIGNATURE-----
+
+--c0NYPognakdT0nz1N75LNgytLORUCsQ1V--
 
 
