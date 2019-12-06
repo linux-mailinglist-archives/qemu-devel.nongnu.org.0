@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADFB1153D8
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:05:29 +0100 (CET)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6D41153FD
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:12:59 +0100 (CET)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFAd-0003sX-SP
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:05:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44331)
+	id 1idFHt-0004f4-LI
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:12:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34601)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1idEXz-0003Ka-3H
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:32 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idEcs-0008Vp-6t
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1idEXx-0007tk-ID
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:30 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41008)
+ (envelope-from <peter.maydell@linaro.org>) id 1idEcf-0004f7-1R
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:25 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35631)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1idEXv-0007kd-DJ
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:25:29 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c9so7962982wrw.8
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:25:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Eea0WX9KA4AlsRKFxgjV5UrPcoF5uGNUHKNO/XsBxco=;
- b=qDdl5MLTb3bICzUm74XaO66YfYK/tNd55fR8VkobXyD2hqjhbeZiUbvemhLbr146zT
- AswpzEX8X3KWIbWdDU+BTzT66lF1WXHAUBikreEjt/r8N0hKaCKwgMB8BzZXAUqtwBHo
- dgiNy4WBGSPf0DtytUryAP487wgk30wEXYX4HfLp/V4a3uyYSGPIjXifmZfEEqbAmN56
- jcmlPudEDth4GtXISw4gXjpjJy2Ri0hglCUcMsKItQP5lpKcFSSEsmjWDZIL8rmvi8kD
- NikZpcPoJe6289ikhSgvF6OEqWE27/scFLv45rANoKoUgaZlywlgd2Hsc1fj7LYo185h
- nEUw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idEcd-0004ZB-Pd
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:30:20 -0500
+Received: by mail-oi1-x241.google.com with SMTP id k196so6344280oib.2
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/KspdGdP7K/PQayeS7xsmAbBYWAkYS2E0Qgcj0459Vs=;
+ b=uaNP43myR3QO1AmiVPPBkjqd4KBspi4jXhvSNCAJioBK5kI7Ae+8HLbmvClf6J535k
+ MWL7se3wahPAEJVWbocr12EjouLxmvNoWripQ0AtqGdlRLivKFx48YyUQhTSu4NQB6PI
+ thJS0zv3zAxCFJPwZ/fNob39AWR1NuUgodT3s79bOVFqZ13EXxXS5Yp9cWWKMjPfPNof
+ hMksAzP7DwAZhbJwxztSAO4o4GGLE9gXUb+oY+p4mTe2/dRYVUjpMmSznAsbVNZMbK4d
+ 8cJ2ZfKnh95M6Txaue3dtcM4mxaYmqAPAWtRJlbEPH//cjjwGgVp7Hh4MtV7QHrfCKgr
+ AcoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Eea0WX9KA4AlsRKFxgjV5UrPcoF5uGNUHKNO/XsBxco=;
- b=EaSyV3gGj0NcH/WVMTi0z57OXi1nOs3SJae4xz2IhoUtJ+2kgkXegqJXs1yr9N4i5+
- hK/mQYW9N2QL8fQbYGrsS0277v2ib07+8H3V9e68rOoy3BSff0jC62f+UcQkdQ+LJxz+
- VeOtVpArYImilAeJ4AbMKXUpWAwnUYrWWMYizVlBNIPVMTgv3en887sJe9+1B7ysJHzT
- C6VdMFLrjpc7antHmQAY2/O2Z4Ipu4kgiqOV4jrKNua114TzI9yAiE9LeWfJbQsDWPW5
- pd08u8Grszc+10uV9i4ZAcK01UHyczJKVFUQVP0kU3wkOfETAZwZZMrcZCK2dgq1Vpfd
- RWqA==
-X-Gm-Message-State: APjAAAWCVm81Glfc5YD76Sit9DoNqE4Hs61h/azMXU50debKIQkaVCa+
- n1ocuGG8ONTR5H1IwTkr5RcLRf0t
-X-Google-Smtp-Source: APXvYqzSFhAH00/dzvPmZlTlzNstSu3+1SFO4u2sbKBVCpPe29Uj1uK5ydI5XrU4uo8zbLOx7U2z8A==
-X-Received: by 2002:adf:f847:: with SMTP id d7mr15917933wrq.35.1575632197223; 
- Fri, 06 Dec 2019 03:36:37 -0800 (PST)
-Received: from donizetti.redhat.com (nat-pool-mxp-u.redhat.com.
- [149.6.153.187])
- by smtp.gmail.com with ESMTPSA id s65sm3181026wmf.48.2019.12.06.03.36.36
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2019 03:36:36 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] KVM fix for QEMU 4.2-rc
-Date: Fri,  6 Dec 2019 12:36:34 +0100
-Message-Id: <20191206113635.6570-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/KspdGdP7K/PQayeS7xsmAbBYWAkYS2E0Qgcj0459Vs=;
+ b=QYaor6id4xnbhhoi2XkG09CRizO9bBW7hY01XOK+CyHa6i9Tw72tj4PxG7ZcS0Be4b
+ LNKkTrACFwCpzVC+lVhOSTX9ovTmcmOSyNVKmZQPhfdaWTKZ8kcnPtqaw76VnImXenM7
+ fFq9wGnC+exYFUPskyavi1vgfO8Bl9lD1ONlzsuyg95eGfXycs58Jkx2Yf0k38iYc0/R
+ yJzVKNYbFIK0tPExNwdOfxAgjWHb47CWfmJ8LXt6PGJ2AJ+lRw+hGTjKs098WsVimbfn
+ hcUPQ7S7AoV9934qfXgYWq2W2vn/Y8x1LGsvvvLAs1dZMVWX1Spdbz73zbggoc0LH2L9
+ nNRA==
+X-Gm-Message-State: APjAAAW88EdwHgfqVNc9o5O0WQO1Hk41NYR1jhLkTd67mHNrguWP29Pb
+ N9Ri2C5+Z2zquOgMKDcUNtbEXgXfJWD3/uFSrPOZCZIe
+X-Google-Smtp-Source: APXvYqwytgOasFrYI/MMxN25mf9GzbOXCl5caSFO8OQuvyMwvIzsf64Dn5CIdIxFRLeLdR5IDQnjQThKy0NvWjs6IiI=
+X-Received: by 2002:a05:6808:996:: with SMTP id
+ a22mr11646289oic.146.1575639629936; 
+ Fri, 06 Dec 2019 05:40:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191206044134.259488-1-david@gibson.dropbear.id.au>
+ <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
+ <20191206102903.GM5031@umbus.fritz.box>
+ <CAFEAcA_j3VdVGgu8=vTPtmafEjX34OMKjyjdYuRkKNU=yAW7BA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_j3VdVGgu8=vTPtmafEjX34OMKjyjdYuRkKNU=yAW7BA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 13:40:19 +0000
+Message-ID: <CAFEAcA8Q9u=fXsBDqemur2EkbQYtepYu4qYpfi=ibKMFUmQjEA@mail.gmail.com>
+Subject: Re: [PULL 0/1] ppc-for-4.2 queue 20191206
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,31 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
+On Fri, 6 Dec 2019 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 6 Dec 2019 at 10:43, David Gibson <david@gibson.dropbear.id.au> wrote:
+> >
+> > On Fri, Dec 06, 2019 at 09:52:54AM +0000, Peter Maydell wrote:
+> > > On Fri, 6 Dec 2019 at 04:41, David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > >
+> > > > The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
+> > > >
+> > > >   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
+> > > >
+> > > > are available in the Git repository at:
+> > > >
+> > > >   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191206
+> > > >
+> > > > for you to fetch changes up to d887a8cfc083bcf3856f9f42352989f3624e0cae:
+> > > >
+> > > >   pseries: Update SLOF firmware image (2019-12-06 15:33:23 +1100)
+> > > >
+> > > > ----------------------------------------------------------------
+> > > > ppc patch queue 2019-12-06
+> > > >
+> > > > This is a last minute pull request for ppc-for-4.2.  I know it's very
+> > > > late in freeze, but this does fix a regression: a bad interaction
+> > > > between the new qemu and SLOF device tree construction code means that
+> > > > SLOF will crash if PCI to PCI bridges are included in the system.
+> > >
+> > > I really really really don't want to do an rc5. This would
+> > > have to be "everybody using ppc gets crashes" for me to
+> > > really want to put it in at this point...
+> >
+> > Yeah, alright.  I'll send it to Mike for a 4.2.1.
+>
+> Paolo says he has something that needs to go into rc5, so maybe
+> we can take this too. How confident are you that the change is
+> small and safe? It's a bit hard to tell with updates to
+> firmware binaries.
 
-  Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
+...I just read the commit message for the firmware blob update.
+That is way too many random changes to go into rc5. I'd have
+taken a firmware blob update that was just "one change, fixing
+this specific bug", but not one which has all that other stuff too.
 
-are available in the Git repository at:
-
-  git://github.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 2605188240f939fa9ae9353f53a0985620b34769:
-
-  target/i386: disable VMX features if nested=0 (2019-12-06 12:35:40 +0100)
-
-----------------------------------------------------------------
-* fix for x86 KVM on older kernels (Yang Zhong)
-
-----------------------------------------------------------------
-Yang Zhong (1):
-      target/i386: disable VMX features if nested=0
-
- target/i386/kvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
--- 
-2.21.0
-
+thanks
+-- PMM
 
