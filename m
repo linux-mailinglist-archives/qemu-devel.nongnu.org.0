@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D011157B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:22:34 +0100 (CET)
-Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3249115784
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 20:04:44 +0100 (CET)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idJBR-0000RG-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:22:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
+	id 1idIuA-0000du-5d
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 14:04:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idIme-0004oQ-46
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:56:57 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idIq1-0007OJ-T1
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:00:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idIma-0003vR-CS
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:56:54 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33326)
+ (envelope-from <peter.maydell@linaro.org>) id 1idIq0-0003ie-Pw
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:00:25 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42255)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idImY-0003rM-4y
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:56:50 -0500
-Received: by mail-oi1-x243.google.com with SMTP id v140so739569oie.0
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:56:48 -0800 (PST)
+ id 1idIq0-0003eb-Hy
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 14:00:24 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 66so6692592otd.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 11:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kP/5pFAvMzOxefCNQ8i8WMMJkY9cI7kD/o+Ikdz4W6E=;
- b=TkqWsMTMnEoLANY4iZCCglFADhC9L+qnnuS+rrS2w11asHefRYpHPHHWr9g1rtlXHM
- ca6gm9boIlAehvPd+zIJbdWNfYGdyWalEa6UlEvLkAfo+4//YWZJgkrcY5xBS+P/RFUT
- rbCZs5kPS53eSPdpmQVM16RSJpGkSSlrwZzVEEyX+nihn5zzU7q9Xw5PL4ycdbntLIIu
- veKA2RntrdBgaDhqrXAaZdxMQlJQTWqmZ6p/b3kY4w69AwrMalBxEdZdCzCMGZT8g6mo
- cdzJHNvu3iRJ62rF0a7dfzBKQdOfxIKzMfuhSa5BCCbEJvuZtV0X3oOYkXnR9RQffTKd
- c3VQ==
+ :cc; bh=OIlrXU6lyM9ZnlduZ/SWP+tiDufBK7vbrBlxSQqUrTk=;
+ b=h2Y0vJEc63BT0Po91AQpuJDG5ulaHPGqmE/pntZ9fYiVFO506SWycVfIc8wM7NCdSq
+ FAyNiVI/cce71FEt9iy/ulBOKL3x2KLP78XFFkD6i1TBdZsVScY9xrkrjSU3DMrzfn8L
+ 0UsHh2a16iR1ptMyLtZWehpAOOTlGbYB98TmSKh8awlSGFXyWs2T9j/4FfBBSuPcA6YW
+ 8D28o2BDuGnBQggI0/1EdPBYBn6w3/+HK0bnUIawzVNqR56ajrG27kbjJ7DTNZamdyug
+ Q+f3qeNE3dSagCrnWyATRFnp7MmzANJLN+tuAJverS9T8DfazcLBOaXNHTQ6x2trSjG1
+ OrEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kP/5pFAvMzOxefCNQ8i8WMMJkY9cI7kD/o+Ikdz4W6E=;
- b=rzLs97hgjxMAnbFqVATf6urSyoqhs1kLkzflqXq//4Pf+DXp0Tr/c6mVlPY5K2VfTs
- nCoHMqxwyx/nxSvNS8KR0XxkbN6YFAq9U0D0bxfMTuzpaT/aC8Nmf/rCvM8wuZPn4xMW
- kv/3+1Zn56oGfnVTDG7reZvxDPcuQaFfDMqOy3RhLIMsppuMyP7Fjlq8dr0h9DZvGfuL
- TENK/3fi+ZixKhXxy7bc5jhtcCvqg2k9t60ub+C3axEW0dbZVrQ/+3g8w0w2DToLVLK+
- xMvIRpN1qoGNZ0VqPDqzdcof4u0TmmZYiQSWP0dtyWrHkhbJuFP9c3jiilQg83siO019
- EVvA==
-X-Gm-Message-State: APjAAAXnXfzgyHk0DPFl6S23KoOxU6b1sW/J1QZSuSoRfLO/HXAHT+zV
- ObmhewiqMtGuGHi+Ex92wPl6VCws3jQWTXCS8RoCbUpD
-X-Google-Smtp-Source: APXvYqwAjl4OaPwI+E3cS1Dpd//mHckgQ0vWsafmE2R7VRZx81D1gPXhYxko5J4LL0tO3ITvheVfLEC79FpMh1g4DEE=
-X-Received: by 2002:aca:f5cc:: with SMTP id
- t195mr13901383oih.163.1575658607846; 
- Fri, 06 Dec 2019 10:56:47 -0800 (PST)
+ bh=OIlrXU6lyM9ZnlduZ/SWP+tiDufBK7vbrBlxSQqUrTk=;
+ b=VPkyA/4RY4lkRGhwI6VjGBV9SFmBkTEmjEAutGvgyAe0iPp2WVy2qmk2KW7rRdNqAb
+ 6+DT/H8fKDm9fyJe5JxaD6giVQHcg6yBQbp8eR45y2QZNihzOI+aV8zxhXMEuO6SUSGe
+ vMKiR6/MRZOJylTwu+nqF5sXTz3E1VCWJshGofcPJClrUbVOQr0Gy/GXb/0prfg6/GPF
+ a8XOKG+lOmc6XXVIImEM7A81h6YUznaW6eIV/VCD5cIxaaY8EOlMwwrP6SX38lGQPen4
+ zW0fqaIrdSZtt7tkOMDiniaeMZ3wWj2x4RJ/bTODQCBq2m9RcEV73R3eCkwItqg7XKuc
+ 74Vg==
+X-Gm-Message-State: APjAAAXkvySnGFxPufIS44Tc0K22eqyEWPnuyX/0yf2B0eTy0dDlRN+W
+ snJovn4hEVYpGoUuntJUJNc5kUfYc9+adLUq5S754Q==
+X-Google-Smtp-Source: APXvYqzz1/yABdt998ICfDzAZYBMOziW7jpF5xiDk9fPG67haOXC1IysRh8td6uHqUBExxV3BBC0ddasrG9KEB9FDZ0=
+X-Received: by 2002:a9d:6745:: with SMTP id w5mr11800037otm.221.1575658823641; 
+ Fri, 06 Dec 2019 11:00:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20191203225333.17055-1-richard.henderson@linaro.org>
- <20191203225333.17055-2-richard.henderson@linaro.org>
-In-Reply-To: <20191203225333.17055-2-richard.henderson@linaro.org>
+ <20191203225333.17055-3-richard.henderson@linaro.org>
+In-Reply-To: <20191203225333.17055-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 18:56:37 +0000
-Message-ID: <CAFEAcA_+kxDNv0nb6MRr6uhv7RuVN3=G6t0-_gvm5C_iNFQXuw@mail.gmail.com>
-Subject: Re: [PATCH 01/11] cputlb: Handle NB_MMU_MODES > TARGET_PAGE_BITS_MIN
+Date: Fri, 6 Dec 2019 19:00:12 +0000
+Message-ID: <CAFEAcA-R4Gb4x+uKDuezp62cpQcjeCrvZwhaFGBQTrBMEiZBbg@mail.gmail.com>
+Subject: Re: [PATCH 02/11] target/arm: Add arm_mmu_idx_is_stage1
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,19 +79,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 3 Dec 2019 at 22:53, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> In target/arm we will shortly have "too many" mmu_idx.
-> The current minimum barrier is caused by the way in which
-> tlb_flush_page_by_mmuidx is coded.
->
-> We can remove this limitation by allocating memory for
-> consumption by the worker.  Let us assume that this is
-> the unlikely case, as will be the case for the majority
-> of targets which have so far satisfied the BUILD_BUG_ON,
-> and only allocate memory when necessary.
+> Use a common predicate for querying stage1-ness.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/internals.h | 11 +++++++++++
+>  target/arm/helper.c    |  8 +++-----
+>  2 files changed, 14 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 49dac2a677..850f204f14 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1034,6 +1034,17 @@ static inline ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env)
+>  ARMMMUIdx arm_stage1_mmu_idx(CPUARMState *env);
+>  #endif
+>
+> +static inline bool arm_mmu_idx_is_stage1(ARMMMUIdx mmu_idx)
+> +{
+> +    switch (mmu_idx) {
+> +    case ARMMMUIdx_Stage1_E0:
+> +    case ARMMMUIdx_Stage1_E1:
+> +        return true;
+> +    default:
+> +        return false;
+> +    }
+> +}
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This definition of 'stage 1' doesn't match the architecture's,
+which has a lot more than 2 things that are stage1; eg whatever
+your renaming is calling S1E2, S1E3, etc are all stage 1.
+(That's why those names have 'S1' in them: they're stage 1
+translation stages.)
 
 thanks
 -- PMM
