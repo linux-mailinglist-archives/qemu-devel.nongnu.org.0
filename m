@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A79115202
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:08:38 +0100 (CET)
-Received: from localhost ([::1]:37814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADC411530C
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:23:56 +0100 (CET)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEHc-0001bM-F4
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:08:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48364)
+	id 1idEWR-0008Ti-5a
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:23:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1idEGC-0000oX-He
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:09 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1idEK6-00054T-0z
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1idEG9-0006gu-Si
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:06 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47889
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1idEG9-0006fV-Kj
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575641224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uL6xgSKpIW04lcKl/oQ5qUW1xPRml+iMeURzo8n7Duk=;
- b=bpXWIkXk9Sg2aiT/LYF/eNws+z1vt7cCJb7sXDsc3PDLMdlOmxZcm9OTylOXkeXTM6E41J
- BFFTsHYjHpL5W0iCWNUJBXSVHT+0cGel0T0zDr9HalvyVqizI760A79Thj3eDXYj9CKyVa
- fYipGMFH/AxbpB8DDPBItwi+Pxh1YUw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-_sgUj_zxOxivOOt7eiW6Uw-1; Fri, 06 Dec 2019 09:00:19 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 961C81856A6C;
- Fri,  6 Dec 2019 14:00:18 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0DD160FC1;
- Fri,  6 Dec 2019 14:00:17 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] .travis.yml: Add kernel build deps for acceptance tests
-Date: Fri,  6 Dec 2019 09:00:12 -0500
-Message-Id: <20191206140012.15517-3-wainersm@redhat.com>
-In-Reply-To: <20191206140012.15517-1-wainersm@redhat.com>
-References: <20191206140012.15517-1-wainersm@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1idEK2-0003nM-TS
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:08 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:45303)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1idEK1-0003kU-Sd
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:11:06 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id r11so2791918pjp.12
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:11:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MDx6Qja8k9iO2iMZ0zkpjgmnKBJUVDGQqQpKdzNgrsA=;
+ b=GaZy7Vt6EpQ6XIHqCbkAL9sm3S7kHuDBabX0nFt5pWlu7YWutuz/yLfelbXgDZaibe
+ b7XWRPZD42XdhFzY4ivKnpIGfjH5Swsfh/VQo5Xuyq7G63ZxgSvR20Fqei2ceQ+CCO6s
+ AHLxsgUO/7PpIJfZYaEGb+9MLhQg1WK/PENZLZhviQzShTaMP8BbQXGrp6VvjYjhhGKB
+ lkF8LchqB6cmOtHBRq9xjW9HCpOTiyw5fvpPlCQgePnzMVyNPACUgOl8L55p/P7IiFpd
+ EGprwE2I8k5K6yDtVK4pHskOqU62aHa23AqSOxwwvQz3JEMdMYEpkGSDEcXfhPuK/zH+
+ SKsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MDx6Qja8k9iO2iMZ0zkpjgmnKBJUVDGQqQpKdzNgrsA=;
+ b=j5vL5YxLTOIbSG+rfLsfovCvn5EKDPDc3UDZ1v6PdU8OA2e8O6+lnOPUfqPEumz/rm
+ 2Le2DWxptnkva4roIJMPbQkL40U36LufAEGXdNz1vR9l86zsZCznMDmgIJ+nYmMfGar4
+ cq1/Htr5Py8FBxEUwf0aD3QKFzeat13FhA7ES9E9HgZvxMSJUZRSopD+/lajymPEGqhv
+ IGwc3aIffCVnOUwsWeCt+0TLb2lxzIRvaZWUDfhQK/PazrPv9+QtJsI3tx/LnAe/rxmH
+ msdKuaPDnCJn7sAhCRZJCBXibQPWYrbKSUzfQF4EIOA0QzxcoBpTc2fCGMdIq+cxq5x1
+ 41OA==
+X-Gm-Message-State: APjAAAXUZHO53/9awrP78aFolQBqWxPTz5rqYDEJgOqH5m465qwEz6II
+ o3ALqEoz3UXKeF+Pbs0IZdo1og==
+X-Google-Smtp-Source: APXvYqz5uBL/kYalrP/SD9i7AucArhvaDvenhNXhCCuT6QJAsip91SEuOvpsgrbybp8nvRgpFDLvug==
+X-Received: by 2002:a17:90a:32af:: with SMTP id
+ l44mr15782016pjb.48.1575641029588; 
+ Fri, 06 Dec 2019 06:03:49 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id q3sm17495356pfc.114.2019.12.06.06.03.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Dec 2019 06:03:48 -0800 (PST)
+Subject: Re: [PATCH v5 21/22] target/arm: Add mmu indexes for tag memory
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-22-richard.henderson@linaro.org>
+ <CAFEAcA8aJZRMFEpKaUN_W4U5LXoWvvzYUe0FQYwTd=RiFHeFEQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <454d686b-e453-256e-7008-a2c00ea64148@linaro.org>
+Date: Fri, 6 Dec 2019 06:03:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: _sgUj_zxOxivOOt7eiW6Uw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+In-Reply-To: <CAFEAcA8aJZRMFEpKaUN_W4U5LXoWvvzYUe0FQYwTd=RiFHeFEQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, alex.bennee@linaro.org, wrampazz@redhat.com,
- crosa@redhat.com, philmd@redhat.com, sgarzare@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests/acceptance/pvh.py test builds the Linux kernel
-at runtime so it needs dependencies installed in the
-container. Current used container image misses only
-libelf-dev, which is then added with this change.
+On 12/6/19 3:46 AM, Peter Maydell wrote:
+>> +    case ARMMMUIdx_TagS:
+>> +    case ARMMMUIdx_TagNS:
+>> +        /* Indicate tag memory to arm_asidx_from_attrs.  */
+>> +        attrs->target_tlb_bit2 = true;
+>> +        break;
+> 
+> So here we fall through to the "handle a stage 1 lookup" code, which:
+>  * sets attrs->secure
+>  * sets attrs->user (always false, so we could have left it alone)
+>  * skips the FCSE handling (as we're v8)
+>  * skips the PMSA handling
+>  * hits the regime_translation_disabled() check, which fills in
+>    *phys_ptr, *prot and *page_size and returns
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- .travis.yml | 2 ++
- 1 file changed, 2 insertions(+)
+Exactly.
 
-diff --git a/.travis.yml b/.travis.yml
-index 445b0646c1..d8fe98eb63 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -277,6 +277,8 @@ matrix:
-             - python3.5-venv
-             - tesseract-ocr
-             - tesseract-ocr-eng
-+            # Additional kernel build dependencies
-+            - libelf-dev
-=20
-=20
-     # Using newer GCC with sanitizers
---=20
-2.21.0
+> Maybe it would be clearer if this case here just did all of that:
+> 
+>     case ARMMMUIdx_TagS:
+>         attrs->secure = true;
+>         /* fall through */
+>     case ARMMMUIdx_TagNS:
+>         /* Indicate tag memory to arm_asidx_from_attrs.  */
+>         attrs->target_tlb_bit2 = true;
+>         *phys_ptr = address;
+>         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+>         *page_size = TARGET_PAGE_SIZE;
+>         return 0;
+> 
+> Did I miss anything out?
 
+I think that's about it.  I thought about doing exactly this.
+
+Also, this is a better location if I ever do something about the TODO in tne
+next patch, wherein I talk about mapping not from physical address but from the
+normal ram's ramaddr_t, so as to
+cache that mapping step as well.
+
+
+r~
 
