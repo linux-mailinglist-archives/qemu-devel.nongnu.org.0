@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E9311550B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:21:56 +0100 (CET)
-Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6C0115535
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:25:56 +0100 (CET)
+Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGMd-00070K-AV
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:21:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
+	id 1idGQU-0003dl-ST
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:25:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52529)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1idExg-0006bO-CB
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:05 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1idF9J-000419-Qq
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1idExe-0003Fy-TK
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34463
+ (envelope-from <pbonzini@redhat.com>) id 1idF9I-0001mB-N2
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24014
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1idExe-0003EV-PE
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:02 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1idF9I-0001jJ-IR
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643922;
+ s=mimecast20190719; t=1575644642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nBid/zYBzZZU2LQ5CgJZpPKteEOudWCDEageNwftzcs=;
- b=EU2GvkQgExx+U1dJtlKTXbxBwr+kqNaTPsxPCJgAV3t1gj5R4wqflgifoHqPXRQt3zJses
- rdvBDWu5ibwn+E9xYusVdAJR0TSlWkSK82pnJXoyrNfWutGyvPzqBG7D5LtbW1penqadQd
- CjSA/vQQ+SR5axUk/spLZ0J1uUmMb64=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-9wnGehJBOCKgrWDPjekNJg-1; Fri, 06 Dec 2019 04:49:57 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A93A1005502;
- Fri,  6 Dec 2019 09:49:56 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.43.2.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3831667E52;
- Fri,  6 Dec 2019 09:49:49 +0000 (UTC)
-Date: Fri, 6 Dec 2019 10:49:47 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [libvirt] Offline manipulation of Dirty Bitmaps by qemu-img
-Message-ID: <20191206094947.GD2441258@angien.pipo.sk>
-References: <4a9e19d1-fe87-e3f5-8faf-18127914b7b4@redhat.com>
+ bh=xu6TG8bRrU5Xm9Ytckrjk+EDTC9su5c/kXa41oBjr74=;
+ b=W2m6DHl5qFI2MxcdCO2XcpdqW372MBmJr5NP+D2KFcF0lb+wVCeNSXK6o3kvB0XYrxMxdU
+ kG10aCPHm7eLDJ+xZOt6IbABpFAy3ehYFdOlST4wcFQGdYSIiLv+uOFLMNm5UPwUn8Ctr1
+ sNEBBe2FTxjJmoOjM2arGp7hp1sd4QA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-lZKRn4FzNN6_dJSodWBWZw-1; Fri, 06 Dec 2019 05:02:50 -0500
+Received: by mail-wr1-f72.google.com with SMTP id z15so2954619wrw.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 02:02:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xu6TG8bRrU5Xm9Ytckrjk+EDTC9su5c/kXa41oBjr74=;
+ b=AdL72oTgeQKQvJRrGra6Y/ZaPLEFJiwccQ/j7Xra+W/3qRDmylB3G6pNVACtHgW/Pn
+ 9d11fUZeqvvpsffktVK2tKRyYuHP75jSpWTiBt0uN1MqfzHOwOYilsl8wcMRVklFltBY
+ 7KzR/uzIM7i0JbC9bAXkI3DCPnxN88XYrJWuoeK8zecn1J8OBtJRhCX5lTVi7O1n2GI8
+ F5HKrv5ZEBkwDUsAuC43Ba8d+LI6AV8/Zr/dJT6ptI9vK6SR+bPq+k285YJDOfQHejWb
+ J2j4pVoStqdnxMk0tUU47GYtYMroAEVmeJLYJEQKMneV2Gfyt81QtXN7Y7u9YfHR7ili
+ Jcfw==
+X-Gm-Message-State: APjAAAVd32z0GDojVcOUR2tN0u1/vU7ivRcIXozNvr7nOMt9thnOAncI
+ 7Sm4o6RitJuNtbF4DwRHcrD3dwTulUJZbvMXfzF1B8evPyg68TSoT1R71fWqvpZDTIeQPvLWrbW
+ hU9tFmdgdsJo4K4I=
+X-Received: by 2002:adf:f885:: with SMTP id u5mr15133452wrp.359.1575626569065; 
+ Fri, 06 Dec 2019 02:02:49 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxfjqlBWsnmhtM1edPSxVAKWQK0D6tSoo2KGI386CB0kQXwuZ4cz4Afi10Rfj9JZOMJc4hPaQ==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr15133431wrp.359.1575626568850; 
+ Fri, 06 Dec 2019 02:02:48 -0800 (PST)
+Received: from [10.201.49.168] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
+ by smtp.gmail.com with ESMTPSA id q6sm16604130wrx.72.2019.12.06.02.02.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Dec 2019 02:02:48 -0800 (PST)
+Subject: Re: [PATCH] target/i386: disable VMX features if nested=0
+To: Yang Zhong <yang.zhong@intel.com>
+References: <20191206071111.12128-1-yang.zhong@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5e9a669a-f81d-fbfb-4486-246949dc48c6@redhat.com>
+Date: Fri, 6 Dec 2019 11:02:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <4a9e19d1-fe87-e3f5-8faf-18127914b7b4@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 9wnGehJBOCKgrWDPjekNJg-1
+In-Reply-To: <20191206071111.12128-1-yang.zhong@intel.com>
+Content-Language: en-US
+X-MC-Unique: lZKRn4FzNN6_dJSodWBWZw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,102 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- libvirt-list@redhat.com, Nir Soffer <nsoffer@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 05, 2019 at 17:37:11 -0500, John Snow wrote:
-> This has come up in the past, and I believe we discussed this at KVM
-> Forum, too:
->=20
-> There have been requests from oVirt (via Nir Soffer) to add some offline
-> bitmap manipulation functionality. In the past, our stance has generally
-> been "Use QEMU without an accelerator, and use QMP to manipulate the
-> images."
+On 06/12/19 08:11, Yang Zhong wrote:
+> If kvm does not support VMX feature by nested=0, the kvm_vmx_basic
+> can't get the right value from MSR_IA32_VMX_BASIC register, which
+> make qemu coredump when qemu do KVM_SET_MSRS.
+> 
+> The coredump info:
+> error: failed to set MSR 0x480 to 0x0
+> kvm_put_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
+> 
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  target/i386/kvm.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index bf1655645b..e8841dcdb9 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -2572,6 +2572,14 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+>      uint64_t kvm_vmx_basic =
+>          kvm_arch_get_supported_msr_feature(kvm_state,
+>                                             MSR_IA32_VMX_BASIC);
+> +    if (!kvm_vmx_basic) {
+> +        /* If the kernel does't support VMX feature(nested=0 in kvm)
+> +         * and kvm_vmx_basic will be 0. This will set 0 value to
+> +         * MSR_IA32_VMX_BASIC MSR.
+> +         */
+> +        return;
+> +    }
+> +
+>      uint64_t kvm_vmx_misc =
+>          kvm_arch_get_supported_msr_feature(kvm_state,
+>                                             MSR_IA32_VMX_MISC);
+> 
 
-This is a thing I wanted to do for a long time but never had time for.
-I'm not sure whether that will change though.
+Queued, thanks.
 
-We have a workaround for this tough: you can start the VM with CPUs
-stopped:
-
-virsh start --pause $VMNAME=20
-
-(That translates to VIR_DOMAIN_START_PAUSED flag for
-virDomainCreateWithFlags).
-
-You can then use any libvirt API which requires a running VM including
-blockjobs checkpoints etc.
-
-The VM then can be destroyed. Since the CPUs didn't run the guest
-visible image content was nott modified.
-
-Alternatively to make this slightly more official we could introduce a
-new flag for the VM starting API which will actually start the VM in the
-no-machine mode, will interlock certain operations such as resuming of
-the execution or migration perhaps  and the official purpose will be to
-allow complex blockjobs without starting the actual VM.
-
-Since starting an actual VM will be impossible anyways until such a VM
-is gone it might be a sane thing to do here.
-
-> We like this for a few reasons:
->=20
-> 1. It keeps bitmap management code tightly centralized
-> 2. It allows for the full suite of bitmap manipulations in either
-> offline or online mode with one tool
-> 3. We wouldn't have to write new code.
-> 4. Or design new CLIs and duplicate our existing work.
-> 5. Or write even more tests.
-
-In libvirt we'd like to use it because qemu-img has no reasonable
-progress reporting and we could reuse the code we have for interacting
-with the jobs when the VM is running.
-
-> However, tools like oVirt may or may not be fully equipped to launch
-> QEMU in this context, and there is always a desire for qemu-img to be
-> able to "do more", so existing management suites could extend
-> functionality more easily.
->
-> (Or so I am imagining.)
->=20
-> I am still leaning heavily against adding any more CLI commands or
-> options to qemu-img right now. Even if we do add some of the fundamental
-> ones like "add" or "remove", it seems only a matter of time before we
-> have to add "clear", "merge", etc. Is this just a race to code duplicatio=
-n?
->=20
-> On the other hand, one of the other suggestions is to have qemu-img
-> check --repair optionally delete corrupted bitmaps. I kind of like this
-> idea: it's a buyer beware operation that might make management layers
-> unhappy, but then again ... repair is always something that could make
-> things worse.
-
-Well, dealing with corrupted bitmaps will be possible. I plan to expose
-in the checkpoint XML whether a ckeckpoint is invalid (if it contains at
-least one corrupted bitmap) and the user will have the option to delete
-all previous checkpoints including the corrupted one to clear any
-problem.
-
-Note that deleting only the corrupted checkpoint will not be possible
-until it's the oldest one as we attempt to merge them into the previous
-ones. We could alternatively add a flag to skip merging of the invalid
-checkpoint.
-
-> Plus, if you manage to corrupt bitmaps badly enough that they can't even
-> be parsed, you might need a heavyweight repair operation.
->=20
-> Nir, do you think that'd be sufficient for your needs for now, or would
-> you still like to see more granular offline management?
->=20
-> --js
->=20
-> --
-> libvir-list mailing list
-> libvir-list@redhat.com
-> https://www.redhat.com/mailman/listinfo/libvir-list
+Paolo
 
 
