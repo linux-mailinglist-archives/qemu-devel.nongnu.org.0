@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D11115775
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:55:29 +0100 (CET)
-Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90E211577B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:58:12 +0100 (CET)
+Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idIlE-0002hd-6v
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:55:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57229)
+	id 1idInr-0005b4-VN
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:58:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60141)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1idHyy-000409-4s
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:05:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idICk-0001rO-Cr
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1idHyw-0005zL-Qx
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:05:35 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39315)
+ (envelope-from <peter.maydell@linaro.org>) id 1idICj-0004YD-5Q
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:50 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44320)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1idHyw-0005sQ-GN
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:05:34 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 2so3712661pfx.6
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:05:34 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1idICi-0004U7-PS
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:49 -0500
+Received: by mail-ot1-x341.google.com with SMTP id x3so6550554oto.11
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:19:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=u+zfmB+GQiFMKMGY09la3VUx4ibV3jw6mD5lvbjuXQg=;
- b=pQy42ixrgcbTTghLZhbnSpKP9/BYUr2xSybxPi0r4Ff7d/w3IU1bu+JYyTpaBmZXu/
- krBsQ6WBA8aMjoeqQmPTD9fUulf+VQyh0/H7SJv2AeyC1eJpHxO21owJ/nGP1Tvorvej
- CnV2ofQYElLErqPKGyCjMOh5fsqULmOp0amGsJNXs3GwiMD3mngECe63znxa79dRr3Ju
- OXdt2wiUzSskEHAauIWgZqcwNOHuiUH/zlfIPuPCPCOOo1myazVygHb06Vp1QHW7tSpf
- yfpe/1uWEqALpaM1y5RyK53HJ73Sfyz1T8Y5L7MyPh8HLbimQo7v+wbbIivqRCgcVo7W
- 1MDg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=a7iFGDNmOYAA9dOYKmbmOnb4PW7CEEq6Dh2sdZNZyq8=;
+ b=zrtWG3afJHMHSaf06bbhFWsks46pJZlyyNvGSYPWO5obAZV2k28x5n33G+2epvzPz3
+ JoqDbKmF3dl8EeQabQjPZCgd7IO1hEWqvUuIKoJZZ3rS1JAFHkUB/4Rf0caX0tL10W/y
+ CqoZf9yy59QzTsfRsUGWzS0tX1WiRGstGMJo+hRrKABTfcwrLzKFUCUC9L0GzOy5XQsN
+ kH8yrb97ay5M+3pKF+ZXvrsgcsJgRnda7Kc2Is/1uV2dt2m8JR4XFfCbWBeIrWkfWfSD
+ UXPd7eNXa/QR8guKtxW2DQl9BrGWeXHv4mV07KERC5MFDwWE7DDmeBUTi/ZuxLCrGPcW
+ dRWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u+zfmB+GQiFMKMGY09la3VUx4ibV3jw6mD5lvbjuXQg=;
- b=tkDl9frkoYCaL2sdRSZbCmU/rwMdC7mBO971B7HXIJET03ZU4W9SyUb8dxJ3v0iDDk
- b+ZU4Wn3MeTcmcr+mVMEFkL0xXBfCy/D9Kseem3x6YdQHMlgDRnEcCaO0w1+stdieKsU
- peDd3HepNuy6UQpT5ChloS0z7fTqigrknOVBF4PN1B3l1jwrBA1BcQAVEppHl9BOydb1
- SQytovZGFcpuxFOUB6p0zDs837dEE7gE01Ue23tc99Ll13lx4yqUOdw9oNBQufwC3uMx
- vJM+DelsuuOjpA+1pBf+P89eMUJErf9u8p/67OAFUNwU0ye7zkyJT5HX/rUaBPNQdQlG
- 7o4Q==
-X-Gm-Message-State: APjAAAVw962+7EhfThx+3IOTYk9A+PsMrTW9AXfrvQze7zF4JfZvj14L
- ACyZwcP8ANN1Hh95sr1+JQ568g==
-X-Google-Smtp-Source: APXvYqyGf4tBlIITWx73yW9pm5VBNd0Vyrid4QjvSmyWtpEkjMY7i/NncfTepkVqyTtlEFuhLDWfSA==
-X-Received: by 2002:a62:7986:: with SMTP id
- u128mr16433604pfc.192.1575655532959; 
- Fri, 06 Dec 2019 10:05:32 -0800 (PST)
-Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
- by smtp.gmail.com with ESMTPSA id m7sm17710785pfb.153.2019.12.06.10.05.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2019 10:05:32 -0800 (PST)
-Subject: Re: [PATCH v4 09/40] target/arm: Rename ARMMMUIdx_S2NS to
- ARMMMUIdx_Stage2
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-10-richard.henderson@linaro.org>
- <CAFEAcA-2mpUSjwnkAJGdwHX5P0xvF_eZyVLt9xPv57330Qu3dg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8bafc341-7560-14c5-3534-cb299c5b9428@linaro.org>
-Date: Fri, 6 Dec 2019 10:05:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=a7iFGDNmOYAA9dOYKmbmOnb4PW7CEEq6Dh2sdZNZyq8=;
+ b=VDtSM2asr4ETZkFCf3g/dx5X1rLOJa7e1HP4ZeCM0ZDo0Kfj0rIvtULmsKZjSn01VO
+ af5SJn537kiOtAEhGGUgAZBNKnwCjmbHtfqju8cayAM5NpIcGlRM+NK2KzapRl7UwzQ7
+ KUvfgcg8wcz5k8agaifsgpCRhpC9pZTNj/dFBZWbQzxDOrrj2KdEEtWfwgyssyytsj+t
+ /LVyGzvpjoN2NJJjaTkYyOrdBgicxY8yT72YiAfIas+Q1d1m4Yw5qoNFD5JMrcQeeubR
+ sE7N/3AMaecRxnMjp9R5H91ySA1GYmF/ITr/gUNWKy3BxcmM0etVcym69CCCqDSiAbyc
+ Czhg==
+X-Gm-Message-State: APjAAAV97s5+4JFi3Q16tx3QSBAgA7RRx4oaameTpsukP7k6VeU3n1g1
+ OkI5qKMSDylWqKd9Fk3zRpdxcjh9aAzwnP8mQUocvw==
+X-Google-Smtp-Source: APXvYqzD2UhV+ya4YFfliucZgWOBfspVNE6QI9eWrQOTAkm2YblPZ17yIsEkCb8mNc4aXcNBCRd+Fz2oYyGoVS+Bq4Y=
+X-Received: by 2002:a9d:6745:: with SMTP id w5mr11630115otm.221.1575656387810; 
+ Fri, 06 Dec 2019 10:19:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-2mpUSjwnkAJGdwHX5P0xvF_eZyVLt9xPv57330Qu3dg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20191203234244.9124-1-richard.henderson@linaro.org>
+ <20191203234244.9124-2-richard.henderson@linaro.org>
+In-Reply-To: <20191203234244.9124-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Dec 2019 18:19:36 +0000
+Message-ID: <CAFEAcA9wOmOdddzr+5RfBsTJ+nHF4bqTVs0C1Uj228f28U_SMA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/arm: Add ID_AA64MMFR2_EL1
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,27 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/19 7:46 AM, Peter Maydell wrote:
-> On Tue, 3 Dec 2019 at 02:29, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> The EL1&0 regime is the only one that uses 2-stage translation.
-> 
-> ...now what happens when we support secure EL2 and we need a
-> secure stage 2 MMUIdx ?
+On Tue, 3 Dec 2019 at 23:42, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Add definitions for all of the fields, up to ARMv8.5.
+> Convert the existing RESERVED register to a full register.
+> Query KVM for the value of the register for the host.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h    | 17 +++++++++++++++++
+>  target/arm/helper.c |  4 ++--
+>  target/arm/kvm64.c  |  2 ++
+>  3 files changed, 21 insertions(+), 2 deletions(-)
 
-ARMMMUIdx_SStage2?
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index 876184b8fe..482e7fdfbb 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -549,6 +549,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+>                                ARM64_SYS_REG(3, 0, 0, 7, 0));
+>          err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr1,
+>                                ARM64_SYS_REG(3, 0, 0, 7, 1));
+> +        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
+> +                              ARM64_SYS_REG(3, 0, 0, 7, 2));
 
-Or probably some other massive rearrangement, because SecEL2 looks as if it
-might need 4 new mmu_idx (secure el2&0-el0, secure el2&0-el2, secure
-el2&0-el2-pan, secure stage2), which would put the total at 18, which overflows
-the current limit of 16.
+Do current KVM kernels definitely handle the request for this
+new register (ie don't return an error)?
 
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-r~
+thanks
+-- PMM
 
