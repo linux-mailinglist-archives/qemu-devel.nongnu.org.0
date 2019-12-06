@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9E211531E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:28:26 +0100 (CET)
-Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A9F115244
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:15:29 +0100 (CET)
+Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEan-0004ag-4F
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:28:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
+	id 1idEOF-0008WG-Qp
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:15:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1idELP-0006ik-Cm
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:12:32 -0500
+ (envelope-from <cohuck@redhat.com>) id 1idEIO-0003Fz-JB
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1idELO-0005rh-7L
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:12:31 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45518)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1idELO-0005pZ-1F
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:12:30 -0500
-Received: by mail-wr1-x443.google.com with SMTP id j42so7864677wrj.12
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rEB0PYeg3rST9N64Dd3NGVhbxk+j4ecFYL8NdrsWizQ=;
- b=i9N40PxZ9zJY5umnbMRKBXEqEJHcinWs4l+kq6pnKYU8IljbK2S7ypNSo6xMaBAI1B
- PBvxY50Oi3//fN9r4uPRmqIUdrAZKBR13qSKai3TtCLaI+OT98RvO4++HaWOLLCrBH0F
- OqsfDsK4aWUY0NStw/RfeaxPHnmEvG9F3LkGHwPf+m+PFgCAJ5BHbQsOnn1tmU7ia/t2
- byTAiHmVuTB5Rf5zASxekBoWTNBJqjP91o37gvNRpn4PPsVVSxepdjdoUOASh+UUSJ1d
- acwZyebwj8yyux2mDFYQND/gUgXqcSUlv2lNhGDe7aMzpt0tHXKsafgdLzkfQw0wKMJn
- xY8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rEB0PYeg3rST9N64Dd3NGVhbxk+j4ecFYL8NdrsWizQ=;
- b=k5iy9odqxZVwr/PeCsfpUi8NgfV2zy1zpPU8jJGfcqQU7s+mEnVy30VGNwRG0QUVwb
- 8VLcG0OIa5x4xp4Gf8sd1glQgeq8ZSQMEumRFLaO0KQqjTZLO7TVBCsP+qw4VqjrBjO+
- xF3O0of6EuY2/NXNm3LDrSKYGIEtRsqJuerwB7GggquGlOKPZ17EgQCH+X5gw/9LURvo
- N0OLbXntS9LhnAkK8gn7sSF5yUgnDXNe6p3QvlPmFjlvTO6S+HVBoWdHXbngo3RPrVDb
- xnLhDmwrajsTbs8IrtvN11nI1APCtys4VAyXFG5y3/gKQzwiOnTmTYVTwoja3chk+DfK
- lY3Q==
-X-Gm-Message-State: APjAAAUkcIA1TQibJh1UnJvSy7ezkMY7kMImlZ74QMZID23ICw7bg/3t
- MxWH9Gfp+iYQ2VRt0nGo2tlUVCE9
-X-Google-Smtp-Source: APXvYqxkWkpXVEemPSjXlD/z5JmisUCVZpMeEHOhCOrANjdA3gseXRKwYea9HYBpBvRcIihsr46QGg==
-X-Received: by 2002:a5d:49c3:: with SMTP id t3mr15402872wrs.113.1575632198195; 
- Fri, 06 Dec 2019 03:36:38 -0800 (PST)
-Received: from donizetti.redhat.com (nat-pool-mxp-u.redhat.com.
- [149.6.153.187])
- by smtp.gmail.com with ESMTPSA id s65sm3181026wmf.48.2019.12.06.03.36.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2019 03:36:37 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] target/i386: disable VMX features if nested=0
-Date: Fri,  6 Dec 2019 12:36:35 +0100
-Message-Id: <20191206113635.6570-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191206113635.6570-1-pbonzini@redhat.com>
-References: <20191206113635.6570-1-pbonzini@redhat.com>
+ (envelope-from <cohuck@redhat.com>) id 1idEIN-0001oW-9N
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:24 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45324
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1idEIN-0001nP-4b
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:09:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575641362;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=62MsO0Ygqz1BXhhVfO7LsZhFsU3rQtVnN8NThZ40SIo=;
+ b=KYAKmXGTMIYlb8folWTQ7ls7mOtBLKJILbaFbJZmyVCb2yhRLY/2edvAXftDKL89L0zzin
+ FOBVJlWgLhycjnW+AtRAa3oS9TVDaZxoFKMPCxLn4p61VBJfofgyWEXKuUqh/F/aMKAqn2
+ W33JqVijnsmswc621kWkiTwyPQcBOB0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-LFSqcqTnPHKosUDQ4H6MQw-1; Fri, 06 Dec 2019 08:54:10 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 920B4107ACC4;
+ Fri,  6 Dec 2019 13:54:09 +0000 (UTC)
+Received: from localhost (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCFBA19C70;
+ Fri,  6 Dec 2019 13:54:06 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Richard Henderson <rth@twiddle.net>, David Hildenbrand <david@redhat.com>
+Subject: [PATCH v2] s390x/tcg: clear local interrupts on reset normal
+Date: Fri,  6 Dec 2019 14:54:04 +0100
+Message-Id: <20191206135404.16051-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: LFSqcqTnPHKosUDQ4H6MQw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,48 +67,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Catherine Ho <catherine.hecx@gmail.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yang Zhong <yang.zhong@intel.com>
+We neglected to clean up pending interrupts and emergency signals;
+fix that.
 
-If kvm does not support VMX feature by nested=0, the kvm_vmx_basic
-can't get the right value from MSR_IA32_VMX_BASIC register, which
-make qemu coredump when qemu do KVM_SET_MSRS.
-
-The coredump info:
-error: failed to set MSR 0x480 to 0x0
-kvm_put_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
-
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20191206071111.12128-1-yang.zhong@intel.com>
-Reported-by: Catherine Ho <catherine.hecx@gmail.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/i386/kvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index bf1655645b..1d10046a6c 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2572,6 +2572,14 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
-     uint64_t kvm_vmx_basic =
-         kvm_arch_get_supported_msr_feature(kvm_state,
-                                            MSR_IA32_VMX_BASIC);
+v1->v2:
+- rebased on top of my s390-next branch; we can now move the fields
+  to be reset instead of clearing them manually
+
+Further cleanup possible in a follow-up patch.
+
+---
+ target/s390x/cpu.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7f5fa1d35b73..e195e5c7c8bb 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -98,10 +98,6 @@ struct CPUS390XState {
+=20
+     uint64_t cregs[16]; /* control registers */
+=20
+-    int pending_int;
+-    uint16_t external_call_addr;
+-    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
+-
+     uint64_t ckc;
+     uint64_t cputm;
+     uint32_t todpr;
+@@ -117,6 +113,10 @@ struct CPUS390XState {
+     struct {} start_normal_reset_fields;
+     uint8_t riccb[64];     /* runtime instrumentation control */
+=20
++    int pending_int;
++    uint16_t external_call_addr;
++    DECLARE_BITMAP(emergency_signals, S390_MAX_CPUS);
 +
-+    if (!kvm_vmx_basic) {
-+        /* If the kernel doesn't support VMX feature (kvm_intel.nested=0),
-+         * then kvm_vmx_basic will be 0 and KVM_SET_MSR will fail.
-+         */
-+        return;
-+    }
-+
-     uint64_t kvm_vmx_misc =
-         kvm_arch_get_supported_msr_feature(kvm_state,
-                                            MSR_IA32_VMX_MISC);
--- 
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
+=20
+--=20
 2.21.0
 
 
