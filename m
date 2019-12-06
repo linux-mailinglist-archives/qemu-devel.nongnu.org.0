@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DA3115722
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:26:53 +0100 (CET)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CECB111572A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:29:25 +0100 (CET)
+Received: from localhost ([::1]:43468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idIJY-0000w0-64
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:26:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60025)
+	id 1idIM0-0003gD-LD
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:29:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36287)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1idICj-0001qb-HY
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:50 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1idIDN-0002Q2-HC
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:20:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1idICi-0004VJ-Db
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:19:49 -0500
-Received: from mail-eopbgr00090.outbound.protection.outlook.com
- ([40.107.0.90]:40519 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1idICe-00049p-ER; Fri, 06 Dec 2019 13:19:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A4S5HGssWte+fBaQz9j5gicSD0YoAFGsUACf1QolZhVK4sj0TsA5zD65VSAnvMFo999T96GFm+4Bhbrtl24DECv/QDS5QmEqu+dxDN79w6MjWw+dr8xIcxTamiIOpVe7AidSDPpRAfjH1LJxylLeqlSpegNfJ1BLZSArlcauCNCGHnEHSvdxaCy+3TIenPAOjSVBvD5mnOlDxCpCZ6GibueJougiN6lLvBWiJw5ZgKzpoEhOHq5vKIhmfVJljLX4nxxTV6K/rPOLCkqoey8gluiLR9aN1WcPS5ob4/9mqfWHFqKPxVsDKOsGljVfISdDtqKAu0JFW4fRMEGR5w0IZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mp/sE/amAVs4QOWn0J8g9D4MNlI7XOa9eQ+XL6IoUaU=;
- b=XMgGqPF8F53y5+c1YsrNora8vVX1jfj36ThNkWtxCV2c5Dwz0tDqX6xL/QZM9aLk42kZdyk938kB12DB1JbJ59clWTCTaCx5mEssxlBDde798KoS0ec6NbTlcornS2nhVDgwVAvVGPSVwfmGCmtTXVPHQ1Axszn3bgACySnOa6QCtg21CxsXhgtM8euAbshwaANdIMlndd2ZMWslOqynZgc5kUNnpg0CRGrb8P6wXsxRc9qzWMq1nkPtK0HEloR2QC2G07jSRd7dK4GsxR0kENByC/VVrHVaT752w6ZqB3gaui/IgDSfQf+b/+CPjUiBzbyOdNMg4YFU7g2GqBebng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mp/sE/amAVs4QOWn0J8g9D4MNlI7XOa9eQ+XL6IoUaU=;
- b=LrL2m2mCdf5A8ZkVfiFClihgSJ2Kxijsl9BvHtFSvJl4HjuEPY3/1HXL1vdpn0uBmABWyUZmDbaFQWATBZL9bKCDzoXtUsDdEcmYJ9RQ12TvY5KJbZvQEQRNQ1SiYsKq5wSN8LPKhXLCzNzwHyKln1aWxKzmDGzBsoDTMvySkTc=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3944.eurprd08.prod.outlook.com (20.179.0.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Fri, 6 Dec 2019 18:19:36 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Fri, 6 Dec 2019
- 18:19:36 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v8 21/21] nbd: assert that Error** is not NULL in
- nbd_iter_channel_error
-Thread-Topic: [PATCH v8 21/21] nbd: assert that Error** is not NULL in
- nbd_iter_channel_error
-Thread-Index: AQHVq5P39bmAjGXCHEaLeEVAT9ClqKer0iSAgAFy2iqAACdEgA==
-Date: Fri, 6 Dec 2019 18:19:36 +0000
-Message-ID: <6d55367c-42a3-3622-a483-d997b428796d@virtuozzo.com>
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-22-vsementsov@virtuozzo.com>
- <54278946-ad45-1a0d-e2b2-f96b86285c05@redhat.com>
- <8736dxcuo5.fsf@dusky.pond.sub.org>
-In-Reply-To: <8736dxcuo5.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P18901CA0002.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:3:8b::12) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191206211933925
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 77b57994-b57d-4c1c-4c50-08d77a78d9ab
-x-ms-traffictypediagnostic: AM6PR08MB3944:
-x-microsoft-antispam-prvs: <AM6PR08MB39446C60E88CE445A465B2CDC15F0@AM6PR08MB3944.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0243E5FD68
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(376002)(346002)(366004)(39840400004)(199004)(189003)(53546011)(8676002)(6506007)(81166006)(81156014)(8936002)(102836004)(71190400001)(4326008)(2906002)(2616005)(36756003)(64756008)(76176011)(66556008)(66476007)(66946007)(52116002)(66446008)(26005)(99286004)(71200400001)(110136005)(5660300002)(54906003)(86362001)(478600001)(305945005)(31696002)(316002)(31686004)(229853002)(186003)(6512007)(6486002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3944;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ju0dsAyJkiS0Ce4gEpb+M62reejl/1E7AdONsnoNfTWeRCCrSvIaUMPPOLH1QIAxHQcMTxEThFB+JE1lferoe7sozBrpGyaMT+me3wyIZz3qVfWFaua65O0tCHv2Ku9LooD8+hSTiEj+vBxy3i2e7pDMQZuEXtw4/jQ2SOxcH7fHnliKuII+7S5y6mcVIHTFS6F1AXzM0aCmWQDOs96pBsQBpCQSF2P8T9g+eysmW0PzPNp73iSZOkwR24U7bmglm8UHEa5Hv2vOzt3vF6L1XuzF/dLG+5Q5lPl9COw0823Fd/+9or05woBJ5uvQKrfgoLLqMSCWSOfwBttLLcnCYUr6/0L79IbFNuFM6avLBZ1JEvaXfu/kZEwqn1ciHHi4HE1hB1nfBc9fSh/mEOqtSj1kURgVOlYx9FpRs/kfC5IicmjkKgiEle0FNOw1vq4c
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <16CEBA86AE592244A064200C24F72D32@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <richard.henderson@linaro.org>) id 1idIDM-0006MQ-GK
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:20:29 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:42918)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1idIDK-0006K3-Az
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 13:20:26 -0500
+Received: by mail-pl1-x642.google.com with SMTP id x13so3040071plr.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 10:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oOzYyprudmU67qFl8SvHvrIwSli35oGOiUxchYjoPpQ=;
+ b=If9fYsHv948uhmP9qb6KQSusBrsi+xsuwyJ09LpzFimh61AkmlRzGONqWUsyM6x7i9
+ ssvvH/FpEXntdaVDP1H69Sf3M9jJq96evNBh0EIdsI7FzFiB6X9XO4pS5FYv0XfaYTTm
+ Q4x41XbKQCHcfF1cxVC6VCOKXidoAgBYk8QPOJdoZWDq/6gxNnL/F2V+SEJCkbo+2JwL
+ F/q68dHhkG1+R2uq0ty6TS8+SipD0/7fI5HLt2Vbl5P+8HWvPgDeWvTrCv16TW7ebZZ9
+ cRaXMmrXKCVnfDetP8vjUJljRNxzHq11NNuYoLXnga/Ujk6e8F4scxHhnNZVHUfLdeSn
+ 7MKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oOzYyprudmU67qFl8SvHvrIwSli35oGOiUxchYjoPpQ=;
+ b=EnsvPcAqSjtl36oYFLq7bzspPaKhT0+V5y/90TtzRaE/zLyz3uC4mxC9jR8wHC6GZp
+ /8UJaKqzkg1gPmgfEIoo4AYM9C08GjbZssw2pywzxlnfIkYTQyMEXqZ/uAaYGSLbWbfX
+ PlJGs2nCutE1LHtB6yX/92Ne3wEYMkpFM5aGYeIqclB+mMbs3N5lM+fhJV+QMU73GYy0
+ c5tmYURRt6CsNfGbWjnGnFL662LvTbfLKFUNznFGPN7IKO7PPhO+dOR1jYFKDP9vsc3N
+ jAmvpC7ufOY0KHv0NNXtURfvxVvJDqnVXDP5lmzGdysFYdooEm9pyLraGRsdVdgOwveA
+ 240Q==
+X-Gm-Message-State: APjAAAX0QyHmDSeW6dFqOTuaGgUud4ewnVbUwrUGs1mCOm9iUXmqAh7L
+ kcvPpgHDJvMmiDBU6srN4lulwA==
+X-Google-Smtp-Source: APXvYqynv8QzhTBEqBQu8SALhwtbfE0fz7rO7A/MSZbCGw6GUI3pAp5UgZFPrZcoZ3ysKpf6GNQi2w==
+X-Received: by 2002:a17:90a:f0d6:: with SMTP id
+ fa22mr16961918pjb.136.1575656425169; 
+ Fri, 06 Dec 2019 10:20:25 -0800 (PST)
+Received: from [192.168.1.11] (97-113-7-119.tukw.qwest.net. [97.113.7.119])
+ by smtp.gmail.com with ESMTPSA id i9sm17571643pfk.24.2019.12.06.10.20.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Dec 2019 10:20:24 -0800 (PST)
+Subject: Re: [PATCH v4 10/40] target/arm: Rename ARMMMUIdx_S1NSE* to
+ ARMMMUIdx_Stage1_E*
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-11-richard.henderson@linaro.org>
+ <CAFEAcA_Q8foDFHbqLBCewnYPbSz8-VT2OU49tQsX2No+Yn0avw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e4e75e1c-7659-37fa-541e-962115526c4f@linaro.org>
+Date: Fri, 6 Dec 2019 10:20:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77b57994-b57d-4c1c-4c50-08d77a78d9ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 18:19:36.4849 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fT+EKqvlR3ucE07/l5yZVkgtQ9OZ0XFfsOa691jyxb872NYYFs1FDkXjF+bpxN4578EWAaJgcBsbtCV9tZM0QPnv2iNFaRhftMb8bsK71MI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3944
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.90
+In-Reply-To: <CAFEAcA_Q8foDFHbqLBCewnYPbSz8-VT2OU49tQsX2No+Yn0avw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,31 +85,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDYuMTIuMjAxOSAxODo1OCwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IEVyaWMgQmxha2Ug
-PGVibGFrZUByZWRoYXQuY29tPiB3cml0ZXM6DQo+IA0KPj4gT24gMTIvNS8xOSAxMTo0NiBBTSwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+PiBUaGUgbG9jYWxfZXJyIHBh
-cmFtZXRlciBpcyBub3QgaGVyZSB0byByZXR1cm4gaW5mb3JtYXRpb24gYWJvdXQNCj4+PiBuYmRf
-aXRlcl9jaGFubmVsX2Vycm9yIGZhaWx1cmUuIEluc3RlYWQgaXQncyBhc3N1bWVkIHRvIGJlIGZp
-bGxlZCB3aGVuDQo+Pj4gcGFzc2VkIHRvIHRoZSBmdW5jdGlvbi4gVGhpcyBpcyBhbHJlYWR5IHN0
-cmVzc2VkIGJ5IGl0cyBuYW1lDQo+Pj4gKGxvY2FsX2VyciwgaW5zdGVhZCBvZiBjbGFzc2ljIGVy
-cnApLiBTdHJlc3MgaXQgYWRkaXRpb25hbGx5IGJ5DQo+Pj4gYXNzZXJ0aW9uLg0KPj4+DQo+Pj4g
-U2lnbmVkLW9mZi1ieTogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2
-aXJ0dW96em8uY29tPg0KPj4+IC0tLQ0KPj4+ICAgIGJsb2NrL25iZC5jIHwgMSArDQo+Pj4gICAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+Pg0KPj4gT3VyIHRpbWluZyByZXN1bHRl
-ZCBpbiBjcm9zc2VkIG1haWxzIC0gSSB3YXMgcmVwbHlpbmcgdG8gdjcgd2hlbiB0aGlzDQo+PiBs
-YW5kZWQsIGFuZCBteSByZXBseSB0aGVyZSBpcyBzdGlsbCByZWxldmFudCAobmFtZWx5LCBhIGJl
-dHRlciBjb21taXQNCj4+IG1lc3NhZ2UgaXMgbmVlZGVkLCBidXQgdGhlIGNvZGUgZ2V0cyBteSBS
-LWIgd2l0aCB0aGF0IGNoYW5nZSkuDQo+IA0KPiBJZiB2OCB0dXJucyBvdXQgdG8gYmUgZmluZSBl
-eGNlcHQgZm9yIGNvbW1pdCBtZXNzYWdlIHR3ZWFrcywgSSdsbCBnbGFkbHkNCj4gdG8gdGhlc2Ug
-aW4gbXkgdHJlZS4gIEp1c3QgdGVsbCBtZSB3aGF0IHRvIGRvIGluIGEgcmVwbHkgdG8gdGhpcw0K
-PiBtZXNzYWdlLg0KPiANCg0KWWVzLCB0aGlzIHdvdWxkIGJlIGdyZWF0LCB0aGFua3MhDQoNClRo
-ZSBvbmx5IHRoaW5nIGlzIHlvdXIgc3VnZ2VzdGlvbiBvbiBwYXRjaCAyMSwgYnV0IGl0IG1heSBi
-ZSBhcHBsaWVkIGluIHNlcGFyYXRlIChhbmQgaXQncyBhY3R1YWxseSBhIHNlcGFyYXRlIHRoaW5n
-KQ0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
+On 12/6/19 7:47 AM, Peter Maydell wrote:
+> On Tue, 3 Dec 2019 at 02:29, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> This is part of a reorganization to the set of mmu_idx.
+>> The EL1&0 regime is the only one that uses 2-stage translation.
+>> Spelling out Stage avoids confusion with Secure.
+> 
+> If you didn't delete the 'NS' from the name then it
+> wouldn't be confusing...
+
+It is not obvious to my eye how to break up S1NSE0 -- 'NS' is buried in the
+middle.  It might be different if these names were architectural, as if the AT
+names, but they're not.
+
+I think it is clearer to reserve 'S' for 'Secure', and use it consistently.
+E.g. not the current "S1E3" (stage 1 e3), but "SE3" (secure e3).
+
+I think it is clearer to simply document that, unless "Stage" is present in the
+name, the tlb contains the complete translation.  This makes "S12" redundant
+off of "NSE0", and "S1" off of "E3".
+
+We'll still need a renaming of with SecEL2, since "SE0" is no longer complete;
+we will need to specify "Secure EL1&0" vs "Secure EL2&0".  Thus perhaps
+"SEL10_0" to match the "EL10_0" name that I'm using in this series.
+
+
+r~
 
