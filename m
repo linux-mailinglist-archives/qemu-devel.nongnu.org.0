@@ -2,106 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A0C11539A
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:49:03 +0100 (CET)
-Received: from localhost ([::1]:38932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A4E11532E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 15:32:21 +0100 (CET)
+Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idEuj-0000ap-B8
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:49:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35940)
+	id 1idEea-0000ld-Ac
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 09:32:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1idEPE-0002NX-Gd
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:16:30 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1idEMm-0007n7-GW
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:14:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1idEPA-0002pB-5h
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:16:28 -0500
-Received: from mail-eopbgr00130.outbound.protection.outlook.com
- ([40.107.0.130]:22030 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1idEMk-0007Me-Da
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:13:56 -0500
+Received: from mail-eopbgr150125.outbound.protection.outlook.com
+ ([40.107.15.125]:33713 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1idEP9-0002go-La
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:16:23 -0500
+ id 1idEMW-0007BY-G9; Fri, 06 Dec 2019 09:13:41 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i5gNS/FdYMQOOdYKh+Ad1Yze11IMGXbev4emfsNNBH05hUUFkuDNFIZfzczf1tQ0dwQlJP3OmmRTvgGILB273hRR3L15mEx+a+KznN1InBfQknqYGFilrFjAwSEya7lg6ZZB90JxDxE2Gjf99YPo5/MarE2jzl+v2SxzcSXKH4UjKRcHJeGHz2YBcgkwJDZjNpr/BWMTP4gNUaeYslN0eHb+jWbi7qi/bt8IUUFpoD9Ba3n9VVErNOQh5d1CRPIAuIzdhMVOitn/kIxT0+6i0LOLUTgYQ0s9Xt8Z+jRsHIMz6ZGE2oZpDTmcO9vErRBdfSOZFnCdN6nOSucVh4tzZw==
+ b=l46v3tFl2ZGiaVouhSawdBpXhYcROWo020wu4lt52dMOR22LQceAZ0e51BjZyTteHRzEsGFUPeoogH9ns/0IkEGhNW+Tz2ojDLKkLMe6ImlMGWTmFmeq6NBTsLbowh4XQbvO+E6W6+xQpE/ZPlLb4din9+dKG4/eeI8XvBbYBzhck886ugmZOBZFsvxMQELsw2XtIfe5MXIej/hQ7njjFw3JjwCfydXUEu0a/UPFb5Qu6slEDo/UJMEaQJbSd1o5AUdHsxq6sGxCsHQmYtLHXg3qgt0jL0Fy8awsNEClsSR/r92AJG7BoeFXhk8idF4VsgHmu3pzcTGmOV+5KTYFTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=clXaqhcVHZQnBbwsgQLGXId9GTgDgZWn4WGeZWV6xtU=;
- b=Bpb6h7tuvWoqGY0RgLVXVppjEJOQNMsWwhKhHfckDpOtqn9NvEFJEB8EvuOx4e7fjVWus0oIUTlI5w5Zp/s3IbU2fiCxtJwTY9MvRng6uqcMOZOrI9IPdV3YWZ5EwUPnqglyUf7mOvu83gvbv4kBZJTykFc7XsXqCAB3ztg+OY7adwDt7aKULVDyNZAdhzBJv2WoKB0mjE+CXncc+Hb71Fd7DrU/m8rPKAa1UpophE9L0f5EthZjFcmkypOlDO2jkrQU1n551//WkiZmlavtc7VcjV4UIY1rkS2arB/ixm4HM3JW2lXaWwmT84FRjyMBGJl+KHTl0mDdmDTvD/sEPg==
+ bh=VwHUEOv00eZJO4PrzLPVTQb9UFzLk75qo5T/wMk2rCo=;
+ b=Nts6CVrNVs+sou5Uzm1UVOLpD/qMD0u6Cob5tcYaZAoXXM8f/s/Yjw0VtQNZ4KEd2jRQvdIOQlKhwNbP9cknv8SjVqpPobDTB08CYttSFGofoBfgObo2OdkGB/7CLLFfY/cMmOi1mHY6OulFAb6FEtEmFMhoO7VIJMxHo8HWQeDdAswXQ7ZHPW8zYOqV0OmaZURD/mljS54zgSGoSl6WK7MsmWngYTEQwTN++4s487iv+2Wjc+JPS48DXCnsPSyHS8RBlaXZ7asr35djnZ1IT5XBBr/2Pz/ISYDH/E+G1M3MeDjb1u2Pxnzxjqwwv3GQx02ey3WjTZsDvB/1g0x8Ww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=clXaqhcVHZQnBbwsgQLGXId9GTgDgZWn4WGeZWV6xtU=;
- b=UnaDy/OFMF3ZY1tqwXj6d9+WPOy1KTOQ8jQyuntXvXGlFEJwP4NKvmT8pNy1PQoKZar01iWknn/QHzu7nX6S0EhMhs7saPl1F7hQdwyoOG6YC26qJTmkNss2p9CJgfa9fQ0/xLwCwK6gwJJ8p0FRK1Z8y8o6g94VupWLSBqOoGE=
+ bh=VwHUEOv00eZJO4PrzLPVTQb9UFzLk75qo5T/wMk2rCo=;
+ b=TQBy79MnNl4JX0dd0yQ4UINxJD41BQaX14+bN2J0f8qiYTvdV+vmKRNbEFhD5rC9ITfqa0OskE3u0d0G716oP34O2d3hQFyEhSbPzFocQEzkRqduu/s6risYsVPnuAwKmUPuhdgEJu1qbZCrIoDxWhjhPutGl88lYH3J+2JitKo=
 Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB3062.eurprd08.prod.outlook.com (52.135.163.147) with Microsoft SMTP
+ AM6PR08MB3480.eurprd08.prod.outlook.com (20.177.113.29) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Fri, 6 Dec 2019 10:19:56 +0000
+ 15.20.2516.13; Fri, 6 Dec 2019 10:28:09 +0000
 Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
  ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
  ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2516.014; Fri, 6 Dec 2019
- 10:19:56 +0000
+ 10:28:09 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: =?Windows-1252?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v8 17/21] hw/usb: rename Error ** parameter to more common
- errp
-Thread-Topic: [PATCH v8 17/21] hw/usb: rename Error ** parameter to more
- common errp
-Thread-Index: AQHVq5P3aqHGuP8oMkWDyhGK8l+ud6esuS4AgAAtEIA=
-Date: Fri, 6 Dec 2019 10:19:55 +0000
-Message-ID: <20fc2e09-85fe-daf1-9898-f0b76870fb2f@virtuozzo.com>
-References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-18-vsementsov@virtuozzo.com>
- <1407847e-1e1d-9ecb-a522-103a09179f02@redhat.com>
-In-Reply-To: <1407847e-1e1d-9ecb-a522-103a09179f02@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v7 07/21] ppc: well form kvmppc_hint_smt_possible error
+ hint helper
+Thread-Topic: [PATCH v7 07/21] ppc: well form kvmppc_hint_smt_possible error
+ hint helper
+Thread-Index: AQHVq3+O4eI1HXM8UUe94Hg8jUSVr6esOdiAgACu24A=
+Date: Fri, 6 Dec 2019 10:28:09 +0000
+Message-ID: <e8dd7486-6cae-c48e-3212-58cf8669da37@virtuozzo.com>
+References: <20191205152019.8454-1-vsementsov@virtuozzo.com>
+ <20191205152019.8454-8-vsementsov@virtuozzo.com>
+ <20191206000217.GG5031@umbus.fritz.box>
+In-Reply-To: <20191206000217.GG5031@umbus.fritz.box>
 Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR08CA0056.eurprd08.prod.outlook.com
- (2603:10a6:7:2a::27) To AM6PR08MB4423.eurprd08.prod.outlook.com
+x-clientproxiedby: HE1PR0402CA0005.eurprd04.prod.outlook.com
+ (2603:10a6:3:d0::15) To AM6PR08MB4423.eurprd08.prod.outlook.com
  (2603:10a6:20b:bf::12)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=vsementsov@virtuozzo.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20191206131953684
+x-tagtoolbar-keys: D20191206132807054
 x-originating-ip: [185.231.240.5]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c442c447-15b9-4bef-c599-08d77a35d6ea
-x-ms-traffictypediagnostic: AM6PR08MB3062:
-x-microsoft-antispam-prvs: <AM6PR08MB30629DAA49061A957F7466D3C15F0@AM6PR08MB3062.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2043;
+x-ms-office365-filtering-correlation-id: ec645d09-4cc4-4266-4995-08d77a36fd34
+x-ms-traffictypediagnostic: AM6PR08MB3480:
+x-microsoft-antispam-prvs: <AM6PR08MB3480AAF32AFCED7112848741C15F0@AM6PR08MB3480.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1013;
 x-forefront-prvs: 0243E5FD68
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(136003)(346002)(396003)(39850400004)(376002)(189003)(199004)(66946007)(66476007)(102836004)(26005)(11346002)(6506007)(66556008)(53546011)(66446008)(76176011)(52116002)(110136005)(54906003)(478600001)(31686004)(99286004)(2616005)(14444005)(316002)(5660300002)(4744005)(14454004)(186003)(64756008)(305945005)(36756003)(31696002)(2906002)(6486002)(229853002)(71190400001)(8676002)(4326008)(71200400001)(6512007)(81166006)(86362001)(81156014)(8936002)(25786009);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3062;
+ SFS:(10019020)(346002)(376002)(366004)(136003)(396003)(39850400004)(54534003)(199004)(189003)(54906003)(6486002)(14454004)(25786009)(478600001)(2616005)(71190400001)(11346002)(316002)(186003)(102836004)(6512007)(5660300002)(99286004)(26005)(52116002)(6506007)(31686004)(2906002)(81156014)(305945005)(81166006)(14444005)(229853002)(76176011)(6916009)(4326008)(66556008)(71200400001)(66946007)(8676002)(86362001)(8936002)(66446008)(64756008)(31696002)(66476007)(36756003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3480;
  H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XB1tII+3BToEvgL9GiOCGM4m1rmkUSareKewRQH3/4fXZwyVTdAOR0YrRvZ/dU3S7e7ZxTPseSQe1rJDfwzo7K3MBJPX86fRncmQrQtWMdomkacSHWhiP/ARUOGcpeUpFbczJVd+Ohc+Gq/IjcIGqV4tUabDtdzRNBVs4zxyCEX4axhNRThzjdywgzgjgFCjYQ6cx0WP9MHBBcEWDF+zgMJHOp7dkPriDn3LrZGi3DYMCyjPL2r5aHWIIYMCjzV42AjmvE4AbluHY1dFQBtiMW2Gvkfgx0J1YHPn7ETsFQ7b7yVuGcqlhsgUuFtY7qWn7MDF+pjuJ0Ou+34QMNk7/S+OBo58EuEdAsohJf3CI4TcxqN6pcEtR+miaqMTqhShWcuY2IFfH4ucXWLyn8HKJe0sPe7P0JugcMGKa0ezw4FRaN0jPb4bIiLRndOIZ8s0
+x-microsoft-antispam-message-info: 7+taDsy62W03E6kh9X+nL4gnqd8WVCfrBZGlFdnaxILUBzngbHQ+NqzNNe7UKwmHsOYpyTCFSeIFscMlWzPHU8Jx6Q2Ngq2OO6vnj9a7VBS7BZDFIXqUKR18vUKHghYh1ih4QJivDPw5Pe9QcCKLo7YmFof2om6nzo+zjQQ7BabRuBqJnH+7jh11R+1Oo+Tr13CsKnvP6Nxv7jcj0mCDA2lYWXWb1K9CGji1uOgPAx38Nc3+4+dwMDOWQiF+UxNoAujI6UKZZEThkWBHUy7VaNOHJqeYagICpw7jzsgGkE6BjilFboeLxJs/TZwiSnhJKWKwMiVxqqdk54pBPnax41h61TfdnJ6NPcm3W7RcXjpZ4Zgk5HvhkFaAtuGBlWFv21QTdbgRGacCd1W2Dn5WGpUwJBDRo4nY08eI6hj4Rv2Ut5TIN3P2qvIaRRMUXeGUZ8Mg6zwpDVDLSKXdI0BjyT0/IMXD4XmmRJSrmdCbd/Ted6NtSckiur2eBuNIPseY
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <9BCED7AF04A6024CBD6DED31361840A0@eurprd08.prod.outlook.com>
+Content-ID: <414FFEC67E276A4DB3B2B624101771DF@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c442c447-15b9-4bef-c599-08d77a35d6ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 10:19:55.9746 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec645d09-4cc4-4266-4995-08d77a36fd34
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 10:28:09.2428 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kj5VjqdDTfB2QtEBeTy0EYmFdVP/kUbpWsh7SKWnMs1A6H1sSqQIAS4u8xdG1nWWXXjAPdrjbiIfsitgxBpOckXYdHx6dwWkvrZ7DzyBJSE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3062
+X-MS-Exchange-CrossTenant-userprincipalname: ylfzIsH7b3aSJVJfod3nU8EKCWDQ7hrbwhCTV4CqMm07LuNMNp5wjly7DhXlBrOn0gOFQIoDlTYFFDXaJbHl3XgVjz9Iz8IEgvcObDTbECs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3480
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.130
+X-Received-From: 40.107.15.125
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,32 +111,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "armbru@redhat.com" <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-06.12.2019 10:38, Philippe Mathieu-Daud=E9 wrote:
-> On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->> =A0 hw/usb/dev-network.c | 2 +-
->> =A0 1 file changed, 1 insertion(+), 1 deletion(-)
+06.12.2019 3:02, David Gibson wrote:
+> On Thu, Dec 05, 2019 at 06:20:05PM +0300, Vladimir Sementsov-Ogievskiy wr=
+ote:
+>> Make kvmppc_hint_smt_possible hint append helper well formed:
+>> rename errp to errp_in, as it is IN-parameter here (which is unusual
+>> for errp), rename function to be kvmppc_error_append_*_hint.
 >>
->> diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
->> index 5de6213cc4..b81a8abe83 100644
->> --- a/hw/usb/dev-network.c
->> +++ b/hw/usb/dev-network.c
->> @@ -1342,7 +1342,7 @@ static NetClientInfo net_usbnet_info =3D {
->> =A0=A0=A0=A0=A0 .cleanup =3D usbnet_cleanup,
->> =A0 };
->> -static void usb_net_realize(USBDevice *dev, Error **errrp)
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy
+>> <vsementsov@virtuozzo.com>
 >=20
-> Funny one.
+> Apart from Greg's point about the changelog,
 >=20
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->=20
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Thanks a lot for reviewing!
+Thanks! actually, v8 is out with fixed commit message
+
+>=20
+>> ---
+>>   target/ppc/kvm_ppc.h | 4 ++--
+>>   hw/ppc/spapr.c       | 2 +-
+>>   target/ppc/kvm.c     | 2 +-
+>>   3 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+>> index 98bd7d5da6..f22daabf51 100644
+>> --- a/target/ppc/kvm_ppc.h
+>> +++ b/target/ppc/kvm_ppc.h
+>> @@ -28,7 +28,7 @@ void kvmppc_set_papr(PowerPCCPU *cpu);
+>>   int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+>>   void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+>>   int kvmppc_smt_threads(void);
+>> -void kvmppc_hint_smt_possible(Error **errp);
+>> +void kvmppc_error_append_smt_possible_hint(Error *const *errp);
+>>   int kvmppc_set_smt_threads(int smt);
+>>   int kvmppc_clear_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+>>   int kvmppc_or_tsr_bits(PowerPCCPU *cpu, uint32_t tsr_bits);
+>> @@ -164,7 +164,7 @@ static inline int kvmppc_smt_threads(void)
+>>       return 1;
+>>   }
+>>  =20
+>> -static inline void kvmppc_hint_smt_possible(Error **errp)
+>> +static inline void kvmppc_error_append_smt_possible_hint(Error *const *=
+errp)
+>>   {
+>>       return;
+>>   }
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index e076f6023c..1b87eb0ffd 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -2564,7 +2564,7 @@ static void spapr_set_vsmt_mode(SpaprMachineState =
+*spapr, Error **errp)
+>>                                         " requires the use of VSMT mode =
+%d.\n",
+>>                                         smp_threads, kvm_smt, spapr->vsm=
+t);
+>>                   }
+>> -                kvmppc_hint_smt_possible(&local_err);
+>> +                kvmppc_error_append_smt_possible_hint(&local_err);
+>>                   goto out;
+>>               }
+>>           }
+>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+>> index c77f9848ec..27ea3ce535 100644
+>> --- a/target/ppc/kvm.c
+>> +++ b/target/ppc/kvm.c
+>> @@ -2076,7 +2076,7 @@ int kvmppc_set_smt_threads(int smt)
+>>       return ret;
+>>   }
+>>  =20
+>> -void kvmppc_hint_smt_possible(Error **errp)
+>> +void kvmppc_error_append_smt_possible_hint(Error *const *errp)
+>>   {
+>>       int i;
+>>       GString *g;
+>=20
 
 
 --=20
