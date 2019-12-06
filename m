@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43FE1155C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:50:22 +0100 (CET)
-Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8F11155F3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:58:03 +0100 (CET)
+Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGo9-0002SA-CT
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:50:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53613)
+	id 1idGva-0002mM-7E
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:58:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robh@kernel.org>) id 1idF9S-0004Dv-CT
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:16 -0500
+ (envelope-from <lersek@redhat.com>) id 1idFBm-0006wU-1t
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robh@kernel.org>) id 1idF9M-0001uH-Rx
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37256)
+ (envelope-from <lersek@redhat.com>) id 1idFBk-0005go-LQ
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45128
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <robh@kernel.org>) id 1idF9M-0001qd-IO
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:04:08 -0500
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1idFBi-0005es-NA
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575644793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DB7Dl0O/SdQi/C44lTRSAKFanxqyAJjtE6937CoG+lc=;
+ b=Pm+Mlw7Q61xyTVoz5xBuIaf6iCNwTnXUTKIh/H+jAKpQ0YN/TUbOroiGqJpU7aO3GaE7+J
+ 9qlnJp9Li5LowNHwFoHmbA/b8UodSUYlztAjqZAjLmjWz0TKHFLlZijPEbBKNMJ7FzbCg0
+ m1WbRucAe4P9pSCWSw35cmZrVcuM1oc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-FLCEaU9mPxGqzzK7hxfqQQ-1; Fri, 06 Dec 2019 10:06:32 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A05F124673
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575644646;
- bh=jPJwScBR/kR2jMlDE4CcAeUQqWtkoB9V5dhy5jvHoYI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=FWzt3o8rVfNQENYFugbI5qMw8n7DZBJzZazHuODQ6HTwMEtPCsUBAa4PTFRUhD7h1
- E0EMt8GjGDy6t38/ZmSmhSieq3PSRVr2KbV3E/nsObtyNU6MlpwNuYFEjcCwG6tneQ
- 0tEBEkyyvinR7/GTUMgWW5HE3+pQ0VJ7Qad7uMek=
-Received: by mail-qk1-f171.google.com with SMTP id d124so6701581qke.6
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:04:06 -0800 (PST)
-X-Gm-Message-State: APjAAAXR+ykIYk5AClz7oFxl2cl7QZnG4yL4CatTUouW5v6Bbf0POfOR
- swnD6BYBoarPQCLl0RWAacUz90uglRRYPrVtpw==
-X-Google-Smtp-Source: APXvYqz11Uc4S+0EnTxk9RiQ7iSeUe78Ipt/lzkcHz8/CyqUMTGF8hqkCnBzU0/LVJc/gCTUhQ4F6R82XS4cagT7C4U=
-X-Received: by 2002:ae9:f205:: with SMTP id m5mr14467285qkg.152.1575644645684; 
- Fri, 06 Dec 2019 07:04:05 -0800 (PST)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A3679126C
+ for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:06:31 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-235.ams2.redhat.com
+ [10.36.116.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C960C67E52;
+ Fri,  6 Dec 2019 15:06:25 +0000 (UTC)
+Subject: Re: [PATCH for-5.0 8/8] acpi: cpuhp: spec: document procedure for
+ enabling modern CPU hotplug
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
+ <1575479147-6641-9-git-send-email-imammedo@redhat.com>
+ <bb601078-db09-1915-1d12-350093887183@redhat.com>
+ <20191206144940.091bef52@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <e432f16e-bf41-ae8f-aa04-d9fe18d39350@redhat.com>
+Date: Fri, 6 Dec 2019 16:06:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
- <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 6 Dec 2019 09:03:53 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
-Message-ID: <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191206144940.091bef52@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: FLCEaU9mPxGqzzK7hxfqQQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 198.145.29.99
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,143 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
-> > On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
-> > > Add Device Tree bindings for a GPIO repeater, with optional translation
-> > > of physical signal properties.  This is useful for describing explicitly
-> > > the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> > > non-YAML gpio-inverter bindings by Harish Jenny K N
-> > > <harish_kandiga@mentor.com>[1].
-> > >
-> > > Note that this is different from a GPIO Nexus Node[2], which cannot do
-> > > physical signal property translation.
-> >
-> > It can't? Why not? The point of the passthru mask is to not do
-> > translation of flags, but without it you are always doing translation of
-> > cells.
->
-> Thanks for pushing me deeper into nexuses!
-> You're right, you can map from one type to another.
-> However, you cannot handle the "double inversion" of an ACTIVE_LOW
-> signal with a physical inverter added:
->
->         nexus: led-nexus {
->                 #gpio-cells = <2>;
->                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->                 gpio-map-mask = <3 0>;
->                 // default gpio-map-pass-thru = <0 0>;
->         };
->
->         leds {
->                 compatible = "gpio-leds";
->                 led6-inverted {
->                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->                 };
->                 led7-noninverted {
->                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->                 };
->                 led8-double-inverted {  // FAILS: still inverted
->                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->                 };
->         };
->
-> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
-> Still, the consumer would see the final translated polarity, and not the
-> actual one it needs to program the consumer for.
+On 12/06/19 14:49, Igor Mammedov wrote:
+> On Thu, 5 Dec 2019 15:07:53 +0100
+> Laszlo Ersek <lersek@redhat.com> wrote:
+> 
+>> On 12/04/19 18:05, Igor Mammedov wrote:
+>>> Describe how to enable and detect modern CPU hotplug interface.
+>>> Detection part is based on new CPHP_GET_CPU_ID_CMD command,
+>>> introduced by "acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command" patch.
+>>>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> ---
+>>>  docs/specs/acpi_cpu_hotplug.txt | 22 ++++++++++++++++++++--
+>>>  1 file changed, 20 insertions(+), 2 deletions(-)  
+>>
+>> Could we make this usecase / workflow independent of the new
+>> CPHP_GET_CPU_ID_CMD command please?
+>>
+>> I'd like to suggest the following:
+>>
+>>> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+>>> index bb33144..667b264 100644
+>>> --- a/docs/specs/acpi_cpu_hotplug.txt
+>>> +++ b/docs/specs/acpi_cpu_hotplug.txt
+>>> @@ -15,14 +15,14 @@ CPU present bitmap for:
+>>>    PIIX-PM  (IO port 0xaf00-0xaf1f, 1-byte access)
+>>>    One bit per CPU. Bit position reflects corresponding CPU APIC ID. Read-only.
+>>>    The first DWORD in bitmap is used in write mode to switch from legacy
+>>> -  to new CPU hotplug interface, write 0 into it to do switch.
+>>> +  to modern CPU hotplug interface, write 0 into it to do switch.
+>>>  ---------------------------------------------------------------
+>>>  QEMU sets corresponding CPU bit on hot-add event and issues SCI
+>>>  with GPE.2 event set. CPU present map is read by ACPI BIOS GPE.2 handler
+>>>  to notify OS about CPU hot-add events. CPU hot-remove isn't supported.
+>>>
+>>>  =====================================
+>>> -ACPI CPU hotplug interface registers:
+>>> +Modern ACPI CPU hotplug interface registers:
+>>>  -------------------------------------
+>>>  Register block base address:
+>>>      ICH9-LPC IO port 0x0cd8
+>>> @@ -105,6 +105,24 @@ write access:
+>>>                other values: reserved
+>>>
+>>>      Typical usecases:
+>>> +        - (x86) Detecting and enabling modern CPU hotplug interface.  
+>>
+>> (1) I think we can drop the (x86) restriction. (Because, we don't need
+>> to depend on APIC ID specifics; see below.)
+> I'd rather keep it x86 specific, as enabling interface and talking about
+> legacy bitmap applies only to x86 impl.
+> ARM one won't have any of it, it will just be enabled in a future QEMU
+> (probably even without version-ed machine type).
+> So could we just say usual "use firmware X.Y with QEMU Z to use CPU hotplug"
+> in that case?
+> Do we really need it to be arch agnostic?
 
-I'm not really following. Why isn't a double inversion just the same
-as no inversion?
+No, I only suggested removing the x86 reference as a possible "extra"
+improvement, from not depending on CPHP_GET_CPU_ID_CMD / APIC ID.
 
-> > > While an inverter can be described implicitly by exchanging the
-> > > GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> > > Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> > > th provider and consumer sides:
-> > >   1. The GPIO provider (controller) looks at the flags to know the
-> > >      polarity, so it can translate between logical (active/not active)
-> > >      and physical (high/low) signal levels.
-> > >   2. While the signal polarity is usually fixed on the GPIO consumer
-> > >      side (e.g. an LED is tied to either the supply voltage or GND),
-> > >      it may be configurable on some devices, and both sides need to
-> > >      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
-> > >      match the actual polarity.
-> > >      There exists a similar issue with interrupt flags, where both the
-> > >      interrupt controller and the device generating the interrupt need
-> > >      to agree, which breaks in the presence of a physical inverter not
-> > >      described in DT (see e.g. [3]).
-> >
-> > Adding an inverted flag as I've suggested would also solve this issue.
->
-> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
-> the inverter bindings"?
-> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->
-> Oh, now I understand. I was misguided by Harish' interpretation
-> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
-> which assumed an "inverted" property, e.g.
->
->     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->
-> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
-> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->
->     /* Bit 6 expresses the presence of a physical inverter */
->     #define GPIO_INVERTED 64
+Thanks,
+Laszlo
 
-Exactly.
-
-> We need to be very careful in defining to which side the GPIO_ACTIVE_*
-> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
-> Still, this doesn't help if e.g. a FET is used instead of a push-pull
-> inverter, as the former needs translation of other flags (which the
-> nexus can do, the caveats above still applies, though).
-
-Yes. Historically the cells values are meaningful to the provider and
-opaque to the consumer. Standardized cell values changes that
-somewhat. I think we want the active flag to be from the provider's
-prospective because the provider always needs to know. The consumer
-often doesn't need to know. That also means things work without the
-GPIO_INVERTED flag if the consumer doesn't care which is what we have
-today already and we can't go back in time.
-
-
-> Same for adding IRQ_TYPE_INVERTED.
-
-I suppose so, yes.
-
-> Related issue: how to handle physical inverters on SPI chip select lines,
-> if the SPI slave can be configured for both polarities?
-
-Good question. Perhaps in a different way because we have to handle
-both h/w controlled and gpio chip selects.
-
-However, how would one configure the polarity in the device in the
-first place? You have to assert the CS first to give a command to
-reprogram it.
-
-Rob
 
