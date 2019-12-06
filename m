@@ -2,64 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329B9115650
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:21:11 +0100 (CET)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E611115626
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:09:22 +0100 (CET)
+Received: from localhost ([::1]:41502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHHx-0001vF-S4
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:21:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48100)
+	id 1idH6W-0006pP-S3
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50867)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idFV8-0003r9-5j
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:26:40 -0500
+ (envelope-from <dovgaluk@ispras.ru>) id 1idFEl-0001qv-70
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idFV6-00033L-2j
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:26:38 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:35946)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idFV5-0002zv-P9
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:26:35 -0500
-Received: by mail-ot1-x341.google.com with SMTP id i4so6124837otr.3
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a9GurE1xd2LNGVPndpjcP+v/5quQXvNZhRnmB4KANks=;
- b=My/CsGmoK0XqSEW1ujJ9iQxiW7x+HbOVhXSsUpgpbFk+AaGogRT7THsanTBvWcmbsl
- sRGxOt+nkzdZiW7T2YUHyy/UK/DOj7Sm1ZY8spX4bM0FsB7rVsP4+zANRrQWsQfdWNMg
- ezd/89GrPM3xbu58V53YD67C/P2mJefGpL/jiVKpNzrMnYC/AsNOSCUzQPxt1vLjtKy9
- KCCNdMtCsxb5XP+p3g0lL9CNCeOiUlCi9jsaM50B/DdUPOQ5CD205R7dVc/3L8MFQSSt
- Sez56Q6XoYulTNmJymbWk5G7TH2yxrRCFAGk1kRelKBhr10n46VCd8rn4C4aIl0VXOqt
- 9QQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a9GurE1xd2LNGVPndpjcP+v/5quQXvNZhRnmB4KANks=;
- b=lsYoa/XEC6/Z61K/0ZKOKhMDX9o5C6fwyRxDVwXiaj+0i5nZHH7ejiW/w+VoQyPzXn
- Hbplp0UgHfIqN4/CTg66ZeATV10rI04TNkBeLOEq4yJ5GD3P1j+VAjyAazRa5AT0UPtu
- AywtufJbLqhOHuq0NVQl4cuihhWkDvJDxSMOFpuGG1QWv8kh0yXnAstDL1YIaRlARSAL
- 9zjK3vRbZ4ZphQVgRGVApGVJ2L7ntk58Jltyqxq/7zQHT/PjZ825UrkclF3OeCPASd3B
- t41AwzfQIqldar1/u/0nyQButTLn1GOK4jngfL517GbL8wWBxNDmGxgRTyHYMZi8j389
- mvPw==
-X-Gm-Message-State: APjAAAW7oGszOHjgBSzdJEu/HwFX6/CxWUw2wAQVkOLRn84Fygg0hwWh
- cSYSUeBSBDZ8C8kgZIXO7K5G4bnGo8PYWKcv5G/6xrAo
-X-Google-Smtp-Source: APXvYqwo74JbEYT67UcEYcG3qS6gQ5kx8y8dbJMRP/WspoRWnNQCA7oIW8+LtdI7Ksg7/cbOquu5fo2HylGgn61bGdM=
-X-Received: by 2002:a9d:12d2:: with SMTP id g76mr10682660otg.232.1575625984928; 
- Fri, 06 Dec 2019 01:53:04 -0800 (PST)
+ (envelope-from <dovgaluk@ispras.ru>) id 1idFEj-0001PA-5l
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:42 -0500
+Received: from mail.ispras.ru ([83.149.199.45]:53758)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1idFEi-0001KP-Ny
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:09:41 -0500
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5E71B540081;
+ Fri,  6 Dec 2019 14:32:17 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Aleksandar Markovic'" <aleksandar.m.mail@gmail.com>
+References: <20190719082647.18113-1-mrolnik@gmail.com>
+ <20190719082647.18113-6-mrolnik@gmail.com>
+ <000c01d542cf$d8476a00$88d63e00$@ru>
+ <CAL1e-=h70Hrs7fFEBMgzhrq3HKhxuy9qGQg5148jJ1ACALSThg@mail.gmail.com>
+In-Reply-To: <CAL1e-=h70Hrs7fFEBMgzhrq3HKhxuy9qGQg5148jJ1ACALSThg@mail.gmail.com>
+Subject: RE: [Qemu-devel] [PATCH v27 5/8] target/avr: Add limited support for
+ USART and 16 bit timer peripherals
+Date: Fri, 6 Dec 2019 14:32:12 +0300
+Message-ID: <004401d5ac28$d37bc170$7a734450$@ru>
 MIME-Version: 1.0
-References: <20191206044134.259488-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20191206044134.259488-1-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 09:52:54 +0000
-Message-ID: <CAFEAcA-oGLx+mcgqxC6-QRv9dSdzOqvM8g7q7SzUuAqKSZU-tA@mail.gmail.com>
-Subject: Re: [PULL 0/1] ppc-for-4.2 queue 20191206
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0045_01D5AC41.F8C8F970"
+X-Mailer: Microsoft Office Outlook 12.0
+Content-Language: ru
+Thread-Index: AdWrVpJ1KnWzxR93TgKTqY4duGAvxAA0QWbQ
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +53,354 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>
+Cc: richard.henderson@linaro.org, 'Sarah Harris' <S.E.Harris@kent.ac.uk>,
+ 'Michael Rolnik' <mrolnik@gmail.com>, qemu-devel@nongnu.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Dec 2019 at 04:41, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> The following changes since commit 1bdc319ab5d289ce6b822e06fb2b13666fd9278e:
->
->   Update version for v4.2.0-rc4 release (2019-12-03 17:56:30 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/dgibson/qemu.git tags/ppc-for-4.2-20191206
->
-> for you to fetch changes up to d887a8cfc083bcf3856f9f42352989f3624e0cae:
->
->   pseries: Update SLOF firmware image (2019-12-06 15:33:23 +1100)
->
-> ----------------------------------------------------------------
-> ppc patch queue 2019-12-06
->
-> This is a last minute pull request for ppc-for-4.2.  I know it's very
-> late in freeze, but this does fix a regression: a bad interaction
-> between the new qemu and SLOF device tree construction code means that
-> SLOF will crash if PCI to PCI bridges are included in the system.
+This is a multi-part message in MIME format.
 
-I really really really don't want to do an rc5. This would
-have to be "everybody using ppc gets crashes" for me to
-really want to put it in at this point...
+------=_NextPart_000_0045_01D5AC41.F8C8F970
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--- PMM
+=20
+
+From: Aleksandar Markovic [mailto:aleksandar.m.mail@gmail.com]=20
+Sent: Thursday, December 05, 2019 1:27 PM
+To: Pavel Dovgalyuk
+Cc: Michael Rolnik; qemu-devel@nongnu.org; richard.henderson@linaro.org; =
+Sarah Harris; philmd@redhat.com
+Subject: Re: [Qemu-devel] [PATCH v27 5/8] target/avr: Add limited =
+support for USART and 16 bit timer peripherals
+
+=20
+
+
+
+On Thursday, July 25, 2019, Pavel Dovgalyuk <dovgaluk@ispras.ru> wrote:
+
+> From: Qemu-devel [mailto:qemu-devel-bounces+patchwork-qemu-
+> devel=3Dpatchwork.kernel.org@nongnu.org] On Behalf Of Michael Rolnik
+> From: Sarah Harris <S.E.Harris@kent.ac.uk>
+>=20
+> These were designed to facilitate testing but should provide enough =
+function to be useful in
+> other contexts.
+
+USART is very useful for testing, but to which model of AVR is belongs?
+We also started implementation of USART and other devices in our =
+internship program,
+using prior version of your patches.
+There were other register addresses for the registers and some of them =
+even intersect
+making read/write logic more complex (we looked at Atmega8).
+
+You also mix the board and the SoC into one file, making =
+hardware-on-chip harder to reuse.
+
+I think that the structure can be revised in the following way:
+Board -> SoC -> Devices
+
+=20
+
+Pavel,
+
+=20
+
+By "structure", did you mean structure of patches?
+
+=20
+
+I mean structure of files/qobjects.
+
+=20
+
+Let's say, after the all ISA instruction patches are introduced, we =
+first introduce one real board of our choice (only infrastructure, with =
+almost empty content, than devices on that board, than the corresponding =
+SoC/MCU infrastucture, than device in that SoC.
+
+=20
+
+Additional boards would follow the same pattern, potentially reusing =
+already implemented devices, or whole SoC/MCU.
+
+=20
+
+That=E2=80=99s why we tried to join peripherals and CPU into SoC/MCU =
+=E2=80=93 for reusing the hardware configuration.
+
+=20
+
+One more question:
+
+=20
+
+We already saw that devices within SoC/MCUs for AVR platform exibit =
+great variation. First, there are around 17 generation of AVR cores =
+(avr1, avr2, ... xmega7). Than, there is, I think 600+ SoC/MCU models =
+(hard to believe, but true). Each SoC defines its devices, and in =
+potentially different way (not only its starting address, but real =
+differences in terms of functionality). I thought that at least for a =
+particular core, the devices would be defined in a consistent way, but =
+even that is not true - for example ADC for a SoC having core X can be =
+significantly different that ADC for another SoC having the same core X.
+
+=20
+
+How to deal with such avalanche of devices? How to organize and maintain =
+27 significantly different versions of ADC; and 53 significantly =
+different versions of Watchdogs (the numbers are invented by me, but are =
+likely to describe the situation well)?
+
+=20
+
+I hope, that the differences will be rather small and allow making =
+simple flag switches like in mips/translate.c, when decoding depends on =
+CPU features.
+
+In the opposite case we can create several instances of the device =
+implementations.
+
+=20
+
+=20
+
+Best regards,
+
+=20
+
+Aleksandar
+
+=20
+
+=20
+
+=20
+
+=20
+
+Board includes SoC, loads the firmware, and adds some external =
+peripheral devices, if needed.
+
+SoC includes embedded peripherals. It dispatches IO memory accesses and =
+passes them
+to the devices. In this case you can have different register addresses =
+for different SoCs, but
+the embedded device emulation code can be mostly the same for simple =
+devices like USART.
+
+> Only a subset of the functions of each peripheral is implemented, =
+mainly due to the lack of a
+> standard way to handle electrical connections (like GPIO pins).
+
+We did not got too much results, you can check for our changes here: =
+https://github.com/Dovgalyuk/qemu/tree/avr8
+
+But we can help you in development of better version of the patches and =
+split the work
+for making this platform more usable.
+
+
+Pavel Dovgalyuk
+
+
+
+=20
+
+Pavel Dovgalyuk
+
+=20
+
+
+------=_NextPart_000_0045_01D5AC41.F8C8F970
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
+name=3DGenerator content=3D"Microsoft Word 12 (filtered =
+medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:2.0cm 42.5pt 2.0cm 3.0cm;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DRU link=3Dblue =
+vlink=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><div =
+style=3D'border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
+4.0pt'><div><div style=3D'border:none;border-top:solid #B5C4DF =
+1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span =
+style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'>From:</span>=
+</b><span style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'> =
+Aleksandar Markovic [mailto:aleksandar.m.mail@gmail.com] =
+<br><b>Sent:</b> Thursday, December 05, 2019 1:27 PM<br><b>To:</b> Pavel =
+Dovgalyuk<br><b>Cc:</b> Michael Rolnik; qemu-devel@nongnu.org; =
+richard.henderson@linaro.org; Sarah Harris; =
+philmd@redhat.com<br><b>Subject:</b> Re: [Qemu-devel] [PATCH v27 5/8] =
+target/avr: Add limited support for USART and 16 bit timer =
+peripherals<o:p></o:p></span></p></div></div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><br><br>On =
+Thursday, July 25, 2019, Pavel Dovgalyuk &lt;<a =
+href=3D"mailto:dovgaluk@ispras.ru">dovgaluk@ispras.ru</a>&gt; =
+wrote:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'margin-bottom:12.0pt'>&gt; From: Qemu-devel [mailto:<a =
+href=3D"mailto:qemu-devel-bounces+patchwork-qemu-">qemu-devel-bounces+pat=
+chwork-qemu-</a><br>&gt; devel=3D<a =
+href=3D"mailto:patchwork.kernel.org@nongnu.org">patchwork.kernel.org@nong=
+nu.org</a>] On Behalf Of Michael Rolnik<br>&gt; From: Sarah Harris =
+&lt;<a =
+href=3D"mailto:S.E.Harris@kent.ac.uk">S.E.Harris@kent.ac.uk</a>&gt;<br>&g=
+t; <br>&gt; These were designed to facilitate testing but should provide =
+enough function to be useful in<br>&gt; other contexts.<br><br>USART is =
+very useful for testing, but to which model of AVR is belongs?<br>We =
+also started implementation of USART and other devices in our internship =
+program,<br>using prior version of your patches.<br>There were other =
+register addresses for the registers and some of them even =
+intersect<br>making read/write logic more complex (we looked at =
+Atmega8).<br><br>You also mix the board and the SoC into one file, =
+making hardware-on-chip harder to reuse.<br><br>I think that the =
+structure can be revised in the following way:<br>Board -&gt; SoC -&gt; =
+Devices<o:p></o:p></p><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>Pavel,<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>By &quot;structure&quot;, did you mean structure of =
+patches?<span lang=3DEN-US><o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>I mean structure of files/qobjects.<o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p><div><p =
+class=3DMsoNormal>Let's say, after the all ISA instruction patches are =
+introduced, we first introduce one real board of our choice (only =
+infrastructure, with almost empty content, than devices on that board, =
+than the corresponding SoC/MCU infrastucture, than device in that =
+SoC.<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>Additional boards would follow the same pattern, =
+potentially reusing already implemented devices, or whole =
+SoC/MCU.<o:p></o:p></p></div><p class=3DMsoNormal><span lang=3DEN-US =
+style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>That=E2=80=99s why we tried to join peripherals and CPU into SoC/MCU =
+=E2=80=93 for reusing the hardware =
+configuration.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><div><p class=3DMsoNormal>One more =
+question:<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>We already saw that devices within SoC/MCUs for AVR =
+platform exibit great variation. First, there are around 17 generation =
+of AVR cores (avr1, avr2, ... xmega7). Than, there is, I think 600+ =
+SoC/MCU models (hard to believe, but true). Each SoC defines its =
+devices, and in potentially different way (not only its starting =
+address, but real differences in terms of functionality). I thought that =
+at least for a particular core, the devices would be defined in a =
+consistent way, but even that is not true - for example ADC for a SoC =
+having core X can be significantly different that ADC for another SoC =
+having the same core X.<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>How to deal with such avalanche of devices? How to =
+organize and maintain 27 significantly different versions of ADC; and 53 =
+significantly different versions of Watchdogs (the numbers are invented =
+by me, but are likely to describe the situation well)?<span =
+lang=3DEN-US><o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>I hope, that the differences will be rather small and allow making =
+simple flag switches like in mips/translate.c, when decoding depends on =
+CPU features.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>In the opposite case we can create several instances of the device =
+implementations.<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><div><p class=3DMsoNormal><span =
+lang=3DEN-US><o:p>&nbsp;</o:p></span></p></div><div><p =
+class=3DMsoNormal>Best regards,<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>Aleksandar<o:p></o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p =
+class=3DMsoNormal>&nbsp;<o:p></o:p></p></div><blockquote =
+style=3D'border:none;border-left:solid #CCCCCC 1.0pt;padding:0cm 0cm 0cm =
+6.0pt;margin-left:4.8pt;margin-right:0cm'><p class=3DMsoNormal =
+style=3D'margin-bottom:12.0pt'><span lang=3DEN-US>Board includes SoC, =
+loads the firmware, and adds some external peripheral devices, if =
+needed.<br><br></span>SoC includes embedded peripherals. It dispatches =
+IO memory accesses and passes them<br>to the devices. In this case you =
+can have different register addresses for different SoCs, but<br>the =
+embedded device emulation code can be mostly the same for simple devices =
+like USART.<br><br>&gt; Only a subset of the functions of each =
+peripheral is implemented, mainly due to the lack of a<br>&gt; standard =
+way to handle electrical connections (like GPIO pins).<br><br>We did not =
+got too much results, you can check for our changes here: <a =
+href=3D"https://github.com/Dovgalyuk/qemu/tree/avr8" =
+target=3D"_blank">https://github.com/Dovgalyuk/qemu/tree/avr8</a><br><br>=
+But we can help you in development of better version of the patches and =
+split the work<br>for making this platform more usable.<br><br><br>Pavel =
+Dovgalyuk<br><br><span lang=3DEN-US><o:p></o:p></span></p><p =
+class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'>Pavel Dovgalyuk<o:p></o:p></span></p><p class=3DMsoNormal><span =
+lang=3DEN-US =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497=
+D'><o:p>&nbsp;</o:p></span></p></blockquote></div></div></div></div></bod=
+y></html>
+------=_NextPart_000_0045_01D5AC41.F8C8F970--
+
 
