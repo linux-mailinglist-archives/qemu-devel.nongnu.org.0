@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F32114BDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 06:22:20 +0100 (CET)
-Received: from localhost ([::1]:35780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC1D114C1A
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 06:40:36 +0100 (CET)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1id64J-0006zY-Da
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 00:22:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51919)
+	id 1id6Lz-0004De-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 00:40:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1id63M-0006a3-JA
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:21:22 -0500
+ (envelope-from <thuth@redhat.com>) id 1id6J4-0002FU-4z
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:37:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1id63L-0001Am-4h
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:21:20 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31227
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1id6J2-0005gk-3e
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:37:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47871
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1id63K-000188-U7
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:21:19 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1id6J1-0005g0-TE
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 00:37:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575609678;
+ s=mimecast20190719; t=1575610650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jT90sBLlV2LhZf44WIZ1ypJkEpF+FPUSUN90SftE4vQ=;
- b=JoG2Cgy/T3OWsWIEDTV/hYzJOFnPanWqTWMIkbfHQ9NrXZqHBXsZGdXXqgdofEH4a3SR0c
- 9atKwVBYprhxBeE3Jvc7YT0pmVBhCOs73nbPjA7EZDjqsp42YXgtZidx+gvjTC8x27/a1P
- IcCM7n+9Eemq1tL4lROrdvn97or9/J4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-ILu2GK8OMOSmLEaXwVcwrA-1; Fri, 06 Dec 2019 00:21:16 -0500
-Received: by mail-wr1-f69.google.com with SMTP id o6so2622056wrp.8
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 21:21:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LhEW5Yas0ftAkK5B8QiiUCRaCujGHE6Q4ZuDr19H8HI=;
- b=n92RKTFNineDxXrE2zbxfzS4j+p/QPQG/Zj+i/YDGkfAxVCzEDRVkVrr56xD+HK7Fl
- 0wOa+r4yXSw4cis/ikdG8rPGmi1PlkpyYTjUkmMPbDAp+SOlzK3ZFOQIwIh/BttVzp4O
- cBYYQXBNE8ZF4jVqSfJX+mmqxH3M8CuI7RPO+FsxNXwwUlNmL3usKw+4EuSvqQ7kFyvc
- sJFskS15hdSljwjkYRkI0DI/ZcHZRqcmAln8FgmBT9D9GKCEKsPwJujRJrBCVAO31cfv
- IVZ0hY2ZAQa8eDKWcckUJ8K1aSEMQaN1/a/Hmh3qYOWSAq94/sHtnC7QnQQp6shxXAPE
- 3bNQ==
-X-Gm-Message-State: APjAAAWjovySwuI0b0u5CeQomqnSUgHmIUuazl8DShJ+dhuXxPreqlxq
- Z7o8g+r/EprBbtLFexieWPp4RaLityo8hvzq6vfOd0wwG3NL1x7F/l/yI12VmQqhRlBwOMWV7DS
- fgNBg31vjvwMqlCE=
-X-Received: by 2002:a7b:c956:: with SMTP id i22mr8386008wml.65.1575609675720; 
- Thu, 05 Dec 2019 21:21:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyPFmankEv03Xb8V+5ZY+KieYP1HwsuIate+lX+AAwBIiCnnU5UBb60wNEmtAgYfmSlP0beuQ==
-X-Received: by 2002:a7b:c956:: with SMTP id i22mr8385996wml.65.1575609675479; 
- Thu, 05 Dec 2019 21:21:15 -0800 (PST)
-Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
- [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id w17sm15228427wrt.89.2019.12.05.21.21.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 21:21:14 -0800 (PST)
-Subject: Re: [PATCH-for-5.0 v2] roms/edk2-funcs: Force softfloat ARM toolchain
- prefix on Debian
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
-References: <20191205190006.19352-1-philmd@redhat.com>
- <8df56910-6a2b-ccab-0d45-d5c64a56f3e1@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c31c6b70-918f-ded4-4338-796c7f7e8607@redhat.com>
-Date: Fri, 6 Dec 2019 06:21:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <8df56910-6a2b-ccab-0d45-d5c64a56f3e1@redhat.com>
-Content-Language: en-US
-X-MC-Unique: ILu2GK8OMOSmLEaXwVcwrA-1
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fl3E6rnCXiWuVVML0BycNp4NnS5LrtHxR/odXnW2yDs=;
+ b=ebBjo4+HAXxWDootvooIAHV4iNX4azgp116XnsAcW3Lv/mP1hH8FUxAeNZwRlF5Ybhsgx/
+ vIwcedqp2ewmfWJJhOCXZ4CAEZuSCUz3Fz10kngpRxUptsZ2JXRY0xm1ObVw/2fEjlecv7
+ a2NGy15v+vRkA+eMoxx9D9IaRqdxK6g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-qQhD_9OlPHSfYKl_-b5m-w-1; Fri, 06 Dec 2019 00:36:48 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8957DB2F
+ for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 05:36:47 +0000 (UTC)
+Received: from thuth.com (ovpn-116-97.ams2.redhat.com [10.36.116.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1F1260F88;
+ Fri,  6 Dec 2019 05:36:43 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH 0/2] net: Drop legacy "name" from -net and remove NetLegacy
+Date: Fri,  6 Dec 2019 06:36:38 +0100
+Message-Id: <20191206053640.29368-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: qQhD_9OlPHSfYKl_-b5m-w-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,76 +67,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: libvir-list@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/19 1:19 AM, Laszlo Ersek wrote:
-> On 12/05/19 20:00, Philippe Mathieu-Daud=C3=A9 wrote:
->> The Debian (based) distributions currently provides 2 ARM
->> toolchains, documented as [1]:
->>
->> * The ARM EABI (armel) port targets a range of older 32-bit ARM
->>    devices, particularly those used in NAS hardware and a variety
->>    of *plug computers.
->> * The newer ARM hard-float (armhf) port supports newer, more
->>    powerful 32-bit devices using version 7 of the ARM architecture
->>    specification.
->>
->> For various reasons documented in [2], the EDK2 project recommend
->> to use the softfloat toolchain (named 'armel' by Debian).
->>
->> Force the softfloat cross toolchain prefix on Debian distributions.
->>
->> [1] https://www.debian.org/ports/arm/#status
->> [2] https://github.com/tianocore/edk2/commit/41203b9a
->=20
-> Ah cool, this answers my earlier question -- "the GCCx toolchain targets
-> can use either when building for ARM".
->=20
-> Still not sure if this is a "recommendation" for using soft-float, but
-> if it works, I'm OK with it.
+It's time to remove the deprecated "name" parameter from -net.
 
-I'll use "suggests" instead.
+Please have a closer look at the second patch ... I think it should be
+fine, but I'm not 100% sure whether it's ok for all cases to drop NetLegacy=
+,
+so please double-check.
 
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   roms/edk2-funcs.sh | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
->> index 3f4485b201..abd6bbe1fd 100644
->> --- a/roms/edk2-funcs.sh
->> +++ b/roms/edk2-funcs.sh
->> @@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
->>        ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] )=
-; then
->>       # no cross-compiler needed
->>       :
->> +  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); th=
-en
->> +    # force hard-float cross-compiler on Debian
->=20
-> The comment has not been updated; it still says hard-float.
+Thomas Huth (2):
+  net: Drop the legacy "name" parameter from the -net option
+  net: Drop the NetLegacy structure, always use Netdev instead
 
-Oops.
+ net/net.c            | 84 +++++++-------------------------------------
+ qapi/net.json        | 53 +---------------------------
+ qemu-deprecated.texi | 12 ++++---
+ 3 files changed, 20 insertions(+), 129 deletions(-)
 
-> With the comment updated:
->=20
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-
-Thanks!
-
->=20
-> Thanks,
-> Laszlo
->=20
->> +    printf 'arm-linux-gnueabi-'
->>     else
->>       printf '%s-linux-gnu-\n' "$gcc_arch"
->>     fi
->>
->=20
+--=20
+2.18.1
 
 
