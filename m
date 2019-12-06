@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8F11155F3
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:58:03 +0100 (CET)
-Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0297C115600
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:00:21 +0100 (CET)
+Received: from localhost ([::1]:41374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGva-0002mM-7E
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
+	id 1idGxn-0005yP-J7
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:00:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1idFBm-0006wU-1t
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:39 -0500
+ (envelope-from <pmathieu@redhat.com>) id 1idFCs-00084F-VU
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1idFBk-0005go-LQ
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45128
+ (envelope-from <pmathieu@redhat.com>) id 1idFCr-00078L-Hj
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:07:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32515
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1idFBi-0005es-NA
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:06:34 -0500
+ (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1idFCr-000774-D1
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:07:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575644793;
+ s=mimecast20190719; t=1575644864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DB7Dl0O/SdQi/C44lTRSAKFanxqyAJjtE6937CoG+lc=;
- b=Pm+Mlw7Q61xyTVoz5xBuIaf6iCNwTnXUTKIh/H+jAKpQ0YN/TUbOroiGqJpU7aO3GaE7+J
- 9qlnJp9Li5LowNHwFoHmbA/b8UodSUYlztAjqZAjLmjWz0TKHFLlZijPEbBKNMJ7FzbCg0
- m1WbRucAe4P9pSCWSw35cmZrVcuM1oc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-FLCEaU9mPxGqzzK7hxfqQQ-1; Fri, 06 Dec 2019 10:06:32 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A3679126C
- for <qemu-devel@nongnu.org>; Fri,  6 Dec 2019 15:06:31 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-235.ams2.redhat.com
- [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C960C67E52;
- Fri,  6 Dec 2019 15:06:25 +0000 (UTC)
-Subject: Re: [PATCH for-5.0 8/8] acpi: cpuhp: spec: document procedure for
- enabling modern CPU hotplug
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1575479147-6641-1-git-send-email-imammedo@redhat.com>
- <1575479147-6641-9-git-send-email-imammedo@redhat.com>
- <bb601078-db09-1915-1d12-350093887183@redhat.com>
- <20191206144940.091bef52@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <e432f16e-bf41-ae8f-aa04-d9fe18d39350@redhat.com>
-Date: Fri, 6 Dec 2019 16:06:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ bh=Qz567u+yT0zr/JjZxIadcGbgOXDrC+WKg4YWe886KhU=;
+ b=YIJ9bUT+bh/eIaIeDlzp7xW0Vz6WrBKW/HYZwYEiOaDkBxzirsF1ZYv0NmZnp/bL0LCKk4
+ RoaPgAxy7p9Aetjxj1G3kmCC1DLHJzJzzlXUey2uYOic/oCCt+M84vfq4L9oJjMLzg3he+
+ 2W9xBZmzgnrMaStmyLXG5KnsJ6+6gMQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-4QKlO17dO-Cu4ib8rFODkw-1; Fri, 06 Dec 2019 10:07:43 -0500
+Received: by mail-wr1-f71.google.com with SMTP id r2so3265520wrp.7
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 07:07:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Qz567u+yT0zr/JjZxIadcGbgOXDrC+WKg4YWe886KhU=;
+ b=ETYARj6tnuBui6UjCHCqbo4FebyuR+eq3nNqh6b2/QF/prnt9yu25rjM4fAzrff2+Y
+ kW44kD0t4haVF64khzJraYSzD9l7bWvhKpvp0N0AMTMIuTNTZPdxzGuv+iIVoCgbBWlT
+ ESf+kDf8ATFPO4OyG2WicqIPhmUqKUMS3jADw8kdYpbO+aG6QcEagqeIPgTj82Lq+e7s
+ Hs34mv62aNFVxFVmn+JFKNAwtuQ5+/UB0CZVaSiuFn9XeGlsYUvJ9TxM/ZR6DkKXl30s
+ JmBHdCP1ViWmjb+u3w/6Gz0SeSQvQqysA9fYXUrjJ0oiRtYM5qnLKhZFDOp2tpPORetM
+ h+nw==
+X-Gm-Message-State: APjAAAX3vxP7+5Z1j2IBw+MyTJCro7z7adGl0mMhJeA1Pm7SuRyHd0Pr
+ TFVxzowr3aRIo4w4APTHdrYoJwsuWuh27CgVxjvLdCLArLlzj/jmSaSiGk+nFd5LBGEquksr/+D
+ BzB8JXort1fVzJ2/Jx4KOvrf6D0evpcg=
+X-Received: by 2002:adf:f20b:: with SMTP id p11mr15776043wro.195.1575644862599; 
+ Fri, 06 Dec 2019 07:07:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxFlctG0n9kz6LxMcc+G0A0JVVbU54duyIpOgYMN7rxp/im62E+b+36pq4vKuXRwwb93gqvqQ8mXgLdBh7PEp0=
+X-Received: by 2002:adf:f20b:: with SMTP id p11mr15776017wro.195.1575644862340; 
+ Fri, 06 Dec 2019 07:07:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191206144940.091bef52@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: FLCEaU9mPxGqzzK7hxfqQQ-1
+References: <20191126223810.20180-1-philmd@redhat.com>
+ <20191126223810.20180-2-philmd@redhat.com>
+ <20191206144605.GB5020@dhcp-17-72.bos.redhat.com>
+In-Reply-To: <20191206144605.GB5020@dhcp-17-72.bos.redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 6 Dec 2019 16:07:31 +0100
+Message-ID: <CAP+75-Ubm9qb5JvXHV2Etcb1ejhqhDUOm4z_N5Z_DN8LoFiPHg@mail.gmail.com>
+Subject: Re: [PATCH-for-4.2? v2 1/2] tests/boot_linux_console: Fetch assets
+ from Debian snapshot archives
+To: Cleber Rosa <crosa@redhat.com>
+X-MC-Unique: 4QKlO17dO-Cu4ib8rFODkw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -78,71 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/19 14:49, Igor Mammedov wrote:
-> On Thu, 5 Dec 2019 15:07:53 +0100
-> Laszlo Ersek <lersek@redhat.com> wrote:
-> 
->> On 12/04/19 18:05, Igor Mammedov wrote:
->>> Describe how to enable and detect modern CPU hotplug interface.
->>> Detection part is based on new CPHP_GET_CPU_ID_CMD command,
->>> introduced by "acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command" patch.
->>>
->>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>> ---
->>>  docs/specs/acpi_cpu_hotplug.txt | 22 ++++++++++++++++++++--
->>>  1 file changed, 20 insertions(+), 2 deletions(-)  
->>
->> Could we make this usecase / workflow independent of the new
->> CPHP_GET_CPU_ID_CMD command please?
->>
->> I'd like to suggest the following:
->>
->>> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
->>> index bb33144..667b264 100644
->>> --- a/docs/specs/acpi_cpu_hotplug.txt
->>> +++ b/docs/specs/acpi_cpu_hotplug.txt
->>> @@ -15,14 +15,14 @@ CPU present bitmap for:
->>>    PIIX-PM  (IO port 0xaf00-0xaf1f, 1-byte access)
->>>    One bit per CPU. Bit position reflects corresponding CPU APIC ID. Read-only.
->>>    The first DWORD in bitmap is used in write mode to switch from legacy
->>> -  to new CPU hotplug interface, write 0 into it to do switch.
->>> +  to modern CPU hotplug interface, write 0 into it to do switch.
->>>  ---------------------------------------------------------------
->>>  QEMU sets corresponding CPU bit on hot-add event and issues SCI
->>>  with GPE.2 event set. CPU present map is read by ACPI BIOS GPE.2 handler
->>>  to notify OS about CPU hot-add events. CPU hot-remove isn't supported.
->>>
->>>  =====================================
->>> -ACPI CPU hotplug interface registers:
->>> +Modern ACPI CPU hotplug interface registers:
->>>  -------------------------------------
->>>  Register block base address:
->>>      ICH9-LPC IO port 0x0cd8
->>> @@ -105,6 +105,24 @@ write access:
->>>                other values: reserved
->>>
->>>      Typical usecases:
->>> +        - (x86) Detecting and enabling modern CPU hotplug interface.  
->>
->> (1) I think we can drop the (x86) restriction. (Because, we don't need
->> to depend on APIC ID specifics; see below.)
-> I'd rather keep it x86 specific, as enabling interface and talking about
-> legacy bitmap applies only to x86 impl.
-> ARM one won't have any of it, it will just be enabled in a future QEMU
-> (probably even without version-ed machine type).
-> So could we just say usual "use firmware X.Y with QEMU Z to use CPU hotplug"
-> in that case?
-> Do we really need it to be arch agnostic?
+On Fri, Dec 6, 2019 at 3:46 PM Cleber Rosa <crosa@redhat.com> wrote:
+> On Tue, Nov 26, 2019 at 11:38:09PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > The kernel packaged was fetched from an unstable repository.
+> > Use the stable snapshot archive instead.
+> >
+> > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > ---
+> > v2:
+> > - Rebased
+> > - Dropped Alex's Tested-by tag, since commit 2ecde8b2fb got merged
+> >   since and it changed the tested kernel version.
+> > ---
+> >  tests/acceptance/boot_linux_console.py | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
+boot_linux_console.py
+> > index 7e41cebd47..752f776f68 100644
+> > --- a/tests/acceptance/boot_linux_console.py
+> > +++ b/tests/acceptance/boot_linux_console.py
+> > @@ -479,7 +479,8 @@ class BootLinuxConsole(Test):
+> >          :avocado: tags=3Darch:m68k
+> >          :avocado: tags=3Dmachine:q800
+> >          """
+> > -        deb_url =3D ('http://ftp.ports.debian.org/debian-ports/pool-m6=
+8k/main'
+> > +        deb_url =3D ('https://snapshot.debian.org/archive/debian-ports=
+'
+> > +                   '/20191021T083923Z/pool-m68k/main'
+> >                     '/l/linux/kernel-image-5.3.0-1-m68k-di_5.3.7-1_m68k=
+.udeb')
+> >          deb_hash =3D '044954bb9be4160a3ce81f8bc1b5e856b75cccd1'
+> >          try:
+> > --
+> > 2.21.0
+> >
+>
+> Works great, sorry for not picking it up earlier.  Now with rc-4, I'll
+> check with Peter if we can still have this on 4.2 and send a PR.
 
-No, I only suggested removing the x86 reference as a possible "extra"
-improvement, from not depending on CPHP_GET_CPU_ID_CMD / APIC ID.
+Nobody complained and this is not a critical bugfix, so I'd now defer
+it, to not delay 5.0 any longer.
 
-Thanks,
-Laszlo
+> Thanks!
+> - Cleber.
 
 
