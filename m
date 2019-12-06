@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C841154E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:14:23 +0100 (CET)
-Received: from localhost ([::1]:40544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E9311550B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 17:21:56 +0100 (CET)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idGFJ-0007To-GW
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:14:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48657)
+	id 1idGMd-00070K-AV
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 11:21:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1idF8l-0003SR-Vs
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:03:37 -0500
+ (envelope-from <pkrempa@redhat.com>) id 1idExg-0006bO-CB
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1idF8k-0000of-7y
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:03:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47915
+ (envelope-from <pkrempa@redhat.com>) id 1idExe-0003Fy-TK
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34463
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1idF8k-0000na-3P
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 10:03:30 -0500
+ (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1idExe-0003EV-PE
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:52:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575644609;
+ s=mimecast20190719; t=1575643922;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CCYAJx/IIBCLtbXTluUDn5tA+V9Tc3YwcHu39RSQD3E=;
- b=UlMiMOXj7gsPlcx1yD5Ym/GuSl533jlRvreCTaAengSmyfxDlfPK0KgbuG0ur6DPoipwwk
- rn7ohLSKM70w3CuU/kmQgyNDJX4hb4aDHLB3d785EgXlbg8P3FKBhUT2sh7O8irp8pY4+E
- dMzrLLBmgIOeZbczf6+9wSKQrcBDmNM=
+ bh=nBid/zYBzZZU2LQ5CgJZpPKteEOudWCDEageNwftzcs=;
+ b=EU2GvkQgExx+U1dJtlKTXbxBwr+kqNaTPsxPCJgAV3t1gj5R4wqflgifoHqPXRQt3zJses
+ rdvBDWu5ibwn+E9xYusVdAJR0TSlWkSK82pnJXoyrNfWutGyvPzqBG7D5LtbW1penqadQd
+ CjSA/vQQ+SR5axUk/spLZ0J1uUmMb64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-QtOnezTVMeCNVSJiBR7SoQ-1; Fri, 06 Dec 2019 04:02:40 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-179-9wnGehJBOCKgrWDPjekNJg-1; Fri, 06 Dec 2019 04:49:57 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9D501005512;
- Fri,  6 Dec 2019 09:02:39 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-235.ams2.redhat.com
- [10.36.116.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B84E65D6BB;
- Fri,  6 Dec 2019 09:02:35 +0000 (UTC)
-Subject: Re: [PATCH v3] qga: fence guest-set-time if hwclock not available
-To: Markus Armbruster <armbru@redhat.com>
-References: <20191205115350.18713-1-cohuck@redhat.com>
- <5aaa7f3a-e3d1-0057-5fe2-07dea4864bc7@redhat.com>
- <a0636a36-60e6-9d18-4643-cea6a1e5e294@redhat.com>
- <87h82dorfn.fsf@dusky.pond.sub.org>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a568ba8f-7318-cb37-15df-9d75d69a38ed@redhat.com>
-Date: Fri, 6 Dec 2019 10:02:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A93A1005502;
+ Fri,  6 Dec 2019 09:49:56 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.43.2.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3831667E52;
+ Fri,  6 Dec 2019 09:49:49 +0000 (UTC)
+Date: Fri, 6 Dec 2019 10:49:47 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [libvirt] Offline manipulation of Dirty Bitmaps by qemu-img
+Message-ID: <20191206094947.GD2441258@angien.pipo.sk>
+References: <4a9e19d1-fe87-e3f5-8faf-18127914b7b4@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87h82dorfn.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: QtOnezTVMeCNVSJiBR7SoQ-1
+In-Reply-To: <4a9e19d1-fe87-e3f5-8faf-18127914b7b4@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 9wnGehJBOCKgrWDPjekNJg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -77,172 +74,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P_._Berrang=c3=a9?=" <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ libvirt-list@redhat.com, Nir Soffer <nsoffer@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/19 08:15, Markus Armbruster wrote:
-> Laszlo Ersek <lersek@redhat.com> writes:
+On Thu, Dec 05, 2019 at 17:37:11 -0500, John Snow wrote:
+> This has come up in the past, and I believe we discussed this at KVM
+> Forum, too:
 >=20
->> On 12/05/19 14:05, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Hi Cornelia,
->>>
->>> On 12/5/19 12:53 PM, Cornelia Huck wrote:
->>>> The Posix implementation of guest-set-time invokes hwclock to
->>>> set/retrieve the time to/from the hardware clock. If hwclock
->>>> is not available, the user is currently informed that "hwclock
->>>> failed to set hardware clock to system time", which is quite
->>>> misleading. This may happen e.g. on s390x, which has a different
->>>> timekeeping concept anyway.
->>>>
->>>> Let's check for the availability of the hwclock command and
->>>> return QERR_UNSUPPORTED for guest-set-time if it is not available.
->>>>
->>>> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
->>>> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->>>> Reviewed-by: Michael Roth <mdroth@linux.vnet.ibm.com>
->>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->>>> ---
->>>>
->>>> v2->v3:
->>>>    - added 'static' keyword to hwclock_path
->>>>
->>>> Not sure what tree this is going through; if there's no better place,
->>>> I can also take this through the s390 tree.
->>>
->>> s390 or trivial trees seems appropriate.
->>>
->>>>
->>>> ---
->>>>   qga/commands-posix.c | 13 ++++++++++++-
->>>>   1 file changed, 12 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
->>>> index 1c1a165daed8..0be301a4ea77 100644
->>>> --- a/qga/commands-posix.c
->>>> +++ b/qga/commands-posix.c
->>>> @@ -156,6 +156,17 @@ void qmp_guest_set_time(bool has_time, int64_t
->>>> time_ns, Error **errp)
->>>>       pid_t pid;
->>>>       Error *local_err =3D NULL;
->>>>       struct timeval tv;
->>>> +    static const char hwclock_path[] =3D "/sbin/hwclock";
->>>> +    static int hwclock_available =3D -1;
->>>> +
->>>> +    if (hwclock_available < 0) {
->>>> +        hwclock_available =3D (access(hwclock_path, X_OK) =3D=3D 0);
->>>> +    }
->>>> +
->>>> +    if (!hwclock_available) {
->>>> +        error_setg(errp, QERR_UNSUPPORTED);
->>>
->>> In include/qapi/qmp/qerror.h we have:
->>>
->>> /*
->>>  * These macros will go away, please don't use in new code, and do not
->>>  * add new ones!
->>>  */
->>
->> Obviously, the last word on this belongs to Markus (CC'd) -- he added
->> that comment. I'd just like to point out *when* that comment was added:
->> approx. four and half years ago. (See commit 4629ed1e9896.)
->=20
-> Yes, with a big push to finally kill qerror_report().  I was too
-> exhausted to finish the job and kill all the remaining QERR_, too.
->=20
-> I'm dead serious on the "do not add new ones" part.
->=20
-> On the "don't use in new code" part, I'm quite willing to tolerate
-> reasonable exceptions, e.g. to maintain consistency with old code.
->=20
-> This one looks like a reasonable exception to me.
->=20
->> I've always associated QERR_UNSUPPORTED with QMP interfaces rejecting
->> invocation due to lack of support. I don't think one more instance of
->> QERR_UNSUPPORTED will matter much, when we'll "finally" :) convert or
->> eliminate the other 35! (Yes, I've counted.)
->>
->> In case it's unacceptable to add one more QERR_UNSUPPORTED: what is the
->> official solution that replaces it?
->>
->> I assume it was explained in the series that included commit
->> 4629ed1e9896, but I can't easily tell. (And, there is no "QERR_" match
->> in docs/.)
->=20
-> See "exhausted" above.
->=20
->> Hmmm, more history digging... In the 4629ed1e9896..v4.2.0-rc4 set of
->> commits, the following commits introduced new instances of
->> QERR_UNSUPPORTED:
->>
->> - e09484efbc9d ("qmp: add QMP interface "query-cpu-model-expansion"", 20=
-16-09-06)
->> - 0031e0d68339 ("qmp: add QMP interface "query-cpu-model-comparison"", 2=
-016-09-06)
->> - b18b6043341d ("qmp: add QMP interface "query-cpu-model-baseline"", 201=
-6-09-06)
->> - 1007a37e2082 ("smbios: filter based on CONFIG_SMBIOS rather than TARGE=
-T", 2017-01-16)
->> - 9f57061c3555 ("acpi: filter based on CONFIG_ACPI_X86 rather than TARGE=
-T", 2017-01-16)
->> - 39164c136cba ("qmp/hmp: add query-vm-generation-id and 'info vm-genera=
-tion-id' commands", 2017-03-02)
->> - 161a56a9065f ("qga: Add 'guest-get-users' command", 2017-04-26)
->> - 53c58e64d0a2 ("qga: Add `guest-get-timezone` command", 2017-04-27)
->> - e674605f9821 ("qemu-ga: check if utmpx.h is available on the system", =
-2017-07-17)
->>
->> I don't claim that all of those additions have stuck with us, to
->> v4.2.0-rc4. Yet, in general, practice doesn't seem to have followed the
->> intended deprecation.
->>
->>>
->>> Maybe we can replace it by "this feature is not supported on this
->>> architecture"? (or without 'on this architecture').
->>
->> I think if we replace QERR_UNSUPPORTED with anything, it should be
->> "similarly standardized". (Lack of support for a given QMP interface is
->> pretty common, I think.)
->=20
-> Here's my the general idea on getting rid of qerror.h.  The QERR_ macros
-> effectively factor out common error message format strings.  DRY is a
-> legitimate concern.  However, I dislike (1) passing anything but string
-> literals as format to printf()-style function, and (2) tempting people
-> to reuse existing error messages where a new error message would be more
-> helpful.
->=20
-> Note that the error_setg() is *also* common.  So take DRY to the next
-> level: factor out the common error_setg(errp, "literal error format
-> string", ...) along with whatever error handling is also common in a
-> helper function, and call that.
+> There have been requests from oVirt (via Nir Soffer) to add some offline
+> bitmap manipulation functionality. In the past, our stance has generally
+> been "Use QEMU without an accelerator, and use QMP to manipulate the
+> images."
 
-Good point, I didn't think of (e.g.) error_set_qmp_unsupported().
+This is a thing I wanted to do for a long time but never had time for.
+I'm not sure whether that will change though.
 
-Thank you for the details!
-Laszlo
+We have a workaround for this tough: you can start the VM with CPUs
+stopped:
 
+virsh start --pause $VMNAME=20
+
+(That translates to VIR_DOMAIN_START_PAUSED flag for
+virDomainCreateWithFlags).
+
+You can then use any libvirt API which requires a running VM including
+blockjobs checkpoints etc.
+
+The VM then can be destroyed. Since the CPUs didn't run the guest
+visible image content was nott modified.
+
+Alternatively to make this slightly more official we could introduce a
+new flag for the VM starting API which will actually start the VM in the
+no-machine mode, will interlock certain operations such as resuming of
+the execution or migration perhaps  and the official purpose will be to
+allow complex blockjobs without starting the actual VM.
+
+Since starting an actual VM will be impossible anyways until such a VM
+is gone it might be a sane thing to do here.
+
+> We like this for a few reasons:
 >=20
-> However, do that only where the errors are truly common.  Where they're
-> just similar, duplicate the error message, and maybe specialize it for
-> specific error situations.
+> 1. It keeps bitmap management code tightly centralized
+> 2. It allows for the full suite of bitmap manipulations in either
+> offline or online mode with one tool
+> 3. We wouldn't have to write new code.
+> 4. Or design new CLIs and duplicate our existing work.
+> 5. Or write even more tests.
+
+In libvirt we'd like to use it because qemu-img has no reasonable
+progress reporting and we could reuse the code we have for interacting
+with the jobs when the VM is running.
+
+> However, tools like oVirt may or may not be fully equipped to launch
+> QEMU in this context, and there is always a desire for qemu-img to be
+> able to "do more", so existing management suites could extend
+> functionality more easily.
+>
+> (Or so I am imagining.)
 >=20
->>>> +        return;
->>>> +    }
->>>>         /* If user has passed a time, validate and set it. */
->>>>       if (has_time) {
->>>> @@ -195,7 +206,7 @@ void qmp_guest_set_time(bool has_time, int64_t
->>>> time_ns, Error **errp)
->>>>             /* Use '/sbin/hwclock -w' to set RTC from the system time,
->>>>            * or '/sbin/hwclock -s' to set the system time from RTC. */
->>>> -        execle("/sbin/hwclock", "hwclock", has_time ? "-w" : "-s",
->>>> +        execle(hwclock_path, "hwclock", has_time ? "-w" : "-s",
->>>>                  NULL, environ);
->>>>           _exit(EXIT_FAILURE);
->>>>       } else if (pid < 0) {
->>>>
->>>
+> I am still leaning heavily against adding any more CLI commands or
+> options to qemu-img right now. Even if we do add some of the fundamental
+> ones like "add" or "remove", it seems only a matter of time before we
+> have to add "clear", "merge", etc. Is this just a race to code duplicatio=
+n?
+>=20
+> On the other hand, one of the other suggestions is to have qemu-img
+> check --repair optionally delete corrupted bitmaps. I kind of like this
+> idea: it's a buyer beware operation that might make management layers
+> unhappy, but then again ... repair is always something that could make
+> things worse.
+
+Well, dealing with corrupted bitmaps will be possible. I plan to expose
+in the checkpoint XML whether a ckeckpoint is invalid (if it contains at
+least one corrupted bitmap) and the user will have the option to delete
+all previous checkpoints including the corrupted one to clear any
+problem.
+
+Note that deleting only the corrupted checkpoint will not be possible
+until it's the oldest one as we attempt to merge them into the previous
+ones. We could alternatively add a flag to skip merging of the invalid
+checkpoint.
+
+> Plus, if you manage to corrupt bitmaps badly enough that they can't even
+> be parsed, you might need a heavyweight repair operation.
+>=20
+> Nir, do you think that'd be sufficient for your needs for now, or would
+> you still like to see more granular offline management?
+>=20
+> --js
+>=20
+> --
+> libvir-list mailing list
+> libvir-list@redhat.com
+> https://www.redhat.com/mailman/listinfo/libvir-list
 
 
