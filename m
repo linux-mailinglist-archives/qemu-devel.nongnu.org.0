@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34411154AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:57:29 +0100 (CET)
-Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A49115489
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:47:09 +0100 (CET)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFyy-0005PW-Ef
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:57:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41085)
+	id 1idFoy-0000mt-2F
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:47:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idEjf-0007I7-BR
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:38 -0500
+ (envelope-from <philmd@redhat.com>) id 1idEen-0002Kp-3n
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idEjY-0007dV-BS
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46182
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1idEel-0008VE-Up
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:32 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26949
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEjR-0007Xh-PC
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:23 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idEel-0008UJ-PF
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575643036;
+ s=mimecast20190719; t=1575642751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=edIubUtxN8p98bHFFpzdA868v3MEHjCgp23RKrnXBGg=;
- b=NoEV7MIE3KlJ29HMgrWWZoZrHbpW6URChD8wXcXkLhCVB0fW/d6t9lQd5oqxciSMurs7Br
- 1fAWsqnWBuyRPcL6JzivZ5KraD1A7A1LTKC5SLFGx9idO4fRFs/bxactcVX5YNmD+Hlfsm
- VYlWiSsPIYBpv8ezmLU5o/JQTsIEE4g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-69-YaxERqgRPBmyu922apLhvw-1; Fri, 06 Dec 2019 02:30:32 -0500
-Received: by mail-wm1-f70.google.com with SMTP id i17so1795248wmd.1
- for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:30:31 -0800 (PST)
+ bh=Fr61vwBScbXM6IsyJi3J9YGGV9HMgJOz47c5PUdZNmA=;
+ b=HZmUGHBhU/3deXJzRu8YI/uwBVDFRbIn+NSwgp7tFFxWDc4ddCjstKDk2VfWqUgSItHjHM
+ wo4USLSdMtjlWpGEZYMRbu6X3AJl4g6noLIjoy3U7H57LJPZg+7UMMZxvnJrrpB2dRuyOE
+ F8aY+r83s20II55VWGvC4SkjjG+S18E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-eqWUeaGAOomOc3NvwC2JeA-1; Fri, 06 Dec 2019 02:31:31 -0500
+Received: by mail-wr1-f69.google.com with SMTP id z15so2791490wrw.0
+ for <qemu-devel@nongnu.org>; Thu, 05 Dec 2019 23:31:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vNjyLWrM+FG8hGz0yX7fG1I5NSM7ahQ0F2usQSKaFX4=;
- b=dofcFkS4YMapGibWOCQSycRzkeewLx0TO7hbQ/YgJsJgRSqHyKYLp6Wst67GruTdAG
- CO16lD43NFPLImmFoRHkzHMPRiFYvDeoxzZikVvh+LtMRpvPhcrShJvlYNZz8B1d1+ZL
- QZHAD6ZkTvYY82Ouxb/VnPPnemSlJUkAW8wYMMrWtkC4WUyuJAbt1BZKW7vgQVlKtRL3
- cSuv+g15j/6cZIBhvXZibx2Pi81mkExPdtSM5BgH9r5kK1X2LY9C8L6CVlyiwCILo4tZ
- DM/5vY5nl2A7hiO1aCqIOSX6Orwj4i0l+maw4w/lvrwxlisMKUvKDdETSlJdtAlmFNNg
- 1rkQ==
-X-Gm-Message-State: APjAAAWWFdW54eURSkYqaGs/3OjKMzvGgvAHt34GAkAjOJvL/vuByfj0
- HN++jPH53uks66l2HvOSByCdGxb260JZXNt04Bc5idIeRLCBVl23dx5v22KAcDA3pK7UcX/QMFv
- eRVRDHlb3VOLfn/s=
-X-Received: by 2002:a1c:8055:: with SMTP id b82mr9016841wmd.127.1575617430632; 
- Thu, 05 Dec 2019 23:30:30 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzQ3eXy3DcLf0/GcpZ5RoqMXz1MbJ6oyjh1xGy/yWTNarLezsUTgdedxuwvvydvScptrB3DUg==
-X-Received: by 2002:a1c:8055:: with SMTP id b82mr9016820wmd.127.1575617430428; 
- Thu, 05 Dec 2019 23:30:30 -0800 (PST)
+ bh=Fr61vwBScbXM6IsyJi3J9YGGV9HMgJOz47c5PUdZNmA=;
+ b=QIJU0nTd5UFBXAnu3F0u8a+NcbypjHAfebvZwHvwfF0yQFjVBj1r66ergXfRBY9Jm4
+ +BFvUWbL4SkqA7kD1ybWx2RkPfQj98RHq8pc5fgEw9TZ/tvh7sTFjNAMnsGW254KAKXc
+ ioykV+kxRPMUC7qNY/ABlMpqm8v/dd5jvFscLPHwbeyXmSNjcJln3/2Kj+Q69ufPngz6
+ cTUE7uWv0SwzuHmYIId0/TuBBizLd+3nQHHoA9sEowYsXG8PWYDBXValXxL1k5k3i0YB
+ ukEclOtzJiJ1imIZyrswWw7K1HmeZKVCul1FqpZY5Xl70V5Qh1ncS1FNVYeG7Uaf0Zez
+ Xgig==
+X-Gm-Message-State: APjAAAXpMDcgSQsfv/PzXPi4NB74eLr081qVY+vwygEVE3enMrwtG3/q
+ adzHnicHSIQeyvKJVwzRNwBX3gkLVZT0K4E+NLvEvWGVo/Y4wEw9UuxqAt+59JMsMU8D0zk/pOB
+ dUGEc5Yp4YrMENbY=
+X-Received: by 2002:a1c:4b0d:: with SMTP id y13mr9105731wma.134.1575617490711; 
+ Thu, 05 Dec 2019 23:31:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqynS+fnuP8i/QHDvvcOrjTLdFtywSP3F2asY8c8z9hx5UqaYPvCQn0ygG1Gd/UeZyYzP7+bwg==
+X-Received: by 2002:a1c:4b0d:: with SMTP id y13mr9105719wma.134.1575617490560; 
+ Thu, 05 Dec 2019 23:31:30 -0800 (PST)
 Received: from [192.168.1.35] (182.red-88-21-103.staticip.rima-tde.net.
  [88.21.103.182])
- by smtp.gmail.com with ESMTPSA id c4sm2505569wml.7.2019.12.05.23.30.29
+ by smtp.gmail.com with ESMTPSA id o189sm96435wme.29.2019.12.05.23.31.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Dec 2019 23:30:29 -0800 (PST)
-Subject: Re: [PATCH v8 05/21] vnc: drop Error pointer indirection in
- vnc_client_io_error
+ Thu, 05 Dec 2019 23:31:30 -0800 (PST)
+Subject: Re: [PATCH v8 06/21] qdev-monitor: well form error hint helpers
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-devel@nongnu.org
 References: <20191205174635.18758-1-vsementsov@virtuozzo.com>
- <20191205174635.18758-6-vsementsov@virtuozzo.com>
+ <20191205174635.18758-7-vsementsov@virtuozzo.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <36f97ef3-e2cc-3370-de51-f33285395544@redhat.com>
-Date: Fri, 6 Dec 2019 08:30:29 +0100
+Message-ID: <4f1c7766-d5f9-c8d4-931c-9db5624e661d@redhat.com>
+Date: Fri, 6 Dec 2019 08:31:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191205174635.18758-6-vsementsov@virtuozzo.com>
+In-Reply-To: <20191205174635.18758-7-vsementsov@virtuozzo.com>
 Content-Language: en-US
-X-MC-Unique: YaxERqgRPBmyu922apLhvw-1
+X-MC-Unique: eqWUeaGAOomOc3NvwC2JeA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,99 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, armbru@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/5/19 6:46 PM, Vladimir Sementsov-Ogievskiy wrote:
-> We don't need Error **, as all callers pass local Error object, which
-> isn't used after the call, or NULL. Use Error * instead.
->=20
+> Make qbus_list_bus and qbus_list_dev hint append helpers well formed:
+> switch errp paramter to Error *const * type, as it has uncommon
+
+"parameter"
+
+> behavior: not change the pointer to return error, but operate on
+> already existent error object.
+> Rename functions to be error_append_*_hint.
+> 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-> ---
->   ui/vnc.h |  2 +-
->   ui/vnc.c | 20 +++++++-------------
->   2 files changed, 8 insertions(+), 14 deletions(-)
->=20
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index fea79c2fc9..4e2637ce6c 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -547,7 +547,7 @@ uint32_t read_u32(uint8_t *data, size_t offset);
->  =20
->   /* Protocol stage functions */
->   void vnc_client_error(VncState *vs);
-> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp);
-> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err);
->  =20
->   void start_client_init(VncState *vs);
->   void start_auth_vnc(VncState *vs);
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 87b8045afe..4100d6e404 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -1312,7 +1312,7 @@ void vnc_disconnect_finish(VncState *vs)
->       g_free(vs);
->   }
->  =20
-> -size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error **errp)
-> +size_t vnc_client_io_error(VncState *vs, ssize_t ret, Error *err)
->   {
->       if (ret <=3D 0) {
->           if (ret =3D=3D 0) {
-> @@ -1320,15 +1320,11 @@ size_t vnc_client_io_error(VncState *vs, ssize_t =
-ret, Error **errp)
->               vnc_disconnect_start(vs);
->           } else if (ret !=3D QIO_CHANNEL_ERR_BLOCK) {
->               trace_vnc_client_io_error(vs, vs->ioc,
-> -                                      errp ? error_get_pretty(*errp) :
-> -                                      "Unknown");
-> +                                      err ? error_get_pretty(err) : "Unk=
-nown");
->               vnc_disconnect_start(vs);
->           }
->  =20
-> -        if (errp) {
-> -            error_free(*errp);
-> -            *errp =3D NULL;
-> -        }
-> +        error_free(err);
->           return 0;
->       }
->       return ret;
-> @@ -1361,10 +1357,9 @@ size_t vnc_client_write_buf(VncState *vs, const ui=
-nt8_t *data, size_t datalen)
->   {
->       Error *err =3D NULL;
->       ssize_t ret;
-> -    ret =3D qio_channel_write(
-> -        vs->ioc, (const char *)data, datalen, &err);
-> +    ret =3D qio_channel_write(vs->ioc, (const char *)data, datalen, &err=
-);
->       VNC_DEBUG("Wrote wire %p %zd -> %ld\n", data, datalen, ret);
-> -    return vnc_client_io_error(vs, ret, &err);
-> +    return vnc_client_io_error(vs, ret, err);
->   }
->  =20
->  =20
-> @@ -1488,10 +1483,9 @@ size_t vnc_client_read_buf(VncState *vs, uint8_t *=
-data, size_t datalen)
->   {
->       ssize_t ret;
->       Error *err =3D NULL;
-> -    ret =3D qio_channel_read(
-> -        vs->ioc, (char *)data, datalen, &err);
-> +    ret =3D qio_channel_read(vs->ioc, (char *)data, datalen, &err);
->       VNC_DEBUG("Read wire %p %zd -> %ld\n", data, datalen, ret);
-> -    return vnc_client_io_error(vs, ret, &err);
-> +    return vnc_client_io_error(vs, ret, err);
->   }
->  =20
->  =20
->=20
 
 
