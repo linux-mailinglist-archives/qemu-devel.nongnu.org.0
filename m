@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1997115731
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:33:55 +0100 (CET)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41AE115738
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 19:36:53 +0100 (CET)
+Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idIQM-00087X-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:33:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59296)
+	id 1idITE-0002ww-TI
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 13:36:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33263)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idHLZ-0007iL-EX
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:24:55 -0500
+ (envelope-from <philmd@redhat.com>) id 1idHMZ-0008Gv-Uu
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idHLV-0005gy-E1
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:24:51 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35864)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idHLT-0005bw-Ds
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:24:47 -0500
-Received: by mail-oi1-x243.google.com with SMTP id c16so465195oic.3
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 09:24:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LjwkGMfMivkNEOABq6/iocmNEW8IwVdsiGvVDx9zgTk=;
- b=gYVWDaYIkaPg4FVyan//omJHZ+gpg0v8i+/DTItee17y6WX8gD21y/ZZN+UNZIIBJE
- 6cezWLHlkCPoZJZIj94imwryoE9vBmCO1XnQJ8C3ViqWEwTEm/nilho0JfgjL4er7kK9
- hWphb+SgY+q9WQgSfhpTzYwjQalpVO8dhrQi1iSsIpajLOcvsjVvPUzOLfd5y4foTKGg
- lbpMWbWiGdl0gwsOuUJ9myS7Vbe/favri1+fAw2rFz94L0hlcMc7XH0H8/kiVIcZe7Hb
- e7+pmT7xrPNs391KtB+cR9VKLyAj3RL/YRsGkPmP0jClUaWD+NE99JOYsQM2xTGI5IOv
- titQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LjwkGMfMivkNEOABq6/iocmNEW8IwVdsiGvVDx9zgTk=;
- b=bjY4AtwQZuG5ZZ45uiLxM0xgbdGYwcfIEz0x5aE1h/1ijanaz+kB1TucBd/FQ/0Yut
- PtODy9vUoDnsCKyDr4BfhOy2OApREdfMaIQRP8bmGp+uRWIKybIgcmMunN6XIxRf9SWd
- c9ulZ5T88eFc9QhbYxzWX3430NeQ0egb6tJeJ0SjdFuCR2SlyXcxSg0/aXGgz5h9vSQ/
- Wcv/ixAqSg64dMSIA6sBG7BQpvyw45+vZWdG/BZjEqugwrP+f+PqeGRFw35wxU9GJcX/
- GAPpYzjZ/IcXQsm3FQvrQW/Q4wvdLYkwVmdTc1q1+S+Oedt7WlPKvgC3dEnDygxd68No
- fDXg==
-X-Gm-Message-State: APjAAAXs+YkACNyZ0WZ04x1Jr+OaRYYo5ReWKsSyLxdYoRh0xVAKLnnM
- 9LuU0rjcX7lY+d13zhyHdQcV7HUsGc6EP0vgj/xvgw==
-X-Google-Smtp-Source: APXvYqzP/919uQcYzEWFDHGVgSvr+3EWsB1dvsFpwnJKNCD88tJ+FApRbwcMqj+5HbGrmJcV6LFBST2nIFZwfixqgZw=
-X-Received: by 2002:a05:6808:996:: with SMTP id
- a22mr12691392oic.146.1575653083385; 
- Fri, 06 Dec 2019 09:24:43 -0800 (PST)
+ (envelope-from <philmd@redhat.com>) id 1idHMW-00075V-KN
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49627
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idHMU-0006vJ-5b
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575653140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nQooNv4KuAJbOCpnZQESZEyWieR/hAlT1WGgxUjJTpQ=;
+ b=Ox5V+JUcOq5SnVwzk3FFKfGOyvmqrR9C0UqWgSrbNGQBLQyIF2aeiA1DslCVFS1tx+l/RY
+ g0cJaEeJOfS2RItY//mHZKdG+yB5w2TNmcF7VNw1PGp6smIE/n2+0ajTwq/Sv/5yH64SoF
+ SHJAaSSVi1zB0nec7n/pO3ID5rJE7pc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-_nT3yCq4Neyb1iO-Ui7GbQ-1; Fri, 06 Dec 2019 12:25:39 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A22E4DBE6;
+ Fri,  6 Dec 2019 17:25:38 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-212.brq.redhat.com [10.40.204.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FAC65C1C3;
+ Fri,  6 Dec 2019 17:25:36 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.0 v2 3/6] hw/pci-host/i440fx: Use size_t to iterate over
+ ARRAY_SIZE()
+Date: Fri,  6 Dec 2019 18:25:11 +0100
+Message-Id: <20191206172514.21268-4-philmd@redhat.com>
+In-Reply-To: <20191206172514.21268-1-philmd@redhat.com>
+References: <20191206172514.21268-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20191203022937.1474-1-richard.henderson@linaro.org>
- <20191203022937.1474-28-richard.henderson@linaro.org>
-In-Reply-To: <20191203022937.1474-28-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 17:24:32 +0000
-Message-ID: <CAFEAcA8taFKOtz0pM-N3KRiQrguh43SNLSM__ZJH5xzVK5YkZg@mail.gmail.com>
-Subject: Re: [PATCH v4 27/40] target/arm: Add VHE system register redirection
- and aliasing
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: _nT3yCq4Neyb1iO-Ui7GbQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,153 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Dec 2019 at 02:30, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Several of the EL1/0 registers are redirected to the EL2 version when in
-> EL2 and HCR_EL2.E2H is set.  Many of these registers have side effects.
-> Link together the two ARMCPRegInfo structures after they have been
-> properly instantiated.  Install common dispatch routines to all of the
-> relevant registers.
->
-> The same set of registers that are redirected also have additional
-> EL12/EL02 aliases created to access the original register that was
-> redirected.
->
-> Omit the generic timer registers from redirection here, because we'll
-> need multiple kinds of redirection from both EL0 and EL2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h    |  44 ++++++++----
->  target/arm/helper.c | 162 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 193 insertions(+), 13 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 4bd1bf915c..bb5a72520e 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -2488,19 +2488,6 @@ struct ARMCPRegInfo {
->       */
->      ptrdiff_t fieldoffset; /* offsetof(CPUARMState, field) */
->
-> -    /* Offsets of the secure and non-secure fields in CPUARMState for the
-> -     * register if it is banked.  These fields are only used during the static
-> -     * registration of a register.  During hashing the bank associated
-> -     * with a given security state is copied to fieldoffset which is used from
-> -     * there on out.
-> -     *
-> -     * It is expected that register definitions use either fieldoffset or
-> -     * bank_fieldoffsets in the definition but not both.  It is also expected
-> -     * that both bank offsets are set when defining a banked register.  This
-> -     * use indicates that a register is banked.
-> -     */
-> -    ptrdiff_t bank_fieldoffsets[2];
-> -
->      /* Function for making any access checks for this register in addition to
->       * those specified by the 'access' permissions bits. If NULL, no extra
->       * checks required. The access check is performed at runtime, not at
-> @@ -2535,6 +2522,37 @@ struct ARMCPRegInfo {
->       * fieldoffset is 0 then no reset will be done.
->       */
->      CPResetFn *resetfn;
-> +
-> +    union {
-> +        /*
-> +         * Offsets of the secure and non-secure fields in CPUARMState for
-> +         * the register if it is banked.  These fields are only used during
-> +         * the static registration of a register.  During hashing the bank
-> +         * associated with a given security state is copied to fieldoffset
-> +         * which is used from there on out.
-> +         *
-> +         * It is expected that register definitions use either fieldoffset
-> +         * or bank_fieldoffsets in the definition but not both.  It is also
-> +         * expected that both bank offsets are set when defining a banked
-> +         * register.  This use indicates that a register is banked.
-> +         */
-> +        ptrdiff_t bank_fieldoffsets[2];
-> +
-> +        /*
-> +         * "Original" writefn and readfn.
-> +         * For ARMv8.1-VHE register aliases, we overwrite the read/write
-> +         * accessor functions of various EL1/EL0 to perform the runtime
-> +         * check for which sysreg should actually be modified, and then
-> +         * forwards the operation.  Before overwriting the accessors,
-> +         * the original function is copied here, so that accesses that
-> +         * really do go to the EL1/EL0 version proceed normally.
-> +         * (The corresponding EL2 register is linked via opaque.)
-> +         */
-> +        struct {
-> +            CPReadFn *orig_readfn;
-> +            CPWriteFn *orig_writefn;
-> +        };
+We don't enforce the -Wsign-conversion CPPFLAG, but it doesn't hurt
+to avoid this warning:
 
-Does this really need to be a union ? It's not clear to me
-why we know the two halves of it are never used at the same time.
+  warning: implicit conversion changes signedness: 'int' to 'size_t' (aka '=
+unsigned long') [-Wsign-conversion]
 
-> +    };
->  };
->
->  /* Macros which are lvalues for the field in CPUARMState for the
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 1812588fa1..0baf188078 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -5306,6 +5306,158 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
->      REGINFO_SENTINEL
->  };
->
-> +#ifndef CONFIG_USER_ONLY
-> +/* Test if system register redirection is to occur in the current state.  */
-> +static bool redirect_for_e2h(CPUARMState *env)
-> +{
-> +    return arm_current_el(env) == 2 && (arm_hcr_el2_eff(env) & HCR_E2H);
-> +}
-> +
-> +static uint64_t el2_e2h_read(CPUARMState *env, const ARMCPRegInfo *ri)
-> +{
-> +    CPReadFn *readfn;
-> +
-> +    if (redirect_for_e2h(env)) {
-> +        /* Switch to the saved EL2 version of the register.  */
-> +        ri = ri->opaque;
-> +        readfn = ri->readfn;
-> +    } else {
-> +        readfn = ri->orig_readfn;
-> +    }
-> +    if (readfn == NULL) {
-> +        readfn = raw_read;
-> +    }
-> +    return readfn(env, ri);
-> +}
-> +
-> +static void el2_e2h_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> +                          uint64_t value)
-> +{
-> +    CPWriteFn *writefn;
-> +
-> +    if (redirect_for_e2h(env)) {
-> +        /* Switch to the saved EL2 version of the register.  */
-> +        ri = ri->opaque;
-> +        writefn = ri->writefn;
-> +    } else {
-> +        writefn = ri->orig_writefn;
-> +    }
-> +    if (writefn == NULL) {
-> +        writefn = raw_write;
-> +    }
-> +    writefn(env, ri, value);
-> +}
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/pci-host/i440fx.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-I see how this works when we have a readfn or writefn,
-but how does the redirection work where the access
-goes directly via .fieldoffset ?
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index fbdc563599..0cc80b276d 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -419,12 +419,11 @@ out:
+ static void igd_pt_i440fx_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     uint32_t val =3D 0;
+-    int i, num;
++    size_t i;
+     int pos, len;
+     Error *local_err =3D NULL;
+=20
+-    num =3D ARRAY_SIZE(igd_host_bridge_infos);
+-    for (i =3D 0; i < num; i++) {
++    for (i =3D 0; i < ARRAY_SIZE(igd_host_bridge_infos); i++) {
+         pos =3D igd_host_bridge_infos[i].offset;
+         len =3D igd_host_bridge_infos[i].len;
+         host_pci_config_read(pos, len, &val, &local_err);
+--=20
+2.21.0
 
-thanks
--- PMM
 
