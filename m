@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40241156D4
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:56:23 +0100 (CET)
-Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43911156E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 18:59:20 +0100 (CET)
+Received: from localhost ([::1]:42761 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idHq2-0008TL-0g
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:56:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33445)
+	id 1idHst-0003zx-1K
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 12:59:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1idHMg-0008I4-Up
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:26:03 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1idHOI-0001al-26
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1idHMf-0007Fn-2b
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:26:02 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56376
+ (envelope-from <eric.auger@redhat.com>) id 1idHOG-0002vs-8W
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:41 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36219
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1idHMc-0007BR-Fx
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:25:58 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1idHOF-0002tj-S1
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 12:27:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575653157;
+ s=mimecast20190719; t=1575653258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SEbTH43GGJvjGQgNO86PJFzX5Xp5SPv3KxJ0OAEuU0A=;
- b=CFPrXs6zJMm9HobqxrvaGxIy4g71cY/ARoN4q6fkEe4YOamPVpvMfmLoCi9BjtFPeOakz3
- 1qz81/2eAuUy6jmyqemNTIYXiJ4VHUO2vxfvd+y9WlKoVHjzXaKofcLKlgmFs3NtcXrL+X
- tHF89rxTnnvTgDGmCXDUuBukm0LmNjo=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aakNe6ZpWKcgBnsHkUK2g0Vs/5LZCUeTONSVZshyz7w=;
+ b=g/cX5IFRjINdqnxG1fMspMs+PpzWmjtELZ8nBFyg8kMZz/Sx+bvoPJIL7qMEXGtJrhgidB
+ WKjACNnmknIXE3GAgSzNtTaRRGJOolLxvo91HSFowz6udq3s1af2r3ohGdoCtYsz+xz9ZV
+ SRPQLMoEc9wPeoFRvYEvhG/riBV5XOg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-UupczAd4NzCgQKHLE0Q-Hg-1; Fri, 06 Dec 2019 12:25:55 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-268-mx1TiMz0PQSCxMj6L9ao7A-1; Fri, 06 Dec 2019 12:27:35 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7451883523;
- Fri,  6 Dec 2019 17:25:54 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-212.brq.redhat.com [10.40.204.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 796515C1C3;
- Fri,  6 Dec 2019 17:25:52 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.0 v2 6/6] hw/pci-host: Add Kconfig entry to select the
- IGD Passthrough Host Bridge
-Date: Fri,  6 Dec 2019 18:25:14 +0100
-Message-Id: <20191206172514.21268-7-philmd@redhat.com>
-In-Reply-To: <20191206172514.21268-1-philmd@redhat.com>
-References: <20191206172514.21268-1-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBC14800597;
+ Fri,  6 Dec 2019 17:27:33 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C6426CE40;
+ Fri,  6 Dec 2019 17:27:28 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: [kvm-unit-tests RFC 00/10] KVM: arm64: PMUv3 Event Counter Tests
+Date: Fri,  6 Dec 2019 18:27:14 +0100
+Message-Id: <20191206172724.947-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: UupczAd4NzCgQKHLE0Q-Hg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: mx1TiMz0PQSCxMj6L9ao7A-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,59 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
+ andre.przywara@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the INTEL_IGD_PASSTHROUGH Kconfig option.
+This series implements tests exercising the PMUv3 event counters.
+It tests both the 32-bit and 64-bit versions. Overflow interrupts
+also are checked. Those tests only are written for arm64.
 
-Since it is implied by the PCI_I440FX option, this does not change
-the default selection. However users are now able to deselelect it.
+It allowed to reveal some issues related to SW_INCR implementation
+(esp. related to 64-bit implementation), some problems related to
+32-bit <-> 64-bit transitions and consistency of enabled states
+of odd and event counters.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/pci-host/Kconfig       | 4 ++++
- hw/pci-host/Makefile.objs | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+Overflow interrupt testing relies of one patch from Andre
+("arm: gic: Provide per-IRQ helper functions") to enable the
+PPI 23, coming from "arm: gic: Test SPIs and interrupt groups"
+(https://patchwork.kernel.org/cover/11234975/). Drew kindly
+provided "arm64: Provide read/write_sysreg_s".
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index b0aa8351c4..8c88a7b9dd 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -1,6 +1,9 @@
- config PAM
-     bool
-=20
-+config INTEL_IGD_PASSTHROUGH
-+    bool
-+
- config PREP_PCI
-     bool
-     select PCI
-@@ -32,6 +35,7 @@ config PCI_I440FX
-     bool
-     select PCI
-     select PAM
-+    imply INTEL_IGD_PASSTHROUGH
-=20
- config PCI_EXPRESS_Q35
-     bool
-diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
-index 5affd21899..9dbd0f9042 100644
---- a/hw/pci-host/Makefile.objs
-+++ b/hw/pci-host/Makefile.objs
-@@ -14,7 +14,7 @@ common-obj-$(CONFIG_VERSATILE_PCI) +=3D versatile.o
- common-obj-$(CONFIG_PCI_SABRE) +=3D sabre.o
- common-obj-$(CONFIG_FULONG) +=3D bonito.o
- common-obj-$(CONFIG_PCI_I440FX) +=3D i440fx.o
--common-obj-$(CONFIG_PCI_I440FX) +=3D igd_pt.o
-+common-obj-$(CONFIG_INTEL_IGD_PASSTHROUGH) +=3D igd_pt.o
- common-obj-$(CONFIG_PCI_EXPRESS_Q35) +=3D q35.o
- common-obj-$(CONFIG_PCI_EXPRESS_GENERIC_BRIDGE) +=3D gpex.o
- common-obj-$(CONFIG_PCI_EXPRESS_XILINX) +=3D xilinx-pcie.o
+All PMU tests can be launched with:
+./run_tests.sh -g pmu
+Tests also can be launched individually. For example:
+./arm-run arm/pmu.flat -append 'chained-sw-incr'
+
+With KVM:
+- chain-promotion and chained-sw-incr are known to be failing.
+- Problems were reported upstream.
+With TCG:
+- pmu-event-introspection is failing due to missing required events
+  (we may remove this from TCG actually)
+- chained-sw-incr also fails. I haven't investigated yet.
+
+Andre Przywara (1):
+  arm: gic: Provide per-IRQ helper functions
+
+Andrew Jones (1):
+  arm64: Provide read/write_sysreg_s
+
+Eric Auger (8):
+  pmu: Let pmu tests take a sub-test parameter
+  pmu: Add a pmu struct
+  pmu: Check Required Event Support
+  pmu: Basic event counter Tests
+  pmu: Test chained counter
+  arm: pmu: test 32-bit <-> 64-bit transitions
+  arm/arm64: gic: Introduce setup_irq() helper
+  pmu: Test overflow interrupts
+
+ arm/gic.c              |  24 +-
+ arm/pmu.c              | 754 ++++++++++++++++++++++++++++++++++++++++-
+ arm/unittests.cfg      |  55 ++-
+ lib/arm/asm/gic-v3.h   |   2 +
+ lib/arm/asm/gic.h      |  12 +
+ lib/arm/gic.c          | 101 ++++++
+ lib/arm64/asm/sysreg.h |  11 +
+ 7 files changed, 922 insertions(+), 37 deletions(-)
+
 --=20
-2.21.0
+2.20.1
 
 
