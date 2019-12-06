@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0947F115428
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:25:26 +0100 (CET)
-Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C969115418
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:21:22 +0100 (CET)
+Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFTv-0001HR-3c
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:25:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42012)
+	id 1idFQ1-0004iv-3G
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:21:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idEk2-0007Ut-I9
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:38:01 -0500
+ (envelope-from <cohuck@redhat.com>) id 1idEeZ-00021q-70
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1idEk0-00081X-Gv
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:58 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:36761)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1idEk0-0007xg-6n
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:37:56 -0500
-Received: by mail-oi1-x243.google.com with SMTP id c16so6353378oic.3
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:37:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=qqHQFGsq3lWFxbbLvuL3KHO6aL2HjEUdApWcm/vQ/u0=;
- b=jt55MpmfVJ9IfJe14p9S3zLQ+AeGc8yiD8xw/85UoiBVGihkV1ZaiL8lJFC13EJIJo
- iTC9LStfvclwgYGIuwvDoLQ/R/flF8p8mueiS9uRYLCM7LbQgjuJHtdLDsIK5Vz1OcRi
- MTeVTc/ClDP7CQq2te3+2MGdIdR2a8ElkxjAfympQXiTQLFKRCmtvV3vwLP9asJPMMQ2
- XuX5vot/srMvCp/0IaQfhGCkBgtEEWuFNJ5dH4i9tOEkCZPK1ZaLWcpWnjBWe/a4SaLs
- 5gq5ml5CwbzhOuQ4jmzgvY/N+gNaPPu/Jl8ek5x3cNg6jveVoujYvQQJ24wnDoctMDdw
- 6FMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=qqHQFGsq3lWFxbbLvuL3KHO6aL2HjEUdApWcm/vQ/u0=;
- b=Q5jyG5F2pnOEKAPoW8jTlVOx+0+4GfSB23jrHb0cB3AyPFkyrPH4yXbdMa3aN05T97
- ifQM5y7lgquW3BQ7bjPyD419TQcCNDeCVTmcQDRfK0o5+T5jLXYaAjHbaivp7RY5ivXh
- LqUKAG6SnwlnJ6r5YyTtJBwyhZ7KfsvtNWMehaUo1OnowTd/AcfyFdXMOgEpep3wmz6F
- 1ky6psk7yuA0H4jgzaKi/y+ADBQYd9XRoUZJ4U6bdkQEpIC7dCJMAe6eiWf+v3IaDt7P
- Rc78P5KquhUwVcf1Qri4RpJDLwF3/VqAVrkhczBRy+0ppS6H6Wsv29KAI7VD2XeRwtyz
- /PWQ==
-X-Gm-Message-State: APjAAAUVYhYxbw28HUawMb66ViWHGgMTB3LUyAnJ89xLM08v2POXvlJE
- JP36FozbUJ6UI3Hj+0KRMHLqxL5103oUO1gcHvMMZQ==
-X-Google-Smtp-Source: APXvYqzFY+F/4hqWEB9M07y7aQBPhigA//AA//nGff+xApx6N9Bq2ruXlO9jZQ9atGCl5BCfg96zA3lhvmZQ4rBHzII=
-X-Received: by 2002:aca:bd85:: with SMTP id n127mr5519664oif.136.1575619429442; 
- Fri, 06 Dec 2019 00:03:49 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1idEeX-0007xw-Tz
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:19 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52347
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1idEeV-0007tP-S0
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:32:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575642733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CdM0/clrngtCdjTfFct9BH5736Cv3YIQ9HaUbJP4ixo=;
+ b=fAw40+MUwZKV1mZ3p/PY3h9xx97K1EcDMTXukkDiMYevZugcRuMX/BMH/uhFzM2HAaD4hb
+ CRXORD/5z3NCIqBDqHoyP8aoRAi4VOtoMfXQXTUagtY3oDgj1oniV8UH602On2ynzMADfk
+ IY7R6JoB6MlYS2PqJ9Xuz4rU6UWQfCQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-9JzSBnOCM5ehmEsYcNWePw-1; Fri, 06 Dec 2019 03:29:30 -0500
+X-MC-Unique: 9JzSBnOCM5ehmEsYcNWePw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98E60107ACC7;
+ Fri,  6 Dec 2019 08:29:28 +0000 (UTC)
+Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B77C25D9C9;
+ Fri,  6 Dec 2019 08:29:24 +0000 (UTC)
+Date: Fri, 6 Dec 2019 09:29:13 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v2 06/13] s390x: protvirt: KVM intercept changes
+Message-ID: <20191206092913.3af251dd.cohuck@redhat.com>
+In-Reply-To: <bc5eb50d-1647-f40a-73b6-53be5445fd85@linux.ibm.com>
+References: <20191129094809.26684-1-frankja@linux.ibm.com>
+ <20191129094809.26684-7-frankja@linux.ibm.com>
+ <20191205181532.46bee55c.cohuck@redhat.com>
+ <3cdbba69-c465-f2ce-d3e4-15e0b8d1218e@linux.ibm.com>
+ <20191205184637.4e6f4d23.cohuck@redhat.com>
+ <bc5eb50d-1647-f40a-73b6-53be5445fd85@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Fri, 6 Dec 2019 00:03:48 -0800 (PST)
-In-Reply-To: <1574687098-26689-4-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1574687098-26689-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1574687098-26689-4-git-send-email-Filip.Bozuta@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 6 Dec 2019 09:03:48 +0100
-Message-ID: <CAL1e-=hm-0L0YBSuu0uzwUn+A+MnYB5x-cUUuJWN6NkjqiMqNw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] mips: mipssim: Renovate coding style
-To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Content-Type: multipart/alternative; boundary="00000000000064adb60599047c65"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; boundary="Sig_/GnMCouvjfL_nGKWxvpxra3Y";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,275 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pburton@wavecomp.com" <pburton@wavecomp.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "hpoussin@reactos.org" <hpoussin@reactos.org>,
- "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
- "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
- "aurelien@aurel32.net" <aurelien@aurel32.net>
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mihajlov@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000064adb60599047c65
-Content-Type: text/plain; charset="UTF-8"
-
-On Monday, November 25, 2019, Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
-
-> The script checkpatch.pl located in scripts folder was
-> used to detect all errors and warrnings in files:
->     hw/mips/mips_mipssim.c
->     hw/net/mipsnet.c
->
-> All these mips mipssim machine files were edited and
-> all the errors and warrings generated by the checkpatch.pl
-> script were corrected and then the script was
-> ran again to make sure there are no more errors and warnings.
->
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-> ---
->  hw/net/mipsnet.c | 44 ++++++++++++++++++++++++--------------------
->  1 file changed, 24 insertions(+), 20 deletions(-)
->
->
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-
-
-> diff --git a/hw/net/mipsnet.c b/hw/net/mipsnet.c
-> index f7ae1ce..cb3331f 100644
-> --- a/hw/net/mipsnet.c
-> +++ b/hw/net/mipsnet.c
-> @@ -9,19 +9,19 @@
->
->  /* MIPSnet register offsets */
->
-> -#define MIPSNET_DEV_ID         0x00
-> -#define MIPSNET_BUSY           0x08
-> -#define MIPSNET_RX_DATA_COUNT  0x0c
-> -#define MIPSNET_TX_DATA_COUNT  0x10
-> -#define MIPSNET_INT_CTL                0x14
-> -# define MIPSNET_INTCTL_TXDONE         0x00000001
-> -# define MIPSNET_INTCTL_RXDONE         0x00000002
-> -# define MIPSNET_INTCTL_TESTBIT                0x80000000
-> -#define MIPSNET_INTERRUPT_INFO 0x18
-> -#define MIPSNET_RX_DATA_BUFFER 0x1c
-> -#define MIPSNET_TX_DATA_BUFFER 0x20
-> -
-> -#define MAX_ETH_FRAME_SIZE     1514
-> +#define MIPSNET_DEV_ID          0x00
-> +#define MIPSNET_BUSY            0x08
-> +#define MIPSNET_RX_DATA_COUNT   0x0c
-> +#define MIPSNET_TX_DATA_COUNT   0x10
-> +#define MIPSNET_INT_CTL         0x14
-> +# define MIPSNET_INTCTL_TXDONE          0x00000001
-> +# define MIPSNET_INTCTL_RXDONE          0x00000002
-> +# define MIPSNET_INTCTL_TESTBIT         0x80000000
-> +#define MIPSNET_INTERRUPT_INFO  0x18
-> +#define MIPSNET_RX_DATA_BUFFER  0x1c
-> +#define MIPSNET_TX_DATA_BUFFER  0x20
-> +
-> +#define MAX_ETH_FRAME_SIZE      1514
->
->  #define TYPE_MIPS_NET "mipsnet"
->  #define MIPS_NET(obj) OBJECT_CHECK(MIPSnetState, (obj), TYPE_MIPS_NET)
-> @@ -64,8 +64,9 @@ static void mipsnet_update_irq(MIPSnetState *s)
->
->  static int mipsnet_buffer_full(MIPSnetState *s)
->  {
-> -    if (s->rx_count >= MAX_ETH_FRAME_SIZE)
-> +    if (s->rx_count >= MAX_ETH_FRAME_SIZE) {
->          return 1;
-> +    }
->      return 0;
->  }
->
-> @@ -73,18 +74,21 @@ static int mipsnet_can_receive(NetClientState *nc)
->  {
->      MIPSnetState *s = qemu_get_nic_opaque(nc);
->
-> -    if (s->busy)
-> +    if (s->busy) {
->          return 0;
-> +    }
->      return !mipsnet_buffer_full(s);
->  }
->
-> -static ssize_t mipsnet_receive(NetClientState *nc, const uint8_t *buf,
-> size_t size)
-> +static ssize_t mipsnet_receive(NetClientState *nc,
-> +                               const uint8_t *buf, size_t size)
->  {
->      MIPSnetState *s = qemu_get_nic_opaque(nc);
->
-> -    trace_mipsnet_receive(size);
-> -    if (!mipsnet_can_receive(nc))
-> +    race_mipsnet_receive(size);
-> +    if (!mipsnet_can_receive(nc)) {
->          return 0;
-> +    }
->
->      if (size >= sizeof(s->rx_buffer)) {
->          return 0;
-> @@ -115,10 +119,10 @@ static uint64_t mipsnet_ioport_read(void *opaque,
-> hwaddr addr,
->      addr &= 0x3f;
->      switch (addr) {
->      case MIPSNET_DEV_ID:
-> -        ret = be32_to_cpu(0x4d495053);         /* MIPS */
-> +        ret = be32_to_cpu(0x4d495053);          /* MIPS */
->          break;
->      case MIPSNET_DEV_ID + 4:
-> -        ret = be32_to_cpu(0x4e455430);         /* NET0 */
-> +        ret = be32_to_cpu(0x4e455430);          /* NET0 */
->          break;
->      case MIPSNET_BUSY:
->          ret = s->busy;
-> --
-> 2.7.4
->
->
->
-
---00000000000064adb60599047c65
-Content-Type: text/html; charset="UTF-8"
+--Sig_/GnMCouvjfL_nGKWxvpxra3Y
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Monday, November 25, 2019, Filip Bozuta &lt;<a href=3D"mailto:Fi=
-lip.Bozuta@rt-rk.com">Filip.Bozuta@rt-rk.com</a>&gt; wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">The script <a href=3D"http://checkpatch.pl" target=3D"_b=
-lank">checkpatch.pl</a> located in scripts folder was<br>
-used to detect all errors and warrnings in files:<br>
-=C2=A0 =C2=A0 hw/mips/mips_mipssim.c<br>
-=C2=A0 =C2=A0 hw/net/mipsnet.c<br>
-<br>
-All these mips mipssim machine files were edited and<br>
-all the errors and warrings generated by the <a href=3D"http://checkpatch.p=
-l" target=3D"_blank">checkpatch.pl</a><br>
-script were corrected and then the script was<br>
-ran again to make sure there are no more errors and warnings.<br>
-<br>
-Signed-off-by: Filip Bozuta &lt;<a href=3D"mailto:Filip.Bozuta@rt-rk.com">F=
-ilip.Bozuta@rt-rk.com</a>&gt;<br>
----<br>
-=C2=A0hw/net/mipsnet.c | 44 ++++++++++++++++++++++++------<wbr>------------=
---<br>
-=C2=A01 file changed, 24 insertions(+), 20 deletions(-)<br>
-<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
-t-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovi=
-c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
-yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
-m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
-08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-diff --git a/hw/net/mipsnet.c b/hw/net/mipsnet.c<br>
-index f7ae1ce..cb3331f 100644<br>
---- a/hw/net/mipsnet.c<br>
-+++ b/hw/net/mipsnet.c<br>
-@@ -9,19 +9,19 @@<br>
-<br>
-=C2=A0/* MIPSnet register offsets */<br>
-<br>
--#define MIPSNET_DEV_ID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00<br>
--#define MIPSNET_BUSY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x08<br>
--#define MIPSNET_RX_DATA_COUNT=C2=A0 0x0c<br>
--#define MIPSNET_TX_DATA_COUNT=C2=A0 0x10<br>
--#define MIPSNET_INT_CTL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 0x14<br>
--# define MIPSNET_INTCTL_TXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00000001=
-<br>
--# define MIPSNET_INTCTL_RXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x00000002=
-<br>
--# define MIPSNET_INTCTL_TESTBIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 0x80000000<br>
--#define MIPSNET_INTERRUPT_INFO 0x18<br>
--#define MIPSNET_RX_DATA_BUFFER 0x1c<br>
--#define MIPSNET_TX_DATA_BUFFER 0x20<br>
--<br>
--#define MAX_ETH_FRAME_SIZE=C2=A0 =C2=A0 =C2=A01514<br>
-+#define MIPSNET_DEV_ID=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00<br>
-+#define MIPSNET_BUSY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08<br>
-+#define MIPSNET_RX_DATA_COUNT=C2=A0 =C2=A00x0c<br>
-+#define MIPSNET_TX_DATA_COUNT=C2=A0 =C2=A00x10<br>
-+#define MIPSNET_INT_CTL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x14<br>
-+# define MIPSNET_INTCTL_TXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0000000=
-1<br>
-+# define MIPSNET_INTCTL_RXDONE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0000000=
-2<br>
-+# define MIPSNET_INTCTL_TESTBIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x8000000=
-0<br>
-+#define MIPSNET_INTERRUPT_INFO=C2=A0 0x18<br>
-+#define MIPSNET_RX_DATA_BUFFER=C2=A0 0x1c<br>
-+#define MIPSNET_TX_DATA_BUFFER=C2=A0 0x20<br>
-+<br>
-+#define MAX_ETH_FRAME_SIZE=C2=A0 =C2=A0 =C2=A0 1514<br>
-<br>
-=C2=A0#define TYPE_MIPS_NET &quot;mipsnet&quot;<br>
-=C2=A0#define MIPS_NET(obj) OBJECT_CHECK(MIPSnetState, (obj), TYPE_MIPS_NET=
-)<br>
-@@ -64,8 +64,9 @@ static void mipsnet_update_irq(<wbr>MIPSnetState *s)<br>
-<br>
-=C2=A0static int mipsnet_buffer_full(<wbr>MIPSnetState *s)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 if (s-&gt;rx_count &gt;=3D MAX_ETH_FRAME_SIZE)<br>
-+=C2=A0 =C2=A0 if (s-&gt;rx_count &gt;=3D MAX_ETH_FRAME_SIZE) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-@@ -73,18 +74,21 @@ static int mipsnet_can_receive(<wbr>NetClientState *nc)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0MIPSnetState *s =3D qemu_get_nic_opaque(nc);<br>
-<br>
--=C2=A0 =C2=A0 if (s-&gt;busy)<br>
-+=C2=A0 =C2=A0 if (s-&gt;busy) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0return !mipsnet_buffer_full(s);<br>
-=C2=A0}<br>
-<br>
--static ssize_t mipsnet_receive(NetClientState *nc, const uint8_t *buf, siz=
-e_t size)<br>
-+static ssize_t mipsnet_receive(NetClientState *nc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf, size_t size)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0MIPSnetState *s =3D qemu_get_nic_opaque(nc);<br>
-<br>
--=C2=A0 =C2=A0 trace_mipsnet_receive(size);<br>
--=C2=A0 =C2=A0 if (!mipsnet_can_receive(nc))<br>
-+=C2=A0 =C2=A0 race_mipsnet_receive(size);<br>
-+=C2=A0 =C2=A0 if (!mipsnet_can_receive(nc)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (size &gt;=3D sizeof(s-&gt;rx_buffer)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-@@ -115,10 +119,10 @@ static uint64_t mipsnet_ioport_read(void *opaque, hwa=
-ddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0addr &amp;=3D 0x3f;<br>
-=C2=A0 =C2=A0 =C2=A0switch (addr) {<br>
-=C2=A0 =C2=A0 =C2=A0case MIPSNET_DEV_ID:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4d495053);=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0/* MIPS */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4d495053);=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 /* MIPS */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case MIPSNET_DEV_ID + 4:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4e455430);=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0/* NET0 */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D be32_to_cpu(0x4e455430);=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 /* NET0 */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case MIPSNET_BUSY:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D s-&gt;busy;<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-</blockquote>
+On Fri, 6 Dec 2019 08:44:52 +0100
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
---00000000000064adb60599047c65--
+> On 12/5/19 6:46 PM, Cornelia Huck wrote:
+> > On Thu, 5 Dec 2019 18:34:32 +0100
+> > Janosch Frank <frankja@linux.ibm.com> wrote:
+> >  =20
+> >> On 12/5/19 6:15 PM, Cornelia Huck wrote: =20
+> >>> On Fri, 29 Nov 2019 04:48:02 -0500
+> >>> Janosch Frank <frankja@linux.ibm.com> wrote:
+> >>>    =20
+> >>>> Secure guests no longer intercept with code 4 for an instruction
+> >>>> interception. Instead they have codes 104 and 108 for secure
+> >>>> instruction interception and secure instruction notification
+> >>>> respectively.
+> >>>>
+> >>>> The 104 mirrors the 4 interception.
+> >>>>
+> >>>> The 108 is a notification interception to let KVM and QEMU know that
+> >>>> something changed and we need to update tracking information or
+> >>>> perform specific tasks. It's currently taken for the following
+> >>>> instructions:
+> >>>>
+> >>>> * stpx (To inform about the changed prefix location)
+> >>>> * sclp (On incorrect SCCB values, so we can inject a IRQ)
+> >>>> * sigp (All but "stop and store status")
+> >>>> * diag308 (Subcodes 0/1)
+> >>>>
+> >>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> >>>> ---
+> >>>>  target/s390x/kvm.c | 6 ++++++
+> >>>>  1 file changed, 6 insertions(+)
+> >>>> =20
+> >  =20
+> >>>> @@ -1664,6 +1668,8 @@ static int handle_intercept(S390CPU *cpu)
+> >>>>              (long)cs->kvm_run->psw_addr);
+> >>>>      switch (icpt_code) {
+> >>>>          case ICPT_INSTRUCTION:
+> >>>> +        case ICPT_PV_INSTR:
+> >>>> +        case ICPT_PV_INSTR_NOTIFICATION:
+> >>>>              r =3D handle_instruction(cpu, run);   =20
+> >>>
+> >>> I'm still a bit uneasy about going through the same path for both 104
+> >>> and 108. How does the handler figure out whether it should emulate an
+> >>> instruction, or just process a notification? Is it guaranteed that a
+> >>> given instruction is always showing up as either a 104 or a 108, so
+> >>> that the handler can check the pv state?   =20
+> >>
+> >> diag 308 subcode 0/1 are 108, but all other subcodes are defined as a
+> >> 104 (if they are an exit at all)... =20
+> >=20
+> > I think that's a reason to really split 108 from 4/104, or at least add
+> > an parameter... =20
+>=20
+> And still call the diag 308 handler or have separate handlers?
+
+I'd probably split it into a "normal" one and one for pv special
+handling... does that make sense?
+
+--Sig_/GnMCouvjfL_nGKWxvpxra3Y
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl3qEVkACgkQ3s9rk8bw
+L69new//aaXr5qFiRr2CHdB3/qZ9Nch3T/pDwLTz42/TCIR2R5xz84PHCoIYQFVi
+MbGvubJVSINVZo7VuGoRcO/Dwe3H/W9DWlwtjQyX4UoOYnyNd5HT3SDbxQUQoax8
+hnwq0zxcNQhxNYgpQQ0CbmvZmAueHDnM/Ur+DSBoSueJ4a8Rn3o7ZEg/s/r4JTWd
+JhXkCyEibAB3+TfeDHKy7IiVPMmF6KNaTq0hE9AZvvn7Xwt+SqMpbkV94VgftACe
+nYq4K7OuahTwsBMkqRVlwS5G3z31hqwRV1wnvWrq0W76uA7R8qwQXYq6ELjjxRyO
+7XIT3oOd+asB22IBIiLafd0hseGTXaPIlmy+rKmiZBKZ8OTlG+9aYp6DKuLlgJYN
+0c5tnE3W6a9fkcHLcBAw1giLZIT9eJiS4+JwYBCobegYyRodvH83ddYGpVq44M03
+oKs9RwMlOpSUqkHuvTj3pOGwGG2oS8cmXNX7q4KAKHMTOljVkN2OPDu5bqP9dTgu
+0vmnh1BA4gz1BkiTA+EQG6wJGmKDqMozxiUXhnkF8AtPUi3+G6y66AkOphe+X1/5
+JiThZo2RIo9KEd0YJDamKzeWJooY8oPmgsqrIgg/rkkl5Gc5WOgDB5wz7mEf9G2B
+Coh+WYfDxyY+gk4HCTDvIUMKl70/mE2LZs3fb5KtgbxykByNeP4=
+=XUcx
+-----END PGP SIGNATURE-----
+
+--Sig_/GnMCouvjfL_nGKWxvpxra3Y--
+
 
