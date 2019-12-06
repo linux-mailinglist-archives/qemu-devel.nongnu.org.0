@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B881153FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:13:34 +0100 (CET)
-Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9679D1153F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Dec 2019 16:11:26 +0100 (CET)
+Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1idFIS-0005On-Ja
-	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1idFGP-0002fQ-41
+	for lists+qemu-devel@lfdr.de; Fri, 06 Dec 2019 10:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1idETX-0006So-Hd
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:57 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1idEZ1-0004U9-0w
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1idETP-0000ah-E3
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:48 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40021)
+ (envelope-from <peter.maydell@linaro.org>) id 1idEYz-0001xq-UK
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:34 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33633)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1idETO-0000Ys-PB
- for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:20:46 -0500
-Received: by mail-ot1-x341.google.com with SMTP id i15so5902631oto.7
- for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:20:46 -0800 (PST)
+ id 1idEYz-0001vr-N1
+ for qemu-devel@nongnu.org; Fri, 06 Dec 2019 09:26:33 -0500
+Received: by mail-ot1-x341.google.com with SMTP id d17so5968031otc.0
+ for <qemu-devel@nongnu.org>; Fri, 06 Dec 2019 06:26:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KhS4gG43qgtC91LEgSVI97VHTZLo7KkC/ba4BqbDDQA=;
- b=VOSYcnF3rR0AwaPLcHqOYQhhO3CElLvh+Rawv3pFS0HhebTxFVXscRXeGD+3CxeQ5O
- huEE8S4lWuSZHvXiHhhZQMqE6E5Bqf+8RXUxPz0ORzaKk/u0V8sw8RVbQMMIyNAj0Mkt
- 27U+/ugbKPZWsjq8RLxImQnin6CsFP3AD+pJA+pCaDXWpJyyRUBCQ8mvI349NvA3WyfF
- f6T++ZZlU4krHslZ20AJcYJ/gkpkakzn4oGd6EnQwnWSyteLe+Y9p+mtwenExiyzDU2+
- bYXGfGq6hoKBfgOpDfUWogzlItmfD+Etro2yOGn5nnc4Ub71Rvo4SY8X82mAfxIna/Uf
- 6Ktg==
+ :cc; bh=6WfAA5W8BZkXD9ffx7UeqY8vIew9vi7Mn2RNb8mbH2Q=;
+ b=yeaXDVs8v83FYKp/axfTSvAXTIYXbQKoBS3/0CvvtI807zf0TKZ4P1LfXqCWc/788w
+ sUNd3V6t9UvVUeAYgHXRucfCT5ZT3OMxIHA2zOf1OmUxpSyk1UD8A45qKpDn+XaWK8s0
+ wu9v0Sk+jFqmFG6oCAwOQ4q/AdgrAERZ9K5NrcTyVS0Ip1uBH7N4Ny1/ulYqZkuV2Ety
+ Fb6STJpKI8RUgeh401W1L6Tu2azdHn6f1SCWAXPgyl8kEhY3NaFhJI2zUTB6vdY/fVlA
+ pKJoBJ3Q+jYEpoW5GttQUoB9+HB8TQkE8MLneQGAt/qfBFddhkEjZT7tlhqugIEhN40E
+ 5pzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KhS4gG43qgtC91LEgSVI97VHTZLo7KkC/ba4BqbDDQA=;
- b=mFQodobfohuZdCYBIMELY1K5UyLjqodu/OkoRG5PbXWpBRSH3BM7ZELD50fLNJqAxJ
- GF5C4S/oVCTGwzbIyJ6H5Nbyw6NhXnBgiEHIbIJH/+mYxDfFNT01vy1i16Nnurr1hB8Y
- PzrcKmn7g0b+l7c6SFbC7ksFPDfd8fJDHLt6dD1eYG/eHBMH7k4x7IODPiOsBjh8pymy
- JMhGCF4KeAlTac7WB7vCUGnN6Hjm6JvvCEjf/NLh7VOLoWrHhDbQjQk6IHz0o19xt9QM
- mc8pWgnUkSQ5Eg7mOkpF42smJitqu3Dd/W/q4ZZJogEcZx/U3+7JTTp3Zvxe+8ViHwdl
- +Qrg==
-X-Gm-Message-State: APjAAAVM8HOv4wpU0ebj7J06cbrbMViIqBRYgIdMxqTBflGkgMwScxLK
- EvRlI578SaFmQctToBLbBpmJV4HmI2+w8lfzzdoxlQ==
-X-Google-Smtp-Source: APXvYqzon2R7riMvCbIfmw0eUySY3t+l0thH4e4kjiebly2OpJH162ICKgk240/4T+npqt9OnzSAi+lnq1kejn41kC0=
-X-Received: by 2002:a9d:6745:: with SMTP id w5mr10496157otm.221.1575640246856; 
- Fri, 06 Dec 2019 05:50:46 -0800 (PST)
+ bh=6WfAA5W8BZkXD9ffx7UeqY8vIew9vi7Mn2RNb8mbH2Q=;
+ b=HimRetzNqrqLoHpZwHZDsNEZUBtUewLHlYQooW1PqyVNIzmc3ab9cvDg2OJ90QWHxe
+ ZrriQaZMX7HUu+ZN/MbVbq/jTq86dGPYZuj0IJkp9jY9d7lCSTznv/Zn7fTslcEP3i0S
+ DV8gjLWbgQlt51QM8XKQSdhYaF4GxcKwlpYpWQp/UT2UirokEPrk/yHHZ8K8uIUohZ1C
+ gOcVW+NgbEJWGwUIAXtyAfBa0xyWU5Nh/B7AuGMmNvn5mKEhC1I8BNcQQ6j6QTBIU4cB
+ N1Vx5S2/LfN3heds/3U5sTAE70IBXxGNV0eMIXncD11MIiuP2mU6gzt7YHNAZye+dGj6
+ y8Ng==
+X-Gm-Message-State: APjAAAVKrpqru/ny1PDf/HBnIoE+j2BGYLqTZXRnc9quNwQBs1Pe/WcK
+ r132TVpcvcaCcLK/EuMD/F4Qq2/TVrCAGX86q+S1H+eW
+X-Google-Smtp-Source: APXvYqwf+2IoMlq5ZuCeWxiAi+OGyYXw+F8XkRm8Om33qIWxjKTR1d+07NjLkldp1XuE3YL2LQpe6AzmwGdnuJY5umE=
+X-Received: by 2002:a9d:12d2:: with SMTP id g76mr11381867otg.232.1575640621933; 
+ Fri, 06 Dec 2019 05:57:01 -0800 (PST)
 MIME-Version: 1.0
-References: <1552098649-28341-1-git-send-email-guoheyi@huawei.com>
- <20190312170859.73f0de9d@redhat.com>
- <ca5ccc80-663f-83e6-d9ce-4d5e3749988d@huawei.com>
-In-Reply-To: <ca5ccc80-663f-83e6-d9ce-4d5e3749988d@huawei.com>
+References: <20191201122018.25808-1-maz@kernel.org>
+ <20191201122018.25808-6-maz@kernel.org>
+ <27089f4b-5bd3-04a9-9c16-91474a225c45@linaro.org>
+In-Reply-To: <27089f4b-5bd3-04a9-9c16-91474a225c45@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Dec 2019 13:50:35 +0000
-Message-ID: <CAFEAcA_v3bh+1h8+ti_t5Kkp1M9zhEmtsqSQzcHhAobr_+JxMQ@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH v5 0/2] arm/acpi: simplify aml code and
- enable SHPC
-To: Guoheyi <guoheyi@huawei.com>
+Date: Fri, 6 Dec 2019 13:56:50 +0000
+Message-ID: <CAFEAcA-oqASZ1N0q1F5qn4a6y3f+3=nMZo=Cb3EXU0LYt16xYA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] target/arm: Add support for missing Jazelle system
+ registers
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -74,48 +74,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- wanghaibin.wang@huawei.com, Igor Mammedov <imammedo@redhat.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>,
+ Marc Zyngier <maz@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 30 Nov 2019 at 03:47, Guoheyi <guoheyi@huawei.com> wrote:
+On Mon, 2 Dec 2019 at 15:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Hi Peter, Igor,
+> On 12/1/19 12:20 PM, Marc Zyngier wrote:
+> > +    if (cpu_isar_feature(jazelle, cpu)) {
+> > +        ARMCPRegInfo jazelle_regs[] = {
 >
-> I couldn't find these 2 patches in the latest tree. Could you help to
-> merge them?
+> static const.
 
-In future I recommend pinging unapplied patches with a shorter
-delay than nine months :-)  In QEMU's process, unless somebody
-has specifically said they've picked up the patch, it still
-"belongs" to the submitter to chase if it hasn't been
-applied. In this case I simply didn't see Igor's request
-that I take it -- the chances of me actually reading any
-particular list email even if it's cc'd to me are not good.
-
-I tried applying them to target-arm.next but unfortunately
-they break 'make check':
-
-  TEST    check-qtest-aarch64: tests/bios-tables-test
-acpi-test: Warning! DSDT binary file mismatch. Actual
-[aml:/tmp/aml-4IELC0], Expected [aml:tests/data/acpi/virt/DSDT].
-acpi-test: Warning! DSDT mismatch. Actual [asl:/tmp/asl-AOELC0.dsl,
-aml:/tmp/aml-4IELC0], Expected [asl:/tmp/asl-XL7KC0.dsl,
-aml:tests/data/acpi/virt/DSDT].
-**
-ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:477:test_acpi_asl:
-assertion failed: (all_tables_match)
-ERROR - Bail out!
-ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:477:test_acpi_asl:
-assertion failed: (all_tables_match)
-Aborted (core dumped)
-/home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:918:
-recipe for target 'check-qtest-aarch64' failed
-
-Could you fix and resubmit, please?
+If this can be static const we should just declare it
+at file scope. The only arrays we put inline in this
+function are the ones which need some non-const
+fields.
 
 thanks
 -- PMM
