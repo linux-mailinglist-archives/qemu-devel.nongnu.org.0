@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB1C116387
-	for <lists+qemu-devel@lfdr.de>; Sun,  8 Dec 2019 20:08:05 +0100 (CET)
-Received: from localhost ([::1]:60970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A37116381
+	for <lists+qemu-devel@lfdr.de>; Sun,  8 Dec 2019 20:01:57 +0100 (CET)
+Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ie1uW-0003fo-VW
-	for lists+qemu-devel@lfdr.de; Sun, 08 Dec 2019 14:08:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37761)
+	id 1ie1oa-0007qR-ND
+	for lists+qemu-devel@lfdr.de; Sun, 08 Dec 2019 14:01:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1ie1U2-0002PD-1S
- for qemu-devel@nongnu.org; Sun, 08 Dec 2019 13:40:43 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1ie1Tz-0003Pb-2R
+ (envelope-from <mrolnik@gmail.com>) id 1ie1Tz-0002Mj-BD
  for qemu-devel@nongnu.org; Sun, 08 Dec 2019 13:40:40 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38435)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mrolnik@gmail.com>) id 1ie1Tx-0003NQ-DD
+ for qemu-devel@nongnu.org; Sun, 08 Dec 2019 13:40:39 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35708)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ie1Tx-0003EF-2K
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1ie1Tw-0003Eg-Vt
  for qemu-devel@nongnu.org; Sun, 08 Dec 2019 13:40:37 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so13536768wrh.5
- for <qemu-devel@nongnu.org>; Sun, 08 Dec 2019 10:40:24 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id c20so11028159wmb.0
+ for <qemu-devel@nongnu.org>; Sun, 08 Dec 2019 10:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vDGhwbfTnuJcn5Li6bSzND/J3rq0aHhhNBlQDRUE6mI=;
- b=VCIUlTI0Slg4wQTLh3Qc+FHVQCSOiUZdLOGTu1ecpUgERy4kXpYoc0Hsl9P7QPqDVL
- aJQb0bt9cuTy95LBibAjcOZ2e4kdRGwpoPHa40vcNJSKahuQ2LBVlvQiM4NQk6gRgBud
- mFXzEkF4AUPnjPW2nZYQqmc0M9+Y5uBKyUN1AdYApQUZpN0JEl6T2FUY3bnT44OA2F6K
- E0Z653+A9Hd3QlhMmEEAerKdZ9FEskq7oXic078c/T+RslgBqieOvZmTVU/LQYHAB+rq
- 75oPRDezpsdOkzLrsDUWeCsHGMLgbm3svWT0g1VtbRCZjrkPKxfIj53SJv2jsyuisqqS
- u0tw==
+ bh=VYm/XIqEVgZC6h11WJ3979IWXTcW8fTDJ44bzexd108=;
+ b=p7exxtb622H3AWMBsjcjtxW4TQq4bRx1VwkV/bFadnxcEux4FF7DBOYsrjDirBeh6q
+ Bq6PJmRzFL0IVNMJtjvJHcFiGGeGcHnD8LBJXSCyVBfDJr9LO4QzWoghI668nbbYROBf
+ F7rKh2owszE9pVk0bfXRsE0iut55HqClTk3vYZ83hVY0cRTMhofJ6wgEY+t6b8abBEbO
+ xi3dHpLFYmeVbIXPa8U5HhEozOMlkts3Kfe1FFM90U/3l+WiPQKvnI1EYJ6QKMF/dAp3
+ LE1WyKjeaKHu3w7EYzq9z6Ku+fS0pTFliVOsKXAvd/aQhJ05bsY/Le+m3UiN9uGt6fEt
+ mEKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vDGhwbfTnuJcn5Li6bSzND/J3rq0aHhhNBlQDRUE6mI=;
- b=oHyhRag2gI1tnH4XWGS2+SEPn2c7UldBnnBR5mIXySmy+QqWnOWAEn2jcT381TLuz4
- MI29jQi8PBj5544ZFb14i7rGmQvTfHLAUV+uCTTUHC+zzQZvnXa359FqIpp+v437it68
- xx5nNWIGeslry+DBkxayzhVhie4FQO9YKjrmpNNvQ3GDJh1gpmw5zblXQv/hkYbhfdiH
- RIoIrpn5SZ6TFeXGa3Z0WYq2Ik7r1yTGgShYZ5uBa+cDFnrirJ4SvF1zvDZEL6MMm1tW
- Bxq1K1Odtk8dFyJMpWTgCen3djjN1fb6LKk7j37nCGgph8eBfy8if71WMXVMg6S7gADy
- LbaA==
-X-Gm-Message-State: APjAAAWJqIzAOwXlW1kWZ2U5+6muz0UeAVVsWkKGDiYiIeLPJnb3WEPj
- xDH2YyUOudsf8o65v5ZiKGruYhwG06/y5o0z
-X-Google-Smtp-Source: APXvYqxsnD+Jo105mPjhGwNF3/oOb/8PyFejgZk9M81Cc4FnNDOAYho3pGcYIKY4Qx20/ylLIGGd5g==
-X-Received: by 2002:adf:f28c:: with SMTP id k12mr26343355wro.360.1575830423618; 
- Sun, 08 Dec 2019 10:40:23 -0800 (PST)
+ bh=VYm/XIqEVgZC6h11WJ3979IWXTcW8fTDJ44bzexd108=;
+ b=t1b/fDuV0vKSWu22aTceaf8496LxqVPyU4mCpAGTrbi8jx2SW0PhG5SCUX/0cJCTTo
+ 2Nl6ttT+bDVogO+NHEl5TCSms1QwPNhlPqoNcY9NuZPgQPwqLPbcy0PtKFYumQEL8moJ
+ DY9TkEFAJZfCDc3bvUnojjRDC7vukrXnn/6sB9cpg0xS/osJRTqTgj5KgTF6Q3LqejKo
+ HBRrX0Ea31HRo3/DODkPvpicMD6aMC/v5971eI1KaFtMrtHBT0Txa9N1CJByzw/1tZFp
+ H9f5C1lnRiUi9Ogxa4YLeL07do+jVxJjukpW8BuM2VMKW8QBz3XACfUY3rjipcSQVr4r
+ +Y8g==
+X-Gm-Message-State: APjAAAUbK0cHBgZtj+48zahB061vwFALPKKB8UgQe7ADDeUWzbCyzFux
+ l6thrTKjqACHx9B0cQqT0UCoJkkX+QSiBEo/
+X-Google-Smtp-Source: APXvYqyT1Cm/VTB/giL9GCsE0pjsH1+62TpeADTvpziEJMl2LU6SrLkXecKZpWxto2OHWNynewo4KQ==
+X-Received: by 2002:a05:600c:24ce:: with SMTP id
+ 14mr1967163wmu.122.1575830425110; 
+ Sun, 08 Dec 2019 10:40:25 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-79-180-52-3.red.bezeqint.net. [79.180.52.3])
- by smtp.gmail.com with ESMTPSA id h17sm25289717wrs.18.2019.12.08.10.40.22
+ by smtp.gmail.com with ESMTPSA id h17sm25289717wrs.18.2019.12.08.10.40.23
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 08 Dec 2019 10:40:23 -0800 (PST)
+ Sun, 08 Dec 2019 10:40:24 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v38 17/22] target/avr: Register AVR support with the rest of
- QEMU
-Date: Sun,  8 Dec 2019 20:39:17 +0200
-Message-Id: <20191208183922.13757-18-mrolnik@gmail.com>
+Subject: [PATCH v38 18/22] target/avr: Add machine none test
+Date: Sun,  8 Dec 2019 20:39:18 +0200
+Message-Id: <20191208183922.13757-19-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20191208183922.13757-1-mrolnik@gmail.com>
 References: <20191208183922.13757-1-mrolnik@gmail.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,78 +85,25 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add AVR related definitions into QEMU
-
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- qapi/machine.json          | 3 ++-
- include/disas/dis-asm.h    | 6 ++++++
- include/sysemu/arch_init.h | 1 +
- arch_init.c                | 2 ++
- 4 files changed, 11 insertions(+), 1 deletion(-)
+ tests/machine-none-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index ca26779f1a..8c6df54921 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -21,11 +21,12 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# avr: since 5.0
- #
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8eb4..8bedce17ac 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,12 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1          1
-+#define bfd_mach_avr2          2
-+#define bfd_mach_avr3          3
-+#define bfd_mach_avr4          4
-+#define bfd_mach_avr5          5
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 62c6fe4cf1..893df26ce2 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,6 +24,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/arch_init.c b/arch_init.c
-index 705d0b94ad..6a741165b2 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -89,6 +89,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
+diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+index 5953d31755..3e5c74e73e 100644
+--- a/tests/machine-none-test.c
++++ b/tests/machine-none-test.c
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
+     /* tested targets list */
+     { "arm", "cortex-a15" },
+     { "aarch64", "cortex-a57" },
++    { "avr", "avr6-avr-cpu" },
+     { "x86_64", "qemu64,apic-id=0" },
+     { "i386", "qemu32,apic-id=0" },
+     { "alpha", "ev67" },
 -- 
 2.17.2 (Apple Git-113)
 
