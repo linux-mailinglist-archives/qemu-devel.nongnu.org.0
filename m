@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90667116FAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 15:53:45 +0100 (CET)
-Received: from localhost ([::1]:41038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441B2116FDE
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 16:07:44 +0100 (CET)
+Received: from localhost ([::1]:41217 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieKPw-000116-DR
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 09:53:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44229)
+	id 1ieKdT-0008VF-2w
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 10:07:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ieKP5-0000Tm-As
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 09:52:52 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXm-0003Kj-RU
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ieKP3-00035v-T0
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 09:52:50 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38505
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ieKP3-00035Z-PX
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 09:52:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1575903169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iq86KGxLR6UTYXmMeKI1ArfzDy3UjI2qkFgCjrf2gXY=;
- b=GNnV3LJHlvcY+zLk0DvcJCGJ1GL+EfNxUJEuhy5PbEej3CTZhYNG9Q5IKEF+Tou5wnqegD
- FWzOtlJ7nzEbqSUwtu6IKE0uEoIj+hg1PipqwVJS72XNhtiNJNNR1uEGZwPB8u6TZHsdCV
- hwSmriGLTioyIgXYaKZ0Pyqn7fRHROU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-MQfb8sPxN6yLSrYgTqbD9Q-1; Mon, 09 Dec 2019 09:52:45 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA285800D4E;
- Mon,  9 Dec 2019 14:52:44 +0000 (UTC)
-Received: from thuth.com (ovpn-116-121.ams2.redhat.com [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D3EC10372C0;
- Mon,  9 Dec 2019 14:52:42 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Greg Kurz <groug@kaod.org>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] virtfs: Remove the deprecated "-virtfs_synth" option
-Date: Mon,  9 Dec 2019 15:52:40 +0100
-Message-Id: <20191209145240.9271-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: MQfb8sPxN6yLSrYgTqbD9Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ieKXl-0001Bz-ER
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:50 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:32778)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ieKXl-0001Ak-8Y
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 10:01:49 -0500
+Received: by mail-wr1-x429.google.com with SMTP id b6so16593459wrq.0
+ for <qemu-devel@nongnu.org>; Mon, 09 Dec 2019 07:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yB185R7vRAPf6g0hUwD5ydBSy9wds6hweJHZ+kNDoeo=;
+ b=kcXSB2wkrei7hyeqMJdTCIvAHEdh+MJlAo8rsAgZeP8ryAxUFKllwxZR7w75963EFQ
+ B5cHz4As1TMnlDw7ORSjIy3HNkhztVrB90I+pBGBxM0Zpwhghp6PUye4cnUTVYgoKsYq
+ kY3lx7g6P5s2uDWOCHwcrFeGrqem5NqZawhTxbHmZuJAnhX+SdrB9we9k2apwdLV6IYo
+ 0m+Tgja7DSzq5wnCqvIm+Tt8zaOgZaT83K/SWUrovrTZ0NOCfT2i1JSConp5Wyz6XmEz
+ +G0pIqixGkP97BbfDodi9mFWiXJKo1P2LaFiVXapoXLjH0slrDzmLFe98+Hvl6uf/30m
+ pXnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=yB185R7vRAPf6g0hUwD5ydBSy9wds6hweJHZ+kNDoeo=;
+ b=Yio0yqYEMdWZVdDboo4/8H8zpO8s+iYn+5F6HAONPXzHhYGSfGSa4CE4KOAV3Qbk8q
+ IcdK3F7O61Sh+e1Xpvmz289wgLNqnTziQU8o6SxxYxcL8MfN8jAnIlteJPzzvRgnmX8O
+ URP24frvCwxwzIdImw3Rcl4Xf3Wn93iIWs/ywoWljNUcpy5WBwS2gDho1I3M7g7iwQoc
+ L/PAM2Tmnu8DvnoSZZCmn7ONizjac1GQykg2qKX0Vl0LZvgLgmfCy+MJv3usq/zSdAOC
+ wBsl4QJCpMgDcDf5efPCu+Ka1nVF6FeiktlLrI+xqBT9GMW9+FiEcAIMCEfK4jW0IjJC
+ GNGw==
+X-Gm-Message-State: APjAAAVR5OUbnPvuL6vnfM0EaAMZ83yCuf2ogjdszr4AmuhX4/lOToKK
+ VAmQH+UJmepwOmGKuCH6yZ7UiLNE
+X-Google-Smtp-Source: APXvYqwEmCtMhtYRFGPXGil3Tx2okfCEMnigaNB2ZFJ8/p02PvJIOm8MUJMl9Huxf7By+0jcqKdshA==
+X-Received: by 2002:adf:f28c:: with SMTP id k12mr2626362wro.360.1575903707479; 
+ Mon, 09 Dec 2019 07:01:47 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id g9sm27219371wro.67.2019.12.09.07.01.46
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 09 Dec 2019 07:01:46 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/18] Complete the implementation of -accel
+Date: Mon,  9 Dec 2019 16:01:27 +0100
+Message-Id: <1575903705-12925-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,99 +76,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com, elmarco@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's been marked as deprecated since QEMU v4.1, time to remove it now.
+This series completes the implementation of -accel:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- qemu-deprecated.texi |  5 -----
- qemu-options.hx      | 10 ----------
- vl.c                 | 23 -----------------------
- 3 files changed, 38 deletions(-)
+- Alternative accelerators can be specified with multiple -accel options,
+  and each -accel option will configure the respective accelerator.
+  This is implemented in patches 1 to 6, with a small addendum in patch 7.
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 2f9efb45ba..3745334e80 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -84,11 +84,6 @@ error in the future.
- The @code{-realtime mlock=3Don|off} argument has been replaced by the
- @code{-overcommit mem-lock=3Don|off} argument.
-=20
--@subsection -virtfs_synth (since 4.1)
--
--The ``-virtfs_synth'' argument is now deprecated. Please use ``-fsdev synt=
-h''
--and ``-device virtio-9p-...'' instead.
--
- @subsection -numa node,mem=3D@var{size} (since 4.1)
-=20
- The parameter @option{mem} of @option{-numa node} is used to assign a part=
- of
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 65c9473b73..4cf7751ade 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1468,16 +1468,6 @@ would still return entries from other devices).
- @end table
- ETEXI
-=20
--DEF("virtfs_synth", 0, QEMU_OPTION_virtfs_synth,
--    "-virtfs_synth Create synthetic file system image\n",
--    QEMU_ARCH_ALL)
--STEXI
--@item -virtfs_synth
--@findex -virtfs_synth
--Create synthetic file system image. Note that this option is now deprecate=
-d.
--Please use @code{-fsdev synth} and @code{-device virtio-9p-...} instead.
--ETEXI
--
- DEF("iscsi", HAS_ARG, QEMU_OPTION_iscsi,
-     "-iscsi [user=3Duser][,password=3Dpassword]\n"
-     "       [,header-digest=3DCRC32C|CR32C-NONE|NONE-CRC32C|NONE\n"
-diff --git a/vl.c b/vl.c
-index 6a65a64bfd..c0904b365b 100644
---- a/vl.c
-+++ b/vl.c
-@@ -3374,29 +3374,6 @@ int main(int argc, char **argv, char **envp)
-                              qemu_opt_get(opts, "mount_tag"), &error_abort=
-);
-                 break;
-             }
--            case QEMU_OPTION_virtfs_synth: {
--                QemuOpts *fsdev;
--                QemuOpts *device;
--
--                warn_report("'-virtfs_synth' is deprecated, please use "
--                             "'-fsdev synth' and '-device virtio-9p-...' "
--                            "instead");
--
--                fsdev =3D qemu_opts_create(qemu_find_opts("fsdev"), "v_syn=
-th",
--                                         1, NULL);
--                if (!fsdev) {
--                    error_report("duplicate option: %s", "virtfs_synth");
--                    exit(1);
--                }
--                qemu_opt_set(fsdev, "fsdriver", "synth", &error_abort);
--
--                device =3D qemu_opts_create(qemu_find_opts("device"), NULL=
-, 0,
--                                          &error_abort);
--                qemu_opt_set(device, "driver", "virtio-9p-pci", &error_abo=
-rt);
--                qemu_opt_set(device, "fsdev", "v_synth", &error_abort);
--                qemu_opt_set(device, "mount_tag", "v_synth", &error_abort)=
-;
--                break;
--            }
-             case QEMU_OPTION_serial:
-                 add_device_config(DEV_SERIAL, optarg);
-                 default_serial =3D 0;
---=20
-2.18.1
+- Accelerators can now support arbitrary options, which are implemented
+  in terms of QOM properties.  This is implemented in patches 8 to 11,
+  together with the conversion of the sole existing "-accel" option to QOM.
+
+- Accelerator-related machine options, and legacy options such as -tb-size,
+  forward to accelerator objects for backwards compatibility, but they
+  do not exist anymore as QOM properties.  This is implemented in patch
+  6 for "-machine accel" and patches 12 to 16 for everything else.
+
+Paolo
+
+v1->v2: improve bisectability by moving patch "vl: move icount configuration
+        earlier" towards the beginning of the series
+
+        new patch to compile accel/accel.c just once
+
+Paolo Bonzini (18):
+  memory: do not look at current_machine->accel
+  vl: move icount configuration earlier
+  tcg: move qemu_tcg_configure to accel/tcg/tcg-all.c
+  vl: extract accelerator option processing to a separate function
+  vl: merge -accel processing into configure_accelerators
+  accel: compile accel/accel.c just once
+  vl: introduce object_parse_property_opt
+  vl: configure accelerators from -accel options
+  vl: warn for unavailable accelerators, clarify messages
+  qom: introduce object_register_sugar_prop
+  qom: add object_new_with_class
+  accel: pass object to accel_init_machine
+  tcg: convert "-accel threads" to a QOM property
+  tcg: add "-accel tcg,tb-size" and deprecate "-tb-size"
+  xen: convert "-machine igd-passthru" to an accelerator property
+  kvm: convert "-machine kvm_shadow_mem" to an accelerator property
+  kvm: introduce kvm_kernel_irqchip_* functions
+  kvm: convert "-machine kernel_irqchip" to an accelerator property
+
+ Makefile.objs             |   1 +
+ accel/Makefile.objs       |   2 +-
+ accel/accel.c             |  73 +--------------
+ accel/kvm/kvm-all.c       | 117 ++++++++++++++++++++++--
+ accel/tcg/tcg-all.c       | 149 +++++++++++++++++++++++++++++-
+ cpus.c                    |  72 ---------------
+ hw/core/machine.c         | 141 -----------------------------
+ hw/ppc/e500.c             |   4 +-
+ hw/ppc/spapr_irq.c        |  10 +--
+ hw/xen/xen-common.c       |  16 ++++
+ include/hw/boards.h       |   7 --
+ include/qom/object.h      |  13 +++
+ include/sysemu/accel.h    |   4 +-
+ include/sysemu/cpus.h     |   2 -
+ include/sysemu/kvm.h      |   7 +-
+ memory.c                  |   5 +-
+ qemu-deprecated.texi      |   6 ++
+ qemu-options.hx           |  30 ++++---
+ qom/object.c              |  28 +++++-
+ target/arm/kvm.c          |   8 +-
+ target/i386/cpu.c         |   8 +-
+ target/i386/kvm.c         |   6 +-
+ target/mips/kvm.c         |   2 +-
+ target/ppc/kvm.c          |   2 +-
+ target/s390x/cpu_models.c |   4 +-
+ target/s390x/kvm.c        |   2 +-
+ vl.c                      | 225 ++++++++++++++++++++++++++++++++--------------
+ 27 files changed, 532 insertions(+), 412 deletions(-)
+
+-- 
+1.8.3.1
 
 
