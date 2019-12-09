@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40EB1174CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:47:01 +0100 (CET)
-Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B4A117446
+	for <lists+qemu-devel@lfdr.de>; Mon,  9 Dec 2019 19:33:17 +0100 (CET)
+Received: from localhost ([::1]:44616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ieO3f-0003xw-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:46:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35461)
+	id 1ieNqN-0003Rq-Qt
+	for lists+qemu-devel@lfdr.de; Mon, 09 Dec 2019 13:33:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbu-0000Gj-SP
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:18:19 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ieNbU-0008DA-Q8
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbt-00086k-Pn
- for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:18:18 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:7496)
+ (envelope-from <cohuck@redhat.com>) id 1ieNbT-0007sA-KP
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50008
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=23948302b=alistair.francis@wdc.com>)
- id 1ieNbt-0007up-GJ; Mon, 09 Dec 2019 13:18:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1575915541; x=1607451541;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lp4uYnFjP7u2ov5IIPsAq6hVfJSQk+rVaLtzjwCzmQI=;
- b=HV/OyZNWxG8Yqeav9WEs8mj0/wIG5+WGCh89Pd9w6RmAwEE4WL0YJ0ID
- Yq9f85FGkRAQUpBwfG89n34Nwk6xlD8lVOZmb54Uk2TYN0ffQtI/bTUJa
- R470ZSyN0amW9an+MxD/I1C6SBW+PLnwJvtS2y98xy1kImog6wQOsRGtO
- M5VQOvfzSPE6o+/IvZ9NlAecDmcp7MWwv2ifG05rTEYJTAly9bTo/xIIQ
- XEzEonwuMZ0Y97J9fJFy8gwhR+BnzSZLkbi82FwINCdDQNgTtz1KUQBhn
- GbpP4YF644lEuKRw751bZM07HwzAuRRS8XqI2zXV3Bkjkuga0ZaYuwcjO w==;
-IronPort-SDR: HH44RatgDvBd8tP0YqeatVdD0kYl7SEJ27hAv/WBZs8ll4bEukK91NRIfj4pwT8Ho4XfkGBNBt
- gRB/+1SkROeDLS6d2+7vzkmDHJ86PFseAa5dI9sPk6rSqYQrY96cHPEYrHqmrliFWiuzfmMmSh
- aUnvEvbe0gQzoT6D3eMy8QvFiAFpeWSMVTC2NdK8wZ1x3NYMJzVSwwO7lKe+nPeCjcGzCNOfIp
- yBqHgStN5Fa9KzTxMZ9mB2FQDVMY8R+xuCoC2D/dKdIjDCb8IiUkkc4R2EQLy3KMdDmv7UW/Gm
- Z9A=
-X-IronPort-AV: E=Sophos;i="5.69,296,1571673600"; d="scan'208";a="226412055"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Dec 2019 02:18:30 +0800
-IronPort-SDR: LlkR3tla18oI9FnsMBE/sNT2HzZ81I7OiTOfku7dET4NgTNT2mZ8VB1WvRiH14u0ThvnwJiM9P
- WRtPe2ExTv/+NgY9mRM5t7yGRSsMVpVx22mUq5Do5KHybkcy8NvdoA7d2JZpRuX7LYzBDT6Vyc
- cApAqkcN5cpfICWsvL3AnkTchb+gMVD6xiiAc4L/Xn1aDDoa/E1Jh6mE4ZJCaRvUFXA9FIw0F/
- 29fnWv6WGWCk4yFnoKNzn4CyXx5Ljqf5DhKjPxS4dsyWgR9AoTt/h0tMyQqEiXEpWGztwUyyhO
- 2XZ5+l+ogZcOiGVI5o1QSx4k
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2019 10:12:34 -0800
-IronPort-SDR: Un2UwZJVhMBZIGbp+2OBwWDc/1UDEdAGQP7QvDOrh6TlvmKsmDirViLLgPYn7MOEBKyJOfdIUe
- 6NXDoqaj3L66Z7sloun19jM+RfBCw6OYsUacbkB5SytSUNCoHVOGnv3pEDvoRpiqTrg4MfSreh
- DuelsyhQgz47HU6DQlrbtU447So2XqxH86tGtBeb+D0Q9b2rq8A+Lv1AGqsgoEW/GqC+u8lLF6
- b9X28rMrcErSb3t2eEZEelcasnzzFH8SEiHOmpq5r4eVxizCI4QM7bt5yg02o41ZwInQm2wffV
- pP4=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 09 Dec 2019 10:17:57 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 36/36] target/riscv: Allow enabling the Hypervisor extension
-Date: Mon,  9 Dec 2019 10:12:14 -0800
-Message-Id: <a398f68dadf1fa1cae7dc9592b5a718568da5c3f.1575914822.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <cover.1575914822.git.alistair.francis@wdc.com>
-References: <cover.1575914822.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ieNbT-0007rQ-GQ
+ for qemu-devel@nongnu.org; Mon, 09 Dec 2019 13:17:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1575915470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u/8iD3Drs3CR5g4H++10+p08axZ4cAuwMRyK9QszuTo=;
+ b=RoPflkVAcxOw1nbfGs3vrOVqeoyabcoje0J/qMZPMyoRcJebYcCDVgL5w0dRdZYPNZEMiM
+ /IMJ6OokrxkqQfm/hNjptw78DXkCvT3TyjOXgTAvuG3vZejmLQ8GEh6myvUn5SBYi9amcT
+ FCUmh5tooM0b8605Mfc5yIlLeKxksAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-os0a7UBSP9muapp6cjUptw-1; Mon, 09 Dec 2019 13:17:49 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B47D10054E3;
+ Mon,  9 Dec 2019 18:17:48 +0000 (UTC)
+Received: from gondolin (ovpn-116-43.ams2.redhat.com [10.36.116.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EC2D817C;
+ Mon,  9 Dec 2019 18:17:41 +0000 (UTC)
+Date: Mon, 9 Dec 2019 19:17:38 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [for-5.0 PATCH v2 1/3] cpu: Introduce CPUReset callback typedef
+Message-ID: <20191209191738.4a33a67f.cohuck@redhat.com>
+In-Reply-To: <157591411864.46967.18244018296239778673.stgit@bahia.lan>
+References: <157591411283.46967.15944326590669093952.stgit@bahia.lan>
+ <157591411864.46967.18244018296239778673.stgit@bahia.lan>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.143.124
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: os0a7UBSP9muapp6cjUptw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,53 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/cpu.c | 5 +++++
- target/riscv/cpu.h | 1 +
- 2 files changed, 6 insertions(+)
+On Mon, 09 Dec 2019 18:55:18 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ac8f53a49d..f087bc2c8b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -453,6 +453,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_u) {
-             target_misa |= RVU;
-         }
-+        if (cpu->cfg.ext_h) {
-+            target_misa |= RVH;
-+        }
- 
-         set_misa(env, RVXLEN | target_misa);
-     }
-@@ -498,6 +501,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-+    /* This is experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 84a07971dc..53bc6af5f7 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -261,6 +261,7 @@ typedef struct RISCVCPU {
-         bool ext_c;
-         bool ext_s;
-         bool ext_u;
-+        bool ext_h;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
--- 
-2.24.0
+> Use it in include/hw/core/cpu.h and convert all targets to use it as
+> well with:
+> 
+> perl -pi \
+>  -e 's/void\s+\(\*(parent_reset)\)\(CPUState\s+\*\w+\)/CPUReset \1/;' \
+>  $(git ls-files 'target/*.h')
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  include/hw/core/cpu.h       |    4 +++-
+>  target/alpha/cpu-qom.h      |    2 +-
+>  target/arm/cpu-qom.h        |    2 +-
+>  target/cris/cpu-qom.h       |    2 +-
+>  target/hppa/cpu-qom.h       |    2 +-
+>  target/i386/cpu-qom.h       |    2 +-
+>  target/lm32/cpu-qom.h       |    2 +-
+>  target/m68k/cpu-qom.h       |    2 +-
+>  target/microblaze/cpu-qom.h |    2 +-
+>  target/mips/cpu-qom.h       |    2 +-
+>  target/moxie/cpu.h          |    2 +-
+>  target/nios2/cpu.h          |    2 +-
+>  target/openrisc/cpu.h       |    2 +-
+>  target/ppc/cpu-qom.h        |    2 +-
+>  target/riscv/cpu.h          |    2 +-
+>  target/s390x/cpu-qom.h      |    2 +-
+>  target/sh4/cpu-qom.h        |    2 +-
+>  target/sparc/cpu-qom.h      |    2 +-
+>  target/tilegx/cpu.h         |    2 +-
+>  target/tricore/cpu-qom.h    |    2 +-
+>  target/xtensa/cpu-qom.h     |    2 +-
+>  21 files changed, 23 insertions(+), 21 deletions(-)
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
